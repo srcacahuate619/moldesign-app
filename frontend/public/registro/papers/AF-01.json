@@ -1,0 +1,427 @@
+{
+ "id": "AF-01",
+ "meta": {
+  "titulo": "Reproduce exactamente, y con eso descubre que no significa lo que decía",
+  "entradilla": "Spearman 0.6094, delta 0.0 respecto a la cifra original. Al estratificar por relación con el receptor, cae a 0.3626 en las proteínas no relacionadas. La cifra reproduce; el alcance era otro."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un resultado de correlación 0.6094 llevaba tiempo circulando como el rendimiento del modelo de afinidad. Este experimento hace dos cosas a la vez: comprobar que se reproduce con las entradas congeladas, y averiguar ",
+     "m": null
+    },
+    {
+     "t": "qué significa exactamente",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La primera parte es la fácil.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Reproduce exactamente",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Valor",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Spearman original",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.6094",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Spearman reproducido",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.6094",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Delta",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.0",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "CI95",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0.5282, 0.6791]",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "n",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "328, semilla 42",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Delta exactamente cero. Con las entradas, el código y la semilla congelados, el resultado es el mismo. Eso descarta la explicación más incómoda de todas: que la cifra viniera de una ejecución afortunada que nadie había vuelto a hacer.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La parte que cambia lo que se puede decir",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El conjunto de evaluación estaba separado del de desarrollo por la química del ",
+     "m": null
+    },
+    {
+     "t": "ligando",
+     "m": "fuerte"
+    },
+    {
+     "t": ". No por el ",
+     "m": null
+    },
+    {
+     "t": "receptor",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Este experimento estratificó los 328 casos según su relación con las proteínas vistas durante el desarrollo:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "n",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Spearman",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Receptor visto en desarrollo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "179",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.7138",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Receptor casi idéntico",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "55",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.3626",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Receptor no relacionado",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "94",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.5395",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La cifra global de 0.6094 es un promedio de tres poblaciones muy distintas, y ",
+     "m": null
+    },
+    {
+     "t": "más de la mitad de los casos son proteínas que el modelo ya había visto",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sobre los 55 casos de receptor casi idéntico el rendimiento cae a 0.3626 — que es, además, el estrato más difícil de justificar: son proteínas suficientemente parecidas a las de entrenamiento como para no ser una prueba de generalización, y suficientemente distintas como para que el modelo no acierte.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por eso la decisión no es «reproducido» a secas",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El criterio se escribió con dos salidas posibles, y la que se selló fue ",
+     "m": null
+    },
+    {
+     "t": "«reproducido con limitación de alcance»",
+     "m": "fuerte"
+    },
+    {
+     "t": ". La diferencia no es semántica:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El resultado ",
+     "m": null
+    },
+    {
+     "t": "no es receptor-disjunto",
+     "m": "fuerte"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "no es universal sobre dianas nuevas",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cualquier uso de 0.6094 tiene que ir acompañado de esa frase, o está afirmando algo que el experimento no midió.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este es también el experimento que puso en práctica la lección de la auditoría de fuga, que había encontrado 85 pares de secuencia de receptor idéntica cruzando los conjuntos, y que dejó como norma reportar estratificado en lugar de dar un número global.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Una cifra retirada",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Una correlación de ",
+     "m": null
+    },
+    {
+     "t": "0.8732",
+     "m": "fuerte"
+    },
+    {
+     "t": " que circulaba de antes queda marcada como ",
+     "m": null
+    },
+    {
+     "t": "inválida",
+     "m": "fuerte"
+    },
+    {
+     "t": " y no se reporta más. Venía de una evaluación contaminada, y aquí se sella su retirada en lugar de dejar que siga apareciendo en documentos por inercia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué hace este experimento que un benchmark no hace",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un benchmark responde «¿cuánto acierta?». Este responde «¿sobre qué población, y qué parte de ese acierto es memoria?».",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La cifra no bajó. Bajó el tamaño de la afirmación que se puede construir con ella, que es una forma de progreso menos satisfactoria y más útil.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/AF-01.md"
+}

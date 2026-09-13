@@ -1,0 +1,57 @@
+{
+ "experiment_id": "REC-09",
+ "tipo": "medicion de consecuencia con regla de lectura preregistrada",
+ "timestamp": "2026-08-20T20:43:58.096844+00:00",
+ "duration_seconds": 232.72,
+ "config": {
+  "d_clash_A": 2.6,
+  "umbral_absurdo_kcal": -3.0,
+  "box": 25.0,
+  "seed": 42,
+  "g1_tolerancia": 0.1,
+  "delta_control_max": 0.5,
+  "ligando": "cristal preparado RIGIDO, identico a MF-13",
+  "resnames_agua": [
+   "DOD",
+   "HOH",
+   "WAT"
+  ]
+ },
+ "n_complejos": 116,
+ "n_ok": 116,
+ "gate_validez": {
+  "G1_reproduce_score_cristal_de_MF13": {
+   "fraccion": 1.0,
+   "minimo": 0.95,
+   "tolerancia_kcal": 0.1,
+   "pasa": true
+  }
+ },
+ "cantidad_primaria": {
+  "definicion": "fraccion de complejos ABSURDOS (score_con_aguas >= -3.0) que bajan de -3.0 al quitar SOLO las aguas que chocan",
+  "n_absurdos": 6,
+  "n_normalizan": 2,
+  "fraccion": 0.3333,
+  "control_delta_mediano_en_no_absurdos": 0.0,
+  "lectura_preregistrada": "MIXTO"
+ },
+ "contexto": {
+  "complejos_con_alguna_agua_bloqueante": 26,
+  "aguas_bloqueantes_mediana": 0.0,
+  "aguas_bloqueantes_max": 3,
+  "delta_mediano_global": 0.0,
+  "absurdos": [
+   "1afl",
+   "1d7i",
+   "1eld",
+   "1ew8",
+   "1ew9",
+   "1fkh"
+  ]
+ },
+ "limites_declarados": [
+  "no decide la politica de aguas por si solo: mide una consecuencia concreta, no el efecto sobre docking de novo",
+  "no relee MF-13; su ~30% de puntuacion incluye complejos que no son absurdos",
+  "criterio de choque puramente geometrico: no distingue agua desplazable de agua estructural, por eso su lectura es que la politica hay que DECIDIRLA"
+ ]
+}

@@ -1,0 +1,659 @@
+{
+ "id": "FEP-01-EXT",
+ "meta": {
+  "titulo": "De 164 problemas a 54, en ocho segundos",
+  "entradilla": "La ambigüedad tautomérica que bloqueaba la cartera H se reduce a un tercio cuando se mide su consecuencia en vez de su existencia. Y contar donadores y aceptores habría dado cero señal donde sí la hay."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "FEP-01",
+     "m": "codigo"
+    },
+    {
+     "t": " dejó el cuello identificado: ",
+     "m": null
+    },
+    {
+     "t": "164 de 203 ligandos (81%) tienen más de un tautómero enumerable y el pipeline no declara cuál usa",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Para docking apenas importa; para energía libre es determinante, porque el tautómero decide qué átomos donan y cuáles aceptan puentes de hidrógeno.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Pero ese número contaba ",
+     "m": null
+    },
+    {
+     "t": "ambigüedad",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no ",
+     "m": null
+    },
+    {
+     "t": "consecuencia",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Que existan varios tautómeros posibles no significa que el que hay en el fichero sea distinto del que alguien elegiría.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento mide la diferencia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La medición que casi hago mal",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La forma obvia de comparar dos tautómeros es contar donadores y aceptores de puente de hidrógeno. Un sondeo previo sobre cinco ligandos la descartó:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Ligando",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "¿Canónico ≠ actual?",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "HBD",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "HBA",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "10gs",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "Sí",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "5 → 5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5 → 5",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1apv",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "Sí",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "6 → 6",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "6 → 6",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Tautómero distinto, ",
+     "m": null
+    },
+    {
+     "t": "totales idénticos",
+     "m": "fuerte"
+    },
+    {
+     "t": ". El protón se mueve de un átomo a otro y la suma no cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Contar habría medido cero señal donde sí la hay. La comparación correcta es ",
+     "m": null
+    },
+    {
+     "t": "átomo por átomo",
+     "m": "fuerte"
+    },
+    {
+     "t": ": cuántos hidrógenos lleva cada átomo pesado antes y después. Eso ",
+     "m": null
+    },
+    {
+     "t": "localiza",
+     "m": "fuerte"
+    },
+    {
+     "t": " el protón, que es la cantidad físicamente relevante.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sobre los 203, con validez 203/203:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "n",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "de 203",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "SMILES canónico distinto del fichero",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "84",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "41.4%",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "El protón se mueve de átomo",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "54",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "26.6%",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Desacuerdo sin mover ningún protón",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "30",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "14.8%",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Mediana de ",
+     "m": null
+    },
+    {
+     "t": "2 átomos",
+     "m": "fuerte"
+    },
+    {
+     "t": " afectados; máximo 4.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esos 30 son instructivos: el canonicalizador reordena o kekuliza la molécula sin cambiar dónde está el hidrógeno. Un SMILES distinto ",
+     "m": null
+    },
+    {
+     "t": "no implica",
+     "m": "fuerte"
+    },
+    {
+     "t": " un tautómero distinto en el sentido que importa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La bandera de FEP-01 no tiene falsos negativos",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "De los 54 donde el protón se mueve, ",
+     "m": null
+    },
+    {
+     "t": "los 54 estaban marcados",
+     "m": "fuerte"
+    },
+    {
+     "t": " como ambiguos por ",
+     "m": null
+    },
+    {
+     "t": "FEP-01",
+     "m": "codigo"
+    },
+    {
+     "t": ". Cero complejos no marcados lo mueven.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La bandera es conservadora y sana. Su exceso —110 marcados sin desacuerdo— son casos donde el fichero ",
+     "m": null
+    },
+    {
+     "t": "ya coincide",
+     "m": "fuerte"
+    },
+    {
+     "t": " con el canónico. Eso no prueba que sean correctos; prueba que no hay conflicto de decisión.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Consecuencia operativa",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Declarar tautómero para ",
+     "m": null
+    },
+    {
+     "t": "54",
+     "m": "fuerte"
+    },
+    {
+     "t": " complejos, no 164. Un tercio del trabajo, con la lista identificada por ",
+     "m": null
+    },
+    {
+     "t": "pid",
+     "m": "codigo"
+    },
+    {
+     "t": ": 30 en ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": ", 24 en ",
+     "m": null
+    },
+    {
+     "t": "valtest",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese es el desbloqueo concreto del primer punto de la cartera H.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Un patrón que no buscaba",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los tres con más átomos afectados son ",
+     "m": null
+    },
+    {
+     "t": "1m0n",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "1m0o",
+     "m": "codigo"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "1m0q",
+     "m": "codigo"
+    },
+    {
+     "t": ": ",
+     "m": null
+    },
+    {
+     "t": "4 átomos movidos cada uno, con patrón N/N/O idéntico entre ellos",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Son análogos de la misma serie química. El defecto es ",
+     "m": null
+    },
+    {
+     "t": "de la serie, no del complejo",
+     "m": "fuerte"
+    },
+    {
+     "t": " — lo que cambia cómo se arregla: una decisión química para la serie entera, en vez de tres decisiones independientes que podrían salir inconsistentes entre sí.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es también, de paso, la clase de estructura que ",
+     "m": null
+    },
+    {
+     "t": "FEP-03",
+     "m": "codigo"
+    },
+    {
+     "t": " echaba en falta: series congenéricas de verdad dentro del conjunto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que este experimento tiene prohibido concluir",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Declarado en el gate antes de correr, y repetido en el sello:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El tautómero canónico no es «el correcto».",
+     "m": "fuerte"
+    },
+    {
+     "t": " Es una heurística de puntuación, no una predicción de la población dominante a pH fisiológico.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es la misma limitación que ",
+     "m": null
+    },
+    {
+     "t": "FEP-01",
+     "m": "codigo"
+    },
+    {
+     "t": " declaró para su enumeración. Lo medido es ",
+     "m": null
+    },
+    {
+     "t": "desacuerdo",
+     "m": "fuerte"
+    },
+    {
+     "t": " entre el fichero y un canonicalizador estándar, ",
+     "m": null
+    },
+    {
+     "t": "no error",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Queda expresamente prohibido concluir desde aquí que las poses dockeadas de esos 54 son incorrectas. Lo que se concluye es más modesto y más útil: ",
+     "m": null
+    },
+    {
+     "t": "en 54 complejos hay una decisión química que nadie tomó explícitamente",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y para energía libre esa decisión hay que tomarla y declararla.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Incidencia registrada",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "RDKit emitió avisos de kekulización en unos pocos ligandos. Ninguno produjo error ni salió del denominador, pero su canonicalización pudo estar degradada y ",
+     "m": null
+    },
+    {
+     "t": "no se comprobó uno a uno",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Queda anotado en lugar de silenciado.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FEP-01-EXT.md"
+}

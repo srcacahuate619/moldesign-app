@@ -1,0 +1,66 @@
+{
+ "experiment_id": "REC-11",
+ "tipo": "intervencion pareada con regla de lectura y MDE preregistrados",
+ "timestamp": "2026-08-22T05:20:56.626677+00:00",
+ "duration_seconds": 110736.06,
+ "config": {
+  "exh": 8,
+  "num_modes": 9,
+  "semillas": [
+   42,
+   1,
+   2,
+   3,
+   4
+  ],
+  "box": 25.0,
+  "umbral_A": 2.0,
+  "ligando": "conf0.flex.pdbqt",
+  "variable_unica": "el receptor: con todas las aguas contra sin ninguna",
+  "resnames_agua": [
+   "DOD",
+   "HOH",
+   "WAT"
+  ],
+  "metrica": "rmsd_pose_pocket sin alineamiento"
+ },
+ "n_complejos": 116,
+ "n_ok": 116,
+ "cantidad_primaria": {
+  "definicion": "cobertura del oraculo pareada; b = SIN cubre y CON no, c = CON cubre y SIN no",
+  "cobertura_CON": {
+   "n": 94,
+   "de": 116,
+   "frac": 0.8103
+  },
+  "cobertura_SIN": {
+   "n": 96,
+   "de": 116,
+   "frac": 0.8276
+  },
+  "b_gana_SIN": 10,
+  "c_gana_CON": 8,
+  "mcnemar_p_exacto": 0.814529,
+  "discordancia": 0.1552,
+  "mde_observado_pp": 9.92,
+  "lectura_preregistrada": "SIN_DIFERENCIA_DETECTABLE"
+ },
+ "secundario_top1": {
+  "cubiertos_CON": 59,
+  "cubiertos_SIN": 50,
+  "b_gana_SIN": 12,
+  "c_gana_CON": 21,
+  "mcnemar_p_exacto": 0.162756,
+  "nota": "mas ruidoso que el oraculo; descriptivo, sin gate"
+ },
+ "contexto": {
+  "atomos_agua_quitados_mediana": 156.0,
+  "delta_oraculo_mediano": -0.021
+ },
+ "limites_declarados": [
+  "un solo conformero: mide el efecto de las aguas a conformero igualado, no la cobertura alcanzable",
+  "quitar todas no es la unica alternativa; filtrar por B-factor u ocupancia no se evalua aqui",
+  "no toca ningun artefacto sellado; cambiar la politica seria un programa de regeneracion",
+  "no relee REC-09 ni depende de su lectura: comparte tema y no gate"
+ ]
+}

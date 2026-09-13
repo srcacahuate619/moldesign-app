@@ -1,0 +1,64 @@
+{
+ "experiment_id": "MF-02A",
+ "timestamp": "2026-08-18T05:32:26.132324+00:00",
+ "duration_seconds": 24898.03,
+ "n_total": 5316,
+ "n_ok": 4636,
+ "n_fallos": 680,
+ "config": {
+  "n_conf_max": 150,
+  "curva": [
+   5,
+   15,
+   30,
+   60,
+   90,
+   150
+  ],
+  "seed_etkdg": 42,
+  "prune_rms_thresh": 0.4,
+  "rmsd": "AllChem.GetBestRMS ALINEADO sobre atomos pesados (mide conformacion, no colocacion)",
+  "lectura_curva": "minimo acumulado sobre los primeros n conformeros conservados de un unico embebido de 150"
+ },
+ "curva_global": {
+  "5": {
+   "n": 4636,
+   "frac_<=1.0A": 0.4301,
+   "frac_<=2.0A": 0.7522,
+   "mediana": 1.175
+  },
+  "15": {
+   "n": 4636,
+   "frac_<=1.0A": 0.5207,
+   "frac_<=2.0A": 0.8115,
+   "mediana": 0.943
+  },
+  "30": {
+   "n": 4636,
+   "frac_<=1.0A": 0.5595,
+   "frac_<=2.0A": 0.8389,
+   "mediana": 0.871
+  },
+  "60": {
+   "n": 4636,
+   "frac_<=1.0A": 0.5934,
+   "frac_<=2.0A": 0.8624,
+   "mediana": 0.806
+  },
+  "90": {
+   "n": 4636,
+   "frac_<=1.0A": 0.6091,
+   "frac_<=2.0A": 0.8717,
+   "mediana": 0.781
+  },
+  "150": {
+   "n": 4636,
+   "frac_<=1.0A": 0.6247,
+   "frac_<=2.0A": 0.8814,
+   "mediana": 0.761
+  }
+ },
+ "frac_conformacion_disponible_1A": 0.6247,
+ "frac_conformacion_disponible_2A": 0.8814,
+ "nota": "Mide el techo conformacional, no la cobertura del oraculo. Un complejo con conformacion disponible y sin pose buena es fallo de busqueda o colocacion, no del ensemble: eso lo decide MF-02B."
+}

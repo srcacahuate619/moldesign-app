@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-17",
+  "hypothesis": "Alguno de los cuatro mecanismos medidos (cobertura, preferencia de la funcion, radio de cuenca, embudo) separa los complejos que el docking resuelve de los que no",
+  "protocol": "medicion descriptiva: cruce de MF-09, MF-13, MF-14 y MF-15-EXT sobre la misma cohorte de 48; sin computo nuevo",
+  "created_at": "2026-08-19T03:53:03.893802+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gates; correlacional sobre n=48, no identifica causas"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_mf17_sintesis.py": "bd4d5e532ebfd78d0c21795aacacbb28465984216a2fccc3454c6bea23986b0e"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:04.727650+00:00",
+  "decision_rationale": "Solo el embudo separa: rho 0.480 en los resueltos frente a 0.211 en los que fallan (+0.269). El radio de captura NO discrimina nada (r50 = 2.0 en ambos grupos) y que la funcion prefiera la nativa tampoco (61% frente a 67%). La ventaja del cristal va al reves -mayor donde falla (2.22 vs 0.72)- pero eso es consecuencia, no causa: donde el docking fracasa todas las poses son malas y el cristal les gana por mucho. CONFUSION DECLARADA que limita el hallazgo: el grupo resuelto es 15 de 18 CONTROL y el que falla es 30 de 30 COLOCACION. Los estratos se definieron POR exito de docking, asi que la separacion esta casi perfectamente confundida con el estrato y es en buena parte MF-15 dicho de otra forma. El contraste limpio seria dentro de COLOCACION, y ahi hay 3 resueltos contra 30: no se puede.",
+  "finished_at": "2026-08-19T03:53:04.940403+00:00"
+}

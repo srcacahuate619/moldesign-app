@@ -1,0 +1,1923 @@
+{
+  "schema": "rs01_fold_plan_v1",
+  "experimento": "RS-01B",
+  "n_complejos": 116,
+  "n_folds": 5,
+  "bloqueo": {
+    "scaffold_politica": "FND-05: Murcko 'm:<smiles>'; aciclicos 'acyclic:<ik14>' (clase propia como unidad); oligosacaridos heuristicos 'oligo:n:o'; ligando ilegible -> sin aristas de scaffold (documentado)",
+    "receptor": "cadenas SEQRES (fallback CA); k-meros k=8; arista si algun par de cadenas >= 0.9; union-find con cierre transitivo (build_confirm_cohort.clusters_cadenas, ITERACION 3)",
+    "claim_honesto": "near-identity-receptor-disjoint + Murcko-disjoint donde Murcko esta definido",
+    "modulo_reutilizado": {
+      "archivo": "scripts/build_confirm_cohort.py",
+      "sha256_sellado": "a77c8d17e3d829560979a1dd49473163f1d134daf7ceeab994911105061fd3b3",
+      "funciones": [
+        "cadenas_receptor",
+        "clusters_cadenas",
+        "quimica_ligando",
+        "leer_ligando"
+      ]
+    }
+  },
+  "asignacion": {
+    "regla": "componentes ordenadas por (tamaño desc, clave canonica asc); asignadas al fold menos lleno (empate -> índice de fold menor); sin semilla, sin aleatoriedad",
+    "componentes_por_fold": [
+      55,
+      16,
+      15,
+      15,
+      15
+    ]
+  },
+  "verificacion_preaudit": {
+    "componentes_combinadas_38": true,
+    "componente_mayor_55": true,
+    "folds_55_16_15_15_15": true,
+    "aciclicos_19": true,
+    "detalle": {
+      "n_componentes_real": 38,
+      "max_componente_real": 55,
+      "folds_reales": [
+        55,
+        16,
+        15,
+        15,
+        15
+      ],
+      "n_aciclicos_real": 19,
+      "n_sin_secuencia_receptor": 0,
+      "n_sin_scaffold": 0,
+      "tamanos_componentes_desc": [
+        55,
+        9,
+        5,
+        4,
+        3,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  "por_pid": [
+    {
+      "pid": "10gs",
+      "fold": 4,
+      "componente": "10gs;1lbk",
+      "scaffold_class": "m:O=C(CCSCc1ccccc1)NCc1ccccc1",
+      "scaffold_id": "266910f592b6",
+      "inchikey14": "ZPSKWMFLCHMEOY",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 51,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "184l",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "KXUHSQYYJYAXGZ",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 0,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "186l",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "OCKPCBLVNKHBMX",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 0,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "187l",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "URLKBWYHVLBVBO",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 0,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "188l",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "CTQNGGLPUBDAKN",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 0,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1a30",
+      "fold": 3,
+      "componente": "1a30",
+      "scaffold_class": "acyclic:JVSBYEDSSRZQGV",
+      "scaffold_id": "8733e4e19e0d",
+      "inchikey14": "JVSBYEDSSRZQGV",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 1,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1a4w",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C(CCC1CCCCN1C(=O)CNS(=O)(=O)c1cccc2ccccc12)c1nccs1",
+      "scaffold_id": "715e1acdb6a1",
+      "inchikey14": "KACDHMPRLCAESX",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 2,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1a99",
+      "fold": 1,
+      "componente": "1a99",
+      "scaffold_class": "acyclic:KIDHWZJUCRJVML",
+      "scaffold_id": "2f1e57e12696",
+      "inchikey14": "KIDHWZJUCRJVML",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 3,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1aaq",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "IUDCAKKZLXFOQA",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 36,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1add",
+      "fold": 2,
+      "componente": "1add",
+      "scaffold_class": "m:c1cnc2c(c1)ncn2C1CCCO1",
+      "scaffold_id": "dd0a55a25419",
+      "inchikey14": "NVUDDRWKCUAERS",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 4,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1afk",
+      "fold": 1,
+      "componente": "1afk;1afl;1amw;1b38;1bxr;1dgm;1jn4;1jvu;1nw5",
+      "scaffold_class": "m:c1ncc2ncn(C3CCCO3)c2n1",
+      "scaffold_id": "8d0052a335d4",
+      "inchikey14": "GBBWIZKLHXYJOA",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 5,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1afl",
+      "fold": 1,
+      "componente": "1afk;1afl;1amw;1b38;1bxr;1dgm;1jn4;1jvu;1nw5",
+      "scaffold_class": "m:c1ncc2ncn(C3CCCO3)c2n1",
+      "scaffold_id": "8d0052a335d4",
+      "inchikey14": "YPTPYQSAVGGMFN",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 5,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1ai4",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "CFFZDZCDUFSOFZ",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 6,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1ai7",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "ISWSIDIOOBJBQZ",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 6,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1alw",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "HGIOOMCLOWLFTJ",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 7,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1amw",
+      "fold": 1,
+      "componente": "1afk;1afl;1amw;1b38;1bxr;1dgm;1jn4;1jvu;1nw5",
+      "scaffold_class": "m:c1ncc2ncn(C3CCCO3)c2n1",
+      "scaffold_id": "8d0052a335d4",
+      "inchikey14": "XTWYTFMLZFPYCI",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 8,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1apv",
+      "fold": 3,
+      "componente": "1apv",
+      "scaffold_class": "acyclic:MCIRWALUVUIXMI",
+      "scaffold_id": "129b1276012e",
+      "inchikey14": "MCIRWALUVUIXMI",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 9,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1ax0",
+      "fold": 3,
+      "componente": "1ax0;1moq",
+      "scaffold_class": "m:C1CCOCC1",
+      "scaffold_id": "2ea76a57fe84",
+      "inchikey14": "OVRNDRQMDRJTHS",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 10,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1b2h",
+      "fold": 3,
+      "componente": "1b2h;1b46;1b4z;1m2x",
+      "scaffold_class": "acyclic:NJSJHOJKUBVXDA",
+      "scaffold_id": "1d2fe386b9fc",
+      "inchikey14": "NJSJHOJKUBVXDA",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 11,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1b38",
+      "fold": 1,
+      "componente": "1afk;1afl;1amw;1b38;1bxr;1dgm;1jn4;1jvu;1nw5",
+      "scaffold_class": "m:c1ncc2ncn(C3CCCO3)c2n1",
+      "scaffold_id": "8d0052a335d4",
+      "inchikey14": "ZKHQWZAMYRWXGA",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 12,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1b46",
+      "fold": 3,
+      "componente": "1b2h;1b46;1b4z;1m2x",
+      "scaffold_class": "m:C1CCNC1",
+      "scaffold_id": "4866c0a9f040",
+      "inchikey14": "LUTDBHBIHHREDC",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 11,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1b4z",
+      "fold": 3,
+      "componente": "1b2h;1b46;1b4z;1m2x",
+      "scaffold_class": "acyclic:LMVOVCYVZBBWQB",
+      "scaffold_id": "c531fae28dd0",
+      "inchikey14": "LMVOVCYVZBBWQB",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 11,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1b8y",
+      "fold": 4,
+      "componente": "1b8y",
+      "scaffold_class": "m:c1ccc(C2CCN(c3ccccc3)CC2)cc1",
+      "scaffold_id": "738295df0fc5",
+      "inchikey14": "GNSLACGSDSJAIQ",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 13,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1bcd",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "acyclic:KAKQVSNHTBLJCH",
+      "scaffold_id": "68aa0920b9c2",
+      "inchikey14": "KAKQVSNHTBLJCH",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 16,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1bju",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C(Nc1ccccc1)Nc1ccccc1",
+      "scaffold_id": "9410eebe758e",
+      "inchikey14": "HQWKMDKTTCPCMQ",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 14,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1bjv",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C(Nc1ccccc1)Nc1ccc(Oc2ccccc2)cc1",
+      "scaffold_id": "26d7372e52b9",
+      "inchikey14": "ZHCAYBOLUMAUQX",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 14,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1bma",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C(C[NH2+]Cc1ccccc1)Nc1ccccc1",
+      "scaffold_id": "a238624a2345",
+      "inchikey14": "HTEHUHSQPIQBEG",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 15,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1bn1",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=S(=O)(NCc1ccccc1)c1cccs1",
+      "scaffold_id": "5b13aa792c51",
+      "inchikey14": "GUNRMHMEAWSZQE",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 16,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1bn3",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=S1(=O)c2sccc2C=CN1c1ccccc1",
+      "scaffold_id": "36de483a5309",
+      "inchikey14": "FBBLOSCXOZYUSS",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 16,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1bn4",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=S(=O)(NCc1ccccc1)c1cccs1",
+      "scaffold_id": "5b13aa792c51",
+      "inchikey14": "LRRAIRJIZOLGPR",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 16,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1bnu",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=S1(=O)c2sccc2CCN1Cc1cccs1",
+      "scaffold_id": "1a006cc0034d",
+      "inchikey14": "HHPUQNGRNUOYCD",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 16,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1bq4",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "YDSWCNNOKPMOTP",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 17,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1bty",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "PXXJHWLDUBFPOL",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 14,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1bxr",
+      "fold": 1,
+      "componente": "1afk;1afl;1amw;1b38;1bxr;1dgm;1jn4;1jvu;1nw5",
+      "scaffold_class": "m:c1ncc2ncn(C3CCCO3)c2n1",
+      "scaffold_id": "8d0052a335d4",
+      "inchikey14": "PVKSNHVPLWYQGJ",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 18,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1c4u",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C(NCC1CCCCC1)C1C=CCn2c(=O)n(CCS(=O)(=O)c3ccccc3)c(=O)n21",
+      "scaffold_id": "d8532417abb4",
+      "inchikey14": "CAGDDDRYEVLPOJ",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 2,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1c5o",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "PXXJHWLDUBFPOL",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 2,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1c5p",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "PXXJHWLDUBFPOL",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 14,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1cet",
+      "fold": 1,
+      "componente": "1cet",
+      "scaffold_class": "m:c1ccc2ncccc2c1",
+      "scaffold_id": "ee8b74754a87",
+      "inchikey14": "WHTVZRBIWZFKQO",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 19,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1cnw",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "OIKKGRHOXPAPMW",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 16,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1cnx",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "QGGYVKRXFQLYQD",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 16,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1d3p",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccc2c(Cc3ccc(OCC[NH+]4CCCC4)cc3)c(-c3ccc(OCC[NH+]4CCCC4)nc3)sc2c1",
+      "scaffold_id": "39ecba5aea8d",
+      "inchikey14": "KEDLOQLGBOISAT",
+      "n_rings": 6,
+      "aciclico": false,
+      "receptor_componente": 2,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1d7i",
+      "fold": 2,
+      "componente": "1d7i;1d7j;1fkg;1fkh;1j4r",
+      "scaffold_class": "acyclic:OTKFCIVOVKCFHR",
+      "scaffold_id": "eaf8ba712084",
+      "inchikey14": "OTKFCIVOVKCFHR",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 20,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1d7j",
+      "fold": 2,
+      "componente": "1d7i;1d7j;1fkg;1fkh;1j4r",
+      "scaffold_class": "acyclic:LVSQXDHWDCMMRJ",
+      "scaffold_id": "45227df3f626",
+      "inchikey14": "LVSQXDHWDCMMRJ",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 20,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1d9i",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C(NCC1CCCCC1)C1C=CCn2c(=O)n(CCS(=O)(=O)c3ccccc3)c(=O)n21",
+      "scaffold_id": "d8532417abb4",
+      "inchikey14": "PTMIAKQUJFKTNB",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 2,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1dgm",
+      "fold": 1,
+      "componente": "1afk;1afl;1amw;1b38;1bxr;1dgm;1jn4;1jvu;1nw5",
+      "scaffold_class": "m:c1ncc2ncn(C3CCCO3)c2n1",
+      "scaffold_id": "8d0052a335d4",
+      "inchikey14": "OIRDTQYFTABQOQ",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 21,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1e4h",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "SVHOVVJFOWGYJO",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 22,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1eb2",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C(NC(C(=O)N1CCC(C(=O)c2ccccc2)CC1)c1ccccc1)c1ccccc1",
+      "scaffold_id": "77c61a797169",
+      "inchikey14": "SEXVRUMCMJFNTJ",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 14,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1ela",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C(Nc1ccccc1)C1CCCN1",
+      "scaffold_id": "c64fc66d334b",
+      "inchikey14": "BEGRGCCTDSKILY",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 15,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1elb",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "OSCPPTDAQZTYFO",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 15,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1eld",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C(CCc1ccccc1)NCC(=O)Nc1ccccc1",
+      "scaffold_id": "1c751fcac825",
+      "inchikey14": "YVHDCJDFGBMJNF",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 15,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1ele",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "XAJBYSREBDCYAJ",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 15,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1ew8",
+      "fold": 2,
+      "componente": "1ew8;1ew9",
+      "scaffold_class": "acyclic:XUYJLQHKOGNDPB",
+      "scaffold_id": "9d721ab7e331",
+      "inchikey14": "XUYJLQHKOGNDPB",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 23,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1ew9",
+      "fold": 2,
+      "componente": "1ew8;1ew9",
+      "scaffold_class": "acyclic:MJZCELCYTRONIX",
+      "scaffold_id": "93c45cd05b57",
+      "inchikey14": "MJZCELCYTRONIX",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 23,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1ezq",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C(NCCCc1ccccc1)c1ccc(-c2ccccc2)cc1",
+      "scaffold_id": "eeeb9b8f8b27",
+      "inchikey14": "XFKVLKLCLYJKNF",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 24,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1f0r",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C1C(NS(=O)(=O)c2cc3ncccc3s2)CCN1Cc1ccc2ccncc2c1",
+      "scaffold_id": "1246a73726a3",
+      "inchikey14": "NVKDOURNRJCKJE",
+      "n_rings": 5,
+      "aciclico": false,
+      "receptor_componente": 24,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1f0t",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C1C(NS(=O)(=O)c2cc3ncccc3s2)CCN1Cc1ccccc1",
+      "scaffold_id": "d61794328e16",
+      "inchikey14": "PQJGWYQPOHCEDO",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 14,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1f0u",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C(NCCCc1ccccc1)c1ccc(-c2ccccc2)cc1",
+      "scaffold_id": "eeeb9b8f8b27",
+      "inchikey14": "XFKVLKLCLYJKNF",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 14,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1f4e",
+      "fold": 4,
+      "componente": "1f4e;1f4f;1f4g",
+      "scaffold_class": "m:O=S(=O)(c1ccccc1)N1CCCC1",
+      "scaffold_id": "62048a5147b9",
+      "inchikey14": "CGPHGPCHVUSFFA",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 25,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1f4f",
+      "fold": 4,
+      "componente": "1f4e;1f4f;1f4g",
+      "scaffold_class": "m:O=S(=O)(c1ccccc1)N1CCCC1",
+      "scaffold_id": "62048a5147b9",
+      "inchikey14": "NDDOUBGQRWFVQM",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 25,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1f4g",
+      "fold": 4,
+      "componente": "1f4e;1f4f;1f4g",
+      "scaffold_class": "m:O=S(=O)(c1ccccc1)N1CCCC1",
+      "scaffold_id": "62048a5147b9",
+      "inchikey14": "SRAHBOKVSSZEHQ",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 25,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1f5k",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "PXXJHWLDUBFPOL",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 26,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1f74",
+      "fold": 2,
+      "componente": "1f74",
+      "scaffold_class": "acyclic:HWTGNSKUIIUDOU",
+      "scaffold_id": "e1cd1ea20a5e",
+      "inchikey14": "HWTGNSKUIIUDOU",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 27,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1fd0",
+      "fold": 3,
+      "componente": "1fd0",
+      "scaffold_class": "m:N=C(c1ccc2c(c1)CCCC2)c1ccc2ccccc2c1",
+      "scaffold_id": "dda9b38ef7fb",
+      "inchikey14": "RNZIUDLOJHVHLZ",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 28,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1fh7",
+      "fold": 4,
+      "componente": "1fh7",
+      "scaffold_class": "m:C1CCC(OC2CCC[NH2+]C2)OC1",
+      "scaffold_id": "cad8a0fe3e35",
+      "inchikey14": "XGWCBUHCPVYINT",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 29,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1fkg",
+      "fold": 2,
+      "componente": "1d7i;1d7j;1fkg;1fkh;1j4r",
+      "scaffold_class": "m:O=C(OC(CCc1ccccc1)c1ccccc1)C1CCCCN1",
+      "scaffold_id": "5d69c5945476",
+      "inchikey14": "WQTIHJORCCUQBO",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 20,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1fkh",
+      "fold": 2,
+      "componente": "1d7i;1d7j;1fkg;1fkh;1j4r",
+      "scaffold_class": "m:O=C(OC(CCc1ccccc1)C1CCCCC1)C1CCCCN1",
+      "scaffold_id": "ceedc6e7abc3",
+      "inchikey14": "PANCOFAQARSQHI",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 20,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1flr",
+      "fold": 4,
+      "componente": "1flr;1n0s",
+      "scaffold_class": "m:O=c1ccc2c(-c3ccccc3)c3ccccc3oc-2c1",
+      "scaffold_id": "1ecb9411d2bf",
+      "inchikey14": "YKGGGCXBWXHKIZ",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 30,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1fv0",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccc2c(c1)ccc1ccc3c(c12)OCO3",
+      "scaffold_id": "f776cd3eced4",
+      "inchikey14": "UCLGCTLOEZZSLA",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 31,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1g3d",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "VQBPHPNVVKXBPH",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 14,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1g3e",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "KTZKABOUAHWHJS",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 14,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1gpn",
+      "fold": 3,
+      "componente": "1gpn;1h22",
+      "scaffold_class": "m:O=c1ccc2c([nH]1)CC1C=CCC23[NH2+]CCCC13",
+      "scaffold_id": "e804f3c8f6dc",
+      "inchikey14": "YYWGABLTRMRUIT",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 32,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1gwv",
+      "fold": 1,
+      "componente": "1gwv",
+      "scaffold_class": "m:C1CCC(OC2CCCOC2)OC1",
+      "scaffold_id": "17c25c886b1b",
+      "inchikey14": "GUBGYTABKSRVRQ",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 33,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1h22",
+      "fold": 3,
+      "componente": "1gpn;1h22",
+      "scaffold_class": "m:O=c1ccc2c([nH]1)CCCC2[NH2+]CCCCCCCCCC[NH2+]C1CCCc2[nH]c(=O)ccc21",
+      "scaffold_id": "86e02fd2537e",
+      "inchikey14": "CKFAWHBPSZAYLS",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 32,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1h4w",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "PXXJHWLDUBFPOL",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 34,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1hdq",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "IOFPEOPOAMOMBE",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 35,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1hih",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccc(CCCC[NH2+]CC2CCCCC2)cc1",
+      "scaffold_id": "163cf65a4165",
+      "inchikey14": "JNBVLGDICHLLTN",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 36,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1hii",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccc(CCCC[NH2+]CC2CCCCC2)cc1",
+      "scaffold_id": "163cf65a4165",
+      "inchikey14": "JNBVLGDICHLLTN",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 37,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1hlk",
+      "fold": 2,
+      "componente": "1hlk",
+      "scaffold_class": "m:O=c1c2c(oc3ccccc13)CCOC2",
+      "scaffold_id": "db97e4541d1a",
+      "inchikey14": "RSFJMLCZHPZXCW",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 38,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1hmr",
+      "fold": 3,
+      "componente": "1hmr",
+      "scaffold_class": "acyclic:QIQXTHQIDYTFRH",
+      "scaffold_id": "767aec4386a7",
+      "inchikey14": "QIQXTHQIDYTFRH",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 39,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1hn4",
+      "fold": 4,
+      "componente": "1hn4",
+      "scaffold_class": "acyclic:XPTFBVFCGHXMRK",
+      "scaffold_id": "2afc3678e793",
+      "inchikey14": "XPTFBVFCGHXMRK",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 40,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1hp5",
+      "fold": 2,
+      "componente": "1hp5;1np0",
+      "scaffold_class": "m:C1=NC2CCCOC2S1",
+      "scaffold_id": "e3c51d7fbfa2",
+      "inchikey14": "DRHXTSWSUAJOJZ",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 41,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1hpx",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C(COc1cccc2cnccc12)NCC(=O)NC(CC(=O)N1CCSC1)Cc1ccccc1",
+      "scaffold_id": "91ee0b34c978",
+      "inchikey14": "NJBBLOIWMSYVCQ",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 36,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1i7z",
+      "fold": 1,
+      "componente": "1i7z",
+      "scaffold_class": "m:O=C(OC1CC2CCC(C1)[NH2+]2)c1ccccc1",
+      "scaffold_id": "1643760b6fe0",
+      "inchikey14": "ZPUCINDJVBIVPJ",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 42,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1igb",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "AJEPKWPHKPETBM",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 43,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1iih",
+      "fold": 2,
+      "componente": "1iih",
+      "scaffold_class": "acyclic:OSJPPGNTCRNQQC",
+      "scaffold_id": "ecec2be52f52",
+      "inchikey14": "OSJPPGNTCRNQQC",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 44,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1ikt",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "HEUDUECKTWTQQR",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 45,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1j4r",
+      "fold": 2,
+      "componente": "1d7i;1d7j;1fkg;1fkh;1j4r",
+      "scaffold_class": "m:O=C(OC(CCCc1ccccc1)CCCc1cccnc1)C1CCCCN1C(=O)Cc1ccccc1",
+      "scaffold_id": "9b0b73e12ceb",
+      "inchikey14": "NBYCDVVSYOMFMS",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 20,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1jao",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "AUJQAKJLNYFOHT",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 46,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1jaq",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "acyclic:FGSNBBSHVNLDMX",
+      "scaffold_id": "71602e11c45a",
+      "inchikey14": "FGSNBBSHVNLDMX",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 46,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1jn4",
+      "fold": 1,
+      "componente": "1afk;1afl;1amw;1b38;1bxr;1dgm;1jn4;1jvu;1nw5",
+      "scaffold_class": "m:O=c1ccn(C2CC(O[PH](=O)O[PH](=O)OCC3CCC(n4cnc5cncnc54)O3)CO2)c(=O)[nH]1",
+      "scaffold_id": "32eaaecbb290",
+      "inchikey14": "NGHFJGUDQJTSRY",
+      "n_rings": 5,
+      "aciclico": false,
+      "receptor_componente": 5,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1jq8",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "NSZJXSMPGXGNJX",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 31,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1jvu",
+      "fold": 1,
+      "componente": "1afk;1afl;1amw;1b38;1bxr;1dgm;1jn4;1jvu;1nw5",
+      "scaffold_class": "m:N=c1ccn(C2CCCO2)c(=O)[nH]1",
+      "scaffold_id": "b9c452e54d95",
+      "inchikey14": "YQUAKORMLHPSLZ",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 5,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1k9s",
+      "fold": 3,
+      "componente": "1k9s",
+      "scaffold_class": "m:c1nc2c(C3CCCO3)nnc-2c[nH]1",
+      "scaffold_id": "be7bcad34b4f",
+      "inchikey14": "MZVZLZFBHQNYSK",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 47,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1kav",
+      "fold": 4,
+      "componente": "1kav",
+      "scaffold_class": "m:C(C=Cc1ccccc1)=Cc1ccccc1",
+      "scaffold_id": "d52c26c8b83f",
+      "inchikey14": "QFCCDIMKZDFFCL",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 48,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1kpm",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccc2c(c1)CCCO2",
+      "scaffold_id": "6aa6f8e35ea5",
+      "inchikey14": "XWEUBJMRTFCPGO",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 31,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1kzk",
+      "fold": 1,
+      "componente": "1kzk",
+      "scaffold_class": "m:O=C(NC(CC(=O)N1CSCC1C(=O)NCc1ccccc1)Cc1ccccc1)c1ccccc1",
+      "scaffold_id": "f76cb9082b18",
+      "inchikey14": "CUFQBQOBLVLKRF",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 49,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1l83",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "UHOVQNZJYSORNB",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 0,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1lan",
+      "fold": 2,
+      "componente": "1lan",
+      "scaffold_class": "acyclic:ROHFNLRQFUQHCH",
+      "scaffold_id": "d722ac75cb1d",
+      "inchikey14": "ROHFNLRQFUQHCH",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 50,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1lbk",
+      "fold": 4,
+      "componente": "10gs;1lbk",
+      "scaffold_class": "acyclic:RWSXRVCMGQZWBV",
+      "scaffold_id": "f15dc4993692",
+      "inchikey14": "RWSXRVCMGQZWBV",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 51,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1lrh",
+      "fold": 3,
+      "componente": "1lrh",
+      "scaffold_class": "m:c1ccc2ccccc2c1",
+      "scaffold_id": "a86bc60eb188",
+      "inchikey14": "PRPINYUDVPFIRX",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 52,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1m0n",
+      "fold": 4,
+      "componente": "1m0n",
+      "scaffold_class": "m:C(=NC1CCCC1)c1ccncc1",
+      "scaffold_id": "4955b4d014ab",
+      "inchikey14": "NPYNJFSRGFRPCR",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 53,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1m2x",
+      "fold": 3,
+      "componente": "1b2h;1b46;1b4z;1m2x",
+      "scaffold_class": "m:C1CCNC1",
+      "scaffold_id": "4866c0a9f040",
+      "inchikey14": "FAKRSMQSSFJEIM",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 54,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1m48",
+      "fold": 1,
+      "componente": "1m48",
+      "scaffold_class": "m:O=C(CC1CCCNC1)NCCc1ccc(C#Cc2ccccc2)cc1",
+      "scaffold_id": "7c6f6fb75029",
+      "inchikey14": "MRNGXYMKYHNMLV",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 55,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1m5w",
+      "fold": 2,
+      "componente": "1m5w",
+      "scaffold_class": "acyclic:AJPADPZSRRUGHI",
+      "scaffold_id": "4dee1962116e",
+      "inchikey14": "AJPADPZSRRUGHI",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 56,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1mmq",
+      "fold": 4,
+      "componente": "1mmq;1mmr",
+      "scaffold_class": "m:O=C1CCc2cn(c3ccccc23)CCCCCCN1",
+      "scaffold_id": "412e2aa243ea",
+      "inchikey14": "GCBPAPVOMPJQHK",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 57,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1mmr",
+      "fold": 4,
+      "componente": "1mmq;1mmr",
+      "scaffold_class": "m:O=C1CCc2cn(c3ccccc23)CCCCCCN1",
+      "scaffold_id": "412e2aa243ea",
+      "inchikey14": "MQEMTMGYPYUQLH",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 57,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1moq",
+      "fold": 3,
+      "componente": "1ax0;1moq",
+      "scaffold_class": "m:C1CCOCC1",
+      "scaffold_id": "2ea76a57fe84",
+      "inchikey14": "XHMJOUIAFHJHBW",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 58,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1mu8",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C(Cn1ccnc(NCCc2ccccn2)c1=O)NCc1ccccn1",
+      "scaffold_id": "29b836725345",
+      "inchikey14": "WOYBPRBUPLYTPY",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 2,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1n0s",
+      "fold": 4,
+      "componente": "1flr;1n0s",
+      "scaffold_class": "m:O=c1ccc2c(-c3ccccc3)c3ccccc3oc-2c1",
+      "scaffold_id": "1ecb9411d2bf",
+      "inchikey14": "YKGGGCXBWXHKIZ",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 59,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1nje",
+      "fold": 3,
+      "componente": "1nje",
+      "scaffold_class": "m:O=c1ncccn1C1CCCO1",
+      "scaffold_id": "09a75bef137c",
+      "inchikey14": "NCMVOABPESMRCP",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 60,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1njs",
+      "fold": 4,
+      "componente": "1njs",
+      "scaffold_class": "m:O=c1[nH]cncc1CCCCc1ccccc1",
+      "scaffold_id": "b1294492aae0",
+      "inchikey14": "FMIDASIQPIKMCV",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 61,
+      "dmfhard_train_estrato": "hard"
+    },
+    {
+      "pid": "1nki",
+      "fold": 1,
+      "componente": "1nki",
+      "scaffold_class": "acyclic:ZJAOAACCNHFJAH",
+      "scaffold_id": "18eac0725ef1",
+      "inchikey14": "ZJAOAACCNHFJAH",
+      "n_rings": 0,
+      "aciclico": true,
+      "receptor_componente": 62,
+      "dmfhard_train_estrato": null
+    },
+    {
+      "pid": "1nm6",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:O=C1Cn2ccnc(c2=O)NC(Cc2ccccc2)C[NH2+]CCC[NH2+]CCc2ccccc2CN1",
+      "scaffold_id": "86a53c4ca9be",
+      "inchikey14": "LYVSCNRRXJZCRV",
+      "n_rings": 4,
+      "aciclico": false,
+      "receptor_componente": 2,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1np0",
+      "fold": 2,
+      "componente": "1hp5;1np0",
+      "scaffold_class": "m:C1=NC2CCCOC2S1",
+      "scaffold_id": "e3c51d7fbfa2",
+      "inchikey14": "DRHXTSWSUAJOJZ",
+      "n_rings": 2,
+      "aciclico": false,
+      "receptor_componente": 63,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1nq7",
+      "fold": 0,
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "scaffold_class": "m:c1ccccc1",
+      "scaffold_id": "56672c99fd55",
+      "inchikey14": "JMPZTWDLOGTBPM",
+      "n_rings": 1,
+      "aciclico": false,
+      "receptor_componente": 64,
+      "dmfhard_train_estrato": "control"
+    },
+    {
+      "pid": "1nw5",
+      "fold": 1,
+      "componente": "1afk;1afl;1amw;1b38;1bxr;1dgm;1jn4;1jvu;1nw5",
+      "scaffold_class": "m:c1ncc2ncn(C3CCCO3)c2n1",
+      "scaffold_id": "8d0052a335d4",
+      "inchikey14": "QOWKLNSTGYYNGX",
+      "n_rings": 3,
+      "aciclico": false,
+      "receptor_componente": 65,
+      "dmfhard_train_estrato": null
+    }
+  ],
+  "por_componente": [
+    {
+      "componente": "10gs;1lbk",
+      "n_complejos": 2,
+      "pids": [
+        "10gs",
+        "1lbk"
+      ],
+      "fold": 4
+    },
+    {
+      "componente": "184l;186l;187l;188l;1a4w;1aaq;1ai4;1ai7;1alw;1bcd;1bju;1bjv;1bma;1bn1;1bn3;1bn4;1bnu;1bq4;1bty;1c4u;1c5o;1c5p;1cnw;1cnx;1d3p;1d9i;1e4h;1eb2;1ela;1elb;1eld;1ele;1ezq;1f0r;1f0t;1f0u;1f5k;1fv0;1g3d;1g3e;1h4w;1hdq;1hih;1hii;1hpx;1igb;1ikt;1jao;1jaq;1jq8;1kpm;1l83;1mu8;1nm6;1nq7",
+      "n_complejos": 55,
+      "pids": [
+        "184l",
+        "186l",
+        "187l",
+        "188l",
+        "1a4w",
+        "1aaq",
+        "1ai4",
+        "1ai7",
+        "1alw",
+        "1bcd",
+        "1bju",
+        "1bjv",
+        "1bma",
+        "1bn1",
+        "1bn3",
+        "1bn4",
+        "1bnu",
+        "1bq4",
+        "1bty",
+        "1c4u",
+        "1c5o",
+        "1c5p",
+        "1cnw",
+        "1cnx",
+        "1d3p",
+        "1d9i",
+        "1e4h",
+        "1eb2",
+        "1ela",
+        "1elb",
+        "1eld",
+        "1ele",
+        "1ezq",
+        "1f0r",
+        "1f0t",
+        "1f0u",
+        "1f5k",
+        "1fv0",
+        "1g3d",
+        "1g3e",
+        "1h4w",
+        "1hdq",
+        "1hih",
+        "1hii",
+        "1hpx",
+        "1igb",
+        "1ikt",
+        "1jao",
+        "1jaq",
+        "1jq8",
+        "1kpm",
+        "1l83",
+        "1mu8",
+        "1nm6",
+        "1nq7"
+      ],
+      "fold": 0
+    },
+    {
+      "componente": "1a30",
+      "n_complejos": 1,
+      "pids": [
+        "1a30"
+      ],
+      "fold": 3
+    },
+    {
+      "componente": "1a99",
+      "n_complejos": 1,
+      "pids": [
+        "1a99"
+      ],
+      "fold": 1
+    },
+    {
+      "componente": "1add",
+      "n_complejos": 1,
+      "pids": [
+        "1add"
+      ],
+      "fold": 2
+    },
+    {
+      "componente": "1afk;1afl;1amw;1b38;1bxr;1dgm;1jn4;1jvu;1nw5",
+      "n_complejos": 9,
+      "pids": [
+        "1afk",
+        "1afl",
+        "1amw",
+        "1b38",
+        "1bxr",
+        "1dgm",
+        "1jn4",
+        "1jvu",
+        "1nw5"
+      ],
+      "fold": 1
+    },
+    {
+      "componente": "1apv",
+      "n_complejos": 1,
+      "pids": [
+        "1apv"
+      ],
+      "fold": 3
+    },
+    {
+      "componente": "1ax0;1moq",
+      "n_complejos": 2,
+      "pids": [
+        "1ax0",
+        "1moq"
+      ],
+      "fold": 3
+    },
+    {
+      "componente": "1b2h;1b46;1b4z;1m2x",
+      "n_complejos": 4,
+      "pids": [
+        "1b2h",
+        "1b46",
+        "1b4z",
+        "1m2x"
+      ],
+      "fold": 3
+    },
+    {
+      "componente": "1b8y",
+      "n_complejos": 1,
+      "pids": [
+        "1b8y"
+      ],
+      "fold": 4
+    },
+    {
+      "componente": "1cet",
+      "n_complejos": 1,
+      "pids": [
+        "1cet"
+      ],
+      "fold": 1
+    },
+    {
+      "componente": "1d7i;1d7j;1fkg;1fkh;1j4r",
+      "n_complejos": 5,
+      "pids": [
+        "1d7i",
+        "1d7j",
+        "1fkg",
+        "1fkh",
+        "1j4r"
+      ],
+      "fold": 2
+    },
+    {
+      "componente": "1ew8;1ew9",
+      "n_complejos": 2,
+      "pids": [
+        "1ew8",
+        "1ew9"
+      ],
+      "fold": 2
+    },
+    {
+      "componente": "1f4e;1f4f;1f4g",
+      "n_complejos": 3,
+      "pids": [
+        "1f4e",
+        "1f4f",
+        "1f4g"
+      ],
+      "fold": 4
+    },
+    {
+      "componente": "1f74",
+      "n_complejos": 1,
+      "pids": [
+        "1f74"
+      ],
+      "fold": 2
+    },
+    {
+      "componente": "1fd0",
+      "n_complejos": 1,
+      "pids": [
+        "1fd0"
+      ],
+      "fold": 3
+    },
+    {
+      "componente": "1fh7",
+      "n_complejos": 1,
+      "pids": [
+        "1fh7"
+      ],
+      "fold": 4
+    },
+    {
+      "componente": "1flr;1n0s",
+      "n_complejos": 2,
+      "pids": [
+        "1flr",
+        "1n0s"
+      ],
+      "fold": 4
+    },
+    {
+      "componente": "1gpn;1h22",
+      "n_complejos": 2,
+      "pids": [
+        "1gpn",
+        "1h22"
+      ],
+      "fold": 3
+    },
+    {
+      "componente": "1gwv",
+      "n_complejos": 1,
+      "pids": [
+        "1gwv"
+      ],
+      "fold": 1
+    },
+    {
+      "componente": "1hlk",
+      "n_complejos": 1,
+      "pids": [
+        "1hlk"
+      ],
+      "fold": 2
+    },
+    {
+      "componente": "1hmr",
+      "n_complejos": 1,
+      "pids": [
+        "1hmr"
+      ],
+      "fold": 3
+    },
+    {
+      "componente": "1hn4",
+      "n_complejos": 1,
+      "pids": [
+        "1hn4"
+      ],
+      "fold": 4
+    },
+    {
+      "componente": "1hp5;1np0",
+      "n_complejos": 2,
+      "pids": [
+        "1hp5",
+        "1np0"
+      ],
+      "fold": 2
+    },
+    {
+      "componente": "1i7z",
+      "n_complejos": 1,
+      "pids": [
+        "1i7z"
+      ],
+      "fold": 1
+    },
+    {
+      "componente": "1iih",
+      "n_complejos": 1,
+      "pids": [
+        "1iih"
+      ],
+      "fold": 2
+    },
+    {
+      "componente": "1k9s",
+      "n_complejos": 1,
+      "pids": [
+        "1k9s"
+      ],
+      "fold": 3
+    },
+    {
+      "componente": "1kav",
+      "n_complejos": 1,
+      "pids": [
+        "1kav"
+      ],
+      "fold": 4
+    },
+    {
+      "componente": "1kzk",
+      "n_complejos": 1,
+      "pids": [
+        "1kzk"
+      ],
+      "fold": 1
+    },
+    {
+      "componente": "1lan",
+      "n_complejos": 1,
+      "pids": [
+        "1lan"
+      ],
+      "fold": 2
+    },
+    {
+      "componente": "1lrh",
+      "n_complejos": 1,
+      "pids": [
+        "1lrh"
+      ],
+      "fold": 3
+    },
+    {
+      "componente": "1m0n",
+      "n_complejos": 1,
+      "pids": [
+        "1m0n"
+      ],
+      "fold": 4
+    },
+    {
+      "componente": "1m48",
+      "n_complejos": 1,
+      "pids": [
+        "1m48"
+      ],
+      "fold": 1
+    },
+    {
+      "componente": "1m5w",
+      "n_complejos": 1,
+      "pids": [
+        "1m5w"
+      ],
+      "fold": 2
+    },
+    {
+      "componente": "1mmq;1mmr",
+      "n_complejos": 2,
+      "pids": [
+        "1mmq",
+        "1mmr"
+      ],
+      "fold": 4
+    },
+    {
+      "componente": "1nje",
+      "n_complejos": 1,
+      "pids": [
+        "1nje"
+      ],
+      "fold": 3
+    },
+    {
+      "componente": "1njs",
+      "n_complejos": 1,
+      "pids": [
+        "1njs"
+      ],
+      "fold": 4
+    },
+    {
+      "componente": "1nki",
+      "n_complejos": 1,
+      "pids": [
+        "1nki"
+      ],
+      "fold": 1
+    }
+  ],
+  "por_fold": [
+    {
+      "fold": 0,
+      "n_complejos": 55,
+      "dmfhard_train": {
+        "hard": 4,
+        "control": 6,
+        "n_en_cohorte": 10
+      }
+    },
+    {
+      "fold": 1,
+      "n_complejos": 16,
+      "dmfhard_train": {
+        "hard": 5,
+        "control": 1,
+        "n_en_cohorte": 6
+      }
+    },
+    {
+      "fold": 2,
+      "n_complejos": 15,
+      "dmfhard_train": {
+        "hard": 1,
+        "control": 3,
+        "n_en_cohorte": 4
+      }
+    },
+    {
+      "fold": 3,
+      "n_complejos": 15,
+      "dmfhard_train": {
+        "hard": 5,
+        "control": 4,
+        "n_en_cohorte": 9
+      }
+    },
+    {
+      "fold": 4,
+      "n_complejos": 15,
+      "dmfhard_train": {
+        "hard": 2,
+        "control": 3,
+        "n_en_cohorte": 5
+      }
+    }
+  ],
+  "archivos_abiertos_por_el_script": [
+    "lectura:D:/moldesign-build/scripts/artifacts_science/MF-01-UNION/union_candidates_train.jsonl",
+    "lectura:D:/moldesign-build/scripts/artifacts_science/D-MF-HARD/cohort.jsonl",
+    "escritura:D:/moldesign-build/scripts/artifacts_science/RS-01/fold_plan.json"
+  ],
+  "garantia_cuarentena": "el script NO abre poses_val.jsonl ni poses_test.jsonl; solo union train sellada, pdbbind (estructuras) y cohort.jsonl sellado de D-MF-HARD",
+  "determinismo": "sin timestamps ni aleatoriedad; dos corridas producen bytes idénticos"
+}

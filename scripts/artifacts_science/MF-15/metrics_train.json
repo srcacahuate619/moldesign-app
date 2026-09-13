@@ -1,0 +1,212 @@
+{
+ "experiment_id": "MF-15",
+ "tipo": "medicion (lectura del conjunto v2 sellado, sin computo nuevo)",
+ "timestamp": "2026-08-18T21:01:56.382538+00:00",
+ "split": "train",
+ "convencion": "vina_score mas negativo = mejor; un EMBUDO da rho POSITIVO entre rmsd y score",
+ "n_complejos": 116,
+ "resumen": {
+  "COLOCACION": {
+   "n": 33,
+   "spearman_por_radio": {
+    "2.0": {
+     "n_complejos": 0,
+     "rho_mediano": null
+    },
+    "3.0": {
+     "n_complejos": 2,
+     "rho_mediano": 0.469
+    },
+    "4.0": {
+     "n_complejos": 10,
+     "rho_mediano": 0.0591
+    },
+    "6.0": {
+     "n_complejos": 25,
+     "rho_mediano": 0.1517
+    },
+    "8.0": {
+     "n_complejos": 31,
+     "rho_mediano": 0.2017
+    },
+    "12.0": {
+     "n_complejos": 33,
+     "rho_mediano": 0.1922
+    },
+    "global": {
+     "n_complejos": 33,
+     "rho_mediano": 0.2085
+    }
+   },
+   "score_mediano_por_banda": {
+    "0-1": {
+     "n_complejos": 9,
+     "score_mediano": -8.85
+    },
+    "1-2": {
+     "n_complejos": 7,
+     "score_mediano": -8.208
+    },
+    "2-3": {
+     "n_complejos": 21,
+     "score_mediano": -7.24
+    },
+    "3-4": {
+     "n_complejos": 22,
+     "score_mediano": -7.147
+    },
+    "4-6": {
+     "n_complejos": 31,
+     "score_mediano": -6.914
+    },
+    "6-8": {
+     "n_complejos": 32,
+     "score_mediano": -6.597
+    },
+    "8-12": {
+     "n_complejos": 32,
+     "score_mediano": -6.303
+    },
+    "12-inf": {
+     "n_complejos": 26,
+     "score_mediano": -6.271
+    }
+   }
+  },
+  "CONTROL": {
+   "n": 15,
+   "spearman_por_radio": {
+    "2.0": {
+     "n_complejos": 8,
+     "rho_mediano": 0.4937
+    },
+    "3.0": {
+     "n_complejos": 11,
+     "rho_mediano": 0.3194
+    },
+    "4.0": {
+     "n_complejos": 11,
+     "rho_mediano": 0.4883
+    },
+    "6.0": {
+     "n_complejos": 12,
+     "rho_mediano": 0.3023
+    },
+    "8.0": {
+     "n_complejos": 12,
+     "rho_mediano": 0.3981
+    },
+    "12.0": {
+     "n_complejos": 13,
+     "rho_mediano": 0.4463
+    },
+    "global": {
+     "n_complejos": 14,
+     "rho_mediano": 0.4969
+    }
+   },
+   "score_mediano_por_banda": {
+    "0-1": {
+     "n_complejos": 10,
+     "score_mediano": -7.905
+    },
+    "1-2": {
+     "n_complejos": 13,
+     "score_mediano": -6.58
+    },
+    "2-3": {
+     "n_complejos": 13,
+     "score_mediano": -6.334
+    },
+    "3-4": {
+     "n_complejos": 12,
+     "score_mediano": -6.261
+    },
+    "4-6": {
+     "n_complejos": 11,
+     "score_mediano": -5.526
+    },
+    "6-8": {
+     "n_complejos": 5,
+     "score_mediano": -6.258
+    },
+    "8-12": {
+     "n_complejos": 11,
+     "score_mediano": -4.663
+    },
+    "12-inf": {
+     "n_complejos": 10,
+     "score_mediano": -4.437
+    }
+   }
+  },
+  "RESTO": {
+   "n": 68,
+   "spearman_por_radio": {
+    "2.0": {
+     "n_complejos": 13,
+     "rho_mediano": 0.3146
+    },
+    "3.0": {
+     "n_complejos": 36,
+     "rho_mediano": 0.379
+    },
+    "4.0": {
+     "n_complejos": 50,
+     "rho_mediano": 0.4031
+    },
+    "6.0": {
+     "n_complejos": 59,
+     "rho_mediano": 0.4051
+    },
+    "8.0": {
+     "n_complejos": 65,
+     "rho_mediano": 0.3571
+    },
+    "12.0": {
+     "n_complejos": 67,
+     "rho_mediano": 0.3774
+    },
+    "global": {
+     "n_complejos": 67,
+     "rho_mediano": 0.3596
+    }
+   },
+   "score_mediano_por_banda": {
+    "0-1": {
+     "n_complejos": 27,
+     "score_mediano": -7.449
+    },
+    "1-2": {
+     "n_complejos": 56,
+     "score_mediano": -6.914
+    },
+    "2-3": {
+     "n_complejos": 56,
+     "score_mediano": -6.702
+    },
+    "3-4": {
+     "n_complejos": 55,
+     "score_mediano": -6.368
+    },
+    "4-6": {
+     "n_complejos": 62,
+     "score_mediano": -6.101
+    },
+    "6-8": {
+     "n_complejos": 52,
+     "score_mediano": -5.867
+    },
+    "8-12": {
+     "n_complejos": 57,
+     "score_mediano": -5.31
+    },
+    "12-inf": {
+     "n_complejos": 51,
+     "score_mediano": -5.368
+    }
+   }
+  }
+ },
+ "lectura": "rho alto a R pequeno y decreciente al crecer R => embudo LOCAL sin gradiente global: desde lejos la puntuacion no orienta. rho estable a todo R => embudo GLOBAL y el buscador no tiene excusa en el paisaje. rho bajo a todo R => la puntuacion nunca guia."
+}

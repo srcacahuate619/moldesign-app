@@ -1,0 +1,645 @@
+{
+  "calibration": "external_panel_5ht1a",
+  "panel_file": "artifacts/bindingdb_5ht1a_panel.json",
+  "started_at": "2026-05-13T03:28:16.095259+00:00",
+  "finished_at": "2026-05-13T04:37:04.064488+00:00",
+  "duration_seconds": 4127.969229,
+  "protocol": {
+    "target_pdb_id": "7E2Y",
+    "target_chain": "R",
+    "vina_exhaustiveness": 32,
+    "vina_num_poses": 5,
+    "vina_seed": 42,
+    "vina_cpu": 4,
+    "strict_science_mode": true,
+    "max_consistency_error_pct": 1.0
+  },
+  "dataset": {
+    "n_input": 40,
+    "n_accepted": 40,
+    "n_rejected": 0,
+    "pchembl_active_threshold": 6.0,
+    "p_activity_range_log_units": 3.778,
+    "p_activity_min": 4.921,
+    "p_activity_max": 8.699,
+    "stratified_sampling": "3-tier: strong (<100 nM) + moderate (100 nM–10 µM) + weak (>10 µM)"
+  },
+  "metrics": {
+    "spearman_activity_vs_minus_affinity": 0.12780549592446175,
+    "pearson_activity_vs_minus_affinity": -0.027375478168362208,
+    "mape_pct_activity_vs_minus_affinity": 31.944734051766723
+  },
+  "quality_gates": {
+    "internal_numeric_consistency_pct": 1.0,
+    "primary_metric": "spearman_activity_vs_minus_affinity",
+    "spearman_target": ">= 0.3 (weak positive correlation is expected for docking-only)",
+    "spearman_target_met": false,
+    "note": "Spearman es la métrica primaria: mide si el rankeado relativo de moléculas por docking coincide con el rankeado experimental. MAPE no es indicador primario porque pIC50 y kcal/mol tienen unidades distintas. Una calibración con docking puro sin QSAR/MM-GBSA rara vez supera Spearman=0.5 en la literatura."
+  },
+  "parsing_sources": [
+    "pdbqt"
+  ],
+  "accepted": [
+    {
+      "molecule_id": 50289087,
+      "canonical_smiles": "COc1ccc2n(Cc3ccc(Br)cc3)c(C)c(CC(C)CC(O)=O)c2c1",
+      "activity_value": 8.698970004336019,
+      "predicted_affinity_kcal": -8.256,
+      "predicted_positive_kcal": 8.256,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50472613,
+      "canonical_smiles": "CCN1CC\\C(=C\\c2cc(c(O)c(c2)C(C)(C)C)C(C)(C)C)S1(=O)=O",
+      "activity_value": 8.67778070526608,
+      "predicted_affinity_kcal": -8.329,
+      "predicted_positive_kcal": 8.329,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50472605,
+      "canonical_smiles": "CON1CC\\C(=C\\c2cc(c(O)c(c2)C(C)(C)C)C(C)(C)C)S1(=O)=O",
+      "activity_value": 8.602059991327963,
+      "predicted_affinity_kcal": -8.192,
+      "predicted_positive_kcal": 8.192,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50472612,
+      "canonical_smiles": "CC(C)(C)c1cc(\\C=C2/CCN(C3CC3)S2(=O)=O)cc(c1O)C(C)(C)C",
+      "activity_value": 8.602059991327963,
+      "predicted_affinity_kcal": -8.424,
+      "predicted_positive_kcal": 8.424,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 17638,
+      "canonical_smiles": "Cc1c(c2cc(ccc2n1C(=O)c3ccc(cc3)Cl)OC)CC(=O)O",
+      "activity_value": 8.537602002101044,
+      "predicted_affinity_kcal": -8.48,
+      "predicted_positive_kcal": 8.48,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50289082,
+      "canonical_smiles": "COc1ccc2n(Cc3ccc(Br)cc3)c(C)c(CC(C)C(O)=O)c2c1",
+      "activity_value": 8.522878745280337,
+      "predicted_affinity_kcal": -8.258,
+      "predicted_positive_kcal": 8.258,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50289084,
+      "canonical_smiles": "COc1ccc2n(Cc3ccc(Br)cc3)c(C)c(CCC(O)=O)c2c1",
+      "activity_value": 8.522878745280337,
+      "predicted_affinity_kcal": -8.206,
+      "predicted_positive_kcal": 8.206,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50289083,
+      "canonical_smiles": "COc1ccc2n(Cc3ccc(Br)cc3)c(C)c(C(C)CC(O)=O)c2c1",
+      "activity_value": 8.397940008672037,
+      "predicted_affinity_kcal": -8.415,
+      "predicted_positive_kcal": 8.415,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50289088,
+      "canonical_smiles": "COc1ccc2n(Cc3ccc(Br)cc3)c(C)c(CCC(C)C(O)=O)c2c1",
+      "activity_value": 8.397940008672037,
+      "predicted_affinity_kcal": -8.217,
+      "predicted_positive_kcal": 8.217,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50289081,
+      "canonical_smiles": "COc1ccc2n(Cc3ccc(Br)cc3)c(C)c(CCCC(O)=O)c2c1",
+      "activity_value": 8.221848749616356,
+      "predicted_affinity_kcal": -8.1,
+      "predicted_positive_kcal": 8.1,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50472615,
+      "canonical_smiles": "CC(C)(C)c1cc(\\C=C2/CCCNS2(=O)=O)cc(c1O)C(C)(C)C",
+      "activity_value": 8.207608310501746,
+      "predicted_affinity_kcal": -8.525,
+      "predicted_positive_kcal": 8.525,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 22970,
+      "canonical_smiles": "COc1ccc2n(Cc3ccc(Br)cc3)c(C)c(CC(O)=O)c2c1",
+      "activity_value": 8.045757490560675,
+      "predicted_affinity_kcal": -8.384,
+      "predicted_positive_kcal": 8.384,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50472610,
+      "canonical_smiles": "CN1CC\\C(=C/c2cc(c(O)c(c2)C(C)(C)C)C(C)(C)C)S1(=O)=O",
+      "activity_value": 8.040958607678906,
+      "predicted_affinity_kcal": -8.413,
+      "predicted_positive_kcal": 8.413,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50260472,
+      "canonical_smiles": "CN1C=CC(C=C1)C1NC(C)=CN1c1ccc(cc1)S(N)(=O)=O |c:2,5,11|",
+      "activity_value": 6.987162775294828,
+      "predicted_affinity_kcal": -8.214,
+      "predicted_positive_kcal": 8.214,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50279034,
+      "canonical_smiles": "CS(=O)(=O)c1ccc2n(c3CCCC(=O)c3c2c1)S(=O)(=O)c1ccc(Cl)cc1",
+      "activity_value": 6.982966660701219,
+      "predicted_affinity_kcal": -9.793,
+      "predicted_positive_kcal": 9.793,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50279035,
+      "canonical_smiles": "CS(=O)(=O)c1ccc2n(C(=O)c3ccc(Cl)cc3)c3CCCCc3c2c1",
+      "activity_value": 6.935542010773082,
+      "predicted_affinity_kcal": -9.881,
+      "predicted_positive_kcal": 9.881,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50279023,
+      "canonical_smiles": "COc1ccc2n(c3CC(C)(C)CC(=O)c3c2c1)S(=O)(=O)c1ccc(Cl)cc1",
+      "activity_value": 6.892790030352131,
+      "predicted_affinity_kcal": -9.621,
+      "predicted_positive_kcal": 9.621,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50279038,
+      "canonical_smiles": "COc1ccc2n(Cc3ccc(Cl)cc3)c3CC(C)(C)CC(=O)c3c2c1",
+      "activity_value": 6.8794260687941495,
+      "predicted_affinity_kcal": -9.343,
+      "predicted_positive_kcal": 9.343,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50076662,
+      "canonical_smiles": "COC(=O)N(O)C(C)C#Cc1cc(-c2ccc(C)cc2)n(n1)-c1ccc(OC)cc1",
+      "activity_value": 6.853871964321762,
+      "predicted_affinity_kcal": -7.094,
+      "predicted_positive_kcal": 7.094,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50279040,
+      "canonical_smiles": "COc1ccc2n(C(=O)c3ccc(Cl)cc3)c3CC(C)(C)CC(=O)c3c2c1",
+      "activity_value": 6.85078088734462,
+      "predicted_affinity_kcal": -9.208,
+      "predicted_positive_kcal": 9.208,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50369676,
+      "canonical_smiles": "CS(=O)(=O)c1ccc(cc1)-c1nc(SCCN(O)C(N)=O)nn1-c1ccc(Br)cc1",
+      "activity_value": 6.823908740944319,
+      "predicted_affinity_kcal": -7.022,
+      "predicted_positive_kcal": 7.022,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50003121,
+      "canonical_smiles": "CC(C)(C)c1cc(cc(c1O)C(C)(C)C)C1CCOC1=O",
+      "activity_value": 6.823908740944319,
+      "predicted_affinity_kcal": -7.855,
+      "predicted_positive_kcal": 7.855,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50008950,
+      "canonical_smiles": "CC(C)(C)c1cc(\\C=C2/CCOC2=O)cc(c1O)C(C)(C)C",
+      "activity_value": 6.823908740944319,
+      "predicted_affinity_kcal": -8.24,
+      "predicted_positive_kcal": 8.24,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50003123,
+      "canonical_smiles": "CSC(N)=Nc1nc(ns1)-c1cc(c(O)c(c1)C(C)(C)C)C(C)(C)C |w:4.4|",
+      "activity_value": 6.769551078621726,
+      "predicted_affinity_kcal": -7.768,
+      "predicted_positive_kcal": 7.768,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50076641,
+      "canonical_smiles": "CCc1ccc(cc1)-c1cc(nn1-c1ccc(OC)cc1)C#CC(C)N(O)C(=O)C(C)C",
+      "activity_value": 6.7447274948966935,
+      "predicted_affinity_kcal": -7.357,
+      "predicted_positive_kcal": 7.357,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50280051,
+      "canonical_smiles": "FC(F)(F)c1cccc(Nc2ncccc2-c2nnc(S)o2)c1",
+      "activity_value": 6.721246399047171,
+      "predicted_affinity_kcal": -8.548,
+      "predicted_positive_kcal": 8.548,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50012831,
+      "canonical_smiles": "Clc1ccc(NC(=O)C2C(=O)N3c4c2cccc4CCc2ccccc32)cc1",
+      "activity_value": 6.698970004336019,
+      "predicted_affinity_kcal": -8.29,
+      "predicted_positive_kcal": 8.29,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": true
+    },
+    {
+      "molecule_id": 50280514,
+      "canonical_smiles": "Cc1ccc(Cl)c(Nc2ccccc2C=C2SC(NC#N)=NC2=O)c1Cl |w:14.14,c:21|",
+      "activity_value": 4.991399828238082,
+      "predicted_affinity_kcal": -8.577,
+      "predicted_positive_kcal": 8.577,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": false
+    },
+    {
+      "molecule_id": 50105296,
+      "canonical_smiles": "COc1ccc2c(Cc3ccc(Cl)cc3)cc(CC(O)=O)cc2c1",
+      "activity_value": 4.978810700930062,
+      "predicted_affinity_kcal": -8.633,
+      "predicted_positive_kcal": 8.633,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": false
+    },
+    {
+      "molecule_id": 50105283,
+      "canonical_smiles": "COc1ccc2c(Cc3ccc(Cl)cc3)c(CC(O)=O)ccc2c1",
+      "activity_value": 4.958607314841775,
+      "predicted_affinity_kcal": -9.245,
+      "predicted_positive_kcal": 9.245,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": false
+    },
+    {
+      "molecule_id": 50105292,
+      "canonical_smiles": "CC(C(O)=O)c1ccc(Cc2ccc(Cl)cc2)c2ccc(Cl)cc12",
+      "activity_value": 4.958607314841775,
+      "predicted_affinity_kcal": -9.086,
+      "predicted_positive_kcal": 9.086,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": false
+    },
+    {
+      "molecule_id": 50048005,
+      "canonical_smiles": "Nc1nnc(s1)-c1ccccc1Nc1cccc(c1)C(F)(F)F",
+      "activity_value": 4.958607314841775,
+      "predicted_affinity_kcal": -8.777,
+      "predicted_positive_kcal": 8.777,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": false
+    },
+    {
+      "molecule_id": 50105299,
+      "canonical_smiles": "COc1ccc2c(ccc(Cc3ccc(F)cc3)c2c1)C(C)C(O)=O",
+      "activity_value": 4.943095148663527,
+      "predicted_affinity_kcal": -8.918,
+      "predicted_positive_kcal": 8.918,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": false
+    },
+    {
+      "molecule_id": 50008953,
+      "canonical_smiles": "COc1cc(\\C=C\\c2cc(C)ns2)cc(c1O)C(C)(C)C",
+      "activity_value": 4.939302159646388,
+      "predicted_affinity_kcal": -8.082,
+      "predicted_positive_kcal": 8.082,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": false
+    },
+    {
+      "molecule_id": 50076645,
+      "canonical_smiles": "COc1ccc(cc1)-n1nc(cc1-c1ccc(C)cc1)C#CC(C)N(O)C(=O)c1cccnc1",
+      "activity_value": 4.939302159646388,
+      "predicted_affinity_kcal": -7.78,
+      "predicted_positive_kcal": 7.78,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": false
+    },
+    {
+      "molecule_id": 50016627,
+      "canonical_smiles": "FC(F)(F)S(=O)(=O)Nc1ccc2ccc(OCc3ccc4ccccc4n3)cc2c1",
+      "activity_value": 4.924453038607469,
+      "predicted_affinity_kcal": -10.818,
+      "predicted_positive_kcal": 10.818,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": false
+    },
+    {
+      "molecule_id": 50260468,
+      "canonical_smiles": "CN1C=CC(C=C1)C1NC(=CN1c1ccc(cc1)S(N)(=O)=O)C(Cl)(Cl)Cl |c:2,5,10|",
+      "activity_value": 4.920818753952375,
+      "predicted_affinity_kcal": -7.261,
+      "predicted_positive_kcal": 7.261,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": false
+    },
+    {
+      "molecule_id": 50260474,
+      "canonical_smiles": "CN1C=CN(C=C1)C1SC(=CN1c1ccc(cc1)S(N)(=O)=O)C(Cl)(Cl)Cl |c:2,5,10|",
+      "activity_value": 4.920818753952375,
+      "predicted_affinity_kcal": -7.011,
+      "predicted_positive_kcal": 7.011,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": false
+    },
+    {
+      "molecule_id": 50008960,
+      "canonical_smiles": "COc1cc(\\C=C\\c2cc(C)no2)ccc1O",
+      "activity_value": 4.920818753952375,
+      "predicted_affinity_kcal": -7.354,
+      "predicted_positive_kcal": 7.354,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": false
+    },
+    {
+      "molecule_id": 50009015,
+      "canonical_smiles": "Clc1ncccc1Cn1[nH]c2ccccc2c1=O",
+      "activity_value": 4.920818753952375,
+      "predicted_affinity_kcal": -7.779,
+      "predicted_positive_kcal": 7.779,
+      "parsing_source": "pdbqt",
+      "vina_version": "1.2.5",
+      "vina_random_seed": 42,
+      "scientific_warnings": [
+        "El SDF fue generado por OpenBabel como fallback porque Meeko exportó un archivo inválido.",
+        "Las afinidades se obtuvieron desde REMARK VINA RESULT del PDBQT porque el SDF exportado no incluyó metadatos numéricos."
+      ],
+      "active_label": false
+    }
+  ],
+  "rejected": []
+}

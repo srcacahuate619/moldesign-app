@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-33",
+  "hypothesis": "El ensemble conformacional de MolFlex NO aporta cobertura una vez que la busqueda tiene libertad torsional: dockear UN solo conformero flexible alcanza lo mismo que dockear los K del ensemble. Si es cierto, MolFlex es REDUNDANTE y la cartera C no se reabre.",
+  "protocol": "MF-33-PRE. Reapertura de la cartera C bajo la 19.1 por cambio de GENERADOR (rigido -> flexible). Cohorte congelada de 48 (33 COLOCACION + 15 CONTROL) de MF-02F/cohorte.json. Tres brazos, todos exh=8 semilla 42 num_modes=9 caja 25 A y mismo receptor: (A) conf0.flex.pdbqt, un solo conformero, elegido PRIMERO POR INDICE sin mirar su RMSD al cristal; (B) todos los conf*.flex.pdbqt, REUSADO del brazo de control de MF-28 sin recomputo; (C) todos los conf*.rigid.pdbqt con regex estricta que excluye *.relax.rigid.* (leccion del corrigendum de MF-21), que es el protocolo congelado de MolFlex. Metrica rmsd_pose_pocket sin alineamiento, oraculo por brazo. CPU medida en los tres.",
+  "created_at": "2026-08-19T19:34:13.571694+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "b5c11ab2459be03e41e23806d5cd0acb089f83eb",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "PRIMARIO A vs B pareado en COLOCACION (n=33), McNemar exacto bilateral. EQUIVALENCIA si el CI95 de la diferencia cae dentro de +-4 complejos; ENSEMBLE APORTA si hay 6 o mas discordantes a favor de B con 0 en contra (MDE, 2*0.5^6=0.031); NO CONCLUYENTE en cualquier otro caso. SECUNDARIO descriptivo sin gate: C vs A y C vs B, que cuantifican el coste de la rigidez."
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-28/per_complex.jsonl": "edc314fb0214e6304996857c0758b742c2f88459019aaf3029431a632954da6d"
+  },
+  "assets_hashes": {
+    "scripts/run_mf33_ensemble.py": "b9ce21a621aa089b8ddcb34ad4cc4c6f212d67fa7691188f9fb0ad041637ba63",
+    "scripts/artifacts_science/MF-02F/cohorte.json": "e0a01b81405880bcf6dd58011ca3fa91fe8854fdd605d8083a688f86f3b95d9b"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T19:34:21.909213+00:00",
+  "decision_rationale": "EL ENSEMBLE APORTA, Y LA HIPOTESIS DE PARTIDA QUEDA REFUTADA. En COLOCACION (n=33): brazo A (un conformero flexible) 12/33, brazo B (K conformeros flexibles) 26/33, brazo C (K conformeros RIGIDOS, el protocolo congelado de MolFlex) 1/33. La comparacion pareada A vs B da 14 discordantes a favor de B y CERO en contra, McNemar exacto p=0.0001, muy por encima del MDE de 6 declarado antes. La lectura de EQUIVALENCIA se descarta sin ambiguedad: el delta es 14 complejos frente a un margen declarado de +-4. En CONTROL los tres brazos funcionan (A 14/15, B 15/15, C 15/15), de modo que MolFlex no falla en general: falla exactamente en el estrato que importa. AMBIGUEDAD DE REDACCION DEL PRERREGISTRO, DECLARADA ANTES DE VER EL RESULTADO COMPLETO: el gate escribio 'b>=6 con c=0' sin definir la direccion, y el runner define b=gana A. Literalmente leido b=0 no lo cumple; con la direccion explicita B gana 14 a 0. Se reportan ambos numeros para que la direccion no dependa de una eleccion posterior a los datos. El umbral de 6 discordantes con 0 en contra es simetrico y no cambia que pasa el gate. DESCOMPOSICION: los dos factores importan y se componen. Rigido->flexible con un conformero lleva de 1 a 12; anadir el ensemble encima lleva de 12 a 26. Ninguno solo basta. CANDIDATO A CORRIGENDUM DE MF-09 CONFIRMADO: MF-09 concluyo que en 30 de 33 complejos NO EXISTE pose <=2 A entre ~751 candidatas y de ahi salio 'el generador no visita la region correcta'. Ese material provenia de docking RIGIDO (molflex.dock_rigido_archivo, TORSDOF 0). Con los MISMOS conformeros dockeados flexibles existen 26 de 33. MF-09 midio una limitacion del PROTOCOLO, no del espacio alcanzable, y debe corregirse. LIMITE QUE PROHIBE CUALQUIER CLAIM EXTERNO HOY: la atribucion causal de la brecha de 14 complejos entre ensemble y CPU esta SIN RESOLVER. El brazo B consume ~28x la CPU del brazo A (42.6 CPU-h contra 1.5). El prerregistro declara la etapa 2 (brazo A2, un conformero con exhaustiveness escalado hasta igualar la CPU de B) OBLIGATORIA antes de cualquier claim, y lo sigue siendo. Un sondeo sobre los 5 complejos que solapan con MF-29-EMP -que corre conf0.flex a exh=8 contra exh=512, es decir A contra un A2 mas exigente- muestra 1 de 5 convirtiendo solo por presupuesto; escalado a 33 serian ~6-7 de los 14, aproximadamente la mitad de la brecha. Con n=5 no concluye nada, pero basta para impedir afirmar que los 14 son del ensemble. DEFECTO REGISTRADO: el complejo 1l83 tiene un solo conformero, de modo que A, C y B son el mismo experimento (los tres dan 1.383 en 3 s) y no aporta informacion a la comparacion pareada. NO se toco val, test ni D-RC-CONFIRM.",
+  "finished_at": "2026-08-19T19:34:47.163597+00:00",
+  "duration_seconds": 3003.0
+}

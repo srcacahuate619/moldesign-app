@@ -1,0 +1,32 @@
+[
+  {
+    "id": "F0-3PP0-LAPATINIB-r1",
+    "proposito": "Sonda de runtime, NO resultado cientifico. Comprueba que una evaluacion completa termina, que declara stacking_degraded si falta CL-GNN y que no fabrica valores.",
+    "target_pdb_id": "3PP0",
+    "chain": "A",
+    "nombre": "lapatinib",
+    "smiles": "CS(=O)(=O)CCNCc1ccc(o1)-c1ccc2ncnc(Nc3ccc(OCc4cccc(F)c4)c(Cl)c3)c2c1",
+    "exposicion": {
+      "complejo": "EXTERNAL",
+      "diana": "EXTERNAL",
+      "familia_de_modelo": "kinase (ENTRENADA: 70 complejos en el pool). Se declara.",
+      "nota": "3PP0 = dominio quinasa de HER2/ErbB2. No aparece en ninguna fuente de seen_inventory.json. Es la UNICA estructura del bundle que es EXTERNAL: 1GKC es SEEN y 7E2Y es RELATED (panel 5HT1A)."
+    },
+    "etiqueta_experimental": null,
+    "nota_de_etiqueta": "Sin etiqueta deliberadamente. Un caso de sonda no entra en ninguna metrica de ranking, cribado ni calibracion."
+  },
+  {
+    "id": "F0-3PP0-LAPATINIB-r2",
+    "proposito": "Repeticion exacta de r1 para medir determinismo intra-entorno con semilla fija (vina_seed=42 por defecto del producto).",
+    "target_pdb_id": "3PP0",
+    "chain": "A",
+    "nombre": "lapatinib",
+    "smiles": "CS(=O)(=O)CCNCc1ccc(o1)-c1ccc2ncnc(Nc3ccc(OCc4cccc(F)c4)c(Cl)c3)c2c1",
+    "exposicion": {
+      "complejo": "EXTERNAL",
+      "diana": "EXTERNAL",
+      "familia_de_modelo": "kinase"
+    },
+    "etiqueta_experimental": null
+  }
+]

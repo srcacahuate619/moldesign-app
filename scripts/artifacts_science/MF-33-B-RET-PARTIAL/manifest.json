@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-33-B-RET-PARTIAL",
+  "hypothesis": "El resultado parcial de MF-33-B-RET puede preservarse como evidencia de ejecucion incompleta sin interpretacion cientifica.",
+  "protocol": "Snapshot inmutable del output local previo; no reejecutar, completar ni derivar una decision desde el parcial.",
+  "created_at": "2026-08-22T04:24:34.475692+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "8ac7950802b398540bf72a1d2fc9484102b6100a",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "INCONCLUSIVE obligatorio: n=43/48 y ausencia de retencion por-pose/raw impiden evaluar el gate preregistrado."
+  },
+  "decision": "INCONCLUSIVE",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-33-B-RET-PARTIAL/snapshot/per_complex.jsonl": "e49f45cceb7fa015d344ef7343a2596ecf1dfad89745af77223c9588169c7d43",
+    "scripts/artifacts_science/MF-33/per_complex.jsonl": "ee1d03c926eef6ff02bdf2b189d097d2b1b1240f5b0f56827203a10343edb48d"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-33-B-RET-PARTIAL/FREEZE.md": "01bdec8690dfad847ddc17d260bf69634f2d04f2d849f2209641a54251e3d07f",
+    "scripts/artifacts_science/MF-33-B-RET-PRE/README.md": "b96e88b3762942dc2fd2fbfc5690cfe923508ea4af45df1efc45735ad758eccb",
+    "scripts/run_mf33bret_top1_flexible.py": "8636a115c5218922deed3a19d9992160c988b3680d0b648884cfb054838f81c6"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-22T04:25:05.556413+00:00",
+  "decision_rationale": "Snapshot forense de 43/48 registros: sin cinco PIDs y sin datos por-pose/geometria cruda, no permite aplicar el gate de MF-33-B-RET-PRE. Se preserva sin inferencia; MF-33-B-RET-R1 es la unica repeticion valida.",
+  "finished_at": "2026-08-22T04:25:05.744058+00:00"
+}

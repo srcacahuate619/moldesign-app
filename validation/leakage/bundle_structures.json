@@ -1,0 +1,3048 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-10T20:06:47.626491+00:00",
+  "product_root": "D:/moldesign-build",
+  "directorio": "frontend/src-tauri/resources/data/targets",
+  "conteos_fisicos": {
+    "ficheros_totales": 411,
+    "ficheros_de_estructura": 411,
+    "por_extension": {
+      ".pdb": 4,
+      ".pdb.gz": 407
+    },
+    "pdb_ids_distintos": 407
+  },
+  "clasificacion_de_fuga_de_lo_distribuido": {
+    "SEEN": 15,
+    "RELATED": 27,
+    "EXTERNAL": 365
+  },
+  "confirmaciones_solicitadas": {
+    "1GKC": {
+      "distribuida": true,
+      "ficheros": [
+        "1gkc.pdb.gz",
+        "1gkc_chainA.pdb"
+      ],
+      "nivel_de_fuga": "SEEN"
+    },
+    "1O86": {
+      "distribuida": true,
+      "ficheros": [
+        "1o86.pdb.gz"
+      ],
+      "nivel_de_fuga": "SEEN"
+    },
+    "3DC3": {
+      "distribuida": true,
+      "ficheros": [
+        "3dc3.pdb.gz"
+      ],
+      "nivel_de_fuga": "SEEN"
+    },
+    "3PP0": {
+      "distribuida": true,
+      "ficheros": [
+        "3PP0.pdb.gz",
+        "3pp0_chainB.pdb"
+      ],
+      "nivel_de_fuga": "SEEN"
+    },
+    "7E2Y": {
+      "distribuida": true,
+      "ficheros": [
+        "7E2Y.pdb.gz",
+        "7e2y_chainB.pdb",
+        "7e2y_chainR.pdb"
+      ],
+      "nivel_de_fuga": "SEEN"
+    }
+  },
+  "metodo": {
+    "DISTRIBUIDA": "el fichero existe bajo data/targets; se puede abrir sin red.",
+    "SEEN": "el PDB exacto aparece en seen_inventory.json.",
+    "RELATED": "el nombre curado del PDB coincide con una de las 9 dianas expuestas. Emparejamiento por subcadena sobre una lista corta y explicita.",
+    "EXTERNAL": "ni SEEN ni RELATED por el metodo anterior.",
+    "limite_declarado": "RELATED se calcula sobre `name` de curated_targets.json. Un PDB sin nombre curado, o con un nombre que no menciona la diana, puede quedar EXTERNAL siendo RELATED. La cifra de EXTERNAL es por tanto una COTA SUPERIOR, no un recuento verificado, y no sustituye a la curacion manual de cohorte."
+  },
+  "advertencia": "DISTRIBUIDA y EXTERNAL son propiedades independientes. 1GKC es DISTRIBUIDA y SEEN. Deducir una de otra fue el error que corrige este inventario.",
+  "estructuras": {
+    "1a0h": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1a0h.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "1aj6": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1AJ6.pdb.gz"
+      ],
+      "nombre": "NOVOBIOCIN-RESISTANT MUTANT (R136H) OF THE N-TERMINAL 24 KDA FRAGMENT"
+    },
+    "1bn1": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "1BN1.pdb.gz"
+      ],
+      "nombre": "CA2 (Carbonic Anhydrase II)",
+      "diana_related": "CA2",
+      "nombre_curado": "CA2 (Carbonic Anhydrase II)"
+    },
+    "1c3p": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1C3P.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF AN HDAC HOMOLOG FROM AQUIFEX AEOLICUS"
+    },
+    "1c3r": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1C3R.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF AN HDAC HOMOLOG COMPLEXED WITH TRICHOSTATIN A"
+    },
+    "1c3s": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1C3S.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF AN HDAC HOMOLOG COMPLEXED WITH SAHA"
+    },
+    "1c4u": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1c4u.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "1c6x": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1C6X.pdb.gz"
+      ],
+      "nombre": "ALTERNATE BINDING SITE FOR THE P1-P3 GROUP OF A CLASS OF POTENT HIV-1"
+    },
+    "1cbr": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1CBR.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF CELLULAR RETINOIC-ACID-BINDING PROTEINS I AND II"
+    },
+    "1cbs": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1CBS.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF CELLULAR RETINOIC-ACID-BINDING PROTEINS I AND II"
+    },
+    "1cx2": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1CX2.pdb.gz"
+      ],
+      "nombre": "CYCLOOXYGENASE-2 (PROSTAGLANDIN SYNTHASE-2) COMPLEXED WITH A SELECTIVE"
+    },
+    "1diy": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1DIY.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF ARACHIDONIC ACID BOUND IN THE CYCLOOXYGENASE"
+    },
+    "1e66": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "1e66.pdb.gz"
+      ],
+      "nombre": null,
+      "fuentes_seen": [
+        "model_manifest_holdout:gnn_v2_cl.auc_held_out_por_familia",
+        "model_manifest_holdout:gnn_v2_cl.fallos_silenciosos_pct"
+      ]
+    },
+    "1ei1": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1EI1.pdb.gz"
+      ],
+      "nombre": "DIMERIZATION OF E. COLI DNA GYRASE B PROVIDES A STRUCTURAL MECHANISM"
+    },
+    "1epb": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1EPB.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF THE EPIDIDYMAL RETINOIC ACID-BINDING PROTEIN AT 2.1"
+    },
+    "1f0r": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "1F0R.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF HUMAN COAGULATION FACTOR XA COMPLEXED WITH RPR208815",
+      "diana_related": "FACTOR_XA",
+      "nombre_curado": "CRYSTAL STRUCTURE OF HUMAN COAGULATION FACTOR XA COMPLEXED WITH RPR208815"
+    },
+    "1fe2": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1FE2.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF DIHOMO-GAMMA-LINOLEIC ACID BOUND IN THE CYCLOOXYGENASE CHANNEL OF PROSTAGLANDIN ENDOPEROXIDE H SYNTHASE-1."
+    },
+    "1fem": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1FEM.pdb.gz"
+      ],
+      "nombre": "CRYSTALLOGRAPHIC STUDIES ON COMPLEXES BETWEEN RETINOIDS AND PLASMA"
+    },
+    "1fh0": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1FH0.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF HUMAN CATHEPSIN V COMPLEXED WITH AN IRREVERSIBLE"
+    },
+    "1gkc": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "1gkc.pdb.gz",
+        "1gkc_chainA.pdb"
+      ],
+      "nombre": null,
+      "fuentes_seen": [
+        "golden:dossier_m5_zn.json",
+        "golden:m5_zn_replay.json",
+        "m5_zn_profile_benchmark"
+      ]
+    },
+    "1gku": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1GKU.pdb.gz"
+      ],
+      "nombre": "REVERSE GYRASE FROM ARCHAEOGLOBUS FULGIDUS"
+    },
+    "1gpk": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1GPK.pdb.gz"
+      ],
+      "nombre": "Structure of Acetylcholinesterase Complex with (+)-Huperzine A at 2.1A Resolution"
+    },
+    "1gx9": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1GX9.pdb.gz"
+      ],
+      "nombre": "BOVINE BETA-LACTOGLOBULIN COMPLEXED WITH RETINOIC ACID, TRIGONAL"
+    },
+    "1hsg": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "1HSG.pdb.gz"
+      ],
+      "nombre": "HIV-1 Protease",
+      "fuentes_seen": [
+        "model_manifest_holdout:gnn_v2_cl.auc_held_out_por_familia",
+        "model_manifest_holdout:gnn_v2_cl.fallos_silenciosos_pct"
+      ]
+    },
+    "1hvy": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1HVY.pdb.gz"
+      ],
+      "nombre": "Human thymidylate synthase complexed with dUMP and Raltitrexed, an antifolate drug, is in the closed conformation"
+    },
+    "1hwk": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1HWK.pdb.gz"
+      ],
+      "nombre": "HMG-CoA Reductase"
+    },
+    "1ias": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1IAS.pdb.gz"
+      ],
+      "nombre": "CYTOPLASMIC DOMAIN OF UNPHOSPHORYLATED TYPE I TGF-BETA RECEPTOR"
+    },
+    "1igz": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1IGZ.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF LINOLEIC ACID BOUND IN THE CYCLOOXYGENASE CHANNEL"
+    },
+    "1iru": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1IRU.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma Target (1IRU)"
+    },
+    "1is0": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1IS0.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF A COMPLEX OF THE SRC SH2 DOMAIN WITH"
+    },
+    "1ito": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1ITO.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE ANALYSIS OF BOVINE SPLEEN CATHEPSIN B-E64C COMPLEX"
+    },
+    "1j36": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1J36.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF DROSOPHILA ANCE"
+    },
+    "1j37": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1J37.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF DROSOPHILA ANCE"
+    },
+    "1j38": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1J38.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF DROSOPHILA ANCE"
+    },
+    "1kij": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1KIJ.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE 43K ATPASE DOMAIN OF THERMUS THERMOPHILUS"
+    },
+    "1kli": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1KLI.pdb.gz"
+      ],
+      "nombre": "Cofactor-and substrate-assisted activation of factor VIIa"
+    },
+    "1ktz": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1KTZ.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE HUMAN TGF-BETA TYPE II RECEPTOR EXTRACELLULAR"
+    },
+    "1kzn": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1KZN.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF E. COLI 24KDA DOMAIN IN COMPLEX WITH CLOROBIOCIN"
+    },
+    "1m17": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1M17.pdb.gz"
+      ],
+      "nombre": "EGFR Kinase Domain"
+    },
+    "1m6d": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1M6D.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF HUMAN CATHEPSIN F"
+    },
+    "1m9z": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1M9Z.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF HUMAN TGF-BETA TYPE II RECEPTOR LIGAND BINDING"
+    },
+    "1nhy": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1NHY.pdb.gz"
+      ],
+      "nombre": "Crystal Structure of the GST-like Domain of Elongation Factor 1-gamma from Saccharomyces cerevisiae."
+    },
+    "1o86": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "1o86.pdb.gz"
+      ],
+      "nombre": null,
+      "fuentes_seen": [
+        "benchmark_checkpoint",
+        "golden:dossier_m5_zn.json",
+        "golden:m5_zn_replay.json",
+        "m5_zn_profile_benchmark"
+      ]
+    },
+    "1ppb": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1ppb.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "1q4g": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1Q4G.pdb.gz"
+      ],
+      "nombre": "2.0 ANGSTROM CRYSTAL STRUCTURE OF OVINE PROSTAGLANDIN H2 SYNTHASE-1,"
+    },
+    "1rkp": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1RKP.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF PDE5A1-IBMX"
+    },
+    "1rv7": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "1RV7.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURES OF A MULTIDRUG-RESISTANT HIV-1 PROTEASE REVEAL AN",
+      "diana_related": "HIV_PROTEASE",
+      "nombre_curado": "CRYSTAL STRUCTURES OF A MULTIDRUG-RESISTANT HIV-1 PROTEASE REVEAL AN"
+    },
+    "1ryp": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1RYP.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma Target (1RYP)"
+    },
+    "1sm3": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1SM3.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE TUMOR SPECIFIC ANTIBODY SM3 COMPLEX WITH ITS PEPTIDE EPITOPE"
+    },
+    "1so2": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1SO2.pdb.gz"
+      ],
+      "nombre": "CATALYTIC DOMAIN OF HUMAN PHOSPHODIESTERASE 3B In COMPLEX WITH A DIHYDROPYRIDAZINE INHIBITOR"
+    },
+    "1suu": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1SUU.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF DNA GYRASE A C-TERMINAL DOMAIN"
+    },
+    "1t69": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1T69.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF HUMAN HDAC8 COMPLEXED WITH SAHA"
+    },
+    "1tgj": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1TGJ.pdb.gz"
+      ],
+      "nombre": "HUMAN TRANSFORMING GROWTH FACTOR-BETA 3, CRYSTALLIZED FROM DIOXANE"
+    },
+    "1tw7": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1TW7.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "1uzj": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1UZJ.pdb.gz"
+      ],
+      "nombre": "INTEGRIN BINDING CBEGF22-TB4-CBEGF33 FRAGMENT OF HUMAN FIBRILLIN-1,"
+    },
+    "1vkg": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1VKG.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF HUMAN HDAC8 COMPLEXED WITH CRA-19156"
+    },
+    "1vl4": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1VL4.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF A PUTATIVE MODULATOR OF A DNA GYRASE (TM0727)"
+    },
+    "1vpb": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1VPB.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF A PUTATIVE MODULATOR OF DNA GYRASE (BT3649) FROM"
+    },
+    "1w22": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1W22.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF INHIBITED HUMAN HDAC8"
+    },
+    "1wbk": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "1WBK.pdb.gz"
+      ],
+      "nombre": "HIV-1 PROTEASE IN COMPLEX WITH ASYMMETRIC INHIBITOR, BEA568",
+      "diana_related": "HIV_PROTEASE",
+      "nombre_curado": "HIV-1 PROTEASE IN COMPLEX WITH ASYMMETRIC INHIBITOR, BEA568"
+    },
+    "1wbm": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "1WBM.pdb.gz"
+      ],
+      "nombre": "HIV-1 PROTEASE IN COMPLEX WITH SYMMETRIC INHIBITOR, BEA450",
+      "diana_related": "HIV_PROTEASE",
+      "nombre_curado": "HIV-1 PROTEASE IN COMPLEX WITH SYMMETRIC INHIBITOR, BEA450"
+    },
+    "1x7r": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "1X7R.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF ESTROGEN RECEPTOR ALPHA COMPLEXED WITH GENISTEIN",
+      "diana_related": "ER_ALPHA",
+      "nombre_curado": "CRYSTAL STRUCTURE OF ESTROGEN RECEPTOR ALPHA COMPLEXED WITH GENISTEIN"
+    },
+    "1xp0": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1xp0.pdb.gz"
+      ],
+      "nombre": "PDE5A (Phosphodiesterase-5)"
+    },
+    "1xwd": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1XWD.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF HUMAN FOLLICLE STIMULATING HORMONE COMPLEXED WITH"
+    },
+    "1zz1": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "1ZZ1.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF A HDAC-LIKE PROTEIN WITH SAHA BOUND"
+    },
+    "2a3w": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2A3W.pdb.gz"
+      ],
+      "nombre": "DECAMERIC STRUCTURE OF HUMAN SERUM AMYLOID P-COMPONENT BOUND TO BIS-1,"
+    },
+    "2am9": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2AM9.pdb.gz"
+      ],
+      "nombre": "Androgen Receptor LBD"
+    },
+    "2aw1": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "2AW1.pdb.gz"
+      ],
+      "nombre": "CARBONIC ANHYDRASE INHIBITORS: VALDECOXIB BINDS TO A DIFFERENT ACTIVE",
+      "diana_related": "CA2",
+      "nombre_curado": "CARBONIC ANHYDRASE INHIBITORS: VALDECOXIB BINDS TO A DIFFERENT ACTIVE"
+    },
+    "2ayl": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2AYL.pdb.gz"
+      ],
+      "nombre": "2.0 Angstrom Crystal Structure of Manganese Protoporphyrin IX-reconstituted Ovine Prostaglandin H2 Synthase-1 Complexed With Flurbiprofen"
+    },
+    "2b2a": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2B2A.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE TEN DOMAIN OF THE TELOMERASE REVERSE"
+    },
+    "2bqv": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "2BQV.pdb.gz"
+      ],
+      "nombre": "HIV-1 PROTEASE IN COMPLEX WITH INHIBITOR AHA455",
+      "diana_related": "HIV_PROTEASE",
+      "nombre_curado": "HIV-1 PROTEASE IN COMPLEX WITH INHIBITOR AHA455"
+    },
+    "2cen": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "2CEN.pdb.gz"
+      ],
+      "nombre": "P1' EXTENDED HIV-1 PROTEASE INHIBITORS ENCOMPASSING A TERTIARY ALCOHOL",
+      "diana_related": "HIV_PROTEASE",
+      "nombre_curado": "P1' EXTENDED HIV-1 PROTEASE INHIBITORS ENCOMPASSING A TERTIARY ALCOHOL"
+    },
+    "2fr3": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2FR3.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF CELLULAR RETINOIC ACID BINDING PROTEIN TYPE II IN"
+    },
+    "2gh6": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2GH6.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF A HDAC-LIKE PROTEIN WITH 9,9,9-TRIFLUORO-8-OXO-N-"
+    },
+    "2h02": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2H02.pdb.gz"
+      ],
+      "nombre": "Structural studies of protein tyrosine phosphatase beta catalytic domain in complex with inhibitors"
+    },
+    "2hgt": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2hgt.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "2hzi": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2HZI.pdb.gz"
+      ],
+      "nombre": "ABL1 Kinase Imatinib"
+    },
+    "2i3u": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2I3U.pdb.gz"
+      ],
+      "nombre": "Structural studies of protein tyrosine phosphatase beta catalytic domain in complex with inhibitors"
+    },
+    "2i4g": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2I4G.pdb.gz"
+      ],
+      "nombre": "Structural studies of protein tyrosine phosphatase beta catalytic domain in complex with a sulfamic acid (soaking experiment)"
+    },
+    "2i4h": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2I4H.pdb.gz"
+      ],
+      "nombre": "Structural studies of protein tyrosine phosphatase beta catalytic domain co-crystallized with a sulfamic acid inhibitor"
+    },
+    "2j4o": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2J4O.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF TAB1"
+    },
+    "2jdi": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2JDI.pdb.gz"
+      ],
+      "nombre": "Ground state structure of F1-ATPase from bovine heart mitochondria (Bovine F1-ATPase crystallised in the absence of azide)"
+    },
+    "2lbd": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2LBD.pdb.gz"
+      ],
+      "nombre": "LIGAND-BINDING DOMAIN OF THE HUMAN RETINOIC ACID RECEPTOR GAMMA BOUND"
+    },
+    "2nnj": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2NNJ.pdb.gz"
+      ],
+      "nombre": "CYP2C8dH complexed with felodipine"
+    },
+    "2oa8": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2OA8.pdb.gz"
+      ],
+      "nombre": "Crystal Structure of mTREX1 with ssDNA"
+    },
+    "2onv": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2ONV.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "2oye": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2OYE.pdb.gz"
+      ],
+      "nombre": "INDOMETHACIN-(R)-ALPHA-ETHYL-ETHANOLAMIDE BOUND TO CYCLOOXYGENASE-1"
+    },
+    "2oyu": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2OYU.pdb.gz"
+      ],
+      "nombre": "INDOMETHACIN-(S)-ALPHA-ETHYL-ETHANOLAMIDE BOUND TO CYCLOOXYGENASE-1"
+    },
+    "2p4e": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2P4E.pdb.gz"
+      ],
+      "nombre": "PCSK9 (Proprotein Convertase)"
+    },
+    "2qcq": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2QCQ.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF BONE MORPHOGENETIC PROTEIN-3 (BMP-3)"
+    },
+    "2r4g": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2R4G.pdb.gz"
+      ],
+      "nombre": "THE HIGH RESOLUTION STRUCTURE OF THE RNA-BINDING DOMAIN OF TELOMERASE"
+    },
+    "2ve3": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2VE3.pdb.gz"
+      ],
+      "nombre": "RETINOIC ACID BOUND CYANOBACTERIAL CYP120A1"
+    },
+    "2w96": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2W96.pdb.gz"
+      ],
+      "nombre": "CDK4 (Apo/Cyclin D1)"
+    },
+    "2x8z": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2X8Z.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF ANCE-CAPTOPRIL COMPLEX"
+    },
+    "2x90": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2X90.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF ANCE-ENALAPRILAT COMPLEX"
+    },
+    "2xab": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "2XAB.pdb.gz"
+      ],
+      "nombre": "HSP90 Heat Shock Protein",
+      "fuentes_seen": [
+        "pdbbind_curation_evaluated",
+        "pdbbind_cv_train",
+        "pdbbind_cv_val"
+      ]
+    },
+    "2xwt": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2XWT.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE TSH RECEPTOR IN COMPLEX WITH A BLOCKING TYPE"
+    },
+    "2zhr": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2ZHR.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF BACE1 IN COMPLEX WITH OM99-2 AT PH 5.0"
+    },
+    "2zjt": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "2ZJT.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF DNA GYRASE B' DOMAIN SHEDS LIGHTS ON THE"
+    },
+    "3cyx": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "3cyx.pdb.gz"
+      ],
+      "nombre": null,
+      "fuentes_seen": [
+        "model_manifest_holdout:gnn_v2_cl.auc_held_out_por_familia",
+        "model_manifest_holdout:gnn_v2_cl.fallos_silenciosos_pct"
+      ]
+    },
+    "3dc3": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "3dc3.pdb.gz"
+      ],
+      "nombre": null,
+      "fuentes_seen": [
+        "golden:dossier_m5_zn.json",
+        "golden:m5_zn_ca2_3dc3.json",
+        "golden:m5_zn_replay.json",
+        "m5_zn_profile_benchmark",
+        "model_manifest_holdout:gnn_v2_cl.auc_held_out_por_familia",
+        "model_manifest_holdout:gnn_v2_cl.fallos_silenciosos_pct",
+        "pdbbind_curation_evaluated",
+        "pdbbind_cv_train",
+        "pdbbind_cv_val"
+      ]
+    },
+    "3du6": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3DU6.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF THE CATALYTIC SUBUNIT OF TELOMERASE, TERT"
+    },
+    "3dy3": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3DY3.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma (3DY3)"
+    },
+    "3dy4": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3DY4.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma (3DY4)"
+    },
+    "3dzy": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3DZY.pdb.gz"
+      ],
+      "nombre": "Intact PPAR gamma - RXR alpha Nuclear Receptor Complex on DNA bound with Rosiglitazone, 9-cis Retinoic Acid and NCOA2 Peptide"
+    },
+    "3e50": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3E50.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF HUMAN INSULIN DEGRADING ENZYME IN COMPLEX WITH"
+    },
+    "3ert": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "3ERT.pdb.gz"
+      ],
+      "nombre": "ER Alpha (Estrogen Receptor)",
+      "fuentes_seen": [
+        "model_manifest_holdout:gnn_v2_cl.auc_held_out_por_familia"
+      ]
+    },
+    "3f75": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3F75.pdb.gz"
+      ],
+      "nombre": "ACTIVATED TOXOPLASMA GONDII CATHEPSIN L (TGCPL) IN COMPLEX WITH ITS"
+    },
+    "3fhv": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3FHV.pdb.gz"
+      ],
+      "nombre": "STRUCTURAL BASIS OF SALMONELLA TYPHI TYPE IVB PILS AND CYSTIC FIBROSIS"
+    },
+    "3fli": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3FLI.pdb.gz"
+      ],
+      "nombre": "Discovery of XL335, a Highly Potent, Selective and Orally-Active Agonist of the Farnesoid X Receptor (FXR)"
+    },
+    "3g04": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3G04.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE TSH RECEPTOR IN COMPLEX WITH A THYROID-"
+    },
+    "3g0e": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3G0E.pdb.gz"
+      ],
+      "nombre": "KIT kinase domain in complex with sunitinib"
+    },
+    "3g7e": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3G7E.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF E. COLI GYRASE B CO-COMPLEXED WITH PROP-2-YN-1-YL"
+    },
+    "3gen": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3GEN.pdb.gz"
+      ],
+      "nombre": "The 1.6 A crystal structure of human bruton's tyrosine kinase bound to a pyrrolopyrimidine-containing compound"
+    },
+    "3gpj": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3GPJ.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma (3GPJ)"
+    },
+    "3gpt": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3GPT.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma (3GPT)"
+    },
+    "3hh2": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3HH2.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE MYOSTATIN:FOLLISTATIN 288 COMPLEX"
+    },
+    "3hye": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3HYE.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma (3HYE)"
+    },
+    "3ig0": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3IG0.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE SECOND PART OF THE MYCOBACTERIUM TUBERCULOSIS"
+    },
+    "3jtg": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3JTG.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF MOUSE ELF3 C-TERMINAL DNA-BINDING DOMAIN IN"
+    },
+    "3kd2": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3KD2.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF"
+    },
+    "3kda": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3KDA.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF WITH THE H269A"
+    },
+    "3kjf": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3KJF.pdb.gz"
+      ],
+      "nombre": "Caspase 3 Bound to a covalent inhibitor"
+    },
+    "3kk6": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3KK6.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF CYCLOOXYGENASE-1 IN COMPLEX WITH CELECOXIB"
+    },
+    "3kyl": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3KYL.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF THE CATALYTIC SUBUNIT OF TELOMERASE BOUND TO ITS RNA"
+    },
+    "3l1b": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3L1B.pdb.gz"
+      ],
+      "nombre": "COMPLEX STRUCTURE OF FXR LIGAND-BINDING DOMAIN WITH A"
+    },
+    "3l54": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3L54.pdb.gz"
+      ],
+      "nombre": "Structure of Pi3K gamma with inhibitor"
+    },
+    "3lbd": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3LBD.pdb.gz"
+      ],
+      "nombre": "LIGAND-BINDING DOMAIN OF THE HUMAN RETINOIC ACID RECEPTOR GAMMA BOUND"
+    },
+    "3mg0": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3MG0.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma (3MG0)"
+    },
+    "3mxj": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3MXJ.pdb.gz"
+      ],
+      "nombre": "Crystal Structure of the mTREX1 Apoprotein"
+    },
+    "3n8w": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3N8W.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF R120Q/NATIVE CYCLOOXYGENASE-1 HETERODIMER MUTANT"
+    },
+    "3n8x": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3N8X.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF CYCLOOXYGENASE-1 IN COMPLEX WITH NIMESULIDE"
+    },
+    "3n8y": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3N8Y.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF ASPIRIN ACETYLATED CYCLOOXYGENASE-1 IN COMPLEX WITH"
+    },
+    "3n8z": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3N8Z.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF CYCLOOXYGENASE-1 IN COMPLEX WITH FLURBIPROFEN"
+    },
+    "3o96": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3O96.pdb.gz"
+      ],
+      "nombre": "Crystal Structure of Human AKT1 with an Allosteric Inhibitor"
+    },
+    "3osk": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3OSK.pdb.gz"
+      ],
+      "nombre": "CTLA-4 Immune Checkpoint"
+    },
+    "3p88": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3P88.pdb.gz"
+      ],
+      "nombre": "FXR BOUND TO ISOQUINOLINECARBOXYLIC ACID"
+    },
+    "3p89": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3P89.pdb.gz"
+      ],
+      "nombre": "FXR BOUND TO A QUINOLINECARBOXYLIC ACID"
+    },
+    "3pp0": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "3PP0.pdb.gz",
+        "3pp0_chainB.pdb"
+      ],
+      "nombre": "Crystal Structure of the Kinase domain of Human HER2 (erbB2).",
+      "fuentes_seen": [
+        "model_manifest_holdout:gnn_v2_cl.auc_held_out_por_familia"
+      ]
+    },
+    "3qxx": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3QXX.pdb.gz"
+      ],
+      "nombre": "Crystal structure of dethiobiotin synthetase (BioD) from Helicobacter pylori complexed with GDP and 8-aminocaprylic acid"
+    },
+    "3rut": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3RUT.pdb.gz"
+      ],
+      "nombre": "FXR WITH SRC1 AND GSK359"
+    },
+    "3ruu": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3RUU.pdb.gz"
+      ],
+      "nombre": "FXR WITH SRC1 AND GSK237"
+    },
+    "3rvy": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3RVY.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE NAVAB VOLTAGE-GATED SODIUM CHANNEL"
+    },
+    "3rvz": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3RVZ.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE NAVAB VOLTAGE-GATED SODIUM CHANNEL"
+    },
+    "3rw0": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3RW0.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE NAVAB VOLTAGE-GATED SODIUM CHANNEL"
+    },
+    "3s43": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "3S43.pdb.gz"
+      ],
+      "nombre": "HIV-1 PROTEASE TRIPLE MUTANTS V32I, I47V, V82I WITH ANTIVIRAL DRUG",
+      "diana_related": "HIV_PROTEASE",
+      "nombre_curado": "HIV-1 PROTEASE TRIPLE MUTANTS V32I, I47V, V82I WITH ANTIVIRAL DRUG"
+    },
+    "3srw": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3SRW.pdb.gz"
+      ],
+      "nombre": "S. aureus Dihydrofolate Reductase complexed with novel 7-aryl-2,4-diaminoquinazolines"
+    },
+    "3v94": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3V94.pdb.gz"
+      ],
+      "nombre": "TCRPDEC1 CATALYTIC DOMAIN IN COMPLEX WITH INHIBITOR WYQ16"
+    },
+    "3wze": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "3WZE.pdb.gz"
+      ],
+      "nombre": "KDR in complex with ligand sorafenib"
+    },
+    "4af3": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4AF3.pdb.gz"
+      ],
+      "nombre": "Human Aurora B Kinase in complex with INCENP and VX-680"
+    },
+    "4aua": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4AUA.pdb.gz"
+      ],
+      "nombre": "Liganded X-ray crystal structure of cyclin dependent kinase 6 (CDK6)"
+    },
+    "4azy": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4AZY.pdb.gz"
+      ],
+      "nombre": "DESIGN AND SYNTHESIS OF BACE1 INHIBITORS WITH IN VIVO BRAIN REDUCTION"
+    },
+    "4bcf": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4BCF.pdb.gz"
+      ],
+      "nombre": "Structure of CDK9 in complex with cyclin T and a 2-amino-4-heteroaryl- pyrimidine inhibitor"
+    },
+    "4bvn": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4BVN.pdb.gz"
+      ],
+      "nombre": "Ultra-thermostable beta1-adrenoceptor with cyanopindolol bound"
+    },
+    "4ca7": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "4CA7.pdb.gz"
+      ],
+      "nombre": "DROSOPHILA ANGIOTENSIN CONVERTING ENZYME (ANCE) IN COMPLEX WITH A",
+      "diana_related": "ACE",
+      "nombre_curado": "DROSOPHILA ANGIOTENSIN CONVERTING ENZYME (ANCE) IN COMPLEX WITH A"
+    },
+    "4ca8": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "4CA8.pdb.gz"
+      ],
+      "nombre": "DROSOPHILA ANGIOTENSIN CONVERTING ENZYME (ANCE) IN COMPLEX WITH A",
+      "diana_related": "ACE",
+      "nombre_curado": "DROSOPHILA ANGIOTENSIN CONVERTING ENZYME (ANCE) IN COMPLEX WITH A"
+    },
+    "4cvl": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4CVL.pdb.gz"
+      ],
+      "nombre": "PaMurF in complex with AMP-PNP"
+    },
+    "4dln": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4DLN.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF WITH THE D129S"
+    },
+    "4dm7": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4DM7.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF WITH THE E153D"
+    },
+    "4dmf": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4DMF.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF WITH THE H177A"
+    },
+    "4dqc": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "4DQC.pdb.gz"
+      ],
+      "nombre": "Crystal Structure of (G16C/L38C) HIV-1 Protease in Complex with DRV",
+      "diana_related": "HIV_PROTEASE",
+      "nombre_curado": "Crystal Structure of (G16C/L38C) HIV-1 Protease in Complex with DRV"
+    },
+    "4duh": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4DUH.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF 24 KDA DOMAIN OF E. COLI DNA GYRASE B IN COMPLEX"
+    },
+    "4e4n": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "4E4N.pdb.gz"
+      ],
+      "nombre": "JAK1 kinase (JH1 domain) in complex with compound 49",
+      "fuentes_seen": [
+        "pdbbind_curation_evaluated"
+      ]
+    },
+    "4ejj": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4EJJ.pdb.gz"
+      ],
+      "nombre": "Human Cytochrome P450 2A6 in complex with nicotine"
+    },
+    "4eu2": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4EU2.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma (4EU2)"
+    },
+    "4ey7": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4ey7.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "4fk3": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4FK3.pdb.gz"
+      ],
+      "nombre": "BRAF V600E Kinase"
+    },
+    "4i04": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4I04.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF ZYMOGEN OF CATHEPSIN B1 FROM SCHISTOSOMA MANSONI"
+    },
+    "4i5h": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4I5H.pdb.gz"
+      ],
+      "nombre": "Crystal Structure of a Double Mutant Rat Erk2 Complexed With a Type II Quinazoline Inhibitor"
+    },
+    "4iaq": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4IAQ.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE CHIMERIC PROTEIN OF 5-HT1B-BRIL IN COMPLEX"
+    },
+    "4iar": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4IAR.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE CHIMERIC PROTEIN OF 5-HT1B-BRIL IN COMPLEX"
+    },
+    "4jp9": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4JP9.pdb.gz"
+      ],
+      "nombre": "SPIROCYCLIC BETA-SITE AMYLOID PRECURSOR PROTEIN CLEAVING ENZYME 1"
+    },
+    "4jpc": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4JPC.pdb.gz"
+      ],
+      "nombre": "SPIROCYCLIC BETA-SITE AMYLOID PRECURSOR PROTEIN CLEAVING ENZYME 1"
+    },
+    "4jpe": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4JPE.pdb.gz"
+      ],
+      "nombre": "SPIROCYCLIC BETA-SITE AMYLOID PRECURSOR PROTEIN CLEAVING ENZYME 1"
+    },
+    "4jps": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4JPS.pdb.gz"
+      ],
+      "nombre": "Co-crystal Structures of the Lipid Kinase PI3K alpha with Pan and Isoform Selective Inhibitors"
+    },
+    "4jsx": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4JSX.pdb.gz"
+      ],
+      "nombre": "structure of mTORDeltaN-mLST8-Torin2 complex"
+    },
+    "4jv6": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4JV6.pdb.gz"
+      ],
+      "nombre": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO INHIBITOR-1"
+    },
+    "4jv8": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4JV8.pdb.gz"
+      ],
+      "nombre": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX WITH RAC-S1"
+    },
+    "4jvb": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4JVB.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF PDE6D IN COMPLEX WITH THE INHIBITOR RAC-2"
+    },
+    "4jvf": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4JVF.pdb.gz"
+      ],
+      "nombre": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX WITH THE INHIBITOR (S)-5"
+    },
+    "4jyv": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4JYV.pdb.gz"
+      ],
+      "nombre": "Structure of factor VIIA in complex with the inhibitor (2R)-2-[3-ETHOXY-4-(PROPAN-2-YLOXY)PHENYL]-2-(ISOQUINOLIN-6-YLAMINO)-N-[(3-SULFAMOYLPHENYL)SULFONYL]ETHANAMIDE"
+    },
+    "4jzd": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4JZD.pdb.gz"
+      ],
+      "nombre": "Structure of factor VIIA in complex with the inhibitor 2-{2-[(4-carbamimidoylphenyl)carbamoyl]-6-methoxypyridin-3-yl}-5-{[(2S)-1-hydroxy-3,3-dimethylbutan-2-yl]carbamoyl}benzoic acid"
+    },
+    "4k78": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4K78.pdb.gz"
+      ],
+      "nombre": "CFTR ASSOCIATED LIGAND (CAL) E317A PDZ DOMAIN BOUND TO PEPTIDE ICAL36-"
+    },
+    "4lmo": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4LMO.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF A VERTEBRATE RNA BINDING DOMAIN OF TELOMERASE (TRBD)"
+    },
+    "4lqi": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4LQI.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma (4LQI)"
+    },
+    "4m8u": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4M8U.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "4md6": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4MD6.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF PDE5 IN COMPLEX WITH INHIBITOR 5R"
+    },
+    "4ms2": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4MS2.pdb.gz"
+      ],
+      "nombre": "STRUCTURAL BASIS OF CA2+ SELECTIVITY OF A VOLTAGE-GATED CALCIUM"
+    },
+    "4nc3": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4NC3.pdb.gz"
+      ],
+      "nombre": "5-HT2B (HTR2B — Serotonin Receptor)"
+    },
+    "4njt": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4NJT.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF MULTIDRUG-RESISTANT CLINICAL ISOLATE A02 HIV-1"
+    },
+    "4njv": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4NJV.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF MULTIDRUG-RESISTANT CLINICAL ISOLATE A02 HIV-1"
+    },
+    "4npu": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "4NPU.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF HIV-1 PROTEASE MULTIPLE MUTANT P51",
+      "diana_related": "HIV_PROTEASE",
+      "nombre_curado": "CRYSTAL STRUCTURE OF HIV-1 PROTEASE MULTIPLE MUTANT P51"
+    },
+    "4ny4": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4NY4.pdb.gz"
+      ],
+      "nombre": "CYP3A4 (Cytochrome P450)"
+    },
+    "4o1z": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4O1Z.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF OVINE CYCLOOXYGENASE-1 COMPLEX WITH MELOXICAM"
+    },
+    "4oiv": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4OIV.pdb.gz"
+      ],
+      "nombre": "Structural basis for small molecule NDB as a selective antagonist of FXR"
+    },
+    "4otw": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4OTW.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "4phl": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4PHL.pdb.gz"
+      ],
+      "nombre": "TBRPDEB1-INHIBITOR COMPLEX"
+    },
+    "4phu": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4PHU.pdb.gz"
+      ],
+      "nombre": "FFA1/GPR40 Free Fatty Acid"
+    },
+    "4pxz": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4PXZ.pdb.gz"
+      ],
+      "nombre": "Crystal structure of P2Y12 receptor in complex with 2MeSADP"
+    },
+    "4qa0": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4QA0.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF C153F HDAC8 IN COMPLEX WITH SAHA"
+    },
+    "4qge": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4QGE.pdb.gz"
+      ],
+      "nombre": "PHOSPHODIESTERASE-9A IN COMPLEX WITH INHIBITOR WYQ-C36D"
+    },
+    "4rur": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4RUR.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma (4RUR)"
+    },
+    "4rvi": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4RVI.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF MULTIDRUG-RESISTANT CLINICAL ISOLATE A02 HIV-1"
+    },
+    "4rvj": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4RVJ.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF MULTIDRUG-RESISTANT CLINICAL ISOLATE A02 HIV-1"
+    },
+    "4w1v": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4W1V.pdb.gz"
+      ],
+      "nombre": "Crystal structure of 7,8-diaminopelargonic acid synthase (BioA) from Mycobacterium tuberculosis, complexed with a thiazole inhibitor"
+    },
+    "4wud": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4WUD.pdb.gz"
+      ],
+      "nombre": "N-TERMINAL 43 KDA FRAGMENT OF THE E. COLI DNA GYRASE B SUBUNIT GROWN"
+    },
+    "4x8v": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "4X8V.pdb.gz"
+      ],
+      "nombre": "FACTOR VIIA IN COMPLEX WITH THE INHIBITOR (methyl {3-[(2R)-1-{(2R)-2-(3,4-dimethoxyphenyl)-2-[(1-oxo-1,2,3,4-tetrahydroisoquinolin-7-yl)amino]acetyl}pyrrolidin-2-yl]-4-(propan-2-ylsulfonyl)phenyl}carbamate)",
+      "fuentes_seen": [
+        "pdbbind_curation_evaluated",
+        "pdbbind_cv_train",
+        "pdbbind_cv_val"
+      ]
+    },
+    "4y79": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "4Y79.pdb.gz"
+      ],
+      "nombre": "Factor Xa Coagulation",
+      "fuentes_seen": [
+        "pdbbind_curation_evaluated",
+        "pdbbind_cv_train",
+        "pdbbind_cv_val"
+      ]
+    },
+    "4ynq": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4YNQ.pdb.gz"
+      ],
+      "nombre": "TREX1-dsDNA complex"
+    },
+    "4yx9": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4YX9.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF BOUND TO"
+    },
+    "4zqk": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4ZQK.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "4zud": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4ZUD.pdb.gz"
+      ],
+      "nombre": "Crystal Structure of Human Angiotensin Receptor in Complex with Inverse Agonist Olmesartan at 2.8A resolution."
+    },
+    "4zvi": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "4ZVI.pdb.gz"
+      ],
+      "nombre": "GYRASE B IN COMPLEX WITH 4,5-DIBROMOPYRROLAMIDE-BASED INHIBITOR"
+    },
+    "4zzz": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "4ZZZ.pdb.gz"
+      ],
+      "nombre": "Structure of human PARP1 catalytic domain bound to an isoindolinone inhibitor",
+      "fuentes_seen": [
+        "pdbbind_curation_evaluated",
+        "pdbbind_cv_train",
+        "pdbbind_cv_val"
+      ]
+    },
+    "5a2r": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "5A2R.pdb.gz"
+      ],
+      "nombre": "A New Crystal Structure of the Drosophila melanogaster Angiotensin Converting Enzyme Homologue AnCE.",
+      "diana_related": "ACE",
+      "nombre_curado": "A New Crystal Structure of the Drosophila melanogaster Angiotensin Converting Enzyme Homologue AnCE."
+    },
+    "5axq": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5AXQ.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE CATALYTIC DOMAIN OF PDE10A COMPLEXED WITH"
+    },
+    "5c9h": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5C9H.pdb.gz"
+      ],
+      "nombre": "STRUCTURAL BASIS OF TEMPLATE BOUNDARY DEFINITION IN TETRAHYMENA"
+    },
+    "5co2": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5CO2.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "5con": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "5CON.pdb.gz"
+      ],
+      "nombre": "X-RAY CRYSTAL STRUCTURE OF WILD TYPE HIV-1 PROTEASE IN COMPLEX WITH",
+      "diana_related": "HIV_PROTEASE",
+      "nombre_curado": "X-RAY CRYSTAL STRUCTURE OF WILD TYPE HIV-1 PROTEASE IN COMPLEX WITH"
+    },
+    "5cop": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "5COP.pdb.gz"
+      ],
+      "nombre": "X-RAY CRYSTAL STRUCTURE OF WILD TYPE HIV-1 PROTEASE IN COMPLEX WITH",
+      "diana_related": "HIV_PROTEASE",
+      "nombre_curado": "X-RAY CRYSTAL STRUCTURE OF WILD TYPE HIV-1 PROTEASE IN COMPLEX WITH"
+    },
+    "5cqg": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5CQG.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF TRIBOLIUM TELOMERASE IN COMPLEX WITH THE HIGHLY SPECIFIC"
+    },
+    "5cz6": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5CZ6.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma (5CZ6)"
+    },
+    "5cz7": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5CZ7.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma (5CZ7)"
+    },
+    "5czx": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5CZX.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "5diy": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5DIY.pdb.gz"
+      ],
+      "nombre": "THERMOBACULUM TERRENUM O-GLCNAC HYDROLASE MUTANT - D120N"
+    },
+    "5e4g": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5E4G.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF HUMAN GROWTH DIFFERENTIATION FACTOR 11 (GDF-11)"
+    },
+    "5e8v": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5E8V.pdb.gz"
+      ],
+      "nombre": "TGF-BETA RECEPTOR TYPE 2 KINASE DOMAIN (E431A,R433A,E485A,K488A,R493A,"
+    },
+    "5e8y": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5E8Y.pdb.gz"
+      ],
+      "nombre": "TGF-BETA RECEPTOR TYPE 2 KINASE DOMAIN (E431A,R433A,E485A,K488A,R493A,"
+    },
+    "5e91": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5E91.pdb.gz"
+      ],
+      "nombre": "TGF-BETA RECEPTOR TYPE 2 KINASE DOMAIN (E431A,R433A,E485A,K488A,R493A,"
+    },
+    "5e92": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5E92.pdb.gz"
+      ],
+      "nombre": "TGF-BETA RECEPTOR TYPE 2 KINASE DOMAIN (E431A,R433A,E485A,K488A,R493A,"
+    },
+    "5epn": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5EPN.pdb.gz"
+      ],
+      "nombre": "Crystal structure of HCV NS3/4A protease in complex with 5172-mcP1P3 (MK-5172 P1-P3 macrocyclic analogue)"
+    },
+    "5f1a": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5F1A.pdb.gz"
+      ],
+      "nombre": "THE CRYSTAL STRUCTURE OF SALICYLATE BOUND TO HUMAN CYCLOOXYGENASE-2"
+    },
+    "5f4w": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5F4W.pdb.gz"
+      ],
+      "nombre": "Tagatose-1,6-bisphosphate aldolase from Streptococcus pyogenes in complex with TBP"
+    },
+    "5fg9": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5FG9.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma Target (5FG9)"
+    },
+    "5fpw": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5FPW.pdb.gz"
+      ],
+      "nombre": "PROCATHEPSIN B S9 FROM TRYPANOSOMA CONGOLENSE"
+    },
+    "5hk9": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5HK9.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF BOUND TO A UREA"
+    },
+    "5hka": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5HKA.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF BOUND TO AN AMIDE"
+    },
+    "5hyk": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5HYK.pdb.gz"
+      ],
+      "nombre": "Crystal structure of the complex PPARalpha/AL26-29"
+    },
+    "5i3t": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5I3T.pdb.gz"
+      ],
+      "nombre": "Native Structure of the Linalool Dehydratase-Isomerase from Castellaniella defragrans"
+    },
+    "5j89": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5J89.pdb.gz"
+      ],
+      "nombre": "PD-L1 (CD274)"
+    },
+    "5jhw": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5JHW.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE GDF11:FOLLISTATIN 288 COMPLEX"
+    },
+    "5jyc": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5JYC.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE E153Q MUTANT OF THE CFTR INHIBITORY FACTOR"
+    },
+    "5l2i": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5L2I.pdb.gz"
+      ],
+      "nombre": "The X-ray co-crystal structure of human CDK6 and Palbociclib."
+    },
+    "5l2y": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5L2Y.pdb.gz"
+      ],
+      "nombre": "Factor VIIa in complex with the inhibitor 1-[(2R,15R)-2-[(1-amino-4-fluoroisoquinolin-6-yl)amino]-4,15,20-trimethyl-3,12-dioxo-13-oxa-4,11-diazatricyclo[14.2.2.1~6,10~]henicosa-1(18),6,8,10(21),16,19-hexaen-7-yl] cyclobutane-1-carboxylic acid"
+    },
+    "5l2z": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5L2Z.pdb.gz"
+      ],
+      "nombre": "Factor VIIa in complex with the inhibitor 1-[(2R,15R)-2-[(1-amino-4-fluoroisoquinolin-6-yl)amino]-4,15,17-trimethyl-3,12-dioxo-13-oxa-4,11-diazatricyclo[14.2.2.1~6,10~]henicosa-1(18),6(21),7,9,16,19-hexaen-7-yl]cyclohexane-1-carboxylic acid"
+    },
+    "5l30": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "5L30.pdb.gz"
+      ],
+      "nombre": "Factor VIIa in complex with the inhibitor (2R,15R)-2-[(1-aminoisoquinolin-6-yl)amino]-4,15,17-trimethyl-7-[1-(1H-tetrazol-5-yl)cyclopropyl]-13-oxa-4,11-diazatricyclo[14.2.2.1~6,10~]henicosa-1(18),6(21),7,9,16,19-hexaene-3,12-dione",
+      "fuentes_seen": [
+        "pdbbind_curation_evaluated"
+      ]
+    },
+    "5l3j": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5L3J.pdb.gz"
+      ],
+      "nombre": "ESCHERICHIA COLI DNA GYRASE B IN COMPLEX WITH BENZOTHIAZOLE-BASED"
+    },
+    "5lsh": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5LSH.pdb.gz"
+      ],
+      "nombre": "human lysozyme in complex with a tetrasaccharide fragment of the O-chain of LPS from Klebsiella pneumoniae"
+    },
+    "5ml2": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5ML2.pdb.gz"
+      ],
+      "nombre": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX WITH INHIBITOR-3"
+    },
+    "5ml3": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5ML3.pdb.gz"
+      ],
+      "nombre": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO DELTASONAMIDE1"
+    },
+    "5ml4": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5ML4.pdb.gz"
+      ],
+      "nombre": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO INHIBITOR-7"
+    },
+    "5ml6": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5ML6.pdb.gz"
+      ],
+      "nombre": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO INHIBITOR-8"
+    },
+    "5ml8": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5ML8.pdb.gz"
+      ],
+      "nombre": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO INHIBITOR-4"
+    },
+    "5mmn": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5MMN.pdb.gz"
+      ],
+      "nombre": "E. COLI DNA GYRASE B 24 KDA ATPASE DOMAIN IN COMPLEX WITH 1-ETHYL-3-"
+    },
+    "5ndd": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5NDD.pdb.gz"
+      ],
+      "nombre": "Crystal structure of a thermostabilised human protease-activated receptor-2 (PAR2) in complex with AZ8838 at 2.8 angstrom resolution"
+    },
+    "5nn5": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5NN5.pdb.gz"
+      ],
+      "nombre": "Crystal structure of human lysosomal acid-alpha-glucosidase, GAA, in complex with 1-deoxynojirimycin"
+    },
+    "5npt": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5NPT.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF THE N-TERMINAL DOMAIN OF THE YEAST TELOMERASE REVERSE"
+    },
+    "5o65": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5O65.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE PSEUDOMONAS FUNCTIONAL AMYLOID SECRETION"
+    },
+    "5o67": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5O67.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE FAPF POLYPEPTIDE TRANSPORTER - F103A MUTANT"
+    },
+    "5pa9": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5PA9.pdb.gz"
+      ],
+      "nombre": "Crystal Structure of Factor VIIa in complex with phenylmethanamine;hydrochloride"
+    },
+    "5qts": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5QTS.pdb.gz"
+      ],
+      "nombre": "PanDDA analysis group deposition -- Crystal Structure of NUDT5 in complex with 8J-537S"
+    },
+    "5rfy": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5RFY.pdb.gz"
+      ],
+      "nombre": "PanDDA analysis group deposition -- Crystal Structure of SARS-CoV-2 main protease in complex with PCM-0102974"
+    },
+    "5t4x": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5T4X.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "5tbo": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5TBO.pdb.gz"
+      ],
+      "nombre": "Crystal structure of Plasmodium falciparum dihydroorotate dehydrogenase bound with Inhibitor DSM421"
+    },
+    "5tft": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5TFT.pdb.gz"
+      ],
+      "nombre": "CYP2D6"
+    },
+    "5tgz": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5TGZ.pdb.gz"
+      ],
+      "nombre": "CB1 Cannabinoid Receptor"
+    },
+    "5tne": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5TNE.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE E153Q MUTANT OF THE CFTR INHIBITORY FACTOR"
+    },
+    "5tnh": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5TNH.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE E153Q MUTANT OF THE CFTR INHIBITORY FACTOR"
+    },
+    "5tnn": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5TNN.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE E153Q MUTANT OF THE CFTR INHIBITORY FACTOR"
+    },
+    "5tol": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5TOL.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF BETA-SITE APP-CLEAVING ENZYME 1 COMPLEXED WITH N-"
+    },
+    "5tpt": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5TPT.pdb.gz"
+      ],
+      "nombre": "THE CRYSTAL STRUCTURE OF AMYLOID PRECURSOR-LIKE PROTEIN 2 (APLP2) E2"
+    },
+    "5tun": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5TUN.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF UNINHIBITED HUMAN CATHEPSIN K AT 1.62 ANGSTROM"
+    },
+    "5txj": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5TXJ.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "5ty1": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5TY1.pdb.gz"
+      ],
+      "nombre": "Identification of a New Zinc Binding Chemotype by Fragment Screening"
+    },
+    "5u6x": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5U6X.pdb.gz"
+      ],
+      "nombre": "COX-1:P6 COMPLEX STRUCTURE"
+    },
+    "5va1": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5VA1.pdb.gz"
+      ],
+      "nombre": "hERG (KCNH2 — Potassium Channel)"
+    },
+    "5vb8": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5VB8.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "5vuf": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5VUF.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "5wbe": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5WBE.pdb.gz"
+      ],
+      "nombre": "COX-1:MOFEZOLAC COMPLEX STRUCTURE"
+    },
+    "5wiu": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5WIU.pdb.gz"
+      ],
+      "nombre": "Structure of the human D4 Dopamine receptor in complex with Nemonapride"
+    },
+    "5wzx": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5WZX.pdb.gz"
+      ],
+      "nombre": "Structural basis for a pentacyclic oleanane-type triterpenoid as a ligand of FXR"
+    },
+    "5yua": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5YUA.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF VOLTAGE-GATED SODIUM CHANNEL NAVAB IN HIGH-PH"
+    },
+    "5yws": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5YWS.pdb.gz"
+      ],
+      "nombre": "Crystal structure of TREX1 in complex with a Y structured DNA"
+    },
+    "5ywv": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5YWV.pdb.gz"
+      ],
+      "nombre": "Crystal structure of TREX1 in complex with a inosine contained ssDNA"
+    },
+    "5z2r": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5Z2R.pdb.gz"
+      ],
+      "nombre": "ThDP-Mn2+ complex of R395K variant of EcMenD soaked with 2-ketoglutarate for 5 min"
+    },
+    "5zbh": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "5ZBH.pdb.gz"
+      ],
+      "nombre": "The Crystal Structure of Human Neuropeptide Y Y1 Receptor with BMS-193885"
+    },
+    "6a5w": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6A5W.pdb.gz"
+      ],
+      "nombre": "FXR-LBD WITH HNC143 AND SRC1"
+    },
+    "6b3j": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6B3J.pdb.gz"
+      ],
+      "nombre": "6B3J"
+    },
+    "6bos": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6BOS.pdb.gz"
+      ],
+      "nombre": "Human APE1 substrate complex with an A/C mismatch adjacent the THF"
+    },
+    "6c1p": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6C1P.pdb.gz"
+      ],
+      "nombre": "HypoPP mutant"
+    },
+    "6cm4": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6CM4.pdb.gz"
+      ],
+      "nombre": "Structure of the D2 Dopamine Receptor Bound to the Atypical Antipsychotic Drug Risperidone"
+    },
+    "6e53": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6E53.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF TERT IN COMPLEX WITH A NOVEL TELOMERASE INHIBITOR"
+    },
+    "6eu9": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6EU9.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF PLATYNEREIS DUMERILII RAR LIGAND-BINDING DOMAIN"
+    },
+    "6fbq": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6FBQ.pdb.gz"
+      ],
+      "nombre": "Crystal Structure of the Human Retinoid X Receptor DNA-Binding Domain Bound to the Human MEp DR1 Response Element, pH 7.0"
+    },
+    "6g2o": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6G2O.pdb.gz"
+      ],
+      "nombre": "X-ray structure of NSD3-PWWP1 in complex with compound BI-9321"
+    },
+    "6gav": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6GAV.pdb.gz"
+      ],
+      "nombre": "EXTREMELY 'OPEN' CLAMP STRUCTURE OF DNA GYRASE: ROLE OF THE"
+    },
+    "6gue": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "6GUE.pdb.gz"
+      ],
+      "nombre": "CDK2/CyclinA in complex with AZD5438",
+      "diana_related": "CDK2",
+      "nombre_curado": "CDK2/CyclinA in complex with AZD5438"
+    },
+    "6hds": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6HDS.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "6hl0": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6HL0.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF FARNESOID X RECEPTOR (FXR) WITH BOUND NCOA-2"
+    },
+    "6hl1": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6HL1.pdb.gz"
+      ],
+      "nombre": "FXR Bile Acid Receptor"
+    },
+    "6hsk": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6HSK.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF A HUMAN HDAC8 L6 LOOP MUTANT COMPLEXED WITH"
+    },
+    "6hw5": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6HW5.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma (6HW5)"
+    },
+    "6hw7": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6HW7.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma (6HW7)"
+    },
+    "6itm": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6ITM.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF FXR IN COMPLEX WITH AGONIST XJ034"
+    },
+    "6ke5": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6KE5.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF CAVAB IN COMPLEX WITH DILTIAZEM AND AMLODIPINE"
+    },
+    "6lu7": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6LU7.pdb.gz"
+      ],
+      "nombre": "SARS-CoV-2 Mpro"
+    },
+    "6meo": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6MEO.pdb.gz"
+      ],
+      "nombre": "Structural basis of coreceptor recognition by HIV-1 envelope spike"
+    },
+    "6mk9": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "6MK9.pdb.gz"
+      ],
+      "nombre": "X-RAY CRYSTAL STRUCTURE OF DARUNAVIR-RESISTANT-P51 HIV-1 PROTEASE IN",
+      "diana_related": "HIV_PROTEASE",
+      "nombre_curado": "X-RAY CRYSTAL STRUCTURE OF DARUNAVIR-RESISTANT-P51 HIV-1 PROTEASE IN"
+    },
+    "6mkl": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "6MKL.pdb.gz"
+      ],
+      "nombre": "X-RAY CRYSTAL STRUCTURE OF DARUNAVIR-RESISTANT-P51 HIV-1 PROTEASE IN",
+      "diana_related": "HIV_PROTEASE",
+      "nombre_curado": "X-RAY CRYSTAL STRUCTURE OF DARUNAVIR-RESISTANT-P51 HIV-1 PROTEASE IN"
+    },
+    "6mvv": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6MVV.pdb.gz"
+      ],
+      "nombre": "NAVAB VOLTAGE-GATED SODIUM CHANNEL, I217C/F203A"
+    },
+    "6mvw": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6MVW.pdb.gz"
+      ],
+      "nombre": "NavAb voltage-gated sodium channel, I217C/F203W"
+    },
+    "6mwa": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6MWA.pdb.gz"
+      ],
+      "nombre": "NAVAB VOLTAGE-GATED SODIUM CHANNEL, RESIDUES 1-239"
+    },
+    "6n7b": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6N7B.pdb.gz"
+      ],
+      "nombre": "Structure of the human JAK1 kinase domain with compound 38"
+    },
+    "6ntw": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6NTW.pdb.gz"
+      ],
+      "nombre": "Crystal structure of E. coli YcbB"
+    },
+    "6ogv": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "6OGV.pdb.gz"
+      ],
+      "nombre": "X-RAY CRYSTAL STRUCTURE OF DARUNAVIR-RESISTANT HIV-1 PROTEASE (P30) IN",
+      "diana_related": "HIV_PROTEASE",
+      "nombre_curado": "X-RAY CRYSTAL STRUCTURE OF DARUNAVIR-RESISTANT HIV-1 PROTEASE (P30) IN"
+    },
+    "6p3d": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6P3D.pdb.gz"
+      ],
+      "nombre": "The co-crystal structure of BRAF(V600E) with ponatinib"
+    },
+    "6p6x": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6P6X.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF VOLTAGE-GATED SODIUM CHANNEL NAVAB G94C/Q150C"
+    },
+    "6ps2": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6PS2.pdb.gz"
+      ],
+      "nombre": "beta-2 Adrenergic Receptor"
+    },
+    "6psd": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6PSD.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "6pu8": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "6PU8.pdb.gz"
+      ],
+      "nombre": "ROOM TEMPERATURE X-RAY STRUCTURE OF HIV-1 PROTEASE TRIPLE MUTANT",
+      "diana_related": "HIV_PROTEASE",
+      "nombre_curado": "ROOM TEMPERATURE X-RAY STRUCTURE OF HIV-1 PROTEASE TRIPLE MUTANT"
+    },
+    "6rml": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6RML.pdb.gz"
+      ],
+      "nombre": "Crystal structure of TOPBP1 BRCT0,1,2 in complex with a 53BP1 phosphopeptide"
+    },
+    "6s1y": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6S1Y.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF ANOPHELES GAMBIAE ANOACE2 IN COMPLEX WITH GAMMA-"
+    },
+    "6s1z": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6S1Z.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF ANOPHELES GAMBIAE ANOACE2 IN COMPLEX WITH"
+    },
+    "6sx5": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6SX5.pdb.gz"
+      ],
+      "nombre": "FULL LENGTH MUTANT OPEN-FORM SODIUM CHANNEL NAVMS"
+    },
+    "6sx7": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6SX7.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE VOLTAGE-GATED SODIUM CHANNEL NAVMS (F208L)"
+    },
+    "6sxc": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6SXC.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE VOLTAGE-GATED SODIUM CHANNEL NAVMS (F208L) IN"
+    },
+    "6sxe": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6SXE.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE VOLTAGE-GATED SODIUM CHANNEL NAVMS (F208L) IN"
+    },
+    "6sxg": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6SXG.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF THE VOLTAGE-GATED SODIUM CHANNEL NAVMS IN COMPLEX"
+    },
+    "6u26": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6U26.pdb.gz"
+      ],
+      "nombre": "PCSK9 Allosteric"
+    },
+    "6umt": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6UMT.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "6uso": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6USO.pdb.gz"
+      ],
+      "nombre": "TELOMERASE REVERSE TRANSCRIPTASE PRENUCLEOTIDE BINARY COMPLEX,"
+    },
+    "6usr": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6USR.pdb.gz"
+      ],
+      "nombre": "TELOMERASE REVERSE TRANSCRIPTASE TERNARY COMPLEX, TERT:DNA:DGPCPP"
+    },
+    "6vu4": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6VU4.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "6w10": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6W10.pdb.gz"
+      ],
+      "nombre": "Structure of mouse TREX1 with E198K disease-associated mutation"
+    },
+    "6wha": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6WHA.pdb.gz"
+      ],
+      "nombre": "HTR2A bound to 25-CN-NBOH in complex with a mini-Galpha-q protein, beta/gamma subunits and an active-state stabilizing single-chain variable fragment (scFv16) obtained by cryo-electron microscopy (cryoEM)"
+    },
+    "6x1a": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6X1A.pdb.gz"
+      ],
+      "nombre": "GLP-1R (TMD / Oral Agonist Pocket)"
+    },
+    "6y5a": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6Y5A.pdb.gz"
+      ],
+      "nombre": "SEROTONIN-BOUND 5-HT3A RECEPTOR IN SALIPRO"
+    },
+    "6y5e": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6Y5E.pdb.gz"
+      ],
+      "nombre": "Structure of human cGAS (K394E) bound to the nucleosome (focused refinement of cGAS-NCP subcomplex)"
+    },
+    "6zd1": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6ZD1.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF APO TELOMERASE FROM CANDIDA TROPICALIS"
+    },
+    "6zd2": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6ZD2.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF APO TELOMERASE FROM CANDIDA TROPICALIS TRUNCATED FROM C-"
+    },
+    "6zd6": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6ZD6.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF APO TELOMERASE FROM CANDIDA TROPICALIS"
+    },
+    "6zdp": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6ZDP.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF TELOMERASE FROM CANDIDA TROPICALIS IN COMPLEXE WITH TWJ"
+    },
+    "6zdq": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6ZDQ.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF TELOMERASE FROM CANDIDA ALBICANS IN COMPLEXE WITH TWJ"
+    },
+    "6zsl": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "6ZSL.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "7bvq": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7BVQ.pdb.gz"
+      ],
+      "nombre": "Structure of human beta1 adrenergic receptor bound to carazolol"
+    },
+    "7cm4": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7CM4.pdb.gz"
+      ],
+      "nombre": null
+    },
+    "7d42": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7D42.pdb.gz"
+      ],
+      "nombre": "Structural basis of tropifexor as a potent and selective agonist for farnesoid X receptor"
+    },
+    "7dfl": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7DFL.pdb.gz"
+      ],
+      "nombre": "H1 Histamine Receptor"
+    },
+    "7e2y": {
+      "nivel": "SEEN",
+      "ficheros": [
+        "7E2Y.pdb.gz",
+        "7e2y_chainB.pdb",
+        "7e2y_chainR.pdb"
+      ],
+      "nombre": "5-HT1A",
+      "fuentes_seen": [
+        "model_manifest_holdout:gnn_v2_cl.auc_held_out_por_familia",
+        "model_manifest_holdout:gnn_v2_cl.fallos_silenciosos_pct"
+      ]
+    },
+    "7jvu": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7JVU.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF HUMAN HISTONE DEACETYLASE 8 (HDAC8) I45T MUTATION"
+    },
+    "7jvw": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7JVW.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF HUMAN HISTONE DEACETYLASE 8 (HDAC8) G320R"
+    },
+    "7kqm": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7KQM.pdb.gz"
+      ],
+      "nombre": "BINARY COMPLEX OF TERT (TELOMERASE REVERSE TRANSCRIPTASE) WITH"
+    },
+    "7pac": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7PAC.pdb.gz"
+      ],
+      "nombre": "THE CRYSTAL STRUCTURE OF PDE6D IN THE APO STATE"
+    },
+    "7sbe": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7SBE.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF THE K. LACTIS TELOMERASE RNA BINDING DOMAIN"
+    },
+    "7sgg": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7SGG.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF DANIO RERIO HISTONE DEACETYLASE 10 IN COMPLEX"
+    },
+    "7t9i": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7T9I.pdb.gz"
+      ],
+      "nombre": "NATIVE HUMAN TSH BOUND TO HUMAN THYROTROPIN RECEPTOR IN COMPLEX WITH"
+    },
+    "7t9n": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7T9N.pdb.gz"
+      ],
+      "nombre": "M22 AGONIST AUTOANTIBODY BOUND TO HUMAN THYROTROPIN RECEPTOR IN"
+    },
+    "7tm9": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7TM9.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF BACTERIAL ALKALINE PHOSPHATASE FROM KLEBSIELLA"
+    },
+    "7trb": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7TRB.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF FARNESOID X-ACTIVATED RECEPTOR COMPLEXED WITH"
+    },
+    "7utz": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7UTZ.pdb.gz"
+      ],
+      "nombre": "HUMAN THYROTROPIN ANALOG TR1402 BOUND TO HUMAN THYROTROPIN RECEPTOR IN"
+    },
+    "7vue": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7VUE.pdb.gz"
+      ],
+      "nombre": "Structural insight of the molecular mechanism of cilofexor bound to FXR"
+    },
+    "7xw5": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7XW5.pdb.gz"
+      ],
+      "nombre": "TSHR-THYROID STIMULATING HORMONE-GS-ML109 COMPLEX"
+    },
+    "7xw6": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7XW6.pdb.gz"
+      ],
+      "nombre": "TSHR-GS-M22 ANTIBODY-ML109 COMPLEX"
+    },
+    "7zyj": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "7ZYJ.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma (7ZYJ)"
+    },
+    "8f6u": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8F6U.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF NANOBODY VHH113 BOUND TO ITS ANTIGEN PA14 CIF"
+    },
+    "8f6v": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8F6V.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF NANOBODY VHH108 BOUND TO ITS ANTIGEN PA14 CIF"
+    },
+    "8gjr": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8GJR.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF NANOBODY VHH114 BOUND TO ITS ANTIGEN PA14 CIF"
+    },
+    "8hce": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8HCE.pdb.gz"
+      ],
+      "nombre": "Crystal structure of mTREX1-CMP complex"
+    },
+    "8hcf": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8HCF.pdb.gz"
+      ],
+      "nombre": "Crystal structure of mTREX1-UMP complex"
+    },
+    "8hd3": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8HD3.pdb.gz"
+      ],
+      "nombre": "FARNESOID X RECEPTOR AGONISTS_FXR FUSED WITH A HD3 PEPTIDE"
+    },
+    "8hfe": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8HFE.pdb.gz"
+      ],
+      "nombre": "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN AN"
+    },
+    "8hff": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8HFF.pdb.gz"
+      ],
+      "nombre": "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE"
+    },
+    "8hfg": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8HFG.pdb.gz"
+      ],
+      "nombre": "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE"
+    },
+    "8hfi": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8HFI.pdb.gz"
+      ],
+      "nombre": "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE"
+    },
+    "8hfl": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8HFL.pdb.gz"
+      ],
+      "nombre": "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE"
+    },
+    "8i3v": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8I3V.pdb.gz"
+      ],
+      "nombre": "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE"
+    },
+    "8j47": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8J47.pdb.gz"
+      ],
+      "nombre": "CRYOEM STRUCTURE OF 40-RESIDUE ARCTIC (E22G) BETA-AMYLOID FIBRIL"
+    },
+    "8jsw": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8JSW.pdb.gz"
+      ],
+      "nombre": "HUMAN VMAT2 COMPLEX WITH SEROTONIN"
+    },
+    "8jt9": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8JT9.pdb.gz"
+      ],
+      "nombre": "HUMAN VMAT2 COMPLEX WITH KETANSERIN"
+    },
+    "8jtb": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8JTB.pdb.gz"
+      ],
+      "nombre": "VMAT2 COMPLEX WITH DOPAMINE"
+    },
+    "8t69": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8T69.pdb.gz"
+      ],
+      "nombre": "HUMAN VMAT2 IN COMPLEX WITH TETRABENAZINE"
+    },
+    "8ubr": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8UBR.pdb.gz"
+      ],
+      "nombre": "COMPLEX OF THE PHOSPHORYLATED HUMAN CYSTIC FIBROSIS TRANSMEMBRANE"
+    },
+    "8v52": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8V52.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF 2A10 FAB BOUND TO HUMAN TGF-BETA3"
+    },
+    "8wgr": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8WGR.pdb.gz"
+      ],
+      "nombre": "CRYO-EM STRUCTURE OF INWARD-OPEN STATE HUMAN NOREPINEPHRINE"
+    },
+    "8wre": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8WRE.pdb.gz"
+      ],
+      "nombre": "HUMAN VMAT2 IN COMPLEX WITH DOPAMINE"
+    },
+    "8wtw": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8WTW.pdb.gz"
+      ],
+      "nombre": "CRYO-EM STRUCTURE OF NORADRENALINE TRANSPORTER IN COMPLEX WITH A X-"
+    },
+    "8wtx": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8WTX.pdb.gz"
+      ],
+      "nombre": "CRYO-EM STRUCTURE OF NORADRENALINE TRANSPORTER IN COMPLEX WITH"
+    },
+    "8wzl": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8WZL.pdb.gz"
+      ],
+      "nombre": "ARABIDOPSIS THALIANA HISTONE DEACETYLASE 7 (HDA7)"
+    },
+    "8x3k": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8X3K.pdb.gz"
+      ],
+      "nombre": "CRYO-EM STRUCTURE OF HUMAN VMAT2 IN COMPLEX WITH SEROTONIN"
+    },
+    "8y93": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "8Y93.pdb.gz"
+      ],
+      "nombre": "STRUCTURE OF NET-AMITRIPTYLINE IN OUTWARD-OPEN STATE"
+    },
+    "9e9g": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "9E9G.pdb.gz"
+      ],
+      "nombre": "Heligmosomoides polygyrus TGF-beta Mimic 6 Domain 3 (TGM6-D3) Bound to Human TGF-beta Type II Receptor Extracellular Domain"
+    },
+    "9f9t": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "9F9T.pdb.gz"
+      ],
+      "nombre": "Ubiquitina-Proteasoma Target (9F9T)"
+    },
+    "9gkv": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "9GKV.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF DEACETYLASE (HDAH) FROM VIBRIO CHOLERAE IN"
+    },
+    "9kje": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "9KJE.pdb.gz"
+      ],
+      "nombre": "The apo-mTREX1 crystal structure for soaking experiments (Soaking Condition 2)"
+    },
+    "9kqe": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "9KQE.pdb.gz"
+      ],
+      "nombre": "CRYO-EM STRUCTURE OF HUMAN VMAT2 IN COMPLEX WITH DOPAMINE"
+    },
+    "9nx5": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "9NX5.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF A P. AERUGINOSA GYRASE"
+    },
+    "9qa0": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "9QA0.pdb.gz"
+      ],
+      "nombre": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE",
+      "diana_related": "ACE",
+      "nombre_curado": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE"
+    },
+    "9qa1": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "9QA1.pdb.gz"
+      ],
+      "nombre": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE",
+      "diana_related": "ACE",
+      "nombre_curado": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE"
+    },
+    "9qa2": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "9QA2.pdb.gz"
+      ],
+      "nombre": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE",
+      "diana_related": "ACE",
+      "nombre_curado": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE"
+    },
+    "9qa3": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "9QA3.pdb.gz"
+      ],
+      "nombre": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE",
+      "diana_related": "ACE",
+      "nombre_curado": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE"
+    },
+    "9qa4": {
+      "nivel": "RELATED",
+      "ficheros": [
+        "9QA4.pdb.gz"
+      ],
+      "nombre": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE",
+      "diana_related": "ACE",
+      "nombre_curado": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE"
+    },
+    "9raw": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "9RAW.pdb.gz"
+      ],
+      "nombre": "THE L1 AMYLOID-BETA(1-40)FIBRIL IN THE PRESENCE OF ANLE138B (POST-"
+    },
+    "9rax": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "9RAX.pdb.gz"
+      ],
+      "nombre": "THE L1 AMYLOID-BETA(1-40)FIBRIL IN THE PRESENCE OF ANLE138B (PRE-"
+    },
+    "9rje": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "9RJE.pdb.gz"
+      ],
+      "nombre": "X-RAY STRUCTURE OF CHLAMYDOMONAS REINHARDTII HISTONE DEACETYLASE 11"
+    },
+    "9tdz": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "9TDZ.pdb.gz"
+      ],
+      "nombre": "Crystal structure of beta-TrCP bound by diphosphorylated claspin degron peptide"
+    },
+    "9v39": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "9V39.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF DE NOVO DESIGNED SEROTONIN BINDER SROB2_30"
+    },
+    "9v3a": {
+      "nivel": "EXTERNAL",
+      "ficheros": [
+        "9V3A.pdb.gz"
+      ],
+      "nombre": "CRYSTAL STRUCTURE OF DE NOVO DESIGNED SEROTONIN BINDER SROB2_26_L7F"
+    }
+  }
+}

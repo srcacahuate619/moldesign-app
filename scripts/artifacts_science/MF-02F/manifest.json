@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-02F",
+  "hypothesis": "En MolFlex cada conformero es una corrida de docking independiente, de modo que n_conf es tambien el numero de reinicios de busqueda; subir de K30 a K90 debe recuperar complejos cuyo fallo es de colocacion",
+  "protocol": "MF-02F-PRE sellado (f31823c); prefijos anidados de un unico ensemble de 90; K30 = material sellado de MF-02D",
+  "created_at": "2026-08-18T06:33:16.134904+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6faec4dc2455a0adc16bf510b633c7a90ab3a5d5",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 validez >=95%, G2 K90 recupera >=3 de 33 sobre K30 (umbral derivado de D-MF-HARD-CURVE), G3 saturacion informativa, G5 anidamiento exacto"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-02D/pocket_frame.jsonl": "94110c184dcf0bf0584d4e7f6a612c34a7a83eeb9f2024815d42b155f64e9e74",
+    "scripts/artifacts_science/MF-08/metrics.json": "29425409c85b58a02a3b8d304aa97d84f4a98e1129f23e144f7926b518484214"
+  },
+  "binary_hashes": {
+    "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-02F/LECTURA.md": "c224039cf2691c671d42ae4ee6dc1331276e7e396bacc60f44d5168808f7238c",
+    "scripts/artifacts_science/MF-02F/metrics.json": "72b3c61f7fc8f21e2c14eda85fcdfc41bf47d49d6fd39886ba4cd094e63d99a2",
+    "scripts/artifacts_science/MF-02F/per_complex.jsonl": "e9ad6ec5d87f9adc1294f97c3851d0ed5adf4f0f98e8c5b4662e14ea94b48cca",
+    "scripts/artifacts_science/MF-02F/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/MF-02F/cohorte.json": "e0a01b81405880bcf6dd58011ca3fa91fe8854fdd605d8083a688f86f3b95d9b",
+    "scripts/run_mf02f_reinicios.py": "e15bc2cac879fb367f49ca3e590cd0d83be8e3bdc674d49eba7eaab3ae9f2b47",
+    "scripts/molflex.py": "d2bd11957cc20e8ea1413b4eca44e3f77664a686bb0fe67a38f47a856fc9aac9"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T06:33:16.967739+00:00",
+  "decision_rationale": "Pasa G2 por el MINIMO EXACTO: K90 recupera 3 de los 33 dominados por colocacion y el gate preregistrado exigia 3. Un solo complejo menos habria sido NO_GO, y con n=3 sobre 33 el intervalo de confianza no soporta ninguna afirmacion de tamano de efecto. Tres advertencias que acompanan al GO: (1) K30=0/33 es TAUTOLOGICO porque la cohorte se definio como los complejos que fallan con la configuracion base, mismo defecto que en MF-08 y arrastrado al reutilizar la cohorte; (2) el dosis-respuesta no es suave: duplicar de 29 a 58 conformeros no recupero NADA y movio la mediana 0.08 A, mientras pasar de 58 a 86 recupero 3 y la movio 0.70 A, y con estos n no se distingue un mecanismo con umbral del ruido de muestreo; (3) el coste se duplica (601 s por complejo) para recuperar el 9 por ciento de una cohorte dificil. Los conjuntos recuperados por MF-08 (1d7i, 1ew9, 1l83) y por MF-02F (1ela, 1fkg, 1mu8) son DISJUNTOS, pero eso NO es evidencia de complementariedad: la probabilidad de que dos conjuntos de 3 extraidos de 33 sean disjuntos por azar es 0.744, de modo que el solapamiento vacio es el resultado esperado bajo independencia. Sumarlos a 6 esta ademas prohibido por el prerregistro. La convergencia si es informativa: dos intervenciones ortogonales sobre la misma cohorte mejoran la mediana del oraculo 0.82 y 0.79 A respectivamente y ambas convierten exactamente 3; las poses se quedan en torno a 3 A y necesitan bajar de 2.0. Restringir la geometria y triplicar el presupuesto de muestreo chocan contra el mismo techo, lo que apunta a que el factor limitante no es la caja ni el numero de intentos, sino la funcion de puntuacion o el espacio que el generador explora. Este GO NO justifica subir K a 90 en produccion.",
+  "finished_at": "2026-08-18T06:33:36.358505+00:00",
+  "duration_seconds": 4237.0
+}

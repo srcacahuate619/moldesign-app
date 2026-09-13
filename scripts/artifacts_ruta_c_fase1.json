@@ -1,0 +1,106 @@
+{
+  "generated_at": "2026-08-14T15:02:50-0600",
+  "protocolo": "docs/42_RUTA_C_PROTOCOLO.md",
+  "umbral_pose_positiva_angstrom": 2.0,
+  "gate_G1_criterio": "v0_top1_test > vina_top1_test",
+  "dataset": {
+    "split_method": "scaffold_group_holdout_seed42",
+    "test_pids_sha256": "4cbff399c87240af35429638ba62eb60f16862e05a27871b6bce6c6d6a8bccbd",
+    "sha256": {
+      "poses_train.jsonl": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654",
+      "poses_val.jsonl": "4a0f8bada19da8f7ee91034264a9b24a2886d4f718ed2dc7e659756fd29b97a1",
+      "poses_test.jsonl": "a36d12451f33d5c3815eaebbad058f56e5b1da94ae501b465b018d91a9f62d02"
+    },
+    "conteos": {
+      "train": {
+        "registros": 2739,
+        "complejos": 116
+      },
+      "val": {
+        "registros": 730,
+        "complejos": 40
+      },
+      "test": {
+        "registros": 831,
+        "complejos": 47
+      }
+    }
+  },
+  "vina_baseline": {
+    "train": {
+      "top1_rate": 0.4138,
+      "mediana_rmsd": 2.374,
+      "cobertura_pct": 67.24,
+      "n_complejos": 116,
+      "n_con_score": 116
+    },
+    "val": {
+      "top1_rate": 0.525,
+      "mediana_rmsd": 1.827,
+      "cobertura_pct": 75.0,
+      "n_complejos": 40,
+      "n_con_score": 40
+    },
+    "test": {
+      "top1_rate": 0.5319,
+      "mediana_rmsd": 1.765,
+      "cobertura_pct": 87.23,
+      "n_complejos": 47,
+      "n_con_score": 47
+    }
+  },
+  "_ultima_etapa": "completo",
+  "v0": {
+    "hiperparametros": {
+      "objective": "rank:pairwise",
+      "n_estimators": 500,
+      "max_depth": 6,
+      "learning_rate": 0.05,
+      "subsample": 0.8,
+      "early_stopping_rounds": 50,
+      "n_jobs": 4,
+      "random_state": 42
+    },
+    "features": [
+      "vina_score",
+      "pose_score_variance",
+      "pose_score_range",
+      "n_heavy",
+      "n_contacts_4",
+      "n_contacts_6",
+      "contacts_per_ha_4",
+      "n_clashes",
+      "cluster_density"
+    ],
+    "relevancia": "-rmsd",
+    "imputacion_nan": "mediana_train",
+    "eval_metric": "auc",
+    "best_iteration": 13,
+    "best_score": 0.597854214922597,
+    "val": {
+      "top1_rate": 0.425,
+      "mediana_rmsd": 3.067,
+      "spearman_pred_vs_rmsd_media": -0.2678,
+      "spearman_pred_vs_relevancia_media": 0.2678,
+      "n_complejos": 40,
+      "n_complejos_spearman": 39
+    },
+    "test": {
+      "top1_rate": 0.4043,
+      "mediana_rmsd": 2.541,
+      "spearman_pred_vs_rmsd_media": -0.4037,
+      "spearman_pred_vs_relevancia_media": 0.4037,
+      "n_complejos": 47,
+      "n_complejos_spearman": 45
+    }
+  },
+  "gate_G1": {
+    "vina_top1_test": 0.5319,
+    "v0_top1_test": 0.4043,
+    "delta": -0.1276,
+    "resultado": "FAIL",
+    "delta_val": -0.1,
+    "remediacion_protocolo": "docs/42 seccion 5 Fase 2: revisar features/labels antes de invertir en el GNN (C6); riesgo pre-registrado: score de Vina dominante en features (seccion 10, R-RC1)"
+  },
+  "duracion_total_s": 2.3
+}

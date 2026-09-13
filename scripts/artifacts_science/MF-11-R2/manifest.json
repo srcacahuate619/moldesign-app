@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-11-R2",
+  "hypothesis": "El umbral de deduplicacion de MF-11-R1 (1.5 A, derivado sobre v1) no es transferible al conjunto v2, 6.9x mas denso",
+  "protocol": "MF-11-R1 contrato heredado literal (diametro controlado, medoid geometrico, umbrales 0.5-2.0); solo cambia el conjunto; train, val y test por separado",
+  "created_at": "2026-08-19T03:53:14.563009+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 validez; G2 existe un umbral con 0 perdidas de cobertura, degradacion mediana <=0.1 A y reduccion >=10%; se elige el MAYOR que cumpla las tres"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/run_mf11r2_dedup_v2.py": "eee5d9750de993b201d26aefd451082d8c86f8b9bdb04b49d93b3f74aed5f3dc"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:15.337984+00:00",
+  "decision_rationale": "Entregable 9 del programa, pendiente desde el 2026-08-17. Umbral elegido 2.0 A en los tres splits, frente a 1.5 A de v1: reduccion 31.7% en train (18,812 -> 12,852 poses), 37.7% en val y 38.2% en test, con 0 perdidas de cobertura. RC-F0-V2 tenia razon al exigir la re-derivacion. TENSION DECLARADA: 2.0 A es TAMBIEN el umbral de exito. Un cluster de diametro 2.0 puede contener una pose a 1.9 A del cristal y otra a 3.9 A, y si el medoid cae del lado malo se pierde cobertura. En train no ocurrio, pero el margen es fino y la regla solo restringe la mediana, no la cola (p90 = 0.358 A). Para produccion, 1.5 A es la eleccion conservadora aunque la regla preregistrada seleccione 2.0. ANOMALIA REGISTRADA: val pierde 1 complejo a U=1.5 y 0 a U=2.0 -no monotono-, porque al cambiar el umbral cambia toda la particion y el medoid de otra particion puede ser mejor pose. Las \"0 perdidas\" a 2.0 son en parte suerte de particion, no garantia.",
+  "finished_at": "2026-08-19T03:53:15.520999+00:00"
+}

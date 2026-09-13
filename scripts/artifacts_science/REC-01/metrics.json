@@ -1,0 +1,270 @@
+{
+  "alcance": {
+    "fuente_targets": "curated_targets.json",
+    "n_pdb_ids_indexados": 408,
+    "n_targets_catalogo": 387,
+    "sin_docking": true
+  },
+  "contencion": {
+    "hotspots_todos": {
+      "mediana": 1.0,
+      "n": 384
+    },
+    "ligando_holo": {
+      "mediana": 1.0,
+      "n": 283,
+      "n_completa_1_0": 260
+    }
+  },
+  "d_centro_holo": {
+    "bandas": {
+      "gt_15A": {
+        "n": 25,
+        "pct": 0.0883
+      },
+      "le_10A": {
+        "n": 254,
+        "pct": 0.8975
+      },
+      "le_15A": {
+        "n": 258,
+        "pct": 0.9117
+      },
+      "le_4A": {
+        "n": 240,
+        "pct": 0.8481
+      },
+      "le_6A": {
+        "n": 249,
+        "pct": 0.8799
+      }
+    },
+    "max": 77.483,
+    "mediana": 0.004,
+    "n": 283,
+    "p90": 11.307
+  },
+  "entorno": {
+    "activo_original_sha256": "64a7a12397d879f730fecc30cc69e92224ac479c12ce5a6071da17188c25195c",
+    "duracion_s": 2.98,
+    "generado_utc": "2026-08-17T06:38:47.420149+00:00",
+    "python": "3.14.3",
+    "so": "Windows 11"
+  },
+  "estratos": {
+    "APO": {
+      "n": 99,
+      "pct": 0.2558
+    },
+    "HOLO": {
+      "n": 283,
+      "pct": 0.7313
+    },
+    "HOLO_COFACTOR_ONLY": {
+      "n": 5,
+      "pct": 0.0129
+    }
+  },
+  "excepciones": {
+    "n_targets_con_excepcion": 57,
+    "pct_targets_con_excepcion": 0.1473,
+    "por_codigo": {
+      "E1_CENTRO_LEJOS": 34,
+      "E2_LIGANDO_RECORTADO": 23,
+      "E3_HOTSPOTS_FUERA": 17,
+      "E4_HOTSPOTS_INVALIDOS": 8,
+      "E5_HOTSPOTS_AUSENTES": 7
+    }
+  },
+  "experiment_id": "REC-01",
+  "gates": {
+    "G1_cobertura_total": {
+      "criterio": "los 387 targets con veredicto explicito, 0 omisiones",
+      "n_auditados": 387,
+      "n_esperados": 387,
+      "pass": true
+    },
+    "G2_clasificacion_deterministica": {
+      "criterio": "cada target con exactamente un estrato de {HOLO, APO, HOLO_COFACTOR_ONLY, INDETERMINADO}",
+      "n_sin_estrato": 0,
+      "pass": true
+    },
+    "G3_excepciones_con_criterio": {
+      "codigos_validos": [
+        "E1_CENTRO_LEJOS",
+        "E2_LIGANDO_RECORTADO",
+        "E3_HOTSPOTS_FUERA",
+        "E4_HOTSPOTS_INVALIDOS",
+        "E5_HOTSPOTS_AUSENTES",
+        "E6_SIN_PDB",
+        "E7_PDB_NO_PARSEABLE"
+      ],
+      "criterio": "toda excepcion cita codigo E1-E7",
+      "pass": true
+    },
+    "G4_determinismo": {
+      "criterio": "dos corridas producen per_complex.jsonl byte-identico",
+      "evidencia": "tres corridas independientes 2026-08-17, incluida una tras borrar y reconstruir el directorio del experimento; per_complex.jsonl byte-identico",
+      "nota": "se verifica ejecutando el script dos veces y comparando SHA-256",
+      "pass": true,
+      "sha256_per_complex": "3f4da5ab35391e235fa2518274a472f93378711ca34846709080f8191d0eee23"
+    },
+    "G5_solo_lectura": {
+      "criterio": "catalogo y CSV conservan su SHA-256",
+      "hashes_post": {
+        "curated_targets.csv": "e56d4c7f47952342bf6199118ce3914e7381e2f0d6ddf93f1306aa085a8e01ed",
+        "curated_targets.json": "ba8654ebce79c35eebe77d5c0589155fbf569df48f3349b9e965ea2ce491c7c2"
+      },
+      "hashes_pre": {
+        "curated_targets.csv": "e56d4c7f47952342bf6199118ce3914e7381e2f0d6ddf93f1306aa085a8e01ed",
+        "curated_targets.json": "ba8654ebce79c35eebe77d5c0589155fbf569df48f3349b9e965ea2ce491c7c2"
+      },
+      "pass": true
+    }
+  },
+  "por_familia": {
+    "atp_synthase": {
+      "excepciones": 0,
+      "n": 1,
+      "pct_excepcion": 0.0
+    },
+    "chaperone": {
+      "excepciones": 0,
+      "n": 1,
+      "pct_excepcion": 0.0
+    },
+    "cytochrome_p450": {
+      "excepciones": 1,
+      "n": 4,
+      "pct_excepcion": 0.25
+    },
+    "gpcr": {
+      "excepciones": 1,
+      "n": 30,
+      "pct_excepcion": 0.0333
+    },
+    "growth_factor": {
+      "excepciones": 0,
+      "n": 9,
+      "pct_excepcion": 0.0
+    },
+    "gtpase": {
+      "excepciones": 1,
+      "n": 1,
+      "pct_excepcion": 1.0
+    },
+    "hydrolase": {
+      "excepciones": 1,
+      "n": 26,
+      "pct_excepcion": 0.0385
+    },
+    "ion_channel": {
+      "excepciones": 6,
+      "n": 31,
+      "pct_excepcion": 0.1935
+    },
+    "isomerase": {
+      "excepciones": 0,
+      "n": 1,
+      "pct_excepcion": 0.0
+    },
+    "kinase": {
+      "excepciones": 2,
+      "n": 29,
+      "pct_excepcion": 0.069
+    },
+    "ligase": {
+      "excepciones": 1,
+      "n": 2,
+      "pct_excepcion": 0.5
+    },
+    "lyase": {
+      "excepciones": 0,
+      "n": 1,
+      "pct_excepcion": 0.0
+    },
+    "metalloenzyme": {
+      "excepciones": 0,
+      "n": 3,
+      "pct_excepcion": 0.0
+    },
+    "methyltransferase": {
+      "excepciones": 0,
+      "n": 2,
+      "pct_excepcion": 0.0
+    },
+    "nuclear_receptor": {
+      "excepciones": 1,
+      "n": 29,
+      "pct_excepcion": 0.0345
+    },
+    "nuclease": {
+      "excepciones": 2,
+      "n": 10,
+      "pct_excepcion": 0.2
+    },
+    "oxidoreductase": {
+      "excepciones": 16,
+      "n": 20,
+      "pct_excepcion": 0.8
+    },
+    "phosphodiesterase": {
+      "excepciones": 1,
+      "n": 19,
+      "pct_excepcion": 0.0526
+    },
+    "polymerase": {
+      "excepciones": 3,
+      "n": 18,
+      "pct_excepcion": 0.1667
+    },
+    "protease": {
+      "excepciones": 4,
+      "n": 63,
+      "pct_excepcion": 0.0635
+    },
+    "proteasome": {
+      "excepciones": 5,
+      "n": 18,
+      "pct_excepcion": 0.2778
+    },
+    "protein_interaction": {
+      "excepciones": 8,
+      "n": 26,
+      "pct_excepcion": 0.3077
+    },
+    "topoisomerase": {
+      "excepciones": 0,
+      "n": 18,
+      "pct_excepcion": 0.0
+    },
+    "transcription_factor": {
+      "excepciones": 1,
+      "n": 1,
+      "pct_excepcion": 1.0
+    },
+    "transferase": {
+      "excepciones": 1,
+      "n": 5,
+      "pct_excepcion": 0.2
+    },
+    "transporter": {
+      "excepciones": 2,
+      "n": 18,
+      "pct_excepcion": 0.1111
+    },
+    "ubiquitin_ligase": {
+      "excepciones": 0,
+      "n": 1,
+      "pct_excepcion": 0.0
+    }
+  },
+  "seed": 42,
+  "umbrales_preregistrados": {
+    "E1_centro_A": 6.0,
+    "E3_contencion_hotspots": 0.8,
+    "E4_hotspots_validos": 0.8,
+    "E5_min_hotspots": 5,
+    "min_heavy_atoms_ligando": 6
+  }
+}

@@ -1,0 +1,57 @@
+[
+ {
+  "pdb_id": "4NJT",
+  "family": "protease",
+  "native_smiles": "CC(C)CN(C[C@@H](O)[C@H](CC1CCCCC1)NC(O)O[C@H]1CO[C@H]2OCC[C@H]21)S(O)(O)C1CCC(N)CC1",
+  "native_resname": "017",
+  "n_hotspots": 15,
+  "grid_center": [
+   6.07,
+   -2.64,
+   1.29
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "CC(C)CN(C[C@@H](O)[C@H](CC1CCCCC1)NC(O)O[C@H]1CO[C@H]2OCC[C@H]21)S(O)(O)C1CCC(N)CC1",
+    "affinity": -6.605,
+    "n_poses": 5,
+    "hotspots_hit": [
+     "A:ASP25",
+     "A:GLY27",
+     "A:ALA28",
+     "B:ASP29",
+     "A:ASP30",
+     "A:ILE47",
+     "B:GLY48",
+     "B:GLY49",
+     "A:ILE50",
+     "A:ILE84"
+    ]
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "1FEM",
+  "family": "nuclear_receptor",
+  "native_smiles": "C[C@H](CCC[C@@H](C)CC(O)O)CCC1[C@H](C)CC[C@H]2C[C@@]12C",
+  "native_resname": "REA",
+  "n_hotspots": 15,
+  "grid_center": [
+   32.36,
+   19.181,
+   48.627
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "C[C@H](CCC[C@@H](C)CC(O)O)CCC1[C@H](C)CC[C@H]2C[C@@]12C",
+    "error": "[WinError 2] El sistema no puede encontrar el archivo especificado"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ }
+]

@@ -1,0 +1,3575 @@
+{
+  "motor": "molpocket",
+  "fecha": "2026-08-01T10:34:29",
+  "config": {
+    "db": "C:\\Users\\Johan Amezcua\\MolDesign\\data\\moldesign_local.db",
+    "pdb_dir": "D:\\moldesign-build\\data\\target_library",
+    "catalog": "derivado",
+    "max_median": 4.0,
+    "offline": true
+  },
+  "catalogo": {
+    "derivado": true,
+    "n_targets": 216
+  },
+  "resumen": {
+    "N": 216,
+    "median": 16.121211605972196,
+    "p75": 25.557297943738043,
+    "mean": 18.105113683319868,
+    "pct_le_4": 6.481481481481481,
+    "pct_le_6": 16.203703703703702,
+    "pct_le_10": 35.648148148148145,
+    "min": 2.751860580155175,
+    "max": 120.72446652590355
+  },
+  "por_familia": {
+    "gpcr": {
+      "N": 9,
+      "median": 24.44595428014384,
+      "p75": 25.209870437412505
+    },
+    "growth_factor": {
+      "N": 1,
+      "median": 18.149317915133103,
+      "p75": 18.149317915133103
+    },
+    "hydrolase": {
+      "N": 19,
+      "median": 14.530231100009978,
+      "p75": 23.022391502725327
+    },
+    "ion_channel": {
+      "N": 24,
+      "median": 18.60368590948428,
+      "p75": 25.285320185174687
+    },
+    "kinase": {
+      "N": 8,
+      "median": 10.386350801082209,
+      "p75": 14.475332545912305
+    },
+    "metalloenzyme": {
+      "N": 2,
+      "median": 8.793945872681377,
+      "p75": 9.138489865644761
+    },
+    "nuclear_receptor": {
+      "N": 20,
+      "median": 9.794170949854173,
+      "p75": 21.895447189547887
+    },
+    "nuclease": {
+      "N": 4,
+      "median": 22.028047790258725,
+      "p75": 47.37043925493181
+    },
+    "oxidoreductase": {
+      "N": 17,
+      "median": 27.834091389510164,
+      "p75": 27.974605475097658
+    },
+    "phosphodiesterase": {
+      "N": 16,
+      "median": 9.94369494592271,
+      "p75": 16.795036374499407
+    },
+    "polymerase": {
+      "N": 5,
+      "median": 21.430674299754862,
+      "p75": 24.389685379911494
+    },
+    "protease": {
+      "N": 41,
+      "median": 7.921330285485216,
+      "p75": 16.67310280499669
+    },
+    "proteasome": {
+      "N": 14,
+      "median": 30.835609014630165,
+      "p75": 31.586853302150274
+    },
+    "protein_interaction": {
+      "N": 8,
+      "median": 11.554808482131653,
+      "p75": 16.48269900550579
+    },
+    "topoisomerase": {
+      "N": 10,
+      "median": 18.103882339645395,
+      "p75": 22.117057821889553
+    },
+    "transporter": {
+      "N": 17,
+      "median": 6.232263432838418,
+      "p75": 7.358395616205179
+    },
+    "ubiquitin_ligase": {
+      "N": 1,
+      "median": 20.73899392052847,
+      "p75": 20.73899392052847
+    }
+  },
+  "por_target": {
+    "1AJ6": {
+      "distancia_a_ligando": 14.381,
+      "ground_truth": "A:NOV1",
+      "score": 0.985,
+      "druggability": 0.9484,
+      "pocket_center": [
+        59.67,
+        4.33,
+        42.5
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 5764,
+      "n_pockets": 1
+    },
+    "1BN1": {
+      "distancia_a_ligando": 9.483,
+      "ground_truth": "A:AL5555",
+      "score": 0.3871,
+      "druggability": 0.3369,
+      "pocket_center": [
+        -9.76,
+        -2.12,
+        16.08
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 8687,
+      "n_pockets": 1
+    },
+    "1C3R": {
+      "distancia_a_ligando": 6.166,
+      "ground_truth": "A:TSN502",
+      "score": 0.3836,
+      "druggability": 0.3321,
+      "pocket_center": [
+        49.75,
+        4.72,
+        97.48
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 26212,
+      "n_pockets": 5
+    },
+    "1C3S": {
+      "distancia_a_ligando": 12.312,
+      "ground_truth": "A:SHH952",
+      "score": 0.3853,
+      "druggability": 0.3344,
+      "pocket_center": [
+        29.35,
+        35.12,
+        56.4
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 12919,
+      "n_pockets": 1
+    },
+    "1C6X": {
+      "distancia_a_ligando": 4.859,
+      "ground_truth": "B:3IN622",
+      "score": 0.986,
+      "druggability": 0.9486,
+      "pocket_center": [
+        41.37,
+        24.67,
+        20.36
+      ],
+      "pocket_radius": 5.98,
+      "n_spheres": 6128,
+      "n_pockets": 1
+    },
+    "1CBR": {
+      "distancia_a_ligando": 8.764,
+      "ground_truth": "A:REA200",
+      "score": 0.3786,
+      "druggability": 0.3256,
+      "pocket_center": [
+        3.23,
+        -0.76,
+        -12.69
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 9396,
+      "n_pockets": 1
+    },
+    "1CBS": {
+      "distancia_a_ligando": 9.771,
+      "ground_truth": "A:REA200",
+      "score": 0.3821,
+      "druggability": 0.3302,
+      "pocket_center": [
+        17.32,
+        20.97,
+        26.89
+      ],
+      "pocket_radius": 5.98,
+      "n_spheres": 4354,
+      "n_pockets": 1
+    },
+    "1CX2": {
+      "distancia_a_ligando": 39.808,
+      "ground_truth": "A:HEM682",
+      "score": 0.3813,
+      "druggability": 0.3291,
+      "pocket_center": [
+        42.2,
+        33.76,
+        36.53
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 82347,
+      "n_pockets": 1
+    },
+    "1DIY": {
+      "distancia_a_ligando": 13.185,
+      "ground_truth": "A:COH601",
+      "score": 0.3828,
+      "druggability": 0.3312,
+      "pocket_center": [
+        246.55,
+        101.16,
+        -36.18
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 19051,
+      "n_pockets": 2
+    },
+    "1EI1": {
+      "distancia_a_ligando": 22.179,
+      "ground_truth": "A:ANP394",
+      "score": 0.384,
+      "druggability": 0.3326,
+      "pocket_center": [
+        24.68,
+        34.59,
+        19.7
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 26472,
+      "n_pockets": 1
+    },
+    "1EPB": {
+      "distancia_a_ligando": 21.427,
+      "ground_truth": "A:9CR165",
+      "score": 0.9789,
+      "druggability": 0.9465,
+      "pocket_center": [
+        -4.66,
+        9.62,
+        29.37
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 10809,
+      "n_pockets": 1
+    },
+    "1F0R": {
+      "distancia_a_ligando": 18.129,
+      "ground_truth": "A:815401",
+      "score": 0.3855,
+      "druggability": 0.3347,
+      "pocket_center": [
+        22.93,
+        13.17,
+        25.4
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 9522,
+      "n_pockets": 1
+    },
+    "1FE2": {
+      "distancia_a_ligando": 13.018,
+      "ground_truth": "A:COH601",
+      "score": 0.3834,
+      "druggability": 0.3319,
+      "pocket_center": [
+        246.59,
+        101.36,
+        -36.15
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 18884,
+      "n_pockets": 1
+    },
+    "1FEM": {
+      "distancia_a_ligando": 8.713,
+      "ground_truth": "A:REA184",
+      "score": 0.3814,
+      "druggability": 0.3293,
+      "pocket_center": [
+        25.93,
+        24.7,
+        46.6
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6026,
+      "n_pockets": 1
+    },
+    "1FH0": {
+      "distancia_a_ligando": 87.923,
+      "ground_truth": "A:0IW1280",
+      "score": 0.3842,
+      "druggability": 0.3329,
+      "pocket_center": [
+        59.46,
+        49.84,
+        113.39
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 7030,
+      "n_pockets": 2
+    },
+    "1GPK": {
+      "distancia_a_ligando": 7.488,
+      "ground_truth": "A:HUP1540",
+      "score": 0.3862,
+      "druggability": 0.3357,
+      "pocket_center": [
+        5.76,
+        64.23,
+        56.96
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 18502,
+      "n_pockets": 1
+    },
+    "1GX9": {
+      "distancia_a_ligando": 7.839,
+      "ground_truth": "A:REA1163",
+      "score": 0.9858,
+      "druggability": 0.9486,
+      "pocket_center": [
+        11.03,
+        49.8,
+        58.66
+      ],
+      "pocket_radius": 5.98,
+      "n_spheres": 5205,
+      "n_pockets": 1
+    },
+    "1HSG": {
+      "distancia_a_ligando": 4.769,
+      "ground_truth": "B:MK1902",
+      "score": 0.9844,
+      "druggability": 0.9482,
+      "pocket_center": [
+        15.85,
+        25.83,
+        3.63
+      ],
+      "pocket_radius": 5.97,
+      "n_spheres": 6171,
+      "n_pockets": 1
+    },
+    "1IGZ": {
+      "distancia_a_ligando": 25.551,
+      "ground_truth": "A:COH601",
+      "score": 0.4258,
+      "druggability": 0.3905,
+      "pocket_center": [
+        243.87,
+        66.2,
+        -35.81
+      ],
+      "pocket_radius": 2.34,
+      "n_spheres": 5,
+      "n_pockets": 2
+    },
+    "1IS0": {
+      "distancia_a_ligando": 22.799,
+      "ground_truth": "C:AY0252",
+      "score": 0.3821,
+      "druggability": 0.3302,
+      "pocket_center": [
+        26.5,
+        29.4,
+        29.35
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 6868,
+      "n_pockets": 1
+    },
+    "1ITO": {
+      "distancia_a_ligando": 12.906,
+      "ground_truth": "A:E6C700",
+      "score": 0.3873,
+      "druggability": 0.3371,
+      "pocket_center": [
+        13.43,
+        28.75,
+        -11.36
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 7841,
+      "n_pockets": 1
+    },
+    "1J36": {
+      "distancia_a_ligando": 35.397,
+      "ground_truth": "A:LPR801",
+      "score": 0.3827,
+      "druggability": 0.331,
+      "pocket_center": [
+        27.05,
+        2.07,
+        47.8
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 43710,
+      "n_pockets": 1
+    },
+    "1J37": {
+      "distancia_a_ligando": 32.808,
+      "ground_truth": "A:X8Z801",
+      "score": 0.3828,
+      "druggability": 0.3311,
+      "pocket_center": [
+        26.65,
+        2.19,
+        47.54
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 44056,
+      "n_pockets": 1
+    },
+    "1KIJ": {
+      "distancia_a_ligando": 29.501,
+      "ground_truth": "A:NOV400",
+      "score": 0.3804,
+      "druggability": 0.3279,
+      "pocket_center": [
+        9.2,
+        14.4,
+        18.48
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 26413,
+      "n_pockets": 1
+    },
+    "1KLI": {
+      "distancia_a_ligando": 15.082,
+      "ground_truth": "H:BEN300",
+      "score": 0.3845,
+      "druggability": 0.3333,
+      "pocket_center": [
+        13.69,
+        23.2,
+        19.16
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 10599,
+      "n_pockets": 1
+    },
+    "1KZN": {
+      "distancia_a_ligando": 13.197,
+      "ground_truth": "A:CBN1",
+      "score": 0.3836,
+      "druggability": 0.3322,
+      "pocket_center": [
+        20.23,
+        19.85,
+        42.61
+      ],
+      "pocket_radius": 5.97,
+      "n_spheres": 5901,
+      "n_pockets": 1
+    },
+    "1M6D": {
+      "distancia_a_ligando": 27.331,
+      "ground_truth": "A:MYP1280",
+      "score": 0.3829,
+      "druggability": 0.3313,
+      "pocket_center": [
+        17.3,
+        24.78,
+        14.01
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 14215,
+      "n_pockets": 1
+    },
+    "1Q4G": {
+      "distancia_a_ligando": 28.047,
+      "ground_truth": "A:HEM801",
+      "score": 0.3835,
+      "druggability": 0.3321,
+      "pocket_center": [
+        46.98,
+        32.84,
+        189.72
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 40709,
+      "n_pockets": 1
+    },
+    "1RKP": {
+      "distancia_a_ligando": 12.129,
+      "ground_truth": "A:IBM201",
+      "score": 0.9817,
+      "druggability": 0.9474,
+      "pocket_center": [
+        39.98,
+        12.39,
+        59.51
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 10282,
+      "n_pockets": 2
+    },
+    "1RV7": {
+      "distancia_a_ligando": 6.896,
+      "ground_truth": "B:AB11001",
+      "score": 0.98,
+      "druggability": 0.9468,
+      "pocket_center": [
+        18.59,
+        40.92,
+        -0.76
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 6027,
+      "n_pockets": 1
+    },
+    "1T69": {
+      "distancia_a_ligando": 14.53,
+      "ground_truth": "A:SHH379",
+      "score": 0.9892,
+      "druggability": 0.9496,
+      "pocket_center": [
+        28.59,
+        1.11,
+        -0.04
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 11667,
+      "n_pockets": 2
+    },
+    "1TGJ": {
+      "distancia_a_ligando": 18.149,
+      "ground_truth": "A:DIO113",
+      "score": 0.3829,
+      "druggability": 0.3312,
+      "pocket_center": [
+        -14.93,
+        31.46,
+        10.11
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 3148,
+      "n_pockets": 1
+    },
+    "1VKG": {
+      "distancia_a_ligando": 5.039,
+      "ground_truth": "A:CRI402",
+      "score": 0.986,
+      "druggability": 0.9486,
+      "pocket_center": [
+        13.45,
+        64.84,
+        74.97
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 23672,
+      "n_pockets": 2
+    },
+    "1W22": {
+      "distancia_a_ligando": 5.161,
+      "ground_truth": "A:NHB1378",
+      "score": 0.9875,
+      "druggability": 0.9491,
+      "pocket_center": [
+        3.93,
+        14.58,
+        24.49
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 23726,
+      "n_pockets": 1
+    },
+    "1WBK": {
+      "distancia_a_ligando": 4.13,
+      "ground_truth": "B:5681100",
+      "score": 0.9843,
+      "druggability": 0.9481,
+      "pocket_center": [
+        15.51,
+        25.97,
+        3.69
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 6202,
+      "n_pockets": 1
+    },
+    "1WBM": {
+      "distancia_a_ligando": 4.364,
+      "ground_truth": "B:BLL1100",
+      "score": 0.9855,
+      "druggability": 0.9485,
+      "pocket_center": [
+        15.62,
+        25.78,
+        3.54
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6079,
+      "n_pockets": 1
+    },
+    "1XP0": {
+      "distancia_a_ligando": 13.641,
+      "ground_truth": "A:VDN201",
+      "score": 0.3822,
+      "druggability": 0.3303,
+      "pocket_center": [
+        -24.18,
+        39.45,
+        70.75
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 10766,
+      "n_pockets": 1
+    },
+    "1ZZ1": {
+      "distancia_a_ligando": 27.646,
+      "ground_truth": "A:SHH2452",
+      "score": 0.9871,
+      "druggability": 0.949,
+      "pocket_center": [
+        -3.94,
+        5.09,
+        15.29
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 48841,
+      "n_pockets": 1
+    },
+    "2A3W": {
+      "distancia_a_ligando": 51.64,
+      "ground_truth": "A:CPJ341",
+      "score": 0.3864,
+      "druggability": 0.3359,
+      "pocket_center": [
+        -7.67,
+        16.6,
+        18.88
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 160594,
+      "n_pockets": 1
+    },
+    "2AW1": {
+      "distancia_a_ligando": 8.105,
+      "ground_truth": "A:COX264",
+      "score": 0.3866,
+      "druggability": 0.3362,
+      "pocket_center": [
+        -8.78,
+        -1.93,
+        15.52
+      ],
+      "pocket_radius": 5.97,
+      "n_spheres": 8751,
+      "n_pockets": 1
+    },
+    "2AYL": {
+      "distancia_a_ligando": 28.16,
+      "ground_truth": "A:MNH601",
+      "score": 0.3841,
+      "druggability": 0.3328,
+      "pocket_center": [
+        47.13,
+        33.11,
+        187.65
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 40513,
+      "n_pockets": 1
+    },
+    "2BQV": {
+      "distancia_a_ligando": 3.955,
+      "ground_truth": "A:A1A1100",
+      "score": 0.9831,
+      "druggability": 0.9478,
+      "pocket_center": [
+        15.29,
+        25.75,
+        3.63
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 6164,
+      "n_pockets": 1
+    },
+    "2CEN": {
+      "distancia_a_ligando": 5.082,
+      "ground_truth": "B:4AH1200",
+      "score": 0.9855,
+      "druggability": 0.9485,
+      "pocket_center": [
+        15.16,
+        25.49,
+        2.67
+      ],
+      "pocket_radius": 5.98,
+      "n_spheres": 6062,
+      "n_pockets": 1
+    },
+    "2FR3": {
+      "distancia_a_ligando": 9.818,
+      "ground_truth": "A:REA300",
+      "score": 0.3854,
+      "druggability": 0.3345,
+      "pocket_center": [
+        17.37,
+        20.45,
+        27.14
+      ],
+      "pocket_radius": 5.97,
+      "n_spheres": 4240,
+      "n_pockets": 1
+    },
+    "2GH6": {
+      "distancia_a_ligando": 22.699,
+      "ground_truth": "A:CF39452",
+      "score": 0.3884,
+      "druggability": 0.3385,
+      "pocket_center": [
+        7.33,
+        24.53,
+        33.88
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 50593,
+      "n_pockets": 2
+    },
+    "2H02": {
+      "distancia_a_ligando": 27.263,
+      "ground_truth": "A:2UN402",
+      "score": 0.3855,
+      "druggability": 0.3347,
+      "pocket_center": [
+        28.26,
+        12.76,
+        50.44
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 20201,
+      "n_pockets": 2
+    },
+    "2I4G": {
+      "distancia_a_ligando": 15.565,
+      "ground_truth": "A:UA1401",
+      "score": 0.3856,
+      "druggability": 0.3348,
+      "pocket_center": [
+        1.9,
+        21.42,
+        15.15
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 10005,
+      "n_pockets": 1
+    },
+    "2I4H": {
+      "distancia_a_ligando": 16.462,
+      "ground_truth": "A:UA1401",
+      "score": 0.3851,
+      "druggability": 0.3342,
+      "pocket_center": [
+        27.37,
+        0.19,
+        15.64
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 9966,
+      "n_pockets": 1
+    },
+    "2LBD": {
+      "distancia_a_ligando": 9.013,
+      "ground_truth": "A:REA500",
+      "score": 0.9831,
+      "druggability": 0.9478,
+      "pocket_center": [
+        39.04,
+        10.51,
+        91.53
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 7214,
+      "n_pockets": 1
+    },
+    "2OA8": {
+      "distancia_a_ligando": 22.919,
+      "ground_truth": "A:MSE11",
+      "score": 0.3848,
+      "druggability": 0.3338,
+      "pocket_center": [
+        17.05,
+        13.81,
+        -16.83
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 15506,
+      "n_pockets": 1
+    },
+    "2OYE": {
+      "distancia_a_ligando": 12.755,
+      "ground_truth": "P:HEM601",
+      "score": 0.3839,
+      "druggability": 0.3326,
+      "pocket_center": [
+        246.14,
+        101.24,
+        -36.51
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 18908,
+      "n_pockets": 2
+    },
+    "2OYU": {
+      "distancia_a_ligando": 12.53,
+      "ground_truth": "P:HEM601",
+      "score": 0.383,
+      "druggability": 0.3313,
+      "pocket_center": [
+        26.45,
+        56.17,
+        15.39
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 19281,
+      "n_pockets": 1
+    },
+    "2VE3": {
+      "distancia_a_ligando": 24.539,
+      "ground_truth": "A:HEM1444",
+      "score": 0.3815,
+      "druggability": 0.3294,
+      "pocket_center": [
+        33.68,
+        16.47,
+        18.55
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 31219,
+      "n_pockets": 1
+    },
+    "2X8Z": {
+      "distancia_a_ligando": 3.564,
+      "ground_truth": "A:X8Z1615",
+      "score": 0.3848,
+      "druggability": 0.3338,
+      "pocket_center": [
+        31.23,
+        2.33,
+        -45.73
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 21193,
+      "n_pockets": 1
+    },
+    "2X90": {
+      "distancia_a_ligando": 3.419,
+      "ground_truth": "A:EAL1617",
+      "score": 0.3846,
+      "druggability": 0.3335,
+      "pocket_center": [
+        -13.57,
+        28.19,
+        -21.48
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 21176,
+      "n_pockets": 1
+    },
+    "2ZHR": {
+      "distancia_a_ligando": 20.916,
+      "ground_truth": "C:1OL4",
+      "score": 0.9854,
+      "druggability": 0.9485,
+      "pocket_center": [
+        15.06,
+        27.63,
+        53.09
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 27971,
+      "n_pockets": 2
+    },
+    "3DY3": {
+      "distancia_a_ligando": 30.639,
+      "ground_truth": "K:SLR301",
+      "score": 0.3819,
+      "druggability": 0.3299,
+      "pocket_center": [
+        34.55,
+        -148.83,
+        31.59
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 235750,
+      "n_pockets": 1
+    },
+    "3DY4": {
+      "distancia_a_ligando": 31.778,
+      "ground_truth": "H:SLA301",
+      "score": 0.3819,
+      "druggability": 0.3299,
+      "pocket_center": [
+        34.51,
+        -148.79,
+        31.68
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 235679,
+      "n_pockets": 1
+    },
+    "3FHV": {
+      "distancia_a_ligando": 14.745,
+      "ground_truth": "C:DTY109",
+      "score": 0.3799,
+      "druggability": 0.3273,
+      "pocket_center": [
+        55.75,
+        33.15,
+        13.89
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 8765,
+      "n_pockets": 1
+    },
+    "3FLI": {
+      "distancia_a_ligando": 10.57,
+      "ground_truth": "A:33Y1",
+      "score": 0.9809,
+      "druggability": 0.9471,
+      "pocket_center": [
+        33.1,
+        -3.95,
+        -8.97
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6927,
+      "n_pockets": 1
+    },
+    "3G7E": {
+      "distancia_a_ligando": 7.457,
+      "ground_truth": "A:B461",
+      "score": 0.3852,
+      "druggability": 0.3343,
+      "pocket_center": [
+        38.13,
+        13.98,
+        15.83
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6150,
+      "n_pockets": 1
+    },
+    "3GPJ": {
+      "distancia_a_ligando": 29.561,
+      "ground_truth": "H:SY27710",
+      "score": 0.3821,
+      "druggability": 0.3302,
+      "pocket_center": [
+        34.14,
+        -148.77,
+        31.7
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 235586,
+      "n_pockets": 1
+    },
+    "3GPT": {
+      "distancia_a_ligando": 32.015,
+      "ground_truth": "H:GPT224",
+      "score": 0.3825,
+      "druggability": 0.3307,
+      "pocket_center": [
+        34.17,
+        -148.81,
+        31.73
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 236412,
+      "n_pockets": 1
+    },
+    "3HYE": {
+      "distancia_a_ligando": 32.035,
+      "ground_truth": "H:HYE300",
+      "score": 0.3825,
+      "druggability": 0.3306,
+      "pocket_center": [
+        34.51,
+        -148.78,
+        31.61
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 236389,
+      "n_pockets": 1
+    },
+    "3KK6": {
+      "distancia_a_ligando": 27.834,
+      "ground_truth": "A:HEM601",
+      "score": 0.3851,
+      "druggability": 0.3341,
+      "pocket_center": [
+        -30.15,
+        53.67,
+        17.88
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 41046,
+      "n_pockets": 1
+    },
+    "3L1B": {
+      "distancia_a_ligando": 11.294,
+      "ground_truth": "A:6351",
+      "score": 0.9822,
+      "druggability": 0.9475,
+      "pocket_center": [
+        -4.62,
+        -7.54,
+        14.25
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6511,
+      "n_pockets": 2
+    },
+    "3LBD": {
+      "distancia_a_ligando": 9.007,
+      "ground_truth": "A:9CR424",
+      "score": 0.9812,
+      "druggability": 0.9472,
+      "pocket_center": [
+        38.74,
+        9.96,
+        91.16
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 7159,
+      "n_pockets": 1
+    },
+    "3MG0": {
+      "distancia_a_ligando": 30.843,
+      "ground_truth": "H:BO21400",
+      "score": 0.3829,
+      "druggability": 0.3312,
+      "pocket_center": [
+        34.37,
+        -148.85,
+        32.23
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 240734,
+      "n_pockets": 1
+    },
+    "3N8W": {
+      "distancia_a_ligando": 27.864,
+      "ground_truth": "A:HEM801",
+      "score": 0.3848,
+      "druggability": 0.3337,
+      "pocket_center": [
+        30.8,
+        -54.24,
+        22.06
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 41228,
+      "n_pockets": 1
+    },
+    "3N8X": {
+      "distancia_a_ligando": 27.884,
+      "ground_truth": "A:HEM601",
+      "score": 0.3842,
+      "druggability": 0.3329,
+      "pocket_center": [
+        -30.57,
+        -54.27,
+        24.65
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 40694,
+      "n_pockets": 1
+    },
+    "3N8Y": {
+      "distancia_a_ligando": 27.799,
+      "ground_truth": "A:HEM601",
+      "score": 0.3847,
+      "druggability": 0.3336,
+      "pocket_center": [
+        30.65,
+        -54.48,
+        17.61
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 41239,
+      "n_pockets": 2
+    },
+    "3N8Z": {
+      "distancia_a_ligando": 28.155,
+      "ground_truth": "A:HEM601",
+      "score": 0.3845,
+      "druggability": 0.3334,
+      "pocket_center": [
+        -30.52,
+        54.19,
+        -11.12
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 41476,
+      "n_pockets": 1
+    },
+    "3P88": {
+      "distancia_a_ligando": 7.874,
+      "ground_truth": "A:P881",
+      "score": 0.9809,
+      "druggability": 0.9471,
+      "pocket_center": [
+        85.8,
+        39.36,
+        143.74
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 7378,
+      "n_pockets": 2
+    },
+    "3P89": {
+      "distancia_a_ligando": 8.507,
+      "ground_truth": "A:89P1",
+      "score": 0.9799,
+      "druggability": 0.9468,
+      "pocket_center": [
+        126.05,
+        160.0,
+        104.85
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 7202,
+      "n_pockets": 2
+    },
+    "3RUT": {
+      "distancia_a_ligando": 7.481,
+      "ground_truth": "A:59G1",
+      "score": 0.9811,
+      "druggability": 0.9472,
+      "pocket_center": [
+        -0.22,
+        46.35,
+        -25.15
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 7336,
+      "n_pockets": 1
+    },
+    "3RUU": {
+      "distancia_a_ligando": 7.991,
+      "ground_truth": "A:37G1",
+      "score": 0.982,
+      "druggability": 0.9475,
+      "pocket_center": [
+        33.2,
+        0.08,
+        -24.95
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 7128,
+      "n_pockets": 1
+    },
+    "3RVY": {
+      "distancia_a_ligando": 24.389,
+      "ground_truth": "A:PX44001",
+      "score": 0.9733,
+      "druggability": 0.9448,
+      "pocket_center": [
+        -55.59,
+        -48.83,
+        -71.86
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 14109,
+      "n_pockets": 1
+    },
+    "3RVZ": {
+      "distancia_a_ligando": 8.651,
+      "ground_truth": "B:PX44011",
+      "score": 0.9742,
+      "druggability": 0.9451,
+      "pocket_center": [
+        -55.91,
+        -49.31,
+        -72.23
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 14159,
+      "n_pockets": 1
+    },
+    "3RW0": {
+      "distancia_a_ligando": 23.401,
+      "ground_truth": "B:PX44001",
+      "score": 0.9686,
+      "druggability": 0.9433,
+      "pocket_center": [
+        -55.09,
+        13.52,
+        -71.83
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 13842,
+      "n_pockets": 1
+    },
+    "3S43": {
+      "distancia_a_ligando": 4.798,
+      "ground_truth": "A:478401",
+      "score": 0.9843,
+      "druggability": 0.9481,
+      "pocket_center": [
+        14.62,
+        26.38,
+        19.7
+      ],
+      "pocket_radius": 5.98,
+      "n_spheres": 6414,
+      "n_pockets": 1
+    },
+    "3V94": {
+      "distancia_a_ligando": 30.007,
+      "ground_truth": "A:WYQ701",
+      "score": 0.9779,
+      "druggability": 0.9462,
+      "pocket_center": [
+        -26.0,
+        0.11,
+        -49.37
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 91798,
+      "n_pockets": 2
+    },
+    "4AF3": {
+      "distancia_a_ligando": 9.679,
+      "ground_truth": "A:VX6500",
+      "score": 0.3797,
+      "druggability": 0.327,
+      "pocket_center": [
+        15.36,
+        -17.87,
+        -3.63
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 9947,
+      "n_pockets": 1
+    },
+    "4AZY": {
+      "distancia_a_ligando": 9.367,
+      "ground_truth": "A:7F31507",
+      "score": 0.9859,
+      "druggability": 0.9486,
+      "pocket_center": [
+        -1.8,
+        1.06,
+        -15.08
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 13091,
+      "n_pockets": 2
+    },
+    "4CA7": {
+      "distancia_a_ligando": 3.689,
+      "ground_truth": "A:3EF1715",
+      "score": 0.3845,
+      "druggability": 0.3334,
+      "pocket_center": [
+        31.1,
+        -2.19,
+        12.6
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 21269,
+      "n_pockets": 1
+    },
+    "4CA8": {
+      "distancia_a_ligando": 3.621,
+      "ground_truth": "A:3ES1615",
+      "score": 0.3849,
+      "druggability": 0.3339,
+      "pocket_center": [
+        30.91,
+        2.43,
+        -45.19
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 20910,
+      "n_pockets": 2
+    },
+    "4DUH": {
+      "distancia_a_ligando": 26.276,
+      "ground_truth": "A:RLI301",
+      "score": 0.3786,
+      "druggability": 0.3256,
+      "pocket_center": [
+        20.86,
+        12.81,
+        22.41
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 12773,
+      "n_pockets": 1
+    },
+    "4EU2": {
+      "distancia_a_ligando": 24.274,
+      "ground_truth": "H:WPI300",
+      "score": 0.383,
+      "druggability": 0.3314,
+      "pocket_center": [
+        34.23,
+        -0.14,
+        31.68
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 238974,
+      "n_pockets": 1
+    },
+    "4IAQ": {
+      "distancia_a_ligando": 24.179,
+      "ground_truth": "A:2GM2001",
+      "score": 0.9763,
+      "druggability": 0.9457,
+      "pocket_center": [
+        -18.56,
+        -13.86,
+        21.5
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 11143,
+      "n_pockets": 1
+    },
+    "4IAR": {
+      "distancia_a_ligando": 24.446,
+      "ground_truth": "A:ERM2001",
+      "score": 0.9774,
+      "druggability": 0.9461,
+      "pocket_center": [
+        12.36,
+        -15.99,
+        21.91
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 11931,
+      "n_pockets": 1
+    },
+    "4JP9": {
+      "distancia_a_ligando": 8.101,
+      "ground_truth": "A:1M5503",
+      "score": 0.9836,
+      "druggability": 0.9479,
+      "pocket_center": [
+        21.59,
+        21.05,
+        13.57
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 14078,
+      "n_pockets": 1
+    },
+    "4JPC": {
+      "distancia_a_ligando": 8.25,
+      "ground_truth": "A:1M6502",
+      "score": 0.9835,
+      "druggability": 0.9479,
+      "pocket_center": [
+        21.55,
+        21.24,
+        13.68
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 14162,
+      "n_pockets": 1
+    },
+    "4JPE": {
+      "distancia_a_ligando": 8.446,
+      "ground_truth": "A:1M7502",
+      "score": 0.9841,
+      "druggability": 0.9481,
+      "pocket_center": [
+        21.34,
+        21.16,
+        13.75
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 14121,
+      "n_pockets": 1
+    },
+    "4JV6": {
+      "distancia_a_ligando": 2.752,
+      "ground_truth": "B:18F201",
+      "score": 0.3824,
+      "druggability": 0.3306,
+      "pocket_center": [
+        18.81,
+        -19.52,
+        11.33
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 4752,
+      "n_pockets": 1
+    },
+    "4JV8": {
+      "distancia_a_ligando": 3.2,
+      "ground_truth": "B:1M1201",
+      "score": 0.3815,
+      "druggability": 0.3294,
+      "pocket_center": [
+        26.28,
+        -6.76,
+        -11.08
+      ],
+      "pocket_radius": 5.98,
+      "n_spheres": 4736,
+      "n_pockets": 1
+    },
+    "4JVB": {
+      "distancia_a_ligando": 5.026,
+      "ground_truth": "B:1M0201",
+      "score": 0.3817,
+      "druggability": 0.3296,
+      "pocket_center": [
+        25.85,
+        -7.12,
+        -11.53
+      ],
+      "pocket_radius": 5.97,
+      "n_spheres": 4753,
+      "n_pockets": 1
+    },
+    "4JVF": {
+      "distancia_a_ligando": 29.825,
+      "ground_truth": "B:17X201",
+      "score": 0.4069,
+      "druggability": 0.3639,
+      "pocket_center": [
+        -20.61,
+        16.91,
+        -28.33
+      ],
+      "pocket_radius": 2.62,
+      "n_spheres": 1,
+      "n_pockets": 2
+    },
+    "4JYV": {
+      "distancia_a_ligando": 16.311,
+      "ground_truth": "H:1OJ301",
+      "score": 0.9858,
+      "druggability": 0.9486,
+      "pocket_center": [
+        13.61,
+        24.32,
+        19.47
+      ],
+      "pocket_radius": 5.98,
+      "n_spheres": 10406,
+      "n_pockets": 2
+    },
+    "4JZD": {
+      "distancia_a_ligando": 15.989,
+      "ground_truth": "H:1NJ301",
+      "score": 0.3848,
+      "druggability": 0.3337,
+      "pocket_center": [
+        71.97,
+        34.16,
+        48.38
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 10428,
+      "n_pockets": 2
+    },
+    "4K78": {
+      "distancia_a_ligando": 14.663,
+      "ground_truth": "A:CSU327",
+      "score": 0.9868,
+      "druggability": 0.9489,
+      "pocket_center": [
+        12.49,
+        22.91,
+        35.7
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 2707,
+      "n_pockets": 1
+    },
+    "4LQI": {
+      "distancia_a_ligando": 30.712,
+      "ground_truth": "K:1Y9301",
+      "score": 0.3828,
+      "druggability": 0.3311,
+      "pocket_center": [
+        34.5,
+        -148.75,
+        31.7
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 237254,
+      "n_pockets": 1
+    },
+    "4MD6": {
+      "distancia_a_ligando": 14.998,
+      "ground_truth": "A:24E902",
+      "score": 0.9804,
+      "druggability": 0.947,
+      "pocket_center": [
+        39.51,
+        13.16,
+        61.05
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 9718,
+      "n_pockets": 1
+    },
+    "4MS2": {
+      "distancia_a_ligando": 27.975,
+      "ground_truth": "A:PX41307",
+      "score": 0.9738,
+      "druggability": 0.945,
+      "pocket_center": [
+        177.8,
+        43.68,
+        24.13
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 30481,
+      "n_pockets": 1
+    },
+    "4NJT": {
+      "distancia_a_ligando": 25.437,
+      "ground_truth": "B:017101",
+      "score": 0.9806,
+      "druggability": 0.947,
+      "pocket_center": [
+        4.14,
+        12.69,
+        21.5
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 13243,
+      "n_pockets": 1
+    },
+    "4NJV": {
+      "distancia_a_ligando": 25.576,
+      "ground_truth": "A:RIT500",
+      "score": 0.9798,
+      "druggability": 0.9468,
+      "pocket_center": [
+        18.81,
+        -12.81,
+        21.46
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 13399,
+      "n_pockets": 1
+    },
+    "4O1Z": {
+      "distancia_a_ligando": 22.025,
+      "ground_truth": "A:MXM807",
+      "score": 0.3834,
+      "druggability": 0.3318,
+      "pocket_center": [
+        241.82,
+        102.85,
+        23.74
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 40847,
+      "n_pockets": 1
+    },
+    "4PHL": {
+      "distancia_a_ligando": 31.829,
+      "ground_truth": "A:PIL1003",
+      "score": 0.9804,
+      "druggability": 0.947,
+      "pocket_center": [
+        16.76,
+        49.68,
+        47.74
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 21460,
+      "n_pockets": 4
+    },
+    "4QA0": {
+      "distancia_a_ligando": 4.592,
+      "ground_truth": "A:SHH404",
+      "score": 0.9849,
+      "druggability": 0.9483,
+      "pocket_center": [
+        16.66,
+        34.1,
+        22.06
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 25649,
+      "n_pockets": 1
+    },
+    "4QGE": {
+      "distancia_a_ligando": 22.186,
+      "ground_truth": "A:35O601",
+      "score": 0.3822,
+      "druggability": 0.3303,
+      "pocket_center": [
+        88.05,
+        38.36,
+        26.4
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 22245,
+      "n_pockets": 1
+    },
+    "4RUR": {
+      "distancia_a_ligando": 33.85,
+      "ground_truth": "L:3WE301",
+      "score": 0.3832,
+      "druggability": 0.3316,
+      "pocket_center": [
+        34.55,
+        -148.71,
+        32.19
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 239508,
+      "n_pockets": 1
+    },
+    "4RVI": {
+      "distancia_a_ligando": 27.536,
+      "ground_truth": "A:G52500",
+      "score": 0.98,
+      "druggability": 0.9469,
+      "pocket_center": [
+        16.72,
+        16.5,
+        55.96
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 13143,
+      "n_pockets": 1
+    },
+    "4RVJ": {
+      "distancia_a_ligando": 25.464,
+      "ground_truth": "B:478101",
+      "score": 0.9796,
+      "druggability": 0.9467,
+      "pocket_center": [
+        -4.39,
+        13.11,
+        21.53
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 13208,
+      "n_pockets": 1
+    },
+    "4WUD": {
+      "distancia_a_ligando": 14.933,
+      "ground_truth": "A:ANP401",
+      "score": 0.3834,
+      "druggability": 0.332,
+      "pocket_center": [
+        12.64,
+        34.61,
+        -12.41
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 12150,
+      "n_pockets": 1
+    },
+    "4X8V": {
+      "distancia_a_ligando": 16.465,
+      "ground_truth": "H:3Z9301",
+      "score": 0.9861,
+      "druggability": 0.9487,
+      "pocket_center": [
+        13.64,
+        23.92,
+        19.4
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 10430,
+      "n_pockets": 1
+    },
+    "4YNQ": {
+      "distancia_a_ligando": 120.724,
+      "ground_truth": "H:TMP101",
+      "score": 0.439,
+      "druggability": 0.4095,
+      "pocket_center": [
+        -4.34,
+        -10.37,
+        215.72
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6,
+      "n_pockets": 3
+    },
+    "4YX9": {
+      "distancia_a_ligando": 18.097,
+      "ground_truth": "A:4HY401",
+      "score": 0.3882,
+      "druggability": 0.3383,
+      "pocket_center": [
+        -8.36,
+        28.71,
+        21.47
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 42519,
+      "n_pockets": 1
+    },
+    "4ZVI": {
+      "distancia_a_ligando": 21.931,
+      "ground_truth": "A:4S4401",
+      "score": 0.3816,
+      "druggability": 0.3295,
+      "pocket_center": [
+        -1.98,
+        1.31,
+        18.87
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 11932,
+      "n_pockets": 1
+    },
+    "5A2R": {
+      "distancia_a_ligando": 3.786,
+      "ground_truth": "A:MLT1615",
+      "score": 0.3851,
+      "druggability": 0.3342,
+      "pocket_center": [
+        15.98,
+        -1.93,
+        -18.81
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 20915,
+      "n_pockets": 1
+    },
+    "5AXQ": {
+      "distancia_a_ligando": 14.492,
+      "ground_truth": "A:4LP1003",
+      "score": 0.3823,
+      "druggability": 0.3304,
+      "pocket_center": [
+        13.23,
+        -15.94,
+        20.05
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 21541,
+      "n_pockets": 1
+    },
+    "5CON": {
+      "distancia_a_ligando": 4.749,
+      "ground_truth": "B:52W101",
+      "score": 0.9832,
+      "druggability": 0.9478,
+      "pocket_center": [
+        -11.23,
+        19.93,
+        -0.04
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6248,
+      "n_pockets": 1
+    },
+    "5COP": {
+      "distancia_a_ligando": 4.306,
+      "ground_truth": "B:53F500",
+      "score": 0.9841,
+      "druggability": 0.9481,
+      "pocket_center": [
+        -11.25,
+        19.33,
+        0.1
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6188,
+      "n_pockets": 1
+    },
+    "5CQG": {
+      "distancia_a_ligando": 31.987,
+      "ground_truth": "A:55C601",
+      "score": 0.3787,
+      "druggability": 0.3257,
+      "pocket_center": [
+        -4.56,
+        20.18,
+        -36.63
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 45076,
+      "n_pockets": 1
+    },
+    "5CZ6": {
+      "distancia_a_ligando": 29.823,
+      "ground_truth": "H:SRG301",
+      "score": 0.3831,
+      "druggability": 0.3315,
+      "pocket_center": [
+        34.12,
+        -148.92,
+        32.06
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 238920,
+      "n_pockets": 1
+    },
+    "5CZ7": {
+      "distancia_a_ligando": 30.919,
+      "ground_truth": "H:BO2301",
+      "score": 0.383,
+      "druggability": 0.3314,
+      "pocket_center": [
+        34.37,
+        -149.13,
+        31.95
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 240072,
+      "n_pockets": 1
+    },
+    "5E8Y": {
+      "distancia_a_ligando": 10.511,
+      "ground_truth": "A:STU601",
+      "score": 0.383,
+      "druggability": 0.3313,
+      "pocket_center": [
+        18.35,
+        6.11,
+        13.88
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 9467,
+      "n_pockets": 1
+    },
+    "5E91": {
+      "distancia_a_ligando": 12.271,
+      "ground_truth": "A:5L4601",
+      "score": 0.3834,
+      "druggability": 0.332,
+      "pocket_center": [
+        18.22,
+        6.82,
+        14.29
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 9299,
+      "n_pockets": 1
+    },
+    "5E92": {
+      "distancia_a_ligando": 10.262,
+      "ground_truth": "A:ANP601",
+      "score": 0.3831,
+      "druggability": 0.3314,
+      "pocket_center": [
+        17.9,
+        6.78,
+        14.65
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 9467,
+      "n_pockets": 1
+    },
+    "5F1A": {
+      "distancia_a_ligando": 27.158,
+      "ground_truth": "A:COH602",
+      "score": 0.3829,
+      "druggability": 0.3312,
+      "pocket_center": [
+        36.01,
+        24.63,
+        218.11
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 40377,
+      "n_pockets": 1
+    },
+    "5HK9": {
+      "distancia_a_ligando": 17.293,
+      "ground_truth": "A:64O401",
+      "score": 0.3876,
+      "druggability": 0.3375,
+      "pocket_center": [
+        -8.31,
+        28.03,
+        21.51
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 42960,
+      "n_pockets": 1
+    },
+    "5HKA": {
+      "distancia_a_ligando": 16.992,
+      "ground_truth": "A:64N401",
+      "score": 0.388,
+      "druggability": 0.338,
+      "pocket_center": [
+        -8.33,
+        27.83,
+        21.4
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 42834,
+      "n_pockets": 1
+    },
+    "5JYC": {
+      "distancia_a_ligando": 16.953,
+      "ground_truth": "A:EET401",
+      "score": 0.3872,
+      "druggability": 0.337,
+      "pocket_center": [
+        8.03,
+        28.58,
+        -21.68
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 43516,
+      "n_pockets": 1
+    },
+    "5L2Y": {
+      "distancia_a_ligando": 16.137,
+      "ground_truth": "H:70D301",
+      "score": 0.986,
+      "druggability": 0.9486,
+      "pocket_center": [
+        13.95,
+        24.13,
+        19.5
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 10405,
+      "n_pockets": 1
+    },
+    "5L2Z": {
+      "distancia_a_ligando": 16.052,
+      "ground_truth": "H:70C301",
+      "score": 0.9858,
+      "druggability": 0.9486,
+      "pocket_center": [
+        13.54,
+        22.17,
+        19.17
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 10359,
+      "n_pockets": 2
+    },
+    "5L30": {
+      "distancia_a_ligando": 16.673,
+      "ground_truth": "H:70A301",
+      "score": 0.9857,
+      "druggability": 0.9486,
+      "pocket_center": [
+        13.9,
+        23.46,
+        18.82
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 10257,
+      "n_pockets": 2
+    },
+    "5L3J": {
+      "distancia_a_ligando": 21.275,
+      "ground_truth": "A:6G9401",
+      "score": 0.3813,
+      "druggability": 0.3291,
+      "pocket_center": [
+        -2.62,
+        2.12,
+        18.11
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 12044,
+      "n_pockets": 1
+    },
+    "5ML2": {
+      "distancia_a_ligando": 6.178,
+      "ground_truth": "B:NH6201",
+      "score": 0.3824,
+      "druggability": 0.3306,
+      "pocket_center": [
+        -20.72,
+        21.39,
+        8.49
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 4693,
+      "n_pockets": 2
+    },
+    "5ML3": {
+      "distancia_a_ligando": 6.808,
+      "ground_truth": "B:DL3201",
+      "score": 0.3829,
+      "druggability": 0.3312,
+      "pocket_center": [
+        -29.24,
+        6.45,
+        -8.1
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 4705,
+      "n_pockets": 1
+    },
+    "5ML4": {
+      "distancia_a_ligando": 7.398,
+      "ground_truth": "B:RRQ201",
+      "score": 0.3801,
+      "druggability": 0.3276,
+      "pocket_center": [
+        -20.37,
+        22.07,
+        8.18
+      ],
+      "pocket_radius": 5.98,
+      "n_spheres": 4912,
+      "n_pockets": 1
+    },
+    "5ML6": {
+      "distancia_a_ligando": 7.758,
+      "ground_truth": "B:9GD201",
+      "score": 0.3819,
+      "druggability": 0.33,
+      "pocket_center": [
+        -20.42,
+        21.7,
+        8.53
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 4719,
+      "n_pockets": 1
+    },
+    "5ML8": {
+      "distancia_a_ligando": 7.402,
+      "ground_truth": "B:V98201",
+      "score": 0.3817,
+      "druggability": 0.3297,
+      "pocket_center": [
+        -27.25,
+        7.83,
+        -10.58
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 4666,
+      "n_pockets": 2
+    },
+    "5MMN": {
+      "distancia_a_ligando": 9.174,
+      "ground_truth": "A:O54301",
+      "score": 0.386,
+      "druggability": 0.3353,
+      "pocket_center": [
+        -41.45,
+        8.75,
+        8.43
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6241,
+      "n_pockets": 1
+    },
+    "5O65": {
+      "distancia_a_ligando": 21.697,
+      "ground_truth": "C:C8E507",
+      "score": 0.3769,
+      "druggability": 0.3233,
+      "pocket_center": [
+        40.88,
+        83.12,
+        16.83
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 29922,
+      "n_pockets": 1
+    },
+    "5O67": {
+      "distancia_a_ligando": 44.333,
+      "ground_truth": "C:C8E503",
+      "score": 0.3772,
+      "druggability": 0.3237,
+      "pocket_center": [
+        23.21,
+        18.58,
+        179.53
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 30447,
+      "n_pockets": 2
+    },
+    "5PA9": {
+      "distancia_a_ligando": 14.995,
+      "ground_truth": "C:ABN506",
+      "score": 0.3845,
+      "druggability": 0.3334,
+      "pocket_center": [
+        13.65,
+        23.81,
+        18.34
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 10576,
+      "n_pockets": 2
+    },
+    "5TNE": {
+      "distancia_a_ligando": 15.914,
+      "ground_truth": "A:7F6401",
+      "score": 0.3879,
+      "druggability": 0.3379,
+      "pocket_center": [
+        8.18,
+        28.61,
+        -21.67
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 43213,
+      "n_pockets": 1
+    },
+    "5TNH": {
+      "distancia_a_ligando": 16.291,
+      "ground_truth": "C:7MS401",
+      "score": 0.3872,
+      "druggability": 0.337,
+      "pocket_center": [
+        7.87,
+        13.34,
+        -21.61
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 43172,
+      "n_pockets": 1
+    },
+    "5TNN": {
+      "distancia_a_ligando": 16.328,
+      "ground_truth": "A:7F2401",
+      "score": 0.3877,
+      "druggability": 0.3376,
+      "pocket_center": [
+        -7.92,
+        29.16,
+        21.61
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 43442,
+      "n_pockets": 1
+    },
+    "5TOL": {
+      "distancia_a_ligando": 7.921,
+      "ground_truth": "A:7H3501",
+      "score": 0.9859,
+      "druggability": 0.9486,
+      "pocket_center": [
+        -23.02,
+        54.02,
+        28.64
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 12753,
+      "n_pockets": 2
+    },
+    "5U6X": {
+      "distancia_a_ligando": 27.85,
+      "ground_truth": "A:HEM701",
+      "score": 0.3832,
+      "druggability": 0.3316,
+      "pocket_center": [
+        28.42,
+        157.16,
+        4.8
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 41232,
+      "n_pockets": 1
+    },
+    "5VB8": {
+      "distancia_a_ligando": 45.658,
+      "ground_truth": "A:PX41304",
+      "score": 0.9768,
+      "druggability": 0.9459,
+      "pocket_center": [
+        -42.57,
+        -56.45,
+        -71.8
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 5889,
+      "n_pockets": 2
+    },
+    "5WBE": {
+      "distancia_a_ligando": 27.975,
+      "ground_truth": "A:HEM801",
+      "score": 0.3834,
+      "druggability": 0.3319,
+      "pocket_center": [
+        28.28,
+        156.69,
+        4.93
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 41548,
+      "n_pockets": 1
+    },
+    "5WZX": {
+      "distancia_a_ligando": 23.301,
+      "ground_truth": "A:7VX501",
+      "score": 0.378,
+      "druggability": 0.3247,
+      "pocket_center": [
+        89.63,
+        105.92,
+        21.09
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 15666,
+      "n_pockets": 1
+    },
+    "5YUA": {
+      "distancia_a_ligando": 37.986,
+      "ground_truth": "A:PX41305",
+      "score": 0.9739,
+      "druggability": 0.945,
+      "pocket_center": [
+        13.33,
+        -17.65,
+        25.22
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6638,
+      "n_pockets": 1
+    },
+    "6A5W": {
+      "distancia_a_ligando": 21.087,
+      "ground_truth": "A:9R0501",
+      "score": 0.3788,
+      "druggability": 0.3258,
+      "pocket_center": [
+        -0.63,
+        -24.79,
+        -23.77
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 16661,
+      "n_pockets": 2
+    },
+    "6C1P": {
+      "distancia_a_ligando": 21.023,
+      "ground_truth": "A:PX41304",
+      "score": 0.9739,
+      "druggability": 0.945,
+      "pocket_center": [
+        -0.85,
+        -94.1,
+        216.06
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 29650,
+      "n_pockets": 1
+    },
+    "6E53": {
+      "distancia_a_ligando": 12.429,
+      "ground_truth": "A:HUV603",
+      "score": 0.3787,
+      "druggability": 0.3257,
+      "pocket_center": [
+        1.03,
+        -7.85,
+        124.2
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 24032,
+      "n_pockets": 1
+    },
+    "6EU9": {
+      "distancia_a_ligando": 38.015,
+      "ground_truth": "B:REA601",
+      "score": 0.3769,
+      "druggability": 0.3233,
+      "pocket_center": [
+        26.0,
+        -1.77,
+        -3.77
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 29983,
+      "n_pockets": 2
+    },
+    "6HSK": {
+      "distancia_a_ligando": 21.256,
+      "ground_truth": "A:GOK404",
+      "score": 0.9853,
+      "druggability": 0.9484,
+      "pocket_center": [
+        -25.59,
+        19.41,
+        -21.15
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 24757,
+      "n_pockets": 1
+    },
+    "6HW5": {
+      "distancia_a_ligando": 30.828,
+      "ground_truth": "H:GRT301",
+      "score": 0.3833,
+      "druggability": 0.3317,
+      "pocket_center": [
+        35.2,
+        -147.68,
+        32.49
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 241391,
+      "n_pockets": 2
+    },
+    "6HW7": {
+      "distancia_a_ligando": 31.013,
+      "ground_truth": "H:GTW301",
+      "score": 0.3833,
+      "druggability": 0.3318,
+      "pocket_center": [
+        34.44,
+        -147.68,
+        32.17
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 238766,
+      "n_pockets": 1
+    },
+    "6ITM": {
+      "distancia_a_ligando": 25.968,
+      "ground_truth": "A:AWL501",
+      "score": 0.3805,
+      "druggability": 0.3281,
+      "pocket_center": [
+        34.64,
+        16.53,
+        9.3
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 16184,
+      "n_pockets": 1
+    },
+    "6KE5": {
+      "distancia_a_ligando": 4.936,
+      "ground_truth": "C:D6C1302",
+      "score": 0.9744,
+      "druggability": 0.9451,
+      "pocket_center": [
+        31.14,
+        185.33,
+        25.58
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 32249,
+      "n_pockets": 1
+    },
+    "6MK9": {
+      "distancia_a_ligando": 3.767,
+      "ground_truth": "A:7O7400",
+      "score": 0.983,
+      "druggability": 0.9478,
+      "pocket_center": [
+        -11.32,
+        19.46,
+        -0.27
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6308,
+      "n_pockets": 1
+    },
+    "6MKL": {
+      "distancia_a_ligando": 3.622,
+      "ground_truth": "A:7OA400",
+      "score": 0.9822,
+      "druggability": 0.9475,
+      "pocket_center": [
+        10.89,
+        -19.62,
+        0.22
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6252,
+      "n_pockets": 1
+    },
+    "6MVV": {
+      "distancia_a_ligando": 21.42,
+      "ground_truth": "C:PX41301",
+      "score": 0.974,
+      "druggability": 0.945,
+      "pocket_center": [
+        127.11,
+        32.43,
+        24.65
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 28921,
+      "n_pockets": 1
+    },
+    "6MWA": {
+      "distancia_a_ligando": 19.576,
+      "ground_truth": "B:CPS2307",
+      "score": 0.9729,
+      "druggability": 0.9447,
+      "pocket_center": [
+        -67.43,
+        -43.56,
+        -67.64
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 6516,
+      "n_pockets": 1
+    },
+    "6P6X": {
+      "distancia_a_ligando": 13.82,
+      "ground_truth": "A:PX42003",
+      "score": 0.9752,
+      "druggability": 0.9454,
+      "pocket_center": [
+        -42.42,
+        -54.52,
+        -70.26
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 6667,
+      "n_pockets": 2
+    },
+    "6PU8": {
+      "distancia_a_ligando": 4.28,
+      "ground_truth": "B:P3V201",
+      "score": 0.9839,
+      "druggability": 0.948,
+      "pocket_center": [
+        15.44,
+        -17.7,
+        -19.59
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6236,
+      "n_pockets": 1
+    },
+    "6S1Y": {
+      "distancia_a_ligando": 3.621,
+      "ground_truth": "A:KSN710",
+      "score": 0.3846,
+      "druggability": 0.3334,
+      "pocket_center": [
+        13.66,
+        -62.07,
+        -20.04
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 21135,
+      "n_pockets": 1
+    },
+    "6S1Z": {
+      "distancia_a_ligando": 3.591,
+      "ground_truth": "A:KS8704",
+      "score": 0.3852,
+      "druggability": 0.3342,
+      "pocket_center": [
+        14.77,
+        -65.67,
+        -19.38
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 20940,
+      "n_pockets": 1
+    },
+    "6SX5": {
+      "distancia_a_ligando": 41.11,
+      "ground_truth": "A:2CV304",
+      "score": 0.9742,
+      "druggability": 0.9451,
+      "pocket_center": [
+        46.25,
+        73.45,
+        32.06
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 7717,
+      "n_pockets": 2
+    },
+    "6SX7": {
+      "distancia_a_ligando": 40.644,
+      "ground_truth": "A:2CV304",
+      "score": 0.9753,
+      "druggability": 0.9454,
+      "pocket_center": [
+        46.74,
+        72.73,
+        32.27
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 7752,
+      "n_pockets": 1
+    },
+    "6SXC": {
+      "distancia_a_ligando": 18.075,
+      "ground_truth": "A:OHT305",
+      "score": 0.9729,
+      "druggability": 0.9447,
+      "pocket_center": [
+        18.38,
+        7.56,
+        33.51
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 7964,
+      "n_pockets": 1
+    },
+    "6SXE": {
+      "distancia_a_ligando": 18.772,
+      "ground_truth": "A:9XY307",
+      "score": 0.9728,
+      "druggability": 0.9446,
+      "pocket_center": [
+        18.45,
+        7.34,
+        32.88
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 7909,
+      "n_pockets": 1
+    },
+    "6SXG": {
+      "distancia_a_ligando": 18.435,
+      "ground_truth": "A:OHT305",
+      "score": 0.9725,
+      "druggability": 0.9446,
+      "pocket_center": [
+        18.43,
+        7.46,
+        33.14
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 7910,
+      "n_pockets": 1
+    },
+    "6USR": {
+      "distancia_a_ligando": 14.695,
+      "ground_truth": "A:G2P604",
+      "score": 0.9789,
+      "druggability": 0.9465,
+      "pocket_center": [
+        37.53,
+        -5.8,
+        -12.38
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 22914,
+      "n_pockets": 1
+    },
+    "6VU4": {
+      "distancia_a_ligando": 4.834,
+      "ground_truth": "C:MEA6",
+      "score": 0.9736,
+      "druggability": 0.9449,
+      "pocket_center": [
+        113.18,
+        32.36,
+        105.49
+      ],
+      "pocket_radius": 5.98,
+      "n_spheres": 592,
+      "n_pockets": 1
+    },
+    "6Y5A": {
+      "distancia_a_ligando": 37.47,
+      "ground_truth": "A:SRO501",
+      "score": 0.9798,
+      "druggability": 0.9468,
+      "pocket_center": [
+        133.26,
+        132.96,
+        130.87
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 74744,
+      "n_pockets": 1
+    },
+    "6ZD1": {
+      "distancia_a_ligando": 21.431,
+      "ground_truth": "A:MSE248",
+      "score": 0.3781,
+      "druggability": 0.3249,
+      "pocket_center": [
+        1.4,
+        43.37,
+        172.22
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 23297,
+      "n_pockets": 1
+    },
+    "6ZDP": {
+      "distancia_a_ligando": 24.39,
+      "ground_truth": "A:MSE248",
+      "score": 0.3739,
+      "druggability": 0.3194,
+      "pocket_center": [
+        1.04,
+        73.43,
+        67.66
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 30626,
+      "n_pockets": 2
+    },
+    "7D42": {
+      "distancia_a_ligando": 8.715,
+      "ground_truth": "A:GWF501",
+      "score": 0.981,
+      "druggability": 0.9471,
+      "pocket_center": [
+        14.18,
+        -5.59,
+        -39.67
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 7153,
+      "n_pockets": 1
+    },
+    "7JVU": {
+      "distancia_a_ligando": 4.331,
+      "ground_truth": "A:SHH404",
+      "score": 0.3855,
+      "druggability": 0.3347,
+      "pocket_center": [
+        17.12,
+        33.94,
+        22.25
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 24835,
+      "n_pockets": 1
+    },
+    "7JVW": {
+      "distancia_a_ligando": 3.798,
+      "ground_truth": "A:B3N501",
+      "score": 0.9852,
+      "druggability": 0.9484,
+      "pocket_center": [
+        16.76,
+        32.38,
+        22.51
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 23850,
+      "n_pockets": 1
+    },
+    "7SGG": {
+      "distancia_a_ligando": 26.788,
+      "ground_truth": "A:SHH701",
+      "score": 0.9882,
+      "druggability": 0.9493,
+      "pocket_center": [
+        -3.76,
+        -32.11,
+        23.07
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 21555,
+      "n_pockets": 1
+    },
+    "7T9N": {
+      "distancia_a_ligando": 16.644,
+      "ground_truth": "R:Z41801",
+      "score": 0.3827,
+      "druggability": 0.331,
+      "pocket_center": [
+        173.1,
+        178.73,
+        173.61
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 60354,
+      "n_pockets": 1
+    },
+    "7TM9": {
+      "distancia_a_ligando": 46.517,
+      "ground_truth": "A:SEP117",
+      "score": 0.3854,
+      "druggability": 0.3346,
+      "pocket_center": [
+        -11.34,
+        -11.72,
+        45.68
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 119847,
+      "n_pockets": 1
+    },
+    "7TRB": {
+      "distancia_a_ligando": 26.594,
+      "ground_truth": "A:IUS501",
+      "score": 0.9781,
+      "druggability": 0.9463,
+      "pocket_center": [
+        17.45,
+        14.44,
+        8.65
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 15065,
+      "n_pockets": 1
+    },
+    "7UTZ": {
+      "distancia_a_ligando": 25.21,
+      "ground_truth": "R:Z41805",
+      "score": 0.3828,
+      "druggability": 0.3311,
+      "pocket_center": [
+        175.81,
+        184.65,
+        182.86
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 54021,
+      "n_pockets": 1
+    },
+    "7VUE": {
+      "distancia_a_ligando": 8.49,
+      "ground_truth": "A:811501",
+      "score": 0.9827,
+      "druggability": 0.9477,
+      "pocket_center": [
+        24.82,
+        44.42,
+        0.18
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 7127,
+      "n_pockets": 2
+    },
+    "7XW5": {
+      "distancia_a_ligando": 25.199,
+      "ground_truth": "R:HOI805",
+      "score": 0.3815,
+      "druggability": 0.3294,
+      "pocket_center": [
+        161.15,
+        159.58,
+        150.39
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 55720,
+      "n_pockets": 1
+    },
+    "7XW6": {
+      "distancia_a_ligando": 28.215,
+      "ground_truth": "R:CLR805",
+      "score": 0.3811,
+      "druggability": 0.3288,
+      "pocket_center": [
+        123.88,
+        122.33,
+        116.79
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 57371,
+      "n_pockets": 1
+    },
+    "7ZYJ": {
+      "distancia_a_ligando": 25.365,
+      "ground_truth": "L:KFC901",
+      "score": 0.3834,
+      "druggability": 0.3319,
+      "pocket_center": [
+        129.04,
+        129.01,
+        128.54
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 236536,
+      "n_pockets": 1
+    },
+    "8HCE": {
+      "distancia_a_ligando": 21.137,
+      "ground_truth": "B:C5P301",
+      "score": 0.3812,
+      "druggability": 0.329,
+      "pocket_center": [
+        32.3,
+        -0.87,
+        19.48
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 14871,
+      "n_pockets": 1
+    },
+    "8HCF": {
+      "distancia_a_ligando": 20.861,
+      "ground_truth": "B:U5P301",
+      "score": 0.3816,
+      "druggability": 0.3295,
+      "pocket_center": [
+        32.07,
+        -0.84,
+        19.44
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 14932,
+      "n_pockets": 1
+    },
+    "8HD3": {
+      "distancia_a_ligando": 16.105,
+      "ground_truth": "A:XAW601",
+      "score": 0.3814,
+      "druggability": 0.3293,
+      "pocket_center": [
+        -19.12,
+        -7.85,
+        27.5
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 16255,
+      "n_pockets": 1
+    },
+    "8HFF": {
+      "distancia_a_ligando": 5.258,
+      "ground_truth": "A:LNR701",
+      "score": 0.9841,
+      "druggability": 0.9481,
+      "pocket_center": [
+        101.41,
+        104.53,
+        103.8
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 18660,
+      "n_pockets": 1
+    },
+    "8HFG": {
+      "distancia_a_ligando": 6.383,
+      "ground_truth": "A:LDP701",
+      "score": 0.9825,
+      "druggability": 0.9476,
+      "pocket_center": [
+        104.59,
+        106.3,
+        105.82
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 18741,
+      "n_pockets": 1
+    },
+    "8HFI": {
+      "distancia_a_ligando": 5.191,
+      "ground_truth": "A:DSM701",
+      "score": 0.9837,
+      "druggability": 0.9479,
+      "pocket_center": [
+        102.83,
+        104.7,
+        103.8
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 18606,
+      "n_pockets": 1
+    },
+    "8HFL": {
+      "distancia_a_ligando": 5.563,
+      "ground_truth": "A:1XR701",
+      "score": 0.9821,
+      "druggability": 0.9475,
+      "pocket_center": [
+        103.1,
+        104.73,
+        104.41
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 19008,
+      "n_pockets": 1
+    },
+    "8I3V": {
+      "distancia_a_ligando": 7.953,
+      "ground_truth": "A:68P701",
+      "score": 0.9834,
+      "druggability": 0.9479,
+      "pocket_center": [
+        102.66,
+        104.71,
+        103.53
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 18734,
+      "n_pockets": 1
+    },
+    "8JSW": {
+      "distancia_a_ligando": 6.232,
+      "ground_truth": "A:SRO501",
+      "score": 0.9834,
+      "druggability": 0.9479,
+      "pocket_center": [
+        135.94,
+        141.07,
+        124.52
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 11391,
+      "n_pockets": 1
+    },
+    "8JT9": {
+      "distancia_a_ligando": 6.989,
+      "ground_truth": "A:UYX501",
+      "score": 0.9828,
+      "druggability": 0.9477,
+      "pocket_center": [
+        132.71,
+        130.11,
+        118.7
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 11387,
+      "n_pockets": 3
+    },
+    "8JTB": {
+      "distancia_a_ligando": 6.088,
+      "ground_truth": "A:LDP501",
+      "score": 0.9831,
+      "druggability": 0.9478,
+      "pocket_center": [
+        135.66,
+        140.13,
+        126.13
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 11324,
+      "n_pockets": 1
+    },
+    "8T69": {
+      "distancia_a_ligando": 7.358,
+      "ground_truth": "A:YHL901",
+      "score": 0.9851,
+      "druggability": 0.9484,
+      "pocket_center": [
+        123.44,
+        123.58,
+        110.11
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 11876,
+      "n_pockets": 2
+    },
+    "8UBR": {
+      "distancia_a_ligando": 30.185,
+      "ground_truth": "A:ATP1502",
+      "score": 0.9793,
+      "druggability": 0.9467,
+      "pocket_center": [
+        147.48,
+        149.89,
+        125.93
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 41840,
+      "n_pockets": 1
+    },
+    "8WGR": {
+      "distancia_a_ligando": 5.072,
+      "ground_truth": "A:DSM701",
+      "score": 0.9837,
+      "druggability": 0.9479,
+      "pocket_center": [
+        101.83,
+        106.14,
+        103.71
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 18633,
+      "n_pockets": 2
+    },
+    "8WRE": {
+      "distancia_a_ligando": 35.298,
+      "ground_truth": "A:LDP601",
+      "score": 0.9827,
+      "druggability": 0.9477,
+      "pocket_center": [
+        145.1,
+        140.4,
+        159.92
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 28282,
+      "n_pockets": 1
+    },
+    "8WTW": {
+      "distancia_a_ligando": 3.775,
+      "ground_truth": "B:0A18",
+      "score": 0.9852,
+      "druggability": 0.9484,
+      "pocket_center": [
+        107.22,
+        109.99,
+        108.56
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 20528,
+      "n_pockets": 1
+    },
+    "8WTX": {
+      "distancia_a_ligando": 5.542,
+      "ground_truth": "A:Y60701",
+      "score": 0.9845,
+      "druggability": 0.9482,
+      "pocket_center": [
+        127.97,
+        125.03,
+        127.42
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 18911,
+      "n_pockets": 1
+    },
+    "8X3K": {
+      "distancia_a_ligando": 6.583,
+      "ground_truth": "A:SRO601",
+      "score": 0.9848,
+      "druggability": 0.9483,
+      "pocket_center": [
+        117.13,
+        119.39,
+        121.45
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 11453,
+      "n_pockets": 1
+    },
+    "8Y93": {
+      "distancia_a_ligando": 22.094,
+      "ground_truth": "A:TP0701",
+      "score": 0.9836,
+      "druggability": 0.9479,
+      "pocket_center": [
+        115.29,
+        116.7,
+        118.84
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 40335,
+      "n_pockets": 1
+    },
+    "9GKV": {
+      "distancia_a_ligando": 23.346,
+      "ground_truth": "B:SHH401",
+      "score": 0.9864,
+      "druggability": 0.9488,
+      "pocket_center": [
+        6.63,
+        0.17,
+        -14.4
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 21316,
+      "n_pockets": 3
+    },
+    "9KQE": {
+      "distancia_a_ligando": 6.083,
+      "ground_truth": "A:LDP601",
+      "score": 0.9847,
+      "druggability": 0.9483,
+      "pocket_center": [
+        114.21,
+        119.13,
+        117.9
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 11439,
+      "n_pockets": 1
+    },
+    "9RJE": {
+      "distancia_a_ligando": 6.935,
+      "ground_truth": "A:6NA401",
+      "score": 0.3884,
+      "druggability": 0.3386,
+      "pocket_center": [
+        -15.3,
+        -11.54,
+        -22.33
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 10242,
+      "n_pockets": 1
+    },
+    "9TDZ": {
+      "distancia_a_ligando": 20.739,
+      "ground_truth": "B:SEP30",
+      "score": 0.3868,
+      "druggability": 0.3365,
+      "pocket_center": [
+        -16.13,
+        1.98,
+        -20.31
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 12762,
+      "n_pockets": 1
+    },
+    "9V39": {
+      "distancia_a_ligando": 20.676,
+      "ground_truth": "A:SRO202",
+      "score": 0.9695,
+      "druggability": 0.9436,
+      "pocket_center": [
+        12.55,
+        9.28,
+        -0.18
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 4457,
+      "n_pockets": 1
+    },
+    "9V3A": {
+      "distancia_a_ligando": 8.75,
+      "ground_truth": "A:SRO201",
+      "score": 0.978,
+      "druggability": 0.9462,
+      "pocket_center": [
+        6.82,
+        5.99,
+        9.91
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 3093,
+      "n_pockets": 1
+    }
+  },
+  "skipped": [
+    {
+      "pdb_id": "1C3P",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1IAS",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1IRU",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1J38",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1KTZ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1M9Z",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1RYP",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1SUU",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1TW7",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1UZJ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1VL4",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1VPB",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1XWD",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2B2A",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2I3U",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2J4O",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2QCQ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2R4G",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2XWT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2ZJT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3DU6",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3E50",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3F75",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3G04",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3HH2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3IG0",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3JTG",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3KD2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3KDA",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3KYL",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3MXJ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4DLN",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4DM7",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4DMF",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4I04",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4LMO",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4NPU",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5C9H",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5DIY",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5E4G",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5E8V",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5FG9",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5FPW",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5JHW",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5NPT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5T4X",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5TPT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5TUN",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5TXJ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5YWS",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5YWV",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6GAV",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6HL0",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6OGV",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6PSD",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6RML",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6USO",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6W10",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6ZD2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6ZD6",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6ZDQ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7KQM",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7SBE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7T9I",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8F6U",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8F6V",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8GJR",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8HFE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8J47",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8V52",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8WZL",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9E9G",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9F9T",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9KJE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9NX5",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA0",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA1",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA3",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA4",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9RAW",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9RAX",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    }
+  ],
+  "fallos": {},
+  "peores_outliers": [
+    {
+      "pdb_id": "4YNQ",
+      "distancia": 120.724
+    },
+    {
+      "pdb_id": "1FH0",
+      "distancia": 87.923
+    },
+    {
+      "pdb_id": "2A3W",
+      "distancia": 51.64
+    },
+    {
+      "pdb_id": "7TM9",
+      "distancia": 46.517
+    },
+    {
+      "pdb_id": "5VB8",
+      "distancia": 45.658
+    }
+  ],
+  "exit_code": 1
+}

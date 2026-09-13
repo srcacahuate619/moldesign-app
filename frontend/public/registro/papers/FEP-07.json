@@ -1,0 +1,448 @@
+{
+ "id": "FEP-07",
+ "meta": {
+  "titulo": "Setenta y cinco, o diecinueve, y la diferencia no son defectos",
+  "entradilla": "Cinco auditorías contaban piezas sueltas. Cruzarlas cuesta once milisegundos y da el número que ninguna tenía: cuántos cálculos de energía libre se pueden correr hoy."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La cartera de preparación para energía libre tenía tres auditorías, y ninguna respondía la pregunta que decide el trabajo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "FEP-01",
+     "m": "codigo"
+    },
+    {
+     "t": " contaba ligandos con tautómero ambiguo. ",
+     "m": null
+    },
+    {
+     "t": "FEP-02",
+     "m": "codigo"
+    },
+    {
+     "t": " contaba receptores con huecos. ",
+     "m": null
+    },
+    {
+     "t": "FEP-03",
+     "m": "codigo"
+    },
+    {
+     "t": " contaba parejas congenéricas. Cada una mira una pieza — pero ",
+     "m": null
+    },
+    {
+     "t": "un cálculo de energía libre relativa necesita las tres a la vez, y sobre los dos miembros de la pareja",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Si un solo extremo tiene el tautómero sin decidir o un hueco en el bolsillo, la pareja no se puede correr.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento no mide nada nuevo. Une lo ya sellado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "De las 91 parejas que ",
+     "m": null
+    },
+    {
+     "t": "FEP-03",
+     "m": "codigo"
+    },
+    {
+     "t": " declaró aptas:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estado",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Parejas",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "EJECUTABLE HOY",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "75",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Bloqueada sólo por tautómero",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "7",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Bloqueada por receptor",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "9",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las 75 abarcan ",
+     "m": null
+    },
+    {
+     "t": "45 complejos distintos",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Declarar los tautómeros de esos 7 sube la cifra a ",
+     "m": null
+    },
+    {
+     "t": "82",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y eso es una decisión química documentada, no modelado estructural.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La segunda cifra, que va obligatoriamente junto a la primera",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Bajo el criterio ",
+     "m": null
+    },
+    {
+     "t": "completo",
+     "m": "fuerte"
+    },
+    {
+     "t": " de ",
+     "m": null
+    },
+    {
+     "t": "FEP-02",
+     "m": "codigo"
+    },
+    {
+     "t": " —que exige además cadenas, disulfuros, metales, cofactores y aguas documentados en ambos extremos— quedan ",
+     "m": null
+    },
+    {
+     "t": "19 parejas",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Setenta y cinco contra diecinueve. Y lo que hay entre medias es lo importante:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "La distancia entre 75 y 19 ",
+     "m": null
+    },
+    {
+     "t": "no son defectos",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Es documentación ausente.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ninguna de esas 56 parejas está rota. Lo que les falta es que alguien declare qué hace con las aguas del sitio, con los metales y con las cadenas. Nadie tiene que reparar nada: hay que decidir y escribir.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esa distinción decide cómo se planifica la cartera, porque ",
+     "m": null
+    },
+    {
+     "t": "documentar y reparar cuestan órdenes de magnitud distintos",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué la vista por pareja sale mejor que la vista por complejo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "FEP-01",
+     "m": "codigo"
+    },
+    {
+     "t": " reportó 19% y ",
+     "m": null
+    },
+    {
+     "t": "FEP-02",
+     "m": "codigo"
+    },
+    {
+     "t": " un 41% sobre los 203. Aquí sale 75 de 91. Parece contradicción y no lo es:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las 91 parejas aptas ",
+     "m": null
+    },
+    {
+     "t": "ya son un subconjunto filtrado",
+     "m": "fuerte"
+    },
+    {
+     "t": " por ",
+     "m": null
+    },
+    {
+     "t": "FEP-03",
+     "m": "codigo"
+    },
+    {
+     "t": " —pocas dianas con muchos análogos— y ese subconjunto está mejor preparado que la media del conjunto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La lección de método es más general que este experimento:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "La unidad de inferencia de un cálculo de energía libre es ",
+     "m": null
+    },
+    {
+     "t": "la pareja",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no el complejo. Y nadie había contado en esa unidad.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Contar en la unidad equivocada hizo que la cartera pareciera más bloqueada de lo que está.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que este número tiene prohibido",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Declarado en el gate antes de correr: ",
+     "m": null
+    },
+    {
+     "t": "«ejecutable hoy» significa sin los dos bloqueos medidos, no «lista para producción»",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Los 75 son una ",
+     "m": null
+    },
+    {
+     "t": "cota superior",
+     "m": "fuerte"
+    },
+    {
+     "t": " y queda prohibido citarlos como «parejas listas para FEP+».",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El criterio completo se reportó aparte y deliberadamente ",
+     "m": null
+    },
+    {
+     "t": "no se usó para clasificar",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Si se hubiera usado, el experimento diría «19» y escondería que 56 de esas parejas están a una decisión documental de distancia, no a una reparación. Las dos cifras describen cosas distintas y las dos hacen falta.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Coste",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Once milisegundos. Cinco artefactos sellados, un cruce, y el número que ordena la cartera.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es el argumento más claro que tengo a favor de mantener el registro: la información ya estaba pagada. Sólo faltaba preguntarle lo correcto.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FEP-07.md"
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-15-EXT",
+  "hypothesis": "El embudo medido sobre el conjunto v2 se sostiene con 4.6x mas poses",
+  "protocol": "medicion: relectura del material sellado de MF-02D + MF-02F (~751 poses por complejo); Spearman por radio con metrica ingenua y corregida por simetria",
+  "created_at": "2026-08-19T03:53:01.444425+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gates; verificacion: reproducir el Spearman global de MF-09"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_mf15_ext.py": "ef4cd4eaea6193e7f5d7ab9ad8fe23a1fd574dcbaa942cc9a60c81428643857f"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:02.243291+00:00",
+  "decision_rationale": "Reproduce el Spearman de MF-09 al tercer decimal (0.1858 frente a 0.186 en COLOCACION), lo que verifica la lectura del material. Con 751 poses por complejo: rho global 0.186 en COLOCACION y 0.507 en CONTROL; a R<=4 A baja a 0.279 y a R<=6 A a 0.140. Corregir simetria no lo mueve (0.1858 en ambas metricas), asi que el embudo es invariante a esa eleccion. A R<=2 A siguen sin existir complejos medibles en COLOCACION incluso con 751 poses, porque en 30 de 33 no hay ninguna pose ahi (MF-09).",
+  "finished_at": "2026-08-19T03:53:02.423666+00:00"
+}

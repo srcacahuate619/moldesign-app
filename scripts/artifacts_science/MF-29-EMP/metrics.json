@@ -1,0 +1,67 @@
+{
+ "experiment_id": "MF-29-EMP",
+ "tipo": "medicion con regla de lectura preregistrada (cota superior empirica)",
+ "timestamp": "2026-08-20T14:40:51.348112+00:00",
+ "duration_seconds": 122405.18,
+ "config": {
+  "brazos": {
+   "produccion": {
+    "exh": 8,
+    "seeds": [
+     42,
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "masivo": {
+    "exh": 512,
+    "seeds": [
+     42,
+     7,
+     13
+    ]
+   }
+  },
+  "num_modes": 9,
+  "box": 25.0,
+  "ligando": "conf0.flex.pdbqt",
+  "delta_ruido_kcal": 0.1,
+  "criterio_cohorte": "TORSDOF<=6 en el PDBQT (dimension que Vina busca)"
+ },
+ "n_complejos": 50,
+ "n_ok": 48,
+ "cantidad_primaria": {
+  "definicion": "fraccion de complejos donde min(score exh=512) < min(score exh=8) - 0.10",
+  "n_mejora": 3,
+  "de": 48,
+  "fraccion": 0.0625,
+  "lectura_preregistrada": "OBJETIVO"
+ },
+ "por_estrato": {
+  "COLOCACION": {
+   "n": 7,
+   "n_masivo_mejora": 1,
+   "ganancia_mediana": 0.003,
+   "ganancia_max": 0.282
+  },
+  "CONTROL": {
+   "n": 12,
+   "n_masivo_mejora": 0,
+   "ganancia_mediana": 0.002,
+   "ganancia_max": 0.039
+  },
+  "RESTO": {
+   "n": 29,
+   "n_masivo_mejora": 2,
+   "ganancia_mediana": 0.001,
+   "ganancia_max": 0.238
+  }
+ },
+ "limites_declarados": [
+  "NO es el certificado de MF-29; que el masivo no mejore no prueba optimalidad global",
+  "el estrato COLOCACION aporta n pequeno: se reporta comparacion pareada, no mediana",
+  "no extrapola fuera del regimen de <=6 torsiones"
+ ]
+}

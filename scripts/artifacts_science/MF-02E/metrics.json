@@ -1,0 +1,39 @@
+{
+ "experiment_id": "MF-02E",
+ "timestamp": "2026-08-18T02:43:02.888279+00:00",
+ "duration_seconds": 3473.18,
+ "config": {
+  "protocolo": "identico a MF-02D (runner sellado, reutilizado sin modificar)",
+  "n_conf": 30,
+  "top_k": 3,
+  "exhaustiveness": 8,
+  "material": "data\\molflex_valtest_v2"
+ },
+ "cohorte": {
+  "val": 40,
+  "test": 47
+ },
+ "n_complejos": 87,
+ "n_ok": 87,
+ "complejos_sin_pose_en_disco": [],
+ "coste": {
+  "n": 87,
+  "mediana_s": 299.8,
+  "total_s": 32251.1
+ },
+ "nota_metrica": "Las cifras de exito de este runner usan el RMSD ALINEADO heredado de molflex y NO son el resultado: la cobertura se mide en marco de pocket sobre el material, igual que en MF-02D.",
+ "nota_cuarentena": "Generacion con protocolo congelado; no se ajusta nada ni se miran etiquetas. D-RC-CONFIRM no se toca.",
+ "gates": {
+  "G1_validez": {
+   "criterio": ">=95% completan sin error",
+   "tasa": 1.0,
+   "pass": true
+  },
+  "G2_material": {
+   "criterio": "todo complejo deja sus pdbqt de pose en disco",
+   "sin_disco": [],
+   "pass": true
+  }
+ },
+ "decision": "GO"
+}

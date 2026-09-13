@@ -1,0 +1,369 @@
+{
+  "entregable": "CAMPANA-2-PLAN / INVENTORY",
+  "fecha": "2026-08-16 (revision IT1 — decisiones definitivas del maintainer)",
+  "rama": "experimentos/ruta-c-molflex",
+  "tipo": "inventario de lectura (0 computo ejecutado)",
+  "nomenclatura_it1": "Hasta completar RS-03-PARAM, la implementacion actual de MolChamb se denomina 'rescoring MM/GBSA-like de pose unica', NO 'MM-GBSA validado'. Aplica a INVENTORY, DESIGN, FORECAST y a toda la comunicacion de Campaña 2.",
+  "orden_decidido_por_maintainer": [
+    "0. RS-04-QC (tecnica previa, train-only, sin labels)",
+    "1. RS-04 strain (senal barata)",
+    "2. RS-08 decidibilidad (router de escalamiento)",
+    "3. RS-03-PARAM (PRERREQUISITO OBLIGATORIO de RS-03)",
+    "4. RS-03 MM/GBSA-like top-K selectivo",
+    "5. Cascada integrada v0.6 -> router -> strain -> MM/GBSA-like selectivo"
+  ],
+  "nota_orden": "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md:306-312 (Campaña 2) lista el orden RS-03 -> RS-04 -> RS-08; el maintainer lo invierte: strain primero (senal barata), decidibilidad segundo, MM-GBSA tercero. IT1 anade RS-04-QC como etapa previa a RS-04 y RS-03-PARAM como prerrequisito obligatorio de RS-03.",
+  "it1_decisiones": {
+    "QA-1": {
+      "estado": "DECIDIDA (IT1)",
+      "decision": "Union ORIGINAL 3469 primaria; dedup 2413 solo ablacion de coste."
+    },
+    "QA-2": {
+      "estado": "DECIDIDA (IT1)",
+      "decision": {
+        "a_provenance": "sustituir has_molchamb por provenance estructurada: charge_method, formal_charge, uhf, engine_version, model_hash, atom_order_hash, charge_sum, runtime, fallback_reason",
+        "b_carga_formal": "la carga formal proviene del ligando sanitizado, NUNCA se presupone cero (--chrg 0 actual en scripts/compute_quantum_features.py:118 es incorrecto para ionizadas)",
+        "c_sin_gasteiger_silencioso": "PROHIBIDO cargas Gasteiger a modo de sustituto silencioso: si xTB falla, el resultado primario es missing/failed; Gasteiger = sensibilidad secundaria",
+        "d_suma_cargas": "verificar que la suma de cargas corresponda a la carga formal",
+        "e_rs03_param": "RS-03-PARAM como PRERREQUISITO OBLIGATORIO de RS-03: reemplazar el tipado heuristico de molchamb_v2.py:65 por parametrizacion de ligando validada — objetivo desktop: OpenFF Sage + modelo NAGL congelado por version y SHA-256, referencia de validacion AM1-BCC en subconjunto estratificado; hasta completar RS-03-PARAM, la implementacion se llama 'rescoring MM/GBSA-like de pose unica'"
+      }
+    },
+    "QA-3": {
+      "estado": "DECIDIDA (IT1)",
+      "decision": {
+        "a": "umbrales historicos 0.24158/0.399889 SOLO comparadores descriptivos, jamas gates primarios ni recalculados en val40 (cohorte consumida)",
+        "b": "el router se entrena/evalua DENTRO de los 5 folds sellados (scaffold+receptor agrupados)",
+        "c": "politica primaria escala el 30% de mayor riesgo",
+        "d": "reportar curva de sensibilidad a 10%, 20% y 40%",
+        "e": "dentro de cada outer fold, el umbral sale EXCLUSIVAMENTE del outer-train",
+        "f": "tras OOF, se congela un t_router* full-train que reproduzca el presupuesto del 30%",
+        "g": "el margen de v0.6 es FEATURE del riesgo, no un segundo umbral ajustado en val",
+        "semantica": "la decidibilidad es control presupuestario: 'en que casos vale la pena gastar fisica adicional', no 'confio/no confio'"
+      }
+    },
+    "QA-4": {
+      "estado": "DECIDIDA (IT1)",
+      "decision": {
+        "max_iterations": 200,
+        "tolerancia": "10 kJ/mol/nm",
+        "timeout_duro": "300 s/pose",
+        "primario": "top-2 con presupuesto max 600 s/complejo",
+        "secundario": "top-3 ablacion con presupuesto max 900 s/complejo",
+        "fallo_fisico": "conserva seleccion v0.6 y se contabiliza ITT (nunca energia cero)",
+        "protocolo": "single-trajectory: minimizar UNA vez el complejo; calcular complejo, receptor y ligando sobre ESAS mismas coordenadas; NO re-minimizar receptor/ligando por separado (el codigo actual lo hace en molchamb_v2.py:571 — introduce energia de reorganizacion)",
+        "rmsd_desplazamiento": "registrar desplazamiento RMSD por minimizacion; si una pose se deforma excesivamente, no puede 'ganar' por dejar de ser la pose evaluada"
+      }
+    },
+    "QA-5": {
+      "estado": "DECIDIDA (IT1)",
+      "decision": {
+        "topologia": "topologia, ordenes de enlace, estereoquimica y cargas formales desde SDF/SMILES SANITIZADO (nunca inferidas de PDBQT)",
+        "mapeo": "mapeo heavy-atom biyectivo y verificado contra la pose",
+        "hidrogenos": "AddHs(addCoords=True); en la pose docked se optimizan SOLO los H (pesados fijados)",
+        "fuerza": "MMFF94s",
+        "referencia_aislada": "Nconfs = min(200, max(50, 10 x rotatable_bonds)), ETKDGv3, seed 42, optimizacion completa, minimo energetico",
+        "sin_params_mmff": "MMFFHasAllMoleculeParams == false -> unsupported_mmff (NO se mezcla UFF en la feature primaria — energias no comparables)",
+        "halogenos": "NO se excluyen por nombre (decide la cobertura real de MMFF)",
+        "strain_negativo": "NO se trunca a cero — dispara UNA ampliacion del search de referencia, y si persiste, fallo QC",
+        "neutros_vs_ionizados": "resultados separados neutros vs ionizados (MMFF fragil en cargadas)",
+        "xtb_strain": "xTB-strain = segundo experimento selectivo, NO fallback de MMFF"
+      }
+    },
+    "QA-6": {
+      "estado": "DECIDIDA (IT1)",
+      "decision": {
+        "esquema": "cross-fitting COMPLETO (no leave-complex-out parcial): mismos 5 folds sellados de RS-01B; baseline v0.6 y modelo aumentado sobre exactamente los mismos complejos",
+        "ajuste_interno": "preprocesamiento/imputacion/coeficientes ajustados DENTRO del outer-train",
+        "cuarentena": "val40 y D-RC-CONFIRM cerradas",
+        "xgb_congelado": "configuracion XGBoost congelada (aislar el efecto del strain)",
+        "gate": {
+          "top1_oof": ">= 50/116 (47+3)",
+          "mediana_pareada": "<= +0.1 A",
+          "cobertura_quimica": ">= 95%",
+          "mmff_cold_start_p95": "<= 5 s/ligando",
+          "cacheado_p95": "<= 100 ms/pose y <= 3 s/complejo",
+          "sin_regresion_estrato": "sin regresion grave por estrato hard/control"
+        },
+        "lectura_go": "GO de desarrollo posible; 'mejora cientificamente demostrada' exigiria ademas que el intervalo agrupado excluya cero o una ejecucion unica sobre cohorte confirmatoria intacta"
+      }
+    },
+    "RS-04-QC": {
+      "estado": "DECIDIDA (IT1) — etapa nueva previa a RS-04 OOF",
+      "decision": "tecnica, train-only, SIN labels: mapeo atomico biyectivo, manejo de H, cobertura MMFF (MMFFHasAllMoleculeParams), determinismo (2 corridas byte-identicas) y coste cold-start P50/P95 sobre las 2739 poses train de la union original. Si pasa -> RS-04 OOF completo."
+    },
+    "RS-03-PARAM": {
+      "estado": "DECIDIDA (IT1) — nodo del plan entre RS-08 y RS-03 (prerrequisito)",
+      "decision": "ver QA-2(e)."
+    }
+  },
+  "motores_fisicos": [
+    {
+      "id": "mmgbsa_subprocess",
+      "path": "backend/services/docking/mmgbsa_subprocess.py",
+      "lineas": "1-103",
+      "que_computa": "Wrapper de subprocess con timeout REAL para MM-GBSA por pose. Extrae coordenadas de la pose #1 de un SDF de Vina (_extract_first_pose_coords, lineas 31-66) y llama compute_mmgbsa_from_pose; si no hay pose, degrada a compute_mmgbsa (SMILES, conformacion arbitraria). Escribe JSON por stdout.",
+      "entradas": "protein_pdb, smiles, [max_iter=500], [poses_sdf]",
+      "salidas": "JSON con g_complex, g_protein, g_ligand, mmgbsa, energy_change, time_sec, has_molchamb, used_pose",
+      "charge_source": "delegado a compute_mmgbsa_from_pose; has_molchamb queda OBSOLETO para Campaña 2 (IT1/QA-2a: provenance estructurada charge_method/formal_charge/uhf/engine_version/model_hash/atom_order_hash/charge_sum/runtime/fallback_reason)",
+      "callers": "backend/services/docking/queue_handler.py:845-895 (timeout 300 s, kill real del proceso, registro task-scoped)",
+      "estado": "activo en produccion (enable_mmgbsa=False por defecto; queue_handler.py:823-833)"
+    },
+    {
+      "id": "scoring_mmgbsa",
+      "path": "backend/scoring/mmgbsa.py",
+      "lineas": "1-226",
+      "que_computa": "MM-GBSA PROTEIN-ONLY (documentado 'ligand SDF loaded for API compatibility but energy is protein-only', lineas 56-57). AMBER14SB + OBC2 GBSA, PDBFixer, minimizacion Langevin 0 K, descomposicion por force groups con split heuristico vdW 65% / elec 35% (lineas 130-133).",
+      "entradas": "protein_pdb_path, ligand_sdf_path (compat), num_steps=1000",
+      "salidas": "MMGBSAResult(delta_g_total, delta_g_vdw, delta_g_elec, delta_g_gb, delta_g_surf, minimized, platform_used, execution_time_s, warnings)",
+      "charge_source": "N/A (sin ligando)",
+      "parametrizacion": "amber14-all.xml + implicit/obc2.xml; plataforma CUDA > OpenCL > CPU (_get_best_platform, lineas 206-214)",
+      "estado": "DESCARTADO para MM-GBSA real con ligando (docs/07_SPEARMAN_BENCHMARK_LOG.md: 'MM-GBSA protein-only descartado'); no es el motor de RS-03"
+    },
+    {
+      "id": "molchamb_v2",
+      "path": "backend/services/chemistry/molchamb_v2.py",
+      "lineas": "1-627",
+      "que_computa": "MolChamb v2: MM-GBSA completo con ligando (OpenMM). Pipeline: PDBFixer (prepare_protein, 47-58) -> topologia del ligando desde SDF de pose con AddHs(addCoords=True) (compute_mmgbsa_from_pose, 420-432) -> cargas GFN2-xTB via scripts/compute_quantum_features.compute_xtb_features (445-449) con fallback Gasteiger (450-453) -> template Amber heuristico por tipo de atomo (_amber_atom_type, 65-106; _register_ligand_template, 109-136) -> amber14-all.xml + implicit/gbn2.xml, NoCutoff, HBonds, hydrogenMass 1.5 (526-532) -> minimizacion -> dG = g_complex - g_protein - g_ligand con subsistemas re-minimizados por separado (_compute_isolated_fast, 571-627).",
+      "entradas_compute_mmgbsa_from_pose": "protein_pdb, ligand_smiles, pose_coordinates, max_iter=50, ligand_sdf_path (linea 376-382)",
+      "salidas": "dict g_complex, g_protein, g_ligand, mmgbsa, time_sec, has_molchamb",
+      "charge_source": "estado actual: has_molchamb ambiguo (puede ser xTB o Gasteiger, docs/48:95). IT1/QA-2 lo REEMPLAZA por provenance estructurada y PROHIBE el sustituto silencioso (primario missing/failed; Gasteiger solo sensibilidad secundaria).",
+      "nomenclatura_it1": "hasta completar RS-03-PARAM: 'rescoring MM/GBSA-like de pose unica'",
+      "deficiencia_parametrizacion": "tipado heuristico _amber_atom_type (65-106) aproxima eteres como hidroxilos (92: 'ether = hydroxyl (closest protein type avail)') -> motivo de RS-03-PARAM (IT1/QA-2e)",
+      "protocolo_obsoleto": "_compute_isolated_fast (571-627) re-minimiza receptor y ligando por separado -> introduce energia de reorganizacion; IT1/QA-4 impone single-trajectory (una sola minimizacion del complejo; las tres patas sobre las mismas coordenadas)",
+      "limitaciones": "gate de elementos C/H/O/N/S/P (509-524: halogenos/metales -> mmgbsa=None); sin antechamber/GAFF2; historico NaN/-27983 kcal/mol corregido 2026-08-04 usando el SDF de pose como topologia (docstring 392-396, y mmgbsa_subprocess.py:16-24)",
+      "gpu": "auto-detect CUDA > OpenCL > CPU (_get_best_platform, 363-373); GTX 1660 SUPER disponible (manifests de Campaña 1)",
+      "estado": "activo; base de RS-03, condicionado a RS-03-PARAM"
+    },
+    {
+      "id": "xtb_service_archived",
+      "path": "backend/services/xtb/service.py",
+      "lineas": "1-176",
+      "que_computa": "XTBService async (GFN2-xTB --sp --alpb water, cargas de archivo 'charges'). ARCHIVED 2026-08-03: 0 callers (docstring 6-27); quantum_ad4_service.py (su unico caller) tambien esta archivado.",
+      "estado": "archivado, no activo"
+    },
+    {
+      "id": "xtb_vivo",
+      "path": "scripts/compute_quantum_features.py",
+      "lineas": "1-357 (compute_xtb_features 81-177; compute_mmff_features 184-246)",
+      "que_computa": "Wrapper SINCRONO vivo de xtb.exe (--sp --gfn 2 --chrg 0, timeout 120 s, OMP_NUM_THREADS=2, lineas 112-120) sobre conformero ETKDGv3 seed 42 + MMFFOptimizeMolecule (88-94). Extrae xtb_charges, xtb_total_energy_eh, xtb_homo_lumo_gap_ev y agregados de carga. Tambien MMFF94: tipos de atomo, energia total, longitudes de enlace (compute_mmff_features). Cache sqlite en data/quantum_cache.db (306-338) SOLO para compute_quantum_score, no para cargas.",
+      "callers": "molchamb_v2.py:40 (import) / 446 y 156 (compute_xtb_features); queue_handler.py y pipeline/runner.py (quantum_score)",
+      "binario": "tools/xtb/xtb-6.7.1/bin/xtb.exe (EXISTE, verificado 2026-08-16)",
+      "nota_it1": "--chrg 0 (linea 118) es INCORRECTO para ionizadas: IT1/QA-2b exige carga formal del ligando sanitizado. Aplica a toda invocacion xTB de Campaña 2.",
+      "estado": "activo; patron reutilizable para xTB-strain (RS-04, experimento selectivo aparte)"
+    },
+    {
+      "id": "quantum_ad4_archived",
+      "path": "backend/services/docking/quantum_ad4_service.py",
+      "lineas": "1-202",
+      "que_computa": "Nivel 4 (GFN2-xTB + AutoDock 4). ARCHIVED 2026-08-03: 0 callers (docstring 8-35). El quantum_score real siempre viene de scripts/compute_quantum_features.py.",
+      "estado": "archivado, no activo"
+    },
+    {
+      "id": "ums",
+      "path": "backend/scoring/ums.py",
+      "lineas": "1-241",
+      "que_computa": "Universal Metal Score [0..1]: SMILES-only (7 warheads SMARTS 47-75, donor count N/O/S 139-155, molchamb_score precomputado). NO depende de la pose -> NO aplica a strain/decidibilidad/MM-GBSA top-K del camino global.",
+      "aplicabilidad": "SOLO rama Zn (MET-03/RS-05, docs/49:250); gate familiar _is_metalloenzyme_family (94-98); fuera del camino global de Campaña 2."
+    },
+    {
+      "id": "zncoord",
+      "path": "scripts/zn_coordination_features.py",
+      "lineas": "1-280 (compute_zn_features 115; get_zn_coords 43; parse_pdbqt_atoms 60)",
+      "que_computa": "Features Zn por pose (distancia minima a Zn, donadores N/O/S <3.5 A, atomo mas cercano, warhead sulfonamida, dentro de caja 8 A, zn_coord_score heuristico). Orientado a CA2 (3dc3) con fallback de coords hardcodeado.",
+      "aplicabilidad": "SOLO rama Zn (RS-05/MET-03); docs/48:104-105: extraer funciones detras de validacion de ion/receptor; NO generalizar. Fuera del camino global de Campaña 2."
+    },
+    {
+      "id": "relax_openmm_molflex",
+      "path": "scripts/molflex.py",
+      "lineas": "relax_pose_archivo 539, fase3_openmm_relax, sondeo_openmm_relax, MIN_STEPS=300 (79), TIMEOUT_RELAX=180 (81)",
+      "que_computa": "Relax de poses en el pocket: minimizacion OpenMM (o degradacion vina --local_only). PRECEDENTE de minimizacion en pocket. En D-MF-HARD-CURVE el relax esta DESACTIVADO (policy.json relax=false) -> no hay energias de relax selladas para la cohorte.",
+      "estado": "activo como util; precedente de costo: docs/40_MOLFLEX_PROTOCOL.md:104 '~K x 30s' por relax OpenMM"
+    }
+  ],
+  "compute_mmgbsa_from_pose": {
+    "existe": true,
+    "ubicacion": "backend/services/chemistry/molchamb_v2.py:376-568",
+    "callers": [
+      "backend/services/docking/mmgbsa_subprocess.py:83-89 (produccion, pose #1 del SDF)",
+      "backend/api/routers/pro_features.py:529-561 (endpoint Pro, guarda PDB de proteina en temp)"
+    ],
+    "referencia_docs49": "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md:203 (RS-03 usa compute_mmgbsa_from_pose)",
+    "nota": "docs/48:93: debe recibir ligand_sdf_path de la pose real para evitar el historico de H apilados/NaN",
+    "nota_it1": "IT1/QA-4: maxIterations=200, tolerancia 10 kJ/mol/nm, timeout 300 s/pose, protocolo single-trajectory (sin re-minimizacion separada de receptor/ligando); hasta RS-03-PARAM: 'rescoring MM/GBSA-like de pose unica'"
+  },
+  "strain": {
+    "herramientas_disponibles": [
+      "RDKit MMFF94/MMFF94s: AllChem.MMFFGetMoleculeForceField + CalcEnergy (precedente compute_quantum_features.py:221-243, energia del conformero ETKDG aislado). Sin precedente de energia MMFF de POSE DOCKED; requiere wrapper nuevo (por composicion). IT1/QA-5 fija el contrato completo (topologia sanitizada, H-only optimization en pose, MMFF94s, unsupported_mmff).",
+      "RDKit UFF: disponible via API AllChem.UFFGetMoleculeForceField; SIN precedente en el repo. IT1/QA-5 PROHIBE mezclarlo en la feature primaria (energias no comparables entre campos de fuerza).",
+      "xTB single-point: patron de compute_quantum_features.py:81-177 reutilizable sobre coordenadas de pose (SDF/PDBQT -> XYZ -> xtb --sp). IT1/QA-2b: la carga formal debe venir del ligando sanitizado (no --chrg 0). xTB-strain = segundo experimento SELECTIVO, no fallback de MMFF (IT1/QA-5).",
+      "OpenMM minimizacion en pocket: molflex.fase3_openmm_relax (MIN_STEPS 300, TIMEOUT_RELAX 180 s) — precedente de minimizacion completa con pose, distinto del single-point de strain."
+    ],
+    "precedente_rs04_docs49": "docs/49:204: 'Strain de la pose distingue falsos minimos | MMFF/xTB existentes: energia docked vs minimo aislado | Senal OOF incremental; no usar score SMILES constante'",
+    "assets_fase_bc_similares": "Ninguno sellado computa strain de pose: D-MF-HARD-CURVE policy.json tiene relax=false; compute_quantum_features.py computa energia del CONFORMERO AISLADO (no de la pose). RS-04 es greenfield sobre las geometrias selladas; RS-04-QC (IT1) valida el pipeline antes de OOF.",
+    "insumo_de_poses": "union ORIGINAL 3469 (IT1/QA-1 primaria); RS-04-QC sobre las 2739 poses train. PDBQT embebido en union_candidates_train.jsonl (sha 61ab0e26...); SDF por pose via archivo_pose() de ruta_c_fase3_5_decidibilidad.py:419-426 (S1 vina_redock_work, S2 .work_molflex_v3, S3 tmp/ruta_a)"
+  },
+  "decidibilidad": {
+    "script": "scripts/ruta_c_fase3_5_decidibilidad.py (1122 lineas)",
+    "artefacto": "scripts/artifacts_ruta_c_fase3_5.json (784 lineas, _ultima_etapa=completo)",
+    "que_produce": [
+      "Parte 1 (C5): reentreno reproducible de v0.6 (test top-1 0.6596 = referencia, delta 0), 18 agregados por complejo (FEATURES_DEC, lineas 94-99), clasificador de decidibilidad (label = complejo tiene >=1 pose <=2 A; LogisticRegression primero, GBT depth 3 si AUC val < 0.85, lineas 199-279), puntos de operacion SOLO sobre val (lineas 353-409), aplicacion a test UNA sola pasada (934-1035).",
+      "Parte 2 (R-RC5): invarianza rigida (tolerancia 1e-6) y perturbacion sigma=0.1 A de poses."
+    ],
+    "resultados_clave": {
+      "modelo": "LogisticRegression (auc_train 0.9474, auc_val 0.9621, n_val 39/40)",
+      "features_18": ["n_poses","vina_top_raw","z_vina_top","pct_vina_top","margin","p_top1","std_scores","cluster_top1","cluster_max","n_cluster_ge1","max_abs_z_cpa4","spread_contacts_6","spread_shell_O_N_0_4","n_contactos4_top1","cpa4_top1","n_clashes_top1","vina_min","vina_std"],
+      "coeficientes_persistidos": "si (coeficientes_logistica en el artefacto JSON; clf/scaler/med NO se serializan en el JSON)",
+      "umbrales_historicos": {"t_d_solo": 0.24158, "t_d_combinada": 0.399889, "t_m_combinada": 0.0, "t_m_fase3": 0.097663},
+      "test": {
+        "margin_only": {"abstencion": 0.4255, "top1_aceptados": 0.8519, "top1_rechazados": 0.4},
+        "decidibilidad_only": {"abstencion": 0.1064, "top1_aceptados": 0.7143, "top1_rechazados": 0.2},
+        "combinada": {"abstencion": 0.1277, "top1_aceptados": 0.7073, "top1_rechazados": 0.3333}
+      },
+      "veredicto_fase3_5": "SIN_MEJORA_HONESTA: la regla por margen de Fase 3 se mantiene; la abstencion por decidibilidad NO domina al margen a presupuesto igualado (artefacto recomendacion.regla_recomendada = margin_only)"
+    },
+    "reuso_sin_reentrenar": {
+      "sobre_v06_congelado": "SI: los 18 agregados se calculan a partir de scores v0.6 y features congeladas (224 raw + z/pct); el checkpoint pose_selector_v06.xgb NO se toca.",
+      "contrato_it1_qa3": "umbrales historicos 0.24158/0.399889 SOLO comparadores descriptivos (nunca gates, nunca recalculados en val40 — cohorte consumida); router entrenado/evaluado DENTRO de los 5 folds sellados RS-01B (scaffold+receptor agrupados); umbral de cada outer fold EXCLUSIVAMENTE del outer-train; politica primaria escala el 30% de mayor riesgo; sensibilidad 10/20/40%; tras OOF, t_router* full-train congelado que reproduce el presupuesto del 30%; el margen de v0.6 es FEATURE del riesgo, no segundo umbral.",
+      "checkpoint_v06": "rescoring/artifacts/pose_selector_v06.xgb, sha256 9827DDB94C5DED5B2EF1DDA1250606D73F73163BECC310641D5BD493196E5D31 (verificado 2026-08-16); hiperparametros congelados (XGBRanker rank:pairwise, n_estimators 52, max_depth 6, lr 0.05, subsample 0.8, seed 42; RS-01B/DESIGN.md:44-48).",
+      "clones_oof": "RS-01B/fold_models/ (10 clones .xgb + meta con sha256) disponibles como checkpoints OOF ya sellados (NO_GO).",
+      "reframe_rs08": "docs/49:208 RS-08 = 'decidibilidad debe disparar MAS MUESTREO, no solo abstencion'. La Fase 3.5 refuto la ABSTENCION; RS-08 la reutiliza como ROUTER presupuestario (30% mayor riesgo), no como regla de abstencion."
+    }
+  },
+  "mmgbsa": {
+    "implementacion": "compute_mmgbsa_from_pose (molchamb_v2.py:376-568) — OpenMM (amber14-all.xml + implicit/gbn2.xml), NO AmberTools (sin antechamber/GAFF2; templates heuristicos). PDBFixer para proteina; cargas xTB GFN2 con fallback Gasteiger (estado actual).",
+    "nomenclatura_it1": "hasta RS-03-PARAM: 'rescoring MM/GBSA-like de pose unica'",
+    "contrato_it1_qa4": {
+      "max_iterations": 200,
+      "tolerancia": "10 kJ/mol/nm",
+      "timeout": "300 s/pose (duro)",
+      "primario": "top-2, presupuesto max 600 s/complejo",
+      "secundario": "top-3 ablacion, presupuesto max 900 s/complejo",
+      "fallo": "conserva v0.6, ITT, nunca energia cero",
+      "protocolo": "single-trajectory: una minimizacion del complejo; complejo/receptor/ligando sobre las mismas coordenadas; sin re-minimizacion separada (molchamb_v2.py:571 introduce energia de reorganizacion); RMSD de desplazamiento registrado por pose"
+    },
+    "requisitos_sistema": "openmm + pdbfixer + rdkit (verificados en runtime de Campaña 1); GPU opcional (GTX 1660 SUPER; CUDA > OpenCL > CPU). Elementos limitados a C/H/O/N/S/P. RS-03-PARAM (IT1/QA-2e) es PRERREQUISITO: OpenFF Sage + NAGL congelado por version y SHA-256, referencia AM1-BCC en subconjunto estratificado.",
+    "precedentes_costo": [
+      "queue_handler.py:823-826: 'OpenMM MM-GBSA tarda >180s en CPU (sin GPU)' -> timeout del subprocess 300 s (queue_handler.py:870-871)",
+      "docs/40_MOLFLEX_PROTOCOL.md:104: relax top-K con minimizacion OpenMM en el pocket '~K x 30s' (MIN_STEPS 300)"
+    ],
+    "fallos_itt_esperados": "elementos no soportados (halogenos/metales) -> missing/failed (molchamb_v2.py:509-524); no convergencia (molchamb_v2.py:325-333); NaN historico corregido con topologia desde SDF; timeout 300 s/pose; fallo fisico conserva v0.6",
+    "charge_source": "IT1/QA-2: provenance estructurada (charge_method, formal_charge, uhf, engine_version, model_hash, atom_order_hash, charge_sum, runtime, fallback_reason); sin sustituto silencioso; la carga formal viene del ligando sanitizado; la suma de cargas debe corresponder a la carga formal"
+  },
+  "geometrias_selladas": [
+    {
+      "asset": "MF-01-UNION",
+      "dir": "scripts/artifacts_science/MF-01-UNION",
+      "poses": "3469 total = 2739 train + 730 val (union_candidates_train.jsonl 2739 lineas verificado; union_candidates_val.jsonl 730 lineas verificado)",
+      "complejos": "156 (116 train / 40 val), 447 corridas provenance",
+      "hash_train": "61ab0e26901659c0d6e8bf98f47bbcae82d187265fc8181953d58ff6a2033ce9",
+      "hash_val": "21df7637c23e2de8cc814825784e12016ca82bcea3a8ff8cd35c92fc5fbab9fe",
+      "manifest": "sealed=true, decision=GO (operacional; el gate cientifico de MF-01 queda NO_GO)",
+      "rol_en_cascada": "UNION PRIMARIA de la cascada (IT1/QA-1). RS-04-QC corre sobre sus 2739 poses train."
+    },
+    {
+      "asset": "MF-11-R1",
+      "dir": "scripts/artifacts_science/MF-11-R1",
+      "poses": "2413 train (dedup 1.5 A medoid geometrico; 2739 -> 2413 = -11.90%); val EXCLUIDA (D1 de MF-11)",
+      "hash_candidates": "fef90c21c92d3527a3431d8e880601d33208a1c12688057f8ebf95642589fa78",
+      "hash_cluster_members": "7026b8dea49062d49e4765ab116864fe6bd550ac660c76da646aabb7a645d0a0",
+      "manifest": "sealed=true, decision=GO",
+      "rol_en_cascada": "SOLO ablacion de coste secundaria (IT1/QA-1). RS-01B (sellada NO_GO): preserva el oraculo, mediana pareada 0.000 A (sin evidencia de degradacion), pero NO demostro equivalencia NI mejora del rescoring (Top-1 OOF 43 vs 47)."
+    },
+    {
+      "asset": "D-MF-HARD",
+      "dir": "scripts/artifacts_science/D-MF-HARD",
+      "cohorte": "44 complejos (22 hard + 22 control), cohort.jsonl 44 lineas verificado",
+      "hash_cohort": "6d3f3a09dcd7e7393b4572ae1425c1e87d6ec0e233afbd7c7be3775ae50779ba",
+      "manifest": "sealed=true, decision=GO",
+      "rol_en_cascada": "cohorte de EVALUACION de Campaña 2 (estratos hard/control)."
+    },
+    {
+      "asset": "D-MF-HARD-CURVE",
+      "dir": "scripts/artifacts_science/D-MF-HARD-CURVE",
+      "contenido": "MolFlex K15 sellado: 2690 poses train (1450 hard + 1240 control), policy.json K=15 INMUTABLE (relax=false, seed 42/42, exh 8, box 25A)",
+      "hash_poses": "96205e84eedebfd8b105a374ad265e505ab0059d090bb6da81c8c70dbc1f063b",
+      "hash_policy": "c37fe92f1498fd445f0fd1b488428c8dca8c60bab499e5ca8ac70051389fbff4",
+      "manifest": "sealed=true, decision=GO",
+      "rol_en_cascada": "aporta poses MolFlex a la union; tiempos historicos para forecast (hard P50 31.25 s, control P50 9.2 s por dock)."
+    },
+    {
+      "asset": "D-MF-HARD-EXH4",
+      "dir": "scripts/artifacts_science/D-MF-HARD-EXH4",
+      "contenido": "Vina flexible exh4 sellado (34 train; val en D-MF-HARD-EXH4-VAL posterior)",
+      "hash_poses": "9763b673db26ca3d66d0beb56d120624644a4e0122905cbc25a05bcfdf8c403b",
+      "hash_candidates": "51886d974e5d08ab4f2f6759e410a463ca7b369fd24a41d4ef2d8bb154f69c5e",
+      "manifest": "sealed=true, decision=GO",
+      "rol_en_cascada": "aporta poses Vina exh4 a la union; tiempos historicos ruta_a exh4 (P50 76.9 s, P90 180.3 s) como ancla de costo."
+    },
+    {
+      "asset": "RS-01B",
+      "dir": "scripts/artifacts_science/RS-01B",
+      "contenido": "cross-fitting OOF de 10 clones v0.6 (fold_models/: 20 archivos xgb + meta con sha256), original vs dedup, folds exactos del fold_plan sellado",
+      "manifest": "sealed=true, decision=NO_GO",
+      "rol_en_cascada": "evidencia de que dedup es OPCIONAL (narrativa corregida del maintainer); SUS 5 FOLDS SELLADOS (sha 9d97ad70...) son el esquema de cross-fitting COMPLETO de RS-04 y del router RS-08 (IT1/QA-3b/QA-6)."
+    },
+    {
+      "asset": "FND-05 / D-RC-CONFIRM",
+      "dir": "scripts/artifacts_science/FND-05",
+      "contenido": "holdout confirmatorio sellado (452 dataset hashes + 16 assets, decision GO)",
+      "rol_en_cascada": "SELLADA INTOCADA: no participa en Campaña 2 (IT1/QA-6: cerrada); val40 tambien cerrada para recalibracion (cohorte consumida, IT1/QA-3a)."
+    }
+  ],
+  "checkpoint_v06": {
+    "path": "rescoring/artifacts/pose_selector_v06.xgb",
+    "sha256": "9827DDB94C5DED5B2EF1DDA1250606D73F73163BECC310641D5BD493196E5D31",
+    "config": "XGBRanker rank:pairwise, n_estimators 52 (best_iteration 51), max_depth 6, lr 0.05, subsample 0.8, seed 42, n_jobs 4 (RS-01B fold_models meta + DESIGN.md:44-48). Config CONGELADA en RS-04 (IT1/QA-6: aislar el efecto del strain).",
+    "features": "233 (224 ricas + 9 transformaciones z/pct intra-complejo; ruta_c_fase1_6_v06.py N_MODELO_B=233, linea 89)"
+  },
+  "preguntas_abiertas": [
+    {
+      "id": "QA-1",
+      "pregunta": "Union candidata para la cascada: original MF-01-UNION (3469) o dedup MF-11-R1 (2413 train)?",
+      "estado": "DECIDIDA (IT1): union ORIGINAL 3469 primaria; dedup 2413 solo ablacion de coste.",
+      "evidencia": "RS-01B sellada NO_GO: Top-1 OOF dedup 43 vs original 47 (Delta -4 < +3); mediana pareada 0.000 A; McNemar p=0.4807; BCa [-8.80, 4.00]. La dedup preserva el oraculo y no mostro degradacion de la mediana pareada, pero NO se demostro equivalencia NI mejora del rescoring.",
+      "consecuencia": "denominador de poses de RS-04 = union original; RS-04-QC sobre 2739 train; la dedup entra solo como brazo secundario de eficiencia/coste."
+    },
+    {
+      "id": "QA-2",
+      "pregunta": "Cargas y parametrizacion para el rescoring MM/GBSA-like: como registrar origen de cargas sin ambiguedad y con que parametrizacion de ligando?",
+      "estado": "DECIDIDA (IT1): (a) provenance estructurada charge_method/formal_charge/uhf/engine_version/model_hash/atom_order_hash/charge_sum/runtime/fallback_reason en lugar de has_molchamb; (b) carga formal del ligando sanitizado (--chrg 0 de compute_quantum_features.py:118 es incorrecto para ionizadas); (c) PROHIBIDO el uso silencioso de Gasteiger a modo de sustituto — primario missing/failed, Gasteiger solo sensibilidad secundaria; (d) suma de cargas verificada contra carga formal; (e) RS-03-PARAM prerrequisito obligatorio (OpenFF Sage + NAGL congelado por version y SHA-256; referencia AM1-BCC estratificada).",
+      "evidencia": "molchamb_v2.py:450-454 (fallback ambiguo), 65-106 (tipado heuristico); docs/48:95",
+      "consecuencia": "sin RS-03-PARAM no hay RS-03; hasta entonces la implementacion se llama 'rescoring MM/GBSA-like de pose unica'."
+    },
+    {
+      "id": "QA-3",
+      "pregunta": "Umbral(es) de decidibilidad para la cascada: reutilizar t_d historicos o recalar sobre val?",
+      "estado": "DECIDIDA (IT1): historicos SOLO descriptivos; router entrenado/evaluado dentro de los 5 folds sellados; umbral de cada outer fold exclusivamente del outer-train; politica primaria 30% mayor riesgo; sensibilidad 10/20/40%; t_router* full-train congelado tras OOF reproduciendo el 30%; margen de v0.6 como feature del riesgo (no segundo umbral). Decidibilidad = control presupuestario.",
+      "evidencia": "artifacts_ruta_c_fase3_5.json (umbrales de val40 consumido); la Fase 3.5 refuto la abstencion por decidibilidad; RS-08 la reutiliza como router.",
+      "consecuencia": "contrato de escalamiento de la cascada (que complejos pasan a strain/MM-GBSA-like)."
+    },
+    {
+      "id": "QA-4",
+      "pregunta": "max_iter, tolerancia, timeouts y protocolo energetico del rescoring MM/GBSA-like por pose?",
+      "estado": "DECIDIDA (IT1): maxIterations=200; tolerancia 10 kJ/mol/nm; timeout duro 300 s/pose; primario top-2 max 600 s/complejo; top-3 ablacion max 900 s/complejo; fallo fisico conserva v0.6 (ITT, nunca energia cero); protocolo SINGLE-TRAJECTORY (una minimizacion del complejo; las tres patas sobre las mismas coordenadas; sin re-minimizacion separada — molchamb_v2.py:571 introduce energia de reorganizacion); RMSD de desplazamiento registrado por pose.",
+      "evidencia": "molchamb_v2.py:376-568 y 571-627; precedente timeout 300 s (queue_handler.py:870); docs/40 ~30 s por minimizacion de 300 pasos",
+      "consecuencia": "presupuesto RS-03 y numero de fallos ITT esperados; requiere wrapper single-trajectory (por composicion)."
+    },
+    {
+      "id": "QA-5",
+      "pregunta": "Contrato quimico del strain MMFF sobre poses: topologia, H, cargas, cobertura y manejo de strain negativo?",
+      "estado": "DECIDIDA (IT1): topologia/ordenes de enlace/estereoquimica/cargas formales desde SDF/SMILES SANITIZADO (nunca de PDBQT); mapeo heavy-atom biyectivo verificado; AddHs(addCoords=True); en la pose solo se optimizan H (pesados fijos); MMFF94s; referencia aislada Nconfs=min(200,max(50,10xrot)), ETKDGv3, seed 42, optimizacion completa; MMFFHasAllMoleculeParams==false -> unsupported_mmff (sin mezclar UFF); halogenos NO excluidos por nombre; strain negativo NO truncado (ampliacion unica del search; si persiste, fallo QC); neutros vs ionizados separados; xTB-strain = experimento selectivo aparte (no fallback de MMFF).",
+      "evidencia": "no existe precedente de MMFF sobre pose docked en el repo; compute_mmff_features solo cubre conformero aislado ETKDG",
+      "consecuencia": "contrato de features strain_docked / strain_isolated, tasa de unsupported_mmff y diseño de RS-04-QC."
+    },
+    {
+      "id": "QA-6",
+      "pregunta": "Esquema OOF y gate operacional de RS-04?",
+      "estado": "DECIDIDA (IT1): cross-fitting COMPLETO con los 5 folds sellados de RS-01B; baseline y modelo aumentado sobre los mismos complejos; ajustes dentro del outer-train; val40 y D-RC-CONFIRM cerradas; XGBoost congelado. Gate: Top-1 OOF >= 50/116; mediana pareada <= +0.1 A; cobertura quimica >= 95%; MMFF cold-start P95 <= 5 s/ligando; cacheado P95 <= 100 ms/pose y <= 3 s/complejo; sin regresion grave por estrato. GO de desarrollo posible; mejora cientificamente demostrada exige intervalo agrupado que excluya cero o cohorte confirmatoria intacta.",
+      "evidencia": "RS-01B/DESIGN.md:42-45 (fold_plan sha 9d97ad70..., 5 folds [55,16,15,15,15])",
+      "consecuencia": "diseño definitivo de RS-04 (cross-fitting completo con gates de costo) y etapa previa RS-04-QC."
+    }
+  ],
+  "verificaciones_lectura": {
+    "validate_rs01b": "OK (ejecutado en la sesion de inventario)",
+    "validate_mf11r1": "OK (ejecutado en la sesion de inventario)",
+    "validate_dmfhard": "OK (ejecutado en la sesion de inventario)",
+    "validate_campana2_plan": "se re-ejecuta tras IT1 (manifest sin cambios)",
+    "computo_ejecutado": "0 (solo lectura: git, manifest CLI init/validate, hashes de archivos sellados, conteo de lineas, lectura de artefactos)"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "test_metrics": {
+    "roc_auc": 0.7051,
+    "pr_auc": 0.5852,
+    "accuracy": 0.662,
+    "bce": 1.2318,
+    "spearman": 0.0
+  },
+  "best_val_auc": 0.8024,
+  "best_epoch": 72,
+  "n_params": 677657,
+  "n_train": 566,
+  "n_val": 71,
+  "n_test": 71,
+  "config": {
+    "epochs": 200,
+    "batch_size": 16,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "hidden_dim": 128,
+    "dropout": 0.2,
+    "patience": 30,
+    "device": "auto",
+    "seed": 42,
+    "workers": 0
+  }
+}

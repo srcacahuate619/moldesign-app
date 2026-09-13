@@ -1,0 +1,112 @@
+{
+  "experiment": "AF-01-R1",
+  "tipo": "corrigendum",
+  "parent": "AF-01 (sellada GO=REPRODUCED_WITH_SCOPE_LIMITATION; commits 0593983 contenido + 67c4e30 sello)",
+  "fecha": "2026-08-16",
+  "status": "ejecutado y verificado (sin seal, sin finish, por protocolo)",
+  "bug_corregido": "overlap==1.0 usado como 'secuencia exacta' en af01_stratify.py; overlap de k-meros == 1.0 tambien ocurre cuando los k-meros de una cadena corta son subconjunto de los de otra (subsecuencia), no solo con secuencias identicas. Fix: receptor_seen_exact = igualdad LITERAL de secuencia por par de cadenas (seq_dev == seq_holdout).",
+  "estratos_corregidos": {
+    "metodo": "AF-01-R1: FND-05/FND-02 por cadena (SEQRES, k=8, umbral 0.90) + fix de igualdad literal; bootstrap percentil 95, 10k iteraciones, seed 42",
+    "receptor_seen_exact": {
+      "n": 126,
+      "spearman": 0.7240,
+      "spearman_ci95_bootstrap": [0.6254, 0.7915]
+    },
+    "receptor_near_identity": {
+      "n": 108,
+      "spearman": 0.5135,
+      "spearman_ci95_bootstrap": [0.3397, 0.6623]
+    },
+    "receptor_unrelated": {
+      "n": 94,
+      "spearman": 0.5395,
+      "spearman_ci95_bootstrap": [0.3761, 0.666]
+    },
+    "suma_estratos": 328,
+    "comparacion_con_esperado_maintainer": {
+      "n_seen_exact": {"esperado": 126, "obtenido": 126, "ok": true},
+      "n_near_identity": {"esperado": 108, "obtenido": 108, "ok": true},
+      "n_unrelated": {"esperado": 94, "obtenido": 94, "ok": true},
+      "rho_seen_exact": {"esperado": 0.7240, "obtenido": 0.7240, "ok": true},
+      "rho_near_identity": {"esperado": 0.5135, "obtenido": 0.5135, "ok": true},
+      "rho_unrelated": {"esperado": 0.5395, "obtenido": 0.5395, "ok": true},
+      "ci95_seen_exact": {"esperado": [0.6254, 0.7915], "obtenido": [0.6254, 0.7915], "ok": true},
+      "ci95_near_identity": {"esperado": [0.3397, 0.6623], "obtenido": [0.3397, 0.6623], "ok": true},
+      "ci95_unrelated": {"esperado": [0.3761, 0.666], "obtenido": [0.3761, 0.666], "ok": true},
+      "veredicto": "REPRODUCCION EXACTA (n exactos; rho y CI coinciden al 4to decimal)"
+    }
+  },
+  "conteos_definicion_canonica_por_cadena": {
+    "definicion": "par de cadenas (SEQRES por cadena); visto exacto = igualdad literal; near = solapamiento de k-meros >= 0.90",
+    "grupos_secuencia_exacta_cruzados": 61,
+    "complejos_dev_afectados_exactos": "134/537",
+    "complejos_holdout_afectados_exactos": "126/328",
+    "pares_complejos_dev_holdout_ge90": 1600,
+    "pares_cadenas_dev_holdout_ge90": 2370,
+    "verificacion_cuadrupla_maintainer": "61 / 134-537 / 126-328 / 1600 / 2370 REPRODUCIDA exactamente",
+    "nota": "estos conteos ya usaban igualdad literal en AF-01 y NO cambian con el fix; el fix solo afecta la asignacion de estrato (53 complejos)"
+  },
+  "reconciliacion_preaudit": {
+    "resultado": "reconciliado — definiciones distintas",
+    "preaudit_maintainer": {
+      "grupos": 45,
+      "complejos_dev": "106/537",
+      "complejos_holdout": "96/328",
+      "pares_ge90": 1185,
+      "definicion_heredada": "FND-02: receptor completo concatenado A:...|B:... (una secuencia por complejo), near excluye exactos",
+      "veredicto_anterior_af01": "REFUTADO con calculo propio (wording de AF-01, ya superado)"
+    },
+    "definicion_canonica_por_cadena": {
+      "grupos": 61,
+      "complejos_dev": "134/537",
+      "complejos_holdout": "126/328",
+      "pares_ge90": 1600,
+      "pares_cadenas_ge90": 2370,
+      "definicion": "por cadena (todas las cadenas del complejo), visto exacto = igualdad literal de cadena"
+    },
+    "explicacion": "Los numeros del pre-audit del maintainer (45 / 106-537 / 96-328 / 1185) eran CORRECTOS bajo la definicion heredada de FND-02 (receptor completo concatenado A:...|B:..., near excluye exactos). Los numeros por cadena (61 / 134-537 / 126-328 / 1600 / 2370) corresponden a la definicion por cadena, que es la CANONICA de ahora en adelante. No hubo error de calculo: habia DOS definiciones distintas midiendo cosas distintas. La palabra 'REFUTADO' del registro AF-01 queda sustituida por 'reconciliado — definiciones distintas'."
+  },
+  "movimientos_por_fix": {
+    "seen_exact_a_near_identity": 53,
+    "near_identity_a_seen_exact": 0,
+    "unrelated_afectados": 0,
+    "estratos_originales_af01": {"receptor_seen_exact": 179, "receptor_near_identity": 55, "receptor_unrelated": 94},
+    "estratos_corregidos": {"receptor_seen_exact": 126, "receptor_near_identity": 108, "receptor_unrelated": 94}
+  },
+  "alcance_del_corrigendum": {
+    "af01_original_preservado": "intacto byte a byte (validate AF-01 OK; todos los hashes sellados coinciden)",
+    "solo_supersedido": "el subanalisis estratificado por receptor de AF-01 (estratos 179/55/94 y su lectura). Todo lo demas de AF-01 permanece vigente.",
+    "global_no_reejecutado": "Spearman global 0.6094 (CI95 [0.5282, 0.6791], n=328) y la replica Fase A permanecen intactos; este corrigendum NO re-ejecuta entrenamiento ni evaluacion.",
+    "lectura_reforzada": "el hallazgo de AF-01 se REFUERZA: rendimiento mayor cuando la cadena receptora se comparte exactamente (0.7240 visto exacto > 0.6094 global > 0.5395 no relacionado). El contraste es mas limpio que con la clasificacion bugueada (0.7138) y el estrato near_identity sube de 0.3626 a 0.5135 al recibir los 53 complejos con subsecuencias."
+  },
+  "predicciones_reusadas": {
+    "origen": "scripts/artifacts_science/AF-01/per_complex.jsonl (sellado; sha256 996c02c055580f5fbf82cb7e896e0d392d9db2d55ea373fccd65c17e62415478, verificado contra el manifest sellado de AF-01)",
+    "extraccion": "328 pares (pid, y_true=real, y_pred=predicho) -> predictions_run.jsonl temporal fuera del repo",
+    "nota": "sin re-docking, sin re-evaluacion, sin re-entrenamiento; predicciones congeladas de la Fase A reproducida en AF-01",
+    "sha256_predictions_extraidas": "45ddbe5d014a9f32e9737c0bf534d5cd71f74c9912d6b9a62e05ffeff42e711b"
+  },
+  "inputs_verificados": {
+    "split_config_sha256": "5fc4e589b78311ae12eb1d5e51eef51d39cc218c7a9c9d033880bdfb031fb3d5",
+    "index_snapshot_sha256": "1c52a9b7631cc11a31c6b3344ececa3de8a9087c86ab3e6c5a30dc69861de02d",
+    "ambos_hashes": "identicos a los dataset_hashes sellados en el manifest de AF-01 (inputs congelados intactos)",
+    "n_holdout": 328,
+    "n_pool_dev": 537,
+    "n_fallback_ca": 0
+  },
+  "determinismo": {
+    "metodo": "2 corridas completas del stratify R1 (out AF-01-R1 y out temporal)",
+    "per_complex_sha256_run1": "6132e75a275d1d1c16e7d4ad641cfdfe4eea7f3f3dfe7e2545778444d291861b",
+    "per_complex_sha256_run2": "6132e75a275d1d1c16e7d4ad641cfdfe4eea7f3f3dfe7e2545778444d291861b",
+    "metrics_estratos_sha256_run1": "ae6e39af2d29",
+    "metrics_estratos_sha256_run2": "ae6e39af2d29",
+    "resultado": "byte-identico",
+    "nota_tecnica": "el script original de AF-01 podia variar la atribucion de best_pair en EMPATES de overlap por el orden de iteracion de un set de k-meros (hash de strings de Python varia entre procesos). El script R1 itera k-meros ordenados (sorted) y es determinista run a run. Este ajuste NO cambia ningun numero cientifico (los estratos, conteos y metricas no dependen del orden)."
+  },
+  "no_intrusion": {
+    "archivos_sellados_af01": "byte-identicos (af01_stratify.py 339ecf03..., per_complex.jsonl 996c02c0...; validate AF-01 OK)",
+    "git_status_nuevos": ["scripts/artifacts_science/AF-01-R1/"],
+    "git_status_preexistente": ["docs/moldesign-ums-paper/"],
+    "sin_commits": true,
+    "sin_seal_finish": true
+  }
+}

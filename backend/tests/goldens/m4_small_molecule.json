@@ -1,0 +1,38 @@
+{
+  "eficiencia_normalizada": {
+    "escala_sujetada": true,
+    "fq_vina_proxy": 0.6283,
+    "ha_para_la_escala": 15,
+    "le_scale_pki": 0.580841,
+    "ligand_efficiency_vina": 0.5,
+    "sile_vina": 3.0111
+  },
+  "entrada": {
+    "heavy_atoms": 13,
+    "nombre": "aspirina",
+    "smiles": "CC(=O)Oc1ccccc1C(=O)O"
+  },
+  "golden_version": 1,
+  "interpretaciones": {
+    "ml_pki": 4.9,
+    "ml_pki_aplicada": false,
+    "ml_pki_equivalente_kcal": -6.664,
+    "nota": "La regresión de XGBoost viaja en su propia columna. Hasta el 2026-09-04 se convertía a kcal y se escribía SOBRE affinity_kcal, destruyendo la observación primaria."
+  },
+  "invariantes": {
+    "affinity_kcal_es_de_vina": true,
+    "campos_del_contrato": [
+      "affinity_kcal",
+      "ml_pki",
+      "ml_pki_aplicada"
+    ],
+    "metricas_derivadas_de_vina_no_de_ml": true,
+    "ml_pki_en_columna_propia": true
+  },
+  "observaciones_crudas": {
+    "nota": "Salida literal de AutoDock Vina. No es energía libre ni se traduce a una concentración.",
+    "unidades": "kcal/mol",
+    "vina_affinity_kcal_mol": -6.5
+  },
+  "protocolo": "M4_SMALL_MOLECULE"
+}

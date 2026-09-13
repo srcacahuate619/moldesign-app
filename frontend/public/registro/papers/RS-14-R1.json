@@ -1,0 +1,512 @@
+{
+ "id": "RS-14-R1",
+ "meta": {
+  "titulo": "Arreglar el error hizo la derrota más grande",
+  "entradilla": "Se encontró un defecto que ensuciaba las etiquetas del selector. Corregirlo no lo salvó: la brecha contra el baseline se duplicó, porque quien más ganaba con la corrección era el rival."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Durante meses, la apuesta central de una de las líneas del programa fue que un selector entrenado podía escoger mejor pose que la puntuación cruda de Vina. ",
+     "m": null
+    },
+    {
+     "t": "RS-14",
+     "m": "codigo"
+    },
+    {
+     "t": " la midió y dijo que no, por poco: precisión condicional 0.4312 frente a 0.4783 del baseline, con un intervalo que cruzaba el cero.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Entonces ",
+     "m": null
+    },
+    {
+     "t": "RC-F0-SYM",
+     "m": "codigo"
+    },
+    {
+     "t": " encontró un defecto real. Las etiquetas se calculaban con un RMSD que no trataba correctamente la simetría molecular: un anillo de benceno rotado 180° es la misma molécula, pero el cálculo ingenuo lo contaba como un error de varios ángstroms. El defecto marcaba mal un ",
+     "m": null
+    },
+    {
+     "t": "+21.0%",
+     "m": "fuerte"
+    },
+    {
+     "t": " de las poses positivas en ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso abre una puerta que las reglas del laboratorio dejan explícitamente abierta: un resultado negativo ",
+     "m": null
+    },
+    {
+     "t": "no cuenta",
+     "m": "fuerte"
+    },
+    {
+     "t": " si se explica por un defecto de implementación corregido. Este experimento es esa corrección, con todo lo demás congelado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Selector",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Baseline ",
+      "m": null
+     },
+     {
+      "t": "vina_score",
+      "m": "codigo"
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "RS-14",
+       "m": "codigo"
+      },
+      {
+       "t": " (con el defecto)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.4312",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.4783",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "**",
+       "m": null
+      },
+      {
+       "t": "RS-14-R1",
+       "m": "codigo"
+      },
+      {
+       "t": "** (corregido)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.4601",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.5543",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Ganancia por la corrección",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+2.9 pp",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+7.6 pp",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Diferencia pareada: ",
+     "m": null
+    },
+    {
+     "t": "−0.0942",
+     "m": "fuerte"
+    },
+    {
+     "t": ", CI95 BCa [−0.2138, +0.0217], sobre los mismos 92 complejos cubiertos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La corrección funcionó: los dos brazos mejoraron. Pero mejoró mucho más el baseline — siete complejos frente a los tres del selector.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El defecto de simetría estaba ocultando cuánto mejor es ya ",
+     "m": null
+    },
+    {
+     "t": "vina_score",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La brecha pasó de −0.0471 a −0.0942. ",
+     "m": null
+    },
+    {
+     "t": "Se duplicó.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Las tres predicciones se cumplieron",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Antes de ejecutar se escribieron tres predicciones cuantitativas. Las tres acertaron, lo cual es relevante porque significa que el resultado no fue una sorpresa que luego se racionalizó:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Predicción declarada",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Observado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Selector en [0.45, 0.58]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.4601 ✓",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Diferencia en [−0.15, +0.05]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−0.0942 ✓",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Test de permutación pasa con holgura",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.4601 frente a p95 de 0.1848, p empírico 0.0 ✓",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese tercer punto merece atención, porque es lo que hace que este resultado sea interesante en vez de trivial: ",
+     "m": null
+    },
+    {
+     "t": "el selector sí aprende señal real",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Rinde casi 2.5 veces por encima del nulo por permutación. No está memorizando ruido.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo que aprende, simplemente, no añade nada sobre lo que ya sabe la función de Vina.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué esto cierra una línea entera",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El prerregistro declaró, antes de ejecutar, qué significaría cada resultado posible. La regla del laboratorio dice que un corrigendum reinicia el contador de futilidad ",
+     "m": null
+    },
+    {
+     "t": "sólo si cambia la decisión",
+     "m": "fuerte"
+    },
+    {
+     "t": ". No la cambió. En consecuencia:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "la cartera de rescoring queda ",
+      "m": null
+     },
+     {
+      "t": "cerrada de forma definitiva",
+      "m": "fuerte"
+     },
+     {
+      "t": ";",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "tres experimentos que dependían de ella quedan bloqueados permanentemente bajo este",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "diseño;",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "cualquier reapertura futura debe declarar un denominador en ",
+      "m": null
+     },
+     {
+      "t": "número de complejos",
+      "m": "fuerte"
+     },
+     {
+      "t": " —",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "aproximadamente cuatro veces más—, no en más features, más semillas ni etiquetas más limpias. Las tres vías se probaron y ninguna movió la aguja.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El sesgo que va en contra del resultado",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "De las 18,812 poses, ",
+     "m": null
+    },
+    {
+     "t": "1,143 (6.1%)",
+     "m": "fuerte"
+    },
+    {
+     "t": " conservan el RMSD ingenuo porque su corrección no pudo completarse. Ese sesgo residual empuja en la dirección de un resultado favorable al selector, no en contra. Es decir: si algo, la brecha real es todavía mayor que la medida.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "val",
+     "m": "codigo"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "test",
+     "m": "codigo"
+    },
+    {
+     "t": " quedaron intactos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se aprende de esto",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Que la corrección honesta de un error propio puede empeorar la propia posición, y que hay que publicarla igual. La tentación de dejar el defecto sin arreglar —o de arreglarlo sólo en el brazo propio— es exactamente el mecanismo por el que la literatura de este campo acumula resultados que no se replican.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/RS-14-R1.md"
+}

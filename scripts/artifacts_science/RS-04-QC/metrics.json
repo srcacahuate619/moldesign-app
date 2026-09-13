@@ -1,0 +1,1405 @@
+{
+  "check1_mapeo": {
+    "discrepancias_detalle": [
+      {
+        "identity": "train|1kpm|flexible_redock|1kpm|0",
+        "motivo": "ligando_no_embebe:m2=0"
+      },
+      {
+        "identity": "train|1kpm|flexible_redock|1kpm|1",
+        "motivo": "ligando_no_embebe:m2=0"
+      },
+      {
+        "identity": "train|1kpm|flexible_redock|1kpm|2",
+        "motivo": "ligando_no_embebe:m2=0"
+      },
+      {
+        "identity": "train|1kpm|flexible_redock|1kpm|3",
+        "motivo": "ligando_no_embebe:m2=0"
+      },
+      {
+        "identity": "train|1kpm|flexible_redock|1kpm|4",
+        "motivo": "ligando_no_embebe:m2=0"
+      },
+      {
+        "identity": "train|1kpm|flexible_redock|1kpm|5",
+        "motivo": "ligando_no_embebe:m2=0"
+      },
+      {
+        "identity": "train|1kpm|flexible_redock|1kpm|6",
+        "motivo": "ligando_no_embebe:m2=0"
+      },
+      {
+        "identity": "train|1kpm|flexible_redock|1kpm|7",
+        "motivo": "ligando_no_embebe:m2=0"
+      },
+      {
+        "identity": "train|1kpm|flexible_redock|1kpm|8",
+        "motivo": "ligando_no_embebe:m2=0"
+      },
+      {
+        "identity": "train|1nm6|flexible_redock|1nm6|1",
+        "motivo": "ligando_no_embebe:m2=0"
+      },
+      {
+        "identity": "train|1nm6|flexible_redock|1nm6|2",
+        "motivo": "ligando_no_embebe:m2=0"
+      },
+      {
+        "identity": "train|1nm6|flexible_redock|1nm6|3",
+        "motivo": "ligando_no_embebe:m2=0"
+      },
+      {
+        "identity": "train|1nm6|flexible_redock|1nm6|4",
+        "motivo": "ligando_no_embebe:m2=0"
+      },
+      {
+        "identity": "train|1nm6|flexible_redock|1nm6|8",
+        "motivo": "ligando_no_embebe:m2=0"
+      }
+    ],
+    "discrepancias_por_motivo": {
+      "ligando_no_embebe": 14
+    },
+    "gate_99pct": "PASS",
+    "metodo": "grafo elemento+conectividad (enlaces de la pose por distancia covalente d<=1.25*(r_i+r_j)); isomorfismo en ambas direcciones; pseudoatomos 'G' de meeko excluidos (sitios offsite, no atomos reales)",
+    "n_biyectivo": 2725,
+    "n_total": 2739,
+    "pct_biyectivo": 99.4889,
+    "pseudoatomos_g": {
+      "detalle": [
+        {
+          "identity": "train|1mmq|flexible_redock|1mmq|0",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmq|flexible_redock|1mmq|1",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmq|flexible_redock|1mmq|2",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmq|flexible_redock|1mmq|3",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmq|flexible_redock|1mmq|4",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmq|flexible_redock|1mmq|5",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmq|flexible_redock|1mmq|6",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmq|flexible_redock|1mmq|7",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmq|flexible_redock|1mmq|8",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmr|flexible_redock|1mmr|0",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmr|flexible_redock|1mmr|1",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmr|flexible_redock|1mmr|2",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmr|flexible_redock|1mmr|3",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmr|flexible_redock|1mmr|4",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmr|flexible_redock|1mmr|5",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmr|flexible_redock|1mmr|6",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmr|flexible_redock|1mmr|7",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1mmr|flexible_redock|1mmr|8",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1nm6|flexible_redock|1nm6|0",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1nm6|flexible_redock|1nm6|1",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1nm6|flexible_redock|1nm6|2",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1nm6|flexible_redock|1nm6|3",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1nm6|flexible_redock|1nm6|4",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1nm6|flexible_redock|1nm6|5",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1nm6|flexible_redock|1nm6|6",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1nm6|flexible_redock|1nm6|7",
+          "n_g": 2
+        },
+        {
+          "identity": "train|1nm6|flexible_redock|1nm6|8",
+          "n_g": 2
+        }
+      ],
+      "n_poses": 27,
+      "origen_verificado": "meeko/atomtyper.py:_set_offatoms escribe PDBAtomInfo('G',...) para sitios de carga offsite; no es un atomo de la molecula"
+    }
+  },
+  "check2_h_opt": {
+    "detalle": [
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001701618,
+        "e0": 210.8651,
+        "e_final": 197.8967,
+        "h_finitos": true,
+        "identity": "train|1aaq|molflex|conf0.out|0",
+        "mmff_params": true,
+        "n_h": 48,
+        "n_heavy": 41,
+        "pid": "1aaq"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001427314,
+        "e0": 205.32,
+        "e_final": 205.0746,
+        "h_finitos": true,
+        "identity": "train|1aaq|molflex|conf0.out|1",
+        "mmff_params": true,
+        "n_h": 48,
+        "n_heavy": 41,
+        "pid": "1aaq"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0004358157,
+        "e0": 244.2237,
+        "e_final": 244.2187,
+        "h_finitos": true,
+        "identity": "train|1fv0|flexible_redock|1fv0|0",
+        "mmff_params": true,
+        "n_h": 11,
+        "n_heavy": 26,
+        "pid": "1fv0"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0004133024,
+        "e0": 242.9423,
+        "e_final": 242.9373,
+        "h_finitos": true,
+        "identity": "train|1fv0|flexible_redock|1fv0|1",
+        "mmff_params": true,
+        "n_h": 11,
+        "n_heavy": 26,
+        "pid": "1fv0"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0002770901,
+        "e0": -330.3564,
+        "e_final": -330.5586,
+        "h_finitos": true,
+        "identity": "train|1afk|molflex|conf0.out|0",
+        "mmff_params": true,
+        "n_h": 16,
+        "n_heavy": 31,
+        "pid": "1afk"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.000229766,
+        "e0": -320.4315,
+        "e_final": -321.3378,
+        "h_finitos": true,
+        "identity": "train|1afk|molflex|conf0.out|1",
+        "mmff_params": true,
+        "n_h": 16,
+        "n_heavy": 31,
+        "pid": "1afk"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 7.38122e-05,
+        "e0": -23.7668,
+        "e_final": -34.5643,
+        "h_finitos": true,
+        "identity": "train|1bju|flexible_redock|1bju|0",
+        "mmff_params": true,
+        "n_h": 13,
+        "n_heavy": 20,
+        "pid": "1bju"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001076507,
+        "e0": -10.5022,
+        "e_final": -16.4257,
+        "h_finitos": true,
+        "identity": "train|1bju|flexible_redock|1bju|1",
+        "mmff_params": true,
+        "n_h": 13,
+        "n_heavy": 20,
+        "pid": "1bju"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0002885665,
+        "e0": -291.7967,
+        "e_final": -291.8128,
+        "h_finitos": true,
+        "identity": "train|1afl|molflex|conf0.out|0",
+        "mmff_params": true,
+        "n_h": 16,
+        "n_heavy": 31,
+        "pid": "1afl"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0002619172,
+        "e0": -305.956,
+        "e_final": -320.8319,
+        "h_finitos": true,
+        "identity": "train|1afl|molflex|conf0.out|1",
+        "mmff_params": true,
+        "n_h": 16,
+        "n_heavy": 31,
+        "pid": "1afl"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 9.77625e-05,
+        "e0": 56.5135,
+        "e_final": 49.6501,
+        "h_finitos": true,
+        "identity": "train|1gpn|flexible_redock|1gpn|0",
+        "mmff_params": true,
+        "n_h": 21,
+        "n_heavy": 19,
+        "pid": "1gpn"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001372993,
+        "e0": 55.4371,
+        "e_final": 53.025,
+        "h_finitos": true,
+        "identity": "train|1gpn|flexible_redock|1gpn|1",
+        "mmff_params": true,
+        "n_h": 21,
+        "n_heavy": 19,
+        "pid": "1gpn"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 7.06422e-05,
+        "e0": 288.683,
+        "e_final": 257.901,
+        "h_finitos": true,
+        "identity": "train|1apv|flexible_redock|1apv|0",
+        "mmff_params": true,
+        "n_h": 44,
+        "n_heavy": 36,
+        "pid": "1apv"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001532339,
+        "e0": 374.5378,
+        "e_final": 213.7371,
+        "h_finitos": true,
+        "identity": "train|1apv|flexible_redock|1apv|1",
+        "mmff_params": true,
+        "n_h": 44,
+        "n_heavy": 36,
+        "pid": "1apv"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0002308399,
+        "e0": 43.1385,
+        "e_final": 43.134,
+        "h_finitos": true,
+        "identity": "train|1hlk|flexible_redock|1hlk|0",
+        "mmff_params": true,
+        "n_h": 14,
+        "n_heavy": 23,
+        "pid": "1hlk"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0002252249,
+        "e0": 44.0407,
+        "e_final": 44.0363,
+        "h_finitos": true,
+        "identity": "train|1hlk|flexible_redock|1hlk|1",
+        "mmff_params": true,
+        "n_h": 14,
+        "n_heavy": 23,
+        "pid": "1hlk"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001724166,
+        "e0": 383.9705,
+        "e_final": 334.9652,
+        "h_finitos": true,
+        "identity": "train|1b2h|flexible_redock|1b2h|0",
+        "mmff_params": true,
+        "n_h": 40,
+        "n_heavy": 27,
+        "pid": "1b2h"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001381698,
+        "e0": 370.9555,
+        "e_final": 326.6953,
+        "h_finitos": true,
+        "identity": "train|1b2h|flexible_redock|1b2h|1",
+        "mmff_params": true,
+        "n_h": 40,
+        "n_heavy": 27,
+        "pid": "1b2h"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.000157582,
+        "e0": 28.758,
+        "e_final": 28.756,
+        "h_finitos": true,
+        "identity": "train|1m2x|flexible_redock|1m2x|0",
+        "mmff_params": true,
+        "n_h": 15,
+        "n_heavy": 14,
+        "pid": "1m2x"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001505157,
+        "e0": 60.4456,
+        "e_final": 60.4401,
+        "h_finitos": true,
+        "identity": "train|1m2x|flexible_redock|1m2x|1",
+        "mmff_params": true,
+        "n_h": 15,
+        "n_heavy": 14,
+        "pid": "1m2x"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0003353021,
+        "e0": -360.862,
+        "e_final": -360.8729,
+        "h_finitos": true,
+        "identity": "train|1b38|flexible_redock|1b38|0",
+        "mmff_params": true,
+        "n_h": 16,
+        "n_heavy": 31,
+        "pid": "1b38"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0003382177,
+        "e0": -355.7405,
+        "e_final": -355.7509,
+        "h_finitos": true,
+        "identity": "train|1b38|flexible_redock|1b38|1",
+        "mmff_params": true,
+        "n_h": 16,
+        "n_heavy": 31,
+        "pid": "1b38"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0002871242,
+        "e0": 66.4339,
+        "e_final": 66.4283,
+        "h_finitos": true,
+        "identity": "train|1f4e|flexible_redock|1f4e|0",
+        "mmff_params": true,
+        "n_h": 15,
+        "n_heavy": 18,
+        "pid": "1f4e"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0002547436,
+        "e0": 58.8015,
+        "e_final": 58.7981,
+        "h_finitos": true,
+        "identity": "train|1f4e|flexible_redock|1f4e|1",
+        "mmff_params": true,
+        "n_h": 15,
+        "n_heavy": 18,
+        "pid": "1f4e"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001186004,
+        "e0": 256.8105,
+        "e_final": 229.4324,
+        "h_finitos": true,
+        "identity": "train|1b46|flexible_redock|1b46|0",
+        "mmff_params": true,
+        "n_h": 36,
+        "n_heavy": 26,
+        "pid": "1b46"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001143434,
+        "e0": 290.6827,
+        "e_final": 219.4953,
+        "h_finitos": true,
+        "identity": "train|1b46|flexible_redock|1b46|1",
+        "mmff_params": true,
+        "n_h": 36,
+        "n_heavy": 26,
+        "pid": "1b46"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001396483,
+        "e0": 49.9488,
+        "e_final": 49.9465,
+        "h_finitos": true,
+        "identity": "train|1lrh|flexible_redock|1lrh|0",
+        "mmff_params": true,
+        "n_h": 10,
+        "n_heavy": 14,
+        "pid": "1lrh"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001479746,
+        "e0": 51.3328,
+        "e_final": 51.3304,
+        "h_finitos": true,
+        "identity": "train|1lrh|flexible_redock|1lrh|1",
+        "mmff_params": true,
+        "n_h": 10,
+        "n_heavy": 14,
+        "pid": "1lrh"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 9.78606e-05,
+        "e0": 197.5783,
+        "e_final": 178.7317,
+        "h_finitos": true,
+        "identity": "train|1b4z|flexible_redock|1b4z|0",
+        "mmff_params": true,
+        "n_h": 34,
+        "n_heavy": 27,
+        "pid": "1b4z"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0002130835,
+        "e0": 232.5807,
+        "e_final": 191.1019,
+        "h_finitos": true,
+        "identity": "train|1b4z|flexible_redock|1b4z|1",
+        "mmff_params": true,
+        "n_h": 34,
+        "n_heavy": 27,
+        "pid": "1b4z"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 8.58974e-05,
+        "e0": 103.7508,
+        "e_final": 95.8792,
+        "h_finitos": true,
+        "identity": "train|1hp5|flexible_redock|1hp5|0",
+        "mmff_params": true,
+        "n_h": 13,
+        "n_heavy": 14,
+        "pid": "1hp5"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 9.80423e-05,
+        "e0": 117.0646,
+        "e_final": 109.8435,
+        "h_finitos": true,
+        "identity": "train|1hp5|flexible_redock|1hp5|1",
+        "mmff_params": true,
+        "n_h": 13,
+        "n_heavy": 14,
+        "pid": "1hp5"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001885657,
+        "e0": -475.4515,
+        "e_final": -475.4584,
+        "h_finitos": true,
+        "identity": "train|1bxr|flexible_redock|1bxr|0",
+        "mmff_params": true,
+        "n_h": 17,
+        "n_heavy": 31,
+        "pid": "1bxr"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0002173255,
+        "e0": -462.6258,
+        "e_final": -462.6331,
+        "h_finitos": true,
+        "identity": "train|1bxr|flexible_redock|1bxr|1",
+        "mmff_params": true,
+        "n_h": 17,
+        "n_heavy": 31,
+        "pid": "1bxr"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 9.32244e-05,
+        "e0": 107.7969,
+        "e_final": 100.5183,
+        "h_finitos": true,
+        "identity": "train|1np0|flexible_redock|1np0|0",
+        "mmff_params": true,
+        "n_h": 13,
+        "n_heavy": 14,
+        "pid": "1np0"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 5.23696e-05,
+        "e0": 113.0584,
+        "e_final": 92.9778,
+        "h_finitos": true,
+        "identity": "train|1np0|flexible_redock|1np0|1",
+        "mmff_params": true,
+        "n_h": 13,
+        "n_heavy": 14,
+        "pid": "1np0"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001523318,
+        "e0": 311.5826,
+        "e_final": 254.758,
+        "h_finitos": true,
+        "identity": "train|1hih|flexible_redock|1hih|0",
+        "mmff_params": true,
+        "n_h": 52,
+        "n_heavy": 41,
+        "pid": "1hih"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001011435,
+        "e0": 342.7272,
+        "e_final": 245.4412,
+        "h_finitos": true,
+        "identity": "train|1hih|flexible_redock|1hih|1",
+        "mmff_params": true,
+        "n_h": 52,
+        "n_heavy": 41,
+        "pid": "1hih"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.000156347,
+        "e0": 96.7996,
+        "e_final": 96.7943,
+        "h_finitos": true,
+        "identity": "train|1n0s|flexible_redock|1n0s|0",
+        "mmff_params": true,
+        "n_h": 12,
+        "n_heavy": 25,
+        "pid": "1n0s"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001766692,
+        "e0": 96.5964,
+        "e_final": 96.5911,
+        "h_finitos": true,
+        "identity": "train|1n0s|flexible_redock|1n0s|1",
+        "mmff_params": true,
+        "n_h": 12,
+        "n_heavy": 25,
+        "pid": "1n0s"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001000036,
+        "e0": 243.7621,
+        "e_final": 239.8664,
+        "h_finitos": true,
+        "identity": "train|1hii|flexible_redock|1hii|0",
+        "mmff_params": true,
+        "n_h": 52,
+        "n_heavy": 41,
+        "pid": "1hii"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001159114,
+        "e0": 227.4595,
+        "e_final": 219.6414,
+        "h_finitos": true,
+        "identity": "train|1hii|flexible_redock|1hii|1",
+        "mmff_params": true,
+        "n_h": 52,
+        "n_heavy": 41,
+        "pid": "1hii"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0002287484,
+        "e0": 181.4511,
+        "e_final": 181.4437,
+        "h_finitos": true,
+        "identity": "train|1flr|flexible_redock|1flr|0",
+        "mmff_params": true,
+        "n_h": 12,
+        "n_heavy": 25,
+        "pid": "1flr"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0002394076,
+        "e0": 180.5891,
+        "e_final": 180.5818,
+        "h_finitos": true,
+        "identity": "train|1flr|flexible_redock|1flr|1",
+        "mmff_params": true,
+        "n_h": 12,
+        "n_heavy": 25,
+        "pid": "1flr"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001253815,
+        "e0": 276.6102,
+        "e_final": 89.3174,
+        "h_finitos": true,
+        "identity": "train|1hmr|flexible_redock|1hmr|0",
+        "mmff_params": true,
+        "n_h": 36,
+        "n_heavy": 20,
+        "pid": "1hmr"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.000149501,
+        "e0": 73.6427,
+        "e_final": 63.8724,
+        "h_finitos": true,
+        "identity": "train|1hmr|flexible_redock|1hmr|1",
+        "mmff_params": true,
+        "n_h": 36,
+        "n_heavy": 20,
+        "pid": "1hmr"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001277725,
+        "e0": 58.4849,
+        "e_final": 58.482,
+        "h_finitos": true,
+        "identity": "train|1alw|flexible_redock|1alw|0",
+        "mmff_params": true,
+        "n_h": 10,
+        "n_heavy": 12,
+        "pid": "1alw"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.000129474,
+        "e0": 55.1901,
+        "e_final": 55.1873,
+        "h_finitos": true,
+        "identity": "train|1alw|flexible_redock|1alw|1",
+        "mmff_params": true,
+        "n_h": 10,
+        "n_heavy": 12,
+        "pid": "1alw"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001366629,
+        "e0": 292.5303,
+        "e_final": 76.3692,
+        "h_finitos": true,
+        "identity": "train|1hn4|flexible_redock|1hn4|0",
+        "mmff_params": true,
+        "n_h": 44,
+        "n_heavy": 32,
+        "pid": "1hn4"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0002216366,
+        "e0": 48.0237,
+        "e_final": 40.8271,
+        "h_finitos": true,
+        "identity": "train|1hn4|flexible_redock|1hn4|1",
+        "mmff_params": true,
+        "n_h": 44,
+        "n_heavy": 32,
+        "pid": "1hn4"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 4.26088e-05,
+        "e0": 42.0423,
+        "e_final": 36.1854,
+        "h_finitos": true,
+        "identity": "train|1i7z|flexible_redock|1i7z|0",
+        "mmff_params": true,
+        "n_h": 22,
+        "n_heavy": 22,
+        "pid": "1i7z"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 5.42972e-05,
+        "e0": 81.1503,
+        "e_final": 79.8626,
+        "h_finitos": true,
+        "identity": "train|1i7z|flexible_redock|1i7z|1",
+        "mmff_params": true,
+        "n_h": 22,
+        "n_heavy": 22,
+        "pid": "1i7z"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 3.25909e-05,
+        "e0": 332.4895,
+        "e_final": 298.3501,
+        "h_finitos": true,
+        "identity": "train|1j4r|flexible_redock|1j4r|0",
+        "mmff_params": true,
+        "n_h": 42,
+        "n_heavy": 45,
+        "pid": "1j4r"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001119855,
+        "e0": 320.1783,
+        "e_final": 287.6568,
+        "h_finitos": true,
+        "identity": "train|1j4r|flexible_redock|1j4r|1",
+        "mmff_params": true,
+        "n_h": 42,
+        "n_heavy": 45,
+        "pid": "1j4r"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001360193,
+        "e0": 323.821,
+        "e_final": 296.6085,
+        "h_finitos": true,
+        "identity": "train|1nm6|flexible_redock|1nm6|0",
+        "mmff_params": true,
+        "n_h": 35,
+        "n_heavy": 36,
+        "pid": "1nm6"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001473916,
+        "e0": 321.3474,
+        "e_final": 309.9933,
+        "h_finitos": true,
+        "identity": "train|1nm6|flexible_redock|1nm6|5",
+        "mmff_params": true,
+        "n_h": 35,
+        "n_heavy": 36,
+        "pid": "1nm6"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0001571067,
+        "e0": -238.7785,
+        "e_final": -238.787,
+        "h_finitos": true,
+        "identity": "train|1jn4|flexible_redock|1jn4|0",
+        "mmff_params": true,
+        "n_h": 25,
+        "n_heavy": 42,
+        "pid": "1jn4"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 7.35462e-05,
+        "e0": -244.1358,
+        "e_final": -244.2624,
+        "h_finitos": true,
+        "identity": "train|1jn4|flexible_redock|1jn4|1",
+        "mmff_params": true,
+        "n_h": 25,
+        "n_heavy": 42,
+        "pid": "1jn4"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.0002110105,
+        "e0": 188.5879,
+        "e_final": 188.5796,
+        "h_finitos": true,
+        "identity": "train|1fd0|flexible_redock|1fd0|0",
+        "mmff_params": true,
+        "n_h": 27,
+        "n_heavy": 30,
+        "pid": "1fd0"
+      },
+      {
+        "converged": true,
+        "desp_post_snap": 0.0,
+        "desp_pre_snap": 0.000258854,
+        "e0": 195.7444,
+        "e_final": 195.7343,
+        "h_finitos": true,
+        "identity": "train|1fd0|flexible_redock|1fd0|1",
+        "mmff_params": true,
+        "n_h": 27,
+        "n_heavy": 30,
+        "pid": "1fd0"
+      }
+    ],
+    "energias_kcal": {
+      "e0_max": 383.971,
+      "e0_min": -475.452,
+      "e_final_max": 334.965,
+      "e_final_min": -475.458
+    },
+    "gate_h_sin_mover_pesados": "PASS",
+    "h_finitos": true,
+    "max_desplazamiento_pesado_post_snap": 0.0,
+    "max_desplazamiento_pesado_pre_snap": 0.0004358157,
+    "mmff_params_ok": true,
+    "muestra": "60 poses = 2 por cada uno de los 30 primeros complejos train de D-MF-HARD (orden de cohort.jsonl); las identidades menores mapeables",
+    "n_convergidos": 60,
+    "n_no_convergidos": 0,
+    "n_poses": 60,
+    "nota_snap": "restriccion de posicion k=1e6 + restauracion EXACTA de coordenadas de pesados (desplazamiento final == 0.0 A por construccion)"
+  },
+  "check3_cobertura_mmff": {
+    "gate_95pct": "PASS",
+    "n_ligandos_soportados": 116,
+    "n_ligandos_total": 116,
+    "n_poses_soportadas": 2739,
+    "n_poses_total": 2739,
+    "no_soportados": [],
+    "pct_ligandos": 100.0,
+    "soportados_ionizados": 30,
+    "soportados_neutros": 86,
+    "unidad": "LIGANDO (116): si el ligando no tiene parametros, TODAS sus poses son unsupported_mmff; NO se mezcla UFF"
+  },
+  "check4_determinismo": {
+    "gate_determinismo": "PASS (verificado operacionalmente con --repro; ver DESIGN.md)",
+    "protocolo": "2 corridas completas; la 2a (--repro) recomputa todo el contenido cientifico y reutiliza benchmarks.json byte a byte (costes = mediciones con varianza, congeladas de la corrida canonica); exige sha256 identico de todas las salidas",
+    "salidas_verificadas": [
+      "metrics.json",
+      "per_complex.jsonl",
+      "failures.jsonl",
+      "benchmarks.json",
+      "run_rs04_qc.py"
+    ],
+    "sha256_salidas_computadas": {
+      "benchmarks.json": "e918e0c791d675eae84bfdd5c21c7c5a0f491adf91e3e45b466e3223c6e45ca8",
+      "failures.jsonl": "44ff7934d99d29f3683dbc38581aeb1d380cd80facc27e1de7856a97ab8f70ad",
+      "per_complex.jsonl": "2793e695938cfddb6178c1d619493f187541a44141869e8addc0d049cf1dee05",
+      "run_rs04_qc.py": "45e19925f5255647d962b6cd38dfb9f92ed3abb1a9c3bc46229e108ec8bfa216"
+    }
+  },
+  "check5_coste": {
+    "cacheado_complejo_p50_ms": 102.289,
+    "cacheado_complejo_p95_ms": 1726.371,
+    "cacheado_pose_p50_ms": 7.152,
+    "cacheado_pose_p95_ms": 67.949,
+    "cold_p50_ms": 6.788,
+    "cold_p95_ms": 55.744,
+    "definicion_cacheado": "por pose: parsear + mapear + mol_pose + AddHs + props + FF + optimizacion H (setup de ligando amortizado); por complejo: suma de poses mapeables",
+    "definicion_cold": "sanitizar SDF + plantilla + AddHs + setup MMFF + mapeo + optimizacion H de la primera pose mapeable (mediana de 3 repeticiones por ligando)",
+    "gate_cacheado_complejo_p95_le_3000ms": "PASS",
+    "gate_cacheado_pose_p95_le_100ms": "PASS",
+    "gate_cold_p95_le_5000ms": "PASS",
+    "n_poses_excluidas": 14,
+    "n_poses_medidas": 2725
+  },
+  "experimento": "RS-04-QC",
+  "insumos": {
+    "cohort_dmfhard": {
+      "nota": "solo pid/split/stratum/cohort_id; campos de etiqueta no usados",
+      "path": "scripts\\artifacts_science\\D-MF-HARD\\cohort.jsonl",
+      "sha256": "6d3f3a09dcd7e7393b4572ae1425c1e87d6ec0e233afbd7c7be3775ae50779ba"
+    },
+    "ligandos_sdf": {
+      "n": 116,
+      "raiz": "data/pdbbind/{pid}/{pid}_ligand.sdf",
+      "sha256_por_pid": {
+        "10gs": "6241d7ab8e2e9966babb9d99675139d36ea65ef284a1946d402b7fe3c71270d3",
+        "184l": "bcb9946af4d54306abd7ba9d0edc943612e26e1605fb04b517207bae0f7ca4cb",
+        "186l": "14695c5456bbbeaedd0e0bab6813dc1446b212bc6297a532b189d1fe18cae34c",
+        "187l": "5d3c26298a4c396ca0b0a56737a0a313483b0a0a3f77277b4654776390adc369",
+        "188l": "07935d1b5c48f750c4c2b73dbedf5676cd2f552c50ecdb0b472c05860ff3bd9d",
+        "1a30": "b75ec78527e3470ec521127d44fe56c446ef150f3a88dd2797547b4826c2fc84",
+        "1a4w": "9000ff5ae3cac3eee0fbfa543f4cb37affc4b9a512c9af7061b87abf8a5fb23e",
+        "1a99": "97e54bc1e9192c649aec57b7f31b48ead043649c7ff4a0972fba02158eac91e2",
+        "1aaq": "5aa0b83b8cbe0bf23b1cca949f9d6475455fb103aa0b25d70e1c8cdb62cb2e5a",
+        "1add": "c9e8e94aa23d84d8e37308d9264cfd3cc320d3eca3486041d81deeb4bf6cc683",
+        "1afk": "412c4f686b69caa4ed1a1783c933eb0904db5959af9f02137230ddfe00c9cfef",
+        "1afl": "d2934b6c90c8d9912468fc4396785ee19ea8d4b1e74f6f379233945cbfe3f25d",
+        "1ai4": "e3dfd2f9e9ce70310024babfda7b401db6f89f1f2dcfc35f50e0de0390d52db0",
+        "1ai7": "0d7033b69e209c12db2d5353abee4db2f7830a1437350764c49160882d20fe77",
+        "1alw": "bfef6ef35eef66b774fc552ad8071e1c8229ada895912d43795584dc23809ac1",
+        "1amw": "92806a92e5d7fcbfb18572db365127bd411c7cac2487fbda078088baaf4e5bd3",
+        "1apv": "988c9bc84b239c92a7eef11fb93d346bb89a7018e0f13539ac4d7ef5a157dd6b",
+        "1ax0": "2befc3897449edead1da0c97168f154840bb8b0520a30e4823367119b18750ef",
+        "1b2h": "88f85edac8ef925cc0ae636d12e8a2435c40bb15389bf886e3b0dfe39e1c7d28",
+        "1b38": "57095e91225cbe2a1a4dddb4d7bf74802a205c667986f6602f0c90e7b5f9af90",
+        "1b46": "dc6465121c1ca9f7387f47f711dcc00aac60e795351cbdd00ed8b95554712aec",
+        "1b4z": "60626576bd04e700299309653757185c7be1c65f78359cd89b2c62362dfe61c9",
+        "1b8y": "3114693bdeaa3cb1c9f160690a68bec7cee041699ceaaf8393da712ca0411db1",
+        "1bcd": "61882903149740df85512e0c19aa6050b28bb38240b73825ea3c65faa3d14b8d",
+        "1bju": "ff112b5b142df79f7de8c4859ab400f446412840bc263e22b4dbc4a74708b6e1",
+        "1bjv": "0067376711831de80aefe1cdedbb1d294cee084951a9698e7f95af8adcb6a5a2",
+        "1bma": "aceea9785cc573de52952b75dd2913569f7ab9a7cac755f9ba25255844f23c26",
+        "1bn1": "6d65c4b8a495462f84f2dbe9145be7fcce640b30469d3961299da504b714860a",
+        "1bn3": "f84baf868919ca6ec0395919708117f0938fb7d109e08e0030fc321c70186a1f",
+        "1bn4": "aa30f4c85a0f80ce9ab25b74910049044bd18cd1dd864487199b747142c9f8b2",
+        "1bnu": "cb76a9fc82c37096d5916fa6fb4d73bdc99dc5689735bd9c046975e25018d51c",
+        "1bq4": "7bccc12c8992d1ec0d70465e6e2c666d19535ddf987ac25bb78dc7412958b4df",
+        "1bty": "d8aa0802cadfc171671070cfb340cee53120a7eb51fd8b3e4bf4c2b7cf01b3aa",
+        "1bxr": "2ed76bbafe4fc8778bd67a1160e7b60c4cd261b6fad08314995ba040cb9b8410",
+        "1c4u": "459f0ee2d9288e7e8fd634bb8151fb6d904eaeab9b9f2dd313b663ec10ffefa7",
+        "1c5o": "59565e391d065b8d7b96cfeee35a714bb2f7973c5c34a527d17d74e2cbb87602",
+        "1c5p": "4bf1aa2fe40cc39fa097db5d213073a0494beece254ffa06ac3b4f5e3518f1d1",
+        "1cet": "85853bd73905f9ef30e2e5b55fb5dd6dabc4073cc5ce1184a0652a1cdb06f92e",
+        "1cnw": "53e242b2018874a8d59a53ca64799247ce0eab2370e4189ff96e72c503c0200c",
+        "1cnx": "9dbd5833d2542b4057cb404e6b9523fa22f7c6811067198991833fd2bef69578",
+        "1d3p": "b94e7949e40d1812b6877e3fc95d45612226c5fd04ab42c4f2dc9df7640caf07",
+        "1d7i": "7507497a3cc91da12b96897e4e63afd64c4d89997b8ebccb83cfb8d63863eb5e",
+        "1d7j": "96e4c066366ff11b6d48409eaff77e45b75d6de951bd3e25ac95f226a381f79a",
+        "1d9i": "478143b22fa4411d709afd0dbaf86e5ce90d476e38c904b7062ede026ad8de8b",
+        "1dgm": "db4ddca5cd42f3117235e14e52b10006ec6cdd7d65a7eddc059d379a0f1e545e",
+        "1e4h": "5eb465c7a70d538438640372a5b4f43a66d454cceae15b0fe754497375ff59de",
+        "1eb2": "41e4463a55c9f003fc0334abfe604e72b30d99c81e048d062bf474f21dd971fc",
+        "1ela": "539fe5a6afd2ae5d8a34eec9a715cf095f92449caf2a4685bd12494e2bfbe619",
+        "1elb": "d385bf235b0dde57830fce82b6778a2d75a4b7fff6ba9da99cb34d4588ce3085",
+        "1eld": "023cfef4093a21b6e5962c7171cf1edc0a060eecdf5d7e3f01c617d0501b22dc",
+        "1ele": "3913eca0b8fdf5d47984c4649983f1a2458fed903b8b589a15be4ea3029f5e19",
+        "1ew8": "47f946411c4e4b196d09f6e6940f8b839725240aed98cdcdbc34cfc87bcd21a2",
+        "1ew9": "bbbc661aaf650855df6a2469af263ab7368bb359d59598560d9e778c22d9d997",
+        "1ezq": "b474363e8415a047f12489a25302e48572387b683341c8367ec322c57aaad911",
+        "1f0r": "f06453c631bc96f8e7c944c1389440ae7e630f9bfa804a2ce00f370906094f63",
+        "1f0t": "49d703cdf160eeb20d7bd681eea84c39339d90329ba8d7bb37f9bdc7825b9719",
+        "1f0u": "90ddff255f0ef0a71f0182f7082df0425cd88e7bea9552ec08b95b2815e27729",
+        "1f4e": "cb13b0463dff37b6d872694a55adc50babfe1858c751432035ef9c09c062c03f",
+        "1f4f": "ac465d43dde08c341e171b6573d05ebeb93329ea0c68269b348e93a198c20af3",
+        "1f4g": "dca84e4c04024971ff86900aab1bd34acbe23840d39f7650e501776686c1dc87",
+        "1f5k": "e6084d8068c9de1b04d7e9a7482601202e15ec17f6244f6cec479d2b36602abd",
+        "1f74": "d435e966cc9d0f5378c07fee54678e2b3111c99fdba1575228d1b33ee10f68ae",
+        "1fd0": "8bb294255b07456ad511d83c4a1496bbcebcd977663a1b162ffe42bf194ecfd9",
+        "1fh7": "abadf7f4ff4e0a57483c6e1214e6de3a1299bc96f80b48bcc54e037ad46434c8",
+        "1fkg": "7ed0a0d0f08aeb8ddd1bf5323cbce405da6b71fb0a138084f4f488b0ec3fc342",
+        "1fkh": "6ebab368c438ca65c7d8252bd9929e848ee8cd48fef095c4a159bf9ebe12e0c4",
+        "1flr": "31ab430d6ba3c4dc5820d6fdc2fe127ff2a0cd748edcfb8304fedc3db4f3fa78",
+        "1fv0": "0174a4b67f4e0a8578ed968d9427c4561e7b18d44cea15d50c07a1ec715b5bec",
+        "1g3d": "203a27592244183a4de7cc338f8e6423296ad78a0f6db633e51ece8e461b69ca",
+        "1g3e": "78aae886e085b0ccbd58dc8643338b45d0bd1b405f4e5fe05833b5be9d6443d1",
+        "1gpn": "f6fb4b822c847293d6e31e3ebb7579bf89ba29bd8b65a0a717f3b2e6f217687d",
+        "1gwv": "1ba5ebe9beaa5165f9fde8addabd66bf82ef5cd103b8a195bd37390bee5c3e78",
+        "1h22": "84f5d9d6e3b29587fe32b372e8adad03a86cf0992a015ad7b9a5ff639dae4baa",
+        "1h4w": "f7c958afff8c162aafdbc1fc217f9c9574e5715aa92920586534953cc92dba81",
+        "1hdq": "a8d47598585efbf8c0a5acc80b10577634341d3a6326994f442cb05ba9580518",
+        "1hih": "4eaab15d283256b159599c1a869f3e7a6015a03e73f1b1dffa4e88e139b57928",
+        "1hii": "11275ae0e928085d9590d893c25635e6bdf734bc8e8b083068413592a89fec45",
+        "1hlk": "55695b353871a32cc601b231b0af33258b8e9370e137f9d5f60751a560d12504",
+        "1hmr": "01b3496be651bd7362074423c2e3a9e29fa745cfbe87c9be6bd9c530a1f253ff",
+        "1hn4": "53ebe2885635f145ef362d127071845f21dda377b759e0ebb922bcd1c264cec7",
+        "1hp5": "6345203d3e528b62566045cadc77abe32de258d4c8449f33e0018f18937a126d",
+        "1hpx": "7e7fd9d12846d5c0c418c8db6f04f0b3b3c739d43e8855179c76fc43905a6bd6",
+        "1i7z": "90253293a20f13dac601f979188c28f53f4237e4997da269e9a661059a70b39e",
+        "1igb": "af21f2ba5d51c1e9769c4b9f85ffce1c1d6801e78002b8d7d4d4396e9e312f7c",
+        "1iih": "bc694ffc10fe16a919dd3a2804c60d97aa096500cb1e4bb43daa384be906023c",
+        "1ikt": "52e65493ffd9b4b666aad37bc31fc35cf709469adca382afaf58488983cf8134",
+        "1j4r": "2787ac337ea6f8dbba41e3aea2a7df4d3ece89d07ecf16f7c66364f6c0725934",
+        "1jao": "56ceb754fd5b67352ac124810bf5f28e863b6cf80f4bd7ad6ef8bc496ceae679",
+        "1jaq": "4fe406e6933f64ad6eb8f51d0f347383ee3befb534bdaf0a3fcd0cac2622d4c7",
+        "1jn4": "849387bb2d50c7573b281897ab17e4c5cc99042687dbf9177188d947a48e2d19",
+        "1jq8": "2889df044948e2749cbb802dc00615e5317c5ba6637dbe0b887497dbea008f81",
+        "1jvu": "2b2eb80432d7c3fe1ef26c5f64a1d3d0c4645b6bc0ecbe88d07b96308e221ab2",
+        "1k9s": "dee706ef25eadf0615a8793bc984da9e67b73568ca9d74f1d7fef0500995d265",
+        "1kav": "89de6db9e65b802550f2d61599336a8b41a83e7214be608fbf168feb7e41d28a",
+        "1kpm": "8f113be44e5d7ed7f4b06918b4d83c2b2b6ac2cd84dbf9a1bcf875411ffdfdb6",
+        "1kzk": "e4df8f38b951e2d25b2e6ea55f083dc9f7ca50ecf88c99b766c43f89ee3637a3",
+        "1l83": "b8f94e9da709ff373afdea491544466aa75b63eadc08c07fb4bbe2907b39b70a",
+        "1lan": "b5d4fff7dc3974aefecd0893ff497974de8958102a44e854309ea5af875dbb34",
+        "1lbk": "4d1273f6695cefbc3a671ea249030dcad46e5fbe30aa06d19d88236bfcf2a661",
+        "1lrh": "a3a4083dac2ce5dc90f5170d1a96d8681d2b6eadc7643d26b5198d2805e7e660",
+        "1m0n": "1bc5f69443ded96a7ac99cf1c3be485816053e1af6fbc52bbe4f079036d0ce8b",
+        "1m2x": "8813249085c9fbf5da3ca9547248b9cf6c680efd58d8ac6cde22b5ff96934d61",
+        "1m48": "f3388fef3f1f8d91c42494f2a8de25a7b39e6c5d8b0ba5a0aa1280914de5223d",
+        "1m5w": "b3eee638d203b44a29e9273e266208ed32c61df832f8de8646dce6a9a7158b72",
+        "1mmq": "3dfaf2a8cc7502e88c37f72b134d2af6bbb9449adc5d27ec4d72de63f8e284bd",
+        "1mmr": "a3e310f8056db88fc8c65d1f020b860fd3daeac6e45dc45c307ab965515b1a00",
+        "1moq": "4e6bb35ad15dee89d385a4ec22cb216d9b5e94b37c249efb31ab6886eec02b0f",
+        "1mu8": "b49204719b1f08630d802eb3d3a9c7635ce560346b762f8a7f3980348a606ff3",
+        "1n0s": "c0b929af7551aa1aa05cb1dc62ac640c61809b70a54ef1dfe72383e41a5104bd",
+        "1nje": "8b02c916842727efd79625e0457af7e20fcefd3bd7a26c2c3ba902d61b044d93",
+        "1njs": "335531d2a65b8a4495f3e5d6a55aa2c1ff4dd75f1167c86c0865bfab40fbdbac",
+        "1nki": "7932176d71514e21a24538c9dbdf8ce68cde5dec781642448b6c6b6c37eae43c",
+        "1nm6": "03e2405d8a8c41ffd4efc8066331b30f5b83d8aa362030ee8380975f0045e8fa",
+        "1np0": "e0c83756de73c14db5a42bb2a1808e89e8097e298e7f5765ce1197c9e1d8a053",
+        "1nq7": "902fa5a4bacc23e965f469837e77ffb0c61765089b441e61e6d2017abea31d9e",
+        "1nw5": "20d69421ffe94a308c7ec32ca7169fd4c4849b0d35da6adfb30879d3265eba46"
+      }
+    },
+    "union_candidates_train": {
+      "n_pids": 116,
+      "n_poses": 2739,
+      "path": "scripts\\artifacts_science\\MF-01-UNION\\union_candidates_train.jsonl",
+      "sha256": "61ab0e26901659c0d6e8bf98f47bbcae82d187265fc8181953d58ff6a2033ce9"
+    }
+  },
+  "mecanismo_strain_negativo": {
+    "demo_end_to_end": [
+      {
+        "e_min": 47.2746,
+        "e_pose": 197.8967,
+        "identity": "train|1aaq|molflex|conf0.out|0",
+        "nconfs_ref": 160,
+        "pid": "1aaq",
+        "strain": 150.6221
+      },
+      {
+        "e_min": 47.2746,
+        "e_pose": 205.0746,
+        "identity": "train|1aaq|molflex|conf0.out|1",
+        "nconfs_ref": 160,
+        "pid": "1aaq",
+        "strain": 157.8
+      },
+      {
+        "e_min": 79.3676,
+        "e_pose": 244.2187,
+        "identity": "train|1fv0|flexible_redock|1fv0|0",
+        "nconfs_ref": 50,
+        "pid": "1fv0",
+        "strain": 164.8511
+      },
+      {
+        "e_min": 79.3676,
+        "e_pose": 242.9373,
+        "identity": "train|1fv0|flexible_redock|1fv0|1",
+        "nconfs_ref": 50,
+        "pid": "1fv0",
+        "strain": 163.5697
+      },
+      {
+        "e_min": -530.6469,
+        "e_pose": -330.5586,
+        "identity": "train|1afk|molflex|conf0.out|0",
+        "nconfs_ref": 80,
+        "pid": "1afk",
+        "strain": 200.0883
+      },
+      {
+        "e_min": -530.6469,
+        "e_pose": -321.3378,
+        "identity": "train|1afk|molflex|conf0.out|1",
+        "nconfs_ref": 80,
+        "pid": "1afk",
+        "strain": 209.3091
+      },
+      {
+        "e_min": -61.076,
+        "e_pose": -34.5643,
+        "identity": "train|1bju|flexible_redock|1bju|0",
+        "nconfs_ref": 50,
+        "pid": "1bju",
+        "strain": 26.5117
+      },
+      {
+        "e_min": -61.076,
+        "e_pose": -16.4257,
+        "identity": "train|1bju|flexible_redock|1bju|1",
+        "nconfs_ref": 50,
+        "pid": "1bju",
+        "strain": 44.6503
+      },
+      {
+        "e_min": -525.7111,
+        "e_pose": -291.8128,
+        "identity": "train|1afl|molflex|conf0.out|0",
+        "nconfs_ref": 80,
+        "pid": "1afl",
+        "strain": 233.8983
+      },
+      {
+        "e_min": -525.7111,
+        "e_pose": -320.8319,
+        "identity": "train|1afl|molflex|conf0.out|1",
+        "nconfs_ref": 80,
+        "pid": "1afl",
+        "strain": 204.8792
+      }
+    ],
+    "nota": "strain = E_pose - E_min con signo; ningun valor se trunca a cero",
+    "prueba_unidad_sin_clamp": [
+      {
+        "e_min": 10.0,
+        "e_pose": 12.5,
+        "strain": 2.5
+      },
+      {
+        "e_min": 12.0,
+        "e_pose": 8.0,
+        "strain": -4.0
+      },
+      {
+        "e_min": 3.0,
+        "e_pose": 3.0,
+        "strain": 0.0
+      }
+    ],
+    "rol": "verificacion del mecanismo de computo; NO es gate"
+  },
+  "protocolo": "CAMPANA-2-PLAN sellado (41b7f09) IT1 QA-5/QA-6; etapa tecnica previa a RS-04 (train-only, SIN labels)",
+  "runtime": {
+    "interprete": "python-embed/python.exe",
+    "python": "3.11.9",
+    "rdkit": "2025.09.6",
+    "seed": 42
+  },
+  "veredicto_qc": {
+    "gates": {
+      "cobertura_95pct": "PASS",
+      "costes_3_gates": "PASS",
+      "determinismo": "PASS",
+      "h_opt_pesados_fijos": "PASS",
+      "mapeo_biyectivo_99pct": "PASS"
+    },
+    "status": "PASS"
+  },
+  "whitelist_archivos_abiertos": [
+    "D:/moldesign-build/data/pdbbind/10gs/10gs_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/184l/184l_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/186l/186l_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/187l/187l_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/188l/188l_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1a30/1a30_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1a4w/1a4w_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1a99/1a99_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1aaq/1aaq_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1add/1add_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1afk/1afk_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1afl/1afl_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1ai4/1ai4_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1ai7/1ai7_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1alw/1alw_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1amw/1amw_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1apv/1apv_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1ax0/1ax0_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1b2h/1b2h_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1b38/1b38_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1b46/1b46_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1b4z/1b4z_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1b8y/1b8y_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1bcd/1bcd_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1bju/1bju_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1bjv/1bjv_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1bma/1bma_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1bn1/1bn1_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1bn3/1bn3_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1bn4/1bn4_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1bnu/1bnu_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1bq4/1bq4_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1bty/1bty_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1bxr/1bxr_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1c4u/1c4u_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1c5o/1c5o_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1c5p/1c5p_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1cet/1cet_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1cnw/1cnw_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1cnx/1cnx_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1d3p/1d3p_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1d7i/1d7i_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1d7j/1d7j_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1d9i/1d9i_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1dgm/1dgm_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1e4h/1e4h_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1eb2/1eb2_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1ela/1ela_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1elb/1elb_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1eld/1eld_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1ele/1ele_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1ew8/1ew8_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1ew9/1ew9_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1ezq/1ezq_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1f0r/1f0r_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1f0t/1f0t_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1f0u/1f0u_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1f4e/1f4e_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1f4f/1f4f_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1f4g/1f4g_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1f5k/1f5k_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1f74/1f74_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1fd0/1fd0_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1fh7/1fh7_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1fkg/1fkg_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1fkh/1fkh_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1flr/1flr_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1fv0/1fv0_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1g3d/1g3d_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1g3e/1g3e_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1gpn/1gpn_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1gwv/1gwv_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1h22/1h22_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1h4w/1h4w_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1hdq/1hdq_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1hih/1hih_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1hii/1hii_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1hlk/1hlk_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1hmr/1hmr_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1hn4/1hn4_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1hp5/1hp5_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1hpx/1hpx_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1i7z/1i7z_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1igb/1igb_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1iih/1iih_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1ikt/1ikt_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1j4r/1j4r_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1jao/1jao_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1jaq/1jaq_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1jn4/1jn4_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1jq8/1jq8_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1jvu/1jvu_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1k9s/1k9s_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1kav/1kav_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1kpm/1kpm_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1kzk/1kzk_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1l83/1l83_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1lan/1lan_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1lbk/1lbk_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1lrh/1lrh_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1m0n/1m0n_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1m2x/1m2x_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1m48/1m48_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1m5w/1m5w_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1mmq/1mmq_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1mmr/1mmr_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1moq/1moq_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1mu8/1mu8_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1n0s/1n0s_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1nje/1nje_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1njs/1njs_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1nki/1nki_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1nm6/1nm6_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1np0/1np0_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1nq7/1nq7_ligand.sdf",
+    "D:/moldesign-build/data/pdbbind/1nw5/1nw5_ligand.sdf",
+    "D:/moldesign-build/scripts/artifacts_science/D-MF-HARD/cohort.jsonl",
+    "D:/moldesign-build/scripts/artifacts_science/MF-01-UNION/union_candidates_train.jsonl",
+    "RS-04-QC/benchmarks.json"
+  ]
+}

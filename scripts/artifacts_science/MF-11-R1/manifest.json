@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-11-R1",
+  "hypothesis": "El medoid geometrico con diametro controlado preserva el oraculo a un umbral mayor que identity-first",
+  "protocol": "MF-11 (NO_GO sellada, desviaciones D1/D2) + contrato original",
+  "created_at": "2026-08-16T19:26:04.167180+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "ad9ebcaaf81bb3fdc70f979e2ed0c4c4d5438a7b",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "Mayor umbral con 0 perdidas + degradacion mediana <=0.1A + reduccion >=10%; ablation mejor-Vina secundaria; solo train; 0 val"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-11-R1/DESIGN.md": "71ca2ddf9f35cfc1953f977fdf87993d89b35abcec58209387e5fd79fdf1ef16",
+    "scripts/artifacts_science/MF-11-R1/metrics.json": "2d271875f10270e197f72a0bedb39fb52f0b347109781a931432dcdca4c0c5cd",
+    "scripts/artifacts_science/MF-11-R1/per_complex.jsonl": "a9bdac2c4e8276039db78ffd69c653bd7a3cce94004f1638ccb959b542b0bcc5",
+    "scripts/artifacts_science/MF-11-R1/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/MF-11-R1/cluster_members_train_1.5.jsonl": "7026b8dea49062d49e4765ab116864fe6bd550ac660c76da646aabb7a645d0a0",
+    "scripts/artifacts_science/MF-11-R1/dedup_candidates_train_1.5.jsonl": "fef90c21c92d3527a3431d8e880601d33208a1c12688057f8ebf95642589fa78",
+    "scripts/artifacts_science/MF-11-R1/dedup_labels_train_1.5.jsonl": "e07a9fec590ebfa646ae90f217f1c4727dd2c334f545d9476c977502e6e9f815",
+    "scripts/dedup_pose_union_medoid.py": "1b843da8e7d06c95dfc9d0a0f9d7aaa5da68b867a4c8daa895779fbc645e2df9",
+    "scripts/test_dedup_pose_union_medoid.py": "db564cb1a468e493e5f0bd158757a1d009ee6b2714600d146dc0b817099e405c",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T19:40:18.539411+00:00",
+  "decision_rationale": "MF-11-R1 GO de desarrollo: sobre 116 complejos train y 2739 poses, la politica label-blind de diametro controlado y medoid geometrico selecciono 1.5 A mediante la regla preregistrada, reduciendo 11.90% los candidatos (2739->2413) con cero complejos cubiertos perdidos y degradacion mediana de min-RMSD 0.000 A. Val permanece excluida e inhabilitada para confirmar variantes por la desviacion D1 de MF-11; el artefacto prepara RS-01, pero no constituye validacion externa.",
+  "finished_at": "2026-08-16T19:40:19.115386+00:00"
+}

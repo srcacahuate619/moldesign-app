@@ -1,0 +1,324 @@
+{
+ "id": "FND-02",
+ "meta": {
+  "titulo": "Fuga entre conjuntos: 85 pares de receptor idéntico",
+  "entradilla": "La auditoría buscaba confirmar que los conjuntos estaban limpios. Encontró 2 pares de ligando idéntico y 85 de secuencia de receptor idéntica cruzando train, val y test."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este es el experimento que más gente se salta, porque su resultado esperado es «todo está bien» y su ejecución no produce ninguna cifra publicable. Es también el que decide si todas las demás cifras significan algo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Si el mismo ligando, o la misma proteína, aparece en ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": " y en ",
+     "m": null
+    },
+    {
+     "t": "test",
+     "m": "codigo"
+    },
+    {
+     "t": ", cualquier rendimiento medido en ",
+     "m": null
+    },
+    {
+     "t": "test",
+     "m": "codigo"
+    },
+    {
+     "t": " está inflado por memorización. El modelo no generaliza: ya vio la respuesta.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El gate era simple y absoluto: ",
+     "m": null
+    },
+    {
+     "t": "cero fuga",
+     "m": "fuerte"
+    },
+    {
+     "t": ", por PDB, por ligando, por scaffold y por fuente. Los duplicados que quedaran tenían que estar justificados.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El gate no se cumple, por dos vías independientes.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ligando idéntico cruzando conjuntos — 2 pares:",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Par",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Conjuntos",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "1ft7",
+       "m": "codigo"
+      },
+      {
+       "t": " / ",
+       "m": null
+      },
+      {
+       "t": "1lcp",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "val ↔ test",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1hmr",
+       "m": "codigo"
+      },
+      {
+       "t": " / ",
+       "m": null
+      },
+      {
+       "t": "1hmt",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "train ↔ val",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La causa es concreta y merece anotarse porque es un modo de fallo silencioso: el criterio de separación usaba el ",
+     "m": null
+    },
+    {
+     "t": "scaffold",
+     "m": "fuerte"
+    },
+    {
+     "t": " de la molécula, y en ligandos ",
+     "m": null
+    },
+    {
+     "t": "acíclicos",
+     "m": "fuerte"
+    },
+    {
+     "t": " el scaffold está vacío. Dos moléculas sin anillos comparten un scaffold vacío con todas las demás, así que el criterio no las distingue y el respaldo por scaffold no llegó a activarse. La regla funcionaba para todos los casos que alguien había mirado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Secuencia de receptor idéntica cruzando conjuntos — 85 pares",
+     "m": "fuerte"
+    },
+    {
+     "t": ", en 14 familias de proteína, afectando a ",
+     "m": null
+    },
+    {
+     "t": "57 de 203 complejos",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese segundo número es el grave. Más de una cuarta parte del conjunto comparte proteína con otro complejo al otro lado de la línea.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué significa para el resto del programa",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Que la separación entre conjuntos es ",
+     "m": null
+    },
+    {
+     "t": "por ligando, no por proteína",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Un modelo entrenado aquí y evaluado en ",
+     "m": null
+    },
+    {
+     "t": "test",
+     "m": "codigo"
+    },
+    {
+     "t": " ha visto antes esa proteína, aunque no ese ligando.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No invalida todo — para muchas preguntas la unidad de inferencia correcta es el par ligando-proteína y la fuga por receptor es tolerable si se declara. Lo que invalida es afirmar generalización ",
+     "m": null
+    },
+    {
+     "t": "a proteínas no vistas",
+     "m": "fuerte"
+    },
+    {
+     "t": ", que es una afirmación distinta y mucho más fuerte.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "De aquí sale la práctica de reportar los resultados estratificados por relación con el receptor —visto / casi idéntico / no relacionado— en lugar de dar una cifra global. ",
+     "m": null
+    },
+    {
+     "t": "AF-01",
+     "m": "codigo"
+    },
+    {
+     "t": " fue el primero en aplicarlo, y por eso su decisión se selló como «reproducido ",
+     "m": null
+    },
+    {
+     "t": "con limitación de alcance",
+     "m": "fuerte"
+    },
+    {
+     "t": "» en vez de simplemente «reproducido».",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué un NO_GO aquí es una buena noticia",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El resultado deseable de una auditoría de fuga es encontrarla. Si esta hubiera devuelto «cero fuga» sin haber probado el caso de los ligandos acíclicos, el programa habría seguido adelante creyendo en una separación que no existía, y cada número posterior habría llevado ese error dentro sin que nada lo señalara.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un NO_GO en un experimento de fundamentos no es un fracaso del proyecto. Es el instrumento funcionando.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FND-02.md"
+}

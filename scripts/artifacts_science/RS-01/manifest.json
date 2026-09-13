@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-01",
+  "hypothesis": "La union deduplicada MF-11-R1 cambia el comportamiento de v0.6 (RS-01A in-sample) y el cross-fitting OOF muestra si la deduplicacion mejora Top-1 sin degradar RMSD (RS-01B)",
+  "protocol": "docs/49 RS-01 reformulado + MF-11-R1 sellada + bloqueadores B1-B7 (IT1); sello PARAGUAS DE PREREGISTRO: las ejecuciones y resultados se sellan por separado como RS-01A y RS-01B",
+  "created_at": "2026-08-16T19:58:53.270297+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "d1000cec25895212345a64084f402e734a90fdaa",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9 (python-embed/python.exe, runtime planificado verificado en IT1)",
+    "packages": [
+      "xgboost==3.2.0",
+      "numpy==2.4.4",
+      "scipy==1.17.1",
+      "rdkit==2025.09.6"
+    ]
+  },
+  "gate": {
+    "description": "Preregistro completo; RS-01A in-sample con lecturas A0/A1/A2 (A1 primaria); RS-01B OOF con folds del fold_plan (38 componentes, 55/16/15/15/15), gate OPERACIONAL +3 Top-1 y degradacion <=0.1A + bootstrap por 38 componentes (10000 replicas, BCa) y McNemar exacto; val descriptivo; test y D-RC-CONFIRM sellados e intocados"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/RS-01/fold_plan.json": "9d97ad70b25331b4ae3e926210f6372ed7ec092d5a7a5fff6fe61af83b961c30",
+    "scripts/artifacts_science/RS-01/cache_train_only_view.jsonl": "6afeb3705ad4ba0d49918e6849da2876cd63e4260aa8f47487b0b393596bbc34",
+    "scripts/artifacts_science/RS-01/cache_view_manifest.json": "ed7e9ec63d912c6936023cd57159febe891462f256d10314d40106d0d042d640",
+    "data/pose_selector_dataset/poses_train.jsonl": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654"
+  },
+  "model_hashes": {
+    "rescoring/artifacts/pose_selector_v06.xgb": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+    "rescoring/artifacts/pose_selector_v06_meta.json": "296b125ba852522259c11385063dc825c18efc3769228a22a640702ea5b5147d"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/RS-01/PREREGISTRO.md": "3c5cfe7edd8352a84f24576e9de7b301407d633494109d2eb5cf4cea8986a2e3",
+    "scripts/artifacts_science/RS-01/INVENTORY.json": "9863070ab93aa5eb9baf3a34bf5451d957445aaa512318c426e9e555075a4ede",
+    "scripts/artifacts_science/RS-01/FORECAST.md": "69f992576cf8e0885825af12940542a98cc49fec9e39c4f3388c306be1f0a17f",
+    "scripts/build_rs01_fold_plan.py": "99f92ae3c4aee20feb969f0c332ce72f07d4120300f6b42ecf86c8442ee68321",
+    "scripts/materialize_cache_train_view.py": "4b26e9cf2349f7fc7637471bc420466171d9d17bc91db8f724c265a2b6b3d5bb",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T20:27:16.674391+00:00",
+  "decision_rationale": "Preregistro RS-01A/B sellado como paraguas tras IT1+IT2: A0/A1/A2 definidos, fold_plan 55/16/15/15/15 con claim near-identity-receptor-disjoint + Murcko-disjoint, n_estimators=52 sin ES, vista cache train-only sin leer val/test, bootstrap BCa global por 38 componentes 10000 replicas con fallback percentil, contingencias cerradas (U=None, todos los medoides empatados, mascaras de fuentes). Las ejecuciones y resultados se sellan aparte como RS-01A y RS-01B.",
+  "finished_at": "2026-08-16T20:27:17.151107+00:00"
+}

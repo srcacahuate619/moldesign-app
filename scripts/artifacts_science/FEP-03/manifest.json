@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "FEP-03",
+  "hypothesis": "El material contiene series congenericas suficientes para que la ruta FEP+ sea aplicable",
+  "protocol": "auditoria sin docking: agrupacion de los 203 por identidad de secuencia (k-meros, umbral 0.90) y MCS por pareja dentro de cada diana; umbrales declarados antes (cobertura MCS >=0.70, perturbacion <=10 atomos)",
+  "created_at": "2026-08-19T03:53:19.319690+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "auditoria sin gates; se cuenta cuantas parejas serian utilizables por FEP+"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_fep03_congenericas.py": "52f76e98ae0c7b8ce8b0e3071b1d0f49a80f80a2ee07f0cbc210ee39ff5ac036"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:20.099022+00:00",
+  "decision_rationale": "La ruta FEP+ es aplicable pero solo en una fraccion: 91 parejas utilizables sobre 18 dianas, de 487 evaluadas (19%). Varias son de libro -1fkg/1fkh, 1dhi/1dhj, 1if7/1if8 con MCS de 26-33 atomos y perturbacion 0-. Pero el material NO esta construido para eso: 104 dianas distintas para 203 complejos, o sea la mitad de los complejos son la unica entrada de su diana; y la mediana global es cobertura MCS 0.50 con perturbacion de 27 atomos. Implicacion de diseno: el conjunto se armo para entrenar un selector de poses -maximizar diversidad de dianas- y eso es lo contrario de lo que necesita FEP+, que quiere pocas dianas con muchos analogos. Demostrar la ruta completa exigiria cohortes construidas al reves; PDBBind las tiene (el grupo mayor aqui es de 23 miembros). Se corrigio un bug propio: la primera pasada dio cobertura 1.11 y perturbacion -2, ambas imposibles, porque FindMCS contaba el hidrogeno retenido que GetNumHeavyAtoms no; con RemoveAllHs las parejas aptas bajaron de 96 a 91. Limitacion: la agrupacion por k-meros no distingue mutantes puntuales (que para FEP+ SI serian dianas distintas) y puede unir isoformas; ambos sesgos inflan el conteo, asi que 91 es una COTA SUPERIOR.",
+  "finished_at": "2026-08-19T03:53:20.278024+00:00"
+}

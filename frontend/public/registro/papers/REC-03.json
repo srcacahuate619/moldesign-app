@@ -1,0 +1,442 @@
+{
+ "id": "REC-03",
+ "meta": {
+  "titulo": "Reparar el catálogo rompió dos objetivos sanos",
+  "entradilla": "El grid por predicción de pocket repara 6 de los objetivos accionables. En el control pierde dos que funcionaban, y no los pierde por poco: de 1.338 Å a 61.07 Å."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La auditoría del catálogo había encontrado 57 objetivos con la caja de búsqueda mal colocada. La pregunta natural es si se pueden reparar automáticamente: sustituir el grid del catálogo por uno derivado de predicción de pocket, que no necesita conocer el ligando.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Si funcionara, sería un arreglo de una sola pasada para un problema de curación manual que de otro modo se hace objetivo por objetivo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El criterio de reparación pasa.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El grid por predicción repara ",
+     "m": null
+    },
+    {
+     "t": "6",
+     "m": "fuerte"
+    },
+    {
+     "t": " de los objetivos accionables. El techo geométrico declarado antes era de 9 sobre los 19 evaluables, así que alcanza el ",
+     "m": null
+    },
+    {
+     "t": "67% de lo que la geometría permitía",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y repara donde tenía sentido: 5 de las 6 reparaciones son de casos donde la caja del catálogo contenía ",
+     "m": null
+    },
+    {
+     "t": "parcialmente",
+     "m": "fuerte"
+    },
+    {
+     "t": " el ligando. Donde la caja estaba completamente fuera, no repara nada. El mecanismo se comporta como se esperaba.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El criterio de no regresión falla, y falla mal.",
+     "m": "fuerte"
+    },
+    {
+     "t": " En el grupo de control, el grid nuevo conserva ",
+     "m": null
+    },
+    {
+     "t": "4 de los 6",
+     "m": "fuerte"
+    },
+    {
+     "t": " objetivos que el catálogo tenía bien, por debajo de los 5 exigidos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las dos pérdidas no son marginales:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Objetivo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Con el catálogo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Con el grid nuevo",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "2H02",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "1.338 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "61.07 Å",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "7JVU",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "1.976 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "13.09 Å",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sesenta y un ángstroms. No es una degradación: es colocar el ligando en otra parte de la proteína.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esa asimetría es la que decide. Un arreglo automático que repara 6 y destruye 2 de forma catastrófica no es un arreglo — es cambiar un conjunto conocido de fallos por uno desconocido.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El fallo de validez, y por qué no se interpretó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La validez salió en ",
+     "m": null
+    },
+    {
+     "t": "87.1%",
+     "m": "fuerte"
+    },
+    {
+     "t": " (324 de 372), por debajo del 98% exigido. Pero no falló de forma difusa, que sería lo preocupante: falló ",
+     "m": null
+    },
+    {
+     "t": "entera y exclusivamente en 4 objetivos",
+     "m": "fuerte"
+    },
+    {
+     "t": " que perdieron sus 12 corridas cada uno, mientras los otros 27 dieron 324 de 324 válidas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las causas están diagnosticadas una a una:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "3MG0",
+      "m": "codigo"
+     },
+     {
+      "t": " lleva ",
+      "m": null
+     },
+     {
+      "t": "boro",
+      "m": "fuerte"
+     },
+     {
+      "t": ", y Vina no tiene tipo de átomo para B. Es un límite del motor, no",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "del experimento.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "6MWA",
+      "m": "codigo"
+     },
+     {
+      "t": " (37 torsiones), ",
+      "m": null
+     },
+     {
+      "t": "7E2Y",
+      "m": "codigo"
+     },
+     {
+      "t": " (43) y ",
+      "m": null
+     },
+     {
+      "t": "4CA8",
+      "m": "codigo"
+     },
+     {
+      "t": " (20 torsiones, 56 átomos) **agotaron el",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "tiempo límite** de 1800 s.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Como los 4 caen igual en los cuatro brazos, no distorsionan la comparación. Aun así el prerregistro es explícito: ",
+     "m": null
+    },
+    {
+     "t": "un fallo de validez obliga a repetir, no a interpretar",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Así que no se emite ningún claim positivo sobre el criterio de reparación, aunque haya pasado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es la clase de regla que cuesta respetar cuando el resultado que se pierde es favorable.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Una calibración que nadie buscaba",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Como control se dockeó con la caja ",
+     "m": null
+    },
+    {
+     "t": "exacta",
+     "m": "fuerte"
+    },
+    {
+     "t": " del catálogo, centrada a 0.00 Å del ligando — la mejor caja posible por construcción. El re-docking acierta en ",
+     "m": null
+    },
+    {
+     "t": "6 de 8",
+     "m": "fuerte"
+    },
+    {
+     "t": " objetivos sanos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un 75% con información perfecta sobre dónde está el ligando. ",
+     "m": null
+    },
+    {
+     "t": "Ese techo es del motor, no del catálogo.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Ninguna mejora de grids puede superarlo, y conviene tenerlo presente antes de atribuir a la caja fallos que son del docking.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Conclusión registrada",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La reparación automática global del catálogo por predicción de pocket ",
+     "m": null
+    },
+    {
+     "t": "no es viable con este motor",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Los objetivos accionables siguen siendo deuda de curación manual, uno a uno.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es coherente con ",
+     "m": null
+    },
+    {
+     "t": "REC-07",
+     "m": "codigo"
+    },
+    {
+     "t": ", que había llegado a lo mismo desde el otro lado: la geometría del grid no es buen predictor de la calidad del docking, ni para condenar un grid ni para reemplazarlo.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/REC-03.md"
+}

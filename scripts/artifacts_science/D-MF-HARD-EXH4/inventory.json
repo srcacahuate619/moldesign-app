@@ -1,0 +1,1357 @@
+{
+    "experiment_id":  "D-MF-HARD-EXH4",
+    "tipo":  "forecast_inventario_planificacion",
+    "created_at":  "2026-08-16T02:53:09-06:00",
+    "branch":  "experimentos/ruta-c-molflex",
+    "referencia":  "docs/49 Â§15 entregable 8 (MF-06: Vina exh4 vs MolFlex K15 vs union)",
+    "congelados":  {
+                       "k15_inmutable":  "sello f31bfeb, 0 docks nuevos MolFlex",
+                       "vina":  "exh=4, --seed 42 explicito, gate 1-9 enmendado, cpu=1",
+                       "separacion":  "hard/control SIEMPRE separados",
+                       "comparacion":  "operacional completa (decisoria) + CPU-hour SOLO MolFlex K15 vs Vina exh4 (union sin ratio: cobertura/0 indefinido) + N candidatos (descriptiva, MF-11 sin deduplicar)",
+                       "decision":  "fase 1: solo train (17+17) decide; fase 2: val (5+5) posterior al sello de train, descriptiva y no ciega",
+                       "wrapper":  "por composicion (patron run_molflex_curve_val.py); prohibido editar sellados",
+                       "alcance":  "cero v0.6, cero MF-11, cero produccion",
+                       "fases":  "fase 1 D-MF-HARD-EXH4 (34 train, unica autorizada ahora); fase 2 D-MF-HARD-EXH4-VAL (10 val, solo tras sello de train)"
+                   },
+    "historico_exh":  {
+                          "flexible_redock":  "exh=8 hardcodeado (redock_pdbbind.py:293), seed unknown, box 25, num_modes 9, timeout 300",
+                          "ruta_a":  "exh en {1,2,4} medido (exh4 P50 76.9s P90 180.3s max 226.1s, 0 fallos), seed unknown historico, box 25, num_modes 9, cpu 1",
+                          "veredicto":  "exh4 ya existio (ruta_a) pero sin --seed 42 -\u003e 0/44 reutilizables con config exacta"
+                      },
+    "brazos":  {
+                   "molflex_k15":  {
+                                       "estado":  "sellado",
+                                       "docks_nuevos":  0,
+                                       "train":  {
+                                                     "n_complejos":  34,
+                                                     "n_docks_k15":  414,
+                                                     "n_poses_k15":  2690,
+                                                     "cobertura":  {
+                                                                       "hard":  "3/17",
+                                                                       "control":  "15/17"
+                                                                   },
+                                                     "cpu_h_p50":  2.62,
+                                                     "cpu_h_p90":  4.24
+                                                 },
+                                       "val":  {
+                                                   "n_complejos":  10,
+                                                   "n_docks_k15":  121,
+                                                   "n_poses_k15":  949,
+                                                   "cobertura":  {
+                                                                     "hard":  "2/5",
+                                                                     "control":  "4/5"
+                                                                 },
+                                                   "cpu_h":  0.55
+                                               }
+                                   },
+                   "union":  {
+                                 "estado":  "sellada",
+                                 "docks_nuevos":  0,
+                                 "n_poses_total":  3469,
+                                 "n_complejos":  156,
+                                 "cohorte_train":  {
+                                                       "hard_candidatos":  802,
+                                                       "control_candidatos":  155
+                                                   },
+                                 "cohorte_val":  {
+                                                     "hard_candidatos":  74,
+                                                     "control_candidatos":  55
+                                                 },
+                                 "nota":  "1nvq (control val) 0 candidatos (runs solo-test excluidos); coste incremental hoy = 0 CPU-h (ningun dock nuevo)",
+                                 "coste":  {
+                                               "incremental_hoy_cpu_h":  0,
+                                               "historico_generacion":  "estimable-fuera-de-alcance: FND-06 sellado sin datos de timing (created_at 0/4300 conocido; solo conteo de runs: 447 = ruta_a 60 + flexible_redock 143 + molflex 244)",
+                                               "reproducir_union_estimado_cpu_h":  "2.4-4.7 (orden de magnitud; supuestos en FORECAST 6.b; NO es gate)"
+                                           }
+                             },
+                   "vina_exh4":  {
+                                     "estado":  "nuevo",
+                                     "docks_nuevos":  44,
+                                     "por_estrato":  {
+                                                         "hard":  {
+                                                                      "n":  22,
+                                                                      "reusable":  0,
+                                                                      "incompatible_history":  19,
+                                                                      "no_history":  3,
+                                                                      "est_p50_s":  100,
+                                                                      "est_p90_s":  210
+                                                                  },
+                                                         "control":  {
+                                                                         "n":  22,
+                                                                         "reusable":  0,
+                                                                         "incompatible_history":  22,
+                                                                         "no_history":  0,
+                                                                         "est_p50_s":  15,
+                                                                         "est_p90_s":  30
+                                                                     }
+                                                     },
+                                     "cpu_total":  {
+                                                       "p50_h":  0.8,
+                                                       "p90_h":  1.5,
+                                                       "peor_caso_h":  2.1
+                                                   },
+                                     "wall":  {
+                                                  "w4":  {
+                                                             "p50_min":  12,
+                                                             "p90_min":  22
+                                                         },
+                                                  "w6":  {
+                                                             "p50_min":  8,
+                                                             "p90_min":  15
+                                                         }
+                                              },
+                                     "almacenamiento_mb":  12,
+                                     "timeout_cap_s":  300,
+                                     "identidad":  "split|pid|vina_exh4|flex_exh4.out|model_idx"
+                                 }
+               },
+    "per_pid":  [
+                    {
+                        "pid":  "1aaq",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  18,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "no_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "no_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "sin_historico_flexible",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  false,
+                                                "est_p50_s":  240,
+                                                "est_p90_s":  300,
+                                                "timeout_risk":  true
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  84
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  187
+                                  }
+                    },
+                    {
+                        "pid":  "1afk",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  15,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "no_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "no_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "sin_historico_flexible",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  false,
+                                                "est_p50_s":  100,
+                                                "est_p90_s":  210,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  135
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  180
+                                  }
+                    },
+                    {
+                        "pid":  "1afl",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  15,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "no_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "no_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "sin_historico_flexible",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  false,
+                                                "est_p50_s":  100,
+                                                "est_p90_s":  210,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  135
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  180
+                                  }
+                    },
+                    {
+                        "pid":  "1alw",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  4,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  80
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1apv",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  16,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "ruta_a_exh4_medido",
+                                                "wall_s_medido_exh4":  160.0,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  160.0,
+                                                "est_p90_s":  256,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  135
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  32
+                                  }
+                    },
+                    {
+                        "pid":  "1b2h",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  20,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "ruta_a_exh4_medido",
+                                                "wall_s_medido_exh4":  112.0,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  112.0,
+                                                "est_p90_s":  179,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  19
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  18
+                                  }
+                    },
+                    {
+                        "pid":  "1b32",
+                        "split":  "val",
+                        "stratum":  "hard",
+                        "rot_bonds":  19,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "ruta_a_exh4_medido",
+                                                "wall_s_medido_exh4":  99.4,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  99.4,
+                                                "est_p90_s":  159,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  19
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  14
+                                  }
+                    },
+                    {
+                        "pid":  "1b38",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  15,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "ruta_a_exh4_medido",
+                                                "wall_s_medido_exh4":  103.3,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  103.3,
+                                                "est_p90_s":  165,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  135
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  15
+                                  }
+                    },
+                    {
+                        "pid":  "1b46",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  15,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "ruta_a_exh4_medido",
+                                                "wall_s_medido_exh4":  76.9,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  76.9,
+                                                "est_p90_s":  123,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  26
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1b4z",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  18,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  100,
+                                                "est_p90_s":  210,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  25
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  3
+                                  }
+                    },
+                    {
+                        "pid":  "1bgq",
+                        "split":  "val",
+                        "stratum":  "control",
+                        "rot_bonds":  2,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  116
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1bju",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  3,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  132
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1bm7",
+                        "split":  "val",
+                        "stratum":  "control",
+                        "rot_bonds":  3,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  63
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1bn3",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  4,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  99
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1bxr",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  15,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "ruta_a_exh4_medido",
+                                                "wall_s_medido_exh4":  82.2,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  82.2,
+                                                "est_p90_s":  132,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  17
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  14
+                                  }
+                    },
+                    {
+                        "pid":  "1cny",
+                        "split":  "val",
+                        "stratum":  "hard",
+                        "rot_bonds":  16,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  100,
+                                                "est_p90_s":  210,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  135
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1ejn",
+                        "split":  "val",
+                        "stratum":  "control",
+                        "rot_bonds":  4,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "ruta_a_exh4_medido",
+                                                "wall_s_medido_exh4":  23.6,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  23.6,
+                                                "est_p90_s":  40,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  72
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  28
+                                  }
+                    },
+                    {
+                        "pid":  "1f4e",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  3,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  90
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1fd0",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  4,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  13
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  2
+                                  }
+                    },
+                    {
+                        "pid":  "1fki",
+                        "split":  "val",
+                        "stratum":  "control",
+                        "rot_bonds":  0,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  135
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1flr",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  3,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  4
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  2
+                                  }
+                    },
+                    {
+                        "pid":  "1fv0",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  4,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  44
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1gpn",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  0,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  14
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  6
+                                  }
+                    },
+                    {
+                        "pid":  "1hih",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  16,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  100,
+                                                "est_p90_s":  210,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  40
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1hii",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  16,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  100,
+                                                "est_p90_s":  210,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  30
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1hlk",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  4,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  62
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1hmr",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  16,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "ruta_a_exh4_medido",
+                                                "wall_s_medido_exh4":  52.9,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  52.9,
+                                                "est_p90_s":  85,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  124
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  32
+                                  }
+                    },
+                    {
+                        "pid":  "1hms",
+                        "split":  "val",
+                        "stratum":  "hard",
+                        "rot_bonds":  15,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  100,
+                                                "est_p90_s":  210,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  131
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1hmt",
+                        "split":  "val",
+                        "stratum":  "hard",
+                        "rot_bonds":  16,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  100,
+                                                "est_p90_s":  210,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  130
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1hn4",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  24,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "ruta_a_exh4_medido",
+                                                "wall_s_medido_exh4":  180.3,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  180.3,
+                                                "est_p90_s":  288,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  37
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  30
+                                  }
+                    },
+                    {
+                        "pid":  "1hp5",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  4,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  135
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1i7z",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  3,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  100
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1j4r",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  15,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "ruta_a_exh4_medido",
+                                                "wall_s_medido_exh4":  210.3,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  210.3,
+                                                "est_p90_s":  300,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  121
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  33
+                                  }
+                    },
+                    {
+                        "pid":  "1jlr",
+                        "split":  "val",
+                        "stratum":  "hard",
+                        "rot_bonds":  15,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "ruta_a_exh4_medido",
+                                                "wall_s_medido_exh4":  103.1,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  103.1,
+                                                "est_p90_s":  165,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  135
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  33
+                                  }
+                    },
+                    {
+                        "pid":  "1jn4",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  16,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  100,
+                                                "est_p90_s":  210,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  125
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1jq8",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  19,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "ruta_a_exh4_medido",
+                                                "wall_s_medido_exh4":  226.1,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  226.1,
+                                                "est_p90_s":  300,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  127
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  33
+                                  }
+                    },
+                    {
+                        "pid":  "1lrh",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  2,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  56
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1m2x",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  4,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  135
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1n0s",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  3,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  3
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  4
+                                  }
+                    },
+                    {
+                        "pid":  "1njs",
+                        "split":  "train",
+                        "stratum":  "hard",
+                        "rot_bonds":  16,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  100,
+                                                "est_p90_s":  210,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  135
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1nm6",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  2,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  135
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  9
+                                  }
+                    },
+                    {
+                        "pid":  "1np0",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  4,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "ruta_a_exh4_medido",
+                                                "wall_s_medido_exh4":  8.0,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  8.0,
+                                                "est_p90_s":  14,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  135
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  32
+                                  }
+                    },
+                    {
+                        "pid":  "1nq7",
+                        "split":  "train",
+                        "stratum":  "control",
+                        "rot_bonds":  4,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "ruta_a_exh4_medido",
+                                                "wall_s_medido_exh4":  20.5,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  20.5,
+                                                "est_p90_s":  35,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  3
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  10
+                                  }
+                    },
+                    {
+                        "pid":  "1nvq",
+                        "split":  "val",
+                        "stratum":  "control",
+                        "rot_bonds":  3,
+                        "execution_status":  "new_required",
+                        "reuse_status":  "incompatible_history",
+                        "brazo_vina_exh4":  {
+                                                "clase":  "incompatible_history",
+                                                "docks_nuevos":  1,
+                                                "evidencia_costo":  "flexible_redock_exh8",
+                                                "wall_s_medido_exh4":  null,
+                                                "flexible_redock_exh8_historico":  true,
+                                                "est_p50_s":  15,
+                                                "est_p90_s":  30,
+                                                "timeout_risk":  false
+                                            },
+                        "molflex_k15":  {
+                                            "clase":  "reutilizable_sellado",
+                                            "docks_nuevos":  0,
+                                            "poses_k15":  13
+                                        },
+                        "union":  {
+                                      "clase":  "reutilizable_sellada",
+                                      "docks_nuevos":  0,
+                                      "candidatos":  0
+                                  }
+                    }
+                ],
+    "fases":  {
+                  "fase_1":  {
+                                 "experiment_id":  "D-MF-HARD-EXH4",
+                                 "split":  "train",
+                                 "n_docks":  34,
+                                 "orden":  "primera y unica autorizada ahora"
+                             },
+                  "fase_2":  {
+                                 "experiment_id":  "D-MF-HARD-EXH4-VAL",
+                                 "split":  "val",
+                                 "n_docks":  10,
+                                 "orden":  "solo despues de analizar y sellar la interpretacion de train"
+                             }
+              }
+}

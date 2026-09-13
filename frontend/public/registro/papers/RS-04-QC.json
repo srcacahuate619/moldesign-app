@@ -1,0 +1,328 @@
+{
+ "id": "RS-04-QC",
+ "meta": {
+  "titulo": "Comprobar que se puede medir, antes de medir",
+  "entradilla": "Mapeo biyectivo del 99.49%, los átomos pesados no se mueven ni una milésima, y 14 poses degeneradas declaradas como no computables en vez de rellenadas con un número."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Antes de preguntar si la tensión de una pose ayuda a seleccionarla, hay que comprobar que la tensión ",
+     "m": null
+    },
+    {
+     "t": "se puede calcular de forma fiable",
+     "m": "fuerte"
+    },
+    {
+     "t": " sobre este material. Suena obvio y casi nunca se hace: lo normal es calcular la característica, meterla en el modelo, y si el modelo no mejora concluir que la característica no sirve.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese razonamiento tiene un agujero. Si la característica estaba mal calculada en un 20% de los casos, el experimento no midió si la tensión ayuda: midió si la tensión mal calculada ayuda. Y la respuesta a esa pregunta no interesa a nadie.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se comprobó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Criterio",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Exigido",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Obtenido",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Mapeo biyectivo de átomos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≥99%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "99.49%",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Los átomos pesados no se mueven",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "—",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.0 Å exacto",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Cobertura del campo de fuerza",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≥95%, sin recurrir a uno peor",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "116/116",
+       "m": "fuerte"
+      },
+      {
+       "t": ", sin respaldos",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Determinismo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "—",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Byte a byte",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Coste en frío, percentil 95",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≤5 s/ligando",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "55.7 ms",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Coste con caché, percentil 95",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≤100 ms/pose",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "68.0 ms",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Coste por complejo, percentil 95",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≤3 s",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1,726 ms",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Dos de estos merecen comentario.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "«Los átomos pesados no se mueven: 0.0 Å exacto».",
+     "m": "fuerte"
+    },
+    {
+     "t": " Calcular la tensión exige añadir hidrógenos y preparar la molécula. Si en ese proceso los átomos pesados se desplazan aunque sea un poco, la tensión calculada corresponde a una pose ligeramente distinta de la que se está evaluando. El resultado es exactamente cero, así que la geometría evaluada es la geometría real.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El coste está entre 20 y 90 veces por debajo de su presupuesto.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Eso importa porque convierte la característica en algo que puede usarse en producción, no sólo en un experimento. Una señal que tarda 5 segundos por ligando no entra en un cribado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Las 14 poses degeneradas",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Dos complejos aportan 14 poses cuya geometría no permite calcular la tensión de forma significativa. Se declaran como ",
+     "m": null
+    },
+    {
+     "t": "no computables",
+     "m": "fuerte"
+    },
+    {
+     "t": " y se marcan como tales.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es la misma decisión que aparece en varios registros de este programa, y es la que separa un conjunto de datos utilizable de uno envenenado: un valor «no computable» explícito permite excluir esas filas después; un cero, o la mediana del resto, se propaga en silencio por cada análisis posterior.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que este experimento autoriza",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con estos números, el experimento científico puede proceder sabiendo que un resultado negativo será interpretable: si la tensión no ayuda a seleccionar, no será porque estuviera mal calculada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y el resultado fue negativo — la tensión bajó los aciertos de 47 a 39. Ese negativo vale porque este control existía. Sin él, la conclusión honesta habría tenido que ser «no sabemos si la señal no sirve o si la medimos mal», que no es una conclusión.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es fontanería. Toda la diferencia entre un resultado y una anécdota está en ella.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/RS-04-QC.md"
+}

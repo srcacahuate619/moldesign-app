@@ -1,0 +1,37 @@
+{
+ "experiment_id": "FEP-01-EXT",
+ "tipo": "medicion de consecuencia, sin gates de decision",
+ "timestamp": "2026-08-20T04:08:01.341402+00:00",
+ "duration_seconds": 8.36,
+ "n_complejos": 203,
+ "n_ok": 203,
+ "n_error": 0,
+ "errores": {},
+ "G1_validez": {
+  "criterio": ">=95% procesables",
+  "tasa": 1.0,
+  "pass": true
+ },
+ "G2_desacuerdo_de_smiles": {
+  "n": 84,
+  "de": 203,
+  "fraccion": 0.4138
+ },
+ "G3_el_proton_se_mueve": {
+  "definicion": "algun atomo pesado cambia su numero de hidrogenos",
+  "n": 54,
+  "de": 203,
+  "fraccion": 0.266,
+  "atomos_movidos_mediana": 2.0
+ },
+ "desacuerdo_sin_mover_protones": {
+  "definicion": "SMILES distinto pero ningun atomo cambia su numero de H; el canonicalizador reordena o kekuliza sin mover el proton",
+  "n": 30
+ },
+ "cruce_con_FEP_01": {
+  "ambiguos_segun_FEP_01": 164,
+  "de_esos_el_proton_se_mueve": 54,
+  "no_ambiguos_donde_el_proton_SI_se_mueve": 0
+ },
+ "limitacion_declarada": "El tautomero canonico NO es 'el correcto': es una heuristica de puntuacion, no una prediccion de la poblacion dominante a pH fisiologico. Se mide DESACUERDO entre el fichero y un canonicalizador estandar, no error."
+}

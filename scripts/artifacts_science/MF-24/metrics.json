@@ -1,0 +1,73 @@
+{
+ "experiment_id": "MF-24",
+ "tipo": "medicion correlacional sobre los 116 de train (sin seleccion por desenlace)",
+ "timestamp": "2026-08-19T00:41:17.748391+00:00",
+ "duration_seconds": 3.09,
+ "por_que_los_116": "la cohorte de 48 se estratifico POR desenlace de colocacion, asi que comparar coste de colocacion entre sus estratos es circular; los 116 de train no se seleccionaron por desenlace",
+ "n_complejos": 116,
+ "n_ok": 116,
+ "n_convierten": 50,
+ "n_no_convierten": 66,
+ "coste_colocacion_mediano": 1.649,
+ "correlaciones": {
+  "n_pesados": {
+   "spearman_vs_coste": 0.5089,
+   "mediana": 24.5
+  },
+  "n_torsiones": {
+   "spearman_vs_coste": 0.5301,
+   "mediana": 8.0
+  },
+  "radio_giro": {
+   "spearman_vs_coste": 0.4802,
+   "mediana": 4.045
+  },
+  "enterramiento": {
+   "spearman_vs_coste": -0.3078,
+   "mediana": 1.607
+  },
+  "ocupacion_caja": {
+   "spearman_vs_coste": 0.4513,
+   "mediana": 0.07
+  },
+  "n_conformeros": {
+   "spearman_vs_coste": 0.5154,
+   "mediana": 25.5
+  },
+  "rmsd_conf": {
+   "spearman_vs_coste": 0.5808,
+   "mediana": 0.866
+  }
+ },
+ "contraste_por_desenlace": {
+  "n_pesados": {
+   "convierten": 16.0,
+   "no_convierten": 31.0
+  },
+  "n_torsiones": {
+   "convierten": 5.0,
+   "no_convierten": 12.0
+  },
+  "radio_giro": {
+   "convierten": 2.872,
+   "no_convierten": 4.54
+  },
+  "enterramiento": {
+   "convierten": 1.871,
+   "no_convierten": 1.455
+  },
+  "ocupacion_caja": {
+   "convierten": 0.026,
+   "no_convierten": 0.101
+  },
+  "n_conformeros": {
+   "convierten": 9.0,
+   "no_convierten": 30.0
+  },
+  "rmsd_conf": {
+   "convierten": 0.42,
+   "no_convierten": 1.337
+  }
+ },
+ "limitacion": "correlacional, seis predictores correlacionados entre si y n=116: ordena candidatos para un experimento posterior, NO identifica causas"
+}

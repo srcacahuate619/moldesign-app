@@ -1,0 +1,61 @@
+{
+ "experiment_id": "MF-31",
+ "tipo": "medicion (reanalisis de la intervencion sellada de MF-08, sin computo nuevo)",
+ "timestamp": "2026-08-19T01:58:10.539594+00:00",
+ "definicion": "ocupacion = volumen de la esfera envolvente del ligando / volumen de caja",
+ "n_corridas": 144,
+ "n_pares_B30_vs_BADAPT": 48,
+ "test1_transversal": {
+  "COLOCACION": {
+   "n_corridas": 99,
+   "spearman_ocupacion_vs_oraculo": 0.251
+  },
+  "CONTROL": {
+   "n_corridas": 45,
+   "spearman_ocupacion_vs_oraculo": 0.1837
+  },
+  "TODOS": {
+   "n_corridas": 144,
+   "spearman_ocupacion_vs_oraculo": 0.3836
+  }
+ },
+ "test2_pareado_dosis_respuesta": {
+  "COLOCACION": {
+   "n_complejos": 33,
+   "spearman_d_ocupacion_vs_d_oraculo": 0.1502,
+   "d_ocupacion_mediana": 0.14568,
+   "d_oraculo_mediano": -0.533,
+   "d_oraculo_ci95": [
+    -0.977,
+    -0.285
+   ],
+   "mejoran": 23,
+   "empeoran": 5
+  },
+  "CONTROL": {
+   "n_complejos": 15,
+   "spearman_d_ocupacion_vs_d_oraculo": -0.216,
+   "d_ocupacion_mediana": 0.09841,
+   "d_oraculo_mediano": -0.042,
+   "d_oraculo_ci95": [
+    -0.126,
+    -0.002
+   ],
+   "mejoran": 4,
+   "empeoran": 5
+  },
+  "TODOS": {
+   "n_complejos": 48,
+   "spearman_d_ocupacion_vs_d_oraculo": -0.054,
+   "d_ocupacion_mediana": 0.13262,
+   "d_oraculo_mediano": -0.379,
+   "d_oraculo_ci95": [
+    -0.713,
+    -0.204
+   ],
+   "mejoran": 27,
+   "empeoran": 10
+  }
+ },
+ "lectura": "rho negativo y sustancial en el test 2 => reducir la ocupacion MEJORA el oraculo y la ocupacion es una PALANCA. rho ~0 => es un MARCADOR de dificultad y no una palanca: predice el fallo pero moverla no lo arregla, coherente con que MF-08 solo convirtiera 3 de 33"
+}

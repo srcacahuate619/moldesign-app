@@ -1,0 +1,54 @@
+{"fase": "preparacion", "pdb_id": "3GPT", "filtro": {"hetatm_eliminados": 126, "aguas_eliminadas": 1346, "altloc_descartado": 0, "conservadas": 49546}, "error": "MEEKO_LIGANDO_FALLO", "detalle": "[RDKit] ERROR:[10:33:17] Explicit valence for atom # 6 C, 5, is greater than permitted\n[RDKit] ERROR:[10:33:17] ERROR: Could not sanitize molecule ending on line 90\n[RDKit] ERROR:[10:33:17] ERROR: Explicit valence for atom # 6 C, 5, is greater than permitted\n"}
+{"fase": "preparacion", "pdb_id": "3HYE", "filtro": {"hetatm_eliminados": 126, "aguas_eliminadas": 1334, "altloc_descartado": 0, "conservadas": 49548}, "error": "MEEKO_LIGANDO_FALLO", "detalle": "[RDKit] ERROR:[10:33:17] Explicit valence for atom # 6 C, 5, is greater than permitted\n[RDKit] ERROR:[10:33:17] ERROR: Could not sanitize molecule ending on line 92\n[RDKit] ERROR:[10:33:17] ERROR: Explicit valence for atom # 6 C, 5, is greater than permitted\n"}
+{"fase": "preparacion", "pdb_id": "3KK6", "filtro": {"hetatm_eliminados": 778, "aguas_eliminadas": 105, "altloc_descartado": 193, "conservadas": 16974}, "set_template": ["A:43=HIE", "A:90=HIE", "A:95=HIE"], "error": "MEEKO_RECEPTOR_FALLO", "detalle": "~^\n        raw_input_mols,\n        ^^^^^^^^^^^^^^^\n    ...<4 lines>...\n        blunt_ends,\n        ^^^^^^^^^^^\n    )\n    ^\n  File \"C:\\Users\\Johan Amezcua\\AppData\\Roaming\\Python\\Python314\\site-packages\\meeko\\polymer.py\", line 1656, in _get_monomers\n    raise RuntimeError(m)\nRuntimeError: for residue_key='A:95', 3 have passed: ['HIE', 'HID', 'HIP'] and tied for fewest missing and excess H: HIE HID \n"}
+{"fase": "preparacion", "pdb_id": "7ZYJ", "filtro": {"hetatm_eliminados": 52, "aguas_eliminadas": 0, "altloc_descartado": 0, "conservadas": 49182}, "desviacion_ligando": {"motivo": "representacion de valencia de openbabel rechazada por RDKit", "arreglo": "normalizer+N_cuaternario_x2", "detalle_openbabel": "[RDKit] ERROR:[10:33:17] Explicit valence for atom # 22 N, 4, is greater than permitted\n[RDKit] ERROR:[10:33:17] ERROR: Could not sanitize molecule ending on line 211\n[RDKit] ERROR:[10:33:17] ERROR: Explicit valence for atom # 22 N, 4, is greater than permitted\n"}, "error": "MEEKO_LIGANDO_FALLO_TRAS_RDKIT", "detalle": "RDKit molecule has 2 fragments. Must have 1.\n"}
+{"fase": "preparacion", "pdb_id": "3S43", "filtro": {"hetatm_eliminados": 75, "aguas_eliminadas": 126, "altloc_descartado": 148, "conservadas": 1472}, "desviacion_ligando": {"motivo": "representacion de valencia de openbabel rechazada por RDKit", "arreglo": "normalizer", "detalle_openbabel": "RDKit molecule has 2 fragments. Must have 1.\n"}, "error": "MEEKO_LIGANDO_FALLO_TRAS_RDKIT", "detalle": "RDKit molecule has 2 fragments. Must have 1.\n"}
+{"fase": "preparacion", "pdb_id": "5PA9", "filtro": {"hetatm_eliminados": 39, "aguas_eliminadas": 343, "altloc_descartado": 213, "conservadas": 2313}, "error": "MEEKO_RECEPTOR_FALLO", "detalle": "Roaming\\Python\\Python314\\site-packages\\meeko\\polymer.py\", line 931, in __init__\n    padded_mols = self._build_padded_mols(self.monomers, bonds, padders)\n  File \"C:\\Users\\Johan Amezcua\\AppData\\Roaming\\Python\\Python314\\site-packages\\meeko\\polymer.py\", line 1801, in _build_padded_mols\n    raise RuntimeError(err_msg)\nRuntimeError: Expected 2 paddings for (A:174, A:187) with bonds [(9, 9)], but got 1\n\n"}
+{"fase": "docking", "pdb_id": "3MG0", "brazo": "G_CAT", "seed": 42, "rc": 1}
+{"fase": "docking", "pdb_id": "3MG0", "brazo": "G_CAT", "seed": 43, "rc": 1}
+{"fase": "docking", "pdb_id": "3MG0", "brazo": "G_CAT", "seed": 44, "rc": 1}
+{"fase": "docking", "pdb_id": "3MG0", "brazo": "G_MP1", "seed": 42, "rc": 1}
+{"fase": "docking", "pdb_id": "3MG0", "brazo": "G_MP1", "seed": 43, "rc": 1}
+{"fase": "docking", "pdb_id": "3MG0", "brazo": "G_MP1", "seed": 44, "rc": 1}
+{"fase": "docking", "pdb_id": "3MG0", "brazo": "G_MP2", "seed": 42, "rc": 1}
+{"fase": "docking", "pdb_id": "3MG0", "brazo": "G_MP2", "seed": 43, "rc": 1}
+{"fase": "docking", "pdb_id": "3MG0", "brazo": "G_MP2", "seed": 44, "rc": 1}
+{"fase": "docking", "pdb_id": "3MG0", "brazo": "G_MP3", "seed": 42, "rc": 1}
+{"fase": "docking", "pdb_id": "3MG0", "brazo": "G_MP3", "seed": 43, "rc": 1}
+{"fase": "docking", "pdb_id": "3MG0", "brazo": "G_MP3", "seed": 44, "rc": 1}
+{"fase": "docking", "pdb_id": "6MWA", "brazo": "G_CAT", "seed": 42, "rc": -9}
+{"fase": "docking", "pdb_id": "6MWA", "brazo": "G_CAT", "seed": 43, "rc": -9}
+{"fase": "docking", "pdb_id": "6MWA", "brazo": "G_CAT", "seed": 44, "rc": -9}
+{"fase": "docking", "pdb_id": "6MWA", "brazo": "G_MP1", "seed": 42, "rc": -9}
+{"fase": "docking", "pdb_id": "6MWA", "brazo": "G_MP1", "seed": 43, "rc": -9}
+{"fase": "docking", "pdb_id": "6MWA", "brazo": "G_MP1", "seed": 44, "rc": -9}
+{"fase": "docking", "pdb_id": "6MWA", "brazo": "G_MP2", "seed": 42, "rc": -9}
+{"fase": "docking", "pdb_id": "6MWA", "brazo": "G_MP2", "seed": 43, "rc": -9}
+{"fase": "docking", "pdb_id": "6MWA", "brazo": "G_MP2", "seed": 44, "rc": -9}
+{"fase": "docking", "pdb_id": "6MWA", "brazo": "G_MP3", "seed": 42, "rc": -9}
+{"fase": "docking", "pdb_id": "6MWA", "brazo": "G_MP3", "seed": 43, "rc": -9}
+{"fase": "docking", "pdb_id": "6MWA", "brazo": "G_MP3", "seed": 44, "rc": -9}
+{"fase": "docking", "pdb_id": "4CA8", "brazo": "G_CAT", "seed": 42, "rc": -9}
+{"fase": "docking", "pdb_id": "4CA8", "brazo": "G_CAT", "seed": 43, "rc": -9}
+{"fase": "docking", "pdb_id": "4CA8", "brazo": "G_CAT", "seed": 44, "rc": -9}
+{"fase": "docking", "pdb_id": "4CA8", "brazo": "G_MP1", "seed": 42, "rc": -9}
+{"fase": "docking", "pdb_id": "4CA8", "brazo": "G_MP1", "seed": 43, "rc": -9}
+{"fase": "docking", "pdb_id": "4CA8", "brazo": "G_MP1", "seed": 44, "rc": -9}
+{"fase": "docking", "pdb_id": "4CA8", "brazo": "G_MP2", "seed": 42, "rc": -9}
+{"fase": "docking", "pdb_id": "4CA8", "brazo": "G_MP2", "seed": 43, "rc": -9}
+{"fase": "docking", "pdb_id": "4CA8", "brazo": "G_MP2", "seed": 44, "rc": -9}
+{"fase": "docking", "pdb_id": "4CA8", "brazo": "G_MP3", "seed": 42, "rc": -9}
+{"fase": "docking", "pdb_id": "4CA8", "brazo": "G_MP3", "seed": 43, "rc": -9}
+{"fase": "docking", "pdb_id": "4CA8", "brazo": "G_MP3", "seed": 44, "rc": -9}
+{"fase": "docking", "pdb_id": "7E2Y", "brazo": "G_CAT", "seed": 42, "rc": -9}
+{"fase": "docking", "pdb_id": "7E2Y", "brazo": "G_CAT", "seed": 43, "rc": -9}
+{"fase": "docking", "pdb_id": "7E2Y", "brazo": "G_CAT", "seed": 44, "rc": -9}
+{"fase": "docking", "pdb_id": "7E2Y", "brazo": "G_MP1", "seed": 42, "rc": -9}
+{"fase": "docking", "pdb_id": "7E2Y", "brazo": "G_MP1", "seed": 43, "rc": -9}
+{"fase": "docking", "pdb_id": "7E2Y", "brazo": "G_MP1", "seed": 44, "rc": -9}
+{"fase": "docking", "pdb_id": "7E2Y", "brazo": "G_MP2", "seed": 42, "rc": -9}
+{"fase": "docking", "pdb_id": "7E2Y", "brazo": "G_MP2", "seed": 43, "rc": -9}
+{"fase": "docking", "pdb_id": "7E2Y", "brazo": "G_MP2", "seed": 44, "rc": -9}
+{"fase": "docking", "pdb_id": "7E2Y", "brazo": "G_MP3", "seed": 42, "rc": -9}
+{"fase": "docking", "pdb_id": "7E2Y", "brazo": "G_MP3", "seed": 43, "rc": -9}
+{"fase": "docking", "pdb_id": "7E2Y", "brazo": "G_MP3", "seed": 44, "rc": -9}

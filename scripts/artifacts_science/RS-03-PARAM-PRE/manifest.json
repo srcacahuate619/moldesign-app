@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-03-PARAM-PRE",
+  "hypothesis": "La parametrizacion OpenFF Sage + NAGL congelado sobre los 116 ligandos train es una base fisica correcta (cobertura, determinismo, carga, cero fallback) que reemplaza el tipado heuristico",
+  "protocol": "CAMPANA-2-PLAN sellado (41b7f09) IT1 QA-2; politica de prerregistro separado del laboratorio",
+  "created_at": "2026-08-17T00:32:21.371251+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "89ee66ba41b89eccee2e85d54eac032dd7d62869",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "Ver §4 del PREREGISTRO: cobertura >=95% global y >=90% por estrato; |sum q - formal| <= 1e-4; determinismo <=1e-6; cero fallback silencioso; cero val40/test/CONFIRM"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/RS-03-PARAM-PRE/PREREGISTRO.md": "751d68dea4b768d7d40edf82ec65238812ae6e4234dcdf6be98046e5eb33c700",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T00:33:33.939585+00:00",
+  "decision_rationale": "Prerregistro GO procedimental: contrato de RS-03-PARAM congelado (hipotesis, 6 estratos, 11 requisitos primarios, regla AM1-BCC estratificada, forecast, caveat RS-08, politica de prerregistro separado). Sin resultados. La ejecucion es RS-03-PARAM (experimento separado) y requiere autorizacion de instalacion del entorno (openff-toolkit, openff-nagl-models, AmberTools, modelo NAGL).",
+  "finished_at": "2026-08-17T00:33:34.368408+00:00"
+}

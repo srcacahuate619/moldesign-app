@@ -1,0 +1,57 @@
+{
+ "experiment_id": "MF-28",
+ "tipo": "intervencion pareada (estrategia de exploracion)",
+ "timestamp": "2026-08-19T17:56:19.444310+00:00",
+ "duration_seconds": 40247.0,
+ "nota_reconstruccion": "metrics.json reconstruido desde per_complex.jsonl tras un TypeError en la fase de resumen: median() recibio None de 2 complejos donde el roadmap no hallo NINGUNA configuracion libre. Los 48 complejos se ejecutaron completos; no se recomputo ningun docking.",
+ "config": {
+  "box": 25.0,
+  "seed": 42,
+  "exh_control": 8,
+  "num_modes": 9,
+  "d_clash_A": 2.6,
+  "umbral_A": 2.0,
+  "k_vecinos": 8,
+  "n_interp": 5,
+  "max_nodos_grafo": 5000,
+  "paridad": "CPU medida de Vina por complejo",
+  "discretizacion_torsional": "ensemble ETKDG (desviacion declarada)"
+ },
+ "n_complejos": 48,
+ "n_ok": 48,
+ "por_estrato": {
+  "COLOCACION": {
+   "n": 33,
+   "vina_alcanza": 26,
+   "roadmap_alcanza": 4,
+   "mcnemar_b_roadmap_gana": 1,
+   "mcnemar_c_vina_gana": 23,
+   "mcnemar_p_exacto": 0.0,
+   "mde_declarado": "b>=6 con c=0 para p<0.05",
+   "rmsd_mediano_vina": 1.184,
+   "rmsd_mediano_roadmap": 4.437,
+   "n_roadmap_sin_configuracion_libre": 0,
+   "frac_libres_mediana": 0.00417,
+   "cpu_mediana_s": 3821.7
+  },
+  "CONTROL": {
+   "n": 15,
+   "vina_alcanza": 15,
+   "roadmap_alcanza": 7,
+   "mcnemar_b_roadmap_gana": 0,
+   "mcnemar_c_vina_gana": 8,
+   "mcnemar_p_exacto": 0.0078,
+   "mde_declarado": "b>=6 con c=0 para p<0.05",
+   "rmsd_mediano_vina": 1.01,
+   "rmsd_mediano_roadmap": 1.7,
+   "n_roadmap_sin_configuracion_libre": 2,
+   "frac_libres_mediana": 0.0213,
+   "cpu_mediana_s": 140.1
+  }
+ },
+ "verificacion_metrica": {
+  "n": 46,
+  "delta_max": 0.0,
+  "criterio": "acuerdo con molflex.rmsd_pose_pocket a 4 decimales"
+ }
+}

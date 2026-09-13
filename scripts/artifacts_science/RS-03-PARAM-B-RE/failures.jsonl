@@ -1,0 +1,1 @@
+{"pid": "1nw5", "reason": "ANTECHAMBER_FAILED", "details": "/opt/conda/envs/science/bin/wrapped_progs/antechamber: Fatal Error!\nCannot properly run \"/opt/conda/envs/science/bin/sqm -O -i sqm.in -o sqm.out\".\n"}

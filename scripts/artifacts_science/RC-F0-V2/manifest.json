@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RC-F0-V2",
+  "hypothesis": "Reconstruir el conjunto de poses aplicando el generador congelado a los tres splits produce un conjunto homogeneo, con el contrato original reproducido linea a linea y cobertura del oraculo medible",
+  "protocol": "RC-F0-V2-PRE sellado; build_pose_selector_dataset.py + ruta_c_fase1_5_v05.py reutilizados sin reimplementar; material de MF-02D y MF-02E",
+  "created_at": "2026-08-18T03:31:04.483610+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "95c44c64dfd0a2c893f3586adacf3b24c64ae97f",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 reproduccion v1, G2 integridad cache, G2b reproduccion del extractor, G3 split conservado, G4 poses v1 intactas, G5 cobertura, G6 completitud"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "data/pose_selector_dataset/v2/poses_train.jsonl": "e3b73fd5330dc05944be8fdb0afc10a0192cba7f49849fdfad173d9d4cff9823",
+    "data/pose_selector_dataset/v2/poses_val.jsonl": "e139301dae9c38f960d9793563620873c8c7a5cdfa786aa1144212fb63f5512a",
+    "data/pose_selector_dataset/v2/poses_test.jsonl": "61c593fb07615a35cddd18efd4d12719726f306342ccf15a4e29c04a90d4405e",
+    "data/pose_selector_dataset/v2/features_rich_v2.jsonl": "afa7b4b346bde263257654ed1fb639ab3d56effbfe1cd97db2cf10a885cd1785"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/RC-F0-V2/LECTURA.md": "37f0724a14ff3d3a4222f502f281f2038866481516843f9d50de769550fc5ad8",
+    "scripts/artifacts_science/RC-F0-V2/metrics.json": "a87d57ff6b9b820026263faf34e9fe73119a323393f44dfcb155eb3e9ee1ab4a",
+    "scripts/artifacts_science/RC-F0-V2/per_complex.jsonl": "a2f87a412c206395871c700a84193728f263e7ce06c94ebce8ce14d66c421320",
+    "scripts/build_dataset_v2.py": "f9f8ad3796bc1aa19983af2dd93c5bbed9a3f9f2ced88229a3d9ee025de05232",
+    "scripts/build_features_v2.py": "7c2014872e6b048e6c5ddb682d401c58c004f00e469f866c82156dff15ea9d93",
+    "scripts/verificar_reproduccion_dataset.py": "13dbefdba21b767098ffc204fb0f6665d7648bba51a10c634004683abe58ee1f"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T03:31:32.354622+00:00",
+  "decision_rationale": "Los siete gates pasan. El conjunto v2 tiene 34302 poses con 224 features cada una: 2087 conservadas de v1 (flexible_redock 1534, ruta_a 553) y 32215 nuevas de molflex, sobre 203 complejos. Cobertura del oraculo: train 67.2 a 79.3, val 75.0 a 87.5, test 87.2 a 97.9 por ciento; las cifras coinciden EXACTAMENTE con las medidas por la via independiente sobre el material crudo, dos caminos de codigo distintos con el mismo numero. Los dos gates de reproduccion son los que sostienen todo lo demas: antes de anadir una sola pose se reprodujo el conjunto v1 linea a linea desde los registros intermedios (2739/730/831 identicos, incluida la division por scaffold con semilla 42), y las 2087 poses heredadas se RECALCULARON en vez de copiarse del cache, coincidiendo 2087/2087. Reusar el cache habria sido mas barato; recalcular demuestra que el extractor sigue produciendo lo mismo. Consecuencias declaradas: la tarea cambia de rankear ~9 candidatos a ~169, de modo que v2 no es v1 ampliado y queda prohibido comparar cifras de v0.6 entre ambos sin re-entrenar; el gradiente train < val < test persiste (79.3 < 87.5 < 97.9) porque el split por scaffold concentro los scaffolds dificiles en train, asi que un selector entrenado ahi y evaluado en test tiene el generador a favor y esa ventaja no es suya; y test queda casi saturado con 46 de 47, donde ya no hay techo de generacion que ganar. Fuera de alcance: no se entrena ni evalua ningun selector, y NO se aplica la deduplicacion de MF-11-R1 porque su umbral de 1.5 A se eligio sobre una union 6.9 veces menos densa y reusarlo sin re-derivarlo seria extrapolarlo a otro regimen.",
+  "finished_at": "2026-08-18T03:31:57.652231+00:00"
+}

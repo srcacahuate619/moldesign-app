@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-15",
+  "hypothesis": "Existe un embudo en el paisaje de puntuacion que guia hacia el minimo nativo",
+  "protocol": "medicion: lectura de rmsd y vina_score del conjunto v2 sellado; Spearman restringido a poses con rmsd <= R, para R creciente; sin computo nuevo",
+  "created_at": "2026-08-19T03:53:00.205032+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gates; embudo => rho POSITIVO entre rmsd y score"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_mf15_embudo.py": "39f28149b3da0ce5557a6b9bc4df1cd756fe8e2aeadffb8fe2e1e15052797817"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:01.048295+00:00",
+  "decision_rationale": "El embudo existe en control y resto y esta casi ausente en el estrato dificil: rho global 0.209 en COLOCACION frente a 0.497 en CONTROL y 0.360 en RESTO, y debil A TODOS LOS RADIOS, no solo lejos. Un buscador que se guie por el score no tiene nada que seguir en esos complejos. Salvedad declarada: la tabla de score por banda de RMSD (-8.85 en 0-1 A hasta -6.27 en >12 A) PARECE un embudo global de 2.6 kcal/mol pero MEZCLA complejos -solo 9 de 33 tienen alguna pose bajo 1 A, y son mejores unidores de partida-, asi que ese gradiente aparente es en parte efecto de seleccion entre complejos. El numero honesto dentro de cada complejo es el Spearman. Y para COLOCACION los radios pequenos no son usables: a R<=2 A hay 0 complejos con muestra suficiente y a R<=3 A solo 2.",
+  "finished_at": "2026-08-19T03:53:01.243755+00:00"
+}

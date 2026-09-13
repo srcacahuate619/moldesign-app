@@ -1,0 +1,34 @@
+# Rescoring sidecar — Windows Desktop
+# ⚠ LEGACY — v1.3+: El rescoring ahora corre IN-PROCESS dentro del backend.
+# Los requirements reales están en backend/requirements-desktop.txt.
+# Este archivo se mantiene solo como referencia histórica.
+# Sin ODDT (no compatible con Windows). Usa ProLIF para features 3D.
+# Python 3.11+ compatible.
+
+# ── Web Framework ────────────────────────────────────────────────
+fastapi==0.115.12
+uvicorn[standard]==0.34.0
+pydantic==2.11.3
+
+# ── ML / Scientific ─────────────────────────────────────────────
+xgboost==2.1.4
+scikit-learn==1.6.1
+numpy
+scipy
+joblib==1.4.2
+shap==0.46.0
+
+# ── GNN (RTMScore Level 2) ─────────────────────────────────────
+torch>=2.0,<2.7
+torch-geometric>=2.5
+torch-scatter>=2.1
+
+# ── Molecular Features 3D (ProLIF reemplaza ODDT) ───────────────
+prolif
+
+# ── HTTP client ─────────────────────────────────────────────────
+httpx==0.28.1
+
+# ── Logging ──────────────────────────────────────────────────────
+structlog==25.2.0
+pydantic-settings

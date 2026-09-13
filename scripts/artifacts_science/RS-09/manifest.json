@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-09",
+  "hypothesis": "El selector v0.6 de produccion es robusto a rotacion/traslacion rigida, al orden de poses y a perturbacion debil sigma=0.1A sobre la cohorte de complejos train con receptor disponible (109/116; 7 molflex puros sin receptor declarados no cubiertos): invarianza 1e-6, orden 109/109, flips ok->mal <=2, >=60% de cambios en terciles 1-2 de margen, drift=0, aislamiento SHA",
+  "protocol": "scripts/artifacts_science/RS-09-PRE/PREREGISTRO.md",
+  "created_at": "2026-08-17T07:42:30.000000+00:00",
+  "started_at": "2026-08-17T07:41:10.000000+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "93541c9dc610d56014d19b73a2b72527d36abe41",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9 (python-embed)",
+    "packages": [
+      "numpy",
+      "xgboost",
+      "scipy",
+      "torch",
+      "torch_geometric"
+    ]
+  },
+  "gate": {
+    "description": "GO si G1-G6 PASS sobre la cobertura efectiva (109/116 con receptor); NO_GO si algun gate falla"
+  },
+  "decision": "NO_GO",
+  "dataset_hashes": {
+    "data/pose_selector_dataset/gnn_train.pt": "7643e7f2214fbbdb1c530f7de2416c06850b51eb87dd178a6350c352c0be5f5a"
+  },
+  "model_hashes": {
+    "rescoring/artifacts/pose_selector_v06.xgb": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/RS-09/metrics.json": "26b922921a9082983ffc4e842799ac759f4b310a1503a033570cd95054cfd8e6",
+    "scripts/artifacts_science/RS-09/per_complex.jsonl": "22f48c16c04e30ef77851fcf3e67ff615812aff50165327a28deee137e1a9152",
+    "scripts/artifacts_science/RS-09/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/RS-09/DESIGN.md": "93f453172bc8ef1535a2925f2d6a7ca040cfaaf86bd5b20eeb34eb781be4f87b",
+    "scripts/run_rs09_robustez.py": "8db22179d5131db2b40b23bd9f29bafb60fb6bdfde0f162891fb41504655b7d6"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T07:43:38.879691+00:00",
+  "decision_rationale": "G3 FALLA: 9 flips ok->mal bajo perturbacion sigma=0.1A (criterio <=2). G1 (invarianza rigida 109/109, max_dif=0.0), G2 (orden 109/109), G4 (95.65% cambios en terciles 1-2), G5 (drift=0) y G6 (SHA) PASS. El selector es robusto por construccion a R+t y al orden, pero sensible a perturbacion atomica; los cambios se concentran en margenes bajos (43% tercil 1 vs 3% tercil 3) => robustez condicional al margen. Cobertura 109/116 (93.97%): 7 complejos molflex puros sin receptor (10gs, 184l, 187l, 188l, 1a30, 1a99, 1ai4) declarados NO cubiertos por indisponibilidad de datos (WORK_V3 inexistente), no como fallos. Coords canonicas: lig_pos gnn_train.pt (2739/2739). Receptores con fallback vina_redock_work/dmfhard_curve_work verificado por match atomico <=1e-3 A. Detalle: scripts/artifacts_science/RS-09/DESIGN.md",
+  "finished_at": "2026-08-17T07:43:44.326601+00:00"
+}

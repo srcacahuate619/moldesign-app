@@ -1,0 +1,265 @@
+{
+  "report_version": "3.0",
+  "generated_at": "2026-08-10T02:40:00",
+  "training_script": "train_families.py + evaluate_test_set.py (Fase A retrain 2026-08-10)",
+  "phase": "Fase A - clean retrain, no new data, kill leakage",
+  "training_context": {
+    "pdbbind_version": "v2020_refined",
+    "feature_set_definition": "ALL_FEATURES = 167 (A_EXT=8, B=4, C_EXT=3, D=96, E=56)",
+    "classifier_features": "160 (Shell=96 + ECIF=56 + 1D2D=8)",
+    "prolif_removed": true,
+    "prolif_explanation": "SHAP<0.003; ablation: ECIF-only 0.68 > ALL 0.60. Removed in fix #3.",
+    "delta_learning": true,
+    "delta_formula": "pKi = vina_pKi + delta, where vina_pKi = -vina_best_score/1.36",
+    "seed": 42,
+    "xgboost_config_set": true,
+    "numpy_random_seed": 42,
+    "random_seed": 42
+  },
+  "split_context": {
+    "method": "scaffold_disjoint_stratified",
+    "scaffold_disjoint": true,
+    "scaffold_key": "Bemis-Murcko (deterministic hash fallback when RDKit Chem unavailable)",
+    "holdout_carved_first": true,
+    "holdout_note": "Frozen holdout carved from the full labeled pool BEFORE any training/CV. No holdout complex shares a scaffold/dedup-neighborhood with any training complex (verified by verify_scaffold_disjoint). P0-SCI leakage fix.",
+    "frozen_holdout_ids": 328,
+    "frozen_holdout_with_features_and_labels": 328,
+    "train_pool": 537,
+    "seed": 42,
+    "config_path": "rescoring/artifacts/split_config.json"
+  },
+  "data_context": {
+    "total_cached_complexes": 865,
+    "total_labeled_complexes": 865,
+    "train_pool_complexes": 537,
+    "family_distribution_pool": {
+      "soluble_enzyme": 411,
+      "kinase": 70,
+      "protease": 29,
+      "gpcr": 13,
+      "nuclear_receptor": 11,
+      "phosphodiesterase": 3
+    },
+    "min_family_size": 15,
+    "families_skipped_below_min": [
+      "gpcr",
+      "nuclear_receptor"
+    ],
+    "families_skipped_note": "skipped honestly: n<15 models are statistical noise (literature: Wallach & Heifets 2018 memorization floor; per-family rescoring needs data-rich families). They fall back to the universal model at inference (quality_gate)."
+  },
+  "hardware": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.14.3 (system, user-site deps: xgboost 3.2.0, rdkit 2025.09.6, pandas 3.0.2, scipy 1.17.1)",
+    "cpu_count_physical": 6,
+    "cpu_count_logical": 12,
+    "ram_total_gb": 31.9,
+    "gpu_torch_cuda_available": true,
+    "gpu_used_in_this_retrain": false
+  },
+  "models": {
+    "model_a_universal": {
+      "n_features": 167,
+      "has_prolif": false,
+      "feature_set": "167 (A_EXT+B+C_EXT+D+E)",
+      "delta_model": true,
+      "spearman": 0.7731,
+      "spearman_pval": 0,
+      "pearson": 0.7418,
+      "rmse_reference_only": 1.3492,
+      "ndcg_at_10": 0.4082,
+      "n_train": 429,
+      "n_val": 108,
+      "n_pool": 537,
+      "best_iteration": 162
+    },
+    "model_a_kinase": {
+      "n_features": 167,
+      "has_prolif": false,
+      "feature_set": "167 (A_EXT+B+C_EXT+D+E)",
+      "delta_model": true,
+      "spearman": 0.5868,
+      "spearman_pval": 0.027384,
+      "pearson": 0.5683,
+      "ndcg_at_10": 0.9048,
+      "n_train": 56,
+      "n_val": 14,
+      "best_iteration": 29
+    },
+    "model_a_protease": {
+      "n_features": 167,
+      "has_prolif": false,
+      "feature_set": "167 (A_EXT+B+C_EXT+D+E)",
+      "delta_model": true,
+      "spearman": 0.5429,
+      "spearman_pval": 0.265703,
+      "pearson": 0.5837,
+      "ndcg_at_10": 0.964,
+      "n_train": 23,
+      "n_val": 6,
+      "best_iteration": 161
+    },
+    "model_a_soluble_enzyme": {
+      "n_features": 167,
+      "has_prolif": false,
+      "feature_set": "167 (A_EXT+B+C_EXT+D+E)",
+      "delta_model": true,
+      "spearman": 0.668,
+      "spearman_pval": 0,
+      "pearson": 0.654,
+      "ndcg_at_10": 0.4997,
+      "n_train": 328,
+      "n_val": 83,
+      "best_iteration": 131
+    },
+    "model_a_gpcr": {
+      "status": "SKIPPED",
+      "reason": "n_pool=13 < MIN_FAMILY_SIZE=15",
+      "fallback": "universal"
+    },
+    "model_a_nuclear_receptor": {
+      "status": "SKIPPED",
+      "reason": "n_pool=11 < MIN_FAMILY_SIZE=15",
+      "fallback": "universal"
+    }
+  },
+  "holdout": {
+    "model": "model_a_universal",
+    "n_holdout": 328,
+    "spearman": 0.6094,
+    "spearman_pval": 0,
+    "spearman_ci95": [
+      0.5282,
+      0.6791
+    ],
+    "pearson": 0.6048,
+    "pearson_pval": 0,
+    "pearson_ci95": [
+      0.5339,
+      0.6694
+    ],
+    "rmse": 1.9755,
+    "mae": 1.6749,
+    "y_true_range": [
+      2.64,
+      11.22
+    ],
+    "y_pred_range": [
+      2.36,
+      10.63
+    ],
+    "bootstrap_iterations": 10000,
+    "vs_old_inflated_holdout": "old 0.8732 random-split was leakage (held-out after CV pool, dedup post-split); new 0.6094 is scaffold-disjoint and honest. The drop is the leakage fix, not a regression.",
+    "family_breakdown": {
+      "soluble_enzyme": {
+        "n": 267,
+        "spearman": 0.6395,
+        "pval": 0,
+        "rmse": 1.94
+      },
+      "kinase": {
+        "n": 26,
+        "spearman": 0.6779,
+        "pval": 0.0001,
+        "rmse": 1.609
+      },
+      "protease": {
+        "n": 22,
+        "spearman": 0.2346,
+        "pval": 0.2933,
+        "rmse": 2.428,
+        "verdict": "weak, not significant"
+      },
+      "gpcr": {
+        "n": 5,
+        "spearman": -0.7,
+        "pval": 0.1881,
+        "rmse": 2.727,
+        "verdict": "n too small"
+      },
+      "nuclear_receptor": {
+        "n": 8,
+        "spearman": -0.1429,
+        "pval": 0.7358,
+        "rmse": 2.266,
+        "verdict": "noise"
+      }
+    }
+  },
+  "classifier": {
+    "status": "RETRAINED on scaffold-disjoint pool (2026-08-10, Followup 1).",
+    "binder_definition": "label = 1 if pKi >= 7.0 (~100 nM, literature standard) else 0",
+    "features": "160 (Shell 96 + ECIF 56 + 1D2D 8) - no Vina, no size-norm",
+    "split": "scaffold_disjoint_stratified from split_config.json (same as regression Fase A); pool 537, holdout 328 frozen",
+    "old_leaky": {
+      "auc": 0.8584,
+      "f1": 0.7647,
+      "accuracy": 0.7688,
+      "n_train": 692,
+      "n_val": 173,
+      "note": "OLD random split - all complexes seen (leakage)"
+    },
+    "new_val_80_20": {
+      "auc": 0.8292,
+      "f1": 0.7475,
+      "accuracy": 0.7685,
+      "n": 108,
+      "pos": 54,
+      "neg": 54,
+      "auc_ci95": [
+        0.7475,
+        0.9017
+      ]
+    },
+    "new_holdout": {
+      "auc": 0.8818,
+      "f1": 0.8138,
+      "accuracy": 0.8354,
+      "n": 328,
+      "pos": 151,
+      "neg": 177,
+      "auc_ci95": [
+        0.8422,
+        0.9178
+      ]
+    },
+    "note": "Classifier transfers BETTER than regression: holdout AUC 0.8818 > val AUC 0.8292 (binomial task easier than continuous affinity). Disjointness asserted (pool/holdout no overlap). AUC CI does not touch 0.5 -> screening power real. "
+  },
+  "quality_gate": {
+    "threshold_spearman": 0.5,
+    "threshold_pvalue": 0.05,
+    "passing": [
+      "model_a_universal",
+      "model_a_kinase",
+      "model_a_soluble_enzyme"
+    ],
+    "borderline_not_significant": [
+      "model_a_protease (spearman 0.5429 but p=0.266, n=29)"
+    ],
+    "skipped_fallback": [
+      "model_a_gpcr",
+      "model_a_nuclear_receptor"
+    ]
+  },
+  "fixes_applied_fase_a": {
+    "P0_leakage": "RESUELTO - frozen scaffold-disjoint holdout carved first; CV only on pool; holdout never seen by training.",
+    "A2_feature_contract_167": "RESUELTO - ALL_FEATURES single source (167); 176-feature orphan (model_a.json) rejected at LOAD via FeatureContractViolation (not silently padded); NaN explicit on contract violation (never fabricated 0.5).",
+    "A3_no_silent_fallback": "RESUELTO (code-level) - model_router predict returns NaN+fallback_reason on feature gaps/non-finite; stacking_ef/benchmark_ef_vina/gnn_v2 inference exclude-on-failure instead of constant 0.5; runtime GNN exclusion pending real checkpoints.",
+    "delta_learning_eval_fix": "evaluate_test_set.py now detects is_delta_model from metadata params AND booster attr fallback, and reconstructs pKi = vina_pKi + delta (was reporting raw delta -> meaningless Spearman).",
+    "delta_learning_metadata_fix": "exported metadata now includes params.is_delta_model so delta reconstruction is explicit at load time."
+  },
+  "pending_fase_a_followups": {
+    "classifier_retrain_on_scaffold_pool": "DONE (2026-08-10, Followup 1): scripts/train_classifier_binder.py; artifacts/classifier_binder.{joblib,json,metadata.json} regenerated. Holdout AUC 0.8818 [0.8422-0.9178], F1 0.8138, acc 0.8354 on 328 frozen.",
+    "orphan_model_a_json_176": "DONE (2026-08-10, Followup 2): renamed to artifacts/model_a_legacy_176.json + .metadata.json; preserved for history per user decision; still guarded at load (FeatureContractViolation); NO code references the CPU path model_a.json (only comments/docs); GPU model_a.json (167 feat, artifacts/gpu/) unaffected.",
+    "cli_gnn_runtime_exclusion_verification": "DONE (2026-08-10, Followup 3): runtime smoke test on gnn_v3_best.pt (real checkpoint). Case1 real (10gs docked): prob 0.9542, std 0.0571, silent_failures=0. Case2 invalid SMILES: (NaN, NaN) + silent_failures=1, NO 0.5 fabricated. Docstring in gnn_v2/inference.py:_predict_from_files corrected to match behavior.",
+    "rdkit_in_pytest": "STILL OPEN (cosmetic): 3 tests skipped via @requires_rdkit; scaffold-disjointness also guaranteed via deterministic hash fallback.",
+    "encoding_mojibake": "STILL OPEN (cosmetic): non-ascii comment bytes in evaluate_test_set.py docstring; does not affect execution."
+  },
+  "comparison_with_v2": {
+    "v2_universal_cv_spearman": 0.7643,
+    "v3_universal_cv_spearman": 0.7731,
+    "v2_inflated_holdout_spearman": 0.8732,
+    "v3_honest_holdout_spearman": 0.6094,
+    "comment": "v2 held-out evaluation was PENDING; the only 'holdout' number around was 0.8732 from leakage. v3 is the first honest holdout measurement."
+  },
+  "notes": "Fase A clean retrain (2026-08-10). NO new data, NO feature-set change beyond unifying to 167. Spearman: universal CV 0.7731 -> holdout 0.6094 [0.5282-0.6791] (WARN moderate generalization, partial overfit). Soluble_enzyme (0.6395) and kinase (0.6779) transfer well; protease weak (n=29, p=0.29); GPCR/NR skipped (n<15). The drop from the inflated 0.8732 to 0.6094 is the leakage fix and the first honest measurement, not a quality regression. Next: Fase B (expand within PDBbind refined v2020 from 865 to several thousand complexes) is the highest-yield lever per the literature (RF-Score 2010, ECIF 2020, Stepniewska-Dziubak 2018, CASF-2016 benchmark)."
+}

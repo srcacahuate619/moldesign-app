@@ -1,0 +1,123 @@
+{
+ "analisis_id": "REC-12-R1",
+ "tipo": "inventario desde la fuente original, con gate de validez de la fuente",
+ "timestamp": "2026-08-22T21:46:31.733111+00:00",
+ "fuente": "https://files.rcsb.org/download/<pid>.pdb",
+ "cambio_unico_frente_a_REC-12": "la estructura original; el analisis se importa del modulo sellado",
+ "config": {
+  "r_sitio_A": 8.0,
+  "tol_A": 0.5,
+  "n_aditivos_declarados": 51
+ },
+ "descargas": {
+  "disponibles": 116,
+  "de": 116,
+  "sin_entrada_pdb": []
+ },
+ "n_complejos": 116,
+ "n_ok": 116,
+ "G1_VALIDEZ_DE_LA_FUENTE": {
+  "definicion": "fraccion de complejos cuya estructura original contiene algun HETATM que no es agua ni metal, en cualquier parte",
+  "con_hetatm": 115,
+  "de": 116,
+  "fraccion": 0.9914,
+  "minimo": 0.05,
+  "pasa": true,
+  "referencia_REC-12": {
+   "fraccion": 0.0208,
+   "paso": false
+  }
+ },
+ "inventario": {
+  "complejos_con_cofactor_en_el_sitio": 15,
+  "complejos_con_cofactor_PERDIDO": 15,
+  "pids_con_cofactor_perdido": [
+   "1alw",
+   "1apv",
+   "1bty",
+   "1c5o",
+   "1c5p",
+   "1d7j",
+   "1dgm",
+   "1f4g",
+   "1fd0",
+   "1gwv",
+   "1hpx",
+   "1igb",
+   "1jao",
+   "1jaq",
+   "1lbk"
+  ],
+  "especies_mas_frecuentes": [
+   [
+    "BEN",
+    3
+   ],
+   [
+    "ISA",
+    1
+   ],
+   [
+    "DMF",
+    1
+   ],
+   [
+    "BUQ",
+    1
+   ],
+   [
+    "CL",
+    1
+   ],
+   [
+    "TP4",
+    1
+   ],
+   [
+    "254",
+    1
+   ],
+   [
+    "UDP",
+    1
+   ],
+   [
+    "KNI",
+    1
+   ],
+   [
+    "IPO",
+    1
+   ],
+   [
+    "0D3",
+    1
+   ],
+   [
+    "01S",
+    1
+   ],
+   [
+    "GSH",
+    1
+   ]
+  ],
+  "atomos_aditivos_en_sitio_total": 119
+ },
+ "secundario_descriptivo": {
+  "nota": "sin gate; REC-09 dejo 1d7i y 1ew9 sin explicar",
+  "cristales_absurdos": 6,
+  "absurdos_sin_agua_bloqueante": [
+   "1d7i",
+   "1ew9"
+  ],
+  "de_esos_con_cofactor_en_el_sitio": []
+ },
+ "lectura_preregistrada": "HAY_RECEPTORES_INCOMPLETOS",
+ "limites_declarados": [
+  "la entrada de RCSB es la unidad asimetrica depositada, no la assembly biologica; REC-08 gobierna esa cuestion y aqui no se toca",
+  "un cofactor cerca del sitio no demuestra que el sitio lo necesite; establece que el receptor preparado no lo tiene",
+  "la lista ADITIVOS se declaro antes de ejecutar y es finita: una especie no listada cuenta como cofactor",
+  "no cambia ningun receptor ni re-sella ningun artefacto"
+ ]
+}

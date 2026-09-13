@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-08-PRE-R1",
+  "hypothesis": "Lo que la caja recorta es MARGEN DE DESLIZAMIENTO del ligando dentro del bolsillo, no un sitio competidor lejano; por eso la cobertura debe ser monotona en ese margen y la caja adaptativa por ligando (dimension + 4 A) debe ser el mejor brazo",
+  "protocol": "MF-08-PRE-R1/PREREGISTRO.md; sustituye a MF-08-PRE sin ejecutar; brazo B_ADAPT tomado de moldesign-app/docs/propuestas_de_mejora.md seccion 3 (julio 2026, anterior a estos resultados)",
+  "created_at": "2026-08-18T02:13:41.995210+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "ac242eec7e01597c472454d0a347aa69ca467383",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 validez >=95%, G2 B_ADAPT recupera >=7 de 33, G3 monotonia B_ADAPT>=B20>=B25>=B30 en el margen de deslizamiento, G4 B_ADAPT pierde <=1 del control, G5 determinismo"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-02D/pocket_frame.jsonl": "94110c184dcf0bf0584d4e7f6a612c34a7a83eeb9f2024815d42b155f64e9e74"
+  },
+  "binary_hashes": {
+    "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-08-PRE-R1/PREREGISTRO.md": "85d51c1418a36c316da34baeeda6cf17eb5b27e5e9ba789a8997ab627b67b437",
+    "scripts/artifacts_science/MF-08-PRE-R1/cohorte.json": "e0a01b81405880bcf6dd58011ca3fa91fe8854fdd605d8083a688f86f3b95d9b",
+    "scripts/run_mf08_caja.py": "61ffb64fb51d2e3c932b1be60d9a2209b3ea277b0a536416d058c86274fb0856",
+    "scripts/molflex.py": "d2bd11957cc20e8ea1413b4eca44e3f77664a686bb0fe67a38f47a856fc9aac9"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T02:13:42.990409+00:00",
+  "decision_rationale": "Sustituye a MF-08-PRE antes de ejecutarlo. El brazo adaptativo sale de la biblioteca del proyecto original (moldesign-app/docs/propuestas_de_mejora.md seccion 3, julio 2026): el mismo criterio fisico que MF-08-PRE derivo de forma independiente para descartar la caja de 15 A, pero mejor operacionalizado como lado por ligando en vez de fijo. El orden temporal importa: el criterio es anterior a los resultados, asi que incorporarlo no es ajustar el diseno mirando el desenlace. B_ADAPT excluye el subsitio en 21 de 33 frente a 19 de B20, no deja ningun ligando fuera, y ademas los 4 complejos excluidos a priori por no caber en 20 A si caben. G3 gana poder al pasar de tres a cuatro puntos ordenados por una variable fisica continua, el margen de deslizamiento (2.83 < 3.62 < 6.12 < 8.6 A). Se reformula el mecanismo con honestidad: los desplazamientos medidos son de 3 a 6 A, que no es acoplarse en otro sitio sino deslizarse dentro del mismo bolsillo; y se registran dos hipotesis alternativas REFUTADAS con datos antes de ejecutar -cofactores ausentes (16% de fallos vs 29% de cubiertos) y copia simetrica en multimero (30% vs 41%)-.",
+  "finished_at": "2026-08-18T02:13:43.270753+00:00"
+}

@@ -1,0 +1,393 @@
+{
+  "schema_version": 1,
+  "programa": "Open Babel",
+  "papel": "Programa independiente invocado por MolDesign como herramienta de línea de órdenes mediante subproceso. NO se enlaza ni se importa.",
+  "licencia_spdx": "GPL-2.0-only",
+  "licencia_texto": "LICENSE-GPL-2.0.txt",
+  "sin_garantia": "Open Babel se distribuye SIN NINGUNA GARANTÍA; véanse las secciones 11 y 12 de la GPLv2.",
+  "ejecutable": "bin/obabel.exe",
+  "version_paquete": "3.1.1.23",
+  "version_reportada_por_el_binario": "3.1.0",
+  "procedencia": {
+    "paquete": "openbabel-wheel",
+    "version_paquete": "3.1.1.23",
+    "wheel": "openbabel_wheel-3.1.1.23-cp311-cp311-win_amd64.whl",
+    "wheel_sha256": "f0568906e6959fc541518c8e4cea26973e58707bd2434fb7cddfc5f745c32df7",
+    "plataforma": "CPython 3.11, Windows x86-64",
+    "empaquetador_repo": "https://github.com/njzjz/openbabel-wheel",
+    "empaquetador_commit": "c6b2731dbd0a559ee56b8084b6d9997df1beb16f",
+    "fuentes_incorporadas_repo": "https://github.com/njzjz/openbabel",
+    "fuentes_incorporadas_commit": "77993b9a3b96fb9bd86249098beb97ab0fcbafc6",
+    "upstream": "https://github.com/openbabel/openbabel",
+    "upstream_version": "3.1.1",
+    "licencia_spdx": "GPL-2.0-only"
+  },
+  "archivos": {
+    "bin/data/atomization-energies.txt": {
+      "bytes": 700352,
+      "sha256": "c34f964374713ea34622902fcd4a7b2caf84896f4246e27e765ca70cc368d2c4",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/atomtyp.txt": {
+      "bytes": 10413,
+      "sha256": "c6c3c06aa36f2605d78dcd8bc4ed77c160c35f24d2cf75a18a28edcfe4b372b4",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/babel_povray3.inc": {
+      "bytes": 33051,
+      "sha256": "4fce37f012e8024629299b96503388e03e2d0bb4fb25600291bb628c5a73e58c",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/bondtyp.txt": {
+      "bytes": 5998,
+      "sha256": "5c4eb0df0ae22b84e6dcb7e8a83474b68a79752d71ac9ba98abc396fbd93b65b",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/eem.txt": {
+      "bytes": 465,
+      "sha256": "a1e890e0d935d09dc7364d137b31a9edb04af04fa1f33c8028d0dd9796c64065",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/eem2015ba.txt": {
+      "bytes": 477,
+      "sha256": "53ce6e6f92d4d9e8a80bf26921fac3dd6da0cfba0a7b237fb764d174ec865006",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/eem2015bm.txt": {
+      "bytes": 477,
+      "sha256": "3d3c9b8193fd606d65f0e8fddb0ba4fab57b2ca6cc57383727631c393d9e895a",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/eem2015bn.txt": {
+      "bytes": 477,
+      "sha256": "3d9970fa47999905e856b47bdee4c48c9725afa06422ab5a9cc466b60b2573d2",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/eem2015ha.txt": {
+      "bytes": 477,
+      "sha256": "0f9d8856b14b162e546d16d2311a4f47161a1e2c479e00306e343367bcdf3830",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/eem2015hm.txt": {
+      "bytes": 477,
+      "sha256": "08f8cc6e144b41819905ce4bf359502141dd1c0a9f9a053a4ceb42fc8c169853",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/eem2015hn.txt": {
+      "bytes": 477,
+      "sha256": "2095ff6676cc3ff515e35267cfa45d221bc5da5ca9a13fe9ac5d9b76413c0e6b",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/eqeqIonizations.txt": {
+      "bytes": 4974,
+      "sha256": "c0b55baf11e0a9d6f97fba03adcc5eb4a1032b3148767aa7da298b104431832a",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/gaff.dat": {
+      "bytes": 344431,
+      "sha256": "2194974da16a1355b9031831b38943ac0c8dd6aa702f748d9957802370b0e1a8",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/gaff.prm": {
+      "bytes": 24987,
+      "sha256": "a2acbab05cfb0f6b7bbc7c9513722800c5580ffc6e6dccdcd017a2ba8633051c",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/ghemical.prm": {
+      "bytes": 17230,
+      "sha256": "c1e1d3953a06e395cd26cbe12ac68e1c92ba758d262e8c48cd95e320b74b37a5",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/logp.txt": {
+      "bytes": 4526,
+      "sha256": "6a20ca1f4836943b8ac064963c9cd310f915466344443ea7746f99efe1cd5fcd",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/MACCS.txt": {
+      "bytes": 9089,
+      "sha256": "b949a4c0af1699cde640ac822a8e1a07578c9d24bcfdbda7f2b8868a8ec1a8be",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmff94.ff": {
+      "bytes": 593,
+      "sha256": "9da780ed683fc39ed7feeb600c575e2e6d281a02f01551f7ce5a3805b0fea540",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmff94s.ff": {
+      "bytes": 597,
+      "sha256": "e52bbb01a217a804f4b59d184cbbfa8e9fc65c0ca9035e798407777bad99dfe9",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmffang.par": {
+      "bytes": 102781,
+      "sha256": "a4652ea7ed15216e3184f58d81a8c261e72a6d83d5d41199af3d6689247f0efc",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmffbndk.par": {
+      "bytes": 2382,
+      "sha256": "ea7de5a23f9a043e673f918314c5b5832c9d0e6443e6d9ee76031dcd8107c420",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmffbond.par": {
+      "bytes": 19363,
+      "sha256": "7f40d0c6c11c226f474c9d2cf83617e6210aa5f53daf1e25fc8c253513bb5093",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmffchg.par": {
+      "bytes": 14670,
+      "sha256": "1f0bf4c3667a70da1b3a4082a2e8673e8fd993a54ea2b6cf92f3874f3218a418",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmffdef.par": {
+      "bytes": 11357,
+      "sha256": "c5923d5382a694c209406b5ae5d178ff1e8f8940a2e79b04d237e1b2278c6916",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmffdfsb.par": {
+      "bytes": 1347,
+      "sha256": "b972d73e4e9678f414f34674a666b1adf3a976d7f4c3e144c650cf901af75b45",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmffoop.par": {
+      "bytes": 5174,
+      "sha256": "8095f7505696a3260948b29fdba608268be7a9077669b785833422f7e1f1077b",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmffpbci.par": {
+      "bytes": 4428,
+      "sha256": "d83dcf766f2bbb5284f1530c1bd81b0558204a1f2ca1c8be18e436380884018f",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmffprop.par": {
+      "bytes": 4670,
+      "sha256": "e8b91dd96922de6f4beeec55ee57b9bb4920cefe6ef536e13052f3864d1b97ec",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmffs_oop.par": {
+      "bytes": 5202,
+      "sha256": "3846689169595bebe37a3772d23c7a9b960144e298684ade6e0caad9820df759",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmffs_tor.par": {
+      "bytes": 56791,
+      "sha256": "1e0f8b7530c1c1bfe0843733961f9498d547139dc27915c9271ad340efa490b6",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmffstbn.par": {
+      "bytes": 12484,
+      "sha256": "a2a573dc9160dbf3b77da8b98a34011102846512f11e4913e8c3864563725128",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmfftor.par": {
+      "bytes": 56706,
+      "sha256": "d0095863a6489b187b9cb20bdd96ef1b3a0548c85c43058834be852db76d2dc8",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mmffvdw.par": {
+      "bytes": 6047,
+      "sha256": "3f3fed8025981bd5d323786c295f364e0b24c5f9ddeec223eb0f3d375775d019",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mpC.txt": {
+      "bytes": 3562,
+      "sha256": "816642b6248ab670097f070a4fd2e948aec0f22611a86d7531e6977835158785",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/mr.txt": {
+      "bytes": 4295,
+      "sha256": "6201ede4413012bb97372bb2a356c06236f7722a2a15db3e256dd24da2e5a6ff",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/patterns.txt": {
+      "bytes": 3832,
+      "sha256": "19f3e8100a02d0ca71dc793fb23f5ac06ddc2f2739588bb8a755cbb9c6fc0750",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/phmodel.txt": {
+      "bytes": 7310,
+      "sha256": "27dc450dc7e4d8577d3ca803a98624eb7714f61901c53e94a6ab0e8100134d5d",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/plugindefines.txt": {
+      "bytes": 2475,
+      "sha256": "b4b4daefd8966df12dee92ee55f4607ea53e8b75cf13c576d3a891b2ac6edd9a",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/psa.txt": {
+      "bytes": 2486,
+      "sha256": "5fbf3b0492a038700a8998aea8d3de570f57535be00ca2597de4cd98e2b4ad48",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/qeq.txt": {
+      "bytes": 3212,
+      "sha256": "ee854787b7501f946f99d660cfc6f7176bac5e75f242941c8ac077a5612a7bfa",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/resdata.txt": {
+      "bytes": 15835,
+      "sha256": "7ad52f1010a8a33e9907fadb2a772ae816fc02666cf0c3c15d959a81d7652c81",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/rigid-fragments-index.txt": {
+      "bytes": 162604,
+      "sha256": "530cfb2418b0e284db7f71e347be9b0a92b19d55815c26716029ff065499df85",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/rigid-fragments.txt": {
+      "bytes": 1998165,
+      "sha256": "cd592014888e742f14ff881e8a1743c850959fa33754c20ebeaf27cc23217838",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/ring-fragments.txt": {
+      "bytes": 792314,
+      "sha256": "494e3a1e8257222f062fa6cb811aef6505117fb395fed62dc577203298e503d7",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/ringtyp.txt": {
+      "bytes": 3074,
+      "sha256": "25359bf6d59c97a4519da988d0bcf86b031cf4254562a5ae33385a7cc3413b52",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/SMARTS_InteLigand.txt": {
+      "bytes": 40212,
+      "sha256": "3a34895f4a8e0805cb6077d4649cbbd994fc6164dc0fedd60daa065c8a280770",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/space-groups.txt": {
+      "bytes": 115526,
+      "sha256": "b2170f6796cfe00be5749ffe54b01c3783e714e8d8a914e7908dffad83dafaf7",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/superatom.txt": {
+      "bytes": 6931,
+      "sha256": "71c4d0fffd54be9fcb369035b62532d9c71c8c5272ac7d5a4b059c061749bc18",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/svgformat.script": {
+      "bytes": 1967,
+      "sha256": "8e0a36f3ddd91785b695252101d33caa50dc8890bbc975a586670d0f819640f7",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/templates.sdf": {
+      "bytes": 1900,
+      "sha256": "da291234103947aa3ed0ed16d31921e07cf35ee38893c3c8f92d03b0d2a36fd7",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/torlib.txt": {
+      "bytes": 10194,
+      "sha256": "53b4b42c2372cf2d8330761f7aae21e91f5a3f8c1ea3c5f8f7bc5dd03fb9178b",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/torsion.txt": {
+      "bytes": 31432,
+      "sha256": "df3ac5b047627180f6a57757b278940b9d16fd4bba95425b7628a8300e73baa5",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/types.txt": {
+      "bytes": 11189,
+      "sha256": "c1405e29488c72b37d9ec49144b3cd23de48abff57d4289fb02935840b57e0e7",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/data/UFF.prm": {
+      "bytes": 12851,
+      "sha256": "3c2d6d946b1749fc6298230eba73433f3be99d69108d16b6126f27ed92f24814",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/formats_common.obf": {
+      "bytes": 280064,
+      "sha256": "649f3109204e454a4f4294b7441059fe55f45674055ca05cdd37a45175f29d7e",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/formats_compchem.obf": {
+      "bytes": 532992,
+      "sha256": "f44198b993f2622eee608a37e396b1b471a2a7cea793a4fc1a87e4dd8fed11a9",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/formats_misc.obf": {
+      "bytes": 1122816,
+      "sha256": "801d8962b83122413db1f3a20f75b9dcad325c7d85380163418cd29b82626612",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/formats_utility.obf": {
+      "bytes": 154624,
+      "sha256": "72fa8ec5226206add0f62cc7ae219f0beabb3d135f50b7ad456aa812e967e192",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/msvcp140.dll": {
+      "bytes": 575056,
+      "sha256": "a4c2229bdc2a2a630acdc095b4d86008e5c3e3bc7773174354f3da4f5beb9cde",
+      "origen": "openbabel-wheel (DLL vendorizada)"
+    },
+    "bin/obabel.exe": {
+      "bytes": 35328,
+      "sha256": "c76d669a0b557d9585904ac35afc88ed26507ff03704e347ed64aa1bf24ac88b",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/openbabel-3.dll": {
+      "bytes": 2209280,
+      "sha256": "84e2b0eb9f4b044c34bc36dbeeafdc458cc00eadb81e6cbe6d4d7a52f6196179",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/plugin_charges.obf": {
+      "bytes": 238080,
+      "sha256": "57bfb993dc7e45d9f4e51ec92d7aad53ee942bd89c30c7da454274fce1978282",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/plugin_descriptors.obf": {
+      "bytes": 64000,
+      "sha256": "438789aca34c897f5611a35a1f9c381441760f21655be4da4efac8a661ab147b",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/plugin_fingerprints.obf": {
+      "bytes": 77824,
+      "sha256": "26ac0d3636d02e5dac25d4f78dc27190bd0a0cfc4a3eb47f45b67244ac41cb69",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/plugin_forcefields.obf": {
+      "bytes": 338944,
+      "sha256": "96eb31b8ec39e9f32d30fe79f08635303fa7b50620016500821da8c5c6cd9836",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/plugin_ops.obf": {
+      "bytes": 219136,
+      "sha256": "b122e1ede8de7b207dbcdf1ed2a455e5a41154a0dab18f80a116e88ff1257055",
+      "origen": "openbabel-wheel 3.1.1.23 (payload del wheel)"
+    },
+    "bin/vcruntime140.dll": {
+      "bytes": 119192,
+      "sha256": "4d292623516f65c80482081e62d5dadb759dc16e851de5db24c3cbb57b87db83",
+      "origen": "runtime de Visual C++ (CPython embebido)"
+    },
+    "bin/vcruntime140_1.dll": {
+      "bytes": 49528,
+      "sha256": "a113f192195f245f17389e6ecbed8005990bcb2476ddad33f7c4c6c86327afe5",
+      "origen": "runtime de Visual C++ (CPython embebido)"
+    },
+    "LICENSE-GPL-2.0.txt": {
+      "bytes": 15424,
+      "sha256": "c5284a94da3f279363b57486d3eadc550f31184b5b8e76e87af10720dc0fdb4b",
+      "origen": "árbol de MolDesign"
+    },
+    "openbabel-src-77993b9a.tar.gz": {
+      "bytes": 36685974,
+      "sha256": "e796fe82710d316f2b7da78de4391730e15a198b95b1164b18652c5af3d6feea",
+      "origen": "código fuente correspondiente del binario distribuido; SHA-256 declarado en SOURCE-OFFER.json y verificado al copiarlo"
+    },
+    "openbabel-wheel-recipe-c6b2731d.tar.gz": {
+      "bytes": 11750,
+      "sha256": "2656a8d6f9dee3eb3e1264c322bfd9bd308db21ccbd86867ea36a60212686ca3",
+      "origen": "código fuente correspondiente del binario distribuido; SHA-256 declarado en SOURCE-OFFER.json y verificado al copiarlo"
+    },
+    "README-PROCEDENCIA.md": {
+      "bytes": 3946,
+      "sha256": "192d4451958ee35c0b42d3275e885463aa630a92118cac1c274299104f1d2c6c",
+      "origen": "árbol de MolDesign"
+    },
+    "SOURCE-OFFER.json": {
+      "bytes": 2344,
+      "sha256": "122535ae71b3d3b28f627fc2f87be1b07b99348664c4d2d439e3d9eb0f55a6a4",
+      "origen": "declaracion versionada de la oferta GPLv2"
+    }
+  },
+  "verificacion": "Staging verificado ejecutando el binario: contesta 'Open Babel 3.1.0 -- Feb 17 2026 -- 06:51:18' y convierte PDBQT→SDF a un SDF válido."
+}

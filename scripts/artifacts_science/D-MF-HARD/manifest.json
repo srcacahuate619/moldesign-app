@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "experiment_id": "D-MF-HARD",
+  "hypothesis": "Existe una cohorte dificil bien definida (rot_bonds>=15) con controles faciles emparejados en train+val para medir regresiones de MolFlex sin re-docking",
+  "protocol": "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md (D-MF-HARD, entregable 6) + MF-01/MF-01-UNION",
+  "created_at": "2026-08-16T05:13:15.701226+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "5f0329d330599fac561958f23aec92669222e864",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "22 hard + 22 controles emparejados, universo 156, 0 denylist, 0 test, determinismo byte a byte, oracle_gap no decide nada"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/D-MF-HARD/DESIGN.md": "98cb0aa6798a0bef0cc95965894e618c48e2a0a4f2b4b5afdd85f95d77889246",
+    "scripts/artifacts_science/D-MF-HARD/cohort.jsonl": "6d3f3a09dcd7e7393b4572ae1425c1e87d6ec0e233afbd7c7be3775ae50779ba",
+    "scripts/artifacts_science/D-MF-HARD/metrics.json": "f40b81fd18fd55d0bcce0dc9aaae81d4cf3808a70a8a590576e4a5005c35474a",
+    "scripts/artifacts_science/D-MF-HARD/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/D-MF-HARD/per_complex.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/build_dmfhard_cohort.py": "9332653eb2e592234946e19c9613b1df176ea3878ae4f6c97f6db006584f9a29",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T05:15:36.591375+00:00",
+  "decision_rationale": "PASS OPERACIONAL: cohorte 22 hard (17 train + 5 val) + 22 controles emparejados sin reemplazo; universo 156; 0 denylist; 0 test; historical_timeout solo de registros originales; oracle_gap secundario y sin poder de decision; determinismo byte a byte. Sin resultado cientifico todavia; val (5 dificiles) es solo verificacion piloto",
+  "finished_at": "2026-08-16T05:15:36.978264+00:00"
+}

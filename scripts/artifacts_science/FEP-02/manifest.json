@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "FEP-02",
+  "hypothesis": "La integridad del receptor (cadenas, huecos, disulfuros, metales, cofactores, aguas) esta documentada en el material actual",
+  "protocol": "auditoria sin docking sobre los 203; huecos de numeracion, sitios entre cadenas, disulfuros y contenido del sitio",
+  "created_at": "2026-08-19T03:53:18.108035+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "auditoria sin gates; verificacion adicional del diagnostico de MF-10"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_fep02_receptor.py": "b143dadf5dfd0fb424acdf663c80ac42bf483de470a9d4025062a78b71bec5e4"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:18.927029+00:00",
+  "decision_rationale": "83 de 203 complejos (41%) quedarian documentados. 86 de 203 (42%) tienen huecos de numeracion y 43 (21%) tienen el sitio repartido entre mas de una cadena -modo de fallo que 19_LIMITATIONS marcaba como conocido y que nadie habia contado-. 52 tienen metales en el sitio y la mediana de aguas en el sitio es 10, ninguna documentada como estructural o desplazable. VERIFICACION DEL DIAGNOSTICO DE MF-10: los 9 complejos que fallaron con error de plantilla de OpenMM tienen huecos de cadena, los 9 de 9, frente a una tasa base del 42.4%. La probabilidad de que salga asi por azar es 0.424^9 ~ 0.0004. El diagnostico -cortes de cadena dejados como terminos- queda CONFIRMADO, y con el la decision de no re-correr MF-10 para recuperarlos. Limitacion: un salto de numeracion no siempre es hueco fisico (hay convenciones de numeracion no consecutiva); los 86 son candidatos, no defectos confirmados, aunque los 9 de MF-10 si lo eran.",
+  "finished_at": "2026-08-19T03:53:19.119695+00:00"
+}

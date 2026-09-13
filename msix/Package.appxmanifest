@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- GENERADO por scripts/build_msix.py desde msix/msix-config.json.
+     No editar a mano: el generador lo sobreescribe y la identidad dejaria de
+     estar verificada contra la configuracion. -->
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap rescap">
+
+  <Identity
+    Name="amezcua-dev.com.MolDesign"
+    Publisher="CN=6441FBBA-B77A-4619-9CEB-ACEDE74573C0"
+    Version="1.0.0.0"
+    ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>MolDesign AI</DisplayName>
+    <PublisherDisplayName>amezcua-dev.com</PublisherDisplayName>
+    <Logo>assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="es-ES" />
+    <Resource Language="en-US" />
+  </Resources>
+
+  <Applications>
+    <Application Id="MolDesign"
+                 Executable="moldesign.exe"
+                 EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        DisplayName="MolDesign AI"
+        Description="Diseno molecular asistido con acoplamiento AutoDock Vina y reescalado reproducible."
+        BackgroundColor="transparent"
+        Square150x150Logo="assets\Square150x150Logo.png"
+        Square44x44Logo="assets\Square44x44Logo.png">
+        <uap:DefaultTile
+          Wide310x150Logo="assets\Wide310x150Logo.png"
+          Square310x310Logo="assets\Square310x310Logo.png"
+          Square71x71Logo="assets\Square71x71Logo.png" />
+        <uap:SplashScreen Image="assets\SplashScreen.png" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <!-- runFullTrust es la confianza que este producto necesita, y no es
+         opcional: el backend es un interprete Python embebido que se lanza como
+         subproceso, y AutoDock Vina y Open Babel se invocan como programas
+         externos. Sin plena confianza no hay pipeline.
+         Es una capacidad RESTRINGIDA: Partner Center exige justificacion
+         escrita y la revisa una persona. -->
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

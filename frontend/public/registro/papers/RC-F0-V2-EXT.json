@@ -1,0 +1,949 @@
+{
+ "id": "RC-F0-V2-EXT",
+ "meta": {
+  "titulo": "El 93.9% del programa se construyó con el protocolo que falla",
+  "entradilla": "De las 34,302 poses del conjunto, sólo 2,087 se generaron con libertad torsional. Diecisiete artefactos sellados consumen el resto. Esto mide el alcance, no invalida nada."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": " midió algo incómodo: sobre los 33 complejos difíciles, el protocolo congelado —docking ",
+     "m": null
+    },
+    {
+     "t": "rígido",
+     "m": "fuerte"
+    },
+    {
+     "t": " del ensemble— alcanza ",
+     "m": null
+    },
+    {
+     "t": "1 de 33",
+     "m": "fuerte"
+    },
+    {
+     "t": ", mientras los ",
+     "m": null
+    },
+    {
+     "t": "mismos confórmeros",
+     "m": "fuerte"
+    },
+    {
+     "t": " dockeados flexibles alcanzan ",
+     "m": null
+    },
+    {
+     "t": "26 de 33",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso plantea de inmediato una pregunta de alcance que nadie había hecho: ",
+     "m": null
+    },
+    {
+     "t": "¿qué fracción del material sobre el que descansa el programa salió de ese protocolo?",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se responde leyendo dos artefactos ya sellados. Cero cómputo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La composición",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Fuente",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Poses",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "%",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Generador",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "molflex",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "32,215",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "93.9%",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "Rígido, TORSDOF 0",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "flexible_redock",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "1,534",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4.5%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Flexible",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "ruta_a",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "553",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1.6%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Flexible",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sólo el 6.1% del conjunto se generó con libertad torsional durante la búsqueda.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y ",
+     "m": null
+    },
+    {
+     "t": "17 artefactos sellados",
+     "m": "fuerte"
+    },
+    {
+     "t": " consumen ese material, entre ellos ",
+     "m": null
+    },
+    {
+     "t": "RS-14",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "RS-09",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "RS-01",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "RS-01A",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "MF-02D",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "FND-02",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "FND-06",
+     "m": "codigo"
+    },
+    {
+     "t": " y el propio ",
+     "m": null
+    },
+    {
+     "t": "RC-F0-V2",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Tres cosas que este número NO autoriza a concluir",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se declararon antes de calcularlo, porque un número así invita a leerse mal.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "1. No invalida a los 17 consumidores.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": " midió el hueco de ",
+     "m": null
+    },
+    {
+     "t": "cobertura",
+     "m": "fuerte"
+    },
+    {
+     "t": " — cuántos complejos tienen alguna pose correcta entre las candidatas. Los experimentos de selección midieron ",
+     "m": null
+    },
+    {
+     "t": "precisión condicional sobre lo cubierto",
+     "m": "fuerte"
+    },
+    {
+     "t": ", que es otra cantidad.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Más cobertura significa ",
+     "m": null
+    },
+    {
+     "t": "más complejos evaluables",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no un veredicto distinto sobre los ya evaluados. ",
+     "m": null
+    },
+    {
+     "t": "RS-14",
+     "m": "codigo"
+    },
+    {
+     "t": " concluyó que el selector no supera a ",
+     "m": null
+    },
+    {
+     "t": "vina_score",
+     "m": "codigo"
+    },
+    {
+     "t": " sobre los 92 complejos cubiertos; con más cobertura habría más complejos, y la pregunta de si el selector gana en ellos sigue abierta exactamente igual que antes.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2. El 1 de 33 es del estrato difícil.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En ",
+     "m": null
+    },
+    {
+     "t": "CONTROL",
+     "m": "codigo"
+    },
+    {
+     "t": " el protocolo rígido alcanza ",
+     "m": null
+    },
+    {
+     "t": "15 de 15",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y con la ",
+     "m": null
+    },
+    {
+     "t": "mejor mediana de los tres brazos",
+     "m": "fuerte"
+    },
+    {
+     "t": " (0.861 Å). Extrapolar el 1/33 a los 203 sería injustificado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El protocolo rígido no está roto en general. Falla exactamente en el estrato que motivó el programa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "**3. ",
+     "m": null
+    },
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": " tiene su propio defecto abierto.**",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Su brazo ganador conservaba 261 poses de mediana contra 9 del rival, y su magnitud está suspendida hasta que corra ",
+     "m": null
+    },
+    {
+     "t": "MF-33-A3",
+     "m": "codigo"
+    },
+    {
+     "t": ". Citar este alcance como si la comparación estuviera cerrada sería encadenar dos afirmaciones que todavía no lo están.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que sí establece",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Una sola cosa, y hay que citarla así:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Cuánto material habría que rehacer si se decidiera medir sobre poses flexibles.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La respuesta es: casi todo. 32,215 de 34,302 poses, y con ellas el denominador de la cartera de rescoring entera.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso no es una conclusión científica — es una cifra de planificación. Pero es la que decide si «volver a generar con docking flexible» es un experimento o es un programa, y la respuesta que da es inequívoca: es un programa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El triaje de los 17 consumidores",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La cifra sola invita a la lectura catastrofista. Lo que la vuelve utilizable es separar los consumidores por ",
+     "m": null
+    },
+    {
+     "t": "qué miden",
+     "m": "fuerte"
+    },
+    {
+     "t": ", porque no todos están igual de expuestos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 3,
+   "frag": [
+    {
+     "t": "Categoría 1 — miden generación o cobertura: los más expuestos",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "D-MF-HARD-CURVE",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "D-MF-HARD-CURVE-VAL",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "D-MF-HARD-EXH4",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "D-MF-HARD-EXH4-VAL",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "MF-02B",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "MF-02D",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "RC-F0-V2",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sus números ",
+     "m": null
+    },
+    {
+     "t": "son",
+     "m": "fuerte"
+    },
+    {
+     "t": " propiedades del régimen de generación. La curva de confórmeros, la comparación de brazos generadores, la cobertura del oráculo: todo eso se midió con docking rígido y se remediría distinto con flexible. Son los que habría que rehacer primero.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 3,
+   "frag": [
+    {
+     "t": "Categoría 2 — miden selección sobre casos ya cubiertos",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "RS-01",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "RS-01A",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "RS-14",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "RS-14-PRE",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No quedan invalidados.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Compararon un selector contra ",
+     "m": null
+    },
+    {
+     "t": "vina_score",
+     "m": "codigo"
+    },
+    {
+     "t": " dentro del conjunto de complejos cubiertos, y esa comparación pareada sigue siendo válida sobre el material que usó. Lo que queda abierto es otra cosa: ",
+     "m": null
+    },
+    {
+     "t": "si su conclusión generaliza a una cohorte regenerada",
+     "m": "fuerte"
+    },
+    {
+     "t": ", con más complejos cubiertos y poses de otra distribución.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Que el selector no supere a ",
+     "m": null
+    },
+    {
+     "t": "vina_score",
+     "m": "codigo"
+    },
+    {
+     "t": " sobre 92 complejos cubiertos con material rígido no prueba que tampoco lo haga sobre 120 con material flexible. Tampoco prueba lo contrario.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 3,
+   "frag": [
+    {
+     "t": "Categoría 3 — auditoría, procedencia e infraestructura",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "FND-02",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "FND-06",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "MF-01-UNION",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "RS-09",
+     "m": "codigo"
+    },
+    {
+     "t": ", y los prerregistros ",
+     "m": null
+    },
+    {
+     "t": "MF-02-PRE",
+     "m": "codigo"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "RC-F0-V2-PRE",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Prácticamente no cambian. La fuga entre splits, la trazabilidad de cada pose, la invarianza del selector a rotación y orden, la materialización de la unión — ",
+     "m": null
+    },
+    {
+     "t": "ninguna depende de si la pose se generó rígida o flexible",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Un conjunto regenerado heredaría estas propiedades o las volvería a exigir, pero los hallazgos se sostienen.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 3,
+   "frag": [
+    {
+     "t": "La formulación correcta",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esa separación evita el error de decir «el 94% del programa está mal». ",
+     "m": null
+    },
+    {
+     "t": "Eso no está demostrado.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Lo demostrado es más acotado:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El 94% de las poses históricas viene de una política de generación que ahora sabemos que ",
+     "m": null
+    },
+    {
+     "t": "puede ser muy insuficiente en el estrato difícil",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y con eso la pregunta de planificación cambia de forma. Ya no es «¿corremos otra variante de ",
+     "m": null
+    },
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": "?». Es:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "¿Vale la pena reconstruir casi toda la cohorte de poses para cambiar el régimen de generación?",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso no es un experimento. Es un ",
+     "m": null
+    },
+    {
+     "t": "programa de regeneración y revalidación",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y decidirlo exige saber antes qué se gana — que es justo lo que ",
+     "m": null
+    },
+    {
+     "t": "MF-33-A3",
+     "m": "codigo"
+    },
+    {
+     "t": " todavía no ha dicho.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué merecía un artefacto propio",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Podría haber sido una nota al pie de ",
+     "m": null
+    },
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": ". No lo es, por dos razones.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La primera es que el número tiene vida propia: cualquiera que en el futuro proponga rehacer el conjunto necesita saber que son 32,215 poses y 17 artefactos, no un par de tablas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La segunda es que las tres limitaciones de arriba tenían que quedar selladas ",
+     "m": null
+    },
+    {
+     "t": "junto",
+     "m": "fuerte"
+    },
+    {
+     "t": " al número. Un dato así, suelto y sin sus condiciones de uso, se convierte en «el 94% del programa está mal» en la primera conversación en que alguien lo repita de memoria.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/RC-F0-V2-EXT.md"
+}

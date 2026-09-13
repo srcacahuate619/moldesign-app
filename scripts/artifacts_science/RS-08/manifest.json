@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-08",
+  "hypothesis": "El router de decidibilidad accionable (solved/rescoring_actionable@2/sampling_needed) captura mas fallos recuperables que margin-only al mismo presupuesto",
+  "protocol": "CAMPANA-2-PLAN sellado (41b7f09) QA-3 + prerregistro RS-08",
+  "created_at": "2026-08-17T00:01:53.135510+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "a8c9523d99b227fbad842ab50f8ce8c392831bab",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": ">=+3 fallos recuperables@2 vs margin-only; sin aumento de falsos escalamientos; bootstrap 38 componentes; drift presupuesto 25-35%"
+  },
+  "decision": "NO_GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/RS-08/PREREGISTRO.md": "132d126612833a19549dce16576e0bd82f5f75374f4d843f47cb04975857ba81",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T00:03:35.759220+00:00",
+  "decision_rationale": "Gate de desarrollo FAIL: fallos recuperables@2 router 3 vs margin-only 5 (requiere >=+3; BCa 38 componentes [-6,0] no excluye cero; McNemar p=0.5). Falsos escalamientos 14 vs 15 (cumple, -1). Sensibilidad: el router solo gana en presupuestos 10-20% (+1). Drift global 38.79% fuera de [25,35]. Solo 9/116 complejos son actionable@2 (47 solved, 60 sampling): espacio de mejora minimo y margin-only ya captura 5/9. GO limitado a router: NO. v0.6 sigue como selector; cascada con RS-03 pendiente de RS-03-PARAM.",
+  "finished_at": "2026-08-17T00:23:06.408698+00:00"
+}

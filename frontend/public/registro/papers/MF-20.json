@@ -1,0 +1,430 @@
+{
+ "id": "MF-20",
+ "meta": {
+  "titulo": "Una hipótesis elegante, muerta por normalización",
+  "entradilla": "Los complejos que fallan tienen tres veces más modos empatados. Al dividir por el número de poses generadas, la fracción empatada es ligeramente MENOR que en los que aciertan."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Había una hipótesis que explicaba dos fracasos a la vez, y esa clase de hipótesis merece atención porque son raras y porque casi siempre son falsas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La idea: el paisaje de puntuación está ",
+     "m": null
+    },
+    {
+     "t": "degenerado",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Muchas poses muy distintas obtienen puntuaciones casi idénticas, de modo que la función no tiene con qué escoger. Si eso fuera cierto, explicaría de un solo golpe por qué el generador no encuentra la pose correcta ",
+     "m": null
+    },
+    {
+     "t": "y",
+     "m": "enfasis"
+    },
+    {
+     "t": " por qué el selector entrenado no la reconoce cuando está delante. Dos carteras cerradas por la misma causa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En términos absolutos, la señal parecía inequívoca:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Modos empatados a 2 kcal/mol",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Complejos no cubiertos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "31",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Complejos cubiertos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "9",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Tres veces y media más degeneración en los que fallan. La hipótesis en pie.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Entonces se miró el denominador:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Poses (mediana)",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Modos",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Complejos no cubiertos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "252",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "187",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Complejos cubiertos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "100",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "42",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los complejos que fallan simplemente ",
+     "m": null
+    },
+    {
+     "t": "tienen más poses",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Generan más candidatas, así que acumulan más empates en términos absolutos. Es aritmética, no física.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Normalizando —la ",
+     "m": null
+    },
+    {
+     "t": "fracción",
+     "m": "fuerte"
+    },
+    {
+     "t": " de modos empatados en la cima—:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Fracción empatada",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Complejos no cubiertos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.239",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Complejos cubiertos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.292",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No sólo no es mayor. Es ",
+     "m": null
+    },
+    {
+     "t": "ligeramente menor",
+     "m": "fuerte"
+    },
+    {
+     "t": ". La hipótesis queda refutada en su forma interesante.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que quedaba en pie, y por qué tampoco cuenta",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Una observación sobrevive a la normalización: en ",
+     "m": null
+    },
+    {
+     "t": "32 de 32",
+     "m": "fuerte"
+    },
+    {
+     "t": " complejos del estrato de colocación, ninguno de los modos empatados dentro de 1 kcal/mol es una pose buena.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Suena a hallazgo. No lo es: es ",
+     "m": null
+    },
+    {
+     "t": "MF-09",
+     "m": "codigo"
+    },
+    {
+     "t": " dicho de otra manera. ",
+     "m": null
+    },
+    {
+     "t": "MF-09",
+     "m": "codigo"
+    },
+    {
+     "t": " ya había establecido que en esos complejos ",
+     "m": null
+    },
+    {
+     "t": "no existe",
+     "m": "fuerte"
+    },
+    {
+     "t": " ninguna pose buena entre las candidatas. Que ninguna de las empatadas sea buena se sigue trivialmente de que ninguna lo es. No es información nueva y no se contabiliza como tal.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La limitación que se declaró antes de medir",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento tiene un problema conceptual que se escribió por adelantado, porque condiciona cómo puede leerse:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "La degeneración se mide ",
+     "m": null
+    },
+    {
+     "t": "con la misma función cuyo fallo se investiga",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso significa que el diseño no puede distinguir \"el paisaje es degenerado\" de \"la función no resuelve\". No son dos afirmaciones que compitan: son la misma afirmación vista desde dos lados. Cualquier resultado positivo habría sido circular.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Declararlo antes es lo que impide venderlo después como si el experimento pudiera hacer algo que nunca pudo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué está publicado",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Porque el modo de fallo que ilustra es de los más comunes y de los más difíciles de ver desde dentro: ",
+     "m": null
+    },
+    {
+     "t": "una diferencia absoluta entre dos grupos que difieren en tamaño",
+     "m": "fuerte"
+    },
+    {
+     "t": ". El número era grande, la dirección era la esperada, y la hipótesis era bonita. Sólo hacía falta dividir.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-20.md"
+}

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-01B",
+  "hypothesis": "La deduplicacion mejora Top-1 OOF sin degradar RMSD pareado",
+  "protocol": "RS-01 preregistro sellado + RS-01A sellada",
+  "created_at": "2026-08-16T21:12:18.565232+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "97970ce5ecedafa0017528f8b4ff78d1c7fdc1f2",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": [
+      "xgboost==3.2.0",
+      "numpy==2.4.4",
+      "scipy==1.17.1",
+      "rdkit==2025.09.6"
+    ]
+  },
+  "gate": {
+    "description": "+3 Top-1 OOF Y mediana pareada RMSD <=0.1 A; bootstrap BCa por 38 componentes 10k; val/test/CONFIRM intocados"
+  },
+  "decision": "NO_GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/RS-01B/DESIGN.md": "a39de35684f750b8c4f239e5b4e7c3ae22e53bd2c4d49a64af7726e7297d7371",
+    "scripts/artifacts_science/RS-01B/metrics.json": "9ea0393ca2b03c13a00ac74e7ed406d829a57ee2ffc85ea37cb01d4acda52e00",
+    "scripts/artifacts_science/RS-01B/per_complex.jsonl": "4868dbd055af5c855fb6b3c008c04c038952ffb9c7ddc2922699b16f9d5cf71b",
+    "scripts/artifacts_science/RS-01B/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/run_rs01b_crossfit.py": "5b38772f865537cb8e38375d227c3c05c5bdf8c1af93fe48c1b130a266b76468",
+    "scripts/test_mcnemar_fix.py": "cf695bebe58ce48effb5d8720883a2c9def0b2883e48849ea2ec3e5a68a19784",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T21:44:16.592082+00:00",
+  "decision_rationale": "NO_GO operacional: la deduplicacion con umbral anidado obtuvo 43/116 aciertos Top-1 OOF frente a 47/116 del brazo original, delta=-4, incumpliendo el gate preregistrado de >=+3. La mediana pareada dRMSD fue 0.000 A y cumplio el limite de 0.1 A. El bootstrap primario por componentes [-8.80, 4.00] y McNemar exacto bilateral p=0.480682 no establecen superioridad ni degradacion estadistica. El artefacto deduplicado queda opcional y no se adopta como entrada predeterminada de v0.6.",
+  "finished_at": "2026-08-16T21:44:17.051882+00:00"
+}

@@ -1,0 +1,344 @@
+2026-09-10 13:46:25 [info     ] sascorer cargado desde D:\moldesign-audit\bundle-copy\python\Lib\site-packages\rdkit\Contrib\SA_Score
+INFO:     Started server process [20676]
+INFO:     Waiting for application startup.
+{"environment": "production", "log_level": "INFO", "event": "sistema de logging inicializado", "level": "info", "timestamp": "2026-09-10T19:46:26.248557Z", "service": "moldesign-api"}
+{"environment": "production", "event": "iniciando aplicacion MolDesign", "level": "info", "timestamp": "2026-09-10T19:46:26.248557Z", "service": "moldesign-api"}
+{"app_mode": "DESKTOP", "local_data_dir": "C:\\Users\\Johan Amezcua\\MolDesign\\data", "storage_backend": "SQLite + local_disk", "queue_backend": "local_dispatcher", "event": "modo de ejecuci\u00f3n resuelto", "level": "info", "timestamp": "2026-09-10T19:46:26.248557Z", "service": "moldesign-api"}
+{"db_path": "C:\\Users\\Johan Amezcua\\MolDesign\\data\\moldesign_local.db", "event": "Iniciando verificaci\u00f3n de esquema SQLite", "level": "info", "timestamp": "2026-09-10T19:46:26.251123Z", "service": "moldesign-api"}
+{"event": "Migraci\u00f3n de esquema SQLite completada exitosamente", "level": "info", "timestamp": "2026-09-10T19:46:26.256171Z", "service": "moldesign-api"}
+{"db_path": "C:\\Users\\Johan Amezcua\\MolDesign\\data\\moldesign_local.db", "event": "engine SQLite creado", "level": "info", "timestamp": "2026-09-10T19:46:26.285245Z", "service": "moldesign-api"}
+{"event": "tablas creadas o verificadas y versi\u00f3n de esquema sellada en la base de datos", "level": "info", "timestamp": "2026-09-10T19:46:26.301966Z", "service": "moldesign-api"}
+{"id": "local", "name": "MolChat Local", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:46:26.417990Z", "service": "moldesign-api"}
+{"id": "ollama", "name": "Ollama", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:46:26.417990Z", "service": "moldesign-api"}
+{"id": "claude", "name": "Claude (Anthropic)", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:46:26.417990Z", "service": "moldesign-api"}
+{"id": "gemini", "name": "Gemini (Google)", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:46:26.417990Z", "service": "moldesign-api"}
+{"id": "openai", "name": "Cloud (OpenAI/Groq)", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:46:26.417990Z", "service": "moldesign-api"}
+{"event": "providers_and_tools_bootstrapped", "level": "info", "timestamp": "2026-09-10T19:46:26.433386Z", "service": "moldesign-api"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:55975 (Press CTRL+C to quit)
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:46:26.622429Z", "query": "", "method": "GET", "request_id": "2f80584d-4458-446e-914c-9f1f8d97abd2", "path": "/health", "service": "moldesign-api"}
+{"version": 4, "errors": ["gnn_v2_cl:artifact ausente:gnn_v2_cl_best.pt", "gnn_v2_cl:metadata ausente:contrastive_v31_pretrained.pt"], "event": "model_manifest_integrity_failed", "level": "error", "timestamp": "2026-09-10T19:46:26.688657Z", "query": "", "method": "GET", "request_id": "2f80584d-4458-446e-914c-9f1f8d97abd2", "path": "/health", "service": "moldesign-api"}
+{"status_code": 200, "elapsed_ms": 67.88, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:46:26.689667Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:46:26.704208Z", "query": "", "method": "GET", "request_id": "6b55bb7d-fb40-4440-ab7c-01ff62f76791", "path": "/openapi.json", "service": "moldesign-api"}
+{"status_code": 200, "elapsed_ms": 625.81, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:46:27.329873Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:46:27.337995Z", "query": "", "method": "POST", "request_id": "f96e65e3-ea65-4289-a95b-42c5f57d1db7", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"formula": "C29H26ClFN4O4S", "heavy_atoms": 40, "warnings": 1, "hash_prefix": "76003f22", "event": "SMILES v\u00e1lido", "level": "info", "timestamp": "2026-09-10T19:46:27.422660Z", "query": "", "method": "POST", "request_id": "f96e65e3-ea65-4289-a95b-42c5f57d1db7", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"chain": "A", "excluded": {"03Q": 34}, "total_excluded": 34, "event": "HETATM excluidos de la preparaci\u00f3n del receptor", "level": "info", "timestamp": "2026-09-10T19:46:28.201031Z", "query": "", "method": "POST", "request_id": "f96e65e3-ea65-4289-a95b-42c5f57d1db7", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"chain": "A", "atom_records": 2284, "hetatm_excluded": 34, "event": "PDB filtrado para preparaci\u00f3n", "level": "info", "timestamp": "2026-09-10T19:46:28.201031Z", "query": "", "method": "POST", "request_id": "f96e65e3-ea65-4289-a95b-42c5f57d1db7", "path": "/evaluation/preflight", "service": "moldesign-api"}
+D:\moldesign-audit\bundle-copy\python\Lib\site-packages\prody\utilities\misctools.py:4: DeprecationWarning: `np.chararray` is deprecated and will be removed from the main namespace in the future. Use an array with a string or bytes dtype instead.
+  from numpy import unique, linalg, diag, sqrt, dot, chararray, divide, zeros_like, zeros, allclose, ceil, abs
+2026-09-10T19:46:31.221824Z [info     ] preflight_generado             blockers=0 fingerprint=sha256:4abe4ef2b4eda4d6 not_evaluated=4 target_pdb_id=3PP0 warnings=3
+{"status_code": 200, "elapsed_ms": 3886.13, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:46:31.223331Z", "service": "moldesign-api"}
+{"entries": 944, "event": "PAINS catalog preloaded", "level": "info", "timestamp": "2026-09-10T19:46:31.292044Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:46:31.293551Z", "query": "", "method": "POST", "request_id": "7088c2e8-2851-4514-b748-c40f64393eba", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"formula": "C29H26ClFN4O4S", "heavy_atoms": 40, "warnings": 1, "hash_prefix": "76003f22", "event": "SMILES v\u00e1lido", "level": "info", "timestamp": "2026-09-10T19:46:31.308834Z", "query": "", "method": "POST", "request_id": "7088c2e8-2851-4514-b748-c40f64393eba", "path": "/evaluation/submit", "service": "moldesign-api"}
+2026-09-10T19:46:31.378319Z [debug    ] runtime_store_set              key=task_owner:26d15774-f84f-4b7c-8f13-fb215a34f395 ttl=86400
+2026-09-10T19:46:31.378319Z [debug    ] runtime_store_set              key=task_owner_ip:26d15774-f84f-4b7c-8f13-fb215a34f395 ttl=86400
+2026-09-10T19:46:31.379319Z [info     ] job de evaluación enviado      target=3PP0 task_id=26d15774-f84f-4b7c-8f13-fb215a34f395
+2026-09-10T19:46:31.380824Z [debug    ] runtime_store_set              key=job_status:26d15774-f84f-4b7c-8f13-fb215a34f395 ttl=86400
+{"status_code": 202, "elapsed_ms": 88.87, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:46:31.382398Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:46:31.400075Z", "query": "", "method": "GET", "request_id": "e164cc09-ea53-4004-a155-02a06aab6635", "path": "/evaluation/status/26d15774-f84f-4b7c-8f13-fb215a34f395", "service": "moldesign-api"}
+2026-09-10T19:46:31.403585Z [debug    ] runtime_store_get              hit=True key=task_owner:26d15774-f84f-4b7c-8f13-fb215a34f395
+2026-09-10T19:46:31.404116Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:26d15774-f84f-4b7c-8f13-fb215a34f395
+{"status_code": 200, "elapsed_ms": 6.29, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:46:31.407125Z", "service": "moldesign-api"}
+2026-09-10T19:46:31.447325Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:26d15774-f84f-4b7c-8f13-fb215a34f395
+2026-09-10T19:46:31.447325Z [debug    ] runtime_store_set              key=mol_owner_ip:feb0b9b8-9b23-474f-9a1a-54c3775a2bb2 ttl=86400
+2026-09-10T19:46:31.476505Z [error    ] pipeline de evaluación falló   error="name 'asyncio' is not defined" error_detail='(sin detail)' error_type=NameError molecule_id=feb0b9b8-9b23-474f-9a1a-54c3775a2bb2 task_id=26d15774-f84f-4b7c-8f13-fb215a34f395
+D:\moldesign-audit\bundle-copy\python\Lib\site-packages\structlog\_base.py:173: UserWarning: Remove `format_exc_info` from your processor chain if you want pretty exceptions.
+  event_dict = proc(self._logger, method_name, event_dict)
+2026-09-10T19:46:31.561713Z [error    ] Error en tarea DESKTOP         task_id=26d15774-f84f-4b7c-8f13-fb215a34f395
+Traceback (most recent call last):
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 1494, in _run_serialized_wrapper
+    result = await _run_full_evaluation_async(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 1324, in _run_full_evaluation_async
+    raise exc
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 368, in _run_full_evaluation_async
+    properties = await asyncio.to_thread(
+                       ^^^^^^^
+NameError: name 'asyncio' is not defined
+2026-09-10T19:46:32.018528Z [info     ] models_loaded_json             model_a=D:\moldesign-audit\bundle-copy\rescoring\artifacts\model_a_universal.json model_a_features=167 model_null=D:\moldesign-audit\bundle-copy\rescoring\artifacts\model_null.json model_null_features=8
+2026-09-10T19:46:32.025957Z [info     ] family_model_loaded            family=kinase
+2026-09-10T19:46:32.036682Z [info     ] family_model_loaded            family=protease
+2026-09-10T19:46:32.042200Z [info     ] family_model_loaded            family=gpcr
+2026-09-10T19:46:32.047233Z [info     ] family_model_loaded            family=nuclear_receptor
+2026-09-10T19:46:32.082109Z [info     ] family_model_loaded            family=soluble_enzyme
+2026-09-10T19:46:32.106233Z [info     ] classifier_loaded              path=D:\moldesign-audit\bundle-copy\rescoring\artifacts\classifier_binder.json
+2026-09-10T19:46:32.123340Z [info     ] applicability_domain_loaded    threshold=16.1556
+2026-09-10T19:46:32.124853Z [info     ] delta_distribution_loaded     
+2026-09-10T19:46:32.124853Z [info     ] training_report_loaded         version=unknown
+2026-09-10T19:46:32.125860Z [info     ] feature_means_ready            n_features=172
+D:\moldesign-audit\bundle-copy\rescoring\pose_selector\selector.py:144: UserWarning: [13:46:32] WARNING: C:\actions-runner\_work\xgboost\xgboost\src\c_api\c_api.cc:1509: Unknown file format: `xgb`. Using UBJSON (`ubj`) as a guess.
+  booster.load_model(self.model_path)
+2026-09-10T19:46:32.141398Z [info     ] pose_selector_loaded           meta=D:\moldesign-audit\bundle-copy\rescoring\artifacts\pose_selector_v06_meta.json model=D:\moldesign-audit\bundle-copy\rescoring\artifacts\pose_selector_v06.xgb
+2026-09-10T19:46:32.141398Z [info     ] rescoring_ready                has_ad=True has_delta_dist=True model_version=unknown
+{"loaded": true, "families": ["kinase", "protease", "gpcr", "nuclear_receptor", "soluble_enzyme"], "version": "unknown", "event": "rescoring_service_ready", "level": "info", "timestamp": "2026-09-10T19:46:32.142400Z", "service": "moldesign-api"}
+{"models": [], "event": "ModelManager precalentado en segundo plano", "level": "info", "timestamp": "2026-09-10T19:46:32.142400Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:46:34.409552Z", "query": "", "method": "GET", "request_id": "dd8417cb-10d4-4eff-9841-9d80cbc6cea3", "path": "/evaluation/status/26d15774-f84f-4b7c-8f13-fb215a34f395", "service": "moldesign-api"}
+2026-09-10T19:46:34.410554Z [debug    ] runtime_store_get              hit=True key=task_owner:26d15774-f84f-4b7c-8f13-fb215a34f395
+2026-09-10T19:46:34.410554Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:26d15774-f84f-4b7c-8f13-fb215a34f395
+2026-09-10T19:46:34.410554Z [debug    ] runtime_store_set              key=job_status:26d15774-f84f-4b7c-8f13-fb215a34f395 ttl=86400
+{"status_code": 200, "elapsed_ms": 1.7, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:46:34.410554Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:46:34.433157Z", "query": "", "method": "POST", "request_id": "545e1628-0950-4d8b-8a15-d66c1b735517", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"formula": "C29H26ClFN4O4S", "heavy_atoms": 40, "warnings": 1, "hash_prefix": "76003f22", "event": "SMILES v\u00e1lido", "level": "info", "timestamp": "2026-09-10T19:46:34.445097Z", "query": "", "method": "POST", "request_id": "545e1628-0950-4d8b-8a15-d66c1b735517", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"chain": "A", "excluded": {"03Q": 34}, "total_excluded": 34, "event": "HETATM excluidos de la preparaci\u00f3n del receptor", "level": "info", "timestamp": "2026-09-10T19:46:34.620383Z", "query": "", "method": "POST", "request_id": "545e1628-0950-4d8b-8a15-d66c1b735517", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"chain": "A", "atom_records": 2284, "hetatm_excluded": 34, "event": "PDB filtrado para preparaci\u00f3n", "level": "info", "timestamp": "2026-09-10T19:46:34.621381Z", "query": "", "method": "POST", "request_id": "545e1628-0950-4d8b-8a15-d66c1b735517", "path": "/evaluation/preflight", "service": "moldesign-api"}
+2026-09-10T19:46:34.652258Z [info     ] preflight_generado             blockers=0 fingerprint=sha256:4abe4ef2b4eda4d6 not_evaluated=4 target_pdb_id=3PP0 warnings=3
+{"status_code": 200, "elapsed_ms": 219.36, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:46:34.652258Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:46:34.654277Z", "query": "", "method": "POST", "request_id": "9a72a8c5-d9a6-4f7f-9244-08fc68fab945", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"formula": "C29H26ClFN4O4S", "heavy_atoms": 40, "warnings": 1, "hash_prefix": "76003f22", "event": "SMILES v\u00e1lido", "level": "info", "timestamp": "2026-09-10T19:46:34.659530Z", "query": "", "method": "POST", "request_id": "9a72a8c5-d9a6-4f7f-9244-08fc68fab945", "path": "/evaluation/submit", "service": "moldesign-api"}
+2026-09-10T19:46:34.666042Z [debug    ] runtime_store_set              key=task_owner:bd92ebd3-a752-4771-8fb2-4c4a64f2ddc7 ttl=86400
+2026-09-10T19:46:34.666042Z [debug    ] runtime_store_set              key=task_owner_ip:bd92ebd3-a752-4771-8fb2-4c4a64f2ddc7 ttl=86400
+2026-09-10T19:46:34.666042Z [info     ] job de evaluación enviado      target=3PP0 task_id=bd92ebd3-a752-4771-8fb2-4c4a64f2ddc7
+2026-09-10T19:46:34.667550Z [debug    ] runtime_store_set              key=job_status:bd92ebd3-a752-4771-8fb2-4c4a64f2ddc7 ttl=86400
+{"status_code": 202, "elapsed_ms": 13.0, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:46:34.667550Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:46:34.671079Z", "query": "", "method": "GET", "request_id": "f3269ec9-e304-4d27-a360-2a756c84d562", "path": "/evaluation/status/bd92ebd3-a752-4771-8fb2-4c4a64f2ddc7", "service": "moldesign-api"}
+2026-09-10T19:46:34.671079Z [debug    ] runtime_store_get              hit=True key=task_owner:bd92ebd3-a752-4771-8fb2-4c4a64f2ddc7
+2026-09-10T19:46:34.672082Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:bd92ebd3-a752-4771-8fb2-4c4a64f2ddc7
+{"status_code": 200, "elapsed_ms": 2.03, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:46:34.672082Z", "service": "moldesign-api"}
+2026-09-10T19:46:34.683631Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:bd92ebd3-a752-4771-8fb2-4c4a64f2ddc7
+2026-09-10T19:46:34.684236Z [debug    ] runtime_store_set              key=mol_owner_ip:feb0b9b8-9b23-474f-9a1a-54c3775a2bb2 ttl=86400
+2026-09-10T19:46:34.686244Z [error    ] pipeline de evaluación falló   error="name 'asyncio' is not defined" error_detail='(sin detail)' error_type=NameError molecule_id=feb0b9b8-9b23-474f-9a1a-54c3775a2bb2 task_id=bd92ebd3-a752-4771-8fb2-4c4a64f2ddc7
+2026-09-10T19:46:34.708666Z [error    ] Error en tarea DESKTOP         task_id=bd92ebd3-a752-4771-8fb2-4c4a64f2ddc7
+Traceback (most recent call last):
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 1494, in _run_serialized_wrapper
+    result = await _run_full_evaluation_async(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 1324, in _run_full_evaluation_async
+    raise exc
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 368, in _run_full_evaluation_async
+    properties = await asyncio.to_thread(
+                       ^^^^^^^
+NameError: name 'asyncio' is not defined
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:46:37.675131Z", "query": "", "method": "GET", "request_id": "5ef9f1f5-28cb-4b03-9d78-39cdc5bca4cf", "path": "/evaluation/status/bd92ebd3-a752-4771-8fb2-4c4a64f2ddc7", "service": "moldesign-api"}
+2026-09-10T19:46:37.675131Z [debug    ] runtime_store_get              hit=True key=task_owner:bd92ebd3-a752-4771-8fb2-4c4a64f2ddc7
+2026-09-10T19:46:37.676137Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:bd92ebd3-a752-4771-8fb2-4c4a64f2ddc7
+2026-09-10T19:46:37.676137Z [debug    ] runtime_store_set              key=job_status:bd92ebd3-a752-4771-8fb2-4c4a64f2ddc7 ttl=86400
+{"status_code": 200, "elapsed_ms": 1.46, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:46:37.676137Z", "service": "moldesign-api"}
+2026-09-10 13:48:35 [info     ] sascorer cargado desde D:\moldesign-audit\bundle-copy\python\Lib\site-packages\rdkit\Contrib\SA_Score
+INFO:     Started server process [13948]
+INFO:     Waiting for application startup.
+{"environment": "production", "log_level": "INFO", "event": "sistema de logging inicializado", "level": "info", "timestamp": "2026-09-10T19:48:36.156501Z", "service": "moldesign-api"}
+{"environment": "production", "event": "iniciando aplicacion MolDesign", "level": "info", "timestamp": "2026-09-10T19:48:36.156501Z", "service": "moldesign-api"}
+{"app_mode": "DESKTOP", "local_data_dir": "C:\\Users\\Johan Amezcua\\MolDesign\\data", "storage_backend": "SQLite + local_disk", "queue_backend": "local_dispatcher", "event": "modo de ejecuci\u00f3n resuelto", "level": "info", "timestamp": "2026-09-10T19:48:36.156501Z", "service": "moldesign-api"}
+{"db_path": "C:\\Users\\Johan Amezcua\\MolDesign\\data\\moldesign_local.db", "event": "Iniciando verificaci\u00f3n de esquema SQLite", "level": "info", "timestamp": "2026-09-10T19:48:36.156501Z", "service": "moldesign-api"}
+{"event": "Migraci\u00f3n de esquema SQLite completada exitosamente", "level": "info", "timestamp": "2026-09-10T19:48:36.165188Z", "service": "moldesign-api"}
+{"db_path": "C:\\Users\\Johan Amezcua\\MolDesign\\data\\moldesign_local.db", "event": "engine SQLite creado", "level": "info", "timestamp": "2026-09-10T19:48:36.198232Z", "service": "moldesign-api"}
+{"event": "tablas creadas o verificadas y versi\u00f3n de esquema sellada en la base de datos", "level": "info", "timestamp": "2026-09-10T19:48:36.217630Z", "service": "moldesign-api"}
+{"id": "local", "name": "MolChat Local", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:48:36.351478Z", "service": "moldesign-api"}
+{"id": "ollama", "name": "Ollama", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:48:36.351478Z", "service": "moldesign-api"}
+{"id": "claude", "name": "Claude (Anthropic)", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:48:36.351478Z", "service": "moldesign-api"}
+{"id": "gemini", "name": "Gemini (Google)", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:48:36.351478Z", "service": "moldesign-api"}
+{"id": "openai", "name": "Cloud (OpenAI/Groq)", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:48:36.351478Z", "service": "moldesign-api"}
+{"event": "providers_and_tools_bootstrapped", "level": "info", "timestamp": "2026-09-10T19:48:36.367238Z", "service": "moldesign-api"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:53872 (Press CTRL+C to quit)
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:48:36.594698Z", "request_id": "ee39ff8b-6353-4985-8d41-c33be062f441", "method": "GET", "query": "", "path": "/health", "service": "moldesign-api"}
+{"version": 4, "errors": ["gnn_v2_cl:artifact ausente:gnn_v2_cl_best.pt", "gnn_v2_cl:metadata ausente:contrastive_v31_pretrained.pt"], "event": "model_manifest_integrity_failed", "level": "error", "timestamp": "2026-09-10T19:48:36.675522Z", "request_id": "ee39ff8b-6353-4985-8d41-c33be062f441", "method": "GET", "query": "", "path": "/health", "service": "moldesign-api"}
+{"status_code": 200, "elapsed_ms": 81.02, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:48:36.675522Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:48:36.693364Z", "request_id": "a0c9a1a6-ed32-4ac0-ba51-59d9136967f1", "method": "GET", "query": "", "path": "/openapi.json", "service": "moldesign-api"}
+{"status_code": 200, "elapsed_ms": 771.35, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:48:37.465087Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:48:37.470205Z", "request_id": "56d93194-f6ef-4491-bc1d-7215348e2b40", "method": "POST", "query": "", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"formula": "C12H16N2O3", "heavy_atoms": 17, "warnings": 0, "hash_prefix": "58c49aaa", "event": "SMILES v\u00e1lido", "level": "info", "timestamp": "2026-09-10T19:48:37.508777Z", "request_id": "56d93194-f6ef-4491-bc1d-7215348e2b40", "method": "POST", "query": "", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"chain": "A", "excluded": {"CA": 5, "NFH": 22, "ZN": 2}, "total_excluded": 29, "event": "HETATM excluidos de la preparaci\u00f3n del receptor", "level": "info", "timestamp": "2026-09-10T19:48:38.438586Z", "request_id": "56d93194-f6ef-4491-bc1d-7215348e2b40", "method": "POST", "query": "", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"chain": "A", "atom_records": 1271, "hetatm_excluded": 29, "event": "PDB filtrado para preparaci\u00f3n", "level": "info", "timestamp": "2026-09-10T19:48:38.438586Z", "request_id": "56d93194-f6ef-4491-bc1d-7215348e2b40", "method": "POST", "query": "", "path": "/evaluation/preflight", "service": "moldesign-api"}
+D:\moldesign-audit\bundle-copy\python\Lib\site-packages\prody\utilities\misctools.py:4: DeprecationWarning: `np.chararray` is deprecated and will be removed from the main namespace in the future. Use an array with a string or bytes dtype instead.
+  from numpy import unique, linalg, diag, sqrt, dot, chararray, divide, zeros_like, zeros, allclose, ceil, abs
+2026-09-10T19:48:41.737746Z [info     ] preflight_generado             blockers=0 fingerprint=sha256:bb45c8e5904d8744 not_evaluated=5 target_pdb_id=1GKC warnings=4
+{"status_code": 200, "elapsed_ms": 4270.74, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:48:41.741266Z", "service": "moldesign-api"}
+{"entries": 944, "event": "PAINS catalog preloaded", "level": "info", "timestamp": "2026-09-10T19:48:41.811050Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:48:41.812054Z", "request_id": "0e1c048b-a17b-4988-b358-2093a823a23c", "method": "POST", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"formula": "C12H16N2O3", "heavy_atoms": 17, "warnings": 0, "hash_prefix": "58c49aaa", "event": "SMILES v\u00e1lido", "level": "info", "timestamp": "2026-09-10T19:48:41.824193Z", "request_id": "0e1c048b-a17b-4988-b358-2093a823a23c", "method": "POST", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+2026-09-10T19:48:41.887252Z [debug    ] runtime_store_set              key=task_owner:01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc ttl=86400
+2026-09-10T19:48:41.888253Z [debug    ] runtime_store_set              key=task_owner_ip:01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc ttl=86400
+2026-09-10T19:48:41.888253Z [info     ] job de evaluación enviado      target=1GKC task_id=01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc
+2026-09-10T19:48:41.893252Z [debug    ] runtime_store_set              key=job_status:01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc ttl=86400
+{"status_code": 202, "elapsed_ms": 81.34, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:48:41.893252Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:48:41.916696Z", "request_id": "04705b66-7dca-4322-a300-7f2102228edf", "method": "GET", "query": "", "path": "/evaluation/status/01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc", "service": "moldesign-api"}
+2026-09-10T19:48:41.918697Z [debug    ] runtime_store_get              hit=True key=task_owner:01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc
+2026-09-10T19:48:41.918697Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc
+{"status_code": 200, "elapsed_ms": 7.04, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:48:41.924241Z", "service": "moldesign-api"}
+2026-09-10T19:48:41.948757Z [info     ] ingesta_iniciada               pdb_id=1GKC
+2026-09-10T19:48:41.995093Z [info     ] buscando cofactores en RCSB PDB pdb_id=1GKC url=https://data.rcsb.org/rest/v1/core/entry/1GKC
+2026-09-10T19:48:42.552290Z [info     ] models_loaded_json             model_a=D:\moldesign-audit\bundle-copy\rescoring\artifacts\model_a_universal.json model_a_features=167 model_null=D:\moldesign-audit\bundle-copy\rescoring\artifacts\model_null.json model_null_features=8
+2026-09-10T19:48:42.558843Z [info     ] family_model_loaded            family=kinase
+2026-09-10T19:48:42.574479Z [info     ] family_model_loaded            family=protease
+2026-09-10T19:48:42.577993Z [info     ] family_model_loaded            family=gpcr
+2026-09-10T19:48:42.585024Z [info     ] family_model_loaded            family=nuclear_receptor
+2026-09-10T19:48:42.616629Z [info     ] family_model_loaded            family=soluble_enzyme
+2026-09-10T19:48:42.638314Z [info     ] classifier_loaded              path=D:\moldesign-audit\bundle-copy\rescoring\artifacts\classifier_binder.json
+2026-09-10T19:48:42.657116Z [info     ] applicability_domain_loaded    threshold=16.1556
+2026-09-10T19:48:42.658638Z [info     ] delta_distribution_loaded     
+2026-09-10T19:48:42.658638Z [info     ] training_report_loaded         version=unknown
+2026-09-10T19:48:42.658638Z [info     ] feature_means_ready            n_features=172
+D:\moldesign-audit\bundle-copy\rescoring\pose_selector\selector.py:144: UserWarning: [13:48:42] WARNING: C:\actions-runner\_work\xgboost\xgboost\src\c_api\c_api.cc:1509: Unknown file format: `xgb`. Using UBJSON (`ubj`) as a guess.
+  booster.load_model(self.model_path)
+2026-09-10T19:48:42.677176Z [info     ] pose_selector_loaded           meta=D:\moldesign-audit\bundle-copy\rescoring\artifacts\pose_selector_v06_meta.json model=D:\moldesign-audit\bundle-copy\rescoring\artifacts\pose_selector_v06.xgb
+2026-09-10T19:48:42.678178Z [info     ] rescoring_ready                has_ad=True has_delta_dist=True model_version=unknown
+{"loaded": true, "families": ["kinase", "protease", "gpcr", "nuclear_receptor", "soluble_enzyme"], "version": "unknown", "event": "rescoring_service_ready", "level": "info", "timestamp": "2026-09-10T19:48:42.678178Z", "service": "moldesign-api"}
+{"models": [], "event": "ModelManager precalentado en segundo plano", "level": "info", "timestamp": "2026-09-10T19:48:42.890047Z", "service": "moldesign-api"}
+2026-09-10T19:48:43.146725Z [info     ] cofactores a conservar         pdb_id=1GKC whitelist=[]
+{"pdb_id": "1GKC", "existia": false, "cadenas_previas": [], "cadenas_pedidas": ["A"], "event": "asegurando_pdb_para_rescoring", "level": "info", "timestamp": "2026-09-10T19:48:43.370072Z", "request_id": "0e1c048b-a17b-4988-b358-2093a823a23c", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "58c49aaa678e19a05528e355369179fa95fc6ce047f7177f51cdccb12533f29e", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"chain": "A", "excluded": {"CA": 5, "NFH": 22, "ZN": 2}, "total_excluded": 29, "event": "HETATM excluidos de la preparaci\u00f3n del receptor", "level": "info", "timestamp": "2026-09-10T19:48:43.377391Z", "request_id": "0e1c048b-a17b-4988-b358-2093a823a23c", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "58c49aaa678e19a05528e355369179fa95fc6ce047f7177f51cdccb12533f29e", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"chain": "A", "atom_records": 1271, "hetatm_excluded": 29, "event": "PDB filtrado para preparaci\u00f3n", "level": "info", "timestamp": "2026-09-10T19:48:43.378651Z", "request_id": "0e1c048b-a17b-4988-b358-2093a823a23c", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "58c49aaa678e19a05528e355369179fa95fc6ce047f7177f51cdccb12533f29e", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"path": "C:\\Users\\Johan Amezcua\\MolDesign\\data\\targets\\1GKC.pdb", "event": "pdb_persisted_for_rescoring", "level": "info", "timestamp": "2026-09-10T19:48:43.378651Z", "request_id": "0e1c048b-a17b-4988-b358-2093a823a23c", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "58c49aaa678e19a05528e355369179fa95fc6ce047f7177f51cdccb12533f29e", "query": "", "service": "moldesign-api"}
+{"chain": "A", "excluded": {"CA": 5, "NFH": 22, "ZN": 2}, "total_excluded": 29, "event": "HETATM excluidos de la preparaci\u00f3n del receptor", "level": "info", "timestamp": "2026-09-10T19:48:43.389296Z", "request_id": "0e1c048b-a17b-4988-b358-2093a823a23c", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "58c49aaa678e19a05528e355369179fa95fc6ce047f7177f51cdccb12533f29e", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"chain": "A", "atom_records": 1271, "hetatm_excluded": 29, "event": "PDB filtrado para preparaci\u00f3n", "level": "info", "timestamp": "2026-09-10T19:48:43.390299Z", "request_id": "0e1c048b-a17b-4988-b358-2093a823a23c", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "58c49aaa678e19a05528e355369179fa95fc6ce047f7177f51cdccb12533f29e", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:48:44.931781Z", "request_id": "f72d5190-ce9a-4710-ae3a-d25f3c191674", "method": "GET", "query": "", "path": "/evaluation/status/01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc", "service": "moldesign-api"}
+2026-09-10T19:48:44.933289Z [debug    ] runtime_store_get              hit=True key=task_owner:01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc
+2026-09-10T19:48:44.933289Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc
+{"status_code": 200, "elapsed_ms": 1.62, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:48:44.933289Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:48:47.957184Z", "request_id": "b3de3467-1dfe-4786-8a37-805aad4ae826", "method": "GET", "query": "", "path": "/evaluation/status/01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc", "service": "moldesign-api"}
+2026-09-10T19:48:47.958187Z [debug    ] runtime_store_get              hit=True key=task_owner:01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc
+2026-09-10T19:48:47.958187Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc
+{"status_code": 200, "elapsed_ms": 1.82, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:48:47.959448Z", "service": "moldesign-api"}
+{"pdb_id": "1GKC", "chain": "A", "pdbqt_atoms": 1511, "has_gasteiger_charges": true, "event": "receptor PDBQT validado", "level": "info", "timestamp": "2026-09-10T19:48:48.945106Z", "request_id": "0e1c048b-a17b-4988-b358-2093a823a23c", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "58c49aaa678e19a05528e355369179fa95fc6ce047f7177f51cdccb12533f29e", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+2026-09-10T19:48:48.947249Z [debug    ] archivo guardado en disco local object_name=targets/1GKC/prepared.pdbqt size=122391
+{"pdb_id": "1GKC", "chain": "A", "multicadena": false, "path": "targets/1GKC/prepared.pdbqt", "event": "receptor preparado para Vina", "level": "info", "timestamp": "2026-09-10T19:48:48.949247Z", "request_id": "0e1c048b-a17b-4988-b358-2093a823a23c", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "58c49aaa678e19a05528e355369179fa95fc6ce047f7177f51cdccb12533f29e", "query": "", "service": "moldesign-api"}
+2026-09-10T19:48:48.970100Z [info     ] ingesta_completada             center=(65.84, 30.71, 117.75) hotspots_count=15 pdb_id=1GKC
+2026-09-10T19:48:48.971108Z [info     ] target_auto_ingested           pdb_id=1GKC
+2026-09-10T19:48:48.988699Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc
+2026-09-10T19:48:48.988699Z [debug    ] runtime_store_set              key=mol_owner_ip:ed192f01-1f36-43dd-9486-d9e035e611f4 ttl=86400
+2026-09-10T19:48:49.005110Z [error    ] pipeline de evaluación falló   error="name 'asyncio' is not defined" error_detail='(sin detail)' error_type=NameError molecule_id=ed192f01-1f36-43dd-9486-d9e035e611f4 task_id=01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc
+D:\moldesign-audit\bundle-copy\python\Lib\site-packages\structlog\_base.py:173: UserWarning: Remove `format_exc_info` from your processor chain if you want pretty exceptions.
+  event_dict = proc(self._logger, method_name, event_dict)
+2026-09-10T19:48:49.207875Z [error    ] Error en tarea DESKTOP         task_id=01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc
+Traceback (most recent call last):
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 1494, in _run_serialized_wrapper
+    result = await _run_full_evaluation_async(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 1324, in _run_full_evaluation_async
+    raise exc
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 368, in _run_full_evaluation_async
+    properties = await asyncio.to_thread(
+                       ^^^^^^^
+NameError: name 'asyncio' is not defined
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:48:50.964360Z", "request_id": "2229dbd7-6f1f-4b8b-88dc-bc3fbbf0c437", "method": "GET", "query": "", "path": "/evaluation/status/01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc", "service": "moldesign-api"}
+2026-09-10T19:48:50.964360Z [debug    ] runtime_store_get              hit=True key=task_owner:01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc
+2026-09-10T19:48:50.965476Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc
+2026-09-10T19:48:50.965476Z [debug    ] runtime_store_set              key=job_status:01c367da-6b03-4ae7-a4f7-bb74b7ca0ecc ttl=86400
+{"status_code": 200, "elapsed_ms": 1.9, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:48:50.965476Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:48:50.968991Z", "request_id": "9ca75082-edc9-4f5b-aae7-e200b8227819", "method": "POST", "query": "", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"formula": "C20H28N2O5", "heavy_atoms": 27, "warnings": 1, "hash_prefix": "f3113ed5", "event": "SMILES v\u00e1lido", "level": "info", "timestamp": "2026-09-10T19:48:50.983592Z", "request_id": "9ca75082-edc9-4f5b-aae7-e200b8227819", "method": "POST", "query": "", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"chain": "A", "excluded": {"ZN": 1, "LPR": 29, "CL": 2}, "total_excluded": 32, "event": "HETATM excluidos de la preparaci\u00f3n del receptor", "level": "info", "timestamp": "2026-09-10T19:48:51.198752Z", "request_id": "9ca75082-edc9-4f5b-aae7-e200b8227819", "method": "POST", "query": "", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"chain": "A", "atom_records": 4660, "hetatm_excluded": 32, "event": "PDB filtrado para preparaci\u00f3n", "level": "info", "timestamp": "2026-09-10T19:48:51.200261Z", "request_id": "9ca75082-edc9-4f5b-aae7-e200b8227819", "method": "POST", "query": "", "path": "/evaluation/preflight", "service": "moldesign-api"}
+2026-09-10T19:48:51.296224Z [info     ] preflight_generado             blockers=0 fingerprint=sha256:4e6d82e5d738f853 not_evaluated=5 target_pdb_id=1O86 warnings=5
+{"status_code": 200, "elapsed_ms": 327.77, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:48:51.297224Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:48:51.318740Z", "request_id": "54c1ca79-0945-4079-bbd9-1a8d6df76720", "method": "POST", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"formula": "C20H28N2O5", "heavy_atoms": 27, "warnings": 1, "hash_prefix": "f3113ed5", "event": "SMILES v\u00e1lido", "level": "info", "timestamp": "2026-09-10T19:48:51.324269Z", "request_id": "54c1ca79-0945-4079-bbd9-1a8d6df76720", "method": "POST", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+2026-09-10T19:48:51.332311Z [debug    ] runtime_store_set              key=task_owner:b80f9911-ec8a-4e79-9708-fd0f578ad224 ttl=86400
+2026-09-10T19:48:51.333310Z [debug    ] runtime_store_set              key=task_owner_ip:b80f9911-ec8a-4e79-9708-fd0f578ad224 ttl=86400
+2026-09-10T19:48:51.333310Z [info     ] job de evaluación enviado      target=1O86 task_id=b80f9911-ec8a-4e79-9708-fd0f578ad224
+2026-09-10T19:48:51.333310Z [debug    ] runtime_store_set              key=job_status:b80f9911-ec8a-4e79-9708-fd0f578ad224 ttl=86400
+{"status_code": 202, "elapsed_ms": 15.15, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:48:51.334410Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:48:51.350217Z", "request_id": "7cb339fd-9e84-49a7-8921-f556c882bacb", "method": "GET", "query": "", "path": "/evaluation/status/b80f9911-ec8a-4e79-9708-fd0f578ad224", "service": "moldesign-api"}
+2026-09-10T19:48:51.351726Z [debug    ] runtime_store_get              hit=True key=task_owner:b80f9911-ec8a-4e79-9708-fd0f578ad224
+2026-09-10T19:48:51.351726Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:b80f9911-ec8a-4e79-9708-fd0f578ad224
+{"status_code": 200, "elapsed_ms": 2.03, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:48:51.351726Z", "service": "moldesign-api"}
+2026-09-10T19:48:51.357328Z [info     ] ingesta_iniciada               pdb_id=1O86
+2026-09-10T19:48:51.452523Z [info     ] buscando cofactores en RCSB PDB pdb_id=1O86 url=https://data.rcsb.org/rest/v1/core/entry/1O86
+2026-09-10T19:48:52.067824Z [info     ] cofactores a conservar         pdb_id=1O86 whitelist=[]
+{"pdb_id": "1O86", "existia": false, "cadenas_previas": [], "cadenas_pedidas": ["A"], "event": "asegurando_pdb_para_rescoring", "level": "info", "timestamp": "2026-09-10T19:48:52.321060Z", "request_id": "54c1ca79-0945-4079-bbd9-1a8d6df76720", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "f3113ed5246a99f490161a44411870730164c0fb94f51362d0333aff49148ca6", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"chain": "A", "excluded": {"ZN": 1, "LPR": 29, "CL": 2}, "total_excluded": 32, "event": "HETATM excluidos de la preparaci\u00f3n del receptor", "level": "info", "timestamp": "2026-09-10T19:48:52.331589Z", "request_id": "54c1ca79-0945-4079-bbd9-1a8d6df76720", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "f3113ed5246a99f490161a44411870730164c0fb94f51362d0333aff49148ca6", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"chain": "A", "atom_records": 4660, "hetatm_excluded": 32, "event": "PDB filtrado para preparaci\u00f3n", "level": "info", "timestamp": "2026-09-10T19:48:52.331589Z", "request_id": "54c1ca79-0945-4079-bbd9-1a8d6df76720", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "f3113ed5246a99f490161a44411870730164c0fb94f51362d0333aff49148ca6", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"path": "C:\\Users\\Johan Amezcua\\MolDesign\\data\\targets\\1O86.pdb", "event": "pdb_persisted_for_rescoring", "level": "info", "timestamp": "2026-09-10T19:48:52.333587Z", "request_id": "54c1ca79-0945-4079-bbd9-1a8d6df76720", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "f3113ed5246a99f490161a44411870730164c0fb94f51362d0333aff49148ca6", "query": "", "service": "moldesign-api"}
+{"chain": "A", "excluded": {"ZN": 1, "LPR": 29, "CL": 2}, "total_excluded": 32, "event": "HETATM excluidos de la preparaci\u00f3n del receptor", "level": "info", "timestamp": "2026-09-10T19:48:52.350082Z", "request_id": "54c1ca79-0945-4079-bbd9-1a8d6df76720", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "f3113ed5246a99f490161a44411870730164c0fb94f51362d0333aff49148ca6", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"chain": "A", "atom_records": 4660, "hetatm_excluded": 32, "event": "PDB filtrado para preparaci\u00f3n", "level": "info", "timestamp": "2026-09-10T19:48:52.351592Z", "request_id": "54c1ca79-0945-4079-bbd9-1a8d6df76720", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "f3113ed5246a99f490161a44411870730164c0fb94f51362d0333aff49148ca6", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:48:54.377611Z", "request_id": "d6a1d6a9-e59e-4a90-8825-2d28ce975c50", "method": "GET", "query": "", "path": "/evaluation/status/b80f9911-ec8a-4e79-9708-fd0f578ad224", "service": "moldesign-api"}
+2026-09-10T19:48:54.378619Z [debug    ] runtime_store_get              hit=True key=task_owner:b80f9911-ec8a-4e79-9708-fd0f578ad224
+2026-09-10T19:48:54.378619Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:b80f9911-ec8a-4e79-9708-fd0f578ad224
+{"status_code": 200, "elapsed_ms": 1.2, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:48:54.378619Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:48:57.405601Z", "request_id": "4fcb8815-ef8f-4665-b270-aed0946e9052", "method": "GET", "query": "", "path": "/evaluation/status/b80f9911-ec8a-4e79-9708-fd0f578ad224", "service": "moldesign-api"}
+2026-09-10T19:48:57.406611Z [debug    ] runtime_store_get              hit=True key=task_owner:b80f9911-ec8a-4e79-9708-fd0f578ad224
+2026-09-10T19:48:57.406611Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:b80f9911-ec8a-4e79-9708-fd0f578ad224
+{"status_code": 200, "elapsed_ms": 1.07, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:48:57.406611Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:49:00.408754Z", "request_id": "de033793-3fd8-4bba-8622-ed5dc1f1943e", "method": "GET", "query": "", "path": "/evaluation/status/b80f9911-ec8a-4e79-9708-fd0f578ad224", "service": "moldesign-api"}
+2026-09-10T19:49:00.410264Z [debug    ] runtime_store_get              hit=True key=task_owner:b80f9911-ec8a-4e79-9708-fd0f578ad224
+2026-09-10T19:49:00.413283Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:b80f9911-ec8a-4e79-9708-fd0f578ad224
+{"status_code": 200, "elapsed_ms": 6.23, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:49:00.415308Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:49:03.429305Z", "request_id": "af8aa910-d996-4243-99ac-d5fc779f6714", "method": "GET", "query": "", "path": "/evaluation/status/b80f9911-ec8a-4e79-9708-fd0f578ad224", "service": "moldesign-api"}
+2026-09-10T19:49:03.432314Z [debug    ] runtime_store_get              hit=True key=task_owner:b80f9911-ec8a-4e79-9708-fd0f578ad224
+2026-09-10T19:49:03.433312Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:b80f9911-ec8a-4e79-9708-fd0f578ad224
+{"status_code": 200, "elapsed_ms": 4.08, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:49:03.433312Z", "service": "moldesign-api"}
+{"pdb_id": "1O86", "chain": "A", "pdbqt_atoms": 5614, "has_gasteiger_charges": true, "event": "receptor PDBQT validado", "level": "info", "timestamp": "2026-09-10T19:49:05.745058Z", "request_id": "54c1ca79-0945-4079-bbd9-1a8d6df76720", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "f3113ed5246a99f490161a44411870730164c0fb94f51362d0333aff49148ca6", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+2026-09-10T19:49:05.746064Z [debug    ] archivo guardado en disco local object_name=targets/1O86/prepared.pdbqt size=454734
+{"pdb_id": "1O86", "chain": "A", "multicadena": false, "path": "targets/1O86/prepared.pdbqt", "event": "receptor preparado para Vina", "level": "info", "timestamp": "2026-09-10T19:49:05.748577Z", "request_id": "54c1ca79-0945-4079-bbd9-1a8d6df76720", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "f3113ed5246a99f490161a44411870730164c0fb94f51362d0333aff49148ca6", "query": "", "service": "moldesign-api"}
+2026-09-10T19:49:05.761611Z [info     ] ingesta_completada             center=(41.01, 34.33, 46.44) hotspots_count=15 pdb_id=1O86
+2026-09-10T19:49:05.761611Z [info     ] target_auto_ingested           pdb_id=1O86
+2026-09-10T19:49:05.776403Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:b80f9911-ec8a-4e79-9708-fd0f578ad224
+2026-09-10T19:49:05.776403Z [debug    ] runtime_store_set              key=mol_owner_ip:92e1cbe0-5d3f-4b1f-95e7-5b079ccfeb6c ttl=86400
+2026-09-10T19:49:05.784525Z [error    ] pipeline de evaluación falló   error="name 'asyncio' is not defined" error_detail='(sin detail)' error_type=NameError molecule_id=92e1cbe0-5d3f-4b1f-95e7-5b079ccfeb6c task_id=b80f9911-ec8a-4e79-9708-fd0f578ad224
+2026-09-10T19:49:05.808141Z [error    ] Error en tarea DESKTOP         task_id=b80f9911-ec8a-4e79-9708-fd0f578ad224
+Traceback (most recent call last):
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 1494, in _run_serialized_wrapper
+    result = await _run_full_evaluation_async(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 1324, in _run_full_evaluation_async
+    raise exc
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 368, in _run_full_evaluation_async
+    properties = await asyncio.to_thread(
+                       ^^^^^^^
+NameError: name 'asyncio' is not defined
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:49:06.435588Z", "request_id": "799d1baf-5c83-46cc-a758-ac30aa57bb99", "method": "GET", "query": "", "path": "/evaluation/status/b80f9911-ec8a-4e79-9708-fd0f578ad224", "service": "moldesign-api"}
+2026-09-10T19:49:06.436604Z [debug    ] runtime_store_get              hit=True key=task_owner:b80f9911-ec8a-4e79-9708-fd0f578ad224
+2026-09-10T19:49:06.436604Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:b80f9911-ec8a-4e79-9708-fd0f578ad224
+2026-09-10T19:49:06.436604Z [debug    ] runtime_store_set              key=job_status:b80f9911-ec8a-4e79-9708-fd0f578ad224 ttl=86400
+{"status_code": 200, "elapsed_ms": 1.94, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:49:06.438111Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:49:06.442635Z", "request_id": "05d5829a-e0bd-4df1-8d1b-22cecbe9523c", "method": "POST", "query": "", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"formula": "C7H8N2O3S", "heavy_atoms": 13, "warnings": 0, "hash_prefix": "9761bbd5", "event": "SMILES v\u00e1lido", "level": "info", "timestamp": "2026-09-10T19:49:06.453335Z", "request_id": "05d5829a-e0bd-4df1-8d1b-22cecbe9523c", "method": "POST", "query": "", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"chain": "A", "excluded": {"ZN": 1, "AZM": 13}, "total_excluded": 14, "event": "HETATM excluidos de la preparaci\u00f3n del receptor", "level": "info", "timestamp": "2026-09-10T19:49:06.660362Z", "request_id": "05d5829a-e0bd-4df1-8d1b-22cecbe9523c", "method": "POST", "query": "", "path": "/evaluation/preflight", "service": "moldesign-api"}
+{"chain": "A", "atom_records": 2050, "hetatm_excluded": 14, "event": "PDB filtrado para preparaci\u00f3n", "level": "info", "timestamp": "2026-09-10T19:49:06.660362Z", "request_id": "05d5829a-e0bd-4df1-8d1b-22cecbe9523c", "method": "POST", "query": "", "path": "/evaluation/preflight", "service": "moldesign-api"}
+2026-09-10T19:49:06.714872Z [info     ] preflight_generado             blockers=0 fingerprint=sha256:f274fd5672accf36 not_evaluated=5 target_pdb_id=3DC3 warnings=4
+{"status_code": 200, "elapsed_ms": 273.51, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:49:06.715911Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:49:06.717910Z", "request_id": "fc6d0d9e-d8a6-4737-80dc-24e34ca96263", "method": "POST", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"formula": "C7H8N2O3S", "heavy_atoms": 13, "warnings": 0, "hash_prefix": "9761bbd5", "event": "SMILES v\u00e1lido", "level": "info", "timestamp": "2026-09-10T19:49:06.724057Z", "request_id": "fc6d0d9e-d8a6-4737-80dc-24e34ca96263", "method": "POST", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+2026-09-10T19:49:06.730569Z [debug    ] runtime_store_set              key=task_owner:d3ad4e7e-a219-425b-b877-358f621791f2 ttl=86400
+2026-09-10T19:49:06.730569Z [debug    ] runtime_store_set              key=task_owner_ip:d3ad4e7e-a219-425b-b877-358f621791f2 ttl=86400
+2026-09-10T19:49:06.730569Z [info     ] job de evaluación enviado      target=3DC3 task_id=d3ad4e7e-a219-425b-b877-358f621791f2
+2026-09-10T19:49:06.731578Z [debug    ] runtime_store_set              key=job_status:d3ad4e7e-a219-425b-b877-358f621791f2 ttl=86400
+{"status_code": 202, "elapsed_ms": 13.67, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:49:06.731578Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:49:06.744336Z", "request_id": "b5e10020-5308-4525-80c8-d2e22baf6f68", "method": "GET", "query": "", "path": "/evaluation/status/d3ad4e7e-a219-425b-b877-358f621791f2", "service": "moldesign-api"}
+2026-09-10T19:49:06.745345Z [debug    ] runtime_store_get              hit=True key=task_owner:d3ad4e7e-a219-425b-b877-358f621791f2
+2026-09-10T19:49:06.746344Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:d3ad4e7e-a219-425b-b877-358f621791f2
+{"status_code": 200, "elapsed_ms": 1.97, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:49:06.746344Z", "service": "moldesign-api"}
+2026-09-10T19:49:06.750342Z [info     ] ingesta_iniciada               pdb_id=3DC3
+2026-09-10T19:49:06.773431Z [info     ] buscando cofactores en RCSB PDB pdb_id=3DC3 url=https://data.rcsb.org/rest/v1/core/entry/3DC3
+2026-09-10T19:49:07.337064Z [info     ] cofactores a conservar         pdb_id=3DC3 whitelist=[]
+{"pdb_id": "3DC3", "existia": false, "cadenas_previas": [], "cadenas_pedidas": ["A"], "event": "asegurando_pdb_para_rescoring", "level": "info", "timestamp": "2026-09-10T19:49:07.516497Z", "request_id": "fc6d0d9e-d8a6-4737-80dc-24e34ca96263", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "9761bbd56d38a0196fb3313ad396d550159d9cc02fa6fd0ee3fcacc39ae5959f", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"chain": "A", "excluded": {"ZN": 1, "AZM": 13}, "total_excluded": 14, "event": "HETATM excluidos de la preparaci\u00f3n del receptor", "level": "info", "timestamp": "2026-09-10T19:49:07.525593Z", "request_id": "fc6d0d9e-d8a6-4737-80dc-24e34ca96263", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "9761bbd56d38a0196fb3313ad396d550159d9cc02fa6fd0ee3fcacc39ae5959f", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"chain": "A", "atom_records": 2050, "hetatm_excluded": 14, "event": "PDB filtrado para preparaci\u00f3n", "level": "info", "timestamp": "2026-09-10T19:49:07.527566Z", "request_id": "fc6d0d9e-d8a6-4737-80dc-24e34ca96263", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "9761bbd56d38a0196fb3313ad396d550159d9cc02fa6fd0ee3fcacc39ae5959f", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"path": "C:\\Users\\Johan Amezcua\\MolDesign\\data\\targets\\3DC3.pdb", "event": "pdb_persisted_for_rescoring", "level": "info", "timestamp": "2026-09-10T19:49:07.529092Z", "request_id": "fc6d0d9e-d8a6-4737-80dc-24e34ca96263", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "9761bbd56d38a0196fb3313ad396d550159d9cc02fa6fd0ee3fcacc39ae5959f", "query": "", "service": "moldesign-api"}
+{"chain": "A", "excluded": {"ZN": 1, "AZM": 13}, "total_excluded": 14, "event": "HETATM excluidos de la preparaci\u00f3n del receptor", "level": "info", "timestamp": "2026-09-10T19:49:07.538136Z", "request_id": "fc6d0d9e-d8a6-4737-80dc-24e34ca96263", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "9761bbd56d38a0196fb3313ad396d550159d9cc02fa6fd0ee3fcacc39ae5959f", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"chain": "A", "atom_records": 2050, "hetatm_excluded": 14, "event": "PDB filtrado para preparaci\u00f3n", "level": "info", "timestamp": "2026-09-10T19:49:07.538136Z", "request_id": "fc6d0d9e-d8a6-4737-80dc-24e34ca96263", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "9761bbd56d38a0196fb3313ad396d550159d9cc02fa6fd0ee3fcacc39ae5959f", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:49:09.748560Z", "request_id": "ad98601d-535f-42cf-8d43-98f56c92fede", "method": "GET", "query": "", "path": "/evaluation/status/d3ad4e7e-a219-425b-b877-358f621791f2", "service": "moldesign-api"}
+2026-09-10T19:49:09.749569Z [debug    ] runtime_store_get              hit=True key=task_owner:d3ad4e7e-a219-425b-b877-358f621791f2
+2026-09-10T19:49:09.749569Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:d3ad4e7e-a219-425b-b877-358f621791f2
+{"status_code": 200, "elapsed_ms": 1.37, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:49:09.750575Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:49:12.751900Z", "request_id": "c17b01e0-8a99-4174-ae40-c202106c5a13", "method": "GET", "query": "", "path": "/evaluation/status/d3ad4e7e-a219-425b-b877-358f621791f2", "service": "moldesign-api"}
+2026-09-10T19:49:12.753422Z [debug    ] runtime_store_get              hit=True key=task_owner:d3ad4e7e-a219-425b-b877-358f621791f2
+2026-09-10T19:49:12.753422Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:d3ad4e7e-a219-425b-b877-358f621791f2
+{"status_code": 200, "elapsed_ms": 1.21, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:49:12.753422Z", "service": "moldesign-api"}
+{"pdb_id": "3DC3", "chain": "A", "pdbqt_atoms": 2496, "has_gasteiger_charges": true, "event": "receptor PDBQT validado", "level": "info", "timestamp": "2026-09-10T19:49:13.297391Z", "request_id": "fc6d0d9e-d8a6-4737-80dc-24e34ca96263", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "9761bbd56d38a0196fb3313ad396d550159d9cc02fa6fd0ee3fcacc39ae5959f", "query": "", "path": "/evaluation/submit", "service": "moldesign-api"}
+2026-09-10T19:49:13.299396Z [debug    ] archivo guardado en disco local object_name=targets/3DC3/prepared.pdbqt size=202176
+{"pdb_id": "3DC3", "chain": "A", "multicadena": false, "path": "targets/3DC3/prepared.pdbqt", "event": "receptor preparado para Vina", "level": "info", "timestamp": "2026-09-10T19:49:13.300394Z", "request_id": "fc6d0d9e-d8a6-4737-80dc-24e34ca96263", "endpoint": "evaluation_submit", "method": "POST", "smiles_hash": "9761bbd56d38a0196fb3313ad396d550159d9cc02fa6fd0ee3fcacc39ae5959f", "query": "", "service": "moldesign-api"}
+2026-09-10T19:49:13.316038Z [info     ] ingesta_completada             center=(-5.39, 3.08, 15.25) hotspots_count=13 pdb_id=3DC3
+2026-09-10T19:49:13.316038Z [info     ] target_auto_ingested           pdb_id=3DC3
+2026-09-10T19:49:13.329674Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:d3ad4e7e-a219-425b-b877-358f621791f2
+2026-09-10T19:49:13.331678Z [debug    ] runtime_store_set              key=mol_owner_ip:407130fc-be4b-4bff-8d87-123d999e3698 ttl=86400
+2026-09-10T19:49:13.337915Z [error    ] pipeline de evaluación falló   error="name 'asyncio' is not defined" error_detail='(sin detail)' error_type=NameError molecule_id=407130fc-be4b-4bff-8d87-123d999e3698 task_id=d3ad4e7e-a219-425b-b877-358f621791f2
+2026-09-10T19:49:13.359384Z [error    ] Error en tarea DESKTOP         task_id=d3ad4e7e-a219-425b-b877-358f621791f2
+Traceback (most recent call last):
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 1494, in _run_serialized_wrapper
+    result = await _run_full_evaluation_async(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 1324, in _run_full_evaluation_async
+    raise exc
+  File "D:\moldesign-audit\bundle-copy\backend\services\docking\queue_handler.py", line 368, in _run_full_evaluation_async
+    properties = await asyncio.to_thread(
+                       ^^^^^^^
+NameError: name 'asyncio' is not defined
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:49:15.776330Z", "request_id": "5d1ffa7a-e5e2-4de3-a52f-6d52b264d64c", "method": "GET", "query": "", "path": "/evaluation/status/d3ad4e7e-a219-425b-b877-358f621791f2", "service": "moldesign-api"}
+2026-09-10T19:49:15.776330Z [debug    ] runtime_store_get              hit=True key=task_owner:d3ad4e7e-a219-425b-b877-358f621791f2
+2026-09-10T19:49:15.776330Z [debug    ] runtime_store_get              hit=True key=task_owner_ip:d3ad4e7e-a219-425b-b877-358f621791f2
+2026-09-10T19:49:15.776330Z [debug    ] runtime_store_set              key=job_status:d3ad4e7e-a219-425b-b877-358f621791f2 ttl=86400
+{"status_code": 200, "elapsed_ms": 1.69, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:49:15.777839Z", "service": "moldesign-api"}

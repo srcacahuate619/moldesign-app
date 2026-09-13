@@ -1,0 +1,391 @@
+{
+ "id": "MF-22",
+ "meta": {
+  "titulo": "Siete confórmeros casi perfectos, cero poses correctas",
+  "entradilla": "La teoría del presupuesto de error decía que un confórmero mediocre consume el margen de 2 Å. Se probaron siete con conformación prácticamente exacta: ninguno produjo una pose correcta."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El umbral de éxito en docking es un RMSD de 2 Å, y ese margen tiene que repartirse entre dos errores que se suman: el de ",
+     "m": null
+    },
+    {
+     "t": "conformación",
+     "m": "fuerte"
+    },
+    {
+     "t": " —la forma interna de la molécula— y el de ",
+     "m": null
+    },
+    {
+     "t": "colocación",
+     "m": "fuerte"
+    },
+    {
+     "t": " —dónde y cómo se sitúa en el bolsillo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "De ahí salía una teoría con aspecto de ser correcta: si el confórmero de partida ya está a 1.36 Å del bioactivo, se ha consumido casi todo el presupuesto antes de empezar, y la colocación tiene menos de un ángstrom de margen para no fallar. Bajo esa teoría, el remedio es obvio: mejores confórmeros.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se ordenaron los confórmeros por su error conformacional de partida y se midió la tasa de conversión en cada banda.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En el estrato de control, la teoría funciona perfectamente.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La curva es monótona y da una especificación usable:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Error conformacional de partida",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Tasa de conversión",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "0.0 – 0.5 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.947",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "0.5 – 1.0 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.870",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1.0 – 1.5 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.581",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "> 1.5 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.000",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Corte alrededor de ",
+     "m": null
+    },
+    {
+     "t": "1.5 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y una colocación que cuesta casi nada: 0.55–0.78 Å.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En el estrato difícil, la tasa de conversión es CERO en todas las bandas.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Incluida la primera. Siete confórmeros con conformación prácticamente perfecta —error de partida por debajo de 0.5 Å— y ",
+     "m": null
+    },
+    {
+     "t": "ninguno",
+     "m": "fuerte"
+    },
+    {
+     "t": " produjo una pose bajo 2 Å.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso mata la teoría para el caso que importa. Si el problema fuera el presupuesto, entregar material perfecto tendría que convertir. No convierte.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que sí separa a los dos estratos",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No es el confórmero. Es el ",
+     "m": null
+    },
+    {
+     "t": "coste de colocación",
+     "m": "fuerte"
+    },
+    {
+     "t": ":",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Coste de colocación",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Control",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.741 Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Difícil",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3.847 Å",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cinco veces más. Con el mismo motor, la misma caja y confórmeros de calidad comparable.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese número es el que después dio origen a ",
+     "m": null
+    },
+    {
+     "t": "MF-25",
+     "m": "codigo"
+    },
+    {
+     "t": ", que preguntó si ese coste respondía al presupuesto de búsqueda. No respondía.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Dos incidentes que forman parte del registro",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El experimento planeado ya existía.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El ",
+     "m": null
+    },
+    {
+     "t": "MF-22",
+     "m": "codigo"
+    },
+    {
+     "t": " del plan original era dockear rígidamente cada confórmero. Al ir a implementarlo se descubrió que ",
+     "m": null
+    },
+    {
+     "t": "eso ya es el pipeline",
+     "m": "fuerte"
+    },
+    {
+     "t": ": la función de docking del proyecto dockea ",
+     "m": null
+    },
+    {
+     "t": "conf{cid}.rigid.pdbqt",
+     "m": "codigo"
+    },
+    {
+     "t": " con TORSDOF 0, que es exactamente docking rígido. El experimento se rediseñó para medir el presupuesto de error en su lugar. Queda anotado porque significa que el plan contenía un identificador que describía algo ya construido.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Una violación de la física, detectada y corregida.",
+     "m": "fuerte"
+    },
+    {
+     "t": " En 70 de 970 confórmeros el RMSD de la pose salía ",
+     "m": null
+    },
+    {
+     "t": "menor",
+     "m": "enfasis"
+    },
+    {
+     "t": " que el del confórmero alineado, lo cual es imposible para un cuerpo rígido: alinear libremente no puede ser peor que colocar en el sitio. La causa era un hidrógeno retenido que el lector de moléculas deja en 6 complejos, contaminando el conteo de átomos pesados. Tras corregirlo, ",
+     "m": null
+    },
+    {
+     "t": "0 violaciones de 970",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese chequeo no estaba en el plan. Lo detectó una comprobación de cordura contra un teorema que tenía que cumplirse. Sin él, el experimento habría reportado números con un 7% de filas físicamente imposibles.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-22.md"
+}

@@ -1,0 +1,427 @@
+{
+ "id": "RS-03-PARAM-A",
+ "meta": {
+  "titulo": "Cargas parciales con once criterios y ningún respaldo silencioso",
+  "entradilla": "116 de 116 ligandos parametrizados, determinismo de 2.78e-17, y cero casos donde el sistema recurriera a un método peor sin decirlo. Sustituye un tipado heurístico escrito a mano."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las cargas parciales —cuánta carga eléctrica lleva cada átomo— entran en casi todo cálculo físico posterior: energías de interacción, solvatación, campos electrostáticos. Si están mal, todo lo que se construya encima está mal de una forma que no produce errores, sólo números incorrectos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Hasta este experimento, el proyecto asignaba cargas con un tipado ",
+     "m": null
+    },
+    {
+     "t": "heurístico escrito a mano",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Funcionaba, en el sentido de que devolvía valores. Nadie había medido si eran correctos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El modo de fallo que este experimento persigue",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El peligro real de una tubería de parametrización no es que falle. Es que ",
+     "m": null
+    },
+    {
+     "t": "funcione peor sin avisar",
+     "m": "fuerte"
+    },
+    {
+     "t": ": cuando el método bueno no puede tratar una molécula, muchas implementaciones recurren silenciosamente a uno más simple y devuelven un resultado con el mismo aspecto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El conjunto resultante queda entonces con una mezcla de cargas de dos calidades distintas, sin ninguna marca que las separe, y cualquier análisis posterior promedia las dos sin saberlo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Por eso uno de los once criterios es explícitamente ",
+     "m": null
+    },
+    {
+     "t": "cero respaldos silenciosos",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los once criterios se cumplen:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Criterio",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Exigido",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Obtenido",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Cobertura global",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≥95%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "100%",
+       "m": "fuerte"
+      },
+      {
+       "t": " (116/116)",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Cobertura por estrato",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≥90% en los 6",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "100%",
+       "m": "fuerte"
+      },
+      {
+       "t": " en los 6",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Determinismo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≤1e-6",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2.78e-17",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Suma de cargas vs. carga formal",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≤1e-4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1e-15",
+       "m": "fuerte"
+      },
+      {
+       "t": " máximo",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Respaldos silenciosos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Energía finita y serializable",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "100%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "100%",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Mapeo biyectivo de átomos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Sí",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Sí, con hash de orden",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Trazabilidad del modelo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Registrada",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Versión y SHA del modelo neuronal",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Aislamiento de val, test y confirmatorio",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Cero accesos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Cero",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El determinismo de ",
+     "m": null
+    },
+    {
+     "t": "2.78e-17",
+     "m": "fuerte"
+    },
+    {
+     "t": " es esencialmente el epsilon de la máquina: dos ejecuciones producen bit por bit lo mismo. Y la suma de cargas coincide con la carga formal de la molécula hasta 1e-15, que es la comprobación física básica — si esa suma no cuadra, las cargas están mal por construcción.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El detalle que hace esto reutilizable",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se registra el ",
+     "m": null
+    },
+    {
+     "t": "SHA del modelo de producción",
+     "m": "fuerte"
+    },
+    {
+     "t": " y su versión exacta, además de la versión del campo de fuerza. Eso significa que cualquiera puede saber, dentro de dos años, con qué se generaron estas cargas — y detectar si una actualización del modelo cambió los números sin que nadie lo notara.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "También se registra un ",
+     "m": null
+    },
+    {
+     "t": "hash del orden de átomos",
+     "m": "fuerte"
+    },
+    {
+     "t": " junto con el mapeo biyectivo. El orden de átomos es una fuente clásica de errores silenciosos: dos representaciones de la misma molécula con los átomos numerados distinto producen cargas correctas asignadas a los átomos equivocados.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué es y qué no es",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es un experimento de ",
+     "m": null
+    },
+    {
+     "t": "capacidad",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no de rendimiento. No dice que las cargas nuevas mejoren ningún resultado científico; dice que existen, que son correctas por las comprobaciones físicas disponibles, que son reproducibles, y que sustituyen a un heurístico que nadie había validado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sin este paso, cualquier experimento posterior de rescoring físico habría tenido una variable de confusión imposible de separar del efecto que quisiera medir.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/RS-03-PARAM-A.md"
+}

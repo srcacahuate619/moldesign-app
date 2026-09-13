@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-33-B-RET-PRE",
+  "hypothesis": "La ventaja del ensemble flexible que MF-33 y MF-33-A3 midieron sobre la COBERTURA DEL ORACULO llega tambien a lo que el usuario recibe -el top-1 por score-. Si no llega, la diversidad conformacional resuelve el cuello de generacion y lo desplaza al selector, que es una conclusion distinta y reencuadra el paper.",
+  "protocol": "Repite el brazo B de MF-33 cambiando UNA SOLA COSA: registra (score, rmsd_pose_pocket) de cada pose en vez de tirarlas. Cohorte: los 48 de MF-33, la del paper. Todos los conf*.flex.pdbqt con los parametros del brazo de control de MF-28 -de donde MF-33 reuso su brazo B-: exhaustiveness=8, num_modes=9, seed=42, caja 25 A, --cpu 1. Brazos pareados SINGLE (las 9 poses de conf0.flex) y ENSEMBLE (las Kx9 de todos). Se anade pb_valid_fisica de posebusters_metrica sobre el top-1 de cada brazo. Corre en la maquina LOCAL porque posebusters no esta en la imagen moldesign-lab. Coste ~42.6 CPU-h medidos del consumo real del brazo B, unas 4.5 h con 10 workers. NO se re-corre sobre los 116: MF-33-EXT ya lo hace para la cobertura y duplicarlo gastaria 103 CPU-h para una pregunta que se contesta con 42.6 sobre la cohorte del paper. Script: scripts/run_mf33bret_top1_flexible.py.",
+  "created_at": "2026-08-21T04:26:26.245865+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "5c2cd20ce810fb43f520947c13faa2189896e041",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 DE CORDURA ANTES DEL PRIMARIO: el oraculo del brazo ENSEMBLE debe reproducir el rmsd_min del brazo B sellado en MF-33 dentro de 0.001 A en >=95% de los complejos. Mismo protocolo, misma semilla, mismo binario: si no reproduce, algo cambio y NADA de lo que sigue se lee. Es la unica forma de saber que este re-run es el mismo experimento y no uno parecido. PRIMARIO: McNemar exacto pareado sobre acierta <=2 A, por separado en top1, top5 y oraculo. TRES LECTURAS ESCRITAS ANTES: (1) LA VENTAJA LLEGA AL USUARIO si el ensemble mejora oraculo Y top1 con p<0.05, y entonces el claim del paper pasa de mejoramos el pool a mejoramos la entrega; (2) EL CUELLO SE DESPLAZA A LA SELECCION si mejora oraculo y NO top1, y entonces la diversidad resuelve el cuello de generacion y lo traslada al selector -este desenlace NO debilita el paper, lo reencuadra, y conecta con la cartera RS y con MF-09-; (3) SIN EFECTO EN LA ENTREGA si no mejora ninguno, y habria que decirlo tal cual. Se reporta ademas el margen de seleccion: complejos con pose buena disponible que el brazo no entrega. PROHIBIDO: ordenar por otra cosa que el score de Vina -el rescoring es cartera RS y meterlo aqui confundiria generacion, seleccion y funcion de puntuacion en un numero-; elegir conf0 por calidad en vez de por indice; reabrir MF-33 o MF-33-A3, cuyas cantidades son de oraculo y siguen como estan."
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-33/per_complex.jsonl": "ee1d03c926eef6ff02bdf2b189d097d2b1b1240f5b0f56827203a10343edb48d"
+  },
+  "assets_hashes": {
+    "scripts/run_mf33bret_top1_flexible.py": "8636a115c5218922deed3a19d9992160c988b3680d0b648884cfb054838f81c6"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-21T04:26:27.863177+00:00",
+  "decision_rationale": "Prerregistro sellado con el hash del script ANTES de correr, y antes incluso de que la maquina este libre. Existe porque el paper de MF-33 tiene una amenaza a la validez que un revisor ataca primero y que hoy no esta medida sobre el brazo que el paper defiende: la metrica es de ORACULO y no de RESULTADO. MF-09 midio top-1 acierta 0/33 y top-20 2/33 en el estrato dificil, asi que subir el techo de 1/33 a 26/33 podria no mover nada de lo que el usuario recibe. No se puede medir con lo que hay: run_mf28_roadmap.py escribio las poses del brazo B en un TemporaryDirectory y se borraron al terminar; MF-33-TOP1 da el precedente en el protocolo RIGIDO, cuyas poses si sobrevivieron, pero ese no es el brazo del paper. DOS DECISIONES QUE SE TOMAN AQUI. PRIMERA, el G1 de cordura: exigir que el oraculo del ENSEMBLE reproduzca el brazo B sellado dentro de 0.001 A. Es identico protocolo, semilla y binario, asi que debe reproducir exactamente; si no lo hace, este re-run no es el mismo experimento y leerlo seria comparar dos cosas distintas. Ningun otro experimento del programa ha tenido que reproducirse a si mismo y conviene que este lo demuestre. SEGUNDA, y es la que evita el sesgo: se declara de antemano que el desenlace (2) -el cuello se desplaza a la seleccion- NO debilita el paper sino que lo reencuadra. Sin esa declaracion previa, la tentacion al ver un top-1 plano seria enterrar la medicion o presentarla como limitacion menor, cuando en realidad seria el hallazgo mas interesante: la diversidad conformacional resolviendo el cuello de generacion y trasladandolo al selector, que es exactamente donde vive la cartera RS. Se declara ademas que no se re-corre sobre los 116 aunque MF-33-EXT lo este haciendo: duplicarlo costaria 103 CPU-h para contestar con menos precision una pregunta que la cohorte del paper contesta con 42.6.",
+  "finished_at": "2026-08-21T04:26:28.640348+00:00"
+}

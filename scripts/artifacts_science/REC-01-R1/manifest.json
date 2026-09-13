@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "experiment_id": "REC-01-R1",
+  "hypothesis": "El criterio de excepcion de REC-01 tiene un falso negativo estructural: la contencion por FRACCION no detecta desalineamientos concentrados en pocos hotspots. Un codigo E8_HOTSPOT_FUERA_DE_CAJA definido como margen_min_hotspots < 0 cierra ese hueco y captura el caso testigo 5TUN del doc 35. CORRIGENDUM: el desenlace numerico ya se conoce y esta declarado en REC-01/LECTURA.md seccion 4; no es una prueba ciega.",
+  "protocol": "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md seccion 7 (Cartera B, REC-01); corrigendum del sello REC-01 (GO 2026-08-17); consume por hash el per_complex.jsonl sellado de REC-01",
+  "created_at": "2026-08-17T06:45:18.483626+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "93541c9dc610d56014d19b73a2b72527d36abe41",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 integridad de entrada: el per_complex.jsonl de REC-01 coincide con su SHA-256 sellado 3f4da5ab; G2 prueba de aceptacion: 5TUN queda capturado por E8; G3 conservacion: ningun target pierde una excepcion que REC-01 le habia asignado; G4 severidad asignada a los 387 con criterio preregistrado y ordenada por accionabilidad; G5 determinismo byte-a-byte; G6 cero escrituras fuera del directorio REC-01-R1 (REC-01 permanece intacto)"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/REC-01/per_complex.jsonl": "3f4da5ab35391e235fa2518274a472f93378711ca34846709080f8191d0eee23"
+  },
+  "assets_hashes": {
+    "scripts/run_rec01_r1_triage.py": "c4c924c4e76119433181107614db0151e89a92e288b4a624de6011d21161303d",
+    "scripts/run_rec01_grid_audit.py": "e244a76a8682fe314580f3d0742e5575b315285a9e04562be6520543eda9f26f",
+    "scripts/artifacts_science/REC-01-R1/per_complex.jsonl": "c48fe2822ae4adc8024fcb9281ee09fcd3b138c757e00af55ccbffe6a2b533f3",
+    "scripts/artifacts_science/REC-01-R1/metrics.json": "e14dd5ddd5ce35e91516a50274c0c1fa116b2a547dfcdd86b2db9486efb188eb",
+    "scripts/artifacts_science/REC-01-R1/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/REC-01-R1/PREREGISTRO.md": "200d16ed7ab105957ef658da9cf283e8250587dbca46aa84eff90a7c04398903",
+    "scripts/artifacts_science/REC-01-R1/LECTURA.md": "f7465a4d69758b9b6a42bd1ced686c675e10de86679fd5af521341292ca4d31f"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T06:49:05.848922+00:00",
+  "decision_rationale": "Los seis gates pasan: G1 entrada sellada de REC-01 integra (sha 3f4da5ab); G2 prueba de aceptacion superada — 5TUN capturado por E8 con severidad S4_LEVE y margen -5.147 A; G3 conservacion sin perdidas y codigos E1-E7 reproducidos exactamente; G4 severidad asignada a los 387 sin nulos; G5 determinismo byte-identico; G6 REC-01 intacto (validate OK). RESULTADO PRINCIPAL, NO PREVISTO: la comprobacion de expectativa preregistrada detecto un ERROR DE NARRATIVA en REC-01/LECTURA.md seccion 2. Declaraba 'en 23 targets la caja no contiene ni un solo atomo del ligando'; el 23 es el conteo de E2_LIGANDO_RECORTADO (contencion < 1.0). La cifra correcta de contencion == 0.00 es 11; los otros 12 tienen contencion parcial 0.16-0.91. El dato sellado de REC-01 es correcto (E2 siempre significo <1.0); el error estuvo solo en la prosa que lo interpreto. REC-01 permanece sellado sin modificar y este corrigendum es el registro oficial de la correccion (patron RS-01A -> RS-01A-R1); todo consumo posterior debe citar 11. Corrigendum del criterio: E8_HOTSPOT_FUERA_DE_CAJA (margen_min_hotspots < 0, geometria exacta sin umbral calibrable) eleva las excepciones de 57 (14.7%) a 109 (28.2%), +52 targets. Triaje preregistrado: S1_CRITICO 11, S2_GRAVE 14, S3_MODERADO 9, S4_LEVE 69, S5_METADATO 6, S0 278. La cohorte S1+S2 (25 targets) es la entrada natural de REC-03. NO es prueba ciega: el desenlace de E8 ya estaba declarado en REC-01/LECTURA.md seccion 4. La escala de severidad es hipotesis de accionabilidad, no medicion de impacto; probarla exige docking pareado en REC-03.",
+  "finished_at": "2026-08-17T06:49:20.030488+00:00",
+  "duration_seconds": 3.0
+}

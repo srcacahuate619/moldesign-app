@@ -1,0 +1,175 @@
+{
+ "experiment_id": "RC-F0-V2-EXT",
+ "tipo": "medicion de alcance, sin computo nuevo",
+ "timestamp": "2026-08-20T05:00:41.978207+00:00",
+ "duration_seconds": 0.046,
+ "composicion_del_conjunto_v2": {
+  "total": 34302,
+  "por_fuente": {
+   "flexible_redock": 1534,
+   "molflex": 32215,
+   "ruta_a": 553
+  },
+  "poses_de_protocolo_RIGIDO": 32215,
+  "poses_de_protocolo_FLEXIBLE": 2087,
+  "otras": 0,
+  "fraccion_rigida": 0.9392
+ },
+ "referencia_MF_33": {
+  "cobertura_rigido_estrato_dificil": "1/33",
+  "cobertura_flexible_mismos_conformeros": "26/33",
+  "nota": "medido sobre los 33 de COLOCACION, no sobre los 203"
+ },
+ "consumidores_sellados": {
+  "n": 17,
+  "detalle": [
+   {
+    "id": "D-MF-HARD-CURVE",
+    "decision": "GO",
+    "ficheros": [
+     "scripts/artifacts_science/D-MF-HARD-CURVE/curve_poses_train.jsonl"
+    ]
+   },
+   {
+    "id": "D-MF-HARD-CURVE-VAL",
+    "decision": "GO",
+    "ficheros": [
+     "scripts/artifacts_science/D-MF-HARD-CURVE-VAL/curve_poses_val.jsonl"
+    ]
+   },
+   {
+    "id": "D-MF-HARD-EXH4",
+    "decision": "GO",
+    "ficheros": [
+     "scripts/artifacts_science/D-MF-HARD-EXH4/exh4_poses_train.jsonl"
+    ]
+   },
+   {
+    "id": "D-MF-HARD-EXH4-VAL",
+    "decision": "GO",
+    "ficheros": [
+     "scripts/artifacts_science/D-MF-HARD-EXH4-VAL/exh4_poses_val.jsonl"
+    ]
+   },
+   {
+    "id": "FND-02",
+    "decision": "NO_GO",
+    "ficheros": [
+     "data/pose_selector_dataset/build_graphs.log",
+     "data/pose_selector_dataset/build_progress.json",
+     "data/pose_selector_dataset/ecif_152_progress.jsonl",
+     "data/pose_selector_dataset/features_v05_progress.jsonl",
+     "data/pose_selector_dataset/gnn_test.pt",
+     "data/pose_selector_dataset/gnn_train.pt"
+    ]
+   },
+   {
+    "id": "FND-06",
+    "decision": "GO",
+    "ficheros": [
+     "data/pose_selector_dataset/manifest.json",
+     "data/pose_selector_dataset/poses_test.jsonl",
+     "data/pose_selector_dataset/poses_train.jsonl",
+     "data/pose_selector_dataset/poses_val.jsonl"
+    ]
+   },
+   {
+    "id": "MF-01-UNION",
+    "decision": "GO",
+    "ficheros": [
+     "data/pose_selector_dataset/poses_train.jsonl",
+     "data/pose_selector_dataset/poses_val.jsonl",
+     "scripts/artifacts_science/MF-01-UNION/union_candidates_train.jsonl",
+     "scripts/artifacts_science/MF-01-UNION/union_candidates_val.jsonl",
+     "scripts/artifacts_science/MF-01-UNION/union_labels_train.jsonl",
+     "scripts/artifacts_science/MF-01-UNION/union_labels_val.jsonl"
+    ]
+   },
+   {
+    "id": "MF-02-PRE",
+    "decision": "GO",
+    "ficheros": [
+     "data/pose_selector_dataset/poses_train.jsonl"
+    ]
+   },
+   {
+    "id": "MF-02B",
+    "decision": "GO",
+    "ficheros": [
+     "data/pose_selector_dataset/poses_train.jsonl"
+    ]
+   },
+   {
+    "id": "MF-02D",
+    "decision": "NO_GO",
+    "ficheros": [
+     "data/pose_selector_dataset/poses_train.jsonl"
+    ]
+   },
+   {
+    "id": "RC-F0-V2",
+    "decision": "GO",
+    "ficheros": [
+     "data/pose_selector_dataset/v2/features_rich_v2.jsonl",
+     "data/pose_selector_dataset/v2/poses_test.jsonl",
+     "data/pose_selector_dataset/v2/poses_train.jsonl",
+     "data/pose_selector_dataset/v2/poses_val.jsonl"
+    ]
+   },
+   {
+    "id": "RC-F0-V2-PRE",
+    "decision": "GO",
+    "ficheros": [
+     "data/pose_selector_dataset/features_v05_progress.jsonl",
+     "data/pose_selector_dataset/poses_test.jsonl",
+     "data/pose_selector_dataset/poses_train.jsonl",
+     "data/pose_selector_dataset/poses_val.jsonl",
+     "scripts/build_pose_selector_dataset.py"
+    ]
+   },
+   {
+    "id": "RS-01",
+    "decision": "GO",
+    "ficheros": [
+     "data/pose_selector_dataset/poses_train.jsonl"
+    ]
+   },
+   {
+    "id": "RS-01A",
+    "decision": "GO",
+    "ficheros": [
+     "data/pose_selector_dataset/poses_train.jsonl",
+     "data/pose_selector_dataset/records/10gs.json",
+     "data/pose_selector_dataset/records/184l.json",
+     "data/pose_selector_dataset/records/186l.json",
+     "data/pose_selector_dataset/records/187l.json",
+     "data/pose_selector_dataset/records/188l.json"
+    ]
+   },
+   {
+    "id": "RS-09",
+    "decision": "NO_GO",
+    "ficheros": [
+     "data/pose_selector_dataset/gnn_train.pt"
+    ]
+   },
+   {
+    "id": "RS-14",
+    "decision": "NO_GO",
+    "ficheros": [
+     "data/pose_selector_dataset/v2/features_rich_v2.jsonl",
+     "data/pose_selector_dataset/v2/poses_train.jsonl"
+    ]
+   },
+   {
+    "id": "RS-14-PRE",
+    "decision": "GO",
+    "ficheros": [
+     "data/pose_selector_dataset/v2/features_rich_v2.jsonl",
+     "data/pose_selector_dataset/v2/poses_train.jsonl"
+    ]
+   }
+  ]
+ },
+ "limitacion_declarada": "NO se afirma que las conclusiones de los consumidores sean incorrectas. MF-33 midio el hueco de COBERTURA entre rigido y flexible; los experimentos de seleccion midieron PRECISION CONDICIONAL sobre lo cubierto, que es otra cantidad. Un techo de cobertura mas alto cambia el denominador, no invalida automaticamente una comparacion pareada hecha dentro de el. Lo que se establece es el ALCANCE de lo que habria que rehacer si se decidiera medir sobre material flexible. Ademas, el 1/33 de MF-33 es del estrato dificil: extrapolarlo a los 203 seria injustificado, porque en CONTROL el rigido alcanza 15/15."
+}

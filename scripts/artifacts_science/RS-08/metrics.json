@@ -1,0 +1,1229 @@
+{
+  "experimento": "RS-08",
+  "declaracion_resultado": "Router de decidibilidad ACCIONABLE (solved / rescoring_actionable@2 / sampling_needed) con cross-fitting ANIDADO dentro de los 5 folds sellados de RS-01B: features y etiquetas del router sobre el outer-train proceden de predicciones inner-OOF (clones v0.6 entrenados en inner-train que NO vieron el complejo); umbral percentil 70 del riesgo inner-OOF del outer-train, aplicado FIJO al outer-test; comparadores margin-only v0.6 y aleatorio (seed 42) al MISMO coste real por fold. Gate: >= +3 fallos recuperables@2 vs margin-only y delta falsos escalamientos <= 0.",
+  "preregistro": "scripts/artifacts_science/RS-08/PREREGISTRO.md (sello b4204bd) + CAMPANA-2-PLAN sellado (41b7f09) IT1/DECISIONS QA-3",
+  "runtime": {
+    "python": "3.11.9",
+    "xgboost": "3.2.0",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "sklearn": "1.8.0",
+    "rdkit": "2025.09.6",
+    "interprete": "python-embed/python.exe"
+  },
+  "integridad_insumos_sha256": {
+    "checkpoint_xgb": {
+      "archivo": "D:\\moldesign-build\\rescoring\\artifacts\\pose_selector_v06.xgb",
+      "sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+      "esperado": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+      "ok": true
+    },
+    "checkpoint_meta": {
+      "archivo": "D:\\moldesign-build\\rescoring\\artifacts\\pose_selector_v06_meta.json",
+      "sha256": "296b125ba852522259c11385063dc825c18efc3769228a22a640702ea5b5147d",
+      "esperado": "296b125ba852522259c11385063dc825c18efc3769228a22a640702ea5b5147d",
+      "ok": true
+    },
+    "cache_view": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\RS-01\\cache_train_only_view.jsonl",
+      "sha256": "6afeb3705ad4ba0d49918e6849da2876cd63e4260aa8f47487b0b393596bbc34",
+      "esperado": "6afeb3705ad4ba0d49918e6849da2876cd63e4260aa8f47487b0b393596bbc34",
+      "ok": true
+    },
+    "cache_view_manifest": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\RS-01\\cache_view_manifest.json",
+      "sha256": "ed7e9ec63d912c6936023cd57159febe891462f256d10314d40106d0d042d640",
+      "esperado": "ed7e9ec63d912c6936023cd57159febe891462f256d10314d40106d0d042d640",
+      "ok": true
+    },
+    "poses_train": {
+      "archivo": "D:\\moldesign-build\\data\\pose_selector_dataset\\poses_train.jsonl",
+      "sha256": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654",
+      "esperado": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654",
+      "ok": true
+    },
+    "union_candidates_train": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\MF-01-UNION\\union_candidates_train.jsonl",
+      "sha256": "61ab0e26901659c0d6e8bf98f47bbcae82d187265fc8181953d58ff6a2033ce9",
+      "esperado": "61ab0e26901659c0d6e8bf98f47bbcae82d187265fc8181953d58ff6a2033ce9",
+      "ok": true
+    },
+    "union_labels_train": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\MF-01-UNION\\union_labels_train.jsonl",
+      "sha256": "19843afd49135f30297884ce56889312a4f34b6f75cd708127eca1789338bfbb",
+      "esperado": "19843afd49135f30297884ce56889312a4f34b6f75cd708127eca1789338bfbb",
+      "ok": true
+    },
+    "dedup_candidates_1_5": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\MF-11-R1\\dedup_candidates_train_1.5.jsonl",
+      "sha256": "fef90c21c92d3527a3431d8e880601d33208a1c12688057f8ebf95642589fa78",
+      "esperado": "fef90c21c92d3527a3431d8e880601d33208a1c12688057f8ebf95642589fa78",
+      "ok": true
+    },
+    "sidecar_cluster_members_1_5": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\MF-11-R1\\cluster_members_train_1.5.jsonl",
+      "sha256": "7026b8dea49062d49e4765ab116864fe6bd550ac660c76da646aabb7a645d0a0",
+      "esperado": "7026b8dea49062d49e4765ab116864fe6bd550ac660c76da646aabb7a645d0a0",
+      "ok": true
+    },
+    "fold_plan": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\RS-01\\fold_plan.json",
+      "sha256": "9d97ad70b25331b4ae3e926210f6372ed7ec092d5a7a5fff6fe61af83b961c30",
+      "esperado": "9d97ad70b25331b4ae3e926210f6372ed7ec092d5a7a5fff6fe61af83b961c30",
+      "ok": true
+    }
+  },
+  "validaciones": {
+    "densidad_historica": {
+      "metodo": "records/{pid}.json, RMSD < 2.0 A",
+      "n_coinciden_con_congelado": 2739,
+      "n_total": 2739,
+      "exacto": true
+    },
+    "folds": {
+      "tamanos": [
+        55,
+        16,
+        15,
+        15,
+        15
+      ],
+      "esperado": [
+        55,
+        16,
+        15,
+        15,
+        15
+      ],
+      "n_componentes": 38,
+      "esperado_componentes": 38
+    },
+    "clones_outer_sellados": {
+      "nota": "clon v0.6 outer = RS-01B brazo_original / RS-04-OOF baseline (sha verificados, NO reentrenados); verificado ademas que los hiperparametros del meta coinciden con los congelados",
+      "por_fold": {
+        "fold0_brazo_original": {
+          "sha256_archivo": "6e872ba236ad458f2d431f24cb61d091a130d7e511ae245e35cf689f04053671",
+          "sha_rs01b_original": "6e872ba236ad458f2d431f24cb61d091a130d7e511ae245e35cf689f04053671",
+          "sha_rs04_baseline": "6e872ba236ad458f2d431f24cb61d091a130d7e511ae245e35cf689f04053671",
+          "esperado_preregistro": "6e872ba2",
+          "ok": true
+        },
+        "fold1_brazo_original": {
+          "sha256_archivo": "2541609f9a294063d2cb368d31d7bb5d94112b400a213eb90ff26ae8c0910dfb",
+          "sha_rs01b_original": "2541609f9a294063d2cb368d31d7bb5d94112b400a213eb90ff26ae8c0910dfb",
+          "sha_rs04_baseline": "2541609f9a294063d2cb368d31d7bb5d94112b400a213eb90ff26ae8c0910dfb",
+          "esperado_preregistro": "2541609f",
+          "ok": true
+        },
+        "fold2_brazo_original": {
+          "sha256_archivo": "9584f7d9c19c179cd1d963091e7608dd6ca422f7db4031db3b98e69c55b62cc3",
+          "sha_rs01b_original": "9584f7d9c19c179cd1d963091e7608dd6ca422f7db4031db3b98e69c55b62cc3",
+          "sha_rs04_baseline": "9584f7d9c19c179cd1d963091e7608dd6ca422f7db4031db3b98e69c55b62cc3",
+          "esperado_preregistro": "9584f7d9",
+          "ok": true
+        },
+        "fold3_brazo_original": {
+          "sha256_archivo": "8eab79bf5fa5540d3e9172b6faf913b2f793038c65637cde1b47c106889a0333",
+          "sha_rs01b_original": "8eab79bf5fa5540d3e9172b6faf913b2f793038c65637cde1b47c106889a0333",
+          "sha_rs04_baseline": "8eab79bf5fa5540d3e9172b6faf913b2f793038c65637cde1b47c106889a0333",
+          "esperado_preregistro": "8eab79bf",
+          "ok": true
+        },
+        "fold4_brazo_original": {
+          "sha256_archivo": "fabc39ecdcd016284f4fb346dcbaa7fda4d71a4d98d5a1291b3c220a9062f196",
+          "sha_rs01b_original": "fabc39ecdcd016284f4fb346dcbaa7fda4d71a4d98d5a1291b3c220a9062f196",
+          "sha_rs04_baseline": "fabc39ecdcd016284f4fb346dcbaa7fda4d71a4d98d5a1291b3c220a9062f196",
+          "esperado_preregistro": "fabc39ec",
+          "ok": true
+        }
+      }
+    },
+    "cross_fitting_anidado": {
+      "metodo": "5 sub-folds por componentes dentro de cada outer-train: reuso de las asignaciones del fold_plan restringidas al outer-train donde aplique (grupos g != f); el quinto sub-fold parte el grupo mas grande (por componentes si tiene > 1; por pids ordenados si es componente unico). El clon inner que predice un complejo NUNCA lo vio (inner-OOF). El OOF global NO se reutiliza (sus modelos vieron el outer-test).",
+      "n_clones_inner": 25,
+      "esperado": 25
+    }
+  },
+  "config_router": {
+    "clases": {
+      "solved": "top-1 <= 2 A (no escalar)",
+      "rescoring_actionable@2": "top-1 falla pero existe pose <= 2 A entre las top-2 (PRIMARIA; escalar a RS-03)",
+      "rescoring_actionable@3": "top-1 falla pero existe pose <= 2 A entre las top-3 (sensibilidad, nunca gate)",
+      "sampling_needed": "ni top-2 ni top-3 contienen pose <= 2 A (nueva generacion; NO MM/GBSA-like)"
+    },
+    "features": {
+      "n_features": 13,
+      "nombres": [
+        "score_top1",
+        "margen_top1_top2",
+        "n_poses",
+        "abstenido",
+        "pct_vina_score",
+        "pct_n_contacts_4",
+        "pct_n_contacts_6",
+        "pct_contacts_per_ha_4",
+        "pct_n_clashes",
+        "pct_pose_score_variance",
+        "pct_pose_score_range",
+        "pct_cluster_density",
+        "pct_n_heavy"
+      ],
+      "nota": "proceden del clon inner-OOF (outer-train) y del clon outer sellado (outer-test); el margen v0.6 es FEATURE del riesgo, no un segundo umbral ajustado en val (QA-3g)"
+    },
+    "modelo": {
+      "arquitectura": "LogisticRegression (lbfgs, C=1.0, max_iter=1000, random_state=42) — arquitectura de referencia de Fase 3.5/QA-3",
+      "estandarizacion": "media/std ajustadas DENTRO del outer-train (sd==0 -> 1); aplicada tal cual al outer-test",
+      "riesgo": "P(rescoring_actionable@2)"
+    },
+    "umbrales": {
+      "metodo": "percentil 100*(1-b) del riesgo inner-OOF del outer-train; aplicacion FIJA al outer-test (prohibido re-seleccionar mirando la distribucion del outer-test)",
+      "presupuestos": {
+        "0.1": 90.0,
+        "0.2": 80.0,
+        "0.3": 70.0,
+        "0.4": 60.0
+      },
+      "primario_pct": 70.0
+    },
+    "strain": "FUERA del camino primario y del router (RS-04-OOF NO_GO a8c9523); no es feature"
+  },
+  "por_fold": [
+    {
+      "fold": 0,
+      "n_complejos_eval": 55,
+      "n_outer_train_complejos": 61,
+      "n_componentes": 1,
+      "clases_2": {
+        "solved": 21,
+        "rescoring_actionable": 7,
+        "sampling_needed": 27
+      },
+      "presupuesto_primario": {
+        "presupuesto_nominal_pct": 30.0,
+        "umbral_riesgo": 0.052851,
+        "n_escalados_router": 22,
+        "n_eval": 55,
+        "drift_pct": 40.0,
+        "fallos_recuperables_2": {
+          "router": 2,
+          "margin_only": 4,
+          "aleatorio": 5
+        },
+        "fallos_recuperables_3": {
+          "router": 4,
+          "margin_only": 6,
+          "aleatorio": 7
+        },
+        "falsos_escalamientos": {
+          "router": 6,
+          "margin_only": 9,
+          "aleatorio": 6
+        },
+        "delta_fallos2_vs_margin": -2,
+        "delta_falsos_vs_margin": -3
+      },
+      "drift_presupuesto": {
+        "n_escalados_router": 22,
+        "pct": 40.0,
+        "gate_aceptable_pct": [
+          25.0,
+          35.0
+        ],
+        "aceptable": false,
+        "desviacion_causa": "presupuesto real fuera de [25,35]% sobre el outer-test; umbral p70 FIJO del outer-train (prohibido re-umbralizar mirando el outer-test)"
+      },
+      "sensibilidad": {
+        "budget_10": {
+          "presupuesto_nominal_pct": 10.0,
+          "umbral_riesgo": 0.107757,
+          "n_escalados_router": 11,
+          "n_eval": 55,
+          "drift_pct": 20.0,
+          "fallos_recuperables_2": {
+            "router": 1,
+            "margin_only": 1,
+            "aleatorio": 0
+          },
+          "fallos_recuperables_3": {
+            "router": 3,
+            "margin_only": 2,
+            "aleatorio": 2
+          },
+          "falsos_escalamientos": {
+            "router": 1,
+            "margin_only": 3,
+            "aleatorio": 3
+          },
+          "delta_fallos2_vs_margin": 0,
+          "delta_falsos_vs_margin": -2
+        },
+        "budget_20": {
+          "presupuesto_nominal_pct": 20.0,
+          "umbral_riesgo": 0.081832,
+          "n_escalados_router": 13,
+          "n_eval": 55,
+          "drift_pct": 23.64,
+          "fallos_recuperables_2": {
+            "router": 1,
+            "margin_only": 1,
+            "aleatorio": 2
+          },
+          "fallos_recuperables_3": {
+            "router": 3,
+            "margin_only": 2,
+            "aleatorio": 4
+          },
+          "falsos_escalamientos": {
+            "router": 3,
+            "margin_only": 5,
+            "aleatorio": 4
+          },
+          "delta_fallos2_vs_margin": 0,
+          "delta_falsos_vs_margin": -2
+        },
+        "budget_40": {
+          "presupuesto_nominal_pct": 40.0,
+          "umbral_riesgo": 0.034531,
+          "n_escalados_router": 29,
+          "n_eval": 55,
+          "drift_pct": 52.73,
+          "fallos_recuperables_2": {
+            "router": 5,
+            "margin_only": 5,
+            "aleatorio": 4
+          },
+          "fallos_recuperables_3": {
+            "router": 7,
+            "margin_only": 7,
+            "aleatorio": 7
+          },
+          "falsos_escalamientos": {
+            "router": 8,
+            "margin_only": 13,
+            "aleatorio": 11
+          },
+          "delta_fallos2_vs_margin": 0,
+          "delta_falsos_vs_margin": -5
+        }
+      },
+      "umbrales_riesgo": {
+        "0.1": 0.107757,
+        "0.2": 0.081832,
+        "0.3": 0.052851,
+        "0.4": 0.034531
+      }
+    },
+    {
+      "fold": 1,
+      "n_complejos_eval": 16,
+      "n_outer_train_complejos": 100,
+      "n_componentes": 8,
+      "clases_2": {
+        "solved": 9,
+        "rescoring_actionable": 0,
+        "sampling_needed": 7
+      },
+      "presupuesto_primario": {
+        "presupuesto_nominal_pct": 30.0,
+        "umbral_riesgo": 0.201483,
+        "n_escalados_router": 3,
+        "n_eval": 16,
+        "drift_pct": 18.75,
+        "fallos_recuperables_2": {
+          "router": 0,
+          "margin_only": 0,
+          "aleatorio": 0
+        },
+        "fallos_recuperables_3": {
+          "router": 0,
+          "margin_only": 0,
+          "aleatorio": 0
+        },
+        "falsos_escalamientos": {
+          "router": 2,
+          "margin_only": 2,
+          "aleatorio": 2
+        },
+        "delta_fallos2_vs_margin": 0,
+        "delta_falsos_vs_margin": 0
+      },
+      "drift_presupuesto": {
+        "n_escalados_router": 3,
+        "pct": 18.75,
+        "gate_aceptable_pct": [
+          25.0,
+          35.0
+        ],
+        "aceptable": false,
+        "desviacion_causa": "presupuesto real fuera de [25,35]% sobre el outer-test; umbral p70 FIJO del outer-train (prohibido re-umbralizar mirando el outer-test)"
+      },
+      "sensibilidad": {
+        "budget_10": {
+          "presupuesto_nominal_pct": 10.0,
+          "umbral_riesgo": 0.330309,
+          "n_escalados_router": 1,
+          "n_eval": 16,
+          "drift_pct": 6.25,
+          "fallos_recuperables_2": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "fallos_recuperables_3": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "falsos_escalamientos": {
+            "router": 1,
+            "margin_only": 0,
+            "aleatorio": 1
+          },
+          "delta_fallos2_vs_margin": 0,
+          "delta_falsos_vs_margin": 1
+        },
+        "budget_20": {
+          "presupuesto_nominal_pct": 20.0,
+          "umbral_riesgo": 0.254579,
+          "n_escalados_router": 2,
+          "n_eval": 16,
+          "drift_pct": 12.5,
+          "fallos_recuperables_2": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "fallos_recuperables_3": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "falsos_escalamientos": {
+            "router": 2,
+            "margin_only": 1,
+            "aleatorio": 1
+          },
+          "delta_fallos2_vs_margin": 0,
+          "delta_falsos_vs_margin": 1
+        },
+        "budget_40": {
+          "presupuesto_nominal_pct": 40.0,
+          "umbral_riesgo": 0.166744,
+          "n_escalados_router": 3,
+          "n_eval": 16,
+          "drift_pct": 18.75,
+          "fallos_recuperables_2": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "fallos_recuperables_3": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "falsos_escalamientos": {
+            "router": 2,
+            "margin_only": 2,
+            "aleatorio": 1
+          },
+          "delta_fallos2_vs_margin": 0,
+          "delta_falsos_vs_margin": 0
+        }
+      },
+      "umbrales_riesgo": {
+        "0.1": 0.330309,
+        "0.2": 0.254579,
+        "0.3": 0.201483,
+        "0.4": 0.166744
+      }
+    },
+    {
+      "fold": 2,
+      "n_complejos_eval": 15,
+      "n_outer_train_complejos": 101,
+      "n_componentes": 9,
+      "clases_2": {
+        "solved": 5,
+        "rescoring_actionable": 0,
+        "sampling_needed": 10
+      },
+      "presupuesto_primario": {
+        "presupuesto_nominal_pct": 30.0,
+        "umbral_riesgo": 0.202091,
+        "n_escalados_router": 10,
+        "n_eval": 15,
+        "drift_pct": 66.67,
+        "fallos_recuperables_2": {
+          "router": 0,
+          "margin_only": 0,
+          "aleatorio": 0
+        },
+        "fallos_recuperables_3": {
+          "router": 0,
+          "margin_only": 0,
+          "aleatorio": 0
+        },
+        "falsos_escalamientos": {
+          "router": 2,
+          "margin_only": 2,
+          "aleatorio": 4
+        },
+        "delta_fallos2_vs_margin": 0,
+        "delta_falsos_vs_margin": 0
+      },
+      "drift_presupuesto": {
+        "n_escalados_router": 10,
+        "pct": 66.67,
+        "gate_aceptable_pct": [
+          25.0,
+          35.0
+        ],
+        "aceptable": false,
+        "desviacion_causa": "presupuesto real fuera de [25,35]% sobre el outer-test; umbral p70 FIJO del outer-train (prohibido re-umbralizar mirando el outer-test)"
+      },
+      "sensibilidad": {
+        "budget_10": {
+          "presupuesto_nominal_pct": 10.0,
+          "umbral_riesgo": 0.374321,
+          "n_escalados_router": 4,
+          "n_eval": 15,
+          "drift_pct": 26.67,
+          "fallos_recuperables_2": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "fallos_recuperables_3": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "falsos_escalamientos": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 1
+          },
+          "delta_fallos2_vs_margin": 0,
+          "delta_falsos_vs_margin": 0
+        },
+        "budget_20": {
+          "presupuesto_nominal_pct": 20.0,
+          "umbral_riesgo": 0.276412,
+          "n_escalados_router": 9,
+          "n_eval": 15,
+          "drift_pct": 60.0,
+          "fallos_recuperables_2": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "fallos_recuperables_3": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "falsos_escalamientos": {
+            "router": 2,
+            "margin_only": 1,
+            "aleatorio": 4
+          },
+          "delta_fallos2_vs_margin": 0,
+          "delta_falsos_vs_margin": 1
+        },
+        "budget_40": {
+          "presupuesto_nominal_pct": 40.0,
+          "umbral_riesgo": 0.166848,
+          "n_escalados_router": 10,
+          "n_eval": 15,
+          "drift_pct": 66.67,
+          "fallos_recuperables_2": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "fallos_recuperables_3": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "falsos_escalamientos": {
+            "router": 2,
+            "margin_only": 2,
+            "aleatorio": 3
+          },
+          "delta_fallos2_vs_margin": 0,
+          "delta_falsos_vs_margin": 0
+        }
+      },
+      "umbrales_riesgo": {
+        "0.1": 0.374321,
+        "0.2": 0.276412,
+        "0.3": 0.202091,
+        "0.4": 0.166848
+      }
+    },
+    {
+      "fold": 3,
+      "n_complejos_eval": 15,
+      "n_outer_train_complejos": 101,
+      "n_componentes": 10,
+      "clases_2": {
+        "solved": 6,
+        "rescoring_actionable": 2,
+        "sampling_needed": 7
+      },
+      "presupuesto_primario": {
+        "presupuesto_nominal_pct": 30.0,
+        "umbral_riesgo": 0.148988,
+        "n_escalados_router": 6,
+        "n_eval": 15,
+        "drift_pct": 40.0,
+        "fallos_recuperables_2": {
+          "router": 1,
+          "margin_only": 1,
+          "aleatorio": 0
+        },
+        "fallos_recuperables_3": {
+          "router": 1,
+          "margin_only": 1,
+          "aleatorio": 0
+        },
+        "falsos_escalamientos": {
+          "router": 3,
+          "margin_only": 1,
+          "aleatorio": 4
+        },
+        "delta_fallos2_vs_margin": 0,
+        "delta_falsos_vs_margin": 2
+      },
+      "drift_presupuesto": {
+        "n_escalados_router": 6,
+        "pct": 40.0,
+        "gate_aceptable_pct": [
+          25.0,
+          35.0
+        ],
+        "aceptable": false,
+        "desviacion_causa": "presupuesto real fuera de [25,35]% sobre el outer-test; umbral p70 FIJO del outer-train (prohibido re-umbralizar mirando el outer-test)"
+      },
+      "sensibilidad": {
+        "budget_10": {
+          "presupuesto_nominal_pct": 10.0,
+          "umbral_riesgo": 0.248332,
+          "n_escalados_router": 1,
+          "n_eval": 15,
+          "drift_pct": 6.67,
+          "fallos_recuperables_2": {
+            "router": 1,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "fallos_recuperables_3": {
+            "router": 1,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "falsos_escalamientos": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 1
+          },
+          "delta_fallos2_vs_margin": 1,
+          "delta_falsos_vs_margin": 0
+        },
+        "budget_20": {
+          "presupuesto_nominal_pct": 20.0,
+          "umbral_riesgo": 0.198645,
+          "n_escalados_router": 2,
+          "n_eval": 15,
+          "drift_pct": 13.33,
+          "fallos_recuperables_2": {
+            "router": 1,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "fallos_recuperables_3": {
+            "router": 1,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "falsos_escalamientos": {
+            "router": 0,
+            "margin_only": 1,
+            "aleatorio": 1
+          },
+          "delta_fallos2_vs_margin": 1,
+          "delta_falsos_vs_margin": -1
+        },
+        "budget_40": {
+          "presupuesto_nominal_pct": 40.0,
+          "umbral_riesgo": 0.107315,
+          "n_escalados_router": 8,
+          "n_eval": 15,
+          "drift_pct": 53.33,
+          "fallos_recuperables_2": {
+            "router": 1,
+            "margin_only": 1,
+            "aleatorio": 1
+          },
+          "fallos_recuperables_3": {
+            "router": 1,
+            "margin_only": 1,
+            "aleatorio": 1
+          },
+          "falsos_escalamientos": {
+            "router": 4,
+            "margin_only": 2,
+            "aleatorio": 2
+          },
+          "delta_fallos2_vs_margin": 0,
+          "delta_falsos_vs_margin": 2
+        }
+      },
+      "umbrales_riesgo": {
+        "0.1": 0.248332,
+        "0.2": 0.198645,
+        "0.3": 0.148988,
+        "0.4": 0.107315
+      }
+    },
+    {
+      "fold": 4,
+      "n_complejos_eval": 15,
+      "n_outer_train_complejos": 101,
+      "n_componentes": 10,
+      "clases_2": {
+        "solved": 6,
+        "rescoring_actionable": 0,
+        "sampling_needed": 9
+      },
+      "presupuesto_primario": {
+        "presupuesto_nominal_pct": 30.0,
+        "umbral_riesgo": 0.183207,
+        "n_escalados_router": 4,
+        "n_eval": 15,
+        "drift_pct": 26.67,
+        "fallos_recuperables_2": {
+          "router": 0,
+          "margin_only": 0,
+          "aleatorio": 0
+        },
+        "fallos_recuperables_3": {
+          "router": 0,
+          "margin_only": 0,
+          "aleatorio": 0
+        },
+        "falsos_escalamientos": {
+          "router": 1,
+          "margin_only": 1,
+          "aleatorio": 3
+        },
+        "delta_fallos2_vs_margin": 0,
+        "delta_falsos_vs_margin": 0
+      },
+      "drift_presupuesto": {
+        "n_escalados_router": 4,
+        "pct": 26.67,
+        "gate_aceptable_pct": [
+          25.0,
+          35.0
+        ],
+        "aceptable": true,
+        "desviacion_causa": null
+      },
+      "sensibilidad": {
+        "budget_10": {
+          "presupuesto_nominal_pct": 10.0,
+          "umbral_riesgo": 0.315236,
+          "n_escalados_router": 1,
+          "n_eval": 15,
+          "drift_pct": 6.67,
+          "fallos_recuperables_2": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "fallos_recuperables_3": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "falsos_escalamientos": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 1
+          },
+          "delta_fallos2_vs_margin": 0,
+          "delta_falsos_vs_margin": 0
+        },
+        "budget_20": {
+          "presupuesto_nominal_pct": 20.0,
+          "umbral_riesgo": 0.258545,
+          "n_escalados_router": 3,
+          "n_eval": 15,
+          "drift_pct": 20.0,
+          "fallos_recuperables_2": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "fallos_recuperables_3": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "falsos_escalamientos": {
+            "router": 0,
+            "margin_only": 1,
+            "aleatorio": 2
+          },
+          "delta_fallos2_vs_margin": 0,
+          "delta_falsos_vs_margin": -1
+        },
+        "budget_40": {
+          "presupuesto_nominal_pct": 40.0,
+          "umbral_riesgo": 0.159981,
+          "n_escalados_router": 4,
+          "n_eval": 15,
+          "drift_pct": 26.67,
+          "fallos_recuperables_2": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "fallos_recuperables_3": {
+            "router": 0,
+            "margin_only": 0,
+            "aleatorio": 0
+          },
+          "falsos_escalamientos": {
+            "router": 1,
+            "margin_only": 1,
+            "aleatorio": 2
+          },
+          "delta_fallos2_vs_margin": 0,
+          "delta_falsos_vs_margin": 0
+        }
+      },
+      "umbrales_riesgo": {
+        "0.1": 0.315236,
+        "0.2": 0.258545,
+        "0.3": 0.183207,
+        "0.4": 0.159981
+      }
+    }
+  ],
+  "global": {
+    "n_complejos_oof": 116,
+    "clases_2_global": {
+      "solved": 47,
+      "rescoring_actionable": 9,
+      "sampling_needed": 60
+    },
+    "presupuesto_real_total": {
+      "n_escalados_router": 45,
+      "drift_pct": 38.79,
+      "gate_aceptable_pct": [
+        25.0,
+        35.0
+      ]
+    },
+    "fallos_recuperables_2": {
+      "router": 3,
+      "margin_only": 5,
+      "aleatorio": 5
+    },
+    "fallos_recuperables_3": {
+      "router": 5,
+      "margin_only": 7,
+      "aleatorio": 7
+    },
+    "falsos_escalamientos": {
+      "router": 14,
+      "margin_only": 15,
+      "aleatorio": 19
+    },
+    "delta_vs_margin": {
+      "fallos_recuperables_2": -2,
+      "falsos_escalamientos": -1
+    },
+    "gate": {
+      "criterio": "capturar >= +3 fallos recuperables@2 vs margin-only al mismo coste (presupuesto real, pareado por fold) Y delta falsos escalamientos <= 0 (los complejos solved escalados no pueden aumentar vs margin-only)",
+      "delta_fallos_recuperables_2": -2,
+      "requerido": 3,
+      "cumple_fallos": false,
+      "delta_falsos_escalamientos": -1,
+      "requerido_falsos": 0,
+      "cumple_falsos": true,
+      "veredicto": "FAIL"
+    },
+    "mcnemar_opcional": {
+      "b_margin_router_no": 2,
+      "c_router_margin_no": 0,
+      "n_discordantes": 2,
+      "p_valor_exacto_bilateral": 0.5,
+      "nota": "binomtest(...).pvalue ya es bilateral; 0 pares discordantes -> p = 1.0"
+    },
+    "drift_por_fold": [
+      {
+        "fold": 0,
+        "n_escalados_router": 22,
+        "pct": 40.0,
+        "aceptable": false
+      },
+      {
+        "fold": 1,
+        "n_escalados_router": 3,
+        "pct": 18.75,
+        "aceptable": false
+      },
+      {
+        "fold": 2,
+        "n_escalados_router": 10,
+        "pct": 66.67,
+        "aceptable": false
+      },
+      {
+        "fold": 3,
+        "n_escalados_router": 6,
+        "pct": 40.0,
+        "aceptable": false
+      },
+      {
+        "fold": 4,
+        "n_escalados_router": 4,
+        "pct": 26.67,
+        "aceptable": true
+      }
+    ],
+    "desviaciones_presupuesto": [
+      {
+        "fold": 0,
+        "pct": 40.0,
+        "causa": "presupuesto real fuera de [25,35]% sobre el outer-test; umbral p70 FIJO del outer-train (prohibido re-umbralizar mirando el outer-test)"
+      },
+      {
+        "fold": 1,
+        "pct": 18.75,
+        "causa": "presupuesto real fuera de [25,35]% sobre el outer-test; umbral p70 FIJO del outer-train (prohibido re-umbralizar mirando el outer-test)"
+      },
+      {
+        "fold": 2,
+        "pct": 66.67,
+        "causa": "presupuesto real fuera de [25,35]% sobre el outer-test; umbral p70 FIJO del outer-train (prohibido re-umbralizar mirando el outer-test)"
+      },
+      {
+        "fold": 3,
+        "pct": 40.0,
+        "causa": "presupuesto real fuera de [25,35]% sobre el outer-test; umbral p70 FIJO del outer-train (prohibido re-umbralizar mirando el outer-test)"
+      }
+    ],
+    "nota_drift": "la fraccion escalada en el outer-test es el presupuesto REAL; el percentil 70 del outer-train no siempre se traduce en 30% exacto; fuera de [25,35]% se reporta desviacion con causa, NO se re-umbraliza"
+  },
+  "incertidumbre": {
+    "bootstrap_componentes_38_primario": {
+      "n_replicas": 10000,
+      "seed": 42,
+      "unidades": "38 componentes combinadas del fold_plan",
+      "delta_fallos_recuperables_2": {
+        "tipo": "Δ fallos recuperables@2 (router − margin-only)",
+        "intervalo_percentil_95": [
+          -6.0,
+          0.0
+        ],
+        "metodo": "BCa primario (jackknife por unidades)",
+        "bca_degenerado": false,
+        "aceleracion": -0.160014,
+        "sesgo_z0": 0.335298,
+        "intervalo": [
+          -6.0,
+          0.0
+        ],
+        "excluye_cero": false
+      },
+      "delta_falsos_escalamientos": {
+        "tipo": "Δ falsos escalamientos (router − margin-only)",
+        "intervalo_percentil_95": [
+          -9.0,
+          6.0
+        ],
+        "metodo": "BCa primario (jackknife por unidades)",
+        "bca_degenerado": false,
+        "aceleracion": -0.068509,
+        "sesgo_z0": 0.039866,
+        "intervalo": [
+          -10.0,
+          5.0
+        ],
+        "excluye_cero": false
+      }
+    },
+    "nota": "BCa primario por las 38 componentes; degenerado -> percentil bootstrap (regla C3d)"
+  },
+  "sensibilidad_presupuestaria": {
+    "budget_10": {
+      "presupuesto_nominal_pct": 10.0,
+      "n_escalados_router_total": 18,
+      "drift_pct": 15.52,
+      "fallos_recuperables_2": {
+        "router": 2,
+        "margin_only": 1,
+        "aleatorio": 0
+      },
+      "falsos_escalamientos": {
+        "router": 2,
+        "margin_only": 3,
+        "aleatorio": 7
+      },
+      "delta_fallos2_vs_margin": 1,
+      "delta_falsos_vs_margin": -1,
+      "nota": "descriptiva, SIN gate (QA-3)"
+    },
+    "budget_20": {
+      "presupuesto_nominal_pct": 20.0,
+      "n_escalados_router_total": 29,
+      "drift_pct": 25.0,
+      "fallos_recuperables_2": {
+        "router": 2,
+        "margin_only": 1,
+        "aleatorio": 2
+      },
+      "falsos_escalamientos": {
+        "router": 7,
+        "margin_only": 9,
+        "aleatorio": 12
+      },
+      "delta_fallos2_vs_margin": 1,
+      "delta_falsos_vs_margin": -2,
+      "nota": "descriptiva, SIN gate (QA-3)"
+    },
+    "budget_40": {
+      "presupuesto_nominal_pct": 40.0,
+      "n_escalados_router_total": 54,
+      "drift_pct": 46.55,
+      "fallos_recuperables_2": {
+        "router": 6,
+        "margin_only": 6,
+        "aleatorio": 5
+      },
+      "falsos_escalamientos": {
+        "router": 17,
+        "margin_only": 20,
+        "aleatorio": 19
+      },
+      "delta_fallos2_vs_margin": 0,
+      "delta_falsos_vs_margin": -3,
+      "nota": "descriptiva, SIN gate (QA-3)"
+    }
+  },
+  "por_estrato": {
+    "hard": {
+      "n_complejos": 17,
+      "n_componentes": 8,
+      "fallos_recuperables_2": {
+        "router": 2,
+        "margin": 2,
+        "aleatorio": 1
+      },
+      "falsos_escalamientos": {
+        "router": 2,
+        "margin": 2,
+        "aleatorio": 2
+      },
+      "delta_fallos2_vs_margin": 0,
+      "delta_falsos_vs_margin": 0
+    },
+    "control": {
+      "n_complejos": 17,
+      "n_componentes": 10,
+      "fallos_recuperables_2": {
+        "router": 1,
+        "margin": 1,
+        "aleatorio": 1
+      },
+      "falsos_escalamientos": {
+        "router": 4,
+        "margin": 2,
+        "aleatorio": 4
+      },
+      "delta_fallos2_vs_margin": 0,
+      "delta_falsos_vs_margin": 2
+    }
+  },
+  "inner_models": {
+    "n_clones": 25,
+    "archivo": "scripts/artifacts_science/RS-08/inner_models/meta.jsonl",
+    "nota": "solo meta jsonl con sha256 de los 25 clones inner (los binarios .xgb NO se conservan); mismo XGBoost congelado que el clon v0.6 (233 features A1, sin strain)"
+  },
+  "limitacion_claim": "RS-08 solo puede recibir GO como ROUTER (decisibilidad accionable). PROHIBIDO reclamar mejora de Top-1: el rescoring solo es util si RS-03 (MM/GBSA-like, previa RS-03-PARAM) convierte los complejos escalados en aciertos (cascada integrada v0.6 -> RS-08 -> RS-03). El strain MMFF94s queda FUERA del camino primario de la cascada.",
+  "archivos_abiertos_repo": [
+    "data/pose_selector_dataset/poses_train.jsonl",
+    "data/pose_selector_dataset/records/10gs.json",
+    "data/pose_selector_dataset/records/184l.json",
+    "data/pose_selector_dataset/records/186l.json",
+    "data/pose_selector_dataset/records/187l.json",
+    "data/pose_selector_dataset/records/188l.json",
+    "data/pose_selector_dataset/records/1a30.json",
+    "data/pose_selector_dataset/records/1a4w.json",
+    "data/pose_selector_dataset/records/1a99.json",
+    "data/pose_selector_dataset/records/1aaq.json",
+    "data/pose_selector_dataset/records/1add.json",
+    "data/pose_selector_dataset/records/1afk.json",
+    "data/pose_selector_dataset/records/1afl.json",
+    "data/pose_selector_dataset/records/1ai4.json",
+    "data/pose_selector_dataset/records/1ai7.json",
+    "data/pose_selector_dataset/records/1alw.json",
+    "data/pose_selector_dataset/records/1amw.json",
+    "data/pose_selector_dataset/records/1apv.json",
+    "data/pose_selector_dataset/records/1ax0.json",
+    "data/pose_selector_dataset/records/1b2h.json",
+    "data/pose_selector_dataset/records/1b38.json",
+    "data/pose_selector_dataset/records/1b46.json",
+    "data/pose_selector_dataset/records/1b4z.json",
+    "data/pose_selector_dataset/records/1b8y.json",
+    "data/pose_selector_dataset/records/1bcd.json",
+    "data/pose_selector_dataset/records/1bju.json",
+    "data/pose_selector_dataset/records/1bjv.json",
+    "data/pose_selector_dataset/records/1bma.json",
+    "data/pose_selector_dataset/records/1bn1.json",
+    "data/pose_selector_dataset/records/1bn3.json",
+    "data/pose_selector_dataset/records/1bn4.json",
+    "data/pose_selector_dataset/records/1bnu.json",
+    "data/pose_selector_dataset/records/1bq4.json",
+    "data/pose_selector_dataset/records/1bty.json",
+    "data/pose_selector_dataset/records/1bxr.json",
+    "data/pose_selector_dataset/records/1c4u.json",
+    "data/pose_selector_dataset/records/1c5o.json",
+    "data/pose_selector_dataset/records/1c5p.json",
+    "data/pose_selector_dataset/records/1cet.json",
+    "data/pose_selector_dataset/records/1cnw.json",
+    "data/pose_selector_dataset/records/1cnx.json",
+    "data/pose_selector_dataset/records/1d3p.json",
+    "data/pose_selector_dataset/records/1d7i.json",
+    "data/pose_selector_dataset/records/1d7j.json",
+    "data/pose_selector_dataset/records/1d9i.json",
+    "data/pose_selector_dataset/records/1dgm.json",
+    "data/pose_selector_dataset/records/1e4h.json",
+    "data/pose_selector_dataset/records/1eb2.json",
+    "data/pose_selector_dataset/records/1ela.json",
+    "data/pose_selector_dataset/records/1elb.json",
+    "data/pose_selector_dataset/records/1eld.json",
+    "data/pose_selector_dataset/records/1ele.json",
+    "data/pose_selector_dataset/records/1ew8.json",
+    "data/pose_selector_dataset/records/1ew9.json",
+    "data/pose_selector_dataset/records/1ezq.json",
+    "data/pose_selector_dataset/records/1f0r.json",
+    "data/pose_selector_dataset/records/1f0t.json",
+    "data/pose_selector_dataset/records/1f0u.json",
+    "data/pose_selector_dataset/records/1f4e.json",
+    "data/pose_selector_dataset/records/1f4f.json",
+    "data/pose_selector_dataset/records/1f4g.json",
+    "data/pose_selector_dataset/records/1f5k.json",
+    "data/pose_selector_dataset/records/1f74.json",
+    "data/pose_selector_dataset/records/1fd0.json",
+    "data/pose_selector_dataset/records/1fh7.json",
+    "data/pose_selector_dataset/records/1fkg.json",
+    "data/pose_selector_dataset/records/1fkh.json",
+    "data/pose_selector_dataset/records/1flr.json",
+    "data/pose_selector_dataset/records/1fv0.json",
+    "data/pose_selector_dataset/records/1g3d.json",
+    "data/pose_selector_dataset/records/1g3e.json",
+    "data/pose_selector_dataset/records/1gpn.json",
+    "data/pose_selector_dataset/records/1gwv.json",
+    "data/pose_selector_dataset/records/1h22.json",
+    "data/pose_selector_dataset/records/1h4w.json",
+    "data/pose_selector_dataset/records/1hdq.json",
+    "data/pose_selector_dataset/records/1hih.json",
+    "data/pose_selector_dataset/records/1hii.json",
+    "data/pose_selector_dataset/records/1hlk.json",
+    "data/pose_selector_dataset/records/1hmr.json",
+    "data/pose_selector_dataset/records/1hn4.json",
+    "data/pose_selector_dataset/records/1hp5.json",
+    "data/pose_selector_dataset/records/1hpx.json",
+    "data/pose_selector_dataset/records/1i7z.json",
+    "data/pose_selector_dataset/records/1igb.json",
+    "data/pose_selector_dataset/records/1iih.json",
+    "data/pose_selector_dataset/records/1ikt.json",
+    "data/pose_selector_dataset/records/1j4r.json",
+    "data/pose_selector_dataset/records/1jao.json",
+    "data/pose_selector_dataset/records/1jaq.json",
+    "data/pose_selector_dataset/records/1jn4.json",
+    "data/pose_selector_dataset/records/1jq8.json",
+    "data/pose_selector_dataset/records/1jvu.json",
+    "data/pose_selector_dataset/records/1k9s.json",
+    "data/pose_selector_dataset/records/1kav.json",
+    "data/pose_selector_dataset/records/1kpm.json",
+    "data/pose_selector_dataset/records/1kzk.json",
+    "data/pose_selector_dataset/records/1l83.json",
+    "data/pose_selector_dataset/records/1lan.json",
+    "data/pose_selector_dataset/records/1lbk.json",
+    "data/pose_selector_dataset/records/1lrh.json",
+    "data/pose_selector_dataset/records/1m0n.json",
+    "data/pose_selector_dataset/records/1m2x.json",
+    "data/pose_selector_dataset/records/1m48.json",
+    "data/pose_selector_dataset/records/1m5w.json",
+    "data/pose_selector_dataset/records/1mmq.json",
+    "data/pose_selector_dataset/records/1mmr.json",
+    "data/pose_selector_dataset/records/1moq.json",
+    "data/pose_selector_dataset/records/1mu8.json",
+    "data/pose_selector_dataset/records/1n0s.json",
+    "data/pose_selector_dataset/records/1nje.json",
+    "data/pose_selector_dataset/records/1njs.json",
+    "data/pose_selector_dataset/records/1nki.json",
+    "data/pose_selector_dataset/records/1nm6.json",
+    "data/pose_selector_dataset/records/1np0.json",
+    "data/pose_selector_dataset/records/1nq7.json",
+    "data/pose_selector_dataset/records/1nw5.json",
+    "rescoring/artifacts/pose_selector_v06.xgb",
+    "rescoring/artifacts/pose_selector_v06_meta.json",
+    "scripts/artifacts_science/MF-01-UNION/union_candidates_train.jsonl",
+    "scripts/artifacts_science/MF-01-UNION/union_labels_train.jsonl",
+    "scripts/artifacts_science/MF-11-R1/cluster_members_train_1.5.jsonl",
+    "scripts/artifacts_science/MF-11-R1/dedup_candidates_train_1.5.jsonl",
+    "scripts/artifacts_science/MF-11-R1/metrics.json",
+    "scripts/artifacts_science/RS-01/INVENTORY.json",
+    "scripts/artifacts_science/RS-01/cache_train_only_view.jsonl",
+    "scripts/artifacts_science/RS-01/cache_view_manifest.json",
+    "scripts/artifacts_science/RS-01/fold_plan.json",
+    "scripts/artifacts_science/RS-01B/fold_models/fold0_brazo_original.xgb",
+    "scripts/artifacts_science/RS-01B/fold_models/fold0_brazo_original_meta.json",
+    "scripts/artifacts_science/RS-01B/fold_models/fold1_brazo_original.xgb",
+    "scripts/artifacts_science/RS-01B/fold_models/fold1_brazo_original_meta.json",
+    "scripts/artifacts_science/RS-01B/fold_models/fold2_brazo_original.xgb",
+    "scripts/artifacts_science/RS-01B/fold_models/fold2_brazo_original_meta.json",
+    "scripts/artifacts_science/RS-01B/fold_models/fold3_brazo_original.xgb",
+    "scripts/artifacts_science/RS-01B/fold_models/fold3_brazo_original_meta.json",
+    "scripts/artifacts_science/RS-01B/fold_models/fold4_brazo_original.xgb",
+    "scripts/artifacts_science/RS-01B/fold_models/fold4_brazo_original_meta.json",
+    "scripts/artifacts_science/RS-01B/metrics.json",
+    "scripts/artifacts_science/RS-04-OOF/metrics.json",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f0_s0.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f0_s1.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f0_s2.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f0_s3.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f0_s4.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f1_s0.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f1_s1.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f1_s2.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f1_s3.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f1_s4.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f2_s0.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f2_s1.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f2_s2.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f2_s3.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f2_s4.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f3_s0.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f3_s1.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f3_s2.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f3_s3.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f3_s4.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f4_s0.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f4_s1.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f4_s2.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f4_s3.xgb",
+    "scripts/artifacts_science/RS-08/inner_models/tmp_xgb_f4_s4.xgb"
+  ],
+  "garantia_cuarentena": "builtins.open auditado contra whitelist explicita: 0 accesos a val/test/CONFIRM; poses_val.jsonl, poses_test.jsonl y D-RC-CONFIRM nunca se abren",
+  "determinismo": "salidas sin timestamps ni aleatoriedad no-seeded (seed 42 en clones inner, bootstrap y seleccion aleatoria; LogReg lbfgs determinista; umbral percentil 70 materializado como valor numerico por fold); dos corridas producen salidas byte-identicas"
+}

@@ -1,0 +1,61 @@
+{
+ "experiment_id": "MF-33-A2",
+ "tipo": "control de confundido (paridad de CPU)",
+ "timestamp": "2026-08-20T01:22:15.660434+00:00",
+ "duration_seconds": 19698.25,
+ "config": {
+  "box": 25.0,
+  "seed": 42,
+  "exh_base": 8,
+  "exh_tope": 1024,
+  "num_modes": 9,
+  "umbral_A": 2.0,
+  "ligando": "conf0.flex.pdbqt",
+  "escalado": "exh_A2 = round(8 * cpu_B / cpu_A) por complejo",
+  "brazos_A_y_B": "reusados de MF-33 sin recomputo"
+ },
+ "n_complejos": 48,
+ "n_ok": 48,
+ "por_estrato": {
+  "COLOCACION": {
+   "n": 33,
+   "A_alcanza": 12,
+   "A2_alcanza": 19,
+   "B_alcanza": 26,
+   "A2vsB_gana_A2": 1,
+   "A2vsB_gana_B": 8,
+   "A2vsB_mcnemar_p": 0.0391,
+   "A2vsB_delta_complejos": 7,
+   "A2vsA_gana_A2": 7,
+   "A2vsA_gana_A": 0,
+   "A2vsA_mcnemar_p": 0.0156,
+   "A2_rmsd_mediano": 1.683,
+   "A2_cpu_mediana_s": 3725.1,
+   "B_cpu_mediana_s": 3821.7,
+   "razon_cpu_A2_sobre_B": 0.975,
+   "n_tope_activo": 0,
+   "margen_equivalencia_declarado": "+-4 complejos",
+   "mde_declarado": "6 discordantes a favor de B con 0 en contra"
+  },
+  "CONTROL": {
+   "n": 15,
+   "A_alcanza": 14,
+   "A2_alcanza": 14,
+   "B_alcanza": 15,
+   "A2vsB_gana_A2": 0,
+   "A2vsB_gana_B": 1,
+   "A2vsB_mcnemar_p": 1.0,
+   "A2vsB_delta_complejos": 1,
+   "A2vsA_gana_A2": 0,
+   "A2vsA_gana_A": 0,
+   "A2vsA_mcnemar_p": null,
+   "A2_rmsd_mediano": 1.253,
+   "A2_cpu_mediana_s": 131.9,
+   "B_cpu_mediana_s": 140.1,
+   "razon_cpu_A2_sobre_B": 0.941,
+   "n_tope_activo": 0,
+   "margen_equivalencia_declarado": "+-4 complejos",
+   "mde_declarado": "6 discordantes a favor de B con 0 en contra"
+  }
+ }
+}

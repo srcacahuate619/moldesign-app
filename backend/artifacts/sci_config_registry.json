@@ -1,0 +1,287 @@
+{
+  "registry_version": "1.0.0",
+  "created_at": "2026-09-10T00:00:00+00:00",
+  "last_modified": "2026-09-10T00:00:00+00:00",
+  "config_hash": "6101ed0211d821d02b8f6ee69444259dd0684e7d690dbb1ee5a45f77f27310dc",
+  "contract": {
+    "id": "M4_STACKING_ALPHA_V1",
+    "model_manifest": "rescoring/artifacts/model-manifest.json",
+    "clgnn_sha256": "f714dd8208f491258dcb4671bc1e29f308712c1c27f629409f2e33993186bb4f",
+    "clgnn_status": "CHECKPOINT_INCLUDED__EXTERNAL_VALIDATION_FOR_EXACT_SHA256_PENDING",
+    "policy": "CL-GNN se ejecuta y serializa como senal experimental, pero no decide ranking ni recomendacion hasta que una evaluacion externa sellada sea atribuible al SHA-256 exacto. La GNN legacy esta deprecada y tampoco decide. M5-Zn se calcula y persiste en su protocolo separado."
+  },
+  "parameters": {
+    "stacking_default": {
+      "name": "stacking_default",
+      "category": "scoring_weights",
+      "unit": "fracciones (suman 1.0)",
+      "description": "Contrato M4 de release para default.",
+      "max_age_days": 365,
+      "tags": [
+        "M4",
+        "default",
+        "release",
+        "CL-GNN-experimental"
+      ],
+      "versions": [
+        {
+          "value": {
+            "vina": 0.25,
+            "xgb": 0.75,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 1,
+          "adopted_at": "2026-09-10T00:00:00+00:00",
+          "reason": "Perfil conservador de alpha: el checkpoint CL-GNN distribuido no tiene validacion externa sellada atribuible a sus bytes.",
+          "reference": {
+            "source": "rescoring/artifacts/model-manifest.json y docs/87_ADR_CONTRATO_STACKING_CLGNN_ALPHA.md",
+            "method": "Correspondencia de checkpoint por SHA-256",
+            "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
+          },
+          "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": null
+        }
+      ]
+    },
+    "stacking_gpcr": {
+      "name": "stacking_gpcr",
+      "category": "scoring_weights",
+      "unit": "fracciones (suman 1.0)",
+      "description": "Contrato M4 de release para gpcr.",
+      "max_age_days": 365,
+      "tags": [
+        "M4",
+        "gpcr",
+        "release",
+        "CL-GNN-experimental"
+      ],
+      "versions": [
+        {
+          "value": {
+            "vina": 0.25,
+            "xgb": 0.75,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 1,
+          "adopted_at": "2026-09-10T00:00:00+00:00",
+          "reason": "Los AUC GPCR historicos no son atribuibles al checkpoint CL-GNN distribuido; se retira ademas el peso de la GNN legacy.",
+          "reference": {
+            "source": "rescoring/artifacts/model-manifest.json y docs/87_ADR_CONTRATO_STACKING_CLGNN_ALPHA.md",
+            "method": "Correspondencia de checkpoint por SHA-256",
+            "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
+          },
+          "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": null
+        }
+      ]
+    },
+    "stacking_protease": {
+      "name": "stacking_protease",
+      "category": "scoring_weights",
+      "unit": "fracciones (suman 1.0)",
+      "description": "Contrato M4 de release para protease.",
+      "max_age_days": 365,
+      "tags": [
+        "M4",
+        "protease",
+        "release",
+        "CL-GNN-experimental"
+      ],
+      "versions": [
+        {
+          "value": {
+            "vina": 0.25,
+            "xgb": 0.75,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 1,
+          "adopted_at": "2026-09-10T00:00:00+00:00",
+          "reason": "El AUC historico de proteasa no es atribuible al checkpoint CL-GNN distribuido.",
+          "reference": {
+            "source": "rescoring/artifacts/model-manifest.json y docs/87_ADR_CONTRATO_STACKING_CLGNN_ALPHA.md",
+            "method": "Correspondencia de checkpoint por SHA-256",
+            "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
+          },
+          "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": null
+        }
+      ]
+    },
+    "stacking_kinase": {
+      "name": "stacking_kinase",
+      "category": "scoring_weights",
+      "unit": "fracciones (suman 1.0)",
+      "description": "Contrato M4 de release para kinase.",
+      "max_age_days": 365,
+      "tags": [
+        "M4",
+        "kinase",
+        "release",
+        "CL-GNN-experimental"
+      ],
+      "versions": [
+        {
+          "value": {
+            "vina": 0.25,
+            "xgb": 0.75,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 1,
+          "adopted_at": "2026-09-10T00:00:00+00:00",
+          "reason": "No existe validacion externa del checkpoint CL-GNN exacto que justifique influencia en ranking.",
+          "reference": {
+            "source": "rescoring/artifacts/model-manifest.json y docs/87_ADR_CONTRATO_STACKING_CLGNN_ALPHA.md",
+            "method": "Correspondencia de checkpoint por SHA-256",
+            "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
+          },
+          "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": null
+        }
+      ]
+    },
+    "stacking_nuclear_receptor": {
+      "name": "stacking_nuclear_receptor",
+      "category": "scoring_weights",
+      "unit": "fracciones (suman 1.0)",
+      "description": "Contrato M4 de release para nuclear_receptor.",
+      "max_age_days": 365,
+      "tags": [
+        "M4",
+        "nuclear_receptor",
+        "release",
+        "CL-GNN-experimental"
+      ],
+      "versions": [
+        {
+          "value": {
+            "vina": 0.25,
+            "xgb": 0.75,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 1,
+          "adopted_at": "2026-09-10T00:00:00+00:00",
+          "reason": "No existe validacion externa del checkpoint CL-GNN exacto que justifique influencia en ranking.",
+          "reference": {
+            "source": "rescoring/artifacts/model-manifest.json y docs/87_ADR_CONTRATO_STACKING_CLGNN_ALPHA.md",
+            "method": "Correspondencia de checkpoint por SHA-256",
+            "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
+          },
+          "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": null
+        }
+      ]
+    },
+    "stacking_soluble_enzyme": {
+      "name": "stacking_soluble_enzyme",
+      "category": "scoring_weights",
+      "unit": "fracciones (suman 1.0)",
+      "description": "Contrato M4 de release para soluble_enzyme.",
+      "max_age_days": 365,
+      "tags": [
+        "M4",
+        "soluble_enzyme",
+        "release",
+        "CL-GNN-experimental"
+      ],
+      "versions": [
+        {
+          "value": {
+            "vina": 0.25,
+            "xgb": 0.75,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 1,
+          "adopted_at": "2026-09-10T00:00:00+00:00",
+          "reason": "No existe validacion externa del checkpoint CL-GNN exacto que justifique influencia en ranking.",
+          "reference": {
+            "source": "rescoring/artifacts/model-manifest.json y docs/87_ADR_CONTRATO_STACKING_CLGNN_ALPHA.md",
+            "method": "Correspondencia de checkpoint por SHA-256",
+            "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
+          },
+          "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": null
+        }
+      ]
+    },
+    "stacking_phosphodiesterase": {
+      "name": "stacking_phosphodiesterase",
+      "category": "scoring_weights",
+      "unit": "fracciones (suman 1.0)",
+      "description": "Contrato M4 de release para phosphodiesterase.",
+      "max_age_days": 365,
+      "tags": [
+        "M4",
+        "phosphodiesterase",
+        "release",
+        "CL-GNN-experimental"
+      ],
+      "versions": [
+        {
+          "value": {
+            "vina": 0.25,
+            "xgb": 0.75,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 1,
+          "adopted_at": "2026-09-10T00:00:00+00:00",
+          "reason": "No existe validacion externa del checkpoint CL-GNN exacto que justifique influencia en ranking.",
+          "reference": {
+            "source": "rescoring/artifacts/model-manifest.json y docs/87_ADR_CONTRATO_STACKING_CLGNN_ALPHA.md",
+            "method": "Correspondencia de checkpoint por SHA-256",
+            "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
+          },
+          "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": null
+        }
+      ]
+    },
+    "stacking_unknown": {
+      "name": "stacking_unknown",
+      "category": "scoring_weights",
+      "unit": "fracciones (suman 1.0)",
+      "description": "Contrato M4 de release para unknown.",
+      "max_age_days": 365,
+      "tags": [
+        "M4",
+        "unknown",
+        "release",
+        "CL-GNN-experimental"
+      ],
+      "versions": [
+        {
+          "value": {
+            "vina": 0.25,
+            "xgb": 0.75,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 1,
+          "adopted_at": "2026-09-10T00:00:00+00:00",
+          "reason": "No existe validacion externa del checkpoint CL-GNN exacto que justifique influencia en ranking.",
+          "reference": {
+            "source": "rescoring/artifacts/model-manifest.json y docs/87_ADR_CONTRATO_STACKING_CLGNN_ALPHA.md",
+            "method": "Correspondencia de checkpoint por SHA-256",
+            "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
+          },
+          "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": null
+        }
+      ]
+    }
+  }
+}

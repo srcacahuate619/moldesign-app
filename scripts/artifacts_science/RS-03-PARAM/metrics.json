@@ -1,0 +1,35 @@
+{
+ "experiment_id": "RS-03-PARAM",
+ "tipo": "agregacion contra contrato congelado, sin computo nuevo",
+ "timestamp": "2026-08-20T05:12:09.513171+00:00",
+ "duration_seconds": 0.002,
+ "contrato": "RS-03-PARAM-PRE/PREREGISTRO.md seccion 4, 11 requisitos primarios",
+ "requisitos": {
+  "n": 11,
+  "pass": 11,
+  "todos_pass": true
+ },
+ "fuente_A": {
+  "experimento": "RS-03-PARAM-A",
+  "decision": "GO",
+  "cobertura": null,
+  "determinismo": {
+   "G10_deterministic_charges_le_1e6": true
+  }
+ },
+ "fuente_B": {
+  "experimento": "RS-03-PARAM-B",
+  "decision": "GO",
+  "rol": "referencia estratificada, NO verdad absoluta; caracteriza y NO decide",
+  "divergencia_reportada": {
+   "dq_por_atomo": {
+    "global_abs_dq_mean_e": 0.0142
+   },
+   "denergia": {
+    "decision": "GO"
+   }
+  }
+ },
+ "decision_del_contrato": "ACEPTAR NAGL como base de cargas",
+ "asimetria_declarada": "El contrato define que AM1-BCC es referencia estratificada y NO verdad absoluta, y PROHIBE seleccionar NAGL mirando RMSD o Top-1. B caracteriza, no decide: una divergencia grande documenta, no reprueba. Reprobar exigiria que A fallara un requisito primario, o un experimento de rendimiento que el contrato prohibe usar aqui."
+}

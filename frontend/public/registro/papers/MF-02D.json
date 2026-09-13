@@ -1,0 +1,425 @@
+{
+ "id": "MF-02D",
+ "meta": {
+  "titulo": "La métrica que alineaba las moléculas y borraba 12 complejos",
+  "entradilla": "La cobertura estaba medida con un RMSD que alinea las dos moléculas antes de compararlas. Eso oculta desplazamientos: una pose a 7.83 Å del sitio real reportaba 2.755 Å."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento tenía que ser rutinario: aplicar el pipeline congelado a los 116 complejos de entrenamiento, dejar el material en disco, y reproducir un resultado anterior para demostrar que el pipeline no tiene variabilidad oculta.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cuatro de sus cinco criterios pasan, y el producto se entrega: ",
+     "m": null
+    },
+    {
+     "t": "116 de 116 complejos con material en disco",
+     "m": "fuerte"
+    },
+    {
+     "t": ", 17,596 poses dockeadas, mediana de 171 por complejo, cada una con su mapa de índices y su receptor.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La reproducción salió perfecta: ",
+     "m": null
+    },
+    {
+     "t": "38 de 38",
+     "m": "fuerte"
+    },
+    {
+     "t": " complejos comparables idénticos, sin ninguna discrepancia. El pipeline es determinista.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El quinto criterio falló, y ahí está lo que importa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El número que no se sostuvo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El gate exigía una cobertura del oráculo de al menos 90%. Salió ",
+     "m": null
+    },
+    {
+     "t": "79.3%",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El umbral del 90% se había fijado sobre una medición anterior que daba 93.1%. Esa cifra estaba ",
+     "m": null
+    },
+    {
+     "t": "mal medida",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La causa es una elección de métrica que parece inocua y no lo es. Hay dos formas de comparar una pose con el cristal:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Métrica",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Qué hace",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Qué oculta",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "RMSD con alineamiento",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Superpone las dos moléculas antes de medir",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Dónde está la pose",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "RMSD en marco de pocket",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Compara coordenada a coordenada, receptor fijo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Nada",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La primera responde «¿tiene la forma correcta?». La segunda responde «¿está en el sitio correcto?». Para conformación libre, la primera es la adecuada. Para una pose dockeada, es justo la pregunta equivocada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El caso que lo ilustra: el complejo ",
+     "m": null
+    },
+    {
+     "t": "10gs",
+     "m": "codigo"
+    },
+    {
+     "t": " reportaba ",
+     "m": null
+    },
+    {
+     "t": "2.755 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": " con alineamiento. Su pose entregada está a ",
+     "m": null
+    },
+    {
+     "t": "7.83 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": " del sitio bioactivo. La molécula tenía la forma correcta, en el sitio equivocado, y la métrica sólo miraba la forma.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La corrección, en números",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Recalculando con la métrica correcta sobre el conjunto que realmente consume el pipeline:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Con la métrica equivocada",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Con la correcta",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Cobertura de train",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "93.1%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "79.3%",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Complejos recuperados",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "30",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "14",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Ganancia declarada",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+26 puntos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+12 puntos",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Doce complejos que la métrica alineada contaba como cubiertos no se sostienen.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La ganancia real es menos de la mitad de la anunciada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo incómodo: ya estaba documentado",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El repositorio tenía esto anotado como lección de una auditoría anterior. La advertencia estaba escrita, con el nombre de la función culpable, semanas antes de que este experimento la confirmara en datos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Estaba escrita y no estaba comprobada por nada. Un aviso en un documento no impide que alguien llame a la función equivocada; sólo lo impide un test o una función única que haga lo correcto por defecto. De aquí sale la práctica de que la métrica de pose del programa tiene ",
+     "m": null
+    },
+    {
+     "t": "una sola implementación",
+     "m": "fuerte"
+    },
+    {
+     "t": ", documentada con la razón de por qué no usa alineamiento, y que cualquier implementación nueva se verifica contra ella.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué sobrevive y qué no",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El material entregado es válido",
+     "m": "fuerte"
+    },
+    {
+     "t": " y no depende de la métrica: son poses en disco, con su procedencia. Nada de eso cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo que no sobrevive es el número.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Y como el número era la base de todo lo que se construyó encima —la reconstrucción del conjunto, la precisión condicional, la reapertura de la cartera de rescoring— todo eso tuvo que partir de 79.3% en vez de 93.1%.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un NO_GO que entrega su producto y corrige la contabilidad del programa entero vale más que un GO que la deja mal.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-02D.md"
+}

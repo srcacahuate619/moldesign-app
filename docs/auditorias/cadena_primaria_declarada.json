@@ -1,0 +1,407 @@
+{
+ "fecha": "2026-09-02",
+ "herramienta": "scripts/declarar_cadena_primaria.py",
+ "criterio": "`chain` pasa a ser la primera de `site_chains` -la que mas aporta- cuando la declarada no forma el sitio Y el sitio es multicadena",
+ "no_mueve_numeros": "el receptor que se acopla lo determinan TODAS las cadenas del sitio desde que prepare_target recibe site_chains; esto arregla lo que el usuario lee, no lo que Vina calcula",
+ "total": 21,
+ "decisiones": [
+  {
+   "pdb_id": "1IRU",
+   "cadena_antes": "A",
+   "cadena_despues": "Q",
+   "site_chains": [
+    "Q",
+    "P",
+    "X"
+   ],
+   "aporte_por_cadena": {
+    "Q": 287,
+    "P": 209,
+    "X": 96
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "P",
+    "Q",
+    "X"
+   ]
+  },
+  {
+   "pdb_id": "1RYP",
+   "cadena_antes": "A",
+   "cadena_despues": "W",
+   "site_chains": [
+    "W",
+    "X",
+    "P"
+   ],
+   "aporte_por_cadena": {
+    "W": 342,
+    "X": 311,
+    "P": 120
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "P",
+    "W",
+    "X"
+   ]
+  },
+  {
+   "pdb_id": "3HH2",
+   "cadena_antes": "A",
+   "cadena_despues": "C",
+   "site_chains": [
+    "C",
+    "D"
+   ],
+   "aporte_por_cadena": {
+    "C": 340,
+    "D": 181
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "B",
+    "C",
+    "D"
+   ]
+  },
+  {
+   "pdb_id": "4DMF",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "site_chains": [
+    "B",
+    "C"
+   ],
+   "aporte_por_cadena": {
+    "B": 335,
+    "C": 248
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "B",
+    "C"
+   ]
+  },
+  {
+   "pdb_id": "4EU2",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "site_chains": [
+    "H",
+    "N"
+   ],
+   "aporte_por_cadena": {
+    "H": 25,
+    "N": 17
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "H",
+    "N"
+   ]
+  },
+  {
+   "pdb_id": "4I04",
+   "cadena_antes": "A",
+   "cadena_despues": "D",
+   "site_chains": [
+    "D",
+    "B"
+   ],
+   "aporte_por_cadena": {
+    "D": 448,
+    "B": 322
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "B",
+    "D"
+   ]
+  },
+  {
+   "pdb_id": "4LMO",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "site_chains": [
+    "B",
+    "D"
+   ],
+   "aporte_por_cadena": {
+    "B": 326,
+    "D": 163
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "B",
+    "D"
+   ]
+  },
+  {
+   "pdb_id": "4RUR",
+   "cadena_antes": "A",
+   "cadena_despues": "L",
+   "site_chains": [
+    "L",
+    "K"
+   ],
+   "aporte_por_cadena": {
+    "L": 36,
+    "K": 10
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "K",
+    "L"
+   ]
+  },
+  {
+   "pdb_id": "4YNQ",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "site_chains": [
+    "H",
+    "B"
+   ],
+   "aporte_por_cadena": {
+    "H": 13,
+    "B": 3
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "B",
+    "H"
+   ]
+  },
+  {
+   "pdb_id": "5C9H",
+   "cadena_antes": "A",
+   "cadena_despues": "E",
+   "site_chains": [
+    "E",
+    "G"
+   ],
+   "aporte_por_cadena": {
+    "E": 154,
+    "G": 130
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "E",
+    "G"
+   ]
+  },
+  {
+   "pdb_id": "5FG9",
+   "cadena_antes": "A",
+   "cadena_despues": "P",
+   "site_chains": [
+    "P",
+    "O",
+    "W"
+   ],
+   "aporte_por_cadena": {
+    "P": 311,
+    "O": 183,
+    "W": 132
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "O",
+    "P",
+    "W"
+   ]
+  },
+  {
+   "pdb_id": "5J89",
+   "cadena_antes": "A",
+   "cadena_despues": "C",
+   "site_chains": [
+    "C",
+    "D"
+   ],
+   "aporte_por_cadena": {
+    "C": 48,
+    "D": 35
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "C",
+    "D"
+   ]
+  },
+  {
+   "pdb_id": "6KE5",
+   "cadena_antes": "A",
+   "cadena_despues": "C",
+   "site_chains": [
+    "C",
+    "D"
+   ],
+   "aporte_por_cadena": {
+    "C": 15,
+    "D": 15
+   },
+   "hotspots_en_la_cadena_anterior": true,
+   "cadenas_que_nombran_los_hotspots": [
+    "A",
+    "C",
+    "D"
+   ]
+  },
+  {
+   "pdb_id": "6MVV",
+   "cadena_antes": "A",
+   "cadena_despues": "C",
+   "site_chains": [
+    "C",
+    "D",
+    "B"
+   ],
+   "aporte_por_cadena": {
+    "C": 756,
+    "D": 481,
+    "B": 268
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "C",
+    "D"
+   ]
+  },
+  {
+   "pdb_id": "6PSD",
+   "cadena_antes": "A",
+   "cadena_despues": "K",
+   "site_chains": [
+    "K",
+    "L"
+   ],
+   "aporte_por_cadena": {
+    "K": 242,
+    "L": 98
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "E",
+    "I",
+    "K"
+   ]
+  },
+  {
+   "pdb_id": "7T9I",
+   "cadena_antes": "A",
+   "cadena_despues": "N",
+   "site_chains": [
+    "N",
+    "X"
+   ],
+   "aporte_por_cadena": {
+    "N": 680,
+    "X": 601
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "N",
+    "X"
+   ]
+  },
+  {
+   "pdb_id": "7ZYJ",
+   "cadena_antes": "A",
+   "cadena_despues": "L",
+   "site_chains": [
+    "L",
+    "K"
+   ],
+   "aporte_por_cadena": {
+    "L": 46,
+    "K": 17
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "K",
+    "L"
+   ]
+  },
+  {
+   "pdb_id": "8F6U",
+   "cadena_antes": "A",
+   "cadena_despues": "C",
+   "site_chains": [
+    "C",
+    "B",
+    "D"
+   ],
+   "aporte_por_cadena": {
+    "C": 245,
+    "B": 227,
+    "D": 186
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "B",
+    "C",
+    "D"
+   ]
+  },
+  {
+   "pdb_id": "8F6V",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "site_chains": [
+    "B",
+    "D"
+   ],
+   "aporte_por_cadena": {
+    "B": 358,
+    "D": 85
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "B",
+    "D"
+   ]
+  },
+  {
+   "pdb_id": "8V52",
+   "cadena_antes": "A",
+   "cadena_despues": "F",
+   "site_chains": [
+    "F",
+    "E"
+   ],
+   "aporte_por_cadena": {
+    "F": 284,
+    "E": 226
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "E",
+    "F"
+   ]
+  },
+  {
+   "pdb_id": "9F9T",
+   "cadena_antes": "A",
+   "cadena_despues": "M",
+   "site_chains": [
+    "M",
+    "L",
+    "X"
+   ],
+   "aporte_por_cadena": {
+    "M": 359,
+    "L": 215,
+    "X": 113
+   },
+   "hotspots_en_la_cadena_anterior": false,
+   "cadenas_que_nombran_los_hotspots": [
+    "L",
+    "M",
+    "X"
+   ]
+  }
+ ]
+}

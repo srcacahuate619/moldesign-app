@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "experiment_id": "D-MF-HARD-EXH4",
+  "hypothesis": "Vina flexible exh4 con seed explicito produce cobertura comparable a MolFlex K15 en D-MF-HARD train",
+  "protocol": "FORECAST.md (correcciones 47a24a8) + docs/49",
+  "created_at": "2026-08-16T09:33:05.884412+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "d86c45ad0a2d4de9b08c5fd41e42ab6e49284a2b",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "34/34 train gate enmendado; G1 ejecucion; G2 cuatro niveles; comparacion CPU-ajustada vs MolFlex K15; cobertura/N descriptiva; 0 val"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/D-MF-HARD/cohort.jsonl": "6d3f3a09dcd7e7393b4572ae1425c1e87d6ec0e233afbd7c7be3775ae50779ba"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/D-MF-HARD-EXH4/FORECAST.md": "25d23ec52f3b20bb60c4cd8ef7f78d32fd6bd6311ba869c1b171da284504e7d3",
+    "scripts/artifacts_science/D-MF-HARD-EXH4/inventory.json": "5e3fc1a31ebc90388e1b03df94f1ab8261a10044c822991891a22fa0cecf8962",
+    "scripts/artifacts_science/D-MF-HARD-EXH4/DESIGN.md": "32f752e524070d86efb428a38c665b9703c715b6814d5d7f85ff3a0e084c2e1e",
+    "scripts/artifacts_science/D-MF-HARD-EXH4/metrics.json": "48f3fcedfe77577b7c33d745f2ac72a47475afbe4c772a25ca1404ec9f8b2909",
+    "scripts/artifacts_science/D-MF-HARD-EXH4/exh4_poses_train.jsonl": "9763b673db26ca3d66d0beb56d120624644a4e0122905cbc25a05bcfdf8c403b",
+    "scripts/artifacts_science/D-MF-HARD-EXH4/exh4_provenance.jsonl": "f1b3ee9e69473885f55dd0ca5bee709bbc897e34bab9d4f1ff379e8e43d93d51",
+    "scripts/artifacts_science/D-MF-HARD-EXH4/exh4_candidates_train.jsonl": "51886d974e5d08ab4f2f6759e410a463ca7b369fd24a41d4ef2d8bb154f69c5e",
+    "scripts/artifacts_science/D-MF-HARD-EXH4/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/D-MF-HARD-EXH4/deviations.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/D-MF-HARD-EXH4/per_complex.jsonl": "51539b5398eee49e6caa32892057bfee2c8f2a523492833f51005663753534cb",
+    "scripts/run_vina_exh4.py": "a3d5e8074d7a66c885c29b361c67de9e14ef604d0db01725f6fee2a8cfdd17f2",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T09:59:04.655296+00:00",
+  "decision_rationale": "En D-MF-HARD train, AutoDock Vina 1.2.7 con ligando flexible, receptor rigido, exhaustiveness 4 y seed 42 fue superior a MolFlex K15 en cobertura hard: 11/17 frente a 3/17; discordancias b=8, c=0; McNemar exacto bilateral p=0.0078125. El coste hard fue 0.670 CPU-h medido frente a 2.214 CPU-h P50 estimado para MolFlex, sin tradeoff de coste bajo el estimador preregistrado. El claim se limita a esta cohorte de desarrollo y a redocking/generacion con pocket conocida, box y conformacion inicial cristalograficos. Frente a la union en hard y frente a MolFlex K15 en controles, el resultado permanece inconcluso. Sensibilidad: Bonferroni post hoc sobre 6 comparaciones G2, p_adj=0.046875 (no parte del preregistro).",
+  "finished_at": "2026-08-16T09:59:12.868052+00:00"
+}

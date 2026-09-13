@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-26",
+  "hypothesis": "Existe un umbral operativo de torsiones por encima del cual la colocacion colapsa",
+  "protocol": "medicion: reanalisis de MF-24 por bandas de torsiones con intervalos de Wilson; validacion externa en val+test",
+  "created_at": "2026-08-19T03:53:09.756240+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gates; se busca la FORMA de la curva, no el valor de un punto"
+  },
+  "decision": "NO_GO",
+  "assets_hashes": {
+    "scripts/analisis_mf26_acantilado.py": "3ee4eca854c9b832dddfd741fbe1152de92ed46963a3baffa524728c1dce74e9"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:10.612341+00:00",
+  "decision_rationale": "EL ACANTILADO NO GENERALIZA. En train la tasa cae de 0.792 (3-5 torsiones) a 0.375 (6-8) y sigue a 0.217 (9-12), con CI de Wilson de las bandas extremas disjuntos. En val+test SUBE de 0.600 a 0.632 y en 9-12 da 0.550 frente a 0.217 de train, con intervalos que NO se solapan ([0.097,0.419] vs [0.342,0.742]). El coste de colocacion mediano llega a 6.45 A en train y no pasa de 1.97 A en val+test. La especificacion declarada a partir de train -\"MolFlex coloca fiable hasta ~5 torsiones\"- NO es valida. Es coherente con dos resultados ya sellados que no se conectaron a tiempo: MF-02A-EXT midio que train es mas dificil que PDBBind (77.6% vs 83.9%) y RC-F0-V2 documento el gradiente train<val<test (79.3/87.5/97.9). El acantilado es otra cara del sesgo de cohorte de train. Lo que SI sobrevive: el enterramiento favorece a los que convierten en 3 de 4 bandas en train y en 4 de 4 en val+test, sobreviviendo a la estratificacion por tamano y al cambio de split. Leccion de metodo registrada: se midio una curva en train y se declaro especificacion sin validarla fuera, que es el error que la seccion 20.9 propone evitar, cometido el mismo dia que se escribio esa seccion.",
+  "finished_at": "2026-08-19T03:53:10.808689+00:00"
+}

@@ -1,0 +1,81 @@
+{
+ "experiment_id": "MF-12",
+ "timestamp": "2026-08-19T01:52:32.575651+00:00",
+ "n_train": 116,
+ "n_valtest": 87,
+ "tasa_base": {
+  "train": 0.431,
+  "valtest": 0.5862
+ },
+ "efecto_minimo_detectable_declarado": 0.1364,
+ "niveles": {
+  "L": {
+   "features": [
+    "n_torsiones",
+    "n_pesados",
+    "n_conformeros",
+    "rg_conformero",
+    "ocupacion_conformero"
+   ],
+   "coeficientes": {
+    "n_torsiones": 0.0165,
+    "n_pesados": -0.0012,
+    "n_conformeros": -0.8761,
+    "rg_conformero": -0.0042,
+    "ocupacion_conformero": -1.0092
+   },
+   "precision_balanceada_modelo": 0.6536,
+   "precision_balanceada_baseline": 0.5,
+   "exactitud_modelo": 0.6322,
+   "exactitud_baseline": 0.4138,
+   "dif_pareada_exactitud": 0.2184,
+   "ci95_bca": [
+    0.0805,
+    0.3218
+   ],
+   "supera_baseline": true
+  },
+  "L+S": {
+   "features": [
+    "n_torsiones",
+    "n_pesados",
+    "n_conformeros",
+    "rg_conformero",
+    "ocupacion_conformero",
+    "prot_5A_centro",
+    "prot_8A_centro"
+   ],
+   "coeficientes": {
+    "n_torsiones": -0.1526,
+    "n_pesados": 0.1921,
+    "n_conformeros": -0.7554,
+    "rg_conformero": 0.1414,
+    "ocupacion_conformero": -0.8093,
+    "prot_5A_centro": -0.3861,
+    "prot_8A_centro": 1.1602
+   },
+   "precision_balanceada_modelo": 0.6691,
+   "precision_balanceada_baseline": 0.5,
+   "exactitud_modelo": 0.6552,
+   "exactitud_baseline": 0.4138,
+   "dif_pareada_exactitud": 0.2414,
+   "ci95_bca": [
+    0.092,
+    0.3563
+   ],
+   "supera_baseline": true
+  }
+ },
+ "supuesto_del_nivel_S": "el centro de caja del conjunto es center_from_crystal_ligand, asi que L+S opera con caja perfectamente centrada; en produccion MolPocket yerra ~8 A (REC-03) y lo degradaria. L+S mide un TECHO",
+ "gates": {
+  "G2_superioridad_L": {
+   "criterio": "precision balanceada de L supera al baseline con CI95 que excluya 0",
+   "pass": true
+  },
+  "G3_honestidad": {
+   "criterio": "se reportan L y L+S por separado; el claim se hace sobre L",
+   "pass": true
+  }
+ },
+ "decision": "GO"
+}

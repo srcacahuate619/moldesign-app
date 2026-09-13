@@ -1,0 +1,48 @@
+{"pid": "10gs", "estrato": "COLOCACION", "deriva_cristal_A": 0.347, "energia_antes": -8212.81, "energia_despues": -9514.25, "fuerza_rms_ligando": 4.907, "t_s": 41.5}
+{"pid": "1afk", "estrato": "COLOCACION", "deriva_cristal_A": 0.516, "energia_antes": -2325.67, "energia_despues": -3015.77, "fuerza_rms_ligando": 5.3893, "t_s": 8.6}
+{"pid": "1afl", "estrato": "COLOCACION", "deriva_cristal_A": 0.941, "energia_antes": -1843.99, "energia_despues": -3010.61, "fuerza_rms_ligando": 8.0262, "t_s": 8.7}
+{"pid": "1amw", "estrato": "COLOCACION", "deriva_cristal_A": 0.44, "energia_antes": -6909.44, "energia_despues": -8625.7, "fuerza_rms_ligando": 6.525, "t_s": 55.7}
+{"pid": "1apv", "estrato": "COLOCACION", "deriva_cristal_A": 0.298, "energia_antes": 471.9, "energia_despues": -1503.25, "fuerza_rms_ligando": 6.4041, "t_s": 41.9}
+{"pid": "1b38", "estrato": "COLOCACION", "error": "ValueError:  and bonds in the residue match NVAL, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template", "t_s": 2.3}
+{"pid": "1bma", "estrato": "COLOCACION", "deriva_cristal_A": 0.561, "energia_antes": -4314.18, "energia_despues": -5418.0, "fuerza_rms_ligando": 2.3618, "t_s": 19.7}
+{"pid": "1bn3", "estrato": "COLOCACION", "deriva_cristal_A": 0.416, "energia_antes": -3101.41, "energia_despues": -4573.54, "fuerza_rms_ligando": 2.2611, "t_s": 22.5}
+{"pid": "1c4u", "estrato": "COLOCACION", "error": "ValueError:  and bonds in the residue match NGLY, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template", "t_s": 2.3}
+{"pid": "1d3p", "estrato": "COLOCACION", "error": "ValueError:  and bonds in the residue match NGLY, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template", "t_s": 2.2}
+{"pid": "1d7i", "estrato": "COLOCACION", "deriva_cristal_A": 0.56, "energia_antes": -1779.01, "energia_despues": -2181.51, "fuerza_rms_ligando": 1.2039, "t_s": 5.3}
+{"pid": "1d9i", "estrato": "COLOCACION", "error": "ValueError:  and bonds in the residue match NILE, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template", "t_s": 2.1}
+{"pid": "1dgm", "estrato": "COLOCACION", "error": "ValueError:  and bonds in the residue match NTHR, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template", "t_s": 2.3}
+{"pid": "1eb2", "estrato": "COLOCACION", "deriva_cristal_A": 0.377, "energia_antes": -1704.25, "energia_despues": -2923.62, "fuerza_rms_ligando": 3.623, "t_s": 17.9}
+{"pid": "1ela", "estrato": "COLOCACION", "deriva_cristal_A": 0.653, "energia_antes": -4531.38, "energia_despues": -5513.9, "fuerza_rms_ligando": 3.9101, "t_s": 19.6}
+{"pid": "1eld", "estrato": "COLOCACION", "deriva_cristal_A": 0.992, "energia_antes": 30425.49, "energia_despues": -5438.58, "fuerza_rms_ligando": 2.0857, "t_s": 21.5}
+{"pid": "1ele", "estrato": "COLOCACION", "deriva_cristal_A": 0.55, "energia_antes": -3800.47, "energia_despues": -5135.93, "fuerza_rms_ligando": 2.2353, "t_s": 19.8}
+{"pid": "1ew8", "estrato": "COLOCACION", "deriva_cristal_A": 1.939, "energia_antes": -7199.82, "energia_despues": -13572.55, "fuerza_rms_ligando": 16.4839, "t_s": 232.9}
+{"pid": "1ew9", "estrato": "COLOCACION", "deriva_cristal_A": 1.652, "energia_antes": -7915.99, "energia_despues": -13691.77, "fuerza_rms_ligando": 10.7836, "t_s": 193.1}
+{"pid": "1ezq", "estrato": "COLOCACION", "deriva_cristal_A": 0.264, "energia_antes": -3168.76, "energia_despues": -4747.64, "fuerza_rms_ligando": 5.0824, "t_s": 26.5}
+{"pid": "1f0r", "estrato": "COLOCACION", "deriva_cristal_A": 0.26, "energia_antes": -3365.18, "energia_despues": -5339.36, "fuerza_rms_ligando": 2.392, "t_s": 23.0}
+{"pid": "1f0t", "estrato": "COLOCACION", "deriva_cristal_A": 0.236, "energia_antes": -2324.29, "energia_despues": -3104.77, "fuerza_rms_ligando": 2.9822, "t_s": 19.8}
+{"pid": "1f0u", "estrato": "COLOCACION", "deriva_cristal_A": 0.207, "energia_antes": -2430.42, "energia_despues": -3116.31, "fuerza_rms_ligando": 3.7639, "t_s": 17.6}
+{"pid": "1fh7", "estrato": "COLOCACION", "deriva_cristal_A": 0.483, "energia_antes": -5409.41, "energia_despues": -6666.7, "fuerza_rms_ligando": 17.8709, "t_s": 35.4}
+{"pid": "1fkg", "estrato": "COLOCACION", "deriva_cristal_A": 0.23, "energia_antes": -1571.5, "energia_despues": -2126.62, "fuerza_rms_ligando": 1.3614, "t_s": 6.0}
+{"pid": "1fkh", "estrato": "COLOCACION", "deriva_cristal_A": 0.343, "energia_antes": -1480.16, "energia_despues": -2076.33, "fuerza_rms_ligando": 1.122, "t_s": 6.8}
+{"pid": "1hmr", "estrato": "COLOCACION", "deriva_cristal_A": 0.338, "energia_antes": 926.46, "energia_despues": -2333.04, "fuerza_rms_ligando": 3.122, "t_s": 9.0}
+{"pid": "1hpx", "estrato": "COLOCACION", "deriva_cristal_A": 0.4, "energia_antes": -2554.85, "energia_despues": -3499.2, "fuerza_rms_ligando": 4.6344, "t_s": 14.5}
+{"pid": "1jq8", "estrato": "COLOCACION", "deriva_cristal_A": 0.787, "energia_antes": -238.25, "energia_despues": -1687.93, "fuerza_rms_ligando": 6.3598, "t_s": 9.4}
+{"pid": "1l83", "estrato": "COLOCACION", "deriva_cristal_A": 0.197, "energia_antes": -3229.69, "energia_despues": -4010.33, "fuerza_rms_ligando": 2.0798, "t_s": 8.1}
+{"pid": "1mu8", "estrato": "COLOCACION", "error": "ValueError:  and bonds in the residue match NGLY, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template", "t_s": 2.3}
+{"pid": "1nm6", "estrato": "COLOCACION", "error": "ValueError:  and bonds in the residue match NILE, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template", "t_s": 2.3}
+{"pid": "1nw5", "estrato": "COLOCACION", "error": "ValueError:  and bonds in the residue match NARG, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template", "t_s": 2.1}
+{"pid": "187l", "estrato": "CONTROL", "deriva_cristal_A": 0.267, "energia_antes": -3039.45, "energia_despues": -3901.69, "fuerza_rms_ligando": 1.4279, "t_s": 9.9}
+{"pid": "188l", "estrato": "CONTROL", "deriva_cristal_A": 0.435, "energia_antes": -3026.83, "energia_despues": -3888.76, "fuerza_rms_ligando": 1.3196, "t_s": 9.1}
+{"pid": "1add", "estrato": "CONTROL", "deriva_cristal_A": 0.297, "energia_antes": 236.89, "energia_despues": -4631.55, "fuerza_rms_ligando": 8.4714, "t_s": 35.9}
+{"pid": "1ai4", "estrato": "CONTROL", "deriva_cristal_A": 0.401, "energia_antes": -10726.0, "energia_despues": -15573.87, "fuerza_rms_ligando": 3.0073, "t_s": 116.3}
+{"pid": "1alw", "estrato": "CONTROL", "deriva_cristal_A": 0.551, "energia_antes": -2648.9, "energia_despues": -4648.43, "fuerza_rms_ligando": 2.5037, "t_s": 42.7}
+{"pid": "1bcd", "estrato": "CONTROL", "deriva_cristal_A": 0.535, "energia_antes": -2649.39, "energia_despues": -4298.1, "fuerza_rms_ligando": 3.129, "t_s": 18.5}
+{"pid": "1bju", "estrato": "CONTROL", "deriva_cristal_A": 0.401, "energia_antes": -2231.04, "energia_despues": -3121.75, "fuerza_rms_ligando": 3.5095, "t_s": 16.9}
+{"pid": "1d7j", "estrato": "CONTROL", "deriva_cristal_A": 0.391, "energia_antes": -1970.27, "energia_despues": -2323.1, "fuerza_rms_ligando": 2.5216, "t_s": 6.9}
+{"pid": "1fd0", "estrato": "CONTROL", "deriva_cristal_A": 0.242, "energia_antes": -4173.07, "energia_despues": -5140.8, "fuerza_rms_ligando": 2.1059, "t_s": 17.5}
+{"pid": "1flr", "estrato": "CONTROL", "error": "ValueError:  and bonds in the residue match NSER, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template", "t_s": 2.2}
+{"pid": "1g3d", "estrato": "CONTROL", "deriva_cristal_A": 0.305, "energia_antes": -2267.85, "energia_despues": -3031.23, "fuerza_rms_ligando": 4.6291, "t_s": 14.5}
+{"pid": "1hlk", "estrato": "CONTROL", "deriva_cristal_A": 0.704, "energia_antes": -851.06, "energia_despues": -2281.55, "fuerza_rms_ligando": 3.2032, "t_s": 19.2}
+{"pid": "1iih", "estrato": "CONTROL", "deriva_cristal_A": 0.618, "energia_antes": -4890.85, "energia_despues": -8195.87, "fuerza_rms_ligando": 9.9504, "t_s": 70.8}
+{"pid": "1mmq", "estrato": "CONTROL", "deriva_cristal_A": 0.232, "energia_antes": 2548836.42, "energia_despues": -1279.41, "fuerza_rms_ligando": 7.0, "t_s": 13.8}
+{"pid": "1nq7", "estrato": "CONTROL", "deriva_cristal_A": 0.305, "energia_antes": -3396.81, "energia_despues": -4817.04, "fuerza_rms_ligando": 2.2541, "t_s": 20.8}

@@ -1,0 +1,258 @@
+{
+  "protocol_id": "ALPHA-CONTROLS-V1",
+  "schema_version": 1,
+  "title": "Validacion externa, ciega y reproducible de los pipelines M4, M5-Zn y Peptidos",
+  "status": "FROZEN",
+  "frozen_at_utc": "2026-09-10T19:45:00+00:00",
+  "binding": {
+    "commit": "16d04521bfcac5a9ef8ad68da3c52376655368b6",
+    "branch": "claude/embedded-controls",
+    "runtime_manifest_sha256": "047721c568d735750bd9c0f8558179e341c3141b39b03c5935693ec26fb331d1",
+    "product_version": "1.0.0",
+    "bundle_profile": "desktop-mvp"
+  },
+
+  "regla_principal": {
+    "texto": "Ningun peso, formula, caja, umbral, perfil, modelo ni codigo cientifico se modifica durante esta auditoria.",
+    "alcance_de_escritura_permitido": [
+      "validation/",
+      "scripts/qa_embedded_controls.py",
+      "docs/85_VALIDACION_EXTERNA_PIPELINES_ALPHA.md"
+    ],
+    "si_hay_defecto": "Se documenta con evidencia y se detiene. La correccion es otra fase con otro conjunto de datos.",
+    "prohibicion_de_holdout": "Ningun resultado de esta cohorte puede usarse para recalibrar. Hacerlo invalida la prueba."
+  },
+
+  "entorno_de_ejecucion": {
+    "requisito": "resources/ con su propio python.exe y backend embebido, sin acceso al arbol fuente.",
+    "sustituto_no_aceptado": "backend/ del repositorio con python-embed.",
+    "modos": {
+      "VM_LIMPIA": "Windows limpio, aprovisionado, sin red durante las corridas cientificas. Modo preferente.",
+      "COPIA_AISLADA": "Copia integra de resources/ fuera del arbol fuente, en el host de desarrollo. Sustituto declarado, NO equivalente a VM.",
+      "DEV": "Solo para la tabla de paridad desarrollo/bundle. Nunca fuente de la conclusion."
+    },
+    "declaracion_obligatoria": "Si no se ejecuta en VM_LIMPIA, el informe debe decir NO EJECUTADO EN VM de forma explicita y no presentar COPIA_AISLADA como equivalente.",
+    "registro_requerido": [
+      "commit",
+      "runtime-manifest y hashes de activos criticos",
+      "version de Vina",
+      "CPU, RAM, GPU, sistema operativo",
+      "recursos asignados a la VM",
+      "presencia o ausencia de aceleracion grafica",
+      "tiempo de arranque en frio y por etapa",
+      "disponibilidad real de modelos declarada por el backend",
+      "semillas y configuracion completa",
+      "estado de red durante las corridas cientificas"
+    ]
+  },
+
+  "auditoria_de_fuga": {
+    "instrumento": "validation/build_leakage_inventory.py",
+    "salida": "validation/leakage/seen_inventory.json",
+    "niveles": {
+      "complejo": "El PDB exacto aparece en alguna fuente de exposicion -> SEEN.",
+      "diana": "Otro PDB de la MISMA proteina aparece -> RELATED (homologia ~100%).",
+      "familia": "La familia de modelo (kinase, protease, soluble_enzyme, gpcr, nuclear_receptor) fue entrenada. Se DECLARA siempre; no descalifica, porque el enrutado por familia es parte del producto."
+    },
+    "definicion_de_EXTERNAL": "No SEEN a nivel de complejo Y no RELATED a nivel de diana. La exposicion de familia se declara aparte.",
+    "fuentes_auditadas": [
+      "split congelado XGBoost: 328 CV + 328 holdout congelado",
+      "curacion PDBBind v2020 refined: 865 evaluados, 752 curados, 656 aceptados",
+      "perfiles M5-Zn y sus checkpoints (1GKC, 1O86, 3DC3)",
+      "checkpoints de benchmark en data/ que seleccionaron pesos",
+      "goldens de backend/tests/goldens"
+    ],
+    "dianas_RELATED_excluidas": [
+      "CA2", "MMP9", "ACE", "5HT1A", "CDK2",
+      "ER_ALPHA", "FACTOR_XA", "HIV_PROTEASE", "THROMBIN"
+    ],
+    "no_cubierto_por_esta_auditoria": [
+      "preentrenamiento de ESM/ESMFold sobre el PDB completo",
+      "PDBBind general fuera de los 865 refinados",
+      "similitud de scaffold ligando-ligando, que se mide aparte por Tanimoto ECFP4"
+    ],
+    "regla_de_conclusion": "La conclusion principal de cada pipeline se calcula SOLO sobre casos EXTERNAL. Los SEEN y RELATED se reportan por separado y etiquetados. Si no existe cohorte EXTERNAL suficiente, se dice y el veredicto es OPERATIVO_PERO_VALIDACION_INSUFICIENTE."
+  },
+
+  "definicion_de_controles": {
+    "positivo": "Actividad experimental confirmada; preferentemente complejo cristalografico con Ki/Kd/IC50 exacto (operador igual).",
+    "intermedio": "Afinidad experimental debil o intermedia MEDIDA. Prohibido usar actividad desconocida como intermedio.",
+    "negativo": "Inactivo confirmado experimentalmente en el mismo ensayo o uno comparable, con property-matching por peso molecular, carga formal, logP y numero de enlaces rotables cuando sea posible.",
+    "decoys_y_scrambles": "Solo pruebas de estres. Nunca negativos experimentales principales ni parte de las metricas de cribado principales."
+  },
+
+  "semillas": {
+    "vina_seeds": [42, 20260910, 7],
+    "regla": "Tres semillas fijadas ANTES de ejecutar. Se reportan las tres; no se elige la mejor.",
+    "reproducibilidad": "Una cuarta corrida repite la semilla 42 para medir determinismo intra-entorno."
+  },
+
+  "fases": {
+    "FASE_0_RUNTIME": {
+      "objetivo": "Determinar si el runtime embebido arranca, expone su contrato y declara honestamente sus componentes.",
+      "casos": [
+        "arranque en frio del bundle aislado y tiempo hasta contrato disponible",
+        "lectura del OpenAPI vivo: ninguna ruta se escribe de memoria",
+        "/health y su cuerpo completo, incluido el caso degradado",
+        "inventario de modelos declarados como disponibles frente a artefactos presentes en disco",
+        "paridad desarrollo/bundle sobre el mismo caso",
+        "escritura fuera de resources/: hash del arbol antes y despues"
+      ],
+      "criterio": "Un componente ausente debe declararse ausente. Un 503 permanente en /health es FALLO_TECNICO_DEL_RUNTIME salvo que el producto documente ese estado como esperado."
+    },
+    "FASE_2_M4": {
+      "objetivo": "Capacidad discriminativa y calibracion de M4 sobre receptores EXTERNAL de familias distintas.",
+      "receptores_objetivo": 3,
+      "criterio_de_seleccion": "EXTERNAL por complejo y por diana; familias de modelo distintas entre si; con datos experimentales publicos trazables y al menos un complejo cristalografico.",
+      "candidatos_prerregistrados": [
+        {
+          "diana": "SARS-CoV-2 Mpro",
+          "pdb_redocking": ["7L10", "6Y2F"],
+          "fuente_actividad": "COVID Moonshot / ChEMBL",
+          "por_que": "ensayo unico con activos e inactivos confirmados; posterior a PDBBind v2020"
+        },
+        {
+          "diana": "PARP1",
+          "pdb_redocking": ["5DS3", "7AAD"],
+          "fuente_actividad": "ChEMBL",
+          "por_que": "4UND es SEEN, por lo que ese complejo se excluye y la diana queda marcada RELATED si se usa"
+        },
+        {
+          "diana": "HSP90AA1",
+          "pdb_redocking": ["3HOW", "5J64"],
+          "fuente_actividad": "ChEMBL",
+          "por_que": "familia distinta, chaperona"
+        },
+        {
+          "diana": "BACE1",
+          "pdb_redocking": ["4DJV", "6UWP"],
+          "fuente_actividad": "ChEMBL",
+          "por_que": "proteasa aspartica, familia protease"
+        }
+      ],
+      "nota_de_candidatos": "La lista es un superconjunto. La seleccion final de 3 se fija por el filtro EXTERNAL ejecutado por build_leakage_inventory.py ANTES de docking, y queda escrita en validation/cohorts/. Ningun receptor se sustituye despues de ver resultados.",
+      "por_receptor": {
+        "positivos": 5,
+        "intermedios": 5,
+        "inactivos_experimentales": 10,
+        "complejos_cristalograficos_para_redocking": 3
+      },
+      "brazos_comparados_por_separado": [
+        "Vina crudo",
+        "XGBoost",
+        "score combinado efectivo",
+        "dentro/fuera de dominio",
+        "abstencion"
+      ],
+      "prohibicion": "La afinidad Vina no se interpreta como energia libre experimental."
+    },
+    "FASE_3_M5_ZN": {
+      "objetivo": "Verificar que el runtime embebido reproduce el contrato declarado, sin presentar M5-Zn como calibrado.",
+      "contrato_esperado": {
+        "CA2/3DC3": "NOT_EVALUATED_MISSING_COMPONENT por ausencia de GNN-D",
+        "MMP9/1GKC": "REVIEW_INVALID_BENCHMARK_SITE",
+        "ACE/1O86": "REVIEW_BENCHMARK_TOP1_NOT_METAL_COORDINATING"
+      },
+      "criterio_de_paso": "El runtime embebido reproduce los tres estados Y ninguno de ellos altera total_score, ranking, explicabilidad ni recomendacion.",
+      "prohibicion_de_lectura": "Un score alto para un inhibidor conocido NO autoriza a llamar calibrado a M5-Zn. Hoy ningun perfil es cientificamente liberable.",
+      "experimento_de_recuperacion": "Se disena en seccion separada del informe, como ciencia nueva, sin tocar M5-V1."
+    },
+    "FASE_4_PEPTIDOS": {
+      "objetivo": "Separar fallos de plegamiento y transferencia de fallos de docking o ranking.",
+      "cohorte": "Seleccion independiente de LEADS-PEP u otra cohorte publica trazable, 8-12 complejos de 3-12 residuos.",
+      "brazos": {
+        "A_full_pipeline": "secuencia -> ESMFold -> transferencia estructural -> Vina",
+        "B_upper_bound_estructural": "conformacion cristalografica del peptido -> preparacion -> Vina"
+      },
+      "interpretacion": "B acota lo que el docking puede lograr. La diferencia A menos B mide el coste de plegar y transferir.",
+      "registro_por_caso": [
+        "pLDDT", "completitud quimica", "reconstruccion terminal/OXT", "conectividad",
+        "carga", "RMSD backbone", "RMSD heavy atoms",
+        "recuperacion de contactos de interfaz", "validez fisica", "exito top-1", "exito top-5"
+      ],
+      "controles": "peptido activo, mutante intermedio y mutante inactivo experimental cuando existan datos. Scrambles solo como estres."
+    }
+  },
+
+  "metricas_y_umbrales": {
+    "bootstrap": {
+      "n": 10000,
+      "ci": 0.95,
+      "unidad_de_remuestreo": "caso, no pose",
+      "semilla": 20260910
+    },
+    "ejecucion": {
+      "porcentaje_SUCCESS": {"umbral": ">= 0.95", "bloqueante": true},
+      "abstenciones_justificadas": {
+        "definicion": "abstencion con causa explicita y componente nombrado",
+        "umbral": "100% de las abstenciones",
+        "bloqueante": true
+      },
+      "fallos_silenciosos": {
+        "umbral": "0",
+        "bloqueante": true,
+        "definicion": "resultado numerico emitido cuando un componente requerido fallo"
+      },
+      "paridad_dev_bundle": {"umbral": "identico salvo reloj y rutas", "bloqueante": true},
+      "reproducibilidad_semilla_fija": {"umbral": "identico en score y ranking", "bloqueante": true}
+    },
+    "poses": {
+      "rmsd": "corregido por simetria molecular",
+      "exito_top1": "RMSD <= 2.0 A",
+      "exito_top5": "mejor de las 5 primeras con RMSD <= 2.0 A",
+      "umbral_secundario_reportado": "RMSD <= 1.0 A y <= 3.0 A, para no depender de un solo corte",
+      "posebusters": "se aplica a TODA pose evaluable; se reporta el desglose por check",
+      "condicion_de_hidrogenos": "OBLIGATORIO declarar el estado de hidrogenos. Una validez fisica medida sobre poses reconstruidas no se cita sin esa condicion.",
+      "coordinacion_zn": "distancia minima donante N/O/S a Zn; umbral de coordinacion 2.6 A; se reporta ademas 4.0 A como criterio laxo del corrigendum"
+    },
+    "ranking": {
+      "spearman": true,
+      "kendall_tau": true,
+      "exactitud_de_pares": "positivo > intermedio > negativo, por receptor"
+    },
+    "screening": {
+      "roc_auc": true,
+      "pr_auc": true,
+      "ef_1pct": true,
+      "bedroc_alpha_20": true,
+      "referencias_obligatorias": ["prevalencia de la cohorte", "Vina sin rescoring"],
+      "nota": "PR-AUC se interpreta siempre contra la prevalencia, no contra 0.5."
+    },
+    "calibracion": {
+      "aplica_solo_si": "la salida AFIRMA una magnitud experimental (pKi/pKd). No se aplica a total_score ni a UMS ni a Vina crudo.",
+      "metricas": [
+        "MAE", "RMSE", "pendiente", "intercepto", "error por familia",
+        "cobertura frente a riesgo", "dentro vs fuera de dominio"
+      ],
+      "prohibicion": "No convertir total_score, Vina ni UMS a pKi si su contrato no lo permite."
+    }
+  },
+
+  "invariantes_bloqueantes": [
+    "100% de las corridas terminan o se abstienen con causa explicita.",
+    "Ningun error produce un valor fabricado.",
+    "Ningun estado REVIEW_* influye en recomendacion o ranking.",
+    "El bundle no escribe bases ni caches dentro de resources/.",
+    "El resultado reabierto coincide con el persistido.",
+    "Desarrollo y embebido coinciden salvo reloj y rutas.",
+    "Los controles fisicos se aplican a todas las poses evaluables.",
+    "Una ausencia de modelo se informa, nunca se sustituye por otro componente.",
+    "No se cambia la caja para hacer pasar un control."
+  ],
+
+  "veredictos_permitidos": [
+    "OPERATIVO_Y_CALIBRADO_DENTRO_DEL_DOMINIO",
+    "OPERATIVO_CON_CAPACIDAD_DISCRIMINATIVA_NO_CALIBRADA",
+    "OPERATIVO_PERO_VALIDACION_INSUFICIENTE",
+    "OPERATIVO_Y_ABSTENIDO_CORRECTAMENTE",
+    "NO_LIBERABLE_CIENTIFICAMENTE",
+    "FALLO_TECNICO_DEL_RUNTIME"
+  ],
+  "regla_de_veredicto": "Exactamente uno por pipeline. La palabra validado no se usa sin indicar poblacion, receptor, rango quimico y metricas.",
+
+  "criterios_de_parada": {
+    "defecto_de_producto": "Se documenta con evidencia y se detiene esa via. No se arregla en esta rama.",
+    "cohorte_insuficiente": "Se declara. No se sustituye por decoys ni por actividad desconocida.",
+    "componente_ausente": "Se reporta como ausencia. No se sustituye por otro componente ni se reponderan los pesos."
+  }
+}

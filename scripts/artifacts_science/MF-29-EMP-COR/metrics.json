@@ -1,0 +1,46 @@
+{
+ "experiment_id": "MF-29-EMP-COR",
+ "tipo": "corrigendum del testigo de MF-29-EMP con regla de lectura preregistrada",
+ "timestamp": "2026-08-20T19:39:36.287019+00:00",
+ "duration_seconds": 98.37,
+ "config": {
+  "box": 25.0,
+  "seed": 42,
+  "delta_ruido_kcal": 0.1,
+  "cambio_unico": "el cristal se prepara FLEXIBLE (flex_str) y no RIGIDO (rigid_str, TORSDOF 0) como en MF-13",
+  "receptor_y_caja": "los mismos de MF-13 y del docking v2"
+ },
+ "n_complejos": 48,
+ "n_ok": 48,
+ "gates_validez": {
+  "G1_torsdof_coincide_con_conf0": {
+   "fraccion": 1.0,
+   "minimo": 0.95,
+   "pasa": true
+  },
+  "G2_deriva_local_mediana_A": {
+   "valor": 0.3425,
+   "maximo": 2.0,
+   "pasa": true
+  },
+  "ambos_pasan": true
+ },
+ "cantidad_primaria": {
+  "definicion": "fraccion de complejos donde score_cristal_local_FLEX < score_min(masivo) - 0.10",
+  "n_gana": 4,
+  "de": 48,
+  "fraccion": 0.0833,
+  "lectura_preregistrada": "ARTEFACTO_DE_ESCALA"
+ },
+ "contexto": {
+  "deficit_corregido_mediano": -0.406,
+  "deficit_original_mediano_contra_rigido": 0.491,
+  "salto_de_escala_mediano": 1.055,
+  "salto_de_escala_definicion": "score_cristal_local_FLEX - score_cristal_local_RIGIDO; >0 mide cuanto del deficit original era penalizacion torsional"
+ },
+ "limites_declarados": [
+  "no reabre la cantidad primaria de MF-29-EMP, que es masivo vs produccion",
+  "no certifica optimalidad global; MF-29 sigue ABIERTO",
+  "cohorte de 48 y no 50: el brazo masivo de 1mmr y 1nm6 expiro"
+ ]
+}

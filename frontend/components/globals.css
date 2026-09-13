@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+/* ── Custom Theme ───────────────────────────────────────────────── */
+
+:root {
+  color-scheme: dark;
+}
+
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+
+  --color-brand-50:  #fff4ed;
+  --color-brand-100: #ffe6d5;
+  --color-brand-200: #ffc9ab;
+  --color-brand-300: #ffa67a;
+  --color-brand-400: #ff7d43;
+  --color-brand-500: #ff6b00;
+  --color-brand-600: #eb5700;
+  --color-brand-700: #c24000;
+  --color-brand-800: #9c3409;
+  --color-brand-900: #7d2e0b;
+
+  --color-surface-950: #050608;
+  --color-surface-900: #0a0d10;
+  --color-surface-800: #141a21;
+  --color-surface-700: #242d3a;
+  --color-surface-600: #384656;
+  --color-surface-500: #55677d;
+  --color-surface-400: #8195a9;
+  --color-surface-300: #b0c0d0;
+}
+
+/* ── Base Styles ────────────────────────────────────────────────── */
+
+body {
+  @apply bg-surface-950 text-gray-200 antialiased;
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+/* ── Ketcher iframe container ───────────────────────────────────── */
+
+.ketcher-container iframe {
+  border: 1px solid var(--color-surface-700);
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+/* ── Ketcher mobile toolbar fix ─────────────────────────────────── */
+/*
+ * Ketcher renders its top and bottom toolbars with fixed pixel widths
+ * that overflow the viewport on mobile, expanding the page horizontally.
+ *
+ * Fix strategy:
+ * 1. Clamp the root editor element to the container width
+ * 2. Make each toolbar row independently scrollable on the X axis
+ * 3. Hide the scrollbar track visually (still scrollable via touch/drag)
+ *
+ * Scoped to .ketcher-wrapper so it doesn't affect anything else.
+ */
+
+.ketcher-wrapper {
+  /* Prevent the wrapper itself from ever exceeding the page width */
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* The root element Ketcher mounts into */
+.ketcher-wrapper > div,
+.ketcher-wrapper [class*="App-module"] {
+  max-width: 100%;
+}
+
+/* Top toolbar and bottom toolbar rows */
+.ketcher-wrapper [class*="toolbar"],
+.ketcher-wrapper [class*="Toolbar"],
+.ketcher-wrapper [class*="ToolbarGroup"],
+.ketcher-wrapper [class*="LeftToolbar"],
+.ketcher-wrapper [class*="TopToolbar"],
+.ketcher-wrapper [class*="BottomToolbar"] {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; /* momentum scroll on iOS */
+  scroll-behavior: smooth;
+
+  /* Hide scrollbar visually on WebKit (Chrome, Safari, Edge) */
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE/Edge legacy */
+}
+
+.ketcher-wrapper [class*="toolbar"]::-webkit-scrollbar,
+.ketcher-wrapper [class*="Toolbar"]::-webkit-scrollbar,
+.ketcher-wrapper [class*="ToolbarGroup"]::-webkit-scrollbar,
+.ketcher-wrapper [class*="LeftToolbar"]::-webkit-scrollbar,
+.ketcher-wrapper [class*="TopToolbar"]::-webkit-scrollbar,
+.ketcher-wrapper [class*="BottomToolbar"]::-webkit-scrollbar {
+  display: none;
+}
+
+/* On mobile specifically: reduce height to give more space to canvas */
+@media (max-width: 640px) {
+  .ketcher-wrapper {
+    /* Slightly shorter on mobile so it fits better in the viewport */
+    height: 480px !important;
+    max-height: 60vh;
+  }
+
+  /* Ensure toolbar buttons don't wrap — they should scroll instead */
+  .ketcher-wrapper [class*="toolbar"] > *,
+  .ketcher-wrapper [class*="Toolbar"] > * {
+    flex-shrink: 0;
+    min-width: max-content;
+  }
+}
+
+/* ── 3D Viewer ──────────────────────────────────────────────────── */
+
+.viewer-3d canvas {
+  border-radius: 12px;
+}
+
+/* ── Score bar animation ────────────────────────────────────────── */
+
+@keyframes score-fill {
+  from { width: 0%; }
+}
+
+.score-bar-fill {
+  animation: score-fill 0.6s ease-out;
+}
+
+/* ── Spinner ────────────────────────────────────────────────────── */
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  border: 2px solid var(--color-surface-700);
+  border-top-color: var(--color-brand-500);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+
+/* ── Pulse animation for progress ───────────────────────────────── */
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}

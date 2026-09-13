@@ -1,0 +1,1327 @@
+{
+ "id": "MF-33-H-COR",
+ "meta": {
+  "titulo": "El 2.64% medía nuestra reconstrucción de hidrógenos, no la física de la pose",
+  "entradilla": "Con los átomos pesados idénticos —desplazamiento máximo 0.0 Å— y los hidrógenos regenerados desde la geometría dockeada, la validez física pasa de 2.64% a 99.48%. Y la cifra nueva no se cita nunca sin esa condición."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Durante meses el programa reportó que ",
+     "m": null
+    },
+    {
+     "t": "el 2.64% de las poses retenidas pasa PoseBusters",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y que el 97.3% de los fallos venían de ",
+     "m": null
+    },
+    {
+     "t": "internal_energy",
+     "m": "codigo"
+    },
+    {
+     "t": ". De ahí salieron tres conclusiones que parecían sólidas: ",
+     "m": null
+    },
+    {
+     "t": "la validez física es deficiente",
+     "m": "enfasis"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "el ensemble no la arregla",
+     "m": "enfasis"
+    },
+    {
+     "t": ", y ",
+     "m": null
+    },
+    {
+     "t": "una minimización post-docking atacaría el problema",
+     "m": "enfasis"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las tres están invalidadas. Ninguna medía la pose.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El defecto",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un PDBQT es una representación de ",
+     "m": null
+    },
+    {
+     "t": "átomo unido",
+     "m": "fuerte"
+    },
+    {
+     "t": ": los hidrógenos no polares no están. Para pasar una pose por PoseBusters hay que reconstruirlos, y la capa que lo hacía los tomaba de una fuente incompatible con la geometría dockeada. El resultado es un ligando cuyos átomos pesados están donde el motor los puso y cuyos hidrógenos están donde no toca — una molécula con tensión interna fabricada por la propia tubería de medición.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "internal_energy",
+     "m": "codigo"
+    },
+    {
+     "t": " detecta esa tensión perfectamente. Lo que no puede hacer es distinguir si viene del docking o del instrumento.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El diseño: mover hidrógenos y nada más",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sin cómputo de docking. Se reevalúan poses ",
+     "m": null
+    },
+    {
+     "t": "ya retenidas",
+     "m": "fuerte"
+    },
+    {
+     "t": ", regenerando los hidrógenos desde la geometría de átomos pesados dockeada y relajándolos con ",
+     "m": null
+    },
+    {
+     "t": "los pesados completamente fijos",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Dos ámbitos, declarados en ",
+     "m": null
+    },
+    {
+     "t": "MF-33-H-COR-PRE",
+     "m": "codigo"
+    },
+    {
+     "t": " antes de correr:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Ámbito",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Qué es",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Poses",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "A",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "brazo flexible retenido por ",
+       "m": null
+      },
+      {
+       "t": "MF-33-B-RET-R2",
+       "m": "codigo"
+      },
+      {
+       "t": ", 48 complejos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "8,224",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "B",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "top-1 de los dos brazos del protocolo rígido, 116 complejos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "232",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y ",
+     "m": null
+    },
+    {
+     "t": "cinco invariantes por pose",
+     "m": "fuerte"
+    },
+    {
+     "t": ", que son la condición de validez del artefacto en lugar de un umbral de tasa: desplazamiento pesado máximo dentro de 1e-6 Å, SMILES canónico idéntico, carga formal idéntica, número de enlaces idéntico y cero hidrógenos heredados del cristal. Una pose que viole cualquiera de ellas no entra en la tasa y se cuenta aparte.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Ámbito A — 8,224 poses",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Histórica",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Corregida",
+      "m": "fuerte"
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Válidas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "217",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "8,181",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Tasa",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2.64%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "99.48%",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "IC95 Wilson",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2.31 – 3.01%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "99.30 – 99.61%",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Ámbito B — 232 poses top-1",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Histórica",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Corregida",
+      "m": "fuerte"
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Válidas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "28",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "216",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Tasa",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "12.07%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "93.10%",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y el desglose por control, que es donde se ve el mecanismo:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Control que falla",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Histórica (A)",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Corregida (A)",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "internal_energy",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "8,006",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "7",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "double_bond_flatness",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "598",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "internal_steric_clash",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "23",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "23",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "minimum_distance_to_protein",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "13",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "13",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "bond_angles",
+       "m": "codigo"
+      },
+      {
+       "t": " / ",
+       "m": null
+      },
+      {
+       "t": "bond_lengths",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "7 / 7",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "7 / 7",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los controles ",
+     "m": null
+    },
+    {
+     "t": "geométricos",
+     "m": "fuerte"
+    },
+    {
+     "t": " no se mueven ni una unidad. Se mueven exactamente los dos que dependen de dónde están los hidrógenos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y eso corrige una afirmación nuestra.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El prerregistro y el commit de este corrigendum dijeron que el defecto afectaba a la energía interna. También contaminaba la ",
+     "m": null
+    },
+    {
+     "t": "planaridad de dobles enlaces",
+     "m": "fuerte"
+    },
+    {
+     "t": ", que depende de los sustituyentes de hidrógeno: 598 → 0. La afirmación previa de que sólo estaba afectada la energía era incompleta, y queda corregida aquí.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué la corrección es creíble, y no sólo favorable",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un corrigendum que multiplica por 38 la cifra que le conviene tiene que llegar con más respaldo del habitual. Tres piezas:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las cinco invariantes se cumplen en las 8,456 poses",
+     "m": "fuerte"
+    },
+    {
+     "t": ", verificadas por un consolidador independiente y no por el contador del runner: desplazamiento pesado máximo ",
+     "m": null
+    },
+    {
+     "t": "0.0 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": ", SMILES canónico idéntico, carga formal idéntica, número de enlaces idéntico, ",
+     "m": null
+    },
+    {
+     "t": "cero",
+     "m": "fuerte"
+    },
+    {
+     "t": " hidrógenos heredados del cristal, ",
+     "m": null
+    },
+    {
+     "t": "cero",
+     "m": "fuerte"
+    },
+    {
+     "t": " violaciones. La molécula corregida es la misma molécula.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La reproducción de lo histórico es exacta, complejo a complejo y no en agregado.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La rama histórica de esta tubería reproduce el top-1 ",
+     "m": null
+    },
+    {
+     "t": "pb_valid",
+     "m": "codigo"
+    },
+    {
+     "t": " de ",
+     "m": null
+    },
+    {
+     "t": "MF-33-PB",
+     "m": "codigo"
+    },
+    {
+     "t": " en los 48 complejos del ámbito A y el ",
+     "m": null
+    },
+    {
+     "t": "pb_valid_fisica",
+     "m": "codigo"
+    },
+    {
+     "t": " de ",
+     "m": null
+    },
+    {
+     "t": "MF-33-TOP1",
+     "m": "codigo"
+    },
+    {
+     "t": " en los 116 del ámbito B, con ",
+     "m": null
+    },
+    {
+     "t": "cero discordancias",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Sin esa reproducción, un cambio de tasa podría ser un cambio de tubería; con ella, la única variable que cambia es la reconstrucción de hidrógenos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los 331 archivos se bajaron del servidor con SHA-256 contrastado",
+     "m": "fuerte"
+    },
+    {
+     "t": ": 331 coinciden, 0 difieren, 0 faltan.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "No es ciego, y no lo finge",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los 12 complejos del piloto diagnóstico ",
+     "m": null
+    },
+    {
+     "t": "fueron inspeccionados antes",
+     "m": "fuerte"
+    },
+    {
+     "t": " de diseñar la corrección, y la prueba técnica previa al sellado miró además ",
+     "m": null
+    },
+    {
+     "t": "10gs",
+     "m": "codigo"
+    },
+    {
+     "t": " del ámbito B.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese piloto ",
+     "m": null
+    },
+    {
+     "t": "demuestra el defecto y diseña la corrección",
+     "m": "fuerte"
+    },
+    {
+     "t": "; no estima la tasa nueva, que es lo que mide este artefacto sobre las cohortes completas. Un corrigendum de implementación no se aprueba ni se rechaza: se ejecuta y se reporta, con la reconstrucción histórica al lado para que la diferencia sea auditable. Por eso ",
+     "m": null
+    },
+    {
+     "t": "no tiene gate de aceptación",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y es deliberado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La decisión ",
+     "m": null
+    },
+    {
+     "t": "GO",
+     "m": "codigo"
+    },
+    {
+     "t": " es la única etiqueta compatible con el esquema del registro y significa ",
+     "m": null
+    },
+    {
+     "t": "aquí",
+     "m": "fuerte"
+    },
+    {
+     "t": " «la corrección queda establecida y reemplaza a la medición anterior», no «el sistema pasa un umbral».",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Una cifra que no es la corrección de la otra",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El ámbito A corre sobre ",
+     "m": null
+    },
+    {
+     "t": "MF-33-B-RET-R2",
+     "m": "codigo"
+    },
+    {
+     "t": ": 8,224 poses, no las 8,215 que selló ",
+     "m": null
+    },
+    {
+     "t": "MF-33-PB",
+     "m": "codigo"
+    },
+    {
+     "t": ". La única diferencia de cohorte es ",
+     "m": null
+    },
+    {
+     "t": "1afl",
+     "m": "codigo"
+    },
+    {
+     "t": ", que aporta 267 poses en R2 frente a 258 en R1, y ",
+     "m": null
+    },
+    {
+     "t": "estaba predicha",
+     "m": "fuerte"
+    },
+    {
+     "t": " en los límites declarados de ",
+     "m": null
+    },
+    {
+     "t": "MF-33-PB",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En consecuencia, el 8,006 de este artefacto ",
+     "m": null
+    },
+    {
+     "t": "no es",
+     "m": "fuerte"
+    },
+    {
+     "t": " el 7,997 de ",
+     "m": null
+    },
+    {
+     "t": "MF-33-PB",
+     "m": "codigo"
+    },
+    {
+     "t": ": aquél contaba ",
+     "m": null
+    },
+    {
+     "t": "internal_energy",
+     "m": "codigo"
+    },
+    {
+     "t": " sobre 8,215 poses de R1 y éste sobre 8,224 de R2. No es una corrección de la cifra vieja sino otra cohorte, y la caída que este corrigendum mide es ",
+     "m": null
+    },
+    {
+     "t": "8,006 → 7 dentro de la misma cohorte R2",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El residuo, que es lo que queda vivo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las 43 poses del ámbito A que siguen inválidas —43 únicas frente a una suma de 57 recuentos por control, porque una pose puede fallar varios a la vez— ",
+     "m": null
+    },
+    {
+     "t": "se concentran en siete complejos",
+     "m": "fuerte"
+    },
+    {
+     "t": ": 21 de ellas en ",
+     "m": null
+    },
+    {
+     "t": "1nm6",
+     "m": "codigo"
+    },
+    {
+     "t": " y 9 en ",
+     "m": null
+    },
+    {
+     "t": "1mmq",
+     "m": "codigo"
+    },
+    {
+     "t": ". Sus fallos son geométricos: ",
+     "m": null
+    },
+    {
+     "t": "internal_steric_clash",
+     "m": "codigo"
+    },
+    {
+     "t": " 23, ",
+     "m": null
+    },
+    {
+     "t": "minimum_distance_to_protein",
+     "m": "codigo"
+    },
+    {
+     "t": " 13, y un bloque de 7 poses que fallan ",
+     "m": null
+    },
+    {
+     "t": "bond_angles",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "bond_lengths",
+     "m": "codigo"
+    },
+    {
+     "t": " e ",
+     "m": null
+    },
+    {
+     "t": "internal_energy",
+     "m": "codigo"
+    },
+    {
+     "t": " ",
+     "m": null
+    },
+    {
+     "t": "siempre juntos",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No es tensión generalizada del ligando. Es un subconjunto pequeño y localizado que merece caracterización posterior. En el ámbito B pasa lo mismo: 14 de las 16 inválidas son contacto con la proteína.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Sin evidencia interpretable de diferencia entre brazos",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con la tasa cerca del techo, este diseño ya no distingue:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Ambos",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Sólo ensemble",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Sólo single",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Ninguno",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "McNemar",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "MDE",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Ámbito A (48)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "47",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "p = 1.0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5.41 pp",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Ámbito B (116)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "104",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "6",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "p = 0.289",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "6.61 pp",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No",
+     "m": "fuerte"
+    },
+    {
+     "t": " se afirma que gane el single, ",
+     "m": null
+    },
+    {
+     "t": "ni",
+     "m": "fuerte"
+    },
+    {
+     "t": " que gane el ensemble, ",
+     "m": null
+    },
+    {
+     "t": "ni",
+     "m": "fuerte"
+    },
+    {
+     "t": " que sean equivalentes. Lo último exigiría una prueba de no-inferioridad con margen preregistrado, que aquí no existe.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se invalida y qué no",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se invalidan y se reemplazan:",
+     "m": "fuerte"
+    },
+    {
+     "t": " el 217/8215 = 2.64%; el 97.3% de fallos por ",
+     "m": null
+    },
+    {
+     "t": "internal_energy",
+     "m": "codigo"
+    },
+    {
+     "t": "; el 8/48 contra 10/48 de ",
+     "m": null
+    },
+    {
+     "t": "MF-33-PB",
+     "m": "codigo"
+    },
+    {
+     "t": "; el 8.62% contra 15.52% de ",
+     "m": null
+    },
+    {
+     "t": "MF-33-TOP1",
+     "m": "codigo"
+    },
+    {
+     "t": "; y las tres conclusiones que colgaban de ellos —«la validez física es deficiente», «el ensemble no la arregla» y «una minimización post-docking atacaría el problema»—.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No se ven afectados:",
+     "m": "fuerte"
+    },
+    {
+     "t": " RMSD, cobertura del oráculo, top-1, top-5 y la cascada de conversión de ningún artefacto. Los hidrógenos no entran en ninguna de esas métricas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "**",
+     "m": null
+    },
+    {
+     "t": "MF-33-PB",
+     "m": "codigo"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "MF-33-TOP1",
+     "m": "codigo"
+    },
+    {
+     "t": " no se tocan.** Quedan sellados e inmutables con sus cifras originales, etiquetados, y con este corrigendum nombrado al lado. Un registro que sólo publica lo que funcionó no permite juzgar lo que funcionó; uno que corrige en silencio, tampoco.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La condición que viaja con la cifra nueva",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El 99.48% es válido ",
+     "m": null
+    },
+    {
+     "t": "después de una reconstrucción canónica de hidrógenos",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Sin esa cláusula la frase es incorrecta.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y no demuestra exactitud de pose, ni unión, ni ventaja de ningún brazo. Este corrigendum no toca el protocolo de docking: sólo dice que lo que se estaba midiendo no era lo que se creía medir.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-33-H-COR.md"
+}

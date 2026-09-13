@@ -1,0 +1,34 @@
+{
+ "experiment_id": "MF-13-DIAG",
+ "tipo": "medicion (relectura de material sellado, sin computo nuevo)",
+ "timestamp": "2026-08-18T20:33:57.955355+00:00",
+ "n_complejos": 48,
+ "n_ok": 48,
+ "hipotesis_descartadas_antes_de_ejecutar": [
+  "faltan metales o cofactores en el receptor: FALSO, el PDBQT ya los contiene",
+  "las aguas chocan con la pose nativa: MARGINAL, 1-2 aguas no explican 7 kcal/mol"
+ ],
+ "grupos": {
+  "GANA_CRISTAL": {
+   "n": 31,
+   "enterramiento_cristal_mediano": 1.242,
+   "enterramiento_dock_mediano": 1.059,
+   "delta_enterramiento_mediano": -0.109,
+   "dist_centroides_mediana": 2.581,
+   "complejos_en_sitio_distinto": 0,
+   "aguas_25_cristal_mediana": 0,
+   "metales_4A_cristal_mediana": 6
+  },
+  "GANA_DECOY": {
+   "n": 17,
+   "enterramiento_cristal_mediano": 1.421,
+   "enterramiento_dock_mediano": 1.833,
+   "delta_enterramiento_mediano": 0.0,
+   "dist_centroides_mediana": 1.951,
+   "complejos_en_sitio_distinto": 2,
+   "aguas_25_cristal_mediana": 0,
+   "metales_4A_cristal_mediana": 2
+  }
+ },
+ "lectura": "si GANA_DECOY tiene delta_enterramiento claramente positivo y/o distancia de centroides grande, el decoy esta en un sitio distinto y mas enterrado: la funcion no se equivoca y el problema es que la caja contiene un sitio competidor (cartera B). Si no, el 30% sigue siendo fallo de puntuacion sin explicar."
+}

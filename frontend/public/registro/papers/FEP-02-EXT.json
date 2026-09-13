@@ -1,0 +1,609 @@
+{
+ "id": "FEP-02-EXT",
+ "meta": {
+  "titulo": "Esta vez medir la consecuencia casi no ayudó",
+  "entradilla": "El mismo movimiento que redujo los tautómeros a un tercio apenas divide los huecos de cadena por dos: 41 de los 86 están justo en el bolsillo. Esperaba lo contrario, y esperarlo habría sido extrapolar sin medir."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "FEP-02",
+     "m": "codigo"
+    },
+    {
+     "t": " midió que ",
+     "m": null
+    },
+    {
+     "t": "86 de 203 receptores (42%) tienen huecos de numeración",
+     "m": "fuerte"
+    },
+    {
+     "t": " — tramos de cadena ausentes en la estructura. Ese número quedó como una de las dos razones por las que sólo 83 de 203 estarían documentados para energía libre.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Pero contaba ",
+     "m": null
+    },
+    {
+     "t": "existencia",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no ",
+     "m": null
+    },
+    {
+     "t": "relevancia",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Un tramo ausente a cincuenta residuos del bolsillo no afecta a un cálculo de energía libre de unión; uno que corta el propio sitio, sí. El propio ",
+     "m": null
+    },
+    {
+     "t": "FEP-02",
+     "m": "codigo"
+    },
+    {
+     "t": " lo declaró: «los 86 son candidatos, no defectos confirmados».",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento aplica a los huecos el mismo tratamiento que ",
+     "m": null
+    },
+    {
+     "t": "FEP-01-EXT",
+     "m": "codigo"
+    },
+    {
+     "t": " aplicó a los tautómeros.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cada hueco se clasificó por la distancia mínima de sus dos residuos flanqueantes a cualquier átomo pesado del ligando. El radio de 8 Å ",
+     "m": null
+    },
+    {
+     "t": "no se eligió nuevo",
+     "m": "fuerte"
+    },
+    {
+     "t": ": es el mismo con el que ",
+     "m": null
+    },
+    {
+     "t": "FEP-02",
+     "m": "codigo"
+    },
+    {
+     "t": " definió «sitio» al contar cadenas, metales y aguas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Clasificación",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Complejos",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "EN EL SITIO",
+       "m": "fuerte"
+      },
+      {
+       "t": " (≤ 8 Å)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "41",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Periférico (8–15 Å)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "29",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Lejano (> 15 Å)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "16",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "86 de 86 analizables, cero errores, 1.9 segundos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo informativo es que no se repitió el resultado anterior",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Contado por el original",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Accionable de verdad",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "FEP-01-EXT",
+       "m": "codigo"
+      },
+      {
+       "t": " — tautómeros",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "164",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "54",
+       "m": "fuerte"
+      },
+      {
+       "t": " (un tercio)",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "FEP-02-EXT",
+       "m": "codigo"
+      },
+      {
+       "t": " — huecos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "86",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "41",
+       "m": "fuerte"
+      },
+      {
+       "t": " (casi la mitad)",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Yo esperaba la misma reducción drástica. No se produjo, y ",
+     "m": null
+    },
+    {
+     "t": "asumirla habría sido extrapolar de un experimento a otro sin medir",
+     "m": "fuerte"
+    },
+    {
+     "t": " — exactamente el error que ",
+     "m": null
+    },
+    {
+     "t": "MF-26",
+     "m": "codigo"
+    },
+    {
+     "t": " cometió al declarar una especificación desde una curva de ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Casi la mitad de los huecos está justo donde importa. Este problema es más real de lo que el de los tautómeros resultó ser.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La asimetría entre huecos y complejos",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Hay ",
+     "m": null
+    },
+    {
+     "t": "337 huecos",
+     "m": "fuerte"
+    },
+    {
+     "t": " en total y sólo ",
+     "m": null
+    },
+    {
+     "t": "55 están en el sitio",
+     "m": "fuerte"
+    },
+    {
+     "t": ": un ",
+     "m": null
+    },
+    {
+     "t": "16% por hueco",
+     "m": "fuerte"
+    },
+    {
+     "t": ", frente a un ",
+     "m": null
+    },
+    {
+     "t": "48% por complejo",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La razón es aritmética y merece anotarse porque cambia qué se reporta: basta ",
+     "m": null
+    },
+    {
+     "t": "un",
+     "m": "fuerte"
+    },
+    {
+     "t": " hueco cerca del bolsillo para que el complejo sea accionable. Contar huecos subestima el problema; la unidad correcta es el complejo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que gana la cartera H",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Deja de tener una lista de 86 y pasa a tener tres grupos con acción distinta:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "41 hay que reparar",
+      "m": "fuerte"
+     },
+     {
+      "t": " antes de poder declarar el receptor;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "29 son frontera",
+      "m": "fuerte"
+     },
+     {
+      "t": " y exigen mirar caso por caso;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "16 basta con declararlos",
+      "m": "fuerte"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El control que existía y ya no se puede ejecutar",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "FEP-02",
+     "m": "codigo"
+    },
+    {
+     "t": " había verificado algo notable: los 9 complejos que fallaron la parametrización con error de plantilla en ",
+     "m": null
+    },
+    {
+     "t": "MF-10",
+     "m": "codigo"
+    },
+    {
+     "t": " tienen huecos de cadena, ",
+     "m": null
+    },
+    {
+     "t": "9 de 9",
+     "m": "fuerte"
+    },
+    {
+     "t": ", contra una tasa base del 42.4% — probabilidad de coincidencia ≈ 0.0004.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Comprobar si ",
+     "m": null
+    },
+    {
+     "t": "esos",
+     "m": "fuerte"
+    },
+    {
+     "t": " huecos están en el sitio habría validado el criterio de este experimento contra un fallo real, independiente y ya observado. Era el mejor control disponible y era gratis.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No se pudo: **el ",
+     "m": null
+    },
+    {
+     "t": "failures.jsonl",
+     "m": "codigo"
+    },
+    {
+     "t": " de ",
+     "m": null
+    },
+    {
+     "t": "MF-10",
+     "m": "codigo"
+    },
+    {
+     "t": " está vacío** y los identificadores no son recuperables desde el artefacto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es una instancia concreta de lo que ",
+     "m": null
+    },
+    {
+     "t": "FND-08",
+     "m": "codigo"
+    },
+    {
+     "t": " encontró sobre dato crudo ausente, y el coste se paga aquí. No es una molestia abstracta de contabilidad: es un control que existía, que no costaba nada, y que ya no se puede hacer.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que este experimento tiene prohibido concluir",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Declarado antes de correr: un hueco ",
+     "m": null
+    },
+    {
+     "t": "lejano no garantiza",
+     "m": "fuerte"
+    },
+    {
+     "t": " que la estructura sea utilizable — puede romper el plegamiento o la dinámica global. Lo medido es qué fracción tiene el defecto ",
+     "m": null
+    },
+    {
+     "t": "en la región que decide la unión",
+     "m": "fuerte"
+    },
+    {
+     "t": ", que es la única que obliga a reparar antes de declarar el receptor.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un hueco lejano se declara. Uno en el sitio se arregla.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y queda expresamente prohibido concluir que los 16 lejanos están listos para energía libre: ",
+     "m": null
+    },
+    {
+     "t": "FEP-02",
+     "m": "codigo"
+    },
+    {
+     "t": " exige además documentar cadenas, disulfuros, metales, cofactores y aguas, y nada de eso se toca aquí.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FEP-02-EXT.md"
+}

@@ -1,0 +1,71 @@
+{
+  "alcance": {
+    "n_complejos": 156,
+    "n_complejos_train": 116,
+    "n_complejos_val": 40,
+    "n_poses": 3469,
+    "n_poses_train": 2739,
+    "n_poses_val": 730,
+    "pids_compartidos_entre_splits": [],
+    "splits": "train+val (test histórico fuera de alcance: poses_test.jsonl nunca se abre)"
+  },
+  "experiment_id": "MF-01-UNION",
+  "geometria": {
+    "por_fuente": {
+      "flexible_redock": {
+        "_coords": 0,
+        "missing": 0,
+        "n_poses": 1169,
+        "pdbqt": 1169
+      },
+      "molflex": {
+        "_coords": 0,
+        "missing": 0,
+        "n_poses": 1934,
+        "pdbqt": 1934
+      },
+      "ruta_a": {
+        "_coords": 0,
+        "missing": 0,
+        "n_poses": 366,
+        "pdbqt": 366
+      }
+    },
+    "por_pose": {
+      "_coords": 0,
+      "missing": 0,
+      "pdbqt": 3469
+    },
+    "resolucion": {
+      "fallback": "records/{pid}.json → _coords",
+      "flexible_redock": "data/pdbbind/vina_redock_work/{pid}/{pid}_out.pdbqt",
+      "molflex": "work_molflex_v3/{pid}/{file_stem}.pdbqt (reubicado: moldesign-backups/work_molflex_v3)",
+      "ruta_a": "tmp/ruta_a/{pid}/{file_stem}/out.pdbqt"
+    }
+  },
+  "identidad": {
+    "colisiones": 0,
+    "formato": "split|pid|source|file_stem|model_idx",
+    "orden_salida": "identity ascendente (independiente de rmsd)"
+  },
+  "notas": [
+    "Sin re-docking, sin scoring v0.6, sin deduplicación (MF-11).",
+    "Determinista: dos corridas sobre los mismos insumos producen bytes idénticos.",
+    "PASS OPERACIONAL de este artefacto != gate científico de MF-01 (permanece NO_GO: MolFlex aportó 0 complejos en D-MF-HARD; decisión en RS-01)."
+  ],
+  "provenance": {
+    "clave": "pid|source|file_stem",
+    "poses_sin_provenance": 0,
+    "runs_en_sidecar": 560,
+    "runs_esperadas": 447,
+    "runs_por_fuente": {
+      "flexible_redock": 143,
+      "molflex": 244,
+      "ruta_a": 60
+    },
+    "runs_solo_test": 113,
+    "runs_usadas": 447,
+    "sidecar": "scripts/artifacts_science/FND-06/poses_provenance.jsonl"
+  },
+  "separacion_candidatos_labels": "union_candidates_*.jsonl NO contienen rmsd ni labels de calidad; union_labels_*.jsonl llevan las etiquetas keyed por identidad, en el mismo orden"
+}

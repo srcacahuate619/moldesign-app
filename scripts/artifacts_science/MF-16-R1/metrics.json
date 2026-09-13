@@ -1,0 +1,28 @@
+{
+ "experiment_id": "MF-16-R1",
+ "tipo": "corrigendum de MF-16 (relectura de MF-10, sin computo nuevo)",
+ "timestamp": "2026-08-18T22:37:45.999316+00:00",
+ "defecto_corregido": "MF-16 puntuo poses SIN relajar. La energia de punto unico esta dominada por choque esterico -36 de 714 poses superan 1e4 kcal/mol y algunas llegan a 1e8- de modo que el Spearman ordenaba por severidad de choque, no por calidad de union. Se recomputa con las energias YA MINIMIZADAS que MF-10 registro sobre las mismas poses.",
+ "resumen": {
+  "COLOCACION": {
+   "n": 25,
+   "rho_ff_relajado_mediano": 0.1985,
+   "rho_ff_punto_unico_mediano": -0.1098,
+   "rho_vina_mediano": 0.1323,
+   "delta_mediano": 0.1067,
+   "complejos_ff_mejor": 16
+  },
+  "CONTROL": {
+   "n": 13,
+   "rho_ff_relajado_mediano": 0.588,
+   "rho_ff_punto_unico_mediano": 0.1398,
+   "rho_vina_mediano": 0.5333,
+   "delta_mediano": -0.0988,
+   "complejos_ff_mejor": 6
+  }
+ },
+ "n_complejos": 38,
+ "conclusion": "La conclusion de MF-16 -que el potencial fisico no orienta- queda INVALIDADA: era artefacto del punto unico. Pero la lectura correcta NO es 'el FF gana en ambos estratos'. Comparado PAREADO por complejo, que es el criterio del programa: en COLOCACION el FF relajado supera a Vina (delta +0.107, mejor en 16 de 25); en CONTROL PIERDE (delta -0.099, mejor en solo 6 de 13). Las medianas por estrato sugerian lo contrario en CONTROL (0.588 vs 0.533) y por eso se reporta el pareado. El hallazgo especifico es que el potencial fisico ayuda JUSTO donde Vina es debil, y no aporta donde Vina ya funciona.",
+ "limitacion": "sigue siendo debil en el estrato dificil (0.199): es una DIRECCION, no una solucion. Y la relajacion mueve la pose, asi que el rmsd_despues no es el mismo objeto que el rmsd_antes que usa Vina; la comparacion es indicativa, no un head-to-head exacto.",
+ "advertencia_metodologica": "la relajacion mueve la pose, asi que rmsd_despues no es el mismo objeto que el rmsd_antes con el que se evalua a Vina. La comparacion es indicativa y NO un head-to-head exacto; un head-to-head exigiria relajar tambien bajo Vina (local_only) y comparar sobre las poses resultantes."
+}

@@ -1,0 +1,275 @@
+{
+ "experiment_id": "MF-32",
+ "tipo": "auditoria adversarial (reanalisis de MF-08, sin computo nuevo)",
+ "timestamp": "2026-08-19T02:11:26.979375+00:00",
+ "postura": "no busca confirmar la lectura de la linea C; busca refutarla",
+ "ataque1_sensibilidad_al_umbral": {
+  "COLOCACION": {
+   "B20": {
+    "n": 33,
+    "conv_1.5": {
+     "k": 1,
+     "tasa": 0.0303,
+     "wilson95": [
+      0.005,
+      0.153
+     ]
+    },
+    "conv_2.0": {
+     "k": 1,
+     "tasa": 0.0303,
+     "wilson95": [
+      0.005,
+      0.153
+     ]
+    },
+    "conv_2.5": {
+     "k": 9,
+     "tasa": 0.2727,
+     "wilson95": [
+      0.151,
+      0.442
+     ]
+    },
+    "conv_3.0": {
+     "k": 14,
+     "tasa": 0.4242,
+     "wilson95": [
+      0.272,
+      0.592
+     ]
+    },
+    "oraculo_mediano": 3.224,
+    "casi_acierto_2_3A": 13
+   },
+   "B30": {
+    "n": 33,
+    "conv_1.5": {
+     "k": 1,
+     "tasa": 0.0303,
+     "wilson95": [
+      0.005,
+      0.153
+     ]
+    },
+    "conv_2.0": {
+     "k": 1,
+     "tasa": 0.0303,
+     "wilson95": [
+      0.005,
+      0.153
+     ]
+    },
+    "conv_2.5": {
+     "k": 7,
+     "tasa": 0.2121,
+     "wilson95": [
+      0.107,
+      0.378
+     ]
+    },
+    "conv_3.0": {
+     "k": 12,
+     "tasa": 0.3636,
+     "wilson95": [
+      0.222,
+      0.534
+     ]
+    },
+    "oraculo_mediano": 4.004,
+    "casi_acierto_2_3A": 11
+   },
+   "B_ADAPT": {
+    "n": 33,
+    "conv_1.5": {
+     "k": 2,
+     "tasa": 0.0606,
+     "wilson95": [
+      0.017,
+      0.196
+     ]
+    },
+    "conv_2.0": {
+     "k": 3,
+     "tasa": 0.0909,
+     "wilson95": [
+      0.031,
+      0.236
+     ]
+    },
+    "conv_2.5": {
+     "k": 10,
+     "tasa": 0.303,
+     "wilson95": [
+      0.174,
+      0.473
+     ]
+    },
+    "conv_3.0": {
+     "k": 15,
+     "tasa": 0.4545,
+     "wilson95": [
+      0.298,
+      0.62
+     ]
+    },
+    "oraculo_mediano": 3.18,
+    "casi_acierto_2_3A": 12
+   }
+  },
+  "CONTROL": {
+   "B20": {
+    "n": 15,
+    "conv_1.5": {
+     "k": 15,
+     "tasa": 1.0,
+     "wilson95": [
+      0.796,
+      1.0
+     ]
+    },
+    "conv_2.0": {
+     "k": 15,
+     "tasa": 1.0,
+     "wilson95": [
+      0.796,
+      1.0
+     ]
+    },
+    "conv_2.5": {
+     "k": 15,
+     "tasa": 1.0,
+     "wilson95": [
+      0.796,
+      1.0
+     ]
+    },
+    "conv_3.0": {
+     "k": 15,
+     "tasa": 1.0,
+     "wilson95": [
+      0.796,
+      1.0
+     ]
+    },
+    "oraculo_mediano": 0.841,
+    "casi_acierto_2_3A": 0
+   },
+   "B30": {
+    "n": 15,
+    "conv_1.5": {
+     "k": 15,
+     "tasa": 1.0,
+     "wilson95": [
+      0.796,
+      1.0
+     ]
+    },
+    "conv_2.0": {
+     "k": 15,
+     "tasa": 1.0,
+     "wilson95": [
+      0.796,
+      1.0
+     ]
+    },
+    "conv_2.5": {
+     "k": 15,
+     "tasa": 1.0,
+     "wilson95": [
+      0.796,
+      1.0
+     ]
+    },
+    "conv_3.0": {
+     "k": 15,
+     "tasa": 1.0,
+     "wilson95": [
+      0.796,
+      1.0
+     ]
+    },
+    "oraculo_mediano": 0.937,
+    "casi_acierto_2_3A": 0
+   },
+   "B_ADAPT": {
+    "n": 15,
+    "conv_1.5": {
+     "k": 15,
+     "tasa": 1.0,
+     "wilson95": [
+      0.796,
+      1.0
+     ]
+    },
+    "conv_2.0": {
+     "k": 15,
+     "tasa": 1.0,
+     "wilson95": [
+      0.796,
+      1.0
+     ]
+    },
+    "conv_2.5": {
+     "k": 15,
+     "tasa": 1.0,
+     "wilson95": [
+      0.796,
+      1.0
+     ]
+    },
+    "conv_3.0": {
+     "k": 15,
+     "tasa": 1.0,
+     "wilson95": [
+      0.796,
+      1.0
+     ]
+    },
+    "oraculo_mediano": 0.959,
+    "casi_acierto_2_3A": 0
+   }
+  }
+ },
+ "ataque2a_regresion_a_la_media": {
+  "COLOCACION": {
+   "n": 33,
+   "spearman_base_vs_mejora": 0.3897,
+   "mejora_mediana": 0.067
+  },
+  "CONTROL": {
+   "n": 15,
+   "spearman_base_vs_mejora": 0.4246,
+   "mejora_mediana": 0.0
+  },
+  "TODOS": {
+   "n": 48,
+   "spearman_base_vs_mejora": 0.5328,
+   "mejora_mediana": 0.002
+  }
+ },
+ "ataque2b_degradan_los_controles": {
+  "COLOCACION": {
+   "n": 33,
+   "delta_oraculo_medio": -0.533,
+   "ci95": [
+    -0.977,
+    -0.285
+   ],
+   "empeoran": 5,
+   "mejoran": 23
+  },
+  "CONTROL": {
+   "n": 15,
+   "delta_oraculo_medio": -0.042,
+   "ci95": [
+    -0.126,
+    -0.002
+   ],
+   "empeoran": 5,
+   "mejoran": 4
+  }
+ },
+ "ataque3_no_contrastable_aqui": "varianza por semilla de Vina: todas las comparaciones usan seed 42 y nadie ha medido la varianza entre semillas en esta cohorte. FND-03 la declara P0 y NO tiene artefacto. Es el hueco mas grave de la linea y exige ejecutar Vina",
+ "lectura": "ataque 1 prospera si el orden de brazos o el recuento cambian mucho al mover el umbral. ataque 2 prospera si la mejora correlaciona fuerte con el punto de partida Y los controles empeoran; si los controles NO empeoran, la regresion a la media no explica el efecto"
+}

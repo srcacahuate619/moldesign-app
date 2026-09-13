@@ -1,0 +1,59 @@
+{
+ "experiment_id": "MF-17",
+ "tipo": "medicion descriptiva (cruce de artefactos, sin computo nuevo)",
+ "n_complejos": 48,
+ "n_con_desenlace": 48,
+ "fuentes": [
+  "MF-09",
+  "MF-13",
+  "MF-14",
+  "MF-15-EXT"
+ ],
+ "desenlace": "cubierto = existe pose <=2.0 A entre todas las generadas (oraculo)",
+ "grupos": {
+  "RESUELTO": {
+   "n": 18,
+   "estratos": {
+    "COLOCACION": 3,
+    "CONTROL": 15
+   },
+   "oraculo_mediano": 1.0195,
+   "rho_embudo_mediano": 0.4796,
+   "r50_mediano": 2.0,
+   "ventaja_cristal_mediana": 0.721,
+   "frac_cristal_gana": 0.6111,
+   "sin_r50": 0
+  },
+  "FALLA": {
+   "n": 30,
+   "estratos": {
+    "COLOCACION": 30,
+    "CONTROL": 0
+   },
+   "oraculo_mediano": 3.7335,
+   "rho_embudo_mediano": 0.2105,
+   "r50_mediano": 2.0,
+   "ventaja_cristal_mediana": 2.218,
+   "frac_cristal_gana": 0.6667,
+   "sin_r50": 4
+  }
+ },
+ "separacion_por_mecanismo": {
+  "rho_embudo": {
+   "resuelto": 0.4796,
+   "falla": 0.2105,
+   "diferencia": 0.2691
+  },
+  "r50": {
+   "resuelto": 2.0,
+   "falla": 2.0,
+   "diferencia": 0.0
+  },
+  "ventaja_cristal": {
+   "resuelto": 0.721,
+   "falla": 2.218,
+   "diferencia": -1.497
+  }
+ },
+ "limitacion": "n=48 y correlacional: NO se afirma causalidad, no se ajusta ningun modelo y no se deriva ningun umbral operativo de aqui."
+}

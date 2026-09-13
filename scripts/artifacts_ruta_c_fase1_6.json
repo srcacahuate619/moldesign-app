@@ -1,0 +1,616 @@
+{
+  "generated_at": "2026-08-14T18:27:46-0600",
+  "protocolo": "docs/42_RUTA_C_PROTOCOLO.md",
+  "fase": "1.6 (v0.6 relativo)",
+  "hipotesis": "los arboles de XGBoost usan umbrales globales mientras la seleccion es intra-complejo; hacer la relatividad explicita con z-score y rango percentil por complejo",
+  "gate_criterio": "v06B_top1_test > vina_top1_test (0.5319)",
+  "config": {
+    "n_features_raw": 224,
+    "n_z": 224,
+    "n_pct": 9,
+    "n_modelo_A": 1,
+    "n_modelo_B": 233,
+    "transformacion": "z-score por columna dentro de cada complejo (std_pid == 0 -> z = 0); rangos percentiles 0-100 (empates -> rango promedio) sobre las 9 features raw de PCT_RAW; cada split se normaliza de forma independiente; NaN -> 0 despues de transformar",
+    "pct_raw": [
+      "vina_score",
+      "n_contacts_4",
+      "n_contacts_6",
+      "contacts_per_ha_4",
+      "n_clashes",
+      "pose_score_variance",
+      "pose_score_range",
+      "cluster_density",
+      "n_heavy"
+    ],
+    "hiperparametros": {
+      "objective": "rank:pairwise",
+      "n_estimators": 500,
+      "max_depth": 6,
+      "learning_rate": 0.05,
+      "subsample": 0.8,
+      "early_stopping_rounds": 50,
+      "n_jobs": 4,
+      "seed": 42,
+      "random_state": 42
+    },
+    "relevancia": "-rmsd",
+    "cache_v05": "data\\pose_selector_dataset\\features_v05_progress.jsonl"
+  },
+  "_ultima_etapa": "completo",
+  "vina_baseline_recomputado": {
+    "train": {
+      "top1_rate": 0.4138,
+      "mediana_rmsd": 2.374,
+      "n_con_score": 116
+    },
+    "val": {
+      "top1_rate": 0.525,
+      "mediana_rmsd": 1.827,
+      "n_con_score": 40
+    },
+    "test": {
+      "top1_rate": 0.5319,
+      "mediana_rmsd": 1.765,
+      "n_con_score": 47
+    }
+  },
+  "modelo_A": {
+    "descripcion": "XGBRanker con SOLO z_vina_score (1 feature). Sanity: la z es monotona intra-complejo y debe preservar el argmin de Vina.",
+    "features": [
+      "z_vina_score"
+    ],
+    "eval_metric": "auc",
+    "best_iteration": 2,
+    "best_score": 0.6331485502988721,
+    "train": {
+      "top1_rate": 0.4483,
+      "mediana_rmsd": 2.308,
+      "spearman_pred_vs_rmsd_media": -0.5221,
+      "spearman_pred_vs_relevancia_media": 0.5221,
+      "n_complejos": 116,
+      "n_complejos_spearman": 116
+    },
+    "val": {
+      "top1_rate": 0.425,
+      "mediana_rmsd": 2.721,
+      "spearman_pred_vs_rmsd_media": -0.3401,
+      "spearman_pred_vs_relevancia_media": 0.3401,
+      "n_complejos": 40,
+      "n_complejos_spearman": 39
+    },
+    "test": {
+      "top1_rate": 0.4894,
+      "mediana_rmsd": 2.47,
+      "spearman_pred_vs_rmsd_media": -0.3853,
+      "spearman_pred_vs_relevancia_media": 0.3853,
+      "n_complejos": 47,
+      "n_complejos_spearman": 45
+    }
+  },
+  "sanity_modelo_A": {
+    "objetivo": "reproducir el top-1 test de Vina (0.5319) con la feature z_vina_score sola",
+    "tolerancia": 0.001,
+    "A_test_top1": 0.4894,
+    "vina_test_top1_referencia": 0.5319,
+    "delta": -0.0425,
+    "resultado": "NO_OK",
+    "verificacion_determinista_argmin_z": {
+      "test": {
+        "top1_rate": 0.5319,
+        "mediana_rmsd": 1.765,
+        "n_complejos": 47
+      },
+      "val": {
+        "top1_rate": 0.525,
+        "mediana_rmsd": 1.827,
+        "n_complejos": 40
+      },
+      "igual_al_vina_recomputado_test": true,
+      "igual_a_referencia_05319_test": true
+    },
+    "investigacion_no_ok": {
+      "diagnostico_monotonia_test": {
+        "split": "test",
+        "spearman_pred_vs_z_media": -0.7589,
+        "spearman_pred_vs_z_min": -0.9667,
+        "n_complejos_spearman": 45,
+        "n_complejos_flip_vs_argmin_z": 20,
+        "n_valores_pred_distintos_mediana": 9,
+        "flips": [
+          {
+            "pid": "1a1e",
+            "vina_pose_vina": -7.826,
+            "vina_pose_rmsd": 3.802,
+            "vina_pose_z": -3.769,
+            "pred_pose_vina": -7.052,
+            "pred_pose_rmsd": 9.97,
+            "pred_pose_z": -2.29,
+            "n_poses": 180
+          },
+          {
+            "pid": "1a28",
+            "vina_pose_vina": -11.749,
+            "vina_pose_rmsd": 1.033,
+            "vina_pose_z": -1.743,
+            "pred_pose_vina": -11.537,
+            "pred_pose_rmsd": 0.839,
+            "pred_pose_z": -1.537,
+            "n_poses": 45
+          },
+          {
+            "pid": "1ado",
+            "vina_pose_vina": -6.429,
+            "vina_pose_rmsd": 2.664,
+            "vina_pose_z": -1.957,
+            "pred_pose_vina": -5.499,
+            "pred_pose_rmsd": 1.442,
+            "pred_pose_z": -0.742,
+            "n_poses": 63
+          },
+          {
+            "pid": "1b55",
+            "vina_pose_vina": -5.205,
+            "vina_pose_rmsd": 5.924,
+            "vina_pose_z": -0.912,
+            "pred_pose_vina": -5.138,
+            "pred_pose_rmsd": 5.932,
+            "pred_pose_z": -0.776,
+            "n_poses": 29
+          },
+          {
+            "pid": "1bnw",
+            "vina_pose_vina": -6.955,
+            "vina_pose_rmsd": 2.101,
+            "vina_pose_z": -1.322,
+            "pred_pose_vina": -6.722,
+            "pred_pose_rmsd": 3.773,
+            "pred_pose_z": -1.003,
+            "n_poses": 32
+          },
+          {
+            "pid": "1br6",
+            "vina_pose_vina": -7.791,
+            "vina_pose_rmsd": 0.714,
+            "vina_pose_z": -1.584,
+            "pred_pose_vina": -7.76,
+            "pred_pose_rmsd": 7.694,
+            "pred_pose_z": -1.549,
+            "n_poses": 30
+          },
+          {
+            "pid": "1c5s",
+            "vina_pose_vina": -6.558,
+            "vina_pose_rmsd": 5.44,
+            "vina_pose_z": -1.714,
+            "pred_pose_vina": -6.281,
+            "pred_pose_rmsd": 1.016,
+            "pred_pose_z": -1.259,
+            "n_poses": 9
+          },
+          {
+            "pid": "1d3d",
+            "vina_pose_vina": -9.842,
+            "vina_pose_rmsd": 2.844,
+            "vina_pose_z": -1.443,
+            "pred_pose_vina": -9.428,
+            "pred_pose_rmsd": 3.932,
+            "pred_pose_z": -0.802,
+            "n_poses": 9
+          },
+          {
+            "pid": "1e2l",
+            "vina_pose_vina": -8.679,
+            "vina_pose_rmsd": 1.134,
+            "vina_pose_z": -0.975,
+            "pred_pose_vina": -8.661,
+            "pred_pose_rmsd": 1.125,
+            "pred_pose_z": -0.958,
+            "n_poses": 8
+          },
+          {
+            "pid": "1g1d",
+            "vina_pose_vina": -7.661,
+            "vina_pose_rmsd": 1.459,
+            "vina_pose_z": -1.685,
+            "pred_pose_vina": -7.362,
+            "pred_pose_rmsd": 3.996,
+            "pred_pose_z": -1.128,
+            "n_poses": 9
+          },
+          {
+            "pid": "1g46",
+            "vina_pose_vina": -7.721,
+            "vina_pose_rmsd": 2.734,
+            "vina_pose_z": -1.422,
+            "pred_pose_vina": -7.5,
+            "pred_pose_rmsd": 1.913,
+            "pred_pose_z": -0.98,
+            "n_poses": 9
+          },
+          {
+            "pid": "1g53",
+            "vina_pose_vina": -7.799,
+            "vina_pose_rmsd": 1.676,
+            "vina_pose_z": -1.736,
+            "pred_pose_vina": -7.32,
+            "pred_pose_rmsd": 8.001,
+            "pred_pose_z": -1.182,
+            "n_poses": 9
+          },
+          {
+            "pid": "1g54",
+            "vina_pose_vina": -8.131,
+            "vina_pose_rmsd": 8.726,
+            "vina_pose_z": -1.154,
+            "pred_pose_vina": -8.065,
+            "pred_pose_rmsd": 8.61,
+            "pred_pose_z": -0.782,
+            "n_poses": 9
+          },
+          {
+            "pid": "1i9p",
+            "vina_pose_vina": -7.412,
+            "vina_pose_rmsd": 2.085,
+            "vina_pose_z": -1.719,
+            "pred_pose_vina": -7.374,
+            "pred_pose_rmsd": 2.47,
+            "pred_pose_z": -1.593,
+            "n_poses": 9
+          },
+          {
+            "pid": "1if7",
+            "vina_pose_vina": -7.468,
+            "vina_pose_rmsd": 2.016,
+            "vina_pose_z": -1.178,
+            "pred_pose_vina": -7.352,
+            "pred_pose_rmsd": 5.114,
+            "pred_pose_z": -0.731,
+            "n_poses": 9
+          },
+          {
+            "pid": "1k1j",
+            "vina_pose_vina": -7.162,
+            "vina_pose_rmsd": 6.58,
+            "vina_pose_z": -1.581,
+            "pred_pose_vina": -7.135,
+            "pred_pose_rmsd": 1.314,
+            "pred_pose_z": -1.427,
+            "n_poses": 9
+          },
+          {
+            "pid": "1lhu",
+            "vina_pose_vina": -10.858,
+            "vina_pose_rmsd": 0.618,
+            "vina_pose_z": -1.703,
+            "pred_pose_vina": -9.644,
+            "pred_pose_rmsd": 6.697,
+            "pred_pose_z": -0.226,
+            "n_poses": 11
+          },
+          {
+            "pid": "1m0o",
+            "vina_pose_vina": -8.312,
+            "vina_pose_rmsd": 1.27,
+            "vina_pose_z": -1.735,
+            "pred_pose_vina": -7.489,
+            "pred_pose_rmsd": 4.611,
+            "pred_pose_z": -0.965,
+            "n_poses": 6
+          },
+          {
+            "pid": "1mai",
+            "vina_pose_vina": -5.277,
+            "vina_pose_rmsd": 0.788,
+            "vina_pose_z": -1.523,
+            "pred_pose_vina": -4.676,
+            "pred_pose_rmsd": 4.449,
+            "pred_pose_z": -0.723,
+            "n_poses": 31
+          },
+          {
+            "pid": "1mfd",
+            "vina_pose_vina": -5.968,
+            "vina_pose_rmsd": 1.267,
+            "vina_pose_z": -1.528,
+            "pred_pose_vina": -5.965,
+            "pred_pose_rmsd": 1.282,
+            "pred_pose_z": -1.525,
+            "n_poses": 29
+          }
+        ]
+      },
+      "diagnostico_monotonia_val": {
+        "split": "val",
+        "spearman_pred_vs_z_media": -0.8089,
+        "spearman_pred_vs_z_min": -1.0,
+        "n_complejos_spearman": 39,
+        "n_complejos_flip_vs_argmin_z": 10,
+        "n_valores_pred_distintos_mediana": 8,
+        "flips": [
+          {
+            "pid": "1a4r",
+            "vina_pose_vina": -9.276,
+            "vina_pose_rmsd": 1.496,
+            "vina_pose_z": -2.658,
+            "pred_pose_vina": -8.962,
+            "pred_pose_rmsd": 2.932,
+            "pred_pose_z": -2.097,
+            "n_poses": 180
+          },
+          {
+            "pid": "1ajx",
+            "vina_pose_vina": -7.8,
+            "vina_pose_rmsd": 12.315,
+            "vina_pose_z": -2.389,
+            "pred_pose_vina": -7.214,
+            "pred_pose_rmsd": 13.648,
+            "pred_pose_z": -1.912,
+            "n_poses": 158
+          },
+          {
+            "pid": "1dhi",
+            "vina_pose_vina": -8.147,
+            "vina_pose_rmsd": 1.287,
+            "vina_pose_z": -1.578,
+            "pred_pose_vina": -7.465,
+            "pred_pose_rmsd": 2.793,
+            "pred_pose_z": -0.733,
+            "n_poses": 31
+          },
+          {
+            "pid": "1e3v",
+            "vina_pose_vina": -7.767,
+            "vina_pose_rmsd": 3.648,
+            "vina_pose_z": -1.219,
+            "pred_pose_vina": -7.531,
+            "pred_pose_rmsd": 1.831,
+            "pred_pose_z": -0.766,
+            "n_poses": 9
+          },
+          {
+            "pid": "1e6s",
+            "vina_pose_vina": -5.074,
+            "vina_pose_rmsd": 0.557,
+            "vina_pose_z": -1.712,
+            "pred_pose_vina": -4.923,
+            "pred_pose_rmsd": 3.516,
+            "pred_pose_z": -1.539,
+            "n_poses": 9
+          },
+          {
+            "pid": "1ejn",
+            "vina_pose_vina": -9.496,
+            "vina_pose_rmsd": 0.529,
+            "vina_pose_z": -3.253,
+            "pred_pose_vina": -8.118,
+            "pred_pose_rmsd": 1.841,
+            "pred_pose_z": -1.88,
+            "n_poses": 28
+          },
+          {
+            "pid": "1fzq",
+            "vina_pose_vina": -6.018,
+            "vina_pose_rmsd": 4.996,
+            "vina_pose_z": -1.963,
+            "pred_pose_vina": -5.586,
+            "pred_pose_rmsd": 3.042,
+            "pred_pose_z": -0.991,
+            "n_poses": 9
+          },
+          {
+            "pid": "1hk4",
+            "vina_pose_vina": -6.114,
+            "vina_pose_rmsd": 14.067,
+            "vina_pose_z": -1.424,
+            "pred_pose_vina": -6.007,
+            "pred_pose_rmsd": 14.137,
+            "pred_pose_z": -0.782,
+            "n_poses": 9
+          },
+          {
+            "pid": "1hyo",
+            "vina_pose_vina": -6.08,
+            "vina_pose_rmsd": 0.98,
+            "vina_pose_z": -1.764,
+            "pred_pose_vina": -5.397,
+            "pred_pose_rmsd": 4.486,
+            "pred_pose_z": -1.052,
+            "n_poses": 7
+          },
+          {
+            "pid": "1jlr",
+            "vina_pose_vina": -6.876,
+            "vina_pose_rmsd": 1.681,
+            "vina_pose_z": -1.749,
+            "pred_pose_vina": -6.768,
+            "pred_pose_rmsd": 8.172,
+            "pred_pose_z": -1.542,
+            "n_poses": 33
+          }
+        ]
+      }
+    }
+  },
+  "modelo_B": {
+    "descripcion": "XGBRanker con 224 z-scores + 9 rangos percentiles (= 233 features), todo normalizado por complejo.",
+    "n_features": 233,
+    "eval_metric": "auc",
+    "best_iteration": 51,
+    "best_score": 0.726777464285768,
+    "train": {
+      "top1_rate": 0.6724,
+      "mediana_rmsd": 1.425,
+      "spearman_pred_vs_rmsd_media": -0.9703,
+      "spearman_pred_vs_relevancia_media": 0.9703,
+      "n_complejos": 116,
+      "n_complejos_spearman": 116
+    },
+    "val": {
+      "top1_rate": 0.575,
+      "mediana_rmsd": 1.774,
+      "spearman_pred_vs_rmsd_media": -0.5522,
+      "spearman_pred_vs_relevancia_media": 0.5522,
+      "n_complejos": 40,
+      "n_complejos_spearman": 39
+    },
+    "test": {
+      "top1_rate": 0.6596,
+      "mediana_rmsd": 1.428,
+      "spearman_pred_vs_rmsd_media": -0.5581,
+      "spearman_pred_vs_relevancia_media": 0.5581,
+      "n_complejos": 47,
+      "n_complejos_spearman": 45
+    },
+    "importancias_top15": [
+      {
+        "feature": "z_contacts_per_ha_4",
+        "gain": 2.28
+      },
+      {
+        "feature": "pct_vina_score",
+        "gain": 2.11
+      },
+      {
+        "feature": "z_ecif_C_aro_F",
+        "gain": 2.06
+      },
+      {
+        "feature": "z_shell_O_C_8_12",
+        "gain": 1.82
+      },
+      {
+        "feature": "z_shell_O_S_8_12",
+        "gain": 1.8
+      },
+      {
+        "feature": "z_ecif_other_other",
+        "gain": 1.74
+      },
+      {
+        "feature": "z_ecif_S_N",
+        "gain": 1.71
+      },
+      {
+        "feature": "z_shell_S_F_8_12",
+        "gain": 1.71
+      },
+      {
+        "feature": "z_shell_C_N_8_12",
+        "gain": 1.66
+      },
+      {
+        "feature": "z_shell_O_N_0_4",
+        "gain": 1.65
+      },
+      {
+        "feature": "z_ecif_other_O",
+        "gain": 1.64
+      },
+      {
+        "feature": "z_pop_MET_4",
+        "gain": 1.62
+      },
+      {
+        "feature": "z_ecif_N_don_S",
+        "gain": 1.62
+      },
+      {
+        "feature": "z_shell_O_N_4_8",
+        "gain": 1.61
+      },
+      {
+        "feature": "z_pop_TYR_hb",
+        "gain": 1.61
+      }
+    ],
+    "n_features_con_gain": 192
+  },
+  "diagnostico_familias_train": {
+    "nota": "z-vina es afin a vina dentro de cada complejo, por lo que su Spearman debe coincidir con el raw (chequeo interno); las familias multidimensionales se proyectan con PCA-1 sobre sus columnas z, mismo metodo que v0.5.",
+    "tabla": [
+      {
+        "familia": "vina_score",
+        "raw_media_abs_v05": 0.497,
+        "raw_media_v05": 0.438,
+        "z_media_abs": 0.497,
+        "z_media": 0.438,
+        "n_complejos_z": 116,
+        "metodo": "valor_directo"
+      },
+      {
+        "familia": "shells",
+        "raw_media_abs_v05": 0.4544,
+        "raw_media_v05": 0.0217,
+        "z_media_abs": 0.5808,
+        "z_media": -0.4503,
+        "n_complejos_z": 116,
+        "metodo": "pca1"
+      },
+      {
+        "familia": "ecif",
+        "raw_media_abs_v05": 0.4927,
+        "raw_media_v05": 0.0382,
+        "z_media_abs": 0.5013,
+        "z_media": -0.3066,
+        "n_complejos_z": 116,
+        "metodo": "pca1"
+      },
+      {
+        "familia": "per_residuo",
+        "raw_media_abs_v05": 0.4647,
+        "raw_media_v05": -0.0866,
+        "z_media_abs": 0.4523,
+        "z_media": -0.2477,
+        "n_complejos_z": 116,
+        "metodo": "pca1"
+      }
+    ]
+  },
+  "comparacion": {
+    "val": {
+      "vina_top1": 0.525,
+      "vina_mediana": 1.827,
+      "vina_top1_recomputado": 0.525,
+      "v0_top1": 0.425,
+      "v0_mediana": 3.067,
+      "v05_top1": 0.4,
+      "v05_mediana": 2.598,
+      "v06A_top1": 0.425,
+      "v06A_mediana": 2.721,
+      "v06A_spearman": -0.3401,
+      "v06B_top1": 0.575,
+      "v06B_mediana": 1.774,
+      "v06B_spearman": -0.5522
+    },
+    "test": {
+      "vina_top1": 0.5319,
+      "vina_mediana": 1.765,
+      "vina_top1_recomputado": 0.5319,
+      "v0_top1": 0.4043,
+      "v0_mediana": 2.541,
+      "v05_top1": 0.4894,
+      "v05_mediana": 2.037,
+      "v06A_top1": 0.4894,
+      "v06A_mediana": 2.47,
+      "v06A_spearman": -0.3853,
+      "v06B_top1": 0.6596,
+      "v06B_mediana": 1.428,
+      "v06B_spearman": -0.5581
+    }
+  },
+  "gate_v06B": {
+    "vina_top1_test": 0.5319,
+    "v06B_top1_test": 0.6596,
+    "delta": 0.1277,
+    "resultado": "PASS"
+  },
+  "caveats_honestos": [
+    "Modelo A: XGBoost aprende una funcion escalonada de z_vina_score; pequenas no-monotonicidades o empates de hoja pueden romper el empate canonico de Vina. Por eso se reporta ademas la verificacion determinista argmin_z (equivalente exacto del baseline de Vina).",
+    "Percentiles: (rango - 1) / (n - 1) * 100; complejos con 1 sola pose reciben 50.0 (sin informacion de orden).",
+    "z-score: std_pid == 0 -> z = 0 (feature constante dentro del complejo); NaN -> 0 despues de transformar (no hay NaN de vina_score en el dataset).",
+    "Se reusan las 215 features ricas del cache v0.5 (dataset congelado, sha256 validado); las 9 baratas vienen de los jsonl congelados.",
+    "Val tiene 40 complejos (ruido estadistico, mismo caveat de v0.5); la comparacion del gate es sobre el test congelado.",
+    "La z por complejo es afin en vina_score dentro de cada complejo: el Spearman de z-vina debe coincidir con el raw de v0.5 (chequeo interno de la implementacion)."
+  ],
+  "duracion_total_s": 5.3
+}

@@ -1,0 +1,552 @@
+{
+ "id": "MF-12",
+ "meta": {
+  "titulo": "Saber que va a fallar antes de gastar el cómputo",
+  "entradilla": "Un clasificador con sólo descriptores del ligando predice el fallo de colocación con precisión balanceada 0.654, sin conocer el bolsillo. El efecto mínimo detectable se declaró antes: 0.136."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este identificador estaba en el plan del programa desde el primer día y se quedó sin ejecutar durante meses, por una razón concreta: no había predictores medidos con los que intentarlo. Cuando ",
+     "m": null
+    },
+    {
+     "t": "MF-24",
+     "m": "codigo"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "MF-27",
+     "m": "codigo"
+    },
+    {
+     "t": " los produjeron, la pregunta pasó a ser respondible.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La pregunta es de producto antes que de ciencia: ",
+     "m": null
+    },
+    {
+     "t": "¿se puede saber que un complejo va a fallar antes de dockearlo?",
+     "m": "fuerte"
+    },
+    {
+     "t": " Si se puede, el motor deja de gastar cómputo donde no va a servir y puede advertir al usuario en vez de entregarle una pose mala con cara de buena.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El diseño, y una regla que se estrenó aquí",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Regresión logística, entrenamiento en los 116 complejos de ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": ", evaluación ",
+     "m": null
+    },
+    {
+     "t": "una sola vez",
+     "m": "fuerte"
+    },
+    {
+     "t": " en los 87 de ",
+     "m": null
+    },
+    {
+     "t": "val",
+     "m": "codigo"
+    },
+    {
+     "t": "+",
+     "m": null
+    },
+    {
+     "t": "test",
+     "m": "codigo"
+    },
+    {
+     "t": ". Dos niveles de información:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "L",
+      "m": "fuerte"
+     },
+     {
+      "t": " — sólo descriptores del ligando, sin conocer el sitio de unión;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "L+S",
+      "m": "fuerte"
+     },
+     {
+      "t": " — ligando más descriptores del sitio.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El claim se hace sobre ",
+     "m": null
+    },
+    {
+     "t": "L",
+     "m": "fuerte"
+    },
+    {
+     "t": ", declarado así antes de mirar los datos, porque es el nivel que sirve en la práctica: si hiciera falta conocer el bolsillo, el clasificador llegaría demasiado tarde para ahorrar nada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este fue además el primer experimento del programa en aplicar la regla del ",
+     "m": null
+    },
+    {
+     "t": "efecto mínimo detectable declarado antes de correr",
+     "m": "fuerte"
+    },
+    {
+     "t": ", tomada de la práctica de ensayos clínicos. El MDE se fijó en ",
+     "m": null
+    },
+    {
+     "t": "0.136",
+     "m": "fuerte"
+    },
+    {
+     "t": ": por debajo de eso, el diseño no tiene potencia para distinguir el efecto del ruido, y un resultado positivo menor habría que reportarlo como no concluyente en vez de como hallazgo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se descartaron por fuga los tres predictores de ",
+     "m": null
+    },
+    {
+     "t": "MF-24",
+     "m": "codigo"
+    },
+    {
+     "t": " que usan la pose cristalográfica —",
+     "m": null
+    },
+    {
+     "t": "rmsd_conf",
+     "m": "codigo"
+    },
+    {
+     "t": ", enterramiento y ocupación de caja— porque en producción no existen.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Resultado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Precisión balanceada, nivel L",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.654",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Baseline mayoritario",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.500",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Diferencia pareada",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+0.218",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "CI95 BCa",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0.081, 0.322]",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "MDE declarado antes",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.136",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El efecto observado supera el MDE, así que la pregunta era resoluble por este diseño y la respuesta es afirmativa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Añadir los descriptores de sitio (L+S) suma ",
+     "m": null
+    },
+    {
+     "t": "+0.015",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Es decir: prácticamente nada. El clasificador ",
+     "m": null
+    },
+    {
+     "t": "no depende de conocer el bolsillo",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y eso es justo lo que lo hace usable.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Dos de las tres predicciones preregistradas fallaron",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se habían escrito tres predicciones antes de correr. Vale la pena que se lean, porque equivocarse en dos de tres es el resultado normal cuando uno se compromete de antemano:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "Falló",
+      "m": "fuerte"
+     },
+     {
+      "t": " — se predijo que haría falta el enterramiento del sitio. No hizo falta: L",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "funciona sin él.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "Falló",
+      "m": "fuerte"
+     },
+     {
+      "t": " — se predijo un rango de rendimiento que el resultado superó.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Se cumplió, y con holgura",
+      "m": "fuerte"
+     },
+     {
+      "t": " — se predijo que el conteo de torsiones aportaría poco.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Aporta ",
+     "m": null
+    },
+    {
+     "t": "+0.0165",
+     "m": "fuerte"
+    },
+    {
+     "t": ", esencialmente cero.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los coeficientes dominantes son la ",
+     "m": null
+    },
+    {
+     "t": "ocupación del confórmero",
+     "m": "fuerte"
+    },
+    {
+     "t": " (−1.009) y el ",
+     "m": null
+    },
+    {
+     "t": "número de confórmeros",
+     "m": "fuerte"
+    },
+    {
+     "t": " (−0.876). Lo que predice el fallo es el volumen efectivo de búsqueda, no cuántos enlaces rotables tiene la molécula. Es un resultado que contradice la intuición estándar de que la flexibilidad es la variable que manda.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que no es",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Tres límites que van con el resultado:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "0.654 no es un clasificador de producción.",
+      "m": "fuerte"
+     },
+     {
+      "t": " Es evidencia de que la señal existe, no",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "un componente listo para enrutar trabajo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "No se midió el coste de enrutar mal.",
+      "m": "fuerte"
+     },
+     {
+      "t": " Un falso negativo tira cómputo; un falso",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "positivo niega una respuesta que sí se habría obtenido. Sus costes no son simétricos y aquí no se pesaron.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Un solo modelo y un solo split.",
+      "m": "fuerte"
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Relación con MF-31",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-31",
+     "m": "codigo"
+    },
+    {
+     "t": " midió después que la ocupación de caja —el predictor dominante de este clasificador— es un ",
+     "m": null
+    },
+    {
+     "t": "marcador y no una palanca",
+     "m": "fuerte"
+    },
+    {
+     "t": ": apretar la caja no mejora proporcionalmente a cuánto se aprieta. Eso no invalida este resultado. Predecir no requiere causalidad, y un marcador sirve perfectamente para triage. Pero conviene tenerlo presente antes de intentar convertir este clasificador en una intervención.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-12.md"
+}

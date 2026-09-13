@@ -1,0 +1,56 @@
+{
+ "analisis_id": "REC-11-CRUCES",
+ "tipo": "medicion descriptiva POST-HOC declarada; sin gate y sin decision por umbral",
+ "timestamp": "2026-08-23T00:52:11.972048+00:00",
+ "advertencia_de_procedencia": "La tabla de contingencia se inspecciono al proponer este analisis, ANTES de escribir su registro. NO es un prerregistro ciego. Los p que siguen son descriptivos y no sostienen ninguna afirmacion confirmatoria.",
+ "fuentes": [
+  "scripts/artifacts_science/REC-09/per_complex.jsonl",
+  "scripts/artifacts_science/REC-11/per_complex.jsonl"
+ ],
+ "n": 116,
+ "tabla_A_sobre_los_116": {
+  "definicion": "quitar las aguas GANA el oraculo, segun tenga o no agua bloqueante por el criterio de 2.6 A de REC-09",
+  "con_bloqueante": {
+   "gana_SIN": 5,
+   "resto": 21,
+   "n": 26,
+   "tasa": 0.1923
+  },
+  "sin_bloqueante": {
+   "gana_SIN": 5,
+   "resto": 85,
+   "n": 90,
+   "tasa": 0.0556
+  },
+  "enriquecimiento": 3.46,
+  "fisher_p_bilateral": 0.04368
+ },
+ "tabla_B_solo_los_18_discordantes": {
+  "definicion": "entre los que SI se movieron, el criterio predice la direccion?",
+  "con_bloqueante": {
+   "gana_SIN": 5,
+   "gana_CON": 1
+  },
+  "sin_bloqueante": {
+   "gana_SIN": 5,
+   "gana_CON": 7
+  },
+  "fisher_p_bilateral": 0.151584
+ },
+ "hallazgo_nominal": {
+  "rescatados_por_quitar_aguas_con_CERO_bloqueantes": [
+   "10gs",
+   "1d7i",
+   "1ela",
+   "1fh7",
+   "1nje"
+  ],
+  "de_cuantos_rescatados_en_total": 10
+ },
+ "limites_declarados": [
+  "POST-HOC: la tabla se vio antes de escribir el registro; los p son descriptivos",
+  "n muy pequeno en las celdas: 18 discordantes en total y celdas de 1 a 7",
+  "no refuta REC-09, que midio scoring del cristal y no docking de novo; contrasta el ALCANCE de su criterio, no su resultado",
+  "no autoriza cambiar la politica de aguas: eso lo gobierna REC-11, que salio SIN_DIFERENCIA_DETECTABLE"
+ ]
+}

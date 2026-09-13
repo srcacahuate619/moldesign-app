@@ -1,0 +1,1176 @@
+{
+ "fecha": "2026-09-02",
+ "herramienta": "scripts/revisar_cadena_por_receptor.py",
+ "criterio": "Solo se aplican las decisiones MECANICAS: la cadena declarada no existe en el PDB (INEXISTENTE) o el sitio lo forma otra cadena sola, con >=90% de la evidencia (CORREGIR). Las MULTICADENA no se tocan: exigen decidir si el receptor multicadena entra en el contrato de preparacion.",
+ "total_aplicadas": 50,
+ "decisiones": [
+  {
+   "pdb_id": "1IAS",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "el sitio lo forma 'B' (100%); la declarada aporta 0%",
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "contactos_del_ligando": null,
+   "atomos_en_caja": {
+    "B": 577
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "1KLI",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['H', 'L'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "BEN",
+    "cadena": "H",
+    "atomos": 9,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "H": 38
+   },
+   "atomos_en_caja": {
+    "H": 888
+   },
+   "hotspots_declarados_en_cadenas": [
+    "H"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "1VL4",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "el sitio lo forma 'B' (97%); la declarada aporta 3%",
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "contactos_del_ligando": null,
+   "atomos_en_caja": {
+    "B": 634,
+    "A": 17
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "2OYE",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "P",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['P'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "HEM",
+    "cadena": "P",
+    "atomos": 43,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "P": 75
+   },
+   "atomos_en_caja": {
+    "P": 1240
+   },
+   "hotspots_declarados_en_cadenas": [
+    "P"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "2OYU",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "P",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['P'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "HEM",
+    "cadena": "P",
+    "atomos": 43,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "P": 77
+   },
+   "atomos_en_caja": {
+    "P": 1245
+   },
+   "hotspots_declarados_en_cadenas": [
+    "P"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "2XAB",
+   "clase": "CORREGIR",
+   "cadena_antes": "B",
+   "cadena_despues": "A",
+   "motivo": "el sitio lo forma 'A' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "VHD",
+    "cadena": "A",
+    "atomos": 22,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "A": 48
+   },
+   "atomos_en_caja": {
+    "A": 432
+   },
+   "hotspots_declarados_en_cadenas": [
+    "A"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "3DU6",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "el sitio lo forma 'B' (100%); la declarada aporta 0%",
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "contactos_del_ligando": null,
+   "atomos_en_caja": {
+    "B": 645
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "3DY3",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "K",
+   "motivo": "el sitio lo forma 'K' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "SLR",
+    "cadena": "K",
+    "atomos": 15,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "K": 32
+   },
+   "atomos_en_caja": {
+    "K": 324,
+    "L": 45,
+    "W": 17,
+    "X": 3,
+    "J": 2
+   },
+   "hotspots_declarados_en_cadenas": [
+    "K"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "3DY4",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "el sitio lo forma 'H' (97%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "SLA",
+    "cadena": "H",
+    "atomos": 15,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "H": 30,
+    "Z": 1
+   },
+   "atomos_en_caja": {
+    "H": 323,
+    "I": 42,
+    "Z": 32
+   },
+   "hotspots_declarados_en_cadenas": [
+    "H",
+    "Z"
+   ],
+   "hotspots_coherentes_tras_el_cambio": false
+  },
+  {
+   "pdb_id": "3GPT",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "el sitio lo forma 'H' (91%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "GPT",
+    "cadena": "H",
+    "atomos": 21,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "H": 42,
+    "Z": 4
+   },
+   "atomos_en_caja": {
+    "H": 325,
+    "I": 41,
+    "Z": 35
+   },
+   "hotspots_declarados_en_cadenas": [
+    "H",
+    "Z"
+   ],
+   "hotspots_coherentes_tras_el_cambio": false
+  },
+  {
+   "pdb_id": "3MG0",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "el sitio lo forma 'H' (91%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "BO2",
+    "cadena": "H",
+    "atomos": 28,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "H": 48,
+    "I": 5
+   },
+   "atomos_en_caja": {
+    "H": 261,
+    "I": 93,
+    "Z": 19
+   },
+   "hotspots_declarados_en_cadenas": [
+    "H",
+    "I"
+   ],
+   "hotspots_coherentes_tras_el_cambio": false
+  },
+  {
+   "pdb_id": "4FK3",
+   "clase": "CORREGIR",
+   "cadena_antes": "B",
+   "cadena_despues": "A",
+   "motivo": "el sitio lo forma 'A' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "325",
+    "cadena": "A",
+    "atomos": 31,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "A": 67
+   },
+   "atomos_en_caja": {
+    "A": 947,
+    "B": 113
+   },
+   "hotspots_declarados_en_cadenas": [
+    "A"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "4JV6",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['B'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "18F",
+    "cadena": "B",
+    "atomos": 22,
+    "dist_centro": 4.4
+   },
+   "contactos_del_ligando": {
+    "B": 50
+   },
+   "atomos_en_caja": {
+    "B": 838
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "4JV8",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['B'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "1M1",
+    "cadena": "B",
+    "atomos": 23,
+    "dist_centro": 4.6
+   },
+   "contactos_del_ligando": {
+    "B": 44
+   },
+   "atomos_en_caja": {
+    "B": 824
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "4JVB",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['B'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "1M0",
+    "cadena": "B",
+    "atomos": 43,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "B": 71
+   },
+   "atomos_en_caja": {
+    "B": 855
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "4JVF",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['B'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "17X",
+    "cadena": "B",
+    "atomos": 48,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "B": 79
+   },
+   "atomos_en_caja": {
+    "B": 799
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "4JYV",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['H', 'L'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "1OJ",
+    "cadena": "H",
+    "atomos": 41,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "H": 75
+   },
+   "atomos_en_caja": {
+    "H": 773
+   },
+   "hotspots_declarados_en_cadenas": [
+    "H"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "4JZD",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['H', 'L'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "1NJ",
+    "cadena": "H",
+    "atomos": 39,
+    "dist_centro": 7.5
+   },
+   "contactos_del_ligando": {
+    "H": 1
+   },
+   "atomos_en_caja": {
+    "H": 770
+   },
+   "hotspots_declarados_en_cadenas": [
+    "H"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "4LQI",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "K",
+   "motivo": "el sitio lo forma 'K' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "1Y9",
+    "cadena": "K",
+    "atomos": 15,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "K": 31
+   },
+   "atomos_en_caja": {
+    "K": 330,
+    "L": 50,
+    "W": 12,
+    "J": 1,
+    "X": 1
+   },
+   "hotspots_declarados_en_cadenas": [
+    "K"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "4NPU",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "el sitio lo forma 'B' (100%); la declarada aporta 0%",
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "contactos_del_ligando": null,
+   "atomos_en_caja": {
+    "B": 285,
+    "A": 1
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "4OIV",
+   "clase": "CORREGIR",
+   "cadena_antes": "B",
+   "cadena_despues": "A",
+   "motivo": "el sitio lo forma 'A' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "XX9",
+    "cadena": "A",
+    "atomos": 32,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "A": 67
+   },
+   "atomos_en_caja": {
+    "A": 745,
+    "B": 150
+   },
+   "hotspots_declarados_en_cadenas": [
+    "A"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "4X8V",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['H', 'L'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "3Z9",
+    "cadena": "H",
+    "atomos": 87,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "H": 118
+   },
+   "atomos_en_caja": {
+    "H": 740
+   },
+   "hotspots_declarados_en_cadenas": [
+    "H"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "5CZ7",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "el sitio lo forma 'H' (91%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "BO2",
+    "cadena": "H",
+    "atomos": 28,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "H": 49,
+    "I": 5
+   },
+   "atomos_en_caja": {
+    "H": 259,
+    "I": 92,
+    "Z": 19
+   },
+   "hotspots_declarados_en_cadenas": [
+    "H",
+    "I"
+   ],
+   "hotspots_coherentes_tras_el_cambio": false
+  },
+  {
+   "pdb_id": "5F4W",
+   "clase": "CORREGIR",
+   "cadena_antes": "C",
+   "cadena_despues": "A",
+   "motivo": "el sitio lo forma 'A' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "P6T",
+    "cadena": "A",
+    "atomos": 19,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "A": 133
+   },
+   "atomos_en_caja": {
+    "A": 1722
+   },
+   "hotspots_declarados_en_cadenas": [
+    "A"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "5L2Y",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['H', 'L'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "70D",
+    "cadena": "H",
+    "atomos": 82,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "H": 125
+   },
+   "atomos_en_caja": {
+    "H": 765
+   },
+   "hotspots_declarados_en_cadenas": [
+    "H"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "5L2Z",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['H', 'L'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "70C",
+    "cadena": "H",
+    "atomos": 87,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "H": 130
+   },
+   "atomos_en_caja": {
+    "H": 781
+   },
+   "hotspots_declarados_en_cadenas": [
+    "H"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "5L30",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['H', 'L'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "70A",
+    "cadena": "H",
+    "atomos": 81,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "H": 124
+   },
+   "atomos_en_caja": {
+    "H": 753
+   },
+   "hotspots_declarados_en_cadenas": [
+    "H"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "5ML2",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['B'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "NH6",
+    "cadena": "B",
+    "atomos": 34,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "B": 68
+   },
+   "atomos_en_caja": {
+    "B": 842
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "5ML3",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['B'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "DL3",
+    "cadena": "B",
+    "atomos": 43,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "B": 82
+   },
+   "atomos_en_caja": {
+    "B": 836
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "5ML4",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['B'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "RRQ",
+    "cadena": "B",
+    "atomos": 46,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "B": 92
+   },
+   "atomos_en_caja": {
+    "B": 806
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "5ML6",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['B'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "9GD",
+    "cadena": "B",
+    "atomos": 45,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "B": 86
+   },
+   "atomos_en_caja": {
+    "B": 791
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "5ML8",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['B'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "V98",
+    "cadena": "B",
+    "atomos": 41,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "B": 78
+   },
+   "atomos_en_caja": {
+    "B": 810
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "5O67",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "C",
+   "motivo": "el sitio lo forma 'C' (100%); la declarada aporta 0%",
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "contactos_del_ligando": null,
+   "atomos_en_caja": {
+    "C": 302
+   },
+   "hotspots_declarados_en_cadenas": [
+    "C"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "5PA9",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "C",
+   "motivo": "el sitio lo forma 'C' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "ABN",
+    "cadena": "C",
+    "atomos": 8,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "C": 32
+   },
+   "atomos_en_caja": {
+    "C": 886
+   },
+   "hotspots_declarados_en_cadenas": [
+    "C"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "5TNH",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "C",
+   "motivo": "el sitio lo forma 'C' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "7MS",
+    "cadena": "C",
+    "atomos": 23,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "C": 66
+   },
+   "atomos_en_caja": {
+    "C": 423,
+    "D": 35,
+    "A": 9
+   },
+   "hotspots_declarados_en_cadenas": [
+    "C"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "6EU9",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "el sitio lo forma 'B' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "REA",
+    "cadena": "B",
+    "atomos": 22,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "B": 47
+   },
+   "atomos_en_caja": {
+    "B": 411
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "6MWA",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['B'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "CPS",
+    "cadena": "B",
+    "atomos": 68,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "B": 27
+   },
+   "atomos_en_caja": {
+    "B": 336
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "6W10",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "el sitio lo forma 'B' (100%); la declarada aporta 0%",
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "contactos_del_ligando": null,
+   "atomos_en_caja": {
+    "B": 235
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "6WHA",
+   "clase": "CORREGIR",
+   "cadena_antes": "C",
+   "cadena_despues": "A",
+   "motivo": "el sitio lo forma 'A' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "U0G",
+    "cadena": "A",
+    "atomos": 23,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "A": 36
+   },
+   "atomos_en_caja": {
+    "A": 785
+   },
+   "hotspots_declarados_en_cadenas": [
+    "A"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "6ZDQ",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "C",
+   "motivo": "el sitio lo forma 'C' (95%); la declarada aporta 5%",
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "contactos_del_ligando": null,
+   "atomos_en_caja": {
+    "C": 258,
+    "A": 13
+   },
+   "hotspots_declarados_en_cadenas": [
+    "C"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "7DFL",
+   "clase": "CORREGIR",
+   "cadena_antes": "B",
+   "cadena_despues": "R",
+   "motivo": "el sitio lo forma 'R' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "HSM",
+    "cadena": "R",
+    "atomos": 8,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "R": 37
+   },
+   "atomos_en_caja": {
+    "R": 589
+   },
+   "hotspots_declarados_en_cadenas": [
+    "R"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "7SBE",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "el sitio lo forma 'B' (95%); la declarada aporta 5%",
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "contactos_del_ligando": null,
+   "atomos_en_caja": {
+    "B": 422,
+    "A": 24
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "7T9N",
+   "clase": "INEXISTENTE",
+   "cadena_antes": "A",
+   "cadena_despues": "R",
+   "motivo": "la cadena 'A' no esta en el PDB (hay ['H', 'L', 'N', 'R', 'X', 'Y', 'Z'])",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "Z41",
+    "cadena": "R",
+    "atomos": 107,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "R": 249
+   },
+   "atomos_en_caja": {
+    "R": 1527,
+    "L": 7
+   },
+   "hotspots_declarados_en_cadenas": [
+    "R"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "7UTZ",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "R",
+   "motivo": "el sitio lo forma 'R' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "Z41",
+    "cadena": "R",
+    "atomos": 108,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "R": 264
+   },
+   "atomos_en_caja": {
+    "R": 1514
+   },
+   "hotspots_declarados_en_cadenas": [
+    "R"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "7XW5",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "R",
+   "motivo": "el sitio lo forma 'R' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "HOI",
+    "cadena": "R",
+    "atomos": 39,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "R": 64
+   },
+   "atomos_en_caja": {
+    "R": 852
+   },
+   "hotspots_declarados_en_cadenas": [
+    "R"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "8GJR",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "C",
+   "motivo": "el sitio lo forma 'C' (94%); la declarada aporta 6%",
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "contactos_del_ligando": null,
+   "atomos_en_caja": {
+    "C": 395,
+    "A": 26
+   },
+   "hotspots_declarados_en_cadenas": [
+    "C"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "8HCE",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "el sitio lo forma 'B' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "C5P",
+    "cadena": "B",
+    "atomos": 33,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "B": 93
+   },
+   "atomos_en_caja": {
+    "B": 1334,
+    "A": 28
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "8HCF",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "el sitio lo forma 'B' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "U5P",
+    "cadena": "B",
+    "atomos": 32,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "B": 97
+   },
+   "atomos_en_caja": {
+    "B": 1332,
+    "A": 30
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "9E9G",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "el sitio lo forma 'B' (97%); la declarada aporta 3%",
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "contactos_del_ligando": null,
+   "atomos_en_caja": {
+    "B": 599,
+    "A": 19
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  },
+  {
+   "pdb_id": "9GKV",
+   "clase": "CORREGIR",
+   "cadena_antes": "A",
+   "cadena_despues": "B",
+   "motivo": "el sitio lo forma 'B' (100%); la declarada aporta 0%",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "SHH",
+    "cadena": "B",
+    "atomos": 39,
+    "dist_centro": 0.0
+   },
+   "contactos_del_ligando": {
+    "B": 110
+   },
+   "atomos_en_caja": {
+    "B": 1660,
+    "A": 2
+   },
+   "hotspots_declarados_en_cadenas": [
+    "B"
+   ],
+   "hotspots_coherentes_tras_el_cambio": true
+  }
+ ]
+}

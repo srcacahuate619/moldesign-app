@@ -1,0 +1,43 @@
+{
+ "experiment_id": "MF-09-SYM",
+ "tipo": "medicion (relectura de material sellado, sin computo nuevo)",
+ "timestamp": "2026-08-18T18:14:44.320592+00:00",
+ "duration_seconds": 3.32,
+ "umbral_A": 2.0,
+ "metrica_ingenua": "rmsd_pose_pocket (indice a indice, sin alinear)",
+ "metrica_corregida": "minimo sobre automorfismos del RMSD sin alinear",
+ "n_complejos": 48,
+ "n_ok": 48,
+ "n_poses_total": 21692,
+ "resumen": {
+  "COLOCACION": {
+   "n": 33,
+   "n_poses_mediana": 751,
+   "oraculo_mediano_ingenuo": 2.961,
+   "oraculo_mediano_corregido": 2.905,
+   "existe_pose_buena_ingenuo": 3,
+   "existe_pose_buena_corregido": 4,
+   "top1_acierta_ingenuo": 0,
+   "top1_acierta_corregido": 1,
+   "complejos_que_ganan_cobertura": [
+    "1l83"
+   ],
+   "sesgo_mediano_de_medianas": 0.0096,
+   "sesgo_max": 2.283
+  },
+  "CONTROL": {
+   "n": 15,
+   "n_poses_mediana": 80,
+   "oraculo_mediano_ingenuo": 0.956,
+   "oraculo_mediano_corregido": 0.849,
+   "existe_pose_buena_ingenuo": 15,
+   "existe_pose_buena_corregido": 15,
+   "top1_acierta_ingenuo": 7,
+   "top1_acierta_corregido": 9,
+   "complejos_que_ganan_cobertura": [],
+   "sesgo_mediano_de_medianas": 0.0,
+   "sesgo_max": 3.036
+  }
+ },
+ "errores": []
+}

@@ -1,0 +1,489 @@
+{
+ "id": "FEP-04",
+ "meta": {
+  "titulo": "Una pose que sabe cuándo no confiar en sí misma",
+  "entradilla": "Tres señales gratuitas predicen si la pose entregada es correcta. Abstenerse en el 75% menos confiable casi duplica la precisión del resto: de 0.330 a 0.620."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un programa de docking entrega una pose y no dice nada más. El químico que la recibe tiene que decidir si construir encima de ella, y no tiene con qué. Si el motor acierta un tercio de las veces —que es aproximadamente lo que acierta el nuestro, y lo que acierta la mayoría— entonces dos de cada tres decisiones que se tomen sobre su salida serán decisiones tomadas sobre una pose equivocada, y nada en la interfaz lo advierte.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento pregunta si la propia salida del motor ya contiene la advertencia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La pregunta",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cuando Vina termina, además de la pose ganadora deja un rastro: los otros ocho modos que consideró, sus puntuaciones, y cuánto se parecen entre sí. Ese rastro se descarta. La hipótesis es que no debería descartarse, porque un motor que duda deja huellas de que duda.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se midieron tres señales, todas calculables ",
+     "m": null
+    },
+    {
+     "t": "sin conocer la respuesta",
+     "m": "fuerte"
+    },
+    {
+     "t": " y sin entrenar ningún modelo:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "el ",
+      "m": null
+     },
+     {
+      "t": "margen de score",
+      "m": "fuerte"
+     },
+     {
+      "t": " entre modos geométricamente distintos;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "la ",
+      "m": null
+     },
+     {
+      "t": "dispersión del top-5",
+      "m": "fuerte"
+     },
+     {
+      "t": ", es decir cuánto se dispersan las cinco mejores poses;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "el número de ",
+      "m": null
+     },
+     {
+      "t": "modos empatados",
+      "m": "fuerte"
+     },
+     {
+      "t": " dentro de 1 kcal/mol.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las tres funcionan. Sobre los 203 complejos, la precisión del top-1 global es ",
+     "m": null
+    },
+    {
+     "t": "0.330",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Si se ordenan los casos por confianza y se descarta el 75% menos confiable, la precisión del cuarto restante sube a:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Señal",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Precisión al 25% más confiable",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Modos empatados a 1 kcal/mol",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.620",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Margen de score",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.600",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Dispersión del top-5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.580",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los intervalos de Wilson de los dos extremos apenas se tocan —[0.269, 0.398] contra [0.482, 0.741]—, así que la separación no es ruido.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo que hace que esto importe es que las tres señales son ",
+     "m": null
+    },
+    {
+     "t": "gratis",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Se calculan de poses que ya se generaron. No hay modelo que entrenar, ni información cristalográfica, ni un segundo pase de cómputo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El segundo hallazgo, que era un efecto colateral",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Midiendo lo anterior apareció algo con consecuencia más inmediata:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Qué se entrega",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Precisión",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Top-1, una sola pose",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.330",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Top-5, cinco alternativas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.465",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Oráculo (la mejor pose que existe entre las generadas)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.615",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Entregar cinco candidatas en vez de una sube la cobertura útil ",
+     "m": null
+    },
+    {
+     "t": "13 puntos",
+     "m": "fuerte"
+    },
+    {
+     "t": " sin tocar el motor de búsqueda. Y el oráculo en 0.615 marca dónde está el techo: el material bueno ya se está generando, lo que falla es escogerlo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Es un cambio de diseño, no de investigación: dejar de entregar una pose y empezar a entregar K con su confianza.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que este resultado no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Tres límites, declarados aquí porque forman parte del resultado:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "La curva es optimista.",
+      "m": "fuerte"
+     },
+     {
+      "t": " Las señales se observan sobre los mismos datos donde se",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "mide su utilidad. Un uso real exige calibrar en ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": " y medir en ",
+     "m": null
+    },
+    {
+     "t": "val",
+     "m": "codigo"
+    },
+    {
+     "t": "/",
+     "m": null
+    },
+    {
+     "t": "test",
+     "m": "codigo"
+    },
+    {
+     "t": ", y ese experimento todavía no se ha hecho.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "A cobertura del 25% quedan n=50",
+      "m": "fuerte"
+     },
+     {
+      "t": ", con un intervalo de confianza de ±13 puntos. La",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "forma",
+     "m": "enfasis"
+    },
+    {
+     "t": " de la curva es sólida; el valor puntual de 0.620 no lo es.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "Las tres señales no se combinaron.",
+      "m": "fuerte"
+     },
+     {
+      "t": " Se midieron por separado.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y una nota posterior que conviene leer junto a este resultado: ",
+     "m": null
+    },
+    {
+     "t": "FND-03",
+     "m": "codigo"
+    },
+    {
+     "t": " midió después que la varianza entre semillas llega a 4 Å de rango en algunos complejos. Una confianza honesta debería incorporar repeticiones, y esta no lo hace.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué está en la columna de la izquierda",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Porque es el único resultado del programa que se traduce directamente en algo que un usuario nota. No hace al motor mejor. Hace que el motor deje de mentir sobre lo que sabe.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FEP-04.md"
+}

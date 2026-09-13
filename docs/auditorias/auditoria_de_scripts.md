@@ -1,0 +1,103 @@
+> **Documento histórico — julio de 2026.** Escrito para el árbol anterior del
+> proyecto (`moldesign-app`) y traído aquí por trazabilidad. Puede describir un
+> estado que ya no es el vigente: la versión 1.0.0 es una aplicación de
+> escritorio y no tiene componente en la nube. No se ha reescrito su contenido.
+
+# Auditoría de Scripts de Utilidad — MolDesign AI
+**Fecha**: Julio 2026  
+
+Este documento clasifica todos los scripts sueltos en la raíz y en la carpeta `scripts/` del repositorio, dividiéndolos en basura (eliminables), utilidades técnicas y candidatos a transformarse en funcionalidades del frontend de producción.
+
+---
+
+## 🏆 1. CARACTERÍSTICAS CANDIDATAS PARA EL FRONTEND (Factores de Producción)
+Estos scripts contienen algoritmos científicos complejos y análisis que agregarían enorme valor si se implementaran con una interfaz gráfica en el frontend de Tauri (ej. una sección de 'Herramientas de Screening' o 'Evaluador de Modelos').
+
+| Script | Tamaño | Propósito / Beneficio para el Frontend |
+| :--- | :--- | :--- |
+| [add_molchamb_to_checkpoint.py](file:///D:/moldesign-app/scripts/add_molchamb_to_checkpoint.py) | 1.0 KB | **Batch-compute MolChamb scores for HIV-protease checkpoint. import json, sys, time, os sys.path.insert(0, r'D:\moldesign-app\scripts') with open(r'D:\moldesign-app\data\benchmark_checkpoint_hiv_proteas** |
+| [analyze_unified_metrics.py](file:///D:/moldesign-app/scripts/analyze_unified_metrics.py) | 5.6 KB | **analyze_unified_metrics.py Lee un checkpoint de benchmark y computa métricas unificadas: - Unificada (mejor score disponible para cada molécula) - Vina-only (solo moléculas con docking exitoso) - Cobe** |
+| [benchmark_clgnn.py](file:///D:/moldesign-app/scripts/benchmark_clgnn.py) | 6.3 KB | **benchmark_clgnn.py — Run CL-GNN scoring on existing docked molecules and compute EF. Usage: python scripts/benchmark_clgnn.py --target 3PP0 python scripts/benchmark_clgnn.py --target 1HSG python scrip** |
+| [benchmark_ef_gpu.py](file:///D:/moldesign-app/scripts/benchmark_ef_gpu.py) | 53.5 KB | **benchmark_ef_gpu.py Benchmark Enrichment Factor con Vina Híbrido GPU: - Vina-GPU + CPU refine (orchestrator) - Features 3D completas (Shell + ECIF + 1D/2D = 160) - Classifier binario XGBoost (AUC 0.85** |
+| [benchmark_ef_vina.py](file:///D:/moldesign-app/scripts/benchmark_ef_vina.py) | 50.5 KB | **benchmark_ef_vina.py Benchmark Enrichment Factor CIENTIFICAMENTE RIGUROSO: - Vina real (exhaust=4, sin engaños) - Features 3D completas (Shell + ECIF + 1D/2D = 160) - Classifier binario XGBoost (AUC 0** |
+| [benchmark_molchamb_v2.py](file:///D:/moldesign-app/scripts/benchmark_molchamb_v2.py) | 11.3 KB | **Benchmark MolChamb v2 MM-GBSA on HIV-protease. Takes top 50 actives + top 50 decoys by Vina score, runs MM-GBSA with MolChamb xTB charges using docked poses, and compares ranking quality: Spearman, AU** |
+| [calculate_ef_light.py](file:///D:/moldesign-app/scripts/calculate_ef_light.py) | 8.5 KB | **calculate_ef_light.py Enrichment Factor con clasificador XGBoost real (sin Vina). Usa solo features 1D/2D (MW, LogP, TPSA, HBD, HBA, RotB, QED, heavy_atoms). Computa EF@1%, EF@5%, EF@10%, ROC-AUC, PR-** |
+| [compute_quantum_features.py](file:///D:/moldesign-app/scripts/compute_quantum_features.py) | 13.2 KB | **scripts/compute_quantum_features.py — MolDesign "MolChamb" MolChamb es el reemplazo propio de Antechamber para el pipeline MolDesign. En vez de AM1-BCC + GAFF2 (que requieren antechamber/AmberTools), ** |
+| [download_chembl_decoys.py](file:///D:/moldesign-app/scripts/download_chembl_decoys.py) | 6.1 KB | **download_chembl_decoys.py — Download ChEMBL actives + generate decoys for any target. Usage: python scripts/download_chembl_decoys.py --target CHEMBL301 --pdb 3PP0 --name cdk2 python scripts/download_** |
+| [download_decoys_and_calculate_ef.py](file:///D:/moldesign-app/scripts/download_decoys_and_calculate_ef.py) | 18.0 KB | **download_decoys_and_calculate_ef.py Calcular Enrichment Factor (EF) real con decoys DUD-E para 5-HT1A. ------------------------------------------------------------------------ Problema (fix #1 y #5 Sp** |
+| [ensemble_docking.py](file:///D:/moldesign-app/scripts/ensemble_docking.py) | 13.2 KB | **scripts/ensemble_docking.py — Generate receptor conformers via OpenMM + ensemble docking. Genera 5 conformaciones del receptor usando OpenMM (minimización con diferentes semillas), dockea contra cada ** |
+| [full_debug_ef.py](file:///D:/moldesign-app/scripts/full_debug_ef.py) | 2.4 KB | **Test step by step** |
+| [gnn_deltapki.py](file:///D:/moldesign-app/scripts/gnn_deltapki.py) | 19.9 KB | **scripts/gnn_deltapki.py — GNN de pares (RBFE) para prediccion de DeltapKi. Predice la DIFERENCIA de afinidad entre dos ligandos que se unen al mismo receptor. Idea A del plan: "GNN de DeltapKi sobre a** |
+| [gnn_propagation.py](file:///D:/moldesign-app/scripts/gnn_propagation.py) | 18.1 KB | **scripts/gnn_propagation.py — GNN de propagación sobre MolGraph. Predice scores de actividad para moléculas basado en su posición en el grafo y similitud con moléculas conocidas. Sin necesidad de docke** |
+| [multitarget_expansion.py](file:///D:/moldesign-app/scripts/multitarget_expansion.py) | 17.0 KB | **Multi-target expansion — prepare data + run benchmarks for 9 new targets. Downloads PDBs, ChEMBL actives, generates decoys, prepares receptors, and runs EF benchmarks with stacking (Vina + XGBoost + C** |
+| [multitarget_pdbbind.py](file:///D:/moldesign-app/scripts/multitarget_pdbbind.py) | 12.7 KB | **Multi-target expansion using PDBbind refined set. Uses PDBbind's protein.pdb + co-crystallized ligand for grid centers. Avoids the OpenBabel ROOT/BRANCH bug by using clean PDBbind structures. Targets:** |
+| [optimize_ache_weights.py](file:///D:/moldesign-app/scripts/optimize_ache_weights.py) | 3.0 KB | **Compute optimal stacking weights for AChE (soluble enzyme) from existing checkpoint. import json import numpy as np from pathlib import Path ckpt = Path(r"D:\moldesign-app\data\benchmark_checkpoint_ac** |
+| [optimize_metaloenzyme_weights.py](file:///D:/moldesign-app/scripts/optimize_metaloenzyme_weights.py) | 4.2 KB | **Grid search optimal stacking weights for metaloenzyme family from CA2 checkpoint. import json import numpy as np from pathlib import Path ckpt = Path(r"D:\moldesign-app\data\benchmark_checkpoint_ca2.j** |
+| [redock_pdbbind_v2.py](file:///D:/moldesign-app/scripts/redock_pdbbind_v2.py) | 14.2 KB | **redock_pdbbind_v2.py — Re-dock PDBbind refined set for GNN-v2 training. Outputs (per complex): 1. {pdb}_docked.pdbqt       — Vina docked pose (for GNN graph construction) 2. Vina score appended to fea** |
+| [run_benchmark_overnight.py](file:///D:/moldesign-app/scripts/run_benchmark_overnight.py) | 1.5 KB | **run_benchmark_overnight.py Benchmark overnight usando Vina-CPU con modelos XGBoost/GNN entrenados en CPU. Delega al orquestador multi-target con --engine cpu. Uso: python scripts/run_benchmark_overnig** |
+| [run_mmgbsa_batch.py](file:///D:/moldesign-app/scripts/run_mmgbsa_batch.py) | 5.4 KB | **scripts/run_mmgbsa_batch.py — MM-GBSA batch rescoring for benchmark molecules. Procesa las top-N moléculas de cada target con OpenMM OBC2 (protein-only). Guarda los scores en los checkpoints existente** |
+| [run_mmgbsa_batch_v2.py](file:///D:/moldesign-app/scripts/run_mmgbsa_batch_v2.py) | 4.8 KB | **run_mmgbsa_batch_v2.py — MM-GBSA batch via MolChamb v2 on docked poses. Unlike run_mmgbsa_batch.py (which generates NEW conformers from SMILES), this uses the actual Vina-docked pose (pose_pdbqt) for ** |
+| [run_mmgbsa_molchamb.py](file:///D:/moldesign-app/scripts/run_mmgbsa_molchamb.py) | 11.7 KB | **MM-GBSA with MolChamb charges — OpenMM + custom partial charges. Approach: 1. Load protein + ligand from PDBbind refined set 2. Parameterize protein with Amber14 + OBC2 GBSA 3. Assign MolChamb xTB cha** |
+| [run_multitarget_batch.py](file:///D:/moldesign-app/scripts/run_multitarget_batch.py) | 4.9 KB | **run_multitarget_batch.py — Batch runner for multi-target benchmarks. Runs benchmark_ef_vina.py sequentially for multiple targets. Each target saves its checkpoint incrementally (every 100 mols). If in** |
+| [run_multitarget_benchmark.py](file:///D:/moldesign-app/scripts/run_multitarget_benchmark.py) | 7.1 KB | **run_multitarget_benchmark.py Orquestador multi-target: ejecuta benchmarks secuencialmente. Soporta CPU (vina.exe) y GPU (vina_hybrid.bat) via --engine. Uso: python scripts/run_multitarget_benchmark.py** |
+| [run_multitarget_gpu.py](file:///D:/moldesign-app/scripts/run_multitarget_gpu.py) | 1.3 KB | **import subprocess / import time / from benchmark_ef_gpu import TARGET_CONFIGS / def main():** |
+| [spearman_5ht1a.py](file:///D:/moldesign-app/scripts/spearman_5ht1a.py) | 6.0 KB | **Spearman Benchmark — 5-HT1A (7E2Y) con tus moleculas de D:\Pruebas_Smiles. Mide correlacion en cada capa: Vina → XGBoost → GNN (PyG+GPU) → Score Total.** |
+| [spearman_benchmark.py](file:///D:/moldesign-app/scripts/spearman_benchmark.py) | 7.8 KB | **Spearman Benchmark — 5-HT1A (7E2Y) vs ChEMBL molecules. Mide correlacion en cada capa del pipeline: Vina → Vina+XGBoost → GNN RTMScore → MM-GBSA → Score Total ~60-90 min con Ryzen 5 5500 + RTX 1660 SU** |
+| [spearman_multitarget.py](file:///D:/moldesign-app/scripts/spearman_multitarget.py) | 9.1 KB | **spearman_multitarget.py -- Benchmark cientifico multi-target (v1.3) Evalua Spearman del pipeline contra ≥5 targets de ≥3 familias diferentes para validar generalizacion del modelo. Uso: python scripts** |
+| [stacking_ef.py](file:///D:/moldesign-app/scripts/stacking_ef.py) | 10.0 KB | **stacking_ef.py — Stacking: Vina + XGBoost + CL-GNN + MM-GBSA. Calcula EF@1%, EF@5%, EF@10%, ROC-AUC para cada combinación: 1. Vina only (baseline) 2. Vina + XGBoost (lo que tenemos hoy) 3. CL-GNN only** |
+| [stacking_ef_gpu.py](file:///D:/moldesign-app/scripts/stacking_ef_gpu.py) | 7.5 KB | **stacking_ef.py — Stacking: Vina + XGBoost + CL-GNN + MM-GBSA. Calcula EF@1%, EF@5%, EF@10%, ROC-AUC para cada combinación: 1. Vina only (baseline) 2. Vina + XGBoost (lo que tenemos hoy) 3. CL-GNN only** |
+| [validate_early_exit.py](file:///D:/moldesign-app/scripts/validate_early_exit.py) | 10.9 KB | **scripts/validate_early_exit.py — Valida el Early Exit de MolGraph (0% falsos negativos). Simula el sistema de 3 barreras sobre datos reales de benchmark y mide: - Falsos negativos: activos que el sist** |
+| [validate_scaffold_split.py](file:///D:/moldesign-app/scripts/validate_scaffold_split.py) | 8.5 KB | **Validate stacking with scaffold split + bootstrap confidence intervals. Scaffold split: divides molecules by Murcko scaffold (not random). This is the GOLD STANDARD for virtual screening validation — ** |
+
+---
+
+## ⚙️ 2. UTILIDADES DE ADMINISTRACIÓN Y CONFIGURACIÓN (Técnicas)
+Scripts necesarios para configuración del sistema, pre-poblado de base de datos, compilación offline o verificación de dependencias de hardware. No van en la UI del usuario final, pero son útiles para MLOps/DevOps.
+
+| Script | Tamaño | Descripción |
+| :--- | :--- | :--- |
+| [benchmark_vina.ps1](file:///D:/moldesign-app/scripts/benchmark_vina.ps1) | 4.2 KB | scripts/benchmark_vina.ps1 Benchmark de AutoDock Vina en esta maquina. Compara tiempo y afinidad a diferentes exhaustiveness. Genera datos REALES, no estimados. |
+| [check_env.py](file:///D:/moldesign-app/scripts/check_env.py) | 0.9 KB | Check OpenMM Check SMIRNOFF / OpenFF |
+| [check_mmgbsa.py](file:///D:/moldesign-app/scripts/check_mmgbsa.py) | 1.1 KB | Quick MM-GBSA check and clean. import json import numpy as np for label, path in [ ("5-HT1A", r"D:\moldesign-app\data\benchmark_checkpoint_v2.json"), ("CDK2", r"D:\moldesign-app\data\benchmark_checkpo |
+| [check_results.py](file:///D:/moldesign-app/scripts/check_results.py) | 1.2 KB | from pathlib import Path / import json / d = json.loads(Path(r"D:\moldesign-app\data\benchmark_checkpoint_factor_xa.json").read_text()) / results = d[ |
+| [curate_targets.py](file:///D:/moldesign-app/scripts/curate_targets.py) | 24.8 KB | scripts/curate_targets.py — Batch target discovery and curation. Phase 3 (500+ targets): --search     Query RCSB API for human drug targets with ligands --download   Download PDB files --detect     Au |
+| [dlc_manager.py](file:///D:/moldesign-app/scripts/dlc_manager.py) | 7.2 KB | scripts/dlc_manager.py — DLC (Downloadable Content) Manager for MolDesign. Manages optional downloadable content: - target-library-pro   (1,500 targets, ~1 GB) - ai-models-gpu        (ESMFold + RFdiff |
+| [fix_receptors.py](file:///D:/moldesign-app/scripts/fix_receptors.py) | 3.3 KB | Fix PDBQT receptors using OpenBabel Python API with Vina-compatible options. import sys from pathlib import Path PROJECT = Path(__file__).parent.parent DATA = PROJECT / "data" MULTI = DATA / "multitar |
+| [fix_receptors_v2.py](file:///D:/moldesign-app/scripts/fix_receptors_v2.py) | 1.9 KB | Fix PDBQT receptors — run as separate process to avoid Windows file locks. import sys, os from pathlib import Path from openbabel import openbabel as ob DATA = Path(r'D:\moldesign-app\data') MULTI = D |
+| [install_deps.ps1](file:///D:/moldesign-app/scripts/install_deps.ps1) | 6.6 KB | scripts/install_deps.ps1 Instalador de dependencias ML para MolDesign Desktop. Uso: .\scripts\install_deps.ps1 .\scripts\install_deps.ps1 -SkipGPU    (solo CPU, sin CUDA) .\scripts\install_deps.ps1 -C |
+| [poblar_molgraph.py](file:///D:/moldesign-app/scripts/poblar_molgraph.py) | 11.2 KB | poblar_molgraph.py — Pre-populate MolGraph with multi-target benchmark data. Usage: python scripts/poblar_molgraph.py python scripts/poblar_molgraph.py --dry-run  # Solo muestra estadísticas |
+| [prefetch-pdbs.ps1](file:///D:/moldesign-app/scripts/prefetch-pdbs.ps1) | 4.9 KB | scripts/prefetch-pdbs.ps1 Descarga targets pre-curados para empaquetado offline. Modos: Sin flags:    19 targets manuales (Fase 1, ~12 MB, siempre incluido) -Extended:    100 targets curados (Fase 2+3 |
+| [prep_targets.py](file:///D:/moldesign-app/scripts/prep_targets.py) | 2.6 KB | Prepare all 9 new targets: receptors, actives, decoys. import sys, json, time from pathlib import Path sys.path.insert(0, str(Path(__file__).parent)) from multitarget_expansion import ( TARGETS, MULTI |
+| [prep_targets_fast.py](file:///D:/moldesign-app/scripts/prep_targets_fast.py) | 6.9 KB | Fast preparation: PDBFixer for receptors, cached actives/decoys. import sys, json, time from pathlib import Path sys.path.insert(0, str(Path(__file__).parent.parent / "backend")) PROJECT_ROOT = Path(_ |
+| [seed_molgraph.py](file:///D:/moldesign-app/scripts/seed_molgraph.py) | 1.0 KB | import sys / sys.path.insert(0, "D:\\moldesign-app\\backend") / from services.ai.molgraph import add_evaluation_node, get_top_molecules / evals = [ |
+| [spearman_5ht1a.ps1](file:///D:/moldesign-app/scripts/spearman_5ht1a.ps1) | 4.9 KB | Spearman Benchmark — 5-HT1A (7E2Y) vs 100 ChEMBL molecules Solo Vina docking, sin ADMET, sin scoring completo ~40-60 min con Ryzen 5 5500 |
+| [start-desktop.ps1](file:///D:/moldesign-app/scripts/start-desktop.ps1) | 5.7 KB | scripts/start-desktop.ps1  (v1.3) Levanta los sidecars del modo DESKTOP: - Backend principal (+ rescoring unificado) -> http://localhost:8000 - ESMFold (Peptide Docking — on-demand)      -> http://loc |
+| [sync-from-prod.ps1](file:///D:/moldesign-app/scripts/sync-from-prod.ps1) | 3.8 KB | scripts/sync-from-prod.ps1 Sincroniza el código Python desde el servidor de producción al proyecto desktop. SOLO copia archivos .py — no toca los entornos conda ni el .env.desktop. Uso: .\scripts\sync |
+| [test_gaff2.py](file:///D:/moldesign-app/scripts/test_gaff2.py) | 1.9 KB | Test if GAFF2 via openmmforcefields works for halogenated molecules. from openmm import app, unit from openmm.app import ForceField, PDBFile, Modeller from openmmforcefields.generators import GAFFTemp |
+| [test_meeko.py](file:///D:/moldesign-app/scripts/test_meeko.py) | 0.7 KB | from rdkit import Chem, RDLogger; RDLogger.logger().setLevel(RDLogger.ERROR) / from rdkit.Chem import AllChem / from meeko import MoleculePreparation, |
+| [validate_admet.py](file:///D:/moldesign-app/scripts/validate_admet.py) | 7.1 KB | validate_admet.py — ADMET-AI validation against known experimental data. import sys, time, json sys.path.insert(0, 'D:\\moldesign-app\\backend') # Force model reload with num_workers=0 import chem.blo |
+| [validate_pipeline.py](file:///D:/moldesign-app/scripts/validate_pipeline.py) | 5.7 KB | scripts/validate_pipeline.py — Step 5: Full pipeline validation. Tests 1 molecule against N random receptors to validate: Vina → XGBoost (Core + Extended consensus) → GNN RTMScore → Scoring Usage: pyt |
+
+---
+
+## 🗑️ 3. SCRIPTS OBSOLETOS / BASURA (Eliminables)
+Archivos temporales, de depuración única o scripts huérfanos que pueden ser eliminados del repositorio limpio de producción sin afectar al sistema.
+
+| Script | Tamaño | Notas |
+| :--- | :--- | :--- |
+| [tmp_results.py](file:///D:/moldesign-app/tmp_results.py) | 0.9 KB | Print Vina baseline |
+| [debug_7e2y.py](file:///D:/moldesign-app/scripts/debug_7e2y.py) | 0.8 KB | import sys, time, argparse / sys.path.insert(0, r"D:\moldesign-app\backend") / sys.path.insert(0, r"D:\moldesign-app\rescoring") / sys.path.insert(0,  |
+| [debug_ache_improvements.py](file:///D:/moldesign-app/scripts/debug_ache_improvements.py) | 1.5 KB | Test docking with surgery |
+| [debug_classifier.py](file:///D:/moldesign-app/scripts/debug_classifier.py) | 0.8 KB | Debug classifier loading. import joblib, sys sys.path.insert(0, "D:\\moldesign-app\\rescoring") for name in ["classifier_binder", "model_a_universal"]: path = f"D:\\moldesign-app\\rescoring\\artifacts |
+| [debug_dock.py](file:///D:/moldesign-app/scripts/debug_dock.py) | 1.0 KB | import sys, os / sys.path.insert(0, "D:\\moldesign-app\\backend") / sys.path.insert(0, "D:\\moldesign-app\\rescoring") / from benchmark_ef_vina import |
+| [debug_executor.py](file:///D:/moldesign-app/scripts/debug_executor.py) | 3.1 KB | Diagnóstico: dock_and_extract en ThreadPoolExecutor vs directo. import sys, os, time, traceback, concurrent.futures, argparse from pathlib import Path sys.path.insert(0, r"D:\moldesign-app\backend") s |
+| [debug_surgery_1gpk.py](file:///D:/moldesign-app/scripts/debug_surgery_1gpk.py) | 0.6 KB | import sys, tempfile / sys.path.insert(0, r"D:\moldesign-app\backend") / from services.chemistry.protein_surgery import prepare_target / from pathlib  |
+| [debug_vina.py](file:///D:/moldesign-app/scripts/debug_vina.py) | 1.4 KB | Use the benchmark's own _prepare_ligand |
+| [debug_vina_direct.py](file:///D:/moldesign-app/scripts/debug_vina_direct.py) | 1.9 KB | Test Vina directly with 7E2Y Prepare ligand |
+| [inspect_checkpoint.py](file:///D:/moldesign-app/scripts/inspect_checkpoint.py) | 0.9 KB | import json / from pathlib import Path / d = json.loads(Path(r"D:\moldesign-app\data\benchmark_checkpoint_5ht1a.json").read_text()) / rs = d["results" |
+| [online_test_rag.py](file:///D:/moldesign-app/scripts/online_test_rag.py) | 2.6 KB | Online stress test: PubChem RAG + Router (no API key needed) import asyncio import sys import time sys.path.insert(0, "D:\\moldesign-app\\backend") async def main(): from api.routers.ai import _bootst |
+| [stress_test_breakpoint.py](file:///D:/moldesign-app/scripts/stress_test_breakpoint.py) | 25.9 KB | Stress Test Avanzado -- encontrar el PUNTO EXACTO de ruptura de Qwen2.5-1.5B. FASES: 0. Diagnostic: medir n_ctx real, tokenizer accuracy, VRAM disponible 1. Fill context progresivamente hasta 16K toke |
+| [stress_test_molneuro.py](file:///D:/moldesign-app/scripts/stress_test_molneuro.py) | 7.3 KB | Stress test inline para MolNeuro/MolChat v1.4. Llama al chat_service directamente (sin HTTP) para máxima fidelidad. |
+| [test_5_molgraph.py](file:///D:/moldesign-app/scripts/test_5_molgraph.py) | 1.9 KB | Test integrado de las 5 mejoras de MolGraph. import sys sys.path.insert(0, "D:\\moldesign-app\\backend") from services.ai.molgraph import ( add_modification_edge, query_modification_impact, query_scaf |
+| [test_molgraph.py](file:///D:/moldesign-app/scripts/test_molgraph.py) | 0.4 KB | import asyncio, sys / sys.path.insert(0, "D:\\moldesign-app\\backend") / async def test(): / from services.ai.tools.molgraph_tool import query_molgrap |
+| [test_protein_surgery.py](file:///D:/moldesign-app/scripts/test_protein_surgery.py) | 2.3 KB | Test protein_surgery on all 4 targets. Fast: <1s per target. import sys, time, tempfile from pathlib import Path sys.path.insert(0, str(Path(__file__).parent.parent / "backend")) from services.chemist |

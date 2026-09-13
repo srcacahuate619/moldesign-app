@@ -1,0 +1,17 @@
+# MolDesign AI - Molecular Design & Discovery Platform
+
+MolDesign AI is an industrial-grade molecular discovery platform featuring a 3-level scientific pipeline for end-to-end (E2E) evaluation of molecular structures. 
+
+## Capabilities & Architecture
+- Level 1 (Screening): AutoDock Vina physical docking combined with XGBoost machine learning rescoring. Trained on PDBbind, correcting physical scoring bias.
+- Level 2 (Topology): Deep learning evaluation using RTMScore Graph Neural Networks (GNN) to analyze 3D interatomic residue-atom interactions, effectively discarding false positives.
+- Level 3 (Refinement): Quantum relaxation and steric relief using the OpenMM thermodynamic engine and AMBER force fields.
+
+## Features
+- RDKit-based Cheminformatics: Sub-second validation of SMILES, valency, chirality, SA Score, QED, and ADME properties.
+- ETKDG 3D Conformer Generation: Bioactive low-energy geometry prediction.
+- Solana Blockchain Certification: Immutable cryptographic registration (SHA-256) of discovered molecules, proving scientific authorship.
+- Reporting: Automated generation of PDF scientific reports with hotspots and ADME profiling.
+
+## Access
+Designed for high-throughput screening and AI-assisted drug discovery, available for pharmaceutical researchers and computational chemists.

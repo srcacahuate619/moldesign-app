@@ -1,0 +1,70 @@
+{
+  "timestamp": "2026-08-13T20:44:03.714611",
+  "baseline_fase_a": {
+    "spearman": 0.6094,
+    "ci_lo": 0.5282,
+    "ci_hi": 0.6791,
+    "n": 328,
+    "source": "docs/38_FASE_B_BASELINE.md"
+  },
+  "fase_a_en_holdout_nuevo": {
+    "label": "fasea_nuevo_holdout",
+    "n": 512,
+    "spearman": 0.2494,
+    "spearman_p": 0.0,
+    "ci95_spearman": [
+      0.1525,
+      0.3431
+    ],
+    "pearson": 0.0168,
+    "pearson_p": 0.704828,
+    "ci95_pearson": [
+      -0.078,
+      0.1184
+    ],
+    "rmse": 3.7039,
+    "mae": 2.6507,
+    "y_true_range": [
+      2.48,
+      12.46
+    ]
+  },
+  "fase_b_en_holdout_nuevo": {
+    "label": "faseb_nuevo_holdout",
+    "n": 512,
+    "spearman": 0.3857,
+    "spearman_p": 0.0,
+    "ci95_spearman": [
+      0.301,
+      0.4657
+    ],
+    "pearson": 0.3736,
+    "pearson_p": 0.0,
+    "ci95_pearson": [
+      0.2908,
+      0.452
+    ],
+    "rmse": 2.6403,
+    "mae": 2.1502,
+    "y_true_range": [
+      2.48,
+      12.46
+    ]
+  },
+  "deltas": {
+    "faseb_vs_baseline_historico": -0.2237,
+    "faseb_vs_fasea_mismo_holdout": 0.1363
+  },
+  "verdict": "NO-GO",
+  "go_no_go_criteria": {
+    "go": "Spearman ≥ 0.6094 Y CI95_lo ≥ 0.5282",
+    "warn": "Spearman ≥ baseline pero CI95 se solapa hacia abajo",
+    "no_go": "Spearman < 0.6094 (no mejora el baseline)"
+  },
+  "hashes": {
+    "faseb_model_json": "d8c54ffb5f426617e8c44fbc038c4092539f98f33d0d1e928990759f9187a611",
+    "fasea_model_json": "d2041777857586065aa29dcc8b876a9c1e89394dacbf517e9c071e5cba27f0b2",
+    "split_used": "ee0ee2cee0e0c90026b6328236fe5a63178be868ccbc48034c7e8a50ade09497",
+    "index_used": "ca7702c5e6fd4e814281a3e65ddbdcf17bd62df78e62daef6daaa2106f70c4b6"
+  }
+}

@@ -1,0 +1,30 @@
+# moldesign-lab — laboratorio de computo largo sobre moldesign-science
+#
+# La imagen base tiene la quimica completa (RDKit 2026.03.1, OpenFF 0.18,
+# OpenMM 8.5.2, AmberTools) pero NO tiene motor de docking, lo que impedia
+# correr experimentos de poses en el servidor. Esta capa anade AutoDock Vina
+# 1.2.7 (mismo binario que la maquina local, misma version) y utilidades de
+# ejecucion larga.
+FROM moldesign-science:latest
+
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        curl ca-certificates tini procps && \
+    rm -rf /var/lib/apt/lists/*
+
+ARG VINA_VER=1.2.7
+RUN curl -fsSL -o /usr/local/bin/vina \
+      https://github.com/ccsb-scripps/AutoDock-Vina/releases/download/v${VINA_VER}/vina_${VINA_VER}_linux_x86_64 && \
+    chmod +x /usr/local/bin/vina && \
+    /usr/local/bin/vina --version
+
+# Meeko y openbabel son necesarios para preparar receptor/ligando como en local
+# meeko para preparar receptor/ligando como en local; openmmforcefields aporta
+# SMIRNOFFTemplateGenerator, sin el cual no se puede parametrizar proteina+ligando
+# en el mismo sistema (lo detecto el sondeo de capacidad de MF-10).
+RUN /opt/conda/envs/science/bin/pip install --no-cache-dir meeko==0.7.1 openmmforcefields pdbfixer lxml
+
+ENV MOLDESIGN_LAB=1 \
+    VINA_BIN=/usr/local/bin/vina
+WORKDIR /workspace
+ENTRYPOINT ["/usr/bin/tini", "--"]

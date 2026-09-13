@@ -1,0 +1,316 @@
+{
+ "id": "FEP-02",
+ "meta": {
+  "titulo": "Los nueve que fallaron tienen huecos de cadena, nueve de nueve",
+  "entradilla": "41% de los receptores quedarían documentados. Y de paso la auditoría verificó un diagnóstico que llevaba meses siendo una conjetura razonable: p ≈ 0.0004."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La mitad de un complejo proteína-ligando es la proteína, y sus defectos son menos visibles que los del ligando. Una cadena con residuos ausentes, un sitio de unión repartido entre dos cadenas, un metal sin coordinar, una decena de aguas cuyo papel nadie decidió: todo eso se procesa sin error y sale con aspecto normal.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esta auditoría cuenta cuántos de los 203 receptores tendrían documentado lo necesario para un cálculo de energía libre.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "83 de 203 (41%)",
+     "m": "fuerte"
+    },
+    {
+     "t": " quedarían documentados. Y el desglose de lo que falta:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Defecto",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Complejos",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Huecos de numeración en la cadena",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "86 (42%)",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Sitio repartido entre más de una cadena",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "43 (21%)",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Metales en el sitio",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "52",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Aguas en el sitio (mediana)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "10",
+       "m": "fuerte"
+      },
+      {
+       "t": ", ninguna clasificada",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese 21% con el sitio repartido entre cadenas es un modo de fallo que el propio documento de limitaciones del proyecto marcaba como conocido — y que ",
+     "m": null
+    },
+    {
+     "t": "nadie había contado",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Estaba en la lista de cosas sabidas, sin número al lado, que es una forma cómoda de no saber.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las aguas merecen mención aparte: mediana de 10 por sitio, ",
+     "m": null
+    },
+    {
+     "t": "ninguna documentada",
+     "m": "fuerte"
+    },
+    {
+     "t": " como estructural (parte del sitio, hay que conservarla) o desplazable (el ligando la echa al unirse). Esa decisión cambia el resultado de un cálculo de energía libre, y hoy la toma por omisión quien escribió el preparador.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La verificación que no se buscaba",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Meses antes, un experimento de campo de fuerza había fallado la parametrización en 9 complejos, todos con el mismo error de plantilla. El diagnóstico propuesto entonces fue que tenían ",
+     "m": null
+    },
+    {
+     "t": "cortes de cadena",
+     "m": "fuerte"
+    },
+    {
+     "t": " dejados como extremos sin capar. Era una explicación plausible y nadie podía comprobarla.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esta auditoría, que se hacía por otro motivo, la comprueba:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Los 9 complejos que fallaron tienen huecos de cadena. ",
+     "m": null
+    },
+    {
+     "t": "9 de 9.",
+     "m": "fuerte"
+    },
+    {
+     "t": "  Tasa base en el conjunto: ",
+     "m": null
+    },
+    {
+     "t": "42.4%",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Probabilidad de que salga así por azar: 0.424⁹ ≈ ",
+     "m": null
+    },
+    {
+     "t": "0.0004",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El diagnóstico queda confirmado, y con él la decisión que dependía de él: ",
+     "m": null
+    },
+    {
+     "t": "no volver a correr aquel experimento",
+     "m": "fuerte"
+    },
+    {
+     "t": " para recuperar esos 9 complejos, porque su fallo no informaba sobre el campo de fuerza sino sobre la preparación del receptor.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es un buen ejemplo de por qué vale la pena registrar los diagnósticos aunque no se puedan comprobar en su momento: escrito con precisión, un diagnóstico se puede verificar después por un experimento que no existía cuando se formuló.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La limitación, declarada",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un salto en la numeración de residuos ",
+     "m": null
+    },
+    {
+     "t": "no siempre es un hueco físico",
+     "m": "fuerte"
+    },
+    {
+     "t": ": hay convenciones de numeración no consecutiva, sobre todo en estructuras alineadas a una referencia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Así que los 86 son ",
+     "m": null
+    },
+    {
+     "t": "candidatos, no defectos confirmados",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Cada uno exige mirar la estructura.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los 9 del caso anterior sí lo eran, lo cual da alguna confianza en el criterio pero no lo valida en general. La cifra honesta es «86 estructuras a revisar», no «86 estructuras rotas».",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FEP-02.md"
+}

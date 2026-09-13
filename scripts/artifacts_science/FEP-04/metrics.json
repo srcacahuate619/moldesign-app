@@ -1,0 +1,161 @@
+{
+ "experiment_id": "FEP-04",
+ "tipo": "medicion (lectura de material sellado, sin computo nuevo)",
+ "timestamp": "2026-08-19T03:29:49.486658+00:00",
+ "duration_seconds": 1.81,
+ "config": {
+  "top_k": 5,
+  "umbral_modo_A": 2.0,
+  "delta_empate_kcal": 1.0,
+  "umbral_acierto_A": 2.0
+ },
+ "n_complejos": 203,
+ "n_ok": 200,
+ "precision_top1_global": 0.33,
+ "precision_top5_global": 0.465,
+ "cobertura_oraculo": 0.615,
+ "curvas_riesgo_cobertura": {
+  "margen": [
+   {
+    "cobertura": 1.0,
+    "n": 200,
+    "precision": 0.33,
+    "wilson95": [
+     0.269,
+     0.398
+    ]
+   },
+   {
+    "cobertura": 0.9,
+    "n": 180,
+    "precision": 0.3444,
+    "wilson95": [
+     0.279,
+     0.416
+    ]
+   },
+   {
+    "cobertura": 0.75,
+    "n": 150,
+    "precision": 0.3733,
+    "wilson95": [
+     0.3,
+     0.453
+    ]
+   },
+   {
+    "cobertura": 0.5,
+    "n": 100,
+    "precision": 0.47,
+    "wilson95": [
+     0.375,
+     0.567
+    ]
+   },
+   {
+    "cobertura": 0.25,
+    "n": 50,
+    "precision": 0.6,
+    "wilson95": [
+     0.462,
+     0.724
+    ]
+   }
+  ],
+  "dispersion_topk": [
+   {
+    "cobertura": 1.0,
+    "n": 200,
+    "precision": 0.33,
+    "wilson95": [
+     0.269,
+     0.398
+    ]
+   },
+   {
+    "cobertura": 0.9,
+    "n": 180,
+    "precision": 0.3667,
+    "wilson95": [
+     0.3,
+     0.439
+    ]
+   },
+   {
+    "cobertura": 0.75,
+    "n": 150,
+    "precision": 0.4267,
+    "wilson95": [
+     0.35,
+     0.507
+    ]
+   },
+   {
+    "cobertura": 0.5,
+    "n": 100,
+    "precision": 0.5,
+    "wilson95": [
+     0.404,
+     0.596
+    ]
+   },
+   {
+    "cobertura": 0.25,
+    "n": 50,
+    "precision": 0.58,
+    "wilson95": [
+     0.442,
+     0.706
+    ]
+   }
+  ],
+  "n_modos_empatados": [
+   {
+    "cobertura": 1.0,
+    "n": 200,
+    "precision": 0.33,
+    "wilson95": [
+     0.269,
+     0.398
+    ]
+   },
+   {
+    "cobertura": 0.9,
+    "n": 180,
+    "precision": 0.3556,
+    "wilson95": [
+     0.289,
+     0.428
+    ]
+   },
+   {
+    "cobertura": 0.75,
+    "n": 150,
+    "precision": 0.4133,
+    "wilson95": [
+     0.338,
+     0.493
+    ]
+   },
+   {
+    "cobertura": 0.5,
+    "n": 100,
+    "precision": 0.51,
+    "wilson95": [
+     0.413,
+     0.606
+    ]
+   },
+   {
+    "cobertura": 0.25,
+    "n": 50,
+    "precision": 0.62,
+    "wilson95": [
+     0.482,
+     0.741
+    ]
+   }
+  ]
+ },
+ "limitacion": "las senales se observan sobre los mismos datos en que se mide la curva: es OPTIMISTA. Un uso en produccion exige calibrar en train y medir en val/test"
+}

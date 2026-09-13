@@ -1,0 +1,509 @@
+# ============================================================================
+# MolDesign Build — .gitignore
+# Basado en moldesign-app/.gitignore + extensiones para el fork desktop.
+# Foco: mantener el repo liviano (~100-300MB) y NUNCA subir secrets ni assets
+# pesados (modelos, DLLs, build artifacts).
+# ============================================================================
+
+# ── Secrets ────────────────────────────────────────────────────────────
+# Los .env con secrets reales NUNCA se suben. Solo los .env.example van al repo.
+.env
+.env.*
+!.env.example
+!.env.desktop.example
+!.env.local.example
+
+# Otros archivos sensibles
+*.pem
+*.key
+secret_key
+git-credentials
+.envrc
+provider_config.json
+moldesign_local.db
+moldesign_local.db-*
+molecular_design.db
+molecular_design.db-*
+
+# ── Python ──────────────────────────────────────────────────────────────
+__pycache__/
+*/__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+.eggs/
+build/
+dist/
+develop-eggs/
+.downloads/
+sdist/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+.python-version
+Pipfile.lock
+poetry.lock
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# ── Node / Next.js ─────────────────────────────────────────────────────
+node_modules/
+.npm
+.pnp.*
+.yarn/
+frontend/.next/
+# Directorio de trabajo del servidor de desarrollo. Separado de `.next`
+# para que `next dev` y `next build` no se bloqueen el mismo archivo.
+frontend/.next-dev/
+frontend/out/
+frontend/.next/cache/
+frontend/.next/trace
+frontend/trace
+frontend/.pytest_cache/
+frontend/tsconfig.tsbuildinfo
+*.webpack.hot-update.*
+frontend/static/webpack/
+
+# ── Tauri / Rust build artifacts ──────────────────────────────────────
+# CRÍTICO: el build_tree de Cargo duplica site-packages enteros (C3 del
+# informe de eficiencia). Excluir TODO el target/月至.
+frontend/src-tauri/target/
+frontend/src-tauri/gen/
+frontend/src-tauri/resources/
+
+# ── Python embedded (generado por bundle.py, no source) ──────────────
+python-embed/
+
+# ── Modelos GGUF y artefactos pesados de build ────────────────────────
+# Los modelos se descargan on-demand vía launcher (Roadmap.md). Nunca al repo.
+models/
+*.gguf
+*.bin
+*.pt
+*.pth
+*.onnx
+*.safetensors
+
+# ── Binarios externos descargables (Vina, xTB) ────────────────────────
+# Estos binarios se descargan desde sus repos oficiales (Scripps, xtb-org)
+# en el bundle script. No son source, son dependencias binarias.
+tools/vina/*.exe
+tools/vina/**/*
+tools/xtb/
+tools/xtb-*/
+tools/llama/
+tools/**/*.exe
+tools/**/*.dll
+
+# El conjunto app-local de MSVC es pequeño, firmado y gobernado por un manifiesto.
+# Se versiona para que el instalador no dependa de Visual Studio en la máquina de build.
+!tools/vc-runtime/
+!tools/vc-runtime/**
+tools/**/*.so
+tools/**/*.dylib
+tools/**/*.a
+tools/**/*.lib
+
+# Open Babel es un programa independiente GPL-2.0-only que MolDesign invoca por
+# subproceso. Sus bytes se materializan desde el wheel `openbabel-wheel` con
+# `scripts/stage_openbabel_tool.py`, igual que Vina y xTB se traen de su origen.
+# Lo que SI se versiona de esa carpeta -y por eso las excepciones- es lo que
+# convierte al binario en un componente auditable: el manifiesto con versión,
+# hashes y procedencia, el texto integro de la GPLv2 y las instrucciones para
+# obtener el código fuente correspondiente. Sin ellos, la carpeta seria un
+# binario opaco y la obligación de la GPL quedaría fuera del repositorio.
+tools/openbabel/bin/
+# El codigo fuente correspondiente de Open Babel: acompana al BINARIO
+# dentro del MSIX (GPL-2.0 sec. 3a), y el binario no viaja en git, asi que
+# tampoco su fuente. 36,7 MB que no aportan nada al repositorio.
+tools/openbabel/*.tar.gz
+!tools/openbabel/openbabel-manifest.json
+!tools/openbabel/LICENSE-GPL-2.0.txt
+!tools/openbabel/README-PROCEDENCIA.md
+
+# ── Data pesada regenerable (PDBs de targets, seed SQLite) ─────────────
+# Los PDBs se descargan vía download_missing_pdbs.py. molgraph_seed.db es un
+# SQLite binario que se regenera. mantenedor: el CSV + JSON de metadata
+# (curated_targets.csv/.json en raíz) van al repo porque son catalogs curados.
+data/targets/*.pdb
+data/target_library/
+data/pdbbind/
+data/molgraph_seed.db
+data/*.db
+data/checkpoint_*.json
+data/benchmark_checkpoint_*.json
+data/ef_report_*.json
+data/multitarget/
+# PDB/PDBQT de targets en raíz (descargados vía RCSB u OpenBabel dependiendo
+# del target) — ver scripts/benchmark_ef_vina.py para reproducir
+data/*.pdb
+data/*.pdbqt
+# Datasets crudos (ChEMBL / DUD-E). Se pueden regenerar copiando de
+# moldesign-app/data/multitarget/<name>/{actives.txt,decoys.smi} o descargando
+# desde ChEMBL/DUD-E siguiendo scripts/download_missing_pdbs.py
+data/chembl_*_actives.txt
+data/dude_*_decoys.smi
+# Carpeta tmp de la app (artefactos runtime: PDBQT temporales, etc.)
+tmp/
+# Output de smokes y runs full-scale (logs del bucket de benchmark)
+logs/full_*.log
+logs/full_*.err
+logs/full_summary_*.json
+logs/orchestrator_*.log
+logs/orchestrator_*.err
+logs/smoke_*.log
+logs/smoke_*.err
+
+# Artefactos del dist/ (instaladores previos)
+dist/
+*.zip
+*.7z
+*.tar.gz
+scratch/
+
+# Crash dumps y binaries
+*.dmp
+crash_dumps/
+
+# ── IDE / Editor ──────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.bash_history
+.vs/
+*.user
+
+# ── OS ────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ── Logs y crash dumps ────────────────────────────────────────────────
+*.log
+*.err
+*.out
+dev-*.log
+dev-*.out
+stderr.log
+stdout.log
+backend.log
+backend.err
+backend.out
+crash_dumps/
+
+# ── Backend dev artifacts (logs del servicio local) ──────────────────
+backend/dev-backend.err
+backend/dev-backend.out
+backend/dev-err.log
+backend/dev-out.log
+backend/backend.log
+
+# ── SQLite local DBs (generados en runtime) ────────────────────────────
+backend/moldesign_local.db
+backend/moldesign_local.db-wal
+backend/moldesign_local.db-shm
+backend/molecular_design.db*
+backend/*.db
+backend/*.db-wal
+backend/*.db-shm
+
+# ── Rescoring cache y artifacts pesados (regenerables) ───────────────
+rescoring/feature_cache_v4/
+rescoring/trained_models/*.pth
+rescoring/data/
+rescoring/artifacts/*.joblib
+rescoring/artifacts/*.pt
+!rescoring/artifacts/gnn_v2_cl_best.pt
+!rescoring/artifacts/contrastive_v31_pretrained.pt
+rescoring/artifacts/*.npz
+rescoring/*.log
+rescoring/stderr.log
+rescoring/stdout.log
+
+# (OJO: rescoring/artifacts/*.json y .metadata.json SÍ van al repo —
+#  son configs y metadatas que documentan los modelos, no pesos.)
+
+# ── OS-specific Python venvs si existen colgados ──────────────────────
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ── Backups locales accidentales (no subir backups del propio repo) ───
+app_backup_*/
+backend/services/chemistry/chemistry/
+**/app_backup_*/
+**/*_backup_*/
+
+# ── Tauri capabilities / settings generados ──────────────────────────
+frontend/src-tauri/gen/schemas/
+
+# ── ESMFold cache interno si se replica ────────────────────────────────
+esmfold/.cache/
+esmfold-pro/.cache/
+
+# ── Temporales del launcher ───────────────────────────────────────────
+*.part
+*.download
+*.tmp
+app_backup_*/
+chemistry/chemistry/
+services/chemistry/chemistry/
+
+# Backups locales de stacking weights (generados por optimize-stacking-weights.py)
+rescoring/artifacts/*.json.bak*
+rescoring/artifacts/*.bak*
+
+
+# Backups de curated_targets.csv (de focused-box et al)
+curated_targets.csv.bak*
+
+# ── CSP build artifacts (auto-generados por scripts/set-prod-csp.js) ──
+frontend/src-tauri/tauri.conf.json.backup
+
+
+# -- Basura de esta sesión (no subir) --------------------------------------
+frontend/build_err.txt
+frontend/build_err2.txt
+frontend/.backups/
+frontend/.trash-*/
+backend/quality_result.txt
+=ro
+data/backups/
+rescoring/artifacts/backup_*/
+rescoring/scratch_*.py
+# DBs runtime que no deben trackearse
+data/*.db-shm
+data/*.db-wal
+data/quantum_cache.db
+
+# -- Binarios y artefactos de runtime (no subir) --------------------------
+tools/smina/smina.static
+tools/smina/test_*.pdbqt
+tools/smina/test_*.smi
+tools/smina/*_out.pdbqt
+logs/deep_replay.jsonl
+logs/vram_job.id
+logs/dry_summary_*.json
+data/benchmark_checkpoint_*.bak*
+data/benchmark_checkpoint_*.last
+data/benchmark_checkpoint_*.original_*
+data/gnn_fixed/benchmark_checkpoint_*.bak*
+data/gnn_fixed/benchmark_checkpoint_*.last
+data/gnn_fixed/benchmark_checkpoint_*.original_*
+
+# -- Datasets y checkpoints GNN pesados (regenerables, varios GB) ---------
+data/gnn_v31/
+data/gnn_fixed/
+data/gnn_v2_dataset/
+data/pdbs/
+data/molchamb_loto/checkpoints/
+
+# Modelos INVALIDADOS por data leakage (no subir)
+rescoring/artifacts/*.INVALID_DUE_TO_DATA_LEAKAGE
+
+# Tauri
+src-tauri/target/
+src-tauri/gen/
+node_modules/
+
+# -- Basura del working tree (logs de batch runs y artefactos PowerShell) --
+*.bak_pre_*
+=ro
+ecif_clgnn_batch.log
+ensemble_batch.log
+night_batch.log
+restoretrain.log
+seed42_test.log
+
+# -- Backups de curacion en raiz (se conservan fuera del repo) --
+curated_targets*.bak_*
+
+# -- Dataset Ruta C pose selector (regenerable via build_pose_selector_dataset.py) --
+data/pose_selector_dataset/
+
+# -- Work dirs de experimentos de docking (regenerables, transitorios) --
+data/dmfhard_curve_work/
+scripts/artifacts_science/*/_work/
+
+# -- Paper UMS: repositorio git independiente montado aqui (252 MB, no anidar) --
+docs/moldesign-ums-paper/
+
+
+# -- Material de poses MolFlex regenerable (MF-02D, ~GB) --
+data/molflex_train_v2/
+
+data/molflex_valtest_v2/
+data/molflex_caja/
+data/pose_selector_dataset/records_v2/
+
+# -- Conjunto de poses v2 (regenerable via build_dataset_v2.py, 50 MB) --
+data/pose_selector_dataset/v2/
+
+data/molflex_caja/
+
+data/molflex_reinicios/
+
+# Geometria cruda y logs de las corridas con retencion forense (MF-33-B-RET-*).
+# NO se borran del disco: la retencion es obligacion del prerregistro. Se excluyen del
+# historial por tamano -35 MB solo en R1- y siguen siendo verificables porque cada
+# registro de per_pose/ lleva el raw_sha256 de su PDBQT. Ver MF-33-B-RET-R1/RETENCION.md
+scripts/artifacts_science/MF-33-B-RET-R*/raw_pdbqt/
+scripts/artifacts_science/MF-33-B-RET-R*/logs/
+scripts/artifacts_science/MF-33-PB/_rec/
+
+# Estructuras originales descargadas de RCSB (REC-12-R1). 39 MB de terceros,
+# reproducibles: files.rcsb.org/download/<pid>.pdb, y REC-12-R1 registra la fuente.
+data/rcsb/
+
+# Basura de pruebas con mocks sin configurar: un `MagicMock` sin `.return_value`
+# se interpola en una ruta y crea directorios con su repr
+# (`get_settings().vina_temp_dir`). Ni versionarlos ni empaquetarlos.
+backend/MagicMock/
+**/MagicMock/
+
+# Salidas de Playwright: la build que consume el navegador y los diagnósticos
+# (trazas, capturas) que deja al fallar. Son artefactos de una ejecución, no del
+# producto, y `test-results/` puede llevar capturas de pantalla con datos.
+frontend/.next-e2e/
+frontend/test-results/
+frontend/playwright-report/
+
+# ── Artefactos de auditoría y de OTROS productos ────────────────────────────
+#
+# `.hallmark/` lo escribe la rúbrica de diseño al auditar una pantalla: es
+# evidencia de una revisión, no parte del producto, y no debe entrar ni en el
+# repositorio ni en el instalador.
+.hallmark/
+
+# En esta carpeta han aparecido artefactos de LegalDesk —otro producto—:
+# routers `.damaged`, binarios de terceros (cloudflared, tesseract, poppler) y
+# una SQLite con datos. Se movieron fuera del repositorio el 2026-08-31; el
+# patrón queda para que no vuelvan a colarse en un `git add .`.
+legaldesk-*/
+*.damaged
+
+# Salidas de ejecucion y de QA visual. `output/pytest-*` son directorios
+# temporales que pytest dejo atras (SQLite de cohortes y receptores
+# preparados); `output/pdf/` son PDF/PNG regenerables desde la suite de
+# dossier. Nada de esto describe el producto: se reconstruye ejecutandolo.
+output/
+
+# Registro local de skills de la herramienta de desarrollo: contiene rutas
+# personales de la maquina del mantenedor.
+.atl/
+
+# ── Restos de depuracion a mano en la raiz ────────────────────────────
+# Trece archivos (`_bad.json`, `_t.json`, `_pf3_out.json`...) y el cache de
+# resultados de vitest estaban VERSIONADOS: 874 KB de entradas y salidas de
+# pruebas manuales, en la primera pantalla que ve quien abre el repositorio.
+# No son evidencia de nada -los artefactos sellados viven en
+# `scripts/artifacts_science/`- y hacen que el arbol parezca abandonado.
+/_*.json
+.vite/
+
+# Worktrees locales de agentes; nunca forman parte del producto.
+.worktrees/
+
+# ── Retenido del repositorio publico (triaje 2026-09-12) ────────────────────
+# Manuscritos sin enviar, su material, los resultados que los sostienen, el
+# material de inversion y cuatro registros internos abiertos. Siguen en el disco
+# y en las ramas de trabajo; lo que no pueden es entrar al repositorio publico.
+# El motivo de cada grupo esta en docs/INDEX.md.
+
+# paper_ums
+docs/PAPER_UMS.md
+docs/PAPER_UMS.html
+docs/PAPER_UMS.pdf
+
+# paper_molgraph
+docs/PAPER_MOLGRAPH.md
+
+# paper_molpocket
+docs/PAPER_MOLPOCKET.md
+
+# paper_mf33
+docs/54_PAPER_MF33_MANUSCRITO.md
+docs/52_PAPER_MF33_ESQUELETO.md
+
+# cover_letter
+docs/COVER_LETTER_MOLGRAPH.md
+
+# outline_figs
+docs/27_PAPER_OUTLINE.md
+
+# figuras
+docs/figures/fig1_pocket_distributions.pdf
+docs/figures/fig1_pocket_distributions.png
+docs/figures/fig1_roc_curves.pdf
+docs/figures/fig1_roc_curves.png
+docs/figures/fig1_schema_evolution.pdf
+docs/figures/fig1_schema_evolution.png
+docs/figures/fig2_delta_bars.pdf
+docs/figures/fig2_delta_bars.png
+docs/figures/fig2_rerank_delta.pdf
+docs/figures/fig2_rerank_delta.png
+docs/figures/fig2_score_distribution.pdf
+docs/figures/fig2_score_distribution.png
+docs/figures/fig3_ablation.pdf
+docs/figures/fig3_ablation.png
+docs/figures/fig3_early_exit.pdf
+docs/figures/fig3_early_exit.png
+docs/figures/fig3_feature_discrimination.pdf
+docs/figures/fig3_feature_discrimination.png
+docs/figures/fig4_fts_consistency.pdf
+docs/figures/fig4_fts_consistency.png
+docs/figures/fig4_mw_confounder.pdf
+docs/figures/fig4_mw_confounder.png
+docs/figures/fig4_outlier_analysis.pdf
+docs/figures/fig4_outlier_analysis.png
+docs/figures/fig5_oracle_gap.pdf
+docs/figures/fig5_oracle_gap.png
+docs/figures/fig5_test_coverage.pdf
+docs/figures/fig5_test_coverage.png
+docs/figures/fig6_score_key_gap.pdf
+docs/figures/fig6_score_key_gap.png
+
+# resultados
+docs/26_UNIVERSAL_METAL_SCORE_RESULTS.md
+docs/28_CONSOLIDATED_RESULTS.md
+docs/MULTI_TARGET_FINAL_REPORT.md
+docs/CL_GNN_MULTITARGET_RESULTS.md
+
+# deck
+docs/DECK_EJECUTIVO_INSTITUCIONAL.md
+docs/DECK_EJECUTIVO_INSTITUCIONAL.pdf
+
+# milestones
+docs/MILESTONE_1_ROADMAP.md
+docs/MILESTONE_1_ROADMAP.pdf
+docs/MILESTONE_2_BUSINESS_FOUNDATION.md
+docs/MILESTONE_2_BUSINESS_FOUNDATION.pdf
+docs/MILESTONE_3_TECHNICAL_ARCHITECTURE.md
+docs/MILESTONE_3_TECHNICAL_ARCHITECTURE.pdf
+docs/MILESTONE_4_USER_VALIDATION.md
+docs/MILESTONE_4_USER_VALIDATION.pdf
+
+# grid_apo
+docs/35_GRID_APO_5TUN_PENDIENTE.md
+
+# por_arreglar
+docs/36_POR_ARREGLAR_Y_VALIDAR.md
+
+# legal
+docs/86_AUDITORIA_LEGAL_RELEASE_PUBLICO_Y_STORE.md

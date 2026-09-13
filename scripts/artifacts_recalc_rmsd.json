@@ -1,0 +1,474 @@
+{
+  "generated_at": "2026-08-14 13:19:36",
+  "motivo": "Auditoria 2026-08-14: rmsd_pesados usaba GetBestRMS (alinea). Recomputacion pocket-frame (sin alinear) desde poses en disco. Tambien documenta las 3 referencias redock del bug de unpacking.",
+  "filas": [
+    {
+      "seccion": "A",
+      "pid": "10gs",
+      "fuente": "redock_rigido_bug",
+      "rmsd_viejo_alineado": 0.0,
+      "rmsd_nuevo_pocket": 0.306,
+      "nota": "referencia escrita con PDBQT rigido (bug unpacking); recomputada desde flex_out.pdbqt para documentar el dano"
+    },
+    {
+      "seccion": "A",
+      "pid": "184l",
+      "fuente": "redock_rigido_bug",
+      "rmsd_viejo_alineado": 0.0,
+      "rmsd_nuevo_pocket": 0.278,
+      "nota": "referencia escrita con PDBQT rigido (bug unpacking); recomputada desde flex_out.pdbqt para documentar el dano"
+    },
+    {
+      "seccion": "A",
+      "pid": "186l",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.928,
+      "rmsd_nuevo_pocket": 1.846,
+      "nota": null
+    },
+    {
+      "seccion": "A",
+      "pid": "187l",
+      "fuente": "redock_rigido_bug",
+      "rmsd_viejo_alineado": 0.0,
+      "rmsd_nuevo_pocket": 0.67,
+      "nota": "referencia escrita con PDBQT rigido (bug unpacking); recomputada desde flex_out.pdbqt para documentar el dano"
+    },
+    {
+      "seccion": "A",
+      "pid": "1add",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.521,
+      "rmsd_nuevo_pocket": 0.63,
+      "nota": null
+    },
+    {
+      "seccion": "A",
+      "pid": "1ado",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 1.325,
+      "rmsd_nuevo_pocket": 1.442,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "10gs",
+      "metrica": "rmsd_top_score_pose",
+      "cid": 13,
+      "rmsd_viejo_alineado": 2.755,
+      "rmsd_nuevo_pocket": 10.148,
+      "nota": "mejor conf 13 (score -8.955)"
+    },
+    {
+      "seccion": "B",
+      "pid": "10gs",
+      "metrica": "relaxed",
+      "cid": 0,
+      "rmsd_viejo_alineado": 3.31,
+      "rmsd_nuevo_pocket": 10.877,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "10gs",
+      "metrica": "relaxed",
+      "cid": 13,
+      "rmsd_viejo_alineado": 2.698,
+      "rmsd_nuevo_pocket": 10.305,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "10gs",
+      "metrica": "relaxed",
+      "cid": 28,
+      "rmsd_viejo_alineado": 2.922,
+      "rmsd_nuevo_pocket": 12.012,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "184l",
+      "metrica": "rmsd_top_score_pose",
+      "cid": 1,
+      "rmsd_viejo_alineado": 0.123,
+      "rmsd_nuevo_pocket": 1.551,
+      "nota": "mejor conf 1 (score -7.572)"
+    },
+    {
+      "seccion": "B",
+      "pid": "184l",
+      "metrica": "relaxed",
+      "cid": 1,
+      "rmsd_viejo_alineado": 0.123,
+      "rmsd_nuevo_pocket": 1.551,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "184l",
+      "metrica": "relaxed",
+      "cid": 0,
+      "rmsd_viejo_alineado": 0.423,
+      "rmsd_nuevo_pocket": 1.952,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "184l",
+      "metrica": "relaxed",
+      "cid": 2,
+      "rmsd_viejo_alineado": 0.476,
+      "rmsd_nuevo_pocket": 1.549,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "1a4w",
+      "metrica": "rmsd_top_score_pose",
+      "cid": 9,
+      "rmsd_viejo_alineado": 3.601,
+      "rmsd_nuevo_pocket": 8.173,
+      "nota": "mejor conf 9 (score -10.772)"
+    },
+    {
+      "seccion": "B",
+      "pid": "1a4w",
+      "metrica": "relaxed",
+      "cid": 20,
+      "rmsd_viejo_alineado": 3.184,
+      "rmsd_nuevo_pocket": 4.553,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "1a4w",
+      "metrica": "relaxed",
+      "cid": 27,
+      "rmsd_viejo_alineado": 3.131,
+      "rmsd_nuevo_pocket": 6.375,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "1a4w",
+      "metrica": "relaxed",
+      "cid": 9,
+      "rmsd_viejo_alineado": 3.528,
+      "rmsd_nuevo_pocket": 8.065,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "1aaq",
+      "metrica": "rmsd_top_score_pose",
+      "cid": 15,
+      "rmsd_viejo_alineado": 2.949,
+      "rmsd_nuevo_pocket": 13.419,
+      "nota": "mejor conf 15 (score -9.023)"
+    },
+    {
+      "seccion": "B",
+      "pid": "1aaq",
+      "metrica": "relaxed",
+      "cid": 15,
+      "rmsd_viejo_alineado": 2.893,
+      "rmsd_nuevo_pocket": 13.609,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "1aaq",
+      "metrica": "relaxed",
+      "cid": 25,
+      "rmsd_viejo_alineado": 2.997,
+      "rmsd_nuevo_pocket": 14.094,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "1aaq",
+      "metrica": "relaxed",
+      "cid": 21,
+      "rmsd_viejo_alineado": 2.782,
+      "rmsd_nuevo_pocket": 11.639,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "1ajx",
+      "metrica": "rmsd_top_score_pose",
+      "cid": 8,
+      "rmsd_viejo_alineado": 2.775,
+      "rmsd_nuevo_pocket": 12.315,
+      "nota": "mejor conf 8 (score -7.8)"
+    },
+    {
+      "seccion": "B",
+      "pid": "1ajx",
+      "metrica": "relaxed",
+      "cid": 5,
+      "rmsd_viejo_alineado": 2.596,
+      "rmsd_nuevo_pocket": 13.553,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "1ajx",
+      "metrica": "relaxed",
+      "cid": 8,
+      "rmsd_viejo_alineado": 2.775,
+      "rmsd_nuevo_pocket": 12.315,
+      "nota": null
+    },
+    {
+      "seccion": "B",
+      "pid": "1ajx",
+      "metrica": "relaxed",
+      "cid": 14,
+      "rmsd_viejo_alineado": 3.063,
+      "rmsd_nuevo_pocket": 11.548,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1aid",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 1.065,
+      "rmsd_nuevo_pocket": 10.357,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1apv",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 1.649,
+      "rmsd_nuevo_pocket": 11.111,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1b2h",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.803,
+      "rmsd_nuevo_pocket": 0.95,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1b32",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.717,
+      "rmsd_nuevo_pocket": 0.968,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1b38",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 1.258,
+      "rmsd_nuevo_pocket": 1.4,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1b46",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.655,
+      "rmsd_nuevo_pocket": 0.741,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1b55",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.605,
+      "rmsd_nuevo_pocket": 5.924,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1bn4",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 1.556,
+      "rmsd_nuevo_pocket": 4.87,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1bnw",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 1.881,
+      "rmsd_nuevo_pocket": 2.074,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1br6",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.235,
+      "rmsd_nuevo_pocket": 0.714,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1bxr",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.804,
+      "rmsd_nuevo_pocket": 1.169,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1c4u",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.747,
+      "rmsd_nuevo_pocket": 0.867,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1dhi",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.952,
+      "rmsd_nuevo_pocket": 1.306,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1e2l",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.547,
+      "rmsd_nuevo_pocket": 1.125,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1ejn",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.85,
+      "rmsd_nuevo_pocket": 1.841,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1fao",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.697,
+      "rmsd_nuevo_pocket": 1.301,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1g4o",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.305,
+      "rmsd_nuevo_pocket": 0.769,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1hmr",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 1.764,
+      "rmsd_nuevo_pocket": 2.036,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1hn4",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 3.012,
+      "rmsd_nuevo_pocket": 11.174,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1j4r",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 1.841,
+      "rmsd_nuevo_pocket": 3.01,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1jao",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.735,
+      "rmsd_nuevo_pocket": 1.377,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1jlr",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 1.477,
+      "rmsd_nuevo_pocket": 1.681,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1jq8",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 2.5,
+      "rmsd_nuevo_pocket": 3.657,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1kav",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 1.136,
+      "rmsd_nuevo_pocket": 12.017,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1lhu",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.0,
+      "rmsd_nuevo_pocket": 0.603,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1m5w",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 1.055,
+      "rmsd_nuevo_pocket": 1.77,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1mai",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.581,
+      "rmsd_nuevo_pocket": 4.393,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1mfd",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.685,
+      "rmsd_nuevo_pocket": 1.282,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1np0",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.525,
+      "rmsd_nuevo_pocket": 3.455,
+      "nota": null
+    },
+    {
+      "seccion": "C",
+      "pid": "1nq7",
+      "fuente": "disco",
+      "rmsd_viejo_alineado": 0.71,
+      "rmsd_nuevo_pocket": 1.289,
+      "nota": null
+    }
+  ]
+}

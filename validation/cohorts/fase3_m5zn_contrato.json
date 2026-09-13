@@ -1,0 +1,47 @@
+[
+  {
+    "id": "F3-MMP9-1GKC-contrato",
+    "proposito": "Comprobar si el runtime embebido alcanza el estado REVIEW_INVALID_BENCHMARK_SITE declarado por m5_zn_manifest.json.",
+    "target_pdb_id": "1GKC",
+    "chain": "A",
+    "nombre": "control-contrato-mmp9",
+    "smiles": "O=C(NO)CCCCC(=O)Nc1ccccc1",
+    "estado_esperado": "REVIEW_INVALID_BENCHMARK_SITE",
+    "exposicion": {
+      "complejo": "SEEN",
+      "fuentes": ["m5_zn_profile_benchmark", "golden:dossier_m5_zn.json", "golden:m5_zn_replay.json"],
+      "nota": "SEEN por diseno. Este caso NO mide capacidad predictiva: verifica un CONTRATO de abstencion. No entra en ninguna metrica cientifica."
+    },
+    "etiqueta_experimental": null
+  },
+  {
+    "id": "F3-ACE-1O86-contrato",
+    "proposito": "Comprobar si el runtime alcanza REVIEW_BENCHMARK_TOP1_NOT_METAL_COORDINATING.",
+    "target_pdb_id": "1O86",
+    "chain": "A",
+    "nombre": "control-contrato-ace",
+    "smiles": "CCOC(=O)C(CCc1ccccc1)NC(C)C(=O)N1CCCC1C(=O)O",
+    "estado_esperado": "REVIEW_BENCHMARK_TOP1_NOT_METAL_COORDINATING",
+    "exposicion": {
+      "complejo": "SEEN",
+      "fuentes": ["m5_zn_profile_benchmark", "benchmark_checkpoint"],
+      "nota": "SEEN por diseno; verifica contrato, no prediccion. 1O86 NO viaja en el bundle: requiere descarga desde RCSB, lo que rompe la corrida sin red."
+    },
+    "etiqueta_experimental": null
+  },
+  {
+    "id": "F3-CA2-3DC3-contrato",
+    "proposito": "Comprobar si el runtime alcanza NOT_EVALUATED_MISSING_COMPONENT por ausencia de GNN-D.",
+    "target_pdb_id": "3DC3",
+    "chain": "A",
+    "nombre": "control-contrato-ca2",
+    "smiles": "NS(=O)(=O)c1ccc(cc1)C(=O)N",
+    "estado_esperado": "NOT_EVALUATED_MISSING_COMPONENT",
+    "exposicion": {
+      "complejo": "SEEN",
+      "fuentes": ["m5_zn_profile_benchmark"],
+      "nota": "SEEN por diseno; verifica contrato. 3DC3 NO viaja en el bundle."
+    },
+    "etiqueta_experimental": null
+  }
+]

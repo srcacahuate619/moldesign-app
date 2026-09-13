@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-29-EMP-PRE",
+  "hypothesis": "En complejos de <=6 torsiones el optimo que Vina alcanza a exhaustiveness=8 ES su optimo global. Si un presupuesto 64x encuentra scores estrictamente mejores, el fallo restante es de BUSQUEDA; si no los encuentra, el optimo global de la funcion no es la pose nativa y el fallo es de OBJETIVO.",
+  "protocol": "doc 49 seccion 20.11(b), METODO SUSTITUIDO: la jerarquia de Lasserre se declara NO IMPLEMENTABLE en este hardware (ver decision_rationale) y se sustituye por cota superior empirica del minimo global por presupuesto masivo. Cohorte: 48 complejos con n_torsiones<=6 de los 116 de MF-24. Brazos: exh=8 semillas {42,1,2,3,4} y exh=512 semillas {42,7,13}, num_modes=9, caja 25 A, receptor y caja identicos al docking v2. Tercer testigo REUSADO de MF-13 (score_cristal_local), sin recomputo.",
+  "created_at": "2026-08-19T04:19:56.866053+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "642f32466cd6cf422e8f99d2af550a360d30d754",
+    "dirty": false
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "DESCRIPTIVO, sin umbral de decision. Cantidad primaria: fraccion de complejos donde min(score exh=512) < min(score exh=8) - delta, con delta=0.10 kcal/mol declarado ANTES como ruido numerico. REGLA DE LECTURA PREREGISTRADA: >=0.30 => BUSQUEDA subotima incluso en baja dimension; <0.10 => la busqueda satura y el fallo restante es de OBJETIVO; 0.10-0.30 => MIXTO."
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-02F/cohorte.json": "e0a01b81405880bcf6dd58011ca3fa91fe8854fdd605d8083a688f86f3b95d9b"
+  },
+  "assets_hashes": {
+    "scripts/run_mf29emp_optimo_global.py": "174d1ce6e49690fdaacaacf974184844df55a58254b4546c8a08a199921cd93a"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-20T20:16:26.619344+00:00",
+  "decision_rationale": "Prerregistro de MF-29-EMP, sellado RETROACTIVAMENTE el 2026-08-20 al detectarse en el barrido del registro que habia quedado en status created y decision PENDING. Procedencia verificable y anterior a la corrida: su manifest.json se commiteo el 2026-08-19 a las 00:44 en 9117a17, y MF-29-EMP arranco despues y cerro el 2026-08-20 tras 34 h. Contenido sin modificar. IMPORTANTE PARA EL REGISTRO: al sellar MF-29-EMP se cito su docstring como prerregistro, porque este artefacto no se localizo entonces; el prerregistro formal es ESTE, y coincide con aquel en lo que decide -cantidad primaria, delta=0.10 declarado antes como ruido numerico, y la regla de lectura >=0.30 BUSQUEDA, <0.10 OBJETIVO, intermedio MIXTO-. La lectura sellada de MF-29-EMP no cambia: 3 de 48 = 0.0625 sigue siendo OBJETIVO bajo esta regla.",
+  "finished_at": "2026-08-20T20:16:27.062327+00:00"
+}

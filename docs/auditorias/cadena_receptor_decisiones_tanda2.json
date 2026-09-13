@@ -1,0 +1,214 @@
+{
+ "fecha": "2026-09-02",
+ "tanda": 2,
+ "tanda_anterior": "docs/auditorias/cadena_receptor_decisiones.json",
+ "herramienta": "scripts/aplicar_rescates_mecanicos.py",
+ "triaje": "docs/auditorias/triaje_receptores_al_vacio.json",
+ "poblacion": "cadena declarada con 0% de los atomos de la caja de docking",
+ "criterio": "una sola cadena concentra >=80% del sitio segun el ligando co-cristalizado Y la mayoria de los hotspots ya anotados senalan esa misma cadena",
+ "total_aplicadas": 7,
+ "decisiones": [
+  {
+   "pdb_id": "3GPJ",
+   "clase": "RESCATE_MECANICO",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "'H' concentra el 83% del sitio y 11 de 15 hotspots lo confirman",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "SY2",
+    "cadena": "H",
+    "atomos": 35,
+    "dist_centro": 0.0
+   },
+   "reparto_del_sitio": {
+    "H": 43,
+    "I": 9
+   },
+   "hotspots_por_cadena": {
+    "H": 11,
+    "I": 4
+   },
+   "hotspots_en_la_cadena_anterior": 0,
+   "distancia_de_la_anterior_al_centro_A": 20.2,
+   "atomos_en_caja": {
+    "H": 242,
+    "I": 95,
+    "Z": 18
+   }
+  },
+  {
+   "pdb_id": "3HYE",
+   "clase": "RESCATE_MECANICO",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "'H' concentra el 89% del sitio y 14 de 15 hotspots lo confirman",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "HYE",
+    "cadena": "H",
+    "atomos": 21,
+    "dist_centro": 0.0
+   },
+   "reparto_del_sitio": {
+    "H": 41,
+    "Z": 5
+   },
+   "hotspots_por_cadena": {
+    "H": 14,
+    "Z": 1
+   },
+   "hotspots_en_la_cadena_anterior": 0,
+   "distancia_de_la_anterior_al_centro_A": 20.3,
+   "atomos_en_caja": {
+    "H": 324,
+    "I": 43,
+    "Z": 35
+   }
+  },
+  {
+   "pdb_id": "5CZ6",
+   "clase": "RESCATE_MECANICO",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "'H' concentra el 81% del sitio y 11 de 15 hotspots lo confirman",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "SRG",
+    "cadena": "H",
+    "atomos": 35,
+    "dist_centro": 0.0
+   },
+   "reparto_del_sitio": {
+    "H": 43,
+    "I": 10
+   },
+   "hotspots_por_cadena": {
+    "H": 11,
+    "I": 4
+   },
+   "hotspots_en_la_cadena_anterior": 0,
+   "distancia_de_la_anterior_al_centro_A": 20.3,
+   "atomos_en_caja": {
+    "H": 240,
+    "I": 97,
+    "Z": 18
+   }
+  },
+  {
+   "pdb_id": "5I3T",
+   "clase": "RESCATE_MECANICO",
+   "cadena_antes": "C",
+   "cadena_despues": "A",
+   "motivo": "'A' concentra el 82% del sitio y 10 de 12 hotspots lo confirman",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "BU2",
+    "cadena": "A",
+    "atomos": 6,
+    "dist_centro": 0.0
+   },
+   "reparto_del_sitio": {
+    "A": 18,
+    "D": 4
+   },
+   "hotspots_por_cadena": {
+    "A": 10,
+    "D": 2
+   },
+   "hotspots_en_la_cadena_anterior": 0,
+   "distancia_de_la_anterior_al_centro_A": 34.5,
+   "atomos_en_caja": {
+    "A": 353,
+    "D": 63
+   }
+  },
+  {
+   "pdb_id": "5Z2R",
+   "clase": "RESCATE_MECANICO",
+   "cadena_antes": "F",
+   "cadena_despues": "A",
+   "motivo": "'A' concentra el 81% del sitio y 13 de 15 hotspots lo confirman",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "TD6",
+    "cadena": "A",
+    "atomos": 33,
+    "dist_centro": 0.0
+   },
+   "reparto_del_sitio": {
+    "A": 82,
+    "B": 19
+   },
+   "hotspots_por_cadena": {
+    "A": 13,
+    "B": 2
+   },
+   "hotspots_en_la_cadena_anterior": 0,
+   "distancia_de_la_anterior_al_centro_A": 60.2,
+   "atomos_en_caja": {
+    "A": 336,
+    "B": 150
+   }
+  },
+  {
+   "pdb_id": "6HW5",
+   "clase": "RESCATE_MECANICO",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "'H' concentra el 83% del sitio y 12 de 15 hotspots lo confirman",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "GRT",
+    "cadena": "H",
+    "atomos": 42,
+    "dist_centro": 0.0
+   },
+   "reparto_del_sitio": {
+    "H": 58,
+    "I": 12
+   },
+   "hotspots_por_cadena": {
+    "H": 12,
+    "I": 3
+   },
+   "hotspots_en_la_cadena_anterior": 0,
+   "distancia_de_la_anterior_al_centro_A": 19.3,
+   "atomos_en_caja": {
+    "H": 279,
+    "I": 126,
+    "Z": 14
+   }
+  },
+  {
+   "pdb_id": "6HW7",
+   "clase": "RESCATE_MECANICO",
+   "cadena_antes": "A",
+   "cadena_despues": "H",
+   "motivo": "'H' concentra el 89% del sitio y 12 de 15 hotspots lo confirman",
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "GTW",
+    "cadena": "H",
+    "atomos": 44,
+    "dist_centro": 0.0
+   },
+   "reparto_del_sitio": {
+    "H": 62,
+    "I": 7,
+    "Z": 1
+   },
+   "hotspots_por_cadena": {
+    "H": 12,
+    "I": 3
+   },
+   "hotspots_en_la_cadena_anterior": 0,
+   "distancia_de_la_anterior_al_centro_A": 19.9,
+   "atomos_en_caja": {
+    "H": 260,
+    "I": 99,
+    "Z": 17
+   }
+  }
+ ]
+}

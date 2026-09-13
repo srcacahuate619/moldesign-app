@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-02E",
+  "hypothesis": "Material de poses para val y test generado con el pipeline congelado, equivalente al de MF-02D para train",
+  "protocol": "generacion de material: molflex congelado sobre los complejos de val y test; pocket_frame por complejo",
+  "created_at": "2026-08-19T03:53:23.065240+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gates; insumo de RC-F0-V2"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/molflex.py": "d2bd11957cc20e8ea1413b4eca44e3f77664a686bb0fe67a38f47a856fc9aac9"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:54:48.887487+00:00",
+  "decision_rationale": "Artefacto de generacion de material que quedo sin sellar y que RC-F0-V2 consume: sus porcentajes de cobertura coinciden exactamente con los medidos por la via independiente sobre MF-02D/MF-02E, y esa coincidencia fue la verificacion del gate G5 de aquel experimento. Se sella ahora para cerrar la cadena de procedencia del conjunto v2.",
+  "finished_at": "2026-08-19T03:54:49.099326+00:00"
+}

@@ -1,0 +1,26 @@
+# environment.yml
+# Dependencias instaladas vía conda-forge (micromamba) dentro del contenedor Docker.
+# RDKit no está disponible vía pip estándar en todas las plataformas,
+# por lo que se instala desde conda-forge.
+#
+# Uso: micromamba install -y -n base -f environment.yml
+# Referencia Dockerfile: backend/Dockerfile
+#
+# NOTA: El resto de dependencias Python se instalan vía pip (requirements.txt).
+#       Solo incluir aquí lo que NECESITA conda-forge.
+
+name: base
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.11.*
+  - rdkit>=2024.03
+  - numpy>=2.0
+  - gcc  # Necesario para compilar extensiones nativas (ej. ProDy)
+  - gxx_linux-64
+  - setuptools==69.5.1  # Pin a versión anterior que incluye pkg_resources (mk_prepare_receptor)
+  - prody        # ¡EXPLÍCITO! Necesario para --read_with_prody y evitar errores de importación
+  - openmm>=8.1  # Refinamiento estructural AMBER14SB para complejos receptor-péptido (Nivel 3)
+  - ambertools>=23  # Parámetros Amber para aminoácidos y péptidos (campo de fuerzas amber14-all.xml)
+  - xtb          # Nivel 4: Docking Cuántico, GFN2-xTB para cálculos semiempíricos de cargas

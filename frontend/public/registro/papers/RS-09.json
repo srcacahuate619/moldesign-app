@@ -1,0 +1,395 @@
+{
+ "id": "RS-09",
+ "meta": {
+  "titulo": "Invariante a rotaciones, frágil ante una centésima de ángstrom",
+  "entradilla": "El selector es exactamente invariante a rotación y traslación —diferencia máxima 0.0— y al orden de las poses. Con un temblor de 0.1 Å cambia de opinión en 9 complejos."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un selector de poses debe cumplir cosas que no dependen de si acierta. Si se rota el sistema entero, la respuesta no puede cambiar: es la misma molécula en el mismo sitio, descrita desde otro ángulo. Si se barajan las poses candidatas, tampoco. Y ante un temblor atómico mínimo, la respuesta debería moverse poco.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Estas son pruebas ",
+     "m": null
+    },
+    {
+     "t": "metamórficas",
+     "m": "fuerte"
+    },
+    {
+     "t": ": no comprueban que el modelo acierte, comprueban que se comporta como el mundo que dice modelar. Un selector que falla aquí puede tener buenas métricas y ser inutilizable.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Seis criterios, cinco pasan:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Criterio",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Resultado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "G1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Invarianza a rotación y traslación rígida",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "109/109, diferencia máxima 0.0",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "G2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Invarianza al orden de las poses",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "109/109",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "G3",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Cambios de acierto a fallo con σ=0.1 Å ≤ 2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "9",
+       "m": "fuerte"
+      },
+      {
+       "t": " ✗",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "G4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≥60% de los cambios en los terciles de margen bajo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "95.65%",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "G5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Deriva",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "G6",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Aislamiento por SHA",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Correcto",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "G1 con diferencia máxima exactamente 0.0",
+     "m": "fuerte"
+    },
+    {
+     "t": " es el resultado más limpio: la invarianza no es aproximada, es estructural. Las características se calculan en un marco que no depende de la orientación, así que rotar el sistema no cambia ni un bit.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "G3 falla.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Perturbando las coordenadas atómicas con un ruido de 0.1 Å —una centésima de lo que separa un acierto de un fallo— el selector cambia de acierto a error en ",
+     "m": null
+    },
+    {
+     "t": "9",
+     "m": "fuerte"
+    },
+    {
+     "t": " complejos, cuando el criterio admitía 2.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El matiz que convierte el fallo en información",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los cambios no están repartidos al azar. Se concentran donde el selector ya dudaba:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Tercil de margen",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Fracción de los cambios",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Margen bajo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "43%",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Margen alto",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3%",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es decir: ",
+     "m": null
+    },
+    {
+     "t": "la robustez es condicional al margen",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Donde el selector decide con convicción, aguanta el temblor. Donde decide por poco, no.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso no salva el gate, y no debe presentarse como si lo salvara. Pero sí dice qué hacer con el resultado: la fragilidad es predecible desde una cantidad que se puede calcular en el momento de decidir. Es la misma idea que después midió ",
+     "m": null
+    },
+    {
+     "t": "FEP-04",
+     "m": "codigo"
+    },
+    {
+     "t": " desde otro ángulo — el margen es una señal de confianza utilizable — y refuerza la conclusión de que el producto correcto no es una pose, sino una pose con su incertidumbre.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que se declaró no cubierto en lugar de contarlo como éxito",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La cohorte efectiva es de ",
+     "m": null
+    },
+    {
+     "t": "109 de 116",
+     "m": "fuerte"
+    },
+    {
+     "t": " complejos. Los 7 restantes son complejos sin receptor disponible en el material de trabajo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se declaran ",
+     "m": null
+    },
+    {
+     "t": "no cubiertos por indisponibilidad de datos",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no como fallos. La distinción importa: contarlos como fallos habría empeorado artificialmente el resultado; contarlos como éxitos lo habría mejorado. Ninguna de las dos cosas sería cierta, y la única salida honesta es sacarlos del denominador diciendo cuáles son y por qué.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los receptores que sí entraron se verificaron por coincidencia atómica dentro de 0.001 Å contra su fuente, para descartar que un respaldo hubiera introducido una estructura distinta sin avisar.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/RS-09.md"
+}

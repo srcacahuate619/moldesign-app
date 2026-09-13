@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "registrado_utc": "2026-09-10T19:50:00+00:00",
+  "declaracion": "NO EJECUTADO EN VM",
+  "modo": "COPIA_AISLADA",
+  "por_que_no_hay_VM": {
+    "hyper_v": "modulo Get-VM ABSENTE en el host",
+    "virtualbox": "no instalado",
+    "vmware": "no instalado",
+    "wsl": "sin distribuciones instaladas",
+    "consecuencia": "No se pudo aprovisionar una VM Windows limpia. El sustituto usado es una copia integra del bundle fuera del arbol fuente."
+  },
+  "que_prueba_y_que_no_prueba_la_COPIA_AISLADA": {
+    "si_prueba": [
+      "que el bundle arranca sin ningun fichero del arbol fuente en sys.path",
+      "que el interprete embebido no toma paquetes del site-packages del usuario",
+      "que resources/ es reubicable: funciona desde una ruta distinta a la de compilacion",
+      "que el bundle no escribe dentro de resources/"
+    ],
+    "no_prueba": [
+      "instalacion limpia de Windows: mismo SO, mismo perfil de usuario, mismo registro",
+      "ausencia de dependencias de desarrollo: el host tiene Python 3.14 en C:\\Python314 con paquetes de usuario",
+      "ausencia de runtimes de sistema (MSVC, drivers) que una maquina de usuario podria no tener",
+      "recursos limitados: la VM objetivo tendria menos CPU y RAM",
+      "arranque en frio real de disco: el host tiene el bundle en cache tras la copia"
+    ],
+    "agravante": "El host de esta auditoria ES el host de entrenamiento. training_report.json declara 6 nucleos fisicos / 12 logicos y 31.9 GB, que coincide exactamente con esta maquina. Ninguna afirmacion sobre 'reproduce fuera del entorno de desarrollo' es verificable aqui."
+  },
+  "host": {
+    "os": "Windows 11 Pro 10.0.26200",
+    "cpu": "AMD Ryzen 5 5500",
+    "nucleos_fisicos": 6,
+    "nucleos_logicos": 12,
+    "ram_gb": 31.9,
+    "gpu_fisica": "NVIDIA GeForce GTX 1660 SUPER (driver 32.0.16.1047)",
+    "disco_libre_D_gb": 41.9
+  },
+  "aceleracion_grafica_vista_por_el_backend": {
+    "endpoint": "/hardware",
+    "gpu_available": false,
+    "cuda": false,
+    "opencl": false,
+    "openmm_platforms": ["Reference", "CPU", "OpenCL"],
+    "aviso_del_backend": "No se detecto GPU. MM-GBSA y GNN rescoring correran en CPU (mas lento).",
+    "lectura": "Hay GPU fisica pero el runtime embebido NO la usa. Toda medida de tiempo de esta auditoria es de CPU."
+  },
+  "runtime": {
+    "python_embebido": "3.11.9 (tags/v3.11.9:de54cf5, Apr 2 2024) [MSC v.1938 64 bit (AMD64)]",
+    "aislamiento_sys_path": [
+      "<bundle>/python/python311.zip",
+      "<bundle>/python",
+      "<bundle>/python/Lib/site-packages"
+    ],
+    "site_packages_del_usuario_en_sys_path": false,
+    "nota_aislamiento": "site.ENABLE_USER_SITE es True pero python311._pth impide que el directorio de usuario entre en sys.path. Verificado.",
+    "vina": "AutoDock Vina v1.2.7",
+    "open_babel": "3.1.1.23 (reporta 'Open Babel 3.1.0 -- Feb 17 2026')",
+    "rdkit": "2025.09.6",
+    "arranque_en_frio_s": 4.71,
+    "n_rutas_openapi": 112
+  },
+  "versiones_declaradas": {
+    "runtime_manifest_product_version": "1.0.0",
+    "api_reporta": "1.0.0-alpha.2",
+    "nota": "No coinciden. El manifiesto que sella el bundle y la API que lo sirve declaran versiones distintas."
+  },
+  "commit_y_hashes": {
+    "commit": "16d04521bfcac5a9ef8ad68da3c52376655368b6",
+    "rama_auditada": "claude/embedded-controls",
+    "runtime_manifest_sha256": "047721c568d735750bd9c0f8558179e341c3141b39b03c5935693ec26fb331d1",
+    "activos_criticos": "verificados uno a uno en validation/results/fase0_runtime.json"
+  },
+  "red": {
+    "durante_el_aprovisionamiento": "disponible (files.rcsb.org responde 200)",
+    "durante_las_corridas": "NO se aislo la red, porque ninguna corrida llego a producir ciencia. Las corridas de contrato de 1O86 y 3DC3 SI dependen de red: esas estructuras no viajan en el bundle.",
+    "mecanismo_de_descarga": "backend/utils/file_handlers.py:290 -> https://files.rcsb.org/download/{pdb_id}.pdb"
+  },
+  "estructuras_disponibles_sin_red": {
+    "ficheros": ["1gkc_chainA.pdb", "3pp0_chainB.pdb", "7e2y_chainB.pdb", "7e2y_chainR.pdb"],
+    "clasificacion_de_fuga": {
+      "1GKC": "SEEN (perfil M5-Zn + 2 goldens)",
+      "7E2Y": "RELATED (panel de calibracion externa 5HT1A)",
+      "3PP0": "EXTERNAL (dominio quinasa de HER2/ErbB2; familia kinase SI entrenada, se declara)"
+    },
+    "consecuencia": "De las 380 dianas de curated_targets.json solo 3 estructuras viajan. Una corrida verdaderamente sin red solo puede usar esas, y de ellas UNA SOLA es EXTERNAL.",
+    "inconsistencia_menor": "curated_targets.json declara chain A para 3PP0; el fichero empaquetado es 3pp0_chainB.pdb."
+  },
+  "semillas": {
+    "vina_seed_por_defecto_del_producto": 42,
+    "exhaustiveness": 8,
+    "num_poses": 5,
+    "observado_en_preflight": "seed=42, exhaustiveness=8, num_poses=5, grid_center=[17.1,16.55,26.6], grid_size=[22,22,22] para 3PP0/A",
+    "nota": "Las tres semillas prerregistradas (42, 20260910, 7) no llegaron a usarse: ninguna corrida alcanzo el docking."
+  }
+}

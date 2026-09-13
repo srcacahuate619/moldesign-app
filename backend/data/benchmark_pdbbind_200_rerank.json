@@ -1,0 +1,4444 @@
+{
+  "fuente": "PDBbind v2020 refined",
+  "pdbbind_dir": "D:\\moldesign-build\\data\\pdbbind",
+  "top_n": 3,
+  "limit": null,
+  "n_complejos_validos": 200,
+  "n_evaluados": 200,
+  "n_skips": 0,
+  "elapsed_segundos": 871.44,
+  "metricas_best": {
+    "N": 200,
+    "median": 3.682,
+    "p25": 1.722,
+    "p75": 6.511,
+    "p90": 18.668699999999994,
+    "mean": 6.861675,
+    "pct_le_4": 55.00000000000001,
+    "pct_le_6": 73.5,
+    "pct_le_10": 79.0,
+    "min": 0.241,
+    "max": 56.872
+  },
+  "metricas_top1": {
+    "N": 200,
+    "median": 5.9735,
+    "p25": 2.331,
+    "p75": 25.240499999999997,
+    "p90": 32.5852,
+    "mean": 14.312555,
+    "pct_le_4": 39.5,
+    "pct_le_6": 50.5,
+    "pct_le_10": 52.5,
+    "min": 0.241,
+    "max": 63.529
+  },
+  "umbrales": {
+    "ok": 4.0,
+    "tol": 6.0,
+    "flop": 10.0
+  },
+  "resultados": [
+    {
+      "pdb_id": "3ZQ9",
+      "distancia": 7.714,
+      "distancia_top1": 32.526,
+      "score": 1.3944,
+      "druggability": 0.5041,
+      "n_spheres": 153,
+      "n_pockets": 3,
+      "n_lig_atoms": 46,
+      "lig_resname": "1",
+      "lig_center": [
+        16.07,
+        25.3,
+        12.76
+      ],
+      "pocket_center": [
+        20.0,
+        30.7,
+        8.9
+      ],
+      "elapsed": 2.448
+    },
+    {
+      "pdb_id": "1LKL",
+      "distancia": 10.975,
+      "distancia_top1": 10.975,
+      "score": 0.6886,
+      "druggability": 0.431,
+      "n_spheres": 21,
+      "n_pockets": 3,
+      "n_lig_atoms": 68,
+      "lig_resname": "1",
+      "lig_center": [
+        26.33,
+        -0.52,
+        -0.09
+      ],
+      "pocket_center": [
+        33.1,
+        7.7,
+        -2.73
+      ],
+      "elapsed": 0.38
+    },
+    {
+      "pdb_id": "1BXQ",
+      "distancia": 1.523,
+      "distancia_top1": 1.523,
+      "score": 1.5093,
+      "druggability": 0.4108,
+      "n_spheres": 143,
+      "n_pockets": 3,
+      "n_lig_atoms": 89,
+      "lig_resname": "1",
+      "lig_center": [
+        20.55,
+        8.63,
+        21.1
+      ],
+      "pocket_center": [
+        21.79,
+        8.02,
+        21.73
+      ],
+      "elapsed": 1.235
+    },
+    {
+      "pdb_id": "4I3Z",
+      "distancia": 1.444,
+      "distancia_top1": 30.945,
+      "score": 1.3592,
+      "druggability": 0.3702,
+      "n_spheres": 158,
+      "n_pockets": 3,
+      "n_lig_atoms": 39,
+      "lig_resname": "1",
+      "lig_center": [
+        1.27,
+        -40.53,
+        0.33
+      ],
+      "pocket_center": [
+        0.08,
+        -40.13,
+        -0.38
+      ],
+      "elapsed": 3.148
+    },
+    {
+      "pdb_id": "2HOC",
+      "distancia": 3.71,
+      "distancia_top1": 17.878,
+      "score": 0.8614,
+      "druggability": 0.2412,
+      "n_spheres": 46,
+      "n_pockets": 3,
+      "n_lig_atoms": 29,
+      "lig_resname": "1",
+      "lig_center": [
+        -3.61,
+        5.42,
+        14.7
+      ],
+      "pocket_center": [
+        -6.74,
+        5.18,
+        12.73
+      ],
+      "elapsed": 0.988
+    },
+    {
+      "pdb_id": "2CCC",
+      "distancia": 26.617,
+      "distancia_top1": 26.617,
+      "score": 1.039,
+      "druggability": 0.7406,
+      "n_spheres": 125,
+      "n_pockets": 3,
+      "n_lig_atoms": 32,
+      "lig_resname": "1",
+      "lig_center": [
+        1.85,
+        20.45,
+        -0.24
+      ],
+      "pocket_center": [
+        0.0,
+        -0.0,
+        -17.17
+      ],
+      "elapsed": 5.151
+    },
+    {
+      "pdb_id": "1ZDP",
+      "distancia": 3.816,
+      "distancia_top1": 3.816,
+      "score": 1.0057,
+      "druggability": 0.5368,
+      "n_spheres": 97,
+      "n_pockets": 3,
+      "n_lig_atoms": 31,
+      "lig_resname": "1",
+      "lig_center": [
+        37.27,
+        41.74,
+        -3.02
+      ],
+      "pocket_center": [
+        35.59,
+        42.22,
+        -6.41
+      ],
+      "elapsed": 1.219
+    },
+    {
+      "pdb_id": "1O3F",
+      "distancia": 3.489,
+      "distancia_top1": 3.489,
+      "score": 0.7089,
+      "druggability": 0.6698,
+      "n_spheres": 42,
+      "n_pockets": 3,
+      "n_lig_atoms": 43,
+      "lig_resname": "1",
+      "lig_center": [
+        43.67,
+        -1.21,
+        31.01
+      ],
+      "pocket_center": [
+        43.72,
+        -3.03,
+        28.03
+      ],
+      "elapsed": 0.673
+    },
+    {
+      "pdb_id": "4HDB",
+      "distancia": 4.455,
+      "distancia_top1": 4.455,
+      "score": 1.2018,
+      "druggability": 0.5157,
+      "n_spheres": 123,
+      "n_pockets": 3,
+      "n_lig_atoms": 82,
+      "lig_resname": "1",
+      "lig_center": [
+        15.91,
+        22.43,
+        16.86
+      ],
+      "pocket_center": [
+        19.73,
+        24.48,
+        17.86
+      ],
+      "elapsed": 0.701
+    },
+    {
+      "pdb_id": "1KAV",
+      "distancia": 4.85,
+      "distancia_top1": 4.85,
+      "score": 0.7872,
+      "druggability": 0.8082,
+      "n_spheres": 60,
+      "n_pockets": 3,
+      "n_lig_atoms": 42,
+      "lig_resname": "1",
+      "lig_center": [
+        33.33,
+        10.73,
+        91.47
+      ],
+      "pocket_center": [
+        30.07,
+        10.69,
+        87.88
+      ],
+      "elapsed": 1.306
+    },
+    {
+      "pdb_id": "4C52",
+      "distancia": 24.444,
+      "distancia_top1": 24.444,
+      "score": 1.723,
+      "druggability": 0.5311,
+      "n_spheres": 238,
+      "n_pockets": 3,
+      "n_lig_atoms": 62,
+      "lig_resname": "1",
+      "lig_center": [
+        -15.07,
+        -25.43,
+        -14.01
+      ],
+      "pocket_center": [
+        1.67,
+        -21.4,
+        -31.36
+      ],
+      "elapsed": 1.35
+    },
+    {
+      "pdb_id": "4HWS",
+      "distancia": 4.001,
+      "distancia_top1": 15.929,
+      "score": 0.4438,
+      "druggability": 0.7642,
+      "n_spheres": 55,
+      "n_pockets": 3,
+      "n_lig_atoms": 48,
+      "lig_resname": "1",
+      "lig_center": [
+        15.47,
+        -36.39,
+        -17.32
+      ],
+      "pocket_center": [
+        19.22,
+        -37.76,
+        -17.67
+      ],
+      "elapsed": 5.91
+    },
+    {
+      "pdb_id": "5MGK",
+      "distancia": 3.009,
+      "distancia_top1": 3.009,
+      "score": 0.8968,
+      "druggability": 0.8033,
+      "n_spheres": 46,
+      "n_pockets": 3,
+      "n_lig_atoms": 24,
+      "lig_resname": "1",
+      "lig_center": [
+        -107.11,
+        40.83,
+        27.57
+      ],
+      "pocket_center": [
+        -107.76,
+        43.71,
+        28.14
+      ],
+      "elapsed": 0.362
+    },
+    {
+      "pdb_id": "3O4K",
+      "distancia": 6.243,
+      "distancia_top1": 6.243,
+      "score": 4.79,
+      "druggability": 0.8109,
+      "n_spheres": 535,
+      "n_pockets": 3,
+      "n_lig_atoms": 127,
+      "lig_resname": "1",
+      "lig_center": [
+        15.3,
+        20.21,
+        -22.96
+      ],
+      "pocket_center": [
+        13.56,
+        25.34,
+        -19.85
+      ],
+      "elapsed": 4.535
+    },
+    {
+      "pdb_id": "1I2S",
+      "distancia": 19.152,
+      "distancia_top1": 31.581,
+      "score": 0.9029,
+      "druggability": 0.5666,
+      "n_spheres": 96,
+      "n_pockets": 3,
+      "n_lig_atoms": 18,
+      "lig_resname": "1",
+      "lig_center": [
+        26.01,
+        -6.48,
+        14.6
+      ],
+      "pocket_center": [
+        36.65,
+        9.37,
+        16.2
+      ],
+      "elapsed": 2.478
+    },
+    {
+      "pdb_id": "3SHA",
+      "distancia": 3.815,
+      "distancia_top1": 3.815,
+      "score": 1.1433,
+      "druggability": 0.8108,
+      "n_spheres": 113,
+      "n_pockets": 3,
+      "n_lig_atoms": 51,
+      "lig_resname": "1",
+      "lig_center": [
+        -17.5,
+        -12.56,
+        -22.21
+      ],
+      "pocket_center": [
+        -14.91,
+        -11.82,
+        -19.51
+      ],
+      "elapsed": 1.097
+    },
+    {
+      "pdb_id": "3C2U",
+      "distancia": 0.95,
+      "distancia_top1": 38.349,
+      "score": 0.7558,
+      "druggability": 0.3562,
+      "n_spheres": 86,
+      "n_pockets": 3,
+      "n_lig_atoms": 47,
+      "lig_resname": "1",
+      "lig_center": [
+        60.16,
+        36.7,
+        48.19
+      ],
+      "pocket_center": [
+        59.68,
+        36.93,
+        47.4
+      ],
+      "elapsed": 28.924
+    },
+    {
+      "pdb_id": "1CGL",
+      "distancia": 4.116,
+      "distancia_top1": 4.116,
+      "score": 0.8563,
+      "druggability": 0.8067,
+      "n_spheres": 70,
+      "n_pockets": 3,
+      "n_lig_atoms": 93,
+      "lig_resname": "1",
+      "lig_center": [
+        27.37,
+        41.06,
+        -1.66
+      ],
+      "pocket_center": [
+        28.13,
+        37.14,
+        -2.67
+      ],
+      "elapsed": 0.549
+    },
+    {
+      "pdb_id": "1C83",
+      "distancia": 0.705,
+      "distancia_top1": 0.705,
+      "score": 0.7571,
+      "druggability": 0.8085,
+      "n_spheres": 53,
+      "n_pockets": 3,
+      "n_lig_atoms": 24,
+      "lig_resname": "1",
+      "lig_center": [
+        44.74,
+        13.49,
+        2.34
+      ],
+      "pocket_center": [
+        44.76,
+        14.18,
+        2.46
+      ],
+      "elapsed": 1.229
+    },
+    {
+      "pdb_id": "1JAK",
+      "distancia": 1.825,
+      "distancia_top1": 1.825,
+      "score": 0.8744,
+      "druggability": 0.8093,
+      "n_spheres": 76,
+      "n_pockets": 3,
+      "n_lig_atoms": 31,
+      "lig_resname": "1",
+      "lig_center": [
+        -4.07,
+        66.23,
+        9.1
+      ],
+      "pocket_center": [
+        -4.24,
+        67.23,
+        10.61
+      ],
+      "elapsed": 2.289
+    },
+    {
+      "pdb_id": "1YET",
+      "distancia": 3.014,
+      "distancia_top1": 3.014,
+      "score": 0.9381,
+      "druggability": 0.8104,
+      "n_spheres": 64,
+      "n_pockets": 3,
+      "n_lig_atoms": 80,
+      "lig_resname": "1",
+      "lig_center": [
+        41.52,
+        -46.5,
+        65.27
+      ],
+      "pocket_center": [
+        40.69,
+        -45.08,
+        62.75
+      ],
+      "elapsed": 0.854
+    },
+    {
+      "pdb_id": "2AX9",
+      "distancia": 0.591,
+      "distancia_top1": 0.591,
+      "score": 0.8658,
+      "druggability": 0.8108,
+      "n_spheres": 87,
+      "n_pockets": 3,
+      "n_lig_atoms": 31,
+      "lig_resname": "1",
+      "lig_center": [
+        27.7,
+        2.78,
+        3.91
+      ],
+      "pocket_center": [
+        27.3,
+        3.0,
+        4.29
+      ],
+      "elapsed": 0.941
+    },
+    {
+      "pdb_id": "3JYR",
+      "distancia": 0.472,
+      "distancia_top1": 0.472,
+      "score": 1.2084,
+      "druggability": 0.5888,
+      "n_spheres": 166,
+      "n_pockets": 3,
+      "n_lig_atoms": 88,
+      "lig_resname": "1",
+      "lig_center": [
+        19.33,
+        -6.1,
+        14.33
+      ],
+      "pocket_center": [
+        19.13,
+        -5.67,
+        14.27
+      ],
+      "elapsed": 1.649
+    },
+    {
+      "pdb_id": "3T60",
+      "distancia": 21.134,
+      "distancia_top1": 21.134,
+      "score": 0.8321,
+      "druggability": 0.8106,
+      "n_spheres": 132,
+      "n_pockets": 3,
+      "n_lig_atoms": 63,
+      "lig_resname": "1",
+      "lig_center": [
+        -7.79,
+        27.07,
+        -3.97
+      ],
+      "pocket_center": [
+        6.39,
+        33.82,
+        -18.11
+      ],
+      "elapsed": 2.077
+    },
+    {
+      "pdb_id": "1C1U",
+      "distancia": 1.952,
+      "distancia_top1": 1.952,
+      "score": 0.9499,
+      "druggability": 0.8108,
+      "n_spheres": 73,
+      "n_pockets": 3,
+      "n_lig_atoms": 37,
+      "lig_resname": "1",
+      "lig_center": [
+        14.13,
+        -12.6,
+        19.73
+      ],
+      "pocket_center": [
+        13.92,
+        -13.09,
+        21.61
+      ],
+      "elapsed": 1.198
+    },
+    {
+      "pdb_id": "3PCJ",
+      "distancia": 18.615,
+      "distancia_top1": 18.615,
+      "score": 0.4933,
+      "druggability": 0.8011,
+      "n_spheres": 76,
+      "n_pockets": 3,
+      "n_lig_atoms": 15,
+      "lig_resname": "1",
+      "lig_center": [
+        14.3,
+        11.02,
+        40.92
+      ],
+      "pocket_center": [
+        0.17,
+        0.03,
+        35.82
+      ],
+      "elapsed": 42.101
+    },
+    {
+      "pdb_id": "1VFN",
+      "distancia": 3.249,
+      "distancia_top1": 32.583,
+      "score": 0.8352,
+      "druggability": 0.8108,
+      "n_spheres": 68,
+      "n_pockets": 3,
+      "n_lig_atoms": 14,
+      "lig_resname": "1",
+      "lig_center": [
+        73.42,
+        48.28,
+        49.99
+      ],
+      "pocket_center": [
+        72.95,
+        45.83,
+        52.08
+      ],
+      "elapsed": 5.766
+    },
+    {
+      "pdb_id": "4F3C",
+      "distancia": 2.702,
+      "distancia_top1": 28.611,
+      "score": 1.1011,
+      "druggability": 0.5455,
+      "n_spheres": 134,
+      "n_pockets": 3,
+      "n_lig_atoms": 49,
+      "lig_resname": "1",
+      "lig_center": [
+        -35.43,
+        -1.66,
+        5.75
+      ],
+      "pocket_center": [
+        -37.2,
+        0.36,
+        5.45
+      ],
+      "elapsed": 1.913
+    },
+    {
+      "pdb_id": "4AGO",
+      "distancia": 5.982,
+      "distancia_top1": 5.982,
+      "score": 0.9392,
+      "druggability": 0.4749,
+      "n_spheres": 66,
+      "n_pockets": 3,
+      "n_lig_atoms": 69,
+      "lig_resname": "1",
+      "lig_center": [
+        90.9,
+        96.96,
+        -46.38
+      ],
+      "pocket_center": [
+        91.2,
+        90.98,
+        -46.22
+      ],
+      "elapsed": 0.772
+    },
+    {
+      "pdb_id": "4DQ2",
+      "distancia": 3.902,
+      "distancia_top1": 40.894,
+      "score": 1.2055,
+      "druggability": 0.8108,
+      "n_spheres": 170,
+      "n_pockets": 3,
+      "n_lig_atoms": 64,
+      "lig_resname": "1",
+      "lig_center": [
+        51.33,
+        19.43,
+        21.4
+      ],
+      "pocket_center": [
+        52.32,
+        20.28,
+        17.72
+      ],
+      "elapsed": 4.357
+    },
+    {
+      "pdb_id": "3NZK",
+      "distancia": 2.017,
+      "distancia_top1": 2.017,
+      "score": 1.1471,
+      "druggability": 0.758,
+      "n_spheres": 111,
+      "n_pockets": 3,
+      "n_lig_atoms": 60,
+      "lig_resname": "1",
+      "lig_center": [
+        -3.73,
+        -21.81,
+        -9.39
+      ],
+      "pocket_center": [
+        -4.21,
+        -22.73,
+        -7.66
+      ],
+      "elapsed": 1.246
+    },
+    {
+      "pdb_id": "3BVB",
+      "distancia": 1.323,
+      "distancia_top1": 1.323,
+      "score": 1.2588,
+      "druggability": 0.8107,
+      "n_spheres": 172,
+      "n_pockets": 3,
+      "n_lig_atoms": 75,
+      "lig_resname": "1",
+      "lig_center": [
+        13.21,
+        63.44,
+        16.99
+      ],
+      "pocket_center": [
+        11.92,
+        63.29,
+        17.23
+      ],
+      "elapsed": 0.723
+    },
+    {
+      "pdb_id": "1YQJ",
+      "distancia": 2.784,
+      "distancia_top1": 2.784,
+      "score": 1.1888,
+      "druggability": 0.8109,
+      "n_spheres": 167,
+      "n_pockets": 3,
+      "n_lig_atoms": 63,
+      "lig_resname": "1",
+      "lig_center": [
+        23.01,
+        12.78,
+        31.5
+      ],
+      "pocket_center": [
+        20.92,
+        14.2,
+        30.32
+      ],
+      "elapsed": 1.817
+    },
+    {
+      "pdb_id": "3EGT",
+      "distancia": 4.823,
+      "distancia_top1": 26.17,
+      "score": 1.3726,
+      "druggability": 0.5835,
+      "n_spheres": 193,
+      "n_pockets": 3,
+      "n_lig_atoms": 46,
+      "lig_resname": "1",
+      "lig_center": [
+        28.21,
+        -18.6,
+        13.14
+      ],
+      "pocket_center": [
+        29.32,
+        -15.74,
+        9.42
+      ],
+      "elapsed": 4.628
+    },
+    {
+      "pdb_id": "3S8L",
+      "distancia": 5.931,
+      "distancia_top1": 23.51,
+      "score": 0.7233,
+      "druggability": 0.3271,
+      "n_spheres": 25,
+      "n_pockets": 3,
+      "n_lig_atoms": 61,
+      "lig_resname": "1",
+      "lig_center": [
+        -8.33,
+        9.04,
+        -0.65
+      ],
+      "pocket_center": [
+        -11.23,
+        13.04,
+        2.63
+      ],
+      "elapsed": 0.349
+    },
+    {
+      "pdb_id": "2I4U",
+      "distancia": 1.432,
+      "distancia_top1": 1.432,
+      "score": 1.1818,
+      "druggability": 0.6146,
+      "n_spheres": 146,
+      "n_pockets": 3,
+      "n_lig_atoms": 77,
+      "lig_resname": "1",
+      "lig_center": [
+        15.58,
+        22.93,
+        17.16
+      ],
+      "pocket_center": [
+        16.82,
+        23.05,
+        17.86
+      ],
+      "elapsed": 0.737
+    },
+    {
+      "pdb_id": "4NWC",
+      "distancia": 1.311,
+      "distancia_top1": 1.311,
+      "score": 0.6391,
+      "druggability": 0.6307,
+      "n_spheres": 63,
+      "n_pockets": 3,
+      "n_lig_atoms": 30,
+      "lig_resname": "1",
+      "lig_center": [
+        5.03,
+        28.54,
+        15.05
+      ],
+      "pocket_center": [
+        4.47,
+        27.4,
+        15.35
+      ],
+      "elapsed": 1.052
+    },
+    {
+      "pdb_id": "5EEI",
+      "distancia": 2.706,
+      "distancia_top1": 30.104,
+      "score": 0.7214,
+      "druggability": 0.7431,
+      "n_spheres": 50,
+      "n_pockets": 3,
+      "n_lig_atoms": 39,
+      "lig_resname": "1",
+      "lig_center": [
+        6.74,
+        -2.64,
+        0.4
+      ],
+      "pocket_center": [
+        6.03,
+        -5.19,
+        -0.13
+      ],
+      "elapsed": 1.409
+    },
+    {
+      "pdb_id": "1AID",
+      "distancia": 6.237,
+      "distancia_top1": 26.706,
+      "score": 0.5171,
+      "druggability": 0.2912,
+      "n_spheres": 24,
+      "n_pockets": 3,
+      "n_lig_atoms": 57,
+      "lig_resname": "1",
+      "lig_center": [
+        64.53,
+        38.01,
+        -0.54
+      ],
+      "pocket_center": [
+        62.65,
+        38.19,
+        -6.49
+      ],
+      "elapsed": 0.745
+    },
+    {
+      "pdb_id": "4J93",
+      "distancia": 5.797,
+      "distancia_top1": 21.88,
+      "score": 0.7753,
+      "druggability": 0.5832,
+      "n_spheres": 39,
+      "n_pockets": 3,
+      "n_lig_atoms": 33,
+      "lig_resname": "1",
+      "lig_center": [
+        -3.42,
+        4.41,
+        8.83
+      ],
+      "pocket_center": [
+        -6.71,
+        8.01,
+        11.97
+      ],
+      "elapsed": 0.538
+    },
+    {
+      "pdb_id": "4NH8",
+      "distancia": 1.183,
+      "distancia_top1": 1.183,
+      "score": 1.1928,
+      "druggability": 0.8108,
+      "n_spheres": 147,
+      "n_pockets": 3,
+      "n_lig_atoms": 55,
+      "lig_resname": "1",
+      "lig_center": [
+        3.26,
+        -11.13,
+        -25.22
+      ],
+      "pocket_center": [
+        4.27,
+        -11.4,
+        -25.77
+      ],
+      "elapsed": 0.819
+    },
+    {
+      "pdb_id": "1Q84",
+      "distancia": 2.335,
+      "distancia_top1": 30.361,
+      "score": 1.3056,
+      "druggability": 0.2957,
+      "n_spheres": 185,
+      "n_pockets": 3,
+      "n_lig_atoms": 95,
+      "lig_resname": "1",
+      "lig_center": [
+        33.47,
+        23.1,
+        9.92
+      ],
+      "pocket_center": [
+        31.76,
+        22.6,
+        11.44
+      ],
+      "elapsed": 8.256
+    },
+    {
+      "pdb_id": "4DJU",
+      "distancia": 4.028,
+      "distancia_top1": 18.778,
+      "score": 0.9846,
+      "druggability": 0.3701,
+      "n_spheres": 76,
+      "n_pockets": 3,
+      "n_lig_atoms": 36,
+      "lig_resname": "1",
+      "lig_center": [
+        21.66,
+        10.91,
+        21.67
+      ],
+      "pocket_center": [
+        17.68,
+        10.33,
+        21.87
+      ],
+      "elapsed": 1.822
+    },
+    {
+      "pdb_id": "3C52",
+      "distancia": 3.109,
+      "distancia_top1": 3.109,
+      "score": 0.6253,
+      "druggability": 0.8105,
+      "n_spheres": 66,
+      "n_pockets": 3,
+      "n_lig_atoms": 14,
+      "lig_resname": "1",
+      "lig_center": [
+        2.18,
+        2.61,
+        5.77
+      ],
+      "pocket_center": [
+        4.13,
+        4.72,
+        6.94
+      ],
+      "elapsed": 2.986
+    },
+    {
+      "pdb_id": "2V2H",
+      "distancia": 21.51,
+      "distancia_top1": 30.47,
+      "score": 0.3152,
+      "druggability": 0.6073,
+      "n_spheres": 41,
+      "n_pockets": 3,
+      "n_lig_atoms": 11,
+      "lig_resname": "1",
+      "lig_center": [
+        -17.71,
+        -5.53,
+        -14.59
+      ],
+      "pocket_center": [
+        -6.01,
+        9.26,
+        -4.24
+      ],
+      "elapsed": 4.52
+    },
+    {
+      "pdb_id": "2I4J",
+      "distancia": 5.93,
+      "distancia_top1": 5.93,
+      "score": 1.8492,
+      "druggability": 0.667,
+      "n_spheres": 312,
+      "n_pockets": 3,
+      "n_lig_atoms": 68,
+      "lig_resname": "1",
+      "lig_center": [
+        16.18,
+        16.45,
+        15.39
+      ],
+      "pocket_center": [
+        14.24,
+        20.23,
+        11.25
+      ],
+      "elapsed": 3.584
+    },
+    {
+      "pdb_id": "1PRO",
+      "distancia": 0.693,
+      "distancia_top1": 0.693,
+      "score": 1.173,
+      "druggability": 0.8107,
+      "n_spheres": 131,
+      "n_pockets": 3,
+      "n_lig_atoms": 81,
+      "lig_resname": "1",
+      "lig_center": [
+        -9.41,
+        16.32,
+        27.83
+      ],
+      "pocket_center": [
+        -8.98,
+        15.91,
+        28.2
+      ],
+      "elapsed": 0.694
+    },
+    {
+      "pdb_id": "1Y3X",
+      "distancia": 4.743,
+      "distancia_top1": 4.743,
+      "score": 0.6429,
+      "druggability": 0.5048,
+      "n_spheres": 42,
+      "n_pockets": 3,
+      "n_lig_atoms": 67,
+      "lig_resname": "1",
+      "lig_center": [
+        -1.82,
+        4.84,
+        23.59
+      ],
+      "pocket_center": [
+        -2.37,
+        7.54,
+        19.74
+      ],
+      "elapsed": 0.677
+    },
+    {
+      "pdb_id": "4JYB",
+      "distancia": 14.397,
+      "distancia_top1": 36.002,
+      "score": 0.503,
+      "druggability": 0.7277,
+      "n_spheres": 49,
+      "n_pockets": 3,
+      "n_lig_atoms": 46,
+      "lig_resname": "1",
+      "lig_center": [
+        63.32,
+        3.98,
+        47.33
+      ],
+      "pocket_center": [
+        62.7,
+        8.88,
+        33.81
+      ],
+      "elapsed": 3.655
+    },
+    {
+      "pdb_id": "2UWL",
+      "distancia": 4.653,
+      "distancia_top1": 4.653,
+      "score": 0.8796,
+      "druggability": 0.8107,
+      "n_spheres": 73,
+      "n_pockets": 3,
+      "n_lig_atoms": 50,
+      "lig_resname": "1",
+      "lig_center": [
+        7.91,
+        5.4,
+        21.21
+      ],
+      "pocket_center": [
+        8.22,
+        8.92,
+        24.24
+      ],
+      "elapsed": 1.156
+    },
+    {
+      "pdb_id": "1K9S",
+      "distancia": 1.466,
+      "distancia_top1": 1.466,
+      "score": 0.9167,
+      "druggability": 0.8109,
+      "n_spheres": 119,
+      "n_pockets": 3,
+      "n_lig_atoms": 36,
+      "lig_resname": "1",
+      "lig_center": [
+        144.73,
+        67.22,
+        63.54
+      ],
+      "pocket_center": [
+        144.94,
+        68.54,
+        64.15
+      ],
+      "elapsed": 12.489
+    },
+    {
+      "pdb_id": "1J17",
+      "distancia": 4.819,
+      "distancia_top1": 4.819,
+      "score": 0.7656,
+      "druggability": 0.8007,
+      "n_spheres": 60,
+      "n_pockets": 3,
+      "n_lig_atoms": 61,
+      "lig_resname": "1",
+      "lig_center": [
+        10.89,
+        49.46,
+        59.94
+      ],
+      "pocket_center": [
+        7.91,
+        49.34,
+        56.16
+      ],
+      "elapsed": 0.73
+    },
+    {
+      "pdb_id": "2XOG",
+      "distancia": 4.807,
+      "distancia_top1": 4.807,
+      "score": 0.7452,
+      "druggability": 0.68,
+      "n_spheres": 37,
+      "n_pockets": 3,
+      "n_lig_atoms": 66,
+      "lig_resname": "1",
+      "lig_center": [
+        38.54,
+        3.19,
+        16.09
+      ],
+      "pocket_center": [
+        38.09,
+        3.94,
+        20.82
+      ],
+      "elapsed": 0.39
+    },
+    {
+      "pdb_id": "1JQY",
+      "distancia": 25.686,
+      "distancia_top1": 25.686,
+      "score": 0.5657,
+      "druggability": 0.7161,
+      "n_spheres": 43,
+      "n_pockets": 3,
+      "n_lig_atoms": 63,
+      "lig_resname": "1",
+      "lig_center": [
+        48.72,
+        -1.69,
+        -3.26
+      ],
+      "pocket_center": [
+        29.82,
+        -18.2,
+        -8.7
+      ],
+      "elapsed": 2.638
+    },
+    {
+      "pdb_id": "2WEB",
+      "distancia": 1.321,
+      "distancia_top1": 15.915,
+      "score": 1.3799,
+      "druggability": 0.2047,
+      "n_spheres": 182,
+      "n_pockets": 3,
+      "n_lig_atoms": 70,
+      "lig_resname": "1",
+      "lig_center": [
+        22.11,
+        9.35,
+        22.18
+      ],
+      "pocket_center": [
+        21.56,
+        8.15,
+        22.14
+      ],
+      "elapsed": 3.626
+    },
+    {
+      "pdb_id": "4R4T",
+      "distancia": 5.737,
+      "distancia_top1": 5.737,
+      "score": 0.697,
+      "druggability": 0.6076,
+      "n_spheres": 38,
+      "n_pockets": 3,
+      "n_lig_atoms": 57,
+      "lig_resname": "1",
+      "lig_center": [
+        0.55,
+        9.7,
+        0.97
+      ],
+      "pocket_center": [
+        -4.31,
+        9.22,
+        3.97
+      ],
+      "elapsed": 0.397
+    },
+    {
+      "pdb_id": "2VBA",
+      "distancia": 2.364,
+      "distancia_top1": 2.364,
+      "score": 1.1351,
+      "druggability": 0.811,
+      "n_spheres": 134,
+      "n_pockets": 3,
+      "n_lig_atoms": 28,
+      "lig_resname": "1",
+      "lig_center": [
+        41.32,
+        69.5,
+        64.83
+      ],
+      "pocket_center": [
+        41.7,
+        70.37,
+        62.66
+      ],
+      "elapsed": 4.189
+    },
+    {
+      "pdb_id": "3T85",
+      "distancia": 14.257,
+      "distancia_top1": 21.468,
+      "score": 0.8166,
+      "druggability": 0.0752,
+      "n_spheres": 46,
+      "n_pockets": 3,
+      "n_lig_atoms": 39,
+      "lig_resname": "1",
+      "lig_center": [
+        16.77,
+        4.33,
+        12.96
+      ],
+      "pocket_center": [
+        26.48,
+        -3.53,
+        6.08
+      ],
+      "elapsed": 0.982
+    },
+    {
+      "pdb_id": "2FZC",
+      "distancia": 18.147,
+      "distancia_top1": 49.622,
+      "score": 1.5184,
+      "druggability": 0.3821,
+      "n_spheres": 169,
+      "n_pockets": 3,
+      "n_lig_atoms": 28,
+      "lig_resname": "1",
+      "lig_center": [
+        41.89,
+        29.6,
+        18.64
+      ],
+      "pocket_center": [
+        27.38,
+        35.91,
+        27.54
+      ],
+      "elapsed": 51.67
+    },
+    {
+      "pdb_id": "4NL1",
+      "distancia": 3.036,
+      "distancia_top1": 3.036,
+      "score": 0.5719,
+      "druggability": 0.2947,
+      "n_spheres": 44,
+      "n_pockets": 3,
+      "n_lig_atoms": 24,
+      "lig_resname": "1",
+      "lig_center": [
+        -24.12,
+        42.56,
+        15.79
+      ],
+      "pocket_center": [
+        -24.7,
+        42.78,
+        12.82
+      ],
+      "elapsed": 3.055
+    },
+    {
+      "pdb_id": "1E4H",
+      "distancia": 1.596,
+      "distancia_top1": 10.701,
+      "score": 0.8127,
+      "druggability": 0.0656,
+      "n_spheres": 64,
+      "n_pockets": 3,
+      "n_lig_atoms": 13,
+      "lig_resname": "1",
+      "lig_center": [
+        43.06,
+        -0.03,
+        26.66
+      ],
+      "pocket_center": [
+        43.0,
+        -0.0,
+        25.07
+      ],
+      "elapsed": 2.298
+    },
+    {
+      "pdb_id": "4GKI",
+      "distancia": 16.728,
+      "distancia_top1": 29.883,
+      "score": 0.8295,
+      "druggability": 0.2124,
+      "n_spheres": 67,
+      "n_pockets": 3,
+      "n_lig_atoms": 46,
+      "lig_resname": "1",
+      "lig_center": [
+        36.95,
+        15.93,
+        16.28
+      ],
+      "pocket_center": [
+        25.5,
+        22.16,
+        26.77
+      ],
+      "elapsed": 1.245
+    },
+    {
+      "pdb_id": "3F6E",
+      "distancia": 28.407,
+      "distancia_top1": 28.407,
+      "score": 6.8217,
+      "druggability": 0.0502,
+      "n_spheres": 630,
+      "n_pockets": 3,
+      "n_lig_atoms": 59,
+      "lig_resname": "1",
+      "lig_center": [
+        67.17,
+        53.97,
+        161.33
+      ],
+      "pocket_center": [
+        81.09,
+        47.9,
+        137.32
+      ],
+      "elapsed": 22.089
+    },
+    {
+      "pdb_id": "3N76",
+      "distancia": 33.158,
+      "distancia_top1": 50.55,
+      "score": 0.9135,
+      "druggability": 0.811,
+      "n_spheres": 87,
+      "n_pockets": 3,
+      "n_lig_atoms": 39,
+      "lig_resname": "1",
+      "lig_center": [
+        -39.01,
+        -60.86,
+        -48.04
+      ],
+      "pocket_center": [
+        -46.71,
+        -87.96,
+        -65.53
+      ],
+      "elapsed": 18.644
+    },
+    {
+      "pdb_id": "1N46",
+      "distancia": 0.598,
+      "distancia_top1": 0.598,
+      "score": 0.9481,
+      "druggability": 0.6924,
+      "n_spheres": 98,
+      "n_pockets": 3,
+      "n_lig_atoms": 48,
+      "lig_resname": "1",
+      "lig_center": [
+        21.23,
+        7.35,
+        2.37
+      ],
+      "pocket_center": [
+        20.79,
+        7.18,
+        2.74
+      ],
+      "elapsed": 2.793
+    },
+    {
+      "pdb_id": "6F3B",
+      "distancia": 2.853,
+      "distancia_top1": 2.853,
+      "score": 0.7747,
+      "druggability": 0.609,
+      "n_spheres": 50,
+      "n_pockets": 3,
+      "n_lig_atoms": 40,
+      "lig_resname": "1",
+      "lig_center": [
+        10.76,
+        35.64,
+        15.93
+      ],
+      "pocket_center": [
+        12.41,
+        35.25,
+        18.22
+      ],
+      "elapsed": 0.986
+    },
+    {
+      "pdb_id": "2XM1",
+      "distancia": 0.806,
+      "distancia_top1": 27.482,
+      "score": 0.5446,
+      "druggability": 0.7097,
+      "n_spheres": 60,
+      "n_pockets": 3,
+      "n_lig_atoms": 29,
+      "lig_resname": "1",
+      "lig_center": [
+        6.57,
+        -11.26,
+        3.31
+      ],
+      "pocket_center": [
+        6.52,
+        -12.06,
+        3.34
+      ],
+      "elapsed": 4.311
+    },
+    {
+      "pdb_id": "1HDQ",
+      "distancia": 0.896,
+      "distancia_top1": 23.497,
+      "score": 0.9673,
+      "druggability": 0.0982,
+      "n_spheres": 59,
+      "n_pockets": 3,
+      "n_lig_atoms": 27,
+      "lig_resname": "1",
+      "lig_center": [
+        -2.1,
+        31.09,
+        -7.84
+      ],
+      "pocket_center": [
+        -2.38,
+        31.72,
+        -8.4
+      ],
+      "elapsed": 1.199
+    },
+    {
+      "pdb_id": "3OVN",
+      "distancia": 1.429,
+      "distancia_top1": 16.762,
+      "score": 0.784,
+      "druggability": 0.7672,
+      "n_spheres": 66,
+      "n_pockets": 3,
+      "n_lig_atoms": 21,
+      "lig_resname": "1",
+      "lig_center": [
+        23.62,
+        8.24,
+        10.37
+      ],
+      "pocket_center": [
+        22.78,
+        9.04,
+        9.55
+      ],
+      "elapsed": 1.159
+    },
+    {
+      "pdb_id": "2NTA",
+      "distancia": 1.284,
+      "distancia_top1": 1.284,
+      "score": 0.8708,
+      "druggability": 0.7842,
+      "n_spheres": 57,
+      "n_pockets": 3,
+      "n_lig_atoms": 29,
+      "lig_resname": "1",
+      "lig_center": [
+        32.84,
+        -29.86,
+        -2.14
+      ],
+      "pocket_center": [
+        32.82,
+        -30.75,
+        -1.22
+      ],
+      "elapsed": 1.284
+    },
+    {
+      "pdb_id": "4PZV",
+      "distancia": 5.434,
+      "distancia_top1": 43.446,
+      "score": 0.5676,
+      "druggability": 0.704,
+      "n_spheres": 51,
+      "n_pockets": 3,
+      "n_lig_atoms": 74,
+      "lig_resname": "1",
+      "lig_center": [
+        2.44,
+        28.49,
+        -11.34
+      ],
+      "pocket_center": [
+        7.71,
+        27.5,
+        -10.41
+      ],
+      "elapsed": 2.154
+    },
+    {
+      "pdb_id": "3VJE",
+      "distancia": 3.76,
+      "distancia_top1": 3.76,
+      "score": 1.2207,
+      "druggability": 0.3516,
+      "n_spheres": 148,
+      "n_pockets": 3,
+      "n_lig_atoms": 92,
+      "lig_resname": "1",
+      "lig_center": [
+        22.24,
+        -10.41,
+        9.42
+      ],
+      "pocket_center": [
+        24.57,
+        -12.57,
+        7.41
+      ],
+      "elapsed": 1.301
+    },
+    {
+      "pdb_id": "3UPK",
+      "distancia": 3.534,
+      "distancia_top1": 3.534,
+      "score": 1.4213,
+      "druggability": 0.8109,
+      "n_spheres": 204,
+      "n_pockets": 3,
+      "n_lig_atoms": 64,
+      "lig_resname": "1",
+      "lig_center": [
+        83.7,
+        2.89,
+        126.22
+      ],
+      "pocket_center": [
+        82.98,
+        2.09,
+        122.85
+      ],
+      "elapsed": 1.779
+    },
+    {
+      "pdb_id": "5JSJ",
+      "distancia": 8.52,
+      "distancia_top1": 8.52,
+      "score": 0.7492,
+      "druggability": 0.7233,
+      "n_spheres": 92,
+      "n_pockets": 3,
+      "n_lig_atoms": 113,
+      "lig_resname": "1",
+      "lig_center": [
+        11.96,
+        0.15,
+        3.23
+      ],
+      "pocket_center": [
+        13.26,
+        -8.19,
+        4.36
+      ],
+      "elapsed": 0.849
+    },
+    {
+      "pdb_id": "4ZZY",
+      "distancia": 5.805,
+      "distancia_top1": 5.965,
+      "score": 0.1909,
+      "druggability": 0.3319,
+      "n_spheres": 31,
+      "n_pockets": 3,
+      "n_lig_atoms": 53,
+      "lig_resname": "1",
+      "lig_center": [
+        23.23,
+        -25.79,
+        5.78
+      ],
+      "pocket_center": [
+        18.94,
+        -29.28,
+        7.56
+      ],
+      "elapsed": 1.744
+    },
+    {
+      "pdb_id": "2WHP",
+      "distancia": 2.013,
+      "distancia_top1": 2.013,
+      "score": 1.3839,
+      "druggability": 0.811,
+      "n_spheres": 243,
+      "n_pockets": 3,
+      "n_lig_atoms": 33,
+      "lig_resname": "1",
+      "lig_center": [
+        33.85,
+        22.28,
+        10.28
+      ],
+      "pocket_center": [
+        32.4,
+        21.46,
+        11.4
+      ],
+      "elapsed": 2.72
+    },
+    {
+      "pdb_id": "3R88",
+      "distancia": 8.361,
+      "distancia_top1": 8.361,
+      "score": 1.5972,
+      "druggability": 0.6852,
+      "n_spheres": 266,
+      "n_pockets": 3,
+      "n_lig_atoms": 24,
+      "lig_resname": "1",
+      "lig_center": [
+        -4.74,
+        -29.95,
+        6.35
+      ],
+      "pocket_center": [
+        -8.59,
+        -34.93,
+        11.85
+      ],
+      "elapsed": 3.863
+    },
+    {
+      "pdb_id": "1UV6",
+      "distancia": 32.213,
+      "distancia_top1": 49.522,
+      "score": 0.3157,
+      "druggability": 0.6414,
+      "n_spheres": 50,
+      "n_pockets": 3,
+      "n_lig_atoms": 25,
+      "lig_resname": "1",
+      "lig_center": [
+        138.07,
+        124.21,
+        86.49
+      ],
+      "pocket_center": [
+        109.46,
+        138.83,
+        88.87
+      ],
+      "elapsed": 9.194
+    },
+    {
+      "pdb_id": "4E5W",
+      "distancia": 1.883,
+      "distancia_top1": 44.246,
+      "score": 0.9748,
+      "druggability": 0.8107,
+      "n_spheres": 119,
+      "n_pockets": 3,
+      "n_lig_atoms": 57,
+      "lig_resname": "1",
+      "lig_center": [
+        6.65,
+        54.17,
+        1.72
+      ],
+      "pocket_center": [
+        6.58,
+        52.31,
+        1.95
+      ],
+      "elapsed": 3.724
+    },
+    {
+      "pdb_id": "1G85",
+      "distancia": 0.564,
+      "distancia_top1": 0.564,
+      "score": 0.664,
+      "druggability": 0.8053,
+      "n_spheres": 92,
+      "n_pockets": 3,
+      "n_lig_atoms": 27,
+      "lig_resname": "1",
+      "lig_center": [
+        -0.03,
+        -1.05,
+        5.85
+      ],
+      "pocket_center": [
+        -0.47,
+        -1.03,
+        6.2
+      ],
+      "elapsed": 1.718
+    },
+    {
+      "pdb_id": "1EC1",
+      "distancia": 1.71,
+      "distancia_top1": 1.71,
+      "score": 1.5626,
+      "druggability": 0.8106,
+      "n_spheres": 209,
+      "n_pockets": 3,
+      "n_lig_atoms": 104,
+      "lig_resname": "1",
+      "lig_center": [
+        12.77,
+        22.59,
+        5.62
+      ],
+      "pocket_center": [
+        13.18,
+        21.45,
+        6.83
+      ],
+      "elapsed": 0.707
+    },
+    {
+      "pdb_id": "4B2L",
+      "distancia": 21.627,
+      "distancia_top1": 24.614,
+      "score": 0.9233,
+      "druggability": 0.4049,
+      "n_spheres": 49,
+      "n_pockets": 3,
+      "n_lig_atoms": 31,
+      "lig_resname": "1",
+      "lig_center": [
+        20.89,
+        7.63,
+        -3.87
+      ],
+      "pocket_center": [
+        13.14,
+        0.62,
+        15.07
+      ],
+      "elapsed": 0.797
+    },
+    {
+      "pdb_id": "2A8G",
+      "distancia": 2.133,
+      "distancia_top1": 23.424,
+      "score": 0.9449,
+      "druggability": 0.8109,
+      "n_spheres": 111,
+      "n_pockets": 3,
+      "n_lig_atoms": 32,
+      "lig_resname": "1",
+      "lig_center": [
+        11.57,
+        0.33,
+        3.49
+      ],
+      "pocket_center": [
+        11.81,
+        -1.74,
+        3.04
+      ],
+      "elapsed": 2.585
+    },
+    {
+      "pdb_id": "4KP5",
+      "distancia": 3.748,
+      "distancia_top1": 21.513,
+      "score": 0.4476,
+      "druggability": 0.7951,
+      "n_spheres": 58,
+      "n_pockets": 3,
+      "n_lig_atoms": 31,
+      "lig_resname": "1",
+      "lig_center": [
+        26.32,
+        6.72,
+        9.97
+      ],
+      "pocket_center": [
+        24.5,
+        4.12,
+        11.98
+      ],
+      "elapsed": 2.901
+    },
+    {
+      "pdb_id": "2JIW",
+      "distancia": 2.525,
+      "distancia_top1": 27.093,
+      "score": 0.9046,
+      "druggability": 0.5916,
+      "n_spheres": 70,
+      "n_pockets": 3,
+      "n_lig_atoms": 32,
+      "lig_resname": "1",
+      "lig_center": [
+        6.49,
+        -11.62,
+        3.52
+      ],
+      "pocket_center": [
+        7.49,
+        -13.92,
+        3.83
+      ],
+      "elapsed": 3.482
+    },
+    {
+      "pdb_id": "1HI4",
+      "distancia": 1.564,
+      "distancia_top1": 1.564,
+      "score": 0.9858,
+      "druggability": 0.8105,
+      "n_spheres": 67,
+      "n_pockets": 3,
+      "n_lig_atoms": 38,
+      "lig_resname": "1",
+      "lig_center": [
+        14.8,
+        18.81,
+        11.27
+      ],
+      "pocket_center": [
+        15.59,
+        19.7,
+        12.29
+      ],
+      "elapsed": 0.475
+    },
+    {
+      "pdb_id": "4WA9",
+      "distancia": 3.532,
+      "distancia_top1": 3.532,
+      "score": 1.4262,
+      "druggability": 0.3752,
+      "n_spheres": 171,
+      "n_pockets": 3,
+      "n_lig_atoms": 46,
+      "lig_resname": "1",
+      "lig_center": [
+        9.34,
+        155.29,
+        35.95
+      ],
+      "pocket_center": [
+        11.24,
+        158.17,
+        36.72
+      ],
+      "elapsed": 1.245
+    },
+    {
+      "pdb_id": "2AYR",
+      "distancia": 0.956,
+      "distancia_top1": 0.956,
+      "score": 1.1759,
+      "druggability": 0.627,
+      "n_spheres": 136,
+      "n_pockets": 3,
+      "n_lig_atoms": 69,
+      "lig_resname": "1",
+      "lig_center": [
+        31.96,
+        -1.58,
+        24.6
+      ],
+      "pocket_center": [
+        32.8,
+        -1.5,
+        25.05
+      ],
+      "elapsed": 1.0
+    },
+    {
+      "pdb_id": "5D26",
+      "distancia": 3.821,
+      "distancia_top1": 3.821,
+      "score": 0.9554,
+      "druggability": 0.6619,
+      "n_spheres": 66,
+      "n_pockets": 3,
+      "n_lig_atoms": 55,
+      "lig_resname": "1",
+      "lig_center": [
+        3.41,
+        56.24,
+        22.25
+      ],
+      "pocket_center": [
+        4.64,
+        59.11,
+        20.05
+      ],
+      "elapsed": 0.487
+    },
+    {
+      "pdb_id": "1K4H",
+      "distancia": 0.498,
+      "distancia_top1": 0.498,
+      "score": 0.9286,
+      "druggability": 0.8104,
+      "n_spheres": 96,
+      "n_pockets": 3,
+      "n_lig_atoms": 34,
+      "lig_resname": "1",
+      "lig_center": [
+        15.54,
+        16.7,
+        19.8
+      ],
+      "pocket_center": [
+        15.8,
+        16.9,
+        19.42
+      ],
+      "elapsed": 1.609
+    },
+    {
+      "pdb_id": "3EQR",
+      "distancia": 2.463,
+      "distancia_top1": 2.463,
+      "score": 1.0577,
+      "druggability": 0.801,
+      "n_spheres": 107,
+      "n_pockets": 3,
+      "n_lig_atoms": 77,
+      "lig_resname": "1",
+      "lig_center": [
+        25.13,
+        6.98,
+        22.79
+      ],
+      "pocket_center": [
+        24.43,
+        8.81,
+        21.31
+      ],
+      "elapsed": 1.145
+    },
+    {
+      "pdb_id": "3ZDG",
+      "distancia": 32.427,
+      "distancia_top1": 51.777,
+      "score": 0.7569,
+      "druggability": 0.7976,
+      "n_spheres": 102,
+      "n_pockets": 3,
+      "n_lig_atoms": 34,
+      "lig_resname": "1",
+      "lig_center": [
+        -100.98,
+        37.79,
+        26.5
+      ],
+      "pocket_center": [
+        -96.86,
+        62.27,
+        5.64
+      ],
+      "elapsed": 8.77
+    },
+    {
+      "pdb_id": "4Q7S",
+      "distancia": 4.629,
+      "distancia_top1": 17.671,
+      "score": 0.5948,
+      "druggability": 0.4089,
+      "n_spheres": 31,
+      "n_pockets": 3,
+      "n_lig_atoms": 16,
+      "lig_resname": "1",
+      "lig_center": [
+        15.8,
+        2.6,
+        14.86
+      ],
+      "pocket_center": [
+        17.6,
+        0.15,
+        11.38
+      ],
+      "elapsed": 0.98
+    },
+    {
+      "pdb_id": "2WOS",
+      "distancia": 4.017,
+      "distancia_top1": 4.017,
+      "score": 1.2076,
+      "druggability": 0.8106,
+      "n_spheres": 173,
+      "n_pockets": 3,
+      "n_lig_atoms": 33,
+      "lig_resname": "1",
+      "lig_center": [
+        21.92,
+        19.85,
+        3.65
+      ],
+      "pocket_center": [
+        20.31,
+        20.31,
+        -0.0
+      ],
+      "elapsed": 0.822
+    },
+    {
+      "pdb_id": "1QBR",
+      "distancia": 0.508,
+      "distancia_top1": 0.508,
+      "score": 1.054,
+      "druggability": 0.8108,
+      "n_spheres": 102,
+      "n_pockets": 3,
+      "n_lig_atoms": 92,
+      "lig_resname": "1",
+      "lig_center": [
+        -9.21,
+        15.99,
+        27.89
+      ],
+      "pocket_center": [
+        -9.7,
+        15.85,
+        27.95
+      ],
+      "elapsed": 0.749
+    },
+    {
+      "pdb_id": "2X91",
+      "distancia": 3.705,
+      "distancia_top1": 3.705,
+      "score": 2.949,
+      "druggability": 0.4137,
+      "n_spheres": 385,
+      "n_pockets": 3,
+      "n_lig_atoms": 60,
+      "lig_resname": "1",
+      "lig_center": [
+        28.22,
+        -2.57,
+        43.48
+      ],
+      "pocket_center": [
+        28.89,
+        -6.16,
+        44.07
+      ],
+      "elapsed": 3.43
+    },
+    {
+      "pdb_id": "2W47",
+      "distancia": 2.688,
+      "distancia_top1": 34.877,
+      "score": 0.455,
+      "druggability": 0.2561,
+      "n_spheres": 19,
+      "n_pockets": 3,
+      "n_lig_atoms": 38,
+      "lig_resname": "1",
+      "lig_center": [
+        -1.85,
+        14.82,
+        8.84
+      ],
+      "pocket_center": [
+        -0.15,
+        16.81,
+        8.25
+      ],
+      "elapsed": 0.36
+    },
+    {
+      "pdb_id": "1XGI",
+      "distancia": 11.082,
+      "distancia_top1": 11.082,
+      "score": 1.323,
+      "druggability": 0.5322,
+      "n_spheres": 165,
+      "n_pockets": 3,
+      "n_lig_atoms": 28,
+      "lig_resname": "1",
+      "lig_center": [
+        80.48,
+        5.52,
+        30.33
+      ],
+      "pocket_center": [
+        75.86,
+        6.93,
+        20.36
+      ],
+      "elapsed": 1.383
+    },
+    {
+      "pdb_id": "4BCP",
+      "distancia": 0.993,
+      "distancia_top1": 32.605,
+      "score": 1.1311,
+      "druggability": 0.3349,
+      "n_spheres": 131,
+      "n_pockets": 3,
+      "n_lig_atoms": 55,
+      "lig_resname": "1",
+      "lig_center": [
+        4.91,
+        22.75,
+        22.39
+      ],
+      "pocket_center": [
+        5.58,
+        22.15,
+        22.82
+      ],
+      "elapsed": 3.036
+    },
+    {
+      "pdb_id": "2GSS",
+      "distancia": 17.061,
+      "distancia_top1": 26.927,
+      "score": 1.2916,
+      "druggability": 0.3269,
+      "n_spheres": 125,
+      "n_pockets": 3,
+      "n_lig_atoms": 30,
+      "lig_resname": "1",
+      "lig_center": [
+        6.64,
+        3.67,
+        27.88
+      ],
+      "pocket_center": [
+        15.58,
+        17.9,
+        30.84
+      ],
+      "elapsed": 1.974
+    },
+    {
+      "pdb_id": "4DSU",
+      "distancia": 3.766,
+      "distancia_top1": 20.943,
+      "score": 0.5741,
+      "druggability": 0.2209,
+      "n_spheres": 40,
+      "n_pockets": 3,
+      "n_lig_atoms": 15,
+      "lig_resname": "1",
+      "lig_center": [
+        23.56,
+        13.63,
+        11.03
+      ],
+      "pocket_center": [
+        21.1,
+        14.2,
+        13.82
+      ],
+      "elapsed": 0.646
+    },
+    {
+      "pdb_id": "6I8Y",
+      "distancia": 2.721,
+      "distancia_top1": 17.526,
+      "score": 0.5626,
+      "druggability": 0.0291,
+      "n_spheres": 52,
+      "n_pockets": 3,
+      "n_lig_atoms": 53,
+      "lig_resname": "1",
+      "lig_center": [
+        37.46,
+        -9.9,
+        -16.9
+      ],
+      "pocket_center": [
+        36.02,
+        -12.18,
+        -16.51
+      ],
+      "elapsed": 0.821
+    },
+    {
+      "pdb_id": "4CP5",
+      "distancia": 24.845,
+      "distancia_top1": 24.845,
+      "score": 1.322,
+      "druggability": 0.8108,
+      "n_spheres": 169,
+      "n_pockets": 3,
+      "n_lig_atoms": 40,
+      "lig_resname": "1",
+      "lig_center": [
+        50.32,
+        -51.24,
+        76.23
+      ],
+      "pocket_center": [
+        54.28,
+        -38.52,
+        55.26
+      ],
+      "elapsed": 2.254
+    },
+    {
+      "pdb_id": "4AD6",
+      "distancia": 2.488,
+      "distancia_top1": 2.488,
+      "score": 0.8594,
+      "druggability": 0.8008,
+      "n_spheres": 54,
+      "n_pockets": 3,
+      "n_lig_atoms": 25,
+      "lig_resname": "1",
+      "lig_center": [
+        1.9,
+        -1.48,
+        13.01
+      ],
+      "pocket_center": [
+        1.62,
+        -0.48,
+        10.75
+      ],
+      "elapsed": 0.576
+    },
+    {
+      "pdb_id": "1GHY",
+      "distancia": 0.478,
+      "distancia_top1": 0.478,
+      "score": 0.9992,
+      "druggability": 0.8107,
+      "n_spheres": 105,
+      "n_pockets": 3,
+      "n_lig_atoms": 31,
+      "lig_resname": "1",
+      "lig_center": [
+        14.51,
+        -12.57,
+        21.23
+      ],
+      "pocket_center": [
+        14.39,
+        -13.02,
+        21.11
+      ],
+      "elapsed": 1.177
+    },
+    {
+      "pdb_id": "3TU7",
+      "distancia": 2.88,
+      "distancia_top1": 2.88,
+      "score": 0.9489,
+      "druggability": 0.8103,
+      "n_spheres": 97,
+      "n_pockets": 3,
+      "n_lig_atoms": 68,
+      "lig_resname": "1",
+      "lig_center": [
+        26.12,
+        4.74,
+        20.26
+      ],
+      "pocket_center": [
+        24.36,
+        4.32,
+        18.02
+      ],
+      "elapsed": 1.176
+    },
+    {
+      "pdb_id": "3ZBX",
+      "distancia": 0.985,
+      "distancia_top1": 0.985,
+      "score": 1.037,
+      "druggability": 0.8107,
+      "n_spheres": 120,
+      "n_pockets": 3,
+      "n_lig_atoms": 40,
+      "lig_resname": "1",
+      "lig_center": [
+        20.27,
+        10.51,
+        41.55
+      ],
+      "pocket_center": [
+        19.93,
+        11.26,
+        42.1
+      ],
+      "elapsed": 1.221
+    },
+    {
+      "pdb_id": "1RNT",
+      "distancia": 2.382,
+      "distancia_top1": 22.252,
+      "score": 0.5049,
+      "druggability": 0.315,
+      "n_spheres": 21,
+      "n_pockets": 3,
+      "n_lig_atoms": 36,
+      "lig_resname": "1",
+      "lig_center": [
+        17.56,
+        33.71,
+        21.81
+      ],
+      "pocket_center": [
+        15.49,
+        32.86,
+        20.99
+      ],
+      "elapsed": 0.319
+    },
+    {
+      "pdb_id": "3N0N",
+      "distancia": 15.427,
+      "distancia_top1": 16.265,
+      "score": 0.7669,
+      "druggability": 0.2416,
+      "n_spheres": 39,
+      "n_pockets": 3,
+      "n_lig_atoms": 33,
+      "lig_resname": "1",
+      "lig_center": [
+        -3.3,
+        4.99,
+        14.32
+      ],
+      "pocket_center": [
+        5.16,
+        -5.17,
+        6.38
+      ],
+      "elapsed": 1.061
+    },
+    {
+      "pdb_id": "4GJ3",
+      "distancia": 4.687,
+      "distancia_top1": 4.687,
+      "score": 1.1969,
+      "druggability": 0.8108,
+      "n_spheres": 141,
+      "n_pockets": 3,
+      "n_lig_atoms": 37,
+      "lig_resname": "1",
+      "lig_center": [
+        -7.76,
+        -8.96,
+        -17.69
+      ],
+      "pocket_center": [
+        -5.79,
+        -4.89,
+        -16.44
+      ],
+      "elapsed": 1.273
+    },
+    {
+      "pdb_id": "2CCB",
+      "distancia": 7.64,
+      "distancia_top1": 27.277,
+      "score": 0.7751,
+      "druggability": 0.2831,
+      "n_spheres": 50,
+      "n_pockets": 3,
+      "n_lig_atoms": 47,
+      "lig_resname": "1",
+      "lig_center": [
+        1.7,
+        22.61,
+        -0.83
+      ],
+      "pocket_center": [
+        2.32,
+        17.18,
+        4.51
+      ],
+      "elapsed": 2.699
+    },
+    {
+      "pdb_id": "1QBU",
+      "distancia": 1.904,
+      "distancia_top1": 1.904,
+      "score": 1.3961,
+      "druggability": 0.8108,
+      "n_spheres": 148,
+      "n_pockets": 3,
+      "n_lig_atoms": 79,
+      "lig_resname": "1",
+      "lig_center": [
+        -9.51,
+        15.28,
+        29.33
+      ],
+      "pocket_center": [
+        -8.74,
+        14.7,
+        27.69
+      ],
+      "elapsed": 0.692
+    },
+    {
+      "pdb_id": "3FAT",
+      "distancia": 1.129,
+      "distancia_top1": 11.884,
+      "score": 0.3471,
+      "druggability": 0.6002,
+      "n_spheres": 56,
+      "n_pockets": 3,
+      "n_lig_atoms": 23,
+      "lig_resname": "1",
+      "lig_center": [
+        10.82,
+        51.33,
+        19.95
+      ],
+      "pocket_center": [
+        11.2,
+        52.33,
+        20.28
+      ],
+      "elapsed": 2.803
+    },
+    {
+      "pdb_id": "2XN5",
+      "distancia": 2.745,
+      "distancia_top1": 2.745,
+      "score": 1.0529,
+      "druggability": 0.8108,
+      "n_spheres": 95,
+      "n_pockets": 3,
+      "n_lig_atoms": 31,
+      "lig_resname": "1",
+      "lig_center": [
+        -9.7,
+        -15.5,
+        5.66
+      ],
+      "pocket_center": [
+        -9.05,
+        -15.82,
+        8.3
+      ],
+      "elapsed": 1.682
+    },
+    {
+      "pdb_id": "2H3E",
+      "distancia": 56.872,
+      "distancia_top1": 63.529,
+      "score": 0.5161,
+      "druggability": 0.8096,
+      "n_spheres": 49,
+      "n_pockets": 3,
+      "n_lig_atoms": 24,
+      "lig_resname": "1",
+      "lig_center": [
+        67.26,
+        52.56,
+        61.74
+      ],
+      "pocket_center": [
+        100.54,
+        52.8,
+        15.62
+      ],
+      "elapsed": 50.674
+    },
+    {
+      "pdb_id": "6FTW",
+      "distancia": 3.381,
+      "distancia_top1": 3.381,
+      "score": 1.018,
+      "druggability": 0.4973,
+      "n_spheres": 75,
+      "n_pockets": 3,
+      "n_lig_atoms": 60,
+      "lig_resname": "1",
+      "lig_center": [
+        -21.71,
+        117.56,
+        349.09
+      ],
+      "pocket_center": [
+        -18.98,
+        115.7,
+        348.35
+      ],
+      "elapsed": 1.493
+    },
+    {
+      "pdb_id": "3ZSO",
+      "distancia": 17.516,
+      "distancia_top1": 23.2,
+      "score": 0.9764,
+      "druggability": 0.3833,
+      "n_spheres": 74,
+      "n_pockets": 3,
+      "n_lig_atoms": 78,
+      "lig_resname": "1",
+      "lig_center": [
+        -9.9,
+        46.01,
+        1.43
+      ],
+      "pocket_center": [
+        -19.67,
+        33.89,
+        -6.61
+      ],
+      "elapsed": 1.445
+    },
+    {
+      "pdb_id": "4CU7",
+      "distancia": 13.57,
+      "distancia_top1": 31.102,
+      "score": 0.5645,
+      "druggability": 0.4534,
+      "n_spheres": 59,
+      "n_pockets": 3,
+      "n_lig_atoms": 24,
+      "lig_resname": "1",
+      "lig_center": [
+        98.19,
+        11.93,
+        6.47
+      ],
+      "pocket_center": [
+        96.36,
+        25.05,
+        9.41
+      ],
+      "elapsed": 5.783
+    },
+    {
+      "pdb_id": "3P58",
+      "distancia": 1.088,
+      "distancia_top1": 1.088,
+      "score": 0.7911,
+      "druggability": 0.4934,
+      "n_spheres": 44,
+      "n_pockets": 3,
+      "n_lig_atoms": 23,
+      "lig_resname": "1",
+      "lig_center": [
+        -4.99,
+        2.04,
+        13.64
+      ],
+      "pocket_center": [
+        -5.26,
+        2.14,
+        14.69
+      ],
+      "elapsed": 1.009
+    },
+    {
+      "pdb_id": "1YPG",
+      "distancia": 1.914,
+      "distancia_top1": 1.914,
+      "score": 1.0031,
+      "druggability": 0.8108,
+      "n_spheres": 93,
+      "n_pockets": 3,
+      "n_lig_atoms": 66,
+      "lig_resname": "1",
+      "lig_center": [
+        17.01,
+        -12.35,
+        21.4
+      ],
+      "pocket_center": [
+        15.7,
+        -11.71,
+        20.17
+      ],
+      "elapsed": 1.099
+    },
+    {
+      "pdb_id": "4CPW",
+      "distancia": 0.895,
+      "distancia_top1": 0.895,
+      "score": 1.6534,
+      "druggability": 0.6518,
+      "n_spheres": 224,
+      "n_pockets": 3,
+      "n_lig_atoms": 104,
+      "lig_resname": "1",
+      "lig_center": [
+        12.87,
+        22.18,
+        5.86
+      ],
+      "pocket_center": [
+        12.5,
+        21.94,
+        6.64
+      ],
+      "elapsed": 0.715
+    },
+    {
+      "pdb_id": "2QTN",
+      "distancia": 17.143,
+      "distancia_top1": 25.949,
+      "score": 1.4359,
+      "druggability": 0.0868,
+      "n_spheres": 112,
+      "n_pockets": 3,
+      "n_lig_atoms": 35,
+      "lig_resname": "1",
+      "lig_center": [
+        14.04,
+        -27.38,
+        19.42
+      ],
+      "pocket_center": [
+        24.74,
+        -32.14,
+        31.94
+      ],
+      "elapsed": 1.922
+    },
+    {
+      "pdb_id": "4QLK",
+      "distancia": 3.757,
+      "distancia_top1": 3.757,
+      "score": 1.004,
+      "druggability": 0.8111,
+      "n_spheres": 102,
+      "n_pockets": 3,
+      "n_lig_atoms": 87,
+      "lig_resname": "1",
+      "lig_center": [
+        -5.51,
+        -2.95,
+        50.09
+      ],
+      "pocket_center": [
+        -3.52,
+        -2.31,
+        46.97
+      ],
+      "elapsed": 2.25
+    },
+    {
+      "pdb_id": "4KAO",
+      "distancia": 2.351,
+      "distancia_top1": 2.351,
+      "score": 1.2953,
+      "druggability": 0.8106,
+      "n_spheres": 164,
+      "n_pockets": 3,
+      "n_lig_atoms": 59,
+      "lig_resname": "1",
+      "lig_center": [
+        2.95,
+        -10.54,
+        16.57
+      ],
+      "pocket_center": [
+        1.63,
+        -9.64,
+        18.3
+      ],
+      "elapsed": 1.138
+    },
+    {
+      "pdb_id": "4KYH",
+      "distancia": 19.741,
+      "distancia_top1": 30.496,
+      "score": 0.2831,
+      "druggability": 0.3665,
+      "n_spheres": 30,
+      "n_pockets": 3,
+      "n_lig_atoms": 40,
+      "lig_resname": "1",
+      "lig_center": [
+        -3.84,
+        15.65,
+        -0.06
+      ],
+      "pocket_center": [
+        -7.0,
+        4.06,
+        15.61
+      ],
+      "elapsed": 1.589
+    },
+    {
+      "pdb_id": "1FAO",
+      "distancia": 16.946,
+      "distancia_top1": 16.946,
+      "score": 0.7773,
+      "druggability": 0.8108,
+      "n_spheres": 27,
+      "n_pockets": 3,
+      "n_lig_atoms": 36,
+      "lig_resname": "1",
+      "lig_center": [
+        25.16,
+        5.45,
+        9.52
+      ],
+      "pocket_center": [
+        18.17,
+        17.99,
+        18.53
+      ],
+      "elapsed": 0.375
+    },
+    {
+      "pdb_id": "2AL5",
+      "distancia": 1.306,
+      "distancia_top1": 15.793,
+      "score": 0.456,
+      "druggability": 0.7342,
+      "n_spheres": 66,
+      "n_pockets": 3,
+      "n_lig_atoms": 23,
+      "lig_resname": "1",
+      "lig_center": [
+        20.23,
+        62.52,
+        28.69
+      ],
+      "pocket_center": [
+        21.28,
+        61.74,
+        28.71
+      ],
+      "elapsed": 3.091
+    },
+    {
+      "pdb_id": "4P58",
+      "distancia": 0.459,
+      "distancia_top1": 0.459,
+      "score": 0.8043,
+      "druggability": 0.8006,
+      "n_spheres": 65,
+      "n_pockets": 3,
+      "n_lig_atoms": 22,
+      "lig_resname": "1",
+      "lig_center": [
+        16.04,
+        19.32,
+        16.76
+      ],
+      "pocket_center": [
+        15.63,
+        19.44,
+        16.92
+      ],
+      "elapsed": 0.729
+    },
+    {
+      "pdb_id": "1CIZ",
+      "distancia": 1.168,
+      "distancia_top1": 1.168,
+      "score": 1.0815,
+      "druggability": 0.811,
+      "n_spheres": 141,
+      "n_pockets": 3,
+      "n_lig_atoms": 64,
+      "lig_resname": "1",
+      "lig_center": [
+        26.93,
+        48.93,
+        -1.46
+      ],
+      "pocket_center": [
+        26.24,
+        49.85,
+        -1.65
+      ],
+      "elapsed": 0.606
+    },
+    {
+      "pdb_id": "4NGN",
+      "distancia": 2.271,
+      "distancia_top1": 2.271,
+      "score": 0.9838,
+      "druggability": 0.811,
+      "n_spheres": 118,
+      "n_pockets": 3,
+      "n_lig_atoms": 42,
+      "lig_resname": "1",
+      "lig_center": [
+        -19.37,
+        -19.08,
+        -42.38
+      ],
+      "pocket_center": [
+        -21.54,
+        -19.07,
+        -41.71
+      ],
+      "elapsed": 12.56
+    },
+    {
+      "pdb_id": "2Q8M",
+      "distancia": 13.419,
+      "distancia_top1": 56.849,
+      "score": 1.8819,
+      "druggability": 0.1386,
+      "n_spheres": 281,
+      "n_pockets": 3,
+      "n_lig_atoms": 35,
+      "lig_resname": "1",
+      "lig_center": [
+        116.06,
+        55.93,
+        19.03
+      ],
+      "pocket_center": [
+        107.53,
+        48.33,
+        26.06
+      ],
+      "elapsed": 11.111
+    },
+    {
+      "pdb_id": "3A2O",
+      "distancia": 1.226,
+      "distancia_top1": 1.226,
+      "score": 1.2417,
+      "druggability": 0.8105,
+      "n_spheres": 182,
+      "n_pockets": 3,
+      "n_lig_atoms": 80,
+      "lig_resname": "1",
+      "lig_center": [
+        15.63,
+        21.72,
+        17.7
+      ],
+      "pocket_center": [
+        16.78,
+        22.13,
+        17.81
+      ],
+      "elapsed": 0.693
+    },
+    {
+      "pdb_id": "2GV6",
+      "distancia": 4.207,
+      "distancia_top1": 4.207,
+      "score": 0.8622,
+      "druggability": 0.7253,
+      "n_spheres": 55,
+      "n_pockets": 3,
+      "n_lig_atoms": 76,
+      "lig_resname": "1",
+      "lig_center": [
+        16.37,
+        64.6,
+        25.38
+      ],
+      "pocket_center": [
+        19.85,
+        62.25,
+        25.54
+      ],
+      "elapsed": 0.858
+    },
+    {
+      "pdb_id": "1G3E",
+      "distancia": 1.341,
+      "distancia_top1": 1.341,
+      "score": 0.7281,
+      "druggability": 0.7016,
+      "n_spheres": 51,
+      "n_pockets": 3,
+      "n_lig_atoms": 30,
+      "lig_resname": "1",
+      "lig_center": [
+        42.71,
+        -2.04,
+        28.52
+      ],
+      "pocket_center": [
+        43.41,
+        -3.13,
+        28.17
+      ],
+      "elapsed": 0.702
+    },
+    {
+      "pdb_id": "1XK5",
+      "distancia": 7.315,
+      "distancia_top1": 23.604,
+      "score": 1.1504,
+      "druggability": 0.2628,
+      "n_spheres": 91,
+      "n_pockets": 3,
+      "n_lig_atoms": 85,
+      "lig_resname": "1",
+      "lig_center": [
+        13.71,
+        35.15,
+        9.4
+      ],
+      "pocket_center": [
+        13.3,
+        37.83,
+        2.6
+      ],
+      "elapsed": 0.775
+    },
+    {
+      "pdb_id": "6B4L",
+      "distancia": 1.726,
+      "distancia_top1": 1.726,
+      "score": 0.9035,
+      "druggability": 0.8106,
+      "n_spheres": 107,
+      "n_pockets": 3,
+      "n_lig_atoms": 44,
+      "lig_resname": "1",
+      "lig_center": [
+        11.16,
+        -9.08,
+        12.78
+      ],
+      "pocket_center": [
+        10.83,
+        -8.41,
+        11.23
+      ],
+      "elapsed": 0.573
+    },
+    {
+      "pdb_id": "6QLO",
+      "distancia": 5.87,
+      "distancia_top1": 5.87,
+      "score": 0.8858,
+      "druggability": 0.3257,
+      "n_spheres": 45,
+      "n_pockets": 3,
+      "n_lig_atoms": 52,
+      "lig_resname": "1",
+      "lig_center": [
+        -18.38,
+        8.28,
+        -1.45
+      ],
+      "pocket_center": [
+        -14.66,
+        10.61,
+        2.44
+      ],
+      "elapsed": 0.461
+    },
+    {
+      "pdb_id": "3PYY",
+      "distancia": 1.708,
+      "distancia_top1": 27.596,
+      "score": 0.6875,
+      "druggability": 0.8108,
+      "n_spheres": 65,
+      "n_pockets": 3,
+      "n_lig_atoms": 38,
+      "lig_resname": "1",
+      "lig_center": [
+        15.54,
+        7.89,
+        -35.23
+      ],
+      "pocket_center": [
+        15.94,
+        6.69,
+        -34.07
+      ],
+      "elapsed": 1.215
+    },
+    {
+      "pdb_id": "5FL5",
+      "distancia": 18.456,
+      "distancia_top1": 26.096,
+      "score": 0.6028,
+      "druggability": 0.4198,
+      "n_spheres": 38,
+      "n_pockets": 3,
+      "n_lig_atoms": 34,
+      "lig_resname": "1",
+      "lig_center": [
+        -31.9,
+        -0.42,
+        -1.78
+      ],
+      "pocket_center": [
+        -35.92,
+        -13.59,
+        10.5
+      ],
+      "elapsed": 0.947
+    },
+    {
+      "pdb_id": "4F9Y",
+      "distancia": 4.529,
+      "distancia_top1": 33.065,
+      "score": 0.923,
+      "druggability": 0.153,
+      "n_spheres": 84,
+      "n_pockets": 3,
+      "n_lig_atoms": 43,
+      "lig_resname": "1",
+      "lig_center": [
+        -2.95,
+        1.32,
+        20.28
+      ],
+      "pocket_center": [
+        -0.29,
+        4.93,
+        20.94
+      ],
+      "elapsed": 1.625
+    },
+    {
+      "pdb_id": "2Q7Q",
+      "distancia": 1.511,
+      "distancia_top1": 1.511,
+      "score": 0.7561,
+      "druggability": 0.7234,
+      "n_spheres": 71,
+      "n_pockets": 3,
+      "n_lig_atoms": 18,
+      "lig_resname": "1",
+      "lig_center": [
+        52.03,
+        22.53,
+        29.84
+      ],
+      "pocket_center": [
+        50.73,
+        22.85,
+        30.55
+      ],
+      "elapsed": 6.893
+    },
+    {
+      "pdb_id": "1XQ0",
+      "distancia": 2.769,
+      "distancia_top1": 2.769,
+      "score": 0.8796,
+      "druggability": 0.3177,
+      "n_spheres": 56,
+      "n_pockets": 3,
+      "n_lig_atoms": 40,
+      "lig_resname": "1",
+      "lig_center": [
+        21.64,
+        31.79,
+        19.62
+      ],
+      "pocket_center": [
+        18.9,
+        32.14,
+        19.57
+      ],
+      "elapsed": 0.978
+    },
+    {
+      "pdb_id": "4ASE",
+      "distancia": 4.243,
+      "distancia_top1": 4.243,
+      "score": 1.5769,
+      "druggability": 0.6375,
+      "n_spheres": 180,
+      "n_pockets": 3,
+      "n_lig_atoms": 51,
+      "lig_resname": "1",
+      "lig_center": [
+        -22.59,
+        0.19,
+        -12.15
+      ],
+      "pocket_center": [
+        -24.16,
+        -3.21,
+        -10.16
+      ],
+      "elapsed": 1.458
+    },
+    {
+      "pdb_id": "3IP9",
+      "distancia": 5.848,
+      "distancia_top1": 5.848,
+      "score": 0.9818,
+      "druggability": 0.8109,
+      "n_spheres": 95,
+      "n_pockets": 3,
+      "n_lig_atoms": 16,
+      "lig_resname": "1",
+      "lig_center": [
+        23.32,
+        19.2,
+        17.71
+      ],
+      "pocket_center": [
+        24.23,
+        17.48,
+        23.22
+      ],
+      "elapsed": 1.421
+    },
+    {
+      "pdb_id": "2ZFP",
+      "distancia": 2.696,
+      "distancia_top1": 2.696,
+      "score": 0.9814,
+      "druggability": 0.8108,
+      "n_spheres": 95,
+      "n_pockets": 3,
+      "n_lig_atoms": 45,
+      "lig_resname": "1",
+      "lig_center": [
+        16.46,
+        -12.47,
+        22.11
+      ],
+      "pocket_center": [
+        14.56,
+        -11.3,
+        20.61
+      ],
+      "elapsed": 1.16
+    },
+    {
+      "pdb_id": "5J86",
+      "distancia": 1.536,
+      "distancia_top1": 11.693,
+      "score": 0.6428,
+      "druggability": 0.8109,
+      "n_spheres": 108,
+      "n_pockets": 3,
+      "n_lig_atoms": 51,
+      "lig_resname": "1",
+      "lig_center": [
+        -34.79,
+        -11.15,
+        25.13
+      ],
+      "pocket_center": [
+        -36.03,
+        -12.05,
+        24.97
+      ],
+      "elapsed": 2.353
+    },
+    {
+      "pdb_id": "6C2R",
+      "distancia": 1.762,
+      "distancia_top1": 1.762,
+      "score": 1.0023,
+      "druggability": 0.595,
+      "n_spheres": 84,
+      "n_pockets": 3,
+      "n_lig_atoms": 60,
+      "lig_resname": "1",
+      "lig_center": [
+        110.22,
+        -17.7,
+        5.79
+      ],
+      "pocket_center": [
+        110.56,
+        -17.98,
+        4.09
+      ],
+      "elapsed": 3.021
+    },
+    {
+      "pdb_id": "4A4Q",
+      "distancia": 0.884,
+      "distancia_top1": 0.884,
+      "score": 1.3691,
+      "druggability": 0.5393,
+      "n_spheres": 194,
+      "n_pockets": 3,
+      "n_lig_atoms": 103,
+      "lig_resname": "1",
+      "lig_center": [
+        13.31,
+        21.88,
+        6.25
+      ],
+      "pocket_center": [
+        12.83,
+        22.57,
+        5.97
+      ],
+      "elapsed": 0.735
+    },
+    {
+      "pdb_id": "3F5L",
+      "distancia": 3.264,
+      "distancia_top1": 3.264,
+      "score": 1.0107,
+      "druggability": 0.8108,
+      "n_spheres": 104,
+      "n_pockets": 3,
+      "n_lig_atoms": 45,
+      "lig_resname": "1",
+      "lig_center": [
+        4.18,
+        1.61,
+        37.94
+      ],
+      "pocket_center": [
+        1.86,
+        0.26,
+        39.79
+      ],
+      "elapsed": 2.296
+    },
+    {
+      "pdb_id": "1OCQ",
+      "distancia": 5.939,
+      "distancia_top1": 5.939,
+      "score": 0.9612,
+      "druggability": 0.8084,
+      "n_spheres": 72,
+      "n_pockets": 3,
+      "n_lig_atoms": 45,
+      "lig_resname": "1",
+      "lig_center": [
+        61.36,
+        45.49,
+        36.69
+      ],
+      "pocket_center": [
+        63.57,
+        40.49,
+        39.01
+      ],
+      "elapsed": 1.112
+    },
+    {
+      "pdb_id": "2FZG",
+      "distancia": 26.422,
+      "distancia_top1": 26.422,
+      "score": 2.2221,
+      "druggability": 0.2592,
+      "n_spheres": 258,
+      "n_pockets": 3,
+      "n_lig_atoms": 32,
+      "lig_resname": "1",
+      "lig_center": [
+        40.39,
+        28.82,
+        18.32
+      ],
+      "pocket_center": [
+        27.81,
+        24.95,
+        41.23
+      ],
+      "elapsed": 55.501
+    },
+    {
+      "pdb_id": "2CET",
+      "distancia": 2.14,
+      "distancia_top1": 2.14,
+      "score": 1.028,
+      "druggability": 0.7253,
+      "n_spheres": 76,
+      "n_pockets": 3,
+      "n_lig_atoms": 42,
+      "lig_resname": "1",
+      "lig_center": [
+        -0.73,
+        8.97,
+        10.25
+      ],
+      "pocket_center": [
+        -0.96,
+        7.1,
+        11.27
+      ],
+      "elapsed": 2.658
+    },
+    {
+      "pdb_id": "4I8Z",
+      "distancia": 1.356,
+      "distancia_top1": 1.356,
+      "score": 1.2357,
+      "druggability": 0.8106,
+      "n_spheres": 163,
+      "n_pockets": 3,
+      "n_lig_atoms": 77,
+      "lig_resname": "1",
+      "lig_center": [
+        -18.26,
+        0.56,
+        -0.18
+      ],
+      "pocket_center": [
+        -17.97,
+        -0.76,
+        -0.14
+      ],
+      "elapsed": 1.004
+    },
+    {
+      "pdb_id": "3PCK",
+      "distancia": 17.77,
+      "distancia_top1": 17.77,
+      "score": 0.6709,
+      "druggability": 0.8109,
+      "n_spheres": 99,
+      "n_pockets": 3,
+      "n_lig_atoms": 15,
+      "lig_resname": "1",
+      "lig_center": [
+        14.3,
+        10.93,
+        40.99
+      ],
+      "pocket_center": [
+        -0.12,
+        1.35,
+        37.0
+      ],
+      "elapsed": 53.817
+    },
+    {
+      "pdb_id": "3NEX",
+      "distancia": 4.954,
+      "distancia_top1": 27.153,
+      "score": 1.0533,
+      "druggability": 0.2192,
+      "n_spheres": 91,
+      "n_pockets": 3,
+      "n_lig_atoms": 51,
+      "lig_resname": "1",
+      "lig_center": [
+        0.04,
+        -0.2,
+        4.93
+      ],
+      "pocket_center": [
+        -0.0,
+        0.0,
+        -0.02
+      ],
+      "elapsed": 3.162
+    },
+    {
+      "pdb_id": "2FU8",
+      "distancia": 8.731,
+      "distancia_top1": 8.731,
+      "score": 0.9161,
+      "druggability": 0.8065,
+      "n_spheres": 70,
+      "n_pockets": 3,
+      "n_lig_atoms": 28,
+      "lig_resname": "1",
+      "lig_center": [
+        11.76,
+        28.66,
+        32.78
+      ],
+      "pocket_center": [
+        10.95,
+        30.51,
+        41.27
+      ],
+      "elapsed": 1.329
+    },
+    {
+      "pdb_id": "4IBG",
+      "distancia": 5.287,
+      "distancia_top1": 17.884,
+      "score": 1.1429,
+      "druggability": 0.3496,
+      "n_spheres": 88,
+      "n_pockets": 3,
+      "n_lig_atoms": 55,
+      "lig_resname": "1",
+      "lig_center": [
+        2.16,
+        21.27,
+        1.5
+      ],
+      "pocket_center": [
+        -0.25,
+        25.16,
+        4.15
+      ],
+      "elapsed": 1.418
+    },
+    {
+      "pdb_id": "3RZ5",
+      "distancia": 6.184,
+      "distancia_top1": 26.625,
+      "score": 0.396,
+      "druggability": 0.5759,
+      "n_spheres": 32,
+      "n_pockets": 3,
+      "n_lig_atoms": 36,
+      "lig_resname": "1",
+      "lig_center": [
+        17.75,
+        5.78,
+        14.66
+      ],
+      "pocket_center": [
+        17.51,
+        0.62,
+        11.26
+      ],
+      "elapsed": 1.348
+    },
+    {
+      "pdb_id": "3CKE",
+      "distancia": 2.012,
+      "distancia_top1": 2.012,
+      "score": 0.614,
+      "druggability": 0.7471,
+      "n_spheres": 79,
+      "n_pockets": 3,
+      "n_lig_atoms": 49,
+      "lig_resname": "1",
+      "lig_center": [
+        -0.27,
+        -34.52,
+        18.33
+      ],
+      "pocket_center": [
+        -0.08,
+        -32.7,
+        17.5
+      ],
+      "elapsed": 15.885
+    },
+    {
+      "pdb_id": "5O07",
+      "distancia": 15.446,
+      "distancia_top1": 23.104,
+      "score": 0.8894,
+      "druggability": 0.2843,
+      "n_spheres": 51,
+      "n_pockets": 3,
+      "n_lig_atoms": 26,
+      "lig_resname": "1",
+      "lig_center": [
+        -4.35,
+        2.94,
+        14.47
+      ],
+      "pocket_center": [
+        5.46,
+        -5.99,
+        6.54
+      ],
+      "elapsed": 1.321
+    },
+    {
+      "pdb_id": "3RYY",
+      "distancia": 15.931,
+      "distancia_top1": 15.931,
+      "score": 0.8088,
+      "druggability": 0.8039,
+      "n_spheres": 54,
+      "n_pockets": 3,
+      "n_lig_atoms": 30,
+      "lig_resname": "1",
+      "lig_center": [
+        17.39,
+        4.51,
+        14.83
+      ],
+      "pocket_center": [
+        32.68,
+        0.63,
+        12.57
+      ],
+      "elapsed": 1.298
+    },
+    {
+      "pdb_id": "2ZXG",
+      "distancia": 5.863,
+      "distancia_top1": 10.952,
+      "score": 1.3441,
+      "druggability": 0.224,
+      "n_spheres": 149,
+      "n_pockets": 3,
+      "n_lig_atoms": 55,
+      "lig_resname": "1",
+      "lig_center": [
+        73.12,
+        49.21,
+        6.46
+      ],
+      "pocket_center": [
+        76.42,
+        51.7,
+        2.3
+      ],
+      "elapsed": 8.035
+    },
+    {
+      "pdb_id": "2WJG",
+      "distancia": 7.895,
+      "distancia_top1": 27.139,
+      "score": 0.9108,
+      "druggability": 0.1444,
+      "n_spheres": 41,
+      "n_pockets": 3,
+      "n_lig_atoms": 41,
+      "lig_resname": "1",
+      "lig_center": [
+        -5.3,
+        24.24,
+        -24.69
+      ],
+      "pocket_center": [
+        -7.6,
+        27.67,
+        -17.97
+      ],
+      "elapsed": 0.744
+    },
+    {
+      "pdb_id": "1YPE",
+      "distancia": 3.283,
+      "distancia_top1": 5.063,
+      "score": 0.8599,
+      "druggability": 0.0943,
+      "n_spheres": 49,
+      "n_pockets": 3,
+      "n_lig_atoms": 65,
+      "lig_resname": "1",
+      "lig_center": [
+        17.03,
+        -12.32,
+        21.28
+      ],
+      "pocket_center": [
+        17.84,
+        -12.75,
+        18.13
+      ],
+      "elapsed": 1.465
+    },
+    {
+      "pdb_id": "1O33",
+      "distancia": 1.651,
+      "distancia_top1": 1.651,
+      "score": 0.6733,
+      "druggability": 0.5338,
+      "n_spheres": 40,
+      "n_pockets": 3,
+      "n_lig_atoms": 31,
+      "lig_resname": "1",
+      "lig_center": [
+        43.57,
+        -2.26,
+        29.17
+      ],
+      "pocket_center": [
+        43.74,
+        -2.67,
+        27.59
+      ],
+      "elapsed": 0.9
+    },
+    {
+      "pdb_id": "3KDC",
+      "distancia": 3.659,
+      "distancia_top1": 3.659,
+      "score": 1.0121,
+      "druggability": 0.7565,
+      "n_spheres": 101,
+      "n_pockets": 3,
+      "n_lig_atoms": 80,
+      "lig_resname": "1",
+      "lig_center": [
+        16.46,
+        22.82,
+        17.29
+      ],
+      "pocket_center": [
+        19.3,
+        24.9,
+        16.28
+      ],
+      "elapsed": 1.009
+    },
+    {
+      "pdb_id": "3I9G",
+      "distancia": 2.673,
+      "distancia_top1": 2.673,
+      "score": 0.9161,
+      "druggability": 0.8108,
+      "n_spheres": 106,
+      "n_pockets": 3,
+      "n_lig_atoms": 62,
+      "lig_resname": "1",
+      "lig_center": [
+        -0.47,
+        17.75,
+        32.21
+      ],
+      "pocket_center": [
+        -1.16,
+        18.83,
+        29.87
+      ],
+      "elapsed": 2.78
+    },
+    {
+      "pdb_id": "1IVP",
+      "distancia": 1.579,
+      "distancia_top1": 1.579,
+      "score": 1.4774,
+      "druggability": 0.8107,
+      "n_spheres": 167,
+      "n_pockets": 3,
+      "n_lig_atoms": 118,
+      "lig_resname": "1",
+      "lig_center": [
+        1.11,
+        16.64,
+        21.2
+      ],
+      "pocket_center": [
+        -0.09,
+        17.67,
+        21.11
+      ],
+      "elapsed": 0.942
+    },
+    {
+      "pdb_id": "4IVD",
+      "distancia": 10.668,
+      "distancia_top1": 10.668,
+      "score": 2.2709,
+      "druggability": 0.8107,
+      "n_spheres": 311,
+      "n_pockets": 3,
+      "n_lig_atoms": 48,
+      "lig_resname": "1",
+      "lig_center": [
+        6.7,
+        56.13,
+        0.69
+      ],
+      "pocket_center": [
+        2.03,
+        48.45,
+        6.43
+      ],
+      "elapsed": 1.772
+    },
+    {
+      "pdb_id": "1ECV",
+      "distancia": 1.769,
+      "distancia_top1": 1.769,
+      "score": 0.8158,
+      "druggability": 0.8089,
+      "n_spheres": 55,
+      "n_pockets": 3,
+      "n_lig_atoms": 20,
+      "lig_resname": "1",
+      "lig_center": [
+        10.09,
+        45.64,
+        19.58
+      ],
+      "pocket_center": [
+        11.15,
+        44.83,
+        18.43
+      ],
+      "elapsed": 1.662
+    },
+    {
+      "pdb_id": "4ZYF",
+      "distancia": 3.517,
+      "distancia_top1": 3.517,
+      "score": 0.7346,
+      "druggability": 0.7191,
+      "n_spheres": 31,
+      "n_pockets": 3,
+      "n_lig_atoms": 95,
+      "lig_resname": "1",
+      "lig_center": [
+        -10.78,
+        -10.26,
+        -2.22
+      ],
+      "pocket_center": [
+        -13.38,
+        -12.61,
+        -2.58
+      ],
+      "elapsed": 0.47
+    },
+    {
+      "pdb_id": "1LGW",
+      "distancia": 1.024,
+      "distancia_top1": 15.256,
+      "score": 0.3479,
+      "druggability": 0.4218,
+      "n_spheres": 35,
+      "n_pockets": 3,
+      "n_lig_atoms": 14,
+      "lig_resname": "1",
+      "lig_center": [
+        27.14,
+        6.35,
+        4.18
+      ],
+      "pocket_center": [
+        26.46,
+        5.8,
+        4.72
+      ],
+      "elapsed": 0.77
+    },
+    {
+      "pdb_id": "1PKX",
+      "distancia": 23.925,
+      "distancia_top1": 39.538,
+      "score": 1.8155,
+      "druggability": 0.2244,
+      "n_spheres": 210,
+      "n_pockets": 3,
+      "n_lig_atoms": 35,
+      "lig_resname": "1",
+      "lig_center": [
+        37.15,
+        4.4,
+        113.35
+      ],
+      "pocket_center": [
+        23.55,
+        -2.9,
+        95.07
+      ],
+      "elapsed": 12.644
+    },
+    {
+      "pdb_id": "3VHC",
+      "distancia": 0.934,
+      "distancia_top1": 0.934,
+      "score": 1.1224,
+      "druggability": 0.7894,
+      "n_spheres": 103,
+      "n_pockets": 3,
+      "n_lig_atoms": 51,
+      "lig_resname": "1",
+      "lig_center": [
+        11.95,
+        1.54,
+        14.54
+      ],
+      "pocket_center": [
+        11.35,
+        2.25,
+        14.6
+      ],
+      "elapsed": 1.167
+    },
+    {
+      "pdb_id": "1Q8U",
+      "distancia": 4.158,
+      "distancia_top1": 26.192,
+      "score": 1.2292,
+      "druggability": 0.1226,
+      "n_spheres": 154,
+      "n_pockets": 3,
+      "n_lig_atoms": 44,
+      "lig_resname": "1",
+      "lig_center": [
+        8.81,
+        9.28,
+        3.52
+      ],
+      "pocket_center": [
+        11.97,
+        9.9,
+        0.89
+      ],
+      "elapsed": 2.463
+    },
+    {
+      "pdb_id": "4M6U",
+      "distancia": 22.78,
+      "distancia_top1": 40.577,
+      "score": 2.1263,
+      "druggability": 0.361,
+      "n_spheres": 263,
+      "n_pockets": 3,
+      "n_lig_atoms": 10,
+      "lig_resname": "1",
+      "lig_center": [
+        -22.21,
+        20.22,
+        -24.11
+      ],
+      "pocket_center": [
+        -9.83,
+        12.83,
+        -41.75
+      ],
+      "elapsed": 49.822
+    },
+    {
+      "pdb_id": "4CGA",
+      "distancia": 3.166,
+      "distancia_top1": 47.533,
+      "score": 1.0249,
+      "druggability": 0.8096,
+      "n_spheres": 124,
+      "n_pockets": 3,
+      "n_lig_atoms": 49,
+      "lig_resname": "1",
+      "lig_center": [
+        -18.21,
+        9.41,
+        6.76
+      ],
+      "pocket_center": [
+        -20.22,
+        11.38,
+        8.2
+      ],
+      "elapsed": 8.87
+    },
+    {
+      "pdb_id": "3C39",
+      "distancia": 16.941,
+      "distancia_top1": 20.556,
+      "score": 0.3477,
+      "druggability": 0.5889,
+      "n_spheres": 32,
+      "n_pockets": 3,
+      "n_lig_atoms": 15,
+      "lig_resname": "1",
+      "lig_center": [
+        5.72,
+        8.39,
+        22.67
+      ],
+      "pocket_center": [
+        -3.96,
+        -0.59,
+        12.05
+      ],
+      "elapsed": 4.567
+    },
+    {
+      "pdb_id": "3SUR",
+      "distancia": 1.536,
+      "distancia_top1": 1.536,
+      "score": 0.6443,
+      "druggability": 0.8107,
+      "n_spheres": 74,
+      "n_pockets": 3,
+      "n_lig_atoms": 27,
+      "lig_resname": "1",
+      "lig_center": [
+        34.73,
+        17.88,
+        -15.76
+      ],
+      "pocket_center": [
+        36.26,
+        17.88,
+        -15.66
+      ],
+      "elapsed": 4.512
+    },
+    {
+      "pdb_id": "1FZO",
+      "distancia": 9.694,
+      "distancia_top1": 40.574,
+      "score": 0.9974,
+      "druggability": 0.2061,
+      "n_spheres": 118,
+      "n_pockets": 3,
+      "n_lig_atoms": 132,
+      "lig_resname": "1",
+      "lig_center": [
+        43.03,
+        58.54,
+        -5.06
+      ],
+      "pocket_center": [
+        46.97,
+        59.46,
+        3.75
+      ],
+      "elapsed": 4.01
+    },
+    {
+      "pdb_id": "2Y8C",
+      "distancia": 3.272,
+      "distancia_top1": 22.04,
+      "score": 0.4632,
+      "druggability": 0.3235,
+      "n_spheres": 53,
+      "n_pockets": 3,
+      "n_lig_atoms": 69,
+      "lig_resname": "1",
+      "lig_center": [
+        -8.12,
+        26.73,
+        -2.6
+      ],
+      "pocket_center": [
+        -5.81,
+        26.2,
+        -0.35
+      ],
+      "elapsed": 3.441
+    },
+    {
+      "pdb_id": "2XYE",
+      "distancia": 0.33,
+      "distancia_top1": 0.33,
+      "score": 1.7255,
+      "druggability": 0.4407,
+      "n_spheres": 199,
+      "n_pockets": 3,
+      "n_lig_atoms": 107,
+      "lig_resname": "1",
+      "lig_center": [
+        13.18,
+        21.9,
+        6.32
+      ],
+      "pocket_center": [
+        12.92,
+        22.04,
+        6.47
+      ],
+      "elapsed": 1.296
+    },
+    {
+      "pdb_id": "3SUF",
+      "distancia": 4.464,
+      "distancia_top1": 20.337,
+      "score": 0.9365,
+      "druggability": 0.8105,
+      "n_spheres": 73,
+      "n_pockets": 3,
+      "n_lig_atoms": 104,
+      "lig_resname": "1",
+      "lig_center": [
+        12.13,
+        7.28,
+        17.0
+      ],
+      "pocket_center": [
+        9.23,
+        6.45,
+        13.71
+      ],
+      "elapsed": 1.113
+    },
+    {
+      "pdb_id": "3FWV",
+      "distancia": 5.166,
+      "distancia_top1": 22.002,
+      "score": 0.2971,
+      "druggability": 0.1008,
+      "n_spheres": 20,
+      "n_pockets": 3,
+      "n_lig_atoms": 90,
+      "lig_resname": "1",
+      "lig_center": [
+        -19.8,
+        10.08,
+        2.0
+      ],
+      "pocket_center": [
+        -16.45,
+        8.71,
+        -1.69
+      ],
+      "elapsed": 0.794
+    },
+    {
+      "pdb_id": "3MHW",
+      "distancia": 2.14,
+      "distancia_top1": 2.14,
+      "score": 0.8367,
+      "druggability": 0.8067,
+      "n_spheres": 60,
+      "n_pockets": 3,
+      "n_lig_atoms": 16,
+      "lig_resname": "1",
+      "lig_center": [
+        -29.9,
+        -18.74,
+        10.48
+      ],
+      "pocket_center": [
+        -28.62,
+        -18.09,
+        12.07
+      ],
+      "elapsed": 1.524
+    },
+    {
+      "pdb_id": "2DOO",
+      "distancia": 1.7,
+      "distancia_top1": 1.7,
+      "score": 1.6187,
+      "druggability": 0.6727,
+      "n_spheres": 224,
+      "n_pockets": 3,
+      "n_lig_atoms": 54,
+      "lig_resname": "1",
+      "lig_center": [
+        31.06,
+        44.19,
+        37.01
+      ],
+      "pocket_center": [
+        32.1,
+        43.99,
+        35.69
+      ],
+      "elapsed": 3.458
+    },
+    {
+      "pdb_id": "3OYQ",
+      "distancia": 4.513,
+      "distancia_top1": 16.625,
+      "score": 0.5291,
+      "druggability": 0.433,
+      "n_spheres": 29,
+      "n_pockets": 3,
+      "n_lig_atoms": 39,
+      "lig_resname": "1",
+      "lig_center": [
+        -2.83,
+        5.69,
+        14.43
+      ],
+      "pocket_center": [
+        -5.58,
+        2.48,
+        16.02
+      ],
+      "elapsed": 1.821
+    },
+    {
+      "pdb_id": "4ZJI",
+      "distancia": 0.676,
+      "distancia_top1": 0.676,
+      "score": 1.062,
+      "druggability": 0.8109,
+      "n_spheres": 107,
+      "n_pockets": 3,
+      "n_lig_atoms": 49,
+      "lig_resname": "1",
+      "lig_center": [
+        12.07,
+        46.3,
+        43.9
+      ],
+      "pocket_center": [
+        12.45,
+        45.75,
+        43.77
+      ],
+      "elapsed": 2.007
+    },
+    {
+      "pdb_id": "6QAV",
+      "distancia": 5.815,
+      "distancia_top1": 33.821,
+      "score": 1.0508,
+      "druggability": 0.6308,
+      "n_spheres": 185,
+      "n_pockets": 3,
+      "n_lig_atoms": 65,
+      "lig_resname": "1",
+      "lig_center": [
+        -102.87,
+        -0.07,
+        -57.39
+      ],
+      "pocket_center": [
+        -97.36,
+        -1.66,
+        -56.46
+      ],
+      "elapsed": 5.409
+    },
+    {
+      "pdb_id": "1B38",
+      "distancia": 3.357,
+      "distancia_top1": 5.396,
+      "score": 0.7374,
+      "druggability": 0.7201,
+      "n_spheres": 57,
+      "n_pockets": 3,
+      "n_lig_atoms": 43,
+      "lig_resname": "1",
+      "lig_center": [
+        -0.38,
+        26.51,
+        10.37
+      ],
+      "pocket_center": [
+        1.04,
+        28.68,
+        8.23
+      ],
+      "elapsed": 2.102
+    },
+    {
+      "pdb_id": "4CG9",
+      "distancia": 0.241,
+      "distancia_top1": 0.241,
+      "score": 0.8761,
+      "druggability": 0.8082,
+      "n_spheres": 89,
+      "n_pockets": 3,
+      "n_lig_atoms": 43,
+      "lig_resname": "1",
+      "lig_center": [
+        -17.98,
+        9.44,
+        7.51
+      ],
+      "pocket_center": [
+        -18.19,
+        9.54,
+        7.47
+      ],
+      "elapsed": 2.934
+    },
+    {
+      "pdb_id": "4FM8",
+      "distancia": 13.645,
+      "distancia_top1": 20.414,
+      "score": 0.9092,
+      "druggability": 0.4646,
+      "n_spheres": 62,
+      "n_pockets": 3,
+      "n_lig_atoms": 65,
+      "lig_resname": "1",
+      "lig_center": [
+        24.66,
+        35.83,
+        42.25
+      ],
+      "pocket_center": [
+        28.56,
+        25.23,
+        34.58
+      ],
+      "elapsed": 3.046
+    },
+    {
+      "pdb_id": "1M0N",
+      "distancia": 17.008,
+      "distancia_top1": 35.144,
+      "score": 1.12,
+      "druggability": 0.8106,
+      "n_spheres": 167,
+      "n_pockets": 3,
+      "n_lig_atoms": 41,
+      "lig_resname": "1",
+      "lig_center": [
+        16.91,
+        51.24,
+        17.83
+      ],
+      "pocket_center": [
+        32.64,
+        56.54,
+        14.13
+      ],
+      "elapsed": 24.366
+    },
+    {
+      "pdb_id": "4CJP",
+      "distancia": 22.397,
+      "distancia_top1": 31.673,
+      "score": 0.7746,
+      "druggability": 0.7505,
+      "n_spheres": 57,
+      "n_pockets": 3,
+      "n_lig_atoms": 51,
+      "lig_resname": "1",
+      "lig_center": [
+        -10.34,
+        45.44,
+        0.44
+      ],
+      "pocket_center": [
+        -6.34,
+        23.51,
+        -1.73
+      ],
+      "elapsed": 1.974
+    },
+    {
+      "pdb_id": "5J8Z",
+      "distancia": 5.965,
+      "distancia_top1": 25.092,
+      "score": 0.4814,
+      "druggability": 0.6407,
+      "n_spheres": 29,
+      "n_pockets": 3,
+      "n_lig_atoms": 48,
+      "lig_resname": "1",
+      "lig_center": [
+        -3.94,
+        7.47,
+        12.99
+      ],
+      "pocket_center": [
+        -5.41,
+        2.46,
+        15.87
+      ],
+      "elapsed": 1.591
+    },
+    {
+      "pdb_id": "3N86",
+      "distancia": 32.356,
+      "distancia_top1": 32.356,
+      "score": 1.0188,
+      "druggability": 0.6029,
+      "n_spheres": 96,
+      "n_pockets": 3,
+      "n_lig_atoms": 41,
+      "lig_resname": "1",
+      "lig_center": [
+        28.81,
+        26.02,
+        -0.84
+      ],
+      "pocket_center": [
+        11.26,
+        15.41,
+        24.18
+      ],
+      "elapsed": 27.083
+    },
+    {
+      "pdb_id": "4IJ1",
+      "distancia": 4.262,
+      "distancia_top1": 4.262,
+      "score": 1.1731,
+      "druggability": 0.8109,
+      "n_spheres": 137,
+      "n_pockets": 3,
+      "n_lig_atoms": 28,
+      "lig_resname": "1",
+      "lig_center": [
+        7.8,
+        1.43,
+        29.41
+      ],
+      "pocket_center": [
+        5.74,
+        4.98,
+        30.56
+      ],
+      "elapsed": 5.883
+    },
+    {
+      "pdb_id": "2GLP",
+      "distancia": 4.593,
+      "distancia_top1": 4.593,
+      "score": 1.0541,
+      "druggability": 0.4603,
+      "n_spheres": 154,
+      "n_pockets": 3,
+      "n_lig_atoms": 30,
+      "lig_resname": "1",
+      "lig_center": [
+        -74.49,
+        34.94,
+        128.79
+      ],
+      "pocket_center": [
+        -76.47,
+        39.02,
+        129.55
+      ],
+      "elapsed": 10.263
+    },
+    {
+      "pdb_id": "4KAX",
+      "distancia": 2.935,
+      "distancia_top1": 2.935,
+      "score": 0.9496,
+      "druggability": 0.8109,
+      "n_spheres": 105,
+      "n_pockets": 3,
+      "n_lig_atoms": 45,
+      "lig_resname": "1",
+      "lig_center": [
+        -4.7,
+        8.55,
+        56.85
+      ],
+      "pocket_center": [
+        -2.8,
+        9.08,
+        54.68
+      ],
+      "elapsed": 2.679
+    },
+    {
+      "pdb_id": "3ZT2",
+      "distancia": 21.271,
+      "distancia_top1": 21.271,
+      "score": 0.7175,
+      "druggability": 0.8069,
+      "n_spheres": 65,
+      "n_pockets": 3,
+      "n_lig_atoms": 34,
+      "lig_resname": "1",
+      "lig_center": [
+        -32.62,
+        31.54,
+        0.25
+      ],
+      "pocket_center": [
+        -17.04,
+        17.09,
+        1.16
+      ],
+      "elapsed": 2.047
+    }
+  ],
+  "skips": []
+}

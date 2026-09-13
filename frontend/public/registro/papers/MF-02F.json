@@ -1,0 +1,406 @@
+{
+ "id": "MF-02F",
+ "meta": {
+  "titulo": "Pasa el gate por el mínimo exacto, y el dosis-respuesta no acompaña",
+  "entradilla": "El criterio exigía recuperar 3 complejos de 33. Recuperó exactamente 3. Un complejo menos habría sido NO_GO, y con n=3 el intervalo no soporta ninguna afirmación de tamaño de efecto."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MolFlex dockea cada confórmero por separado. Eso significa que el número de confórmeros no es sólo diversidad de formas: es también el número de ",
+     "m": null
+    },
+    {
+     "t": "reinicios de búsqueda",
+     "m": "fuerte"
+    },
+    {
+     "t": " independientes. Triplicarlo debería recuperar complejos cuyo fallo es de colocación y no de conformación, porque cada reinicio es otra oportunidad de caer en la cuenca correcta.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es una relectura del mismo parámetro, y una de las pocas ideas que quedaban sin probar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El criterio preregistrado exigía recuperar ",
+     "m": null
+    },
+    {
+     "t": "al menos 3",
+     "m": "fuerte"
+    },
+    {
+     "t": " de los 33 complejos dominados por colocación al pasar de 30 a 90 confórmeros.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Recuperó ",
+     "m": null
+    },
+    {
+     "t": "exactamente 3",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Pasa. Y hay que decir con claridad lo que eso vale: ",
+     "m": null
+    },
+    {
+     "t": "un solo complejo menos habría sido NO_GO",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Con n=3 sobre 33, el intervalo de confianza no soporta ninguna afirmación sobre el tamaño del efecto. Es un GO que toca el listón, no que lo supera.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Tres advertencias que van con el sello",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "1. El punto de partida es tautológico.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La cohorte se definió como los complejos que fallan con la configuración base, así que ese brazo marca 0 de 33 por construcción, no por medición. Es el mismo defecto que arrastraba ",
+     "m": null
+    },
+    {
+     "t": "MF-08",
+     "m": "codigo"
+    },
+    {
+     "t": ", heredado al reutilizar la cohorte.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2. El dosis-respuesta no es suave, y eso debería preocupar:",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Salto",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Complejos recuperados",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Movimiento de la mediana",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "29 → 58 confórmeros",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "0.08 Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "58 → 86 confórmeros",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.70 Å",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Duplicar el número de reinicios no recuperó nada. El siguiente salto, más pequeño, recuperó tres. Con estos tamaños ",
+     "m": null
+    },
+    {
+     "t": "no se distingue un mecanismo con umbral del ruido de muestreo",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Si el mecanismo fuera el postulado, la respuesta debería crecer de forma gradual con el número de reinicios, y no lo hace.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "3. El coste se duplica",
+     "m": "fuerte"
+    },
+    {
+     "t": " —601 s por complejo— para recuperar el 9% de una cohorte difícil.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La coincidencia que parecía un hallazgo y no lo es",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los complejos recuperados por la intervención de caja (",
+     "m": null
+    },
+    {
+     "t": "1d7i",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "1ew9",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "1l83",
+     "m": "codigo"
+    },
+    {
+     "t": ") y los recuperados por esta (",
+     "m": null
+    },
+    {
+     "t": "1ela",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "1fkg",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "1mu8",
+     "m": "codigo"
+    },
+    {
+     "t": ") son ",
+     "m": null
+    },
+    {
+     "t": "disjuntos",
+     "m": "fuerte"
+    },
+    {
+     "t": ". La lectura tentadora es que las dos intervenciones son complementarias y que sumadas convertirían 6.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No lo es. La probabilidad de que dos conjuntos de 3 extraídos de 33 sean disjuntos ",
+     "m": null
+    },
+    {
+     "t": "por puro azar",
+     "m": "fuerte"
+    },
+    {
+     "t": " es ",
+     "m": null
+    },
+    {
+     "t": "0.744",
+     "m": "fuerte"
+    },
+    {
+     "t": ". El solapamiento vacío es el resultado ",
+     "m": null
+    },
+    {
+     "t": "esperado",
+     "m": "enfasis"
+    },
+    {
+     "t": " bajo independencia, no evidencia de complementariedad. Y sumarlos a 6 está además prohibido por el prerregistro, precisamente para que no se hiciera esta cuenta.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que sí es informativo, y apuntaba al final",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La convergencia. Dos intervenciones ",
+     "m": null
+    },
+    {
+     "t": "ortogonales",
+     "m": "fuerte"
+    },
+    {
+     "t": " —una que reduce el espacio, otra que multiplica los intentos— sobre la misma cohorte mejoran la mediana del oráculo en 0.82 Å y 0.79 Å respectivamente, y ",
+     "m": null
+    },
+    {
+     "t": "ambas convierten exactamente 3",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Dos palancas distintas, mismo resultado, mismo techo. Eso no es coincidencia: es la firma de que las dos chocan contra el mismo obstáculo, que ninguna de ellas toca.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El obstáculo se identificó poco después: en 30 de esos 33 complejos ",
+     "m": null
+    },
+    {
+     "t": "no existe",
+     "m": "fuerte"
+    },
+    {
+     "t": " una pose correcta entre las ~751 candidatas. No hay nada que recuperar con más intentos ni con menos espacio, porque la región correcta nunca se visita.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-02F.md"
+}

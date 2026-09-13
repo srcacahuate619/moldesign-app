@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-02D-PRE",
+  "hypothesis": "Aplicar el pipeline MolFlex congelado a los 116 de train conservando las poses produce el material de referencia del programa y reproduce el hallazgo de MF-02B",
+  "protocol": "MF-02D-PRE/PREREGISTRO.md; refina MF-02-PRE (a09b770); sustituye a MF-02C-PRE que no llego a ejecutarse; molflex congelado docs/40 con --keep",
+  "created_at": "2026-08-17T23:59:10.361436+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "1af5dab5b2ea445cdd71e7b4e1392aaef5b1123c",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 validez >=95%, G2 material en disco, G3 reproduccion de MF-02B sin discrepancias, G4 no regresion, G5 cobertura >=90%"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-02B/per_complex.jsonl": "9a0e01a4ee62e354c86a0fec1e1a687508a8d7574a7d7d6fab7d5c64f6828245"
+  },
+  "binary_hashes": {
+    "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-02D-PRE/PREREGISTRO.md": "59d6a81a19e0c73e099a973fd1a94a34c9c05480b218c6ac2194f7a0ae81c50b",
+    "scripts/run_mf02d_generacion_registro.py": "4bc507f02cd72e297636d147a8845d0558a7e025ff97a404bbf7b940c3e38d89",
+    "scripts/molflex.py": "d2bd11957cc20e8ea1413b4eca44e3f77664a686bb0fe67a38f47a856fc9aac9"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T23:59:10.983287+00:00",
+  "decision_rationale": "Prerregistro sellado antes de ejecutar. Corre los 116 y no solo los 66 que faltaban porque el pipeline es determinista y la reproduccion de MF-02B se convierte en gate G3, no en subproducto: un experimento que produce el material de referencia del programa debe demostrar que reproduce el hallazgo que lo motivo. Documenta que MF-02C-PRE queda sellado y sin ejecucion porque su runner descartaba las poses, y que un prerregistro superado se documenta y no se reescribe. Declara fuera de alcance la reconstruccion del dataset de features y toda evaluacion de selector.",
+  "finished_at": "2026-08-17T23:59:11.138981+00:00"
+}

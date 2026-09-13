@@ -1,0 +1,87 @@
+{
+  "pdb_id": "1kav",
+  "ok": true,
+  "n_conf": 23,
+  "top_k": 3,
+  "cpu": 1,
+  "relax_engine": "vina_local_only",
+  "openmm_status": {
+    "available": false,
+    "reasons": [
+      "SMIRNOFFTemplateGenerator: ModuleNotFoundError: No module named 'openff'",
+      "ForceField(+offxml): ValueError: Could not locate file \"openff-2.0.0.offxml\"",
+      "amber14-all createSystem: ValueError: No template found for residue 1 (ASP).  The atoms and bonds in the residue match NASP, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template"
+    ],
+    "relax_engine": "vina_local_only"
+  },
+  "time_fase1": 3.7,
+  "time_fase2": 427.4,
+  "time_fase3": 6.3,
+  "total_time_s": 437.5,
+  "ensemble_min_rmsd": 0.866,
+  "grid_cache": {
+    "mapas_generados": true,
+    "n_docks_maps": 22,
+    "n_docks_write": 1,
+    "n_docks_fresh": 0
+  },
+  "rigid_scores": [
+    -9.183,
+    -7.552,
+    -8.479,
+    -8.213,
+    -7.434,
+    -8.312,
+    -7.487,
+    -7.279,
+    -8.49,
+    -7.669,
+    -9.266,
+    -8.167,
+    -7.815,
+    -7.677,
+    -7.688,
+    -7.509,
+    -7.515,
+    -7.689,
+    -7.528,
+    -7.729,
+    -7.309,
+    -7.63,
+    -8.204
+  ],
+  "rigid_best": -9.266,
+  "top_k_relaxed": [
+    {
+      "conf_id": 10,
+      "rigid_score": -9.266,
+      "relaxed_score": -9.405,
+      "relaxed_local_score": -6.162,
+      "delta": -0.139,
+      "rmsd_to_crystal": 1.058,
+      "engine": "vina_local_only",
+      "ok": true
+    },
+    {
+      "conf_id": 0,
+      "rigid_score": -9.183,
+      "relaxed_score": -8.903,
+      "relaxed_local_score": -5.834,
+      "delta": 0.28,
+      "rmsd_to_crystal": 1.46,
+      "engine": "vina_local_only",
+      "ok": true
+    },
+    {
+      "conf_id": 8,
+      "rigid_score": -8.49,
+      "relaxed_score": -8.695,
+      "relaxed_local_score": -5.698,
+      "delta": -0.205,
+      "rmsd_to_crystal": 1.045,
+      "engine": "vina_local_only",
+      "ok": true
+    }
+  ],
+  "rmsd_best_to_crystal": 1.111
+}

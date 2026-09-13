@@ -1,0 +1,23 @@
+{
+  "target": "mmp9",
+  "pdb": "1gkc",
+  "n_total": 1925,
+  "n_actives": 50,
+  "auc_vina": 0.4729,
+  "auc_xgb": 0.8473,
+  "auc_clgnn": 0.5,
+  "auc_univ_metal": 0.8872,
+  "auc_m4_optimized": 0.8473,
+  "auc_m5_gated_optimized": 0.914,
+  "delta": 0.0667,
+  "m4_weights": {
+    "vina": 0.0,
+    "xgb": 0.05,
+    "clgnn": 0.9500000000000001
+  },
+  "m5_weights": {
+    "xgb": 0.15000000000000002,
+    "clgnn": 0.8,
+    "ums": 0.05
+  }
+}

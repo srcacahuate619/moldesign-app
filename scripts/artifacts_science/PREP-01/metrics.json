@@ -1,0 +1,50 @@
+{
+ "analisis_id": "PREP-01",
+ "tipo": "barrido descriptivo de politicas de preparacion; sin gate",
+ "timestamp": "2026-08-23T07:41:00.577293+00:00",
+ "fuente": "data/rcsb/<pid>.pdb, la entrada original que REC-12-R1 descargo",
+ "vocabulary_version": "1.0.0",
+ "n_complejos": 116,
+ "n_ok": 116,
+ "por_ruta": {
+  "dataset_experimental": {
+   "n": 116,
+   "complejos_que_pierden_algun_metal": 11,
+   "complejos_que_pierden_algun_cofactor_conocido": 8,
+   "complejos_que_pierden_alguna_especie_del_sitio": 22,
+   "politica_de_aguas": {
+    "conserva": 115,
+    "no_habia": 1
+   },
+   "atomos_pesados_mediana": 2264
+  },
+  "producto_docking": {
+   "n": 116,
+   "complejos_que_pierden_algun_metal": 55,
+   "complejos_que_pierden_algun_cofactor_conocido": 5,
+   "complejos_que_pierden_alguna_especie_del_sitio": 41,
+   "politica_de_aguas": {
+    "elimina_todas": 115,
+    "no_habia": 1
+   },
+   "atomos_pesados_mediana": 1818
+  },
+  "producto_mmgbsa": {
+   "n": 116,
+   "complejos_que_pierden_algun_metal": 55,
+   "complejos_que_pierden_algun_cofactor_conocido": 8,
+   "complejos_que_pierden_alguna_especie_del_sitio": 41,
+   "politica_de_aguas": {
+    "elimina_todas": 115,
+    "no_habia": 1
+   },
+   "atomos_pesados_mediana": 2079
+  }
+ },
+ "limites_declarados": [
+  "descriptivo y sin gate: cuenta lo que cada politica conserva, no decide cual es correcta",
+  "la ruta producto_docking aplica el filtro real de preparer.py pero NO ejecuta meeko; meeko anade hidrogenos y cargas despues y no cambia que residuos entran",
+  "producto_mmgbsa modela removeHeterogens(keepWater=False) como 'solo ATOM', que es lo que hace",
+  "el filtro de produccion se aplica sobre la cadena mayoritaria; en produccion la cadena la fija el catalogo por target y puede ser otra"
+ ]
+}

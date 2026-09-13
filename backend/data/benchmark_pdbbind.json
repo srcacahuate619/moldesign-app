@@ -1,0 +1,154 @@
+{
+  "fuente": "PDBbind v2020 refined",
+  "pdbbind_dir": "D:\\moldesign-build\\data\\pdbbind",
+  "top_n": 3,
+  "limit": 5,
+  "n_complejos_validos": 5,
+  "n_evaluados": 5,
+  "n_skips": 0,
+  "elapsed_segundos": 4.73,
+  "metricas_best": {
+    "N": 5,
+    "median": 0.526,
+    "p25": 0.338,
+    "p75": 0.683,
+    "p90": 8.501000000000001,
+    "mean": 3.114,
+    "pct_le_4": 80.0,
+    "pct_le_6": 80.0,
+    "pct_le_10": 80.0,
+    "min": 0.31,
+    "max": 13.713
+  },
+  "metricas_top1": {
+    "N": 5,
+    "median": 13.898,
+    "p25": 13.713,
+    "p75": 13.96,
+    "p90": 14.4298,
+    "mean": 13.9726,
+    "pct_le_4": 0.0,
+    "pct_le_6": 0.0,
+    "pct_le_10": 0.0,
+    "min": 13.549,
+    "max": 14.743
+  },
+  "umbrales": {
+    "ok": 4.0,
+    "tol": 6.0,
+    "flop": 10.0
+  },
+  "resultados": [
+    {
+      "pdb_id": "10GS",
+      "distancia": 13.713,
+      "distancia_top1": 13.713,
+      "score": 2.0795,
+      "druggability": 0.3734,
+      "n_spheres": 243,
+      "n_pockets": 3,
+      "n_lig_atoms": 59,
+      "lig_resname": "1",
+      "lig_center": [
+        9.88,
+        6.63,
+        27.94
+      ],
+      "pocket_center": [
+        14.85,
+        11.75,
+        16.23
+      ],
+      "elapsed": 2.074
+    },
+    {
+      "pdb_id": "184L",
+      "distancia": 0.683,
+      "distancia_top1": 13.898,
+      "score": 0.6427,
+      "druggability": 0.6783,
+      "n_spheres": 61,
+      "n_pockets": 3,
+      "n_lig_atoms": 24,
+      "lig_resname": "1",
+      "lig_center": [
+        27.03,
+        7.47,
+        2.9
+      ],
+      "pocket_center": [
+        26.97,
+        7.39,
+        3.58
+      ],
+      "elapsed": 0.674
+    },
+    {
+      "pdb_id": "185L",
+      "distancia": 0.338,
+      "distancia_top1": 13.96,
+      "score": 0.4362,
+      "druggability": 0.6663,
+      "n_spheres": 44,
+      "n_pockets": 3,
+      "n_lig_atoms": 16,
+      "lig_resname": "1",
+      "lig_center": [
+        27.28,
+        6.3,
+        4.2
+      ],
+      "pocket_center": [
+        26.99,
+        6.41,
+        4.34
+      ],
+      "elapsed": 0.65
+    },
+    {
+      "pdb_id": "186L",
+      "distancia": 0.526,
+      "distancia_top1": 14.743,
+      "score": 0.5198,
+      "druggability": 0.6594,
+      "n_spheres": 52,
+      "n_pockets": 3,
+      "n_lig_atoms": 24,
+      "lig_resname": "1",
+      "lig_center": [
+        27.1,
+        7.58,
+        3.17
+      ],
+      "pocket_center": [
+        27.14,
+        7.2,
+        3.53
+      ],
+      "elapsed": 0.658
+    },
+    {
+      "pdb_id": "187L",
+      "distancia": 0.31,
+      "distancia_top1": 13.549,
+      "score": 0.4526,
+      "druggability": 0.6814,
+      "n_spheres": 47,
+      "n_pockets": 3,
+      "n_lig_atoms": 18,
+      "lig_resname": "1",
+      "lig_center": [
+        27.12,
+        6.95,
+        3.68
+      ],
+      "pocket_center": [
+        27.09,
+        6.85,
+        3.97
+      ],
+      "elapsed": 0.646
+    }
+  ],
+  "skips": []
+}

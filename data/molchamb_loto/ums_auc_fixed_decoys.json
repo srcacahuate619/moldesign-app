@@ -1,0 +1,23 @@
+{
+  "ace": {
+    "auc": 0.8234,
+    "n_active": 82,
+    "n_decoy": 1000,
+    "warhead_pct_active": 96.3,
+    "warhead_pct_decoy": 36.3
+  },
+  "pde5a": {
+    "auc": 0.513,
+    "n_active": 1000,
+    "n_decoy": 1000,
+    "warhead_pct_active": 22.4,
+    "warhead_pct_decoy": 30.3
+  },
+  "cyp3a4": {
+    "auc": 0.565,
+    "n_active": 83,
+    "n_decoy": 1000,
+    "warhead_pct_active": 12.0,
+    "warhead_pct_decoy": 21.6
+  }
+}

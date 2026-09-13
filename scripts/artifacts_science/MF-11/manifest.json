@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-11",
+  "hypothesis": "El clustering label-blind por RMSD pocket-frame a 2.0A reduce candidatos redundantes de la union sin perder cobertura de oraculo",
+  "protocol": "docs/49 15 (entregable 9) + MF-01-UNION/DESIGN.md",
+  "created_at": "2026-08-16T18:52:57.502583+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "37e35913c9ef92705ad4a284fd96197e8c37b022",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "0 complejos cubiertos perdidos; reduccion reportada; determinismo byte a byte; label-blind verificado"
+  },
+  "decision": "NO_GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-11/DESIGN.md": "a8d7cb6f16abda00b76ab844e18db7a54bcfe948acabf9c2533127a8f2da04d2",
+    "scripts/artifacts_science/MF-11/metrics.json": "5f59abff50c2961b04db2882b1c118c23b9f76742cbdc06eb40f1d4440e8bf7d",
+    "scripts/artifacts_science/MF-11/dedup_candidates_train.jsonl": "91615a58faa4d384832de3126829f2f3209cce3d35d1d4fc5ec9345aa89e34b7",
+    "scripts/artifacts_science/MF-11/dedup_candidates_val.jsonl": "dc8f042453ff83d3a5e5eafde8e2b471df1a0219ef916e38c13cd7e63e434a3b",
+    "scripts/artifacts_science/MF-11/dedup_labels_train.jsonl": "e3470cfe484759cb3acb51785b236ac79865773d6a3a04fbb474dd21885e57d3",
+    "scripts/artifacts_science/MF-11/dedup_labels_val.jsonl": "8a263561c4d8e7ea985133b4a1dbc7997ceef3398f96a8e7ac0f86cdcb126089",
+    "scripts/artifacts_science/MF-11/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/MF-11/per_complex.jsonl": "3f992934e8b46e20f4c29745633476681d9ea73742f7cb419a846a12bc4adad9",
+    "scripts/dedup_pose_union.py": "6755888f76fb29a6cc47112abe50f09f9cb7acf2134281c9b1d82058662d26d0",
+    "scripts/test_dedup_pose_union.py": "9512a255d16ed653f1879f0d5a7c3a5b42a29b0a71fa9e006a5ce0e8e66914b6",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T19:16:23.017694+00:00",
+  "decision_rationale": "MF-11 NO_GO: el clustering label-blind identity-first a 2.0 A redujo 23.55% los candidatos y fue determinista, pero perdio 2/108 complejos cubiertos (1alw, 1bcd), incumpliendo el gate primario de preservacion exacta del oraculo. El artefacto permanece como caracterizacion de una politica lossy, no como dataset recomendado para rescoring. Desviaciones registradas: D1 val procesado junto con train; D2 primera identidad en vez de medoid geometrico.",
+  "finished_at": "2026-08-16T19:16:23.477065+00:00"
+}

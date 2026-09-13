@@ -1,0 +1,50 @@
+{
+ "experiment_id": "MF-29-EMP-EXT",
+ "tipo": "extension de cobertura de MF-29-EMP con regla de lectura preregistrada",
+ "timestamp": "2026-08-22T08:46:10.626229+00:00",
+ "duration_seconds": 132221.05,
+ "config": {
+  "exh_masivo": 512,
+  "semillas": [
+   42,
+   7,
+   13
+  ],
+  "num_modes": 9,
+  "box": 25.0,
+  "ligando": "conf0.flex.pdbqt",
+  "delta_ruido_kcal": 0.1,
+  "timeout_s": 72000,
+  "cambio_unico": "el timeout deja de ser la constante 14400 en duro y pasa a parametro",
+  "brazo_produccion": "reusado de MF-29-EMP sin recomputo"
+ },
+ "recuperados": {
+  "intentados": [
+   "1mmr",
+   "1nm6"
+  ],
+  "con_lectura": [
+   "1mmr",
+   "1nm6"
+  ],
+  "sin_lectura": [],
+  "n_mejoran": 1
+ },
+ "union": {
+  "definicion": "los 48 leidos en MF-29-EMP mas los recuperados aqui, misma cantidad primaria",
+  "n_previos": 48,
+  "n_mejoran_previos": 3,
+  "n_total": 50,
+  "n_mejoran_total": 4,
+  "fraccion": 0.08,
+  "lectura_preregistrada": "OBJETIVO",
+  "umbrales": ">=0.30 BUSQUEDA, <0.10 OBJETIVO, intermedio MIXTO (los de MF-29-EMP, sin tocar)",
+  "lectura_de_MF-29-EMP_sobre_48": "OBJETIVO (3/48 = 0.0625)",
+  "cambia_la_lectura": false
+ },
+ "limites_declarados": [
+  "no re-sella MF-29-EMP; aquel queda leido sobre 48 con su limitacion declarada",
+  "no certifica optimalidad global; MF-29 sigue ABIERTO",
+  "tiempos orientativos: el servidor puede estar compartido; la cantidad primaria es el score"
+ ]
+}

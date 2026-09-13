@@ -1,0 +1,696 @@
+{
+ "id": "MF-33-ORD",
+ "meta": {
+  "titulo": "El orden real atenúa la desviación en vez de crearla",
+  "entradilla": "conf0 es exactamente un confórmero medio: rango 0.503 contra 0.5 esperado. Y sólo el 2.3% de los órdenes aleatorios da un chi² tan pequeño como el real. La explicación que yo mismo había elevado a más plausible se cae con dos contrastes."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-33-EXT-MOD",
+     "m": "codigo"
+    },
+    {
+     "t": " observó que la distribución del ",
+     "m": null
+    },
+    {
+     "t": "primer acierto",
+     "m": "fuerte"
+    },
+    {
+     "t": " —cuántos confórmeros hay que dockear hasta encontrar uno que cubra— se desvía de una geométrica homogénea. Hay más complejos de los esperados que aciertan al primer intento.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Una desviación así admite dos explicaciones muy distintas. Puede ser ",
+     "m": null
+    },
+    {
+     "t": "heterogeneidad entre complejos",
+     "m": "fuerte"
+    },
+    {
+     "t": ": unos son fáciles y otros refractarios, y mezclar dos poblaciones rompe la geométrica. O puede ser mucho más aburrido: que ",
+     "m": null
+    },
+    {
+     "t": "el orden no sea intercambiable",
+     "m": "fuerte"
+    },
+    {
+     "t": ", que ",
+     "m": null
+    },
+    {
+     "t": "conf0",
+     "m": "codigo"
+    },
+    {
+     "t": " sea el primero que ETKDG genera y resulte sistemáticamente mejor que sus hermanos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En el registro de ",
+     "m": null
+    },
+    {
+     "t": "MF-33-EXT-MOD",
+     "m": "codigo"
+    },
+    {
+     "t": " llegué a llamar a la segunda «la explicación más simple y más probable del exceso en k=1». Este experimento existe para ponerla a prueba, y la falsifica.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Un re-análisis exacto, sin recomputar nada",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cada confórmero se dockeó independientemente con la misma semilla y su ",
+     "m": null
+    },
+    {
+     "t": "rmsd_min",
+     "m": "codigo"
+    },
+    {
+     "t": " está guardado por separado. Eso hace que ",
+     "m": null
+    },
+    {
+     "t": "permutar el orden sea una re-lectura exacta",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no una simulación: los mismos números, leídos en otro orden.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Tres contrastes, declarados en ",
+     "m": null
+    },
+    {
+     "t": "MF-33-ORD-PRE",
+     "m": "codigo"
+    },
+    {
+     "t": " antes de correr.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Contraste 1 — conf0 no es especial",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    []
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Rango normalizado medio de ",
+       "m": null
+      },
+      {
+       "t": "conf0",
+       "m": "codigo"
+      },
+      {
+       "t": " entre los K de su complejo (n=109)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.503",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Esperado bajo intercambiabilidad",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.500",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "z",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.116",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "p",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.908",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "conf0",
+     "m": "codigo"
+    },
+    {
+     "t": " es exactamente un confórmero medio. La idea de que el primero de ETKDG tuviera ventaja intrínseca no tiene ningún apoyo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Contraste 2 — la desviación sobrevive al orden, y en la dirección contraria",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Diez mil permutaciones del orden, recalculando el chi² con el procedimiento idéntico al de ",
+     "m": null
+    },
+    {
+     "t": "MF-33-EXT-MOD",
+     "m": "codigo"
+    },
+    {
+     "t": ":",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    []
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "chi² observado",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "11.03",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Mediana de la nula por permutación",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "25.14",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "p95 de la nula",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "39.33",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "p de permutación",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "0.9773",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sólo un ",
+     "m": null
+    },
+    {
+     "t": "2.3%",
+     "m": "fuerte"
+    },
+    {
+     "t": " de los órdenes aleatorios da un chi² tan pequeño o menor que el real.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Léase despacio: si el exceso en k=1 fuese artefacto de haber puesto primero un confórmero privilegiado, randomizar debería ",
+     "m": null
+    },
+    {
+     "t": "acercar",
+     "m": "enfasis"
+    },
+    {
+     "t": " la distribución a la geométrica. Ocurre lo contrario. ",
+     "m": null
+    },
+    {
+     "t": "El orden real atenúa la desviación en vez de crearla.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso permite retirar el efecto de posición con seriedad.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué esto NO establece la heterogeneidad",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El prerregistro lo prohíbe expresamente, y la razón es estructural: ",
+     "m": null
+    },
+    {
+     "t": "la permutación conserva el multiconjunto de RMSDs de cada complejo",
+     "m": "fuerte"
+    },
+    {
+     "t": ". La hipótesis nula ya incluye toda la heterogeneidad entre complejos. Este contraste no la pone a prueba — sólo pone a prueba el orden.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La formulación correcta es que la heterogeneidad entre complejos sigue siendo una explicación ",
+     "m": null
+    },
+    {
+     "t": "plausible",
+     "m": "fuerte"
+    },
+    {
+     "t": " de la desviación, no la explicación en pie por descarte. Quedan sin separar la dependencia entre confórmeros, la heterogeneidad en el ",
+     "m": null
+    },
+    {
+     "t": "número",
+     "m": "fuerte"
+    },
+    {
+     "t": " de confórmeros, la geometría de los estados generados, las diferencias entre bolsillos, la interacción confórmero-receptor y la estructura de orden posterior. Establecer un componente refractario seguiría exigiendo modelos de mezcla, que aquí no se ajustan.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y queda una ",
+     "m": null
+    },
+    {
+     "t": "observación sin explicar",
+     "m": "fuerte"
+    },
+    {
+     "t": ", declarada como tal: que el chi² observado sea menor que el de casi todos los órdenes aleatorios sugiere alguna estructura en el orden que ETKDG genera. No está caracterizada y no se usa para nada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Contraste 3 — y la medición que no se buscaba",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El conjunto de los nueve nunca cubiertos es ",
+     "m": null
+    },
+    {
+     "t": "invariante al orden",
+     "m": "fuerte"
+    },
+    {
+     "t": ", verificado en 200 permutaciones. Es invariante por construcción —depende del conjunto completo de candidatos, no de en qué orden se miren— y se verifica de todas formas, porque convierte una afirmación teórica en un hecho comprobado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sobre los mismos datos apareció algo que no se buscaba, y que cambia cómo hay que pensar una política de parada. Con ",
+     "m": null
+    },
+    {
+     "t": "P(G1) = m/K",
+     "m": "codigo"
+    },
+    {
+     "t": ", donde ",
+     "m": null
+    },
+    {
+     "t": "m",
+     "m": "codigo"
+    },
+    {
+     "t": " es cuántos confórmeros cubren:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Complejos",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "P(G1) ≥ 0.80",
+       "m": "codigo"
+      },
+      {
+       "t": " — casi siempre aciertan al primero",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "64",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "0.20 < P(G1) < 0.80",
+       "m": "codigo"
+      },
+      {
+       "t": " — zona inestable",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "36",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "P(G1) ≤ 0.20",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "7",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "De los 107 cubiertos, 43 —el 40.2%— pueden cambiar de clase G1↔G2 según el orden.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "G1 y G2 no son propiedades del complejo: son propiedades del ",
+     "m": null
+    },
+    {
+     "t": "par complejo-orden",
+     "m": "fuerte"
+    },
+    {
+     "t": ". G3 sí es propiedad del complejo, porque depende del conjunto completo de candidatos generados.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La consecuencia para el diseño de una política de parada es directa, y no se buscaba: ",
+     "m": null
+    },
+    {
+     "t": "una política no debe intentar aprender que un complejo *es* G1",
+     "m": "fuerte"
+    },
+    {
+     "t": ", porque no lo es. La pregunta correcta es secuencial —dado lo observado hasta ahora, ¿cuál es la probabilidad de que más inicializaciones aporten una cuenca útil nueva?— mientras que G3 plantea otra distinta: ¿hay señales de que seguir muestreando ataque el mecanismo equivocado?",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Son ",
+     "m": null
+    },
+    {
+     "t": "STOP_SUCCESS",
+     "m": "codigo"
+    },
+    {
+     "t": " contra ",
+     "m": null
+    },
+    {
+     "t": "CONTINUE",
+     "m": "codigo"
+    },
+    {
+     "t": " contra ",
+     "m": null
+    },
+    {
+     "t": "ABSTAIN/REVIEW_INPUT",
+     "m": "codigo"
+    },
+    {
+     "t": ": las mismas primitivas a las que llegó el análisis de coste por otra vía.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Límites",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "**No toca la cobertura de ",
+      "m": null
+     },
+     {
+      "t": "MF-33-EXT",
+      "m": "codigo"
+     },
+     {
+      "t": "**, que tampoco depende del orden.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No ajusta modelos de mezcla.",
+      "m": "fuerte"
+     },
+     {
+      "t": " Retira una explicación alternativa; no instala la otra.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "La permutación asume intercambiabilidad bajo la nula — que es la hipótesis contrastada, no",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "un supuesto del método.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-33-ORD.md"
+}

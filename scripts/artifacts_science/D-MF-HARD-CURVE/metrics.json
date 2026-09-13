@@ -1,0 +1,222 @@
+{
+  "experiment_id": "D-MF-HARD-CURVE",
+  "split": "train",
+  "n_complejos": 34,
+  "n_poses": 4329,
+  "n_fallos_itt": 0,
+  "por_estrato": {
+    "hard": {
+      "5": {
+        "n_complejos": 17,
+        "n_con_poses": 17,
+        "cobertura": 0.0588,
+        "n_cubiertos": 1,
+        "mediana_min_rmsd": 5.278,
+        "degeneracion_yield_lt_k": 0
+      },
+      "15": {
+        "n_complejos": 17,
+        "n_con_poses": 17,
+        "cobertura": 0.1765,
+        "n_cubiertos": 3,
+        "mediana_min_rmsd": 4.024,
+        "degeneracion_yield_lt_k": 0
+      },
+      "30": {
+        "n_complejos": 17,
+        "n_con_poses": 17,
+        "cobertura": 0.2353,
+        "n_cubiertos": 4,
+        "mediana_min_rmsd": 4.011,
+        "degeneracion_yield_lt_k": 0
+      }
+    },
+    "control": {
+      "5": {
+        "n_complejos": 17,
+        "n_con_poses": 17,
+        "cobertura": 0.8235,
+        "n_cubiertos": 14,
+        "mediana_min_rmsd": 1.08,
+        "degeneracion_yield_lt_k": 4
+      },
+      "15": {
+        "n_complejos": 17,
+        "n_con_poses": 17,
+        "cobertura": 0.8824,
+        "n_cubiertos": 15,
+        "mediana_min_rmsd": 1.041,
+        "degeneracion_yield_lt_k": 12
+      },
+      "30": {
+        "n_complejos": 17,
+        "n_con_poses": 17,
+        "cobertura": 0.8824,
+        "n_cubiertos": 15,
+        "mediana_min_rmsd": 1.041,
+        "degeneracion_yield_lt_k": 16
+      }
+    }
+  },
+  "tiempos": {
+    "hard": {
+      "n": 510,
+      "wall_p50": 31.25,
+      "wall_p90": 42.1,
+      "cpu_p50": 31.25,
+      "cpu_p90": 42.1,
+      "nota": "cpu = wall x 1 (cpu=1 por Vina)"
+    },
+    "control": {
+      "n": 179,
+      "wall_p50": 9.2,
+      "wall_p90": 28.5,
+      "cpu_p50": 9.2,
+      "cpu_p90": 28.5,
+      "nota": "cpu = wall x 1 (cpu=1 por Vina)"
+    },
+    "total": {
+      "n": 689,
+      "wall_p50": 29.1,
+      "wall_p90": 41.2,
+      "cpu_p50": 29.1,
+      "cpu_p90": 41.2,
+      "nota": "cpu = wall x 1 (cpu=1 por Vina)"
+    }
+  },
+  "ganancias_pareadas": {
+    "5_15": {
+      "n_pares": 34,
+      "delta_mediana": 0.0,
+      "delta_media": -0.543,
+      "bootstrap": {
+        "n_pares": 34,
+        "media_delta": -0.5426,
+        "ci95_bca": [
+          -1.2109,
+          -0.2474
+        ],
+        "p_bilateral": 0.0,
+        "metodo": "bootstrap_pareado_BCa_n2000_seed42_informativo"
+      }
+    },
+    "15_30": {
+      "n_pares": 34,
+      "delta_mediana": 0.0,
+      "delta_media": -0.289,
+      "bootstrap": {
+        "n_pares": 34,
+        "media_delta": -0.2887,
+        "ci95_bca": [
+          -1.0121,
+          -0.0993
+        ],
+        "p_bilateral": 0.0,
+        "metodo": "bootstrap_pareado_BCa_n2000_seed42_informativo"
+      }
+    }
+  },
+  "fallos_itt_por_estrato": {
+    "hard": {
+      "n": 0,
+      "motivos": {}
+    },
+    "control": {
+      "n": 0,
+      "motivos": {}
+    }
+  },
+  "gate": {
+    "enmienda": "auditada_2026-08-16",
+    "validez": "rc=0 + 1<=n_models_emitted<=9 + scores FINITOS de REMARK VINA RESULT + geometria parseable",
+    "scores": "exclusivamente_REMARK_VINA_RESULT_del_archivo",
+    "num_modes_requested": 9,
+    "n_desviaciones_gate_anterior": 31,
+    "technical_retries": {
+      "n_eventos": 2,
+      "n_resueltos": 2
+    },
+    "modos_emitidos": {
+      "hard": {
+        "n_corridas": 510,
+        "mediana": 7.0,
+        "min": 1,
+        "max": 9,
+        "distribucion": {
+          "1": 97,
+          "2": 71,
+          "3": 32,
+          "4": 22,
+          "5": 12,
+          "6": 10,
+          "7": 12,
+          "8": 4,
+          "9": 250
+        }
+      },
+      "control": {
+        "n_corridas": 179,
+        "mediana": 9.0,
+        "min": 1,
+        "max": 9,
+        "distribucion": {
+          "1": 13,
+          "2": 5,
+          "3": 2,
+          "5": 3,
+          "6": 6,
+          "7": 2,
+          "8": 6,
+          "9": 142
+        }
+      }
+    }
+  },
+  "caveats": {
+    "no_saturacion": "NO se declara saturacion completa: K30 mejora varios hard (1aaq 6.855->3.484, 1b46 1.449->1.134, 1hmr 5.730->4.353, 1jn4 5.278->4.058, 1njs 7.360->2.043) y anade 1b2h como cuarto cubierto (min 1.706 a K30, no cubierto a K15). K15 es la politica COSTO/COBERTURA elegida por la regla corregida, NO equivalencia cientifica con K30.",
+    "hard_coverage_no_go_3_17": "La cobertura hard a K15 es 3/17 (17.6%) = NO_GO. D-MF-HARD es el estrato dificil por construccion (rot>=15); K15 no rehabilita MolFlex en D-MF-HARD. Scope: validacion piloto.",
+    "mediana_vs_media_15_30": "La MEDIANA pareada del delta min-RMSD 15->30 es 0.000 A (la mayoria de los complejos no cambia); la MEDIA pareada es -0.289 A, impulsada por mejoras concentradas en unos pocos hard. Ambas en ganancias_pareadas.15_30 (delta_mediana / delta_media); bootstrap BCa n=2000 seed 42 INFORMATIVO, no decide."
+  },
+  "decision": {
+    "k_elegido": 15,
+    "numeros": {
+      "k30": {
+        "hard": {
+          "n_complejos": 17,
+          "n_con_poses": 17,
+          "cobertura": 0.2353,
+          "n_cubiertos": 4,
+          "mediana_min_rmsd": 4.011,
+          "degeneracion_yield_lt_k": 0
+        },
+        "control": {
+          "n_complejos": 17,
+          "n_con_poses": 17,
+          "cobertura": 0.8824,
+          "n_cubiertos": 15,
+          "mediana_min_rmsd": 1.041,
+          "degeneracion_yield_lt_k": 16
+        }
+      },
+      "5": {
+        "perdidas_hard_cubiertos": 3,
+        "deg_mediana_hard": 1.267,
+        "perdidas_control_cubiertos": 1,
+        "deg_mediana_control": 0.039,
+        "cumple": false
+      },
+      "15": {
+        "perdidas_hard_cubiertos": 1,
+        "deg_mediana_hard": 0.013,
+        "perdidas_control_cubiertos": 0,
+        "deg_mediana_control": 0.0,
+        "cumple": true
+      }
+    },
+    "razones": {
+      "5": "K5: hard cubiertos 1/4 (pierde 3), mediana 5.278 vs 4.011 (deg 1.267); control cubiertos 14/15 (pierde 1), mediana 1.08 vs 1.041 (deg 0.039)",
+      "15": "K15: hard cubiertos 3/4 (pierde 1), mediana 4.024 vs 4.011 (deg 0.013); control cubiertos 15/15 (pierde 0), mediana 1.041 vs 1.041 (deg 0.000)"
+    },
+    "regla": "menor K en {5,15} vs 30 train: pierde <=1/17 hard cubiertos, deg mediana hard <=0.1, pierde <=1 control cubierto, deg mediana control <=0.1; si ninguno -> 30"
+  }
+}

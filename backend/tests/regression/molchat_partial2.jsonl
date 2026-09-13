@@ -1,0 +1,7 @@
+{"id":"C004","label":"conceptual_aminas","category":"conceptual","query":"para que sirven las aminas en farmacologia?","expect_no_tool":true}
+{"id":"C005","label":"conceptual_drug_design","category":"conceptual","query":"explica el enfoque de drug discovery basado en fragmentos","expect_no_tool":true}
+{"id":"MT001","label":"multi_turno_1","category":"multi_turno","query":"calcula propiedades de la aspirina","multi_turn":true,"turn":1,"expect_tool":"compute_properties"}
+{"id":"MT002","label":"multi_turno_2_TR1","category":"multi_turno","query":"dame moleculas similares a la aspirina","multi_turn":true,"turn":2,"expect_tool":"molgraph_similar"}
+{"id":"MT003","label":"multi_turno_3","category":"multi_turno","query":"que afinidad tiene esa primera molecula contra 7E2Y?","multi_turn":true,"turn":3,"exists_prior":true}
+{"id":"MT004","label":"multi_turno_4","category":"multi_turno","query":"calcula propiedades de cafeina","multi_turn":true,"turn":4,"expect_tool":"compute_properties"}
+{"id":"MT005","label":"multi_turno_5","category":"multi_turno","query":"y del paracetamol?","multi_turn":true,"turn":5,"possible_anafora":true}

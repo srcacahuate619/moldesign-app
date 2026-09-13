@@ -1,0 +1,90 @@
+{
+  "model": "MetalAwareGNN-D",
+  "description": "GNN-D trained with Universal Metal Score as input feature",
+  "dataset": "D:\\moldesign-build\\data\\gnn_v31\\gnn_d_dataset.pt",
+  "targets": [
+    "5ht1a",
+    "ca2",
+    "cdk2",
+    "er_alpha",
+    "factor_xa",
+    "hiv_protease",
+    "thrombin"
+  ],
+  "mean_auc": 0.9289,
+  "per_target": {
+    "5ht1a": {
+      "n_train": 1712,
+      "n_test": 296,
+      "n_pos_test": 46,
+      "n_neg_test": 250,
+      "best_auc": 0.9929,
+      "training_time_s": 302.5
+    },
+    "ca2": {
+      "n_train": 1740,
+      "n_test": 268,
+      "n_pos_test": 37,
+      "n_neg_test": 231,
+      "best_auc": 0.775,
+      "training_time_s": 309.2
+    },
+    "cdk2": {
+      "n_train": 1708,
+      "n_test": 300,
+      "n_pos_test": 50,
+      "n_neg_test": 250,
+      "best_auc": 1.0,
+      "training_time_s": 256.2
+    },
+    "er_alpha": {
+      "n_train": 1710,
+      "n_test": 298,
+      "n_pos_test": 48,
+      "n_neg_test": 250,
+      "best_auc": 0.9915,
+      "training_time_s": 165.0
+    },
+    "factor_xa": {
+      "n_train": 1729,
+      "n_test": 279,
+      "n_pos_test": 39,
+      "n_neg_test": 240,
+      "best_auc": 0.8835,
+      "training_time_s": 157.6
+    },
+    "hiv_protease": {
+      "n_train": 1720,
+      "n_test": 288,
+      "n_pos_test": 38,
+      "n_neg_test": 250,
+      "best_auc": 1.0,
+      "training_time_s": 152.7
+    },
+    "thrombin": {
+      "n_train": 1729,
+      "n_test": 279,
+      "n_pos_test": 33,
+      "n_neg_test": 246,
+      "best_auc": 0.8597,
+      "training_time_s": 154.7
+    }
+  },
+  "loto_models": {
+    "5ht1a": "metal_aware_loto_5ht1a.pt",
+    "ca2": "metal_aware_loto_ca2.pt",
+    "cdk2": "metal_aware_loto_cdk2.pt",
+    "er_alpha": "metal_aware_loto_er_alpha.pt",
+    "factor_xa": "metal_aware_loto_factor_xa.pt",
+    "hiv_protease": "metal_aware_loto_hiv_protease.pt",
+    "thrombin": "metal_aware_loto_thrombin.pt"
+  },
+  "config": {
+    "epochs": 75,
+    "batch_size": 32,
+    "lr": 0.0005,
+    "hidden_dim": 128,
+    "seed": 42,
+    "pretrained_gnn": "D:\\moldesign-build\\rescoring\\artifacts\\gnn_d_best.pt"
+  }
+}

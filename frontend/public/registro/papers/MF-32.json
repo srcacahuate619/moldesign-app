@@ -1,0 +1,361 @@
+{
+ "id": "MF-32",
+ "meta": {
+  "titulo": "Tres ataques contra nuestros propios resultados",
+  "entradilla": "Uno prospera, uno se cae en su test decisivo, y el tercero no era contrastable — así que motivó el experimento que faltaba. Ninguno de los tres se diseñó para salir bien."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los resultados de una línea de investigación entera dependían de tres supuestos que nadie había atacado. Este experimento los ataca deliberadamente, con los criterios de éxito de cada ataque escritos ",
+     "m": null
+    },
+    {
+     "t": "antes",
+     "m": "fuerte"
+    },
+    {
+     "t": " de ejecutarlo — de modo que no se pudiera declarar superviviente lo que no lo era.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Ataque 1 — «el umbral de 2.0 Å hace todo el trabajo»",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La acusación:",
+     "m": "fuerte"
+    },
+    {
+     "t": " que las conversiones se cuenten con un corte en 2.0 Å es arbitrario, y con otro corte las conclusiones cambiarían.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Resultado: PROSPERA PARCIALMENTE.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Moviendo el umbral a 2.5 Å las conversiones se ",
+     "m": null
+    },
+    {
+     "t": "multiplican por tres o más",
+     "m": "fuerte"
+    },
+    {
+     "t": ": un brazo pasa de 3 a 10, otro de 1 a 9. Y hay 12–13 complejos por brazo en la franja de 2.0 a 3.0 Å, esperando justo al otro lado de la línea.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo que ",
+     "m": null
+    },
+    {
+     "t": "no",
+     "m": "fuerte"
+    },
+    {
+     "t": " cambia: el ",
+     "m": null
+    },
+    {
+     "t": "orden de los brazos",
+     "m": "fuerte"
+    },
+    {
+     "t": " se mantiene en los cuatro umbrales probados, y el patrón de fondo persiste — a 2.5 Å el mejor brazo sigue fallando en ",
+     "m": null
+    },
+    {
+     "t": "23 de 33",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Consecuencia adoptada: reportar la ",
+     "m": null
+    },
+    {
+     "t": "curva completa",
+     "m": "fuerte"
+    },
+    {
+     "t": " de umbrales y dejar de tratar 2.0 Å como si fuera una constante física. Es una convención útil, no una propiedad de la naturaleza.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Ataque 2 — «es regresión a la media»",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La acusación:",
+     "m": "fuerte"
+    },
+    {
+     "t": " la cohorte se seleccionó por tener malos resultados, así que cualquier segunda medición mejoraría sola, sin que la intervención haga nada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Primera parte: PROSPERA.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La firma clásica está ahí: correlación de ",
+     "m": null
+    },
+    {
+     "t": "0.390",
+     "m": "fuerte"
+    },
+    {
+     "t": " en el estrato difícil y ",
+     "m": null
+    },
+    {
+     "t": "0.533",
+     "m": "fuerte"
+    },
+    {
+     "t": " global entre el resultado de partida y la mejora observada. Cuanto peor empezaba un complejo, más mejoró. Exactamente lo que predice la regresión a la media.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Segunda parte, el test decisivo: EL ATAQUE SE CAE.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Si fuera regresión pura, los complejos de ",
+     "m": null
+    },
+    {
+     "t": "control",
+     "m": "fuerte"
+    },
+    {
+     "t": " —seleccionados por el extremo ",
+     "m": null
+    },
+    {
+     "t": "opuesto",
+     "m": "enfasis"
+    },
+    {
+     "t": ", por ser buenos— tendrían que ",
+     "m": null
+    },
+    {
+     "t": "empeorar",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Es la predicción que distingue regresión a la media de un efecto real, y no admite escapatoria.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No empeoran. Mejoran levemente: ",
+     "m": null
+    },
+    {
+     "t": "−0.042",
+     "m": "fuerte"
+    },
+    {
+     "t": " con intervalo [−0.126, −0.002], repartidos 5 a 4.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El efecto sobrevive, atenuado. La correlación era real y la explicación que proponía, no.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este es el punto más valioso del experimento: la primera parte del ataque daba un número convincente, y sólo un test diseñado para poder refutar la hipótesis del atacante lo resolvió.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Ataque 3 — «es la varianza por semilla»",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La acusación:",
+     "m": "fuerte"
+    },
+    {
+     "t": " los efectos de ~0.8 Å podrían ser ruido del propio motor entre semillas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Resultado: no contrastable",
+     "m": "fuerte"
+    },
+    {
+     "t": " con el material disponible. Habría hecho falta ejecutar el docking muchas veces, y este experimento era de reanálisis.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se registró como ",
+     "m": null
+    },
+    {
+     "t": "el hueco más grave del programa",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y esa constancia motivó ejecutar el experimento que faltaba. Su respuesta llegó después: desviación mediana de 0.283 Å, error estándar de la mediana de 0.049 Å, de modo que los efectos de ~0.8 Å son ",
+     "m": null
+    },
+    {
+     "t": "15.8 veces",
+     "m": "fuerte"
+    },
+    {
+     "t": " ese error.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El ataque no prospera a nivel agregado. Pero dejó dicho algo que sí se sostiene: con rangos por semilla de hasta 4 Å en algunos complejos, las afirmaciones sobre un complejo ",
+     "m": null
+    },
+    {
+     "t": "individual",
+     "m": "fuerte"
+    },
+    {
+     "t": " basadas en una sola corrida no son fiables.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué el veredicto global es «inconcluso»",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Porque eso es lo que fue: un ataque prospera parcialmente, otro se cae en su test decisivo, y el tercero no se podía contestar aquí. Sellarlo como GO habría sugerido que la línea salió indemne, y no salió indemne del primero.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La utilidad de un ejercicio así no está en el veredicto. Está en que produjo una regla nueva —reportar la curva de umbrales— y un experimento que faltaba desde el primer día.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-32.md"
+}

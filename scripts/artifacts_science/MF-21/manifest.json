@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-21",
+  "hypothesis": "El ensemble ETKDG ya contiene un conformero suficientemente parecido al bioactivo como para que el docking rigido funcione",
+  "protocol": "medicion: RMSD alineado (GetBestRMS) entre cada conformero ETKDG de ENTRADA y el ligando cristalografico; sin docking nuevo",
+  "created_at": "2026-08-19T03:53:06.296447+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gates; el mejor conformero es el suelo teorico del docking rigido"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_mf21_techo_rigido.py": "07d5f1c824948821b6509e98b428d2d84b1e8bf5cab0b4530b9177320c9bafd7"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:07.046698+00:00",
+  "decision_rationale": "En 23 de los 30 complejos que fallan (77%) el ensemble contiene un conformero a <=2 A alineado del bioactivo, con mediana del mejor en 1.364 A. En CONTROL la mediana es 0.360 A con 6 conformeros bajo 1.5 A; en los que fallan, la mediana de conformeros bajo 1.5 A es 1: el bueno esta, pero diluido. CORRIGENDUM INCLUIDO EN ESTE SELLO: la primera version uso el glob conf*.rigid.pdbqt, que tambien captura conf{N}.relax.rigid.pdbqt -poses YA DOCKEADAS Y RELAJADAS, salida del pipeline-. Eso medía lo que el docking logro, no lo que el generador ofrece, e inflaba el techo de 23 a 24 complejos y producia casos espectaculares falsos (1l83 a 0.014 A era una pose relajada, no un conformero). Corregido con regex estricta. Advertencia: tener el conformero a <=2 A es condicion NECESARIA, no suficiente; MF-22 midio despues que en COLOCACION la conversion es 0 en todas las bandas de calidad conformacional, incluida 0.0-0.5 A.",
+  "finished_at": "2026-08-19T03:53:07.238604+00:00"
+}

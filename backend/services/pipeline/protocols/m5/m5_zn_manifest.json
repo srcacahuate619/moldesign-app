@@ -1,0 +1,148 @@
+{
+  "adr": "docs/75_DECISION_CIENTIFICA_M5_ZN_V1.md",
+  "benchmark_en_revision": {
+    "corrigendum": "docs/77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md",
+    "estado": "REVIEW_INVALID_BENCHMARK_SITE",
+    "instrumento": "scripts/auditar_sitio_m5.py",
+    "nota": "MMP9/1GKC esta en revision por sitio de benchmark incorrecto; ACE/1O86 esta en revision porque la pose top-1 no coordina el zinc y la procedencia del benchmark esta incompleta. CA2/3DC3 queda no evaluado por ausencia de GNN-D. El score solo se muestra como evidencia auditable y hoy NINGUN perfil produce VALIDATED."
+  },
+  "fuente_unica": "backend/services/pipeline/protocols/m5/zinc.py",
+  "fuera_de_perfil": {
+    "componente_ausente": "NOT_EVALUATED_MISSING_COMPONENT",
+    "nota": "En los cuatro casos `m5_score = null`. No se heredan pesos.",
+    "otra_diana_de_zinc": "REVIEW_OUT_OF_VALIDATED_TARGET",
+    "otra_estructura": "REVIEW_OUT_OF_VALIDATED_STRUCTURE",
+    "otro_metal": "BLOCKED_PROTOCOL_NOT_AVAILABLE"
+  },
+  "generado_por": "scripts/generate_m5_manifest.py",
+  "manifest_version": 1,
+  "profiles": {
+    "1GKC": {
+      "checkpoint": {
+        "path": "data/benchmark_checkpoint_mmp9.json",
+        "sha256_declarado": "593b50762830bb475ea361bcb7e5f5e525811545f562339675304eeae94c4bf3"
+      },
+      "formula": "0.75*XGBoost + 0.25*UMS_warhead",
+      "normalizer": {
+        "formula": "min(abs(vina_kcal_mol) / vina_reference_max, 1.0)",
+        "nota": "Congelada. Los benchmarks usaban el máximo de la cohorte cargada, lo que hacía que el score de una molécula dependiera de sus vecinas.",
+        "vina_reference_max": 8.247
+      },
+      "pdb_id": "1GKC",
+      "protocol_id": "M5_ZN_MMP9_1GKC_V1",
+      "quarantine": {
+        "corrigendum": "docs/77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md",
+        "en_revision": true,
+        "motivo": "NINGUN zinc cae dentro de la caja declarada por el criterio por eje: el catalitico ZN A1450 queda fuera por dz=-17.34 con semilado 12.5. El inhibidor cristalografico NFH A1448 tiene solo 4 de sus 22 atomos dentro, y el ion de CALCIO CA A1447 si esta dentro, a 4.7 A del centro. Medido atomo a atomo sobre los 50 activos, el donante mas cercano queda a 14.91 A del zinc (mediana 16.99). 0.75 del score depende de features de esa pose. Ver docs/77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md §1.1."
+      },
+      "reference_auc": {
+        "delta": 0.073504,
+        "fuente": "data/molchamb_loto/delong_paired_report.json",
+        "m4": 0.8472693333333332,
+        "m5": 0.9207733333333333
+      },
+      "required_components": [
+        "xgb",
+        "ums"
+      ],
+      "target": "MMP9",
+      "weights": {
+        "gnn_d": 0.0,
+        "ums_warhead": 0.25,
+        "vina_norm": 0.0,
+        "xgboost": 0.75
+      }
+    },
+    "1O86": {
+      "checkpoint": {
+        "path": "data/benchmark_checkpoint_ace.json",
+        "sha256_declarado": "f646d7fb7b2e3946f638beaa213cf57d9dff9c6d37630fd1d8db593182973fb2"
+      },
+      "formula": "0.20*Vina_norm + 0.40*XGBoost + 0.40*UMS_warhead",
+      "normalizer": {
+        "formula": "min(abs(vina_kcal_mol) / vina_reference_max, 1.0)",
+        "nota": "Congelada. Los benchmarks usaban el máximo de la cohorte cargada, lo que hacía que el score de una molécula dependiera de sus vecinas.",
+        "vina_reference_max": 9.566
+      },
+      "pdb_id": "1O86",
+      "protocol_id": "M5_ZN_ACE_1O86_V1",
+      "quarantine": {
+        "corrigendum": "docs/77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md",
+        "en_revision": true,
+        "motivo": "El sitio era CORRECTO —ZN A701 es el centro exacto de la caja y las poses caen dentro— y aun asi, de los 47 activos evaluables (de 50), NINGUNA pose top-1 coloca un atomo donante a <=4.0 A del metal: minima 6.13 A, mediana 11.04. Esas top-1 son las que produjeron las features y sostienen el AUC. Los inhibidores de ACE del tipo lisinopril quelan zinc, asi que lo que se puntuo no reproduce su modo de union. NO se sabe si alguna pose descartada si coordinaba: el checkpoint guardo solo la top-1. La procedencia ademas esta incompleta —falta el complejo cristalografico y ningun artefacto registra la caja efectiva— y el AUC de casos completos, 0.6708, baja a 0.5612 bajo imputacion adversa de los ausentes, lo que mide su fragilidad y no una correccion. Ver docs/77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md §1.2 y §8."
+      },
+      "reference_auc": {
+        "delta": 0.234531559,
+        "fuente": "data/molchamb_loto/delong_paired_report.json",
+        "m4": 0.43623780853569133,
+        "m5": 0.6707693674879475
+      },
+      "required_components": [
+        "vina",
+        "xgb",
+        "ums"
+      ],
+      "target": "ACE",
+      "weights": {
+        "gnn_d": 0.0,
+        "ums_warhead": 0.4,
+        "vina_norm": 0.2,
+        "xgboost": 0.4
+      }
+    },
+    "3DC3": {
+      "checkpoint": {
+        "path": "data/gnn_v31/checkpoints/benchmark_checkpoint_ca2.json",
+        "sha256_declarado": "92f5c3dcc5d0bbe13159ea44ad2516a3596e217bebdc6903909236dbe1233e49"
+      },
+      "formula": "0.20*Vina_norm + 0.20*XGBoost + 0.20*GNN-D + 0.40*UMS_warhead",
+      "normalizer": {
+        "formula": "min(abs(vina_kcal_mol) / vina_reference_max, 1.0)",
+        "nota": "Congelada. Los benchmarks usaban el máximo de la cohorte cargada, lo que hacía que el score de una molécula dependiera de sus vecinas.",
+        "vina_reference_max": 10.45
+      },
+      "pdb_id": "3DC3",
+      "protocol_id": "M5_ZN_CA2_3DC3_V1",
+      "quarantine": {
+        "corrigendum": null,
+        "en_revision": false,
+        "motivo": null
+      },
+      "reference_auc": {
+        "delta": 0.1271667237,
+        "fuente": "data/molchamb_loto/delong_paired_report.json",
+        "m4": 0.8042108564260463,
+        "m5": 0.9313775801117572
+      },
+      "required_components": [
+        "vina",
+        "xgb",
+        "gnn_d",
+        "ums"
+      ],
+      "target": "CA2",
+      "weights": {
+        "gnn_d": 0.2,
+        "ums_warhead": 0.4,
+        "vina_norm": 0.2,
+        "xgboost": 0.2
+      }
+    }
+  },
+  "protocol_family": "M5_ZN",
+  "ums": {
+    "formula": "0.0 if n_warheads == 0 else 0.85 + 0.10 * min(n_warheads / 3, 1)",
+    "nota": "NO es el UMS histórico con donantes y MolChamb. Cambiar un patrón cambia este hash y obliga a una versión de protocolo nueva (§2 del ADR).",
+    "variant": "smarts_only",
+    "warhead_keys": [
+      "sulfonamide",
+      "primary_sulfonamide",
+      "hydroxamic",
+      "thiol",
+      "carboxylate",
+      "phosphonate",
+      "n_hydroxy"
+    ],
+    "warhead_smarts_sha256": "e02142bbacbbeed76ec75c9ed402c17b233e35acedfa31759da7ecdd820b4914"
+  }
+}

@@ -1,0 +1,35 @@
+# =============================================================================
+# Dependencias del microservicio de ML Rescoring
+# =============================================================================
+# Python 3.12 — compatible con ODDT y todas las librerías científicas
+# =============================================================================
+
+# ── Web Framework ────────────────────────────────────────────────
+fastapi==0.115.12
+uvicorn[standard]==0.34.0
+pydantic==2.11.3
+
+# ── ML / Scientific ─────────────────────────────────────────────
+xgboost==2.1.4
+scikit-learn==1.6.1
+numpy>=1.26,<2.1
+scipy>=1.12,<1.15
+joblib==1.4.2
+shap==0.46.0
+
+# ── GNN (RTMScore Level 2) ─────────────────────────────────────
+torch==2.6.0
+torch-geometric==2.6.1
+torch-scatter==2.1.2
+
+# ── Molecular Features (3D interaction fingerprints) ─────────────
+# ODDT 0.7 es la ÚNICA versión disponible en PyPI y conda-forge.
+# Requiere --no-build-isolation para instalarse (ver Dockerfile.rescoring).
+oddt==0.7
+
+# ── HTTP client (para health check interno) ─────────────────────
+httpx==0.28.1
+
+# ── Logging ──────────────────────────────────────────────────────
+structlog==25.2.0
+pydantic-settings

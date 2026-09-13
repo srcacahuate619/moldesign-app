@@ -1,0 +1,64 @@
+{
+  "auc_del_perfil": {
+    "casos_completos": 0.6708,
+    "delta": 0.1096,
+    "limite_inferior_itt_adverso": 0.5612,
+    "n_completos": 2003,
+    "n_itt": 2202,
+    "nota": "ANÁLISIS DE SENSIBILIDAD, no un AUC corregido. Imputa al registro perdido el peor valor de su clase —0.0 a un activo, 1.0 a un decoy—, que es el escenario más adverso posible. Es un LÍMITE INFERIOR bajo esa imputación: mide la fragilidad ante los ausentes y NO estima qué puntuación habrían obtenido realmente."
+  },
+  "completitud_por_clase": {
+    "activos": {
+      "completos": 46,
+      "con_pose_sin_features": 1,
+      "sin_pose": 3,
+      "total": 50
+    },
+    "decoys": {
+      "completos": 1957,
+      "con_pose_sin_features": 68,
+      "sin_pose": 127,
+      "total": 2152
+    }
+  },
+  "coordinacion": {
+    "activos_oraculo": {
+      "coordinando_2.8A": 0,
+      "en_el_entorno_4.0A": 0,
+      "maxima": 13.99,
+      "mediana": 11.04,
+      "minima": 6.13,
+      "n": 47
+    },
+    "activos_top1": {
+      "coordinando_2.8A": 0,
+      "en_el_entorno_4.0A": 0,
+      "maxima": 13.99,
+      "mediana": 11.04,
+      "minima": 6.13,
+      "n": 47
+    },
+    "decoys_top1": {
+      "coordinando_2.8A": 0,
+      "en_el_entorno_4.0A": 0,
+      "maxima": 15.76,
+      "mediana": 9.63,
+      "minima": 5.09,
+      "n": 2025
+    },
+    "definicion": "distancia del zinc al átomo donante (N/O/S) más cercano de la pose"
+  },
+  "diana": "1O86",
+  "ensemble": {
+    "hay_oraculo": false,
+    "modelos_por_registro": {
+      "max": 1,
+      "min": 0
+    },
+    "nota": "El checkpoint guarda UN solo MODEL por registro: conservó la pose top-1 y descartó el resto. Sin ensemble no se puede distinguir «el ligando nunca alcanza el zinc» de «lo alcanza en otra pose y el scoring eligió mal». El oráculo coincide con top-1 por construcción."
+  },
+  "formula": "0.20*Vina_norm + 0.40*XGBoost + 0.40*UMS_warhead",
+  "protocol_id": "M5_ZN_ACE_1O86_V1",
+  "veredicto_coordinacion": "NINGUN_TOP1_DE_ACTIVO_COORDINA",
+  "zincs_en_la_estructura": 1
+}

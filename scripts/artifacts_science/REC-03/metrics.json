@@ -1,0 +1,199 @@
+{
+ "experiment_id": "REC-03",
+ "timestamp": "2026-08-17T21:21:43.975636+00:00",
+ "duration_seconds": 17309.67,
+ "cohorte": {
+  "n_accionables": 25,
+  "n_control": 12,
+  "pool_s0": 218,
+  "seed_muestreo": 42,
+  "control": [
+   "1F0R",
+   "1X7R",
+   "2AM9",
+   "2H02",
+   "3RUT",
+   "3S43",
+   "4CA8",
+   "5PA9",
+   "6KE5",
+   "6PU8",
+   "7E2Y",
+   "7JVU"
+  ]
+ },
+ "config": {
+  "exhaustiveness": 32,
+  "num_modes": 9,
+  "cpu": 1,
+  "seeds": [
+   42,
+   43,
+   44
+  ],
+  "rmsd_exito_A": 2.0,
+  "timeout_s": 1800,
+  "criterio_rmsd": "rdMolAlign.CalcRMS in situ (sin realinear), simetrico",
+  "caja": "tamano del catalogo en los 4 brazos; unica variable = el centro",
+  "receptor": "solo ATOM, todas las cadenas, sin aguas ni HETATM",
+  "seleccion_G_MP_SCORE": "mejor score de Vina entre G_MP1..3; nunca por RMSD"
+ },
+ "n_corridas": 372,
+ "n_validas": 324,
+ "por_brazo_y_estrato": {
+  "G_CAT": {
+   "ACCIONABLE": {
+    "n": 21,
+    "targets_reparados": 0,
+    "tasa": 0.0,
+    "rmsd_mediana_global": 19.968
+   },
+   "CONTROL": {
+    "n": 10,
+    "targets_reparados": 6,
+    "tasa": 0.6,
+    "rmsd_mediana_global": 1.28
+   }
+  },
+  "G_MP1": {
+   "ACCIONABLE": {
+    "n": 21,
+    "targets_reparados": 3,
+    "tasa": 0.1429,
+    "rmsd_mediana_global": 30.456
+   },
+   "CONTROL": {
+    "n": 10,
+    "targets_reparados": 5,
+    "tasa": 0.5,
+    "rmsd_mediana_global": 1.714
+   }
+  },
+  "G_MP2": {
+   "ACCIONABLE": {
+    "n": 21,
+    "targets_reparados": 2,
+    "tasa": 0.0952,
+    "rmsd_mediana_global": 22.602
+   },
+   "CONTROL": {
+    "n": 10,
+    "targets_reparados": 1,
+    "tasa": 0.1,
+    "rmsd_mediana_global": 16.54
+   }
+  },
+  "G_MP3": {
+   "ACCIONABLE": {
+    "n": 21,
+    "targets_reparados": 2,
+    "tasa": 0.0952,
+    "rmsd_mediana_global": 27.091
+   },
+   "CONTROL": {
+    "n": 10,
+    "targets_reparados": 0,
+    "tasa": 0.0,
+    "rmsd_mediana_global": 26.527
+   }
+  },
+  "G_MP_SCORE": {
+   "ACCIONABLE": {
+    "n": 21,
+    "targets_reparados": 6,
+    "tasa": 0.2857,
+    "rmsd_mediana_global": 24.58
+   },
+   "CONTROL": {
+    "n": 10,
+    "targets_reparados": 4,
+    "tasa": 0.4,
+    "rmsd_mediana_global": 4.337
+   }
+  }
+ },
+ "hashes_pre": {
+  "curated_targets.json": "ba8654ebce79c35eebe77d5c0589155fbf569df48f3349b9e965ea2ce491c7c2",
+  "curated_targets.csv": "e56d4c7f47952342bf6199118ce3914e7381e2f0d6ddf93f1306aa085a8e01ed"
+ },
+ "hashes_post": {
+  "curated_targets.json": "ba8654ebce79c35eebe77d5c0589155fbf569df48f3349b9e965ea2ce491c7c2",
+  "curated_targets.csv": "e56d4c7f47952342bf6199118ce3914e7381e2f0d6ddf93f1306aa085a8e01ed"
+ },
+ "entrada_sellada": {
+  "REC-01-R1_per_complex_sha256": "c48fe2822ae4adc8024fcb9281ee09fcd3b138c757e00af55ccbffe6a2b533f3",
+  "REC-03-PRE_geometria_sha256": "16fb850f5fcc71ac8b21837f3e4cbc4744a3e337054a6cbeb0e99384b7afbf81"
+ },
+ "entorno": {
+  "so": "Windows",
+  "python": "3.14.3",
+  "vina_sha256": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+ },
+ "determinismo": [
+  {
+   "pdb_id": "1CX2",
+   "score_original": -8.612,
+   "score_repeticion": -8.612,
+   "rmsd_original": 25.768,
+   "rmsd_repeticion": 25.768,
+   "identico": true
+  },
+  {
+   "pdb_id": "1DIY",
+   "score_original": -5.386,
+   "score_repeticion": -5.386,
+   "rmsd_original": 22.95,
+   "rmsd_repeticion": 22.95,
+   "identico": true
+  },
+  {
+   "pdb_id": "1IGZ",
+   "score_original": -6.555,
+   "score_repeticion": -6.555,
+   "rmsd_original": 42.564,
+   "rmsd_repeticion": 42.564,
+   "identico": true
+  },
+  {
+   "pdb_id": "1F0R",
+   "score_original": -9.887,
+   "score_repeticion": -9.887,
+   "rmsd_original": 1.247,
+   "rmsd_repeticion": 1.247,
+   "identico": true
+  }
+ ],
+ "gates": {
+  "G1_validez": {
+   "criterio": ">=98% de corridas validas (rc=0, 1..9 modos, scores finitos, RMSD reconstruible)",
+   "tasa_validez": 0.871,
+   "n_invalidas": 48,
+   "pass": false
+  },
+  "G2_solo_lectura": {
+   "criterio": "curated_targets.json/.csv conservan su SHA-256",
+   "pass": true
+  },
+  "G3_reparacion": {
+   "criterio": "G_MP_SCORE repara >=5 de los 25 accionables (RMSD top-1 <= 2.0 A en >=2 de 3 semillas)",
+   "reparados": 6,
+   "de": 21,
+   "techo_geometrico_declarado": 10,
+   "pass": true
+  },
+  "G4_no_regresion": {
+   "criterio": "en el control, G_MP_SCORE conserva >=70% de los targets que repara G_CAT",
+   "g_cat": 6,
+   "g_mp_score": 4,
+   "minimo_exigido": 5,
+   "pass": false
+  },
+  "G5_determinismo": {
+   "criterio": "misma semilla -> mismo score top-1 y mismo RMSD al repetir (4 targets, G_CAT, seed 42)",
+   "n": 4,
+   "identicos": 4,
+   "pass": true
+  }
+ },
+ "decision": "NO_GO"
+}

@@ -1,0 +1,35 @@
+{
+ "experiment_id": "REC-04a",
+ "tipo": "auditoria (sin docking); parte sin computo de REC-04, insumo de FEP-01/FEP-02",
+ "timestamp": "2026-08-19T03:07:45.315049+00:00",
+ "duration_seconds": 1.22,
+ "hallazgo_de_partida": "el provenance del pipeline declara receptor.protonation = 'pdb_original': NO se toma ninguna decision de protonacion, se hereda la del fichero de PDBBind",
+ "n_complejos": 116,
+ "n_ok": 116,
+ "receptor": {
+  "con_hidrogenos": 116,
+  "sin_hidrogenos": 0,
+  "titulables_en_sitio_mediana": 1,
+  "complejos_con_HIS_en_sitio": 17,
+  "his_en_sitio_mediana_cuando_hay": 1
+ },
+ "ligando": {
+  "distribucion_carga_formal": {
+   "0": 86,
+   "1": 23,
+   "2": 4,
+   "3": 2,
+   "4": 1
+  },
+  "complejos_con_grupo_ionizable": 87,
+  "grupos_mas_frecuentes": {
+   "amina_secundaria": 42,
+   "acido_carboxilico": 33,
+   "amina_primaria": 31,
+   "fosfato_sulfato": 17,
+   "amidina_guanidina": 16
+  },
+  "neutros_pese_a_ionizable": 64
+ },
+ "limitacion": "SMARTS de ionizables es una heuristica gruesa, no un predictor de pKa; marca candidatos a revision, no errores confirmados. Y no se mide el EFECTO sobre el ranking: eso es REC-04 completo y exige re-dockear"
+}

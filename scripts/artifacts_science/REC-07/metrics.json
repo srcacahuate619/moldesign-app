@@ -1,0 +1,240 @@
+{
+  "alcance": {
+    "no_actualiza_catalogo": true,
+    "nota": "un GO RECOMIENDA un grid; promover a produccion exige E6 (no-regresion, manifest, rollback), fuera de alcance"
+  },
+  "ancla_independiente": {
+    "cys25_sg": [
+      16.591,
+      140.606,
+      16.594
+    ],
+    "familia": "papaina / cisteina-proteasa C1",
+    "nota": "independiente de MolPocket, de los hotspots del catalogo y de toda prediccion",
+    "triada": "Cys25-His162-Asn182"
+  },
+  "config_docking": {
+    "cpu": 1,
+    "exhaustiveness": 32,
+    "filtro_receptor": {
+      "aguas_eliminadas_lineas": 387,
+      "altloc_cys25_elegido": " ",
+      "altloc_descartado_lineas": 35,
+      "cadena": "A",
+      "lineas_conservadas": 1636,
+      "otra_cadena_lineas": 0,
+      "regla": "replica backend/services/docking/preparer.py"
+    },
+    "formula": "C15H28N2O5",
+    "ligando": "E6C (E64c) extraido de 1ITO.pdb",
+    "ligando_sha256": "e82cbe4e3b62dcdf81fd8c5a51541c9f3e2761f97628aadd130b64272b7805d1",
+    "limitacion": "Vina hace docking NO covalente y E64c es inhibidor covalente: el criterio es CONTACTO, no distancia de enlace. 5TUN es APO, no hay pose cristalografica de referencia: no se afirma exactitud de pose.",
+    "num_modes": 9,
+    "receptor_sha256": "eceefe6d18ff716ad30d30a6bb3b267133c2ccf9b10b92d8c0f196e79cc0665f",
+    "receptor_unico_para_los_3_brazos": true,
+    "residuo_eliminado": "A:49 (SER con cadena lateral incompleta, sin OG; 13.64 A de Cys25 SG; -a/--allow_bad_res, mismo fallback que preparer.py; identico en los 3 brazos)",
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "umbral_contacto_A": 5.0
+  },
+  "entorno": {
+    "duracion_s": 3661.38,
+    "generado_utc": "2026-08-17T16:04:18.492199+00:00",
+    "python": "3.14.3",
+    "so": "Windows 11",
+    "vina": "tools/vina/vina.exe",
+    "vina_sha256": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  },
+  "entrada_sellada": {
+    "5TUN_excepciones": [
+      "E8_HOTSPOT_FUERA_DE_CAJA"
+    ],
+    "5TUN_margen_min_hotspots": -5.147,
+    "fuente": "REC-01-R1/per_complex.jsonl",
+    "integra": true,
+    "sha256": "c48fe2822ae4adc8024fcb9281ee09fcd3b138c757e00af55ccbffe6a2b533f3"
+  },
+  "experiment_id": "REC-07",
+  "gates": {
+    "G1_contencion": {
+      "criterio": "grid recomendado con 15/15 hotspots y 3/3 triada",
+      "pass": true,
+      "recomendado": "G_ADAPT"
+    },
+    "G2_ancla": {
+      "criterio": "d(centro, Cys25 SG) <= 9.102 A (G_DB)",
+      "d_G_DB": 9.102,
+      "d_recomendado": 9.008,
+      "pass": true
+    },
+    "G3_validez_docking": {
+      "criterio": "rc=0, no vacio, 1<=modos<=9, scores finitos de REMARK VINA RESULT, geometria parseable",
+      "n_corridas": 15,
+      "n_validas": 15,
+      "pass": true
+    },
+    "G4_contacto_catalitico": {
+      "contacto_n": 4,
+      "criterio": "top-1 a <= 5.0 A de Cys25 SG en >=3 de 5 semillas",
+      "pass": true
+    },
+    "G5_no_regresion": {
+      "criterio": "tasa de contacto no menor que G_DB y mediana no peor por mas de 1.0 A",
+      "pass": false
+    },
+    "G6_determinismo": {
+      "comparacion": [
+        {
+          "brazo": "G_DB",
+          "d_original": 0.423,
+          "d_repeticion": 0.423,
+          "identico": true,
+          "score_original": -6.131,
+          "score_repeticion": -6.131
+        },
+        {
+          "brazo": "G_MP",
+          "d_original": 1.51,
+          "d_repeticion": 1.51,
+          "identico": true,
+          "score_original": -6.318,
+          "score_repeticion": -6.318
+        },
+        {
+          "brazo": "G_ADAPT",
+          "d_original": 0.933,
+          "d_repeticion": 0.933,
+          "identico": true,
+          "score_original": -5.682,
+          "score_repeticion": -5.682
+        }
+      ],
+      "criterio": "misma semilla -> mismo top1 y misma distancia",
+      "n_brazos_repetidos": 3,
+      "pass": true,
+      "semilla": 42
+    },
+    "G7_solo_lectura": {
+      "criterio": "catalogo y CSV conservan su SHA-256",
+      "hashes_post": {
+        "curated_targets.csv": "e56d4c7f47952342bf6199118ce3914e7381e2f0d6ddf93f1306aa085a8e01ed",
+        "curated_targets.json": "ba8654ebce79c35eebe77d5c0589155fbf569df48f3349b9e965ea2ce491c7c2"
+      },
+      "hashes_pre": {
+        "curated_targets.csv": "e56d4c7f47952342bf6199118ce3914e7381e2f0d6ddf93f1306aa085a8e01ed",
+        "curated_targets.json": "ba8654ebce79c35eebe77d5c0589155fbf569df48f3349b9e965ea2ce491c7c2"
+      },
+      "pass": true
+    }
+  },
+  "por_brazo": {
+    "G_ADAPT": {
+      "contacto_top1_de": 5,
+      "contacto_top1_n": 4,
+      "d_cys25_top1_mediana": 0.933,
+      "d_cys25_top1_min": 0.593,
+      "geometria": {
+        "centro": [
+          11.104,
+          135.221,
+          21.288
+        ],
+        "d_cys25_sg": 9.008,
+        "d_triada_centroide": 9.426,
+        "hotspots_dentro": 15,
+        "hotspots_fuera": [],
+        "hotspots_total": 15,
+        "margen_min_hotspots": 4.001,
+        "tamano": [
+          19.0,
+          25.3,
+          25.9
+        ],
+        "triada_dentro": 3,
+        "volumen_A3": 12450.1
+      },
+      "n_corridas": 5,
+      "n_validas": 5,
+      "score_top1_mediana": -5.666,
+      "score_top1_mejor": -5.698,
+      "wall_s_total": 1185.3
+    },
+    "G_DB": {
+      "contacto_top1_de": 5,
+      "contacto_top1_n": 5,
+      "d_cys25_top1_mediana": 0.773,
+      "d_cys25_top1_min": 0.423,
+      "geometria": {
+        "centro": [
+          11.151,
+          133.751,
+          14.09
+        ],
+        "d_cys25_sg": 9.102,
+        "d_triada_centroide": 8.766,
+        "hotspots_dentro": 12,
+        "hotspots_fuera": [
+          "A:GLU84",
+          "A:LEU48",
+          "A:TYR89"
+        ],
+        "hotspots_total": 15,
+        "margen_min_hotspots": -5.147,
+        "tamano": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "triada_dentro": 3,
+        "volumen_A3": 10648.0
+      },
+      "n_corridas": 5,
+      "n_validas": 5,
+      "score_top1_mediana": -5.095,
+      "score_top1_mejor": -6.131,
+      "wall_s_total": 1092.2
+    },
+    "G_MP": {
+      "contacto_top1_de": 5,
+      "contacto_top1_n": 5,
+      "d_cys25_top1_mediana": 0.777,
+      "d_cys25_top1_min": 0.525,
+      "geometria": {
+        "centro": [
+          8.44,
+          136.26,
+          21.28
+        ],
+        "d_cys25_sg": 10.358,
+        "d_triada_centroide": 9.571,
+        "hotspots_dentro": 15,
+        "hotspots_fuera": [],
+        "hotspots_total": 15,
+        "margen_min_hotspots": 2.779,
+        "tamano": [
+          24.9,
+          24.9,
+          24.9
+        ],
+        "triada_dentro": 3,
+        "volumen_A3": 15438.2
+      },
+      "n_corridas": 5,
+      "n_validas": 5,
+      "score_top1_mediana": -6.182,
+      "score_top1_mejor": -6.455,
+      "wall_s_total": 1366.5
+    }
+  },
+  "prueba_ciega": {
+    "docking": "parcial: 1 smoke previo (G_ADAPT, exh=8, seed=42, top1=-4.418) sin medir distancia a Cys25 y sin otros brazos ni semillas",
+    "geometria": false
+  },
+  "recomendado": "G_ADAPT",
+  "target": "5TUN"
+}

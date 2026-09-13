@@ -1,0 +1,42 @@
+{
+  "metodo": "AF-01-R1 corrigendum: FND-05/FND-02 por cadena con fix de igualdad literal",
+  "k_mer": 8,
+  "umbral_cadena": 0.9,
+  "n_holdout": 328,
+  "n_pool_dev": 537,
+  "n_fallback_ca": 0,
+  "grupos_secuencia_exacta_cruzados": 61,
+  "complejos_dev_afectados_exactos": 134,
+  "complejos_holdout_afectados_exactos": 126,
+  "pares_complejos_dev_holdout_ge90": 1600,
+  "pares_cadenas_dev_holdout_ge90": 2370,
+  "estratos": {
+    "receptor_seen_exact": {
+      "n": 126,
+      "spearman": 0.724,
+      "spearman_ci95": [
+        0.6254,
+        0.7915
+      ],
+      "n_with_pred": 126
+    },
+    "receptor_near_identity": {
+      "n": 108,
+      "spearman": 0.5135,
+      "spearman_ci95": [
+        0.3397,
+        0.6623
+      ],
+      "n_with_pred": 108
+    },
+    "receptor_unrelated": {
+      "n": 94,
+      "spearman": 0.5395,
+      "spearman_ci95": [
+        0.3761,
+        0.666
+      ],
+      "n_with_pred": 94
+    }
+  }
+}

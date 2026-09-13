@@ -1,0 +1,7 @@
+{
+  "protocol_file": "validation/protocols/alpha-controls-v1.json",
+  "sha256": "7082e96154825ad3d6a07a4a0ac18d95981f4d6a78b9c38f1d2ff48aa4b26dcd",
+  "bytes": 13416,
+  "frozen_at_utc": "2026-09-10T19:39:40.443496+00:00",
+  "nota": "Hash calculado ANTES de ejecutar ningun caso cientifico con etiqueta. Si el archivo cambia, este hash deja de coincidir y el prerregistro queda invalidado."
+}

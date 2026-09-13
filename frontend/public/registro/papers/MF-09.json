@@ -1,0 +1,393 @@
+{
+ "id": "MF-09",
+ "meta": {
+  "titulo": "En 30 de 33 complejos, la pose correcta no está entre las 751 candidatas",
+  "entradilla": "Es muestreo, no puntuación. Ningún selector puede elegir algo que no existe. Y en el control ocurre lo contrario: la pose buena está y el score no la pone primera en 8 de 15."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Tras agotar las palancas geométricas —caja, reinicios, campo de fuerza— quedaba una pregunta que nadie había separado limpiamente. Cuando un complejo falla, puede ser por dos razones incompatibles:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Muestreo",
+      "m": "fuerte"
+     },
+     {
+      "t": ": entre todas las poses generadas no hay ninguna correcta. Ningún selector",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "puede arreglarlo, porque no hay nada que elegir.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Puntuación",
+      "m": "fuerte"
+     },
+     {
+      "t": ": la pose correcta está ahí y el score no la elige. Hay margen de mejora en",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "la selección.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento no computa nada nuevo. Lee el material ya sellado, sin parámetros libres, y responde.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La respuesta",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es muestreo.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En ",
+     "m": null
+    },
+    {
+     "t": "30 de los 33",
+     "m": "fuerte"
+    },
+    {
+     "t": " complejos dominados por colocación ",
+     "m": null
+    },
+    {
+     "t": "no existe ninguna pose a ≤2 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": " entre una mediana de ",
+     "m": null
+    },
+    {
+     "t": "751 candidatas",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Complejos que aciertan",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Mirando el top-1 por score",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Mirando las 20 mejores",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No hay nada que seleccionar. Eso cierra la línea geométrica de golpe: ni la caja, ni los reinicios, ni el score son el factor limitante en esa cohorte. Con 86 confórmeros, 9 modos por corrida y tres tamaños de caja probados, ",
+     "m": null
+    },
+    {
+     "t": "el generador no visita la región correcta",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El hallazgo colateral, que vale más que la respuesta",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En el estrato de control la historia es exactamente la opuesta:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Control (n=15)",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Complejos con pose buena disponible",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15 de 15",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Acierta el top-1 por score",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "7",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Acierta mirando el top-5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "14",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Hay un ",
+     "m": null
+    },
+    {
+     "t": "margen de selección de 8 complejos de 15",
+     "m": "fuerte"
+    },
+    {
+     "t": " donde la pose correcta está disponible, el score no la pone primera, pero sí la deja entre las cinco primeras.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y la correlación entre score y RMSD lo confirma: ",
+     "m": null
+    },
+    {
+     "t": "0.483 en el control",
+     "m": "fuerte"
+    },
+    {
+     "t": " frente a ",
+     "m": null
+    },
+    {
+     "t": "0.186 en la cohorte difícil",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El score ordena razonablemente donde hay señal, y es casi ciego donde no la hay.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué esto reparte el esfuerzo al revés de como se venía haciendo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esta es, medida por primera vez a nivel de pose, la descomposición que el programa exigía: el rendimiento global es el producto de dos factores independientes —",
+     "m": null
+    },
+    {
+     "t": "cobertura",
+     "m": "fuerte"
+    },
+    {
+     "t": " del generador y ",
+     "m": null
+    },
+    {
+     "t": "precisión condicional",
+     "m": "fuerte"
+    },
+    {
+     "t": " del selector— y mejorarlos requiere trabajos distintos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Durante meses se estuvo midiendo al selector sobre complejos que el generador nunca cubrió. En esos casos el selector no podía hacer nada, y su fracaso no informaba sobre el selector.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La conclusión operativa es concreta: ",
+     "m": null
+    },
+    {
+     "t": "mejorar el generador donde falla, y el selector donde hay material",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Son dos problemas, no uno.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese margen de 8 de 15 es además el que después se convirtió en decisión de producto: entregar cinco poses en lugar de una sube la cobertura útil 13 puntos sin tocar el motor. La solución no era un selector mejor. Era dejar de fingir que hay que elegir una sola.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-09.md"
+}

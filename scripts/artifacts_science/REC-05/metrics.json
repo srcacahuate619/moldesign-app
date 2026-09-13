@@ -1,0 +1,81 @@
+{
+ "experiment_id": "REC-05",
+ "tipo": "intervencion pareada con re-alcance, regla de lectura y MDE preregistrados",
+ "timestamp": "2026-08-23T04:17:41.917672+00:00",
+ "config": {
+  "exh": 8,
+  "num_modes": 9,
+  "semillas": [
+   42,
+   1,
+   2,
+   3,
+   4
+  ],
+  "box": 25.0,
+  "umbral_A": 2.0,
+  "ligando": "conf0.flex.pdbqt",
+  "variable_unica": "el receptor: con todos sus metales contra sin ninguno",
+  "metrica": "rmsd_pose_pocket sin alineamiento",
+  "protocolo_importado_de": "run_rec11_aguas_denovo._brazo (sellado en REC-11)",
+  "metales_importados_de": "analisis_rec12_cofactores.METALES (sellado en REC-12)"
+ },
+ "n_complejos": 29,
+ "n_ok": 29,
+ "cantidad_primaria": {
+  "etiqueta": "TODOS_LOS_METALES",
+  "n": 29,
+  "cobertura_CON": {
+   "n": 24,
+   "frac": 0.8276
+  },
+  "cobertura_SIN": {
+   "n": 25,
+   "frac": 0.8621
+  },
+  "b_gana_SIN": 2,
+  "c_gana_CON": 1,
+  "mcnemar_p_exacto": 1.0,
+  "discordancia": 0.1034,
+  "mde_observado_pp": 14.84,
+  "lectura_preregistrada": "SIN_DIFERENCIA_DETECTABLE"
+ },
+ "secundario_familia_ZN": {
+  "etiqueta": "FAMILIA_ZN",
+  "n": 21,
+  "cobertura_CON": {
+   "n": 16,
+   "frac": 0.7619
+  },
+  "cobertura_SIN": {
+   "n": 17,
+   "frac": 0.8095
+  },
+  "b_gana_SIN": 2,
+  "c_gana_CON": 1,
+  "mcnemar_p_exacto": 1.0,
+  "discordancia": 0.1429,
+  "mde_observado_pp": 19.72,
+  "nota": "descriptivo; unica familia con n"
+ },
+ "familias_presentes": {
+  "ZN": 21,
+  "CA": 7,
+  "MG": 3,
+  "MN": 3,
+  "CU": 2
+ },
+ "familias_declaradas_NO_LEIBLES": [
+  "CA",
+  "MG",
+  "MN",
+  "CU"
+ ],
+ "limites_declarados": [
+  "re-alcance: aguas fuera -REC-11 no lo autorizo- y cofactores fuera -REC-12-R1 midio n=2-",
+  "el gate por familia del REC-05 original NO es alcanzable a este n y se declaro antes de correr",
+  "un solo conformero, igual que REC-11: mide el efecto a conformero igualado, no la cobertura alcanzable",
+  "quitarlos todos no es la unica alternativa; no se evaluan politicas intermedias",
+  "no toca ningun artefacto sellado ni cambia ningun receptor"
+ ]
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "experiment_id": "D-MF-HARD-EXH4-VAL",
+  "hypothesis": "La ejecucion descriptiva de Vina exh4 sobre val caracteriza el comportamiento fuera de train",
+  "protocol": "D-MF-HARD-EXH4 (sello train) + FORECAST.md correcciones",
+  "created_at": "2026-08-16T09:57:57.236353+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "858933bef98561d322c08cdaf7f221862d0377b8",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "Solo 10 val, config identica, descriptivo n=5, primera y unica ejecucion exh4 sobre val, sin poder de decision"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/D-MF-HARD/cohort.jsonl": "6d3f3a09dcd7e7393b4572ae1425c1e87d6ec0e233afbd7c7be3775ae50779ba"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/D-MF-HARD-EXH4-VAL/DESIGN.md": "28ecf1cdd56bbf71e9b874fcaa5548f29018ef9cec19367248d1b2aac23f9e6d",
+    "scripts/artifacts_science/D-MF-HARD-EXH4-VAL/metrics.json": "94250165fa417c5e009b0e365bd5a6e021d7dea76f33aa65d54f938a99f92225",
+    "scripts/artifacts_science/D-MF-HARD-EXH4-VAL/exh4_poses_val.jsonl": "deb40e1e8af7b4c3bd67fbbc8aa2610f241308d53e85d5f74b0c6101b8127742",
+    "scripts/artifacts_science/D-MF-HARD-EXH4-VAL/exh4_provenance.jsonl": "ba5a5b6c9c77e6896cbca3143572521569e01e8bf320feb11ef6eb621152f7d0",
+    "scripts/artifacts_science/D-MF-HARD-EXH4-VAL/exh4_candidates_val.jsonl": "c2bc08b430be497a0a04219cb69eedc651a7340bf633706d2ff5a5425fde08d3",
+    "scripts/artifacts_science/D-MF-HARD-EXH4-VAL/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/D-MF-HARD-EXH4-VAL/deviations.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/D-MF-HARD-EXH4-VAL/per_complex.jsonl": "e3e0b392ec5c6022405680ae9d8899301ca83566259b667ec602729656515190",
+    "scripts/run_vina_exh4_val.py": "51b8886020f51456096d91f5f66cb36f14c2a0954e1934fb6f3a1e7cd22c6ae3",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T10:09:14.442531+00:00",
+  "decision_rationale": "Ejecucion descriptiva val completada UNA sola vez: hard 2/5 (40%, Wilson CI95 0.118-0.769), control 2/5 (40%, mismo CI); 0 fallos ITT, 76 poses, 10 corridas. n=5 sin potencia; primera y unica ejecucion de exh4 sobre val; no ciega. K=15 y claim train sellado INALTERADOS",
+  "finished_at": "2026-08-16T10:09:14.806110+00:00"
+}

@@ -1,0 +1,56 @@
+{
+    "version":  "1.0.0-alpha.2",
+    "created_at":  "2026-07-17T00:00:00Z",
+    "modules":  [
+                    {
+                        "id":  "llm-qwen15",
+                        "name":  "Qwen 2.5 1.5B Instruct (Q4_K_M)",
+                        "description":  "LLM local para MolChat",
+                        "type":  "file",
+                        "filename":  "qwen2.5-1.5b-instruct-q4_k_m.gguf",
+                        "size_bytes":  1117320736,
+                        "sha256":  "6a1a2eb6d15622bf3c96857206351ba97e1af16c30d7a74ee38970e434e9407e",
+                        "urls":  [
+                                     "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/resolve/91cad51170dc346986eccefdc2dd33a9da36ead9/qwen2.5-1.5b-instruct-q4_k_m.gguf"
+                                 ],
+                        "required":  false,
+                        "destination":  "models/llm/",
+                        "features":  [
+                                         "molchat"
+                                     ],
+                        "license":  "Apache-2.0",
+                        "source_url":  "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF",
+                        "license_url":  "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct-GGUF/blob/main/LICENSE",
+                        "revision":  "91cad51170dc346986eccefdc2dd33a9da36ead9",
+                        "revision_nota":  "Commit inmutable. Antes decia \u0027main\u0027, que es un puntero movil: el dia que upstream lo mueva, el SHA-256 fijado deja de coincidir y la descarga falla sin que nadie lo haya decidido."
+                    },
+                    {
+                        "id":  "esmfold-weights",
+                        "name":  "ESMFold v1 — pesos del modelo",
+                        "description":  "Plegamiento de péptidos con ESMFold (Meta AI); el acoplamiento lo hace después AutoDock Vina. Con GPU tarda minutos; en CPU, bastante más. El tokenizer ya viene en el instalador: esto es sólo el checkpoint.",
+                        "type":  "file",
+                        "filename":  "pytorch_model.bin",
+                        "size_bytes":  8442062570,
+                        "sha256":  "2ee07356b125d1e3e57503c204111fd7323347fc4735d41d3caac57c2a78e116",
+                        "urls":  [
+                                     "https://huggingface.co/srcacahuate/moldesign-models/resolve/a12fe0cc72c86cb0f8326fba17879c300508a04e/v1.0.0/esmfold/models/pytorch_model.bin"
+                                 ],
+                        "required":  false,
+                        "destination":  "esmfold/models/",
+                        "features":  [
+                                         "peptide_docking"
+                                     ],
+                        "license":  "MIT",
+                        "source_url":  "https://huggingface.co/facebook/esmfold_v1",
+                        "license_url":  "https://github.com/facebookresearch/esm/blob/main/LICENSE",
+                        "revision":  "a12fe0cc72c86cb0f8326fba17879c300508a04e",
+                        "engine_id":  "esmfold",
+                        "requires_python":  [
+                                                "torch",
+                                                "transformers"
+                                            ],
+                        "notes":  "Los archivos pequeños que `from_pretrained` necesita —config.json, vocab.txt, tokenizer_config.json y special_tokens_map.json— viajan en el instalador (bundle_helper, paso 4b). Sin ellos este .bin no carga.",
+                        "revision_nota":  "Commit inmutable. Antes decia \u0027main\u0027, que es un puntero movil: el dia que upstream lo mueva, el SHA-256 fijado deja de coincidir y la descarga falla sin que nadie lo haya decidido."
+                    }
+                ]
+}

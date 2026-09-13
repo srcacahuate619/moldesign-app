@@ -1,0 +1,87 @@
+{
+ "experiment_id": "MF-11-R2",
+ "timestamp": "2026-08-18T21:00:27.794542+00:00",
+ "duration_seconds": 4.86,
+ "split": "val",
+ "contrato": "heredado literal de MF-11-R1; solo cambia el conjunto (v1 -> v2)",
+ "alcance": "solo poses molflex son agrupables; las de flexible_redock y ruta_a pasan como singletons (opcion conservadora)",
+ "umbral_v1_mf11r1": 1.5,
+ "n_complejos": 40,
+ "n_ok": 40,
+ "tabla_por_umbral": {
+  "0.5": {
+   "n_poses_antes": 7493,
+   "n_poses_despues": 7483,
+   "reduccion_global": 0.0013,
+   "perdidas_de_cobertura": 0,
+   "degradacion_mediana": 0.0,
+   "degradacion_p90": 0.0,
+   "cumple_a_sin_perdidas": true,
+   "cumple_b_degradacion": true,
+   "cumple_c_reduccion": false,
+   "cumple_las_tres": false
+  },
+  "0.75": {
+   "n_poses_antes": 7493,
+   "n_poses_despues": 7322,
+   "reduccion_global": 0.0228,
+   "perdidas_de_cobertura": 0,
+   "degradacion_mediana": 0.0,
+   "degradacion_p90": 0.0,
+   "cumple_a_sin_perdidas": true,
+   "cumple_b_degradacion": true,
+   "cumple_c_reduccion": false,
+   "cumple_las_tres": false
+  },
+  "1.0": {
+   "n_poses_antes": 7493,
+   "n_poses_despues": 7044,
+   "reduccion_global": 0.0599,
+   "perdidas_de_cobertura": 0,
+   "degradacion_mediana": 0.0,
+   "degradacion_p90": 0.174,
+   "cumple_a_sin_perdidas": true,
+   "cumple_b_degradacion": true,
+   "cumple_c_reduccion": false,
+   "cumple_las_tres": false
+  },
+  "1.5": {
+   "n_poses_antes": 7493,
+   "n_poses_despues": 5956,
+   "reduccion_global": 0.2051,
+   "perdidas_de_cobertura": 1,
+   "degradacion_mediana": 0.0,
+   "degradacion_p90": 0.204,
+   "cumple_a_sin_perdidas": false,
+   "cumple_b_degradacion": true,
+   "cumple_c_reduccion": true,
+   "cumple_las_tres": false
+  },
+  "2.0": {
+   "n_poses_antes": 7493,
+   "n_poses_despues": 4665,
+   "reduccion_global": 0.3774,
+   "perdidas_de_cobertura": 0,
+   "degradacion_mediana": 0.0,
+   "degradacion_p90": 0.352,
+   "cumple_a_sin_perdidas": true,
+   "cumple_b_degradacion": true,
+   "cumple_c_reduccion": true,
+   "cumple_las_tres": true
+  }
+ },
+ "umbral_elegido": 2.0,
+ "gates": {
+  "G1_validez": {
+   "criterio": ">=95% de complejos procesados",
+   "tasa": 1.0,
+   "pass": true
+  },
+  "G2_seleccion": {
+   "criterio": "existe un umbral que cumple (a) 0 perdidas, (b) degradacion mediana <=0.1 A, (c) reduccion >=10%",
+   "elegido": 2.0,
+   "pass": true
+  }
+ },
+ "decision": "GO"
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-10-PRE",
+  "hypothesis": "Una minimizacion local dentro del bolsillo con un force field bien parametrizado (amber14 + Sage 2.2.1 + cargas NAGL) acerca la pose dockeada a la conformacion bioactiva; es la unica palanca de la hipotesis original sin probar tras agotar caja y reinicios",
+  "protocol": "MF-10-PRE/PREREGISTRO.md; contenedor moldesign-lab del servidor; 878 poses top-20 por score de los 48 complejos de MF-08/MF-02F; proteina restringida k=100 kcal/mol/A2, ligando libre, 500 iteraciones",
+  "created_at": "2026-08-18T07:43:43.624938+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "a052e413e5881256f24ebc94bfeff564e707f040",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 capacidad por sondeo, G2 >=95% con energia finita, G3 mediana de delta RMSD negativa, G4 >=5 poses de la banda 2-3 A cruzan el umbral"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-02F/metrics.json": "72b3c61f7fc8f21e2c14eda85fcdfc41bf47d49d6fd39886ba4cd094e63d99a2",
+    "scripts/artifacts_science/MF-09/metrics.json": "91bdd42847428e188d47ccc3e2ceb99e7cc18072b35d416ee410147a823ff790"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-10-PRE/PREREGISTRO.md": "ca425fc04d9aa4b74cbc1922aa576bbd4059d320f44e72d0f7697fa175d5731a",
+    "scripts/artifacts_science/MF-10-PRE/poses_entrada.json": "0990fa2fe776953fe42aa189dc467b513a6060096424fe35806ee831f6b4036a",
+    "scripts/run_mf10_relax_insitu.py": "d9929bf1498a6f5f202b9793177fcfbfaf7020f14007d82f4e9fa5703161f9be",
+    "docker/Dockerfile.lab": "670544832a4292625c65e10167a436af65b52a7e0bb4305edfd0f644ade19949"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T07:43:44.385499+00:00",
+  "decision_rationale": "Prerregistro sellado antes de la corrida completa; solo el sondeo de capacidad se ejecuto y queda declarado. Es la unica palanca de la hipotesis original del maintainer que sigue sin probarse: el multi-modo ya estaba saturado con num_modes=9 y la flexibilidad de receptor apuntaba a complejos con fallo conformacional. Las dos palancas geometricas se agotaron sobre la misma cohorte, convirtiendo 3 de 33 cada una y moviendo la mediana 0.8 A. NO PUEDE CORRER EN LOCAL: la fase 3 de molflex degrada a vina --local_only porque Python 3.14 bloquea openff-toolkit, diagnostico documentado en la biblioteca del proyecto original; el contenedor tiene Python 3.11 y RS-03-PARAM-A ya valido la parametrizacion ahi. Sus datos NO se degradan con RS-14 porque son magnitudes fisicas -RMSD antes y despues, y energias- que no dependen de que modelo estadistico gane: con GO son mejores candidatas para el mismo selector y con NO_GO siguen siendo la medicion de si el campo de fuerza acerca la pose. El sondeo descubrio tres dependencias ausentes del contenedor (openmmforcefields, pdbfixer, lxml) que se anadieron a la imagen antes de preregistrar; si hubiera fallado, ese habria sido el resultado, porque la pregunta se responde con un no rotundo si el FF no se puede parametrizar. Prediccion declarada: 67 de las 878 poses caen en la banda 2-3 A, la unica donde una minimizacion local puede plausiblemente convertir, y la banda no se redefine despues. G3 y G4 son distintos a proposito: un FF puede acercar sistematicamente sin convertir a nadie, o convertir a unos pocos por azar sin tendencia. Advertencia declarada: minimizar optimiza hacia el minimo del campo de fuerza y no hacia el cristal, asi que se reporta cuantas poses empeoran.",
+  "finished_at": "2026-08-18T07:44:05.745817+00:00"
+}

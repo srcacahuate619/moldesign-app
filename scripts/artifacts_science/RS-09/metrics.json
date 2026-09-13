@@ -1,0 +1,113 @@
+{
+ "experiment_id": "RS-09",
+ "timestamp": "2026-08-17T07:42:08.673035+00:00",
+ "duration_seconds": 58.71,
+ "decision": "NO_GO",
+ "checkpoint": {
+  "path": "D:\\moldesign-build\\rescoring\\artifacts\\pose_selector_v06.xgb",
+  "sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+  "esperado": "9827DDB94C5DED5B2EF1DDA1250606D73F73163BECC310641D5BD493196E5D31"
+ },
+ "cohorte": {
+  "n_complejos_train": 116,
+  "n_poses": 2739,
+  "n_con_receptor": 109,
+  "n_sin_receptor": 7,
+  "pids_sin_receptor": [
+   "10gs",
+   "184l",
+   "187l",
+   "188l",
+   "1a30",
+   "1a99",
+   "1ai4"
+  ],
+  "cobertura_pct": 93.97,
+  "nota_cobertura": "A/B/C evaluados sobre complejos con receptor disponible (nativo o fallback vina_redock_work/dmfhard_curve_work). Los complejos sin receptor (todos molflex puros, WORK_V3 inexistente en el worktree) se declaran NO cubiertos por indisponibilidad de datos, no como fallos del selector. Fuentes de coords canonicas: lig_pos de gnn_train.pt (dataset congelado). Desviacion de ejecucion vs RS-09-PRE (116/116): documentada en DESIGN.md."
+ },
+ "gates": {
+  "G1_invarianza_rigida": {
+   "pass": true,
+   "criterio": "109/109 Top-1 idéntico y max_dif<=1e-6",
+   "n_ok": 109,
+   "max_dif_224": 0.0
+  },
+  "G2_orden": {
+   "pass": true,
+   "criterio": "109/109 Top-1 idéntico bajo permutación",
+   "n_ok": 109
+  },
+  "G3_perturbacion_flips": {
+   "pass": false,
+   "criterio": "flips ok->mal <= 2",
+   "n_flips": 9
+  },
+  "G4_perturbacion_terciles": {
+   "pass": true,
+   "criterio": ">=60% cambios en terciles 1-2",
+   "frac_t12": 0.9565,
+   "terciles": [
+    {
+     "tercil": 1,
+     "rango_margen": [
+      0.0097,
+      0.1226
+     ],
+     "n_complejos": 37,
+     "n_cambiaron": 16,
+     "fraccion_cambio": 0.4324
+    },
+    {
+     "tercil": 2,
+     "rango_margen": [
+      0.1287,
+      0.3016
+     ],
+     "n_complejos": 36,
+     "n_cambiaron": 6,
+     "fraccion_cambio": 0.1667
+    },
+    {
+     "tercil": 3,
+     "rango_margen": [
+      0.3037,
+      1.4621
+     ],
+     "n_complejos": 36,
+     "n_cambiaron": 1,
+     "fraccion_cambio": 0.0278
+    }
+   ]
+  },
+  "G5_drift_reextraccion": {
+   "pass": true,
+   "criterio": "0 mismatches limpio vs canónico",
+   "n_drift": 0
+  },
+  "G6_aislamiento_checkpoint": {
+   "pass": true,
+   "criterio": "SHA-256 del checkpoint idéntico",
+   "sha": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31"
+  }
+ },
+ "A_invarianza": {
+  "n_total": 109,
+  "n_ok": 109,
+  "max_dif_224": 0.0
+ },
+ "B_orden": {
+  "n_total": 109,
+  "n_ok": 109
+ },
+ "C_perturbacion": {
+  "n_total": 109,
+  "n_cambiaron": 23,
+  "n_flips_ok_mal": 9,
+  "drift_limpio": []
+ },
+ "margenes": {
+  "n_finitos": 109,
+  "media": 0.269402,
+  "mediana": 0.205695
+ }
+}

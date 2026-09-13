@@ -1,0 +1,54 @@
+{
+ "experiment_id": "MF-19",
+ "tipo": "medicion con hipotesis nueva",
+ "timestamp": "2026-08-19T00:13:29.518646+00:00",
+ "duration_seconds": 3332.39,
+ "config": {
+  "exhaustiveness": 8,
+  "num_modes": 9,
+  "seed": 42,
+  "box": 25.0
+ },
+ "brazos": {
+  "flexible": "conformero cristalografico con sus torsiones activas",
+  "rigido": "mismo conformero con TODAS las torsiones congeladas (6 GDL)"
+ },
+ "n_complejos": 48,
+ "n_ok": 48,
+ "resumen": {
+  "COLOCACION": {
+   "n": 33,
+   "torsiones_mediana": 11,
+   "flexible": {
+    "n": 33,
+    "acierta": 21,
+    "top1_acierta": 14,
+    "mejor_rmsd_mediano": 1.665
+   },
+   "rigido": {
+    "n": 33,
+    "acierta": 24,
+    "top1_acierta": 22,
+    "mejor_rmsd_mediano": 0.379
+   }
+  },
+  "CONTROL": {
+   "n": 15,
+   "torsiones_mediana": 5,
+   "flexible": {
+    "n": 15,
+    "acierta": 13,
+    "top1_acierta": 11,
+    "mejor_rmsd_mediano": 1.155
+   },
+   "rigido": {
+    "n": 15,
+    "acierta": 15,
+    "top1_acierta": 10,
+    "mejor_rmsd_mediano": 0.499
+   }
+  }
+ },
+ "prohibicion": "el conformero de entrada es el cristalografico: NO es una politica de produccion, mide un techo -que pasaria si el generador de conformeros fuera perfecto",
+ "lectura": "rigido acierta en la mayoria => la colocacion en 6 GDL esta resuelta y el fallo es busqueda conformacional. rigido falla => el fallo es de COLOCACION pura, y eso indicta al buscador o al paisaje, no al conformero"
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-03-PARAM-A",
+  "hypothesis": "OpenFF Sage 2.2.1 + NAGL openff-gnn-am1bcc-1.0.0 (produccion SHA 7981e7f5) parametriza los 116 ligandos train con cobertura >=95%, determinismo <=1e-6 y cero fallback",
+  "protocol": "RS-03-PARAM-A-PRE sellado (147abb1) refina PRE maestro (7dfa3b8) QA-2; contenedor Ubuntu moldesign-science, cliente moldesign_client.py",
+  "created_at": "2026-08-17T03:37:27+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "0cf8ec5c283148f8a5c0918e4999111816ef85bc",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "11 gates G1-G11: cobertura >=95% global y >=90% por estrato; |sum q - formal| <= 1e-4; determinismo <=1e-6; cero fallback; cero val40/test/CONFIRM; SHA registrados"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/RS-03-PARAM-A/DESIGN.md": "f27be7d733755203881f1aebb257001cbdd7a463ee7e87dd97c025f042d0381a",
+    "scripts/artifacts_science/RS-03-PARAM-A/metrics.json": "67c169c9635a41bbb8fb95624577b1b198000bfa624cbb98f0fca60bb0f07380",
+    "scripts/artifacts_science/RS-03-PARAM-A/per_complex.jsonl": "2785a5b84ccedc829012cb7c63daa300540b1c557bb825bba34d9c1dcc551b2c",
+    "scripts/artifacts_science/RS-03-PARAM-A/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/run_rs03_param_a.py": "c01f668463838ca9c8867394ee16af7886179bad282580c5a05763b46aa64f24",
+    "scripts/remote_docker_runner.py": "9aac660b3d0c2610ccaef5cee84cc0e7c4c6fa319346a1abf37e1ff8607d8efa",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T04:05:45.996771+00:00",
+  "decision_rationale": "11 gates G1-G11 cumplidos: 116/116 ligandos parametrizados, cobertura global 100% y 100% en los 6 estratos, determinismo 2.78e-17 (<=1e-6), |sum q - formal| max 1e-15 (<=1e-4), mapeo biyectivo + atom_order_hash, cero fallback silencioso, energia finita + serializable 100%, modelo NAGL 1.0.0 produccion SHA 7981e7f5 registrado, Sage 2.2.1. Reemplaza el tipado heuristico de molchamb_v2.py:65 como base de cargas. Siguiente: RS-03-PARAM-B (AM1-BCC estratificado) y luego RS-03-PARAM (agregacion).",
+  "finished_at": "2026-08-17T04:05:46.357344+00:00"
+}

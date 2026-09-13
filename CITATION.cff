@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "Si utilizas MolDesign en una publicación, cita este repositorio y el método específico empleado."
+title: "MolDesign AI"
+abstract: >-
+  Aplicación local para producir, organizar y transferir evidencia
+  computacional estructural con procedencia, controles e incertidumbre
+  explícitos.
+version: "1.0.0-alpha.2"
+type: software
+authors:
+  - family-names: Amezcua
+    given-names: Johan
+    affiliation: MolDesign AI
+repository-code: "https://github.com/srcacahuate619/moldesign-app"
+license: PolyForm-Noncommercial-1.0.0
+date-released: 2026-09-06

@@ -1,0 +1,28 @@
+{
+  "test_metrics": {
+    "roc_auc": 0.6823,
+    "pr_auc": 0.6642,
+    "accuracy": 0.6327,
+    "bce": 0.6994
+  },
+  "best_val_auc": 0.7564,
+  "best_epoch": 17,
+  "n_params": 675097,
+  "n_train": 457,
+  "n_val": 98,
+  "n_test": 98,
+  "config": {
+    "epochs": 200,
+    "batch_size": 16,
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "hidden_dim": 128,
+    "dropout": 0.2,
+    "patience": 30,
+    "device": "auto",
+    "seed": 42,
+    "workers": 0,
+    "gpu_data_dir": null
+  },
+  "engine": "gpu"
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-29-EMP-COR-PRE",
+  "hypothesis": "El deficit del testigo de MF-29-EMP es un artefacto de escala: MF-13 puntuo el cristal como PDBQT RIGIDO (TORSDOF 0, sin penalizacion torsional) y MF-29-EMP dockeo conf0.flex.pdbqt FLEXIBLE con hasta 6 torsiones, y Vina normaliza la afinidad dividiendo por (1 + w_rot * N_rot). Preparar el cristal con la MISMA flexibilidad debe eliminar el deficit o dejarlo por debajo del ruido.",
+  "protocol": "Corrigendum del testigo de MF-29-EMP. Repite MF-13 cambiando UNA SOLA COSA: escribe el flex_str de molflex.escribir_pdbqt en vez del rigid_str. Mismo tipado de Meeko, mismo receptor rec.pdbqt, misma caja de 25 A, misma semilla 42, mismo --score_only y --local_only con re-puntuacion de la pose relajada. Contenedor moldesign-lab del servidor, el mismo de MF-13 y MF-29-EMP, con vina 1.2.7 en /usr/local/bin/vina. Cohorte: los 48 con lectura en MF-29-EMP. Script sellado: scripts/run_mf29cor_escala_torsional.py.",
+  "created_at": "2026-08-20T19:36:39.758995+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "83079e9e5f67e1e912037345395e458cb6f91039",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "GATES DE VALIDEZ PRIMERO. G1: el TORSDOF del cristal flexible coincide con el de conf0.flex.pdbqt en >=95% de los complejos; si no, no son la misma molecula preparada igual y el experimento NO SE LEE. G2: la deriva mediana de --local_only respecto del cristal se mantiene <=2.0 A; si se va, deja de ser el cristal. CANTIDAD PRIMARIA: f = fraccion de los 48 donde score_cristal_local_FLEX < score_min(masivo) - 0.10. TRES LECTURAS ESCRITAS ANTES: (1) f<=0.30 ARTEFACTO DE ESCALA, el testigo no sostiene fallo de busqueda y la cantidad primaria de MF-29-EMP queda como unico instrumento valido, con lo que su lectura OBJETIVO se sostiene sola y su decision pasa a GO; (2) f>=0.70 EL TESTIGO SOBREVIVE, el cristal gana tambien a igual escala y MF-29-EMP se queda INCONCLUSIVE; (3) intermedio MIXTO, se reporta la fraccion y MF-29-EMP se queda INCONCLUSIVE. PROHIBIDO: mover estos umbrales despues de ver f; reabrir la cantidad primaria de MF-29-EMP, que es masivo vs produccion y no la toca ningun resultado de aqui; leer cualquier cosa de esto como certificado de optimalidad global, porque MF-29 sigue ABIERTO."
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-29-EMP/testigo_mf13.json": "e66abc0b129a27dc0ea2c3819c871945a288fdc4e0cdb16af8a9b2de570f0e77",
+    "scripts/artifacts_science/MF-29-EMP/per_complex.jsonl": "69d113c03d676ad3207b1dfa2dc2156f9d424a39cb2e784c5a984bd692ac31ca"
+  },
+  "assets_hashes": {
+    "scripts/run_mf29cor_escala_torsional.py": "b3e516a3301c824daaa79dbbab36ec19b6c050bd52b0d44bdd3bbbec47285631"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-20T19:36:40.812055+00:00",
+  "decision_rationale": "Prerregistro sellado ANTES de ejecutar, con el hash del script que contiene la regla de lectura. Motivo del corrigendum: el testigo de MF-29-EMP comparo score_cristal_local de MF-13 -PDBQT RIGIDO, TORSDOF 0- contra el mejor score del brazo masivo -conf0.flex.pdbqt, hasta 6 torsiones activas-. Vina divide la afinidad por (1 + w_rot * N_rot), de modo que el rigido puntua sistematicamente mejor PARA LA MISMA POSE y las dos cifras no estan en la misma escala. La aritmetica con w_rot=0.05846 y el TORSDOF real predice un deficit artefactual mediano de 1.367 kcal/mol frente a 0.491 observado, es decir, el artefacto por si solo predice mas deficit del que hay; pero eso es un modelo de la formula y no una medicion, y una decision de gate no se cambia con un modelo cuando medirlo cuesta minutos. Se declaran dos gates de validez antes del primario -G1 mismo TORSDOF que conf0 en >=95%, G2 deriva del local_only <=2.0 A medianos- porque con torsiones libres el relajado puede alejarse mas que los 0.322 A que derivo el rigido de MF-13, y si se aleja deja de ser el cristal. Se declara explicitamente fuera de alcance la cantidad primaria de MF-29-EMP -masivo vs produccion, 3 de 48- que ningun resultado de aqui puede tocar, y se declara que MF-29 sigue ABIERTO pase lo que pase, porque una cota empirica no certifica optimalidad global.",
+  "finished_at": "2026-08-20T19:36:54.175036+00:00"
+}

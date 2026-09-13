@@ -1,0 +1,110 @@
+[
+  {
+    "identity": "1bcd|conf0|model0",
+    "pid": "1bcd",
+    "conformer": 0,
+    "model_idx": 0,
+    "score": -5.66,
+    "rmsd_pose_pocket": 2.1134080296998965,
+    "raw_pdbqt": "raw_pdbqt/1bcd/conf0.out.pdbqt",
+    "raw_sha256": "6a5d834ec4fe5249f1bd4d340a79afd4f6da85bc41d55cb676414ce9acab1335",
+    "stdout": "logs/1bcd/conf0.stdout.txt",
+    "stderr": "logs/1bcd/conf0.stderr.txt"
+  },
+  {
+    "identity": "1bcd|conf0|model1",
+    "pid": "1bcd",
+    "conformer": 0,
+    "model_idx": 1,
+    "score": -5.214,
+    "rmsd_pose_pocket": 2.1134330483836004,
+    "raw_pdbqt": "raw_pdbqt/1bcd/conf0.out.pdbqt",
+    "raw_sha256": "6a5d834ec4fe5249f1bd4d340a79afd4f6da85bc41d55cb676414ce9acab1335",
+    "stdout": "logs/1bcd/conf0.stdout.txt",
+    "stderr": "logs/1bcd/conf0.stderr.txt"
+  },
+  {
+    "identity": "1bcd|conf0|model2",
+    "pid": "1bcd",
+    "conformer": 0,
+    "model_idx": 2,
+    "score": -5.026,
+    "rmsd_pose_pocket": 1.0372724449246684,
+    "raw_pdbqt": "raw_pdbqt/1bcd/conf0.out.pdbqt",
+    "raw_sha256": "6a5d834ec4fe5249f1bd4d340a79afd4f6da85bc41d55cb676414ce9acab1335",
+    "stdout": "logs/1bcd/conf0.stdout.txt",
+    "stderr": "logs/1bcd/conf0.stderr.txt"
+  },
+  {
+    "identity": "1bcd|conf0|model3",
+    "pid": "1bcd",
+    "conformer": 0,
+    "model_idx": 3,
+    "score": -4.902,
+    "rmsd_pose_pocket": 1.5553980198007191,
+    "raw_pdbqt": "raw_pdbqt/1bcd/conf0.out.pdbqt",
+    "raw_sha256": "6a5d834ec4fe5249f1bd4d340a79afd4f6da85bc41d55cb676414ce9acab1335",
+    "stdout": "logs/1bcd/conf0.stdout.txt",
+    "stderr": "logs/1bcd/conf0.stderr.txt"
+  },
+  {
+    "identity": "1bcd|conf0|model4",
+    "pid": "1bcd",
+    "conformer": 0,
+    "model_idx": 4,
+    "score": -4.274,
+    "rmsd_pose_pocket": 2.880642311186864,
+    "raw_pdbqt": "raw_pdbqt/1bcd/conf0.out.pdbqt",
+    "raw_sha256": "6a5d834ec4fe5249f1bd4d340a79afd4f6da85bc41d55cb676414ce9acab1335",
+    "stdout": "logs/1bcd/conf0.stdout.txt",
+    "stderr": "logs/1bcd/conf0.stderr.txt"
+  },
+  {
+    "identity": "1bcd|conf0|model5",
+    "pid": "1bcd",
+    "conformer": 0,
+    "model_idx": 5,
+    "score": -3.609,
+    "rmsd_pose_pocket": 7.1618249594638925,
+    "raw_pdbqt": "raw_pdbqt/1bcd/conf0.out.pdbqt",
+    "raw_sha256": "6a5d834ec4fe5249f1bd4d340a79afd4f6da85bc41d55cb676414ce9acab1335",
+    "stdout": "logs/1bcd/conf0.stdout.txt",
+    "stderr": "logs/1bcd/conf0.stderr.txt"
+  },
+  {
+    "identity": "1bcd|conf0|model6",
+    "pid": "1bcd",
+    "conformer": 0,
+    "model_idx": 6,
+    "score": -3.11,
+    "rmsd_pose_pocket": 13.34809259313854,
+    "raw_pdbqt": "raw_pdbqt/1bcd/conf0.out.pdbqt",
+    "raw_sha256": "6a5d834ec4fe5249f1bd4d340a79afd4f6da85bc41d55cb676414ce9acab1335",
+    "stdout": "logs/1bcd/conf0.stdout.txt",
+    "stderr": "logs/1bcd/conf0.stderr.txt"
+  },
+  {
+    "identity": "1bcd|conf0|model7",
+    "pid": "1bcd",
+    "conformer": 0,
+    "model_idx": 7,
+    "score": -3.102,
+    "rmsd_pose_pocket": 7.413777942115612,
+    "raw_pdbqt": "raw_pdbqt/1bcd/conf0.out.pdbqt",
+    "raw_sha256": "6a5d834ec4fe5249f1bd4d340a79afd4f6da85bc41d55cb676414ce9acab1335",
+    "stdout": "logs/1bcd/conf0.stdout.txt",
+    "stderr": "logs/1bcd/conf0.stderr.txt"
+  },
+  {
+    "identity": "1bcd|conf0|model8",
+    "pid": "1bcd",
+    "conformer": 0,
+    "model_idx": 8,
+    "score": -3.069,
+    "rmsd_pose_pocket": 7.9064077177944725,
+    "raw_pdbqt": "raw_pdbqt/1bcd/conf0.out.pdbqt",
+    "raw_sha256": "6a5d834ec4fe5249f1bd4d340a79afd4f6da85bc41d55cb676414ce9acab1335",
+    "stdout": "logs/1bcd/conf0.stdout.txt",
+    "stderr": "logs/1bcd/conf0.stderr.txt"
+  }
+]

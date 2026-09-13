@@ -1,0 +1,285 @@
+{
+  "version": "v1.3",
+  "n_features": 167,
+  "n_samples_train": 692,
+  "n_samples_val": 173,
+  "spearman_val": 0.7191,
+  "spearman_pval": 0.0,
+  "global_importance": [
+    {
+      "feature": "shell_N_C_8_12",
+      "importance": 0.36880573630332947
+    },
+    {
+      "feature": "shell_C_C_4_8",
+      "importance": 0.1583886742591858
+    },
+    {
+      "feature": "shell_C_C_8_12",
+      "importance": 0.1522396057844162
+    },
+    {
+      "feature": "shell_O_C_8_12",
+      "importance": 0.1332905888557434
+    },
+    {
+      "feature": "ecif_N_don_N",
+      "importance": 0.08971312642097473
+    },
+    {
+      "feature": "ecif_C_ali_C",
+      "importance": 0.0830613300204277
+    },
+    {
+      "feature": "shell_C_N_4_8",
+      "importance": 0.08201585710048676
+    },
+    {
+      "feature": "contacts_per_ha_4A",
+      "importance": 0.06794556975364685
+    },
+    {
+      "feature": "contacts_per_ha_6A",
+      "importance": 0.06647855043411255
+    },
+    {
+      "feature": "shell_S_C_8_12",
+      "importance": 0.06388381868600845
+    },
+    {
+      "feature": "shell_N_O_0_4",
+      "importance": 0.06271179765462875
+    },
+    {
+      "feature": "ecif_O_acc_C",
+      "importance": 0.06202775985002518
+    },
+    {
+      "feature": "ecif_C_aro_N",
+      "importance": 0.06182796135544777
+    },
+    {
+      "feature": "ecif_N_don_S",
+      "importance": 0.0586727112531662
+    },
+    {
+      "feature": "shell_S_N_8_12",
+      "importance": 0.057137176394462585
+    },
+    {
+      "feature": "shell_N_N_4_8",
+      "importance": 0.05548372492194176
+    },
+    {
+      "feature": "heavy_atom_count",
+      "importance": 0.05328782647848129
+    },
+    {
+      "feature": "ecif_O_don_C",
+      "importance": 0.04993050545454025
+    },
+    {
+      "feature": "shell_C_N_8_12",
+      "importance": 0.04782858490943909
+    },
+    {
+      "feature": "ecif_C_ali_O",
+      "importance": 0.0476117767393589
+    },
+    {
+      "feature": "ecif_C_aro_C",
+      "importance": 0.046314239501953125
+    },
+    {
+      "feature": "ecif_O_don_N",
+      "importance": 0.045323800295591354
+    },
+    {
+      "feature": "shell_N_N_0_4",
+      "importance": 0.04488431289792061
+    },
+    {
+      "feature": "shell_O_O_8_12",
+      "importance": 0.04459001123905182
+    },
+    {
+      "feature": "ecif_N_acc_C",
+      "importance": 0.041169174015522
+    },
+    {
+      "feature": "ecif_C_ali_N",
+      "importance": 0.0381266213953495
+    },
+    {
+      "feature": "shell_C_O_4_8",
+      "importance": 0.038050953298807144
+    },
+    {
+      "feature": "shell_N_N_8_12",
+      "importance": 0.03804038092494011
+    },
+    {
+      "feature": "shell_O_N_8_12",
+      "importance": 0.03725109249353409
+    },
+    {
+      "feature": "shell_C_N_0_4",
+      "importance": 0.03600971773266792
+    }
+  ],
+  "group_importance": {
+    "1D/2D (A_EXT)": 0.0,
+    "Vina (B)": 0.090662,
+    "Size-norm (C_EXT)": 0.187712,
+    "Shell (D)": 1.963158,
+    "ECIF (E)": 0.954317
+  },
+  "family_shap": {
+    "soluble_enzyme": {
+      "n_samples": 135,
+      "top_10": [
+        {
+          "feature": "shell_N_C_8_12",
+          "importance": 0.3555159866809845
+        },
+        {
+          "feature": "shell_C_C_4_8",
+          "importance": 0.1573726236820221
+        },
+        {
+          "feature": "shell_C_C_8_12",
+          "importance": 0.1455705761909485
+        },
+        {
+          "feature": "shell_O_C_8_12",
+          "importance": 0.13481244444847107
+        },
+        {
+          "feature": "ecif_N_don_N",
+          "importance": 0.0968620553612709
+        },
+        {
+          "feature": "ecif_C_ali_C",
+          "importance": 0.07910540699958801
+        },
+        {
+          "feature": "shell_C_N_4_8",
+          "importance": 0.07858559489250183
+        },
+        {
+          "feature": "contacts_per_ha_6A",
+          "importance": 0.06690796464681625
+        },
+        {
+          "feature": "contacts_per_ha_4A",
+          "importance": 0.06672343611717224
+        },
+        {
+          "feature": "ecif_O_acc_C",
+          "importance": 0.0662640780210495
+        }
+      ]
+    },
+    "kinase": {
+      "n_samples": 19,
+      "top_10": [
+        {
+          "feature": "shell_N_C_8_12",
+          "importance": 0.3993658423423767
+        },
+        {
+          "feature": "shell_C_C_8_12",
+          "importance": 0.1715869903564453
+        },
+        {
+          "feature": "shell_C_C_4_8",
+          "importance": 0.1454256772994995
+        },
+        {
+          "feature": "shell_O_C_8_12",
+          "importance": 0.11833188682794571
+        },
+        {
+          "feature": "ecif_C_ali_C",
+          "importance": 0.10468101501464844
+        },
+        {
+          "feature": "shell_C_N_4_8",
+          "importance": 0.09896814078092575
+        },
+        {
+          "feature": "shell_N_O_0_4",
+          "importance": 0.09486915916204453
+        },
+        {
+          "feature": "contacts_per_ha_4A",
+          "importance": 0.07879668474197388
+        },
+        {
+          "feature": "ecif_N_don_N",
+          "importance": 0.07130169123411179
+        },
+        {
+          "feature": "shell_N_N_4_8",
+          "importance": 0.06929389387369156
+        }
+      ]
+    },
+    "protease": {
+      "n_samples": 10,
+      "top_10": [
+        {
+          "feature": "shell_N_C_8_12",
+          "importance": 0.44568222761154175
+        },
+        {
+          "feature": "shell_C_C_4_8",
+          "importance": 0.18086829781532288
+        },
+        {
+          "feature": "shell_C_C_8_12",
+          "importance": 0.16155387461185455
+        },
+        {
+          "feature": "shell_O_C_8_12",
+          "importance": 0.14416909217834473
+        },
+        {
+          "feature": "ecif_C_ali_C",
+          "importance": 0.09449711441993713
+        },
+        {
+          "feature": "shell_N_O_0_4",
+          "importance": 0.09233813732862473
+        },
+        {
+          "feature": "shell_C_N_4_8",
+          "importance": 0.07484542578458786
+        },
+        {
+          "feature": "ecif_N_don_N",
+          "importance": 0.07188250124454498
+        },
+        {
+          "feature": "ecif_C_ali_O",
+          "importance": 0.06835687905550003
+        },
+        {
+          "feature": "ecif_N_acc_C",
+          "importance": 0.06240767985582352
+        }
+      ]
+    }
+  },
+  "top_geometric_features": [
+    "shell_N_C_8_12",
+    "shell_C_C_4_8",
+    "shell_C_C_8_12",
+    "shell_O_C_8_12",
+    "ecif_N_don_N",
+    "ecif_C_ali_C",
+    "shell_C_N_4_8",
+    "shell_S_C_8_12"
+  ],
+  "note": "ProLIF interaction features removed in fix #3 (SHAP < 0.003, ablation confirmed)."
+}

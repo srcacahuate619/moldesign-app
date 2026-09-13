@@ -1,0 +1,89 @@
+{
+  "experiment_id": "RS-03-PARAM-A",
+  "timestamp": "2026-08-17T03:37:27.386449+00:00",
+  "duration_seconds": 379.46,
+  "decision": "GO",
+  "n_total": 116,
+  "n_passed": 116,
+  "n_failed": 0,
+  "global_coverage": 1.0,
+  "max_charge_drift_e": 2.7755575615628914e-17,
+  "nagl_model": {
+    "name": "openff-gnn-am1bcc-1.0.0.pt",
+    "path": "/opt/conda/envs/science/lib/python3.11/site-packages/openff/nagl_models/models/am1bcc/openff-gnn-am1bcc-1.0.0.pt",
+    "sha256": "7981e7f5b0b1e424c9e10a40d9e7606d96dcd3dd2b095cb4eeff6829f92238ee"
+  },
+  "forcefield_sage": {
+    "name": "openff-2.2.1.offxml"
+  },
+  "gates": {
+    "G1_model_version_pinned": true,
+    "G2_zero_runtime_downloads": true,
+    "G3_formal_charge_from_sanitized_mol": true,
+    "G4_charge_conservation_le_1e4": true,
+    "G5_bijective_atom_mapping": true,
+    "G6_zero_silent_fallback": true,
+    "G7_global_coverage_ge_95pct": true,
+    "G8_strata_coverage_ge_90pct": true,
+    "G9_finite_energy_and_serializable": true,
+    "G10_deterministic_charges_le_1e6": true,
+    "G11_failures_classified_by_chemistry": true
+  },
+  "strata_coverage": {
+    "neutral": {
+      "total": 86,
+      "passed": 86,
+      "coverage": 1.0
+    },
+    "ionized": {
+      "total": 30,
+      "passed": 30,
+      "coverage": 1.0
+    },
+    "halogenated": {
+      "total": 18,
+      "passed": 18,
+      "coverage": 1.0
+    },
+    "sulfur_phosphorus": {
+      "total": 46,
+      "passed": 46,
+      "coverage": 1.0
+    },
+    "mw_low (<300)": {
+      "total": 41,
+      "passed": 41,
+      "coverage": 1.0
+    },
+    "mw_mid (300-500)": {
+      "total": 56,
+      "passed": 56,
+      "coverage": 1.0
+    },
+    "mw_high (>500)": {
+      "total": 19,
+      "passed": 19,
+      "coverage": 1.0
+    },
+    "rot_low (<5)": {
+      "total": 37,
+      "passed": 37,
+      "coverage": 1.0
+    },
+    "rot_mid (5-10)": {
+      "total": 41,
+      "passed": 41,
+      "coverage": 1.0
+    },
+    "rot_high (>10)": {
+      "total": 38,
+      "passed": 38,
+      "coverage": 1.0
+    },
+    "drug_like": {
+      "total": 81,
+      "passed": 81,
+      "coverage": 1.0
+    }
+  }
+}

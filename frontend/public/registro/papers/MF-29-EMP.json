@@ -1,0 +1,1114 @@
+{
+ "id": "MF-29-EMP",
+ "meta": {
+  "titulo": "Sesenta y cuatro veces más búsqueda mueve tres complejos de cuarenta y ocho",
+  "entradilla": "83.3 horas de CPU contra 4.1, y ninguna ganancia llega a un tercio de kcal/mol. El brazo masivo está saturado, que era justo la condición que le daba sentido a la cota."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Hay una pregunta que precede a todas las demás de esta cartera: ",
+     "m": null
+    },
+    {
+     "t": "¿el buscador ya encontró lo que hay que encontrar?",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Si Vina a ",
+     "m": null
+    },
+    {
+     "t": "exhaustiveness=8",
+     "m": "codigo"
+    },
+    {
+     "t": " ya está devolviendo el mínimo de su propia función, entonces todo lo que falla es la ",
+     "m": null
+    },
+    {
+     "t": "función",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y no hay nada que arreglar en la búsqueda. Si no lo está, hay margen y el diagnóstico cambia por completo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La forma correcta de contestarla sería certificar el óptimo global. Se intentó: la jerarquía de Lasserre se declaró ",
+     "m": null
+    },
+    {
+     "t": "no implementable en este hardware",
+     "m": "fuerte"
+    },
+    {
+     "t": " antes de correr. Lo que queda es una ",
+     "m": null
+    },
+    {
+     "t": "cota empírica",
+     "m": "fuerte"
+    },
+    {
+     "t": " —subir el presupuesto hasta que deje de comprar— y una cota empírica no certifica nada. Por eso ",
+     "m": null
+    },
+    {
+     "t": "MF-29",
+     "m": "codigo"
+    },
+    {
+     "t": ", el certificado, sigue ",
+     "m": null
+    },
+    {
+     "t": "abierto",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El diseño: dos brazos sobre el mismo ligando flexible, ",
+     "m": null
+    },
+    {
+     "t": "exh=8",
+     "m": "codigo"
+    },
+    {
+     "t": " con 5 semillas contra ",
+     "m": null
+    },
+    {
+     "t": "exh=512",
+     "m": "codigo"
+    },
+    {
+     "t": " con 3. Cohorte de 50 con ≤6 torsiones en el PDBQT, que es la dimensión que Vina realmente busca.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La cantidad primaria se declaró antes: fracción de complejos donde el brazo masivo mejora el score por más de 0.10 kcal/mol, el ruido declarado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Criterio preregistrado",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Resultado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "≥0.30 → ",
+       "m": null
+      },
+      {
+       "t": "BÚSQUEDA",
+       "m": "fuerte"
+      },
+      {
+       "t": " · <0.10 → ",
+       "m": null
+      },
+      {
+       "t": "OBJETIVO",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "3/48 = 0.0625 → OBJETIVO",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los tres complejos que se mueven, y el tamaño del movimiento:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Complejo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "TORSDOF",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Producción",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Masivo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Ganancia",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "1d7i",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "COLOCACION",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−2.371",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−2.653",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+0.282",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1m2x",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "RESTO",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "6",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−5.882",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−6.120",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+0.238",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1bn1",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "RESTO",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "6",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−7.143",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−7.268",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+0.125",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ninguno llega a un tercio de kcal/mol. En ",
+     "m": null
+    },
+    {
+     "t": "45 de 48",
+     "m": "fuerte"
+    },
+    {
+     "t": " la diferencia cabe en el ruido, y en ",
+     "m": null
+    },
+    {
+     "t": "19",
+     "m": "fuerte"
+    },
+    {
+     "t": " el masivo salió ",
+     "m": null
+    },
+    {
+     "t": "peor",
+     "m": "enfasis"
+    },
+    {
+     "t": " que producción —nunca por más de 0.05—.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "n",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Mejoran",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Ganancia mediana",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Ganancia máxima",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "COLOCACION",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "7",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.003",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.282",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "CONTROL",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "12",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.002",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.039",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "RESTO",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "29",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.001",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.238",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El coste: 83.3 h de CPU contra 4.1 h.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Veinte veces el tiempo —con tres semillas contra cinco— para mover tres complejos menos de un tercio de kcal/mol.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y la condición que valida la lectura: la desviación estándar entre semillas baja de ",
+     "m": null
+    },
+    {
+     "t": "0.013 a 0.009",
+     "m": "fuerte"
+    },
+    {
+     "t": " medianos. El brazo masivo está ",
+     "m": null
+    },
+    {
+     "t": "saturado",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Si no lo estuviera, «no mejora» sólo significaría «no busqué bastante»; saturado, significa que ahí no hay nada más.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La enmienda: un instrumento se retiró, no un umbral",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esta lectura se selló primero como ",
+     "m": null
+    },
+    {
+     "t": "INCONCLUSIVE",
+     "m": "codigo"
+    },
+    {
+     "t": ", y merece contarse por qué.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Había un segundo instrumento preregistrado, un ",
+     "m": null
+    },
+    {
+     "t": "testigo",
+     "m": "fuerte"
+    },
+    {
+     "t": ": ",
+     "m": null
+    },
+    {
+     "t": "MF-13",
+     "m": "codigo"
+    },
+    {
+     "t": " puntuó el cristal relajado sobre el mismo receptor y la misma caja, y su prerregistro lo declaró cota superior independiente del mínimo global. La regla era «si el cristal puntúa mejor que el brazo masivo, la búsqueda falló». El cruce daba ",
+     "m": null
+    },
+    {
+     "t": "34 de 48 (70.8%)",
+     "m": "fuerte"
+    },
+    {
+     "t": " a favor del cristal, con déficit mediano de 0.49 kcal/mol. Parecía «aterriza en la cuenca y no baja al fondo».",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los dos instrumentos apuntaban en direcciones opuestas, y con dos instrumentos válidos en conflicto la única salida honesta era ",
+     "m": null
+    },
+    {
+     "t": "INCONCLUSIVE",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-29-EMP-COR",
+     "m": "codigo"
+    },
+    {
+     "t": " —prerregistrado y sellado ",
+     "m": null
+    },
+    {
+     "t": "antes",
+     "m": "fuerte"
+    },
+    {
+     "t": " de correr— midió que ",
+     "m": null
+    },
+    {
+     "t": "uno de los dos no medía lo que decía medir",
+     "m": "fuerte"
+    },
+    {
+     "t": ": el testigo comparaba un ligando escrito con ",
+     "m": null
+    },
+    {
+     "t": "TORSDOF 0",
+     "m": "codigo"
+    },
+    {
+     "t": " contra uno con hasta seis torsiones activas, y Vina divide la afinidad por ",
+     "m": null
+    },
+    {
+     "t": "(1 + w_rot · N_rot)",
+     "m": "codigo"
+    },
+    {
+     "t": ". El salto de escala solo es de ",
+     "m": null
+    },
+    {
+     "t": "+1.055",
+     "m": "fuerte"
+    },
+    {
+     "t": " kcal/mol medianos, más del doble del déficit que se estaba leyendo como fallo de búsqueda. Corregido a igual escala, el déficit se invierte: ",
+     "m": null
+    },
+    {
+     "t": "−0.406",
+     "m": "fuerte"
+    },
+    {
+     "t": ", el masivo puntúa mejor, y en 36 de 48.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "No se movió ningún umbral ni se eligió instrumento después de ver el resultado. Se retiró un instrumento ",
+     "m": null
+    },
+    {
+     "t": "inválido",
+     "m": "fuerte"
+    },
+    {
+     "t": ", con un experimento propio, preregistrado, que costó 98 segundos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con el testigo fuera, la cantidad primaria queda sola, su lectura preregistrada ",
+     "m": null
+    },
+    {
+     "t": "OBJETIVO",
+     "m": "codigo"
+    },
+    {
+     "t": " se sostiene, y la decisión pasa de ",
+     "m": null
+    },
+    {
+     "t": "INCONCLUSIVE",
+     "m": "codigo"
+    },
+    {
+     "t": " a ",
+     "m": null
+    },
+    {
+     "t": "GO",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Queda anulado, además, el ",
+     "m": null
+    },
+    {
+     "t": "confusor del confórmero",
+     "m": "fuerte"
+    },
+    {
+     "t": " que esta lectura había declarado como siguiente paso obligado: no hay que comprobarlo, porque el déficit que se le iba a atribuir no existe.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Cuarenta y ocho y no cincuenta: dos plazos vencidos",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "1mmr",
+     "m": "codigo"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "1nm6",
+     "m": "codigo"
+    },
+    {
+     "t": " aparecen como ",
+     "m": null
+    },
+    {
+     "t": "VINA_FALLO",
+     "m": "codigo"
+    },
+    {
+     "t": " en las tres semillas del brazo masivo, con ",
+     "m": null
+    },
+    {
+     "t": "t_total_s: 0",
+     "m": "codigo"
+    },
+    {
+     "t": ", que ",
+     "m": null
+    },
+    {
+     "t": "parece",
+     "m": "fuerte"
+    },
+    {
+     "t": " una caída instantánea. No lo es: ese campo sólo suma las corridas con éxito. El tiempo de fila menos el del brazo de producción da ",
+     "m": null
+    },
+    {
+     "t": "43,200.4 s",
+     "m": "fuerte"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "43,200.6 s",
+     "m": "fuerte"
+    },
+    {
+     "t": " — exactamente 3 × el ",
+     "m": null
+    },
+    {
+     "t": "timeout=14400",
+     "m": "codigo"
+    },
+    {
+     "t": " que estaba ",
+     "m": null
+    },
+    {
+     "t": "en duro",
+     "m": "fuerte"
+    },
+    {
+     "t": " en el runner.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es la trampa que este laboratorio ya tenía registrada: ",
+     "m": null
+    },
+    {
+     "t": "un timeout por debajo del tiempo de un complejo produce síntomas idénticos a un fallo real",
+     "m": "enfasis"
+    },
+    {
+     "t": ". A ",
+     "m": null
+    },
+    {
+     "t": "exh=512",
+     "m": "codigo"
+    },
+    {
+     "t": " estos dos necesitan más de cuatro horas por semilla.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-29-EMP-EXT",
+     "m": "codigo"
+    },
+    {
+     "t": " los recuperó con el plazo convertido en parámetro. Mejora uno: la unión queda en ",
+     "m": null
+    },
+    {
+     "t": "4/50 = 0.08",
+     "m": "fuerte"
+    },
+    {
+     "t": ", sigue siendo ",
+     "m": null
+    },
+    {
+     "t": "OBJETIVO",
+     "m": "codigo"
+    },
+    {
+     "t": ", y la lectura de aquí no cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué autoriza y qué no",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Autoriza",
+     "m": "fuerte"
+    },
+    {
+     "t": " cerrar la vía de «subir el presupuesto del mismo buscador». Está medido, está saturado, y cuesta 20× para nada. Refuerza lo que ",
+     "m": null
+    },
+    {
+     "t": "MF-25",
+     "m": "codigo"
+    },
+    {
+     "t": " vio con 16×.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No autoriza",
+     "m": "fuerte"
+    },
+    {
+     "t": " declarar resuelto el diagnóstico de ",
+     "m": null
+    },
+    {
+     "t": "MF-13",
+     "m": "codigo"
+    },
+    {
+     "t": ", que quedó ",
+     "m": null
+    },
+    {
+     "t": "MIXTO",
+     "m": "codigo"
+    },
+    {
+     "t": " con un componente de búsqueda flagrante. Ese ",
+     "m": null
+    },
+    {
+     "t": "MIXTO",
+     "m": "codigo"
+    },
+    {
+     "t": " se midió contra el mejor dock del conjunto v2 —otro protocolo, ~751 poses por complejo— y no contra el brazo masivo de aquí. Se comprobó además, en ",
+     "m": null
+    },
+    {
+     "t": "MF-13-ESCALA",
+     "m": "codigo"
+    },
+    {
+     "t": ", que ",
+     "m": null
+    },
+    {
+     "t": "MF-13",
+     "m": "codigo"
+    },
+    {
+     "t": " ",
+     "m": null
+    },
+    {
+     "t": "no",
+     "m": "fuerte"
+    },
+    {
+     "t": " arrastra el desajuste de escala que el corrigendum retiró: su top-1 viene de ",
+     "m": null
+    },
+    {
+     "t": "molflex",
+     "m": "codigo"
+    },
+    {
+     "t": ", que dockea el PDBQT rígido, y su gate queda idéntico —23/33 = 0.6970— al restringirlo a poses rígidas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No certifica optimalidad global.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Una cota empírica no es un certificado, y ",
+     "m": null
+    },
+    {
+     "t": "MF-29",
+     "m": "codigo"
+    },
+    {
+     "t": " sigue abierto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No extrapola",
+     "m": "fuerte"
+    },
+    {
+     "t": " fuera del régimen de ≤6 torsiones, ni reabre ",
+     "m": null
+    },
+    {
+     "t": "MF-03/04/05/07/12",
+     "m": "codigo"
+    },
+    {
+     "t": ": son parámetros del mismo buscador, y esto es una razón más para no volver ahí.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Nota de registro",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El artefacto se creó ",
+     "m": null
+    },
+    {
+     "t": "retroactivamente",
+     "m": "fuerte"
+    },
+    {
+     "t": " al cerrar la corrida: el experimento se lanzó al servidor sin manifest, y ",
+     "m": null
+    },
+    {
+     "t": "created_at",
+     "m": "codigo"
+    },
+    {
+     "t": " es del sellado y no del lanzamiento — el mismo caso que ",
+     "m": null
+    },
+    {
+     "t": "MF-14",
+     "m": "codigo"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "MF-19",
+     "m": "codigo"
+    },
+    {
+     "t": ". El prerregistro real es el docstring del script, sellado por hash en ",
+     "m": null
+    },
+    {
+     "t": "assets_hashes",
+     "m": "codigo"
+    },
+    {
+     "t": ", y es anterior a la corrida.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-29-EMP.md"
+}

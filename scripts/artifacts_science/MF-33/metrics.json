@@ -1,0 +1,56 @@
+{
+ "experiment_id": "MF-33",
+ "tipo": "comparacion pareada de tres brazos (aporta el ensemble?)",
+ "timestamp": "2026-08-19T19:20:10.368048+00:00",
+ "duration_seconds": 3002.77,
+ "config": {
+  "box": 25.0,
+  "seed": 42,
+  "exh": 8,
+  "num_modes": 9,
+  "umbral_A": 2.0,
+  "conformero_brazo_A": "conf0.flex.pdbqt",
+  "eleccion_conf0": "primero por indice, SIN mirar RMSD (declarado)",
+  "brazo_B": "reusado de MF-28 sin recomputo"
+ },
+ "n_complejos": 48,
+ "n_ok": 48,
+ "por_estrato": {
+  "COLOCACION": {
+   "n": 33,
+   "A_alcanza": 12,
+   "A_rmsd_mediano": 3.056,
+   "A_cpu_mediana_s": 140.2,
+   "B_alcanza": 26,
+   "B_rmsd_mediano": 1.184,
+   "B_cpu_mediana_s": 3821.7,
+   "C_alcanza": 1,
+   "C_rmsd_mediano": 3.238,
+   "C_cpu_mediana_s": 574.6,
+   "AvsB_b_gana_A": 0,
+   "AvsB_c_gana_B": 14,
+   "AvsB_mcnemar_p": 0.0001,
+   "AvsB_delta_complejos": 14,
+   "margen_equivalencia_declarado": "+-4 complejos (+-12 pp)",
+   "mde_superioridad_declarado": "b>=6 con c=0"
+  },
+  "CONTROL": {
+   "n": 15,
+   "A_alcanza": 14,
+   "A_rmsd_mediano": 1.325,
+   "A_cpu_mediana_s": 24.6,
+   "B_alcanza": 15,
+   "B_rmsd_mediano": 1.01,
+   "B_cpu_mediana_s": 140.1,
+   "C_alcanza": 15,
+   "C_rmsd_mediano": 0.861,
+   "C_cpu_mediana_s": 54.6,
+   "AvsB_b_gana_A": 0,
+   "AvsB_c_gana_B": 1,
+   "AvsB_mcnemar_p": 1.0,
+   "AvsB_delta_complejos": 1,
+   "margen_equivalencia_declarado": "+-4 complejos (+-12 pp)",
+   "mde_superioridad_declarado": "b>=6 con c=0"
+  }
+ }
+}

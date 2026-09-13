@@ -1,0 +1,191 @@
+{
+ "experiment_id": "PROD-PV-H-01-TECNICO",
+ "tipo": "VALIDACION DE CONFORMIDAD DE LA MEDICION: que procedimiento puede llamarse internal_energy dentro del producto. NO mide rendimiento de docking.",
+ "timestamp": "2026-08-23T19:08:08.147563+00:00",
+ "parametros_oficiales": {
+  "threshold_energy_ratio": 100.0,
+  "ensemble_number_conformations": 50,
+  "version_posebusters": "0.6.5",
+  "origen": "C:\\Users\\Johan Amezcua\\AppData\\Roaming\\Python\\Python314\\site-packages\\posebusters\\config\\dock.yml",
+  "campo_de_fuerza": "UFF",
+  "formula": "energy_ratio = mol_pred_energy / ensemble_avg_energy"
+ },
+ "brazos": {
+  "A_PROD_FULL_CURRENT": "PDBQT -> representacion MIXTA actual -> PoseBusters oficial",
+  "B_PROD_PROXY_CURRENT": "PDBQT -> representacion MIXTA actual -> proxy RDKit propio",
+  "C_TARGET_CANONICAL": "PDBQT -> reconstruccion CANONICA (MF-33-H-COR) -> PoseBusters oficial",
+  "D_PROXY_SOBRE_CANONICA": "SECUNDARIO descriptivo, no primario: proxy sobre la canonica"
+ },
+ "canonicalizacion": {
+  "procedencia": "scripts/run_mf33hcor_reconstruccion.py, sellado en MF-33-H-COR",
+  "sha256_verificado_en_ejecucion": "072746e4530ec8fc2cbdaae0356b2b71fb52b65d23e0f758e192fbbcd09b5e95",
+  "nota_coords_vacias": "se invoca con coords_pose={} porque la molecula ya trae las coordenadas dockeadas: no hay nada que sustituir"
+ },
+ "n_complejos": 5,
+ "n_poses": 10,
+ "n_poses_validas": 10,
+ "resumen_por_brazo": {
+  "A_PROD_FULL_CURRENT": {
+   "PASA": 10
+  },
+  "B_PROD_PROXY_CURRENT": {
+   "PASA": 8,
+   "FALLA": 2
+  },
+  "C_TARGET_CANONICAL": {
+   "PASA": 10
+  },
+  "D_PROXY_SOBRE_CANONICA": {
+   "PASA": 10
+  }
+ },
+ "invariantes": {
+  "poses_con_invariante_violada": 0,
+  "ejemplos": [],
+  "C_con_num_h_added_distinto_de_cero": {
+   "n": 0,
+   "ejemplos": [],
+   "por_que_importa": "si la canonicalizacion llego entera, PoseBusters no deberia anadir ningun hidrogeno; num_h_added > 0 significa que el brazo C no es canonico de verdad"
+  }
+ },
+ "matrices": {
+  "A_vs_C_efecto_de_la_representacion": {
+   "de": "A_PROD_FULL_CURRENT",
+   "a": "C_TARGET_CANONICAL",
+   "celdas": {
+    "PASA->PASA": 10
+   },
+   "n_pareadas": 10,
+   "discordantes": 0,
+   "ejemplos_discordantes": {}
+  },
+  "B_vs_A_efecto_del_proxy": {
+   "de": "B_PROD_PROXY_CURRENT",
+   "a": "A_PROD_FULL_CURRENT",
+   "celdas": {
+    "FALLA->PASA": 2,
+    "PASA->PASA": 8
+   },
+   "n_pareadas": 10,
+   "discordantes": 2,
+   "ejemplos_discordantes": {
+    "FALLA->PASA": [
+     "1a99|conf0|model0",
+     "1a99|conf0|model0"
+    ]
+   }
+  },
+  "B_vs_D_proxy_mixta_contra_canonica": {
+   "de": "B_PROD_PROXY_CURRENT",
+   "a": "D_PROXY_SOBRE_CANONICA",
+   "celdas": {
+    "FALLA->PASA": 2,
+    "PASA->PASA": 8
+   },
+   "n_pareadas": 10,
+   "discordantes": 2,
+   "ejemplos_discordantes": {
+    "FALLA->PASA": [
+     "1a99|conf0|model0",
+     "1a99|conf0|model0"
+    ]
+   }
+  }
+ },
+ "asociacion_con_descriptores": {
+  "A_vs_C": {
+   "n_cambian": 0,
+   "n_iguales": 10,
+   "mediana_de_las_que_cambian": null,
+   "mediana_de_las_que_no": {
+    "n_h_polares_explicitos": 6.0,
+    "n_h_explicitos_en_pdbqt": 6.0,
+    "n_h_totales_si_se_completan": 14.0,
+    "carga_formal": 0.0,
+    "n_atomos_pesados": 8.0,
+    "n_donadores_NHOH": 6.0,
+    "peso_molecular": 149.09
+   },
+   "NOTA": "descriptivo y sin prueba de hipotesis: con estos n una diferencia de medianas no sostiene una afirmacion causal"
+  },
+  "B_vs_A": {
+   "n_cambian": 2,
+   "n_iguales": 8,
+   "mediana_de_las_que_cambian": {
+    "n_h_polares_explicitos": 6.0,
+    "n_h_explicitos_en_pdbqt": 6.0,
+    "n_h_totales_si_se_completan": 14.0,
+    "carga_formal": 2.0,
+    "n_atomos_pesados": 6.0,
+    "n_donadores_NHOH": 6.0,
+    "peso_molecular": 90.17
+   },
+   "mediana_de_las_que_no": {
+    "n_h_polares_explicitos": 4.5,
+    "n_h_explicitos_en_pdbqt": 4.5,
+    "n_h_totales_si_se_completan": 11.5,
+    "carga_formal": 0.0,
+    "n_atomos_pesados": 17.5,
+    "n_donadores_NHOH": 4.5,
+    "peso_molecular": 288.145
+   },
+   "NOTA": "descriptivo y sin prueba de hipotesis: con estos n una diferencia de medianas no sostiene una afirmacion causal"
+  }
+ },
+ "tiempos_s": {
+  "A_PROD_FULL_CURRENT": 1.6,
+  "B_PROD_PROXY_CURRENT": 4.3,
+  "C_TARGET_CANONICAL": 0.0,
+  "D_PROXY_SOBRE_CANONICA": 6.2
+ },
+ "duracion_total_s": 12.3,
+ "limites_declarados": [
+  "el SMILES se deriva del ligando de referencia; en produccion lo aporta el usuario. La GEOMETRIA del cristal no se usa en ningun brazo",
+  "cohorte del protocolo RIGIDO, top-1 de los dos brazos de docking: la misma del ambito B de MF-33-H-COR, para que los dos artefactos se puedan contrastar",
+  "mide el control energetico, no la bateria completa: distancias al receptor, valencias y planaridad no entran aqui",
+  "no mide exactitud de pose ni de union, y no dice nada sobre el protocolo de docking"
+ ],
+ "coberturas": {
+  "1_lector": {
+   "detalle": {
+    "ok": 10
+   },
+   "ok": 10,
+   "de": 10,
+   "tasa": 1.0,
+   "que_mide": "se reconstruyo grafo y coordenadas sin ambiguedad"
+  },
+  "2_canonicalizacion": {
+   "detalle": {
+    "ok": 10
+   },
+   "ok": 10,
+   "de": 10,
+   "que_mide": "se regeneraron los H preservando las invariantes"
+  },
+  "3_evaluador": {
+   "detalle": {
+    "finito": 10
+   },
+   "de": 10,
+   "que_mide": "PoseBusters produjo un energy_ratio finito"
+  },
+  "por_que_separadas": "un NO EVALUADA puede venir de formato, identidad/mapeo, quimica, parametrizacion, generacion de conformeros o del propio PoseBusters. Agregarlas esconde cual de los seis fallo."
+ },
+ "calificacion_del_instrumento": {
+  "observado_antes_del_sello": "El lector ORIGINAL cubrio 40/232 y el truncado a columnas PDB 156/232. Estas cantidades se observaron ANTES de sellar y NO son resultados de este experimento: son la calificacion del instrumento que motivo repararlo. Tambien se observo, en prueba tecnica sobre 6 poses, que el proxy dio NO_EVALUADO en 2 donde el oficial dio PASA; queda registrado como observacion tecnica NO INTERPRETABLE y no entra en ninguna conclusion.",
+  "regla": "el experimento empieza solo cuando el instrumento puede medir la cohorte sin sesgo estructural obvio. Una exclusion correlacionada con aromaticidad o carga NO se acepta."
+ },
+ "NO_LEER_GATES_TECNICOS": "PRUEBA TECNICA. Casos elegidos por diagnostico y no por muestreo: NO produce lectura de las reglas de decision y NO puede citarse como resultado. Solo comprueba que los tres brazos corren, que las invariantes se cumplen, que la salida respeta el contrato y que el NaN no se cuenta como aprobado.",
+ "caso_sintetico_nan": {
+  "caso": "molecula sin conformero -> _empty_results -> energy_ratio_passes = NaN",
+  "estado_obtenido": "NO_EVALUADO",
+  "energy_ratio": null,
+  "contrato_ok": true,
+  "clasificador_directo_sobre_nan": "NO_EVALUADO"
+ },
+ "determinismo": {
+  "poses_comprobadas": 10,
+  "todas_identicas": true
+ }
+}

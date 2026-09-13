@@ -1,0 +1,139 @@
+{
+  "manifest_version": 4,
+  "models": {
+    "classifier_binder": {
+      "best_iteration": 92,
+      "binder_threshold_pki": 7.0,
+      "feature_schema": "Shell(96)+ECIF(56)+1D2D(8)=160",
+      "file": "classifier_binder.json",
+      "metadata_file": "classifier_binder.metadata.json",
+      "metadata_sha256": "e8b5de0feea62e3c571d0b1936ba6ac80f19709277f3ab9b2e1cfdfee3bb128b",
+      "metrics": {
+        "holdout": {
+          "accuracy": 0.8354,
+          "auc": 0.8818,
+          "auc_ci95": [
+            0.8422,
+            0.9178
+          ],
+          "f1": 0.8138,
+          "n": 328,
+          "neg": 177,
+          "pos": 151
+        },
+        "validacion": {
+          "accuracy": 0.7685,
+          "auc": 0.8292,
+          "auc_ci95": [
+            0.7475,
+            0.9017
+          ],
+          "f1": 0.7475,
+          "n": 108,
+          "neg": 54,
+          "pos": 54
+        }
+      },
+      "n_features": 160,
+      "note": "Produce `xgb_score`. Es el componente de mayor peso del stacking (0.60 por defecto, 0.40 en GPCR). El umbral de binder es pKi>=7.0: la etiqueta es una DICOTOMIZACION de una afinidad continua, no una medida experimental de union. Cohorte pequena -108 de validacion y 328 de holdout- asi que los intervalos son anchos y el AUC no debe citarse sin ellos.",
+      "scientific_status": "HOLDOUT_SCAFFOLD_DISJOINT__COHORTE_PEQUENA",
+      "sha256": "b83a936564036b196b53919c707250c441d49fbd1b9427b15f7ebe48850ea636",
+      "split": {
+        "method": "scaffold_disjoint_stratified (Fase A)",
+        "train_samples": 429,
+        "val_samples": 108
+      },
+      "training_date": "2026-08-10T02:10:00"
+    },
+    "gnn_v2_cl": {
+      "dataset": {
+        "complexes": 708,
+        "note": "Procedencia declarada del entrenamiento; los derechos de redistribucion derivados de PDBbind requieren revision antes del release publico.",
+        "source": "PDBbind refined, redockeados con AutoDock Vina (exhaustiveness=8)",
+        "train": 566,
+        "val": 142
+      },
+      "feature_schema": "Grafo heterogeneo: ligando (38-dim por atomo) + proteina (Ca de residuos de bolsillo) + cross-edges ligando-Ca a <8 A. ContrastiveGNN (GAT+GIN+Set2Set+Cross-Attention) -> GNNv2Classifier, 677657 parametros entrenables, hidden_dim=128.",
+      "file": "gnn_v2_cl_best.pt",
+      "historical_metrics_not_attributable_to_current_sha256": {
+        "gpcr_5HT1A_7E2Y": 0.8496,
+        "protease_HIV_1HSG": 0.9491,
+        "source": "docs/CL_GNN_MULTITARGET_RESULTS.md y docs/STOCHASTICITY_REPORT.md",
+        "val_auc_pdbbind_docked": 0.6433
+      },
+      "metadata_file": "contrastive_v31_pretrained.pt",
+      "metadata_sha256": "42df11581a4d22d7efb6cce858189a12811922652354c4e69ed00f1f4e35594a",
+      "metrics": {
+        "checkpoint_epoch": 22,
+        "checkpoint_self_reported_val_auc": 0.6109756097560977,
+        "external_metrics_for_exact_sha256": null
+      },
+      "note": "El checkpoint actual carga y puede producir una senal experimental, pero sus bytes no son los del modelo al que pertenecen los AUC externos historicos. Hasta repetir y sellar la evaluacion externa para este SHA-256, su peso de stacking de release es 0.0 y no decide ranking ni recomendacion.",
+      "scientific_status": "CHECKPOINT_INCLUDED__EXTERNAL_VALIDATION_FOR_EXACT_SHA256_PENDING",
+      "sha256": "f714dd8208f491258dcb4671bc1e29f308712c1c27f629409f2e33993186bb4f",
+      "split": {
+        "evaluacion": "No existe evaluacion externa sellada para el SHA-256 actual.",
+        "method": "train/val 566/142 sobre PDBbind refined redockeado"
+      },
+      "training_date": "2026-07-26"
+    },
+    "model_a_universal": {
+      "dataset": {
+        "complexes": 865,
+        "index_file": "data/pdbbind/INDEX_refined_data.2020",
+        "note": "Huella del índice top-level PDBbind v2020 refined. El índice no se redistribuye; si existe localmente, el generador verifica sus bytes. El feature cache no tiene un hash único.",
+        "sha256": "ca7702c5e6fd4e814281a3e65ddbdcf17bd62df78e62daef6daaa2106f70c4b6",
+        "source": "PDBbind v2020_refined"
+      },
+      "feature_schema": "167 features (A_EXT=8, B=4, C_EXT=3, D=96, E=56)",
+      "file": "model_a_universal.json",
+      "metrics": {
+        "pearson_holdout": 0.6048,
+        "spearman_cv": 0.7731,
+        "spearman_holdout": 0.6094,
+        "spearman_holdout_ci95": [
+          0.5282,
+          0.6791
+        ]
+      },
+      "note": "Historical 0.8732 INVALIDATED (leakage). Do not cite.",
+      "prolif_included": false,
+      "scientific_status": "HONEST_HOLDOUT",
+      "sha256": "d2041777857586065aa29dcc8b876a9c1e89394dacbf517e9c071e5cba27f0b2",
+      "split": {
+        "file": "split_config.json",
+        "method": "scaffold_disjoint_stratified — frozen holdout 328 complexes",
+        "sha256": "bbc57126e2306e087dcddb76478a8cddfbd36fb7de3f350806b6366ee3534f6f"
+      },
+      "training_date": "2026-08-10"
+    },
+    "pose_selector_v06": {
+      "dataset": {
+        "manifest_file": "data/pose_selector_dataset/manifest.json",
+        "manifest_sha256": "d4b1a98051e94193c324017fd544f71808cba9be01b92c236c795eb2875f2813",
+        "train_complexes": 116,
+        "train_poses": 2739
+      },
+      "feature_schema": "233 features (224 raw relativizadas por complejo + 9 percentiles)",
+      "file": "pose_selector_v06.xgb",
+      "metadata_file": "pose_selector_v06_meta.json",
+      "metadata_sha256": "9ac4e379f9c54aef24acc72fe7e61ffff751a70bf80b751f610bf93f34e4fc96",
+      "metrics": {
+        "abstention_rate": 0.43,
+        "accepted_top1_crystal_like": 0.852,
+        "selector_median_rmsd_angstrom": 1.428,
+        "selector_top1_crystal_like": 0.66,
+        "vina_top1_crystal_like": 0.532
+      },
+      "note": "Top-1 0.660 supera Vina, pero no alcanza el objetivo preregistrado final >=0.70. El 0.852 es condicional a 43% de abstencion y no debe citarse como rendimiento global.",
+      "scientific_status": "HONEST_FROZEN_HOLDOUT_BELOW_PREREGISTERED_0.70_TARGET",
+      "sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+      "split": {
+        "method": "scaffold_group_holdout_seed42",
+        "test_complexes": 47,
+        "test_pids_sha256": "4cbff399c87240af35429638ba62eb60f16862e05a27871b6bce6c6d6a8bccbd"
+      },
+      "training_date": "2026-08-14"
+    }
+  }
+}

@@ -1,0 +1,1510 @@
+{
+  "motor": "molpocket",
+  "fecha": "2026-08-01T10:06:19",
+  "config": {
+    "db": "C:\\Users\\Johan Amezcua\\MolDesign\\data\\moldesign_local.db",
+    "pdb_dir": "C:\\Users\\Johan Amezcua\\MolDesign\\data\\targets",
+    "catalog": "derivado",
+    "max_median": 4.0,
+    "offline": true
+  },
+  "catalogo": {
+    "derivado": true,
+    "n_targets": 6
+  },
+  "resumen": {
+    "N": 6,
+    "median": 20.50017058595199,
+    "p75": 26.273565030691106,
+    "mean": 21.828011088044235,
+    "pct_le_4": 0.0,
+    "pct_le_6": 0.0,
+    "pct_le_10": 16.666666666666664,
+    "min": 9.896597529873274,
+    "max": 37.47907596039918
+  },
+  "por_familia": {
+    "hydrolase": {
+      "N": 1,
+      "median": 9.896597529873274,
+      "p75": 9.896597529873274
+    },
+    "ion_channel": {
+      "N": 1,
+      "median": 37.47907596039918,
+      "p75": 37.47907596039918
+    },
+    "nuclease": {
+      "N": 1,
+      "median": 14.704189925085787,
+      "p75": 14.704189925085787
+    },
+    "polymerase": {
+      "N": 2,
+      "median": 20.50017058595199,
+      "p75": 20.965422442853427
+    },
+    "protein_interaction": {
+      "N": 1,
+      "median": 27.887861941003187,
+      "p75": 27.887861941003187
+    }
+  },
+  "por_target": {
+    "2OA8": {
+      "distancia_a_ligando": 14.704,
+      "ground_truth": "A:MSE11",
+      "score": 0.981,
+      "druggability": 0.9472,
+      "pocket_center": [
+        4.1,
+        9.47,
+        -17.31
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6752,
+      "n_pockets": 1
+    },
+    "3RW0": {
+      "distancia_a_ligando": 37.479,
+      "ground_truth": "A:MSE1001",
+      "score": 0.9713,
+      "druggability": 0.9442,
+      "pocket_center": [
+        -41.62,
+        7.56,
+        -71.41
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6392,
+      "n_pockets": 1
+    },
+    "5O65": {
+      "distancia_a_ligando": 27.888,
+      "ground_truth": "A:MSE221",
+      "score": 0.3797,
+      "druggability": 0.327,
+      "pocket_center": [
+        40.32,
+        102.82,
+        13.68
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 8824,
+      "n_pockets": 1
+    },
+    "6ZD1": {
+      "distancia_a_ligando": 21.431,
+      "ground_truth": "A:MSE248",
+      "score": 0.3781,
+      "druggability": 0.3249,
+      "pocket_center": [
+        1.4,
+        43.37,
+        172.22
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 23297,
+      "n_pockets": 1
+    },
+    "6ZDP": {
+      "distancia_a_ligando": 19.57,
+      "ground_truth": "A:MSE248",
+      "score": 0.3767,
+      "druggability": 0.3231,
+      "pocket_center": [
+        10.29,
+        72.54,
+        63.99
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 24758,
+      "n_pockets": 1
+    },
+    "7TM9": {
+      "distancia_a_ligando": 9.897,
+      "ground_truth": "A:SEP117",
+      "score": 0.3856,
+      "druggability": 0.3349,
+      "pocket_center": [
+        9.53,
+        -48.57,
+        15.86
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 13598,
+      "n_pockets": 1
+    }
+  },
+  "skipped": [
+    {
+      "pdb_id": "1AJ6",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1C3P",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1C3R",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1C3S",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1C6X",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1CBR",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1CBS",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1CX2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1DIY",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1EI1",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1EPB",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1FE2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1FEM",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1FH0",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1GX9",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1IAS",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1IGZ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1IRU",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1IS0",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1ITO",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1J36",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1J37",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1J38",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1KIJ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1KTZ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1KZN",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1M6D",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1M9Z",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1Q4G",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1RKP",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1RV7",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1RYP",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1SUU",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1T69",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1TGJ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1TW7",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1UZJ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1VKG",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1VL4",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1VPB",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1W22",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1WBK",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1WBM",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1XWD",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1ZZ1",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2A3W",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2AW1",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2AYL",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2B2A",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2BQV",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2CEN",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2FR3",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2GH6",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2H02",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2I3U",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2I4G",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2I4H",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2J4O",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2LBD",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2QCQ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2R4G",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2VE3",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2X8Z",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2X90",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2XWT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2ZHR",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2ZJT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3DU6",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3DY3",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3DY4",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3E50",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3F75",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3FHV",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3FLI",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3G04",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3G7E",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3GPJ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3GPT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3HH2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3HYE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3IG0",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3JTG",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3KD2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3KDA",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3KK6",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3KYL",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3L1B",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3LBD",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3MG0",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3MXJ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3N8W",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3N8X",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3N8Y",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3N8Z",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3P88",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3P89",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3RUT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3RUU",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3RVY",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3RVZ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3S43",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3V94",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4AF3",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4AZY",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4CA7",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4CA8",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4DLN",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4DM7",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4DMF",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4DUH",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4EU2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4I04",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4IAQ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4IAR",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4JP9",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4JPC",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4JPE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4K78",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4LMO",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4LQI",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4MD6",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4MS2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4NJT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4NJV",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4NPU",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4O1Z",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4PHL",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4QA0",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4QGE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4RUR",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4RVI",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4RVJ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4WUD",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4YNQ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4YX9",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4ZVI",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5A2R",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5AXQ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5C9H",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5CON",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5COP",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5CQG",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5CZ6",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5CZ7",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5DIY",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5E4G",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5E8V",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5E8Y",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5E91",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5E92",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5F1A",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5FG9",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5FPW",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5HK9",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5HKA",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5JHW",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5JYC",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5L3J",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5MMN",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5NPT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5O67",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5PA9",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5T4X",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5TNE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5TNH",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5TNN",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5TOL",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5TPT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5TUN",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5TXJ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5U6X",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5VB8",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5WBE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5WZX",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5YUA",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5YWS",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5YWV",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6A5W",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6C1P",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6E53",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6EU9",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6GAV",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6HL0",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6HSK",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6HW5",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6HW7",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6ITM",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6KE5",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6MK9",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6MKL",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6MVV",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6OGV",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6P6X",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6PSD",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6PU8",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6RML",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6S1Y",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6S1Z",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6SX5",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6SX7",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6SXC",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6SXE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6SXG",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6USO",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6USR",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6VU4",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6W10",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6X1A",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6Y5A",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6ZD2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6ZD6",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6ZDQ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7D42",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7E2Y",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7JVU",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7JVW",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7KQM",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7SBE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7SGG",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7T9I",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7TRB",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7UTZ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7VUE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7XW5",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7XW6",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7ZYJ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8F6U",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8F6V",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8GJR",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8HCE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8HCF",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8HD3",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8HFE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8HFF",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8HFG",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8HFI",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8HFL",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8I3V",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8J47",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8JSW",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8JT9",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8JTB",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8T69",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8UBR",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8V52",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8WGR",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8WRE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8WTW",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8WTX",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8WZL",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8X3K",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8Y93",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9E9G",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9F9T",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9GKV",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9KJE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9KQE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9NX5",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA0",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA1",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA3",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA4",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9RAW",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9RAX",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9RJE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9TDZ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9V39",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9V3A",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    }
+  ],
+  "fallos": {},
+  "peores_outliers": [
+    {
+      "pdb_id": "3RW0",
+      "distancia": 37.479
+    },
+    {
+      "pdb_id": "5O65",
+      "distancia": 27.888
+    },
+    {
+      "pdb_id": "6ZD1",
+      "distancia": 21.431
+    },
+    {
+      "pdb_id": "6ZDP",
+      "distancia": 19.57
+    },
+    {
+      "pdb_id": "2OA8",
+      "distancia": 14.704
+    }
+  ],
+  "exit_code": 1
+}

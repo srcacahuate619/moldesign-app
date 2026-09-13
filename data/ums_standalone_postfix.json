@@ -1,0 +1,95 @@
+{
+  "ca2": {
+    "auc": 0.9265605691056911,
+    "ci_lo": 0.9139786204268292,
+    "ci_hi": 0.9379513084349593,
+    "n_act": 492,
+    "n_dec": 5000,
+    "wh": {
+      "sulfonamide": 99.0,
+      "primary_sulfonamide": 98.2,
+      "n_hydroxy": 3.5,
+      "thiol": 7.3,
+      "carboxylate": 11.8,
+      "hydroxamic": 1.8
+    }
+  },
+  "mmp9": {
+    "auc": 0.8787258158508158,
+    "ci_lo": 0.8663994245337996,
+    "ci_hi": 0.8906748251748251,
+    "n_act": 858,
+    "n_dec": 2000,
+    "wh": {
+      "sulfonamide": 35.9,
+      "hydroxamic": 79.1,
+      "n_hydroxy": 79.8,
+      "thiol": 3.5,
+      "carboxylate": 12.2
+    }
+  },
+  "ace": {
+    "auc": 0.7510322865288023,
+    "ci_lo": 0.7153347560975609,
+    "ci_hi": 0.7866052591463414,
+    "n_act": 82,
+    "n_dec": 2156,
+    "wh": {
+      "carboxylate": 96.3,
+      "thiol": 45.1,
+      "hydroxamic": 1.2,
+      "n_hydroxy": 1.2
+    }
+  },
+  "hdac6": {
+    "auc": 0.9469534050179211,
+    "ci_lo": 0.9154121863799284,
+    "ci_hi": 0.9726433691756272,
+    "n_act": 15,
+    "n_dec": 279,
+    "wh": {
+      "n_hydroxy": 100.0,
+      "hydroxamic": 6.7,
+      "carboxylate": 6.7
+    }
+  },
+  "mmp2": {
+    "auc": 0.9248486019842804,
+    "ci_lo": 0.9000112743203196,
+    "ci_hi": 0.9476557466821286,
+    "n_act": 26,
+    "n_dec": 597,
+    "wh": {
+      "n_hydroxy": 100.0,
+      "hydroxamic": 19.2,
+      "carboxylate": 3.8
+    }
+  },
+  "pde5a": {
+    "auc": 0.4928811666666667,
+    "ci_lo": 0.47130160625000006,
+    "ci_hi": 0.5146530312500001,
+    "n_act": 1000,
+    "n_dec": 3000,
+    "wh": {
+      "carboxylate": 4.4,
+      "n_hydroxy": 3.8,
+      "sulfonamide": 18.9,
+      "phosphonate": 1.5,
+      "primary_sulfonamide": 0.4,
+      "hydroxamic": 2.0
+    }
+  },
+  "cyp3a4": {
+    "auc": 0.5286377335328721,
+    "ci_lo": 0.4711470955372722,
+    "ci_hi": 0.5837585602857912,
+    "n_act": 83,
+    "n_dec": 1747,
+    "wh": {
+      "carboxylate": 8.4,
+      "n_hydroxy": 1.2,
+      "sulfonamide": 2.4
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "pdb_id": "1g1d",
+  "ok": true,
+  "n_conf": 15,
+  "top_k": 3,
+  "cpu": 1,
+  "relax_engine": "vina_local_only",
+  "openmm_status": {
+    "available": false,
+    "reasons": [
+      "SMIRNOFFTemplateGenerator: ModuleNotFoundError: No module named 'openff'",
+      "ForceField(+offxml): ValueError: Could not locate file \"openff-2.0.0.offxml\"",
+      "amber14-all createSystem: ValueError: No template found for residue 1 (ASP).  The atoms and bonds in the residue match NASP, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template"
+    ],
+    "relax_engine": "vina_local_only"
+  },
+  "time_fase1": 2.7,
+  "time_fase2": 163.7,
+  "time_fase3": 6.3,
+  "total_time_s": 172.6,
+  "ensemble_min_rmsd": 0.743,
+  "grid_cache": {
+    "mapas_generados": true,
+    "n_docks_maps": 14,
+    "n_docks_write": 1,
+    "n_docks_fresh": 0
+  },
+  "rigid_scores": [
+    -7.39,
+    -7.228,
+    -7.801,
+    -7.474,
+    -6.27,
+    -7.615,
+    -7.981,
+    -6.866,
+    -7.703,
+    -7.186,
+    -7.276,
+    -6.861,
+    -7.807,
+    -7.101,
+    -7.851
+  ],
+  "rigid_best": -7.981,
+  "top_k_relaxed": [
+    {
+      "conf_id": 6,
+      "rigid_score": -7.981,
+      "relaxed_score": -8.024,
+      "relaxed_local_score": -6.353,
+      "delta": -0.043,
+      "rmsd_to_crystal": 1.78,
+      "engine": "vina_local_only",
+      "ok": true
+    },
+    {
+      "conf_id": 14,
+      "rigid_score": -7.851,
+      "relaxed_score": -8.779,
+      "relaxed_local_score": -6.952,
+      "delta": -0.928,
+      "rmsd_to_crystal": 0.793,
+      "engine": "vina_local_only",
+      "ok": true
+    },
+    {
+      "conf_id": 12,
+      "rigid_score": -7.807,
+      "relaxed_score": -7.699,
+      "relaxed_local_score": -6.096,
+      "delta": 0.108,
+      "rmsd_to_crystal": 1.195,
+      "engine": "vina_local_only",
+      "ok": true
+    }
+  ],
+  "rmsd_best_to_crystal": 1.788
+}

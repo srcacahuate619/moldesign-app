@@ -1,0 +1,90 @@
+{
+ "experiment_id": "RS-14-R1",
+ "timestamp": "2026-08-18T19:51:52.844310+00:00",
+ "duration_seconds": 2935.77,
+ "datos": {
+  "complejos": 116,
+  "poses": 18812,
+  "features": 233,
+  "split": "train v2"
+ },
+ "descomposicion_seccion_9": {
+  "cobertura_oraculo": 0.7931,
+  "precision_condicional_selector": 0.4601,
+  "precision_condicional_baseline": 0.5543,
+  "top1_global_selector": 0.3649,
+  "top1_global_baseline": 0.4397
+ },
+ "por_semilla": {
+  "42": {
+   "condicional": 0.4457,
+   "global": 0.3534
+  },
+  "43": {
+   "condicional": 0.4674,
+   "global": 0.3707
+  },
+  "44": {
+   "condicional": 0.4674,
+   "global": 0.3707
+  }
+ },
+ "diferencia_pareada": {
+  "media": -0.0942,
+  "ci95_bca": [
+   -0.2138,
+   0.0217
+  ],
+  "n_complejos": 92
+ },
+ "nulo_permutacion": {
+  "n": 200,
+  "p95": 0.1848,
+  "media": 0.1213,
+  "p_empirico": 0.0
+ },
+ "n_ajustes": 1348,
+ "gates": {
+  "G1_validez": {
+   "criterio": "todos los ajustes LOCO completan",
+   "n_ajustes": 1348,
+   "pass": true
+  },
+  "G2_superioridad": {
+   "criterio": "condicional > baseline con CI95 BCa pareado excluyendo 0",
+   "media_dif": -0.0942,
+   "ci95": [
+    -0.2138,
+    0.0217
+   ],
+   "pass": false
+  },
+  "G3_nulo": {
+   "criterio": "condicional observada > percentil 95 del nulo por permutacion",
+   "observada": 0.4601,
+   "p95_nulo": 0.1848,
+   "pass": true
+  }
+ },
+ "decision": "NO_GO",
+ "etiquetas": {
+  "fuente": "RC-F0-SYM/poses_rmsd_sym.jsonl",
+  "metrica": "minimo sobre automorfismos del RMSD sin alinear (doc. 49 §5.1)",
+  "n_poses": 18812,
+  "n_sin_rmsd_sym": 1143,
+  "n_etiquetas_corregidas_neg_a_pos": 75,
+  "nota": "las poses sin rmsd_sym (flexible_redock, ruta_a) conservan el RMSD ingenuo; el residuo sesga hacia MENOS positivas, nunca mas"
+ },
+ "comparacion_con_rs14": {
+  "unico_cambio": "la etiqueta de RMSD",
+  "congelado": [
+   "features 233",
+   "contrato v0.6",
+   "hiperparametros",
+   "LOCO",
+   "semillas 42/43/44",
+   "nulo 200 permutaciones",
+   "gates"
+  ]
+ }
+}

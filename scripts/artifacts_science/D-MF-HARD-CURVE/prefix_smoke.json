@@ -1,0 +1,452 @@
+{
+  "protocolo": "smoke_prefijo_etkdg_v2",
+  "modulo": "scripts/molflex.py (leer_ligando + construir_ensemble EXACTOS)",
+  "params": {
+    "randomSeed": 42,
+    "useExpTorsionAnglePrefs": true,
+    "useBasicKnowledge": true,
+    "pruneRmsThresh": 0.4,
+    "numThreads": 0
+  },
+  "rdkit": "2025.09.6",
+  "ligandos": {
+    "1aaq": {
+      "pid": "1aaq",
+      "estrato": "hard",
+      "n_atomos": 41,
+      "runs": {
+        "5": {
+          "n_pedidos": 5,
+          "yield": 5,
+          "ids": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "hashes": [
+            "b7d62308fa241313dec2d15a03000231f7902cd2c6e0d854a4d2f098cfd2ce60",
+            "ce6cfea4b87c47bf4141c1c97eb31e9e091d76832412bb4f37c21e136f969429",
+            "b719f9ee091e6d6c39829eaa6e9089fef8ffcf57449de8b3ce9a63b1f8ab592b",
+            "2de0cfff764dc0cf4c1dd85acb5c331d27824beb507b2bb2436b366a1e1f6400",
+            "b8be0bbc1a47a3840f5ab0221c8057bcd84cbfe5008cdf03d603ea96599d5be3"
+          ]
+        },
+        "15": {
+          "n_pedidos": 15,
+          "yield": 15,
+          "ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "hashes": [
+            "b7d62308fa241313dec2d15a03000231f7902cd2c6e0d854a4d2f098cfd2ce60",
+            "ce6cfea4b87c47bf4141c1c97eb31e9e091d76832412bb4f37c21e136f969429",
+            "b719f9ee091e6d6c39829eaa6e9089fef8ffcf57449de8b3ce9a63b1f8ab592b",
+            "2de0cfff764dc0cf4c1dd85acb5c331d27824beb507b2bb2436b366a1e1f6400",
+            "b8be0bbc1a47a3840f5ab0221c8057bcd84cbfe5008cdf03d603ea96599d5be3",
+            "48aedee003e306432608480725e1fe51933b93944983eaee8a7d8cd659cc46b8",
+            "078d51c9bd4b86cbf523e6cf7b74083b6a0f330b409451d47ef5fb76ab4375a8",
+            "2ba1206d95c7f44d28dc6d058ba9144dcce40ef304372c9ca56c005b553ec628",
+            "0cc4772640d84011092856a23acd28144c2a5ba21ac545ede869a5adf776247d",
+            "a06677a84da22de1e93225b12fabc5d7a05c2ceecdc1cbcce76b448d1f4107c4",
+            "d43177bc032e294ce57faf4cd53bb9c56ca7512d712f307df61610ea710300c7",
+            "35cf7f0472ba6f55dc1cf714db99423e2128a1b92a4fe4b69a7b2dc78483637d",
+            "835d48fb8aa3d66feb506bf22d7f4c1280b8924651cb9c5746c0cae9ddccc5e2",
+            "3bebed2cbbf0c0bbb1f2b1b250b78ce996a2a2bcb7e13d4743fef91e013abbf2",
+            "2dfdd94faf1e4085d2baa06fe80551e40bfe74008740600d1c83d0fc72127c3b"
+          ]
+        },
+        "30": {
+          "n_pedidos": 30,
+          "yield": 30,
+          "ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29
+          ],
+          "hashes": [
+            "b7d62308fa241313dec2d15a03000231f7902cd2c6e0d854a4d2f098cfd2ce60",
+            "ce6cfea4b87c47bf4141c1c97eb31e9e091d76832412bb4f37c21e136f969429",
+            "b719f9ee091e6d6c39829eaa6e9089fef8ffcf57449de8b3ce9a63b1f8ab592b",
+            "2de0cfff764dc0cf4c1dd85acb5c331d27824beb507b2bb2436b366a1e1f6400",
+            "b8be0bbc1a47a3840f5ab0221c8057bcd84cbfe5008cdf03d603ea96599d5be3",
+            "48aedee003e306432608480725e1fe51933b93944983eaee8a7d8cd659cc46b8",
+            "078d51c9bd4b86cbf523e6cf7b74083b6a0f330b409451d47ef5fb76ab4375a8",
+            "2ba1206d95c7f44d28dc6d058ba9144dcce40ef304372c9ca56c005b553ec628",
+            "0cc4772640d84011092856a23acd28144c2a5ba21ac545ede869a5adf776247d",
+            "a06677a84da22de1e93225b12fabc5d7a05c2ceecdc1cbcce76b448d1f4107c4",
+            "d43177bc032e294ce57faf4cd53bb9c56ca7512d712f307df61610ea710300c7",
+            "35cf7f0472ba6f55dc1cf714db99423e2128a1b92a4fe4b69a7b2dc78483637d",
+            "835d48fb8aa3d66feb506bf22d7f4c1280b8924651cb9c5746c0cae9ddccc5e2",
+            "3bebed2cbbf0c0bbb1f2b1b250b78ce996a2a2bcb7e13d4743fef91e013abbf2",
+            "2dfdd94faf1e4085d2baa06fe80551e40bfe74008740600d1c83d0fc72127c3b",
+            "3dde45531408d1e0dcaf158148c9021161dc207511ec6083c4e637b9c54402d0",
+            "0b9f0d9ca6540b4af13c03283c53814c63df8939209df14cb981a4bd36c3f74f",
+            "725d583c3f7b128981944b90ffd92593f672e06cdbc27df2b3b4f4c1cf8f3b36",
+            "9c2575dd6482a3e06ecb7226611c53fa5a07d126b4b660b17f67a96eb75e84fd",
+            "9f45937aca93c2d25f2d729f74f697b9fbf52c6a41eb494a7acf4a5faf0a0cb8",
+            "585975518443a09e76066656744859a85892eaf8bc28e4d0679d34e9183f9e5d",
+            "baf344bbfbc30a378d07794420d1453e19dd989d2135f95f3d9df3ad3917e16c",
+            "a487a82949afcbc9dc99fec84a62caa8273a64a440884e4a6cd92717611f4d9e",
+            "ab78cbcec01d6af3ef4f131f535d1913a1709a10c63ee01fa8b02952b4529693",
+            "b0b69bfbea50c10daf4e27d81d5a8c578ea969b0ba9c9e4f585d3533d7eda77f",
+            "84d3dfd68fb3139ce6631a7947c21e70dad52f5d8cc27b342babca215f3b0b3c",
+            "7db1723fe02822cc1d5ba9b8c81078a89584d74736ecdfc3cd6ac68d9fb18775",
+            "2b36bfe67586992459440b16c2a0cd566cee8a3b0106e17049857543f4b4a0e4",
+            "56a243377d2eafce71b9508242e8d9fd31ed9885195a84e9c5b0a5a36712edea",
+            "94cf99c5ed6d2de78c18314981eb013e2ca37ab502fbc96e4663d56a752b7acc"
+          ]
+        }
+      },
+      "prefijos": {
+        "30_vs_5": {
+          "limite_comparado": 5,
+          "mismo_orden": true,
+          "mismas_coords_hash": true,
+          "yield_30": 30,
+          "yield_5": 5,
+          "set_run_k_contenido_en_prefijo30": true
+        },
+        "30_vs_15": {
+          "limite_comparado": 15,
+          "mismo_orden": true,
+          "mismas_coords_hash": true,
+          "yield_30": 30,
+          "yield_15": 15,
+          "set_run_k_contenido_en_prefijo30": true
+        }
+      },
+      "determinismo_30": true
+    },
+    "1fv0": {
+      "pid": "1fv0",
+      "estrato": "control",
+      "n_atomos": 26,
+      "runs": {
+        "5": {
+          "n_pedidos": 5,
+          "yield": 3,
+          "ids": [
+            0,
+            1,
+            2
+          ],
+          "hashes": [
+            "e47a64659b5d8c2e76fc51c6ce2f69c5f682194dc6c8a22518ba6da1a1555335",
+            "00467e153d449dea986980acd112febaae3fe3d943f9f0188967f3a1f8295fe2",
+            "29ed32078172ce06d98394f6284664e91541078c6884ff5efdefb7f5e4817c0d"
+          ]
+        },
+        "15": {
+          "n_pedidos": 15,
+          "yield": 6,
+          "ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "hashes": [
+            "e47a64659b5d8c2e76fc51c6ce2f69c5f682194dc6c8a22518ba6da1a1555335",
+            "00467e153d449dea986980acd112febaae3fe3d943f9f0188967f3a1f8295fe2",
+            "29ed32078172ce06d98394f6284664e91541078c6884ff5efdefb7f5e4817c0d",
+            "8030da3c47666b1f78500d26847a9c304bb797ed51fb1c2c72a2c7ae5c152ccd",
+            "3f33aed4fb460db4fc4645b6d9130c67b480c522fc2efe383527452b5cb0d2dc",
+            "c8261680044dfb8630bcdc928303de5fad5ae758541b2d910d1c71847dc566b5"
+          ]
+        },
+        "30": {
+          "n_pedidos": 30,
+          "yield": 7,
+          "ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "hashes": [
+            "e47a64659b5d8c2e76fc51c6ce2f69c5f682194dc6c8a22518ba6da1a1555335",
+            "00467e153d449dea986980acd112febaae3fe3d943f9f0188967f3a1f8295fe2",
+            "29ed32078172ce06d98394f6284664e91541078c6884ff5efdefb7f5e4817c0d",
+            "8030da3c47666b1f78500d26847a9c304bb797ed51fb1c2c72a2c7ae5c152ccd",
+            "3f33aed4fb460db4fc4645b6d9130c67b480c522fc2efe383527452b5cb0d2dc",
+            "c8261680044dfb8630bcdc928303de5fad5ae758541b2d910d1c71847dc566b5",
+            "b1debc65ecdb062c84a67d9f98b34d31cbe442651c71b461080a5402f559aff7"
+          ]
+        }
+      },
+      "prefijos": {
+        "30_vs_5": {
+          "limite_comparado": 3,
+          "mismo_orden": true,
+          "mismas_coords_hash": true,
+          "yield_30": 7,
+          "yield_5": 3,
+          "set_run_k_contenido_en_prefijo30": true
+        },
+        "30_vs_15": {
+          "limite_comparado": 6,
+          "mismo_orden": true,
+          "mismas_coords_hash": true,
+          "yield_30": 7,
+          "yield_15": 6,
+          "set_run_k_contenido_en_prefijo30": true
+        }
+      },
+      "determinismo_30": true
+    },
+    "1alw": {
+      "pid": "1alw",
+      "estrato": "control",
+      "n_atomos": 12,
+      "runs": {
+        "5": {
+          "n_pedidos": 5,
+          "yield": 4,
+          "ids": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "hashes": [
+            "9feca9bce31e5ae744e75b3081c3566f71092fd667539cab6a031ddc697b8847",
+            "57241db78e76228da4bebf0a7064d99216e4c7fa8e09447eeb414c293092e4da",
+            "0703149187f6be9d2f9d81ac00565c3dc8d1f810c89232bc0e9b257ee30f0f1b",
+            "d321d4ae3a3dcc8b68b8f81408e077d19c343d6bba5dd4339645b8afda122d51"
+          ]
+        },
+        "15": {
+          "n_pedidos": 15,
+          "yield": 8,
+          "ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "hashes": [
+            "9feca9bce31e5ae744e75b3081c3566f71092fd667539cab6a031ddc697b8847",
+            "57241db78e76228da4bebf0a7064d99216e4c7fa8e09447eeb414c293092e4da",
+            "0703149187f6be9d2f9d81ac00565c3dc8d1f810c89232bc0e9b257ee30f0f1b",
+            "d321d4ae3a3dcc8b68b8f81408e077d19c343d6bba5dd4339645b8afda122d51",
+            "92c901da3c35766f276070a34a34900ad8e75c34aaf877d5daceb63fad1f2019",
+            "a82b6b2b19dd2da9a1a0867c133dffa772bf4ffa8511b7f8ef90c92c91651e30",
+            "925ee8ead7ee48324fa09e3b2a6d8842701ab609f12418f9ae515a4829b8c8af",
+            "d64ab06d6be487a0a92a0a048168d6b2c490dee7f80168349d2b479f9d36bbf1"
+          ]
+        },
+        "30": {
+          "n_pedidos": 30,
+          "yield": 9,
+          "ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "hashes": [
+            "9feca9bce31e5ae744e75b3081c3566f71092fd667539cab6a031ddc697b8847",
+            "57241db78e76228da4bebf0a7064d99216e4c7fa8e09447eeb414c293092e4da",
+            "0703149187f6be9d2f9d81ac00565c3dc8d1f810c89232bc0e9b257ee30f0f1b",
+            "d321d4ae3a3dcc8b68b8f81408e077d19c343d6bba5dd4339645b8afda122d51",
+            "92c901da3c35766f276070a34a34900ad8e75c34aaf877d5daceb63fad1f2019",
+            "a82b6b2b19dd2da9a1a0867c133dffa772bf4ffa8511b7f8ef90c92c91651e30",
+            "925ee8ead7ee48324fa09e3b2a6d8842701ab609f12418f9ae515a4829b8c8af",
+            "d64ab06d6be487a0a92a0a048168d6b2c490dee7f80168349d2b479f9d36bbf1",
+            "773b4bc0bcc10d3c786143a643f2c66e3ac96ecfebd704cc15b063bd3ab72ba7"
+          ]
+        }
+      },
+      "prefijos": {
+        "30_vs_5": {
+          "limite_comparado": 4,
+          "mismo_orden": true,
+          "mismas_coords_hash": true,
+          "yield_30": 9,
+          "yield_5": 4,
+          "set_run_k_contenido_en_prefijo30": true
+        },
+        "30_vs_15": {
+          "limite_comparado": 8,
+          "mismo_orden": true,
+          "mismas_coords_hash": true,
+          "yield_30": 9,
+          "yield_15": 8,
+          "set_run_k_contenido_en_prefijo30": true
+        }
+      },
+      "determinismo_30": true
+    },
+    "1bju": {
+      "pid": "1bju",
+      "estrato": "control",
+      "n_atomos": 21,
+      "runs": {
+        "5": {
+          "n_pedidos": 5,
+          "yield": 5,
+          "ids": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "hashes": [
+            "edd3d8472fe86ca34f27100089c2c1d222cc2ca049814a480298633ccb17eadd",
+            "4784ac034cbb5cb89f7f0bf6a01fe316f95a17b3f8ea8eae652717a7a27f8d03",
+            "bfb9acd421f98054f7438b2af4dbaa92ff81eab49c3587bb8e2d25759877a8c4",
+            "775ffe10c719c98f87c657ab05e055336d129cd5259a132430618b6528b28510",
+            "fe05d8a5fa5f0397993c9b4860ddb0afd9ad558904486f3a65d64673572c7141"
+          ]
+        },
+        "15": {
+          "n_pedidos": 15,
+          "yield": 11,
+          "ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ],
+          "hashes": [
+            "edd3d8472fe86ca34f27100089c2c1d222cc2ca049814a480298633ccb17eadd",
+            "4784ac034cbb5cb89f7f0bf6a01fe316f95a17b3f8ea8eae652717a7a27f8d03",
+            "bfb9acd421f98054f7438b2af4dbaa92ff81eab49c3587bb8e2d25759877a8c4",
+            "775ffe10c719c98f87c657ab05e055336d129cd5259a132430618b6528b28510",
+            "fe05d8a5fa5f0397993c9b4860ddb0afd9ad558904486f3a65d64673572c7141",
+            "4a492afacd490b95cd33e69e391cfb51a3b2ddba969bcd1b7f6fbefc5c0cdb19",
+            "4c42e2977cb5ee5707736d3c1e8175354bb16cd5f803bf9e7e4b148b79d9b603",
+            "e456dc175fefa39f502959d2b14066691ca5abd2acce7c13d19276a5005eca35",
+            "85dcf5beb796fa3a7d943f65fb7bef56b26f91e0e5c41d44c9a10cca643d8331",
+            "a8af24e7876ae308c64018974c13de4717a986be7a2ca34ed9bc9febf42869d4",
+            "e589a46b0a7259fed121df4d0a6132e033818171956be890900285a2ede942a7"
+          ]
+        },
+        "30": {
+          "n_pedidos": 30,
+          "yield": 15,
+          "ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14
+          ],
+          "hashes": [
+            "edd3d8472fe86ca34f27100089c2c1d222cc2ca049814a480298633ccb17eadd",
+            "4784ac034cbb5cb89f7f0bf6a01fe316f95a17b3f8ea8eae652717a7a27f8d03",
+            "bfb9acd421f98054f7438b2af4dbaa92ff81eab49c3587bb8e2d25759877a8c4",
+            "775ffe10c719c98f87c657ab05e055336d129cd5259a132430618b6528b28510",
+            "fe05d8a5fa5f0397993c9b4860ddb0afd9ad558904486f3a65d64673572c7141",
+            "4a492afacd490b95cd33e69e391cfb51a3b2ddba969bcd1b7f6fbefc5c0cdb19",
+            "4c42e2977cb5ee5707736d3c1e8175354bb16cd5f803bf9e7e4b148b79d9b603",
+            "e456dc175fefa39f502959d2b14066691ca5abd2acce7c13d19276a5005eca35",
+            "85dcf5beb796fa3a7d943f65fb7bef56b26f91e0e5c41d44c9a10cca643d8331",
+            "a8af24e7876ae308c64018974c13de4717a986be7a2ca34ed9bc9febf42869d4",
+            "e589a46b0a7259fed121df4d0a6132e033818171956be890900285a2ede942a7",
+            "f9da7b13910fb3b0bc0a94ee78e117eb0c31fd77a5067528227cc4ee76ea022a",
+            "5b5d24c8ebb52f5a977c4f6bb5b53f9b6e43d14caf18cb24d5a293087b89f49c",
+            "db12ea816309f9bea6bf283472afcb64d4b123e42f1312603aa95b39eeb7ae5a",
+            "929d62b466550d245fc14d47d1150ccbf819a777d38cb7a10c04d6c7deb2ea53"
+          ]
+        }
+      },
+      "prefijos": {
+        "30_vs_5": {
+          "limite_comparado": 5,
+          "mismo_orden": true,
+          "mismas_coords_hash": true,
+          "yield_30": 15,
+          "yield_5": 5,
+          "set_run_k_contenido_en_prefijo30": true
+        },
+        "30_vs_15": {
+          "limite_comparado": 11,
+          "mismo_orden": true,
+          "mismas_coords_hash": true,
+          "yield_30": 15,
+          "yield_15": 11,
+          "set_run_k_contenido_en_prefijo30": true
+        }
+      },
+      "determinismo_30": true
+    }
+  },
+  "veredicto_global": true,
+  "regla_de_comparacion": "prefijo de la corrida de 30 hasta min(K, yield_K): el prefijo se declara conservado si el orden de ids y los hashes de coordenadas coinciden posición a posición; la contención de conjuntos se reporta aparte"
+}

@@ -1,0 +1,4060 @@
+{
+  "generated_at": "2026-08-15T11:44:34-0600",
+  "protocolo_base": "docs/42_RUTA_C_PROTOCOLO.md",
+  "continuidad_investigacion": "docs/41_RUTA_C_INVESTIGACION_CAMPO.md",
+  "fase": "4.A — atlas de errores y techo recuperable",
+  "hipotesis": "un objetivo global >=0.70 es alcanzable solo si al menos dos de los fallos con pose cristalina existente se recuperan sin degradar los aciertos",
+  "alcance": "diagnostico read-only; no se reentrena ni se promueve ningun modelo",
+  "validez": {
+    "nombre_split": "test de desarrollo historico",
+    "advertencia": "este split fue consultado en iteraciones anteriores de Ruta C; no debe usarse como confirmacion ciega de un nuevo modelo. La seleccion de la siguiente hipotesis se hara con train/val y requerira confirmacion nueva."
+  },
+  "integridad": {
+    "dataset_manifest_sha256": {
+      "poses_train.jsonl": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654",
+      "poses_val.jsonl": "4a0f8bada19da8f7ee91034264a9b24a2886d4f718ed2dc7e659756fd29b97a1",
+      "poses_test.jsonl": "a36d12451f33d5c3815eaebbad058f56e5b1da94ae501b465b018d91a9f62d02"
+    },
+    "poses_test_sha256": "a36d12451f33d5c3815eaebbad058f56e5b1da94ae501b465b018d91a9f62d02",
+    "modelo_v06_sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+    "modelo_meta_sha256": "296b125ba852522259c11385063dc825c18efc3769228a22a640702ea5b5147d"
+  },
+  "resumen": {
+    "n_complejos": 47,
+    "top1_v06": 0.6596,
+    "top1_v06_exitos": 31,
+    "intervalo_wilson_95_top1": {
+      "lower": 0.5167,
+      "upper": 0.7783
+    },
+    "techo_por_generacion": 0.8723,
+    "techo_por_generacion_exitos": 41,
+    "fallos_ranking_recuperables": 10,
+    "fallos_sin_pose_cristalina": 6,
+    "casos_necesarios_para_top1_global_070": 2,
+    "top1_si_se_recuperan_esos_casos": 0.7021,
+    "casos_por_tipo": {
+      "fallo_ranking_recuperable_margen_alto": 2,
+      "fallo_ranking_recuperable_margen_bajo": 8,
+      "generacion_sin_pose_cristalina": 6,
+      "seleccion_correcta": 31
+    },
+    "comparacion_v06_vs_vina": {
+      "v06_recupera_fallo_vina": 9,
+      "v06_empeora_acierto_vina": 3,
+      "ambos_aciertan": 22,
+      "ambos_fallan": 13
+    }
+  },
+  "fallos_recuperables": [
+    {
+      "pid": "1ado",
+      "n_poses": 63,
+      "min_rmsd": 0.628,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.001174,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 2.204,
+        "crystal_like": false,
+        "selector_score": 0.287799,
+        "source": "molflex",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.707,
+          "pose_score_variance": 0.555,
+          "pose_score_range": 2.08,
+          "n_heavy": 10.0,
+          "n_contacts_4": 10.0,
+          "n_contacts_6": 10.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 25.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.664,
+        "crystal_like": false,
+        "selector_score": 0.176347,
+        "source": "molflex",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.429,
+          "pose_score_variance": 0.7183,
+          "pose_score_range": 2.525,
+          "n_heavy": 10.0,
+          "n_contacts_4": 10.0,
+          "n_contacts_6": 10.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 22.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 15,
+        "rmsd": 0.628,
+        "crystal_like": true,
+        "selector_score": 0.130163,
+        "source": "molflex",
+        "model_idx": 2,
+        "features_base": {
+          "vina_score": -5.404,
+          "pose_score_variance": 0.3383,
+          "pose_score_range": 1.831,
+          "n_heavy": 10.0,
+          "n_contacts_4": 10.0,
+          "n_contacts_6": 10.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 25.0
+        }
+      }
+    },
+    {
+      "pid": "1aid",
+      "n_poses": 31,
+      "min_rmsd": 1.793,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.037612,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 10.161,
+        "crystal_like": false,
+        "selector_score": 0.213445,
+        "source": "ruta_a",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -7.768,
+          "pose_score_variance": 0.4439,
+          "pose_score_range": 2.074,
+          "n_heavy": 29.0,
+          "n_contacts_4": 22.0,
+          "n_contacts_6": 29.0,
+          "contacts_per_ha_4": 0.7586,
+          "n_clashes": 0.0,
+          "cluster_density": 11.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 10.315,
+        "crystal_like": false,
+        "selector_score": 0.090435,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.114,
+          "pose_score_variance": 0.2054,
+          "pose_score_range": 1.449,
+          "n_heavy": 29.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 29.0,
+          "contacts_per_ha_4": 0.7931,
+          "n_clashes": 0.0,
+          "cluster_density": 10.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 12,
+        "rmsd": 1.793,
+        "crystal_like": true,
+        "selector_score": 0.021729,
+        "source": "ruta_a",
+        "model_idx": 2,
+        "features_base": {
+          "vina_score": -7.432,
+          "pose_score_variance": 0.3136,
+          "pose_score_range": 1.754,
+          "n_heavy": 29.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 29.0,
+          "contacts_per_ha_4": 0.6207,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      }
+    },
+    {
+      "pid": "1d3d",
+      "n_poses": 9,
+      "min_rmsd": 1.565,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.130444,
+      "caso": "fallo_ranking_recuperable_margen_alto",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 2.844,
+        "crystal_like": false,
+        "selector_score": 0.524278,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -9.842,
+          "pose_score_variance": 0.4177,
+          "pose_score_range": 2.025,
+          "n_heavy": 38.0,
+          "n_contacts_4": 32.0,
+          "n_contacts_6": 38.0,
+          "contacts_per_ha_4": 0.8421,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.844,
+        "crystal_like": false,
+        "selector_score": 0.524278,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -9.842,
+          "pose_score_variance": 0.4177,
+          "pose_score_range": 2.025,
+          "n_heavy": 38.0,
+          "n_contacts_4": 32.0,
+          "n_contacts_6": 38.0,
+          "contacts_per_ha_4": 0.8421,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 3,
+        "rmsd": 1.565,
+        "crystal_like": true,
+        "selector_score": 0.288706,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -9.537,
+          "pose_score_variance": 0.4177,
+          "pose_score_range": 2.025,
+          "n_heavy": 38.0,
+          "n_contacts_4": 31.0,
+          "n_contacts_6": 38.0,
+          "contacts_per_ha_4": 0.8158,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      }
+    },
+    {
+      "pid": "1g36",
+      "n_poses": 9,
+      "min_rmsd": 1.415,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.224102,
+      "caso": "fallo_ranking_recuperable_margen_alto",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 2.525,
+        "crystal_like": false,
+        "selector_score": 0.483495,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -9.191,
+          "pose_score_variance": 0.1919,
+          "pose_score_range": 1.542,
+          "n_heavy": 32.0,
+          "n_contacts_4": 20.0,
+          "n_contacts_6": 32.0,
+          "contacts_per_ha_4": 0.625,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.525,
+        "crystal_like": false,
+        "selector_score": 0.483495,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -9.191,
+          "pose_score_variance": 0.1919,
+          "pose_score_range": 1.542,
+          "n_heavy": 32.0,
+          "n_contacts_4": 20.0,
+          "n_contacts_6": 32.0,
+          "contacts_per_ha_4": 0.625,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 3,
+        "rmsd": 1.415,
+        "crystal_like": true,
+        "selector_score": 0.143452,
+        "source": "flexible_redock",
+        "model_idx": 3,
+        "features_base": {
+          "vina_score": -8.485,
+          "pose_score_variance": 0.1919,
+          "pose_score_range": 1.542,
+          "n_heavy": 32.0,
+          "n_contacts_4": 24.0,
+          "n_contacts_6": 32.0,
+          "contacts_per_ha_4": 0.75,
+          "n_clashes": 0.0,
+          "cluster_density": 8.0
+        }
+      }
+    },
+    {
+      "pid": "1i9n",
+      "n_poses": 9,
+      "min_rmsd": 1.897,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.016863,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 2.86,
+        "crystal_like": false,
+        "selector_score": 0.295679,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.204,
+          "pose_score_variance": 0.0948,
+          "pose_score_range": 1.089,
+          "n_heavy": 22.0,
+          "n_contacts_4": 22.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.86,
+        "crystal_like": false,
+        "selector_score": 0.295679,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.204,
+          "pose_score_variance": 0.0948,
+          "pose_score_range": 1.089,
+          "n_heavy": 22.0,
+          "n_contacts_4": 22.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 3,
+        "rmsd": 1.897,
+        "crystal_like": true,
+        "selector_score": 0.161245,
+        "source": "flexible_redock",
+        "model_idx": 4,
+        "features_base": {
+          "vina_score": -6.617,
+          "pose_score_variance": 0.0948,
+          "pose_score_range": 1.089,
+          "n_heavy": 22.0,
+          "n_contacts_4": 17.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 0.7727,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      }
+    },
+    {
+      "pid": "1i9p",
+      "n_poses": 9,
+      "min_rmsd": 1.393,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.085019,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 2.085,
+        "crystal_like": false,
+        "selector_score": 0.431815,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.412,
+          "pose_score_variance": 0.0919,
+          "pose_score_range": 0.969,
+          "n_heavy": 23.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.085,
+        "crystal_like": false,
+        "selector_score": 0.431815,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.412,
+          "pose_score_variance": 0.0919,
+          "pose_score_range": 0.969,
+          "n_heavy": 23.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 3,
+        "rmsd": 1.393,
+        "crystal_like": true,
+        "selector_score": 0.156323,
+        "source": "flexible_redock",
+        "model_idx": 2,
+        "features_base": {
+          "vina_score": -6.942,
+          "pose_score_variance": 0.0919,
+          "pose_score_range": 0.969,
+          "n_heavy": 23.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 0.7826,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      }
+    },
+    {
+      "pid": "1if7",
+      "n_poses": 9,
+      "min_rmsd": 1.445,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.046525,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 5.543,
+        "crystal_like": false,
+        "selector_score": 0.32946,
+        "source": "flexible_redock",
+        "model_idx": 4,
+        "features_base": {
+          "vina_score": -7.236,
+          "pose_score_variance": 0.0671,
+          "pose_score_range": 0.774,
+          "n_heavy": 26.0,
+          "n_contacts_4": 25.0,
+          "n_contacts_6": 26.0,
+          "contacts_per_ha_4": 0.9615,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.016,
+        "crystal_like": false,
+        "selector_score": 0.282935,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.468,
+          "pose_score_variance": 0.0671,
+          "pose_score_range": 0.774,
+          "n_heavy": 26.0,
+          "n_contacts_4": 24.0,
+          "n_contacts_6": 26.0,
+          "contacts_per_ha_4": 0.9231,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 4,
+        "rmsd": 1.445,
+        "crystal_like": true,
+        "selector_score": 0.13631,
+        "source": "flexible_redock",
+        "model_idx": 3,
+        "features_base": {
+          "vina_score": -7.329,
+          "pose_score_variance": 0.0671,
+          "pose_score_range": 0.774,
+          "n_heavy": 26.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 26.0,
+          "contacts_per_ha_4": 0.8077,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      }
+    },
+    {
+      "pid": "1lhu",
+      "n_poses": 11,
+      "min_rmsd": 0.603,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.009455,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 6.693,
+        "crystal_like": false,
+        "selector_score": 0.078842,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -9.68,
+          "pose_score_variance": 0.1011,
+          "pose_score_range": 0.636,
+          "n_heavy": 20.0,
+          "n_contacts_4": 17.0,
+          "n_contacts_6": 20.0,
+          "contacts_per_ha_4": 0.85,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 0.618,
+        "crystal_like": true,
+        "selector_score": -0.015276,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -10.858,
+          "pose_score_variance": 0.9088,
+          "pose_score_range": 2.6,
+          "n_heavy": 20.0,
+          "n_contacts_4": 16.0,
+          "n_contacts_6": 20.0,
+          "contacts_per_ha_4": 0.8,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 6,
+        "rmsd": 0.603,
+        "crystal_like": true,
+        "selector_score": -0.05667,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -10.854,
+          "pose_score_variance": 0.8838,
+          "pose_score_range": 2.581,
+          "n_heavy": 20.0,
+          "n_contacts_4": 16.0,
+          "n_contacts_6": 20.0,
+          "contacts_per_ha_4": 0.8,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      }
+    },
+    {
+      "pid": "1mai",
+      "n_poses": 31,
+      "min_rmsd": 0.788,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.052482,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 5.782,
+        "crystal_like": false,
+        "selector_score": 0.200855,
+        "source": "flexible_redock",
+        "model_idx": 5,
+        "features_base": {
+          "vina_score": -4.314,
+          "pose_score_variance": 0.177,
+          "pose_score_range": 1.323,
+          "n_heavy": 24.0,
+          "n_contacts_4": 15.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 0.625,
+          "n_clashes": 0.0,
+          "cluster_density": 9.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 0.788,
+        "crystal_like": true,
+        "selector_score": 0.083847,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.277,
+          "pose_score_variance": 0.1563,
+          "pose_score_range": 1.007,
+          "n_heavy": 24.0,
+          "n_contacts_4": 16.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 0.6667,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 6,
+        "rmsd": 0.788,
+        "crystal_like": true,
+        "selector_score": 0.083847,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.277,
+          "pose_score_variance": 0.1563,
+          "pose_score_range": 1.007,
+          "n_heavy": 24.0,
+          "n_contacts_4": 16.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 0.6667,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      }
+    },
+    {
+      "pid": "1mfd",
+      "n_poses": 29,
+      "min_rmsd": 1.267,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.004696,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 5.831,
+        "crystal_like": false,
+        "selector_score": 0.412876,
+        "source": "ruta_a",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -5.725,
+          "pose_score_variance": 0.9488,
+          "pose_score_range": 2.515,
+          "n_heavy": 33.0,
+          "n_contacts_4": 24.0,
+          "n_contacts_6": 33.0,
+          "contacts_per_ha_4": 0.7273,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 1.267,
+        "crystal_like": true,
+        "selector_score": 0.408181,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.968,
+          "pose_score_variance": 0.9488,
+          "pose_score_range": 2.515,
+          "n_heavy": 33.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 33.0,
+          "contacts_per_ha_4": 0.6364,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 2,
+        "rmsd": 1.267,
+        "crystal_like": true,
+        "selector_score": 0.408181,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.968,
+          "pose_score_variance": 0.9488,
+          "pose_score_range": 2.515,
+          "n_heavy": 33.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 33.0,
+          "contacts_per_ha_4": 0.6364,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      }
+    }
+  ],
+  "fallos_sin_pose_cristalina": [
+    {
+      "pid": "1a1e",
+      "n_poses": 180,
+      "min_rmsd": 3.096,
+      "tiene_pose_cristalina": false,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.068477,
+      "caso": "generacion_sin_pose_cristalina",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 9.711,
+        "crystal_like": false,
+        "selector_score": 0.511458,
+        "source": "molflex",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.87,
+          "pose_score_variance": 0.2255,
+          "pose_score_range": 1.527,
+          "n_heavy": 38.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 30.0,
+          "contacts_per_ha_4": 0.5526,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 3.802,
+        "crystal_like": false,
+        "selector_score": -0.161039,
+        "source": "molflex",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.826,
+          "pose_score_variance": 0.416,
+          "pose_score_range": 2.144,
+          "n_heavy": 38.0,
+          "n_contacts_4": 15.0,
+          "n_contacts_6": 34.0,
+          "contacts_per_ha_4": 0.3947,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "mejor_pose_cristalina": null
+    },
+    {
+      "pid": "1b55",
+      "n_poses": 29,
+      "min_rmsd": 3.435,
+      "tiene_pose_cristalina": false,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.029843,
+      "caso": "generacion_sin_pose_cristalina",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 5.932,
+        "crystal_like": false,
+        "selector_score": 0.17953,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.138,
+          "pose_score_variance": 0.5336,
+          "pose_score_range": 2.143,
+          "n_heavy": 28.0,
+          "n_contacts_4": 20.0,
+          "n_contacts_6": 28.0,
+          "contacts_per_ha_4": 0.7143,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 5.924,
+        "crystal_like": false,
+        "selector_score": 0.149687,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.205,
+          "pose_score_variance": 0.079,
+          "pose_score_range": 0.976,
+          "n_heavy": 28.0,
+          "n_contacts_4": 20.0,
+          "n_contacts_6": 28.0,
+          "contacts_per_ha_4": 0.7143,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "mejor_pose_cristalina": null
+    },
+    {
+      "pid": "1g45",
+      "n_poses": 9,
+      "min_rmsd": 2.025,
+      "tiene_pose_cristalina": false,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.174929,
+      "caso": "generacion_sin_pose_cristalina",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 2.334,
+        "crystal_like": false,
+        "selector_score": 0.495348,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -7.684,
+          "pose_score_variance": 0.6013,
+          "pose_score_range": 2.463,
+          "n_heavy": 21.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 21.0,
+          "contacts_per_ha_4": 0.8571,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.821,
+        "crystal_like": false,
+        "selector_score": 0.32042,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.066,
+          "pose_score_variance": 0.6013,
+          "pose_score_range": 2.463,
+          "n_heavy": 21.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 21.0,
+          "contacts_per_ha_4": 0.8571,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      },
+      "mejor_pose_cristalina": null
+    },
+    {
+      "pid": "1h0a",
+      "n_poses": 9,
+      "min_rmsd": 5.519,
+      "tiene_pose_cristalina": false,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.02603,
+      "caso": "generacion_sin_pose_cristalina",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 6.378,
+        "crystal_like": false,
+        "selector_score": 0.235571,
+        "source": "flexible_redock",
+        "model_idx": 3,
+        "features_base": {
+          "vina_score": -3.976,
+          "pose_score_variance": 0.1191,
+          "pose_score_range": 1.104,
+          "n_heavy": 24.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 0.9583,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 6.733,
+        "crystal_like": false,
+        "selector_score": 0.159206,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -4.515,
+          "pose_score_variance": 0.1191,
+          "pose_score_range": 1.104,
+          "n_heavy": 24.0,
+          "n_contacts_4": 24.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "mejor_pose_cristalina": null
+    },
+    {
+      "pid": "1if8",
+      "n_poses": 9,
+      "min_rmsd": 2.11,
+      "tiene_pose_cristalina": false,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.164484,
+      "caso": "generacion_sin_pose_cristalina",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 6.915,
+        "crystal_like": false,
+        "selector_score": 0.270355,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -7.834,
+          "pose_score_variance": 0.1104,
+          "pose_score_range": 1.036,
+          "n_heavy": 26.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 26.0,
+          "contacts_per_ha_4": 0.8846,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 6.959,
+        "crystal_like": false,
+        "selector_score": 0.105871,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.959,
+          "pose_score_variance": 0.1104,
+          "pose_score_range": 1.036,
+          "n_heavy": 26.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 26.0,
+          "contacts_per_ha_4": 0.8846,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "mejor_pose_cristalina": null
+    },
+    {
+      "pid": "1lcp",
+      "n_poses": 9,
+      "min_rmsd": 2.175,
+      "tiene_pose_cristalina": false,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.050748,
+      "caso": "generacion_sin_pose_cristalina",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 2.975,
+        "crystal_like": false,
+        "selector_score": 0.466849,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -4.047,
+          "pose_score_variance": 0.0796,
+          "pose_score_range": 0.737,
+          "n_heavy": 10.0,
+          "n_contacts_4": 10.0,
+          "n_contacts_6": 10.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.831,
+        "crystal_like": false,
+        "selector_score": 0.416101,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -4.062,
+          "pose_score_variance": 0.0796,
+          "pose_score_range": 0.737,
+          "n_heavy": 10.0,
+          "n_contacts_4": 10.0,
+          "n_contacts_6": 10.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      },
+      "mejor_pose_cristalina": null
+    }
+  ],
+  "todos_los_complejos": [
+    {
+      "pid": "1a1e",
+      "n_poses": 180,
+      "min_rmsd": 3.096,
+      "tiene_pose_cristalina": false,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.068477,
+      "caso": "generacion_sin_pose_cristalina",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 9.711,
+        "crystal_like": false,
+        "selector_score": 0.511458,
+        "source": "molflex",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.87,
+          "pose_score_variance": 0.2255,
+          "pose_score_range": 1.527,
+          "n_heavy": 38.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 30.0,
+          "contacts_per_ha_4": 0.5526,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 3.802,
+        "crystal_like": false,
+        "selector_score": -0.161039,
+        "source": "molflex",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.826,
+          "pose_score_variance": 0.416,
+          "pose_score_range": 2.144,
+          "n_heavy": 38.0,
+          "n_contacts_4": 15.0,
+          "n_contacts_6": 34.0,
+          "contacts_per_ha_4": 0.3947,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "mejor_pose_cristalina": null
+    },
+    {
+      "pid": "1a28",
+      "n_poses": 45,
+      "min_rmsd": 0.76,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.011042,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 0.962,
+        "crystal_like": true,
+        "selector_score": 0.245721,
+        "source": "molflex",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -11.481,
+          "pose_score_variance": 1.0506,
+          "pose_score_range": 2.712,
+          "n_heavy": 23.0,
+          "n_contacts_4": 15.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 0.6522,
+          "n_clashes": 0.0,
+          "cluster_density": 19.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 1.033,
+        "crystal_like": true,
+        "selector_score": -0.002032,
+        "source": "molflex",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -11.749,
+          "pose_score_variance": 1.2119,
+          "pose_score_range": 2.695,
+          "n_heavy": 23.0,
+          "n_contacts_4": 17.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 0.7391,
+          "n_clashes": 0.0,
+          "cluster_density": 19.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 6,
+        "rmsd": 0.76,
+        "crystal_like": true,
+        "selector_score": 0.123793,
+        "source": "molflex",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -11.101,
+          "pose_score_variance": 0.8705,
+          "pose_score_range": 2.343,
+          "n_heavy": 23.0,
+          "n_contacts_4": 16.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 0.6957,
+          "n_clashes": 0.0,
+          "cluster_density": 19.0
+        }
+      }
+    },
+    {
+      "pid": "1ado",
+      "n_poses": 63,
+      "min_rmsd": 0.628,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.001174,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 2.204,
+        "crystal_like": false,
+        "selector_score": 0.287799,
+        "source": "molflex",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.707,
+          "pose_score_variance": 0.555,
+          "pose_score_range": 2.08,
+          "n_heavy": 10.0,
+          "n_contacts_4": 10.0,
+          "n_contacts_6": 10.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 25.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.664,
+        "crystal_like": false,
+        "selector_score": 0.176347,
+        "source": "molflex",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.429,
+          "pose_score_variance": 0.7183,
+          "pose_score_range": 2.525,
+          "n_heavy": 10.0,
+          "n_contacts_4": 10.0,
+          "n_contacts_6": 10.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 22.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 15,
+        "rmsd": 0.628,
+        "crystal_like": true,
+        "selector_score": 0.130163,
+        "source": "molflex",
+        "model_idx": 2,
+        "features_base": {
+          "vina_score": -5.404,
+          "pose_score_variance": 0.3383,
+          "pose_score_range": 1.831,
+          "n_heavy": 10.0,
+          "n_contacts_4": 10.0,
+          "n_contacts_6": 10.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 25.0
+        }
+      }
+    },
+    {
+      "pid": "1aid",
+      "n_poses": 31,
+      "min_rmsd": 1.793,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.037612,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 10.161,
+        "crystal_like": false,
+        "selector_score": 0.213445,
+        "source": "ruta_a",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -7.768,
+          "pose_score_variance": 0.4439,
+          "pose_score_range": 2.074,
+          "n_heavy": 29.0,
+          "n_contacts_4": 22.0,
+          "n_contacts_6": 29.0,
+          "contacts_per_ha_4": 0.7586,
+          "n_clashes": 0.0,
+          "cluster_density": 11.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 10.315,
+        "crystal_like": false,
+        "selector_score": 0.090435,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.114,
+          "pose_score_variance": 0.2054,
+          "pose_score_range": 1.449,
+          "n_heavy": 29.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 29.0,
+          "contacts_per_ha_4": 0.7931,
+          "n_clashes": 0.0,
+          "cluster_density": 10.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 12,
+        "rmsd": 1.793,
+        "crystal_like": true,
+        "selector_score": 0.021729,
+        "source": "ruta_a",
+        "model_idx": 2,
+        "features_base": {
+          "vina_score": -7.432,
+          "pose_score_variance": 0.3136,
+          "pose_score_range": 1.754,
+          "n_heavy": 29.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 29.0,
+          "contacts_per_ha_4": 0.6207,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      }
+    },
+    {
+      "pid": "1b55",
+      "n_poses": 29,
+      "min_rmsd": 3.435,
+      "tiene_pose_cristalina": false,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.029843,
+      "caso": "generacion_sin_pose_cristalina",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 5.932,
+        "crystal_like": false,
+        "selector_score": 0.17953,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.138,
+          "pose_score_variance": 0.5336,
+          "pose_score_range": 2.143,
+          "n_heavy": 28.0,
+          "n_contacts_4": 20.0,
+          "n_contacts_6": 28.0,
+          "contacts_per_ha_4": 0.7143,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 5.924,
+        "crystal_like": false,
+        "selector_score": 0.149687,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.205,
+          "pose_score_variance": 0.079,
+          "pose_score_range": 0.976,
+          "n_heavy": 28.0,
+          "n_contacts_4": 20.0,
+          "n_contacts_6": 28.0,
+          "contacts_per_ha_4": 0.7143,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "mejor_pose_cristalina": null
+    },
+    {
+      "pid": "1bnn",
+      "n_poses": 9,
+      "min_rmsd": 0.956,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.112642,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 0.956,
+        "crystal_like": true,
+        "selector_score": 0.412078,
+        "source": "flexible_redock",
+        "model_idx": 2,
+        "features_base": {
+          "vina_score": -7.226,
+          "pose_score_variance": 0.5522,
+          "pose_score_range": 2.191,
+          "n_heavy": 23.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 0.8261,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 4.438,
+        "crystal_like": false,
+        "selector_score": 0.264184,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.886,
+          "pose_score_variance": 0.5522,
+          "pose_score_range": 2.191,
+          "n_heavy": 23.0,
+          "n_contacts_4": 17.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 0.7391,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 0.956,
+        "crystal_like": true,
+        "selector_score": 0.412078,
+        "source": "flexible_redock",
+        "model_idx": 2,
+        "features_base": {
+          "vina_score": -7.226,
+          "pose_score_variance": 0.5522,
+          "pose_score_range": 2.191,
+          "n_heavy": 23.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 0.8261,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      }
+    },
+    {
+      "pid": "1bnt",
+      "n_poses": 9,
+      "min_rmsd": 1.083,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.461096,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.083,
+        "crystal_like": true,
+        "selector_score": 0.792021,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.836,
+          "pose_score_variance": 0.4574,
+          "pose_score_range": 2.182,
+          "n_heavy": 24.0,
+          "n_contacts_4": 22.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 0.9167,
+          "n_clashes": 1.0,
+          "cluster_density": 0.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 1.083,
+        "crystal_like": true,
+        "selector_score": 0.792021,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.836,
+          "pose_score_variance": 0.4574,
+          "pose_score_range": 2.182,
+          "n_heavy": 24.0,
+          "n_contacts_4": 22.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 0.9167,
+          "n_clashes": 1.0,
+          "cluster_density": 0.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.083,
+        "crystal_like": true,
+        "selector_score": 0.792021,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.836,
+          "pose_score_variance": 0.4574,
+          "pose_score_range": 2.182,
+          "n_heavy": 24.0,
+          "n_contacts_4": 22.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 0.9167,
+          "n_clashes": 1.0,
+          "cluster_density": 0.0
+        }
+      }
+    },
+    {
+      "pid": "1bnw",
+      "n_poses": 32,
+      "min_rmsd": 1.989,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.126377,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.989,
+        "crystal_like": true,
+        "selector_score": 0.527494,
+        "source": "ruta_a",
+        "model_idx": 3,
+        "features_base": {
+          "vina_score": -6.753,
+          "pose_score_variance": 0.7763,
+          "pose_score_range": 2.032,
+          "n_heavy": 19.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 19.0,
+          "contacts_per_ha_4": 0.9474,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.101,
+        "crystal_like": false,
+        "selector_score": 0.306578,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.955,
+          "pose_score_variance": 0.7763,
+          "pose_score_range": 2.032,
+          "n_heavy": 19.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 19.0,
+          "contacts_per_ha_4": 0.9474,
+          "n_clashes": 0.0,
+          "cluster_density": 7.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.989,
+        "crystal_like": true,
+        "selector_score": 0.527494,
+        "source": "ruta_a",
+        "model_idx": 3,
+        "features_base": {
+          "vina_score": -6.753,
+          "pose_score_variance": 0.7763,
+          "pose_score_range": 2.032,
+          "n_heavy": 19.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 19.0,
+          "contacts_per_ha_4": 0.9474,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      }
+    },
+    {
+      "pid": "1br6",
+      "n_poses": 30,
+      "min_rmsd": 0.714,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.080308,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 0.714,
+        "crystal_like": true,
+        "selector_score": 0.510018,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.791,
+          "pose_score_variance": 0.4525,
+          "pose_score_range": 2.189,
+          "n_heavy": 23.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 0.913,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 0.714,
+        "crystal_like": true,
+        "selector_score": 0.510018,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.791,
+          "pose_score_variance": 0.4525,
+          "pose_score_range": 2.189,
+          "n_heavy": 23.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 0.913,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 0.714,
+        "crystal_like": true,
+        "selector_score": 0.510018,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.791,
+          "pose_score_variance": 0.4525,
+          "pose_score_range": 2.189,
+          "n_heavy": 23.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 0.913,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      }
+    },
+    {
+      "pid": "1c5q",
+      "n_poses": 9,
+      "min_rmsd": 0.277,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.338332,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 0.277,
+        "crystal_like": true,
+        "selector_score": 0.793704,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.765,
+          "pose_score_variance": 0.6004,
+          "pose_score_range": 2.302,
+          "n_heavy": 13.0,
+          "n_contacts_4": 13.0,
+          "n_contacts_6": 13.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 0.277,
+        "crystal_like": true,
+        "selector_score": 0.793704,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.765,
+          "pose_score_variance": 0.6004,
+          "pose_score_range": 2.302,
+          "n_heavy": 13.0,
+          "n_contacts_4": 13.0,
+          "n_contacts_6": 13.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 0.277,
+        "crystal_like": true,
+        "selector_score": 0.793704,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.765,
+          "pose_score_variance": 0.6004,
+          "pose_score_range": 2.302,
+          "n_heavy": 13.0,
+          "n_contacts_4": 13.0,
+          "n_contacts_6": 13.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      }
+    },
+    {
+      "pid": "1c5s",
+      "n_poses": 9,
+      "min_rmsd": 1.016,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.330185,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.016,
+        "crystal_like": true,
+        "selector_score": 0.67225,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -6.281,
+          "pose_score_variance": 0.3705,
+          "pose_score_range": 1.783,
+          "n_heavy": 12.0,
+          "n_contacts_4": 12.0,
+          "n_contacts_6": 12.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 5.44,
+        "crystal_like": false,
+        "selector_score": 0.342065,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.558,
+          "pose_score_variance": 0.3705,
+          "pose_score_range": 1.783,
+          "n_heavy": 12.0,
+          "n_contacts_4": 11.0,
+          "n_contacts_6": 12.0,
+          "contacts_per_ha_4": 0.9167,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.016,
+        "crystal_like": true,
+        "selector_score": 0.67225,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -6.281,
+          "pose_score_variance": 0.3705,
+          "pose_score_range": 1.783,
+          "n_heavy": 12.0,
+          "n_contacts_4": 12.0,
+          "n_contacts_6": 12.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      }
+    },
+    {
+      "pid": "1ceb",
+      "n_poses": 9,
+      "min_rmsd": 1.816,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.083199,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.816,
+        "crystal_like": true,
+        "selector_score": 0.319983,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.765,
+          "pose_score_variance": 0.7888,
+          "pose_score_range": 2.595,
+          "n_heavy": 11.0,
+          "n_contacts_4": 11.0,
+          "n_contacts_6": 11.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 1.816,
+        "crystal_like": true,
+        "selector_score": 0.319983,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.765,
+          "pose_score_variance": 0.7888,
+          "pose_score_range": 2.595,
+          "n_heavy": 11.0,
+          "n_contacts_4": 11.0,
+          "n_contacts_6": 11.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.816,
+        "crystal_like": true,
+        "selector_score": 0.319983,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.765,
+          "pose_score_variance": 0.7888,
+          "pose_score_range": 2.595,
+          "n_heavy": 11.0,
+          "n_contacts_4": 11.0,
+          "n_contacts_6": 11.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      }
+    },
+    {
+      "pid": "1d3d",
+      "n_poses": 9,
+      "min_rmsd": 1.565,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.130444,
+      "caso": "fallo_ranking_recuperable_margen_alto",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 2.844,
+        "crystal_like": false,
+        "selector_score": 0.524278,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -9.842,
+          "pose_score_variance": 0.4177,
+          "pose_score_range": 2.025,
+          "n_heavy": 38.0,
+          "n_contacts_4": 32.0,
+          "n_contacts_6": 38.0,
+          "contacts_per_ha_4": 0.8421,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.844,
+        "crystal_like": false,
+        "selector_score": 0.524278,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -9.842,
+          "pose_score_variance": 0.4177,
+          "pose_score_range": 2.025,
+          "n_heavy": 38.0,
+          "n_contacts_4": 32.0,
+          "n_contacts_6": 38.0,
+          "contacts_per_ha_4": 0.8421,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 3,
+        "rmsd": 1.565,
+        "crystal_like": true,
+        "selector_score": 0.288706,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -9.537,
+          "pose_score_variance": 0.4177,
+          "pose_score_range": 2.025,
+          "n_heavy": 38.0,
+          "n_contacts_4": 31.0,
+          "n_contacts_6": 38.0,
+          "contacts_per_ha_4": 0.8158,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      }
+    },
+    {
+      "pid": "1e2k",
+      "n_poses": 4,
+      "min_rmsd": 1.028,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.292172,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.028,
+        "crystal_like": true,
+        "selector_score": 0.323476,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.083,
+          "pose_score_variance": 1.3063,
+          "pose_score_range": 2.79,
+          "n_heavy": 18.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 18.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 1.028,
+        "crystal_like": true,
+        "selector_score": 0.323476,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.083,
+          "pose_score_variance": 1.3063,
+          "pose_score_range": 2.79,
+          "n_heavy": 18.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 18.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.028,
+        "crystal_like": true,
+        "selector_score": 0.323476,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.083,
+          "pose_score_variance": 1.3063,
+          "pose_score_range": 2.79,
+          "n_heavy": 18.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 18.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      }
+    },
+    {
+      "pid": "1e2l",
+      "n_poses": 8,
+      "min_rmsd": 1.125,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.042328,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.134,
+        "crystal_like": true,
+        "selector_score": 0.176541,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.679,
+          "pose_score_variance": 0.7912,
+          "pose_score_range": 1.779,
+          "n_heavy": 18.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 18.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 7.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 1.134,
+        "crystal_like": true,
+        "selector_score": 0.176541,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.679,
+          "pose_score_variance": 0.7912,
+          "pose_score_range": 1.779,
+          "n_heavy": 18.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 18.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 7.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 3,
+        "rmsd": 1.125,
+        "crystal_like": true,
+        "selector_score": 0.118957,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.661,
+          "pose_score_variance": 0.7806,
+          "pose_score_range": 1.767,
+          "n_heavy": 18.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 18.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 7.0
+        }
+      }
+    },
+    {
+      "pid": "1e3g",
+      "n_poses": 1,
+      "min_rmsd": 0.675,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.0,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 0.675,
+        "crystal_like": true,
+        "selector_score": 0.049256,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -11.831,
+          "pose_score_variance": 0.0,
+          "pose_score_range": 0.0,
+          "n_heavy": 21.0,
+          "n_contacts_4": 14.0,
+          "n_contacts_6": 21.0,
+          "contacts_per_ha_4": 0.6667,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 0.675,
+        "crystal_like": true,
+        "selector_score": 0.049256,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -11.831,
+          "pose_score_variance": 0.0,
+          "pose_score_range": 0.0,
+          "n_heavy": 21.0,
+          "n_contacts_4": 14.0,
+          "n_contacts_6": 21.0,
+          "contacts_per_ha_4": 0.6667,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 0.675,
+        "crystal_like": true,
+        "selector_score": 0.049256,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -11.831,
+          "pose_score_variance": 0.0,
+          "pose_score_range": 0.0,
+          "n_heavy": 21.0,
+          "n_contacts_4": 14.0,
+          "n_contacts_6": 21.0,
+          "contacts_per_ha_4": 0.6667,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      }
+    },
+    {
+      "pid": "1e66",
+      "n_poses": 1,
+      "min_rmsd": 0.234,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.0,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 0.234,
+        "crystal_like": true,
+        "selector_score": 0.049256,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -12.805,
+          "pose_score_variance": 0.0,
+          "pose_score_range": 0.0,
+          "n_heavy": 21.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 21.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 0.234,
+        "crystal_like": true,
+        "selector_score": 0.049256,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -12.805,
+          "pose_score_variance": 0.0,
+          "pose_score_range": 0.0,
+          "n_heavy": 21.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 21.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 0.234,
+        "crystal_like": true,
+        "selector_score": 0.049256,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -12.805,
+          "pose_score_variance": 0.0,
+          "pose_score_range": 0.0,
+          "n_heavy": 21.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 21.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      }
+    },
+    {
+      "pid": "1fao",
+      "n_poses": 31,
+      "min_rmsd": 1.301,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.050363,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.301,
+        "crystal_like": true,
+        "selector_score": 0.203625,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.717,
+          "pose_score_variance": 0.2011,
+          "pose_score_range": 1.514,
+          "n_heavy": 28.0,
+          "n_contacts_4": 25.0,
+          "n_contacts_6": 28.0,
+          "contacts_per_ha_4": 0.8929,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 1.301,
+        "crystal_like": true,
+        "selector_score": 0.203625,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.717,
+          "pose_score_variance": 0.2011,
+          "pose_score_range": 1.514,
+          "n_heavy": 28.0,
+          "n_contacts_4": 25.0,
+          "n_contacts_6": 28.0,
+          "contacts_per_ha_4": 0.8929,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.301,
+        "crystal_like": true,
+        "selector_score": 0.203625,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.717,
+          "pose_score_variance": 0.2011,
+          "pose_score_range": 1.514,
+          "n_heavy": 28.0,
+          "n_contacts_4": 25.0,
+          "n_contacts_6": 28.0,
+          "contacts_per_ha_4": 0.8929,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      }
+    },
+    {
+      "pid": "1g1d",
+      "n_poses": 9,
+      "min_rmsd": 1.459,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.488623,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.459,
+        "crystal_like": true,
+        "selector_score": 0.644104,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.661,
+          "pose_score_variance": 0.288,
+          "pose_score_range": 1.842,
+          "n_heavy": 21.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 21.0,
+          "contacts_per_ha_4": 0.9048,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 1.459,
+        "crystal_like": true,
+        "selector_score": 0.644104,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.661,
+          "pose_score_variance": 0.288,
+          "pose_score_range": 1.842,
+          "n_heavy": 21.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 21.0,
+          "contacts_per_ha_4": 0.9048,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.459,
+        "crystal_like": true,
+        "selector_score": 0.644104,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.661,
+          "pose_score_variance": 0.288,
+          "pose_score_range": 1.842,
+          "n_heavy": 21.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 21.0,
+          "contacts_per_ha_4": 0.9048,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      }
+    },
+    {
+      "pid": "1g36",
+      "n_poses": 9,
+      "min_rmsd": 1.415,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.224102,
+      "caso": "fallo_ranking_recuperable_margen_alto",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 2.525,
+        "crystal_like": false,
+        "selector_score": 0.483495,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -9.191,
+          "pose_score_variance": 0.1919,
+          "pose_score_range": 1.542,
+          "n_heavy": 32.0,
+          "n_contacts_4": 20.0,
+          "n_contacts_6": 32.0,
+          "contacts_per_ha_4": 0.625,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.525,
+        "crystal_like": false,
+        "selector_score": 0.483495,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -9.191,
+          "pose_score_variance": 0.1919,
+          "pose_score_range": 1.542,
+          "n_heavy": 32.0,
+          "n_contacts_4": 20.0,
+          "n_contacts_6": 32.0,
+          "contacts_per_ha_4": 0.625,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 3,
+        "rmsd": 1.415,
+        "crystal_like": true,
+        "selector_score": 0.143452,
+        "source": "flexible_redock",
+        "model_idx": 3,
+        "features_base": {
+          "vina_score": -8.485,
+          "pose_score_variance": 0.1919,
+          "pose_score_range": 1.542,
+          "n_heavy": 32.0,
+          "n_contacts_4": 24.0,
+          "n_contacts_6": 32.0,
+          "contacts_per_ha_4": 0.75,
+          "n_clashes": 0.0,
+          "cluster_density": 8.0
+        }
+      }
+    },
+    {
+      "pid": "1g45",
+      "n_poses": 9,
+      "min_rmsd": 2.025,
+      "tiene_pose_cristalina": false,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.174929,
+      "caso": "generacion_sin_pose_cristalina",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 2.334,
+        "crystal_like": false,
+        "selector_score": 0.495348,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -7.684,
+          "pose_score_variance": 0.6013,
+          "pose_score_range": 2.463,
+          "n_heavy": 21.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 21.0,
+          "contacts_per_ha_4": 0.8571,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.821,
+        "crystal_like": false,
+        "selector_score": 0.32042,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.066,
+          "pose_score_variance": 0.6013,
+          "pose_score_range": 2.463,
+          "n_heavy": 21.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 21.0,
+          "contacts_per_ha_4": 0.8571,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      },
+      "mejor_pose_cristalina": null
+    },
+    {
+      "pid": "1g46",
+      "n_poses": 9,
+      "min_rmsd": 1.913,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.197998,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.913,
+        "crystal_like": true,
+        "selector_score": 0.304399,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -7.5,
+          "pose_score_variance": 0.2496,
+          "pose_score_range": 1.486,
+          "n_heavy": 22.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 0.8182,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.734,
+        "crystal_like": false,
+        "selector_score": 0.106401,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.721,
+          "pose_score_variance": 0.2496,
+          "pose_score_range": 1.486,
+          "n_heavy": 22.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 0.8636,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.913,
+        "crystal_like": true,
+        "selector_score": 0.304399,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -7.5,
+          "pose_score_variance": 0.2496,
+          "pose_score_range": 1.486,
+          "n_heavy": 22.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 0.8182,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      }
+    },
+    {
+      "pid": "1g48",
+      "n_poses": 9,
+      "min_rmsd": 1.199,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.04487,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.199,
+        "crystal_like": true,
+        "selector_score": 0.308627,
+        "source": "flexible_redock",
+        "model_idx": 2,
+        "features_base": {
+          "vina_score": -7.371,
+          "pose_score_variance": 0.7233,
+          "pose_score_range": 2.792,
+          "n_heavy": 22.0,
+          "n_contacts_4": 17.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 0.7727,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.541,
+        "crystal_like": false,
+        "selector_score": 0.263757,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.036,
+          "pose_score_variance": 0.7233,
+          "pose_score_range": 2.792,
+          "n_heavy": 22.0,
+          "n_contacts_4": 20.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 0.9091,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.199,
+        "crystal_like": true,
+        "selector_score": 0.308627,
+        "source": "flexible_redock",
+        "model_idx": 2,
+        "features_base": {
+          "vina_score": -7.371,
+          "pose_score_variance": 0.7233,
+          "pose_score_range": 2.792,
+          "n_heavy": 22.0,
+          "n_contacts_4": 17.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 0.7727,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      }
+    },
+    {
+      "pid": "1g4o",
+      "n_poses": 33,
+      "min_rmsd": 0.769,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.065982,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 0.773,
+        "crystal_like": true,
+        "selector_score": 0.508289,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.271,
+          "pose_score_variance": 0.4266,
+          "pose_score_range": 1.877,
+          "n_heavy": 20.0,
+          "n_contacts_4": 20.0,
+          "n_contacts_6": 20.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 0.773,
+        "crystal_like": true,
+        "selector_score": 0.508289,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.271,
+          "pose_score_variance": 0.4266,
+          "pose_score_range": 1.877,
+          "n_heavy": 20.0,
+          "n_contacts_4": 20.0,
+          "n_contacts_6": 20.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 2,
+        "rmsd": 0.769,
+        "crystal_like": true,
+        "selector_score": 0.442306,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.252,
+          "pose_score_variance": 0.2309,
+          "pose_score_range": 1.54,
+          "n_heavy": 20.0,
+          "n_contacts_4": 20.0,
+          "n_contacts_6": 20.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      }
+    },
+    {
+      "pid": "1g52",
+      "n_poses": 9,
+      "min_rmsd": 1.353,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.117965,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.353,
+        "crystal_like": true,
+        "selector_score": 0.292773,
+        "source": "flexible_redock",
+        "model_idx": 2,
+        "features_base": {
+          "vina_score": -7.621,
+          "pose_score_variance": 0.2116,
+          "pose_score_range": 1.325,
+          "n_heavy": 22.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 0.8636,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 4.599,
+        "crystal_like": false,
+        "selector_score": 0.174807,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.908,
+          "pose_score_variance": 0.2116,
+          "pose_score_range": 1.325,
+          "n_heavy": 22.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 0.9545,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.353,
+        "crystal_like": true,
+        "selector_score": 0.292773,
+        "source": "flexible_redock",
+        "model_idx": 2,
+        "features_base": {
+          "vina_score": -7.621,
+          "pose_score_variance": 0.2116,
+          "pose_score_range": 1.325,
+          "n_heavy": 22.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 0.8636,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      }
+    },
+    {
+      "pid": "1g53",
+      "n_poses": 9,
+      "min_rmsd": 1.676,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.271049,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.676,
+        "crystal_like": true,
+        "selector_score": 0.576839,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.799,
+          "pose_score_variance": 0.7484,
+          "pose_score_range": 2.496,
+          "n_heavy": 22.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 0.8636,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 1.676,
+        "crystal_like": true,
+        "selector_score": 0.576839,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.799,
+          "pose_score_variance": 0.7484,
+          "pose_score_range": 2.496,
+          "n_heavy": 22.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 0.8636,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.676,
+        "crystal_like": true,
+        "selector_score": 0.576839,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.799,
+          "pose_score_variance": 0.7484,
+          "pose_score_range": 2.496,
+          "n_heavy": 22.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 0.8636,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      }
+    },
+    {
+      "pid": "1g54",
+      "n_poses": 9,
+      "min_rmsd": 1.314,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.100771,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.314,
+        "crystal_like": true,
+        "selector_score": 0.103731,
+        "source": "flexible_redock",
+        "model_idx": 8,
+        "features_base": {
+          "vina_score": -7.568,
+          "pose_score_variance": 0.0314,
+          "pose_score_range": 0.563,
+          "n_heavy": 25.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 25.0,
+          "contacts_per_ha_4": 0.76,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 8.726,
+        "crystal_like": false,
+        "selector_score": -0.067744,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.131,
+          "pose_score_variance": 0.0314,
+          "pose_score_range": 0.563,
+          "n_heavy": 25.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 25.0,
+          "contacts_per_ha_4": 0.92,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.314,
+        "crystal_like": true,
+        "selector_score": 0.103731,
+        "source": "flexible_redock",
+        "model_idx": 8,
+        "features_base": {
+          "vina_score": -7.568,
+          "pose_score_variance": 0.0314,
+          "pose_score_range": 0.563,
+          "n_heavy": 25.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 25.0,
+          "contacts_per_ha_4": 0.76,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      }
+    },
+    {
+      "pid": "1h0a",
+      "n_poses": 9,
+      "min_rmsd": 5.519,
+      "tiene_pose_cristalina": false,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.02603,
+      "caso": "generacion_sin_pose_cristalina",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 6.378,
+        "crystal_like": false,
+        "selector_score": 0.235571,
+        "source": "flexible_redock",
+        "model_idx": 3,
+        "features_base": {
+          "vina_score": -3.976,
+          "pose_score_variance": 0.1191,
+          "pose_score_range": 1.104,
+          "n_heavy": 24.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 0.9583,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 6.733,
+        "crystal_like": false,
+        "selector_score": 0.159206,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -4.515,
+          "pose_score_variance": 0.1191,
+          "pose_score_range": 1.104,
+          "n_heavy": 24.0,
+          "n_contacts_4": 24.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "mejor_pose_cristalina": null
+    },
+    {
+      "pid": "1i9n",
+      "n_poses": 9,
+      "min_rmsd": 1.897,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.016863,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 2.86,
+        "crystal_like": false,
+        "selector_score": 0.295679,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.204,
+          "pose_score_variance": 0.0948,
+          "pose_score_range": 1.089,
+          "n_heavy": 22.0,
+          "n_contacts_4": 22.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.86,
+        "crystal_like": false,
+        "selector_score": 0.295679,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.204,
+          "pose_score_variance": 0.0948,
+          "pose_score_range": 1.089,
+          "n_heavy": 22.0,
+          "n_contacts_4": 22.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 3,
+        "rmsd": 1.897,
+        "crystal_like": true,
+        "selector_score": 0.161245,
+        "source": "flexible_redock",
+        "model_idx": 4,
+        "features_base": {
+          "vina_score": -6.617,
+          "pose_score_variance": 0.0948,
+          "pose_score_range": 1.089,
+          "n_heavy": 22.0,
+          "n_contacts_4": 17.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 0.7727,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      }
+    },
+    {
+      "pid": "1i9p",
+      "n_poses": 9,
+      "min_rmsd": 1.393,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.085019,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 2.085,
+        "crystal_like": false,
+        "selector_score": 0.431815,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.412,
+          "pose_score_variance": 0.0919,
+          "pose_score_range": 0.969,
+          "n_heavy": 23.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.085,
+        "crystal_like": false,
+        "selector_score": 0.431815,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.412,
+          "pose_score_variance": 0.0919,
+          "pose_score_range": 0.969,
+          "n_heavy": 23.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 3,
+        "rmsd": 1.393,
+        "crystal_like": true,
+        "selector_score": 0.156323,
+        "source": "flexible_redock",
+        "model_idx": 2,
+        "features_base": {
+          "vina_score": -6.942,
+          "pose_score_variance": 0.0919,
+          "pose_score_range": 0.969,
+          "n_heavy": 23.0,
+          "n_contacts_4": 18.0,
+          "n_contacts_6": 23.0,
+          "contacts_per_ha_4": 0.7826,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      }
+    },
+    {
+      "pid": "1if7",
+      "n_poses": 9,
+      "min_rmsd": 1.445,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.046525,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 5.543,
+        "crystal_like": false,
+        "selector_score": 0.32946,
+        "source": "flexible_redock",
+        "model_idx": 4,
+        "features_base": {
+          "vina_score": -7.236,
+          "pose_score_variance": 0.0671,
+          "pose_score_range": 0.774,
+          "n_heavy": 26.0,
+          "n_contacts_4": 25.0,
+          "n_contacts_6": 26.0,
+          "contacts_per_ha_4": 0.9615,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.016,
+        "crystal_like": false,
+        "selector_score": 0.282935,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.468,
+          "pose_score_variance": 0.0671,
+          "pose_score_range": 0.774,
+          "n_heavy": 26.0,
+          "n_contacts_4": 24.0,
+          "n_contacts_6": 26.0,
+          "contacts_per_ha_4": 0.9231,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 4,
+        "rmsd": 1.445,
+        "crystal_like": true,
+        "selector_score": 0.13631,
+        "source": "flexible_redock",
+        "model_idx": 3,
+        "features_base": {
+          "vina_score": -7.329,
+          "pose_score_variance": 0.0671,
+          "pose_score_range": 0.774,
+          "n_heavy": 26.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 26.0,
+          "contacts_per_ha_4": 0.8077,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      }
+    },
+    {
+      "pid": "1if8",
+      "n_poses": 9,
+      "min_rmsd": 2.11,
+      "tiene_pose_cristalina": false,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.164484,
+      "caso": "generacion_sin_pose_cristalina",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 6.915,
+        "crystal_like": false,
+        "selector_score": 0.270355,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -7.834,
+          "pose_score_variance": 0.1104,
+          "pose_score_range": 1.036,
+          "n_heavy": 26.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 26.0,
+          "contacts_per_ha_4": 0.8846,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 6.959,
+        "crystal_like": false,
+        "selector_score": 0.105871,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.959,
+          "pose_score_variance": 0.1104,
+          "pose_score_range": 1.036,
+          "n_heavy": 26.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 26.0,
+          "contacts_per_ha_4": 0.8846,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "mejor_pose_cristalina": null
+    },
+    {
+      "pid": "1k1j",
+      "n_poses": 9,
+      "min_rmsd": 1.314,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.367335,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.314,
+        "crystal_like": true,
+        "selector_score": 0.578486,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -7.135,
+          "pose_score_variance": 0.0308,
+          "pose_score_range": 0.537,
+          "n_heavy": 37.0,
+          "n_contacts_4": 25.0,
+          "n_contacts_6": 37.0,
+          "contacts_per_ha_4": 0.6757,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 6.58,
+        "crystal_like": false,
+        "selector_score": 0.211151,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.162,
+          "pose_score_variance": 0.0308,
+          "pose_score_range": 0.537,
+          "n_heavy": 37.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 36.0,
+          "contacts_per_ha_4": 0.5676,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.314,
+        "crystal_like": true,
+        "selector_score": 0.578486,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -7.135,
+          "pose_score_variance": 0.0308,
+          "pose_score_range": 0.537,
+          "n_heavy": 37.0,
+          "n_contacts_4": 25.0,
+          "n_contacts_6": 37.0,
+          "contacts_per_ha_4": 0.6757,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      }
+    },
+    {
+      "pid": "1k21",
+      "n_poses": 9,
+      "min_rmsd": 1.428,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.213392,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.428,
+        "crystal_like": true,
+        "selector_score": 0.314718,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -8.009,
+          "pose_score_variance": 0.2537,
+          "pose_score_range": 1.471,
+          "n_heavy": 31.0,
+          "n_contacts_4": 27.0,
+          "n_contacts_6": 31.0,
+          "contacts_per_ha_4": 0.871,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 1.765,
+        "crystal_like": true,
+        "selector_score": 0.007757,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.057,
+          "pose_score_variance": 0.2537,
+          "pose_score_range": 1.471,
+          "n_heavy": 31.0,
+          "n_contacts_4": 25.0,
+          "n_contacts_6": 31.0,
+          "contacts_per_ha_4": 0.8065,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.428,
+        "crystal_like": true,
+        "selector_score": 0.314718,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -8.009,
+          "pose_score_variance": 0.2537,
+          "pose_score_range": 1.471,
+          "n_heavy": 31.0,
+          "n_contacts_4": 27.0,
+          "n_contacts_6": 31.0,
+          "contacts_per_ha_4": 0.871,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      }
+    },
+    {
+      "pid": "1k6c",
+      "n_poses": 9,
+      "min_rmsd": 0.85,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.078244,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 0.85,
+        "crystal_like": true,
+        "selector_score": 0.301365,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -10.49,
+          "pose_score_variance": 0.762,
+          "pose_score_range": 2.657,
+          "n_heavy": 45.0,
+          "n_contacts_4": 42.0,
+          "n_contacts_6": 45.0,
+          "contacts_per_ha_4": 0.9333,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 3.363,
+        "crystal_like": false,
+        "selector_score": 0.223121,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -10.567,
+          "pose_score_variance": 0.762,
+          "pose_score_range": 2.657,
+          "n_heavy": 45.0,
+          "n_contacts_4": 43.0,
+          "n_contacts_6": 45.0,
+          "contacts_per_ha_4": 0.9556,
+          "n_clashes": 0.0,
+          "cluster_density": 2.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 0.85,
+        "crystal_like": true,
+        "selector_score": 0.301365,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -10.49,
+          "pose_score_variance": 0.762,
+          "pose_score_range": 2.657,
+          "n_heavy": 45.0,
+          "n_contacts_4": 42.0,
+          "n_contacts_6": 45.0,
+          "contacts_per_ha_4": 0.9333,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      }
+    },
+    {
+      "pid": "1kjr",
+      "n_poses": 9,
+      "min_rmsd": 0.653,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.235535,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 0.653,
+        "crystal_like": true,
+        "selector_score": 0.494285,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.519,
+          "pose_score_variance": 0.3216,
+          "pose_score_range": 1.781,
+          "n_heavy": 40.0,
+          "n_contacts_4": 34.0,
+          "n_contacts_6": 40.0,
+          "contacts_per_ha_4": 0.85,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 0.653,
+        "crystal_like": true,
+        "selector_score": 0.494285,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.519,
+          "pose_score_variance": 0.3216,
+          "pose_score_range": 1.781,
+          "n_heavy": 40.0,
+          "n_contacts_4": 34.0,
+          "n_contacts_6": 40.0,
+          "contacts_per_ha_4": 0.85,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 0.653,
+        "crystal_like": true,
+        "selector_score": 0.494285,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.519,
+          "pose_score_variance": 0.3216,
+          "pose_score_range": 1.781,
+          "n_heavy": 40.0,
+          "n_contacts_4": 34.0,
+          "n_contacts_6": 40.0,
+          "contacts_per_ha_4": 0.85,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      }
+    },
+    {
+      "pid": "1kyv",
+      "n_poses": 9,
+      "min_rmsd": 1.514,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.411538,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.514,
+        "crystal_like": true,
+        "selector_score": 1.026919,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.947,
+          "pose_score_variance": 0.6095,
+          "pose_score_range": 2.263,
+          "n_heavy": 27.0,
+          "n_contacts_4": 24.0,
+          "n_contacts_6": 27.0,
+          "contacts_per_ha_4": 0.8889,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 1.514,
+        "crystal_like": true,
+        "selector_score": 1.026919,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.947,
+          "pose_score_variance": 0.6095,
+          "pose_score_range": 2.263,
+          "n_heavy": 27.0,
+          "n_contacts_4": 24.0,
+          "n_contacts_6": 27.0,
+          "contacts_per_ha_4": 0.8889,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.514,
+        "crystal_like": true,
+        "selector_score": 1.026919,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -7.947,
+          "pose_score_variance": 0.6095,
+          "pose_score_range": 2.263,
+          "n_heavy": 27.0,
+          "n_contacts_4": 24.0,
+          "n_contacts_6": 27.0,
+          "contacts_per_ha_4": 0.8889,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      }
+    },
+    {
+      "pid": "1lcp",
+      "n_poses": 9,
+      "min_rmsd": 2.175,
+      "tiene_pose_cristalina": false,
+      "top1_ok": false,
+      "vina_top1_ok": false,
+      "margin_top1_top2": 0.050748,
+      "caso": "generacion_sin_pose_cristalina",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 2.975,
+        "crystal_like": false,
+        "selector_score": 0.466849,
+        "source": "flexible_redock",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -4.047,
+          "pose_score_variance": 0.0796,
+          "pose_score_range": 0.737,
+          "n_heavy": 10.0,
+          "n_contacts_4": 10.0,
+          "n_contacts_6": 10.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 2.831,
+        "crystal_like": false,
+        "selector_score": 0.416101,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -4.062,
+          "pose_score_variance": 0.0796,
+          "pose_score_range": 0.737,
+          "n_heavy": 10.0,
+          "n_contacts_4": 10.0,
+          "n_contacts_6": 10.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 4.0
+        }
+      },
+      "mejor_pose_cristalina": null
+    },
+    {
+      "pid": "1lhu",
+      "n_poses": 11,
+      "min_rmsd": 0.603,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.009455,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 6.693,
+        "crystal_like": false,
+        "selector_score": 0.078842,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -9.68,
+          "pose_score_variance": 0.1011,
+          "pose_score_range": 0.636,
+          "n_heavy": 20.0,
+          "n_contacts_4": 17.0,
+          "n_contacts_6": 20.0,
+          "contacts_per_ha_4": 0.85,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 0.618,
+        "crystal_like": true,
+        "selector_score": -0.015276,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -10.858,
+          "pose_score_variance": 0.9088,
+          "pose_score_range": 2.6,
+          "n_heavy": 20.0,
+          "n_contacts_4": 16.0,
+          "n_contacts_6": 20.0,
+          "contacts_per_ha_4": 0.8,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 6,
+        "rmsd": 0.603,
+        "crystal_like": true,
+        "selector_score": -0.05667,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -10.854,
+          "pose_score_variance": 0.8838,
+          "pose_score_range": 2.581,
+          "n_heavy": 20.0,
+          "n_contacts_4": 16.0,
+          "n_contacts_6": 20.0,
+          "contacts_per_ha_4": 0.8,
+          "n_clashes": 0.0,
+          "cluster_density": 3.0
+        }
+      }
+    },
+    {
+      "pid": "1lpk",
+      "n_poses": 9,
+      "min_rmsd": 0.77,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.477601,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 0.77,
+        "crystal_like": true,
+        "selector_score": 1.01407,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -10.887,
+          "pose_score_variance": 0.2544,
+          "pose_score_range": 1.708,
+          "n_heavy": 32.0,
+          "n_contacts_4": 28.0,
+          "n_contacts_6": 32.0,
+          "contacts_per_ha_4": 0.875,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 0.77,
+        "crystal_like": true,
+        "selector_score": 1.01407,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -10.887,
+          "pose_score_variance": 0.2544,
+          "pose_score_range": 1.708,
+          "n_heavy": 32.0,
+          "n_contacts_4": 28.0,
+          "n_contacts_6": 32.0,
+          "contacts_per_ha_4": 0.875,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 0.77,
+        "crystal_like": true,
+        "selector_score": 1.01407,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -10.887,
+          "pose_score_variance": 0.2544,
+          "pose_score_range": 1.708,
+          "n_heavy": 32.0,
+          "n_contacts_4": 28.0,
+          "n_contacts_6": 32.0,
+          "contacts_per_ha_4": 0.875,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      }
+    },
+    {
+      "pid": "1m0o",
+      "n_poses": 6,
+      "min_rmsd": 1.27,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.348141,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.27,
+        "crystal_like": true,
+        "selector_score": 0.677121,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.312,
+          "pose_score_variance": 1.1442,
+          "pose_score_range": 2.826,
+          "n_heavy": 24.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 0.9583,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 1.27,
+        "crystal_like": true,
+        "selector_score": 0.677121,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.312,
+          "pose_score_variance": 1.1442,
+          "pose_score_range": 2.826,
+          "n_heavy": 24.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 0.9583,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.27,
+        "crystal_like": true,
+        "selector_score": 0.677121,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.312,
+          "pose_score_variance": 1.1442,
+          "pose_score_range": 2.826,
+          "n_heavy": 24.0,
+          "n_contacts_4": 23.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 0.9583,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      }
+    },
+    {
+      "pid": "1m0q",
+      "n_poses": 7,
+      "min_rmsd": 1.47,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.292932,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 1.47,
+        "crystal_like": true,
+        "selector_score": 0.636899,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.931,
+          "pose_score_variance": 0.8296,
+          "pose_score_range": 2.854,
+          "n_heavy": 22.0,
+          "n_contacts_4": 22.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 1.47,
+        "crystal_like": true,
+        "selector_score": 0.636899,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.931,
+          "pose_score_variance": 0.8296,
+          "pose_score_range": 2.854,
+          "n_heavy": 22.0,
+          "n_contacts_4": 22.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 1.47,
+        "crystal_like": true,
+        "selector_score": 0.636899,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.931,
+          "pose_score_variance": 0.8296,
+          "pose_score_range": 2.854,
+          "n_heavy": 22.0,
+          "n_contacts_4": 22.0,
+          "n_contacts_6": 22.0,
+          "contacts_per_ha_4": 1.0,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      }
+    },
+    {
+      "pid": "1mai",
+      "n_poses": 31,
+      "min_rmsd": 0.788,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.052482,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 5.782,
+        "crystal_like": false,
+        "selector_score": 0.200855,
+        "source": "flexible_redock",
+        "model_idx": 5,
+        "features_base": {
+          "vina_score": -4.314,
+          "pose_score_variance": 0.177,
+          "pose_score_range": 1.323,
+          "n_heavy": 24.0,
+          "n_contacts_4": 15.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 0.625,
+          "n_clashes": 0.0,
+          "cluster_density": 9.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 0.788,
+        "crystal_like": true,
+        "selector_score": 0.083847,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.277,
+          "pose_score_variance": 0.1563,
+          "pose_score_range": 1.007,
+          "n_heavy": 24.0,
+          "n_contacts_4": 16.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 0.6667,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 6,
+        "rmsd": 0.788,
+        "crystal_like": true,
+        "selector_score": 0.083847,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.277,
+          "pose_score_variance": 0.1563,
+          "pose_score_range": 1.007,
+          "n_heavy": 24.0,
+          "n_contacts_4": 16.0,
+          "n_contacts_6": 24.0,
+          "contacts_per_ha_4": 0.6667,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      }
+    },
+    {
+      "pid": "1mfa",
+      "n_poses": 9,
+      "min_rmsd": 0.678,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.445844,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 0.678,
+        "crystal_like": true,
+        "selector_score": 0.515658,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.833,
+          "pose_score_variance": 0.4068,
+          "pose_score_range": 2.249,
+          "n_heavy": 33.0,
+          "n_contacts_4": 26.0,
+          "n_contacts_6": 33.0,
+          "contacts_per_ha_4": 0.7879,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 0.678,
+        "crystal_like": true,
+        "selector_score": 0.515658,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.833,
+          "pose_score_variance": 0.4068,
+          "pose_score_range": 2.249,
+          "n_heavy": 33.0,
+          "n_contacts_4": 26.0,
+          "n_contacts_6": 33.0,
+          "contacts_per_ha_4": 0.7879,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 0.678,
+        "crystal_like": true,
+        "selector_score": 0.515658,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.833,
+          "pose_score_variance": 0.4068,
+          "pose_score_range": 2.249,
+          "n_heavy": 33.0,
+          "n_contacts_4": 26.0,
+          "n_contacts_6": 33.0,
+          "contacts_per_ha_4": 0.7879,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      }
+    },
+    {
+      "pid": "1mfd",
+      "n_poses": 29,
+      "min_rmsd": 1.267,
+      "tiene_pose_cristalina": true,
+      "top1_ok": false,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.004696,
+      "caso": "fallo_ranking_recuperable_margen_bajo",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 5.831,
+        "crystal_like": false,
+        "selector_score": 0.412876,
+        "source": "ruta_a",
+        "model_idx": 1,
+        "features_base": {
+          "vina_score": -5.725,
+          "pose_score_variance": 0.9488,
+          "pose_score_range": 2.515,
+          "n_heavy": 33.0,
+          "n_contacts_4": 24.0,
+          "n_contacts_6": 33.0,
+          "contacts_per_ha_4": 0.7273,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 1.267,
+        "crystal_like": true,
+        "selector_score": 0.408181,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.968,
+          "pose_score_variance": 0.9488,
+          "pose_score_range": 2.515,
+          "n_heavy": 33.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 33.0,
+          "contacts_per_ha_4": 0.6364,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 2,
+        "rmsd": 1.267,
+        "crystal_like": true,
+        "selector_score": 0.408181,
+        "source": "ruta_a",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -5.968,
+          "pose_score_variance": 0.9488,
+          "pose_score_range": 2.515,
+          "n_heavy": 33.0,
+          "n_contacts_4": 21.0,
+          "n_contacts_6": 33.0,
+          "contacts_per_ha_4": 0.6364,
+          "n_clashes": 0.0,
+          "cluster_density": 6.0
+        }
+      }
+    },
+    {
+      "pid": "1nc1",
+      "n_poses": 9,
+      "min_rmsd": 0.266,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.649427,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 0.266,
+        "crystal_like": true,
+        "selector_score": 0.641034,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.635,
+          "pose_score_variance": 0.5033,
+          "pose_score_range": 2.517,
+          "n_heavy": 20.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 20.0,
+          "contacts_per_ha_4": 0.95,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 0.266,
+        "crystal_like": true,
+        "selector_score": 0.641034,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.635,
+          "pose_score_variance": 0.5033,
+          "pose_score_range": 2.517,
+          "n_heavy": 20.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 20.0,
+          "contacts_per_ha_4": 0.95,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 0.266,
+        "crystal_like": true,
+        "selector_score": 0.641034,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -6.635,
+          "pose_score_variance": 0.5033,
+          "pose_score_range": 2.517,
+          "n_heavy": 20.0,
+          "n_contacts_4": 19.0,
+          "n_contacts_6": 20.0,
+          "contacts_per_ha_4": 0.95,
+          "n_clashes": 0.0,
+          "cluster_density": 0.0
+        }
+      }
+    },
+    {
+      "pid": "1nt1",
+      "n_poses": 7,
+      "min_rmsd": 0.558,
+      "tiene_pose_cristalina": true,
+      "top1_ok": true,
+      "vina_top1_ok": true,
+      "margin_top1_top2": 0.228715,
+      "caso": "seleccion_correcta",
+      "top_selector": {
+        "rank_selector": 1,
+        "rmsd": 0.558,
+        "crystal_like": true,
+        "selector_score": 0.724032,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.716,
+          "pose_score_variance": 0.9862,
+          "pose_score_range": 2.881,
+          "n_heavy": 35.0,
+          "n_contacts_4": 27.0,
+          "n_contacts_6": 35.0,
+          "contacts_per_ha_4": 0.7714,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "top_vina": {
+        "rank_selector": 1,
+        "rmsd": 0.558,
+        "crystal_like": true,
+        "selector_score": 0.724032,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.716,
+          "pose_score_variance": 0.9862,
+          "pose_score_range": 2.881,
+          "n_heavy": 35.0,
+          "n_contacts_4": 27.0,
+          "n_contacts_6": 35.0,
+          "contacts_per_ha_4": 0.7714,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      },
+      "mejor_pose_cristalina": {
+        "rank_selector": 1,
+        "rmsd": 0.558,
+        "crystal_like": true,
+        "selector_score": 0.724032,
+        "source": "flexible_redock",
+        "model_idx": 0,
+        "features_base": {
+          "vina_score": -8.716,
+          "pose_score_variance": 0.9862,
+          "pose_score_range": 2.881,
+          "n_heavy": 35.0,
+          "n_contacts_4": 27.0,
+          "n_contacts_6": 35.0,
+          "contacts_per_ha_4": 0.7714,
+          "n_clashes": 0.0,
+          "cluster_density": 1.0
+        }
+      }
+    }
+  ]
+}

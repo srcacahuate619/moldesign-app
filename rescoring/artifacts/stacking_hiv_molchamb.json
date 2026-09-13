@@ -1,0 +1,21 @@
+{
+  "target": "HIV-protease_1HSG",
+  "family": "protease",
+  "features": [
+    "vina",
+    "xgb",
+    "clgnn",
+    "molchamb"
+  ],
+  "coef": [
+    7.404681848869406,
+    0.629908082698811,
+    10.08817982334819,
+    -10.828832393806127
+  ],
+  "intercept": -5.239781516268297,
+  "auc": 0.9694,
+  "ef1pct": 35.9,
+  "n_samples": 2531,
+  "n_actives": 31
+}

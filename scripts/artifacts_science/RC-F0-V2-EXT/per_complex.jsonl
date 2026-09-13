@@ -1,0 +1,17 @@
+{"id": "D-MF-HARD-CURVE", "decision": "GO", "ficheros": ["scripts/artifacts_science/D-MF-HARD-CURVE/curve_poses_train.jsonl"]}
+{"id": "D-MF-HARD-CURVE-VAL", "decision": "GO", "ficheros": ["scripts/artifacts_science/D-MF-HARD-CURVE-VAL/curve_poses_val.jsonl"]}
+{"id": "D-MF-HARD-EXH4", "decision": "GO", "ficheros": ["scripts/artifacts_science/D-MF-HARD-EXH4/exh4_poses_train.jsonl"]}
+{"id": "D-MF-HARD-EXH4-VAL", "decision": "GO", "ficheros": ["scripts/artifacts_science/D-MF-HARD-EXH4-VAL/exh4_poses_val.jsonl"]}
+{"id": "FND-02", "decision": "NO_GO", "ficheros": ["data/pose_selector_dataset/build_graphs.log", "data/pose_selector_dataset/build_progress.json", "data/pose_selector_dataset/ecif_152_progress.jsonl", "data/pose_selector_dataset/features_v05_progress.jsonl", "data/pose_selector_dataset/gnn_test.pt", "data/pose_selector_dataset/gnn_train.pt"]}
+{"id": "FND-06", "decision": "GO", "ficheros": ["data/pose_selector_dataset/manifest.json", "data/pose_selector_dataset/poses_test.jsonl", "data/pose_selector_dataset/poses_train.jsonl", "data/pose_selector_dataset/poses_val.jsonl"]}
+{"id": "MF-01-UNION", "decision": "GO", "ficheros": ["data/pose_selector_dataset/poses_train.jsonl", "data/pose_selector_dataset/poses_val.jsonl", "scripts/artifacts_science/MF-01-UNION/union_candidates_train.jsonl", "scripts/artifacts_science/MF-01-UNION/union_candidates_val.jsonl", "scripts/artifacts_science/MF-01-UNION/union_labels_train.jsonl", "scripts/artifacts_science/MF-01-UNION/union_labels_val.jsonl"]}
+{"id": "MF-02-PRE", "decision": "GO", "ficheros": ["data/pose_selector_dataset/poses_train.jsonl"]}
+{"id": "MF-02B", "decision": "GO", "ficheros": ["data/pose_selector_dataset/poses_train.jsonl"]}
+{"id": "MF-02D", "decision": "NO_GO", "ficheros": ["data/pose_selector_dataset/poses_train.jsonl"]}
+{"id": "RC-F0-V2", "decision": "GO", "ficheros": ["data/pose_selector_dataset/v2/features_rich_v2.jsonl", "data/pose_selector_dataset/v2/poses_test.jsonl", "data/pose_selector_dataset/v2/poses_train.jsonl", "data/pose_selector_dataset/v2/poses_val.jsonl"]}
+{"id": "RC-F0-V2-PRE", "decision": "GO", "ficheros": ["data/pose_selector_dataset/features_v05_progress.jsonl", "data/pose_selector_dataset/poses_test.jsonl", "data/pose_selector_dataset/poses_train.jsonl", "data/pose_selector_dataset/poses_val.jsonl", "scripts/build_pose_selector_dataset.py"]}
+{"id": "RS-01", "decision": "GO", "ficheros": ["data/pose_selector_dataset/poses_train.jsonl"]}
+{"id": "RS-01A", "decision": "GO", "ficheros": ["data/pose_selector_dataset/poses_train.jsonl", "data/pose_selector_dataset/records/10gs.json", "data/pose_selector_dataset/records/184l.json", "data/pose_selector_dataset/records/186l.json", "data/pose_selector_dataset/records/187l.json", "data/pose_selector_dataset/records/188l.json"]}
+{"id": "RS-09", "decision": "NO_GO", "ficheros": ["data/pose_selector_dataset/gnn_train.pt"]}
+{"id": "RS-14", "decision": "NO_GO", "ficheros": ["data/pose_selector_dataset/v2/features_rich_v2.jsonl", "data/pose_selector_dataset/v2/poses_train.jsonl"]}
+{"id": "RS-14-PRE", "decision": "GO", "ficheros": ["data/pose_selector_dataset/v2/features_rich_v2.jsonl", "data/pose_selector_dataset/v2/poses_train.jsonl"]}

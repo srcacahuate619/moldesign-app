@@ -1,0 +1,72 @@
+{
+  "ca2": {
+    "auc": 0.9508,
+    "ci_lo": 0.9417,
+    "ci_hi": 0.9582,
+    "n_act": 492,
+    "n_dec": 31172,
+    "boot_iters": 1000,
+    "warhead_pct_act": 99.0,
+    "warhead_pct_dec": 26.8
+  },
+  "mmp9": {
+    "auc": 0.8787,
+    "ci_lo": 0.8671,
+    "ci_hi": 0.8904,
+    "n_act": 858,
+    "n_dec": 2000,
+    "boot_iters": 1000,
+    "warhead_pct_act": 95.1,
+    "warhead_pct_dec": 30.4
+  },
+  "ace": {
+    "auc": 0.751,
+    "ci_lo": 0.7143,
+    "ci_hi": 0.7889,
+    "n_act": 82,
+    "n_dec": 2156,
+    "boot_iters": 1000,
+    "warhead_pct_act": 96.3,
+    "warhead_pct_dec": 51.6
+  },
+  "hdac6": {
+    "auc": 0.947,
+    "ci_lo": 0.9158,
+    "ci_hi": 0.9724,
+    "n_act": 15,
+    "n_dec": 279,
+    "boot_iters": 1000,
+    "warhead_pct_act": 100.0,
+    "warhead_pct_dec": 19.4
+  },
+  "mmp2": {
+    "auc": 0.9248,
+    "ci_lo": 0.8993,
+    "ci_hi": 0.9472,
+    "n_act": 26,
+    "n_dec": 597,
+    "boot_iters": 1000,
+    "warhead_pct_act": 100.0,
+    "warhead_pct_dec": 26.8
+  },
+  "pde5a": {
+    "auc": 0.4929,
+    "ci_lo": 0.473,
+    "ci_hi": 0.5131,
+    "n_act": 1000,
+    "n_dec": 3000,
+    "boot_iters": 1000,
+    "warhead_pct_act": 26.7,
+    "warhead_pct_dec": 41.2
+  },
+  "cyp3a4": {
+    "auc": 0.5286,
+    "ci_lo": 0.4747,
+    "ci_hi": 0.5848,
+    "n_act": 83,
+    "n_dec": 1747,
+    "boot_iters": 1000,
+    "warhead_pct_act": 12.0,
+    "warhead_pct_dec": 27.4
+  }
+}

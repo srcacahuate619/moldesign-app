@@ -1,0 +1,81 @@
+{
+  "pdb_id": "1i9n",
+  "ok": true,
+  "n_conf": 17,
+  "top_k": 3,
+  "cpu": 1,
+  "relax_engine": "vina_local_only",
+  "openmm_status": {
+    "available": false,
+    "reasons": [
+      "SMIRNOFFTemplateGenerator: ModuleNotFoundError: No module named 'openff'",
+      "ForceField(+offxml): ValueError: Could not locate file \"openff-2.0.0.offxml\"",
+      "amber14-all createSystem: ValueError: No template found for residue 1 (ASP).  The atoms and bonds in the residue match NASP, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template"
+    ],
+    "relax_engine": "vina_local_only"
+  },
+  "time_fase1": 2.6,
+  "time_fase2": 188.8,
+  "time_fase3": 6.7,
+  "total_time_s": 198.2,
+  "ensemble_min_rmsd": 0.646,
+  "grid_cache": {
+    "mapas_generados": true,
+    "n_docks_maps": 16,
+    "n_docks_write": 1,
+    "n_docks_fresh": 0
+  },
+  "rigid_scores": [
+    -7.542,
+    -7.24,
+    -7.647,
+    -7.028,
+    -7.711,
+    -6.784,
+    -7.122,
+    -7.163,
+    -8.004,
+    -7.277,
+    -7.183,
+    -7.202,
+    -7.293,
+    -7.096,
+    -7.156,
+    -7.723,
+    -7.446
+  ],
+  "rigid_best": -8.004,
+  "top_k_relaxed": [
+    {
+      "conf_id": 8,
+      "rigid_score": -8.004,
+      "relaxed_score": -7.795,
+      "relaxed_local_score": -6.171,
+      "delta": 0.209,
+      "rmsd_to_crystal": 1.027,
+      "engine": "vina_local_only",
+      "ok": true
+    },
+    {
+      "conf_id": 15,
+      "rigid_score": -7.723,
+      "relaxed_score": -7.735,
+      "relaxed_local_score": -6.124,
+      "delta": -0.012,
+      "rmsd_to_crystal": 1.482,
+      "engine": "vina_local_only",
+      "ok": true
+    },
+    {
+      "conf_id": 4,
+      "rigid_score": -7.711,
+      "relaxed_score": -7.749,
+      "relaxed_local_score": -6.136,
+      "delta": -0.038,
+      "rmsd_to_crystal": 1.911,
+      "engine": "vina_local_only",
+      "ok": true
+    }
+  ],
+  "rmsd_best_to_crystal": 0.983
+}

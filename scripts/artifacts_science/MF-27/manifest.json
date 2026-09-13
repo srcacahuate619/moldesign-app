@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-27",
+  "hypothesis": "Dentro del grupo de alta flexibilidad, algo distinto de las torsiones separa a los que convierten",
+  "protocol": "medicion: pool train + val+test (203 complejos), subgrupo con >=13 torsiones, contraste de predictores entre convertidos y no",
+  "created_at": "2026-08-19T03:53:11.003399+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gates; MDE declarado 0.227 para n=52"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_mf24_predictores.py": "5e2a06d2806038df7d475cc56154bb4330b2cd7e81361ef87e08efe4c7336515"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:11.824034+00:00",
+  "decision_rationale": "En el grupo de >=13 torsiones (52 complejos, 14 convierten) las TORSIONES dejan de discriminar (15.5 frente a 16.0, cociente 0.97). Las dos senales grandes son ocupacion de caja (0.55) y calidad del conformero (0.59). El radio de giro (0.83) discrimina mas que el numero de atomos (0.89): no es el tamano del ligando sino cuanto se extiende. 1b2h tiene 21 torsiones -el maximo del grupo- y convierte, con enterramiento 2.52 y radio de giro bajo. Se junto train con val+test deliberadamente para no repetir el error de MF-26. Advertencias: MDE 0.227 con n=52, asi que solo las senales de cociente ~0.5 son fiables; ocupacion de caja y radio de giro son casi la misma variable (una es el cubo de la otra normalizada) y no cuentan como dos evidencias.",
+  "finished_at": "2026-08-19T03:53:12.024227+00:00"
+}

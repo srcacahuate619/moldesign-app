@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-33-B-RET-R2-PRE",
+  "hypothesis": "El unico fallo de MF-33-B-RET-R1 fue ambiental y no quimico, asi que re-ejecutar ese solo dock con el protocolo identico completa la corrida y permite leer los gates que R1 dejo bloqueados. Si vuelve a fallar, la hipotesis es falsa: el fallo no era ambiental y el problema esta en el complejo o en el protocolo.",
+  "protocol": "Reparacion minima, una sola variable: se re-ejecuta UN complejo. scripts/run_mf33bret_r2.py IMPORTA scripts/run_mf33bret_r1.py -sellado como asset de MF-33-B-RET-R1- y reutiliza su funcion analizar, su _block y sus constantes EXH=8, NUM_MODES=9, SEED=42, BOX=25.0, UMBRAL_A=2.0, G1_TOL=0.001 y G1_MIN=0.95. El protocolo es identico POR CONSTRUCCION y no por copia, segun el docs/49 seccion 17. PASOS: (1) reusar VERBATIM los 47 checkpoints buenos de R1, registrando el sha256 de cada uno en el metrics; (2) re-ejecutar SOLO 1afl y sus 30 conformeros; (3) recalcular G0, G1 y los bloques con las MISMAS reglas selladas. No se toca ningun umbral, ninguna regla de lectura ni el artefacto R1, que queda sellado e intacto. El reuso de artefactos sellados de una corrida previa sin recomputarlos es el mismo patron que MF-29-EMP-EXT aplico con el brazo de produccion de MF-29-EMP. CONDICION DE EJECUCION declarada porque es la causa del fallo que se repara: la maquina debe estar en reposo. R1 murio por contencion con PoseBusters, pytest y generacion de conformeros corriendo encima. Verificado antes de lanzar: sin procesos vina, python ni pytest vivos, 17.2 GB de RAM libre de 31.9.",
+  "created_at": "2026-08-23T06:02:15.981106+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "codex/mejora-producto",
+    "commit": "8d69c5533ac20e01c74e73f1030341d1bc05e6fb",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "LOS GATES NO CAMBIAN Y NO PUEDEN CAMBIAR. Son los sellados en MF-33-B-RET-PRE y MF-33-B-RET-R1-PRE: G0 tecnico exige 48 de 48 complejos completos y CERO fallos; G1 exige que el oraculo ENSEMBLE reproduzca el rmsd_min del brazo B sellado de MF-33 dentro de 0.001 A en al menos el 95% de los complejos. Con G0 y G1 aprobados, McNemar exacto bilateral sobre top-1, top-5 y oraculo, y la lectura es: (1) LA_VENTAJA_LLEGA_AL_USUARIO si mejoran oraculo Y top-1 con p<0.05; (2) EL_CUELLO_SE_DESPLAZA_A_LA_SELECCION si mejora oraculo pero no top-1; (3) SIN_EFECTO_EN_LA_ENTREGA en los demas casos. Si G0 o G1 falla, NO_LEER_GATES_TECNICOS. ADVERTENCIA DE PROCEDENCIA, Y ES LA RAZON DE SER DE ESTE CAMPO: al diagnosticar el fallo de R1 se vieron sus bloques cientificos. ESTE R2 NO ES UNA CONFIRMACION CIEGA y queda PROHIBIDO presentarlo como tal en el paper o en cualquier material. Lo que sigue siendo ciego es la REGLA DE DECISION, escrita y sellada antes de todo esto; lo que se perdio es la ceguera sobre el desenlace, y se declara en vez de disimularse. UN SOLO INTENTO. Si 1afl vuelve a fallar, G0 vuelve a fallar, la lectura vuelve a ser NO_LEER_GATES_TECNICOS y NO habra un R3 por la via de repetir: haria falta un diseno distinto y un prerregistro nuevo que declare que cambio. Escribir esto antes es lo unico que impide que la reparacion degenere en repetir hasta que salga, que es la forma mas facil de fabricar un resultado sin darse cuenta. PROHIBIDO ademas: modificar, re-sellar o reinterpretar MF-33-B-RET-R1, que queda INCONCLUSIVE; reparar cualquier complejo que no sea 1afl; y tratar los 47 checkpoints reusados como si se hubieran recomputado."
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-33/per_complex.jsonl": "ee1d03c926eef6ff02bdf2b189d097d2b1b1240f5b0f56827203a10343edb48d",
+    "scripts/artifacts_science/MF-33-B-RET-R1/per_complex.jsonl": "03835e505cdb9b02bb892aa8b5afd5548e4faf57187dc5754d191a42c8c2717c"
+  },
+  "assets_hashes": {
+    "scripts/run_mf33bret_r2.py": "4878cceda9f70bfa13b253a8365f3b179c6410fbae396ce620e3bc1092f598cc",
+    "scripts/run_mf33bret_r1.py": "cf776c9cefc86a7410e6ddfb487c75d449876f56e09ebc0b21ed7af0ac60b01d"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-23T06:02:16.664500+00:00",
+  "decision_rationale": "Prerregistro sellado ANTES de ejecutar, con el hash del script nuevo y el del runner sellado de R1 que importa. Existe por una razon incomoda y por eso hay que escribirla: R1 completo los 48 complejos, reprodujo el brazo B sellado de forma PERFECTA -G1 = 47/47 = 1.0000- y aun asi su lectura primaria fue NO_LEER_GATES_TECNICOS por UN dock de 970. La tentacion de leerlo igualmente es enorme y el contrato lo prohibe, asi que la unica salida honesta es reparar el dock y volver a aplicar la MISMA regla. Lo que este prerregistro aporta que no estaba escrito antes son tres declaraciones. PRIMERA: el fallo esta caracterizado como ambiental -stdout cortado a media barra de progreso, stderr vacio, y el mismo dock re-ejecutado aislado da rc=0 con nueve poses- y la condicion de ejecucion pasa a ser explicita, maquina en reposo, porque la contencion fue la causa. SEGUNDA: este R2 NO ES CIEGO, porque al diagnosticar se vieron los bloques cientificos de R1; la regla de decision sigue siendo la sellada y no se mueve, pero la ceguera sobre el desenlace se perdio y queda declarado que no puede venderse como confirmacion. TERCERA: un solo intento, sin R3 por repeticion, para que la reparacion no se convierta en repetir hasta que salga. El reuso verbatim de los 47 checkpoints buenos, con su sha256 registrado uno a uno, sigue el patron que MF-29-EMP-EXT establecio al reusar el brazo de produccion de MF-29-EMP sin recomputarlo.",
+  "finished_at": "2026-08-23T06:02:16.805196+00:00"
+}

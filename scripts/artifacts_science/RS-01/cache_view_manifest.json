@@ -1,0 +1,50 @@
+{
+  "schema": "rs01_cache_view_manifest_v1",
+  "vista": "scripts/artifacts_science/RS-01/cache_train_only_view.jsonl",
+  "sha256_vista": "6afeb3705ad4ba0d49918e6849da2876cd63e4260aa8f47487b0b393596bbc34",
+  "n_registros_vista": 2739,
+  "origen": {
+    "archivo": "data/pose_selector_dataset/features_v05_progress.jsonl",
+    "sha256_archivo_origen": "1d487db9ab5c35ca4e8e74c7b42cddd2e67069ec002e16d9b84052e7a696ce48",
+    "provenance_sha_origen": "NO_RECALCULADA (IT2/C2): valor registrado en el inventario RS-01 (assets_entrenamiento_clones.deps_datos, IT0). El script NO relee el archivo completo para hashearlo",
+    "cabecera": {
+      "version": 1,
+      "n_features_rich": 215,
+      "sha256_splits": {
+        "train": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654",
+        "val": "4a0f8bada19da8f7ee91034264a9b24a2886d4f718ed2dc7e659756fd29b97a1",
+        "test": "a36d12451f33d5c3815eaebbad058f56e5b1da94ae501b465b018d91a9f62d02"
+      },
+      "generated_at_origen": "2026-08-14T15:38:24-0600"
+    }
+  },
+  "rango": {
+    "registros": "0..2738 (idx del cache)",
+    "lineas_del_archivo": "2..2740 (la línea 1 es la cabecera)",
+    "bytes": "331..3418167"
+  },
+  "instrumentacion_lectura_c2": {
+    "bytes_leidos_del_origen": 3418167,
+    "bytes_cabecera": 331,
+    "bytes_bloque_train": 3417836,
+    "pasadas_sobre_el_origen": 1,
+    "bloque_val_test_leido": false,
+    "nota": "bytes_leidos_del_origen corresponde exactamente a cabecera + 2739 registros train; el manejador se cerró en esa posición y el archivo origen NO se reabrió"
+  },
+  "verificacion_posicional": {
+    "idx_consecutivos_0_a_2738": true,
+    "split_train_en_los_2739": true,
+    "identidades_coincidentes_contra_union": 2739,
+    "identidades_totales_union": 2739,
+    "identidad_posicional_ok": true,
+    "vista_construida_de_los_bytes_leidos_sin_relectura": true
+  },
+  "archivos_abiertos_por_el_script": [
+    "lectura:D:/moldesign-build/scripts/artifacts_science/MF-01-UNION/union_candidates_train.jsonl",
+    "lectura:D:/moldesign-build/data/pose_selector_dataset/features_v05_progress.jsonl",
+    "escritura:D:/moldesign-build/scripts/artifacts_science/RS-01/cache_train_only_view.jsonl",
+    "escritura:D:/moldesign-build/scripts/artifacts_science/RS-01/cache_view_manifest.json"
+  ],
+  "garantia_cuarentena": "el script NO abre poses_val.jsonl ni poses_test.jsonl; la lectura del cache terminó exactamente en el registro idx=2738 (una sola pasada); NO se hasheó el bloque val/test del cache; la lista 'archivos_abiertos_por_el_script' es la auditoría completa",
+  "determinismo": "sin timestamps ni aleatoriedad; dos corridas producen bytes idénticos"
+}

@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "proposito": "Fuente unica de verdad del empaquetado MSIX para Microsoft Store. NO sustituye la ruta NSIS: la configuracion de NSIS sigue en tauri.conf.json / tauri.conf.prod.json y no se toca.",
+
+  "identidad_del_store": {
+    "nota": "EXACTA E INMUTABLE. La asigna Partner Center; cambiar cualquiera de los tres rompe la correspondencia con la reserva del nombre y el paquete deja de ser actualizable.",
+    "package_identity_name": "amezcua-dev.com.MolDesign",
+    "package_identity_publisher": "CN=6441FBBA-B77A-4619-9CEB-ACEDE74573C0",
+    "package_properties_publisher_display_name": "amezcua-dev.com",
+    "processor_architecture": "x64"
+  },
+
+  "version_del_store": {
+    "regla": "Cuatro campos, Major.Minor.Build.Revision, con Revision SIEMPRE 0. El Store reserva el cuarto campo y rechaza un paquete con Revision != 0.",
+    "origen": "Se deriva de `version` de frontend/src-tauri/tauri.conf.json, que es semver y puede traer prerelease.",
+    "mapeo": {
+      "alpha.N": "Build = N",
+      "beta.N": "Build = 10000 + N",
+      "rc.N": "Build = 20000 + N",
+      "sin prerelease": "Build = 30000 + patch"
+    },
+    "por_que_este_mapeo": "El Store exige que la version crezca de forma monotona entre envios y no entiende prerelease de semver. Los tramos separados garantizan que alpha < beta < rc < final dentro de un mismo Major.Minor sin que un alpha posterior adelante a un beta anterior.",
+    "limite": "Cada campo debe ser <= 65535. Con este mapeo, patch queda limitado a 35535 en la rama final, holgura suficiente y verificada por el generador.",
+    "override": "store_build_override permite fijar el Build a mano si el mapeo no sirve para un envio concreto. Si se usa, el generador lo registra en el manifiesto de evidencia.",
+    "store_build_override": 0,
+    "DECISION_TOMADA_2026_09_12": "Primer envio oficial como 1.0.0, con Build fijado a 0: la version del Store es 1.0.0.0 y coincide con la del producto, que es la que el Store ensena al usuario. Se usa override porque el mapeo sin prerelease daria 1.0.30000.0, correcto pero incomprensible en la ficha. Es legitimo porque no hay NADA publicado todavia: el suelo esta libre. Sigue siendo monotono hacia adelante: un 1.0.1 posterior sin override da 1.0.30001.0, que es mayor. Lo que este override cierra es la posibilidad de publicar despues un prerelease bajo el mismo Major.Minor y que ordene por debajo; se acepta a proposito, porque la fase alpha termino aqui."
+  },
+
+  "nivel_de_confianza": {
+    "capability": "runFullTrust",
+    "namespace": "rescap (http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities)",
+    "entry_point": "Windows.FullTrustApplication",
+    "por_que_es_necesario": [
+      "El backend es un interprete Python embebido propio (python/python.exe) que se lanza como subproceso y abre un socket en 127.0.0.1.",
+      "AutoDock Vina (tools/vina/vina.exe) se invoca como proceso externo y escribe ficheros temporales.",
+      "Open Babel (tools/openbabel/bin/obabel.exe) se invoca por CLI como programa independiente, por frontera de licencia GPL-2.0-only.",
+      "La app crea y escribe SQLite, poses y logs en el perfil del usuario, fuera del paquete."
+    ],
+    "es_restringida": true,
+    "consecuencia": "runFullTrust es una capacidad RESTRINGIDA: Partner Center exige justificacion escrita y la revisa una persona. Un envio sin justificacion se rechaza. El texto de justificacion es decision del responsable del producto, no de este script."
+  },
+
+  "contenido_del_paquete": {
+    "runtime_staged_completo": true,
+    "origen": "frontend/src-tauri/resources, generado por scripts/bundle_helper.py (stage:desktop)",
+    "nota": "El MSIX incluye el runtime staged integro: python embebido, backend, rescoring versionado, tools (Vina, Open Babel, vc-runtime) y estructuras curadas. No se recorta nada: un paquete que adelgace resources produce un producto distinto del que se valido."
+  },
+
+  "escritura_fuera_de_windowsapps": {
+    "regla": "El directorio de instalacion (C:\\Program Files\\WindowsApps\\...) es de SOLO LECTURA para la app. Todo lo que se escriba debe ir al perfil del usuario.",
+    "rutas_esperadas": {
+      "datos_y_sqlite": "%USERPROFILE%\\MolDesign\\data (core.config.local_data_dir)",
+      "poses_y_artefactos": "%USERPROFILE%\\MolDesign\\data",
+      "logs_del_backend": "log_dir del lanzador (fuera del paquete)",
+      "temporales_de_vina": "%TEMP%\\vina (core.config.vina_temp_dir)",
+      "bytecode": "no se escribe: PYTHONDONTWRITEBYTECODE=1 y el bundle trae .pyc precompilado"
+    },
+    "verificado_por": "scripts/accept_msix_store.py"
+  },
+
+  "assets": {
+    "imagen_fuente": "frontend/src-tauri/icons/icon.png",
+    "tamano_fuente": "512x512",
+    "generados_en": "msix/assets",
+    "generador": "winapp manifest update-assets",
+    "nota": "Se generan en msix/assets y NO se sobreescriben los iconos de Tauri en frontend/src-tauri/icons, que sirven a la ruta NSIS."
+  },
+
+  "cadena_de_herramientas": {
+    "tauri_cli": "^2.11.4",
+    "nota_tauri": "Tauri 2.11 solo soporta los targets `msi` y `nsis`; NO produce MSIX. Por eso el MSIX se arma DESPUES del build de Tauri, que es tambien lo que indica la guia oficial.",
+    "winapp_cli": "Microsoft.WinAppCli (winget), moniker `winapp`",
+    "fallback": "makeappx.exe del Windows SDK, si winapp no esta disponible",
+    "wack": "C:\\Program Files (x86)\\Windows Kits\\10\\App Certification Kit\\appcert.exe"
+  },
+
+  "distribucion": {
+    "raiz_de_produccion": "E:\\rel",
+    "por_que_otro_disco": "Los artefactos de release no viven en el arbol de desarrollo ni en su disco. E: es otra unidad fisica: un fallo del disco de trabajo no se lleva el paquete sellado ni su evidencia, y ningun script de desarrollo puede pisarlos por accidente, que es como se corrompio dist/base-v1.0.0.zip durante una auditoria.",
+    "carpeta_por_version": "<raiz>/v<version_del_store>, p.ej. E:\\rel\\v1.0.2.0. NUNCA se reutiliza una carpeta ya sellada: el paquete, la evidencia de build, la de aceptacion y el informe del WACK viajan juntos. Reutilizar el directorio de salida es lo que dejo evidencia apuntando a bytes que ya no existian.",
+    "certificado_de_desarrollo": "<raiz>/devcert.pfx, compartido por todas las versiones. No se commitea ni se distribuye.",
+    "override": "--dist en scripts/build_msix.py, o la variable MOLDESIGN_DIST_RAIZ.",
+    "limite_de_ruta": "La raiz debe ser CORTA. El fichero mas hondo del runtime staged (torch y sus third_party anidados) deja unas dos decenas de caracteres de margen frente al MAX_PATH de 260 de Windows. build_msix.py mide el path proyectado antes de copiar y aborta si no cabe.",
+    "sin_repliegue": "Si la unidad de produccion no esta disponible, el build ABORTA. No se repliega al arbol de desarrollo: eso dejaria el paquete en un disco con la evidencia diciendo otro, que es peor que no construir."
+  },
+
+  "firma_local": {
+    "nota": "Para PROBAR la instalacion en esta maquina hace falta firmar con un certificado cuyo sujeto coincida EXACTAMENTE con package_identity_publisher. Se genera uno de desarrollo.",
+    "solo_para_pruebas": true,
+    "produccion": "El paquete que se envia a Partner Center NO se firma localmente: lo firma el Store. El certificado de desarrollo no se distribuye ni se commitea."
+  },
+
+  "fuera_de_alcance_de_este_trabajo": [
+    "No se edita LICENSE, LICENSE-MODELS, COMMERCIAL-LICENSE.md, SBOM ni textos de licencia.",
+    "No se toca ningun checkpoint, peso, manifiesto cientifico ni umbral.",
+    "No se hace push ni se publica en Partner Center.",
+    "No se redirige el destino de las descargas de modelos: es una frontera de seguridad deliberada. Ver docs/86."
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "experiment_id": "REC-03-PRE",
+  "hypothesis": "La reparacion del grid por prediccion de pocket ligando-libre (MolPocket) es evaluable con un techo geometrico declarado de 10/25; el prerregistro congela cohorte, brazos, metrica y gates antes de ejecutar docking",
+  "protocol": "REC-03-PRE/PREREGISTRO.md; entradas selladas REC-01 y REC-01-R1 (4a4fbc7); geometria_preflight.json computado y declarado antes de ejecutar",
+  "created_at": "2026-08-17T15:54:44.921948+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "1bbe44ebafaffa388a015979f03571d65e437cb7",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "Prerregistro completo: 5 gates definidos (G1 validez >=98%, G2 solo lectura, G3 reparacion >=5/25, G4 no regresion >=70% del control, G5 determinismo), techo geometrico y prohibiciones declaradas antes de cualquier corrida de docking"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/REC-01-R1/per_complex.jsonl": "c48fe2822ae4adc8024fcb9281ee09fcd3b138c757e00af55ccbffe6a2b533f3"
+  },
+  "binary_hashes": {
+    "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/REC-03-PRE/PREREGISTRO.md": "2e5b79a4ad6bb17ac9bd17736d23a25e6d1544abbf51bc223a00197344301709",
+    "scripts/artifacts_science/REC-03-PRE/geometria_preflight.json": "16fb850f5fcc71ac8b21837f3e4cbc4744a3e337054a6cbeb0e99384b7afbf81",
+    "scripts/artifacts_science/REC-03-PRE/metrics.json": "6182b3fcb908b5fca6832fac32db61d64c2440f94bdc547bb1638e0d8c74297f",
+    "scripts/rec03_preflight.py": "78dfacc445d1d2572333717eb9a8653a150e65b2c2392540ddfd8a8b27bd40de",
+    "scripts/run_rec03_grid_repair.py": "7779ebe3c41336e03be516c644a4c2b31245687cb6a8aa426c775e6b82b45ab2"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T15:55:12.086041+00:00",
+  "decision_rationale": "Prerregistro completo y sellado antes de ejecutar docking: cohorte congelada (25 accionables de REC-01-R1 + 12 control S0 por muestreo seed 42 sobre 218 elegibles, cero solapamiento con train/test), 4 cajas por target con el TAMANO del catalogo fijo (unica variable = el centro), brazo derivado G_MP_SCORE seleccionado por score de Vina y nunca por posicion del ligando, metrica CalcRMS in situ con exito <=2.0 A en >=2 de 3 semillas, y 5 gates numericos. Se declara por adelantado el techo geometrico de la reparacion: solo 10 de los 25 accionables tienen contencion total del ligando en alguno de los 3 pockets, de modo que 15 son irreparables por geometria antes de docking. Se declara tambien que MolPocket top-1 pierde 93 de los 218 targets sanos por contencion, y que el fracaso de G_CAT en los 11 S1 esta determinado por construccion. Prohibido usar la posicion del ligando para elegir caja, pocket o pose. MolPocket es admisible como brazo reparador por ser ligando-libre (detect_pockets solo lee lineas ATOM); los hotspots del catalogo quedan prohibidos por ser derivados del ligando nativo.",
+  "finished_at": "2026-08-17T15:55:24.328829+00:00",
+  "seal_maintenance": [
+    {
+      "date": "2026-08-17T18:44:14.373432+00:00",
+      "reason": "Cascada de preparacion determinista anadida tras el sello: reparacion de valencia del ligando (Normalizer + N cuaternario, con guardia de sanidad que rechaza carbonos cargados) y desempate de tautomero de histidina fijando HIE con cap de 3 rondas. Son arreglos de preparacion, no de criterio: cohorte, brazos, tamano de caja, metrica CalcRMS, umbral 2.0 A, semillas y los 5 gates quedan exactamente como se sellaron. Los targets que aun asi no preparan se excluyen y se reportan como no evaluables, contando como no reparados.",
+      "path": "scripts/run_rec03_grid_repair.py",
+      "previous_hash": "2e24961a040dc345f04b64b3fa749a605c18c21190bd2619ccbd71d34e97006c",
+      "new_hash": "7779ebe3c41336e03be516c644a4c2b31245687cb6a8aa426c775e6b82b45ab2",
+      "content_commit": "ee84997993d83297e41d28802c6a8a51b69092e7"
+    }
+  ]
+}

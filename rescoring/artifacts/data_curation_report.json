@@ -1,0 +1,165 @@
+{
+  "summary": {
+    "input_total": 865,
+    "input_refined": 865,
+    "input_other": 0,
+    "output_curated": 752,
+    "overall_removal_rate_pct": 13.1,
+    "timestamp": "2026-08-10T06:37:35.985009+00:00",
+    "duration_seconds": 0.48
+  },
+  "config": {
+    "accepted_binding_types": [
+      "Kd",
+      "Ki"
+    ],
+    "accepted_precisions": [
+      "exact"
+    ],
+    "pki_range": [
+      2.0,
+      13.0
+    ],
+    "max_resolution_prefilter": 3.0,
+    "outlier_zscore_threshold": 4.0,
+    "min_pdb_size_bytes": 100,
+    "min_sdf_size_bytes": 50
+  },
+  "filters": [
+    {
+      "name": "binding_precision",
+      "description": "Solo datos de binding exactos (operador '='). Rechaza valores aproximados (~), limites inferiores (>), y limites superiores (<).",
+      "n_before": 865,
+      "n_after": 864,
+      "n_removed": 1,
+      "removed_sample": [
+        "6fe1 (unknown: Kd=1.8999999156221747e-05nm // 13.72)"
+      ]
+    },
+    {
+      "name": "binding_type",
+      "description": "Solo tipos de binding aceptados: ['Kd', 'Ki']. IC50/EC50 no son comparables entre estudios.",
+      "n_before": 864,
+      "n_after": 759,
+      "n_removed": 105,
+      "removed_sample": [
+        "1atr (tipo: IC50)",
+        "1bcu (tipo: IC50)",
+        "1g2o (tipo: IC50)",
+        "1gpk (tipo: IC50)",
+        "1jsv (tipo: IC50)",
+        "1n1m (tipo: IC50)",
+        "1nhu (tipo: IC50)",
+        "1nvr (tipo: IC50)",
+        "1nvs (tipo: IC50)",
+        "1stc (tipo: IC50)",
+        "1xjd (tipo: IC50)",
+        "2bak (tipo: IC50)",
+        "2e2r (tipo: IC50)",
+        "2glp (tipo: IC50)",
+        "2gss (tipo: IC50)",
+        "2ha3 (tipo: IC50)",
+        "2iuz (tipo: IC50)",
+        "2iwx (tipo: IC50)",
+        "2o0u (tipo: IC50)",
+        "2p7g (tipo: IC50)",
+        "2p7z (tipo: IC50)",
+        "2q8h (tipo: IC50)",
+        "2xjx (tipo: IC50)",
+        "3ckz (tipo: IC50)",
+        "3eb1 (tipo: IC50)",
+        "3gss (tipo: IC50)",
+        "3k97 (tipo: IC50)",
+        "3mz6 (tipo: IC50)",
+        "3n3g (tipo: IC50)",
+        "3n9s (tipo: IC50)",
+        "3s5y (tipo: IC50)",
+        "3t3u (tipo: IC50)",
+        "3vjc (tipo: IC50)",
+        "3zll (tipo: IC50)",
+        "4arw (tipo: IC50)",
+        "4asj (tipo: IC50)",
+        "4c52 (tipo: IC50)",
+        "4c5d (tipo: IC50)",
+        "4gq4 (tipo: IC50)",
+        "4gqr (tipo: IC50)",
+        "4hbm (tipo: IC50)",
+        "4jkw (tipo: IC50)",
+        "4km2 (tipo: IC50)",
+        "4l9i (tipo: IC50)",
+        "4ly9 (tipo: IC50)",
+        "4mgd (tipo: IC50)",
+        "4n7u (tipo: IC50)",
+        "4nh8 (tipo: IC50)",
+        "4o61 (tipo: IC50)",
+        "4oiv (tipo: IC50)"
+      ]
+    },
+    {
+      "name": "affinity_range",
+      "description": "pKi debe estar en [2.0, 13.0]. Fuera de rango = interaccion inespecifica o error de dato.",
+      "n_before": 759,
+      "n_after": 752,
+      "n_removed": 7,
+      "removed_sample": [
+        "4rfd (pKi=1.14, Kd=73000000.0 nM)",
+        "5eh7 (pKi=1.58, Kd=26000000.0 nM)",
+        "5ehv (pKi=1.58, Kd=26000000.0 nM)",
+        "5ehw (pKi=1.58, Kd=26000000.0 nM)",
+        "5fl5 (pKi=0.81, Kd=154000000.0 nM)",
+        "5vgy (pKi=1.58, Kd=26000000.0 nM)",
+        "6c7w (pKi=1.58, Kd=26000000.0 nM)"
+      ]
+    },
+    {
+      "name": "resolution_prefilter",
+      "description": "Resolucion cristalografica > 0 y ≤ 3.0 A. Elimina NMR, cryo-EM baja resolucion, y entradas sin metadatos.",
+      "n_before": 752,
+      "n_after": 752,
+      "n_removed": 0,
+      "removed_sample": []
+    },
+    {
+      "name": "structural_files_exist",
+      "description": "Proteina PDB y ligando SDF deben existir en disco.",
+      "n_before": 752,
+      "n_after": 752,
+      "n_removed": 0,
+      "removed_sample": []
+    },
+    {
+      "name": "file_sizes",
+      "description": "PDB >= 100 bytes, SDF >= 50 bytes. Detecta archivos truncados o corruptos.",
+      "n_before": 752,
+      "n_after": 752,
+      "n_removed": 0,
+      "removed_sample": []
+    },
+    {
+      "name": "deduplication",
+      "description": "Eliminar PDB IDs duplicados. Si un ID esta en refined y other, priorizar refined (mejor curacion).",
+      "n_before": 752,
+      "n_after": 752,
+      "n_removed": 0,
+      "removed_sample": []
+    },
+    {
+      "name": "pki_outliers",
+      "description": "Detectar valores pKi con |z-score| > 4.0σ respecto a la distribucion global del dataset.",
+      "n_before": 752,
+      "n_after": 752,
+      "n_removed": 0,
+      "removed_sample": []
+    }
+  ],
+  "pki_distribution_after_curation": {
+    "n": 752,
+    "mean": 6.806,
+    "std": 1.975,
+    "min": 2.194,
+    "max": 11.222,
+    "median": 6.854,
+    "q25": 5.211,
+    "q75": 8.301
+  }
+}

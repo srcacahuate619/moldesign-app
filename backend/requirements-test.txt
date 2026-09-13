@@ -1,0 +1,20 @@
+# Dependencias que SÓLO usan las pruebas. No entran en el instalador.
+#
+# Por qué existe este archivo: `test_dossier_estructural.py` hace
+# `pytest.importorskip("pypdf")` para leer el PDF que el producto genera y
+# verificar su contrato. `pypdf` no estaba en ninguna lista, así que esas 36
+# pruebas se saltaban en silencio tanto en CI como en el intérprete embebido: el
+# contrato del dossier no se verificaba en ningún sitio y el conteo total lo
+# tapaba. `scripts/report_test_counts.py --check` ahora falla si vuelve a pasar.
+#
+# El producto GENERA PDFs con reportlab (que sí está en requirements-desktop);
+# leerlos es cosa de las pruebas. Por eso van separados: meter pypdf en
+# requirements-desktop lo metería en el bundle sin que nadie lo use.
+#
+# Instalación:
+#     python -m pip install -r backend/requirements-test.txt
+
+pytest==8.4.2
+pytest-asyncio==0.26.0
+pypdf==5.1.0
+ruff==0.16.5

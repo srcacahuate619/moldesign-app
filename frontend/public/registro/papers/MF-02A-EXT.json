@@ -1,0 +1,365 @@
+{
+ "id": "MF-02A-EXT",
+ "meta": {
+  "titulo": "Dije «satura» con 116 complejos; con 4,636 sigue subiendo",
+  "entradilla": "El techo conformacional generaliza: un 12% de PDBBind no tiene la conformación bioactiva ni con 150 confórmeros. Y el plateau que había declarado era en parte artefacto del tamaño de muestra."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Antes de decidir cuántos confórmeros generar hay que saber qué se compra con cada uno. Una medición previa sobre los 116 complejos de entrenamiento había dado una curva que se aplanaba, y de ahí salió una decisión: ",
+     "m": null
+    },
+    {
+     "t": "satura alrededor de 60 confórmeros",
+     "m": "fuerte"
+    },
+    {
+     "t": ", más allá no compensa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento repite la medición sobre ",
+     "m": null
+    },
+    {
+     "t": "4,636 complejos",
+     "m": "fuerte"
+    },
+    {
+     "t": " de PDBBind.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La curva",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Disponibilidad conformacional a ≤2 Å del bioactivo:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Confórmeros",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Disponibilidad",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "75.2%",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "81.2%",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "30",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "83.9%",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "60",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "86.2%",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "90",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "87.2%",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "150",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "88.1%",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Tres lecturas",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "1. El techo generaliza.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Alrededor del ",
+     "m": null
+    },
+    {
+     "t": "12% de PDBBind no tiene la conformación bioactiva en el ensemble ni con 150 confórmeros",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Eso no es una peculiaridad de la cohorte del programa: es una propiedad del método de generación de confórmeros.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es un límite duro que ningún ajuste de docking puede superar, porque el material correcto nunca se produce.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y hay un número más que conviene no perder: ",
+     "m": null
+    },
+    {
+     "t": "680 complejos de los 5,316 (12.8%) fallaron el embebido",
+     "m": "fuerte"
+    },
+    {
+     "t": " y no pasan ni la primera fase del generador. Ese 12.8% es distinto del 12% anterior y se suma a él.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2. Corrige mi propia conclusión anterior.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Sobre los 116 la curva se aplanaba en 80.2% desde 60 confórmeros, y declaré saturación. Sobre 4,636 ",
+     "m": null
+    },
+    {
+     "t": "sigue subiendo",
+     "m": "fuerte"
+    },
+    {
+     "t": " alrededor de un punto por cada duplicación: 86.2 → 87.2 → 88.1.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El plateau era en parte ",
+     "m": null
+    },
+    {
+     "t": "artefacto del tamaño de muestra",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Con 116 complejos, un punto de diferencia son 1.2 complejos, indistinguible del ruido; con 4,636 se ve.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La conclusión cualitativa sobrevive —hay rendimientos decrecientes, y multiplicar el coste por 5 de 30 a 150 confórmeros compra 4.2 puntos— pero ",
+     "m": null
+    },
+    {
+     "t": "la palabra «satura» era demasiado fuerte",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y estaba respaldada por menos datos de los necesarios para usarla.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "3. El conjunto de entrenamiento es más difícil que PDBBind en general.",
+     "m": "fuerte"
+    },
+    {
+     "t": " A 30 confórmeros la disponibilidad es ",
+     "m": null
+    },
+    {
+     "t": "83.9% en PDBBind",
+     "m": "fuerte"
+    },
+    {
+     "t": " frente a ",
+     "m": null
+    },
+    {
+     "t": "77.6% en los 116",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso es coherente con el gradiente que otro experimento encontró entre los conjuntos de entrenamiento, validación y test, y sugiere un ",
+     "m": null
+    },
+    {
+     "t": "sesgo en cómo se armó la cohorte",
+     "m": "fuerte"
+    },
+    {
+     "t": ". No es una casualidad: es la misma sombra que aparece en varios resultados del programa, y explica por qué algunas curvas medidas en entrenamiento no se replican fuera.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué una medición descriptiva merece un registro",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento no tiene criterio de aceptación. No decide nada: mide.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Su valor está en las dos correcciones que produjo. Retiró una palabra que se había usado para justificar una decisión de configuración, y puso número a una sospecha sobre el sesgo de la cohorte que hasta entonces era intuición.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ninguna de las dos habría aparecido sin extender la medición a cuarenta veces más complejos, que era la clase de trabajo que resultaba fácil no hacer porque la respuesta ya parecía conocida.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-02A-EXT.md"
+}

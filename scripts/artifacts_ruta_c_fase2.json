@@ -1,0 +1,540 @@
+{
+  "generated_at": "2026-08-14T19:06:30-0600",
+  "protocolo": "docs/42_RUTA_C_PROTOCOLO.md",
+  "fase": "2 (GNN v1 PoseSelector)",
+  "hipotesis": "un score de native-likeness APRENDIDO con perdida de ranking pairwise intra-complejo y margenes proporcionales a Delta-RMSD supera al campeon v0.6 (0.6596) en el holdout congelado",
+  "gate_criterio": "gnn_v1_test_top1 > 0.6596 (top-1 v0.6)",
+  "config": {
+    "arquitectura": {
+      "prot_encoder": "GAT-Ca 24->64, 4 cabezas, 2 capas (models.py)",
+      "lig_encoder": "GIN 38->64, 3 capas (models.py)",
+      "cross_attention": "ligando->proteina, bias distancia 3.5 A + bias tipo residuo (models.py)",
+      "pooling": "Set2Set x2 (ligando+proteina), 4 pasos",
+      "fusion_contexto": "concat vina_score crudo (flag use_vina)",
+      "score_head": "MLP 257/256->64->32->1 (native-likeness)",
+      "rmsd_head": "MLP 256->64->32->1 (auxiliar)",
+      "dropout": 0.3
+    },
+    "perdida": {
+      "pairwise": "por complejo, todos los pares (i,j) con rmsd_i <= rmsd_j (empates incluidos, ambas direcciones), i != j; normalizada por total de pares",
+      "margen": "clip(0.3 + 0.5*(rmsd_j - rmsd_i), 0.3, 2.0)",
+      "auxiliar": "MSE(rmsd_head, rmsd)",
+      "lambda_aux": 0.5,
+      "grupos_1_pose": "solo auxiliar"
+    },
+    "optimizacion": {
+      "opt": "Adam",
+      "lr": 0.001,
+      "weight_decay": 1e-05,
+      "max_epochs": 60,
+      "paciencia_val_top1": 12,
+      "batch_poses": 64,
+      "semilla": 42,
+      "dispositivo": "cuda",
+      "esquema_computo": "1 forward por pose por epoca (lote 64, grafo retenido) + perdida pairwise vectorizada sobre TODOS los pares en un solo backward; gradiente equivalente a lotes de pares",
+      "n_pares_train": 158526
+    },
+    "mc_dropout": {
+      "mc_samples": 20,
+      "dropout_activo_en_inferencia": true
+    },
+    "umbral_pose_positiva_angstrom": 2.0,
+    "split": "holdout congelado Fase 0 (scaffold-disjoint, seed 42)"
+  },
+  "vina_baseline_recomputado": {
+    "train": {
+      "top1_rate": 0.4138,
+      "mediana_rmsd": 2.374,
+      "n_complejos": 116
+    },
+    "val": {
+      "top1_rate": 0.525,
+      "mediana_rmsd": 1.827,
+      "n_complejos": 40
+    },
+    "test": {
+      "top1_rate": 0.5319,
+      "mediana_rmsd": 1.765,
+      "n_complejos": 47
+    }
+  },
+  "_ultima_etapa": "completo",
+  "entrenamiento_v1": {
+    "descripcion": "GNN v1 (contexto Vina, modelo principal)",
+    "n_params": 191578,
+    "limite_params": 1200000,
+    "params_dentro_limite": true,
+    "epochs_ejecutadas": 18,
+    "mejor_epoch": 5,
+    "mejor_val_top1": 0.5,
+    "early_stopped": true,
+    "duracion_s": 47.1,
+    "reanudado": false,
+    "val_top1_cada_5": {
+      "0": 0.25,
+      "5": 0.5,
+      "10": 0.475,
+      "15": 0.475
+    },
+    "historial": [
+      {
+        "epoch": 0,
+        "loss_pair": 1.2415,
+        "loss_aux": 89.6939,
+        "loss_total": 46.0884,
+        "val_top1": 0.25,
+        "val_mediana": 5.319,
+        "val_spearman": -0.1106,
+        "t_s": 4.2
+      },
+      {
+        "epoch": 1,
+        "loss_pair": 1.2459,
+        "loss_aux": 86.2625,
+        "loss_total": 44.3771,
+        "val_top1": 0.275,
+        "val_mediana": 4.165,
+        "val_spearman": -0.24,
+        "t_s": 2.6
+      },
+      {
+        "epoch": 2,
+        "loss_pair": 1.2394,
+        "loss_aux": 82.5553,
+        "loss_total": 42.5171,
+        "val_top1": 0.35,
+        "val_mediana": 3.761,
+        "val_spearman": -0.3021,
+        "t_s": 2.7
+      },
+      {
+        "epoch": 3,
+        "loss_pair": 1.2378,
+        "loss_aux": 77.905,
+        "loss_total": 40.1903,
+        "val_top1": 0.4,
+        "val_mediana": 2.739,
+        "val_spearman": -0.343,
+        "t_s": 2.6
+      },
+      {
+        "epoch": 4,
+        "loss_pair": 1.2418,
+        "loss_aux": 73.2406,
+        "loss_total": 37.8621,
+        "val_top1": 0.475,
+        "val_mediana": 2.298,
+        "val_spearman": -0.3674,
+        "t_s": 2.3
+      },
+      {
+        "epoch": 5,
+        "loss_pair": 1.2333,
+        "loss_aux": 68.3784,
+        "loss_total": 35.4226,
+        "val_top1": 0.5,
+        "val_mediana": 2.145,
+        "val_spearman": -0.3672,
+        "t_s": 2.4
+      },
+      {
+        "epoch": 6,
+        "loss_pair": 1.22,
+        "loss_aux": 63.5969,
+        "loss_total": 33.0185,
+        "val_top1": 0.5,
+        "val_mediana": 2.145,
+        "val_spearman": -0.3552,
+        "t_s": 2.6
+      },
+      {
+        "epoch": 7,
+        "loss_pair": 1.2319,
+        "loss_aux": 58.5103,
+        "loss_total": 30.487,
+        "val_top1": 0.475,
+        "val_mediana": 2.389,
+        "val_spearman": -0.3531,
+        "t_s": 2.5
+      },
+      {
+        "epoch": 8,
+        "loss_pair": 1.2325,
+        "loss_aux": 53.5445,
+        "loss_total": 28.0048,
+        "val_top1": 0.475,
+        "val_mediana": 2.389,
+        "val_spearman": -0.3367,
+        "t_s": 2.5
+      },
+      {
+        "epoch": 9,
+        "loss_pair": 1.2334,
+        "loss_aux": 48.4336,
+        "loss_total": 25.4502,
+        "val_top1": 0.475,
+        "val_mediana": 2.389,
+        "val_spearman": -0.3317,
+        "t_s": 2.4
+      },
+      {
+        "epoch": 10,
+        "loss_pair": 1.2339,
+        "loss_aux": 43.7513,
+        "loss_total": 23.1095,
+        "val_top1": 0.475,
+        "val_mediana": 2.389,
+        "val_spearman": -0.3345,
+        "t_s": 2.5
+      },
+      {
+        "epoch": 11,
+        "loss_pair": 1.2246,
+        "loss_aux": 38.7505,
+        "loss_total": 20.5998,
+        "val_top1": 0.475,
+        "val_mediana": 2.389,
+        "val_spearman": -0.3307,
+        "t_s": 2.6
+      },
+      {
+        "epoch": 12,
+        "loss_pair": 1.229,
+        "loss_aux": 34.2062,
+        "loss_total": 18.3321,
+        "val_top1": 0.475,
+        "val_mediana": 2.389,
+        "val_spearman": -0.3461,
+        "t_s": 2.6
+      },
+      {
+        "epoch": 13,
+        "loss_pair": 1.225,
+        "loss_aux": 30.0285,
+        "loss_total": 16.2392,
+        "val_top1": 0.475,
+        "val_mediana": 2.389,
+        "val_spearman": -0.3647,
+        "t_s": 2.6
+      },
+      {
+        "epoch": 14,
+        "loss_pair": 1.2298,
+        "loss_aux": 26.2941,
+        "loss_total": 14.3768,
+        "val_top1": 0.475,
+        "val_mediana": 2.389,
+        "val_spearman": -0.3604,
+        "t_s": 2.5
+      },
+      {
+        "epoch": 15,
+        "loss_pair": 1.2148,
+        "loss_aux": 23.0252,
+        "loss_total": 12.7274,
+        "val_top1": 0.475,
+        "val_mediana": 2.389,
+        "val_spearman": -0.3552,
+        "t_s": 2.6
+      },
+      {
+        "epoch": 16,
+        "loss_pair": 1.2216,
+        "loss_aux": 20.2585,
+        "loss_total": 11.3509,
+        "val_top1": 0.5,
+        "val_mediana": 2.179,
+        "val_spearman": -0.3619,
+        "t_s": 2.6
+      },
+      {
+        "epoch": 17,
+        "loss_pair": 1.2121,
+        "loss_aux": 18.0667,
+        "loss_total": 10.2454,
+        "val_top1": 0.5,
+        "val_mediana": 2.145,
+        "val_spearman": -0.3855,
+        "t_s": 2.5
+      }
+    ]
+  },
+  "entrenamiento_novina": {
+    "descripcion": "GNN v1 sin contexto Vina (ablacion R-RC1)",
+    "n_params": 191514,
+    "limite_params": 1200000,
+    "params_dentro_limite": true,
+    "epochs_ejecutadas": 14,
+    "mejor_epoch": 1,
+    "mejor_val_top1": 0.15,
+    "early_stopped": true,
+    "duracion_s": 34.8,
+    "reanudado": false,
+    "val_top1_cada_5": {
+      "0": 0.125,
+      "5": 0.15,
+      "10": 0.125
+    },
+    "historial": [
+      {
+        "epoch": 0,
+        "loss_pair": 1.2434,
+        "loss_aux": 82.0377,
+        "loss_total": 42.2622,
+        "val_top1": 0.125,
+        "val_mediana": 5.928,
+        "val_spearman": -0.0805,
+        "t_s": 2.6
+      },
+      {
+        "epoch": 1,
+        "loss_pair": 1.2406,
+        "loss_aux": 78.9807,
+        "loss_total": 40.731,
+        "val_top1": 0.15,
+        "val_mediana": 6.498,
+        "val_spearman": -0.0843,
+        "t_s": 2.6
+      },
+      {
+        "epoch": 2,
+        "loss_pair": 1.2425,
+        "loss_aux": 75.6653,
+        "loss_total": 39.0752,
+        "val_top1": 0.075,
+        "val_mediana": 5.928,
+        "val_spearman": -0.0966,
+        "t_s": 2.6
+      },
+      {
+        "epoch": 3,
+        "loss_pair": 1.2355,
+        "loss_aux": 71.9575,
+        "loss_total": 37.2143,
+        "val_top1": 0.15,
+        "val_mediana": 5.896,
+        "val_spearman": -0.1061,
+        "t_s": 2.7
+      },
+      {
+        "epoch": 4,
+        "loss_pair": 1.2408,
+        "loss_aux": 67.8304,
+        "loss_total": 35.1561,
+        "val_top1": 0.15,
+        "val_mediana": 5.896,
+        "val_spearman": -0.1184,
+        "t_s": 2.4
+      },
+      {
+        "epoch": 5,
+        "loss_pair": 1.2361,
+        "loss_aux": 63.2894,
+        "loss_total": 32.8808,
+        "val_top1": 0.15,
+        "val_mediana": 5.896,
+        "val_spearman": -0.1414,
+        "t_s": 2.5
+      },
+      {
+        "epoch": 6,
+        "loss_pair": 1.2348,
+        "loss_aux": 58.842,
+        "loss_total": 30.6558,
+        "val_top1": 0.15,
+        "val_mediana": 5.896,
+        "val_spearman": -0.1631,
+        "t_s": 2.6
+      },
+      {
+        "epoch": 7,
+        "loss_pair": 1.2362,
+        "loss_aux": 54.1141,
+        "loss_total": 28.2933,
+        "val_top1": 0.15,
+        "val_mediana": 5.825,
+        "val_spearman": -0.1522,
+        "t_s": 2.3
+      },
+      {
+        "epoch": 8,
+        "loss_pair": 1.2272,
+        "loss_aux": 49.2632,
+        "loss_total": 25.8588,
+        "val_top1": 0.125,
+        "val_mediana": 5.928,
+        "val_spearman": -0.1519,
+        "t_s": 2.4
+      },
+      {
+        "epoch": 9,
+        "loss_pair": 1.2369,
+        "loss_aux": 44.3798,
+        "loss_total": 23.4268,
+        "val_top1": 0.125,
+        "val_mediana": 6.001,
+        "val_spearman": -0.1495,
+        "t_s": 2.5
+      },
+      {
+        "epoch": 10,
+        "loss_pair": 1.2338,
+        "loss_aux": 39.7163,
+        "loss_total": 21.092,
+        "val_top1": 0.125,
+        "val_mediana": 5.899,
+        "val_spearman": -0.1822,
+        "t_s": 2.4
+      },
+      {
+        "epoch": 11,
+        "loss_pair": 1.2319,
+        "loss_aux": 34.6018,
+        "loss_total": 18.5328,
+        "val_top1": 0.125,
+        "val_mediana": 5.899,
+        "val_spearman": -0.1909,
+        "t_s": 2.5
+      },
+      {
+        "epoch": 12,
+        "loss_pair": 1.228,
+        "loss_aux": 30.3751,
+        "loss_total": 16.4155,
+        "val_top1": 0.1,
+        "val_mediana": 5.94,
+        "val_spearman": -0.1788,
+        "t_s": 2.4
+      },
+      {
+        "epoch": 13,
+        "loss_pair": 1.2443,
+        "loss_aux": 26.2418,
+        "loss_total": 14.3652,
+        "val_top1": 0.1,
+        "val_mediana": 5.969,
+        "val_spearman": -0.1718,
+        "t_s": 2.2
+      }
+    ]
+  },
+  "evaluacion_v1": {
+    "val": {
+      "top1_rate": 0.5,
+      "mediana_rmsd": 2.145,
+      "spearman_pred_vs_rmsd_media": -0.3672,
+      "spearman_abs_media": 0.4646,
+      "n_complejos": 40,
+      "n_complejos_spearman": 39
+    },
+    "test": {
+      "top1_rate": 0.4894,
+      "mediana_rmsd": 2.037,
+      "spearman_pred_vs_rmsd_media": -0.4031,
+      "spearman_abs_media": 0.4672,
+      "n_complejos": 47,
+      "n_complejos_spearman": 45
+    },
+    "mc_test": {
+      "varianza_media_pose_seleccionada": 0.01696,
+      "varianza_mediana_pose_seleccionada": 0.01571,
+      "std_media_pose_seleccionada": 0.12655,
+      "n_complejos": 47,
+      "mc_samples": 20
+    },
+    "smoke_cpu": {
+      "n_poses": 730,
+      "duracion_s": 0.65,
+      "ms_por_pose": 0.89
+    }
+  },
+  "evaluacion_novina": {
+    "val": {
+      "top1_rate": 0.15,
+      "mediana_rmsd": 6.498,
+      "spearman_pred_vs_rmsd_media": -0.0843,
+      "spearman_abs_media": 0.3477,
+      "n_complejos": 40,
+      "n_complejos_spearman": 39
+    },
+    "test": {
+      "top1_rate": 0.0638,
+      "mediana_rmsd": 6.815,
+      "spearman_pred_vs_rmsd_media": 0.0021,
+      "spearman_abs_media": 0.3247,
+      "n_complejos": 47,
+      "n_complejos_spearman": 45
+    },
+    "mc_test": {
+      "varianza_media_pose_seleccionada": 0.00885,
+      "varianza_mediana_pose_seleccionada": 0.00757,
+      "std_media_pose_seleccionada": 0.09171,
+      "n_complejos": 47,
+      "mc_samples": 20
+    },
+    "smoke_cpu": {
+      "n_poses": 730,
+      "duracion_s": 0.63,
+      "ms_por_pose": 0.86
+    }
+  },
+  "comparacion": {
+    "val": {
+      "vina_top1": 0.525,
+      "vina_mediana": 1.827,
+      "v0_top1": 0.425,
+      "v0_mediana": 3.067,
+      "v05_top1": 0.4,
+      "v05_mediana": 2.598,
+      "v06B_top1": 0.575,
+      "v06B_mediana": 1.774,
+      "gnn_v1_top1": 0.5,
+      "gnn_v1_mediana": 2.145,
+      "gnn_v1_spearman": -0.3672,
+      "gnn_novina_top1": 0.15,
+      "gnn_novina_mediana": 6.498,
+      "gnn_novina_spearman": -0.0843
+    },
+    "test": {
+      "vina_top1": 0.5319,
+      "vina_mediana": 1.765,
+      "v0_top1": 0.4043,
+      "v0_mediana": 2.541,
+      "v05_top1": 0.4894,
+      "v05_mediana": 2.037,
+      "v06B_top1": 0.6596,
+      "v06B_mediana": 1.428,
+      "gnn_v1_top1": 0.4894,
+      "gnn_v1_mediana": 2.037,
+      "gnn_v1_spearman": -0.4031,
+      "gnn_novina_top1": 0.0638,
+      "gnn_novina_mediana": 6.815,
+      "gnn_novina_spearman": 0.0021
+    }
+  },
+  "gate": {
+    "criterio": "gnn_v1_test_top1 > 0.6596 (campeon v0.6)",
+    "gnn_v1_top1_test": 0.4894,
+    "v06B_top1_test": 0.6596,
+    "vina_top1_test": 0.5319,
+    "delta_vs_v06B": -0.1702,
+    "resultado": "FAIL"
+  },
+  "refutacion_R_RC1": {
+    "pregunta": "cambia el top-1 test al quitar el contexto vina_score?",
+    "gnn_v1_top1_test": 0.4894,
+    "gnn_novina_top1_test": 0.0638,
+    "delta": 0.4256,
+    "lectura": "cambio material: el contexto Vina aporta informacion a la seleccion; la senal aprendida es parcialmente complementaria al score de energia"
+  },
+  "caveats_honestos": [
+    "La perdida pairwise se retropropaga en UN solo backward vectorizado sobre todos los pares (no en lotes de 128 pares): el gradiente es matematicamente identico y cada grafo se recorre una vez en backward; es la unica desviacion del esquema literal del encargo, motivada por el costo computacional.",
+    "Val tiene solo 40 complejos: el early stop es ruidoso; la comparacion del gate es sobre el test congelado (47 complejos).",
+    "MC-dropout usa dropout 0.3 activo en inferencia (modelo en modo train), precedente predict_proba de GNNv2Classifier; las varianzas son un proxy de incertidumbre, no calibradas.",
+    "Si el entrenamiento se reanudo tras un crash, la secuencia RNG difiere de una corrida ininterrumpida (se registra la bandera 'reanudado' por etapa).",
+    "El dataset de grafos se construyo re-resolviendo los archivos de poses originales con los MISMOS mapas serial->mol de Fase 0; los registros excluidos quedan registrados en graphs_progress.json.",
+    "group_size proviene de los JSONL de Fase 0 (poblacion completa del split); si algun registro quedo excluido en el grafo, el grupo evaluable es menor (caveat de cobertura).",
+    "Vina recomputado sobre el dataset de grafos usa el orden canonico para desempates, igual que Fase 1."
+  ],
+  "duracion_total_s": 18.2
+}

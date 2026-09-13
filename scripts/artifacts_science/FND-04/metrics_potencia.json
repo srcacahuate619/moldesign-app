@@ -1,0 +1,74 @@
+{
+ "experiment_id": "FND-04b",
+ "tipo": "diagnostico retrospectivo de potencia (no reabre ningun sello)",
+ "timestamp": "2026-08-19T01:13:06.811606+00:00",
+ "modelo": "diferencia pareada en {-1,0,+1}; Var = discordancia - delta^2; gate = CI95 pareado que excluye el cero; aproximacion normal",
+ "casos": [
+  {
+   "gate": "RS-14",
+   "descripcion": "selector vs vina_score (precision condicional)",
+   "n": 92,
+   "discordancia": 0.6304,
+   "diferencia_observada": -0.0471,
+   "mde_80": 0.2226,
+   "mde_90": 0.2542,
+   "mde_en_complejos": 20.5,
+   "detectable": false,
+   "n_para_5pp": 1972,
+   "n_para_10pp": 487
+  },
+  {
+   "gate": "RS-14-R1",
+   "descripcion": "selector vs vina_score (precision condicional)",
+   "n": 92,
+   "discordancia": 0.6304,
+   "diferencia_observada": -0.0942,
+   "mde_80": 0.2226,
+   "mde_90": 0.2542,
+   "mde_en_complejos": 20.5,
+   "detectable": false,
+   "n_para_5pp": 1972,
+   "n_para_10pp": 487
+  },
+  {
+   "gate": "MF-19",
+   "descripcion": "rigido vs flexible (mismo conformero)",
+   "n": 33,
+   "discordancia": 0.0909,
+   "diferencia_observada": 0.0909,
+   "mde_80": 0.1322,
+   "mde_90": 0.1482,
+   "mde_en_complejos": 4.4,
+   "detectable": false,
+   "n_para_5pp": 278,
+   "n_para_10pp": 64
+  },
+  {
+   "gate": "D-MF-HARD-EXH4",
+   "descripcion": "vina_exh4 vs molflex_k15 (estrato hard)",
+   "n": 17,
+   "discordancia": 0.4706,
+   "diferencia_observada": 0.4706,
+   "mde_80": 0.3855,
+   "mde_90": 0.424,
+   "mde_en_complejos": 6.6,
+   "detectable": true,
+   "n_para_5pp": 1470,
+   "n_para_10pp": 362
+  },
+  {
+   "gate": "MF-08",
+   "descripcion": "B_ADAPT vs B25 (recuperacion en cohorte dificil)",
+   "n": 33,
+   "discordancia": 0.0909,
+   "diferencia_observada": 0.0909,
+   "mde_80": 0.1322,
+   "mde_90": 0.1482,
+   "mde_en_complejos": 4.4,
+   "detectable": false,
+   "n_para_5pp": 278,
+   "n_para_10pp": 64
+  }
+ ],
+ "regla_propuesta": "ningun prerregistro de gate comparativo se sella sin declarar su efecto minimo detectable al n disponible (doc. 49 §20.9)"
+}

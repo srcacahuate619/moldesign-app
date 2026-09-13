@@ -1,0 +1,5 @@
+# El certificado de desarrollo NO se commitea: sirve solo para instalar y
+# probar en una maquina, y su clave privada no tiene por que viajar en el
+# repositorio. El paquete de Store lo firma el Store.
+*.pfx
+*.cer

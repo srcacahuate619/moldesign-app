@@ -1,0 +1,51 @@
+{
+ "experiment_id": "MF-02B-R1",
+ "corrigendum_de": "MF-02B",
+ "material": "MF-02D (reproduce MF-02B 38/38 sin discrepancias)",
+ "metrica_corregida": "min rmsd_pose_pocket sobre TODAS las poses dockeadas (mas generosa que el top-K de MF-02B)",
+ "umbral_A": 2.0,
+ "gate_G2_original": "A8 recupera >=10 de los 38 sin cobertura",
+ "recuperados_mf02b_alineado": 30,
+ "recuperados_corregido": 14,
+ "de": 38,
+ "gate_G2_pass_corregido": true,
+ "decision_mf02b_se_sostiene": true,
+ "pierden_al_corregir": [
+  "1a30",
+  "1afk",
+  "1afl",
+  "1amw",
+  "1d7i",
+  "1dgm",
+  "1eld",
+  "1ele",
+  "1ew8",
+  "1ew9",
+  "1fh7",
+  "1fkg",
+  "1mmr",
+  "1njs",
+  "1nm6",
+  "1nw5"
+ ],
+ "ganan_al_corregir": [],
+ "control_alineado": 9,
+ "control_corregido": 8,
+ "cobertura_train_antes": {
+  "n": 78,
+  "de": 116,
+  "frac": 0.6724
+ },
+ "cobertura_train_despues_alineada_INFLADA": {
+  "n": 108,
+  "de": 116,
+  "frac": 0.931
+ },
+ "cobertura_train_despues_corregida": {
+  "n": 92,
+  "de": 116,
+  "frac": 0.7931
+ },
+ "sesgo_mediano_A": 1.002,
+ "nota_sesgo": "El RMSD alineado es siempre <= el de pocket: MF-02B solo podia sobreestimar."
+}

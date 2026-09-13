@@ -1,0 +1,325 @@
+{
+ "id": "MF-11",
+ "meta": {
+  "titulo": "Perdió dos complejos de 108, y el gate no admitía perder ninguno",
+  "entradilla": "La deduplicación a 2.0 Å redujo los candidatos un 23.55%, de forma determinista y sin mirar las etiquetas. Perdió 2 complejos cubiertos. El criterio exigía cero."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Al unir candidatas de varias fuentes, muchas poses son la misma con decimales distintos. Agruparlas reduce el coste de cualquier cosa que venga después. El requisito es que la reducción sea ",
+     "m": null
+    },
+    {
+     "t": "sin pérdida",
+     "m": "fuerte"
+    },
+    {
+     "t": ": si entre las candidatas de un complejo había una pose correcta, después de agrupar tiene que seguir habiéndola.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El criterio se fijó en cero pérdidas. No «pocas»: cero. La razón es que la cobertura del oráculo es el techo de todo lo que se mida después, y perder un complejo ahí es perderlo en todos los experimentos posteriores, sin que ninguno pueda detectarlo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Resultado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Reducción de candidatos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "23.55%",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Determinismo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Byte a byte",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Verificación de que no mira etiquetas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Correcta",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Complejos cubiertos perdidos",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "2 de 108",
+       "m": "fuerte"
+      },
+      {
+       "t": " (",
+       "m": null
+      },
+      {
+       "t": "1alw",
+       "m": "codigo"
+      },
+      {
+       "t": ", ",
+       "m": null
+      },
+      {
+       "t": "1bcd",
+       "m": "codigo"
+      },
+      {
+       "t": ")",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Todo funciona excepto lo único que no admitía excepciones.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Dos complejos de 108 es un 1.9%. Es la clase de número que en casi cualquier otro contexto se redondearía a cero y se seguiría adelante. Aquí no, porque el criterio se escribió antes justamente para que ese redondeo no ocurriera.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué se pierde una pose al agrupar",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El mecanismo merece explicarse, porque es el riesgo estructural de toda deduplicación por umbral. Un grupo de poses dentro de 2.0 Å unas de otras puede contener una pose a 1.9 Å del cristal y otra a 3.9 Å. Si el representante elegido cae del lado malo, el grupo entero pasa de cubierto a no cubierto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cuanto más grande el umbral, más agresiva la reducción y más probable ese accidente. Y aquí hay una coincidencia incómoda: ",
+     "m": null
+    },
+    {
+     "t": "2.0 Å es también el umbral de éxito",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Un agrupamiento con diámetro igual al criterio de acierto puede meter en el mismo grupo un acierto y un fallo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Dos desviaciones registradas",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El registro anota dos cosas que se hicieron distinto de lo planeado:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "El conjunto de validación se procesó junto con el de entrenamiento, en vez de por",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "separado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "Se eligió como representante ",
+      "m": null
+     },
+     {
+      "t": "la primera pose por identidad",
+      "m": "fuerte"
+     },
+     {
+      "t": " en lugar del centro",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "geométrico del grupo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La segunda es probablemente la causa directa de las dos pérdidas: la primera pose de un grupo es arbitraria, mientras que el centro geométrico es, por construcción, la que menos se aleja del resto. La revisión posterior de esta política cambió a centro geométrico, y sobre el conjunto reconstruido logró ",
+     "m": null
+    },
+    {
+     "t": "0 pérdidas",
+     "m": "fuerte"
+    },
+    {
+     "t": " con una reducción aún mayor.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es decir: el fallo no era la idea, era una decisión de implementación que no se había pensado como decisión.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se hizo con el artefacto",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Queda registrado como ",
+     "m": null
+    },
+    {
+     "t": "caracterización de una política con pérdida",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no como conjunto recomendado. La distinción es operativa: sigue disponible para quien acepte conscientemente perder un 2% de cobertura a cambio de un 23% menos de volumen, y no se convierte en la entrada por defecto de nada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La versión corregida —centro geométrico, umbral re-derivado sobre el conjunto denso— es la que acabó adoptándose, y llegó a un umbral distinto (2.0 Å en vez de 1.5 Å) con reducciones del 31.7% al 38.2% y cero pérdidas en los tres conjuntos.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-11.md"
+}

@@ -1,0 +1,33 @@
+{
+  "adr": "docs/76_DECISION_TRANSFERENCIA_ESMFOLD_A_LIGANDO_V1.md",
+  "descripcion": "La abstención en la frontera estructura→ligando, y el caso en que el motor pedido no está y se sustituye.",
+  "estados": {
+    "estructura_generada_sin_acoplamiento": [
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Motor ejecutado",
+        "razon": null,
+        "valor": "esmfold",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "NO_EVALUADO",
+        "etiqueta": "Estado del acoplamiento",
+        "razon": "El modelo de plegamiento produjo una estructura, y la conversión de esa estructura a un ligando acoplable no se completó, así que Vina no llegó a ejecutarse y NO hay afinidad. No se sustituye por un valor derivado de la confianza del plegado: la confianza describe la estructura, no la unión. Ver docs/76_DECISION_TRANSFERENCIA_ESMFOLD_A_LIGANDO_V1.md.",
+        "valor": "Estructura peptídica generada; docking no evaluado",
+        "valor_es_clasificacion": true
+      }
+    ],
+    "motor_sustituido_por_vina": [
+      {
+        "estado": "REVISAR",
+        "etiqueta": "Motor solicitado frente a ejecutado",
+        "razon": "El motor que corrió no es el que se pidió. La pose no es comparable con la que habría producido el motor solicitado.",
+        "valor": "esmfold -> vina",
+        "valor_es_clasificacion": true
+      }
+    ]
+  },
+  "golden_version": 1,
+  "protocolo": "PEPTIDE_ESMFOLD_VINA"
+}

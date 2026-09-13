@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-14-PRE",
+  "hypothesis": "Con el denominador corregido (conjunto v2, cobertura del oraculo 79.3% y MolFlex aplicado a 116 de 116), un selector entrenado bajo el protocolo congelado de v0.6 supera al baseline de vina_score en precision condicional, evaluado leave-one-complex-out",
+  "protocol": "RS-14-PRE/PREREGISTRO.md; datos RC-F0-V2 solo train; features 224 raw con la transformacion documentada de v0.6; XGBRanker rank:pairwise con sus hiperparametros; LOCO 116 x 3 semillas; nulo por permutacion dentro de complejo",
+  "created_at": "2026-08-18T07:27:55.241290+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "0bf3cd2621784b12ad092b200586a3d16aba3a2d",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 validez de los 348 ajustes, G2 condicional > baseline con CI95 BCa pareado excluyendo cero, G3 condicional observada > percentil 95 del nulo, G4 determinismo"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "data/pose_selector_dataset/v2/poses_train.jsonl": "e3b73fd5330dc05944be8fdb0afc10a0192cba7f49849fdfad173d9d4cff9823",
+    "data/pose_selector_dataset/v2/features_rich_v2.jsonl": "afa7b4b346bde263257654ed1fb639ab3d56effbfe1cd97db2cf10a885cd1785",
+    "scripts/artifacts_science/MF-09/metrics.json": "91bdd42847428e188d47ccc3e2ceb99e7cc18072b35d416ee410147a823ff790"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/RS-14-PRE/PREREGISTRO.md": "7e004067a0f26aba3aa4cf54fde5fc1f2b06b6c419b95b2f3bc75361ef9a9f73",
+    "scripts/run_rs14_selector_v2.py": "c5d9c9fc4fa094b1176267bbdf377f0043f64fce81270de17bda9c1780a5c9ef"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T07:27:55.821416+00:00",
+  "decision_rationale": "Prerregistro de la REAPERTURA de la cartera D, autorizada por el maintainer, sellado antes de ejecutar. Declara lo que la seccion 19.1 exige: que cambio en el denominador. MolFlex pasa de aplicarse a 13 de 116 complejos a los 116; la cobertura del oraculo de train sube de 67.2 a 79.3 por ciento; las poses por complejo pasan de ~9 a ~162 y el conjunto de train de 2739 a 18812 poses. No es mas de lo mismo: en 38 complejos de v1 no existia pose que seleccionar y los experimentos que fallaron midieron Top-1 global sobre ese universo. La expectativa esta acotada por MF-09, que midio a nivel de pose que en los complejos cubiertos el top-1 por score acierta 7 de 15 y el top-5 acierta 14, es decir 8 de 15 recuperables. Diseno: solo train, val y test intactos; features 224 raw con la transformacion exacta de v0.6 (z por columna dentro de cada complejo mas rangos percentiles sobre las 9 de PCT_RAW); XGBRanker rank:pairwise con los hiperparametros congelados; leave-one-complex-out 116 por semilla, tres semillas. El gate se evalua sobre la PRECISION CONDICIONAL y no sobre Top-1 global, como exige la seccion 9, con la cobertura declarada como covariable. Control de nulo imprescindible por el regimen p mayor que n: 200 permutaciones que barajan las etiquetas DENTRO de cada complejo, preservando grupos y numero de poses, y la condicional observada debe superar el percentil 95. Prohibido comparar con cifras de v1 porque v0.6 se entreno sobre v1 y la tarea cambio de 9 a 162 candidatos.",
+  "finished_at": "2026-08-18T07:27:55.984908+00:00"
+}

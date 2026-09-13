@@ -1,0 +1,38 @@
+{"id":"R001","label":"prop_aspirina_nombre","category":"tool_quimica","query":"calcula propiedades de la aspirina","expect_tool":"compute_properties","expect_canon_smiles":"CC(=O)Oc1ccccc1C(=O)O","expect_rag":true}
+{"id":"R002","label":"prop_ibuprofeno","category":"tool_quimica","query":"calcula propiedades del ibuprofeno","expect_tool":"compute_properties","expect_rag":true}
+{"id":"R003","label":"prop_paracetamol","category":"tool_quimica","query":"calcula propiedades del paracetamol","expect_tool":"compute_properties","expect_rag":true}
+{"id":"R004","label":"prop_cafeina","category":"tool_quimica","query":"calcula propiedades de la cafeina","expect_tool":"compute_properties","expect_rag":true}
+{"id":"R005","label":"prop_etanol","category":"tool_quimica","query":"calcula propiedades del etanol","expect_tool":"compute_properties","expect_rag":true}
+{"id":"R006","label":"prop_glucosa","category":"tool_quimica","query":"calcula propiedades de la glucosa","expect_tool":"compute_properties","expect_rag":true}
+{"id":"R007","label":"prop_taxol","category":"tool_quimica","query":"calcula propiedades del taxol (paclitaxel)","expect_tool":"compute_properties","expect_rag":true}
+{"id":"R008","label":"prop_morfina","category":"tool_quimica","query":"calcula propiedades de la morfina","expect_tool":"compute_properties","expect_rag":true}
+{"id":"R009","label":"prop_testosterona","category":"tool_quimica","query":"calcula propiedades de la testosterona","expect_tool":"compute_properties","expect_rag":true}
+{"id":"R010","label":"prop_vitaminaC","category":"tool_quimica","query":"calcula propiedades del acido ascorbico (vitamina C)","expect_tool":"compute_properties","expect_rag":true}
+{"id":"S001","label":"smiles_aspirina","category":"smiles_directo","query":"calcula propiedades de CC(=O)Oc1ccccc1C(=O)O","expect_tool":"compute_properties","expect_smiles_inferida":"CC(=O)Oc1ccccc1C(=O)O"}
+{"id":"S002","label":"smiles_paracetamol","category":"smiles_directo","query":"calcula propiedades de CC(=O)Nc1ccc(O)cc1","expect_tool":"compute_properties"}
+{"id":"S003","label":"smiles_cafeina","category":"smiles_directo","query":"calcula propiedades de CN1C=NC2=C1C(=O)N(C(=O)N2C)C","expect_tool":"compute_properties"}
+{"id":"S004","label":"smiles_etanol","category":"smiles_directo","query":"calcula propiedades de CCO","expect_tool":"compute_properties"}
+{"id":"S005","label":"smiles_glucosa","category":"smiles_directo","query":"calcula propiedades de C(C1C(C(C(C(O1)O)O)O)O)O","expect_tool":"compute_properties"}
+{"id":"S006","label":"smiles_metano","category":"smiles_directo","query":"calcula propiedades de C","expect_tool":"compute_properties","note":"C trivial=metano, RDKit SI lo valida como CH4 pero el extract_smiles lo rechaza por ser atomico suelto. Expectativa: el sistema puede responder sin tool o tool-la de compute. Baja expectativa rigida."}
+{"id":"S007","label":"smiles_propanol","category":"smiles_directo","query":"calcula propiedades de CCCO","expect_tool":"compute_properties"}
+{"id":"S008","label":"smiles_penicilinaG","category":"smiles_directo","query":"calcula propiedades de CC1(C(N2C(S1)C(C2=O)NC(=O)Cc3ccccc3)C(=O)O)C","expect_tool":"compute_properties"}
+{"id":"I001","label":"invalido_formula","category":"smiles_invalido","query":"calcula propiedades de C2H5OH=fake_no_smiles","note":"SMILES invalido: no debe llamar tool, debe rechazar o decir 'no tengo datos verificados'. Verificar que no alucine claims."}
+{"id":"I002","label":"invalido_texto","category":"smiles_invalido","query":"calcula propiedades de esto_no_es_smiles","note":"SMILES invalido: no tool, no claims."}
+{"id":"I003","label":"invalido_chars","category":"smiles_invalido","query":"calcula propiedades de C#CHHHH#$##@","note":"SMILES invalido: no tool, no claims."}
+{"id":"I004","label":"invalido_vacio","category":"smiles_invalido","query":"calcula propiedades de xyz123xyz","note":"SMILES invalido: no tool, no claims."}
+{"id":"I005","label":"invalido_basura","category":"smiles_invalido","query":"calcula propiedades de KILLMEnow","note":"SMILES invalido: no tool, no claims."}
+{"id":"D001","label":"docking_7E2Y_aspirina","category":"docking","query":"que afinidad tiene esta molecula contra 7E2Y? La molecula es CC(=O)Oc1ccccc1C(=O)O","expect_tool":"docking_tool","expect_smiles":"CC(=O)Oc1ccccc1C(=O)O"}
+{"id":"D002","label":"docking_6LU7_ibuprofeno","category":"docking","query":"que afinidad tiene el ibuprofeno contra 6LU7?","expect_tool":"docking_tool"}
+{"id":"D003","label":"docking_7E2Y_paracetamol","category":"docking","query":"calcula el docking de paracetamol contra 7E2Y","expect_tool":"docking_tool"}
+{"id":"D004","label":"docking_3CL_protease","category":"docking","query":"que afinidad tiene esta molecula contra la proteina 3CL?","note":"Sin SMILES explicito, target 3CL detectado pero sin molecula. Comportamiento correcto: 'necesito la molecula y el target' sin tool.","expect_no_alucinacion":true}
+{"id":"D005","label":"docking_3CL_protease_urgente","category":"docking","query":"necesito urgentemente docking contra 3CL-pro para esta molecula: CCCO","expect_tool":"docking_tool"}
+{"id":"C001","label":"conceptual_logP","category":"conceptual","query":"que es el logP y para que se usa?","expect_no_tool":true}
+{"id":"C002","label":"conceptual_logD","category":"conceptual","query":"cual es la diferencia entre logP y logD?","expect_no_tool":true}
+{"id":"C003","label":"conceptual_ligand","category":"conceptual","query":"explique que es un ligando en docking molecular","expect_no_tool":true}
+{"id":"C004","label":"conceptual_aminas","category":"conceptual","query":"para que sirven las aminas en farmacologia?","expect_no_tool":true}
+{"id":"C005","label":"conceptual_drug_design","category":"conceptual","query":"explica el enfoque de drug discovery basado en fragmentos","expect_no_tool":true}
+{"id":"MT001","label":"multi_turno_1","category":"multi_turno","query":"calcula propiedades de la aspirina","multi_turn":true,"turn":1,"expect_tool":"compute_properties"}
+{"id":"MT002","label":"multi_turno_2_TR1","category":"multi_turno","query":"dame moleculas similares a la aspirina","multi_turn":true,"turn":2,"expect_tool":"molgraph_similar"}
+{"id":"MT003","label":"multi_turno_3","category":"multi_turno","query":"que afinidad tiene esa primera molecula contra 7E2Y?","multi_turn":true,"turn":3,"exists_prior":true}
+{"id":"MT004","label":"multi_turno_4","category":"multi_turno","query":"calcula propiedades de cafeina","multi_turn":true,"turn":4,"expect_tool":"compute_properties"}
+{"id":"MT005","label":"multi_turno_5","category":"multi_turno","query":"y del paracetamol?","multi_turn":true,"turn":5,"possible_anafora":true}

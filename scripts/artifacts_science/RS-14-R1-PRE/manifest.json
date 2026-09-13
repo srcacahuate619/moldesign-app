@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-14-R1-PRE",
+  "hypothesis": "Corregidas las etiquetas por simetria, el selector supera al baseline vina_score en precision condicional sobre los complejos cubiertos",
+  "protocol": "RS-14-R1-PRE/PREREGISTRO.md; conjunto v2 train (18,812 poses, 116 complejos); etiquetas rmsd_sym de RC-F0-SYM; protocolo de RS-14 congelado e importado, no copiado: features, contrato v0.6, hiperparametros, LOCO y nulo identicos",
+  "created_at": "2026-08-18T20:19:46.930353+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "23ac6d11cfadfdbd1d98de59392ebdaa66539cee",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 validez de los 348 ajustes LOCO, G2 superioridad con CI95 BCa pareado excluyendo cero, G3 nulo por permutacion, G4 determinismo"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/run_rs14r1_selector_sym.py": "875c843b67208de361302f5f6a36b5aec5a88a27c24c65664f07378635c9723d"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T20:19:47.530468+00:00",
+  "decision_rationale": "Prerregistro escrito antes de ejecutar, con hash SHA-256 registrado en anterioridad.json para que el sello pueda probar que precede a los resultados. Legal bajo la condicion 2 de la §19.1: corrige un defecto de implementacion documentado (RC-F0-SYM midio +21.0% de positivas mal etiquetadas en train), no una arquitectura, una perdida ni una seed. Declara por adelantado el baseline corregido ya medido (0.5543 frente a 0.4783), la prediccion NO_GO, y la regla de cierre: un NO_GO cierra la cartera D de forma definitiva.",
+  "finished_at": "2026-08-18T20:19:47.670652+00:00"
+}

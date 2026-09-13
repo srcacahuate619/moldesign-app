@@ -1,0 +1,260 @@
+{
+  "generated_at": "2026-08-15T11:48:41-0600",
+  "protocolo": "docs/47_RUTA_C_FASE4_PREREGISTRO.md",
+  "fase": "4.B — objetivo nativo directo, seleccion sin test historico",
+  "hipotesis": "H-C1.1: optimizar RMSD <=2 Å directamente mejora Top-1 global",
+  "integridad": {
+    "poses_train_sha256": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654",
+    "poses_val_sha256": "4a0f8bada19da8f7ee91034264a9b24a2886d4f718ed2dc7e659756fd29b97a1",
+    "v06_modelo_sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+    "v06_meta_sha256": "296b125ba852522259c11385063dc825c18efc3769228a22a640702ea5b5147d",
+    "test_historico_leido": false
+  },
+  "config_congelada": {
+    "seed": 42,
+    "n_folds": 5,
+    "umbral_positiva_ang": 2.0,
+    "params": {
+      "n_estimators": 52,
+      "max_depth": 6,
+      "learning_rate": 0.05,
+      "subsample": 0.8,
+      "n_jobs": 4,
+      "seed": 42,
+      "random_state": 42
+    },
+    "modelos": [
+      "continuo_pairwise",
+      "native_pairwise",
+      "native_ndcg"
+    ]
+  },
+  "folds": [
+    {
+      "fold": 0,
+      "n_train_complejos": 92,
+      "n_eval_complejos": 24,
+      "n_eval_con_candidato_cristalino": 16,
+      "pids_eval": [
+        "187l",
+        "1a30",
+        "1a4w",
+        "1a99",
+        "1aaq",
+        "1b4z",
+        "1bn4",
+        "1c4u",
+        "1cet",
+        "1d9i",
+        "1e4h",
+        "1elb",
+        "1eld",
+        "1ele",
+        "1f0r",
+        "1f4e",
+        "1f4g",
+        "1f74",
+        "1hmr",
+        "1jvu",
+        "1kav",
+        "1lrh",
+        "1n0s",
+        "1nje"
+      ]
+    },
+    {
+      "fold": 1,
+      "n_train_complejos": 92,
+      "n_eval_complejos": 24,
+      "n_eval_con_candidato_cristalino": 16,
+      "pids_eval": [
+        "184l",
+        "188l",
+        "1add",
+        "1afl",
+        "1bjv",
+        "1bn1",
+        "1bnu",
+        "1d3p",
+        "1dgm",
+        "1ew8",
+        "1fkh",
+        "1g3d",
+        "1h22",
+        "1hih",
+        "1hlk",
+        "1hn4",
+        "1hp5",
+        "1hpx",
+        "1kzk",
+        "1m48",
+        "1m5w",
+        "1mu8",
+        "1njs",
+        "1nki"
+      ]
+    },
+    {
+      "fold": 2,
+      "n_train_complejos": 92,
+      "n_eval_complejos": 24,
+      "n_eval_con_candidato_cristalino": 16,
+      "pids_eval": [
+        "186l",
+        "1afk",
+        "1alw",
+        "1apv",
+        "1b46",
+        "1bju",
+        "1bma",
+        "1bq4",
+        "1c5p",
+        "1cnw",
+        "1cnx",
+        "1d7i",
+        "1ezq",
+        "1f0t",
+        "1f0u",
+        "1fd0",
+        "1fv0",
+        "1gwv",
+        "1i7z",
+        "1jao",
+        "1jaq",
+        "1jq8",
+        "1k9s",
+        "1nq7"
+      ]
+    },
+    {
+      "fold": 3,
+      "n_train_complejos": 94,
+      "n_eval_complejos": 22,
+      "n_eval_con_candidato_cristalino": 15,
+      "pids_eval": [
+        "10gs",
+        "1amw",
+        "1b2h",
+        "1b8y",
+        "1bcd",
+        "1bn3",
+        "1bxr",
+        "1d7j",
+        "1eb2",
+        "1ew9",
+        "1f5k",
+        "1h4w",
+        "1hii",
+        "1iih",
+        "1kpm",
+        "1lan",
+        "1lbk",
+        "1m0n",
+        "1mmq",
+        "1moq",
+        "1nm6",
+        "1np0"
+      ]
+    },
+    {
+      "fold": 4,
+      "n_train_complejos": 94,
+      "n_eval_complejos": 22,
+      "n_eval_con_candidato_cristalino": 15,
+      "pids_eval": [
+        "1ai4",
+        "1ai7",
+        "1ax0",
+        "1b38",
+        "1bty",
+        "1c5o",
+        "1ela",
+        "1f4f",
+        "1fh7",
+        "1fkg",
+        "1flr",
+        "1g3e",
+        "1gpn",
+        "1hdq",
+        "1igb",
+        "1ikt",
+        "1j4r",
+        "1jn4",
+        "1l83",
+        "1m2x",
+        "1mmr",
+        "1nw5"
+      ]
+    }
+  ],
+  "oof": {
+    "metricas": {
+      "continuo_pairwise": {
+        "n_complejos": 116,
+        "top1_exitos": 51,
+        "top1_global": 0.4397,
+        "top1_con_candidato_exitos": 51,
+        "top1_con_candidato_n": 78,
+        "top1_con_candidato": 0.6538,
+        "rmsd_mediana": 2.5885,
+        "spearman_media": -0.4868
+      },
+      "native_pairwise": {
+        "n_complejos": 116,
+        "top1_exitos": 51,
+        "top1_global": 0.4397,
+        "top1_con_candidato_exitos": 51,
+        "top1_con_candidato_n": 78,
+        "top1_con_candidato": 0.6538,
+        "rmsd_mediana": 2.374,
+        "spearman_media": -0.4006
+      },
+      "native_ndcg": {
+        "n_complejos": 116,
+        "top1_exitos": 52,
+        "top1_global": 0.4483,
+        "top1_con_candidato_exitos": 52,
+        "top1_con_candidato_n": 78,
+        "top1_con_candidato": 0.6667,
+        "rmsd_mediana": 2.342,
+        "spearman_media": -0.3715
+      }
+    },
+    "decision": {
+      "candidatos": [
+        {
+          "modelo": "native_pairwise",
+          "pareado_vs_control": {
+            "candidato_recupera_control_falla": 11,
+            "candidato_degrada_control_acierta": 11,
+            "neto_aciertos": 0,
+            "n_desacuerdos": 22,
+            "p_mcnemar_exacto_dos_lados": 1.0
+          },
+          "mediana_ok": true,
+          "pasa_gate_oof": false
+        },
+        {
+          "modelo": "native_ndcg",
+          "pareado_vs_control": {
+            "candidato_recupera_control_falla": 9,
+            "candidato_degrada_control_acierta": 8,
+            "neto_aciertos": 1,
+            "n_desacuerdos": 17,
+            "p_mcnemar_exacto_dos_lados": 1.0
+          },
+          "mediana_ok": true,
+          "pasa_gate_oof": false
+        }
+      ],
+      "ganador": "native_ndcg",
+      "gate_oof_superado": false
+    }
+  },
+  "validacion_val": {
+    "ejecutado": false,
+    "motivo": "ningun objetivo nativo supero el gate OOF preregistrado"
+  },
+  "conclusion": "La hipotesis no avanza; v0.6 permanece sin cambios",
+  "no_promocion_automatica": true
+}

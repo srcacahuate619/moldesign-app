@@ -1,0 +1,141 @@
+{
+ "fecha": "2026-09-02",
+ "herramienta": "scripts/normalizar_hotspots_sin_cadena.py",
+ "criterio": "una sola cadena contiene ese numero de residuo cerca de la caja, con la siguiente candidata al menos 3.0x mas lejos",
+ "total": 11,
+ "decisiones": [
+  {
+   "pdb_id": "2W96",
+   "cadena_declarada": "B",
+   "hotspots": [
+    {
+     "antes": "LYS35",
+     "despues": "B:LYS35",
+     "distancia_al_centro_A": 5.9,
+     "descartadas": [
+      {
+       "cadena": "A",
+       "distancia_A": 29.2
+      }
+     ]
+    },
+    {
+     "antes": "VAL96",
+     "despues": "B:VAL96",
+     "distancia_al_centro_A": 5.1,
+     "descartadas": [
+      {
+       "cadena": "A",
+       "distancia_A": 44.6
+      }
+     ]
+    },
+    {
+     "antes": "ASP158",
+     "despues": "B:ASP158",
+     "distancia_al_centro_A": 6.2,
+     "descartadas": [
+      {
+       "cadena": "A",
+       "distancia_A": 38.0
+      }
+     ]
+    },
+    {
+     "antes": "ILE12",
+     "despues": "B:ILE12",
+     "distancia_al_centro_A": 4.0,
+     "descartadas": [
+      {
+       "cadena": "A",
+       "distancia_A": 32.0
+      }
+     ]
+    },
+    {
+     "antes": "GLU144",
+     "despues": "B:GLU144",
+     "distancia_al_centro_A": 5.1,
+     "descartadas": [
+      {
+       "cadena": "A",
+       "distancia_A": 27.8
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "pdb_id": "3OSK",
+   "cadena_declarada": "A",
+   "hotspots": [
+    {
+     "antes": "MET99",
+     "despues": "A:MET99",
+     "distancia_al_centro_A": 1.7,
+     "descartadas": [
+      {
+       "cadena": "B",
+       "distancia_A": 65.4
+      }
+     ]
+    },
+    {
+     "antes": "TYR100",
+     "despues": "A:TYR100",
+     "distancia_al_centro_A": 2.2,
+     "descartadas": [
+      {
+       "cadena": "B",
+       "distancia_A": 69.3
+      }
+     ]
+    },
+    {
+     "antes": "PRO101",
+     "despues": "A:PRO101",
+     "distancia_al_centro_A": 3.4,
+     "descartadas": [
+      {
+       "cadena": "B",
+       "distancia_A": 70.2
+      }
+     ]
+    },
+    {
+     "antes": "PRO102",
+     "despues": "A:PRO102",
+     "distancia_al_centro_A": 3.6,
+     "descartadas": [
+      {
+       "cadena": "B",
+       "distancia_A": 71.1
+      }
+     ]
+    },
+    {
+     "antes": "PRO103",
+     "despues": "A:PRO103",
+     "distancia_al_centro_A": 3.4,
+     "descartadas": [
+      {
+       "cadena": "B",
+       "distancia_A": 67.9
+      }
+     ]
+    },
+    {
+     "antes": "TYR104",
+     "despues": "A:TYR104",
+     "distancia_al_centro_A": 3.8,
+     "descartadas": [
+      {
+       "cadena": "B",
+       "distancia_A": 62.8
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

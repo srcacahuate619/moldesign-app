@@ -1,0 +1,163 @@
+{
+ "experiment_id": "RS-03-PARAM-B",
+ "timestamp": "2026-08-17T18:42:42.631229+00:00",
+ "decision": "GO",
+ "cohorte": "116 ligandos train (PASS de RS-03-PARAM-A)",
+ "n_total": 116,
+ "n_passed": 115,
+ "n_failed": 1,
+ "coverage_vs_a": 0.9914,
+ "global_abs_dq_mean_e": 0.0142,
+ "global_abs_dq_max_e": 0.4255,
+ "max_delta_q_am1bcc_vs_formal_e": 0.006,
+ "max_delta_mol_charge_e": 0.006003,
+ "n_atom_order_match": 115,
+ "max_atom_order_dr_angstrom": 0.0005,
+ "n_energy_finite": 115,
+ "mean_delta_dipolo_debye": 0.711696,
+ "max_delta_dipolo_debye": 3.738964,
+ "mean_abs_delta_energy_kjmol": 33.616575,
+ "max_abs_delta_energy_kjmol": 216.359104,
+ "strata_stats": {
+  "is_ionized": {
+   "True": {
+    "n": 29,
+    "max_abs_dq": 0.155879,
+    "mean_abs_dq_e": 0.012403
+   },
+   "False": {
+    "n": 86,
+    "max_abs_dq": 0.4255,
+    "mean_abs_dq_e": 0.014806
+   }
+  },
+  "has_halogens": {
+   "False": {
+    "n": 97,
+    "max_abs_dq": 0.4255,
+    "mean_abs_dq_e": 0.015023
+   },
+   "True": {
+    "n": 18,
+    "max_abs_dq": 0.155374,
+    "mean_abs_dq_e": 0.009768
+   }
+  },
+  "has_sulfur_phosphorus": {
+   "True": {
+    "n": 45,
+    "max_abs_dq": 0.4255,
+    "mean_abs_dq_e": 0.016844
+   },
+   "False": {
+    "n": 70,
+    "max_abs_dq": 0.419627,
+    "mean_abs_dq_e": 0.012501
+   }
+  },
+  "mw_stratum": {
+   "300-500": {
+    "n": 55,
+    "max_abs_dq": 0.4255,
+    "mean_abs_dq_e": 0.013693
+   },
+   "<300": {
+    "n": 41,
+    "max_abs_dq": 0.411738,
+    "mean_abs_dq_e": 0.013239
+   },
+   ">500": {
+    "n": 19,
+    "max_abs_dq": 0.413832,
+    "mean_abs_dq_e": 0.017741
+   }
+  },
+  "rot_stratum": {
+   ">10": {
+    "n": 37,
+    "max_abs_dq": 0.413832,
+    "mean_abs_dq_e": 0.015656
+   },
+   "<5": {
+    "n": 37,
+    "max_abs_dq": 0.226254,
+    "mean_abs_dq_e": 0.011345
+   },
+   "5-10": {
+    "n": 41,
+    "max_abs_dq": 0.4255,
+    "mean_abs_dq_e": 0.015463
+   }
+  },
+  "drug_likeness": {
+   "drug_like": {
+    "n": 80,
+    "max_abs_dq": 0.4255,
+    "mean_abs_dq_e": 0.015506
+   },
+   "fragment": {
+    "n": 31,
+    "max_abs_dq": 0.103203,
+    "mean_abs_dq_e": 0.010697
+   },
+   "extreme_out_of_domain": {
+    "n": 4,
+    "max_abs_dq": 0.413832,
+    "mean_abs_dq_e": 0.015232
+   }
+  }
+ },
+ "failures_por_razon": {
+  "ANTECHAMBER_FAILED": 1
+ },
+ "shards": [
+  {
+   "shard": "RS-03-PARAM-B-S1",
+   "n_total": 39,
+   "n_passed": 36,
+   "n_failed": 3,
+   "duration_seconds": 10242.99,
+   "timestamp": "2026-08-17T17:49:19.227404+00:00"
+  },
+  {
+   "shard": "RS-03-PARAM-B-S2",
+   "n_total": 39,
+   "n_passed": 37,
+   "n_failed": 2,
+   "duration_seconds": 10396.86,
+   "timestamp": "2026-08-17T17:51:54.155666+00:00"
+  },
+  {
+   "shard": "RS-03-PARAM-B-S3",
+   "n_total": 38,
+   "n_passed": 38,
+   "n_failed": 0,
+   "duration_seconds": 9684.74,
+   "timestamp": "2026-08-17T17:40:00.300931+00:00"
+  },
+  {
+   "shard": "RS-03-PARAM-B-S4",
+   "tipo": "reintento_en_solitario_timeout_2400s",
+   "n_total": 4,
+   "n_passed": 4,
+   "n_failed": 0,
+   "duration_seconds": 2730.18,
+   "timestamp": "2026-08-17T18:39:08.373519+00:00",
+   "rescatados": [
+    "1a4w",
+    "1aaq",
+    "1hpx",
+    "1jq8"
+   ]
+  }
+ ],
+ "nota_fusion": "Union de 3 shards disjuntos (RS-03-PARAM-B-S1..S3), 116 pids sin solapamiento, mas el shard de reintento S4 en solitario (timeout 2400 s) para los ligandos que agotaron 1200 s bajo la contencion de los 3 shards simultaneos. Un PASS del reintento solo sustituye a un FAIL previo del mismo pid. Recalculo completo tras la incidencia de sobreescritura del 2026-08-17.",
+ "rescatados_por_reintento": [
+  "1a4w",
+  "1aaq",
+  "1hpx",
+  "1jq8"
+ ],
+ "nota_selector": "AM1-BCC es referencia estratificada, no verdad absoluta. PROHIBIDO seleccionar NAGL por RMSD ni Top-1 (PRE maestro §4). Sin gate de aceptacion/rechazo de NAGL.",
+ "garantia_cuarentena": "cero val40/test/D-RC-CONFIRM; cohorte = 116 train PASS de A"
+}

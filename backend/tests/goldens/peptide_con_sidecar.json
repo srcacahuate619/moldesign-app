@@ -1,0 +1,48 @@
+{
+  "acoplamiento": {
+    "detalle": "El PDB de ESMFold no incluye OXT (fuera de la representación atom37), así que tiene 15 átomos frente a los 16 del SMILES de entrada. RDKit no puede asignar los enlaces desde la geometría sin generar un oxígeno de valencia 3, y sin enlaces Meeko produce 74 fragmentos sueltos.",
+    "ejecutado": false,
+    "motivo": "ligando_pdb_no_parseable",
+    "vina_affinity_kcal_mol": null
+  },
+  "contrato": {
+    "afinidad_derivada_de_confianza": false,
+    "campos_separados": [
+      "fold_plddt",
+      "vina_affinity_kcal_mol",
+      "pose_generation_method",
+      "refinement_status",
+      "scientific_status"
+    ],
+    "executed_engine": "esmfold",
+    "pose_origen": "folded_structure_only",
+    "requested_engine": "esmfold",
+    "scientific_status": "EXPERIMENTAL"
+  },
+  "entrada": {
+    "dispositivo": "cpu",
+    "modelo": "esmfold/models (8.44 GB)",
+    "nombre": "tri-alanina",
+    "peptide_docking_engine": "esmfold",
+    "secuencia": "AAA",
+    "smiles": "C[C@H](N)C(=O)N[C@@H](C)C(=O)N[C@@H](C)C(O)=O"
+  },
+  "escenario": "sidecar_disponible",
+  "golden_version": 1,
+  "invariantes": {
+    "estructura_sin_docking_no_pasa_por_pose": true,
+    "la_confianza_del_plegado_si_viaja": true,
+    "plddt_no_se_convierte_a_kcal": true,
+    "sin_acoplamiento_la_afinidad_es_null": true
+  },
+  "medido_el": "2026-09-04",
+  "pendiente_de_decision": "Para que este perfil produzca una afinidad hace falta decidir cómo el péptido plegado se convierte en ligando acoplable: reconstruir OXT, o transferir las coordenadas de ESMFold a un mol construido desde el SMILES. Es una decisión de protocolo, no un arreglo.",
+  "plegado": {
+    "atomos": 15,
+    "confidence_0_1": 0.595,
+    "ejecutado": true,
+    "nota": "pLDDT en la escala convencional 0-100. `output_to_pdb` los escribe en 0-1 y el sidecar los normaliza al leerlos; antes los tomaba tal cual, con lo que el aviso «pLDDT bajo» se disparaba siempre y la confianza salía cien veces menor.",
+    "plddt_0_100": 59.5
+  },
+  "protocolo": "PEPTIDE_ESMFOLD_VINA"
+}

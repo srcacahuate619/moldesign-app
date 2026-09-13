@@ -1,0 +1,384 @@
+@import "tailwindcss";
+
+/* ── Custom Theme ───────────────────────────────────────────────── */
+
+@theme {
+  /* Desktop-first: never fetch fonts at build/runtime. Prefer installed
+     familiar families and fall back to the operating system font stack. */
+  --font-sans: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Mono", ui-monospace, monospace;
+  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  
+  --color-zinc-950: #0a0a0a;
+  --color-zinc-900: #18181b;
+  --color-zinc-800: #27272a;
+  --color-zinc-700: #3f3f46;
+  --color-zinc-600: #52525b;
+  --color-zinc-500: #71717a;
+  --color-zinc-400: #a1a1aa;
+  --color-zinc-300: #d4d4d8;
+  --color-zinc-200: #e4e4e7;
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-50:  #fafafa;
+
+  /* Surface colors (UI backgrounds, cards, borders in PRO mode) */
+  --color-surface-950: #050508;
+  --color-surface-900: #0d0e12;
+  --color-surface-800: #1a1b23;
+  --color-surface-700: #2a2b35;
+  --color-surface-600: #3d3f4a;
+  --color-surface-500: #565869;
+  --color-surface-400: #7e8090;
+  --color-surface-300: #a8aab8;
+
+  /* Brand colors (purple accents) */
+  --color-brand-600: #5b21b6;
+  --color-brand-500: #7c3aed;
+  --color-brand-400: #a78bfa;
+
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+
+  /* Animation utilities */
+  --animate-in: animate-in 0.3s ease-out;
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-slide-in-from-bottom: slide-in-from-bottom 0.4s ease-out;
+  --animate-slide-in-from-bottom-4: slide-in-from-bottom 0.4s ease-out;
+  --animate-slide-in-from-top: slide-in-from-top 0.3s ease-out;
+  --animate-shake: shake 0.4s ease-out;
+}
+
+/* ── Animation Keyframes ───────────────────────────────────────── */
+
+@keyframes animate-in {
+  from { opacity: 0; transform: translateY(4px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slide-in-from-top {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-in-from-bottom {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* ── Theme Variables ──────────────────────────────────────────── */
+:root {
+  --bg: #0a0a0a;
+  --bg-secondary: #111115;
+  --bg-alt: #000000;
+  --bg-card: #09090b;
+  --text: #eaeaea;
+  --text-secondary: #a1a1aa;
+  --text-muted: #a1a1aa;
+  /* WCAG AA. `#71717a` daba 4.10:1 sobre el fondo de tarjeta (#0a0a0a) — por
+     debajo del 4.5:1 que AA exige para texto normal, y este token se usa en
+     rótulos de 12-14 px, justo el tamaño donde el mínimo aplica. `#80808b` da
+     5.07:1 conservando la jerarquía visual: sigue siendo el gris más apagado de
+     la escala, por debajo de --text-muted. Lo vigila
+     `e2e/ux-accesibilidad.spec.ts`. */
+  --text-dim: #80808b;
+  --border: #27272a;
+  --border-light: #3f3f46;
+  --accent: #8c7a99;
+  --accent-strong: #a78bfa;
+}
+.light {
+  --bg: #fafafa;
+  --bg-secondary: #f0f0f3;
+  --bg-alt: #ffffff;
+  --bg-card: #ffffff;
+  --text: #09090b;
+  --text-secondary: #52525b;
+  --text-muted: #52525b;
+  --text-dim: #a1a1aa;
+  --border: #e4e4e7;
+  --border-light: #d4d4d8;
+  --accent: #7c3aed;
+  --accent-strong: #6d28d9;
+}
+
+/* ── Theme Utility Classes ──────────────────────────────────── */
+.text-theme { color: var(--text); }
+.text-muted { color: var(--text-muted); }
+.text-dim { color: var(--text-dim); }
+.text-accent { color: var(--accent); }
+.bg-theme { background-color: var(--bg); }
+.bg-alt { background-color: var(--bg-alt); }
+.border-theme { border-color: var(--border); }
+.border-light { border-color: var(--border-light); }
+
+/* ── Typography System ──────────────────────────────────────── */
+/* Unified sizes: same font, same size, everywhere. */
+.text-title { @apply text-lg md:text-xl font-bold tracking-tight; }
+.text-subtitle { @apply text-sm font-semibold; }
+.text-body { @apply text-xs leading-relaxed; }
+.text-caption { @apply text-[10px] font-medium uppercase tracking-wider; }
+.text-meta { @apply text-[10px] font-mono; }
+
+/* ── Light overrides for dark-only classes ─────────────────── */
+.light .text-white:not([class*="dark:"]) { color: var(--text) !important; }
+.light .text-zinc-100:not([class*="dark:"]) { color: var(--text) !important; }
+.light .text-zinc-200:not([class*="dark:"]) { color: var(--text) !important; }
+.light .text-zinc-300:not([class*="dark:"]) { color: var(--text) !important; }
+.light .text-zinc-400:not([class*="dark:"]) { color: var(--text-dim) !important; }
+.light .text-zinc-500:not([class*="dark:"]) { color: var(--text-muted) !important; }
+.light .text-zinc-600:not([class*="dark:"]) { color: var(--text-muted) !important; }
+.light .bg-zinc-800:not([class*="dark:"]), .light .bg-zinc-800\/50:not([class*="dark:"]), .light .bg-zinc-800\/30:not([class*="dark:"]) { background-color: var(--bg-alt) !important; }
+.light .bg-zinc-900:not([class*="dark:"]), .light .bg-zinc-900\/50:not([class*="dark:"]), .light .bg-zinc-950:not([class*="dark:"]) { background-color: var(--bg-alt) !important; }
+.light .bg-\[0a0a0a\], .light .bg-\[\#0a0a0a\], .light .bg-\[\#0A0A0A\] { background-color: var(--bg) !important; }
+.light .border-zinc-700:not([class*="dark:"]), .light .border-zinc-700\/50:not([class*="dark:"]), .light .border-zinc-800:not([class*="dark:"]), .light .border-zinc-900:not([class*="dark:"]) { border-color: var(--border) !important; }
+
+/* ── Base Styles ────────────────────────────────────────────────── */
+
+@layer base {
+  body {
+    @apply antialiased;
+    background-color: var(--bg);
+    color: var(--text);
+    overflow-x: clip;
+  }
+}
+
+/* ── Ketcher iframe container ───────────────────────────────────── */
+.ketcher-container iframe {
+  border: 1px solid var(--color-zinc-800);
+  border-radius: 8px;
+  background: #ffffff; /* Ketcher inner needs white to be visible */
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Ketcher mobile toolbar fix ─────────────────────────────────── */
+.ketcher-wrapper {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.ketcher-wrapper > div,
+.ketcher-wrapper [class*="App-module"] {
+  max-width: 100%;
+}
+
+.ketcher-wrapper [class*="TopToolbar"],
+.ketcher-wrapper [class*="Header"],
+.ketcher-wrapper header {
+  padding-top: 8px !important;
+  margin-top: 4px !important;
+}
+
+.ketcher-wrapper [class*="toolbar"],
+.ketcher-wrapper [class*="Toolbar"],
+.ketcher-wrapper [class*="ToolbarGroup"],
+.ketcher-wrapper [class*="LeftToolbar"],
+.ketcher-wrapper [class*="TopToolbar"],
+.ketcher-wrapper [class*="BottomToolbar"] {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.ketcher-wrapper [class*="toolbar"]::-webkit-scrollbar,
+.ketcher-wrapper [class*="Toolbar"]::-webkit-scrollbar,
+.ketcher-wrapper [class*="ToolbarGroup"]::-webkit-scrollbar,
+.ketcher-wrapper [class*="LeftToolbar"]::-webkit-scrollbar,
+.ketcher-wrapper [class*="TopToolbar"]::-webkit-scrollbar,
+.ketcher-wrapper [class*="BottomToolbar"]::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .ketcher-wrapper {
+    height: 480px !important;
+    max-height: 60vh;
+  }
+  .ketcher-wrapper [class*="toolbar"] > *,
+  .ketcher-wrapper [class*="Toolbar"] > * {
+    flex-shrink: 0;
+    min-width: max-content;
+  }
+}
+
+/* ── 3D Viewer ──────────────────────────────────────────────────── */
+.viewer-3d canvas {
+  border-radius: 8px;
+}
+
+/* ── Utilities for minimalist UI ────────────────────────────────── */
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+.glass-panel {
+  background: rgba(24, 24, 27, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 4px 24px -4px rgba(0, 0, 0, 0.5);
+}
+
+.dark .glass-panel {
+  background: rgba(10, 10, 10, 0.65);
+}
+
+@layer utilities {
+  .perspective-1000 { perspective: 1000px; }
+  .preserve-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; }
+  .rotate-y-180 { transform: rotateY(180deg); }
+}
+
+/* ── MolChat Animations ──────────────────────────────────────── */
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@layer utilities {
+  .perspective-1000 { perspective: 1000px; }
+  .preserve-3d { transform-style: preserve-3d; }
+  .backface-hidden { backface-visibility: hidden; }
+  .rotate-y-180 { transform: rotateY(180deg); }
+}
+
+/* ── MolChat Animations ──────────────────────────────────────── */
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes pulse-mic {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+
+/* ── Zoom levels para Steam Deck / Big Picture (v1.5) ────────────────── */
+/* Controlar con data-zoom="100|120|150" en <html> */
+html[data-zoom="100"] { zoom: 1.0; }
+html[data-zoom="120"] { zoom: 1.2; }
+html[data-zoom="150"] { zoom: 1.5; }
+
+/* ── Light Mode Surface Variable Overrides ────────────────────────── */
+.light {
+  --color-surface-950: #ffffff !important;
+  --color-surface-900: #fafafa !important;
+  --color-surface-800: #f4f4f5 !important;
+  --color-surface-700: #e4e4e7 !important;
+  --color-surface-600: #d4d4d8 !important;
+  --color-surface-500: #a1a1aa !important;
+  --color-surface-400: #71717a !important;
+  --color-surface-300: #52525b !important;
+}
+
+/* ── Theme Toggle View Transitions ────────────────────────────────── */
+::view-transition-group(root) {
+  animation-duration: 0.7s;
+  animation-timing-function: var(--expo-out, cubic-bezier(0.16, 1, 0.3, 1));
+}
+      
+::view-transition-new(root) {
+  animation-name: reveal-light;
+  animation-fill-mode: both;
+}
+
+::view-transition-old(root),
+.dark::view-transition-old(root) {
+  animation: none;
+  animation-fill-mode: both;
+  z-index: -1;
+}
+.dark::view-transition-new(root) {
+  animation-name: reveal-dark;
+  animation-fill-mode: both;
+}
+
+@keyframes reveal-dark {
+  from {
+    clip-path: polygon(50% -71%, -50% 71%, -50% 71%, 50% -71%);
+  }
+  to {
+    clip-path: polygon(50% -71%, -50% 71%, 50% 171%, 171% 50%);
+  }
+}
+
+@keyframes reveal-light {
+  from {
+    clip-path: polygon(171% 50%, 50% 171%, 50% 171%, 171% 50%);
+  }
+  to {
+    clip-path: polygon(171% 50%, 50% 171%, -50% 71%, 50% -71%);
+  }
+}
+
+@keyframes orb-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.6); }
+}
+
+/* ── Movimiento reducido ────────────────────────────────────────────
+   Regla mínima añadida con el espacio de trabajo de casos. Respeta la
+   preferencia del sistema sin desactivar la interfaz: las transiciones se
+   vuelven instantáneas en vez de desaparecer, así que un cambio de estado
+   sigue siendo visible aunque no se anime. No redefine ningún token. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* El espacio de Evaluación conserva un único scroll interno y visible. */
+.evaluation-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-brand-500) 62%, transparent) transparent;
+}
+
+.evaluation-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.evaluation-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.evaluation-scrollbar::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-brand-500) 62%, transparent);
+  background-clip: padding-box;
+}
+
+.evaluation-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--color-brand-400) 82%, transparent);
+}

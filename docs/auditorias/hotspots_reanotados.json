@@ -1,0 +1,438 @@
+{
+ "fecha": "2026-09-02",
+ "herramienta": "scripts/reanotar_hotspots_del_ligando.py",
+ "procedencia_heredada": "backend/scripts/recure_targets.py corrio discover_pocket_from_pdb sobre los 387 y minó los 15 residuos mas cercanos al ligando holo AUTODETECTADO. Ningun hotspot del catalogo viene del RCSB.",
+ "criterio": "residuos a <=4.5 A del ligando que ocupa la caja, solo cuando ese ligando esta a <=5.0 A del centro",
+ "reanotados": 9,
+ "no_tocados": [
+  {
+   "pdb_id": "4JZD",
+   "motivo": "la caja no esta sobre el ligando (1NJ a 7.5 A del centro)"
+  },
+  {
+   "pdb_id": "6MEO",
+   "motivo": "la caja no esta sobre el ligando (A2G a 13.4 A del centro)"
+  },
+  {
+   "pdb_id": "6SXG",
+   "motivo": "el ligando OHT solo toca 2 residuos: no es el ligando del sitio, no puede servir de testigo"
+  },
+  {
+   "pdb_id": "6VU4",
+   "motivo": "la caja no esta sobre el ligando (MEA a 6.2 A del centro)"
+  },
+  {
+   "pdb_id": "7ZYJ",
+   "motivo": "la caja no esta sobre el ligando (KFC a 15.9 A del centro)"
+  },
+  {
+   "pdb_id": "8WGR",
+   "motivo": "la caja no esta sobre el ligando (DSM a 6.9 A del centro)"
+  }
+ ],
+ "decisiones": [
+  {
+   "pdb_id": "1VKG",
+   "ligando_de_la_caja": "CRI",
+   "distancia_del_ligando_al_centro_A": 4.7,
+   "hotspots_antes": [
+    "A:PHE152",
+    "B:TYR306",
+    "A:PHE208",
+    "B:PRO273",
+    "A:HIS180",
+    "B:PHE152",
+    "A:TYR306",
+    "B:MET274",
+    "A:GLY151",
+    "A:HIS143",
+    "A:MET274",
+    "A:HIS142",
+    "A:ASP267",
+    "A:GLY304",
+    "A:ASP178"
+   ],
+   "hotspots_despues": [
+    "B:HIS142",
+    "B:GLY151",
+    "B:HIS143",
+    "B:HIS180",
+    "A:PRO273",
+    "B:TYR306",
+    "B:PHE152",
+    "B:ASP178",
+    "B:MET274",
+    "B:PHE208",
+    "B:ASP267",
+    "A:MET274",
+    "A:TYR306",
+    "B:GLY304",
+    "A:PHE152"
+   ],
+   "conservados": [
+    "A:MET274",
+    "A:PHE152",
+    "A:TYR306",
+    "B:MET274",
+    "B:PHE152",
+    "B:TYR306"
+   ]
+  },
+  {
+   "pdb_id": "1W22",
+   "ligando_de_la_caja": "NHB",
+   "distancia_del_ligando_al_centro_A": 5.0,
+   "hotspots_antes": [
+    "A:HIS180",
+    "A:PHE152",
+    "A:PHE208",
+    "B:PRO273",
+    "B:TYR306",
+    "A:HIS143",
+    "A:GLY151",
+    "A:TYR306",
+    "A:ASP178",
+    "A:ASP101",
+    "A:HIS142",
+    "A:ASP267",
+    "A:GLY304",
+    "B:LYS33",
+    "B:PHE152"
+   ],
+   "hotspots_despues": [
+    "B:TYR306",
+    "B:HIS143",
+    "B:ASP178",
+    "B:HIS142",
+    "B:HIS180",
+    "B:ASP101",
+    "B:ASP267",
+    "B:PHE152",
+    "A:PRO273",
+    "B:GLY151",
+    "B:PHE208",
+    "A:PHE152",
+    "A:LYS33",
+    "A:TYR306",
+    "B:LYS33"
+   ],
+   "conservados": [
+    "A:PHE152",
+    "A:TYR306",
+    "B:LYS33",
+    "B:PHE152",
+    "B:TYR306"
+   ]
+  },
+  {
+   "pdb_id": "2NNJ",
+   "ligando_de_la_caja": "225",
+   "distancia_del_ligando_al_centro_A": 0.0,
+   "hotspots_antes": [
+    "A:CYS435",
+    "A:ARG433",
+    "A:PHE428",
+    "A:ALA297",
+    "A:THR301",
+    "A:ARG97",
+    "A:GLY437",
+    "A:ALA436",
+    "A:GLY298",
+    "A:VAL366",
+    "A:SER429",
+    "A:ILE112",
+    "A:ILE113",
+    "A:ARG124",
+    "A:THR302"
+   ],
+   "hotspots_despues": [
+    "A:GLY365",
+    "A:VAL296",
+    "A:THR301",
+    "A:VAL366",
+    "A:PHE205",
+    "A:PRO367",
+    "A:LEU208",
+    "A:ILE476",
+    "A:VAL362",
+    "A:VAL477",
+    "A:ILE113",
+    "A:ALA297",
+    "A:GLU300",
+    "A:SER103",
+    "A:THR364"
+   ],
+   "conservados": [
+    "A:ALA297",
+    "A:ILE113",
+    "A:THR301",
+    "A:VAL366"
+   ]
+  },
+  {
+   "pdb_id": "2VE3",
+   "ligando_de_la_caja": "REA",
+   "distancia_del_ligando_al_centro_A": 0.0,
+   "hotspots_antes": [
+    "A:CYS391",
+    "A:ARG389",
+    "A:PHE384",
+    "A:THR258",
+    "A:ALA254",
+    "A:GLY393",
+    "A:VAL318",
+    "A:TYR344",
+    "A:LEU93",
+    "A:ARG323",
+    "A:PRO383",
+    "A:LEU392",
+    "A:HIS101",
+    "A:ARG105",
+    "A:PRO317"
+   ],
+   "hotspots_despues": [
+    "A:GLN345",
+    "A:PHE29",
+    "A:PHE182",
+    "A:THR258",
+    "A:GLY319",
+    "A:GLY320",
+    "A:THR84",
+    "A:PRO428",
+    "A:ALA94",
+    "A:PHE253",
+    "A:VAL318",
+    "A:ALA254",
+    "A:TRP80",
+    "A:PHE58",
+    "A:LEU250"
+   ],
+   "conservados": [
+    "A:ALA254",
+    "A:THR258",
+    "A:VAL318"
+   ]
+  },
+  {
+   "pdb_id": "4EJJ",
+   "ligando_de_la_caja": "NCT",
+   "distancia_del_ligando_al_centro_A": 0.0,
+   "hotspots_antes": [
+    "A:CYS439",
+    "A:ARG437",
+    "A:PHE432",
+    "A:ARG101",
+    "A:THR305",
+    "A:GLY441",
+    "A:GLY301",
+    "A:SER433",
+    "A:VAL117",
+    "A:LEU370",
+    "A:PHE440",
+    "A:GLY302",
+    "A:ASN438",
+    "A:ARG372",
+    "A:ARG128"
+   ],
+   "hotspots_despues": [
+    "A:PHE209",
+    "A:THR305",
+    "A:GLY301",
+    "A:ASN297",
+    "A:PHE480",
+    "A:PHE107",
+    "A:PHE118",
+    "A:ILE366",
+    "A:PHE111",
+    "A:ILE300",
+    "A:VAL117"
+   ],
+   "conservados": [
+    "A:GLY301",
+    "A:THR305",
+    "A:VAL117"
+   ]
+  },
+  {
+   "pdb_id": "4JV6",
+   "ligando_de_la_caja": "18F",
+   "distancia_del_ligando_al_centro_A": 4.4,
+   "hotspots_antes": [
+    "B:GLN78",
+    "B:ARG61",
+    "B:MET20",
+    "B:TRP32",
+    "B:ILE129",
+    "B:THR131",
+    "B:LEU38",
+    "B:ILE109",
+    "B:VAL145",
+    "B:LEU147",
+    "B:TRP90",
+    "B:LEU22",
+    "B:ALA47",
+    "B:PHE133",
+    "B:LEU63"
+   ],
+   "hotspots_despues": [
+    "B:TYR149",
+    "B:LEU147",
+    "B:CYS56",
+    "B:ALA111",
+    "B:ILE53",
+    "B:ILE109",
+    "B:MET117",
+    "B:LEU54",
+    "B:LEU22",
+    "B:GLU88",
+    "B:VAL59",
+    "B:GLU110",
+    "B:TRP90",
+    "B:VAL80",
+    "B:ILE129"
+   ],
+   "conservados": [
+    "B:ILE109",
+    "B:ILE129",
+    "B:LEU147",
+    "B:LEU22",
+    "B:TRP90"
+   ]
+  },
+  {
+   "pdb_id": "4JV8",
+   "ligando_de_la_caja": "1M1",
+   "distancia_del_ligando_al_centro_A": 4.6,
+   "hotspots_antes": [
+    "B:GLN78",
+    "B:MET20",
+    "B:ARG61",
+    "B:TRP32",
+    "B:ILE129",
+    "B:LEU38",
+    "B:TRP90",
+    "B:VAL145",
+    "B:LEU22",
+    "B:THR131",
+    "B:LEU147",
+    "B:ILE109",
+    "B:ALA47",
+    "B:SER39",
+    "B:PHE133"
+   ],
+   "hotspots_despues": [
+    "B:TYR149",
+    "B:GLU88",
+    "B:CYS56",
+    "B:ILE109",
+    "B:ILE53",
+    "B:MET117",
+    "B:ALA111",
+    "B:LEU147",
+    "B:VAL80",
+    "B:LEU54",
+    "B:GLU110",
+    "B:VAL59",
+    "B:TRP90",
+    "B:LEU123",
+    "B:LEU22"
+   ],
+   "conservados": [
+    "B:ILE109",
+    "B:LEU147",
+    "B:LEU22",
+    "B:TRP90"
+   ]
+  },
+  {
+   "pdb_id": "4NY4",
+   "ligando_de_la_caja": "2QH",
+   "distancia_del_ligando_al_centro_A": 0.0,
+   "hotspots_antes": [
+    "A:CYS442",
+    "A:ARG105",
+    "A:ARG440",
+    "A:PHE435",
+    "A:ASN441",
+    "A:GLY444",
+    "A:THR309",
+    "A:ALA305",
+    "A:ARG375",
+    "A:ILE443",
+    "A:ILE118",
+    "A:PRO434",
+    "A:GLY436",
+    "A:SER119",
+    "A:TRP126"
+   ],
+   "hotspots_despues": [
+    "A:SER119",
+    "A:ARG106",
+    "A:PHE213",
+    "A:ALA370",
+    "A:PHE304",
+    "A:PHE241",
+    "A:PHE215",
+    "A:THR309",
+    "A:PHE108",
+    "A:ARG105",
+    "A:ARG212",
+    "A:ALA305",
+    "A:ILE301",
+    "A:ILE369",
+    "A:GLU374"
+   ],
+   "conservados": [
+    "A:ALA305",
+    "A:ARG105",
+    "A:SER119",
+    "A:THR309"
+   ]
+  },
+  {
+   "pdb_id": "7JVU",
+   "ligando_de_la_caja": "SHH",
+   "distancia_del_ligando_al_centro_A": 4.8,
+   "hotspots_antes": [
+    "A:HIS180",
+    "A:PHE152",
+    "A:HIS143",
+    "A:TYR306",
+    "A:ASP178",
+    "B:PRO273",
+    "A:PHE208",
+    "B:TYR306",
+    "A:HIS142",
+    "A:GLY151",
+    "A:ASP267",
+    "A:ASP101",
+    "A:MET274",
+    "A:GLY304",
+    "B:PHE152"
+   ],
+   "hotspots_despues": [
+    "B:HIS142",
+    "B:ASP178",
+    "B:TYR306",
+    "B:HIS143",
+    "B:ASP267",
+    "B:HIS180",
+    "B:GLY151",
+    "A:PRO273",
+    "B:PHE152",
+    "B:PHE208",
+    "A:MET274",
+    "B:GLY304",
+    "B:MET274",
+    "A:TYR306",
+    "B:TYR100"
+   ],
+   "conservados": [
+    "A:MET274",
+    "A:TYR306",
+    "B:PHE152",
+    "B:TYR306"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,233 @@
+{
+ "experiment_id": "PROD-PV-H-01",
+ "tipo": "VALIDACION DE CONFORMIDAD DE LA MEDICION: que procedimiento puede llamarse internal_energy dentro del producto. NO mide rendimiento de docking.",
+ "timestamp": "2026-08-23T19:20:38.177669+00:00",
+ "parametros_oficiales": {
+  "threshold_energy_ratio": 100.0,
+  "ensemble_number_conformations": 50,
+  "version_posebusters": "0.6.5",
+  "origen": "C:\\Users\\Johan Amezcua\\AppData\\Roaming\\Python\\Python314\\site-packages\\posebusters\\config\\dock.yml",
+  "campo_de_fuerza": "UFF",
+  "formula": "energy_ratio = mol_pred_energy / ensemble_avg_energy"
+ },
+ "brazos": {
+  "A_PROD_FULL_CURRENT": "PDBQT -> representacion MIXTA actual -> PoseBusters oficial",
+  "B_PROD_PROXY_CURRENT": "PDBQT -> representacion MIXTA actual -> proxy RDKit propio",
+  "C_TARGET_CANONICAL": "PDBQT -> reconstruccion CANONICA (MF-33-H-COR) -> PoseBusters oficial",
+  "D_PROXY_SOBRE_CANONICA": "SECUNDARIO descriptivo, no primario: proxy sobre la canonica"
+ },
+ "canonicalizacion": {
+  "procedencia": "scripts/run_mf33hcor_reconstruccion.py, sellado en MF-33-H-COR",
+  "sha256_verificado_en_ejecucion": "072746e4530ec8fc2cbdaae0356b2b71fb52b65d23e0f758e192fbbcd09b5e95",
+  "nota_coords_vacias": "se invoca con coords_pose={} porque la molecula ya trae las coordenadas dockeadas: no hay nada que sustituir"
+ },
+ "n_complejos": 116,
+ "n_poses": 232,
+ "n_poses_validas": 232,
+ "resumen_por_brazo": {
+  "A_PROD_FULL_CURRENT": {
+   "PASA": 232
+  },
+  "B_PROD_PROXY_CURRENT": {
+   "PASA": 199,
+   "FALLA": 33
+  },
+  "C_TARGET_CANONICAL": {
+   "PASA": 232
+  },
+  "D_PROXY_SOBRE_CANONICA": {
+   "PASA": 216,
+   "FALLA": 16
+  }
+ },
+ "invariantes": {
+  "poses_con_invariante_violada": 0,
+  "ejemplos": [],
+  "C_con_num_h_added_distinto_de_cero": {
+   "n": 0,
+   "ejemplos": [],
+   "por_que_importa": "si la canonicalizacion llego entera, PoseBusters no deberia anadir ningun hidrogeno; num_h_added > 0 significa que el brazo C no es canonico de verdad"
+  }
+ },
+ "matrices": {
+  "A_vs_C_efecto_de_la_representacion": {
+   "de": "A_PROD_FULL_CURRENT",
+   "a": "C_TARGET_CANONICAL",
+   "celdas": {
+    "PASA->PASA": 232
+   },
+   "n_pareadas": 232,
+   "discordantes": 0,
+   "ejemplos_discordantes": {}
+  },
+  "B_vs_A_efecto_del_proxy": {
+   "de": "B_PROD_PROXY_CURRENT",
+   "a": "A_PROD_FULL_CURRENT",
+   "celdas": {
+    "FALLA->PASA": 33,
+    "PASA->PASA": 199
+   },
+   "n_pareadas": 232,
+   "discordantes": 33,
+   "ejemplos_discordantes": {
+    "FALLA->PASA": [
+     "186l|conf2|model0",
+     "186l|conf0|model0",
+     "187l|conf0|model0",
+     "187l|conf0|model0",
+     "188l|conf0|model0",
+     "188l|conf0|model0",
+     "1a99|conf0|model0",
+     "1a99|conf0|model0",
+     "1ai7|conf0|model0",
+     "1ai7|conf0|model0"
+    ]
+   }
+  },
+  "B_vs_D_proxy_mixta_contra_canonica": {
+   "de": "B_PROD_PROXY_CURRENT",
+   "a": "D_PROXY_SOBRE_CANONICA",
+   "celdas": {
+    "FALLA->FALLA": 14,
+    "FALLA->PASA": 19,
+    "PASA->FALLA": 2,
+    "PASA->PASA": 197
+   },
+   "n_pareadas": 232,
+   "discordantes": 21,
+   "ejemplos_discordantes": {
+    "FALLA->PASA": [
+     "186l|conf2|model0",
+     "186l|conf0|model0",
+     "1a99|conf0|model0",
+     "1a99|conf0|model0",
+     "1b8y|conf21|model0",
+     "1bju|conf0|model0",
+     "1bjv|conf0|model0",
+     "1bty|conf0|model0",
+     "1bty|conf0|model0",
+     "1c5o|conf0|model0"
+    ],
+    "PASA->FALLA": [
+     "1n0s|conf1|model0",
+     "1n0s|conf0|model0"
+    ]
+   }
+  }
+ },
+ "asociacion_con_descriptores": {
+  "A_vs_C": {
+   "n_cambian": 0,
+   "n_iguales": 232,
+   "mediana_de_las_que_cambian": null,
+   "mediana_de_las_que_no": {
+    "n_h_polares_explicitos": 4.0,
+    "n_h_explicitos_en_pdbqt": 4.0,
+    "n_h_totales_si_se_completan": 18.5,
+    "carga_formal": 0.0,
+    "n_atomos_pesados": 24.5,
+    "n_donadores_NHOH": 4.0,
+    "peso_molecular": 349.485
+   },
+   "NOTA": "descriptivo y sin prueba de hipotesis: con estos n una diferencia de medianas no sostiene una afirmacion causal"
+  },
+  "B_vs_A": {
+   "n_cambian": 33,
+   "n_iguales": 199,
+   "mediana_de_las_que_cambian": {
+    "n_h_polares_explicitos": 2,
+    "n_h_explicitos_en_pdbqt": 2,
+    "n_h_totales_si_se_completan": 8,
+    "carga_formal": 0,
+    "n_atomos_pesados": 9,
+    "n_donadores_NHOH": 2,
+    "peso_molecular": 120.15
+   },
+   "mediana_de_las_que_no": {
+    "n_h_polares_explicitos": 4,
+    "n_h_explicitos_en_pdbqt": 4,
+    "n_h_totales_si_se_completan": 20,
+    "carga_formal": 0,
+    "n_atomos_pesados": 26,
+    "n_donadores_NHOH": 4,
+    "peso_molecular": 376.39
+   },
+   "NOTA": "descriptivo y sin prueba de hipotesis: con estos n una diferencia de medianas no sostiene una afirmacion causal"
+  }
+ },
+ "tiempos_s": {
+  "A_PROD_FULL_CURRENT": 83.4,
+  "B_PROD_PROXY_CURRENT": 165.2,
+  "C_TARGET_CANONICAL": 0.7,
+  "D_PROXY_SOBRE_CANONICA": 325.6
+ },
+ "duracion_total_s": 581.7,
+ "limites_declarados": [
+  "el SMILES se deriva del ligando de referencia; en produccion lo aporta el usuario. La GEOMETRIA del cristal no se usa en ningun brazo",
+  "cohorte del protocolo RIGIDO, top-1 de los dos brazos de docking: la misma del ambito B de MF-33-H-COR, para que los dos artefactos se puedan contrastar",
+  "mide el control energetico, no la bateria completa: distancias al receptor, valencias y planaridad no entran aqui",
+  "no mide exactitud de pose ni de union, y no dice nada sobre el protocolo de docking"
+ ],
+ "coberturas": {
+  "1_lector": {
+   "detalle": {
+    "ok": 232
+   },
+   "ok": 232,
+   "de": 232,
+   "tasa": 1.0,
+   "que_mide": "se reconstruyo grafo y coordenadas sin ambiguedad"
+  },
+  "2_canonicalizacion": {
+   "detalle": {
+    "ok": 232
+   },
+   "ok": 232,
+   "de": 232,
+   "que_mide": "se regeneraron los H preservando las invariantes"
+  },
+  "3_evaluador": {
+   "detalle": {
+    "finito": 232
+   },
+   "de": 232,
+   "que_mide": "PoseBusters produjo un energy_ratio finito"
+  },
+  "por_que_separadas": "un NO EVALUADA puede venir de formato, identidad/mapeo, quimica, parametrizacion, generacion de conformeros o del propio PoseBusters. Agregarlas esconde cual de los seis fallo."
+ },
+ "calificacion_del_instrumento": {
+  "observado_antes_del_sello": "CALIFICACION DEL INSTRUMENTO, observada ANTES del sello y NO es resultado de este experimento. El lector ORIGINAL cubrio 40/232 (17.2%) y el truncado a columnas PDB 156/232 (67.2%); el fallo estaba CORRELACIONADO CON LA AROMATICIDAD -el tipo AutoDock `A` en las columnas 77-78-, que es la peor forma de perder datos. El lector reparado -plantilla quimica + index_map + coordenadas por columnas fijas- se califico sobre la cohorte ENTERA en modo coverage-only, sin ejecutar ni leer los brazos energeticos: 232/232 en lector y 232/232 en canonicalizacion, 0 invariantes violadas, desplazamiento pesado 0.0 A, y 12 pseudo-atomos de pegado de macrociclo descartados por tipo en los tres macrociclos de la cohorte.",
+  "observaciones_tecnicas_NO_INTERPRETABLES": "De la prueba tecnica, y NO entran en ninguna conclusion porque los casos se eligieron por diagnostico y no por muestreo: con el lector viejo el proxy dio NO_EVALUADO en 2 de 6 poses donde el oficial dio PASA; con el lector reparado dio FALLA en 2 de 10 donde el oficial dio PASA. Se registran para que no parezcan un descubrimiento cuando la corrida completa los reproduzca.",
+  "regla": "el experimento empieza solo cuando el instrumento puede medir la cohorte sin sesgo estructural obvio. Una exclusion correlacionada con aromaticidad o carga NO se acepta."
+ },
+ "lectura_preregistrada": {
+  "R1_falsa_tranquilidad_A_pasa_C_falla": {
+   "n": 0,
+   "ejemplos": [],
+   "veredicto": "sin casos"
+  },
+  "R2_falsa_alarma_A_falla_C_pasa": {
+   "n": 0,
+   "ejemplos": [],
+   "veredicto": "sin casos"
+  },
+  "R3_proxy_discrepa_de_oficial": {
+   "n": 33,
+   "ejemplos": [
+    "186l|conf2|model0",
+    "186l|conf0|model0",
+    "187l|conf0|model0",
+    "187l|conf0|model0",
+    "188l|conf0|model0",
+    "188l|conf0|model0",
+    "1a99|conf0|model0",
+    "1a99|conf0|model0",
+    "1ai7|conf0|model0",
+    "1ai7|conf0|model0"
+   ],
+   "veredicto": "EL PROXY NO PUEDE ETIQUETARSE internal_energy"
+  },
+  "R4_el_proxy_sigue_siendo_proxy": "NO DEPENDE DE LOS DATOS. Una formula distinta -MMFF contra UFF, 16 conformeros contra 50, (pose-min)/(media-min) contra pose/media- no se convierte en la metrica oficial por concordancia empirica. Ningun resultado de este artefacto puede promover el proxy a `internal_energy`.",
+  "R5_sin_posebusters": "Dos salidas honestas y solo dos: NO_EVALUADA, o proxy declarado sin identidad ni autoridad de PoseBusters."
+ }
+}

@@ -1,0 +1,319 @@
+{
+ "id": "RS-04-OOF",
+ "meta": {
+  "titulo": "La tensión de la pose no distingue falsos mínimos",
+  "entradilla": "Una pose forzada debería delatarse por su energía interna. Añadir esa señal al selector bajó los aciertos de 47 a 39, con regresión concentrada en el estrato difícil."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un motor de docking puede producir una pose que encaja geométricamente pero que exige a la molécula una conformación absurda: ángulos forzados, enlaces tensionados, una geometría que ninguna molécula real adoptaría. Esa pose es un falso mínimo, y la función empírica de Vina no la penaliza lo suficiente porque no modela bien la energía interna.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La señal para detectarlo es directa: la ",
+     "m": null
+    },
+    {
+     "t": "tensión",
+     "m": "fuerte"
+    },
+    {
+     "t": " — la diferencia entre la energía del confórmero tal como quedó en la pose y la de ese mismo confórmero relajado en aislamiento. Mucha tensión significa que el motor torció la molécula para que cupiera.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es una de esas ideas que son físicamente correctas y que aun así no funcionan.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Aciertos Top-1 fuera de muestra",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Selector base",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "47/116",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Con la tensión añadida",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "39/116",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Exigido por el gate",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≥50/116",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No sólo no llega: ",
+     "m": null
+    },
+    {
+     "t": "baja 8 aciertos",
+     "m": "fuerte"
+    },
+    {
+     "t": " respecto a no añadirla. Y la regresión se concentra precisamente en el estrato difícil, que es donde la señal tenía que ayudar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El resto de criterios sí se cumplen, y conviene decirlo porque acota la interpretación:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "mediana pareada del cambio de RMSD: ",
+      "m": null
+     },
+     {
+      "t": "0.000 Å",
+      "m": "fuerte"
+     },
+     {
+      "t": " — la señal es neutra en calidad de pose;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "cobertura: ",
+      "m": null
+     },
+     {
+      "t": "100%",
+      "m": "fuerte"
+     },
+     {
+      "t": " — se calculó para todas las poses, no falló en ninguna;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "costes en el percentil 95: dentro de presupuesto.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El test de McNemar da p = 0.115, que no es significativo. Así que la lectura estadística honesta es que ",
+     "m": null
+    },
+    {
+     "t": "no se demuestra degradación",
+     "m": "fuerte"
+    },
+    {
+     "t": ", sólo que no hay mejora y el gate exigía una.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué significa exactamente",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La tensión MMFF94s es ",
+     "m": null
+    },
+    {
+     "t": "coste-neutral y sin poder de selección en esta cohorte",
+     "m": "fuerte"
+    },
+    {
+     "t": ". No hace daño a la calidad de las poses; simplemente no contiene información que ayude a ordenarlas que no esté ya en el score.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Hay una explicación plausible que este experimento no puede confirmar: puede que las poses tensionadas ya estén filtradas antes de llegar aquí, porque el propio Vina las penaliza lo bastante como para que no lleguen al top. En ese caso la señal es redundante por construcción, no inútil por naturaleza.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Dónde encaja en la historia más larga",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este es uno de los negativos que la regla de futilidad contó para cerrar la línea del selector. Junto con la deduplicación, el enrutador de decidibilidad y los dos intentos posteriores sobre el conjunto reconstruido, forma un patrón: **cada señal nueva que se añade al espacio de características no mueve la aguja frente a ",
+     "m": null
+    },
+    {
+     "t": "vina_score",
+     "m": "codigo"
+    },
+    {
+     "t": "**.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y hay un contrapunto que este experimento no vio venir. ",
+     "m": null
+    },
+    {
+     "t": "MF-16-R1",
+     "m": "codigo"
+    },
+    {
+     "t": " midió después que un potencial físico ",
+     "m": null
+    },
+    {
+     "t": "relajado",
+     "m": "fuerte"
+    },
+    {
+     "t": " —que es la misma idea llevada un paso más allá: no medir la tensión, sino quitarla antes de puntuar— sí supera a Vina en el estrato difícil. La diferencia entre las dos es que aquí la tensión se usó como ",
+     "m": null
+    },
+    {
+     "t": "característica",
+     "m": "enfasis"
+    },
+    {
+     "t": " y allí como ",
+     "m": null
+    },
+    {
+     "t": "transformación del paisaje",
+     "m": "enfasis"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El selector de producción no cambió. ",
+     "m": null
+    },
+    {
+     "t": "val",
+     "m": "codigo"
+    },
+    {
+     "t": " y el conjunto confirmatorio quedaron intactos.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/RS-04-OOF.md"
+}

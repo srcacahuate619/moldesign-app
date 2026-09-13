@@ -1,0 +1,207 @@
+name: Desktop release gates
+
+on:
+  push:
+    # main quedó congelada el 2026-07-25 mientras el trabajo activo sigue en
+    # ramas largas de experimentación/integración — sin esas ramas aquí, las
+    # puertas de release nunca corrían sobre el código que de verdad cambia
+    # (auditoría 2026-08-16: 166 commits, 143 archivos backend sin CI).
+    # 'experimentos/**' cubre ramas científicas futuras con el mismo prefijo.
+    branches:
+      - main
+      - develop
+      - conexion_frontend_backend
+      - fase-a-retrain
+      - molchamb-loto-experiment
+      - 'experimentos/**'
+      # Las ramas de cierre vertical (auditoria por pestana) tampoco tenian CI:
+      # el trabajo de los gates ocurre aqui, no en main.
+      - 'codex/**'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: desktop-release-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend desktop contracts
+    runs-on: windows-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      # 3.11 es la versión del runtime Python embebido distribuido hoy.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install desktop backend dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-desktop.txt
+          # Dependencias SOLO de pruebas, en su propio archivo para que no
+          # entren en el instalador. Incluye pypdf, sin la cual las 36 pruebas
+          # del contrato del dossier hacen `importorskip` y se saltan en
+          # silencio — pasaba en CI y en el runtime embebido a la vez.
+          python -m pip install -r requirements-test.txt
+      - name: Lint production Python for syntax and undefined names
+        run: python -m ruff check api core db services --select E9,F63,F7,F82
+      - name: Run backend contracts
+        run: python -m pytest tests --maxfail=1 -ra -p no:cacheprovider
+      - name: Run embedded runtime contracts
+        run: python -m pytest ../scripts/tests --maxfail=1 -ra -p no:cacheprovider
+      - name: Fail if a suite silently stopped collecting
+        run: python ../scripts/report_test_counts.py --check
+      - name: Verify generated API contract
+        run: python ../scripts/generate_openapi_contract.py --check
+      - name: Verify local documentation links
+        run: python ../scripts/check_docs_links.py --check
+      - name: Verify generated runtime inventory
+        run: python ../scripts/generate_runtime_inventory.py --check
+      # Existía y no corría en CI. Es el gate que impide que la interfaz muestre
+      # pesos de stacking que el backend no aplica: exactamente el fallo que
+      # 55852bb tuvo que corregir, con 16 divergencias en siete familias.
+      - name: Verify UI stacking weights match the backend
+        run: python ../scripts/check_stacking_weights_ui.py --check
+      - name: Verify packaged-runtime release wiring
+        run: python ../scripts/check_release_pipeline.py
+      # La frontera con Open Babel. En CI corre en modo REPOSITORIO: G1 (imports
+      # prohibidos), G3 (resolución por PATH), G8 (el SDF entregado es el que se
+      # informa) y G9 (nadie vuelve a llamarlo GPL-2.0-or-later) no necesitan
+      # binarios. G4-G7 exigen `tools/openbabel/` y aquí no está: se SALTAN
+      # diciéndolo, y el build local los corre con `--bundle --exigir-binario`
+      # sobre el artefacto staged, que es donde importan.
+      # Ver docs/79_ADR_FRONTERA_OPEN_BABEL.md.
+      - name: Verify the Open Babel boundary
+        run: python ../scripts/check_openbabel_boundary.py
+      # Los artefactos aprendidos no están cubiertos por la AGPL de la raíz.
+      # Este gate exige que cada directorio que los contenga lo diga junto a los
+      # archivos, y que ningún documento normativo afirme lo contrario de lo que
+      # hay. Sólo mira `git ls-files`, así que funciona sobre un clon limpio.
+      - name: Verify the learned-artifact licence boundary
+        run: python ../scripts/check_model_license_boundary.py --check
+      # Lista exacta de lo que hay dentro del intérprete distribuido. Igual que
+      # con el SBOM: sobre un clon limpio no hay runtime que inventariar, y el
+      # gate lo DICE en vez de aprobar en falso.
+      - name: Verify the embedded runtime lockfile
+        run: python ../scripts/lock_embedded_runtime.py --check --permitir-runtime-ausente
+      # SBOM del runtime distribuido y sus licencias. Falla si el árbol de
+      # dependencias cambió sin regenerarlo, que es como una AGPL entra sin que
+      # nadie la vea (pasó: `ua-parser-js` vía `@solana/wallet-adapter-wallets`).
+      #
+      # OJO con la bandera: este job corre sobre un clon limpio, y `python-embed/`
+      # —el runtime que el SBOM describe— no viaja en el repositorio. Aquí el
+      # gate NO comprueba las licencias del runtime; lo dice por salida estándar
+      # y sigue. La comprobación real exige el runtime descargado, y hoy no hay
+      # ningún job que lo haga: es el hueco conocido de CI.
+      - name: Verify distributed SBOM and licences
+        run: python ../scripts/generate_sbom.py --check --permitir-runtime-ausente
+
+  rescoring:
+    name: Rescoring contracts and manifest
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install desktop scientific dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r backend/requirements-desktop.txt
+          python -m pip install pytest==8.4.2 pytest-asyncio==0.26.0
+      # Misma advertencia que con el SBOM: el manifiesto declara pesos
+      # entrenados (`.pt`) que el repositorio no distribuye —van aparte, bajo
+      # LICENSE-MODELS—. Sobre un clon limpio sus hashes no se comprueban, y el
+      # gate lo dice en vez de fallar. Los artefactos que SÍ viajan se verifican.
+      - name: Verify model manifest and artifact hashes
+        run: python rescoring/scripts/generate_model_manifest.py --check --permitir-pesos-ausentes
+      - name: Run rescoring contracts
+        run: python -m pytest rescoring/tests --maxfail=1 -ra -p no:cacheprovider
+      - name: Enforce Vina importance gate
+        run: python rescoring/scripts/check_vina_importance_gate.py
+
+  frontend:
+    name: Frontend web and desktop build
+    runs-on: windows-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install locked frontend dependencies
+        run: npm ci --prefix frontend
+      - name: Audit critical production dependencies
+        run: npm audit --prefix frontend --omit=dev --audit-level=critical
+
+      - name: Validate production CSP
+        run: npm --prefix frontend run check:csp
+      - name: Type-check frontend
+        run: npm --prefix frontend run typecheck
+      - name: Run frontend contracts
+        run: npm --prefix frontend run test:run
+      # `pretest:e2e` genera la build web optimizada que consume el navegador;
+      # por tanto esta etapa también es el gate de build web.
+      - name: Run session persistence browser contract
+        run: npm --prefix frontend run test:e2e
+      # Contraste, foco, nombres accesibles, desborde a cuatro escalas y textos
+      # largos: jsdom no calcula layout ni color, así que esto sólo puede
+      # comprobarse en un navegador real. No sustituye a mirar la aplicación en
+      # Windows a 125/150 %, que sigue siendo trabajo humano.
+      - name: Run UX and accessibility review
+        run: npm --prefix frontend run test:ux
+      - name: Upload Playwright diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-diagnostics
+          path: frontend/test-results
+          if-no-files-found: ignore
+      - name: Build static desktop frontend
+        run: npm --prefix frontend run build:desktop
+
+  tauri:
+    name: Tauri Rust quality gate
+    runs-on: windows-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: frontend/src-tauri
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - name: Verify Rust formatting
+        run: cargo fmt --check
+      - name: Run Clippy without warnings
+        run: cargo clippy --all-targets -- -D warnings
+      - name: Run Tauri launcher tests
+        run: cargo test --all-targets
+
+  desktop-smoke:
+    name: Desktop SQLite/filesystem smoke
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install desktop backend dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r backend/requirements-desktop.txt
+      - name: Exercise submit to persisted local result
+        run: python scripts/smoke_test_desktop.py

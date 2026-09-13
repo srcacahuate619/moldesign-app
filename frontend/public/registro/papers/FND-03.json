@@ -1,0 +1,448 @@
+{
+ "id": "FND-03",
+ "meta": {
+  "titulo": "Donde el paisaje coopera, Vina es casi determinista; donde no, tira los dados",
+  "entradilla": "La desviación por semilla es 0.011 Å en los complejos fáciles y 0.283 Å en los difíciles. Los efectos agregados del programa sobreviven al ruido; las afirmaciones por complejo no."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Todo el programa mide efectos de entre 0.5 y 1 ángstrom. Ninguno de esos efectos significa nada si el propio motor de docking, ejecutado dos veces con semillas distintas sobre el mismo complejo, ya varía en ese orden.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento era prioridad máxima desde el primer día y estuvo sin ejecutar durante meses. Fue una ",
+     "m": null
+    },
+    {
+     "t": "auditoría adversarial contra el propio programa",
+     "m": "fuerte"
+    },
+    {
+     "t": " la que lo identificó como el hueco más grave: nada de lo publicado estaba controlado contra el ruido de la semilla.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Desviación típica mediana",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Control (complejos fáciles)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.011 Å",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Colocación (complejos difíciles)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.283 Å",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Veinticinco veces más ruido en el estrato difícil. Ese contraste es, por sí solo, el hallazgo más interesante del experimento:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Donde el paisaje de puntuación coopera, Vina es casi determinista. Donde no coopera, tira los dados.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Los efectos del programa sobreviven",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El error estándar de la mediana sobre 33 complejos es ",
+     "m": null
+    },
+    {
+     "t": "0.049 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Los efectos que el programa ha medido:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Experimento",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Efecto",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Veces el error estándar",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Geometría de la caja",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−0.82 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "16.7×",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Reinicios de búsqueda",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−0.79 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "16.1×",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Presupuesto de búsqueda",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−0.784 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "16.0×",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Todos alrededor de ",
+     "m": null
+    },
+    {
+     "t": "16 veces",
+     "m": "fuerte"
+    },
+    {
+     "t": " el ruido. A nivel agregado, sobreviven al control con holgura. Nada de lo publicado se cae por esto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Pero la distribución es muy asimétrica, y ahí está el problema",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La mediana de 0.283 Å oculta una cola larga:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Valor",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Percentil 75",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.962 Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Percentil 90",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1.422 Å",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Rango máximo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4.022 Å",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Complejos con sd > 0.5 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "14 de 33",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cuatro ángstroms de rango en un mismo complejo, sólo por cambiar la semilla. Eso es más que el umbral de éxito entero.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Dos consecuencias de signo opuesto",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "(a) Las conclusiones binarias son estables.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Ningún complejo cambia su veredicto de acierto o fallo entre semillas. Afirmaciones como «3 de 33» o «cero conversiones» no son artefactos de la semilla 42 — son reproducibles.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "(b) Las afirmaciones por complejo individual no son fiables.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Con rangos de hasta 4 Å, decir algo sobre un complejo concreto a partir de una sola corrida es decir algo sobre esa corrida, no sobre el complejo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esa segunda consecuencia tiene una implicación directa de producto: la confianza por complejo que mide ",
+     "m": null
+    },
+    {
+     "t": "FEP-04",
+     "m": "codigo"
+    },
+    {
+     "t": " está calculada sobre una sola ejecución. Para ser honesta, ",
+     "m": null
+    },
+    {
+     "t": "tendría que incorporar repeticiones",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Es una tarea abierta, y está anotada como tal en el propio registro de ",
+     "m": null
+    },
+    {
+     "t": "FEP-04",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué importa que lo pidiera un ataque",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento existe porque un ejercicio deliberado de buscarle los fallos al programa encontró que su resultado más básico —«el baseline es estable»— nunca se había medido.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es la diferencia entre un programa que se audita a sí mismo y uno que confía en que sus cimientos están bien porque nadie ha mirado.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FND-03.md"
+}

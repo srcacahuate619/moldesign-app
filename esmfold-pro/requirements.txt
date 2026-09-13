@@ -1,0 +1,16 @@
+# Dependencias del sidecar ESMFold-Pro (RFdiffusion experimental)
+#
+# Requiere GPU NVIDIA >=8 GB VRAM con CUDA.
+# RFdiffusion se ejecuta como subprocess en su propio conda env.
+#
+# ── Base ────────────────────────────────────────────────────────────
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.5.0
+
+# ── Minimo para secuencias y estructuras ────────────────────────────
+rdkit>=2023.9.1
+mdanalysis>=2.0
+
+# ── GPU check ───────────────────────────────────────────────────────
+torch>=2.1.0

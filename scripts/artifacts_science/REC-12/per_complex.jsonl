@@ -1,0 +1,116 @@
+{"pid": "10gs", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -13.747, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "184l", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "186l", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "187l", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -5.431, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "188l", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -5.794, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1a30", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1a4w", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1a99", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1aaq", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1add", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -10.426, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1afk", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -8.59, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1afl", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -2.424, "absurdo": true, "aguas_bloqueantes": 2}
+{"pid": "1ai4", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -6.017, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1ai7", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1alw", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -4.803, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1amw", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -8.564, "absurdo": false, "aguas_bloqueantes": 3}
+{"pid": "1apv", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -16.159, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1ax0", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1b2h", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1b38", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 6, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -14.185, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1b46", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1b4z", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1b8y", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1bcd", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -4.519, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1bju", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -10.049, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1bjv", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1bma", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -11.849, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1bn1", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1bn3", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -6.369, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1bn4", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1bnu", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1bq4", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1bty", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1bxr", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1c4u", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -12.042, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1c5o", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1c5p", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1cet", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1cnw", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1cnx", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1d3p", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -15.187, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1d7i", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -0.939, "absurdo": true, "aguas_bloqueantes": 0}
+{"pid": "1d7j", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -3.509, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1d9i", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -4.024, "absurdo": false, "aguas_bloqueantes": 1}
+{"pid": "1dgm", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -5.341, "absurdo": false, "aguas_bloqueantes": 1}
+{"pid": "1e4h", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1eb2", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -11.515, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1ela", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -12.428, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1elb", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1eld", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -0.61, "absurdo": true, "aguas_bloqueantes": 1}
+{"pid": "1ele", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -10.456, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1ew8", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": 2.064, "absurdo": true, "aguas_bloqueantes": 1}
+{"pid": "1ew9", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": 1.487, "absurdo": true, "aguas_bloqueantes": 0}
+{"pid": "1ezq", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -16.197, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1f0r", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -10.761, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1f0t", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -10.845, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1f0u", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -15.163, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1f4e", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1f4f", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1f4g", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1f5k", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1f74", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1fd0", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -18.872, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1fh7", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -9.486, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1fkg", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -11.83, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1fkh", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": 2.55, "absurdo": true, "aguas_bloqueantes": 2}
+{"pid": "1flr", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -14.396, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1fv0", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1g3d", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -9.206, "absurdo": false, "aguas_bloqueantes": 1}
+{"pid": "1g3e", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1gpn", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1gwv", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1h22", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1h4w", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1hdq", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1hih", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1hii", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1hlk", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -8.219, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1hmr", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -10.855, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1hn4", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1hp5", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1hpx", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -16.433, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1i7z", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1igb", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1iih", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -7.036, "absurdo": false, "aguas_bloqueantes": 1}
+{"pid": "1ikt", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1j4r", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1jao", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1jaq", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1jn4", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1jq8", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -3.022, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1jvu", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1k9s", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1kav", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1kpm", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1kzk", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1l83", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -4.888, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1lan", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1lbk", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1lrh", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1m0n", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1m2x", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1m48", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1m5w", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1mmq", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -11.694, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1mmr", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1moq", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1mu8", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -13.694, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1n0s", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1nje", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1njs", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1nki", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1nm6", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -16.647, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1np0", "estrato": "RESTO", "error": "SIN_ESTRUCTURA"}
+{"pid": "1nq7", "estrato": "CONTROL", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -13.787, "absurdo": false, "aguas_bloqueantes": 0}
+{"pid": "1nw5", "estrato": "COLOCACION", "hetatm_no_agua_no_metal_en_toda_la_estructura": 0, "cofactores_atomos_sitio": 0, "cofactores_conservados": 0, "cofactores_perdidos": 0, "especies": [], "tiene_cofactor": false, "score_cristal": -12.502, "absurdo": false, "aguas_bloqueantes": 0}

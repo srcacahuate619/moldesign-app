@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-02B",
+  "hypothesis": "Aplicar el pipeline MolFlex congelado a los complejos de train que nunca lo recibieron recupera cobertura del oraculo que el conjunto sellado no tenia",
+  "protocol": "MF-02-PRE sellado (a09b770, maintain cd1c39a); molflex.py protocolo congelado docs/40 con n_conf=30, caja 25 A, exhaustiveness=8, semillas 42; Vina 1.2.7 local",
+  "created_at": "2026-08-17T23:22:21.094925+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "cd1c39ac345036a8ce7251e2f97eed4cd8622f13",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 validez >=95%, G2 recuperacion >=10 de 38 con A8, G3 no regresion de la union, G4 determinismo, G5 coste descriptivo"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "data/pose_selector_dataset/poses_train.jsonl": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654"
+  },
+  "binary_hashes": {
+    "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-02B/LECTURA.md": "2d10b03e5aa40178b9aa6a0e421dfef6151de29f9fa5816b4536b0e14d04c170",
+    "scripts/artifacts_science/MF-02B/metrics.json": "71190a932cc3ac31bdbf77903946518d4d501dd93a88a4167a66161317bccb0a",
+    "scripts/artifacts_science/MF-02B/per_complex.jsonl": "9a0e01a4ee62e354c86a0fec1e1a687508a8d7574a7d7d6fab7d5c64f6828245",
+    "scripts/artifacts_science/MF-02B/corridas.jsonl": "a2791017e8d02d8dc68402cb4fe15bf204ecd7e18f425728287e4ab845d0ccb7",
+    "scripts/artifacts_science/MF-02B/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/run_mf02b_apply_molflex.py": "983babd2f746b8661e789eedfbf766a6c873bcec56e8a33dd0e560fc1240784c",
+    "scripts/molflex.py": "d2bd11957cc20e8ea1413b4eca44e3f77664a686bb0fe67a38f47a856fc9aac9"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T23:22:46.928507+00:00",
+  "decision_rationale": "Los cinco gates pasan. G2 primario: A8 entrega pose <=2.0 A en 30 de los 38 complejos sin cobertura, muy por encima del umbral preregistrado de 10. La cobertura del oraculo de train sube de 67.2% a 93.1% (78/116 -> 108/116) ejecutando el pipeline MolFlex CONGELADO, sin cambiar un parametro. En los 38, el mejor RMSD entregado baja de mediana 4.234 A a 1.433 A (mejora mediana 2.56 A, maxima 8.92 A); de los 32 que no tenian ninguna pose de MolFlex en el conjunto sellado se recuperan 27. Control: A8 entrega <=2 A en 9 de 12, mejora el mejor RMSD en 7 de 12 y no pierde cobertura en ninguno, confirmando que la fuente se anade a la union y no la sustituye. Determinismo exacto 2/2, validez 50/50, coste mediana 344 s por complejo (11 h de CPU para reconstruir los 116, ~1.1 h de reloj con 10 procesos). Los 8 no recuperados son casi-aciertos entre 2.2 y 3.1 A y todos mejoran sobre el dataset; dos de ellos (1a4w, 1elb) ya estaban marcados por MF-02A como techo conformacional duro. Consecuencia registrada: el conjunto de poses sobre el que se evaluaron RS-01, RS-04-OOF y RS-08 se construyo sin la salida de MolFlex en el 89% de los complejos, de modo que esos experimentos midieron Top-1 global sobre un universo con un tercio inganable por construccion. No los reabre —cada uno tiene su gate sellado— pero cambia el denominador que la seccion 19.1 exige para reabrir la cartera. Declarado antes de ejecutar y se repite aqui: anadir una fuente a una union SOLO puede subir la cobertura; el hallazgo es cuanto sube, a que coste, y que la fuente no estaba. Este GO no dice nada sobre el selector: la precision condicional sobre el conjunto ampliado sigue sin medirse y exige su propio prerregistro.",
+  "finished_at": "2026-08-17T23:22:47.080267+00:00",
+  "duration_seconds": 2538.0
+}

@@ -1,0 +1,34 @@
+{
+  "descripcion": "Replay matemático de los tres perfiles desde los checkpoints originales, comparado con delong_paired_report.json.",
+  "fuente_de_referencia": "data/molchamb_loto/delong_paired_report.json",
+  "golden_version": 1,
+  "perfiles": {
+    "1GKC": {
+      "auc_m5_publicada": 0.9207733333,
+      "auc_m5_reconstruida": 0.9207733333,
+      "coincide": true,
+      "n_positivos": 50,
+      "n_total": 1925,
+      "protocol_id": "M5_ZN_MMP9_1GKC_V1",
+      "vina_reference_max": 8.247
+    },
+    "1O86": {
+      "auc_m5_publicada": 0.6707693675,
+      "auc_m5_reconstruida": 0.6707693675,
+      "coincide": true,
+      "n_positivos": 46,
+      "n_total": 2003,
+      "protocol_id": "M5_ZN_ACE_1O86_V1",
+      "vina_reference_max": 9.566
+    },
+    "3DC3": {
+      "auc_m5_publicada": 0.9313775801,
+      "auc_m5_reconstruida": 0.9313775801,
+      "coincide": true,
+      "n_positivos": 37,
+      "n_total": 1933,
+      "protocol_id": "M5_ZN_CA2_3DC3_V1",
+      "vina_reference_max": 10.45
+    }
+  }
+}

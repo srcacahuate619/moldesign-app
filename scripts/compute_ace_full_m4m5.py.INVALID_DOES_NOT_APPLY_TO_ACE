@@ -1,0 +1,388 @@
+#!/usr/bin/env python3
+"""Compute M4_full vs M5_gated para ACE con GNN + CL-GNN incluidos.
+
+A diferencia de compute_ace_m5.py (que usa solo Vina+XGB en M4),
+este script:
+  1. Corre GNN-v2 y CL-GNN inference sobre el checkpoint de ACE
+  2. Guarda el checkpoint enriquecido (gnn_prob, clgnn_prob)
+  3. Computa M4_full = Vina + XGB + GNN + CL-GNN (stacking calibrado)
+  4. Computa M5_full = M4_full + UMS
+  5. Bootstrap CI 10k iteraciones
+
+El docking NO se re-ejecuta — solo inferencia ML (~30 min GPU).
+"""
+
+import json
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+from sklearn.metrics import roc_auc_score
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+# ── Paths ──
+CKPT_PATH = PROJECT_ROOT / "data" / "benchmark_checkpoint_ace.json"
+CKPT_FULL_PATH = PROJECT_ROOT / "data" / "benchmark_checkpoint_ace_full.json"
+REPORT_PATH = PROJECT_ROOT / "data" / "molchamb_loto" / "ace_full_m4m5_report.json"
+STACKING_PATH = PROJECT_ROOT / "rescoring" / "artifacts" / "stacking_weights.json"
+
+# ── Target config for ACE (1o86) ──
+ACE_RECEPTOR = {
+    "protein_pdb": str(PROJECT_ROOT / "data" / "1O86_clean.pdb"),
+    "vina_pdbqt": str(PROJECT_ROOT / "data" / "multitarget" / "ace" / "1O86.pdbqt"),
+    "center": (43.82, 38.24, 46.71),
+    "box_size": 25,
+    "target_id": "1o86",
+}
+
+# ── Import from benchmark (GNN/CL-GNN scoring functions) ──
+sys.path.insert(0, str(PROJECT_ROOT / "scripts"))
+from benchmark_ef_vina import score_with_gnn, score_with_clgnn
+from universal_metal_score import compute_universal_metal_score
+
+
+def load_checkpoint() -> tuple[list, list]:
+    """Load ACE checkpoint. Returns (results_list, completed_smiles_set)."""
+    if not CKPT_PATH.exists():
+        print(f"ERROR: Checkpoint not found: {CKPT_PATH}")
+        sys.exit(1)
+    print(f"Loading ACE checkpoint: {CKPT_PATH.name} "
+          f"({CKPT_PATH.stat().st_size / 1024 / 1024:.0f} MB)")
+    data = json.loads(CKPT_PATH.read_bytes().decode("utf-8"))
+    results = data.get("results", [])
+    completed = set(data.get("completed_smiles", []))
+    print(f"  Molecules in checkpoint: {len(results)}")
+    return results, completed
+
+
+def has_gnn_scores(results: list) -> bool:
+    """Check if results already have GNN and CL-GNN scores."""
+    if not results:
+        return False
+    return all("gnn_prob" in r and "clgnn_prob" in r for r in results[:10])
+
+
+def run_gnn_inference(results: list) -> None:
+    """Run GNN-v2 and CL-GNN inference on all valid results (in-place)."""
+    protein_pdb = ACE_RECEPTOR["protein_pdb"]
+
+    # Filter valid results (need pose_pdbqt for graph building)
+    has_pose = [r for r in results if r.get("pose_pdbqt", "").strip()]
+    print(f"\nValid for GNN/CL-GNN: {len(has_pose)}/{len(results)} "
+          f"({len(results) - len(has_pose)} missing pose_pdbqt)")
+
+    # ── GNN-v2 ──
+    print(f"\n--- GNN-v2 inference on {len(has_pose)} molecules ---")
+    t0 = time.time()
+    gnn_success = 0
+    for i, r in enumerate(has_pose):
+        r = score_with_gnn(r, protein_pdb, engine="cpu")
+        if r.get("gnn_prob") is not None and r["gnn_prob"] != 0.5:
+            gnn_success += 1
+        if (i + 1) % 500 == 0:
+            elapsed = time.time() - t0
+            print(f"  [GNN-v2 {i+1}/{len(has_pose)}] {elapsed:.0f}s | "
+                  f"{elapsed/(i+1):.2f}s/mol | success={gnn_success}/{i+1}")
+
+    elapsed = time.time() - t0
+    print(f"  GNN-v2 done: {elapsed:.0f}s ({elapsed/len(has_pose):.2f}s/mol) "
+          f"| success={gnn_success}/{len(has_pose)}")
+
+    # ── CL-GNN ──
+    print(f"\n--- CL-GNN inference on {len(has_pose)} molecules ---")
+    t0 = time.time()
+    clgnn_success = 0
+    for i, r in enumerate(has_pose):
+        r = score_with_clgnn(r, protein_pdb, ACE_RECEPTOR)
+        if r.get("clgnn_prob") is not None and r["clgnn_prob"] != 0.5:
+            clgnn_success += 1
+        if (i + 1) % 200 == 0:
+            elapsed = time.time() - t0
+            print(f"  [CL-GNN {i+1}/{len(has_pose)}] {elapsed:.0f}s | "
+                  f"{elapsed/(i+1):.2f}s/mol | success={clgnn_success}/{i+1}")
+
+    elapsed = time.time() - t0
+    print(f"  CL-GNN done: {elapsed:.0f}s ({elapsed/len(has_pose):.2f}s/mol) "
+          f"| success={clgnn_success}/{len(has_pose)}")
+
+    # Initialize defaults for results without pose_pdbqt
+    for r in results:
+        r.setdefault("gnn_prob", 0.5)
+        r.setdefault("gnn_std", 1.0)
+        r.setdefault("clgnn_prob", 0.5)
+
+
+def save_enhanced_checkpoint(results: list, completed: set) -> None:
+    """Save checkpoint with GNN/CL-GNN scores."""
+    payload = {
+        "completed_smiles": list(completed),
+        "results": results,
+    }
+    CKPT_FULL_PATH.write_text(json.dumps(payload, indent=2))
+    size_mb = CKPT_FULL_PATH.stat().st_size / (1024 * 1024)
+    print(f"\nEnhanced checkpoint saved: {CKPT_FULL_PATH.name} ({size_mb:.1f} MB)")
+
+
+def load_stacking_weights() -> dict:
+    """Load stacking weights for metaloenzyme family."""
+    if STACKING_PATH.exists():
+        weights = json.loads(STACKING_PATH.read_text())
+        return weights.get("metaloenzyme", weights.get("default", {}))
+    # Fallback
+    return {"vina": 0.2, "prob": 0.2, "gnn": 0.3, "clgnn": 0.3}
+
+
+def normalize_vina(vina_scores: list) -> np.ndarray:
+    """Normalize Vina scores to [0, 1]."""
+    vmax = max(vina_scores)
+    return np.array([min(1.0, abs(v) / vmax) for v in vina_scores])
+
+
+def compute_ef(scores: list, labels: list, pct: float) -> float:
+    """Compute Enrichment Factor at given percentile."""
+    n = len(scores)
+    if n == 0:
+        return 0.0
+    cutoff = max(1, int(n * pct / 100))
+    ranked = sorted(zip(scores, labels), key=lambda x: x[0], reverse=True)
+    top_labels = [l for _, l in ranked[:cutoff]]
+    actives_in_top = sum(top_labels)
+    total_actives = sum(labels)
+    total_ratio = total_actives / n if n > 0 else 0
+    ef = (actives_in_top / cutoff) / total_ratio if total_ratio > 0 else 0.0
+    return round(ef, 4)
+
+
+def main():
+    t_total = time.time()
+
+    # 1. Load checkpoint
+    results, completed = load_checkpoint()
+
+    # 2. GNN + CL-GNN inference (skip if already done)
+    if has_gnn_scores(results):
+        print("\n[SKIP] GNN/CL-GNN scores already present in checkpoint.")
+    else:
+        print("\n>>> Running GNN-v2 + CL-GNN inference (zero-shot on ACE)...")
+        run_gnn_inference(results)
+        save_enhanced_checkpoint(results, completed)
+
+    # 3. Build mols array with all scorers
+    weights = load_stacking_weights()
+    print(f"\nStacking weights (metaloenzyme): {weights}")
+
+    mols = []
+    for r in results:
+        smi = r.get("smiles", "")
+        is_a = r.get("is_active", False)
+        vina = r.get("vina_score")
+        prob = r.get("prob")
+        if vina is None or prob is None:
+            continue
+
+        gnn = r.get("gnn_prob", 0.5)
+        clgnn = r.get("clgnn_prob", 0.5)
+        mc_score = r.get("molchamb_score", 0.5)
+        ums_score, _ = compute_universal_metal_score(smi, mc_score, "metaloenzyme")
+
+        mols.append({
+            "smiles": smi,
+            "is_active": 1 if is_a else 0,
+            "vina": abs(vina),
+            "prob": prob,
+            "gnn_prob": gnn,
+            "clgnn_prob": clgnn,
+            "ums": ums_score,
+        })
+
+    n = len(mols)
+    n_act = sum(m["is_active"] for m in mols)
+    print(f"Valid for metrics: {n} mols ({n_act} actives, {n - n_act} decoys)")
+    print(f"  Ratio active:decoy ~ 1:{max(1, (n - n_act) // max(n_act, 1))}")
+
+    y = np.array([m["is_active"] for m in mols])
+
+    # Extract and normalize scorers
+    vn = normalize_vina([m["vina"] for m in mols])
+    xb = np.array([m["prob"] for m in mols])
+    gn = np.array([m["gnn_prob"] for m in mols])
+    cl = np.array([m["clgnn_prob"] for m in mols])
+    um = np.array([m["ums"] for m in mols])
+
+    # ── Individual AUCs ──
+    auc_vina = roc_auc_score(y, vn)
+    auc_xgb = roc_auc_score(y, xb)
+    auc_gnn = roc_auc_score(y, gn)
+    auc_clgnn = roc_auc_score(y, cl)
+    auc_ums = roc_auc_score(y, um)
+
+    print(f"\n{'='*55}")
+    print(f"  Individual Scorer AUCs")
+    print(f"{'='*55}")
+    print(f"  Vina:       {auc_vina:.4f}")
+    print(f"  XGBoost:    {auc_xgb:.4f}")
+    print(f"  GNN-v2:     {auc_gnn:.4f}")
+    print(f"  CL-GNN:     {auc_clgnn:.4f}")
+    print(f"  UnivMetal:  {auc_ums:.4f}")
+
+    # ── M4_full = Vina + XGB + GNN + CL-GNN (stacked) ──
+    w_v = weights.get("vina", 0.2)
+    w_x = weights.get("prob", 0.2)  # "prob" is the XGBoost probability key
+    w_g = weights.get("gnn", 0.3)
+    w_c = weights.get("clgnn", 0.3)
+    total_w = w_v + w_x + w_g + w_c
+    if total_w > 0:
+        w_v, w_x, w_g, w_c = w_v / total_w, w_x / total_w, w_g / total_w, w_c / total_w
+
+    m4_full = vn * w_v + xb * w_x + gn * w_g + cl * w_c
+    auc_m4_full = roc_auc_score(y, m4_full)
+    print(f"\n{'='*55}")
+    print(f"  M4_full (vina={w_v:.2f}, xgb={w_x:.2f}, gnn={w_g:.2f}, clgnn={w_c:.2f})")
+    print(f"  AUC = {auc_m4_full:.4f}")
+
+    # ── M5_full = M4_full + UMS ──
+    w_m4 = 0.65
+    w_ums = 0.35
+    m5_full = m4_full * w_m4 + um * w_ums
+    auc_m5_full = roc_auc_score(y, m5_full)
+    print(f"\n  M5_full (m4={w_m4:.2f}, ums={w_ums:.2f})")
+    print(f"  AUC = {auc_m5_full:.4f}")
+    print(f"  Delta (equal weights): {auc_m5_full - auc_m4_full:+.4f}")
+
+    # ── Bootstrap CI ──
+    n_boot = 10000
+    rng = np.random.RandomState(42)
+    m4_boot, m5_boot, deltas_boot = [], [], []
+    for _ in range(n_boot):
+        idx = rng.randint(0, n, n)
+        yb = y[idx]
+        if len(set(yb)) < 2:
+            continue
+        m4b = vn[idx] * w_v + xb[idx] * w_x + gn[idx] * w_g + cl[idx] * w_c
+        m5b = m4b * w_m4 + um[idx] * w_ums
+        a4 = roc_auc_score(yb, m4b)
+        a5 = roc_auc_score(yb, m5b)
+        m4_boot.append(a4)
+        m5_boot.append(a5)
+        deltas_boot.append(a5 - a4)
+
+    deltas = np.array(deltas_boot)
+    m4_arr = np.array(m4_boot)
+    m5_arr = np.array(m5_boot)
+
+    delta_ci_low = np.percentile(deltas, 2.5)
+    delta_ci_high = np.percentile(deltas, 97.5)
+    p_value = (deltas <= 0).mean()
+
+    print(f"\n{'='*55}")
+    print(f"  Bootstrap CI (10k iter, fixed weights)")
+    print(f"{'='*55}")
+    print(f"  M4_full: {m4_arr.mean():.4f} "
+          f"[{np.percentile(m4_arr, 2.5):.4f}, {np.percentile(m4_arr, 97.5):.4f}]")
+    print(f"  M5_full: {m5_arr.mean():.4f} "
+          f"[{np.percentile(m5_arr, 2.5):.4f}, {np.percentile(m5_arr, 97.5):.4f}]")
+    print(f"  Delta:   {deltas.mean():+.4f} [{delta_ci_low:+.4f}, {delta_ci_high:+.4f}]")
+    print(f"  p-value: {p_value:.6f}")
+    sig = "SIGNIFICANT" if delta_ci_low > 0 else "NOT significant at 95%"
+    print(f"  Verdict: {sig}")
+
+    # ── EF metrics ──
+    print(f"\n{'='*55}")
+    print(f"  Enrichment Factor (full pipeline)")
+    print(f"{'='*55}")
+    ef1_m4 = compute_ef(m4_full.tolist(), y.tolist(), 1)
+    ef5_m4 = compute_ef(m4_full.tolist(), y.tolist(), 5)
+    ef10_m4 = compute_ef(m4_full.tolist(), y.tolist(), 10)
+    ef1_m5 = compute_ef(m5_full.tolist(), y.tolist(), 1)
+    ef5_m5 = compute_ef(m5_full.tolist(), y.tolist(), 5)
+    ef10_m5 = compute_ef(m5_full.tolist(), y.tolist(), 10)
+
+    print(f"  M4_full:  EF@1%={ef1_m4:.2f}x  EF@5%={ef5_m4:.2f}x  EF@10%={ef10_m4:.2f}x")
+    print(f"  M5_full:  EF@1%={ef1_m5:.2f}x  EF@5%={ef5_m5:.2f}x  EF@10%={ef10_m5:.2f}x")
+
+    # ── GNN/CL-GNN stats ──
+    gnn_defaults = sum(1 for r in results if r.get("gnn_prob", 0.5) == 0.5)
+    clgnn_defaults = sum(1 for r in results if r.get("clgnn_prob", 0.5) == 0.5)
+    print(f"\n  GNN defaults (no pose/no model): {gnn_defaults}/{n}")
+    print(f"  CL-GNN defaults (no pose/no model): {clgnn_defaults}/{n}")
+
+    # ── Save report ──
+    report = {
+        "target": "ace",
+        "pdb": "1o86",
+        "n_total": n,
+        "n_actives": n_act,
+        "ratio": f"1:{max(1, (n - n_act) // max(n_act, 1))}",
+        "scorers_used": "Vina + XGBoost + GNN-v2 + CL-GNN + UMS",
+        "stacking_m4_weights": {
+            "vina": round(w_v, 3),
+            "xgb": round(w_x, 3),
+            "gnn": round(w_g, 3),
+            "clgnn": round(w_c, 3),
+        },
+        "stacking_m5_weights": {
+            "m4": w_m4,
+            "ums": w_ums,
+        },
+        "individual_auc": {
+            "vina": round(auc_vina, 4),
+            "xgb": round(auc_xgb, 4),
+            "gnn_v2": round(auc_gnn, 4),
+            "clgnn": round(auc_clgnn, 4),
+            "univ_metal": round(auc_ums, 4),
+        },
+        "m4_full": {
+            "auc": round(auc_m4_full, 4),
+            "ef_1pct": ef1_m4,
+            "ef_5pct": ef5_m4,
+            "ef_10pct": ef10_m4,
+            "bootstrap_ci": [
+                round(float(np.percentile(m4_arr, 2.5)), 4),
+                round(float(np.percentile(m4_arr, 97.5)), 4),
+            ],
+        },
+        "m5_full": {
+            "auc": round(auc_m5_full, 4),
+            "ef_1pct": ef1_m5,
+            "ef_5pct": ef5_m5,
+            "ef_10pct": ef10_m5,
+            "bootstrap_ci": [
+                round(float(np.percentile(m5_arr, 2.5)), 4),
+                round(float(np.percentile(m5_arr, 97.5)), 4),
+            ],
+        },
+        "delta": {
+            "mean": round(float(deltas.mean()), 4),
+            "ci_low": round(float(delta_ci_low), 4),
+            "ci_high": round(float(delta_ci_high), 4),
+            "p_value": round(float(p_value), 6),
+            "significant": bool(delta_ci_low > 0),
+        },
+        "gnn_clgnn_coverage": {
+            "gnn_defaults": gnn_defaults,
+            "clgnn_defaults": clgnn_defaults,
+            "total_valid": n,
+        },
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+    }
+
+    REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    REPORT_PATH.write_text(json.dumps(report, indent=2))
+    print(f"\nReport saved: {REPORT_PATH}")
+
+    # ── Final summary ──
+    t_elapsed = time.time() - t_total
+    print(f"\n{'='*70}")
+    print(f"ACE FULL FINAL: target=ace, pdb=1o86")
+    print(f"  M4_full = {auc_m4_full:.4f} -> M5_full = {auc_m5_full:.4f}, "
+          f"delta = {auc_m5_full - auc_m4_full:+.4f}")
+    print(f"  Bootstrap: [{delta_ci_low:+.4f}, {delta_ci_high:+.4f}], p={p_value:.6f}")
+    print(f"  EF@1%: M4={ef1_m4:.2f}x -> M5={ef1_m5:.2f}x")
+    print(f"  Total time: {t_elapsed:.0f}s ({t_elapsed/60:.1f} min)")
+    print(f"{'='*70}")
+
+
+if __name__ == "__main__":
+    main()

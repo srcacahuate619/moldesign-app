@@ -1,0 +1,56 @@
+# MolDesign model artifacts — license scope
+
+MolDesign-owned model weights, parameters, learned calibrations and other
+artifacts explicitly identified as MolDesign artifacts are part of the
+"software" licensed under the root [`LICENSE`](LICENSE):
+**PolyForm Noncommercial License 1.0.0**.
+
+Required Notice: Copyright 2026 Johan Amezcua. MolDesign commercial use requires a separate written license. Contact srcacahuate619@gmail.com.
+
+## What is permitted
+
+Use, study, modification and redistribution are permitted for noncommercial
+purposes under the complete terms in `LICENSE`. This includes personal study,
+academic research, education, publication, benchmarking and work by the
+noncommercial organizations enumerated by PolyForm Noncommercial.
+
+## Commercial use
+
+Any commercial use of MolDesign-owned code or model artifacts requires a
+separate written commercial license. Commercial terms, including any fee or
+revenue-based commission, are negotiated separately; see
+[`COMMERCIAL-LICENSE.md`](COMMERCIAL-LICENSE.md).
+
+## Third-party exclusion
+
+This notice does not relicense third-party code, model weights, tokenizers or
+datasets. Qwen, ESMFold, TabPFN, RTMScore, Open Babel and every other component
+identified as third-party retain their upstream terms and notices. Merely
+including or downloading such an artifact does not make it a MolDesign-owned
+artifact.
+
+## Training data: PDBbind v2020
+
+Some MolDesign-owned model artifacts -- the XGBoost affinity regressor, the pose
+classifier and CL-GNN -- were trained in part on the refined set of PDBbind
+v2020 (Wang et al., J. Med. Chem. 2005), a curated collection of protein-ligand
+complexes and binding affinities measured and compiled by its authors.
+
+What this file covers, and what it does not:
+
+- MolDesign distributes the **trained weights** and the **code it wrote**, and
+  claims authorship over those alone.
+- MolDesign **does not redistribute** PDBbind, its complex structures or its
+  affinity tables, and **claims no rights and grants no sublicense** over the
+  dataset or over Zenodo record 7014096.
+- Artifacts that reproduce PDBbind-derived affinities
+  (`benchmark_pdbbind*.json`, `pocket_dataset*.json`,
+  `pdbbind_audit_report.json`) are **excluded from the distribution channel**.
+  The packaging removes them and the build fails if they reappear.
+- PDBbind is cited for scientific attribution only. Nothing here implies
+  endorsement or affiliation by its authors, by Schrödinger, or by any other
+  dataset rights holder.
+
+## No warranty
+
+The warranty and liability disclaimer in the root `LICENSE` applies.

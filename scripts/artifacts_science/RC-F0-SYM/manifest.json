@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RC-F0-SYM",
+  "hypothesis": "Corregir la simetria en la metrica de pose cambia la cobertura del oraculo del conjunto v2 y por tanto el denominador de la cartera D",
+  "protocol": "medicion: relectura del material de RC-F0-V2 con la metrica corregida de la §5.1; 32,215 poses de fuente molflex emparejadas por (pid, file_stem, model_idx); sin computo nuevo y sin evaluar ningun selector",
+  "created_at": "2026-08-18T20:19:50.355096+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "23ac6d11cfadfdbd1d98de59392ebdaa66539cee",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gates; verificacion obligatoria: el RMSD ingenuo recomputado debe reproducir el almacenado"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_simetria_v2.py": "c7fc635bd19ade8483d8823bf276d6a10acee8a7d79c21290bf1a8cfabe0316a"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T20:19:50.924828+00:00",
+  "decision_rationale": "Medicion valida: el RMSD ingenuo recomputado reproduce el almacenado con error maximo de 0.0005 A -el redondeo del fichero- en los tres splits, 203 de 203 complejos. Resultado principal: la cobertura del oraculo NO se mueve ni un complejo (train 79.31%, val 87.50%, test 97.87%; cero complejos ganan en ninguno), lo que ACOTA el dano del defecto: las cifras de RC-F0-V2, el denominador de RS-14 y la tabla de factibilidad de la §9 se sostienen exactamente. Pero a nivel de pose las etiquetas si estan mal: positivas 357 -> 432 en train (+21.0%), 187 -> 196 en val (+4.8%), 216 -> 252 en test (+16.7%), con tasas de corrupcion distintas por split. Eso habilito RS-14-R1 bajo la condicion 2 de la §19.1. Alcance declarado: solo el 94% de las poses es recomputable, y como corregir solo puede bajar el RMSD, la cobertura reportada es una cota inferior.",
+  "finished_at": "2026-08-18T20:19:51.066092+00:00"
+}

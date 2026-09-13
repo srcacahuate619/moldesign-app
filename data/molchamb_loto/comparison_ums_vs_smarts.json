@@ -1,0 +1,55 @@
+{
+  "dude_full": {
+    "ca2": {
+      "auc_smarts_only": 0.9838,
+      "auc_multi_component": 0.9508,
+      "delta_smarts_minus_multi": 0.033,
+      "winner": "SMARTS-only",
+      "n_total": 31664,
+      "n_act": 492
+    },
+    "mmp9": {
+      "auc_smarts_only": 0.8913,
+      "auc_multi_component": 0.8787,
+      "delta_smarts_minus_multi": 0.0126,
+      "winner": "SMARTS-only",
+      "n_total": 2858,
+      "n_act": 858
+    },
+    "ace": {
+      "auc_smarts_only": 0.7838,
+      "auc_multi_component": 0.751,
+      "delta_smarts_minus_multi": 0.0328,
+      "winner": "SMARTS-only",
+      "n_total": 2238,
+      "n_act": 82
+    }
+  },
+  "loto_checkpoints": {
+    "ca2": {
+      "auc_smarts_only": 0.971,
+      "auc_multi_component": 0.9824,
+      "delta_smarts_minus_multi": -0.0114,
+      "winner": "multi-component",
+      "n_total": 1933,
+      "n_act": 37
+    },
+    "mmp9": {
+      "auc_smarts_only": 0.9308,
+      "auc_multi_component": 0.9061,
+      "delta_smarts_minus_multi": 0.0246,
+      "winner": "SMARTS-only",
+      "n_total": 1925,
+      "n_act": 50
+    },
+    "ace": {
+      "auc_smarts_only": 0.8002,
+      "auc_multi_component": 0.762,
+      "delta_smarts_minus_multi": 0.0381,
+      "winner": "SMARTS-only",
+      "n_total": 2003,
+      "n_act": 46
+    }
+  },
+  "note": "SMARTS-only is the paper's headline feature; the multi-component UMS (warhead + donor + MolChamb) is the hypothesis that the ablation overturned. In the DUD-E full benchmark SMARTS-only wins on all targets; in the small LOTO subset the multi-component wins on CA2 only (chemotype enrichment among 37 actives, see paper Table 3.4b)."
+}

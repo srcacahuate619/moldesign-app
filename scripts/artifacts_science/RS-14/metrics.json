@@ -1,0 +1,70 @@
+{
+ "experiment_id": "RS-14",
+ "timestamp": "2026-08-18T07:59:36.552436+00:00",
+ "duration_seconds": 1890.71,
+ "datos": {
+  "complejos": 116,
+  "poses": 18812,
+  "features": 233,
+  "split": "train v2"
+ },
+ "descomposicion_seccion_9": {
+  "cobertura_oraculo": 0.7931,
+  "precision_condicional_selector": 0.4312,
+  "precision_condicional_baseline": 0.4783,
+  "top1_global_selector": 0.342,
+  "top1_global_baseline": 0.3793
+ },
+ "por_semilla": {
+  "42": {
+   "condicional": 0.4674,
+   "global": 0.3707
+  },
+  "43": {
+   "condicional": 0.3804,
+   "global": 0.3017
+  },
+  "44": {
+   "condicional": 0.4457,
+   "global": 0.3534
+  }
+ },
+ "diferencia_pareada": {
+  "media": -0.0471,
+  "ci95_bca": [
+   -0.1522,
+   0.0617
+  ],
+  "n_complejos": 92
+ },
+ "nulo_permutacion": {
+  "n": 200,
+  "p95": 0.163,
+  "media": 0.1043,
+  "p_empirico": 0.0
+ },
+ "n_ajustes": 1348,
+ "gates": {
+  "G1_validez": {
+   "criterio": "todos los ajustes LOCO completan",
+   "n_ajustes": 1348,
+   "pass": true
+  },
+  "G2_superioridad": {
+   "criterio": "condicional > baseline con CI95 BCa pareado excluyendo 0",
+   "media_dif": -0.0471,
+   "ci95": [
+    -0.1522,
+    0.0617
+   ],
+   "pass": false
+  },
+  "G3_nulo": {
+   "criterio": "condicional observada > percentil 95 del nulo por permutacion",
+   "observada": 0.4312,
+   "p95_nulo": 0.163,
+   "pass": true
+  }
+ },
+ "decision": "NO_GO"
+}

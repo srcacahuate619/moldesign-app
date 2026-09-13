@@ -1,0 +1,22 @@
+{
+  "feature_names": [
+    "mw",
+    "logp",
+    "tpsa",
+    "hbd",
+    "hba",
+    "rotatable_bonds",
+    "qed",
+    "log_mw"
+  ],
+  "metrics": {
+    "spearman": 0.5593,
+    "spearman_pval": 1e-06,
+    "pearson": 0.5488,
+    "ndcg@10": 0.5001,
+    "r2_reference_only": 0.2485,
+    "rmse_reference_only": 1.5505
+  },
+  "train_samples": 263,
+  "train_timestamp": "2026-05-13T07:00:06.237635+00:00"
+}

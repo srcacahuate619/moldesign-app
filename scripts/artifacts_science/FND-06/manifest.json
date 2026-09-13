@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "experiment_id": "FND-06",
+  "hypothesis": "La provenance de poses es recuperable parcialmente para las 4300 historicas y el contrato nuevo garantiza 100% para futuras",
+  "protocol": "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md FND-06",
+  "created_at": "2026-08-16T02:22:16.614345+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "0a67bf89e41d2accc87c7f52365ec8c91c52f639",
+    "dirty": false
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": [
+      "rdkit==2025.09.6",
+      "numpy==2.4.4"
+    ]
+  },
+  "gate": {
+    "description": "Contrato implementado; cobertura historica documentada por campo/fuente; poses futuras 100% trazables"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "data/pose_selector_dataset/poses_train.jsonl": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654",
+    "data/pose_selector_dataset/poses_val.jsonl": "4a0f8bada19da8f7ee91034264a9b24a2886d4f718ed2dc7e659756fd29b97a1",
+    "data/pose_selector_dataset/poses_test.jsonl": "a36d12451f33d5c3815eaebbad058f56e5b1da94ae501b465b018d91a9f62d02",
+    "data/pose_selector_dataset/manifest.json": "d4b1a98051e94193c324017fd544f71808cba9be01b92c236c795eb2875f2813"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/FND-06/DESIGN.md": "34be1207362ad54b625eea0a93c1c95fad84209068d53c40b8e6d37c3ed17ab5",
+    "scripts/artifacts_science/FND-06/backfill_report.json": "a6e862522fc2868ae731d65c0d9fcb0def53ce7c738b8eea2377d09585c71816",
+    "scripts/artifacts_science/FND-06/coverage_report.txt": "07a65f1956957146e4dd49379b99c474cdf7f595b693a637e5119d08d0cddc69",
+    "scripts/artifacts_science/FND-06/metrics.json": "6dbf35444b67d6d1f52b0afe8172082de1cb1c8cb71ce2fcc4bf3265eeb12b43",
+    "scripts/artifacts_science/FND-06/failures.jsonl": "3cea7320a5bdbe0fb0732a4d2df8bb54e833cd0c99b965b74b1c8cae5201d4f7",
+    "scripts/artifacts_science/FND-06/per_complex.jsonl": "e866e458478cc599a5fabf943532da94f0ed3b4fc15a66f9368d7698761d6790",
+    "scripts/artifacts_science/FND-06/poses_provenance.jsonl": "7e0015f43447841430a4d09b2990d4dbb56093c1dfde3cc4e30cbc8c27ed41c0",
+    "scripts/pose_provenance.py": "f37ca7fa2b2d6a5a04d8d9ddd5301fd90010255ca314223f953e9ec29fbe79cd",
+    "scripts/provenance_builder.py": "c993163e16bdcfd0f8ddf0cadb4c3484f62848ff8cbe7bd9f2d614fb6ca7fc35",
+    "scripts/backfill_pose_provenance.py": "80f21d0ac3fe5be3cc27cbde02a4b34342f8b3b6c5b6984f916dbd80871629ce",
+    "scripts/test_pose_provenance.py": "c03fd9141a4d99ad0df52a4a8d89e0a5000e566dde3487a7b4befcbbf30fc4b4",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md": "fd27bd0c6c6516b6251090a13984a40ec86c220dcff6db6ac7708c297f16ecbe"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T03:25:16.164881+00:00",
+  "decision_rationale": "FND-06: contrato de provenance implementado, wiring 3/3 generadores, validador endurecido, cobertura historica documentada (unknowns honestos), determinismo verificado",
+  "finished_at": "2026-08-16T03:25:23.244665+00:00",
+  "seal_maintenance": [
+    {
+      "date": "2026-08-16T04:17:52.859510+00:00",
+      "reason": "Documento vivo del programa actualizado: reformulacion AF-01 (replica sellada de Fase A, holdout 328) en commit 2ba4a1d",
+      "path": "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md",
+      "previous_hash": "5b95ffd8d47de571ceb74aaf82941427d32a8c7348934f0ba52dca07871c7f1f",
+      "new_hash": "686c0a394806dcfb29b3b78b6373472245b4215aa2165498a445be74d6a464ef",
+      "content_commit": "2ba4a1d"
+    },
+    {
+      "date": "2026-08-16T04:17:53.131951+00:00",
+      "reason": "Tool de manifest extendido con subcomando maintain (commit 8999ec4)",
+      "path": "scripts/artifacts_science/manifest.schema.json",
+      "previous_hash": "7f721c109dd391b7e8d96da4607ae8e224f0658d0d0faeb33dc9403aa55c536e",
+      "new_hash": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97",
+      "content_commit": "8999ec4b908d59683f311fb84c4c42fb7c6b040f"
+    },
+    {
+      "date": "2026-08-16T04:17:53.131951+00:00",
+      "reason": "Tool de manifest extendido con subcomando maintain (commit 8999ec4)",
+      "path": "scripts/experiment_manifest.py",
+      "previous_hash": "634fba9ae966140b8dd55b25adf069f1300376a68b4e1d324ab12ad86881d3b4",
+      "new_hash": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+      "content_commit": "8999ec4b908d59683f311fb84c4c42fb7c6b040f"
+    },
+    {
+      "date": "2026-08-16T08:42:08.021421+00:00",
+      "reason": "Documento vivo del programa ampliado por el maintainer: resultados sellados del entregable 7 + Cartera I (seccion topografica 18.2.1)",
+      "path": "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md",
+      "previous_hash": "686c0a394806dcfb29b3b78b6373472245b4215aa2165498a445be74d6a464ef",
+      "new_hash": "f7a1d62c51410c8c1afc7f9795d6fc01b669a8a7fe1602f2c3713ba47edabf36",
+      "content_commit": "c8265c1f06e6a56cae204065f77e5c018a28f63c"
+    },
+    {
+      "date": "2026-08-18T20:22:10.765887+00:00",
+      "reason": "El doc 49 es documento vivo (README, seccion 'Politica futura'); cambio al documentar los resultados sellados de MF-08, MF-02F, MF-09, MF-02A-EXT, RC-F0-V2, RS-14, MF-09-SYM, RC-F0-SYM, MF-10, MF-10-CAL, MF-13 y RS-14-R1, mas la nueva 5.1 sobre el sesgo de simetria",
+      "path": "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md",
+      "previous_hash": "f7a1d62c51410c8c1afc7f9795d6fc01b669a8a7fe1602f2c3713ba47edabf36",
+      "new_hash": "3c8bab59acf5fcf4ba5e567a51f121fff66737410450288154b1dfbf2fff6179",
+      "content_commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053"
+    },
+    {
+      "date": "2026-08-19T03:55:21.371808+00:00",
+      "reason": "Documento vivo (README, Politica futura): cambio al anadir la seccion 20 de transferencia interdisciplinar, la 20.11 sobre enlaces rotables, y los resultados sellados del bloque del 2026-08-18",
+      "path": "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md",
+      "previous_hash": "3c8bab59acf5fcf4ba5e567a51f121fff66737410450288154b1dfbf2fff6179",
+      "new_hash": "fd27bd0c6c6516b6251090a13984a40ec86c220dcff6db6ac7708c297f16ecbe",
+      "content_commit": "82997dab038ccaaeb206f0bad446291dd933e176"
+    }
+  ]
+}

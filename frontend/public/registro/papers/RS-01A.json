@@ -1,0 +1,339 @@
+{
+ "id": "RS-01A",
+ "meta": {
+  "titulo": "Un GO que certifica la auditoría, no el resultado",
+  "entradilla": "Reprodujo exactamente las métricas históricas y midió el efecto de la deduplicación: −4 aciertos, 0 recuperaciones, cero pérdidas de cobertura. El sello dice explícitamente que esto no demuestra equivalencia."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Antes de cambiar la entrada de un modelo congelado hay que saber qué le hace ese cambio. La deduplicación de poses reduce el volumen; la pregunta es si al reducirlo altera el comportamiento del selector que ya está en producción.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento es la auditoría de ese cambio, en el propio conjunto donde el modelo se desarrolló.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Primero, que el punto de partida es el correcto.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Se reprodujeron exactamente las métricas históricas del checkpoint congelado. Sin eso, cualquier diferencia observada después podría ser un artefacto de haber cargado mal el modelo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Después, el efecto:",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Resultado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Cambio en aciertos Top-1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−4",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Recuperaciones (fallos que pasan a aciertos)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Mediana pareada del cambio de RMSD",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.000 Å",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Pérdidas de cobertura del oráculo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "McNemar",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "p = 0.25",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Intervalo agrupado de aciertos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[−10, 0]",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El intervalo no excluye el cero. La lectura estadística es que ",
+     "m": null
+    },
+    {
+     "t": "no se demuestra diferencia",
+     "m": "fuerte"
+    },
+    {
+     "t": ", en ninguna dirección.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo más informativo es la combinación de dos números: ",
+     "m": null
+    },
+    {
+     "t": "−4 aciertos con 0 recuperaciones",
+     "m": "fuerte"
+    },
+    {
+     "t": ". No es que el cambio reordene y salgan las cuentas parecidas; es que sólo quita. Cuatro complejos que el modelo acertaba dejan de acertarse y ninguno de los que fallaba se recupera.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El contrafactual, y lo que reveló",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se ejecutó además un análisis contrafactual completo sobre los 31 empates, y mostró ",
+     "m": null
+    },
+    {
+     "t": "sensibilidad al criterio de desempate por fuente",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese detalle es más importante de lo que parece. Significa que parte del comportamiento del selector en los casos ajustados no lo decide el modelo, sino la regla arbitraria que decide qué pose gana cuando dos puntúan igual — y esa regla depende de qué generador produjo cada una.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Una porción del rendimiento medido no es del modelo. Es del orden en que le llegan las cosas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La declaración que acompaña al GO",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El sello es explícito sobre su propio alcance, y merece citarse porque es el contenido principal de este registro:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Este GO certifica ",
+     "m": null
+    },
+    {
+     "t": "la ejecución de la auditoría",
+     "m": "fuerte"
+    },
+    {
+     "t": ". No demuestra equivalencia, ni compatibilidad científica, ni mejora generalizable.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y una segunda limitación, declarada también: todo esto es ",
+     "m": null
+    },
+    {
+     "t": "dentro de la muestra",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Se midió en el conjunto donde el modelo se desarrolló, así que ni siquiera las diferencias observadas se pueden extrapolar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué se selló así",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Porque es exactamente el tipo de registro que en seis meses se leería mal. «RS-01A: GO» en un listado, junto a un experimento sobre deduplicación, invita a concluir que la deduplicación quedó validada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No quedó validada. Quedó ",
+     "m": null
+    },
+    {
+     "t": "auditada",
+     "m": "fuerte"
+    },
+    {
+     "t": ", que es otra cosa: se sabe qué hace, se sabe que no pierde cobertura, se sabe que quita cuatro aciertos sin recuperar ninguno, y se sabe que nada de eso es estadísticamente distinguible del ruido con este tamaño de muestra.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La decisión de producción que salió de aquí fue no adoptarla por defecto.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/RS-01A.md"
+}

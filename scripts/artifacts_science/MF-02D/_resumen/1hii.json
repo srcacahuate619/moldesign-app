@@ -1,0 +1,94 @@
+{
+  "pdb_id": "1hii",
+  "ok": true,
+  "n_conf": 30,
+  "top_k": 3,
+  "cpu": 1,
+  "relax_engine": "vina_local_only",
+  "openmm_status": {
+    "available": false,
+    "reasons": [
+      "SMIRNOFFTemplateGenerator: ModuleNotFoundError: No module named 'openff'",
+      "ForceField(+offxml): ValueError: Could not locate file \"openff-2.0.0.offxml\"",
+      "amber14-all createSystem: ValueError: No template found for residue 1 (ASP).  The atoms and bonds in the residue match NASP, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template"
+    ],
+    "relax_engine": "vina_local_only"
+  },
+  "time_fase1": 4.7,
+  "time_fase2": 1189.4,
+  "time_fase3": 7.8,
+  "total_time_s": 1201.9,
+  "ensemble_min_rmsd": 2.337,
+  "grid_cache": {
+    "mapas_generados": true,
+    "n_docks_maps": 29,
+    "n_docks_write": 1,
+    "n_docks_fresh": 0
+  },
+  "rigid_scores": [
+    0.06409,
+    0.06355,
+    -2.525,
+    5.972,
+    -6.165,
+    8.628,
+    5.065,
+    1.842,
+    3.944,
+    4.127,
+    13.16,
+    2.396,
+    -0.7073,
+    5.885,
+    4.383,
+    -0.873,
+    6.067,
+    1.549,
+    -0.2463,
+    2.923,
+    5.873,
+    8.123,
+    0.3837,
+    13.01,
+    -2.41,
+    6.407,
+    3.925,
+    14.89,
+    2.09,
+    8.975
+  ],
+  "rigid_best": -6.165,
+  "top_k_relaxed": [
+    {
+      "conf_id": 4,
+      "rigid_score": -6.165,
+      "relaxed_score": -15.924,
+      "relaxed_local_score": -8.355,
+      "delta": -9.759,
+      "rmsd_to_crystal": 3.892,
+      "engine": "vina_local_only",
+      "ok": true
+    },
+    {
+      "conf_id": 2,
+      "rigid_score": -2.525,
+      "relaxed_score": -2.528,
+      "relaxed_local_score": -1.326,
+      "delta": -0.003,
+      "rmsd_to_crystal": 3.359,
+      "engine": "vina_local_only",
+      "ok": true
+    },
+    {
+      "conf_id": 24,
+      "rigid_score": -2.41,
+      "relaxed_score": -2.55,
+      "relaxed_local_score": -1.338,
+      "delta": -0.14,
+      "rmsd_to_crystal": 3.406,
+      "engine": "vina_local_only",
+      "ok": true
+    }
+  ],
+  "rmsd_best_to_crystal": 3.731
+}

@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-02F-PRE",
+  "hypothesis": "En MolFlex cada conformero es una corrida de docking independiente, de modo que n_conf es tambien el numero de reinicios de busqueda; subir de K30 a K90 debe recuperar complejos cuyo fallo es de colocacion",
+  "protocol": "MF-02F-PRE/PREREGISTRO.md; corrige la lectura de MF-02A sobre el eje de muestreo; K30 reutiliza el material sellado de MF-02D via anidamiento verificado de prefijos ETKDG",
+  "created_at": "2026-08-18T02:32:21.612335+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "e6c551f78a26e27af0ea085747a1bbcd3828f1fc",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 validez >=95%, G2 K90 recupera >=3 de 33 (umbral derivado de D-MF-HARD-CURVE), G3 saturacion informativa, G4 determinismo, G5 anidamiento exacto"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/D-MF-HARD-CURVE/metrics.json": "187133576913e01d35d7998b85b0cbd61ff044753097f3dc334be1cb67d6e49b",
+    "scripts/artifacts_science/MF-02D/pocket_frame.jsonl": "94110c184dcf0bf0584d4e7f6a612c34a7a83eeb9f2024815d42b155f64e9e74"
+  },
+  "binary_hashes": {
+    "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-02F-PRE/PREREGISTRO.md": "83dcc5de342447de0475de11df06a4c6a1e1c8789b4ff73577d1394d53533b97",
+    "scripts/artifacts_science/MF-02F-PRE/cohorte.json": "e0a01b81405880bcf6dd58011ca3fa91fe8854fdd605d8083a688f86f3b95d9b",
+    "scripts/artifacts_science/MF-02F-PRE/anidamiento.json": "921261504304e62e7258db6c21cdf36802bb4222d9f1e9ac64216e3127253018",
+    "scripts/molflex.py": "d2bd11957cc20e8ea1413b4eca44e3f77664a686bb0fe67a38f47a856fc9aac9"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T02:32:22.576263+00:00",
+  "decision_rationale": "Prerregistro sellado antes de ejecutar, y nace de una correccion de mi propia lectura. MF-02A midio el techo CONFORMACIONAL y de ahi escribi en docs/49 que anadir conformeros es la palanca equivocada; eso era demasiado fuerte y el registro sellado lo contradice. En MolFlex cada conformero es una corrida de docking independiente, de modo que n_conf tiene dos papeles y MF-02A solo midio uno. D-MF-HARD-CURVE mide el otro: cobertura hard 5.9 a 17.6 a 23.5 por ciento en K5/K15/K30, ganancia pareada K15 a K30 de -0.289 A con CI95 BCa que excluye el cero, y declara que NO hay saturacion; los controles saturan en K15 y los hard no. Nadie ha medido K60/K90 con docking, y el modo de fallo dominante es la colocacion, sobre la que mas reinicios es una intervencion legitima. Se verifico ANTES de disenar que el ensemble de 30 es prefijo byte-identico del de 90 en los complejos de prueba, lo que permite reutilizar el material sellado de MF-02D como brazo K30 sin recomputar y reduce el coste en un tercio. Se declara por adelantado lo que NO es evidencia: con prefijos anidados la cobertura solo puede subir, asi que la monotonia esta garantizada por construccion y presentarla como hallazgo seria describir una tautologia; lo informativo es la magnitud y el coste por complejo recuperado. El umbral de G2 se deriva del prior sellado y no se inventa: D-MF-HARD-CURVE gano 5.9 puntos al duplicar K15 a K30, y de K30 a K90 hay 1.58 duplicaciones, que a la misma tasa dan 3 de 33. Comparte cohorte con MF-08 y queda prohibido asumir que los efectos de ambos se suman.",
+  "finished_at": "2026-08-18T02:32:49.284636+00:00"
+}

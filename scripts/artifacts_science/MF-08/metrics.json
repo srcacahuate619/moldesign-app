@@ -1,0 +1,229 @@
+{
+ "experiment_id": "MF-08",
+ "timestamp": "2026-08-18T04:37:29.018194+00:00",
+ "duration_seconds": 6856.66,
+ "config": {
+  "brazos": {
+   "B_ADAPT": null,
+   "B20": 20.0,
+   "B25": 25.0,
+   "B30": 30.0
+  },
+  "n_conf": 30,
+  "top_k": 3,
+  "umbral_A": 2.0,
+  "metrica": "min rmsd_pose_pocket sobre todas las poses dockeadas",
+  "nota_B25": "material de MF-02D, no recomputado"
+ },
+ "cohorte": {
+  "colocacion": 33,
+  "control": 15,
+  "excluidos_no_caben": [
+   "1aaq",
+   "1h22",
+   "1hn4",
+   "1kpm"
+  ],
+  "prediccion_decoy_excluido_20A": [
+   "10gs",
+   "1afl",
+   "1apv",
+   "1b38",
+   "1bma",
+   "1c4u",
+   "1d3p",
+   "1d9i",
+   "1eb2",
+   "1ela",
+   "1eld",
+   "1ele",
+   "1ezq",
+   "1f0u",
+   "1fkh",
+   "1hpx",
+   "1jq8",
+   "1nm6",
+   "1nw5"
+  ]
+ },
+ "n_corridas": 144,
+ "n_ok": 144,
+ "resumen_por_brazo": {
+  "B_ADAPT": {
+   "COLOCACION": {
+    "n": 33,
+    "cubiertos": 3,
+    "pids": [
+     "1d7i",
+     "1ew9",
+     "1l83"
+    ],
+    "cobertura": 0.0909,
+    "mediana_oraculo": 3.18
+   },
+   "CONTROL": {
+    "n": 15,
+    "cubiertos": 15,
+    "pids": [
+     "187l",
+     "188l",
+     "1add",
+     "1ai4",
+     "1alw",
+     "1bcd",
+     "1bju",
+     "1d7j",
+     "1fd0",
+     "1flr",
+     "1g3d",
+     "1hlk",
+     "1iih",
+     "1mmq",
+     "1nq7"
+    ],
+    "cobertura": 1.0,
+    "mediana_oraculo": 0.959
+   }
+  },
+  "B20": {
+   "COLOCACION": {
+    "n": 33,
+    "cubiertos": 1,
+    "pids": [
+     "1d7i"
+    ],
+    "cobertura": 0.0303,
+    "mediana_oraculo": 3.224
+   },
+   "CONTROL": {
+    "n": 15,
+    "cubiertos": 15,
+    "pids": [
+     "187l",
+     "188l",
+     "1add",
+     "1ai4",
+     "1alw",
+     "1bcd",
+     "1bju",
+     "1d7j",
+     "1fd0",
+     "1flr",
+     "1g3d",
+     "1hlk",
+     "1iih",
+     "1mmq",
+     "1nq7"
+    ],
+    "cobertura": 1.0,
+    "mediana_oraculo": 0.841
+   }
+  },
+  "B25": {
+   "COLOCACION": {
+    "n": 33,
+    "cubiertos": 0,
+    "pids": [],
+    "cobertura": 0.0,
+    "mediana_oraculo": 3.746
+   },
+   "CONTROL": {
+    "n": 15,
+    "cubiertos": 15,
+    "pids": [
+     "187l",
+     "188l",
+     "1add",
+     "1ai4",
+     "1alw",
+     "1bcd",
+     "1bju",
+     "1d7j",
+     "1fd0",
+     "1flr",
+     "1g3d",
+     "1hlk",
+     "1iih",
+     "1mmq",
+     "1nq7"
+    ],
+    "cobertura": 1.0,
+    "mediana_oraculo": 0.956
+   }
+  },
+  "B30": {
+   "COLOCACION": {
+    "n": 33,
+    "cubiertos": 1,
+    "pids": [
+     "1d7i"
+    ],
+    "cobertura": 0.0303,
+    "mediana_oraculo": 4.004
+   },
+   "CONTROL": {
+    "n": 15,
+    "cubiertos": 15,
+    "pids": [
+     "187l",
+     "188l",
+     "1add",
+     "1ai4",
+     "1alw",
+     "1bcd",
+     "1bju",
+     "1d7j",
+     "1fd0",
+     "1flr",
+     "1g3d",
+     "1hlk",
+     "1iih",
+     "1mmq",
+     "1nq7"
+    ],
+    "cobertura": 1.0,
+    "mediana_oraculo": 0.937
+   }
+  }
+ },
+ "coste": {
+  "B20": {
+   "mediana_s": 398.8
+  },
+  "B30": {
+   "mediana_s": 554.0
+  },
+  "B_ADAPT": {
+   "mediana_s": 424.7
+  }
+ },
+ "gates": {
+  "G1_validez": {
+   "criterio": ">=95% completan sin error",
+   "tasa": 1.0,
+   "pass": true
+  },
+  "G2_recuperacion": {
+   "criterio": "B_ADAPT recupera >=7 de los 33 dominados por colocacion",
+   "recuperados": 3,
+   "de": 33,
+   "B20_referencia": 1,
+   "pass": false
+  },
+  "G3_monotonia": {
+   "criterio": "cobertura B_ADAPT >= B20 >= B25 >= B30 (mecanismo: menos margen de deslizamiento, mas cobertura)",
+   "B_ADAPT": 0.0909,
+   "B20": 0.0303,
+   "B25": 0.0,
+   "B30": 0.0303,
+   "pass": false
+  },
+  "G4_no_regresion": {
+   "criterio": "B_ADAPT pierde como mucho 1 del control",
+   "perdidos": [],
+   "perdidos_B20": [],
+   "pass": true
+  }
+ },
+ "decision": "NO_GO"
+}

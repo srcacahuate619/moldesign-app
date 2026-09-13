@@ -1,0 +1,76 @@
+{
+  "descripcion": "Los campos de dossier de M4. La observación de Vina y la interpretación de XGBoost coexisten y se distinguen; hasta el 2026-09-04 no podían, porque la segunda sobrescribía a la primera.",
+  "estados": {
+    "ml_dentro_del_dominio": [
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Observación · afinidad AutoDock Vina",
+        "razon": null,
+        "valor": "-6.50 kcal/mol (score de Vina, sin transformar)",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Interpretación · regresión XGBoost (pKi)",
+        "razon": "Se informa JUNTO a la afinidad de Vina, no en su lugar: son dos cantidades con distinto error y distinto dominio de validez.",
+        "valor": "pKi 4.90 · equivale a -6.66 kcal/mol · dentro del dominio de aplicabilidad",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Modelo de rescoring y familia estructural",
+        "razon": null,
+        "valor": "universal · familia kinase",
+        "valor_es_clasificacion": false
+      }
+    ],
+    "ml_fuera_del_dominio": [
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Observación · afinidad AutoDock Vina",
+        "razon": null,
+        "valor": "-6.50 kcal/mol (score de Vina, sin transformar)",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REVISAR",
+        "etiqueta": "Interpretación · regresión XGBoost (pKi)",
+        "razon": "FUERA del dominio de aplicabilidad del modelo: la molécula no se parece a las del conjunto de entrenamiento. Se muestra como referencia, no como predicción. La afinidad del caso es la de Vina.",
+        "valor": null,
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Modelo de rescoring y familia estructural",
+        "razon": null,
+        "valor": "universal · familia kinase",
+        "valor_es_clasificacion": false
+      }
+    ],
+    "sin_regresion_de_ml": [
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Observación · afinidad AutoDock Vina",
+        "razon": null,
+        "valor": "-6.50 kcal/mol (score de Vina, sin transformar)",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "NO_EVALUADO",
+        "etiqueta": "Interpretación · regresión XGBoost (pKi)",
+        "razon": "El rescoring de ML no produjo regresión para esta corrida. En evaluaciones anteriores al 2026-09-04 este campo está vacío porque el valor se perdía al sobrescribir la afinidad de Vina.",
+        "valor": null,
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Modelo de rescoring y familia estructural",
+        "razon": null,
+        "valor": "universal · familia kinase",
+        "valor_es_clasificacion": false
+      }
+    ]
+  },
+  "golden_version": 1,
+  "protocolo": "M4_SMALL_MOLECULE"
+}

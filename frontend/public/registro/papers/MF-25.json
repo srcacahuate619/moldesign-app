@@ -1,0 +1,532 @@
+{
+ "id": "MF-25",
+ "meta": {
+  "titulo": "Dieciséis veces más cómputo, cero complejos ganados",
+  "entradilla": "Si el docking falla por falta de muestreo, más presupuesto lo arregla. Se multiplicó por 16 y no convirtió ni un solo complejo: el problema no era buscar poco."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cuando un docking coloca mal un ligando hay dos explicaciones posibles, y son incompatibles.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La primera es ",
+     "m": null
+    },
+    {
+     "t": "presupuesto",
+     "m": "fuerte"
+    },
+    {
+     "t": ": la búsqueda es correcta pero no tiene tiempo de cubrir el espacio que debe cubrir. Se arregla con más cómputo, que es la solución más cómoda que existe porque no exige entender nada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La segunda es ",
+     "m": null
+    },
+    {
+     "t": "paisaje",
+     "m": "fuerte"
+    },
+    {
+     "t": ": la búsqueda converge, pero converge al sitio equivocado porque la función que optimiza premia el sitio equivocado. Más cómputo la lleva más rápido al error.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento fue diseñado para separarlas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El sesgo que había que evitar",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El estrato difícil de esta cohorte se ",
+     "m": null
+    },
+    {
+     "t": "definió",
+     "m": "fuerte"
+    },
+    {
+     "t": " como los complejos que fallan la colocación. Eso vuelve tautológica cualquier comparación de niveles: por construcción, su coste de colocación será mayor que el del control. Medir eso y celebrarlo sería medirse la propia definición.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Por eso el experimento no compara niveles. Compara ",
+     "m": null
+    },
+    {
+     "t": "la respuesta al presupuesto",
+     "m": "fuerte"
+    },
+    {
+     "t": " — la derivada. Que el coste sea mayor en el estrato difícil está garantizado de antemano; que ",
+     "m": null
+    },
+    {
+     "t": "baje o no",
+     "m": "fuerte"
+    },
+    {
+     "t": " al subir el presupuesto no lo está, y es exactamente lo que distingue las dos explicaciones.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La regla de lectura se escribió antes de correr nada:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "baja más de 0.5 Å ⟹ PRESUPUESTO · no baja ⟹ PAISAJE",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se dockearon 48 complejos con ",
+     "m": null
+    },
+    {
+     "t": "exhaustiveness",
+     "m": "codigo"
+    },
+    {
+     "t": " 8, 32 y 128. El protocolo congelado usa 8, así que el barrido llega a ",
+     "m": null
+    },
+    {
+     "t": "16 veces",
+     "m": "fuerte"
+    },
+    {
+     "t": " el presupuesto de producción.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "exh=8",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "exh=32",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "exh=128",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Colocación",
+       "m": "fuerte"
+      },
+      {
+       "t": " (n=33) — coste mediano",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4.284 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3.508 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3.500 Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Colocación — complejos que aciertan",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1/33",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1/33",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1/33",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Control",
+       "m": "fuerte"
+      },
+      {
+       "t": " (n=15) — coste mediano",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.608 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.608 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.638 Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Control — complejos que aciertan",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15/15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "14/15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15/15",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Tiempo mediano por complejo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "24.8 s",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "97.5 s",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "406.7 s",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El coste baja 0.784 Å en total, que parece una mejora hasta que se mira dónde ocurre: ",
+     "m": null
+    },
+    {
+     "t": "toda",
+     "m": "fuerte"
+    },
+    {
+     "t": " entre 8 y 32. De 32 a 128 el movimiento es de ",
+     "m": null
+    },
+    {
+     "t": "0.008 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": " mientras el tiempo se cuadruplica. Eso es la firma de la saturación — la búsqueda ya encontró todo lo que su función de puntuación le permite encontrar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y la columna que zanja el asunto es la de complejos convertidos: ",
+     "m": null
+    },
+    {
+     "t": "1 de 33 en los tres presupuestos",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Dieciséis veces más cómputo no convirtió ni uno adicional.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El control lo confirma por contraste: coste plano en los tres presupuestos y 15 de 15 desde el presupuesto más barato. En ningún régimen, ni fácil ni difícil, el presupuesto es la palanca.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Una anomalía que se registra en vez de esconderse",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En ",
+     "m": null
+    },
+    {
+     "t": "exh=32",
+     "m": "codigo"
+    },
+    {
+     "t": " el control marca 14 de 15 en lugar de 15 de 15. Subir el presupuesto no puede empeorar un resultado por ninguna vía causal: sólo es posible por la estocasticidad de Vina. ",
+     "m": null
+    },
+    {
+     "t": "FND-03",
+     "m": "codigo"
+    },
+    {
+     "t": " midió después que la desviación por semilla en el estrato control es de 0.011 Å, así que ese caso es un valor atípico y no un patrón. Queda anotado porque borrarlo sería cosmética.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Consecuencia",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El diagnóstico es ",
+     "m": null
+    },
+    {
+     "t": "PAISAJE",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y cierra por futilidad la última salida cómoda de la cartera de generación de poses. Junto con ",
+     "m": null
+    },
+    {
+     "t": "MF-15-EXT",
+     "m": "codigo"
+    },
+    {
+     "t": " —que midió que no hay embudo que guíe hacia la pose nativa, ρ = 0.186— el cuadro queda completo:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El mínimo global está donde debe estar. Lo que falta es gradiente que lleve hasta él.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso descarta de entrada las familias de métodos que asumen un paisaje cooperativo, y señala las que funcionan sin gradiente. Es la razón por la que el programa dejó de afinar el buscador y pasó a preguntarse si el objetivo estaba bien planteado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Prohibición heredada",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento manipula ",
+     "m": null
+    },
+    {
+     "t": "exhaustiveness",
+     "m": "codigo"
+    },
+    {
+     "t": ", que es un parámetro del mismo buscador que ",
+     "m": null
+    },
+    {
+     "t": "MF-03/04/05/07/12",
+     "m": "codigo"
+    },
+    {
+     "t": " querían ajustar. Se declaró antes de correr que un resultado positivo ",
+     "m": null
+    },
+    {
+     "t": "no",
+     "m": "fuerte"
+    },
+    {
+     "t": " autorizaría subir ",
+     "m": null
+    },
+    {
+     "t": "exhaustiveness",
+     "m": "codigo"
+    },
+    {
+     "t": " en producción — eso exigiría su propio experimento con coste de CPU medido, porque 128 cuesta 16 veces por corrida. El resultado fue negativo y la prohibición nunca llegó a ponerse a prueba.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-25.md"
+}

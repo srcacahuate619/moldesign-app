@@ -1,0 +1,53 @@
+{
+ "experiment_id": "FND-08",
+ "tipo": "auditoria de reproducibilidad, solo lectura",
+ "timestamp": "2026-08-20T03:54:48.562455+00:00",
+ "n_artefactos_sellados": 94,
+ "G1_integridad_del_sello": {
+  "aplica_a": 94,
+  "pasan": 93,
+  "fallan": [
+   "FND-01-SMOKE"
+  ]
+ },
+ "G2_consistencia_del_recuento": {
+  "aplica_a": 23,
+  "pasan": 23,
+  "fallan": []
+ },
+ "G3_existencia_de_dato_crudo": {
+  "aplica_a": 64,
+  "pasan": 60,
+  "fallan": [
+   "FND-04",
+   "MF-26",
+   "REC-03-PRE",
+   "RS-01A-R1"
+  ]
+ },
+ "G4_trazabilidad_del_codigo": {
+  "aplica_a": 64,
+  "pasan": 63,
+  "fallan": [
+   "FND-02"
+  ]
+ },
+ "hashes_a_ficheros_ausentes": {},
+ "dato_crudo_fuera_del_nombre_canonico": {
+  "criterio": "tiene .jsonl con contenido pero per_complex.jsonl vacio o ausente",
+  "n": 10,
+  "ids": [
+   "D-MF-HARD",
+   "FEP-03",
+   "MF-01-UNION",
+   "MF-02E",
+   "MF-08",
+   "MF-10-CAL",
+   "MF-11-R2",
+   "MF-15",
+   "MF-20",
+   "RS-01"
+  ]
+ },
+ "nota": "G2 y G3 solo aplican a artefactos con metrics.json; los prerregistros y los documentales no declaran resultados y quedan fuera del denominador."
+}

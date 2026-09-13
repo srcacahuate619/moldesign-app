@@ -1,0 +1,318 @@
+{
+ "fecha": "2026-09-02",
+ "herramienta": "scripts/recentrar_cajas.py",
+ "criterio": "ligando unido (>=5 residuos) a mas de 3.0 A del centro, Y el centroide de los hotspots mas cerca de ese ligando que de la caja",
+ "estandar": "la mediana del catalogo es 0,0 A entre el centro de la caja y el del ligando: nueve de cada diez ya estan centradas sobre el",
+ "advertencia": "recentrar cambia el sitio que se acopla y por tanto los numeros de cualquier resultado anterior sobre estos receptores; ver doc 71 §2.3",
+ "total": 11,
+ "decisiones": [
+  {
+   "pdb_id": "1VKG",
+   "ligando": "CRI",
+   "contactos_del_ligando": 16,
+   "centro_antes": [
+    13.811,
+    66.392,
+    74.98
+   ],
+   "centro_despues": [
+    13.792,
+    66.1,
+    79.66
+   ],
+   "desplazamiento_A": 4.7,
+   "lados_antes": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "lados_despues": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "hotspots_al_ligando_A": 3.7,
+   "hotspots_a_la_caja_vieja_A": 5.3
+  },
+  {
+   "pdb_id": "1W22",
+   "ligando": "NHB",
+   "contactos_del_ligando": 17,
+   "centro_antes": [
+    2.669,
+    14.563,
+    24.332
+   ],
+   "centro_despues": [
+    3.353,
+    15.939,
+    19.602
+   ],
+   "desplazamiento_A": 5.0,
+   "lados_antes": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "lados_despues": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "hotspots_al_ligando_A": 1.9,
+   "hotspots_a_la_caja_vieja_A": 5.6
+  },
+  {
+   "pdb_id": "4JV6",
+   "ligando": "18F",
+   "contactos_del_ligando": 21,
+   "centro_antes": [
+    15.154,
+    -15.793,
+    14.303
+   ],
+   "centro_despues": [
+    11.258,
+    -14.331,
+    15.738
+   ],
+   "desplazamiento_A": 4.4,
+   "lados_antes": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "lados_despues": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "hotspots_al_ligando_A": 1.2,
+   "hotspots_a_la_caja_vieja_A": 3.7
+  },
+  {
+   "pdb_id": "4JV8",
+   "ligando": "1M1",
+   "contactos_del_ligando": 20,
+   "centro_antes": [
+    21.463,
+    -5.274,
+    -14.581
+   ],
+   "centro_despues": [
+    18.204,
+    -2.233,
+    -15.759
+   ],
+   "desplazamiento_A": 4.6,
+   "lados_antes": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "lados_despues": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "hotspots_al_ligando_A": 0.8,
+   "hotspots_a_la_caja_vieja_A": 4.2
+  },
+  {
+   "pdb_id": "4JZD",
+   "ligando": "1NJ",
+   "contactos_del_ligando": 24,
+   "centro_antes": [
+    93.125,
+    34.899,
+    52.658
+   ],
+   "centro_despues": [
+    86.532,
+    38.252,
+    53.569
+   ],
+   "desplazamiento_A": 7.5,
+   "lados_antes": [
+    35.0,
+    35.0,
+    35.0
+   ],
+   "lados_despues": [
+    35.0,
+    35.0,
+    35.0
+   ],
+   "hotspots_al_ligando_A": 4.7,
+   "hotspots_a_la_caja_vieja_A": 11.4
+  },
+  {
+   "pdb_id": "4QA0",
+   "ligando": "SHH",
+   "contactos_del_ligando": 17,
+   "centro_antes": [
+    17.617,
+    34.877,
+    22.72
+   ],
+   "centro_despues": [
+    18.515,
+    32.96,
+    18.023
+   ],
+   "desplazamiento_A": 5.2,
+   "lados_antes": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "lados_despues": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "hotspots_al_ligando_A": 1.7,
+   "hotspots_a_la_caja_vieja_A": 6.6
+  },
+  {
+   "pdb_id": "6SXC",
+   "ligando": "OHT",
+   "contactos_del_ligando": 6,
+   "centro_antes": [
+    3.74,
+    10.365,
+    44.905
+   ],
+   "centro_despues": [
+    4.502,
+    6.15,
+    44.996
+   ],
+   "desplazamiento_A": 4.3,
+   "lados_antes": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "lados_despues": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "hotspots_al_ligando_A": 4.7,
+   "hotspots_a_la_caja_vieja_A": 7.4
+  },
+  {
+   "pdb_id": "6SXG",
+   "ligando": "OHT",
+   "contactos_del_ligando": 6,
+   "centro_antes": [
+    3.979,
+    10.556,
+    45.178
+   ],
+   "centro_despues": [
+    4.679,
+    6.088,
+    45.34
+   ],
+   "desplazamiento_A": 4.5,
+   "lados_antes": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "lados_despues": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "hotspots_al_ligando_A": 4.6,
+   "hotspots_a_la_caja_vieja_A": 7.5
+  },
+  {
+   "pdb_id": "7JVU",
+   "ligando": "SHH",
+   "contactos_del_ligando": 16,
+   "centro_antes": [
+    17.674,
+    33.98,
+    22.894
+   ],
+   "centro_despues": [
+    16.887,
+    35.94,
+    27.184
+   ],
+   "desplazamiento_A": 4.8,
+   "lados_antes": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "lados_despues": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "hotspots_al_ligando_A": 1.8,
+   "hotspots_a_la_caja_vieja_A": 6.1
+  },
+  {
+   "pdb_id": "7ZYJ",
+   "ligando": "KFC",
+   "contactos_del_ligando": 19,
+   "centro_antes": [
+    129.0,
+    129.0,
+    103.17
+   ],
+   "centro_despues": [
+    142.755,
+    120.956,
+    103.172
+   ],
+   "desplazamiento_A": 15.9,
+   "lados_antes": [
+    50.0,
+    50.0,
+    50.0
+   ],
+   "lados_despues": [
+    50.0,
+    50.0,
+    50.0
+   ],
+   "hotspots_al_ligando_A": 1.9,
+   "hotspots_a_la_caja_vieja_A": 16.1
+  },
+  {
+   "pdb_id": "8WGR",
+   "ligando": "DSM",
+   "contactos_del_ligando": 22,
+   "centro_antes": [
+    94.354,
+    103.554,
+    96.605
+   ],
+   "centro_despues": [
+    99.312,
+    102.437,
+    101.326
+   ],
+   "desplazamiento_A": 6.9,
+   "lados_antes": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "lados_despues": [
+    30.0,
+    30.0,
+    30.0
+   ],
+   "hotspots_al_ligando_A": 0.8,
+   "hotspots_a_la_caja_vieja_A": 7.3
+  }
+ ]
+}

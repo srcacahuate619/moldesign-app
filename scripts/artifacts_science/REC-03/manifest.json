@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "experiment_id": "REC-03",
+  "hypothesis": "Un grid derivado de prediccion de pocket ligando-libre (MolPocket) repara el docking que el catalogo pierde en la cohorte accionable de REC-01-R1, sin degradar los targets sanos",
+  "protocol": "REC-03-PRE sellado (78bb65d, maintain ff806cc); entradas selladas REC-01-R1 y geometria_preflight.json; Vina 1.2.7 local, 4 cajas por target, 3 semillas",
+  "created_at": "2026-08-17T21:24:47.375476+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "ff806cc9f65be995c334f875313305b0d983da0d",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "5 gates: G1 validez >=98%, G2 solo lectura del catalogo, G3 reparacion >=5 de 25 accionables, G4 no regresion >=70% del control, G5 determinismo"
+  },
+  "decision": "NO_GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/REC-01-R1/per_complex.jsonl": "c48fe2822ae4adc8024fcb9281ee09fcd3b138c757e00af55ccbffe6a2b533f3",
+    "scripts/artifacts_science/REC-03-PRE/geometria_preflight.json": "16fb850f5fcc71ac8b21837f3e4cbc4744a3e337054a6cbeb0e99384b7afbf81"
+  },
+  "binary_hashes": {
+    "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/REC-03/LECTURA.md": "d760abc18d198919919c10b82bf457a0f0fe56f7f7cf63b0e3259846c7fbccbc",
+    "scripts/artifacts_science/REC-03/metrics.json": "e17f0ca633dc3d41ee4486ed9005b1a9caf55acb60ef9b40ab5f4af0017bc134",
+    "scripts/artifacts_science/REC-03/per_complex.jsonl": "8f2d5b6eced6e1904265fd0392f04f0d7e99a0a20d50d675ad529f18fd748274",
+    "scripts/artifacts_science/REC-03/corridas.jsonl": "3f77851561b909e45b75340fb3887e526cce4b024ab2ba288e1fe7495d2ea911",
+    "scripts/artifacts_science/REC-03/failures.jsonl": "3476c7bdeb974c277a0a8e1d336321832f92c2f95836f536df6ef7cf6030513a",
+    "scripts/run_rec03_grid_repair.py": "7779ebe3c41336e03be516c644a4c2b31245687cb6a8aa426c775e6b82b45ab2",
+    "scripts/rec03_preflight.py": "78dfacc445d1d2572333717eb9a8653a150e65b2c2392540ddfd8a8b27bd40de"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T21:24:57.905595+00:00",
+  "decision_rationale": "Fallan dos gates. G4 (no regresion) FAIL: en el control G_MP_SCORE conserva 4 de los 6 targets que repara G_CAT, por debajo de los 5 exigidos, y las dos perdidas son catastroficas (2H02 pasa de 1.338 a 61.07 A; 7JVU de 1.976 a 13.09 A). G1 (validez) FAIL: 87.1% (324/372), por debajo del 98% exigido. La validez no fallo de forma difusa: fallo entera y exclusivamente en 4 targets que perdieron sus 12 corridas cada uno mientras los otros 27 dieron 324/324 validas; como los 4 caen igual en los 4 brazos no distorsionan la comparacion, pero el prerregistro es explicito en que un fallo de validez obliga a repetir y no a interpretar, de modo que NO se emite claim. Causas diagnosticadas: 3MG0 lleva boro y Vina no tiene tipo de atomo para B (limite del motor); 6MWA (37 torsiones), 7E2Y (43) y 4CA8 (20 torsiones, 56 atomos) agotaron el timeout de 1800 s. G3 (reparacion) PASS: G_MP_SCORE repara 6 accionables, y de los 19 evaluables el techo geometrico declarado era 9, de modo que alcanza el 67% de lo que la geometria permitia; se repara donde el catalogo contenia parcialmente el ligando (5 de 6 son S2_GRAVE) y no donde la caja estaba completamente fuera. G_CAT repara 0 de 21 accionables, resultado ya determinado por construccion y declarado en el prerregistro. G5 determinismo PASS 4/4 identicos. Calibracion no buscada: con la caja exacta del catalogo, centrada a 0.00 A del ligando, el re-docking solo acierta en 6 de 8 targets sanos (75%): ese techo es del motor, no del catalogo. Conclusion registrada: la reparacion automatica global del catalogo por prediccion de pocket NO es viable con este motor; los 25 accionables siguen siendo deuda de curacion por target. Coherente con REC-07: la geometria del grid no es buen predictor de la calidad del docking, ni para condenar un grid ni para reemplazarlo.",
+  "finished_at": "2026-08-17T21:25:14.420453+00:00",
+  "duration_seconds": 17313.6
+}

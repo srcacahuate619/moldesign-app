@@ -1,0 +1,1113 @@
+{
+  "experimento": "RS-04-OOF",
+  "declaracion_resultado": "Cross-fitting COMPLETO (5 folds sellados RS-01B) que aísla el efecto de la feature de strain MMFF94s: clon v0.6 congelado (baseline, 233 feats) frente a v0.6 + strain (aumentado, 234 feats) sobre exactamente los mismos complejos por fold. Gate operacional RS-04: Top-1 OOF >= 50/116; mediana pareada dRMSD <= +0.1 A; cobertura quimica >= 95%; costes P95; sin regresion grave por estrato hard/control.",
+  "preregistro": "CAMPANA-2-PLAN sellado (41b7f09) IT1 QA-5/QA-6 + RS-04-QC sellado (5ffb256)",
+  "runtime": {
+    "python": "3.11.9",
+    "xgboost": "3.2.0",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "rdkit": "2025.09.6",
+    "interprete": "python-embed/python.exe",
+    "checkpoint_carga": {
+      "sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+      "uso": "SOLO contrato de features congelado; los clones se entrenan desde cero por fold"
+    }
+  },
+  "integridad_insumos_sha256": {
+    "checkpoint_xgb": {
+      "archivo": "D:\\moldesign-build\\rescoring\\artifacts\\pose_selector_v06.xgb",
+      "sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+      "esperado": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+      "ok": true
+    },
+    "checkpoint_meta": {
+      "archivo": "D:\\moldesign-build\\rescoring\\artifacts\\pose_selector_v06_meta.json",
+      "sha256": "296b125ba852522259c11385063dc825c18efc3769228a22a640702ea5b5147d",
+      "esperado": "296b125ba852522259c11385063dc825c18efc3769228a22a640702ea5b5147d",
+      "ok": true
+    },
+    "cache_view": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\RS-01\\cache_train_only_view.jsonl",
+      "sha256": "6afeb3705ad4ba0d49918e6849da2876cd63e4260aa8f47487b0b393596bbc34",
+      "esperado": "6afeb3705ad4ba0d49918e6849da2876cd63e4260aa8f47487b0b393596bbc34",
+      "ok": true
+    },
+    "cache_view_manifest": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\RS-01\\cache_view_manifest.json",
+      "sha256": "ed7e9ec63d912c6936023cd57159febe891462f256d10314d40106d0d042d640",
+      "esperado": "ed7e9ec63d912c6936023cd57159febe891462f256d10314d40106d0d042d640",
+      "ok": true
+    },
+    "poses_train": {
+      "archivo": "D:\\moldesign-build\\data\\pose_selector_dataset\\poses_train.jsonl",
+      "sha256": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654",
+      "esperado": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654",
+      "ok": true
+    },
+    "union_candidates_train": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\MF-01-UNION\\union_candidates_train.jsonl",
+      "sha256": "61ab0e26901659c0d6e8bf98f47bbcae82d187265fc8181953d58ff6a2033ce9",
+      "esperado": "61ab0e26901659c0d6e8bf98f47bbcae82d187265fc8181953d58ff6a2033ce9",
+      "ok": true
+    },
+    "union_labels_train": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\MF-01-UNION\\union_labels_train.jsonl",
+      "sha256": "19843afd49135f30297884ce56889312a4f34b6f75cd708127eca1789338bfbb",
+      "esperado": "19843afd49135f30297884ce56889312a4f34b6f75cd708127eca1789338bfbb",
+      "ok": true
+    },
+    "dedup_candidates_1_5": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\MF-11-R1\\dedup_candidates_train_1.5.jsonl",
+      "sha256": "fef90c21c92d3527a3431d8e880601d33208a1c12688057f8ebf95642589fa78",
+      "esperado": "fef90c21c92d3527a3431d8e880601d33208a1c12688057f8ebf95642589fa78",
+      "ok": true
+    },
+    "sidecar_cluster_members_1_5": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\MF-11-R1\\cluster_members_train_1.5.jsonl",
+      "sha256": "7026b8dea49062d49e4765ab116864fe6bd550ac660c76da646aabb7a645d0a0",
+      "esperado": "7026b8dea49062d49e4765ab116864fe6bd550ac660c76da646aabb7a645d0a0",
+      "ok": true
+    },
+    "fold_plan": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\RS-01\\fold_plan.json",
+      "sha256": "9d97ad70b25331b4ae3e926210f6372ed7ec092d5a7a5fff6fe61af83b961c30",
+      "esperado": "9d97ad70b25331b4ae3e926210f6372ed7ec092d5a7a5fff6fe61af83b961c30",
+      "ok": true
+    }
+  },
+  "validaciones": {
+    "densidad_historica": {
+      "metodo": "records/{pid}.json, RMSD < 2.0 A",
+      "n_coinciden_con_congelado": 2739,
+      "n_total": 2739,
+      "exacto": true
+    },
+    "folds": {
+      "tamanos": [
+        55,
+        16,
+        15,
+        15,
+        15
+      ],
+      "esperado": [
+        55,
+        16,
+        15,
+        15,
+        15
+      ],
+      "n_componentes": 38,
+      "esperado_componentes": 38
+    },
+    "clones_baseline_vs_rs01b": {
+      "nota": "el clon baseline usa el MISMO pipeline que el brazo original de RS-01B (hiperparametros, features e insumos identicos); la comparacion de sha es evidencia de reproducibilidad del baseline",
+      "por_fold": {
+        "fold0": {
+          "sha_baseline_rs04": "6e872ba236ad458f2d431f24cb61d091a130d7e511ae245e35cf689f04053671",
+          "sha_original_rs01b": "6e872ba236ad458f2d431f24cb61d091a130d7e511ae245e35cf689f04053671",
+          "identico": true
+        },
+        "fold1": {
+          "sha_baseline_rs04": "2541609f9a294063d2cb368d31d7bb5d94112b400a213eb90ff26ae8c0910dfb",
+          "sha_original_rs01b": "2541609f9a294063d2cb368d31d7bb5d94112b400a213eb90ff26ae8c0910dfb",
+          "identico": true
+        },
+        "fold2": {
+          "sha_baseline_rs04": "9584f7d9c19c179cd1d963091e7608dd6ca422f7db4031db3b98e69c55b62cc3",
+          "sha_original_rs01b": "9584f7d9c19c179cd1d963091e7608dd6ca422f7db4031db3b98e69c55b62cc3",
+          "identico": true
+        },
+        "fold3": {
+          "sha_baseline_rs04": "8eab79bf5fa5540d3e9172b6faf913b2f793038c65637cde1b47c106889a0333",
+          "sha_original_rs01b": "8eab79bf5fa5540d3e9172b6faf913b2f793038c65637cde1b47c106889a0333",
+          "identico": true
+        },
+        "fold4": {
+          "sha_baseline_rs04": "fabc39ecdcd016284f4fb346dcbaa7fda4d71a4d98d5a1291b3c220a9062f196",
+          "sha_original_rs01b": "fabc39ecdcd016284f4fb346dcbaa7fda4d71a4d98d5a1291b3c220a9062f196",
+          "identico": true
+        }
+      },
+      "n_identicos": 5
+    },
+    "imputacion_strain": {
+      "n_poses_imputadas": 14,
+      "pids": [
+        "1kpm",
+        "1nm6"
+      ],
+      "definicion": "mediana del strain del outer-train de su fold (definida DENTRO del outer-train; documentada)"
+    }
+  },
+  "config_clon": {
+    "hiperparametros": {
+      "objective": "rank:pairwise",
+      "n_estimators": 52,
+      "max_depth": 6,
+      "learning_rate": 0.05,
+      "subsample": 0.8,
+      "n_jobs": 4,
+      "seed": 42,
+      "random_state": 42
+    },
+    "n_estimators": 52,
+    "early_stopping": "NINGUNO (sin eval_set)",
+    "relevancia": "-rmsd",
+    "grupos": "por complejo (filas contiguas, orden canonico)",
+    "eval_metric": "auc con fallback rmse (patron historico)",
+    "seed": 42,
+    "n_features_baseline": 233,
+    "n_features_aumentado": 234,
+    "feature_strain": {
+      "columna": "strain_mmff (columna raw 225)",
+      "transformacion": "z-score por complejo como cualquier feature raw; percentiles sobre las MISMAS 9 columnas congeladas de v0.6 (no se altera el orden de percentiles)",
+      "imputacion": "mediana del outer-train por fold (degeneradas)",
+      "negativos": "NO truncados (QA-5); ampliacion unica del search de referencia"
+    }
+  },
+  "strain": {
+    "n_ligandos": 116,
+    "n_ligandos_soportados_mmff": 116,
+    "no_soportados": [],
+    "n_poses_total": 2739,
+    "n_poses_con_strain": 2725,
+    "n_poses_imputadas": 14,
+    "n_negativos": 0,
+    "por_estrato": {
+      "hard": {
+        "n_poses": 802,
+        "mediana_kcal": 164.1822,
+        "min_kcal": 63.8719,
+        "max_kcal": 314.5449,
+        "n_negativos": 0
+      },
+      "control": {
+        "n_poses": 150,
+        "mediana_kcal": 42.9271,
+        "min_kcal": 9.208,
+        "max_kcal": 172.592,
+        "n_negativos": 0
+      },
+      "sin_estrato": {
+        "n_poses": 1773,
+        "mediana_kcal": 93.6207,
+        "min_kcal": 0.142,
+        "max_kcal": 336.4122,
+        "n_negativos": 0
+      }
+    },
+    "neutros_vs_ionizados": {
+      "neutros": {
+        "n_ligandos": 86,
+        "n_poses": 1773,
+        "mediana_kcal": 107.8387,
+        "min_kcal": 0.142,
+        "max_kcal": 336.4122,
+        "n_negativos": 0
+      },
+      "ionizados": {
+        "n_ligandos": 30,
+        "n_poses": 952,
+        "mediana_kcal": 112.8704,
+        "min_kcal": 5.8642,
+        "max_kcal": 240.508,
+        "n_negativos": 0
+      }
+    },
+    "nota_negativos": "los negativos NO se truncan a cero; disparan UNA ampliacion del search de referencia (QA-5)"
+  },
+  "por_fold": [
+    {
+      "fold": 0,
+      "n_componentes": 1,
+      "n_complejos_eval": 55,
+      "n_outer_train_complejos": 61,
+      "n_outer_train_poses": 1636,
+      "mediana_strain_outer_train_kcal": 110.5223,
+      "baseline": {
+        "n_complejos": 55,
+        "top1_hits": 21,
+        "top1_rate": 0.3818,
+        "rmsd_mediana_ganador": 3.752,
+        "n_abstenciones": 25,
+        "tasa_abstencion": 0.4545
+      },
+      "aumentado": {
+        "n_complejos": 55,
+        "top1_hits": 22,
+        "top1_rate": 0.4,
+        "rmsd_mediana_ganador": 2.62,
+        "n_abstenciones": 22,
+        "tasa_abstencion": 0.4
+      },
+      "pareado": {
+        "delta_hits": 1,
+        "mediana_pareada_rmsd": 0.0,
+        "diferencia_medianas_rmsd": -1.132,
+        "suma_pareada_rmsd": -35.912,
+        "media_pareada_rmsd": -0.652945,
+        "deltas_hit_por_pid": {
+          "184l": 0,
+          "186l": 0,
+          "187l": 0,
+          "188l": 0,
+          "1a4w": 0,
+          "1aaq": 0,
+          "1ai4": -1,
+          "1ai7": 0,
+          "1alw": 0,
+          "1bcd": -1,
+          "1bju": 0,
+          "1bjv": 0,
+          "1bma": 0,
+          "1bn1": -1,
+          "1bn3": 1,
+          "1bn4": 0,
+          "1bnu": 0,
+          "1bq4": 0,
+          "1bty": 0,
+          "1c4u": 0,
+          "1c5o": 0,
+          "1c5p": 1,
+          "1cnw": 0,
+          "1cnx": 0,
+          "1d3p": 1,
+          "1d9i": 0,
+          "1e4h": 0,
+          "1eb2": 0,
+          "1ela": 0,
+          "1elb": 0,
+          "1eld": 0,
+          "1ele": 0,
+          "1ezq": 0,
+          "1f0r": 0,
+          "1f0t": 0,
+          "1f0u": 0,
+          "1f5k": 1,
+          "1fv0": 0,
+          "1g3d": -1,
+          "1g3e": 0,
+          "1h4w": 1,
+          "1hdq": 0,
+          "1hih": 0,
+          "1hii": 0,
+          "1hpx": 0,
+          "1igb": 0,
+          "1ikt": 0,
+          "1jao": 0,
+          "1jaq": 0,
+          "1jq8": 0,
+          "1kpm": 0,
+          "1l83": 0,
+          "1mu8": 0,
+          "1nm6": 0,
+          "1nq7": 0
+        },
+        "deltas_rmsd_por_pid": {
+          "184l": 0.0,
+          "186l": -0.346,
+          "187l": 0.0,
+          "188l": 0.0,
+          "1a4w": -1.551,
+          "1aaq": 0.0,
+          "1ai4": 3.334,
+          "1ai7": 0.0,
+          "1alw": 0.0,
+          "1bcd": 0.871,
+          "1bju": 0.0,
+          "1bjv": 0.0,
+          "1bma": 0.0,
+          "1bn1": 2.618,
+          "1bn3": -3.42,
+          "1bn4": 0.0,
+          "1bnu": 0.0,
+          "1bq4": 0.0,
+          "1bty": 0.0,
+          "1c4u": 0.0,
+          "1c5o": 0.0,
+          "1c5p": -12.039,
+          "1cnw": 0.433,
+          "1cnx": -0.053,
+          "1d3p": -1.224,
+          "1d9i": -7.573,
+          "1e4h": 0.0,
+          "1eb2": 0.0,
+          "1ela": 0.0,
+          "1elb": 0.0,
+          "1eld": 0.0,
+          "1ele": 0.0,
+          "1ezq": 0.0,
+          "1f0r": 0.0,
+          "1f0t": 0.0,
+          "1f0u": 0.0,
+          "1f5k": -7.161,
+          "1fv0": 1.282,
+          "1g3d": 1.479,
+          "1g3e": -5.345,
+          "1h4w": -8.027,
+          "1hdq": 0.0,
+          "1hih": 0.0,
+          "1hii": 0.0,
+          "1hpx": 0.0,
+          "1igb": 0.0,
+          "1ikt": 1.268,
+          "1jao": -0.554,
+          "1jaq": 0.096,
+          "1jq8": 0.0,
+          "1kpm": 0.0,
+          "1l83": 0.0,
+          "1mu8": 0.0,
+          "1nm6": 0.0,
+          "1nq7": 0.0
+        }
+      },
+      "bootstrap_descriptivo": {
+        "n_componentes": 1,
+        "intervalo": null,
+        "motivo": "menos de 5 componentes: sin intervalo (solo descriptivo)"
+      },
+      "modelos": {
+        "baseline_sha256": "6e872ba236ad458f2d431f24cb61d091a130d7e511ae245e35cf689f04053671",
+        "aumentado_sha256": "56564f358d04ba03c0a2fc196452031b2991fc9c5804bfb938e15374bb22209c",
+        "eval_metric_baseline": "auc",
+        "eval_metric_aumentado": "auc"
+      }
+    },
+    {
+      "fold": 1,
+      "n_componentes": 8,
+      "n_complejos_eval": 16,
+      "n_outer_train_complejos": 100,
+      "n_outer_train_poses": 2176,
+      "mediana_strain_outer_train_kcal": 104.8247,
+      "baseline": {
+        "n_complejos": 16,
+        "top1_hits": 9,
+        "top1_rate": 0.5625,
+        "rmsd_mediana_ganador": 1.644,
+        "n_abstenciones": 12,
+        "tasa_abstencion": 0.75
+      },
+      "aumentado": {
+        "n_complejos": 16,
+        "top1_hits": 7,
+        "top1_rate": 0.4375,
+        "rmsd_mediana_ganador": 2.1985,
+        "n_abstenciones": 8,
+        "tasa_abstencion": 0.5
+      },
+      "pareado": {
+        "delta_hits": -2,
+        "mediana_pareada_rmsd": 0.0,
+        "diferencia_medianas_rmsd": 0.5545,
+        "suma_pareada_rmsd": 1.696,
+        "media_pareada_rmsd": 0.106,
+        "deltas_hit_por_pid": {
+          "1a99": -1,
+          "1afk": 0,
+          "1afl": 0,
+          "1amw": 0,
+          "1b38": 0,
+          "1bxr": 0,
+          "1cet": -1,
+          "1dgm": 0,
+          "1gwv": 1,
+          "1i7z": 0,
+          "1jn4": -1,
+          "1jvu": 0,
+          "1kzk": 0,
+          "1m48": 0,
+          "1nki": 0,
+          "1nw5": 0
+        },
+        "deltas_rmsd_por_pid": {
+          "1a99": 3.406,
+          "1afk": 0.0,
+          "1afl": 0.0,
+          "1amw": 0.0,
+          "1b38": -0.012,
+          "1bxr": -0.001,
+          "1cet": 1.276,
+          "1dgm": -1.005,
+          "1gwv": -2.058,
+          "1i7z": 0.0,
+          "1jn4": 0.937,
+          "1jvu": 0.0,
+          "1kzk": 0.0,
+          "1m48": 0.0,
+          "1nki": -0.847,
+          "1nw5": 0.0
+        }
+      },
+      "bootstrap_descriptivo": {
+        "n_componentes": 8,
+        "n_complejos": 16,
+        "metodo": "percentil 2.5-97.5 (bootstrap por componentes del fold, descriptivo)",
+        "hits_intervalo": [
+          -5.0,
+          2.0
+        ],
+        "mediana_pareada_intervalo": [
+          -0.4235,
+          0.638
+        ]
+      },
+      "modelos": {
+        "baseline_sha256": "2541609f9a294063d2cb368d31d7bb5d94112b400a213eb90ff26ae8c0910dfb",
+        "aumentado_sha256": "f57ca866c22aaf34fafc3c2879d14fdce31c756191087ee162cce839353d5e49",
+        "eval_metric_baseline": "auc",
+        "eval_metric_aumentado": "auc"
+      }
+    },
+    {
+      "fold": 2,
+      "n_componentes": 9,
+      "n_complejos_eval": 15,
+      "n_outer_train_complejos": 101,
+      "n_outer_train_poses": 2411,
+      "mediana_strain_outer_train_kcal": 118.6525,
+      "baseline": {
+        "n_complejos": 15,
+        "top1_hits": 5,
+        "top1_rate": 0.3333,
+        "rmsd_mediana_ganador": 3.849,
+        "n_abstenciones": 12,
+        "tasa_abstencion": 0.8
+      },
+      "aumentado": {
+        "n_complejos": 15,
+        "top1_hits": 3,
+        "top1_rate": 0.2,
+        "rmsd_mediana_ganador": 3.169,
+        "n_abstenciones": 9,
+        "tasa_abstencion": 0.6
+      },
+      "pareado": {
+        "delta_hits": -2,
+        "mediana_pareada_rmsd": 0.0,
+        "diferencia_medianas_rmsd": -0.68,
+        "suma_pareada_rmsd": -3.397,
+        "media_pareada_rmsd": -0.226467,
+        "deltas_hit_por_pid": {
+          "1add": 0,
+          "1d7i": 0,
+          "1d7j": -1,
+          "1ew8": 0,
+          "1ew9": 0,
+          "1f74": 0,
+          "1fkg": 0,
+          "1fkh": 0,
+          "1hlk": 0,
+          "1hp5": 0,
+          "1iih": 0,
+          "1j4r": 0,
+          "1lan": 0,
+          "1m5w": -1,
+          "1np0": 0
+        },
+        "deltas_rmsd_por_pid": {
+          "1add": 0.0,
+          "1d7i": 0.149,
+          "1d7j": 0.893,
+          "1ew8": -0.462,
+          "1ew9": 0.0,
+          "1f74": 0.0,
+          "1fkg": 0.181,
+          "1fkh": 0.0,
+          "1hlk": 0.0,
+          "1hp5": 0.0,
+          "1iih": 0.0,
+          "1j4r": -3.597,
+          "1lan": -0.708,
+          "1m5w": 0.055,
+          "1np0": 0.092
+        }
+      },
+      "bootstrap_descriptivo": {
+        "n_componentes": 9,
+        "n_complejos": 15,
+        "metodo": "percentil 2.5-97.5 (bootstrap por componentes del fold, descriptivo)",
+        "hits_intervalo": [
+          -5.0,
+          0.0
+        ],
+        "mediana_pareada_intervalo": [
+          0.0,
+          0.055
+        ]
+      },
+      "modelos": {
+        "baseline_sha256": "9584f7d9c19c179cd1d963091e7608dd6ca422f7db4031db3b98e69c55b62cc3",
+        "aumentado_sha256": "9ce66baa75c19470a8096441d7313e79ce960888cd4222bd1473022d5ab6d034",
+        "eval_metric_baseline": "auc",
+        "eval_metric_aumentado": "auc"
+      }
+    },
+    {
+      "fold": 3,
+      "n_componentes": 10,
+      "n_complejos_eval": 15,
+      "n_outer_train_complejos": 101,
+      "n_outer_train_poses": 2405,
+      "mediana_strain_outer_train_kcal": 112.686,
+      "baseline": {
+        "n_complejos": 15,
+        "top1_hits": 6,
+        "top1_rate": 0.4,
+        "rmsd_mediana_ganador": 2.605,
+        "n_abstenciones": 6,
+        "tasa_abstencion": 0.4
+      },
+      "aumentado": {
+        "n_complejos": 15,
+        "top1_hits": 5,
+        "top1_rate": 0.3333,
+        "rmsd_mediana_ganador": 3.508,
+        "n_abstenciones": 8,
+        "tasa_abstencion": 0.5333
+      },
+      "pareado": {
+        "delta_hits": -1,
+        "mediana_pareada_rmsd": 0.0,
+        "diferencia_medianas_rmsd": 0.903,
+        "suma_pareada_rmsd": 4.192,
+        "media_pareada_rmsd": 0.279467,
+        "deltas_hit_por_pid": {
+          "1a30": 0,
+          "1apv": 0,
+          "1ax0": 0,
+          "1b2h": -1,
+          "1b46": 0,
+          "1b4z": 0,
+          "1fd0": 0,
+          "1gpn": 0,
+          "1h22": 0,
+          "1hmr": 0,
+          "1k9s": 0,
+          "1lrh": 0,
+          "1m2x": 0,
+          "1moq": 0,
+          "1nje": 0
+        },
+        "deltas_rmsd_por_pid": {
+          "1a30": 0.0,
+          "1apv": -0.634,
+          "1ax0": 0.0,
+          "1b2h": 5.914,
+          "1b46": 0.023,
+          "1b4z": 0.0,
+          "1fd0": 0.0,
+          "1gpn": 0.0,
+          "1h22": 0.0,
+          "1hmr": 0.361,
+          "1k9s": 0.0,
+          "1lrh": 0.0,
+          "1m2x": 0.0,
+          "1moq": 0.0,
+          "1nje": -1.472
+        }
+      },
+      "bootstrap_descriptivo": {
+        "n_componentes": 10,
+        "n_complejos": 15,
+        "metodo": "percentil 2.5-97.5 (bootstrap por componentes del fold, descriptivo)",
+        "hits_intervalo": [
+          -3.0,
+          0.0
+        ],
+        "mediana_pareada_intervalo": [
+          0.0,
+          0.0
+        ]
+      },
+      "modelos": {
+        "baseline_sha256": "8eab79bf5fa5540d3e9172b6faf913b2f793038c65637cde1b47c106889a0333",
+        "aumentado_sha256": "67d04ad590c589ce192d86cbbaf3923924842d99b2be6540a5a2f8f9cd327046",
+        "eval_metric_baseline": "auc",
+        "eval_metric_aumentado": "auc"
+      }
+    },
+    {
+      "fold": 4,
+      "n_componentes": 10,
+      "n_complejos_eval": 15,
+      "n_outer_train_complejos": 101,
+      "n_outer_train_poses": 2328,
+      "mediana_strain_outer_train_kcal": 109.4879,
+      "baseline": {
+        "n_complejos": 15,
+        "top1_hits": 6,
+        "top1_rate": 0.4,
+        "rmsd_mediana_ganador": 4.259,
+        "n_abstenciones": 6,
+        "tasa_abstencion": 0.4
+      },
+      "aumentado": {
+        "n_complejos": 15,
+        "top1_hits": 2,
+        "top1_rate": 0.1333,
+        "rmsd_mediana_ganador": 4.89,
+        "n_abstenciones": 8,
+        "tasa_abstencion": 0.5333
+      },
+      "pareado": {
+        "delta_hits": -4,
+        "mediana_pareada_rmsd": 0.0,
+        "diferencia_medianas_rmsd": 0.631,
+        "suma_pareada_rmsd": 9.631,
+        "media_pareada_rmsd": 0.642067,
+        "deltas_hit_por_pid": {
+          "10gs": 0,
+          "1b8y": 0,
+          "1f4e": -1,
+          "1f4f": 0,
+          "1f4g": -1,
+          "1fh7": 0,
+          "1flr": 0,
+          "1hn4": -1,
+          "1kav": 0,
+          "1lbk": 0,
+          "1m0n": -1,
+          "1mmq": 0,
+          "1mmr": 0,
+          "1n0s": 0,
+          "1njs": 0
+        },
+        "deltas_rmsd_por_pid": {
+          "10gs": -5.604,
+          "1b8y": 0.0,
+          "1f4e": 1.127,
+          "1f4f": 0.0,
+          "1f4g": 1.956,
+          "1fh7": 0.0,
+          "1flr": 0.0,
+          "1hn4": 3.798,
+          "1kav": -1.092,
+          "1lbk": 4.815,
+          "1m0n": 4.135,
+          "1mmq": 0.0,
+          "1mmr": 0.0,
+          "1n0s": 0.496,
+          "1njs": 0.0
+        }
+      },
+      "bootstrap_descriptivo": {
+        "n_componentes": 10,
+        "n_complejos": 15,
+        "metodo": "percentil 2.5-97.5 (bootstrap por componentes del fold, descriptivo)",
+        "hits_intervalo": [
+          -8.0,
+          0.0
+        ],
+        "mediana_pareada_intervalo": [
+          0.0,
+          1.127
+        ]
+      },
+      "modelos": {
+        "baseline_sha256": "fabc39ecdcd016284f4fb346dcbaa7fda4d71a4d98d5a1291b3c220a9062f196",
+        "aumentado_sha256": "b884ca80e9895997ea192943f61c91701eaff1f514bd13dc78b3533a10aa9d3b",
+        "eval_metric_baseline": "auc",
+        "eval_metric_aumentado": "auc"
+      }
+    }
+  ],
+  "global": {
+    "n_complejos_oof": 116,
+    "baseline": {
+      "n_complejos": 116,
+      "top1_hits": 47,
+      "top1_rate": 0.4052,
+      "rmsd_mediana_ganador": 3.0305,
+      "n_abstenciones": 61,
+      "tasa_abstencion": 0.5259
+    },
+    "aumentado": {
+      "n_complejos": 116,
+      "top1_hits": 39,
+      "top1_rate": 0.3362,
+      "rmsd_mediana_ganador": 2.8585,
+      "n_abstenciones": 55,
+      "tasa_abstencion": 0.4741
+    },
+    "delta_top1": -8,
+    "mediana_pareada_rmsd": 0.0,
+    "nota_primario": "la mediana pareada es el estadistico PRIMARIO de RMSD (gate); diferencia de medianas y suma son SECUNDARIAS y NO participan del gate",
+    "diferencia_medianas_rmsd_secundaria": -0.172,
+    "suma_pareada_rmsd_secundaria": -23.79,
+    "media_pareada_rmsd_descriptiva": -0.205086,
+    "mcnemar": {
+      "b_orig_hit_dedup_miss": 14,
+      "c_orig_miss_dedup_hit": 6,
+      "n_discordantes": 20,
+      "p_valor_exacto_bilateral": 0.115318,
+      "nota_corrigendum": "binomtest(...).pvalue ya es bilateral; el factor 2 de la version anterior queda eliminado (corrigendum estadistico)"
+    },
+    "gate": {
+      "criterio": "Top-1 OOF acumulado >= 50/116; mediana pareada dRMSD <= +0.1 A; cobertura quimica >= 95%; cold-start P95 <= 5 s/ligando; cacheado P95 <= 100 ms/pose y <= 3 s/complejo; sin regresion grave por estrato hard/control",
+      "top1_aumentado": 39,
+      "requerido_top1": 50,
+      "cumple_hits": false,
+      "mediana_pareada_rmsd": 0.0,
+      "umbral_mediana": 0.1,
+      "cumple_mediana": true,
+      "cobertura_pct_ligandos": 100.0,
+      "umbral_cobertura": 95.0,
+      "cumple_cobertura": true,
+      "costes": {
+        "cold_p95_ms": 40.725,
+        "pose_p95_ms": 65.971,
+        "complejo_p95_ms": 1689.365,
+        "gates": {
+          "cold_p95_le_5000ms": true,
+          "cacheado_pose_p95_le_100ms": true,
+          "cacheado_complejo_p95_le_3000ms": true
+        },
+        "cumple": true
+      },
+      "estratos": {
+        "hard": {
+          "definicion": "perdida de hits > 2 por estrato o mediana pareada del estrato > 0.1 A (preregistrado)",
+          "perdida_max": 2,
+          "mediana_max": 0.1,
+          "es_grave": true
+        },
+        "control": {
+          "definicion": "perdida de hits > 2 por estrato o mediana pareada del estrato > 0.1 A (preregistrado)",
+          "perdida_max": 2,
+          "mediana_max": 0.1,
+          "es_grave": false
+        }
+      },
+      "cumple_estratos": false,
+      "veredicto": "FAIL",
+      "prohibido": "NO se usa diferencia de medianas ni suma como gate (solo se reportan como secundarias)"
+    }
+  },
+  "incertidumbre": {
+    "bootstrap_componentes_38_primario": {
+      "n_replicas": 10000,
+      "seed": 42,
+      "unidades": "38 componentes combinadas del fold_plan",
+      "diferencia_observada_hits": -8.0,
+      "mediana_pareada_rmsd_observada": 0.0,
+      "hits": {
+        "tipo": "Δ Top-1 (suma de diferencias pareadas)",
+        "intervalo_percentil_95": [
+          -15.0,
+          -1.0
+        ],
+        "metodo": "BCa primario (jackknife por unidades)",
+        "bca_degenerado": false,
+        "aceleracion": -0.022624,
+        "sesgo_z0": 0.127683,
+        "intervalo": [
+          -14.0,
+          -1.0
+        ],
+        "excluye_cero": true
+      },
+      "mediana_pareada_rmsd": {
+        "tipo": "mediana pareada de RMSD",
+        "intervalo_percentil_95": [
+          0.0,
+          0.0
+        ],
+        "metodo": "BCa degenerado -> percentil bootstrap (regla C3d)",
+        "bca_degenerado": true,
+        "intervalo": [
+          0.0,
+          0.0
+        ],
+        "excluye_cero": false
+      }
+    },
+    "sensibilidad_por_complejo": {
+      "n_replicas": 10000,
+      "unidades": "116 complejos (sensibilidad)",
+      "hits": {
+        "metodo": "percentil 2.5-97.5",
+        "intervalo": [
+          -17.0,
+          1.0
+        ],
+        "excluye_cero": false
+      },
+      "mediana_pareada_rmsd": {
+        "metodo": "percentil 2.5-97.5",
+        "intervalo": [
+          0.0,
+          0.0
+        ],
+        "excluye_cero": false
+      }
+    },
+    "discordancias_primario_vs_sensibilidad": {
+      "hits": true,
+      "mediana_pareada_rmsd": false
+    },
+    "nota": "BCa primario solo sobre las 38 componentes globales; cortes por fold/estrato = descriptivos con denominador (>= 5 componentes para intervalo); BCa degenerado -> percentil bootstrap (regla C3d)"
+  },
+  "por_estrato": {
+    "hard": {
+      "n_complejos": 17,
+      "n_componentes": 8,
+      "top1_baseline": 5,
+      "top1_aumentado": 2,
+      "delta_hits": -3,
+      "perdida_hits": 3,
+      "mediana_pareada_rmsd": 0.0,
+      "grave_preregistrado": {
+        "definicion": "perdida de hits > 2 por estrato o mediana pareada del estrato > 0.1 A (preregistrado)",
+        "perdida_max": 2,
+        "mediana_max": 0.1,
+        "es_grave": true
+      },
+      "bootstrap_descriptivo": {
+        "metodo": "percentil 2.5-97.5 (bootstrap por componentes del estrato, descriptivo)",
+        "hits_intervalo": [
+          -6.0,
+          -1.0
+        ],
+        "mediana_pareada_intervalo": [
+          -0.0005,
+          0.1805
+        ]
+      }
+    },
+    "control": {
+      "n_complejos": 17,
+      "n_componentes": 10,
+      "top1_baseline": 7,
+      "top1_aumentado": 7,
+      "delta_hits": 0,
+      "perdida_hits": 0,
+      "mediana_pareada_rmsd": 0.0,
+      "grave_preregistrado": {
+        "definicion": "perdida de hits > 2 por estrato o mediana pareada del estrato > 0.1 A (preregistrado)",
+        "perdida_max": 2,
+        "mediana_max": 0.1,
+        "es_grave": false
+      },
+      "bootstrap_descriptivo": {
+        "metodo": "percentil 2.5-97.5 (bootstrap por componentes del estrato, descriptivo)",
+        "hits_intervalo": [
+          -3.0,
+          3.0
+        ],
+        "mediana_pareada_intervalo": [
+          0.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "costes_benchmarks": {
+    "cold_p50_ms": 5.217,
+    "cold_p95_ms": 40.725,
+    "cacheado_pose_p50_ms": 6.678,
+    "cacheado_pose_p95_ms": 65.971,
+    "cacheado_complejo_p50_ms": 96.909,
+    "cacheado_complejo_p95_ms": 1689.365,
+    "nota": "re-verificados en este run (mismo protocolo RS-04-QC); mediciones con varianza natural, congeladas en benchmarks.json"
+  },
+  "modelos_fold": {
+    "fold0_brazo_baseline": {
+      "sha256": "6e872ba236ad458f2d431f24cb61d091a130d7e511ae245e35cf689f04053671",
+      "bytes": 183607
+    },
+    "fold0_brazo_aumentado": {
+      "sha256": "56564f358d04ba03c0a2fc196452031b2991fc9c5804bfb938e15374bb22209c",
+      "bytes": 185038
+    },
+    "fold1_brazo_baseline": {
+      "sha256": "2541609f9a294063d2cb368d31d7bb5d94112b400a213eb90ff26ae8c0910dfb",
+      "bytes": 188510
+    },
+    "fold1_brazo_aumentado": {
+      "sha256": "f57ca866c22aaf34fafc3c2879d14fdce31c756191087ee162cce839353d5e49",
+      "bytes": 191570
+    },
+    "fold2_brazo_baseline": {
+      "sha256": "9584f7d9c19c179cd1d963091e7608dd6ca422f7db4031db3b98e69c55b62cc3",
+      "bytes": 193404
+    },
+    "fold2_brazo_aumentado": {
+      "sha256": "9ce66baa75c19470a8096441d7313e79ce960888cd4222bd1473022d5ab6d034",
+      "bytes": 189663
+    },
+    "fold3_brazo_baseline": {
+      "sha256": "8eab79bf5fa5540d3e9172b6faf913b2f793038c65637cde1b47c106889a0333",
+      "bytes": 194974
+    },
+    "fold3_brazo_aumentado": {
+      "sha256": "67d04ad590c589ce192d86cbbaf3923924842d99b2be6540a5a2f8f9cd327046",
+      "bytes": 190481
+    },
+    "fold4_brazo_baseline": {
+      "sha256": "fabc39ecdcd016284f4fb346dcbaa7fda4d71a4d98d5a1291b3c220a9062f196",
+      "bytes": 190820
+    },
+    "fold4_brazo_aumentado": {
+      "sha256": "b884ca80e9895997ea192943f61c91701eaff1f514bd13dc78b3533a10aa9d3b",
+      "bytes": 188101
+    }
+  },
+  "archivos_abiertos_repo": [
+    "data/pose_selector_dataset/poses_train.jsonl",
+    "data/pose_selector_dataset/records/10gs.json",
+    "data/pose_selector_dataset/records/184l.json",
+    "data/pose_selector_dataset/records/186l.json",
+    "data/pose_selector_dataset/records/187l.json",
+    "data/pose_selector_dataset/records/188l.json",
+    "data/pose_selector_dataset/records/1a30.json",
+    "data/pose_selector_dataset/records/1a4w.json",
+    "data/pose_selector_dataset/records/1a99.json",
+    "data/pose_selector_dataset/records/1aaq.json",
+    "data/pose_selector_dataset/records/1add.json",
+    "data/pose_selector_dataset/records/1afk.json",
+    "data/pose_selector_dataset/records/1afl.json",
+    "data/pose_selector_dataset/records/1ai4.json",
+    "data/pose_selector_dataset/records/1ai7.json",
+    "data/pose_selector_dataset/records/1alw.json",
+    "data/pose_selector_dataset/records/1amw.json",
+    "data/pose_selector_dataset/records/1apv.json",
+    "data/pose_selector_dataset/records/1ax0.json",
+    "data/pose_selector_dataset/records/1b2h.json",
+    "data/pose_selector_dataset/records/1b38.json",
+    "data/pose_selector_dataset/records/1b46.json",
+    "data/pose_selector_dataset/records/1b4z.json",
+    "data/pose_selector_dataset/records/1b8y.json",
+    "data/pose_selector_dataset/records/1bcd.json",
+    "data/pose_selector_dataset/records/1bju.json",
+    "data/pose_selector_dataset/records/1bjv.json",
+    "data/pose_selector_dataset/records/1bma.json",
+    "data/pose_selector_dataset/records/1bn1.json",
+    "data/pose_selector_dataset/records/1bn3.json",
+    "data/pose_selector_dataset/records/1bn4.json",
+    "data/pose_selector_dataset/records/1bnu.json",
+    "data/pose_selector_dataset/records/1bq4.json",
+    "data/pose_selector_dataset/records/1bty.json",
+    "data/pose_selector_dataset/records/1bxr.json",
+    "data/pose_selector_dataset/records/1c4u.json",
+    "data/pose_selector_dataset/records/1c5o.json",
+    "data/pose_selector_dataset/records/1c5p.json",
+    "data/pose_selector_dataset/records/1cet.json",
+    "data/pose_selector_dataset/records/1cnw.json",
+    "data/pose_selector_dataset/records/1cnx.json",
+    "data/pose_selector_dataset/records/1d3p.json",
+    "data/pose_selector_dataset/records/1d7i.json",
+    "data/pose_selector_dataset/records/1d7j.json",
+    "data/pose_selector_dataset/records/1d9i.json",
+    "data/pose_selector_dataset/records/1dgm.json",
+    "data/pose_selector_dataset/records/1e4h.json",
+    "data/pose_selector_dataset/records/1eb2.json",
+    "data/pose_selector_dataset/records/1ela.json",
+    "data/pose_selector_dataset/records/1elb.json",
+    "data/pose_selector_dataset/records/1eld.json",
+    "data/pose_selector_dataset/records/1ele.json",
+    "data/pose_selector_dataset/records/1ew8.json",
+    "data/pose_selector_dataset/records/1ew9.json",
+    "data/pose_selector_dataset/records/1ezq.json",
+    "data/pose_selector_dataset/records/1f0r.json",
+    "data/pose_selector_dataset/records/1f0t.json",
+    "data/pose_selector_dataset/records/1f0u.json",
+    "data/pose_selector_dataset/records/1f4e.json",
+    "data/pose_selector_dataset/records/1f4f.json",
+    "data/pose_selector_dataset/records/1f4g.json",
+    "data/pose_selector_dataset/records/1f5k.json",
+    "data/pose_selector_dataset/records/1f74.json",
+    "data/pose_selector_dataset/records/1fd0.json",
+    "data/pose_selector_dataset/records/1fh7.json",
+    "data/pose_selector_dataset/records/1fkg.json",
+    "data/pose_selector_dataset/records/1fkh.json",
+    "data/pose_selector_dataset/records/1flr.json",
+    "data/pose_selector_dataset/records/1fv0.json",
+    "data/pose_selector_dataset/records/1g3d.json",
+    "data/pose_selector_dataset/records/1g3e.json",
+    "data/pose_selector_dataset/records/1gpn.json",
+    "data/pose_selector_dataset/records/1gwv.json",
+    "data/pose_selector_dataset/records/1h22.json",
+    "data/pose_selector_dataset/records/1h4w.json",
+    "data/pose_selector_dataset/records/1hdq.json",
+    "data/pose_selector_dataset/records/1hih.json",
+    "data/pose_selector_dataset/records/1hii.json",
+    "data/pose_selector_dataset/records/1hlk.json",
+    "data/pose_selector_dataset/records/1hmr.json",
+    "data/pose_selector_dataset/records/1hn4.json",
+    "data/pose_selector_dataset/records/1hp5.json",
+    "data/pose_selector_dataset/records/1hpx.json",
+    "data/pose_selector_dataset/records/1i7z.json",
+    "data/pose_selector_dataset/records/1igb.json",
+    "data/pose_selector_dataset/records/1iih.json",
+    "data/pose_selector_dataset/records/1ikt.json",
+    "data/pose_selector_dataset/records/1j4r.json",
+    "data/pose_selector_dataset/records/1jao.json",
+    "data/pose_selector_dataset/records/1jaq.json",
+    "data/pose_selector_dataset/records/1jn4.json",
+    "data/pose_selector_dataset/records/1jq8.json",
+    "data/pose_selector_dataset/records/1jvu.json",
+    "data/pose_selector_dataset/records/1k9s.json",
+    "data/pose_selector_dataset/records/1kav.json",
+    "data/pose_selector_dataset/records/1kpm.json",
+    "data/pose_selector_dataset/records/1kzk.json",
+    "data/pose_selector_dataset/records/1l83.json",
+    "data/pose_selector_dataset/records/1lan.json",
+    "data/pose_selector_dataset/records/1lbk.json",
+    "data/pose_selector_dataset/records/1lrh.json",
+    "data/pose_selector_dataset/records/1m0n.json",
+    "data/pose_selector_dataset/records/1m2x.json",
+    "data/pose_selector_dataset/records/1m48.json",
+    "data/pose_selector_dataset/records/1m5w.json",
+    "data/pose_selector_dataset/records/1mmq.json",
+    "data/pose_selector_dataset/records/1mmr.json",
+    "data/pose_selector_dataset/records/1moq.json",
+    "data/pose_selector_dataset/records/1mu8.json",
+    "data/pose_selector_dataset/records/1n0s.json",
+    "data/pose_selector_dataset/records/1nje.json",
+    "data/pose_selector_dataset/records/1njs.json",
+    "data/pose_selector_dataset/records/1nki.json",
+    "data/pose_selector_dataset/records/1nm6.json",
+    "data/pose_selector_dataset/records/1np0.json",
+    "data/pose_selector_dataset/records/1nq7.json",
+    "data/pose_selector_dataset/records/1nw5.json",
+    "python-embed/Lib/site-packages/xgboost/VERSION",
+    "rescoring/artifacts/pose_selector_v06.xgb",
+    "rescoring/artifacts/pose_selector_v06_meta.json",
+    "scripts/artifacts_science/MF-01-UNION/union_candidates_train.jsonl",
+    "scripts/artifacts_science/MF-01-UNION/union_labels_train.jsonl",
+    "scripts/artifacts_science/MF-11-R1/cluster_members_train_1.5.jsonl",
+    "scripts/artifacts_science/MF-11-R1/dedup_candidates_train_1.5.jsonl",
+    "scripts/artifacts_science/MF-11-R1/metrics.json",
+    "scripts/artifacts_science/RS-01/INVENTORY.json",
+    "scripts/artifacts_science/RS-01/cache_train_only_view.jsonl",
+    "scripts/artifacts_science/RS-01/cache_view_manifest.json",
+    "scripts/artifacts_science/RS-01/fold_plan.json",
+    "scripts/artifacts_science/RS-01B/metrics.json",
+    "scripts/artifacts_science/RS-04-OOF/benchmarks.json",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold0_brazo_aumentado.xgb",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold0_brazo_aumentado_meta.json",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold0_brazo_baseline.xgb",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold0_brazo_baseline_meta.json",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold1_brazo_aumentado.xgb",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold1_brazo_aumentado_meta.json",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold1_brazo_baseline.xgb",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold1_brazo_baseline_meta.json",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold2_brazo_aumentado.xgb",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold2_brazo_aumentado_meta.json",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold2_brazo_baseline.xgb",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold2_brazo_baseline_meta.json",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold3_brazo_aumentado.xgb",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold3_brazo_aumentado_meta.json",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold3_brazo_baseline.xgb",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold3_brazo_baseline_meta.json",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold4_brazo_aumentado.xgb",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold4_brazo_aumentado_meta.json",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold4_brazo_baseline.xgb",
+    "scripts/artifacts_science/RS-04-OOF/fold_models/fold4_brazo_baseline_meta.json"
+  ],
+  "garantia_cuarentena": "builtins.open auditado contra whitelist explicita: 0 accesos a val/test/CONFIRM; poses_val.jsonl, poses_test.jsonl y D-RC-CONFIRM nunca se abren",
+  "determinismo": "salidas sin timestamps ni aleatoriedad no-seeded; referencia aislada cacheada por ligando (ETKDGv3 seed 42, idempotente); la 2a corrida (--repro) reutiliza cache + benchmarks congelados + clones verificados por sha y exige salidas byte-identicas, con spot-check de recomputacion fresca de 3 ligandos"
+}

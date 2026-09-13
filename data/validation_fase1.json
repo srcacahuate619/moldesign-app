@@ -1,0 +1,696 @@
+[
+ {
+  "pdb_id": "1J37",
+  "family": "protease",
+  "native_smiles": "C[C@H](CS)C(O)N1CCC[C@H]1C(O)O",
+  "native_resname": "X8Z",
+  "n_hotspots": 14,
+  "grid_center": [
+   12.66,
+   -3.59,
+   18.43
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "C[C@H](CS)C(O)N1CCC[C@H]1C(O)O",
+    "affinity": -5.709,
+    "n_poses": 5,
+    "hotspots_hit": [
+     "A:GLN265",
+     "A:HIS367",
+     "A:GLU368",
+     "A:PHE441",
+     "A:TYR504",
+     "A:TYR507",
+     "A:PHE511"
+    ]
+   },
+   {
+    "label": "decoy_0",
+    "smiles": "NC(=O)c1ccccc1.c1ccccc1",
+    "error": "Archivo 'ligands/val-1373045500016949900/conformer.sdf' no encontrado en bucket 'local'"
+   },
+   {
+    "label": "decoy_1",
+    "smiles": "CC(=O)N1CCCCC1.c1ccccc1",
+    "error": "Archivo 'ligands/val-2615728104023311942/conformer.sdf' no encontrado en bucket 'local'"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "3ERT",
+  "family": "nuclear_receptor",
+  "native_smiles": "CCC(C1CCCCC1)C(C1CCC(O)CC1)C1CCC(OCCN(C)C)CC1",
+  "native_resname": "OHT",
+  "n_hotspots": 15,
+  "grid_center": [
+   31.575,
+   -1.59,
+   25.599
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "CCC(C1CCCCC1)C(C1CCC(O)CC1)C1CCC(OCCN(C)C)CC1",
+    "affinity": -9.29,
+    "n_poses": 5,
+    "hotspots_hit": [
+     "A:MET343",
+     "A:LEU346",
+     "A:THR347",
+     "A:LEU349",
+     "A:ALA350",
+     "A:ASP351",
+     "A:GLU353",
+     "A:TRP383",
+     "A:LEU384",
+     "A:LEU387",
+     "A:LEU391",
+     "A:ARG394",
+     "A:MET421",
+     "A:GLY521",
+     "A:LEU525"
+    ]
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "5E92",
+  "family": "kinase",
+  "native_smiles": "NC1NCNC2C1NCN2[C@@H]1O[C@H](CO[PH](O)(O)O[PH](O)(O)N[PH](O)(O)O)[C@@H](O)[C@H]1O",
+  "native_resname": "ANP",
+  "n_hotspots": 15,
+  "grid_center": [
+   17.873,
+   -0.879,
+   7.819
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "NC1NCNC2C1NCN2[C@@H]1O[C@H](CO[PH](O)(O)O[PH](O)(O)N[PH](O)(O)O)[C@@H](O)[C@H]1O",
+    "error": "Docking falló para molécula 'val-1138457588596678895' contra target '7E2Y' (Vina exit code: 3)"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "5TGZ",
+  "family": "gpcr",
+  "native_smiles": "CCCCC1CCC(C2C(C)C(C(O)NN3CCCCC3)NN2C2CCC(Cl)CC2Cl)CC1",
+  "native_resname": "ZDG",
+  "n_hotspots": 15,
+  "grid_center": [
+   43.64,
+   27.47,
+   318.53
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "CCCCC1CCC(C2C(C)C(C(O)NN3CCCCC3)NN2C2CCC(Cl)CC2Cl)CC1",
+    "affinity": -9.629,
+    "n_poses": 5,
+    "hotspots_hit": [
+     "A:PHE102",
+     "A:MET103",
+     "A:GLY166",
+     "A:PHE170",
+     "A:LEU193",
+     "A:VAL196",
+     "A:THR197",
+     "A:PHE268",
+     "A:TRP356",
+     "A:LEU359",
+     "A:ALA380",
+     "A:SER383",
+     "A:MET384",
+     "A:CYS386",
+     "A:LEU387"
+    ]
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "3RW0",
+  "family": "ion_channel",
+  "native_smiles": "CCCCCCCCC(O)OC[C@@H](O)CO[PH](O)(O)OC",
+  "native_resname": "PX4",
+  "n_hotspots": 13,
+  "grid_center": [
+   -43.98,
+   -5.92,
+   -78.63
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "CCCCCCCCC(O)OC[C@@H](O)CO[PH](O)(O)OC",
+    "error": "Docking falló para molécula 'val-1979767024988119427' contra target '7E2Y' (Vina exit code: 3)"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "1ZZ1",
+  "family": "hydrolase",
+  "native_smiles": "ONC(O)CCCCCCC(O)NC1CCCCC1",
+  "native_resname": "SHH",
+  "n_hotspots": 15,
+  "grid_center": [
+   -6.65,
+   -10.43,
+   38.01
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "ONC(O)CCCCCCC(O)NC1CCCCC1",
+    "affinity": -6.813,
+    "n_poses": 5,
+    "hotspots_hit": [
+     "A:LEU21",
+     "A:ILE100",
+     "A:HIS142",
+     "A:HIS143",
+     "A:GLY151",
+     "A:PHE152",
+     "A:ASP180",
+     "A:HIS182",
+     "A:PHE208",
+     "A:ASP268",
+     "A:LEU275",
+     "A:GLY310",
+     "A:TYR312"
+    ]
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "5TBO",
+  "family": "oxidoreductase",
+  "native_smiles": "CC1CC2NC3C(O)NC(O)NC3N(C[C@H](O)[C@H](O)[C@H](O)CO[PH](O)(O)O)C2CC1C",
+  "native_resname": "FMN",
+  "n_hotspots": 15,
+  "grid_center": [
+   22.49,
+   -9.12,
+   -6.54
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "CC1CC2NC3C(O)NC(O)NC3N(C[C@H](O)[C@H](O)[C@H](O)CO[PH](O)(O)O)C2CC1C",
+    "error": "Docking falló para molécula 'val-8125095607852453506' contra target '7E2Y' (Vina exit code: 3)"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "1XP0",
+  "family": "phosphodiesterase",
+  "native_smiles": "CCC[C@H]1NC(C)C2C(O)N[C@H]([C@@H]3CC(S(O)(O)N4CCN(CC)CC4)CCC3OCC)NN21",
+  "native_resname": "VDN",
+  "n_hotspots": 15,
+  "grid_center": [
+   -22.351,
+   28.594,
+   62.691
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "CCC[C@H]1NC(C)C2C(O)N[C@H]([C@@H]3CC(S(O)(O)N4CCN(CC)CC4)CCC3OCC)NN21",
+    "affinity": -7.368,
+    "n_poses": 5,
+    "hotspots_hit": [
+     "A:TYR612",
+     "A:HIS613",
+     "A:LEU725",
+     "A:LEU765",
+     "A:VAL782",
+     "A:PHE786",
+     "A:LEU804",
+     "A:GLN817",
+     "A:PHE820"
+    ]
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "8HFL",
+  "family": "transporter",
+  "native_smiles": "C[C@H](NC(C)(C)C)C(O)C1CCCC(Cl)C1",
+  "native_resname": "1XR",
+  "n_hotspots": 15,
+  "grid_center": [
+   100.816,
+   100.314,
+   101.902
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "C[C@H](NC(C)(C)C)C(O)C1CCCC(Cl)C1",
+    "affinity": -7.771,
+    "n_poses": 5,
+    "hotspots_hit": [
+     "A:PHE72",
+     "A:ASP75",
+     "A:ALA145",
+     "A:VAL148",
+     "A:TYR152",
+     "A:PHE317",
+     "A:SER318",
+     "A:GLY320",
+     "A:PHE323",
+     "A:VAL325",
+     "A:SER419",
+     "A:SER420",
+     "A:GLY423"
+    ]
+   },
+   {
+    "label": "decoy_0",
+    "smiles": "CC(C)(C)c1ccccc1.c1ccccc1",
+    "error": "Archivo 'ligands/val-5715227943114423731/conformer.sdf' no encontrado en bucket 'local'"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "4RUR",
+  "family": "proteasome",
+  "native_smiles": "NC1N[C@H]2N3C4CCCCC4C(Br)C3C(O)N3CCC[C@]23N1",
+  "native_resname": "3WE",
+  "n_hotspots": 15,
+  "grid_center": [
+   5.47,
+   -136.29,
+   20.1
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "NC1N[C@H]2N3C4CCCCC4C(Br)C3C(O)N3CCC[C@]23N1",
+    "affinity": 0.0,
+    "n_poses": 5,
+    "hotspots_hit": []
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "4JPC",
+  "family": "protein_interaction",
+  "native_smiles": "CN1[C@@H](O)[C@]2(CC(C)(C)OC3CCC(C4CCCC(CN)C4)CC32)N[C@@H]1N",
+  "native_resname": "1M6",
+  "n_hotspots": 15,
+  "grid_center": [
+   25.124,
+   15.427,
+   9.045
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "CN1[C@@H](O)[C@]2(CC(C)(C)OC3CCC(C4CCCC(CN)C4)CC32)N[C@@H]1N",
+    "affinity": -8.709,
+    "n_poses": 5,
+    "hotspots_hit": [
+     "A:GLN60",
+     "A:GLY61",
+     "A:LEU78",
+     "A:ASP80",
+     "A:SER83",
+     "A:TYR119",
+     "A:PHE156",
+     "A:ILE158",
+     "A:TRP163",
+     "A:ILE166",
+     "A:GLY278",
+     "A:THR279",
+     "A:THR280"
+    ]
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "1EI1",
+  "family": "topoisomerase",
+  "native_smiles": "N[C@@H]1NCNC2C1NCN2[C@@H]1O[C@H](CO[PH](O)(O)O[PH](O)(O)N[PH](O)(O)O)[C@@H](O)[C@H]1O",
+  "native_resname": "ANP",
+  "n_hotspots": 15,
+  "grid_center": [
+   37.89,
+   19.28,
+   28.82
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "N[C@@H]1NCNC2C1NCN2[C@@H]1O[C@H](CO[PH](O)(O)O[PH](O)(O)N[PH](O)(O)O)[C@@H](O)[C@H]1O",
+    "error": "Docking falló para molécula 'val-8019691067027285496' contra target '7E2Y' (Vina exit code: 3)"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "4NY4",
+  "family": "cytochrome_p450",
+  "native_smiles": "CCC1C(C)C2CC3[C@@H](C)C(CCC(O)O)C4CC5C(CCC(O)O)C(C)C6CC7C(CC)C(C)[C@@H]8CC1[N]2[Fe@SP2]([N]65)([N]43)[N]78",
+  "native_resname": "HEM",
+  "n_hotspots": 15,
+  "grid_center": [
+   -21.94,
+   -17.84,
+   -9.84
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "CCC1C(C)C2CC3[C@@H](C)C(CCC(O)O)C4CC5C(CCC(O)O)C(C)C6CC7C(CC)C(C)[C@@H]8CC1[N]2[Fe@SP2]([N]65)([N]43)[N]78",
+    "error": "Archivo 'ligands/val-7264821671712296771/conformer.sdf' no encontrado en bucket 'local'"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "4YNQ",
+  "family": "nuclease",
+  "native_smiles": "CC1CN([C@H]2C[C@H](O)[C@@H](CO)O2)C(O)NC1O",
+  "native_resname": "TMP",
+  "n_hotspots": 3,
+  "grid_center": [
+   21.379,
+   -13.537,
+   97.81
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "CC1CN([C@H]2C[C@H](O)[C@@H](CO)O2)C(O)NC1O",
+    "affinity": -0.007,
+    "n_poses": 5,
+    "hotspots_hit": []
+   },
+   {
+    "label": "decoy_0",
+    "smiles": "CC(C)(C)c1ccccc1.c1ccccc1",
+    "error": "Archivo 'ligands/val-5715227943114423731/conformer.sdf' no encontrado en bucket 'local'"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "5TY1",
+  "family": "metalloenzyme",
+  "native_smiles": "COC1C[C@H](OC)CC[C@@H]1[C@H]1OC(O)NC1O",
+  "native_resname": "7QV",
+  "n_hotspots": 15,
+  "grid_center": [
+   -4.787,
+   3.19,
+   15.218
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "COC1C[C@H](OC)CC[C@@H]1[C@H]1OC(O)NC1O",
+    "error": "Error preparando proteína '5TY1' en el paso 'mk_prepare_receptor'"
+   },
+   {
+    "label": "decoy_0",
+    "smiles": "CC(C)(C)c1ccccc1.c1ccccc1",
+    "error": "Error preparando proteína '5TY1' en el paso 'mk_prepare_receptor'"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "6NTW",
+  "family": "transferase",
+  "native_smiles": "C[C@@H]1[C@H]([C@H](CO)[C@@H](C)O)NC(C(O)O)[C@H]1S[C@@H]1CN[C@@H](C(O)N(C)C)C1",
+  "native_resname": "MXR",
+  "n_hotspots": 12,
+  "grid_center": [
+   21.488,
+   -32.368,
+   42.152
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "C[C@@H]1[C@H]([C@H](CO)[C@@H](C)O)NC(C(O)O)[C@H]1S[C@@H]1CN[C@@H](C(O)N(C)C)C1",
+    "error": "Error preparando proteína '6NTW' en el paso 'mk_prepare_receptor'"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "5CQG",
+  "family": "polymerase",
+  "native_smiles": "CC(CC(O)N[C@@H]1CCCCC1C(O)O)C1CCC2CCCCC2C1",
+  "native_resname": "55C",
+  "n_hotspots": 13,
+  "grid_center": [
+   24.1,
+   6.84,
+   -31.79
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "CC(CC(O)N[C@@H]1CCCCC1C(O)O)C1CCC2CCCCC2C1",
+    "affinity": -9.301,
+    "n_poses": 5,
+    "hotspots_hit": [
+     "A:PHE478",
+     "A:MET482",
+     "A:MET483",
+     "A:ARG486",
+     "A:PHE494",
+     "A:GLY495",
+     "A:ILE497",
+     "A:TRP498",
+     "A:ILE550",
+     "A:TYR551",
+     "A:GLY553",
+     "A:LEU554",
+     "A:ARG557"
+    ]
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "4ZZZ",
+  "family": "methyltransferase",
+  "native_smiles": "COCCCN1CC2CCCC([C@H](N)O)C2C1O",
+  "native_resname": "FSU",
+  "n_hotspots": 13,
+  "grid_center": [
+   63.41,
+   6.48,
+   9.59
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "COCCCN1CC2CCCC([C@H](N)O)C2C1O",
+    "affinity": -6.786,
+    "n_poses": 5,
+    "hotspots_hit": [
+     "A:GLU763",
+     "A:ASP766",
+     "A:TRP861",
+     "A:HIS862",
+     "A:GLY863",
+     "A:TYR896",
+     "A:PHE897",
+     "A:ALA898",
+     "A:SER904",
+     "A:TYR907"
+    ]
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "4CVL",
+  "family": "ligase",
+  "native_smiles": "NC1NCNC2C1NCN2[C@@H]1O[C@H](CO[PH](O)(O)O[PH](O)(O)C[PH](O)(O)O)[C@@H](O)[C@H]1O",
+  "native_resname": "ACP",
+  "n_hotspots": 15,
+  "grid_center": [
+   20.698,
+   -31.082,
+   -8.937
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "NC1NCNC2C1NCN2[C@@H]1O[C@H](CO[PH](O)(O)O[PH](O)(O)C[PH](O)(O)O)[C@@H](O)[C@H]1O",
+    "error": "Docking falló para molécula 'val-169729993263304960' contra target '7E2Y' (Vina exit code: 3)"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "2JDI",
+  "family": "atp_synthase",
+  "native_smiles": "NC1NCNC2C1NCN2[C@@H]1O[C@H](CO[PH](O)(O)O[PH](O)(O)N[PH](O)(O)O)[C@@H](O)[C@H]1O",
+  "native_resname": "ANP",
+  "n_hotspots": 15,
+  "grid_center": [
+   38.42,
+   89.68,
+   94.38
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "NC1NCNC2C1NCN2[C@@H]1O[C@H](CO[PH](O)(O)O[PH](O)(O)N[PH](O)(O)O)[C@@H](O)[C@H]1O",
+    "error": "Docking falló para molécula 'val-1138457588596678895' contra target '7E2Y' (Vina exit code: 3)"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "5F4W",
+  "family": "lyase",
+  "native_smiles": "O[C@H]([C@H](O)CCO[PH](O)(O)O)[C@H](O)CO[PH](O)(O)O",
+  "native_resname": "P6T",
+  "n_hotspots": 15,
+  "grid_center": [
+   56.236,
+   70.724,
+   34.08
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "O[C@H]([C@H](O)CCO[PH](O)(O)O)[C@H](O)CO[PH](O)(O)O",
+    "error": "Error preparando proteína '5F4W' en el paso 'mk_prepare_receptor'"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "2XAB",
+  "family": "chaperone",
+  "native_smiles": "CC(C)[C@H]1CC(C(O)N2CC3CCCCC3C2)C(O)CC1O",
+  "native_resname": "VHD",
+  "n_hotspots": 15,
+  "grid_center": [
+   -1.0,
+   35.29,
+   -0.78
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "CC(C)[C@H]1CC(C(O)N2CC3CCCCC3C2)C(O)CC1O",
+    "affinity": 0.0,
+    "n_poses": 5,
+    "hotspots_hit": []
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "5JHW",
+  "family": "growth_factor",
+  "native_smiles": "OC(O)CC(O)(CC(O)O)C(O)O",
+  "native_resname": "FLC",
+  "n_hotspots": 15,
+  "grid_center": [
+   7.24,
+   -10.98,
+   -46.77
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "OC(O)CC(O)(CC(O)O)C(O)O",
+    "affinity": -4.496,
+    "n_poses": 5,
+    "hotspots_hit": [
+     "A:LYS39"
+    ]
+   },
+   {
+    "label": "decoy_0",
+    "smiles": "C1CCCCC1.c1ccccc1",
+    "error": "Archivo 'ligands/val-9133729711613030377/conformer.sdf' no encontrado en bucket 'local'"
+   },
+   {
+    "label": "decoy_1",
+    "smiles": "CCN(CC)CC.c1ccccc1",
+    "error": "Archivo 'ligands/val-8927562253625771105/conformer.sdf' no encontrado en bucket 'local'"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "9TDZ",
+  "family": "ubiquitin_ligase",
+  "native_smiles": "N[C@H](CO)CO[PH]([O-])(O)O",
+  "native_resname": "SEP",
+  "n_hotspots": 12,
+  "grid_center": [
+   -30.364,
+   1.778,
+   -5.039
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "N[C@H](CO)CO[PH]([O-])(O)O",
+    "error": "Docking falló para molécula 'val-58863982960044149' contra target '7E2Y' (Vina exit code: 3)"
+   },
+   {
+    "label": "decoy_0",
+    "smiles": "C1CCCCC1.c1ccccc1",
+    "error": "Archivo 'ligands/val-9133729711613030377/conformer.sdf' no encontrado en bucket 'local'"
+   },
+   {
+    "label": "decoy_1",
+    "smiles": "CC(C)(C)c1ccccc1.F",
+    "error": "Archivo 'ligands/val-2958040103359456231/conformer.sdf' no encontrado en bucket 'local'"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ }
+]

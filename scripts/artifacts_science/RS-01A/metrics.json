@@ -1,0 +1,2195 @@
+{
+  "experimento": "RS-01A",
+  "declaracion_resultado": "El resultado es SOLO una auditoria in-sample de compatibilidad y perturbacion del checkpoint congelado v0.6 frente a la union deduplicada MF-11-R1. Cualquier diferencia observada no constituye evidencia de mejora ni de degradacion generalizable; para eso existe RS-01B.",
+  "preregistro": "scripts/artifacts_science/RS-01/PREREGISTRO.md (sello paraguas d320bcd, §3.3/§3.4)",
+  "runtime": {
+    "python": "3.11.9",
+    "xgboost": "3.2.0",
+    "numpy": "2.4.4",
+    "checkpoint_sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+    "checkpoint_bytes": 199127,
+    "n_arboles_cargados": 52,
+    "best_iteration_meta": 51
+  },
+  "integridad_insumos_sha256": {
+    "checkpoint_xgb": {
+      "archivo": "D:\\moldesign-build\\rescoring\\artifacts\\pose_selector_v06.xgb",
+      "sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+      "esperado": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+      "ok": true
+    },
+    "checkpoint_meta": {
+      "archivo": "D:\\moldesign-build\\rescoring\\artifacts\\pose_selector_v06_meta.json",
+      "sha256": "296b125ba852522259c11385063dc825c18efc3769228a22a640702ea5b5147d",
+      "esperado": "296b125ba852522259c11385063dc825c18efc3769228a22a640702ea5b5147d",
+      "ok": true
+    },
+    "cache_view": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\RS-01\\cache_train_only_view.jsonl",
+      "sha256": "6afeb3705ad4ba0d49918e6849da2876cd63e4260aa8f47487b0b393596bbc34",
+      "esperado": "6afeb3705ad4ba0d49918e6849da2876cd63e4260aa8f47487b0b393596bbc34",
+      "ok": true
+    },
+    "cache_view_manifest": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\RS-01\\cache_view_manifest.json",
+      "sha256": "ed7e9ec63d912c6936023cd57159febe891462f256d10314d40106d0d042d640",
+      "esperado": "ed7e9ec63d912c6936023cd57159febe891462f256d10314d40106d0d042d640",
+      "ok": true
+    },
+    "poses_train": {
+      "archivo": "D:\\moldesign-build\\data\\pose_selector_dataset\\poses_train.jsonl",
+      "sha256": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654",
+      "esperado": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654",
+      "ok": true
+    },
+    "union_candidates_train": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\MF-01-UNION\\union_candidates_train.jsonl",
+      "sha256": "61ab0e26901659c0d6e8bf98f47bbcae82d187265fc8181953d58ff6a2033ce9",
+      "esperado": "61ab0e26901659c0d6e8bf98f47bbcae82d187265fc8181953d58ff6a2033ce9",
+      "ok": true
+    },
+    "union_labels_train": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\MF-01-UNION\\union_labels_train.jsonl",
+      "sha256": "19843afd49135f30297884ce56889312a4f34b6f75cd708127eca1789338bfbb",
+      "esperado": "19843afd49135f30297884ce56889312a4f34b6f75cd708127eca1789338bfbb",
+      "ok": true
+    },
+    "dedup_candidates_1_5": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\MF-11-R1\\dedup_candidates_train_1.5.jsonl",
+      "sha256": "fef90c21c92d3527a3431d8e880601d33208a1c12688057f8ebf95642589fa78",
+      "esperado": "fef90c21c92d3527a3431d8e880601d33208a1c12688057f8ebf95642589fa78",
+      "ok": true
+    },
+    "sidecar_cluster_members_1_5": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\MF-11-R1\\cluster_members_train_1.5.jsonl",
+      "sha256": "7026b8dea49062d49e4765ab116864fe6bd550ac660c76da646aabb7a645d0a0",
+      "esperado": "7026b8dea49062d49e4765ab116864fe6bd550ac660c76da646aabb7a645d0a0",
+      "ok": true
+    },
+    "fold_plan": {
+      "archivo": "D:\\moldesign-build\\scripts\\artifacts_science\\RS-01\\fold_plan.json",
+      "sha256": "9d97ad70b25331b4ae3e926210f6372ed7ec092d5a7a5fff6fe61af83b961c30",
+      "esperado": "9d97ad70b25331b4ae3e926210f6372ed7ec092d5a7a5fff6fe61af83b961c30",
+      "ok": true
+    }
+  },
+  "validacion_densidad_historica": {
+    "metodo": "recomputacion con la definicion del dataset builder (malla densa mapeada de records/{pid}.json, RMSD pocket-frame < 2.0 A sin alinear, UMBRAL_CLUSTER=2.0) sobre el conjunto ORIGINAL completo",
+    "n_coinciden_con_congelado": 2739,
+    "n_total": 2739,
+    "exacto": true
+  },
+  "a0": {
+    "lectura": "A0 — reproduccion historica exacta",
+    "contrato": "2739 poses originales, features de conjunto CONGELADAS del dataset (variance/range POR-RUN + cluster_density congelada); pipeline actual (selector.py + transformacion Fase 1.6) sobre features congeladas; NO re-ejecuta el extractor (alcance C4)",
+    "n_poses": 2739,
+    "n_complejos": 116,
+    "top1_hits": 78,
+    "top1_rate": 0.6724,
+    "rmsd_mediana_ganador": 1.425,
+    "rmsd_media_ganador": 2.2379,
+    "margen_mediana": 0.182238,
+    "n_abstenciones": 33,
+    "tasa_abstencion": 0.2845,
+    "desglose_abstencion": {
+      "abstenidos": {
+        "n": 33,
+        "sin_pose_buena": 7,
+        "con_pose_buena": 26,
+        "con_pose_buena_aciertos_top1": 26,
+        "aciertos_top1": 26,
+        "top1": 0.7879
+      },
+      "aceptados": {
+        "n": 83,
+        "sin_pose_buena": 31,
+        "con_pose_buena": 52,
+        "con_pose_buena_aciertos_top1": 52,
+        "aciertos_top1": 52,
+        "top1": 0.6265
+      }
+    },
+    "fuente_ganadora": {
+      "flexible_redock": 95,
+      "molflex": 13,
+      "ruta_a": 8
+    },
+    "fuente_ganadora_condicionada": {
+      "flexible_redock": {
+        "n_disponibles": 105,
+        "n_ganadores": 95,
+        "rate": 0.9048
+      },
+      "molflex": {
+        "n_disponibles": 13,
+        "n_ganadores": 13,
+        "rate": 1.0
+      },
+      "ruta_a": {
+        "n_disponibles": 16,
+        "n_ganadores": 8,
+        "rate": 0.5
+      }
+    },
+    "reproduccion_historica": {
+      "referencia": "scripts/artifacts_ruta_c_fase1_6.json modelo_B.train (entrenamiento historico)",
+      "historico_top1_rate": 0.6724,
+      "historico_mediana_rmsd": 1.425,
+      "obtenido_top1_rate": 0.6724,
+      "obtenido_mediana_rmsd": 1.425,
+      "top1_igual": true,
+      "mediana_igual": true,
+      "reproduce": true
+    }
+  },
+  "a1": {
+    "nota": "PRIMARIA. variance/range POR-RUN congelados en AMBOS brazos; tras dedup SOLO cluster_density se recalcula (pares entre supervivientes, semantica historica) y en consecuencia la matriz z/pct por complejo",
+    "original": {
+      "lectura": "A1 original (2739)",
+      "contrato": "features congeladas (identico a A0)",
+      "n_poses": 2739,
+      "n_complejos": 116,
+      "top1_hits": 78,
+      "top1_rate": 0.6724,
+      "rmsd_mediana_ganador": 1.425,
+      "rmsd_media_ganador": 2.2379,
+      "margen_mediana": 0.182238,
+      "margen_media": 0.255213,
+      "n_abstenciones": 33,
+      "tasa_abstencion": 0.2845,
+      "desglose_abstencion": {
+        "abstenidos": {
+          "n": 33,
+          "sin_pose_buena": 7,
+          "con_pose_buena": 26,
+          "con_pose_buena_aciertos_top1": 26,
+          "aciertos_top1": 26,
+          "top1": 0.7879
+        },
+        "aceptados": {
+          "n": 83,
+          "sin_pose_buena": 31,
+          "con_pose_buena": 52,
+          "con_pose_buena_aciertos_top1": 52,
+          "aciertos_top1": 52,
+          "top1": 0.6265
+        }
+      },
+      "fuente_ganadora": {
+        "flexible_redock": 95,
+        "molflex": 13,
+        "ruta_a": 8
+      },
+      "fuente_ganadora_condicionada": {
+        "flexible_redock": {
+          "n_disponibles": 105,
+          "n_ganadores": 95,
+          "rate": 0.9048
+        },
+        "molflex": {
+          "n_disponibles": 13,
+          "n_ganadores": 13,
+          "rate": 1.0
+        },
+        "ruta_a": {
+          "n_disponibles": 16,
+          "n_ganadores": 8,
+          "rate": 0.5
+        }
+      }
+    },
+    "deduplicado": {
+      "lectura": "A1 dedup (2413)",
+      "contrato": "variance/range POR-RUN congelados; cluster_density recalculada post-dedup; z/pct por complejo sobre el conjunto resultante",
+      "n_poses": 2413,
+      "n_complejos": 116,
+      "top1_hits": 74,
+      "top1_rate": 0.6379,
+      "rmsd_mediana_ganador": 1.457,
+      "rmsd_media_ganador": 2.311,
+      "margen_mediana": 0.206221,
+      "margen_media": 0.267277,
+      "n_abstenciones": 27,
+      "tasa_abstencion": 0.2328,
+      "desglose_abstencion": {
+        "abstenidos": {
+          "n": 27,
+          "sin_pose_buena": 8,
+          "con_pose_buena": 19,
+          "con_pose_buena_aciertos_top1": 15,
+          "aciertos_top1": 15,
+          "top1": 0.5556
+        },
+        "aceptados": {
+          "n": 89,
+          "sin_pose_buena": 30,
+          "con_pose_buena": 59,
+          "con_pose_buena_aciertos_top1": 59,
+          "aciertos_top1": 59,
+          "top1": 0.6629
+        }
+      },
+      "fuente_ganadora": {
+        "flexible_redock": 100,
+        "molflex": 12,
+        "ruta_a": 4
+      },
+      "fuente_ganadora_condicionada": {
+        "flexible_redock": {
+          "n_disponibles": 105,
+          "n_ganadores": 100,
+          "rate": 0.9524
+        },
+        "molflex": {
+          "n_disponibles": 13,
+          "n_ganadores": 12,
+          "rate": 0.9231
+        },
+        "ruta_a": {
+          "n_disponibles": 16,
+          "n_ganadores": 4,
+          "rate": 0.25
+        }
+      }
+    },
+    "a1_original_identico_a_a0": true,
+    "pareado": {
+      "ganadores_cambiados": {
+        "n": 19,
+        "pids": [
+          "10gs",
+          "184l",
+          "186l",
+          "1a99",
+          "1add",
+          "1afl",
+          "1ai4",
+          "1apv",
+          "1b2h",
+          "1b46",
+          "1bn4",
+          "1c4u",
+          "1f4e",
+          "1hmr",
+          "1hn4",
+          "1kav",
+          "1m5w",
+          "1np0",
+          "1nq7"
+        ]
+      },
+      "perdidas_hit": {
+        "n": 4,
+        "pids": [
+          "184l",
+          "1hmr",
+          "1kav",
+          "1nq7"
+        ]
+      },
+      "recuperaciones_hit": {
+        "n": 0,
+        "pids": []
+      },
+      "perdidas_cobertura": {
+        "n": 0,
+        "pids": []
+      },
+      "recuperaciones_cobertura": {
+        "n": 0,
+        "pids": []
+      },
+      "flips_abstencion": {
+        "n": 10,
+        "pids": [
+          "186l",
+          "1b2h",
+          "1b38",
+          "1c4u",
+          "1f4e",
+          "1j4r",
+          "1jao",
+          "1jq8",
+          "1m5w",
+          "1np0"
+        ]
+      },
+      "delta_margen": {
+        "mediana": 0.0,
+        "media": 0.012064,
+        "n_suben": 19,
+        "n_bajan": 11,
+        "n_iguales": 86
+      },
+      "cambios_disponibilidad_fuentes": [],
+      "mcnemar": {
+        "b_orig_hit_dedup_miss": 4,
+        "c_orig_miss_dedup_hit": 0,
+        "n_discordantes": 4,
+        "p_valor_exacto_bilateral": 0.25
+      },
+      "bootstrap_bc": {
+        "n_replicas": 10000,
+        "seed": 42,
+        "estadistica": "suma de diferencias pareadas (dedup - orig)",
+        "diferencia_observada_hits": -4.0,
+        "diferencia_observada_rmsd": 8.475999999999999,
+        "por_componentes_b": {
+          "tipo": "hits_por_componente",
+          "intervalo_percentil_95": [
+            -9.0,
+            0.0
+          ],
+          "metodo": "BCa primario (jackknife sobre las 38 componentes)",
+          "bca_degenerado": false,
+          "aceleracion": -0.103636,
+          "sesgo_z0": 0.101945,
+          "intervalo": [
+            -10.0,
+            0.0
+          ],
+          "excluye_cero": false
+        },
+        "por_componentes_b_rmsd": {
+          "tipo": "rmsd_por_componente",
+          "intervalo_percentil_95": [
+            1.9339,
+            16.700075
+          ],
+          "metodo": "percentil 2.5-97.5",
+          "intervalo": [
+            1.9339,
+            16.700075
+          ],
+          "excluye_cero": true
+        },
+        "por_complejos_c": {
+          "tipo": "hits_por_complejo",
+          "intervalo_percentil_95": [
+            -8.0,
+            -1.0
+          ],
+          "metodo": "BCa degenerado -> percentil bootstrap (regla C3d)",
+          "bca_degenerado": true,
+          "intervalo": [
+            -8.0,
+            -1.0
+          ],
+          "excluye_cero": true
+        },
+        "por_complejos_c_rmsd": {
+          "tipo": "rmsd_por_complejo",
+          "intervalo_percentil_95": [
+            1.793975,
+            16.889025
+          ],
+          "metodo": "percentil 2.5-97.5",
+          "intervalo": [
+            1.793975,
+            16.889025
+          ],
+          "excluye_cero": true
+        },
+        "discordancia_b_c_hits": true,
+        "discordancia_b_c_rmsd": false,
+        "nota_corrigendum": "estadistico usado aqui: suma de diferencias pareadas (SECUNDARIA); el estadistico PRIMARIO de RS-01B es la MEDIANA de diferencias pareadas de RMSD del ganador"
+      },
+      "estadisticos_pareados_rmsd": {
+        "definicion": "por complejo: d = rmsd_ganador_a1_dedup - rmsd_ganador_a1_original (recalculado desde per_complex.jsonl, rmsd a 4 decimales)",
+        "diferencia_de_medianas": {
+          "valor": 0.032,
+          "calculo": "1.457 - 1.425 (medianas por brazo del bloque A1)",
+          "rol": "NO usar como estadistico primario"
+        },
+        "mediana_diferencias_pareadas": {
+          "valor": 0.0,
+          "rol": "PRIMARIO: el gate de RS-01B (degradacion mediana <= 0.1 A) usa la MEDIANA de diferencias pareadas; el bootstrap de RMSD de RS-01B debe usar ESTE estadistico"
+        },
+        "media_diferencias_pareadas": {
+          "valor": 0.0731,
+          "rol": "descriptivo"
+        },
+        "suma_diferencias_pareadas": {
+          "valor": 8.476,
+          "rol": "SECUNDARIA (puede conservarse)"
+        }
+      }
+    }
+  },
+  "a2": {
+    "nota": "SECUNDARIA (sensibilidad de produccion). variance/range POR REQUEST en ambos brazos (semantica selector.py:219-225, round(...,4)); cluster_density: original congelada (validada identica a la recomputada), dedup recalculada. Alcance C4: NO valida el extractor end-to-end",
+    "original": {
+      "lectura": "A2 original (2739)",
+      "contrato": "variance/range POR REQUEST sobre features congeladas",
+      "n_poses": 2739,
+      "n_complejos": 116,
+      "top1_hits": 76,
+      "top1_rate": 0.6552,
+      "rmsd_mediana_ganador": 1.457,
+      "rmsd_media_ganador": 2.2773,
+      "margen_mediana": 0.190112,
+      "margen_media": 0.256916,
+      "n_abstenciones": 28,
+      "tasa_abstencion": 0.2414,
+      "desglose_abstencion": {
+        "abstenidos": {
+          "n": 28,
+          "sin_pose_buena": 6,
+          "con_pose_buena": 22,
+          "con_pose_buena_aciertos_top1": 20,
+          "aciertos_top1": 20,
+          "top1": 0.7143
+        },
+        "aceptados": {
+          "n": 88,
+          "sin_pose_buena": 32,
+          "con_pose_buena": 56,
+          "con_pose_buena_aciertos_top1": 56,
+          "aciertos_top1": 56,
+          "top1": 0.6364
+        }
+      },
+      "fuente_ganadora": {
+        "flexible_redock": 93,
+        "molflex": 13,
+        "ruta_a": 10
+      },
+      "fuente_ganadora_condicionada": {
+        "flexible_redock": {
+          "n_disponibles": 105,
+          "n_ganadores": 93,
+          "rate": 0.8857
+        },
+        "molflex": {
+          "n_disponibles": 13,
+          "n_ganadores": 13,
+          "rate": 1.0
+        },
+        "ruta_a": {
+          "n_disponibles": 16,
+          "n_ganadores": 10,
+          "rate": 0.625
+        }
+      }
+    },
+    "deduplicado": {
+      "lectura": "A2 dedup (2413)",
+      "contrato": "variance/range POR REQUEST; cluster_density recalculada post-dedup",
+      "n_poses": 2413,
+      "n_complejos": 116,
+      "top1_hits": 74,
+      "top1_rate": 0.6379,
+      "rmsd_mediana_ganador": 1.457,
+      "rmsd_media_ganador": 2.3181,
+      "margen_mediana": 0.204114,
+      "margen_media": 0.269067,
+      "n_abstenciones": 27,
+      "tasa_abstencion": 0.2328,
+      "desglose_abstencion": {
+        "abstenidos": {
+          "n": 27,
+          "sin_pose_buena": 7,
+          "con_pose_buena": 20,
+          "con_pose_buena_aciertos_top1": 16,
+          "aciertos_top1": 16,
+          "top1": 0.5926
+        },
+        "aceptados": {
+          "n": 89,
+          "sin_pose_buena": 31,
+          "con_pose_buena": 58,
+          "con_pose_buena_aciertos_top1": 58,
+          "aciertos_top1": 58,
+          "top1": 0.6517
+        }
+      },
+      "fuente_ganadora": {
+        "flexible_redock": 100,
+        "molflex": 12,
+        "ruta_a": 4
+      },
+      "fuente_ganadora_condicionada": {
+        "flexible_redock": {
+          "n_disponibles": 105,
+          "n_ganadores": 100,
+          "rate": 0.9524
+        },
+        "molflex": {
+          "n_disponibles": 13,
+          "n_ganadores": 12,
+          "rate": 0.9231
+        },
+        "ruta_a": {
+          "n_disponibles": 16,
+          "n_ganadores": 4,
+          "rate": 0.25
+        }
+      }
+    },
+    "pareado": {
+      "ganadores_cambiados": {
+        "n": 21,
+        "pids": [
+          "184l",
+          "186l",
+          "1a30",
+          "1a99",
+          "1aaq",
+          "1add",
+          "1ai4",
+          "1apv",
+          "1b2h",
+          "1b38",
+          "1b46",
+          "1bn4",
+          "1c4u",
+          "1f4e",
+          "1hmr",
+          "1hn4",
+          "1j4r",
+          "1kav",
+          "1m5w",
+          "1np0",
+          "1nq7"
+        ]
+      },
+      "perdidas_hit": {
+        "n": 3,
+        "pids": [
+          "184l",
+          "1hmr",
+          "1nq7"
+        ]
+      },
+      "recuperaciones_hit": {
+        "n": 1,
+        "pids": [
+          "1j4r"
+        ]
+      },
+      "perdidas_cobertura": {
+        "n": 0,
+        "pids": []
+      },
+      "recuperaciones_cobertura": {
+        "n": 0,
+        "pids": []
+      },
+      "flips_abstencion": {
+        "n": 9,
+        "pids": [
+          "184l",
+          "1add",
+          "1b2h",
+          "1bn4",
+          "1c4u",
+          "1hn4",
+          "1j4r",
+          "1jq8",
+          "1np0"
+        ]
+      },
+      "delta_margen": {
+        "mediana": 0.0,
+        "media": 0.012151,
+        "n_suben": 21,
+        "n_bajan": 9,
+        "n_iguales": 86
+      },
+      "cambios_disponibilidad_fuentes": [],
+      "mcnemar": {
+        "b_orig_hit_dedup_miss": 3,
+        "c_orig_miss_dedup_hit": 1,
+        "n_discordantes": 4,
+        "p_valor_exacto_bilateral": 1.0
+      }
+    },
+    "deltas_semantica_vs_a1": {
+      "nota": "efecto aislado de la semantica por-request (A2) frente a la por-run congelada (A1) dentro de CADA brazo",
+      "original": {
+        "delta_top1_rate": -0.0172,
+        "delta_hits": -2,
+        "delta_rmsd_mediana_ganador": 0.032,
+        "ganadores_cambiados": {
+          "n": 8,
+          "pids": [
+            "10gs",
+            "184l",
+            "1a30",
+            "1aaq",
+            "1afl",
+            "1b38",
+            "1j4r",
+            "1kav"
+          ]
+        },
+        "perdidas_hit": {
+          "n": 2,
+          "pids": [
+            "1j4r",
+            "1kav"
+          ]
+        },
+        "recuperaciones_hit": {
+          "n": 0,
+          "pids": []
+        },
+        "flips_abstencion": {
+          "n": 5,
+          "pids": [
+            "184l",
+            "1afk",
+            "1b38",
+            "1bn4",
+            "1hn4"
+          ]
+        },
+        "delta_abstenciones": -5,
+        "delta_margen": {
+          "mediana": 0.0,
+          "media": 0.001703
+        }
+      },
+      "deduplicado": {
+        "delta_top1_rate": 0.0,
+        "delta_hits": 0,
+        "delta_rmsd_mediana_ganador": 0.0,
+        "ganadores_cambiados": {
+          "n": 2,
+          "pids": [
+            "1a30",
+            "1a99"
+          ]
+        },
+        "perdidas_hit": {
+          "n": 0,
+          "pids": []
+        },
+        "recuperaciones_hit": {
+          "n": 0,
+          "pids": []
+        },
+        "flips_abstencion": {
+          "n": 6,
+          "pids": [
+            "186l",
+            "1add",
+            "1afk",
+            "1f4e",
+            "1jao",
+            "1m5w"
+          ]
+        },
+        "delta_abstenciones": 0,
+        "delta_margen": {
+          "mediana": 0.0,
+          "media": 0.00179
+        }
+      }
+    }
+  },
+  "empates_contrafactual": {
+    "resumen": {
+      "n_clusters_cross_source": 31,
+      "n_alternativas_evaluadas": 31,
+      "n_alternativas_cambian_ganador": 7,
+      "n_alternativas_cambian_hit": 2,
+      "n_clusters_con_al_menos_un_cambio": 7,
+      "direccion_fuente_ganador": {
+        "flexible_redock->ruta_a": 6,
+        "ruta_a->flexible_redock": 1
+      },
+      "fuente_del_alternativo_que_cambia": {
+        "ruta_a": 7
+      },
+      "base_top1_global": 0.6379,
+      "valores_top1_global_observados_alternativas": [
+        0.6293,
+        0.6379,
+        0.6466
+      ],
+      "rango_top1_global_alternativas": {
+        "min": 0.6293,
+        "max": 0.6466
+      },
+      "sensibilidad_desempate_fuente": true,
+      "declaracion": "el contrafactual muestra SENSIBILIDAD al desempate de fuente (rango 0.6293-0.6466), NO invarianza"
+    },
+    "detalle_clusters": [
+      {
+        "cluster_key": "train|1apv|1.5|4",
+        "pid": "1apv",
+        "representante": {
+          "identity": "train|1apv|flexible_redock|1apv|4",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1apv|flexible_redock|1apv|4",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1apv|ruta_a|exh4|5",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1apv|ruta_a|exh4|5",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1apv|flexible_redock|1apv|7",
+              "fuente": "flexible_redock",
+              "rmsd": 4.481,
+              "hit": false
+            },
+            "ganador_alternativo": {
+              "identity": "train|1apv|flexible_redock|1apv|7",
+              "fuente": "flexible_redock",
+              "rmsd": 4.481,
+              "hit": false
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1b2h|1.5|2",
+        "pid": "1b2h",
+        "representante": {
+          "identity": "train|1b2h|flexible_redock|1b2h|2",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1b2h|flexible_redock|1b2h|2",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1b2h|ruta_a|exh4|2",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1b2h|ruta_a|exh4|2",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1b2h|ruta_a|exh1|0",
+              "fuente": "ruta_a",
+              "rmsd": 0.965,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1b2h|ruta_a|exh1|0",
+              "fuente": "ruta_a",
+              "rmsd": 0.965,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1b2h|1.5|5",
+        "pid": "1b2h",
+        "representante": {
+          "identity": "train|1b2h|flexible_redock|1b2h|5",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1b2h|flexible_redock|1b2h|5",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1b2h|ruta_a|exh2|3",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1b2h|ruta_a|exh2|3",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1b2h|ruta_a|exh1|0",
+              "fuente": "ruta_a",
+              "rmsd": 0.965,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1b2h|ruta_a|exh1|0",
+              "fuente": "ruta_a",
+              "rmsd": 0.965,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1b38|1.5|1",
+        "pid": "1b38",
+        "representante": {
+          "identity": "train|1b38|flexible_redock|1b38|1",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1b38|flexible_redock|1b38|1",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1b38|ruta_a|exh4|1",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1b38|ruta_a|exh4|1",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1b38|flexible_redock|1b38|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.4,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1b38|flexible_redock|1b38|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.4,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1bn4|1.5|0",
+        "pid": "1bn4",
+        "representante": {
+          "identity": "train|1bn4|flexible_redock|1bn4|0",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1bn4|flexible_redock|1bn4|0",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1bn4|ruta_a|exh2|0",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1bn4|ruta_a|exh2|0",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1bn4|flexible_redock|1bn4|1",
+              "fuente": "flexible_redock",
+              "rmsd": 1.821,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1bn4|flexible_redock|1bn4|1",
+              "fuente": "flexible_redock",
+              "rmsd": 1.821,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1bn4|1.5|3",
+        "pid": "1bn4",
+        "representante": {
+          "identity": "train|1bn4|flexible_redock|1bn4|3",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1bn4|flexible_redock|1bn4|3",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1bn4|ruta_a|exh4|2",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1bn4|ruta_a|exh4|2",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1bn4|flexible_redock|1bn4|1",
+              "fuente": "flexible_redock",
+              "rmsd": 1.821,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1bn4|flexible_redock|1bn4|1",
+              "fuente": "flexible_redock",
+              "rmsd": 1.821,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1bn4|1.5|5",
+        "pid": "1bn4",
+        "representante": {
+          "identity": "train|1bn4|flexible_redock|1bn4|5",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1bn4|flexible_redock|1bn4|5",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1bn4|ruta_a|exh4|3",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1bn4|ruta_a|exh4|3",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1bn4|flexible_redock|1bn4|1",
+              "fuente": "flexible_redock",
+              "rmsd": 1.821,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1bn4|flexible_redock|1bn4|1",
+              "fuente": "flexible_redock",
+              "rmsd": 1.821,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1bxr|1.5|2",
+        "pid": "1bxr",
+        "representante": {
+          "identity": "train|1bxr|flexible_redock|1bxr|2",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1bxr|flexible_redock|1bxr|2",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1bxr|ruta_a|exh4|2",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1bxr|ruta_a|exh4|2",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1bxr|flexible_redock|1bxr|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.169,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1bxr|flexible_redock|1bxr|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.169,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1c4u|1.5|0",
+        "pid": "1c4u",
+        "representante": {
+          "identity": "train|1c4u|flexible_redock|1c4u|0",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1c4u|flexible_redock|1c4u|0",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1c4u|ruta_a|exh4|0",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": true,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1c4u|ruta_a|exh4|0",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": true,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1c4u|flexible_redock|1c4u|0",
+              "fuente": "flexible_redock",
+              "rmsd": 0.867,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1c4u|ruta_a|exh4|0",
+              "fuente": "ruta_a",
+              "rmsd": 0.845,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1c4u|1.5|4",
+        "pid": "1c4u",
+        "representante": {
+          "identity": "train|1c4u|flexible_redock|1c4u|4",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1c4u|flexible_redock|1c4u|4",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1c4u|ruta_a|exh4|3",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1c4u|ruta_a|exh4|3",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1c4u|flexible_redock|1c4u|0",
+              "fuente": "flexible_redock",
+              "rmsd": 0.867,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1c4u|flexible_redock|1c4u|0",
+              "fuente": "flexible_redock",
+              "rmsd": 0.867,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1hmr|1.5|2",
+        "pid": "1hmr",
+        "representante": {
+          "identity": "train|1hmr|flexible_redock|1hmr|2",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1hmr|flexible_redock|1hmr|2",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1hmr|ruta_a|exh4|1",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1hmr|ruta_a|exh4|1",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1hmr|flexible_redock|1hmr|1",
+              "fuente": "flexible_redock",
+              "rmsd": 2.212,
+              "hit": false
+            },
+            "ganador_alternativo": {
+              "identity": "train|1hmr|flexible_redock|1hmr|1",
+              "fuente": "flexible_redock",
+              "rmsd": 2.212,
+              "hit": false
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1hmr|1.5|7",
+        "pid": "1hmr",
+        "representante": {
+          "identity": "train|1hmr|flexible_redock|1hmr|7",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1hmr|flexible_redock|1hmr|7",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1hmr|ruta_a|exh4|3",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1hmr|ruta_a|exh4|3",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1hmr|flexible_redock|1hmr|1",
+              "fuente": "flexible_redock",
+              "rmsd": 2.212,
+              "hit": false
+            },
+            "ganador_alternativo": {
+              "identity": "train|1hmr|flexible_redock|1hmr|1",
+              "fuente": "flexible_redock",
+              "rmsd": 2.212,
+              "hit": false
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1hn4|1.5|0",
+        "pid": "1hn4",
+        "representante": {
+          "identity": "train|1hn4|flexible_redock|1hn4|0",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1hn4|flexible_redock|1hn4|0",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1hn4|ruta_a|exh2|0",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": true,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1hn4|ruta_a|exh2|0",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": true,
+            "cambia_hit": true,
+            "ganador_sellado": {
+              "identity": "train|1hn4|ruta_a|exh1|1",
+              "fuente": "ruta_a",
+              "rmsd": 1.128,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1hn4|flexible_redock|1hn4|1",
+              "fuente": "flexible_redock",
+              "rmsd": 2.596,
+              "hit": false
+            },
+            "top1_rate_global_alt": 0.6293,
+            "rmsd_mediana_global_alt": 1.478
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1j4r|1.5|1",
+        "pid": "1j4r",
+        "representante": {
+          "identity": "train|1j4r|flexible_redock|1j4r|1",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1j4r|flexible_redock|1j4r|1",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1j4r|ruta_a|exh4|1",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1j4r|ruta_a|exh4|1",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1j4r|flexible_redock|1j4r|7",
+              "fuente": "flexible_redock",
+              "rmsd": 1.047,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1j4r|flexible_redock|1j4r|7",
+              "fuente": "flexible_redock",
+              "rmsd": 1.047,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1jao|1.5|0",
+        "pid": "1jao",
+        "representante": {
+          "identity": "train|1jao|flexible_redock|1jao|0",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1jao|flexible_redock|1jao|0",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1jao|ruta_a|exh2|0",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": true,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1jao|ruta_a|exh2|0",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": true,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1jao|flexible_redock|1jao|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.377,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1jao|ruta_a|exh2|0",
+              "fuente": "ruta_a",
+              "rmsd": 1.48,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.478
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1jao|1.5|2",
+        "pid": "1jao",
+        "representante": {
+          "identity": "train|1jao|flexible_redock|1jao|2",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1jao|flexible_redock|1jao|2",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1jao|ruta_a|exh1|1",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1jao|ruta_a|exh1|1",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1jao|flexible_redock|1jao|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.377,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1jao|flexible_redock|1jao|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.377,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1jao|1.5|3",
+        "pid": "1jao",
+        "representante": {
+          "identity": "train|1jao|flexible_redock|1jao|3",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1jao|flexible_redock|1jao|3",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1jao|ruta_a|exh4|1",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1jao|ruta_a|exh4|1",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1jao|flexible_redock|1jao|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.377,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1jao|flexible_redock|1jao|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.377,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1jao|1.5|4",
+        "pid": "1jao",
+        "representante": {
+          "identity": "train|1jao|flexible_redock|1jao|4",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1jao|flexible_redock|1jao|4",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1jao|ruta_a|exh4|5",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1jao|ruta_a|exh4|5",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1jao|flexible_redock|1jao|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.377,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1jao|flexible_redock|1jao|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.377,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1jao|1.5|6",
+        "pid": "1jao",
+        "representante": {
+          "identity": "train|1jao|flexible_redock|1jao|6",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1jao|flexible_redock|1jao|6",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1jao|ruta_a|exh4|2",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1jao|ruta_a|exh4|2",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1jao|flexible_redock|1jao|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.377,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1jao|flexible_redock|1jao|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.377,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1jq8|1.5|2",
+        "pid": "1jq8",
+        "representante": {
+          "identity": "train|1jq8|flexible_redock|1jq8|2",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1jq8|flexible_redock|1jq8|2",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1jq8|ruta_a|exh4|0",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1jq8|ruta_a|exh4|0",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1jq8|flexible_redock|1jq8|0",
+              "fuente": "flexible_redock",
+              "rmsd": 3.657,
+              "hit": false
+            },
+            "ganador_alternativo": {
+              "identity": "train|1jq8|flexible_redock|1jq8|0",
+              "fuente": "flexible_redock",
+              "rmsd": 3.657,
+              "hit": false
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1jq8|1.5|3",
+        "pid": "1jq8",
+        "representante": {
+          "identity": "train|1jq8|flexible_redock|1jq8|3",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1jq8|flexible_redock|1jq8|3",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1jq8|ruta_a|exh2|0",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1jq8|ruta_a|exh2|0",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1jq8|flexible_redock|1jq8|0",
+              "fuente": "flexible_redock",
+              "rmsd": 3.657,
+              "hit": false
+            },
+            "ganador_alternativo": {
+              "identity": "train|1jq8|flexible_redock|1jq8|0",
+              "fuente": "flexible_redock",
+              "rmsd": 3.657,
+              "hit": false
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1jq8|1.5|7",
+        "pid": "1jq8",
+        "representante": {
+          "identity": "train|1jq8|flexible_redock|1jq8|7",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1jq8|flexible_redock|1jq8|7",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1jq8|ruta_a|exh2|2",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1jq8|ruta_a|exh2|2",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1jq8|flexible_redock|1jq8|0",
+              "fuente": "flexible_redock",
+              "rmsd": 3.657,
+              "hit": false
+            },
+            "ganador_alternativo": {
+              "identity": "train|1jq8|flexible_redock|1jq8|0",
+              "fuente": "flexible_redock",
+              "rmsd": 3.657,
+              "hit": false
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1kav|1.5|3",
+        "pid": "1kav",
+        "representante": {
+          "identity": "train|1kav|flexible_redock|1kav|3",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1kav|flexible_redock|1kav|3",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1kav|ruta_a|exh1|1",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": true,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1kav|ruta_a|exh1|1",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": true,
+            "cambia_hit": true,
+            "ganador_sellado": {
+              "identity": "train|1kav|flexible_redock|1kav|4",
+              "fuente": "flexible_redock",
+              "rmsd": 2.738,
+              "hit": false
+            },
+            "ganador_alternativo": {
+              "identity": "train|1kav|ruta_a|exh1|1",
+              "fuente": "ruta_a",
+              "rmsd": 1.413,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6466,
+            "rmsd_mediana_global_alt": 1.438
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1kav|1.5|4",
+        "pid": "1kav",
+        "representante": {
+          "identity": "train|1kav|flexible_redock|1kav|4",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1kav|flexible_redock|1kav|4",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1kav|ruta_a|exh2|0",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": true,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1kav|ruta_a|exh2|0",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": true,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1kav|flexible_redock|1kav|4",
+              "fuente": "flexible_redock",
+              "rmsd": 2.738,
+              "hit": false
+            },
+            "ganador_alternativo": {
+              "identity": "train|1kav|ruta_a|exh2|0",
+              "fuente": "ruta_a",
+              "rmsd": 2.764,
+              "hit": false
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1kav|1.5|7",
+        "pid": "1kav",
+        "representante": {
+          "identity": "train|1kav|flexible_redock|1kav|7",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1kav|flexible_redock|1kav|7",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1kav|ruta_a|exh4|3",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": true,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1kav|ruta_a|exh4|3",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": true,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1kav|flexible_redock|1kav|4",
+              "fuente": "flexible_redock",
+              "rmsd": 2.738,
+              "hit": false
+            },
+            "ganador_alternativo": {
+              "identity": "train|1kav|ruta_a|exh1|3",
+              "fuente": "ruta_a",
+              "rmsd": 2.915,
+              "hit": false
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1m5w|1.5|2",
+        "pid": "1m5w",
+        "representante": {
+          "identity": "train|1m5w|flexible_redock|1m5w|2",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1m5w|flexible_redock|1m5w|2",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1m5w|ruta_a|exh2|1",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1m5w|ruta_a|exh2|1",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1m5w|flexible_redock|1m5w|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.77,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1m5w|flexible_redock|1m5w|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.77,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1m5w|1.5|7",
+        "pid": "1m5w",
+        "representante": {
+          "identity": "train|1m5w|flexible_redock|1m5w|7",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1m5w|flexible_redock|1m5w|7",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1m5w|ruta_a|exh4|5",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1m5w|ruta_a|exh4|5",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1m5w|flexible_redock|1m5w|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.77,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1m5w|flexible_redock|1m5w|0",
+              "fuente": "flexible_redock",
+              "rmsd": 1.77,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1np0|1.5|1",
+        "pid": "1np0",
+        "representante": {
+          "identity": "train|1np0|flexible_redock|1np0|1",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1np0|flexible_redock|1np0|1",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1np0|ruta_a|exh4|1",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1np0|ruta_a|exh4|1",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1np0|flexible_redock|1np0|5",
+              "fuente": "flexible_redock",
+              "rmsd": 1.514,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1np0|flexible_redock|1np0|5",
+              "fuente": "flexible_redock",
+              "rmsd": 1.514,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1np0|1.5|5",
+        "pid": "1np0",
+        "representante": {
+          "identity": "train|1np0|flexible_redock|1np0|5",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1np0|flexible_redock|1np0|5",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1np0|ruta_a|exh4|3",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": true,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1np0|ruta_a|exh4|3",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": true,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1np0|flexible_redock|1np0|5",
+              "fuente": "flexible_redock",
+              "rmsd": 1.514,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1np0|ruta_a|exh4|3",
+              "fuente": "ruta_a",
+              "rmsd": 1.483,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1np0|1.5|6",
+        "pid": "1np0",
+        "representante": {
+          "identity": "train|1np0|flexible_redock|1np0|6",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1np0|flexible_redock|1np0|6",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1np0|ruta_a|exh4|5",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1np0|ruta_a|exh4|5",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1np0|flexible_redock|1np0|5",
+              "fuente": "flexible_redock",
+              "rmsd": 1.514,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1np0|flexible_redock|1np0|5",
+              "fuente": "flexible_redock",
+              "rmsd": 1.514,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      },
+      {
+        "cluster_key": "train|1np0|1.5|7",
+        "pid": "1np0",
+        "representante": {
+          "identity": "train|1np0|flexible_redock|1np0|7",
+          "fuente": "flexible_redock"
+        },
+        "empatados": [
+          {
+            "identity": "train|1np0|flexible_redock|1np0|7",
+            "source": "flexible_redock"
+          },
+          {
+            "identity": "train|1np0|ruta_a|exh4|6",
+            "source": "ruta_a"
+          }
+        ],
+        "n_alternativas": 1,
+        "alguna_alternativa_cambia_ganador": false,
+        "alternativas": [
+          {
+            "alternativo_identity": "train|1np0|ruta_a|exh4|6",
+            "alternativo_source": "ruta_a",
+            "cambia_ganador": false,
+            "cambia_hit": false,
+            "ganador_sellado": {
+              "identity": "train|1np0|flexible_redock|1np0|5",
+              "fuente": "flexible_redock",
+              "rmsd": 1.514,
+              "hit": true
+            },
+            "ganador_alternativo": {
+              "identity": "train|1np0|flexible_redock|1np0|5",
+              "fuente": "flexible_redock",
+              "rmsd": 1.514,
+              "hit": true
+            },
+            "top1_rate_global_alt": 0.6379,
+            "rmsd_mediana_global_alt": 1.457
+          }
+        ]
+      }
+    ]
+  },
+  "empates_contrafactual_verificacion_recomputacion": {
+    "n_clusters_sidecar": 2413,
+    "n_representantes_coinciden_medoid_recomputado": 2413,
+    "n_no_singleton": 212,
+    "n_empates_medoid": 141,
+    "n_empates_cross_source": 31,
+    "esperado_mf11r1": {
+      "n_clusters_no_singleton": 212,
+      "n_empates_medoid": 141,
+      "n_empates_cross_source": 31
+    },
+    "coincide_con_sellado": true
+  },
+  "archivos_abiertos_repo": [
+    "data/pose_selector_dataset/poses_train.jsonl",
+    "data/pose_selector_dataset/records/10gs.json",
+    "data/pose_selector_dataset/records/184l.json",
+    "data/pose_selector_dataset/records/186l.json",
+    "data/pose_selector_dataset/records/187l.json",
+    "data/pose_selector_dataset/records/188l.json",
+    "data/pose_selector_dataset/records/1a30.json",
+    "data/pose_selector_dataset/records/1a4w.json",
+    "data/pose_selector_dataset/records/1a99.json",
+    "data/pose_selector_dataset/records/1aaq.json",
+    "data/pose_selector_dataset/records/1add.json",
+    "data/pose_selector_dataset/records/1afk.json",
+    "data/pose_selector_dataset/records/1afl.json",
+    "data/pose_selector_dataset/records/1ai4.json",
+    "data/pose_selector_dataset/records/1ai7.json",
+    "data/pose_selector_dataset/records/1alw.json",
+    "data/pose_selector_dataset/records/1amw.json",
+    "data/pose_selector_dataset/records/1apv.json",
+    "data/pose_selector_dataset/records/1ax0.json",
+    "data/pose_selector_dataset/records/1b2h.json",
+    "data/pose_selector_dataset/records/1b38.json",
+    "data/pose_selector_dataset/records/1b46.json",
+    "data/pose_selector_dataset/records/1b4z.json",
+    "data/pose_selector_dataset/records/1b8y.json",
+    "data/pose_selector_dataset/records/1bcd.json",
+    "data/pose_selector_dataset/records/1bju.json",
+    "data/pose_selector_dataset/records/1bjv.json",
+    "data/pose_selector_dataset/records/1bma.json",
+    "data/pose_selector_dataset/records/1bn1.json",
+    "data/pose_selector_dataset/records/1bn3.json",
+    "data/pose_selector_dataset/records/1bn4.json",
+    "data/pose_selector_dataset/records/1bnu.json",
+    "data/pose_selector_dataset/records/1bq4.json",
+    "data/pose_selector_dataset/records/1bty.json",
+    "data/pose_selector_dataset/records/1bxr.json",
+    "data/pose_selector_dataset/records/1c4u.json",
+    "data/pose_selector_dataset/records/1c5o.json",
+    "data/pose_selector_dataset/records/1c5p.json",
+    "data/pose_selector_dataset/records/1cet.json",
+    "data/pose_selector_dataset/records/1cnw.json",
+    "data/pose_selector_dataset/records/1cnx.json",
+    "data/pose_selector_dataset/records/1d3p.json",
+    "data/pose_selector_dataset/records/1d7i.json",
+    "data/pose_selector_dataset/records/1d7j.json",
+    "data/pose_selector_dataset/records/1d9i.json",
+    "data/pose_selector_dataset/records/1dgm.json",
+    "data/pose_selector_dataset/records/1e4h.json",
+    "data/pose_selector_dataset/records/1eb2.json",
+    "data/pose_selector_dataset/records/1ela.json",
+    "data/pose_selector_dataset/records/1elb.json",
+    "data/pose_selector_dataset/records/1eld.json",
+    "data/pose_selector_dataset/records/1ele.json",
+    "data/pose_selector_dataset/records/1ew8.json",
+    "data/pose_selector_dataset/records/1ew9.json",
+    "data/pose_selector_dataset/records/1ezq.json",
+    "data/pose_selector_dataset/records/1f0r.json",
+    "data/pose_selector_dataset/records/1f0t.json",
+    "data/pose_selector_dataset/records/1f0u.json",
+    "data/pose_selector_dataset/records/1f4e.json",
+    "data/pose_selector_dataset/records/1f4f.json",
+    "data/pose_selector_dataset/records/1f4g.json",
+    "data/pose_selector_dataset/records/1f5k.json",
+    "data/pose_selector_dataset/records/1f74.json",
+    "data/pose_selector_dataset/records/1fd0.json",
+    "data/pose_selector_dataset/records/1fh7.json",
+    "data/pose_selector_dataset/records/1fkg.json",
+    "data/pose_selector_dataset/records/1fkh.json",
+    "data/pose_selector_dataset/records/1flr.json",
+    "data/pose_selector_dataset/records/1fv0.json",
+    "data/pose_selector_dataset/records/1g3d.json",
+    "data/pose_selector_dataset/records/1g3e.json",
+    "data/pose_selector_dataset/records/1gpn.json",
+    "data/pose_selector_dataset/records/1gwv.json",
+    "data/pose_selector_dataset/records/1h22.json",
+    "data/pose_selector_dataset/records/1h4w.json",
+    "data/pose_selector_dataset/records/1hdq.json",
+    "data/pose_selector_dataset/records/1hih.json",
+    "data/pose_selector_dataset/records/1hii.json",
+    "data/pose_selector_dataset/records/1hlk.json",
+    "data/pose_selector_dataset/records/1hmr.json",
+    "data/pose_selector_dataset/records/1hn4.json",
+    "data/pose_selector_dataset/records/1hp5.json",
+    "data/pose_selector_dataset/records/1hpx.json",
+    "data/pose_selector_dataset/records/1i7z.json",
+    "data/pose_selector_dataset/records/1igb.json",
+    "data/pose_selector_dataset/records/1iih.json",
+    "data/pose_selector_dataset/records/1ikt.json",
+    "data/pose_selector_dataset/records/1j4r.json",
+    "data/pose_selector_dataset/records/1jao.json",
+    "data/pose_selector_dataset/records/1jaq.json",
+    "data/pose_selector_dataset/records/1jn4.json",
+    "data/pose_selector_dataset/records/1jq8.json",
+    "data/pose_selector_dataset/records/1jvu.json",
+    "data/pose_selector_dataset/records/1k9s.json",
+    "data/pose_selector_dataset/records/1kav.json",
+    "data/pose_selector_dataset/records/1kpm.json",
+    "data/pose_selector_dataset/records/1kzk.json",
+    "data/pose_selector_dataset/records/1l83.json",
+    "data/pose_selector_dataset/records/1lan.json",
+    "data/pose_selector_dataset/records/1lbk.json",
+    "data/pose_selector_dataset/records/1lrh.json",
+    "data/pose_selector_dataset/records/1m0n.json",
+    "data/pose_selector_dataset/records/1m2x.json",
+    "data/pose_selector_dataset/records/1m48.json",
+    "data/pose_selector_dataset/records/1m5w.json",
+    "data/pose_selector_dataset/records/1mmq.json",
+    "data/pose_selector_dataset/records/1mmr.json",
+    "data/pose_selector_dataset/records/1moq.json",
+    "data/pose_selector_dataset/records/1mu8.json",
+    "data/pose_selector_dataset/records/1n0s.json",
+    "data/pose_selector_dataset/records/1nje.json",
+    "data/pose_selector_dataset/records/1njs.json",
+    "data/pose_selector_dataset/records/1nki.json",
+    "data/pose_selector_dataset/records/1nm6.json",
+    "data/pose_selector_dataset/records/1np0.json",
+    "data/pose_selector_dataset/records/1nq7.json",
+    "data/pose_selector_dataset/records/1nw5.json",
+    "python-embed/Lib/site-packages/xgboost/VERSION",
+    "rescoring/artifacts/pose_selector_v06.xgb",
+    "rescoring/artifacts/pose_selector_v06_meta.json",
+    "rescoring/pose_selector/selector.py",
+    "scripts/artifacts_science/MF-01-UNION/union_candidates_train.jsonl",
+    "scripts/artifacts_science/MF-01-UNION/union_labels_train.jsonl",
+    "scripts/artifacts_science/MF-11-R1/cluster_members_train_1.5.jsonl",
+    "scripts/artifacts_science/MF-11-R1/dedup_candidates_train_1.5.jsonl",
+    "scripts/artifacts_science/MF-11-R1/metrics.json",
+    "scripts/artifacts_science/RS-01/INVENTORY.json",
+    "scripts/artifacts_science/RS-01/cache_train_only_view.jsonl",
+    "scripts/artifacts_science/RS-01/cache_view_manifest.json",
+    "scripts/artifacts_science/RS-01/fold_plan.json"
+  ],
+  "garantia_cuarentena": "builtins.open auditado contra whitelist explicita: solo se abrieron los insumos declarados, los modulos importados por composicion, los records train y las salidas; poses_val.jsonl y poses_test.jsonl NO figuran en archivos_abiertos_repo y nunca se abren en ninguna lectura (los archivos internos del interprete python-embed/ y __pycache__ quedan fuera del alcance de la auditoria)",
+  "determinismo": "salidas sin timestamps ni aleatoriedad no-seeded; dos corridas producen metrics.json y per_complex.jsonl byte-identicos",
+  "corrigendum": {
+    "autor": "maintainer (corrigendum RS-01A)",
+    "correcciones": [
+      {
+        "id": 1,
+        "titulo": "contrafactual NO invariante",
+        "detalle": "base 0.6379; alternativas observadas 0.6293, 0.6379, 0.6466 (7 cambian ganador, 2 cambian hit); sensibilidad al desempate de fuente, rango 0.6293-0.6466"
+      },
+      {
+        "id": 2,
+        "titulo": "estadisticos pareados distinguidos",
+        "detalle": "diferencia de medianas +0.032; mediana pareada 0.000 (PRIMARIA); media pareada +0.0731; suma pareada +8.476 (secundaria); RS-01B usa la mediana pareada como estadistico primario"
+      },
+      {
+        "id": 3,
+        "titulo": "manifest RS-01A",
+        "detalle": "git_state (branch/commit/dirty) y dependencies (runtime real) corregidos en manifest.json"
+      },
+      {
+        "id": 4,
+        "titulo": "nota de sello",
+        "detalle": "DESIGN.md documenta que el sello de RS-01A incluira como datasets los 116 records/{pid}.json + runner, checkpoint, entradas y resultados"
+      }
+    ]
+  }
+}

@@ -1,0 +1,3392 @@
+{
+  "schema_version": 1,
+  "product_root": "D:/moldesign-build",
+  "generated_at_utc": "2026-09-10T20:06:47.427779+00:00",
+  "purpose": "Marcar SEEN/RELATED/EXTERNAL antes de conocer resultados.",
+  "seen_pdb_ids": {
+    "10gs": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "184l": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "185l": [
+      "pdbbind_curation_evaluated"
+    ],
+    "187l": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "188l": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1adl": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1azm": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1b8o": [
+      "pdbbind_curation_evaluated"
+    ],
+    "1bzj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1c5n": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1c5x": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1c5y": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1c84": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1c86": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1c87": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1c88": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1e1x": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1e66": [
+      "model_manifest_holdout:gnn_v2_cl.auc_held_out_por_familia",
+      "model_manifest_holdout:gnn_v2_cl.fallos_silenciosos_pct"
+    ],
+    "1ecv": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1enu": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1f57": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1f5l": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1fcx": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1fcy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1fcz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1fjs": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1fm9": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1g2l": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1g30": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1g32": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1g74": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1gfy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1gkc": [
+      "golden:dossier_m5_zn.json",
+      "golden:m5_zn_replay.json",
+      "m5_zn_profile_benchmark"
+    ],
+    "1gx8": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1h2k": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1hpv": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1hsg": [
+      "model_manifest_holdout:gnn_v2_cl.auc_held_out_por_familia",
+      "model_manifest_holdout:gnn_v2_cl.fallos_silenciosos_pct"
+    ],
+    "1hvi": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1hvk": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1hvs": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1i2s": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1i37": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1kdk": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1kv1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1lgw": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1li2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1li3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1lpg": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1lpz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1m2p": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1m2q": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1m2r": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1mq5": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1mq6": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1mu6": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1mue": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1n46": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1n4k": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1ndw": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1ndy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1nfu": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1nfx": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1nfy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1nhz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1nl9": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1nny": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1no6": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1nw4": [
+      "pdbbind_curation_evaluated"
+    ],
+    "1nz7": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1o86": [
+      "benchmark_checkpoint",
+      "golden:dossier_m5_zn.json",
+      "golden:m5_zn_replay.json",
+      "m5_zn_profile_benchmark"
+    ],
+    "1onz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1pbq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1pyn": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1q5k": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1q8w": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1qxk": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1rbp": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1rmz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1ro6": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1rr6": [
+      "pdbbind_curation_evaluated"
+    ],
+    "1sqa": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1sqo": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1t31": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1t32": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1t4v": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1u71": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1uho": [
+      "pdbbind_curation_evaluated"
+    ],
+    "1uou": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1v48": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1w4o": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1xap": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1yds": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1ydt": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1yq7": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "1z95": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1z9g": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "1zdp": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2afx": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2ans": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2azr": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2b07": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2bq7": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2bz6": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2e91": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2e92": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2e9u": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2f94": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2f9k": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2fqo": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2fvd": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2gkl": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2gvj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2ha2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2ha6": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2hb1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2i4j": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2jfz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2nmx": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2nn1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2o8h": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2on6": [
+      "pdbbind_curation_evaluated"
+    ],
+    "2pvh": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2rd6": [
+      "pdbbind_curation_evaluated"
+    ],
+    "2tmn": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2uy4": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2vmf": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2vuk": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2vvv": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2w8y": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2w9h": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2whp": [
+      "pdbbind_curation_evaluated"
+    ],
+    "2wyf": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2wyg": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2wyj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2wzs": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2x4z": [
+      "pdbbind_curation_evaluated"
+    ],
+    "2xab": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2xb7": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2xdl": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2xht": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2xmy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2y7x": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2y7z": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2y80": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2y81": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2y82": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2yi0": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2yix": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2za0": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "2zfp": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "2zjw": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3ai8": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3b24": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3b25": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3b27": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3b92": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3be9": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3bgb": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3bgc": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3bqc": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3bra": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3bug": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3buh": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3c39": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3c4h": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3c56": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3c84": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3cs7": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3cyx": [
+      "model_manifest_holdout:gnn_v2_cl.auc_held_out_por_familia",
+      "model_manifest_holdout:gnn_v2_cl.fallos_silenciosos_pct"
+    ],
+    "3czv": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3dc3": [
+      "golden:dossier_m5_zn.json",
+      "golden:m5_zn_ca2_3dc3.json",
+      "golden:m5_zn_replay.json",
+      "m5_zn_profile_benchmark",
+      "model_manifest_holdout:gnn_v2_cl.auc_held_out_por_familia",
+      "model_manifest_holdout:gnn_v2_cl.fallos_silenciosos_pct",
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3dx3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3eqr": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3ert": [
+      "model_manifest_holdout:gnn_v2_cl.auc_held_out_por_familia"
+    ],
+    "3f17": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3f7g": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3f7i": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3fhb": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3fuc": [
+      "pdbbind_curation_evaluated"
+    ],
+    "3fur": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3gcs": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3hig": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3hll": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3ime": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3iof": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3ipq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3jvs": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3jya": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3k99": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3kjd": [
+      "pdbbind_curation_evaluated"
+    ],
+    "3kmc": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3kr8": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3l3l": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3l3n": [
+      "pdbbind_curation_evaluated"
+    ],
+    "3l4w": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3ldp": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3ldq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3lk8": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3lpk": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3mdz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3ml5": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3ms9": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3nx7": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3o8p": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3oaf": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3oy0": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3p3r": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3pb7": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3pbb": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3pe1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3pe2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3pp0": [
+      "model_manifest_holdout:gnn_v2_cl.auc_held_out_por_familia"
+    ],
+    "3ps1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3qdd": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3qgw": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3qgy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3rbu": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3rm4": [
+      "pdbbind_curation_evaluated"
+    ],
+    "3roc": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3ru1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3sjf": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3sr4": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3std": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3str": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3sue": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3suf": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3sug": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3sww": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3t60": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3u6h": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3u6i": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3u8j": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3u8k": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3u8n": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3ug2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3uod": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3up2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3uxk": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3uxl": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3wjw": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "3wtj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3x00": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3zcl": [
+      "pdbbind_curation_evaluated"
+    ],
+    "3zdg": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "3zdh": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4a6s": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4a7i": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4ag8": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4agc": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4agq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4aj4": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4aje": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4aji": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4ajl": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4app": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4asd": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4ax9": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4b2i": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4b2l": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4b32": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4b33": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4b34": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4b3d": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4b7p": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4bao": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4bkt": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4btk": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4cg8": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4cr5": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4crb": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4crf": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4crl": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4cwf": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4cwn": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4cwo": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4cwp": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4cwq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4cwr": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4cws": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4d7b": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4dew": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4dv8": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4e3g": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4e4l": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4e4n": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4e5w": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4e6d": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4e6q": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4e9u": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4eb8": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4ehz": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4ek9": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4erf": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4f09": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4f1l": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4f7v": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4fcq": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4fk6": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4g95": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4ghi": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4gih": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4gr0": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4gr3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4gr8": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4gu6": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4hfp": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4hge": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4ht0": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4ht2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4hu1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4hw3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4hwo": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4hwp": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4hws": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4i5c": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4i8w": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4i8x": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4i8z": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4i9h": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4i9u": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4ih3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4ivb": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4ivc": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4ivd": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4jyt": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4jz1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4jzi": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4k4j": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4k55": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4k6i": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4k77": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4kax": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4kfq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4kni": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4knj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4knm": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4knn": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4kow": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4kp5": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4kp8": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4kwf": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4kwg": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4kyh": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4kyk": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4l19": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4ljh": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4lk7": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4llj": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4llk": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4llp": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4llx": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4lm1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4lm2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4lm3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4loi": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4lxz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4lzs": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4m0e": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4m0f": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4mdn": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4mo8": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4mpn": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4mr3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4mr6": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4mre": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4mrg": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4mrw": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4mrz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4msc": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4msn": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4n6z": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4ngm": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4ngp": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4np2": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4np3": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4nra": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4nuc": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4nue": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4o04": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4o05": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4o07": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4o09": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4o0b": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4o2p": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4o3f": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4o97": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4o9v": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4oc0": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4oc2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4oc3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4oc5": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4og3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4og4": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4ogj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4ovf": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4ovg": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4ovh": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4pnu": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4poh": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4poj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4pop": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4pp3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4q7p": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4q7s": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4q7v": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4q7w": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4q81": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4q83": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4q87": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4q8x": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4q8y": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4qb3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4qjx": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4qp2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4qtl": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4r06": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4rfc": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4rfm": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4rqk": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4rux": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4ruy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4ruz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4tln": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4tmn": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4tqn": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4twp": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4u43": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4ufl": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4und": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4v24": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4wa9": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4wt2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4x5y": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4x5z": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4x8u": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4x8v": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4xaq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4xar": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4xmb": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4xt2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4y79": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4ybk": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4ygf": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4yha": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4yml": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4yx4": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4yxi": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4yyt": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4zae": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4zbi": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4zgk": [
+      "pdbbind_curation_evaluated"
+    ],
+    "4zji": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4zyf": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "4zzx": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4zzy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "4zzz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5a5q": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5a81": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5aan": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5ant": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5anu": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5anv": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5aoj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5boj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5c1w": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5c28": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5c2a": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5c2h": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5cep": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ceq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5cj6": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5csp": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5d26": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5d3l": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5d3t": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5dh4": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5dh5": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5dit": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5dq8": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5e2p": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5e73": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5e74": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5eei": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5een": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ef7": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5egu": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5ei3": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5eis": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5ep7": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5eqe": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5eqp": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5etb": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5etj": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5eu1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5f1h": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5f25": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5f2p": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5f63": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5fbi": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5fck": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5fe9": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5fnt": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5fnu": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5fto": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5g1a": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5g5v": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5h85": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5h8e": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5h8g": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5his": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5hvs": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5i2e": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5i9x": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5i9y": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5i9z": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5ia3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5ia4": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ia5": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ii2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ime": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5ioz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5ive": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ivv": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ivy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5j1r": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5j3l": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5j86": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5j8z": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5jsj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5jy3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5k0h": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5k9w": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ka1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ka7": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ka9": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5kab": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5kad": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5kby": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5kh3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5khm": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5ko1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5l30": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5l3a": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5llc": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5lle": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5llg": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5llh": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5lvq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5mes": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5mg2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5mge": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5mgf": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5mgj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5mgk": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5mkr": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5mks": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5mlj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5mme": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5mnn": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5mpz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5mqe": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5msb": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5mwh": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5mwp": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5mwy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5n0d": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5n0e": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5n1z": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ngz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5nlk": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5nn6": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5o07": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5o1d": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5o1h": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5o2d": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5o5a": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5oh4": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5orj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ov8": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5sym": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5t9u": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5t9w": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5t9z": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ta2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ta4": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5tbe": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5tbm": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5tmn": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5tt3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5tuo": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5tuz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5u12": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5u49": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5u4b": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5u4d": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5u6j": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5uc4": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ula": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5uln": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5ut6": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5v0n": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5vc3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5vc4": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5vcv": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5vcw": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5vcy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5vcz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5vd0": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5vd3": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5vkc": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5vsf": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5vyy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5wa5": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5wbm": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5wbo": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5wex": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5win": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5wqc": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5wyx": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5wyz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5x74": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5xva": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5xvg": [
+      "pdbbind_curation_evaluated"
+    ],
+    "5y12": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5y13": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "5zhl": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "5zo8": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6aqs": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6b4l": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6b4u": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6b96": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6b97": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6b98": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6c7q": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6c7x": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6c9v": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6ce6": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6ced": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6cn5": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6cq1": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6d1d": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6d1g": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6d55": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6d5e": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6d5g": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6d5j": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6dyz": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6dz0": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6dz2": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6dz3": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6e22": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6e4a": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6eiq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6ekq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6epa": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6eq2": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6eq5": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6evr": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6ex1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6eya": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6f20": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6f3b": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6f90": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6f92": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6f9u": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6f9v": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6faf": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6fag": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6fe0": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6fmj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6fo5": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6fsy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6ftw": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6ftz": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6fuh": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6fui": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6g27": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6g5l": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6g5u": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6g6t": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6g7a": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6g9i": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6gj6": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6gj8": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6gji": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6gjj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6gjl": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6gjm": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6gjr": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6got": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6gwr": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6gxq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6h2z": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6h33": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6h34": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6h36": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6h37": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6h38": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6h5x": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6h8s": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6hd6": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6hoq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6hqy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6hrq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6hsh": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6i0z": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6i11": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6i12": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6i13": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6i14": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6i18": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6i8m": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6i8t": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6i8y": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6j0g": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6j3o": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6j3p": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6jof": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6mnc": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6o94": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6o95": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6odz": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6oe0": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6oe1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6ooy": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6oqb": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6oqc": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6oqd": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6orr": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6pl1": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6plf": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6q3y": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6q3z": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6qln": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6qlo": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6qlp": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6qlq": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6qlr": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6qlt": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6qlu": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6qpl": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6rfn": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6rfw": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6s57": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6t1i": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6t1j": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6t1l": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6t1m": [
+      "pdbbind_curation_evaluated"
+    ],
+    "6u5y": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6u6w": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6u8b": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6u8o": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ],
+    "6ud2": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6udi": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6udt": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6udu": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "6udv": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "7e2y": [
+      "model_manifest_holdout:gnn_v2_cl.auc_held_out_por_familia",
+      "model_manifest_holdout:gnn_v2_cl.fallos_silenciosos_pct"
+    ],
+    "7upj": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_frozen_holdout"
+    ],
+    "966c": [
+      "pdbbind_curation_evaluated",
+      "pdbbind_cv_train",
+      "pdbbind_cv_val"
+    ]
+  },
+  "n_seen_pdb_ids": 760,
+  "related_targets": {
+    "CA2": "carbonic anhydrase II - perfil M5-Zn + checkpoint",
+    "MMP9": "matrix metalloproteinase 9 - perfil M5-Zn + checkpoint",
+    "ACE": "angiotensin converting enzyme - perfil M5-Zn + checkpoint",
+    "5HT1A": "calibracion externa BindingDB (7E2Y)",
+    "CDK2": "checkpoint de benchmark",
+    "ER_ALPHA": "checkpoint de benchmark",
+    "FACTOR_XA": "checkpoint de benchmark",
+    "HIV_PROTEASE": "checkpoint de benchmark + molchamb LOTO",
+    "THROMBIN": "checkpoint de benchmark"
+  },
+  "sources_read": [
+    {
+      "path": "frontend/src-tauri/resources/rescoring/artifacts/split_config.json",
+      "role": "split congelado XGBoost (train/val/holdout)",
+      "sha256": "bbc57126e2306e087dcddb76478a8cddfbd36fb7de3f350806b6366ee3534f6f",
+      "n_ids": 1968
+    },
+    {
+      "path": "frontend/src-tauri/resources/rescoring/artifacts/pdbbind_audit_report.json",
+      "role": "curacion PDBBind (752 evaluados)",
+      "sha256": "30bcf5bd0a0ace01d5664ebe1e15b5eb56e5f2391fe881061dae2c907922d776",
+      "n_ids": 752
+    },
+    {
+      "path": "backend/services/pipeline/protocols/m5/m5_zn_manifest.json",
+      "role": "perfiles M5-Zn (seleccion de pesos por diana)",
+      "sha256": "ccb0a6ba98f5317b315e152556cf55729830208dd71e2f3c7c04e45e2aaf660e",
+      "n_ids": 3
+    },
+    {
+      "path": "data/benchmark_checkpoint_1o86.json",
+      "role": "checkpoint de benchmark (diana=1o86)",
+      "sha256": "c79f9f8aa18aaffa1b459c619daea4300eb32fc37ce67b6092e5eec09a45761a",
+      "n_ids": 1
+    },
+    {
+      "path": "data/benchmark_checkpoint_5ht1a.json",
+      "role": "checkpoint de benchmark (diana=5ht1a)",
+      "sha256": "ae91d9ba010c72c95fd657adb6b5aa23ee1de2fef510f99da164f45d1fa1cb24",
+      "n_ids": 1
+    },
+    {
+      "path": "data/benchmark_checkpoint_ace.json",
+      "role": "checkpoint de benchmark (diana=ace)",
+      "sha256": "f646d7fb7b2e3946f638beaa213cf57d9dff9c6d37630fd1d8db593182973fb2",
+      "n_ids": 1
+    },
+    {
+      "path": "data/benchmark_checkpoint_ca2.json",
+      "role": "checkpoint de benchmark (diana=ca2)",
+      "sha256": "a9029082de2a139137c6674bbc763aab4c69b57e233fadaed0e6c4b6e0e41fd5",
+      "n_ids": 1
+    },
+    {
+      "path": "data/benchmark_checkpoint_cdk2.json",
+      "role": "checkpoint de benchmark (diana=cdk2)",
+      "sha256": "e3b2883699cc639c74944bbb9270378b88de8050484a5578b72b7690cb5e7da4",
+      "n_ids": 1
+    },
+    {
+      "path": "data/benchmark_checkpoint_er_alpha.json",
+      "role": "checkpoint de benchmark (diana=er_alpha)",
+      "sha256": "708dbb691688ba6e724584db93ef694957154994c8eece54b58b9f1a63d49463",
+      "n_ids": 1
+    },
+    {
+      "path": "data/benchmark_checkpoint_factor_xa.json",
+      "role": "checkpoint de benchmark (diana=factor_xa)",
+      "sha256": "b5548748b4a900c9ba2f726adee4c0eb51bb47fa8c6d0ebd566377a26518a261",
+      "n_ids": 1
+    },
+    {
+      "path": "data/benchmark_checkpoint_hiv_protease.json",
+      "role": "checkpoint de benchmark (diana=hiv_protease)",
+      "sha256": "ba5876b6c5b09e65fa21680951a1d8e9acf79af4b9c7b9c7a868a22ea50bb14b",
+      "n_ids": 1
+    },
+    {
+      "path": "data/benchmark_checkpoint_mmp9.json",
+      "role": "checkpoint de benchmark (diana=mmp9)",
+      "sha256": "593b50762830bb475ea361bcb7e5f5e525811545f562339675304eeae94c4bf3",
+      "n_ids": 1
+    },
+    {
+      "path": "data/benchmark_checkpoint_thrombin.json",
+      "role": "checkpoint de benchmark (diana=thrombin)",
+      "sha256": "c319cf564f8bc43f649586096040c91dbaf3535fff94d15a36d4988cf8785e7c",
+      "n_ids": 1
+    },
+    {
+      "path": "frontend/src-tauri/resources/rescoring/artifacts/model-manifest.json",
+      "role": "model-manifest.json (dianas held-out nombradas en metrics)",
+      "sha256": "84c843c86935fc96d0db5cee125185bc90ca2c7a175352e1a56691089bdb5be0",
+      "n_ids": 12
+    },
+    {
+      "path": "backend/tests/goldens/*.json",
+      "role": "goldens",
+      "sha256": null,
+      "n_ids": 7
+    }
+  ],
+  "caveat": "EXTERNAL significa 'ausente de sources_read'. No cubre exposicion por preentrenamiento de ESM/ESMFold, ni por PDBBind general fuera de los 865 refinados, ni similitud de scaffold, que se mide aparte."
+}

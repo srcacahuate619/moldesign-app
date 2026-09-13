@@ -1,0 +1,98 @@
+# requirements-desktop.txt
+# Dependencias del backend en MODO DESKTOP
+# Sin PostgreSQL, Redis, MinIO, Celery.
+# Usa SQLite + ThreadPoolExecutor + disco local.
+
+# ── Framework ───────────────────────────────────────────────────────
+fastapi==0.135.2
+uvicorn[standard]==0.42.0
+starlette==1.0.0
+pydantic==2.12.5
+pydantic-settings==2.13.1
+python-multipart==0.0.22
+python-dotenv==1.2.2
+
+# ── Base de datos local (SQLite) ─────────────────────────────────────
+SQLAlchemy==2.0.49
+aiosqlite>=0.19.0      # async driver para SQLite
+
+# ── HTTP cliente (para llamar a rescoring y diffpepdock sidecars) ───
+httpx==0.28.1
+
+# ── Ciencia molecular (instaladas via conda: rdkit) ──────────────────
+meeko==0.7.1
+openbabel-wheel==3.1.1.23
+MDAnalysis==2.10.0
+prolif==2.1.0
+# NOTE: gemmi y prody REMOVIDOS (audit dead pins).
+# - gemmi: cero imports en backend ni sidecar. Si en el futuro necesitas
+#   parsing moderno de mmCIF/CryoEM, reinstalalo explicito.
+# - prody: cero imports Hoy. Si se anade analisis dinamico de receptores
+#   (ANM, PCA, normal modes) para DUD-E o similar, reevalua reinstalar.
+
+# ── ML ───────────────────────────────────────────────────────────────
+xgboost==3.2.0
+scikit-learn==1.8.0
+shap==0.51.0
+numpy==2.4.4
+scipy==1.17.1
+pandas==3.0.2
+numba==0.65.0
+
+# ── Generación de PDFs ───────────────────────────────────────────────
+reportlab==4.2.0
+pillow==12.2.0
+
+# ── Auth y seguridad ─────────────────────────────────────────────────
+PyJWT==2.8.0
+bcrypt==4.2.1            # antes era passlib[bcrypt]; solo usamos bcrypt directo (auth.py:51)
+cryptography==42.0.7
+# NOTE: argon2-cffi REMOVIDO — el hashing real usa bcrypt+PBKDF2, nunca se
+# importo argon2. Si en el futuro decides migrar a Argon2, reinstalalo
+# explicito y migrar los hashes con rehash-on-login.
+
+# ── Logs y utilidades ────────────────────────────────────────────────
+structlog==25.5.0
+psutil==7.2.2
+tenacity==9.1.4          # ACTIVO — quick win pendiente: sustituir flush_with_retry casero en core/database.py:511,548
+python-dateutil==2.9.0.post0
+
+# Solana: JSON-RPC stdlib en backend; firma Web3 exclusivamente en frontend
+
+# ── IA ───────────────────────────────────────────────────────────────
+anthropic==0.86.0
+
+# ── AI Providers (local) ────────────────────────────────────────────
+# llama-cpp-python REMOVIDO en v1.x — la inferencia local ahora usa el binario
+# oficial `llama-server.exe` empaquetado en tools/llama/. Ver
+# docs/33_MIGRATION_LLAMA_SERVER.md.
+faster-whisper>=1.0.0         # Speech-to-text local offline (tiny ~75MB)
+
+# ── ML backends (needed by GNN RTMScore, ESMFold) ──────────────────
+torch>=2.4.0
+transformers>=4.45.0
+
+# ── Química adicional ────────────────────────────────────────────────
+dimorphite_dl==2.0.2
+rdkit==2025.9.6          # pip backup (conda es preferido)
+
+# ── ADMET real (reemplaza el mock) ──────────────────────────────────
+admet_ai==2.0.1
+tabpfn==8.0.8
+
+# ── Desktop core requirements (added during audit) ──────────────────
+slowapi==0.1.9
+email-validator==2.3.0
+openmm==8.5.2
+pdbfixer==1.12.0
+
+# NOTA: Las siguientes dependencias del SaaS NO se instalan en desktop:
+# asyncpg, redis, celery, kombu, miniopy-async, minio,
+# flower, prometheus_client, slowapi, ortools
+# Antes tenian adaptadores locales en backend/core/db_factory.py,
+# backend/tasks/dispatcher.py y backend/core/storage.py (AUDIT 2026-08-03:
+# esos 3 modulos eran dead code, nunca se importaron). Los adaptadores
+# reales en uso: backend/core/database.py (SQLite async via SQLAlchemy+
+# aiosqlite), backend/services/docking/queue_handler.py (ThreadPoolExecutor
+# max_workers=1 como reemplazo de Celery), backend/utils/file_handlers.py
+# (Path+tempfile como reemplazo de MinIO).

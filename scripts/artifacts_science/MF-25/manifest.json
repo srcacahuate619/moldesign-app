@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-25",
+  "hypothesis": "El coste de colocacion responde al presupuesto de busqueda: si es falta de muestreo, subir exhaustiveness lo reduce",
+  "protocol": "MF-25/README; contenedor moldesign-lab; 48 complejos, mejor conformero por RMSD alineado, exhaustiveness 8/32/128 (16x el protocolo congelado)",
+  "created_at": "2026-08-19T03:52:55.552450+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion con lectura preregistrada: baja >0.5 A => PRESUPUESTO; no baja => PAISAJE"
+  },
+  "decision": "NO_GO",
+  "assets_hashes": {
+    "scripts/run_mf25_presupuesto_busqueda.py": "4cd08159a2d5ca122d439f07203f1f49dd02140dde4d6373e2645bba00f506c7"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:52:56.310683+00:00",
+  "decision_rationale": "Diagnostico: PAISAJE. Multiplicar el presupuesto por 16 convierte CERO complejos adicionales (1/33 en los tres presupuestos). El coste baja 0.784 A pero toda la mejora ocurre entre exh=8 y exh=32 (4.284 -> 3.508); de 32 a 128 el movimiento es 0.008 A -ruido- mientras el tiempo se cuadruplica a 407 s por complejo. Es la firma de saturacion: la busqueda ya habia encontrado todo lo que su funcion de puntuacion le permite. El control lo confirma por contraste: coste 0.608 A plano en los tres presupuestos y 15/15 desde exh=8. En ningun regimen el presupuesto es la palanca. Se evito la circularidad comparando la RESPUESTA al presupuesto y no el NIVEL del coste, que es tautologico porque el estrato se definio por fallo de colocacion. Nota: en exh=32 el control marca 14/15 en vez de 15/15, lo que solo es posible por estocasticidad de Vina; FND-03 midio despues que la sd en CONTROL es 0.011 A, asi que ese caso es un outlier y no un patron.",
+  "finished_at": "2026-08-19T03:52:56.503037+00:00",
+  "duration_seconds": 7326.0
+}

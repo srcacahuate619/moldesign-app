@@ -1,0 +1,35 @@
+{
+  "ca2": {
+    "n_train_actives": 394,
+    "n_test_actives": 98,
+    "n_train_scaffolds": 394,
+    "n_test_scaffolds": 98,
+    "train_auc": 0.9536167512690356,
+    "test_auc": 0.9481972789115646,
+    "ci_lower": 0.9182023384353742,
+    "ci_upper": 0.9702891581632654,
+    "scaffold_overlap": 0
+  },
+  "mmp9": {
+    "n_train_actives": 691,
+    "n_test_actives": 167,
+    "n_train_scaffolds": 312,
+    "n_test_scaffolds": 77,
+    "train_auc": 0.8807532561505065,
+    "test_auc": 0.8703368263473054,
+    "ci_lower": 0.8527376122754491,
+    "ci_upper": 0.8868190119760478,
+    "scaffold_overlap": 0
+  },
+  "ace": {
+    "n_train_actives": 71,
+    "n_test_actives": 11,
+    "n_train_scaffolds": 38,
+    "n_test_scaffolds": 9,
+    "train_auc": 0.7470766155373801,
+    "test_auc": 0.7765643447461629,
+    "ci_lower": 0.6968075349974701,
+    "ci_upper": 0.8507352631135099,
+    "scaffold_overlap": 0
+  }
+}

@@ -1,0 +1,399 @@
+{
+  "caja": {
+    "advertencia": "El tamaño es un SUPUESTO: los logs del benchmark no registran la caja efectiva. Sólo se puede afirmar compatibilidad con 25 Å.",
+    "centro_declarado": [
+      53.25,
+      22.51,
+      129.72
+    ],
+    "fuentes_del_centro": [
+      "scripts/benchmark_ef_vina.py::TARGETS['1gkc']",
+      "data/multitarget/mmp9/metadata.json"
+    ],
+    "limites_por_eje": {
+      "x": [
+        40.75,
+        65.75
+      ],
+      "y": [
+        10.01,
+        35.01
+      ],
+      "z": [
+        117.22,
+        142.22
+      ]
+    },
+    "tamano_supuesto": [
+      25.0,
+      25.0,
+      25.0
+    ]
+  },
+  "centroide_medio_de_poses": {
+    "advertencia": "NO es una reconstrucción del centro de la caja. Las poses se acumulan donde el scoring encuentra mínimos, no uniformemente alrededor del centro.",
+    "coordenadas": [
+      54.38,
+      27.11,
+      128.38
+    ],
+    "delta_por_eje": [
+      1.13,
+      4.6,
+      -1.34
+    ],
+    "dentro_de_la_caja": true,
+    "distancia_euclidea": 4.92
+  },
+  "checkpoint": {
+    "ruta": "data/benchmark_checkpoint_mmp9.json",
+    "sha256": "593b50762830bb475ea361bcb7e5f5e525811545f562339675304eeae94c4bf3"
+  },
+  "completitud_del_artefacto": {
+    "nota": "Es un problema de INTEGRIDAD del checkpoint, independiente de dónde se acopló. Rompe la correspondencia uno a uno entre predicción y geometría, pero no dice nada sobre el sitio.",
+    "registros_con_pose_y_sin_features": 1,
+    "registros_sin_pose": 38
+  },
+  "criterio": "inclusión POR EJE en un cubo: |Δx|≤sx/2 ∧ |Δy|≤sy/2 ∧ |Δz|≤sz/2. La distancia euclídea se informa como referencia y NO decide: usarla equivale a comparar contra la esfera inscrita, que descarta las esquinas del volumen real.",
+  "diana": "MMP9",
+  "estructura": {
+    "ruta": "data/1gkc.pdb",
+    "sha256": "518b2bbc98e592acb94eb41531d091dc739f34ac2abb3ec11420d9dffadc4e2c"
+  },
+  "interaccion_con_el_zinc": {
+    "activos": {
+      "coordinando_2.8A": 0,
+      "en_el_entorno_4.0A": 0,
+      "mediana": 17.73,
+      "minima": 15.99,
+      "n": 17
+    },
+    "decoys": {
+      "coordinando_2.8A": 0,
+      "en_el_entorno_4.0A": 0,
+      "mediana": 17.01,
+      "minima": 9.61,
+      "n": 599
+    },
+    "definicion": "distancia mínima entre cualquier zinc de la estructura y el átomo donante (N/O/S) más cercano de la pose. NO es la distancia al centroide del ligando.",
+    "nota": "Se estratifica porque exigirle coordinación a un decoy no tiene sentido: lo informativo es si los ACTIVOS la alcanzan."
+  },
+  "ligandos_cristalograficos": [
+    {
+      "atomos_dentro_de_la_caja": 4,
+      "cadena": "A",
+      "centroide": {
+        "coordenadas": [
+          65.84,
+          30.71,
+          117.75
+        ],
+        "delta_por_eje": [
+          12.59,
+          8.2,
+          -11.97
+        ],
+        "dentro_de_la_caja": false,
+        "distancia_euclidea": 19.21
+      },
+      "n_atomos": 22,
+      "numero": "1448",
+      "residuo": "NFH"
+    },
+    {
+      "atomos_dentro_de_la_caja": 6,
+      "cadena": "B",
+      "centroide": {
+        "coordenadas": [
+          40.67,
+          14.32,
+          141.68
+        ],
+        "delta_por_eje": [
+          -12.58,
+          -8.19,
+          11.96
+        ],
+        "dentro_de_la_caja": false,
+        "distancia_euclidea": 19.2
+      },
+      "n_atomos": 22,
+      "numero": "1449",
+      "residuo": "NFH"
+    }
+  ],
+  "metales": [
+    {
+      "cadena": "A",
+      "coordenadas": [
+        57.39,
+        24.34,
+        131.01
+      ],
+      "delta_por_eje": [
+        4.14,
+        1.83,
+        1.29
+      ],
+      "dentro_de_la_caja": true,
+      "distancia_euclidea": 4.7,
+      "elemento": "CA",
+      "residuo": "1447"
+    },
+    {
+      "cadena": "B",
+      "coordenadas": [
+        50.7,
+        18.54,
+        128.69
+      ],
+      "delta_por_eje": [
+        -2.55,
+        -3.97,
+        -1.03
+      ],
+      "dentro_de_la_caja": true,
+      "distancia_euclidea": 4.83,
+      "elemento": "CA",
+      "residuo": "1447"
+    },
+    {
+      "cadena": "B",
+      "coordenadas": [
+        54.05,
+        8.3,
+        135.83
+      ],
+      "delta_por_eje": [
+        0.8,
+        -14.21,
+        6.11
+      ],
+      "dentro_de_la_caja": false,
+      "distancia_euclidea": 15.48,
+      "elemento": "CA",
+      "residuo": "1446"
+    },
+    {
+      "cadena": "A",
+      "coordenadas": [
+        67.69,
+        17.48,
+        126.44
+      ],
+      "delta_por_eje": [
+        14.44,
+        -5.03,
+        -3.28
+      ],
+      "dentro_de_la_caja": false,
+      "distancia_euclidea": 15.64,
+      "elemento": "CA",
+      "residuo": "1446"
+    },
+    {
+      "cadena": "A",
+      "coordenadas": [
+        71.41,
+        25.14,
+        121.67
+      ],
+      "delta_por_eje": [
+        18.16,
+        2.63,
+        -8.05
+      ],
+      "dentro_de_la_caja": false,
+      "distancia_euclidea": 20.04,
+      "elemento": "CA",
+      "residuo": "1444"
+    },
+    {
+      "cadena": "B",
+      "coordenadas": [
+        45.25,
+        7.24,
+        139.95
+      ],
+      "delta_por_eje": [
+        -8.0,
+        -15.27,
+        10.23
+      ],
+      "dentro_de_la_caja": false,
+      "distancia_euclidea": 20.04,
+      "elemento": "CA",
+      "residuo": "1444"
+    },
+    {
+      "cadena": "B",
+      "coordenadas": [
+        41.27,
+        17.84,
+        146.54
+      ],
+      "delta_por_eje": [
+        -11.98,
+        -4.67,
+        16.82
+      ],
+      "dentro_de_la_caja": false,
+      "distancia_euclidea": 21.17,
+      "elemento": "ZN",
+      "residuo": "1451"
+    },
+    {
+      "cadena": "A",
+      "coordenadas": [
+        63.27,
+        29.95,
+        112.38
+      ],
+      "delta_por_eje": [
+        10.02,
+        7.44,
+        -17.34
+      ],
+      "dentro_de_la_caja": false,
+      "distancia_euclidea": 21.36,
+      "elemento": "ZN",
+      "residuo": "1450"
+    },
+    {
+      "cadena": "B",
+      "coordenadas": [
+        49.68,
+        8.89,
+        150.3
+      ],
+      "delta_por_eje": [
+        -3.57,
+        -13.62,
+        20.58
+      ],
+      "dentro_de_la_caja": false,
+      "distancia_euclidea": 24.93,
+      "elemento": "ZN",
+      "residuo": "1452"
+    },
+    {
+      "cadena": "A",
+      "coordenadas": [
+        41.6,
+        20.86,
+        107.67
+      ],
+      "delta_por_eje": [
+        -11.65,
+        -1.65,
+        -22.05
+      ],
+      "dentro_de_la_caja": false,
+      "distancia_euclidea": 24.99,
+      "elemento": "CA",
+      "residuo": "1452"
+    },
+    {
+      "cadena": "A",
+      "coordenadas": [
+        70.73,
+        19.62,
+        111.67
+      ],
+      "delta_por_eje": [
+        17.48,
+        -2.89,
+        -18.05
+      ],
+      "dentro_de_la_caja": false,
+      "distancia_euclidea": 25.29,
+      "elemento": "ZN",
+      "residuo": "1451"
+    },
+    {
+      "cadena": "B",
+      "coordenadas": [
+        53.49,
+        38.16,
+        150.1
+      ],
+      "delta_por_eje": [
+        0.24,
+        15.65,
+        20.38
+      ],
+      "dentro_de_la_caja": false,
+      "distancia_euclidea": 25.7,
+      "elemento": "CA",
+      "residuo": "1448"
+    },
+    {
+      "cadena": "B",
+      "coordenadas": [
+        54.01,
+        17.09,
+        157.49
+      ],
+      "delta_por_eje": [
+        0.76,
+        -5.42,
+        27.77
+      ],
+      "dentro_de_la_caja": false,
+      "distancia_euclidea": 28.3,
+      "elemento": "CA",
+      "residuo": "1445"
+    },
+    {
+      "cadena": "A",
+      "coordenadas": [
+        63.11,
+        15.17,
+        103.76
+      ],
+      "delta_por_eje": [
+        9.86,
+        -7.34,
+        -25.96
+      ],
+      "dentro_de_la_caja": false,
+      "distancia_euclidea": 28.72,
+      "elemento": "CA",
+      "residuo": "1445"
+    }
+  ],
+  "poses": {
+    "con_pose": 637,
+    "muestreadas": 675,
+    "ocupacion_por_atomo": {
+      "x": [
+        41.2,
+        66.8
+      ],
+      "y": [
+        9.9,
+        35.8
+      ],
+      "z": [
+        116.9,
+        138.5
+      ]
+    },
+    "paso_de_muestreo": 3,
+    "poses_con_todos_sus_atomos_dentro": 582,
+    "poses_enteramente_fuera": 0,
+    "poses_parcialmente_dentro": 55,
+    "registros_totales": 2023
+  },
+  "problemas": [
+    "NINGÚN zinc cae dentro de la caja declarada. El más próximo (ZN B1451) queda fuera por Δz=+16.82, con semilado 12.5",
+    "el ligando cristalográfico NFH A1448 tiene su centroide fuera de la caja (Δ=[12.59, 8.2, -11.97]), y sólo 4/22 átomos dentro"
+  ],
+  "protocol_id": "M5_ZN_MMP9_1GKC_V1",
+  "reservas": [
+    "el metal más próximo al centro es CA A1447 a 4.7 Å, y sí está dentro de la caja",
+    "ningún activo muestreado coloca un donante a ≤2.8 Å del zinc (mínima observada: 15.99 Å)",
+    "integridad del checkpoint: 38 registros sin pose y 1 con pose y sin features"
+  ],
+  "veredicto": "SITIO_INCORRECTO"
+}

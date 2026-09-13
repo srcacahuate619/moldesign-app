@@ -1,0 +1,160 @@
+{
+ "experiment_id": "MF-22",
+ "tipo": "medicion correlacional (cruce de material sellado, sin computo nuevo)",
+ "timestamp": "2026-08-19T00:19:35.173038+00:00",
+ "duration_seconds": 1.15,
+ "hallazgo_de_diseno": "el MF-22 planeado -dockear rigido cada conformero- YA es el pipeline: molflex.dockear_conformero dockea conf{cid}.rigid.pdbqt con TORSDOF 0. Se redisenio para medir el presupuesto de error",
+ "definiciones": {
+  "rmsd_conf": "RMSD ALINEADO conformero-cristal: error conformacional puro",
+  "rmsd_pose": "mejor RMSD en marco de pocket de las poses de ESE conformero: error total",
+  "colocacion": "rmsd_pose - rmsd_conf: lo que anade la busqueda"
+ },
+ "n_complejos": 48,
+ "resumen": {
+  "COLOCACION": {
+   "n_conformeros": 823,
+   "curva_de_conversion": {
+    "0.0-0.5": {
+     "n": 7,
+     "convierten": 0,
+     "tasa": 0.0,
+     "rmsd_pose_mediano": 3.009,
+     "coste_colocacion_mediano": 2.628
+    },
+    "0.5-1.0": {
+     "n": 27,
+     "convierten": 0,
+     "tasa": 0.0,
+     "rmsd_pose_mediano": 5.02,
+     "coste_colocacion_mediano": 4.191
+    },
+    "1.0-1.5": {
+     "n": 60,
+     "convierten": 0,
+     "tasa": 0.0,
+     "rmsd_pose_mediano": 5.446,
+     "coste_colocacion_mediano": 4.179
+    },
+    "1.5-2.0": {
+     "n": 147,
+     "convierten": 0,
+     "tasa": 0.0,
+     "rmsd_pose_mediano": 6.191,
+     "coste_colocacion_mediano": 4.331
+    },
+    "2.0-3.0": {
+     "n": 417,
+     "convierten": 0,
+     "tasa": 0.0,
+     "rmsd_pose_mediano": 6.261,
+     "coste_colocacion_mediano": 3.76
+    },
+    "3.0-inf": {
+     "n": 165,
+     "convierten": 0,
+     "tasa": 0.0,
+     "rmsd_pose_mediano": 6.453,
+     "coste_colocacion_mediano": 3.038
+    }
+   },
+   "coste_colocacion_mediano_global": 3.847
+  },
+  "CONTROL": {
+   "n_conformeros": 147,
+   "curva_de_conversion": {
+    "0.0-0.5": {
+     "n": 19,
+     "convierten": 18,
+     "tasa": 0.9474,
+     "rmsd_pose_mediano": 1.046,
+     "coste_colocacion_mediano": 0.778
+    },
+    "0.5-1.0": {
+     "n": 54,
+     "convierten": 47,
+     "tasa": 0.8704,
+     "rmsd_pose_mediano": 1.466,
+     "coste_colocacion_mediano": 0.667
+    },
+    "1.0-1.5": {
+     "n": 43,
+     "convierten": 25,
+     "tasa": 0.5814,
+     "rmsd_pose_mediano": 1.768,
+     "coste_colocacion_mediano": 0.555
+    },
+    "1.5-2.0": {
+     "n": 11,
+     "convierten": 0,
+     "tasa": 0.0,
+     "rmsd_pose_mediano": 5.829,
+     "coste_colocacion_mediano": 4.055
+    },
+    "2.0-3.0": {
+     "n": 19,
+     "convierten": 0,
+     "tasa": 0.0,
+     "rmsd_pose_mediano": 5.791,
+     "coste_colocacion_mediano": 2.801
+    },
+    "3.0-inf": {
+     "n": 1,
+     "convierten": 0,
+     "tasa": 0.0,
+     "rmsd_pose_mediano": 5.461,
+     "coste_colocacion_mediano": 1.875
+    }
+   },
+   "coste_colocacion_mediano_global": 0.741
+  },
+  "TODOS": {
+   "n_conformeros": 970,
+   "curva_de_conversion": {
+    "0.0-0.5": {
+     "n": 26,
+     "convierten": 18,
+     "tasa": 0.6923,
+     "rmsd_pose_mediano": 1.276,
+     "coste_colocacion_mediano": 0.95
+    },
+    "0.5-1.0": {
+     "n": 81,
+     "convierten": 47,
+     "tasa": 0.5802,
+     "rmsd_pose_mediano": 1.778,
+     "coste_colocacion_mediano": 1.003
+    },
+    "1.0-1.5": {
+     "n": 103,
+     "convierten": 25,
+     "tasa": 0.2427,
+     "rmsd_pose_mediano": 4.838,
+     "coste_colocacion_mediano": 3.638
+    },
+    "1.5-2.0": {
+     "n": 158,
+     "convierten": 0,
+     "tasa": 0.0,
+     "rmsd_pose_mediano": 6.119,
+     "coste_colocacion_mediano": 4.286
+    },
+    "2.0-3.0": {
+     "n": 436,
+     "convierten": 0,
+     "tasa": 0.0,
+     "rmsd_pose_mediano": 6.229,
+     "coste_colocacion_mediano": 3.752
+    },
+    "3.0-inf": {
+     "n": 166,
+     "convierten": 0,
+     "tasa": 0.0,
+     "rmsd_pose_mediano": 6.453,
+     "coste_colocacion_mediano": 3.036
+    }
+   },
+   "coste_colocacion_mediano_global": 3.591
+  }
+ },
+ "limitacion": "correlacional sobre lo ya dockeado; describe lo que paso, no prueba que reducir el error conformacional CAUSE la conversion"
+}

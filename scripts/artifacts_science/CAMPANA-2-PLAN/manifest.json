@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "experiment_id": "CAMPANA-2-PLAN",
+  "hypothesis": "La cascada v0.6 + decidibilidad + strain + MM-GBSA selectivo puede mejorar la seleccion de poses sin costo indiscriminado",
+  "protocol": "docs/49 CampaÃ±a 2 + RS-01B sellada (NO_GO)",
+  "created_at": "2026-08-16T21:54:04.975589+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "82ed2ad8cfa268d0b67ca14cd1fbe1d68c9b1f74",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "Inventario completo con preguntas abiertas; preregistros base sin ejecutar; orden strain -> decidibilidad -> MM-GBSA respetado"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/CAMPANA-2-PLAN/DESIGN.md": "e45bffc4200832e8974e305297724391b3234a86d6fedaf620e3677593d511fd",
+    "scripts/artifacts_science/CAMPANA-2-PLAN/INVENTORY.json": "29a6e8af9c3fa0ba511d73c0742ca69846ca8c6608ee999aafca37324c470361",
+    "scripts/artifacts_science/CAMPANA-2-PLAN/FORECAST.md": "036bec06aa543d1cd45cdfe8452dbc0ff4da13c23c4c78bc4626fb4fe1445a9b",
+    "scripts/artifacts_science/CAMPANA-2-PLAN/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/CAMPANA-2-PLAN/per_complex.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T22:21:04.523471+00:00",
+  "decision_rationale": "Plan de Campana 2 sellado tras IT1/DECISIONS del maintainer: QA-1 union original primaria; QA-2 provenance estricta de cargas + RS-03-PARAM (OpenFF Sage+NAGL congelado, AM1-BCC) como prerrequisito; QA-3 router presupuestario con umbrales solo del outer-train y 30% de mayor riesgo; QA-4 single-trajectory maxIter=200 timeout 300s top-2/600s; QA-5 MMFF94s con topologia autoritativa, solo H optimizados, sin UFF, sin truncar strain; QA-6 cross-fitting completo con gate operacional (>=50/116, mediana pareada <=+0.1A, cobertura >=95%, costes P95). RS-04-QC tecnico previo sin labels.",
+  "finished_at": "2026-08-16T22:21:05.001687+00:00"
+}

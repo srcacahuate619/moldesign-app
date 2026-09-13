@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-33-A3-PRE",
+  "hypothesis": "La ventaja del ensemble medida en MF-33 y MF-33-A2 se explica por el numero de POSES CONSERVADAS y no por la diversidad conformacional. Igualando poses, corridas y CPU, un solo conformero alcanza lo que alcanza el ensemble.",
+  "protocol": "Corrigendum y etapa 3 de MF-33. DEFECTO QUE MOTIVA ESTE EXPERIMENTO: la metrica es de oraculo -mejor RMSD entre las poses que el brazo CONSERVA- y num_modes=9 limita las poses escritas POR CORRIDA, no las buscadas. El brazo B hace 29 corridas (mediana) y conserva 261 poses; los brazos A y A2 hacen una y conservan 9. B extrae su oraculo de 29x mas muestras, de modo que ganaria aunque la busqueda fuese identica. BRAZO A3: K corridas INDEPENDIENTES de Vina desde el MISMO conf0.flex.pdbqt, con K = n_docks del brazo B en ese complejo, exh=8, num_modes=9 y SEMILLAS DISTINTAS por corrida (42, 43, ... 42+K-1). Oraculo sobre las K*9 poses. Eso iguala a B en las tres variables confundidas -corridas independientes, poses conservadas y CPU aproximada- dejando como UNICA diferencia la conformacion de partida. Brazos A, A2, B y C se REUSAN de MF-33 y MF-33-A2 sin recomputo. Cohorte: los mismos 48.",
+  "created_at": "2026-08-20T03:27:29.513234+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "b5c11ab2459be03e41e23806d5cd0acb089f83eb",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "PRIMARIO A3 vs B pareado en COLOCACION (n=33), McNemar exacto bilateral. DIRECCIONES DEFINIDAS EXPLICITAMENTE, porque la redaccion ambigua ya costo dos veces en esta serie: se llama g_A3 al numero de complejos donde A3 alcanza <=2 A y B no, y g_B al numero donde B alcanza y A3 no. TRES LECTURAS ESCRITAS ANTES: (1) LA VENTAJA ERA EL CONTEO DE POSES si A3 y B son equivalentes -diferencia de complejos dentro de +-4-; entonces la diversidad conformacional NO aporta, el claim de MF-33 sobre la magnitud COLAPSA y la cartera C no se reabre por esta via; (2) LA DIVERSIDAD CONFORMACIONAL ES REAL si g_B >= 6 con g_A3 = 0; entonces MF-33 sobrevive con su magnitud corregida y el claim externo se autoriza; (3) MIXTA en cualquier otro caso, incluido g_B >= 6 con g_A3 >= 1: se reporta la fraccion y NO se autoriza atribucion causal limpia. SECUNDARIO descriptivo: A3 vs A2, que separa 'muchas corridas poco profundas' de 'una corrida muy profunda' a igual CPU y distinto conteo de poses. PROHIBIDO: reinterpretar MF-33 o MF-33-A2 sin sellar el corrigendum correspondiente; elegir el conformero por RMSD; cambiar num_modes respecto de B."
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/run_mf33a3_reinicios.py": "71d787ba5ebbe226d54596ae55ee516d0f07eaa7acf594eac5f8abdb9844348a",
+    "scripts/artifacts_science/MF-33/metrics.json": "2defb2402c11e2b16c6326f4c89ca3d430fd286cb18a6fe265fedb804ac9b53c",
+    "scripts/artifacts_science/MF-33-A2/metrics.json": "9a1995c2e2a27d11fc4b253422a645943e2da5d50eb230e1054de37b175ad3f6"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-20T03:29:09.061782+00:00",
+  "decision_rationale": "Prerregistro de la etapa 3 sellado ANTES de ejecutar, junto con el runner que lo implementa (hash registrado). Declara el DEFECTO que motiva el experimento -el brazo B conserva 261 poses de mediana contra 9 de A y A2, de modo que gana el oraculo aunque la busqueda sea identica-, el diseno que lo corrige -K corridas independientes desde el mismo conformero, igualando corridas, poses conservadas y CPU, dejando la conformacion de partida como unica diferencia- y las TRES lecturas posibles. TERCERA VEZ QUE SE REDACTA UN GATE DE ESTA SERIE Y PRIMERA EN QUE LAS DIRECCIONES SE DEFINEN EXPLICITAMENTE: g_A3 = complejos donde A3 alcanza y B no; g_B = donde B alcanza y A3 no. Las dos anteriores costaron una aclaracion a posteriori en MF-33 y una lectura estricta forzada en MF-33-A2. Se sella GO por convencion al declararse, NO por haber superado nada. NO EJECUTADO: coste previsto ~42.6 CPU-h (4-6 h con 10 workers, CPU al 90% sostenido); se pospone deliberadamente para no encadenar tres experimentos largos en la misma maquina el mismo dia.",
+  "finished_at": "2026-08-20T03:29:09.257088+00:00"
+}

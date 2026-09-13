@@ -1,0 +1,136 @@
+{
+  "experiment": "AF-01",
+  "fecha": "2026-08-15",
+  "status": "REPRODUCED_WITH_SCOPE_LIMITATION (preliminar; seal/finish autorizados por el maintainer)",
+  "gate": "GO=REPRODUCED_WITH_SCOPE_LIMITATION si Spearman reproduce 0.6094 (+-0.005); NO_GO=P0 si no",
+  "reproduccion": {
+    "target_fase_a": {
+      "spearman": 0.6094,
+      "spearman_ci95": [0.5282, 0.6791],
+      "n": 328
+    },
+    "replica_global": {
+      "spearman": 0.6094,
+      "spearman_ci95": [0.5282, 0.6791],
+      "pearson": 0.6048,
+      "pearson_ci95": [0.5339, 0.6694],
+      "rmse": 1.9755,
+      "mae": 1.6749,
+      "y_true_range": [2.64, 11.22],
+      "y_pred_range": [2.36, 10.63],
+      "n_holdout": 328,
+      "n_pool": 537,
+      "bootstrap_iterations": 10000,
+      "bootstrap_seed": 42
+    },
+    "diferencia_spearman_vs_0_6094": 0.0,
+    "diferencia_ci95_lo": 0.0,
+    "diferencia_ci95_hi": 0.0,
+    "veredicto_preliminar": "GO=REPRODUCED_WITH_SCOPE_LIMITATION (reproduccion exacta a 4 decimales)",
+    "cv_val_universal": 0.7731,
+    "cv_val_best_iteration": 162,
+    "families_train": {
+      "model_a_kinase_spearman": 0.5868,
+      "model_a_protease_spearman": 0.5429,
+      "model_a_soluble_enzyme_spearman": 0.668,
+      "gpcr": "SKIPPED n=13<15",
+      "nuclear_receptor": "SKIPPED n=11<15"
+    },
+    "determinismo": {
+      "run1_spearman": 0.6094,
+      "run2_spearman": 0.6094,
+      "run1_ci95": [0.5282, 0.6791],
+      "run2_ci95": [0.5282, 0.6791],
+      "delta_spearman_run1_run2": 0.0,
+      "workspace_regenerado_limpio": true
+    }
+  },
+  "auditoria_receptor": {
+    "metodo": "FND-05/FND-02 reimplementado (SEQRES por cadena, k-mers k=8, coeficiente de solapamiento |A∩B|/min(|A|,|B|), maximo sobre pares de cadenas)",
+    "n_complejos_dev": 537,
+    "n_complejos_holdout": 328,
+    "n_pdb_con_seqres": 865,
+    "n_fallback_ca": 0,
+    "grupos_secuencia_exacta_cruzados": 61,
+    "complejos_dev_afectados_exactos": 134,
+    "complejos_holdout_afectados_exactos": 126,
+    "pares_complejos_dev_holdout_ge90": 1600,
+    "pares_cadenas_dev_holdout_ge90": 2370,
+    "estratos_holdout": {
+      "receptor_seen_exact": {
+        "n": 179,
+        "spearman": 0.7138,
+        "spearman_ci95_bootstrap": [0.6324, 0.7758]
+      },
+      "receptor_near_identity": {
+        "n": 55,
+        "spearman": 0.3626,
+        "spearman_ci95_bootstrap": [0.0754, 0.6127]
+      },
+      "receptor_unrelated": {
+        "n": 94,
+        "spearman": 0.5395,
+        "spearman_ci95_bootstrap": [0.3761, 0.666]
+      }
+    },
+    "suma_estratos": 328,
+    "preaudit_maintainer": {
+      "esperado_grupos": 45,
+      "esperado_dev": "106/537",
+      "esperado_holdout": "96/328",
+      "esperado_pares_ge90": 1185,
+      "resultado": "REFUTADO con calculo propio",
+      "detalle": "Ninguna de las variantes probadas reproduce 45/106/96/1185: (a) secuencias exactas distintas que cruzan: 61/134/126; (b) componentes conexas de complejos por cadena identica: 54/134/129; (c) una sola cadena por complejo (primera/larga): 47-50/120-125/111-117; (d) filtro min_len 150: 48/106/101; (e) ATOM/CA sin SEQRES: 57/132/125; (f) pares >=0.90: complejos 1600, cadenas 2370, secuencias 626, identicos 1509. Ver estratos_report.txt y DESIGN.md.",
+      "variantes_probadas": {
+        "seqres_overlap_all_chains": {"grupos": 61, "dev": 134, "holdout": 126},
+        "componentes_complejos_cadena_identica": {"grupos": 54, "dev": 134, "holdout": 129},
+        "cadena_unica_por_complejo_primera": {"grupos": 47, "dev": 120, "holdout": 111},
+        "cadena_unica_por_complejo_larga": {"grupos": 50, "dev": 125, "holdout": 117},
+        "minlen_150": {"grupos": 48, "dev": 106, "holdout": 101},
+        "atom_ca_sin_seqres": {"grupos": 57, "dev": 132, "holdout": 125},
+        "pares_complejos_ge90": 1600,
+        "pares_cadenas_ge90": 2370,
+        "pares_secuencias_distintas_ge90": 626,
+        "pares_cadenas_identicas": 1509,
+        "total_pares_cadenas_union_ge90": 6130
+      }
+    },
+    "lectura_cientifica": "El estrato receptor_seen_exact (n=179) muestra Spearman 0.7138, por encima del global (0.6094) y del estrato unrelated (0.5395): el solapamiento de receptor INFLABA la metrica. El holdout scaffold-disjoint NO es receptor-disjoint; la cifra 0.6094 debe citarse con esta limitacion (alcance del GO)."
+  },
+  "cifra_0_8732": {
+    "estado": "INVALIDATED (leakage) - NO se cita como valido en este experimento",
+    "anotacion_workspace": "El arbol congelado de 86b95f0 SI lo cita como valido en rescoring/artifacts/README.md (lineas ~120-125, 'Excelente generalizacion') y rescoring/deprecated/README.md (lineas ~76/110/119). Son artefactos historicos previos a la propagacion de INVALIDATED; la produccion actual ya los corrigio. Se anota como discrepancia documental del snapshot, sin efecto en la replica."
+  },
+  "inputs_congelados": {
+    "commit_codigo": "86b95f0",
+    "commit_sha_extraccion": "rescoring/ via git archive (ver DESIGN.md)",
+    "index_snapshot": "data/pdbbind/INDEX_refined_data.2020.faseA_20260813_184439",
+    "index_snapshot_sha256": "1C52A9B7631CC11A31C6B3344ECECA3DE8A9087C86AB3E6C5A30DC69861DE02D",
+    "split_config_sha256": "5FC4E589B78311AE12EB1D5E51EEF51D39CC218C7A9C9D033880BDFB031FB3D5",
+    "frozen_test_set_n": 328,
+    "cache_subset_n": 865,
+    "cache_aggregate_sha256": "E4A1A62149639A6081F0DA109B02A1358CD50F57FDCF1CB080F2A2CE6553EB96",
+    "seed": 42,
+    "seed_usado_por_codigo": "SI (train_families.py SEED=42, MLTrainer(seed=42), xgb seed=42, np.random.seed(42); sin discrepancia)",
+    "pki_labels_snapshot_vs_produccion_diffs": 0
+  },
+  "ambiente": {
+    "python": "3.14.3",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "xgboost": "3.2.0",
+    "joblib": "1.4.2",
+    "rdkit": "2025.09.6",
+    "sklearn": "1.8.0"
+  },
+  "no_intrusion": {
+    "index_produccion_sha_antes": "CA7702C5E6FD4E814281A3E65DDBDCF17BD62DF78E62DAEF6DAAA2106F70C4B6",
+    "index_produccion_sha_despues": "CA7702C5E6FD4E814281A3E65DDBDCF17BD62DF78E62DAEF6DAAA2106F70C4B6",
+    "index_intacto": true,
+    "git_status_nuevos": ["scripts/af01_stratify.py", "scripts/artifacts_science/AF-01/"],
+    "git_status_preexistente": ["docs/moldesign-ums-paper/"],
+    "validate_AF01": "OK",
+    "validate_FND05": "FAIL preexistente (docs/49 sellado con 5b95ffd8 en FND-05/FND-06; el commit 2ba4a1d docs(af-01) reformulo el doc despues del sellado -> hash actual 686c0a39). No causado por AF-01.",
+    "validate_FND06": "FAIL preexistente (mismo drift de docs/49)"
+  }
+}

@@ -1,0 +1,131 @@
+{
+ "experiment_id": "RC-F0-V2",
+ "timestamp": "2026-08-18T03:29:41.510271+00:00",
+ "conjunto": {
+  "poses_total": 34302,
+  "poses_v1_conservadas": 2087,
+  "poses_nuevas": 32215,
+  "por_split": {
+   "train": {
+    "poses": 18812,
+    "pids": 116
+   },
+   "val": {
+    "poses": 7493,
+    "pids": 40
+   },
+   "test": {
+    "poses": 7997,
+    "pids": 47
+   }
+  },
+  "por_fuente": {
+   "flexible_redock": 1534,
+   "molflex": 32215,
+   "ruta_a": 553
+  },
+  "n_features_por_pose": 224
+ },
+ "oraculo_v1": {
+  "train": {
+   "complejos": 116,
+   "cubiertos": 78,
+   "cobertura": 0.6724
+  },
+  "val": {
+   "complejos": 40,
+   "cubiertos": 30,
+   "cobertura": 0.75
+  },
+  "test": {
+   "complejos": 47,
+   "cubiertos": 41,
+   "cobertura": 0.8723
+  }
+ },
+ "oraculo_v2": {
+  "train": {
+   "complejos": 116,
+   "cubiertos": 92,
+   "cobertura": 0.7931
+  },
+  "val": {
+   "complejos": 40,
+   "cubiertos": 35,
+   "cobertura": 0.875
+  },
+  "test": {
+   "complejos": 47,
+   "cubiertos": 46,
+   "cobertura": 0.9787
+  }
+ },
+ "etiquetado": {
+  "complejos_ok": 203,
+  "complejos_fallidos": [],
+  "modelos_excluidos_por_mapeo": 0
+ },
+ "gates": {
+  "G1_reproduccion_v1": {
+   "criterio": "reproducir poses v1 linea a linea desde los registros",
+   "resultado": "2739/730/831 identicos; split por scaffold 116/40/47",
+   "pass": true
+  },
+  "G2_integridad_cache": {
+   "criterio": "SHA-256 de los splits en el cache de features coinciden",
+   "pass": true
+  },
+  "G2b_reproduccion_extractor": {
+   "criterio": "las poses heredadas de v1 recalculadas deben coincidir con el cache sellado (atol 1e-6)",
+   "comparadas": 2087,
+   "iguales": 2087,
+   "discrepancias": 0,
+   "ejemplos": [],
+   "pass": true
+  },
+  "G3_split_conservado": {
+   "criterio": "ningun complejo cambia de split",
+   "movidos": [],
+   "pass": true
+  },
+  "G4_poses_v1_intactas": {
+   "criterio": "toda pose v1 de flexible_redock/ruta_a conserva etiqueta y features base",
+   "n_comparadas": 2087,
+   "n_faltantes": 0,
+   "n_discrepancias": 0,
+   "ejemplos": [],
+   "pass": true
+  },
+  "G5_cobertura": {
+   "criterio": "cobertura v2 >= v1 en cada split y >= 0.793 en train",
+   "train_v2": 0.7931,
+   "pass": true
+  },
+  "G6_completitud": {
+   "criterio": "cero poses sin features y cero NaN",
+   "n_errores": 0,
+   "n_nan": 0,
+   "pass": true
+  }
+ },
+ "archivos": {
+  "features_rich_v2.jsonl": {
+   "bytes": 41640187,
+   "sha256": "afa7b4b346bde263257654ed1fb639ab3d56effbfe1cd97db2cf10a885cd1785"
+  },
+  "poses_test.jsonl": {
+   "bytes": 2369896,
+   "sha256": "61c593fb07615a35cddd18efd4d12719726f306342ccf15a4e29c04a90d4405e"
+  },
+  "poses_train.jsonl": {
+   "bytes": 5573083,
+   "sha256": "e3b73fd5330dc05944be8fdb0afc10a0192cba7f49849fdfad173d9d4cff9823"
+  },
+  "poses_val.jsonl": {
+   "bytes": 2218125,
+   "sha256": "e139301dae9c38f960d9793563620873c8c7a5cdfa786aa1144212fb63f5512a"
+  }
+ },
+ "fuera_de_alcance": "No se entrena ni evalua ningun selector. La deduplicacion de MF-11-R1 NO se aplica: su umbral de 1.5 A se eligio sobre la union v1 (2739 poses de train) y la v2 es 6.9x mas densa (18812); reusar el codigo es reutilizacion, reusar el umbral sin re-derivarlo seria extrapolarlo a otro regimen.",
+ "decision": "GO"
+}

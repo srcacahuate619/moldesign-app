@@ -1,0 +1,488 @@
+{
+ "id": "RS-03-PARAM-B",
+ "meta": {
+  "titulo": "Dos métodos de carga, y hasta 216 kJ/mol de diferencia",
+  "entradilla": "El método rápido y el de referencia difieren 0.0118 e por átomo de mediana. Traducido a energía: 24.3 kJ/mol de mediana y 216.4 de máximo, que es del orden de lo que un rescoring pretende resolver."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El experimento anterior parametrizó los 116 ligandos con un método de cargas rápido, basado en red neuronal. Este los parametriza otra vez con el método de ",
+     "m": null
+    },
+    {
+     "t": "referencia",
+     "m": "fuerte"
+    },
+    {
+     "t": " —lento, semi-empírico, el estándar del campo— y compara.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La comparación tiene una regla escrita antes de empezar, y es lo primero que hay que decir:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Prohibido concluir sobre el método rápido desde este experimento.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Esto es caracterización, no selección. La decisión se toma en un tercer experimento que agrega ambos contra el contrato declarado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sin esa regla, este experimento sería un juez que se nombra a sí mismo: se elige un método de referencia, se mide la discrepancia, y luego se decide ",
+     "m": null
+    },
+    {
+     "t": "a posteriori",
+     "m": "enfasis"
+    },
+    {
+     "t": " qué discrepancia era aceptable.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El mapeo, verificado en vez de asumido",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Comparar cargas átomo por átomo exige saber qué átomo de un cálculo corresponde a qué átomo del otro. La versión anterior del código lo asumía ",
+     "m": null
+    },
+    {
+     "t": "por índice",
+     "m": "fuerte"
+    },
+    {
+     "t": ", que funciona hasta que un preparador reordena los átomos y entonces compara silenciosamente el carbono 3 con el oxígeno 7.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Aquí se verificó elemento a elemento ",
+     "m": null
+    },
+    {
+     "t": "y por coordenadas",
+     "m": "fuerte"
+    },
+    {
+     "t": ": 115 de 115, con desplazamiento máximo de ",
+     "m": null
+    },
+    {
+     "t": "0.0005 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Ese cambio de «asumido» a «verificado» es la razón por la que las cifras de abajo significan algo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Diferencia de carga por átomo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Valor",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Media",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.0142 e",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Mediana",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.0118 e",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Máximo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.4255 e",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Ligandos con algún átomo por encima de 0.2 e",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "13 de 115",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Traducido a energía de punto único:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Valor",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Mediana",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "24.3 kJ/mol",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Máximo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "216.4 kJ/mol",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese número es el que importa, y por eso está en el titular: ",
+     "m": null
+    },
+    {
+     "t": "24 kJ/mol de mediana es del orden de magnitud de lo que un rescoring pretende resolver",
+     "m": "fuerte"
+    },
+    {
+     "t": ". La elección de método de cargas no es un detalle de implementación — es comparable al efecto que se quiere medir.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Dónde divergen más",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La discrepancia no es uniforme, y su estructura es químicamente sensata:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Diferencia media por átomo",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Azufre y fósforo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.0168 e",
+       "m": "fuerte"
+      },
+      {
+       "t": " ← contiene el máximo global",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Resto",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.0125 e",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Fragmentos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.0107 e",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Drug-like",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.0155 e",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Menos de 5 enlaces rotables",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.0113 e",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Más de 10 rotables",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.0157 e",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La divergencia ",
+     "m": null
+    },
+    {
+     "t": "crece con el tamaño y la flexibilidad",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y es mayor en los elementos de la tercera fila. Eso es coherente con lo que se sabe de estos métodos: los modelos entrenados generalizan peor en química menos representada y en moléculas más grandes.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es decir: divergen más justo donde el proyecto trabaja.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Los fallos, separados por causa",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Uno solo es real:",
+     "m": "fuerte"
+    },
+    {
+     "t": " un ligando donde el método de referencia no converge. Es un fallo ",
+     "m": null
+    },
+    {
+     "t": "químico",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no de presupuesto, y se declara como tal.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los otros cuatro no eran fallos.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Fueron tiempos de espera agotados en la primera ejecución, y se diagnosticaron como artefacto de haber lanzado tres particiones simultáneas en cuatro núcleos. Ejecutados en solitario con más margen, se recuperaron los cuatro.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Distinguir esas dos categorías importa: contar los cuatro como fallos químicos habría inflado la tasa de fallo del método de referencia y sesgado la comparación a favor del rápido.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/RS-03-PARAM-B.md"
+}

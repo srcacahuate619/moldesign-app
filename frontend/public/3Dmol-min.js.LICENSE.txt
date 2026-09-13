@@ -1,0 +1,7 @@
+/*!
+ * 3dmol v2.5.4
+ * JavaScript/TypeScript molecular visualization library
+ * Author: David Koes and contributors
+ */
+
+

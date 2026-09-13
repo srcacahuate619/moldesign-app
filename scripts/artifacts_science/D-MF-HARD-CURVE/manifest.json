@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "experiment_id": "D-MF-HARD-CURVE",
+  "hypothesis": "La curva anidada 5/15/30 en D-MF-HARD train muestra en que K se satura la cobertura de MolFlex",
+  "protocol": "docs/49 + FORECAST.md (entregable 7) + D-MF-HARD/DESIGN.md",
+  "created_at": "2026-08-16T06:14:08.229538+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "7b6122f6366cdeb606eb602b5a99ef258f74343d",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "Pilot verificado con gate corregido (enmienda auditada 2026-08-16: rc=0, 1<=n_models_emitted<=9, scores FINITOS exclusivamente de REMARK VINA RESULT, identidades solo para modelos emitidos, provenance 14 campos con seed 42/42 y experiment_id); 34 train completados ITT (deviations y technical_retries fuera del ITT); regla de decision aplicada; 0 val tocado"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/D-MF-HARD/cohort.jsonl": "6d3f3a09dcd7e7393b4572ae1425c1e87d6ec0e233afbd7c7be3775ae50779ba"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/D-MF-HARD-CURVE/FORECAST.md": "b8a5b98cad6df51862e3d48fb77b33d0348e63b91e429eb570c5de915b8cd5d9",
+    "scripts/artifacts_science/D-MF-HARD-CURVE/DESIGN.md": "5a328d8cbeca474ef3e85b2076a8dcb5ac005f564aa7276cdf90c3e2300cd9a6",
+    "scripts/artifacts_science/D-MF-HARD-CURVE/policy.json": "c37fe92f1498fd445f0fd1b488428c8dca8c60bab499e5ca8ac70051389fbff4",
+    "scripts/artifacts_science/D-MF-HARD-CURVE/metrics.json": "187133576913e01d35d7998b85b0cbd61ff044753097f3dc334be1cb67d6e49b",
+    "scripts/artifacts_science/D-MF-HARD-CURVE/curve_poses_train.jsonl": "96205e84eedebfd8b105a374ad265e505ab0059d090bb6da81c8c70dbc1f063b",
+    "scripts/artifacts_science/D-MF-HARD-CURVE/curve_provenance.jsonl": "81efbcdc792fff63db0d17f60171ab6d60be2f76708845da98519409dcc11cd9",
+    "scripts/artifacts_science/D-MF-HARD-CURVE/curve_candidates_train.jsonl": "ee3349d6ee6c5452485b1148d5b6d27392d1e73a96f1ae58a8d3b8042e0a31fc",
+    "scripts/artifacts_science/D-MF-HARD-CURVE/deviations.jsonl": "1a2e59421f5578a4548cac83c82f2f938a1919e7bf9e3ffaeff69c474166dc7f",
+    "scripts/artifacts_science/D-MF-HARD-CURVE/technical_retries.jsonl": "19ec79d1acdcfacc30197190664c727e3a7921321369c3290ea33f033509e3c3",
+    "scripts/artifacts_science/D-MF-HARD-CURVE/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/D-MF-HARD-CURVE/per_complex.jsonl": "14d1587a4455edb772fd4396597f0e68a03dfdd9559d0baf2772d674ca14f772",
+    "scripts/run_molflex_curve.py": "46fd2d350b57897de6068dc7bfd1813671d25fdba0c74156b177afe9ae1c03e4",
+    "scripts/test_molflex_curve_gate.py": "7dc5de1835d125bdb42048c0dfff08e845cc48958262eb3136639f40334f0654",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T07:58:31.957226+00:00",
+  "decision_rationale": "K=15 fijado y sellado para VALIDACION PILOTO (regla corregida aplicada: pierde 1/4 hard <=1, degradacion mediana 0.013A, 0 controles perdidos). GO NO rehabilita MolFlex en D-MF-HARD: cobertura hard 3/17 = NO_GO; K30 no es equivalente (mejora varios hard y anade 1b2h como 4o cubierto); mediana pareada 15->30 0.000A vs media -0.289A documentadas",
+  "finished_at": "2026-08-16T07:58:40.093111+00:00"
+}

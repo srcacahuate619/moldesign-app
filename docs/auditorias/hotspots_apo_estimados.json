@@ -1,0 +1,246 @@
+{
+ "fecha": "2026-09-02",
+ "herramienta": "scripts/estimar_hotspots_apo.py",
+ "motor": "utils/pocket_detector.py (MolPocket), mediana de error 5-6 A sobre PDBbind",
+ "naturaleza": "ESTIMACION geometrica, no observacion. No hay cristal que confirme que un farmaco se una ahi; la interfaz lo declara.",
+ "criterio": "la cavidad detectada mas cercana al centro de la caja del catalogo, si cae dentro de 1.0 semilados",
+ "estimados": 5,
+ "sin_estimar": [
+  {
+   "pdb_id": "5VB8",
+   "motivo": "la cavidad mas cercana esta a 20.3 A del centro (1.02 semilados): el detector no reconoce este sitio"
+  }
+ ],
+ "decisiones": [
+  {
+   "pdb_id": "1C3P",
+   "veredicto": "CONFIRMA_LOS_HOTSPOTS",
+   "accion": "la anotacion es buena y la caja no: recentrarla sobre la cavidad",
+   "solape_con_lo_anotado": 1.0,
+   "hotspots_antes": [
+    "A:TYR12",
+    "A:ARG27",
+    "A:MET130",
+    "A:SER103",
+    "A:TYR17",
+    "A:ALA127",
+    "A:ALA98",
+    "A:GLY102",
+    "A:GLY294",
+    "A:ARG16",
+    "A:LEU23",
+    "A:ALA106",
+    "A:GLY128",
+    "A:PHE141",
+    "A:HIS131"
+   ],
+   "hotspots_despues": null,
+   "conservados": [
+    "A:ALA106",
+    "A:ALA127",
+    "A:ALA98",
+    "A:ARG16",
+    "A:ARG27",
+    "A:GLY102",
+    "A:GLY128",
+    "A:GLY294",
+    "A:HIS131",
+    "A:LEU23",
+    "A:MET130",
+    "A:PHE141",
+    "A:SER103",
+    "A:TYR12",
+    "A:TYR17"
+   ],
+   "cavidad": {
+    "es_de_fiar": true,
+    "centro": [
+     33.17,
+     37.52,
+     49.74
+    ],
+    "desvio_del_centro_de_la_caja_A": 9.2,
+    "radio_A": 4.9,
+    "score": 0.937,
+    "druggability": 0.794,
+    "n_esferas": 95,
+    "rango_por_score": 1,
+    "cavidades_totales": 18
+   }
+  },
+  {
+   "pdb_id": "1TW7",
+   "veredicto": "NO_CONCLUYENTE",
+   "accion": "el detector no da una cavidad de fiar; no se toca la anotacion",
+   "solape_con_lo_anotado": 0.0,
+   "hotspots_antes": [
+    "B:LYS14",
+    "B:LYS70",
+    "B:GLU65",
+    "B:PRO63",
+    "B:ILE64",
+    "B:VAL71",
+    "B:ILE15",
+    "B:GLY16",
+    "B:GLY17",
+    "B:GLN18"
+   ],
+   "hotspots_despues": null,
+   "conservados": [],
+   "cavidad": {
+    "es_de_fiar": false,
+    "centro": [
+     0.49,
+     11.03,
+     -17.7
+    ],
+    "desvio_del_centro_de_la_caja_A": 12.3,
+    "radio_A": 5.6,
+    "score": 0.764,
+    "druggability": 0.102,
+    "n_esferas": 35,
+    "rango_por_score": 1,
+    "cavidades_totales": 19
+   }
+  },
+  {
+   "pdb_id": "5T4X",
+   "veredicto": "NO_CONCLUYENTE",
+   "accion": "el detector no da una cavidad de fiar; no se toca la anotacion",
+   "solape_con_lo_anotado": 0.13,
+   "hotspots_antes": [
+    "A:TRP32",
+    "A:ILE109",
+    "A:ALA58",
+    "A:VAL59",
+    "A:TRP90",
+    "A:CYS56",
+    "A:LYS57",
+    "A:GLU110",
+    "A:MET20",
+    "A:LEU22",
+    "A:LEU38",
+    "A:VAL49",
+    "A:ILE53",
+    "A:LEU54",
+    "A:VAL80"
+   ],
+   "hotspots_despues": null,
+   "conservados": [
+    "A:LEU38",
+    "A:MET20"
+   ],
+   "cavidad": {
+    "es_de_fiar": false,
+    "centro": [
+     -8.1,
+     -6.58,
+     12.14
+    ],
+    "desvio_del_centro_de_la_caja_A": 1.8,
+    "radio_A": 4.2,
+    "score": 0.233,
+    "druggability": 0.251,
+    "n_esferas": 21,
+    "rango_por_score": 8,
+    "cavidades_totales": 8
+   }
+  },
+  {
+   "pdb_id": "5TUN",
+   "veredicto": "CONFIRMA_LOS_HOTSPOTS",
+   "accion": "la anotacion es buena y la caja no: recentrarla sobre la cavidad",
+   "solape_con_lo_anotado": 1.0,
+   "hotspots_antes": [
+    "A:LYS17",
+    "A:PHE28",
+    "A:LYS181",
+    "A:SER29",
+    "A:VAL31",
+    "A:VAL164",
+    "A:LEU165",
+    "A:GLU84",
+    "A:ASN182",
+    "A:PRO50",
+    "A:SER183",
+    "A:GLY32",
+    "A:GLU35",
+    "A:LEU48",
+    "A:TYR89"
+   ],
+   "hotspots_despues": null,
+   "conservados": [
+    "A:ASN182",
+    "A:GLU35",
+    "A:GLU84",
+    "A:GLY32",
+    "A:LEU165",
+    "A:LEU48",
+    "A:LYS17",
+    "A:LYS181",
+    "A:PHE28",
+    "A:PRO50",
+    "A:SER183",
+    "A:SER29",
+    "A:TYR89",
+    "A:VAL164",
+    "A:VAL31"
+   ],
+   "cavidad": {
+    "es_de_fiar": true,
+    "centro": [
+     8.44,
+     136.26,
+     21.28
+    ],
+    "desvio_del_centro_de_la_caja_A": 8.1,
+    "radio_A": 4.5,
+    "score": 0.874,
+    "druggability": 0.811,
+    "n_esferas": 69,
+    "rango_por_score": 1,
+    "cavidades_totales": 15
+   }
+  },
+  {
+   "pdb_id": "6PSD",
+   "veredicto": "NO_CONCLUYENTE",
+   "accion": "el detector no da una cavidad de fiar; no se toca la anotacion",
+   "solape_con_lo_anotado": 0.0,
+   "hotspots_antes": [
+    "K:ARG72",
+    "E:LYS73",
+    "K:GLU90",
+    "K:PHE93",
+    "K:ASP91",
+    "K:ASP94",
+    "I:ARG72",
+    "I:TYR103",
+    "K:ASP97",
+    "E:ASP74",
+    "E:ARG77",
+    "K:GLN76",
+    "K:GLY100",
+    "E:LYS67",
+    "E:GLN76"
+   ],
+   "hotspots_despues": null,
+   "conservados": [],
+   "cavidad": {
+    "es_de_fiar": false,
+    "centro": [
+     -7.87,
+     11.59,
+     -15.99
+    ],
+    "desvio_del_centro_de_la_caja_A": 8.8,
+    "radio_A": 5.1,
+    "score": 1.491,
+    "druggability": 0.297,
+    "n_esferas": 141,
+    "rango_por_score": 1,
+    "cavidades_totales": 59
+   }
+  }
+ ]
+}

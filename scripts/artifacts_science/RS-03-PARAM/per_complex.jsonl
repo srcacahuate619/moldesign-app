@@ -1,0 +1,11 @@
+{"requisito": "R1", "texto": "version exacta y SHA-256 de Sage, NAGL y pesos del modelo", "evaluado_en": "RS-03-PARAM-A", "veredicto": "PASS", "fuente": "decision sellada de RS-03-PARAM-A"}
+{"requisito": "R2", "texto": "cero descargas de modelos durante la ejecucion", "evaluado_en": "RS-03-PARAM-A", "veredicto": "PASS", "fuente": "decision sellada de RS-03-PARAM-A"}
+{"requisito": "R3", "texto": "carga formal derivada del ligando sanitizado", "evaluado_en": "RS-03-PARAM-A", "veredicto": "PASS", "fuente": "decision sellada de RS-03-PARAM-A"}
+{"requisito": "R4", "texto": "|suma q - carga formal| <= 1e-4 e por ligando", "evaluado_en": "RS-03-PARAM-A", "veredicto": "PASS", "fuente": "decision sellada de RS-03-PARAM-A"}
+{"requisito": "R5", "texto": "mapeo atomico biyectivo y atom_order_hash registrado", "evaluado_en": "RS-03-PARAM-A", "veredicto": "PASS", "fuente": "decision sellada de RS-03-PARAM-A"}
+{"requisito": "R6", "texto": "cero fallback silencioso", "evaluado_en": "RS-03-PARAM-A", "veredicto": "PASS", "fuente": "decision sellada de RS-03-PARAM-A"}
+{"requisito": "R7", "texto": "cobertura global >= 95% de los 116 train", "evaluado_en": "RS-03-PARAM-A", "veredicto": "PASS", "fuente": "decision sellada de RS-03-PARAM-A"}
+{"requisito": "R8", "texto": "cobertura >= 90% en cada estrato quimico", "evaluado_en": "RS-03-PARAM-A", "veredicto": "PASS", "fuente": "decision sellada de RS-03-PARAM-A"}
+{"requisito": "R9", "texto": "energia finita y sistema serializable en el 100%", "evaluado_en": "RS-03-PARAM-A", "veredicto": "PASS", "fuente": "decision sellada de RS-03-PARAM-A"}
+{"requisito": "R10", "texto": "cargas deterministas, diferencia maxima <= 1e-6 e", "evaluado_en": "RS-03-PARAM-A", "veredicto": "PASS", "fuente": "decision sellada de RS-03-PARAM-A"}
+{"requisito": "R11", "texto": "fallos clasificados por quimica, nunca convertidos en energia cero", "evaluado_en": "RS-03-PARAM-A", "veredicto": "PASS", "fuente": "decision sellada de RS-03-PARAM-A"}

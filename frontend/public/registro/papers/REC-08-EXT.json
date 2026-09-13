@@ -1,0 +1,612 @@
+{
+ "id": "REC-08-EXT",
+ "meta": {
+  "titulo": "Las aguas no se pierden: se conservan todas, y nadie lo decidió",
+  "entradilla": "Buscaba metales desaparecidos y encontré 1,788 aguas cristalográficas dentro del receptor que Vina usa. No es un fallo de la preparación. Es una política de modelado que opera sin estar escrita."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "REC-08",
+     "m": "codigo"
+    },
+    {
+     "t": " comprobó que la preparación del receptor no pierde ",
+     "m": null
+    },
+    {
+     "t": "cadenas",
+     "m": "fuerte"
+    },
+    {
+     "t": " del sitio de unión. Quedaba la otra mitad de lo que ",
+     "m": null
+    },
+    {
+     "t": "FEP-02",
+     "m": "codigo"
+    },
+    {
+     "t": " había contado y nadie había verificado: ",
+     "m": null
+    },
+    {
+     "t": "52 complejos con metales en el sitio",
+     "m": "fuerte"
+    },
+    {
+     "t": " y una ",
+     "m": null
+    },
+    {
+     "t": "mediana de 10 aguas, ninguna documentada",
+     "m": "fuerte"
+    },
+    {
+     "t": " como estructural o desplazable.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La pregunta era la misma que en ",
+     "m": null
+    },
+    {
+     "t": "REC-08",
+     "m": "codigo"
+    },
+    {
+     "t": ", con otra entidad: ¿sobreviven a la preparación?",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Los metales: cero pérdidas",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    []
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Complejos con metal en el sitio",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "29",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Iones totales",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "42",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Conservados",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "42",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Perdidos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Especies implicadas: Ca, Cu, Mg, Mn, Zn.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es el resultado que esperaba y es una buena noticia aburrida: perder un ion coordinado al ligando habría sido un defecto de producción serio, y no ocurre.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Las aguas: el resultado que no buscaba",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "1,788 aguas cristalográficas en los sitios de unión, conservadas al 100%.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y ese «100%» no significa lo que parece. No es que la preparación las respete: es que ",
+     "m": null
+    },
+    {
+     "t": "las mantiene todas",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo verifiqué directamente sobre el fichero que Vina usa:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Complejo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Átomos en ",
+      "m": null
+     },
+     {
+      "t": "rec.pdbqt",
+      "m": "codigo"
+     }
+    ],
+    [
+     {
+      "t": "De ellos, agua",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "10gs",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "4,137",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "169",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1a30",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "2,049",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "216",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1bcd",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "2,710",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "213",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En ",
+     "m": null
+    },
+    {
+     "t": "1a30",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "HOH",
+     "m": "codigo"
+    },
+    {
+     "t": " es el ",
+     "m": null
+    },
+    {
+     "t": "segundo residuo más común del receptor",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Vina las trata como parte de la proteína: ocupan volumen y entran en la rejilla de afinidad.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que esto convierte",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "FEP-02",
+     "m": "codigo"
+    },
+    {
+     "t": " había dejado esto como documentación pendiente: «ninguna documentada como estructural o desplazable». Sonaba a un hueco que había que rellenar decidiendo algo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No lo es. ",
+     "m": null
+    },
+    {
+     "t": "Ya hay una decisión operando",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y es «conservarlas todas».",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El ítem de la cartera deja de ser ",
+     "m": null
+    },
+    {
+     "t": "decidir qué hacer con las aguas",
+     "m": "enfasis"
+    },
+    {
+     "t": " y pasa a ser ",
+     "m": null
+    },
+    {
+     "t": "declarar o cambiar una política que lleva tiempo ejecutándose",
+     "m": "enfasis"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es una decisión de modelado perfectamente legítima —también lo es la contraria, y el campo está dividido— pero es una decisión, tiene consecuencias, y no está escrita en ningún sitio. Un tercero que reciba el paquete no puede saber que se tomó.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El antecedente que lo conecta",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "REC-07",
+     "m": "codigo"
+    },
+    {
+     "t": " registró un incidente durante su ejecución: pasar el PDB crudo con sus ",
+     "m": null
+    },
+    {
+     "t": "387 aguas",
+     "m": "fuerte"
+    },
+    {
+     "t": " al preparador devolvió scores positivos de +23 a +33, cifras sin sentido físico. Se corrigió la preparación ",
+     "m": null
+    },
+    {
+     "t": "para ese experimento",
+     "m": "fuerte"
+    },
+    {
+     "t": " y se repitió la tanda.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El material de producción de MolFlex sigue conservándolas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Una hipótesis que no afirmo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Una pose que exija ",
+     "m": null
+    },
+    {
+     "t": "desplazar",
+     "m": "fuerte"
+    },
+    {
+     "t": " una agua conservada no puede encontrarse: el agua ocupa el sitio donde tendría que ir un átomo del ligando. Eso convierte a las aguas retenidas en un candidato para parte del déficit de cobertura del estrato difícil.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No lo afirmo, y hay evidencia en contra.",
+     "m": "fuerte"
+    },
+    {
+     "t": " ",
+     "m": null
+    },
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": " alcanzó 26 de 33 con ",
+     "m": null
+    },
+    {
+     "t": "este mismo receptor",
+     "m": "fuerte"
+    },
+    {
+     "t": ", simplemente dockeando flexible en vez de rígido. Si las aguas fueran el bloqueo principal, ese cambio no habría bastado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Queda como hipótesis contrastable para los siete que siguen sin cubrirse, no como explicación.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Limitaciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El emparejamiento entre original y preparado es ",
+     "m": null
+    },
+    {
+     "t": "por coordenada",
+     "m": "fuerte"
+    },
+    {
+     "t": ", con 0.5 Å de tolerancia, y no por identidad de residuo — porque la preparación renumera, cosa que ",
+     "m": null
+    },
+    {
+     "t": "REC-08",
+     "m": "codigo"
+    },
+    {
+     "t": " ya había observado. Un átomo desplazado más de 0.5 Å contaría como perdido, así que el recuento de pérdidas es una ",
+     "m": null
+    },
+    {
+     "t": "cota superior",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Salió cero, lo que refuerza el negativo en vez de debilitarlo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cobertura ",
+     "m": null
+    },
+    {
+     "t": "116 de 203",
+     "m": "fuerte"
+    },
+    {
+     "t": ": los 87 restantes son todos de ",
+     "m": null
+    },
+    {
+     "t": "valtest",
+     "m": "codigo"
+    },
+    {
+     "t": " y carecen de ",
+     "m": null
+    },
+    {
+     "t": "rec.pdbqt",
+     "m": "codigo"
+    },
+    {
+     "t": ". Es la misma asimetría de material que ",
+     "m": null
+    },
+    {
+     "t": "REC-08",
+     "m": "codigo"
+    },
+    {
+     "t": " registró, y vuelve a aparecer aquí.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/REC-08-EXT.md"
+}

@@ -1,0 +1,27 @@
+{
+  "K": 15,
+  "decision_rule": "menor K en {5,15} vs 30 train: pierde <=1/17 hard cubiertos, degradacion mediana min-RMSD hard <=0.1 A, no pierde >1 control cubierto ni degrada su mediana >0.1 A; si ninguno cumple -> 30. Bootstrap BCa (n=2000, seed 42) INFORMATIVO, no decide.",
+  "config": {
+    "seed_etkdg": 42,
+    "seed_docking": 42,
+    "box": "25A",
+    "exhaustiveness": 8,
+    "num_modes_requested": 9,
+    "engine": "vina 1.2.7",
+    "cpu_per_vina": 1,
+    "workers": 6,
+    "relax": false
+  },
+  "train_hashes": {
+    "curve_poses_train.jsonl": "96205e84eedebfd8b105a374ad265e505ab0059d090bb6da81c8c70dbc1f063b",
+    "curve_provenance.jsonl": "81efbcdc792fff63db0d17f60171ab6d60be2f76708845da98519409dcc11cd9",
+    "metrics.json": "187133576913e01d35d7998b85b0cbd61ff044753097f3dc334be1cb67d6e49b",
+    "deviations.jsonl": "1a2e59421f5578a4548cac83c82f2f938a1919e7bf9e3ffaeff69c474166dc7f",
+    "technical_retries.jsonl": "19ec79d1acdcfacc30197190664c727e3a7921321369c3290ea33f033509e3c3"
+  },
+  "caveats": [
+    "no-saturacion",
+    "hard_coverage_no_go_3_17"
+  ],
+  "scope": "K15 seleccionado para validacion piloto; NO rehabilita MolFlex en D-MF-HARD"
+}

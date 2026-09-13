@@ -1,0 +1,24 @@
+{
+  "experimento": "RS-01B",
+  "fold": 0,
+  "brazo": "original",
+  "U_fold": 2.0,
+  "hiperparametros": {
+    "objective": "rank:pairwise",
+    "n_estimators": 52,
+    "max_depth": 6,
+    "learning_rate": 0.05,
+    "subsample": 0.8,
+    "n_jobs": 4,
+    "seed": 42,
+    "random_state": 42
+  },
+  "eval_metric": "auc",
+  "n_filas": 1636,
+  "n_complejos_train": 61,
+  "n_grupos": 61,
+  "n_arboles": 52,
+  "seed": 42,
+  "sha256_archivo_xgb": "6e872ba236ad458f2d431f24cb61d091a130d7e511ae245e35cf689f04053671",
+  "nota": "sin early stopping; todos los datos outer-train; relevancia -rmsd; grupos por complejo; orden canonico"
+}

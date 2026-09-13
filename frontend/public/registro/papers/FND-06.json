@@ -1,0 +1,225 @@
+{
+ "id": "FND-06",
+ "meta": {
+  "titulo": "De dónde salió cada pose, y los huecos declarados como huecos",
+  "entradilla": "Contrato de procedencia implementado en los tres generadores. Las 4,300 poses históricas conservan lo que se pudo recuperar, y lo que no, dice «desconocido» en vez de inventarlo."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cuando un experimento mide que una pose está a 3.2 Å del cristal, ese número sólo es interpretable si se sabe ",
+     "m": null
+    },
+    {
+     "t": "de dónde salió la pose",
+     "m": "fuerte"
+    },
+    {
+     "t": ": qué generador la produjo, con qué semilla, desde qué confórmero, con qué exhaustividad, en qué caja y con qué preparación del receptor.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sin eso, una diferencia entre dos conjuntos de poses puede deberse al método que se está comparando o a que uno se generó con una versión distinta del preparador seis semanas antes. Y no hay forma de saberlo después.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento implementa el contrato que hace esa pregunta contestable.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Dos problemas distintos",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las poses futuras",
+     "m": "fuerte"
+    },
+    {
+     "t": " son el caso fácil: se define el contrato, se instrumenta cada generador para que lo rellene, y se endurece el validador para que rechace lo que no lo cumpla. Resultado: cableado en ",
+     "m": null
+    },
+    {
+     "t": "3 de 3",
+     "m": "fuerte"
+    },
+    {
+     "t": " generadores, y trazabilidad completa garantizada de aquí en adelante.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las 4,300 poses históricas",
+     "m": "fuerte"
+    },
+    {
+     "t": " son el caso difícil, porque se generaron antes de que existiera el contrato. Parte de su procedencia se puede reconstruir de los registros intermedios; parte no.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Aquí había dos salidas, y la elección es el contenido real de este experimento.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La decisión: huecos honestos",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La salida cómoda es rellenar los campos que faltan con el valor más probable. La caja casi siempre fue de 25 Å; la semilla casi siempre fue 42. Rellenarlo produce un conjunto de datos completo, limpio, y con un porcentaje de campos inventados que nadie podría distinguir de los reales.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La salida elegida fue la otra: **cobertura histórica documentada campo por campo y fuente por fuente, con ",
+     "m": null
+    },
+    {
+     "t": "unknown",
+     "m": "codigo"
+    },
+    {
+     "t": " explícito donde no se pudo recuperar**.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El coste es visible: el conjunto histórico tiene agujeros, y cualquiera que lo mire ve exactamente dónde. El beneficio es que un análisis futuro puede excluir las poses cuya procedencia no consta, en lugar de confiar en un valor que alguien supuso.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Un campo que dice «desconocido» es información. Un campo relleno con el valor probable es ruido con aspecto de dato.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué esto acabó siendo más útil de lo previsto",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La procedencia se justificó como higiene. Terminó resolviendo diagnósticos que no se veían venir.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El caso más claro: nueve complejos fallaron la parametrización con el mismo error de plantilla durante un experimento de campo de fuerza. El diagnóstico propuesto fue que tenían cortes de cadena en el receptor. Meses después, una auditoría independiente pudo comprobarlo ",
+     "m": null
+    },
+    {
+     "t": "porque la procedencia registraba qué receptor había entrado en cada corrida",
+     "m": "fuerte"
+    },
+    {
+     "t": ": los 9 de 9 tienen huecos de cadena, contra una tasa base del 42.4%. La probabilidad de que salga así por azar es de aproximadamente 0.0004.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sin el contrato de procedencia, ese diagnóstico habría seguido siendo una conjetura razonable para siempre.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Estado",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Contrato implementado, tres generadores instrumentados, validador endurecido, cobertura histórica documentada con desconocidos honestos, y determinismo verificado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es uno de los cimientos sobre los que descansa que el resto del registro signifique algo, y también uno de los pocos activos del proyecto que un tercero puede evaluar en cinco minutos sin entender nada de docking: o cada pose dice de dónde vino, o no.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FND-06.md"
+}

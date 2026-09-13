@@ -1,0 +1,77 @@
+{
+  "app\\evaluation\\page.tsx -> ../../components/PDFReportViewer": {
+    "id": "app\\evaluation\\page.tsx -> ../../components/PDFReportViewer",
+    "files": [
+      "static/chunks/_app-pages-browser_components_PDFReportViewer_tsx-_62ca0.js"
+    ]
+  },
+  "app\\evaluation\\page.tsx -> ../../components/PipelineFlowchart": {
+    "id": "app\\evaluation\\page.tsx -> ../../components/PipelineFlowchart",
+    "files": [
+      "static/chunks/_app-pages-browser_components_PipelineFlowchart_tsx.js"
+    ]
+  },
+  "app\\evaluation\\page.tsx -> ../../components/interfaces/pro/ProEvaluation": {
+    "id": "app\\evaluation\\page.tsx -> ../../components/interfaces/pro/ProEvaluation",
+    "files": [
+      "static/chunks/_app-pages-browser_components_interfaces_pro_ProEvaluation_tsx.js"
+    ]
+  },
+  "app\\moldex\\page.tsx -> ../../components/PDFReportViewer": {
+    "id": "app\\moldex\\page.tsx -> ../../components/PDFReportViewer",
+    "files": [
+      "static/chunks/_app-pages-browser_components_PDFReportViewer_tsx-_62ca0.js"
+    ]
+  },
+  "app\\moldex\\page.tsx -> ../../components/interfaces/pro/ProMoldex": {
+    "id": "app\\moldex\\page.tsx -> ../../components/interfaces/pro/ProMoldex",
+    "files": [
+      "static/chunks/_app-pages-browser_components_interfaces_pro_ProMoldex_tsx.js"
+    ]
+  },
+  "app\\page.tsx -> ../components/TechNetwork3D": {
+    "id": "app\\page.tsx -> ../components/TechNetwork3D",
+    "files": [
+      "static/chunks/_app-pages-browser_components_TechNetwork3D_tsx.js"
+    ]
+  },
+  "components\\KetcherEditor.tsx -> ./KetcherEditorInner": {
+    "id": "components\\KetcherEditor.tsx -> ./KetcherEditorInner",
+    "files": [
+      "static/css/_app-pages-browser_components_KetcherEditorInner_tsx.css",
+      "static/chunks/_app-pages-browser_components_KetcherEditorInner_tsx.js"
+    ]
+  },
+  "components\\interfaces\\pro\\ProEvaluation.tsx -> ../../PDFReportViewer": {
+    "id": "components\\interfaces\\pro\\ProEvaluation.tsx -> ../../PDFReportViewer",
+    "files": [
+      "static/chunks/_app-pages-browser_components_PDFReportViewer_tsx-_62ca2.js"
+    ]
+  },
+  "components\\interfaces\\pro\\ProMoldex.tsx -> ../../PDFReportViewer": {
+    "id": "components\\interfaces\\pro\\ProMoldex.tsx -> ../../PDFReportViewer",
+    "files": [
+      "static/chunks/_app-pages-browser_components_PDFReportViewer_tsx-_62ca1.js"
+    ]
+  },
+  "node_modules\\@react-three\\drei\\core\\VideoTexture.js -> hls.js": {
+    "id": "node_modules\\@react-three\\drei\\core\\VideoTexture.js -> hls.js",
+    "files": []
+  },
+  "node_modules\\@react-three\\drei\\web\\FaceLandmarker.js -> @mediapipe/tasks-vision": {
+    "id": "node_modules\\@react-three\\drei\\web\\FaceLandmarker.js -> @mediapipe/tasks-vision",
+    "files": []
+  },
+  "node_modules\\ketcher-react\\dist\\index.js -> ./index.modern-b9db71c5.js": {
+    "id": "node_modules\\ketcher-react\\dist\\index.js -> ./index.modern-b9db71c5.js",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_ketcher-react_dist_index_modern-b9db71c5_js.js"
+    ]
+  },
+  "node_modules\\ketcher-react\\dist\\index.js -> miew-react": {
+    "id": "node_modules\\ketcher-react\\dist\\index.js -> miew-react",
+    "files": [
+      "static/chunks/_app-pages-browser_node_modules_miew-react_dist_index_modern_js.js"
+    ]
+  }
+}

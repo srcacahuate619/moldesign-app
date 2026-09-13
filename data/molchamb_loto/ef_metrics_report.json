@@ -1,0 +1,198 @@
+{
+  "ca2": {
+    "n_total": 1933,
+    "n_act": 37,
+    "random_ef1": 1.0,
+    "random_ef5": 1.0,
+    "random_ef10": 1.0,
+    "models": {
+      "M4 (baseline)": {
+        "ef1": 0.0,
+        "ef1_hits": 0,
+        "ef5": 2.69,
+        "ef5_hits": 5,
+        "ef10": 2.44,
+        "ef10_hits": 9,
+        "auc": 0.8042,
+        "bedroc_a20": 0.128
+      },
+      "M5_gated": {
+        "ef1": 8.25,
+        "ef1_hits": 3,
+        "ef5": 5.92,
+        "ef5_hits": 11,
+        "ef10": 6.5,
+        "ef10_hits": 24,
+        "auc": 0.9314,
+        "bedroc_a20": 0.301
+      },
+      "Individual: Vina": {
+        "ef1": 0.0,
+        "ef1_hits": 0,
+        "ef5": 0.0,
+        "ef5_hits": 0,
+        "ef10": 0.0,
+        "ef10_hits": 0,
+        "auc": 0.5579,
+        "bedroc_a20": -0.012
+      },
+      "Individual: XGBoost": {
+        "ef1": 2.75,
+        "ef1_hits": 1,
+        "ef5": 3.23,
+        "ef5_hits": 6,
+        "ef10": 2.44,
+        "ef10_hits": 9,
+        "auc": 0.7657,
+        "bedroc_a20": 0.112
+      },
+      "Individual: GNN-D": {
+        "ef1": 8.25,
+        "ef1_hits": 3,
+        "ef5": 4.31,
+        "ef5_hits": 8,
+        "ef10": 4.06,
+        "ef10_hits": 15,
+        "auc": 0.8465,
+        "bedroc_a20": 0.181
+      },
+      "Individual: Warhead (SMARTS)": {
+        "ef1": 13.75,
+        "ef1_hits": 5,
+        "ef5": 12.39,
+        "ef5_hits": 23,
+        "ef10": 10.02,
+        "ef10_hits": 37,
+        "auc": 0.971,
+        "bedroc_a20": 0.498
+      }
+    },
+    "ceiling_ef1": 52.24,
+    "ceiling_ef5": 19.93,
+    "ceiling_ef10": 10.02
+  },
+  "mmp9": {
+    "n_total": 1925,
+    "n_act": 50,
+    "random_ef1": 1.0,
+    "random_ef5": 1.0,
+    "random_ef10": 1.0,
+    "models": {
+      "M4 (baseline)": {
+        "ef1": 0.0,
+        "ef1_hits": 0,
+        "ef5": 4.81,
+        "ef5_hits": 12,
+        "ef10": 4.21,
+        "ef10_hits": 21,
+        "auc": 0.8473,
+        "bedroc_a20": 0.17
+      },
+      "M5_gated": {
+        "ef1": 0.0,
+        "ef1_hits": 0,
+        "ef5": 7.62,
+        "ef5_hits": 19,
+        "ef10": 5.82,
+        "ef10_hits": 29,
+        "auc": 0.9208,
+        "bedroc_a20": 0.269
+      },
+      "Individual: Vina": {
+        "ef1": 0.0,
+        "ef1_hits": 0,
+        "ef5": 0.0,
+        "ef5_hits": 0,
+        "ef10": 0.0,
+        "ef10_hits": 0,
+        "auc": 0.4729,
+        "bedroc_a20": -0.023
+      },
+      "Individual: XGBoost": {
+        "ef1": 0.0,
+        "ef1_hits": 0,
+        "ef5": 4.81,
+        "ef5_hits": 12,
+        "ef10": 4.21,
+        "ef10_hits": 21,
+        "auc": 0.8473,
+        "bedroc_a20": 0.17
+      },
+      "Individual: Warhead (SMARTS)": {
+        "ef1": 6.08,
+        "ef1_hits": 3,
+        "ef5": 8.02,
+        "ef5_hits": 20,
+        "ef10": 6.82,
+        "ef10_hits": 34,
+        "auc": 0.9308,
+        "bedroc_a20": 0.31
+      }
+    },
+    "ceiling_ef1": 38.5,
+    "ceiling_ef5": 20.05,
+    "ceiling_ef10": 10.03
+  },
+  "ace": {
+    "n_total": 2003,
+    "n_act": 46,
+    "random_ef1": 1.0,
+    "random_ef5": 1.0,
+    "random_ef10": 1.0,
+    "models": {
+      "M4 (baseline)": {
+        "ef1": 0.0,
+        "ef1_hits": 0,
+        "ef5": 0.87,
+        "ef5_hits": 2,
+        "ef10": 0.44,
+        "ef10_hits": 2,
+        "auc": 0.4362,
+        "bedroc_a20": 0.003
+      },
+      "M5_gated": {
+        "ef1": 0.0,
+        "ef1_hits": 0,
+        "ef5": 0.87,
+        "ef5_hits": 2,
+        "ef10": 0.44,
+        "ef10_hits": 2,
+        "auc": 0.6708,
+        "bedroc_a20": 0.007
+      },
+      "Individual: Vina": {
+        "ef1": 0.0,
+        "ef1_hits": 0,
+        "ef5": 0.0,
+        "ef5_hits": 0,
+        "ef10": 0.22,
+        "ef10_hits": 1,
+        "auc": 0.4056,
+        "bedroc_a20": -0.012
+      },
+      "Individual: XGBoost": {
+        "ef1": 0.0,
+        "ef1_hits": 0,
+        "ef5": 0.87,
+        "ef5_hits": 2,
+        "ef10": 0.44,
+        "ef10_hits": 2,
+        "auc": 0.4532,
+        "bedroc_a20": 0.007
+      },
+      "Individual: Warhead (SMARTS)": {
+        "ef1": 0.0,
+        "ef1_hits": 0,
+        "ef5": 1.74,
+        "ef5_hits": 4,
+        "ef10": 4.14,
+        "ef10_hits": 19,
+        "auc": 0.8002,
+        "bedroc_a20": 0.118
+      }
+    },
+    "ceiling_ef1": 43.54,
+    "ceiling_ef5": 20.03,
+    "ceiling_ef10": 10.02
+  }
+}

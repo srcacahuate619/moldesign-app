@@ -1,0 +1,280 @@
+{
+  "individual_aucs": {
+    "5ht1a": {
+      "n": 2544,
+      "n_active": 47,
+      "auc_vina": 0.791,
+      "auc_xgb": 0.8451,
+      "auc_clgnn_a": 0.8496,
+      "auc_gnn_d": 0.9943,
+      "auc_molchamb": 0.2173
+    },
+    "ca2": {
+      "n": 1933,
+      "n_active": 37,
+      "auc_vina": 0.5579,
+      "auc_xgb": 0.7657,
+      "auc_clgnn_a": 0.5916,
+      "auc_gnn_d": 0.8465,
+      "auc_molchamb": 0.8934
+    },
+    "cdk2": {
+      "n": 2532,
+      "n_active": 50,
+      "auc_vina": 0.7674,
+      "auc_xgb": 0.9289,
+      "auc_clgnn_a": 0.5938,
+      "auc_gnn_d": 0.9914,
+      "auc_molchamb": 0.7545
+    },
+    "er_alpha": {
+      "n": 2043,
+      "n_active": 49,
+      "auc_vina": 0.8674,
+      "auc_xgb": 0.9846,
+      "auc_clgnn_a": 0.6634,
+      "auc_gnn_d": 0.975,
+      "auc_molchamb": 0.2007
+    },
+    "factor_xa": {
+      "n": 1975,
+      "n_active": 39,
+      "auc_vina": 0.9865,
+      "auc_xgb": 0.9113,
+      "auc_clgnn_a": 0.7415,
+      "auc_gnn_d": 0.8342,
+      "auc_molchamb": 0.5894
+    },
+    "hiv_protease": {
+      "n": 2533,
+      "n_active": 40,
+      "auc_vina": 0.7075,
+      "auc_xgb": 0.7824,
+      "auc_clgnn_a": 0.9472,
+      "auc_gnn_d": 0.9994,
+      "auc_molchamb": 0.1258
+    },
+    "thrombin": {
+      "n": 1945,
+      "n_active": 39,
+      "auc_vina": 0.7432,
+      "auc_xgb": 0.8096,
+      "auc_clgnn_a": 0.6766,
+      "auc_gnn_d": 0.8471,
+      "auc_molchamb": 0.6046
+    }
+  },
+  "biased_metastack5": {
+    "5ht1a": {
+      "auc_metastack4": 0.989,
+      "auc_metastack5": 0.992,
+      "delta": 0.003,
+      "metastack5_weights": [
+        0.05,
+        0.05,
+        0.05,
+        0.8,
+        0.05
+      ]
+    },
+    "ca2": {
+      "auc_metastack4": 0.7992,
+      "auc_metastack5": 0.8322,
+      "delta": 0.033,
+      "metastack5_weights": [
+        0.194,
+        0.201,
+        0.195,
+        0.204,
+        0.205
+      ]
+    },
+    "cdk2": {
+      "auc_metastack4": 0.995,
+      "auc_metastack5": 0.995,
+      "delta": 0.0,
+      "metastack5_weights": [
+        0.05,
+        0.05,
+        0.05,
+        0.8,
+        0.05
+      ]
+    },
+    "er_alpha": {
+      "auc_metastack4": 0.9893,
+      "auc_metastack5": 0.988,
+      "delta": -0.0013,
+      "metastack5_weights": [
+        0.05,
+        0.8,
+        0.05,
+        0.05,
+        0.05
+      ]
+    },
+    "factor_xa": {
+      "auc_metastack4": 0.9881,
+      "auc_metastack5": 0.9892,
+      "delta": 0.0011,
+      "metastack5_weights": [
+        0.8,
+        0.05,
+        0.05,
+        0.05,
+        0.05
+      ]
+    },
+    "hiv_protease": {
+      "auc_metastack4": 0.9994,
+      "auc_metastack5": 0.9993,
+      "delta": -0.0001,
+      "metastack5_weights": [
+        0.05,
+        0.05,
+        0.05,
+        0.8,
+        0.05
+      ]
+    },
+    "thrombin": {
+      "auc_metastack4": 0.8583,
+      "auc_metastack5": 0.8655,
+      "delta": 0.0072,
+      "metastack5_weights": [
+        0.2,
+        0.202,
+        0.198,
+        0.204,
+        0.196
+      ]
+    }
+  },
+  "biased_mean_metastack4": 0.9455,
+  "biased_mean_metastack5": 0.9516,
+  "biased_mean_delta": 0.0061,
+  "loto_honest_metastack5": {
+    "5ht1a": {
+      "auc_vina": 0.791,
+      "auc_xgb": 0.8451,
+      "auc_clgnn_a": 0.8496,
+      "auc_gnn_d_loto": 0.9845,
+      "auc_molchamb": 0.2173,
+      "auc_metastack3": 0.9372,
+      "auc_metastack4": 0.9553,
+      "auc_metastack5_est": 0.9228,
+      "metastack5_weights": [
+        0.05,
+        0.05,
+        0.05,
+        0.8,
+        0.05
+      ]
+    },
+    "ca2": {
+      "auc_vina": 0.5579,
+      "auc_xgb": 0.7657,
+      "auc_clgnn_a": 0.5916,
+      "auc_gnn_d_loto": 0.5817,
+      "auc_molchamb": 0.8934,
+      "auc_metastack3": 0.7513,
+      "auc_metastack4": 0.7144,
+      "auc_metastack5_est": 0.6809,
+      "metastack5_weights": [
+        0.196,
+        0.203,
+        0.197,
+        0.197,
+        0.207
+      ]
+    },
+    "cdk2": {
+      "auc_vina": 0.7674,
+      "auc_xgb": 0.9289,
+      "auc_clgnn_a": 0.5938,
+      "auc_gnn_d_loto": 0.9949,
+      "auc_molchamb": 0.7545,
+      "auc_metastack3": 0.9452,
+      "auc_metastack4": 0.9954,
+      "auc_metastack5_est": 0.9482,
+      "metastack5_weights": [
+        0.05,
+        0.05,
+        0.05,
+        0.8,
+        0.05
+      ]
+    },
+    "er_alpha": {
+      "auc_vina": 0.8674,
+      "auc_xgb": 0.9846,
+      "auc_clgnn_a": 0.6634,
+      "auc_gnn_d_loto": 0.9816,
+      "auc_molchamb": 0.2007,
+      "auc_metastack3": 0.9853,
+      "auc_metastack4": 0.9909,
+      "auc_metastack5_est": 0.9233,
+      "metastack5_weights": [
+        0.05,
+        0.8,
+        0.05,
+        0.05,
+        0.05
+      ]
+    },
+    "factor_xa": {
+      "auc_vina": 0.9865,
+      "auc_xgb": 0.9113,
+      "auc_clgnn_a": 0.7415,
+      "auc_gnn_d_loto": 0.8111,
+      "auc_molchamb": 0.5894,
+      "auc_metastack3": 0.9867,
+      "auc_metastack4": 0.9879,
+      "auc_metastack5_est": 0.9419,
+      "metastack5_weights": [
+        0.8,
+        0.05,
+        0.05,
+        0.05,
+        0.05
+      ]
+    },
+    "hiv_protease": {
+      "auc_vina": 0.7075,
+      "auc_xgb": 0.7824,
+      "auc_clgnn_a": 0.9472,
+      "auc_gnn_d_loto": 0.9998,
+      "auc_molchamb": 0.1258,
+      "auc_metastack3": 0.9569,
+      "auc_metastack4": 0.9998,
+      "auc_metastack5_est": 0.928,
+      "metastack5_weights": [
+        0.05,
+        0.05,
+        0.05,
+        0.8,
+        0.05
+      ]
+    },
+    "thrombin": {
+      "auc_vina": 0.7432,
+      "auc_xgb": 0.8096,
+      "auc_clgnn_a": 0.6766,
+      "auc_gnn_d_loto": 0.9239,
+      "auc_molchamb": 0.6046,
+      "auc_metastack3": 0.8315,
+      "auc_metastack4": 0.9182,
+      "auc_metastack5_est": 0.7536,
+      "metastack5_weights": [
+        0.2,
+        0.202,
+        0.197,
+        0.206,
+        0.195
+      ]
+    }
+  },
+  "loto_mean_metastack4": 0.9374,
+  "loto_mean_metastack5": 0.8712,
+  "loto_mean_delta": -0.0662
+}

@@ -1,0 +1,77 @@
+{
+  "default": {
+    "vina": 0.25,
+    "xgb": 0.75,
+    "gnn": 0.0,
+    "clgnn": 0.0,
+    "quantum_sign": 1.0
+  },
+  "gpcr": {
+    "vina": 0.25,
+    "xgb": 0.75,
+    "gnn": 0.0,
+    "clgnn": 0.0,
+    "quantum_sign": 1.0
+  },
+  "protease": {
+    "vina": 0.25,
+    "xgb": 0.75,
+    "gnn": 0.0,
+    "clgnn": 0.0,
+    "quantum_sign": 1.0
+  },
+  "kinase": {
+    "vina": 0.25,
+    "xgb": 0.75,
+    "gnn": 0.0,
+    "clgnn": 0.0,
+    "quantum_sign": 1.0
+  },
+  "nuclear_receptor": {
+    "vina": 0.25,
+    "xgb": 0.75,
+    "gnn": 0.0,
+    "clgnn": 0.0,
+    "quantum_sign": 1.0
+  },
+  "soluble_enzyme": {
+    "vina": 0.25,
+    "xgb": 0.75,
+    "gnn": 0.0,
+    "clgnn": 0.0,
+    "quantum_sign": 1.0
+  },
+  "phosphodiesterase": {
+    "vina": 0.25,
+    "xgb": 0.75,
+    "gnn": 0.0,
+    "clgnn": 0.0,
+    "quantum_sign": 1.0
+  },
+  "unknown": {
+    "vina": 0.25,
+    "xgb": 0.75,
+    "gnn": 0.0,
+    "clgnn": 0.0,
+    "quantum_sign": 1.0
+  },
+  "lofo_canonical": {
+    "vina": 0.25,
+    "xgb": 0.75,
+    "gnn": 0.0,
+    "clgnn": 0.0,
+    "quantum_sign": 1.0
+  },
+  "_nota_metaloenzyme": {
+    "estado": "NO_ES_UN_PERFIL_DE_STACKING_M4",
+    "motivo": "M5-Zn se calcula y persiste por perfil exacto en services/pipeline/protocols/m5/zinc.py. No existe un peso generico de metaloenzima en M4 y ambas grafias caen al contrato default.",
+    "referencia": "docs/75_DECISION_CIENTIFICA_M5_ZN_V1.md y docs/77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md"
+  },
+  "_contract": {
+    "id": "M4_STACKING_ALPHA_V1",
+    "canonical_registry": "backend/artifacts/sci_config_registry.json",
+    "clgnn_sha256": "f714dd8208f491258dcb4671bc1e29f308712c1c27f629409f2e33993186bb4f",
+    "clgnn_status": "CHECKPOINT_INCLUDED__EXTERNAL_VALIDATION_FOR_EXACT_SHA256_PENDING",
+    "reason": "CL-GNN se ejecuta y serializa como senal experimental, pero su peso de release es 0 hasta validar externamente el SHA-256 exacto. La GNN legacy esta deprecada y tambien pesa 0. M5-Zn se calcula por separado."
+  }
+}

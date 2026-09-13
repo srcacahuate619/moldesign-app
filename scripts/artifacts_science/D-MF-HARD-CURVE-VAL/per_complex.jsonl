@@ -1,0 +1,10 @@
+{"pid": "1b32", "stratum": "hard", "cohort_id": "H-06", "pair_id": "P-06", "yield_15": 15, "min_rmsd": 1.843, "cubierto": true}
+{"pid": "1bgq", "stratum": "control", "cohort_id": "C-06", "pair_id": "P-06", "yield_15": 13, "min_rmsd": 1.367, "cubierto": true}
+{"pid": "1cny", "stratum": "hard", "cohort_id": "H-11", "pair_id": "P-11", "yield_15": 15, "min_rmsd": 2.912, "cubierto": false}
+{"pid": "1fki", "stratum": "control", "cohort_id": "C-11", "pair_id": "P-11", "yield_15": 15, "min_rmsd": 2.139, "cubierto": false}
+{"pid": "1hms", "stratum": "hard", "cohort_id": "H-15", "pair_id": "P-15", "yield_15": 15, "min_rmsd": 3.956, "cubierto": false}
+{"pid": "1bm7", "stratum": "control", "cohort_id": "C-15", "pair_id": "P-15", "yield_15": 7, "min_rmsd": 1.683, "cubierto": true}
+{"pid": "1hmt", "stratum": "hard", "cohort_id": "H-16", "pair_id": "P-16", "yield_15": 15, "min_rmsd": 4.876, "cubierto": false}
+{"pid": "1ejn", "stratum": "control", "cohort_id": "C-16", "pair_id": "P-16", "yield_15": 8, "min_rmsd": 0.732, "cubierto": true}
+{"pid": "1jlr", "stratum": "hard", "cohort_id": "H-19", "pair_id": "P-19", "yield_15": 15, "min_rmsd": 1.49, "cubierto": true}
+{"pid": "1nvq", "stratum": "control", "cohort_id": "C-19", "pair_id": "P-19", "yield_15": 3, "min_rmsd": 0.54, "cubierto": true}

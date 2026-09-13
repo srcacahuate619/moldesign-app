@@ -1,0 +1,18 @@
+[
+  {
+    "name": "hdac6",
+    "pdb_id": "5EFN",
+    "chembl_id": "CHEMBL1862",
+    "n_actives": 1000,
+    "n_decoys": 10218,
+    "status": "completed"
+  },
+  {
+    "name": "mmp2",
+    "pdb_id": "1GXD",
+    "chembl_id": "CHEMBL275",
+    "n_actives": 1000,
+    "n_decoys": 10230,
+    "status": "completed"
+  }
+]

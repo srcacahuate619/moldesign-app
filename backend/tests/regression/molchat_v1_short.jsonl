@@ -1,0 +1,10 @@
+{"id":"R001","label":"prop_aspirina_nombre","category":"tool_quimica","query":"calcula propiedades de la aspirina","expect_tool":"compute_properties","expect_canon_smiles":"CC(=O)Oc1ccccc1C(=O)O","expect_rag":true}
+{"id":"R005","label":"prop_etanol","category":"tool_quimica","query":"calcula propiedades del etanol","expect_rag":true}
+{"id":"R010","label":"prop_vitaminaC","category":"tool_quimica","query":"calcula propiedades del acido ascorbico (vitamina C)","expect_rag":true}
+{"id":"S001","label":"smiles_aspirina","category":"smiles_directo","query":"calcula propiedades de CC(=O)Oc1ccccc1C(=O)O","expect_tool":"compute_properties","expect_smiles_inferida":"CC(=O)Oc1ccccc1C(=O)O"}
+{"id":"S004","label":"smiles_etanol","category":"smiles_directo","query":"calcula propiedades de CCO","expect_tool":"compute_properties"}
+{"id":"S007","label":"smiles_propanol","category":"smiles_directo","query":"calcula propiedades de CCCO","expect_tool":"compute_properties"}
+{"id":"I001","label":"invalido_formula","category":"smiles_invalido","query":"calcula propiedades de C2H5OH=fake_no_smiles","expect_alucinacion_risk":true}
+{"id":"D001","label":"docking_7E2Y_aspirina","category":"docking","query":"que afinidad tiene esta molecula contra 7E2Y? La molecula es CC(=O)Oc1ccccc1C(=O)O","expect_tool":"docking_tool","expect_smiles":"CC(=O)Oc1ccccc1C(=O)O"}
+{"id":"C001","label":"conceptual_logP","category":"conceptual","query":"que es el logP y para que se usa?","expect_no_tool":true}
+{"id":"C002","label":"conceptual_logD","category":"conceptual","query":"cual es la diferencia entre logP y logD?","expect_no_tool":true}

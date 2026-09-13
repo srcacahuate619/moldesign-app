@@ -1,0 +1,51 @@
+2026-09-10 13:43:37 [info     ] sascorer cargado desde D:\moldesign-audit\bundle-copy\python\Lib\site-packages\rdkit\Contrib\SA_Score
+INFO:     Started server process [8748]
+INFO:     Waiting for application startup.
+{"environment": "production", "log_level": "INFO", "event": "sistema de logging inicializado", "level": "info", "timestamp": "2026-09-10T19:43:37.705649Z", "service": "moldesign-api"}
+{"environment": "production", "event": "iniciando aplicacion MolDesign", "level": "info", "timestamp": "2026-09-10T19:43:37.705649Z", "service": "moldesign-api"}
+{"app_mode": "DESKTOP", "local_data_dir": "C:\\Users\\Johan Amezcua\\MolDesign\\data", "storage_backend": "SQLite + local_disk", "queue_backend": "local_dispatcher", "event": "modo de ejecuci\u00f3n resuelto", "level": "info", "timestamp": "2026-09-10T19:43:37.705649Z", "service": "moldesign-api"}
+{"db_path": "C:\\Users\\Johan Amezcua\\MolDesign\\data\\moldesign_local.db", "event": "Iniciando verificaci\u00f3n de esquema SQLite", "level": "info", "timestamp": "2026-09-10T19:43:37.708162Z", "service": "moldesign-api"}
+{"event": "Migraci\u00f3n de esquema SQLite completada exitosamente", "level": "info", "timestamp": "2026-09-10T19:43:37.714256Z", "service": "moldesign-api"}
+{"db_path": "C:\\Users\\Johan Amezcua\\MolDesign\\data\\moldesign_local.db", "event": "engine SQLite creado", "level": "info", "timestamp": "2026-09-10T19:43:37.746140Z", "service": "moldesign-api"}
+{"event": "tablas creadas o verificadas y versi\u00f3n de esquema sellada en la base de datos", "level": "info", "timestamp": "2026-09-10T19:43:37.763463Z", "service": "moldesign-api"}
+{"id": "local", "name": "MolChat Local", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:43:37.895791Z", "service": "moldesign-api"}
+{"id": "ollama", "name": "Ollama", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:43:37.895791Z", "service": "moldesign-api"}
+{"id": "claude", "name": "Claude (Anthropic)", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:43:37.895791Z", "service": "moldesign-api"}
+{"id": "gemini", "name": "Gemini (Google)", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:43:37.895791Z", "service": "moldesign-api"}
+{"id": "openai", "name": "Cloud (OpenAI/Groq)", "event": "provider_registered", "level": "info", "timestamp": "2026-09-10T19:43:37.895791Z", "service": "moldesign-api"}
+{"event": "providers_and_tools_bootstrapped", "level": "info", "timestamp": "2026-09-10T19:43:37.915732Z", "service": "moldesign-api"}
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:63953 (Press CTRL+C to quit)
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:43:38.256708Z", "query": "", "path": "/health", "request_id": "ef1b8d31-30ab-49dd-a770-9489a31207c5", "method": "GET", "service": "moldesign-api"}
+{"version": 4, "errors": ["gnn_v2_cl:artifact ausente:gnn_v2_cl_best.pt", "gnn_v2_cl:metadata ausente:contrastive_v31_pretrained.pt"], "event": "model_manifest_integrity_failed", "level": "error", "timestamp": "2026-09-10T19:43:38.334095Z", "query": "", "path": "/health", "request_id": "ef1b8d31-30ab-49dd-a770-9489a31207c5", "method": "GET", "service": "moldesign-api"}
+{"status_code": 200, "elapsed_ms": 78.25, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:43:38.334731Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:43:38.337771Z", "query": "", "path": "/openapi.json", "request_id": "769cefc1-dfa6-4568-af2c-9580f5a14fc8", "method": "GET", "service": "moldesign-api"}
+{"status_code": 200, "elapsed_ms": 739.08, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:43:39.076732Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:43:39.108739Z", "query": "", "path": "/health", "request_id": "bfb0ee9f-f6df-4b5a-b946-079fff4903a1", "method": "GET", "service": "moldesign-api"}
+{"status_code": 200, "elapsed_ms": 16.38, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:43:39.125978Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:43:39.126975Z", "query": "", "path": "/hardware", "request_id": "06c8607b-d33d-4808-b33f-64c420891702", "method": "GET", "service": "moldesign-api"}
+2026-09-10T19:43:47.045083Z [info     ] models_loaded_json             model_a=D:\moldesign-audit\bundle-copy\rescoring\artifacts\model_a_universal.json model_a_features=167 model_null=D:\moldesign-audit\bundle-copy\rescoring\artifacts\model_null.json model_null_features=8
+2026-09-10T19:43:47.054122Z [info     ] family_model_loaded            family=kinase
+2026-09-10T19:43:47.070173Z [info     ] family_model_loaded            family=protease
+2026-09-10T19:43:47.075217Z [info     ] family_model_loaded            family=gpcr
+2026-09-10T19:43:47.083536Z [info     ] family_model_loaded            family=nuclear_receptor
+2026-09-10T19:43:47.117869Z [info     ] family_model_loaded            family=soluble_enzyme
+2026-09-10T19:43:47.141938Z [info     ] classifier_loaded              path=D:\moldesign-audit\bundle-copy\rescoring\artifacts\classifier_binder.json
+2026-09-10T19:43:47.161710Z [info     ] applicability_domain_loaded    threshold=16.1556
+2026-09-10T19:43:47.161710Z [info     ] delta_distribution_loaded     
+2026-09-10T19:43:47.163214Z [info     ] training_report_loaded         version=unknown
+2026-09-10T19:43:47.164220Z [info     ] feature_means_ready            n_features=172
+D:\moldesign-audit\bundle-copy\rescoring\pose_selector\selector.py:144: UserWarning: [13:43:47] WARNING: C:\actions-runner\_work\xgboost\xgboost\src\c_api\c_api.cc:1509: Unknown file format: `xgb`. Using UBJSON (`ubj`) as a guess.
+  booster.load_model(self.model_path)
+2026-09-10T19:43:47.185135Z [info     ] pose_selector_loaded           meta=D:\moldesign-audit\bundle-copy\rescoring\artifacts\pose_selector_v06_meta.json model=D:\moldesign-audit\bundle-copy\rescoring\artifacts\pose_selector_v06.xgb
+2026-09-10T19:43:47.185135Z [info     ] rescoring_ready                has_ad=True has_delta_dist=True model_version=unknown
+{"loaded": true, "families": ["kinase", "protease", "gpcr", "nuclear_receptor", "soluble_enzyme"], "version": "unknown", "event": "rescoring_service_ready", "level": "info", "timestamp": "2026-09-10T19:43:47.186142Z", "service": "moldesign-api"}
+{"models": [], "event": "ModelManager precalentado en segundo plano", "level": "info", "timestamp": "2026-09-10T19:43:50.031927Z", "service": "moldesign-api"}
+{"status_code": 200, "elapsed_ms": 10904.44, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:43:50.031927Z", "service": "moldesign-api"}
+{"entries": 944, "event": "PAINS catalog preloaded", "level": "info", "timestamp": "2026-09-10T19:43:50.111203Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:43:50.112712Z", "query": "", "path": "/rescoring/health", "request_id": "db7e1cab-45f0-4619-9661-9c8d2a4f1fca", "method": "GET", "service": "moldesign-api"}
+{"status_code": 200, "elapsed_ms": 3.9, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:43:50.116507Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:43:50.119510Z", "query": "", "path": "/rescoring/info", "request_id": "956f704d-97be-43bc-b1a2-a909fac6858b", "method": "GET", "service": "moldesign-api"}
+{"status_code": 200, "elapsed_ms": 2.07, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:43:50.121509Z", "service": "moldesign-api"}
+{"event": "request iniciada", "level": "info", "timestamp": "2026-09-10T19:43:50.123509Z", "query": "", "path": "/", "request_id": "f33efaf3-938f-4b9a-a761-c5180f5af05d", "method": "GET", "service": "moldesign-api"}
+{"status_code": 200, "elapsed_ms": 1.32, "event": "request completada", "level": "info", "timestamp": "2026-09-10T19:43:50.124771Z", "service": "moldesign-api"}

@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "experiment_id": "FND-03",
+  "hypothesis": "El baseline es estable entre ejecuciones: la varianza por semilla de Vina es pequena frente a los efectos medidos por el programa",
+  "protocol": "FND-03/README; contenedor moldesign-lab; 48 complejos x 5 semillas (42-46), exh=8, mismo conformero que MF-25 para que la comparacion sea directa",
+  "created_at": "2026-08-19T03:52:53.009329+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion de control de ruido; se reporta sd, rango y estabilidad del veredicto <=2 A"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/run_fnd03_varianza_semilla.py": "a00f8cdb9da6992b2a53423b62f52066a5c2e147e534351b3670e712bf820c2f"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:52:53.864648+00:00",
+  "decision_rationale": "P0 declarado desde el inicio del programa y sin artefacto hasta hoy; era el hueco que la auditoria adversarial MF-32 identifico como el mas grave. Resultado: sd mediana 0.283 A en COLOCACION y 0.011 A en CONTROL. El error estandar de la mediana sobre 33 complejos es 0.049 A, de modo que los efectos del programa -MF-08 -0.82, MF-02F -0.79, MF-25 -0.784- son 15.8x ese error y SOBREVIVEN al control de ruido a nivel agregado. Pero la distribucion es muy asimetrica: p75 = 0.962 A, p90 = 1.422 A, rango maximo 4.022 A, y 14 de 33 complejos superan sd 0.5 A. Consecuencia doble y de signo opuesto: (a) ningun complejo cambia su veredicto <=2 A entre semillas, asi que las conclusiones binarias del programa -\"3 de 33\", \"0 conversiones\"- son estables y no artefactos de la semilla 42; (b) con rangos de hasta 4 A, cualquier afirmacion sobre un complejo INDIVIDUAL basada en una sola corrida es poco fiable, lo que obliga a que la confianza por complejo de FEP-04 incorpore repeticiones. En CONTROL la sd es 25x menor: donde el paisaje coopera Vina es casi determinista, donde no, tira los dados.",
+  "finished_at": "2026-08-19T03:52:54.062796+00:00",
+  "duration_seconds": 1920.0
+}

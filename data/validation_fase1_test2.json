@@ -1,0 +1,95 @@
+[
+ {
+  "pdb_id": "9QA0",
+  "family": "protease",
+  "native_smiles": "OC(O)CC(O)(CC(O)O)C(O)O",
+  "native_resname": "FLC",
+  "n_hotspots": 15,
+  "grid_center": [
+   28.18,
+   -11.72,
+   -19.29
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "OC(O)CC(O)(CC(O)O)C(O)O",
+    "affinity": -5.986,
+    "n_poses": 5,
+    "hotspots_hit": [
+     "A:GLN266",
+     "A:PHE363"
+    ]
+   },
+   {
+    "label": "decoy_0",
+    "smiles": "C1CCCCC1.c1ccccc1",
+    "error": "Archivo 'ligands/val-842168635322260777/conformer.sdf' no encontrado en bucket 'local'"
+   },
+   {
+    "label": "decoy_1",
+    "smiles": "CCN(CC)CC.c1ccccc1",
+    "error": "Archivo 'ligands/val-3079644592195090144/conformer.sdf' no encontrado en bucket 'local'"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "7D42",
+  "family": "nuclear_receptor",
+  "native_smiles": "OC(O)C1CC(F)C2NC(N3[C@@H]4CC[C@H]3C[C@@H](OCC3C(C5CCCCC5OC(F)(F)F)NOC3C3CC3)C4)SC2C1",
+  "native_resname": "GWF",
+  "n_hotspots": 15,
+  "grid_center": [
+   17.683,
+   -13.514,
+   -40.571
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "OC(O)C1CC(F)C2NC(N3[C@@H]4CC[C@H]3C[C@@H](OCC3C(C5CCCCC5OC(F)(F)F)NOC3C3CC3)C4)SC2C1",
+    "error": "Error preparando proteína '7D42' en el paso 'mk_prepare_receptor'"
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ },
+ {
+  "pdb_id": "3RUU",
+  "family": "kinase",
+  "native_smiles": "CC(C)C1ONC(C2C(Cl)CCCC2Cl)C1COC1CCC(C2CCC3C(C2)NCC3C(O)O)CC1",
+  "native_resname": "37G",
+  "n_hotspots": 15,
+  "grid_center": [
+   26.238,
+   -1.249,
+   -21.261
+  ],
+  "docks": [
+   {
+    "label": "nativo",
+    "smiles": "CC(C)C1ONC(C2C(Cl)CCCC2Cl)C1COC1CCC(C2CCC3C(C2)NCC3C(O)O)CC1",
+    "affinity": -10.135,
+    "n_poses": 5,
+    "hotspots_hit": [
+     "A:MET265",
+     "A:THR270",
+     "A:LEU287",
+     "A:MET290",
+     "A:ALA291",
+     "A:HIS294",
+     "A:MET328",
+     "A:PHE329",
+     "A:ARG331",
+     "A:ILE335",
+     "A:HIS447",
+     "A:TRP454"
+    ]
+   }
+  ],
+  "native_rank": 1,
+  "enrichment_ok": true
+ }
+]

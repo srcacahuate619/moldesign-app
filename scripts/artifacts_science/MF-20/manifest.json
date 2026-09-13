@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-20",
+  "hypothesis": "Una sola causa -la degeneracion del paisaje de puntuacion- explica los negativos de las carteras C y D a la vez",
+  "protocol": "medicion correlacional: clustering de poses del conjunto v2 a 2.0 A con el contrato de MF-11-R1; degeneracion = modos distintos empatados a D kcal/mol del mejor",
+  "created_at": "2026-08-19T03:53:05.154807+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gates; hipotesis nueva, falsable"
+  },
+  "decision": "NO_GO",
+  "assets_hashes": {
+    "scripts/analisis_mf20_degeneracion.py": "eeff4fcb4c740d329c84d9f08dbb54180af5f5b27a2e3d0e301e2e101e85016a"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:05.931086+00:00",
+  "decision_rationale": "HIPOTESIS REFUTADA en su forma interesante. La degeneracion ABSOLUTA separa (31 modos empatados a 2 kcal/mol en los no cubiertos frente a 9 en los cubiertos) pero es un ARTEFACTO DE MUESTREO: los no cubiertos tienen 252 poses medianas frente a 100, y 187 modos frente a 42. Normalizando, la FRACCION de modos empatados en la cima es 0.239 en los no cubiertos y 0.292 en los cubiertos: no solo no es mayor, es ligeramente MENOR. Lo unico no confundido -que en 32 de 32 complejos COLOCACION ninguno de los modos empatados a 1 kcal/mol es bueno- es MF-09 dicho de otra forma y no constituye informacion nueva. Limitacion declarada de antemano: la degeneracion se mide con la MISMA funcion cuyo fallo se investiga, asi que no distingue \"el paisaje es degenerado\" de \"la funcion no resuelve\": son la misma afirmacion vista de dos lados.",
+  "finished_at": "2026-08-19T03:53:06.102799+00:00"
+}

@@ -1,0 +1,34 @@
+{
+  "n_poses": 4300,
+  "n_registros": 560,
+  "registros_por_fuente": {
+    "flexible_redock": 188,
+    "molflex": 282,
+    "ruta_a": 90
+  },
+  "recuperacion_por_campo": {
+    "source": "dataset_original",
+    "seed": "molflex: constante randomSeed=42; resto: unknown",
+    "conformer_id": "molflex: nombre conf{cid}.out; resto: crystal",
+    "exhaustiveness": "molflex/flexible: constante 8; ruta_a: nombre exh{N}",
+    "num_modes": "constante 9 en los tres generadores",
+    "box": "size 25 (constante) + centro derivado determinista del SDF",
+    "preparation": "cadenas documentadas en los scripts generadores",
+    "engine": "artifacts_molflex_v3.json:probe (vina 1.2.7)",
+    "experiment_id": "runner documentado en cada script generador",
+    "created_at": "unknown: sin registro temporal determinista"
+  },
+  "verificacion_centros_rdkit": {
+    "status": "ok",
+    "n_comparados": 203,
+    "discrepancias": []
+  },
+  "consistencia_n_conf": {
+    "ok": true,
+    "notas": []
+  },
+  "caveats": [
+    "10gs molflex es mezcla e2+v4 por reuso del workdir: v4 reescribio conf0-18 y conf19-28 quedaron stale de e2; los parametros de motor son identicos entre corridas, pero n_conf y run se atribuyen a e2 (29 conformeros, consistente con los stems del dataset)."
+  ],
+  "nota_determinismo": "sin marcas de tiempo; dos corridas producen bytes identicos"
+}

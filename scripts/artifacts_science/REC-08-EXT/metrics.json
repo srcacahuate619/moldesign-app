@@ -1,0 +1,36 @@
+{
+ "experiment_id": "REC-08-EXT",
+ "tipo": "medicion de defecto de produccion, sin gates de decision",
+ "timestamp": "2026-08-20T04:53:46.579362+00:00",
+ "duration_seconds": 9.12,
+ "n_complejos": 203,
+ "n_ok": 116,
+ "n_error": 87,
+ "umbrales": {
+  "sitio_A": 8.0,
+  "emparejado_por_coordenada_A": 0.5
+ },
+ "METALES": {
+  "complejos_con_metal_en_sitio": 29,
+  "metales_totales": 42,
+  "conservados": 42,
+  "PERDIDOS": 0,
+  "complejos_que_pierden_alguno": 0,
+  "ids": [],
+  "especies": [
+   "CA",
+   "CU",
+   "MG",
+   "MN",
+   "ZN"
+  ]
+ },
+ "AGUAS": {
+  "complejos_con_agua_en_sitio": 111,
+  "aguas_totales": 1788,
+  "conservadas": 1788,
+  "perdidas": 0,
+  "fraccion_conservada": 1.0
+ },
+ "limitacion_declarada": "El emparejamiento es POR COORDENADA con 0.5 A de tolerancia, no por identidad de residuo, porque la preparacion renumera. Un atomo desplazado mas de 0.5 A por la preparacion contaria como perdido: el recuento de perdidas es una COTA SUPERIOR. Perder un metal del sitio es defecto de produccion; perder aguas es una decision legitima que hoy NO esta declarada, que es el hallazgo de FEP-02."
+}

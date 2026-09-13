@@ -1,0 +1,153 @@
+{
+  "experiment_id": "MF-33-B-RET-R2",
+  "tipo": "reparacion de un dock ambiental; reglas y protocolo importados sin cambios",
+  "timestamp": "2026-08-23T07:16:36.260138+00:00",
+  "no_es_ciego": "Al diagnosticar el fallo de R1 se vieron sus bloques cientificos. Este R2 NO es confirmacion ciega. La REGLA DE DECISION sigue siendo la sellada en MF-33-B-RET-PRE y MF-33-B-RET-R1-PRE, y no se ha movido.",
+  "reparacion": {
+    "pid": "1afl",
+    "motivo": "Vina rc=1 en conf29 por contencion de recursos; re-ejecutado aislado da rc=0",
+    "intentos_permitidos": 1,
+    "failures_en_la_reejecucion": []
+  },
+  "procedencia_reusada": {
+    "n_checkpoints_de_R1": 47,
+    "sha256_por_pid": {
+      "10gs": "2e66a09265364765501ea76f1119bda8261bc02d4a016443e696942f63e53408",
+      "187l": "c5765f15c14af0f7971db7e62832e69a55099901b5a7f101660263d160647945",
+      "188l": "f87749a9672061f587e18f52db94b811d6a68ece3314f167568ffa46773a1ac8",
+      "1add": "7dae508af8eefeb46ea3bc6d0b5310a3096ef4666d610d1f0e75a52a24406ec2",
+      "1afk": "4ac536e8584c409ffd2f7380e21afea0b7ab95de7332557242d8165be4f79690",
+      "1ai4": "6379d9cc739da964648b7875d50455378f4df0574936a88ae9922d4565b5d7f5",
+      "1alw": "8ad5cf0e22c0b98ae399ce3b9f3faab43249aad54e9f0598e65119cdcf2fb626",
+      "1amw": "b499b22bb3878b2b04d0479374ff0d52b117eba42c02ee37a6c17a2e0c86f6d5",
+      "1apv": "90bcddbc5db56e48008f3f6bbf33f3c7f937a0e88aa4a286371df47ef9701304",
+      "1b38": "6ee771607fb59757326b4801d6af06bef40be41e02f35952eb5152c0be521397",
+      "1bcd": "b03fd84d238ec30da790a957c187ed1a6237cb30c547f21854326bbe7ee5e20f",
+      "1bju": "81b98b8c240fcd59c31eafb5f289b6595daec842542c3698d89e42d6f5052d61",
+      "1bma": "97ae62d856660f3156c6be2641f0a817f75a51927a559daac660c9d797b0d57b",
+      "1bn3": "65a86624fc601780896f1ce6d22e1d10475ba38946db9e8e7f2547457cd0ffd4",
+      "1c4u": "aa122dc2c8bee3da6fda493e749e4ff184ae09fb4b519664f8fc283fa2222dfd",
+      "1d3p": "80870ec26ceba75e7c5d288eaf8b86a9b52b27a2b692d506cfd50b7196dd0f8d",
+      "1d7i": "b96448f3cabef7692bdde0aff3d6fdfb5868fae22270dd7a0c283bd233723a42",
+      "1d7j": "ec4516fdf85e034ca26b186a1981c73c45e7b10acf55a1085d96d155f7723261",
+      "1d9i": "2ed954cefefcaff3eaf34fd7b85a0962a3aa568b9797ded3bfb5bb2dc9312bee",
+      "1dgm": "7aa1988f35856f5854a6580970c308e728e158828ffdad0d720f973e0a0165c2",
+      "1eb2": "5a4648f7d9976c81c67b9239f86ee872ba54acc667f21e2f1b315aada5bde8bd",
+      "1ela": "ce490b5806c17189882814cfa3631f67fa47400386ecc996571740c8a565916f",
+      "1eld": "28b5995b712b9b7314b7c02cfb80e01ab0a21ba5cabcdbdeaf6c900d70e7e24f",
+      "1ele": "918367d55613a0cd9447427313d561eb12bed6a5d78bdd13bbf0dcbb0fdf78c7",
+      "1ew8": "aecbf5084a8878115905488f05a1c6bc9ead107102169e5dab0afa07bf1cda12",
+      "1ew9": "0498904673f2f64015edc8f99c11a0d6a7618863eb63405921fab7bb397aa50a",
+      "1ezq": "5dc9e09a71c92916d2857330f7a71ec3b45e288bc01b9075a1ba9c0052a8dfc6",
+      "1f0r": "16ef6f95a5d638726cb2629bb9192c74036c006f75c7a6e0622299f40cc37541",
+      "1f0t": "b0ae0a457767b0183b3fe0421d372a0ba9026a4bf1857e3ca4e6513bcea710bd",
+      "1f0u": "2e1f43dea0e4b2930dc4119cbdf60ccbac9e8a7c75db4ffc48d83ef72fcf62dd",
+      "1fd0": "fa1940c12c7f49b2ac7406a231d00959ecba136323fdd2c1440c1348a9213f7a",
+      "1fh7": "dd4e15b622d41a4d07312a6511d4542f8d279bca60da7db6bd570a739879e69b",
+      "1fkg": "abba21b119e80e0b8ac6d54bb7db1b7039ea0735a40c4ee116480d9bc1d9c941",
+      "1fkh": "8fc6e867f576a2b9eaf17b3dfddb9dba8cf84eda0ac591a641c0ff6bc5ceb573",
+      "1flr": "91f5f7d5f828c40a24ee86563f191d47cf73203c7213599fd7eaf7d84d74351d",
+      "1g3d": "7dcaa55cbd508b7640f222598e8b642c822a2dbe4e7bda30f500655de2d11cdd",
+      "1hlk": "d8acddc927539fbbbacada511b696ddf672b5908c71a647e99306fe90218eace",
+      "1hmr": "5ee039394e2b17cdefe87ec1eb096064ab852d837686d9a39283d57cf57c7085",
+      "1hpx": "4f78aea7e6edaae0f75e943c5470af92b497355934cf5b3d24155f7a53860944",
+      "1iih": "03a2d42986c37599395b4a4be07fbd19bf6df690f147c86848516cff7f0ac74a",
+      "1jq8": "8c67f98f50821050a0b9171ce97702ad36ed8d8830630065bfd8293af4a48942",
+      "1l83": "a110063302b1c6358128f7e8a7f5ef6612f4d678d4adb5f5d9166a9ddd1076c9",
+      "1mmq": "0b6c901e2dfd2893f9853dab0315239d391b2fbc97a60383a2302d1f2745d826",
+      "1mu8": "bcc60fff36a8a4dbe372a7c1aa7b0451b6016f0459485da54b408f86f9d3b427",
+      "1nm6": "ad56571d308c7ca600ac50e71c4e57203cea73557eb6fb4713a643ebd0696965",
+      "1nq7": "5bec27e0f504d5aecb84842d836ca4c79a366514c9ef7245735e3a784937ad1f",
+      "1nw5": "249a4d703f29db0dcf39a8858b1e3019532aa69a7141aedb08b94e8a72d5ade3"
+    },
+    "origen": "scripts/artifacts_science/MF-33-B-RET-R1 (sellado INCONCLUSIVE)"
+  },
+  "config": {
+    "exhaustiveness": 8,
+    "num_modes": 9,
+    "seed": 42,
+    "box_A": 25.0,
+    "cpu": 1,
+    "threshold_A": 2.0
+  },
+  "technical_gate": {
+    "expected_complexes": 48,
+    "completed": 48,
+    "failures": 0,
+    "pasa": true
+  },
+  "G1_REPRODUCE_BRAZO_B_SELLADO": {
+    "iguales": 48,
+    "de": 48,
+    "fraccion": 1.0,
+    "minimo": 0.95,
+    "pasa": true
+  },
+  "TODOS": {
+    "etiqueta": "TODOS",
+    "n": 48,
+    "top1": {
+      "single": 20,
+      "ensemble": 24,
+      "de": 48,
+      "b_gana_ensemble": 7,
+      "c_gana_single": 3,
+      "mcnemar_p": 0.34375,
+      "delta_pp": 8.33
+    },
+    "top5": {
+      "single": 26,
+      "ensemble": 35,
+      "de": 48,
+      "b_gana_ensemble": 9,
+      "c_gana_single": 0,
+      "mcnemar_p": 0.003906,
+      "delta_pp": 18.75
+    },
+    "oraculo": {
+      "single": 26,
+      "ensemble": 41,
+      "de": 48,
+      "b_gana_ensemble": 15,
+      "c_gana_single": 0,
+      "mcnemar_p": 6.1e-05,
+      "delta_pp": 31.25
+    },
+    "margen_de_seleccion_single": 6,
+    "margen_de_seleccion_ensemble": 17
+  },
+  "COLOCACION": {
+    "etiqueta": "COLOCACION",
+    "n": 33,
+    "top1": {
+      "single": 9,
+      "ensemble": 14,
+      "de": 33,
+      "b_gana_ensemble": 7,
+      "c_gana_single": 2,
+      "mcnemar_p": 0.179688,
+      "delta_pp": 15.15
+    },
+    "top5": {
+      "single": 12,
+      "ensemble": 21,
+      "de": 33,
+      "b_gana_ensemble": 9,
+      "c_gana_single": 0,
+      "mcnemar_p": 0.003906,
+      "delta_pp": 27.27
+    },
+    "oraculo": {
+      "single": 12,
+      "ensemble": 26,
+      "de": 33,
+      "b_gana_ensemble": 14,
+      "c_gana_single": 0,
+      "mcnemar_p": 0.000122,
+      "delta_pp": 42.42
+    },
+    "margen_de_seleccion_single": 3,
+    "margen_de_seleccion_ensemble": 12
+  },
+  "lectura_preregistrada": "EL_CUELLO_SE_DESPLAZA_A_LA_SELECCION"
+}

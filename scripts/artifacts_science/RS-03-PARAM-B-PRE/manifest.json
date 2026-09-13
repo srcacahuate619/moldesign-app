@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-03-PARAM-B-PRE",
+  "hypothesis": "La referencia AM1-BCC estratificada caracteriza las cargas NAGL por atomo sin usarse como selector (prohibido RMSD/Top-1)",
+  "protocol": "RS-03-PARAM-PRE sellado (7dfa3b8) sub-prerregistro B; contenedor Ubuntu, AmberTools antechamber+sqm, Sage 2.2.1",
+  "created_at": "2026-08-17T03:56:14.825136+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "7dfa3b845a0622fce2a1315275381e1d7d5b933f",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "Cero val40/test/CONFIRM; reporte por atomo/estrato/dipolo/energias; sin seleccion por RMSD/Top-1; sin claim de aceptacion NAGL"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/RS-03-PARAM-B-PRE/PREREGISTRO.md": "9f88d031a98e9fd25667e34cd65778642f915a55a7d1769e6a52de1f11137c5d",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T04:01:58.909506+00:00",
+  "decision_rationale": "Sub-prerregistro procedimental: contrato refinado del PRE maestro (7dfa3b8) con entorno contenedor Ubuntu real. Sin resultados.",
+  "finished_at": "2026-08-17T04:01:59.063833+00:00"
+}

@@ -1,0 +1,70 @@
+{
+ "experiment_id": "MF-25",
+ "tipo": "intervencion (barrido de presupuesto de busqueda)",
+ "timestamp": "2026-08-19T02:41:57.482577+00:00",
+ "duration_seconds": 7326.12,
+ "config": {
+  "exhaustividades": [
+   8,
+   32,
+   128
+  ],
+  "num_modes": 9,
+  "seed": 42,
+  "box": 25.0,
+  "conformero": "el de menor RMSD alineado (elegido POR RMSD, declarado)"
+ },
+ "n_complejos": 48,
+ "n_ok": 48,
+ "resumen": {
+  "COLOCACION": {
+   "n": 33,
+   "rmsd_conf_mediano": 1.362,
+   "exh_8": {
+    "coloc_mediano": 4.284,
+    "aciertan": 1,
+    "de": 33,
+    "t_mediano_s": 24.8
+   },
+   "exh_32": {
+    "coloc_mediano": 3.508,
+    "aciertan": 1,
+    "de": 33,
+    "t_mediano_s": 97.5
+   },
+   "exh_128": {
+    "coloc_mediano": 3.5,
+    "aciertan": 1,
+    "de": 33,
+    "t_mediano_s": 406.7
+   },
+   "mejora_por_presupuesto": 0.784
+  },
+  "CONTROL": {
+   "n": 15,
+   "rmsd_conf_mediano": 0.398,
+   "exh_8": {
+    "coloc_mediano": 0.608,
+    "aciertan": 15,
+    "de": 15,
+    "t_mediano_s": 12.9
+   },
+   "exh_32": {
+    "coloc_mediano": 0.608,
+    "aciertan": 14,
+    "de": 15,
+    "t_mediano_s": 37.4
+   },
+   "exh_128": {
+    "coloc_mediano": 0.638,
+    "aciertan": 15,
+    "de": 15,
+    "t_mediano_s": 181.6
+   },
+   "mejora_por_presupuesto": -0.03
+  }
+ },
+ "circularidad": "el estrato COLOCACION se definio por fallo de colocacion, asi que el NIVEL del coste es tautologico; este experimento compara la RESPUESTA al presupuesto, que no lo es",
+ "lectura": "el coste baja materialmente (>0.5 A) al subir 16x el presupuesto => PRESUPUESTO: la busqueda no muestrea bastante. No baja => PAISAJE: converge a un optimo equivocado y mas presupuesto no ayuda, consistente con MF-15 (sin embudo) y MF-13-DIAG (competidores a ~2 A)",
+ "prohibicion": "un resultado positivo NO autoriza subir exhaustiveness en produccion: exh=128 cuesta ~16x por corrida y eso exige su propio experimento con CPU medida"
+}

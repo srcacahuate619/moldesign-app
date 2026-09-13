@@ -1,0 +1,383 @@
+{
+ "id": "MF-08",
+ "meta": {
+  "titulo": "El mecanismo existe, y le falta un orden de magnitud",
+  "entradilla": "Apretar la caja de búsqueda sí mueve las poses en la dirección predicha, de forma monótona. Recupera 3 de 33 complejos cuando hacían falta 7, y ya no hay caja más pequeña que probar."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cuando un ligando no acaba donde debe, una explicación natural es que tuvo demasiado sitio para deslizarse. La caja de búsqueda de un docking es un cubo alrededor del bolsillo, y si ese cubo es mucho mayor que la molécula, la búsqueda gasta su presupuesto explorando volumen que ninguna pose real ocuparía.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La predicción era concreta: apretar la caja hasta el mínimo que contiene al ligando con margen de solvatación debería recuperar al menos 7 de los 33 complejos que fallan.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Un defecto de diseño que se declara antes de dar el resultado",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La cohorte se definió como ",
+     "m": null
+    },
+    {
+     "t": "los complejos que fallan bajo la caja de 25 Å",
+     "m": "enfasis"
+    },
+    {
+     "t": ". Eso hace que el brazo de 25 Å marque 0 de 33 ",
+     "m": null
+    },
+    {
+     "t": "por construcción",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no por medición. Es un punto fijo tautológico, y su presencia invalida parcialmente el gate de monotonía que lo incluía.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Debí excluir ese brazo del gate, o definir la cohorte con un criterio independiente del brazo de referencia. No lo hice.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La decisión de este experimento ",
+     "m": null
+    },
+    {
+     "t": "no depende de ese defecto",
+     "m": "fuerte"
+    },
+    {
+     "t": ": el gate que falla es el de conversión, que se evalúa sobre brazos que no intervinieron en seleccionar la cohorte y no tiene sesgo de selección. Pero el defecto queda escrito aquí porque forma parte del registro.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El gate falla.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La caja adaptativa recupera ",
+     "m": null
+    },
+    {
+     "t": "3 de los 33",
+     "m": "fuerte"
+    },
+    {
+     "t": " complejos, frente a los 7 exigidos. La predicción declarada era que dejaría el subsitio fuera en 21 de 33; la distancia entre lo que parecía abordable y lo que se convirtió resultó mucho mayor de lo anticipado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y sin embargo, sobre los tres brazos limpios, el mecanismo ",
+     "m": null
+    },
+    {
+     "t": "es real y va en la dirección predicha",
+     "m": "fuerte"
+    },
+    {
+     "t": ":",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Brazo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Margen de deslizamiento",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Oráculo mediano",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Caja adaptativa",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2.83 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3.180 Å",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Caja de 20 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3.62 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3.224 Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Caja de 30 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "8.60 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4.004 Å",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Monótono. Apretar la caja mejora ",
+     "m": null
+    },
+    {
+     "t": "0.82 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": " de 30 Å a adaptativa. La física que se postuló está ahí.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El problema es la escala. Esas poses están a ",
+     "m": null
+    },
+    {
+     "t": "3.18 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": " y necesitan bajar de ",
+     "m": null
+    },
+    {
+     "t": "2.0 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Falta más de un ángstrom, y no hay caja menor que probar: la adaptativa ya es el mínimo que contiene al ligando con margen de solvatación. La palanca se agotó estando a un orden de magnitud del objetivo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El mecanismo existe. Simplemente no es lo bastante grande.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Dos hallazgos útiles que no eran la pregunta",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Apretar la caja no rompe nada.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El estrato de control marca 15 de 15 en los cuatro brazos. Cero regresión.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y es un 23% más barato",
+     "m": "fuerte"
+    },
+    {
+     "t": ": 425 s frente a 554 s por complejo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese ahorro, sin embargo, sólo es cobrable si antes se resuelve otra cosa. ",
+     "m": null
+    },
+    {
+     "t": "REC-03",
+     "m": "codigo"
+    },
+    {
+     "t": " midió que el bolsillo top-1 que propone nuestro detector está a ",
+     "m": null
+    },
+    {
+     "t": "8 Å de mediana",
+     "m": "fuerte"
+    },
+    {
+     "t": " del ligando real. Una caja apretada alrededor del centro equivocado es peor que una caja ancha alrededor del centro equivocado. La optimización de tamaño depende de una precisión de centro que todavía no tenemos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Consecuencia para el programa",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El fallo de colocación ",
+     "m": null
+    },
+    {
+     "t": "no es espacio para deslizarse",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Esta era una de las tres palancas de la hipótesis original sobre por qué el generador no coloca, y queda cerrada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo que quedaba era dar más intentos en vez de menos espacio, y eso lo probó ",
+     "m": null
+    },
+    {
+     "t": "MF-02F",
+     "m": "codigo"
+    },
+    {
+     "t": ": recuperó otros 3 de 33 con una mediana de −0.79 Å. Casi el mismo resultado por un camino independiente, contra el mismo techo. Que dos palancas distintas mejoren lo mismo y se detengan en el mismo sitio fue la primera señal de que el obstáculo no era ninguna de las dos.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-08.md"
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-28-PRE",
+  "hypothesis": "El fallo de colocacion es de ESTRATEGIA DE EXPLORACION: un roadmap probabilistico del espacio libre del bolsillo alcanza la cuenca nativa que la busqueda sesgada de Vina no alcanza, con el mismo presupuesto de CPU.",
+  "protocol": "doc 49 seccion 20.11(a). Cohorte congelada: los 48 de MF-02F/cohorte.json (33 COLOCACION + 15 CONTROL), la misma de MF-25 y MF-13. DESVIACION DECLARADA: el espacio es SE(3) x T^n; T^n se DISCRETIZA por el ensemble ETKDG (cada conformero es un nodo modal, seccion 20.2), no se muestrea continuo. Justificacion: MF-02A-EXT midio que la conformacion esta disponible en 83.9% a K30, asi que la discretizacion no es el cuello. Nodos: conformero uniforme del ensemble x posicion uniforme en la caja de 25 A x rotacion uniforme (cuaternion). Un nodo es LIBRE si ningun atomo pesado del ligando queda a menos de d_clash=2.6 A de un atomo pesado del receptor y el ligando cabe en la caja; d_clash declarado ANTES. Aristas: k-vecinos por RMSD de colocacion con planificador local por interpolacion lineal + SLERP, 5 puntos intermedios, arista valida si todos son libres. Brazo control: Vina exh=8 semilla 42 sobre el MISMO ensemble, corrido en esta misma maquina. PARIDAD DE PRESUPUESTO POR CPU MEDIDA, no por evaluaciones de energia: Vina no expone su conteo de evaluaciones, asi que el roadmap recibe exactamente el wall-clock que consumio Vina en ese complejo. El conteo de chequeos de colision se reporta como secundario.",
+  "created_at": "2026-08-19T04:28:47.007536+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "642f32466cd6cf422e8f99d2af550a360d30d754",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "PRIMARIO: fraccion de complejos donde el roadmap alcanza <=2 A (rmsd_pose_pocket, sin alineamiento) superior a la de Vina, McNemar exacto bilateral pareado. MDE DECLARADO ANTES (seccion 20.9): con n=33 en COLOCACION y c=0 perdidas, McNemar exacto exige b>=6 para p<0.05 (2*0.5^6=0.031). El efecto minimo detectable son 6 COMPLEJOS ADICIONALES CONVERTIDOS de los 30 que hoy fallan; 3-5 conversiones NO alcanzan significacion y se reportaran como no concluyentes, nunca como tendencia. SECUNDARIO descriptivo, sin gate: fraccion de nodos libres, tamano de la componente conexa mayor y si el mejor nodo cae en ella. LO FALSIFICA: si el roadmap no alcanza la cuenca con el mismo CPU, el problema no es la estrategia de exploracion."
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-02F/cohorte.json": "e0a01b81405880bcf6dd58011ca3fa91fe8854fdd605d8083a688f86f3b95d9b"
+  },
+  "assets_hashes": {
+    "scripts/run_mf28_roadmap.py": "95c6faff1a167db6445d30be5ffab6f8c36c27b0f81397b3f10ee7e27f35793a"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-20T20:16:25.224867+00:00",
+  "decision_rationale": "Prerregistro de MF-28, sellado RETROACTIVAMENTE el 2026-08-20 al detectarse en el barrido del registro que habia quedado en status created y decision PENDING. La procedencia es verificable y anterior a la corrida pese al sello tardio: su manifest.json se commiteo el 2026-08-19 a las 00:44 en 9117a17 -experiment(mf-28, mf-29-emp): prerregistros y runners de la via del generador- mientras que los resultados de MF-28 se commitearon el mismo dia a las 21:30 en b010641. El contenido no se ha modificado: declara la cohorte congelada de los 48 de MF-02F, la desviacion de discretizar T^n por el ensemble ETKDG con su justificacion en MF-02A-EXT, d_clash=2.6 A declarado antes, la paridad de presupuesto por CPU medida -porque Vina no expone su conteo de evaluaciones- y el MDE de la seccion 20.9: con n=33 y c=0, McNemar exacto exige b>=6 para p<0.05, de modo que 3-5 conversiones se reportan como no concluyentes y nunca como tendencia.",
+  "finished_at": "2026-08-20T20:16:25.726324+00:00"
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-02D",
+  "hypothesis": "Aplicar el pipeline MolFlex congelado a los 116 de train conservando las poses produce el material de referencia del programa y reproduce el hallazgo de MF-02B",
+  "protocol": "MF-02D-PRE sellado; molflex congelado docs/40 con --keep; metrica primaria rmsd_pose_pocket sobre todas las poses dockeadas",
+  "created_at": "2026-08-18T01:21:42.268083+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "284db6b3e92cd35b8d0f7f870df6faebe6fb1135",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 validez >=95%, G2 material en disco, G3 reproduccion de MF-02B sin discrepancias, G4 no regresion, G5 cobertura >=90%"
+  },
+  "decision": "NO_GO",
+  "dataset_hashes": {
+    "data/pose_selector_dataset/poses_train.jsonl": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654"
+  },
+  "binary_hashes": {
+    "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-02D/LECTURA.md": "76e121fade5b73660fc5647874325d2b41100bf8206f51613322daa59668d30d",
+    "scripts/artifacts_science/MF-02D/metrics.json": "e128d69064acc83341fd1f12f3fb9db2d29bc52c68546ea651bb8f25db498a40",
+    "scripts/artifacts_science/MF-02D/per_complex.jsonl": "45d61a39836b7eee13d398839a537cfe95d077a3837a44064890b3316861d6cb",
+    "scripts/artifacts_science/MF-02D/pocket_frame.jsonl": "94110c184dcf0bf0584d4e7f6a612c34a7a83eeb9f2024815d42b155f64e9e74",
+    "scripts/artifacts_science/MF-02D/corridas.jsonl": "954154960244dadb58f68144b05c93099111a73d23ca0df870e366ad7a471aed",
+    "scripts/artifacts_science/MF-02D/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/run_mf02d_generacion_registro.py": "4bc507f02cd72e297636d147a8845d0558a7e025ff97a404bbf7b940c3e38d89",
+    "scripts/analisis_pocket_mf02d.py": "ec6522ef39f775c190274712ecc4ff5f26936a0eec90bc136cec588ad09378ef",
+    "scripts/molflex.py": "d2bd11957cc20e8ea1413b4eca44e3f77664a686bb0fe67a38f47a856fc9aac9"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T01:21:43.148406+00:00",
+  "decision_rationale": "Cuatro de cinco gates pasan y el experimento entrega su producto: 116/116 complejos con material en disco (17596 poses dockeadas, mediana 171 por complejo, con index_map y receptor) y reproduccion EXACTA de MF-02B en los 38 complejos comparables, 38/38 sin discrepancias, lo que demuestra que el pipeline no tiene variabilidad oculta. Falla G5: la cobertura del oraculo de train con la union es 79.3%, por debajo del 90% exigido. El umbral se fijo sobre la cifra de MF-02B (93.1%), que estaba mal medida: MF-02B consumio rmsd_best_to_crystal de molflex, calculado con AllChem.GetBestRMS, que ALINEA las moleculas y oculta desplazamientos, mientras el dataset etiqueta con rmsd_pose_pocket, sin alinear. El repositorio ya lo tenia documentado como leccion de auditoria del 2026-08-14 y este experimento lo confirma en datos: 10gs reporta 2.755 A alineado y su pose entregada esta a 7.83 A del sitio bioactivo. Con la metrica correcta, sobre todas las poses dockeadas que es el conjunto que consume build_pose_selector_dataset fuente S2, la cobertura pasa de 67.2% a 79.3% (78 -> 92 de 116) y los recuperados son 14 y no 30; 12 complejos que la metrica alineada contaba no se sostienen. La ganancia real es de +12 puntos y no de +26. El material entregado es valido y no depende de la metrica; lo que no sobrevive es el numero, y todo lo que se construya encima -reconstruccion del dataset, precision condicional, reapertura de la cartera D- debe partir de 79.3%.",
+  "finished_at": "2026-08-18T01:21:59.046941+00:00",
+  "duration_seconds": 4842.0,
+  "seal_maintenance": [
+    {
+      "date": "2026-08-18T03:22:52.028798+00:00",
+      "reason": "El script de analisis gana override por variable de entorno (MF_POSES_DIR, MF_RESUMEN_DIR) para poder apuntarlo a otro material sin reasignar globals. Motivo tecnico: en Windows ProcessPoolExecutor usa spawn y cada worker reimporta el modulo, de modo que reasignar la global en el proceso padre NO llega a los hijos; ese patron ya causo dos incidencias hoy (MF-02E escribiendo en el directorio de train, y un analisis que devolvio 0 complejos). El entorno SI se hereda. No cambia ningun calculo: mismos defaults, misma metrica, mismos resultados.",
+      "path": "scripts/analisis_pocket_mf02d.py",
+      "previous_hash": "a9eca54eb5a1bb07b204e3be696363202f6ed18507a6267ba03a4bd87c8b6965",
+      "new_hash": "ec6522ef39f775c190274712ecc4ff5f26936a0eec90bc136cec588ad09378ef",
+      "content_commit": "PENDIENTE"
+    }
+  ]
+}

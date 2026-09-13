@@ -1,0 +1,64 @@
+{
+ "experiment_id": "MF-33-PB",
+ "tipo": "validez fisica pareada sobre poses retenidas; gate y MDE preregistrados",
+ "timestamp": "2026-08-23T07:41:10.264027+00:00",
+ "config": {
+  "posebusters_config": "redock",
+  "umbral_A": 2.0,
+  "origen_de_las_poses": "MF-33-B-RET-R1",
+  "nota_config": "redock usa la verdad de terreno y es la misma configuracion de MF-33-TOP1; NO es comparable con la configuracion dock que usa produccion"
+ },
+ "n_complejos": 48,
+ "n_ok": 48,
+ "cantidad_primaria": {
+  "definicion": "top-1 que pasa PoseBusters, pareado por complejo",
+  "single_validos": 8,
+  "ensemble_validos": 10,
+  "de": 48,
+  "b_gana_ensemble": 3,
+  "c_gana_single": 1,
+  "mcnemar_p_exacto": 0.625,
+  "discordancia": 0.0833,
+  "mde_observado_pp": 10.82,
+  "lectura_preregistrada": "SIN_DIFERENCIA_DETECTABLE"
+ },
+ "secundario_descriptivo": {
+  "top5_alguna_valida_single": 9,
+  "top5_alguna_valida_ensemble": 15,
+  "poses_evaluadas": 8215,
+  "poses_validas": 217,
+  "tasa_del_conjunto": 0.0264,
+  "checks_que_mas_fallan": [
+   [
+    "internal_energy",
+    7997
+   ],
+   [
+    "double_bond_flatness",
+    598
+   ],
+   [
+    "internal_steric_clash",
+    23
+   ],
+   [
+    "minimum_distance_to_protein",
+    13
+   ],
+   [
+    "bond_angles",
+    7
+   ],
+   [
+    "bond_lengths",
+    7
+   ]
+  ]
+ },
+ "limites_declarados": [
+  "las poses vienen de MF-33-B-RET-R1, cuyo G0 fallo por un dock; la validez fisica es propiedad de la pose y no de la completitud de la corrida, pero se declara",
+  "47 de los 48 complejos tienen poses byte-identicas a las que tendra MF-33-B-RET-R2; 1afl cambiara y habra que recalcularlo",
+  "la tasa NO es comparable con el 8.62/15.52% de MF-33-TOP1: aquello fue sobre el protocolo RIGIDO y sobre 116, esto sobre el flexible y sobre 48",
+  "no mide docking ni cobertura: una pose puede ser fisicamente valida y estar en el sitio equivocado"
+ ]
+}

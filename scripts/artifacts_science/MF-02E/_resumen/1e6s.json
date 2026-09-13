@@ -1,0 +1,81 @@
+{
+  "pdb_id": "1e6s",
+  "ok": true,
+  "n_conf": 17,
+  "top_k": 3,
+  "cpu": 1,
+  "relax_engine": "vina_local_only",
+  "openmm_status": {
+    "available": false,
+    "reasons": [
+      "SMIRNOFFTemplateGenerator: ModuleNotFoundError: No module named 'openff'",
+      "ForceField(+offxml): ValueError: Could not locate file \"openff-2.0.0.offxml\"",
+      "amber14-all createSystem: ValueError: No template found for residue 1 (ASP).  The atoms and bonds in the residue match NASP, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template"
+    ],
+    "relax_engine": "vina_local_only"
+  },
+  "time_fase1": 5.1,
+  "time_fase2": 104.7,
+  "time_fase3": 3.7,
+  "total_time_s": 113.5,
+  "ensemble_min_rmsd": 0.325,
+  "grid_cache": {
+    "mapas_generados": true,
+    "n_docks_maps": 16,
+    "n_docks_write": 1,
+    "n_docks_fresh": 0
+  },
+  "rigid_scores": [
+    -7.649,
+    -6.329,
+    -6.773,
+    -6.77,
+    -6.512,
+    -6.811,
+    -6.825,
+    -7.959,
+    -6.907,
+    -7.3,
+    -7.469,
+    -6.208,
+    -8.266,
+    -6.27,
+    -6.448,
+    -6.384,
+    -6.287
+  ],
+  "rigid_best": -8.266,
+  "top_k_relaxed": [
+    {
+      "conf_id": 12,
+      "rigid_score": -8.266,
+      "relaxed_score": -8.265,
+      "relaxed_local_score": -6.862,
+      "delta": 0.001,
+      "rmsd_to_crystal": 0.649,
+      "engine": "vina_local_only",
+      "ok": true
+    },
+    {
+      "conf_id": 7,
+      "rigid_score": -7.959,
+      "relaxed_score": -7.958,
+      "relaxed_local_score": -6.606,
+      "delta": 0.001,
+      "rmsd_to_crystal": 0.597,
+      "engine": "vina_local_only",
+      "ok": true
+    },
+    {
+      "conf_id": 0,
+      "rigid_score": -7.649,
+      "relaxed_score": -7.166,
+      "relaxed_local_score": -5.949,
+      "delta": 0.483,
+      "rmsd_to_crystal": 0.775,
+      "engine": "vina_local_only",
+      "ok": true
+    }
+  ],
+  "rmsd_best_to_crystal": 0.65
+}

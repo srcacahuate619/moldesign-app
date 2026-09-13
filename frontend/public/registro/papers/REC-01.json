@@ -1,0 +1,469 @@
+{
+ "id": "REC-01",
+ "meta": {
+  "titulo": "El catálogo estaba casi cinco veces peor de lo que suponíamos",
+  "entradilla": "Auditar los 387 objetivos encontró 57 con la caja de búsqueda desalineada, no los 12 que asumía el plan. En 23 de ellos la caja no contiene ni un solo átomo del sitio real."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Antes de este experimento, el plan del programa daba por hecho que había \"unos 12 grids problemáticos\" en el catálogo de objetivos. Era una cifra heredada, nunca medida: alguien la estimó en algún momento y se citó desde entonces.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Auditar 387 objetivos no es investigación, es higiene. Pero la higiene sin medir es fe.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que se auditó, y con qué cuidado",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un grid es la caja donde el docking busca. Si está mal colocada, ",
+     "m": null
+    },
+    {
+     "t": "todo",
+     "m": "fuerte"
+    },
+    {
+     "t": " lo que se calcule sobre ese objetivo es inválido, y lo será silenciosamente: el programa devuelve poses con puntuaciones de aspecto normal.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El problema metodológico es que sólo la mitad de los objetivos permite comprobarlo directamente. Los ",
+     "m": null
+    },
+    {
+     "t": "HOLO",
+     "m": "fuerte"
+    },
+    {
+     "t": " tienen un ligando nativo en la estructura que sirve de verdad de referencia. Los ",
+     "m": null
+    },
+    {
+     "t": "APO",
+     "m": "fuerte"
+    },
+    {
+     "t": " no tienen ninguno, y ahí la auditoría depende de señales indirectas y es más débil. Se separaron los dos estratos desde el diseño, en vez de mezclarlos y reportar un número único que habría sido más limpio y menos honesto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los cinco criterios del instrumento se declararon antes:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Gate",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Qué exige",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Resultado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "G1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Cobertura de los 387, sin omisiones silenciosas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "387/387",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "G2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Clasificación HOLO/APO determinista",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Determinista en todos",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "G3",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Toda excepción con código y valor disparador",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "E1–E7, con su número",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "G4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Determinismo bit a bit entre corridas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Idéntico en tres, incluida una tras reconstruir el directorio",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "G5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Cero escrituras en catálogo, base de datos o producción",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "SHA-256 intacto",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese G4 es el que más importa: la auditoría se repitió tras borrar y reconstruir su directorio de trabajo, y salió byte-idéntica. Sin eso, una auditoría es una opinión con tablas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "57 de 387 objetivos con excepción — el 14.7%.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Aproximadamente ",
+     "m": null
+    },
+    {
+     "t": "4.75 veces",
+     "m": "fuerte"
+    },
+    {
+     "t": " lo que asumía el plan.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y el detalle es peor que el agregado:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "25 objetivos",
+      "m": "fuerte"
+     },
+     {
+      "t": " con el grid a más de 15 Å del ligando nativo;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "23 objetivos",
+      "m": "fuerte"
+     },
+     {
+      "t": " con contención de ligando ",
+      "m": null
+     },
+     {
+      "t": "0.00",
+      "m": "fuerte"
+     },
+     {
+      "t": " — la caja no contiene ni un solo",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "átomo del sitio de unión real.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que este GO significa, y lo que no",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Conviene ser preciso, porque es fácil leerlo al revés:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El GO dice que ",
+     "m": null
+    },
+    {
+     "t": "la auditoría es válida y reproducible",
+     "m": "fuerte"
+    },
+    {
+     "t": ". No dice que el catálogo esté sano. Dice lo contrario.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El hallazgo negativo que se declaró en vez de taparse",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El caso testigo de todo esto —el objetivo ",
+     "m": null
+    },
+    {
+     "t": "5TUN",
+     "m": "codigo"
+    },
+    {
+     "t": ", que llevaba documentado como grid roto desde hacía tiempo— ",
+     "m": null
+    },
+    {
+     "t": "no fue capturado por la auditoría",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Su contención de hotspots dio 0.800, exactamente en la frontera del umbral, y su verdad de referencia es débil por ser APO. Y sin embargo tiene un hotspot a 5.147 Å fuera de la caja.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Aquí había una tentación evidente: mover un poco el umbral para que ",
+     "m": null
+    },
+    {
+     "t": "5TUN",
+     "m": "codigo"
+    },
+    {
+     "t": " entrara. El prerregistro lo prohibía, y el umbral ",
+     "m": null
+    },
+    {
+     "t": "no se tocó",
+     "m": "fuerte"
+    },
+    {
+     "t": ". La corrección pasó a un experimento propio, con un código de excepción nuevo para hotspots fuera de caja.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El coste de esa disciplina se puede cuantificar, y es alto: ese criterio nuevo capturaría ",
+     "m": null
+    },
+    {
+     "t": "52 objetivos hoy invisibles",
+     "m": "fuerte"
+    },
+    {
+     "t": ". El recuento pasaría de 57 a 109 — del 14.7% al ",
+     "m": null
+    },
+    {
+     "t": "28.2%",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es decir: sabemos que la cifra de este experimento es una subestimación, y la publicamos igual, porque ajustar el umbral después de ver qué caso queríamos capturar habría convertido la auditoría en una profecía.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Alcance",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sin docking, sin red, y cero escrituras fuera del directorio del experimento.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/REC-01.md"
+}

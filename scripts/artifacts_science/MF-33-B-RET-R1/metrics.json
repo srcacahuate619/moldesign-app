@@ -1,0 +1,98 @@
+{
+  "experiment_id": "MF-33-B-RET-R1",
+  "timestamp": "2026-08-23T05:49:15.204503+00:00",
+  "config": {
+    "exhaustiveness": 8,
+    "num_modes": 9,
+    "seed": 42,
+    "box_A": 25.0,
+    "cpu": 1,
+    "threshold_A": 2.0
+  },
+  "technical_gate": {
+    "expected_complexes": 48,
+    "completed": 48,
+    "failures": 1,
+    "pasa": false
+  },
+  "G1_REPRODUCE_BRAZO_B_SELLADO": {
+    "iguales": 47,
+    "de": 47,
+    "fraccion": 1.0,
+    "minimo": 0.95,
+    "pasa": true
+  },
+  "TODOS": {
+    "etiqueta": "TODOS",
+    "n": 47,
+    "top1": {
+      "single": 20,
+      "ensemble": 24,
+      "de": 47,
+      "b_gana_ensemble": 7,
+      "c_gana_single": 3,
+      "mcnemar_p": 0.34375,
+      "delta_pp": 8.51
+    },
+    "top5": {
+      "single": 26,
+      "ensemble": 35,
+      "de": 47,
+      "b_gana_ensemble": 9,
+      "c_gana_single": 0,
+      "mcnemar_p": 0.003906,
+      "delta_pp": 19.15
+    },
+    "oraculo": {
+      "single": 26,
+      "ensemble": 41,
+      "de": 47,
+      "b_gana_ensemble": 15,
+      "c_gana_single": 0,
+      "mcnemar_p": 6.1e-05,
+      "delta_pp": 31.91
+    },
+    "margen_de_seleccion_single": 6,
+    "margen_de_seleccion_ensemble": 17
+  },
+  "COLOCACION": {
+    "etiqueta": "COLOCACION",
+    "n": 32,
+    "top1": {
+      "single": 9,
+      "ensemble": 14,
+      "de": 32,
+      "b_gana_ensemble": 7,
+      "c_gana_single": 2,
+      "mcnemar_p": 0.179688,
+      "delta_pp": 15.62
+    },
+    "top5": {
+      "single": 12,
+      "ensemble": 21,
+      "de": 32,
+      "b_gana_ensemble": 9,
+      "c_gana_single": 0,
+      "mcnemar_p": 0.003906,
+      "delta_pp": 28.12
+    },
+    "oraculo": {
+      "single": 12,
+      "ensemble": 26,
+      "de": 32,
+      "b_gana_ensemble": 14,
+      "c_gana_single": 0,
+      "mcnemar_p": 0.000122,
+      "delta_pp": 43.75
+    },
+    "margen_de_seleccion_single": 3,
+    "margen_de_seleccion_ensemble": 12
+  },
+  "lectura_preregistrada": "NO_LEER_GATES_TECNICOS",
+  "retention": {
+    "raw_pdbqt": "raw_pdbqt/",
+    "logs": "logs/",
+    "per_pose": "per_pose/",
+    "checkpoint": "checkpoints/"
+  }
+}

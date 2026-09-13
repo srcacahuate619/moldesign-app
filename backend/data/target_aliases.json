@@ -1,0 +1,4392 @@
+[
+  {
+    "pdb_id": "7E2Y",
+    "name": "5-HT1A",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "5-HT1A Serotonin Receptor",
+      "5-HT1A",
+      "ADENYLATE CYCLASE-INHIBITING G ALPHA PROTEIN",
+      "TRANSDUCIN BETA CHAIN 1",
+      "G GAMMA-I",
+      "5-HT-1A",
+      "SEROTONIN RECEPTOR 1A",
+      "receptor de serotonina",
+      "receptor 5-ht1a",
+      "5ht1a",
+      "serotonina",
+      "receptor serotoninergico 5-ht1a"
+    ]
+  },
+  {
+    "pdb_id": "1BN1",
+    "name": "CA2 (Carbonic Anhydrase II)",
+    "family": "metalloenzyme",
+    "has_structure": true,
+    "aliases": [
+      "CA2 (Carbonic Anhydrase II)",
+      "anhidrasa carbonica ii",
+      "ca2",
+      "anhidrasa carbonica 2"
+    ]
+  },
+  {
+    "pdb_id": "1F0R",
+    "name": "CRYSTAL STRUCTURE OF HUMAN COAGULATION FACTOR XA COMPLEXED WITH RPR208815",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1GPK",
+    "name": "Structure of Acetylcholinesterase Complex with (+)-Huperzine A at 2.1A Resolution",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "ACHE",
+      "acetilcolinesterasa",
+      "colinesterasa"
+    ]
+  },
+  {
+    "pdb_id": "1HSG",
+    "name": "HIV-1 Protease",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "HIV-1 Protease",
+      "proteasa hiv-1",
+      "hiv-1 proteasa"
+    ]
+  },
+  {
+    "pdb_id": "1HVY",
+    "name": "Human thymidylate synthase complexed with dUMP and Raltitrexed, an antifolate drug, is in the closed conformation",
+    "family": "methyltransferase",
+    "has_structure": true,
+    "aliases": [
+      "PARP1 Catalytic",
+      "parp1",
+      "parp",
+      "polimerasa de poli-adp ribosa 1"
+    ]
+  },
+  {
+    "pdb_id": "1SO2",
+    "name": "CATALYTIC DOMAIN OF HUMAN PHOSPHODIESTERASE 3B In COMPLEX WITH A DIHYDROPYRIDAZINE INHIBITOR",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "PDE3A Cardiac",
+      "CYCLIC GMP INHIBITED PHOSPHODIESTERASE B",
+      "CGI-PDE B",
+      "pde3a",
+      "fosfodiesterasa 3a",
+      "pde3"
+    ]
+  },
+  {
+    "pdb_id": "1XP0",
+    "name": "PDE5A (Phosphodiesterase-5)",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "PDE5A (Phosphodiesterase-5)",
+      "CGB-PDE",
+      "CGMP-BINDING CGMP-SPECIFIC PHOSPHODIESTERASE",
+      "pde5a",
+      "fosfodiesterasa 5",
+      "pde5"
+    ]
+  },
+  {
+    "pdb_id": "2P4E",
+    "name": "PCSK9 (Proprotein Convertase)",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "PCSK9 (Proprotein Convertase)",
+      "PROPROTEIN CONVERTASE PC9",
+      "SUBTILISIN/KEXIN-LIKE PROTEASE",
+      "pcsk9",
+      "proproteina convertasa"
+    ]
+  },
+  {
+    "pdb_id": "3ERT",
+    "name": "ER Alpha (Estrogen Receptor)",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "ER-alpha LBD Tamoxifen",
+      "ER Alpha (Estrogen Receptor)",
+      "OESTROGEN RECEPTOR",
+      "ER LBD",
+      "receptor de estrogeno alfa",
+      "er-alpha",
+      "er alfa",
+      "receptor estrogenico alfa"
+    ]
+  },
+  {
+    "pdb_id": "3O96",
+    "name": "Crystal Structure of Human AKT1 with an Allosteric Inhibitor",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "Crystal Structure of Human AKT1 with an Allosteric Inhibitor",
+      "RAC-PK-ALPHA",
+      "PROTEIN KINASE B",
+      "PKB",
+      "PROTO-ONCOGENE C-AKT",
+      "akt1",
+      "proteina kinasa b",
+      "kinasa akt1"
+    ]
+  },
+  {
+    "pdb_id": "3PP0",
+    "name": "Crystal Structure of the Kinase domain of Human HER2 (erbB2).",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "CDK4 Cyclin D1",
+      "METASTATIC LYMPH NODE GENE 19 PROTEIN",
+      "MLN 19",
+      "PROTO-",
+      "cdk4",
+      "quinasa dependiente de ciclina 4",
+      "cdk4 ciclina d1"
+    ]
+  },
+  {
+    "pdb_id": "4NC3",
+    "name": "5-HT2B (HTR2B — Serotonin Receptor)",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "5-HT2B HTR2B",
+      "5-HT2B (HTR2B — Serotonin Receptor)",
+      "receptor 5-ht2b",
+      "5-ht2b",
+      "serotonina 2b",
+      "htr2b"
+    ]
+  },
+  {
+    "pdb_id": "4NY4",
+    "name": "CYP3A4 (Cytochrome P450)",
+    "family": "cytochrome_p450",
+    "has_structure": true,
+    "aliases": [
+      "CYP3A4",
+      "CYP3A4 (Cytochrome P450)",
+      "8-CINEOLE 2-EXO-MONOOXYGENASE",
+      "ALBENDAZOLE MONOOXYGENASE",
+      "citocromo p450 3a4",
+      "p450 3a4"
+    ]
+  },
+  {
+    "pdb_id": "4ZZZ",
+    "name": "Structure of human PARP1 catalytic domain bound to an isoindolinone inhibitor",
+    "family": "methyltransferase",
+    "has_structure": true,
+    "aliases": [
+      "CDK4/Cyclin D1 Complex",
+      "PARP-1",
+      "ADP-RIBOSYLTRANSFERASE DIPHTHERIA TOXIN-LIKE 1"
+    ]
+  },
+  {
+    "pdb_id": "5VA1",
+    "name": "hERG (KCNH2 — Potassium Channel)",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": [
+      "hERG (KCNH2 — Potassium Channel)",
+      "EAG HOMOLOG",
+      "ETHER-A-GO-GO-RELATED GENE POTASSIUM CHANNEL 1",
+      "herg",
+      "canal de potasio herg",
+      "kcnh2"
+    ]
+  },
+  {
+    "pdb_id": "6B3J",
+    "name": "6B3J",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "GLP-1R",
+      "ADENYLATE CYCLASE-STIMULATING G ALPHA PROTEIN",
+      "TRANSDUCIN BETA CHAIN 1",
+      "G GAMMA-I",
+      "receptor de serotonina",
+      "serotonina",
+      "5-ht"
+    ]
+  },
+  {
+    "pdb_id": "6MVW",
+    "name": "NavAb voltage-gated sodium channel, I217C/F203W",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": [
+      "NaV1.5 SCN5A",
+      "NavAb voltage-gated sodium channel, I217C/F203W",
+      "nav1.5",
+      "canal de sodio nav1.5",
+      "scn5a",
+      "canal de sodio cardiaco"
+    ]
+  },
+  {
+    "pdb_id": "6X1A",
+    "name": "GLP-1R (TMD / Oral Agonist Pocket)",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "GLP-1R TMD",
+      "GLP-1R (TMD / Oral Agonist Pocket)",
+      "ADENYLATE CYCLASE-STIMULATING G ALPHA PROTEIN",
+      "TRANSDUCIN BETA CHAIN 1",
+      "G GAMMA-I",
+      "GLP-1R",
+      "receptor glp-1",
+      "glp-1",
+      "glp1",
+      "receptor del peptido glucagon-like"
+    ]
+  },
+  {
+    "pdb_id": "6CM4",
+    "name": "Structure of the D2 Dopamine Receptor Bound to the Atypical Antipsychotic Drug Risperidone",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "mu-Opioid Receptor",
+      "DOPAMINE D2 RECEPTOR",
+      "receptor opioide mu",
+      "receptor de opioides mu",
+      "mu-opioide",
+      "receptor mu-opioide",
+      "opioide"
+    ]
+  },
+  {
+    "pdb_id": "5TGZ",
+    "name": "CB1 Cannabinoid Receptor",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "CB1 Cannabinoid Receptor",
+      "CANN6",
+      "receptor canabinoide cb1",
+      "receptor cannabinoid cb1",
+      "cb1",
+      "canabinoide cb1",
+      "cannabinoide"
+    ]
+  },
+  {
+    "pdb_id": "4BVN",
+    "name": "Ultra-thermostable beta1-adrenoceptor with cyanopindolol bound",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "A2A Adenosine Receptor",
+      "BETA-1 ADRENORECEPTOR",
+      "BETA-1 ADRENOCEPTOR",
+      "BETA-T",
+      "receptor de adenosina a2a",
+      "a2a",
+      "adenosina a2a",
+      "receptor a2a"
+    ]
+  },
+  {
+    "pdb_id": "6PS2",
+    "name": "beta-2 Adrenergic Receptor",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "beta-2 Adrenergic Receptor",
+      "BETA-2 ADRENORECEPTOR",
+      "BETA-2 ADRENOCEPTOR",
+      "receptor beta-adrenergico",
+      "receptor beta 2 adrenergico",
+      "beta-2 adrenergico",
+      "adrenoreceptor beta-2",
+      "beta2",
+      "b2ar"
+    ]
+  },
+  {
+    "pdb_id": "7DFL",
+    "name": "H1 Histamine Receptor",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "H1 Histamine Receptor",
+      "HH1R",
+      "TRANSDUCIN BETA CHAIN 1",
+      "G GAMMA-I",
+      "receptor de histamina h1",
+      "histamina h1",
+      "receptor h1",
+      "h1"
+    ]
+  },
+  {
+    "pdb_id": "6WHA",
+    "name": "HTR2A bound to 25-CN-NBOH in complex with a mini-Galpha-q protein, beta/gamma subunits and an active-state stabilizing single-chain variable fragment (scFv16) obtained by cryo-electron microscopy (cryoEM)",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "M2 Muscarinic Receptor",
+      "5-HT-2A",
+      "SEROTONIN RECEPTOR 2A",
+      "TRANSDUCIN BETA CHAIN 1",
+      "G GAMMA-I",
+      "receptor muscarinico m2",
+      "muscarinico m2",
+      "m2"
+    ]
+  },
+  {
+    "pdb_id": "5NDD",
+    "name": "Crystal structure of a thermostabilised human protease-activated receptor-2 (PAR2) in complex with AZ8838 at 2.8 angstrom resolution",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "CCR5 Chemokine Receptor",
+      "PAR-2",
+      "COAGULATION FACTOR II RECEPTOR-LIKE 1",
+      "G-PROTEIN",
+      "receptor de quimiocina ccr5",
+      "ccr5",
+      "quimiocina ccr5"
+    ]
+  },
+  {
+    "pdb_id": "6MEO",
+    "name": "Structural basis of coreceptor recognition by HIV-1 envelope spike",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "CXCR4 Chemokine Receptor",
+      "T-CELL SURFACE ANTIGEN T4/LEU-3",
+      "CCR5",
+      "CHEMR13",
+      "HIV-1 FUSION CORECEPTOR",
+      "receptor de quimiocina cxcr4",
+      "cxcr4",
+      "quimiocina cxcr4"
+    ]
+  },
+  {
+    "pdb_id": "7BVQ",
+    "name": "Structure of human beta1 adrenergic receptor bound to carazolol",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "AT1 Angiotensin Receptor"
+    ]
+  },
+  {
+    "pdb_id": "4PHU",
+    "name": "FFA1/GPR40 Free Fatty Acid",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "FFA1/GPR40 Free Fatty Acid",
+      "G-PROTEIN COUPLED RECEPTOR 40"
+    ]
+  },
+  {
+    "pdb_id": "5ZBH",
+    "name": "The Crystal Structure of Human Neuropeptide Y Y1 Receptor with BMS-193885",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "PAR2 Protease-Activated Receptor",
+      "NPY1-R"
+    ]
+  },
+  {
+    "pdb_id": "1M17",
+    "name": "EGFR Kinase Domain",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "EGFR Kinase Domain",
+      "RECEPTOR PROTEIN-TYROSINE KINASE ERBB-1",
+      "receptor egfr",
+      "egfr",
+      "receptor del factor de crecimiento epidermico",
+      "erbb1",
+      "her1"
+    ]
+  },
+  {
+    "pdb_id": "4FK3",
+    "name": "BRAF V600E Kinase",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "BRAF V600E Kinase",
+      "PROTO-ONCOGENE B-RAF",
+      "V-RAF MURINE SARCOMA VIRAL",
+      "braf",
+      "braf v600e",
+      "kinasa braf",
+      "v600e"
+    ]
+  },
+  {
+    "pdb_id": "3WZE",
+    "name": "KDR in complex with ligand sorafenib",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "BTK Bruton Tyrosine Kinase",
+      "KDR in complex with ligand sorafenib",
+      "VEGFR-2",
+      "FETAL LIVER KINASE 1",
+      "FLK-1",
+      "KINASE INSERT DOMAIN",
+      "vegfr2",
+      "kdr",
+      "receptor de vegf",
+      "kinasa kdr",
+      "receptor vegfr-2"
+    ]
+  },
+  {
+    "pdb_id": "3G0E",
+    "name": "KIT kinase domain in complex with sunitinib",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "JAK2 Kinase",
+      "KIT kinase domain in complex with sunitinib",
+      "SCFR",
+      "PROTO-ONCOGENE TYROSINE-PROTEIN KINASE KIT",
+      "C-KIT",
+      "jak2",
+      "quinasa jak2",
+      "janus quinasa 2"
+    ]
+  },
+  {
+    "pdb_id": "4E4N",
+    "name": "JAK1 kinase (JH1 domain) in complex with compound 49",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "ALK Anaplastic Lymphoma Kinase",
+      "JAK1 kinase (JH1 domain) in complex with compound 49",
+      "JANUS KINASE 1",
+      "JAK-1",
+      "alk",
+      "quinasa alkl",
+      "linfoma anaplasico kinasa"
+    ]
+  },
+  {
+    "pdb_id": "2HZI",
+    "name": "ABL1 Kinase Imatinib",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "ABL1 Kinase Imatinib",
+      "C-ABL",
+      "ABELSON MURINE LEUKEMIA VIRAL ONCOGENE HOMOLOG",
+      "abl1",
+      "kinasa abl",
+      "bcr-abl",
+      "imatinib"
+    ]
+  },
+  {
+    "pdb_id": "5Z2R",
+    "name": "ThDP-Mn2+ complex of R395K variant of EcMenD soaked with 2-ketoglutarate for 5 min",
+    "family": "transferase",
+    "has_structure": true,
+    "aliases": [
+      "CDK6 Cyclin D3",
+      "SEPHCHC SYNTHASE",
+      "MENAQUINONE BIOSYNTHESIS PROTEIN MEND",
+      "cdk6",
+      "quinasa dependiente de ciclina 6"
+    ]
+  },
+  {
+    "pdb_id": "4BCF",
+    "name": "Structure of CDK9 in complex with cyclin T and a 2-amino-4-heteroaryl- pyrimidine inhibitor",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "PI3K-delta Catalytic",
+      "CELL DIVISION CYCLE 2-LIKE PROTEIN KINASE 4",
+      "CELL",
+      "CYCT1",
+      "CYCLIN-T",
+      "pi3k delta",
+      "pi3k-delta",
+      "fosfoinositido 3-quinasa delta",
+      "pi3kd"
+    ]
+  },
+  {
+    "pdb_id": "3GEN",
+    "name": "The 1.6 A crystal structure of human bruton's tyrosine kinase bound to a pyrrolopyrimidine-containing compound",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "VEGFR2 Kinase",
+      "BRUTON TYROSINE KINASE",
+      "AGAMMAGLOBULINAEMIA TYROSINE KINASE",
+      "vegfr2",
+      "receptor vegfr2",
+      "kinasa flk1",
+      "kdr"
+    ]
+  },
+  {
+    "pdb_id": "6GUE",
+    "name": "CDK2/CyclinA in complex with AZD5438",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "FGFR1 Kinase",
+      "CDK2/CyclinA in complex with AZD5438",
+      "CELL DIVISION PROTEIN KINASE 2",
+      "P33 PROTEIN KINASE",
+      "CYCLIN-A",
+      "cdk2",
+      "quinasa dependiente de ciclina 2"
+    ]
+  },
+  {
+    "pdb_id": "5QTS",
+    "name": "PanDDA analysis group deposition -- Crystal Structure of NUDT5 in complex with 8J-537S",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "MEK1 Kinase",
+      "8-OXO-DGDP PHOSPHATASE",
+      "NUCLEAR ATP-SYNTHESIS PROTEIN",
+      "mek1",
+      "kinasa mek1",
+      "map2k1"
+    ]
+  },
+  {
+    "pdb_id": "4AUA",
+    "name": "Liganded X-ray crystal structure of cyclin dependent kinase 6 (CDK6)",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "AKT1/PKB Kinase",
+      "CELL DIVISION PROTEIN KINASE 6",
+      "SERINE/THREONINE-PROTEIN",
+      "akt1",
+      "proteina kinasa b",
+      "pkb",
+      "pkb/akt"
+    ]
+  },
+  {
+    "pdb_id": "5L2I",
+    "name": "The X-ray co-crystal structure of human CDK6 and Palbociclib.",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "ER-alpha LBD Estradiol",
+      "CELL DIVISION PROTEIN KINASE 6",
+      "SERINE/THREONINE-PROTEIN"
+    ]
+  },
+  {
+    "pdb_id": "4JPS",
+    "name": "Co-crystal Structures of the Lipid Kinase PI3K alpha with Pan and Isoform Selective Inhibitors",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "ER-alpha LBD Bound",
+      "PI3-KINASE SUBUNIT ALPHA",
+      "PI3K-ALPHA",
+      "PI3KALPHA",
+      "PTDINS-3-",
+      "PI3-KINASE REGULATORY SUBUNIT ALPHA",
+      "PI3K REGULATORY SUBUNIT"
+    ]
+  },
+  {
+    "pdb_id": "2AM9",
+    "name": "Androgen Receptor LBD",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "Androgen Receptor LBD",
+      "DIHYDROTESTOSTERONE RECEPTOR",
+      "receptor de androgenos",
+      "receptor androgenico",
+      "ar",
+      "androgenos"
+    ]
+  },
+  {
+    "pdb_id": "1X7R",
+    "name": "CRYSTAL STRUCTURE OF ESTROGEN RECEPTOR ALPHA COMPLEXED WITH GENISTEIN",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "PPAR-gamma LBD",
+      "ESTRADIOL RECEPTOR",
+      "ER-ALPHA",
+      "ppar-gamma",
+      "receptor gamma activado por proliferador de peroxisomas",
+      "pparg",
+      "ppar gamma"
+    ]
+  },
+  {
+    "pdb_id": "3DZY",
+    "name": "Intact PPAR gamma - RXR alpha Nuclear Receptor Complex on DNA bound with Rosiglitazone, 9-cis Retinoic Acid and NCOA2 Peptide",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "Glucocorticoid Receptor LBD",
+      "RETINOID X RECEPTOR ALPHA",
+      "NUCLEAR RECEPTOR SUBFAMILY 2",
+      "PPAR-GAMMA",
+      "NUCLEAR RECEPTOR SUBFAMILY 1 GROUP C MEMBER 3",
+      "receptor de glucocorticoides",
+      "receptor glucocorticoide",
+      "gr"
+    ]
+  },
+  {
+    "pdb_id": "4OIV",
+    "name": "Structural basis for small molecule NDB as a selective antagonist of FXR",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "VDR Vitamin D Receptor",
+      "FXR-LBD",
+      "FARNESOID X-ACTIVATED RECEPTOR",
+      "FARNESOL RECEPTOR",
+      "receptor de vitamina d",
+      "vdr",
+      "vitamina d receptor"
+    ]
+  },
+  {
+    "pdb_id": "6FBQ",
+    "name": "Crystal Structure of the Human Retinoid X Receptor DNA-Binding Domain Bound to the Human MEp DR1 Response Element, pH 7.0",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "ROR-gamma-t Ligand Binding",
+      "NUCLEAR RECEPTOR SUBFAMILY 2 GROUP B MEMBER 1",
+      "RETINOID X"
+    ]
+  },
+  {
+    "pdb_id": "3KJF",
+    "name": "Caspase 3 Bound to a covalent inhibitor",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "DPP-4 Dipeptidyl Peptidase",
+      "Caspase 3 Bound to a covalent inhibitor",
+      "CASP-3",
+      "APOPAIN",
+      "CYSTEINE PROTEASE CPP32",
+      "CPP-32",
+      "YAMA",
+      "dpp-4",
+      "dpp4",
+      "dipeptidil peptidasa 4",
+      "cd26"
+    ]
+  },
+  {
+    "pdb_id": "2JDI",
+    "name": "Ground state structure of F1-ATPase from bovine heart mitochondria (Bovine F1-ATPase crystallised in the absence of azide)",
+    "family": "atp_synthase",
+    "has_structure": true,
+    "aliases": [
+      "Thrombin Coagulation",
+      "ATP SYNTHASE ALPHA CHAIN HEART ISOFORM",
+      "ATP SYNTHASE BETA CHAIN",
+      "trombina",
+      "factor ii",
+      "trombina coagulacion"
+    ]
+  },
+  {
+    "pdb_id": "4Y79",
+    "name": "Factor Xa Coagulation",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "Factor Xa Coagulation",
+      "STUART FACTOR",
+      "STUART-PROWER FACTOR",
+      "ACTIVATED FACTOR XA",
+      "FACTOR X LIGHT CHAIN",
+      "factor xa",
+      "factor xa coagulacion",
+      "fx"
+    ]
+  },
+  {
+    "pdb_id": "4DQC",
+    "name": "Crystal Structure of (G16C/L38C) HIV-1 Protease in Complex with DRV",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "BACE-1 Beta-Secretase",
+      "bace-1",
+      "beta-secretasa",
+      "bace1",
+      "enzima de clivaje amiloide"
+    ]
+  },
+  {
+    "pdb_id": "5TY1",
+    "name": "Identification of a New Zinc Binding Chemotype by Fragment Screening",
+    "family": "metalloenzyme",
+    "has_structure": true,
+    "aliases": [
+      "MMP-9 Gelatinase B",
+      "CARBONATE DEHYDRATASE II",
+      "CARBONIC ANHYDRASE C",
+      "CAC",
+      "CARBONIC",
+      "mmp-9",
+      "gelatinasa b",
+      "metaloproteinasa 9",
+      "mmp9"
+    ]
+  },
+  {
+    "pdb_id": "5I3T",
+    "name": "Native Structure of the Linalool Dehydratase-Isomerase from Castellaniella defragrans",
+    "family": "isomerase",
+    "has_structure": true,
+    "aliases": [
+      "ACE2 Peptidase",
+      "GERANIOL ISOMERASE",
+      "LINALOOL DEHYDRATASE-ISOMERASE",
+      "MYRCENE",
+      "ace2",
+      "enzima convertidora de angiotensina 2"
+    ]
+  },
+  {
+    "pdb_id": "5EPN",
+    "name": "Crystal structure of HCV NS3/4A protease in complex with 5172-mcP1P3 (MK-5172 P1-P3 macrocyclic analogue)",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "Renin Protease",
+      "renina",
+      "renina proteasa"
+    ]
+  },
+  {
+    "pdb_id": "4CVL",
+    "name": "PaMurF in complex with AMP-PNP",
+    "family": "ligase",
+    "has_structure": true,
+    "aliases": [
+      "Furin Proprotein Convertase",
+      "PaMurF in complex with AMP-PNP",
+      "UDP-N-ACETYLMURAMOYL-TRIPEPTIDE--D-ALANYL-D- ALANINE LIGASE",
+      "furina",
+      "proproteina convertasa furina"
+    ]
+  },
+  {
+    "pdb_id": "6LU7",
+    "name": "SARS-CoV-2 Mpro",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "SARS-CoV-2 Mpro",
+      "PP1AB",
+      "ORF1AB POLYPROTEIN",
+      "3CL-PRO",
+      "3CLP",
+      "MAIN PROTEASE",
+      "MPRO",
+      "proteasa principal sars-cov-2",
+      "covid-19 proteasa",
+      "coronavirus mpro"
+    ]
+  },
+  {
+    "pdb_id": "5RFY",
+    "name": "PanDDA analysis group deposition -- Crystal Structure of SARS-CoV-2 main protease in complex with PCM-0102974",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "HCV NS3/4A Protease",
+      "SARS-COV-2 MAIN PROTEASE",
+      "3CL-PRO",
+      "3CLP",
+      "MAIN PROTEASE",
+      "MPRO",
+      "ns3/4a",
+      "proteasa ns3",
+      "hcv ns3",
+      "hepatitis c proteasa"
+    ]
+  },
+  {
+    "pdb_id": "1NHY",
+    "name": "Crystal Structure of the GST-like Domain of Elongation Factor 1-gamma from Saccharomyces cerevisiae.",
+    "family": "transferase",
+    "has_structure": true,
+    "aliases": [
+      "HIV-1 Protease",
+      "EF-1-GAMMA 1",
+      "proteasa hiv-1",
+      "hiv-1 proteasa",
+      "hiv proteasa"
+    ]
+  },
+  {
+    "pdb_id": "5J89",
+    "name": "PD-L1 (CD274)",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "PD-L1 (CD274)",
+      "PROGRAMMED DEATH LIGAND 1",
+      "B7 HOMOLOG 1",
+      "pd-l1",
+      "cd274",
+      "ligando de muerte programada 1"
+    ]
+  },
+  {
+    "pdb_id": "6U26",
+    "name": "PCSK9 Allosteric",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "PCSK9 Allosteric",
+      "NEURAL APOPTOSIS-REGULATED CONVERTASE 1",
+      "NARC-1",
+      "PROPROTEIN",
+      "pcsk9",
+      "proproteina convertasa subtilisina/kexina tipo 9"
+    ]
+  },
+  {
+    "pdb_id": "1HWK",
+    "name": "HMG-CoA Reductase",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "HMG-CoA Reductase",
+      "3-HYDROXY-3-METHYLGLUTARYL-COENZYME A REDUCTASE",
+      "hmg-coa reductasa",
+      "hmgcr",
+      "reductasa de hmg-coa"
+    ]
+  },
+  {
+    "pdb_id": "5NN5",
+    "name": "Crystal structure of human lysosomal acid-alpha-glucosidase, GAA, in complex with 1-deoxynojirimycin",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "SGLT2 Transporter",
+      "ACID MALTASE",
+      "AGLUCOSIDASE ALFA",
+      "sglt2",
+      "transportador de sodio-glucosa 2",
+      "sglt-2"
+    ]
+  },
+  {
+    "pdb_id": "6HL1",
+    "name": "FXR Bile Acid Receptor",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "FXR Bile Acid Receptor",
+      "FARNESOID X-ACTIVATED RECEPTOR",
+      "FARNESOL RECEPTOR HRR-1",
+      "fxr",
+      "receptor farsenoide x",
+      "receptor biliar fxr"
+    ]
+  },
+  {
+    "pdb_id": "5HYK",
+    "name": "Crystal structure of the complex PPARalpha/AL26-29",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "FASN Fatty Acid Synthase",
+      "Crystal structure of the complex PPARalpha/AL26-29",
+      "PPAR-ALPHA",
+      "NUCLEAR RECEPTOR SUBFAMILY 1 GROUP C MEMBER 1",
+      "fasn",
+      "sintasa de acidos grasos",
+      "fatty acid synthase"
+    ]
+  },
+  {
+    "pdb_id": "6BOS",
+    "name": "Human APE1 substrate complex with an A/C mismatch adjacent the THF",
+    "family": "nuclease",
+    "has_structure": true,
+    "aliases": [
+      "ACC Acetyl-CoA Carboxylase",
+      "APEX NUCLEASE",
+      "APEN",
+      "APURINIC-APYRIMIDINIC ENDONUCLEASE 1",
+      "APE-",
+      "acc",
+      "acetil-coa carboxilasa",
+      "acc1"
+    ]
+  },
+  {
+    "pdb_id": "5TBO",
+    "name": "Crystal structure of Plasmodium falciparum dihydroorotate dehydrogenase bound with Inhibitor DSM421",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "HDAC2 Histone Deacetylase",
+      "DHODEHASE",
+      "DIHYDROOROTATE OXIDASE",
+      "hdac2",
+      "histona deacetilasa 2",
+      "histona desacetilasa 2"
+    ]
+  },
+  {
+    "pdb_id": "5LSH",
+    "name": "human lysozyme in complex with a tetrasaccharide fragment of the O-chain of LPS from Klebsiella pneumoniae",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "BRD4 Bromodomain BET",
+      "brd4",
+      "bromodominio bet",
+      "bromodominio brd4"
+    ]
+  },
+  {
+    "pdb_id": "6G2O",
+    "name": "X-ray structure of NSD3-PWWP1 in complex with compound BI-9321",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "EZH2 Methyltransferase",
+      "NUCLEAR SET DOMAIN-CONTAINING PROTEIN 3",
+      "PROTEIN WHISTLE",
+      "ezh2",
+      "metiltransferasa ezh2",
+      "enhancer of zeste 2"
+    ]
+  },
+  {
+    "pdb_id": "5TFT",
+    "name": "CYP2D6",
+    "family": "cytochrome_p450",
+    "has_structure": true,
+    "aliases": [
+      "CYP2D6",
+      "CYPIID6",
+      "CHOLESTEROL 25-HYDROXYLASE",
+      "CYTOCHROME P450-DB1",
+      "citocromo p450 2d6",
+      "p450 2d6"
+    ]
+  },
+  {
+    "pdb_id": "4EJJ",
+    "name": "Human Cytochrome P450 2A6 in complex with nicotine",
+    "family": "cytochrome_p450",
+    "has_structure": true,
+    "aliases": [
+      "CYP2C9",
+      "Human Cytochrome P450 2A6 in complex with nicotine",
+      "CYPIIA6",
+      "COUMARIN 7-HYDROXYLASE",
+      "CYTOCHROME P450 IIA3",
+      "citocromo p450 2c9",
+      "p450 2c9"
+    ]
+  },
+  {
+    "pdb_id": "3QXX",
+    "name": "Crystal structure of dethiobiotin synthetase (BioD) from Helicobacter pylori complexed with GDP and 8-aminocaprylic acid",
+    "family": "ligase",
+    "has_structure": true,
+    "aliases": [
+      "CYP2C19",
+      "DTB SYNTHETASE",
+      "DTBS",
+      "DETHIOBIOTIN SYNTHASE",
+      "citocromo p450 2c19",
+      "p450 2c19"
+    ]
+  },
+  {
+    "pdb_id": "2NNJ",
+    "name": "CYP2C8dH complexed with felodipine",
+    "family": "cytochrome_p450",
+    "has_structure": true,
+    "aliases": [
+      "CYP1A2",
+      "CYP2C8dH complexed with felodipine",
+      "CYPIIC8; P450 FORM 1; P450 MP-12/MP-20; P450 IIC2; S-",
+      "citocromo p450 1a2",
+      "p450 1a2"
+    ]
+  },
+  {
+    "pdb_id": "4W1V",
+    "name": "Crystal structure of 7,8-diaminopelargonic acid synthase (BioA) from Mycobacterium tuberculosis, complexed with a thiazole inhibitor",
+    "family": "transferase",
+    "has_structure": true,
+    "aliases": [
+      "PDE4B Inflammation",
+      "8-DIAMINO-PELARGONIC ACID AMINOTRANSFERASE",
+      "DAPA",
+      "pde4b",
+      "fosfodiesterasa 4b",
+      "pde4"
+    ]
+  },
+  {
+    "pdb_id": "6N7B",
+    "name": "Structure of the human JAK1 kinase domain with compound 38",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "PDE5A cGMP-specific",
+      "Structure of the human JAK1 kinase domain with compound 38",
+      "JANUS KINASE 1",
+      "JAK-1",
+      "pde5a",
+      "fosfodiesterasa 5a",
+      "pde5"
+    ]
+  },
+  {
+    "pdb_id": "6Y5E",
+    "name": "Structure of human cGAS (K394E) bound to the nucleosome (focused refinement of cGAS-NCP subcomplex)",
+    "family": "transferase",
+    "has_structure": true,
+    "aliases": [
+      "GABA-A Receptor",
+      "HISTONE H3/M",
+      "HISTONE H3/O",
+      "HISTONE H2A-GL101",
+      "HISTONE H2A/Q",
+      "H2B K",
+      "HIRA-INTERACTING PROTEIN 1",
+      "H-CGAS",
+      "2'3'-CGAMP SYNTHASE",
+      "MAB-21 DOMAIN-CONTAINING PROTEIN",
+      "receptor gaba-a",
+      "gaba-a",
+      "gabaa",
+      "receptor de gaba"
+    ]
+  },
+  {
+    "pdb_id": "4I5H",
+    "name": "Crystal Structure of a Double Mutant Rat Erk2 Complexed With a Type II Quinazoline Inhibitor",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "CFTR Chloride Channel",
+      "MAP KINASE 1",
+      "MAPK 1",
+      "ERT1",
+      "EXTRACELLULAR SIGNAL-REGULATED",
+      "cftr",
+      "canal de cloro cftr",
+      "regulador de conductancia transmembrana"
+    ]
+  },
+  {
+    "pdb_id": "6P3D",
+    "name": "The co-crystal structure of BRAF(V600E) with ponatinib",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "KRAS G12C Oncogene",
+      "The co-crystal structure of BRAF(V600E) with ponatinib",
+      "PROTO-ONCOGENE B-RAF",
+      "V-RAF MURINE SARCOMA VIRAL ONCOGENE",
+      "kras",
+      "kras g12c",
+      "oncogen kras"
+    ]
+  },
+  {
+    "pdb_id": "4PXZ",
+    "name": "Crystal structure of P2Y12 receptor in complex with 2MeSADP",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "BCL-2 Apoptosis",
+      "Crystal structure of P2Y12 receptor in complex with 2MeSADP",
+      "ADP-GLUCOSE RECEPTOR",
+      "ADPG-R",
+      "P2T(AC)",
+      "P2Y(AC)",
+      "bcl-2",
+      "bcl2",
+      "apoptosis bcl-2"
+    ]
+  },
+  {
+    "pdb_id": "5F4W",
+    "name": "Tagatose-1,6-bisphosphate aldolase from Streptococcus pyogenes in complex with TBP",
+    "family": "lyase",
+    "has_structure": true,
+    "aliases": [
+      "MDM2-p53 Interaction",
+      "D-TAGATOSE-1",
+      "6-BISPHOSPHATE ALDOLASE 2",
+      "TAGATOSE-BISPHOSPHATE",
+      "mdm2",
+      "mdm2-p53",
+      "interaccion mdm2 p53"
+    ]
+  },
+  {
+    "pdb_id": "2XAB",
+    "name": "HSP90 Heat Shock Protein",
+    "family": "chaperone",
+    "has_structure": true,
+    "aliases": [
+      "HSP90 Heat Shock Protein",
+      "HEAT SHOCK 86 KDA",
+      "HSP 86",
+      "HSP86",
+      "RENAL CARCINOMA ANTIGEN",
+      "hsp90",
+      "proteina de choque termico 90",
+      "hsp90 chaperona"
+    ]
+  },
+  {
+    "pdb_id": "6NTW",
+    "name": "Crystal structure of E. coli YcbB",
+    "family": "transferase",
+    "has_structure": true,
+    "aliases": [
+      "DHFR Reductase",
+      "Crystal structure of E. coli YcbB",
+      "dhfr",
+      "dihidrofolato reductasa"
+    ]
+  },
+  {
+    "pdb_id": "3SRW",
+    "name": "S. aureus Dihydrofolate Reductase complexed with novel 7-aryl-2,4-diaminoquinazolines",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "DNA Gyrase B",
+      "DHFR",
+      "adn girasa b",
+      "adn girasa",
+      "gyrb"
+    ]
+  },
+  {
+    "pdb_id": "4ZUD",
+    "name": "Crystal Structure of Human Angiotensin Receptor in Complex with Inverse Agonist Olmesartan at 2.8A resolution.",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "MAO-B Monoamine Oxidase B",
+      "AT1AR",
+      "AT1BR",
+      "ANGIOTENSIN II TYPE-1 RECEPTOR",
+      "mao-b",
+      "monoamino oxidasa b",
+      "maob"
+    ]
+  },
+  {
+    "pdb_id": "3L54",
+    "name": "Structure of Pi3K gamma with inhibitor",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "Cholinesterase AChE",
+      "Structure of Pi3K gamma with inhibitor",
+      "PI3-KINASE P110 SUBUNIT GAMMA",
+      "PTDINS-3-KINASE SUBUNIT P110",
+      "ache",
+      "acetilcolinesterasa",
+      "colinesterasa",
+      "enzima acetilcolinesterasa"
+    ]
+  },
+  {
+    "pdb_id": "5WIU",
+    "name": "Structure of the human D4 Dopamine receptor in complex with Nemonapride",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "SOD1 Superoxide Dismutase",
+      "D(2C) DOPAMINE RECEPTOR",
+      "DOPAMINE D4 RECEPTOR",
+      "CYTOCHROME B-",
+      "sod1",
+      "superoxido dismutasa 1",
+      "superoxido dismutasa"
+    ]
+  },
+  {
+    "pdb_id": "2I3U",
+    "name": "Structural studies of protein tyrosine phosphatase beta catalytic domain in complex with inhibitors",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "PROTEIN-TYROSINE PHOSPHATASE BETA",
+      "R-PTP-BETA"
+    ]
+  },
+  {
+    "pdb_id": "3F75",
+    "name": "ACTIVATED TOXOPLASMA GONDII CATHEPSIN L (TGCPL) IN COMPLEX WITH ITS",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "TOXOPAIN-2"
+    ]
+  },
+  {
+    "pdb_id": "4I04",
+    "name": "STRUCTURE OF ZYMOGEN OF CATHEPSIN B1 FROM SCHISTOSOMA MANSONI",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "CATHEPSIN B1 ISOTYPE 1"
+    ]
+  },
+  {
+    "pdb_id": "5FPW",
+    "name": "PROCATHEPSIN B S9 FROM TRYPANOSOMA CONGOLENSE",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "PROCATHEPSIN B S9 FROM TRYPANOSOMA CONGOLENSE"
+    ]
+  },
+  {
+    "pdb_id": "5TUN",
+    "name": "CRYSTAL STRUCTURE OF UNINHIBITED HUMAN CATHEPSIN K AT 1.62 ANGSTROM",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "CATHEPSIN O",
+      "CATHEPSIN O2",
+      "CATHEPSIN X"
+    ]
+  },
+  {
+    "pdb_id": "5T4X",
+    "name": "CRYSTAL STRUCTURE OF PDE6D IN APO-STATE",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF PDE6D IN APO-STATE",
+      "GMP-PDE DELTA"
+    ]
+  },
+  {
+    "pdb_id": "7PAC",
+    "name": "THE CRYSTAL STRUCTURE OF PDE6D IN THE APO STATE",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "THE CRYSTAL STRUCTURE OF PDE6D IN THE APO STATE",
+      "GMP-PDE DELTA",
+      "PROTEIN P17"
+    ]
+  },
+  {
+    "pdb_id": "1C3P",
+    "name": "CRYSTAL STRUCTURE OF AN HDAC HOMOLOG FROM AQUIFEX AEOLICUS",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF AN HDAC HOMOLOG FROM AQUIFEX AEOLICUS"
+    ]
+  },
+  {
+    "pdb_id": "8WZL",
+    "name": "ARABIDOPSIS THALIANA HISTONE DEACETYLASE 7 (HDA7)",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "ARABIDOPSIS THALIANA HISTONE DEACETYLASE 7 (HDA7)"
+    ]
+  },
+  {
+    "pdb_id": "1SM3",
+    "name": "CRYSTAL STRUCTURE OF THE TUMOR SPECIFIC ANTIBODY SM3 COMPLEX WITH ITS PEPTIDE EPITOPE",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "3MXJ",
+    "name": "Crystal Structure of the mTREX1 Apoprotein",
+    "family": "nuclease",
+    "has_structure": true,
+    "aliases": [
+      "Crystal Structure of the mTREX1 Apoprotein",
+      "3'-5' EXONUCLEASE TREX1"
+    ]
+  },
+  {
+    "pdb_id": "5YWS",
+    "name": "Crystal structure of TREX1 in complex with a Y structured DNA",
+    "family": "nuclease",
+    "has_structure": true,
+    "aliases": [
+      "3'-5' EXONUCLEASE TREX1",
+      "DNASE III"
+    ]
+  },
+  {
+    "pdb_id": "5YWV",
+    "name": "Crystal structure of TREX1 in complex with a inosine contained ssDNA",
+    "family": "nuclease",
+    "has_structure": true,
+    "aliases": [
+      "3'-5' EXONUCLEASE TREX1",
+      "DNASE III"
+    ]
+  },
+  {
+    "pdb_id": "6PSD",
+    "name": "Complex of CRACR2a with a Dynein Light Intermediate Chain Peptide",
+    "family": "gtpase",
+    "has_structure": true,
+    "aliases": [
+      "CALCIUM RELEASE-ACTIVATED CALCIUM CHANNEL REGULATOR 2A",
+      "CRAC"
+    ]
+  },
+  {
+    "pdb_id": "6RML",
+    "name": "Crystal structure of TOPBP1 BRCT0,1,2 in complex with a 53BP1 phosphopeptide",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "DNA TOPOISOMERASE II-BETA-BINDING PROTEIN 1",
+      "TOPBP1",
+      "DNA"
+    ]
+  },
+  {
+    "pdb_id": "6W10",
+    "name": "Structure of mouse TREX1 with E198K disease-associated mutation",
+    "family": "nuclease",
+    "has_structure": true,
+    "aliases": [
+      "3'-5' EXONUCLEASE TREX1"
+    ]
+  },
+  {
+    "pdb_id": "9KJE",
+    "name": "The apo-mTREX1 crystal structure for soaking experiments (Soaking Condition 2)",
+    "family": "nuclease",
+    "has_structure": true,
+    "aliases": [
+      "3'-5' EXONUCLEASE TREX1"
+    ]
+  },
+  {
+    "pdb_id": "8HFE",
+    "name": "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN AN",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "NOREPINEPHRINE TRANSPORTER",
+      "NET",
+      "SOLUTE CARRIER FAMILY 6"
+    ]
+  },
+  {
+    "pdb_id": "6HL0",
+    "name": "CRYSTAL STRUCTURE OF FARNESOID X RECEPTOR (FXR) WITH BOUND NCOA-2",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "FARNESOID X-ACTIVATED RECEPTOR",
+      "FARNESOL RECEPTOR HRR-1"
+    ]
+  },
+  {
+    "pdb_id": "1IRU",
+    "name": "Ubiquitina-Proteasoma Target (1IRU)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma Target (1IRU)"
+    ]
+  },
+  {
+    "pdb_id": "1RYP",
+    "name": "Ubiquitina-Proteasoma Target (1RYP)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma Target (1RYP)"
+    ]
+  },
+  {
+    "pdb_id": "5FG9",
+    "name": "Ubiquitina-Proteasoma Target (5FG9)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma Target (5FG9)",
+      "MACROPAIN SUBUNIT Y7",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX",
+      "MACROPAIN SUBUNIT Y13",
+      "MACROPAIN SUBUNIT PRE6",
+      "MACROPAIN SUBUNIT PUP2",
+      "MACROPAIN SUBUNIT PRE5",
+      "MACROPAIN SUBUNIT C1",
+      "MACROPAIN SUBUNIT C7-ALPHA",
+      "MULTICATALYTIC ENDOPEPTIDASE",
+      "MACROPAIN SUBUNIT PUP1",
+      "MACROPAIN SUBUNIT PUP3",
+      "MACROPAIN SUBUNIT C11",
+      "MACROPAIN SUBUNIT PRE2",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX SUBUNIT C5",
+      "PROTEASOME",
+      "MACROPAIN SUBUNIT PRE4",
+      "MACROPAIN SUBUNIT PRE3"
+    ]
+  },
+  {
+    "pdb_id": "9F9T",
+    "name": "Ubiquitina-Proteasoma Target (9F9T)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma Target (9F9T)"
+    ]
+  },
+  {
+    "pdb_id": "1GKU",
+    "name": "REVERSE GYRASE FROM ARCHAEOGLOBUS FULGIDUS",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": [
+      "REVERSE GYRASE FROM ARCHAEOGLOBUS FULGIDUS",
+      "TOP-RG"
+    ]
+  },
+  {
+    "pdb_id": "1SUU",
+    "name": "STRUCTURE OF DNA GYRASE A C-TERMINAL DOMAIN",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": [
+      "STRUCTURE OF DNA GYRASE A C-TERMINAL DOMAIN"
+    ]
+  },
+  {
+    "pdb_id": "1VL4",
+    "name": "CRYSTAL STRUCTURE OF A PUTATIVE MODULATOR OF A DNA GYRASE (TM0727)",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1VPB",
+    "name": "CRYSTAL STRUCTURE OF A PUTATIVE MODULATOR OF DNA GYRASE (BT3649) FROM",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "2ZJT",
+    "name": "CRYSTAL STRUCTURE OF DNA GYRASE B' DOMAIN SHEDS LIGHTS ON THE",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "3IG0",
+    "name": "CRYSTAL STRUCTURE OF THE SECOND PART OF THE MYCOBACTERIUM TUBERCULOSIS",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "6GAV",
+    "name": "EXTREMELY 'OPEN' CLAMP STRUCTURE OF DNA GYRASE: ROLE OF THE",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": [
+      "EXTREMELY 'OPEN' CLAMP STRUCTURE OF DNA GYRASE: ROLE OF THE",
+      "TYPE IIA TOPOISOMERASE SUBUNIT GYRA"
+    ]
+  },
+  {
+    "pdb_id": "9NX5",
+    "name": "CRYSTAL STRUCTURE OF A P. AERUGINOSA GYRASE",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF A P. AERUGINOSA GYRASE"
+    ]
+  },
+  {
+    "pdb_id": "1TW7",
+    "name": "WIDE OPEN 1.3A STRUCTURE OF A MULTI-DRUG RESISTANT HIV-1 PROTEASE",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "4NPU",
+    "name": "CRYSTAL STRUCTURE OF HIV-1 PROTEASE MULTIPLE MUTANT P51",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF HIV-1 PROTEASE MULTIPLE MUTANT P51"
+    ]
+  },
+  {
+    "pdb_id": "6OGV",
+    "name": "X-RAY CRYSTAL STRUCTURE OF DARUNAVIR-RESISTANT HIV-1 PROTEASE (P30) IN",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "3KD2",
+    "name": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF"
+    ]
+  },
+  {
+    "pdb_id": "3KDA",
+    "name": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF WITH THE H269A",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "4DLN",
+    "name": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF WITH THE D129S",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "4DM7",
+    "name": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF WITH THE E153D",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "4DMF",
+    "name": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF WITH THE H177A",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "8F6U",
+    "name": "CRYSTAL STRUCTURE OF NANOBODY VHH113 BOUND TO ITS ANTIGEN PA14 CIF",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "8F6V",
+    "name": "CRYSTAL STRUCTURE OF NANOBODY VHH108 BOUND TO ITS ANTIGEN PA14 CIF",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "8GJR",
+    "name": "CRYSTAL STRUCTURE OF NANOBODY VHH114 BOUND TO ITS ANTIGEN PA14 CIF",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "2ONV",
+    "name": "CRYSTAL STRUCTURE OF THE AMYLOID-FIBRIL FORMING PEPTIDE GGVVIA DERIVED",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5TPT",
+    "name": "THE CRYSTAL STRUCTURE OF AMYLOID PRECURSOR-LIKE PROTEIN 2 (APLP2) E2",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "APLP-2",
+      "APPH",
+      "AMYLOID PROTEIN HOMOLOG",
+      "CDEI BOX-BINDING"
+    ]
+  },
+  {
+    "pdb_id": "5TXJ",
+    "name": "POLYMORPHIC FORM 1 OF AMYLOID-BETA DERIVED PEPTIDE - IFAEDV",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "POLYMORPHIC FORM 1 OF AMYLOID-BETA DERIVED PEPTIDE - IFAEDV"
+    ]
+  },
+  {
+    "pdb_id": "8J47",
+    "name": "CRYOEM STRUCTURE OF 40-RESIDUE ARCTIC (E22G) BETA-AMYLOID FIBRIL",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "9RAW",
+    "name": "THE L1 AMYLOID-BETA(1-40)FIBRIL IN THE PRESENCE OF ANLE138B (POST-",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "9RAX",
+    "name": "THE L1 AMYLOID-BETA(1-40)FIBRIL IN THE PRESENCE OF ANLE138B (PRE-",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1IAS",
+    "name": "CYTOPLASMIC DOMAIN OF UNPHOSPHORYLATED TYPE I TGF-BETA RECEPTOR",
+    "family": "growth_factor",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1KTZ",
+    "name": "CRYSTAL STRUCTURE OF THE HUMAN TGF-BETA TYPE II RECEPTOR EXTRACELLULAR",
+    "family": "growth_factor",
+    "has_structure": true,
+    "aliases": [
+      "TGF-BETA3",
+      "TBR-2"
+    ]
+  },
+  {
+    "pdb_id": "1M9Z",
+    "name": "CRYSTAL STRUCTURE OF HUMAN TGF-BETA TYPE II RECEPTOR LIGAND BINDING",
+    "family": "growth_factor",
+    "has_structure": true,
+    "aliases": [
+      "TGFR-2",
+      "TGF-BETA TYPE II RECEPTOR"
+    ]
+  },
+  {
+    "pdb_id": "1UZJ",
+    "name": "INTEGRIN BINDING CBEGF22-TB4-CBEGF33 FRAGMENT OF HUMAN FIBRILLIN-1,",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "2J4O",
+    "name": "STRUCTURE OF TAB1",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "STRUCTURE OF TAB1",
+      "TGF-BETA-ACTIVATED KINASE 1-BINDING PROTEIN 1",
+      "TAK1-BINDING"
+    ]
+  },
+  {
+    "pdb_id": "2QCQ",
+    "name": "CRYSTAL STRUCTURE OF BONE MORPHOGENETIC PROTEIN-3 (BMP-3)",
+    "family": "growth_factor",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF BONE MORPHOGENETIC PROTEIN-3 (BMP-3)",
+      "BMP-3",
+      "OSTEOGENIN",
+      "BMP-3A"
+    ]
+  },
+  {
+    "pdb_id": "3E50",
+    "name": "CRYSTAL STRUCTURE OF HUMAN INSULIN DEGRADING ENZYME IN COMPLEX WITH",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "INSULIN PROTEASE",
+      "INSULINASE",
+      "INSULYSIN",
+      "TRANSFORMING GROWTH FACTOR ALPHA",
+      "TGF-ALPHA",
+      "EGF-LIKE TGF"
+    ]
+  },
+  {
+    "pdb_id": "3HH2",
+    "name": "CRYSTAL STRUCTURE OF THE MYOSTATIN:FOLLISTATIN 288 COMPLEX",
+    "family": "growth_factor",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF THE MYOSTATIN:FOLLISTATIN 288 COMPLEX",
+      "GDF-8",
+      "MYOSTATIN",
+      "ACTIVIN-BINDING PROTEIN"
+    ]
+  },
+  {
+    "pdb_id": "3JTG",
+    "name": "CRYSTAL STRUCTURE OF MOUSE ELF3 C-TERMINAL DNA-BINDING DOMAIN IN",
+    "family": "transcription_factor",
+    "has_structure": true,
+    "aliases": [
+      "E74-LIKE FACTOR 3",
+      "EPITHELIUM-SPECIFIC ETS TRANSCRIPTION"
+    ]
+  },
+  {
+    "pdb_id": "5DIY",
+    "name": "THERMOBACULUM TERRENUM O-GLCNAC HYDROLASE MUTANT - D120N",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "THERMOBACULUM TERRENUM O-GLCNAC HYDROLASE MUTANT - D120N",
+      "MITOGEN-ACTIVATED PROTEIN KINASE KINASE KINASE 7-INTERACTING"
+    ]
+  },
+  {
+    "pdb_id": "5E4G",
+    "name": "CRYSTAL STRUCTURE OF HUMAN GROWTH DIFFERENTIATION FACTOR 11 (GDF-11)",
+    "family": "growth_factor",
+    "has_structure": true,
+    "aliases": [
+      "GDF-11",
+      "BONE MORPHOGENETIC PROTEIN 11",
+      "BMP-11"
+    ]
+  },
+  {
+    "pdb_id": "5E8V",
+    "name": "TGF-BETA RECEPTOR TYPE 2 KINASE DOMAIN (E431A,R433A,E485A,K488A,R493A,",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "TGFR-2",
+      "TGF-BETA TYPE II RECEPTOR",
+      "TRANSFORMING GROWTH FACTOR-"
+    ]
+  },
+  {
+    "pdb_id": "5JHW",
+    "name": "CRYSTAL STRUCTURE OF THE GDF11:FOLLISTATIN 288 COMPLEX",
+    "family": "growth_factor",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF THE GDF11:FOLLISTATIN 288 COMPLEX",
+      "GDF-11",
+      "BONE MORPHOGENETIC PROTEIN 11",
+      "BMP-11",
+      "ACTIVIN-BINDING PROTEIN"
+    ]
+  },
+  {
+    "pdb_id": "8V52",
+    "name": "CRYSTAL STRUCTURE OF 2A10 FAB BOUND TO HUMAN TGF-BETA3",
+    "family": "growth_factor",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF 2A10 FAB BOUND TO HUMAN TGF-BETA3",
+      "TGF-BETA-3"
+    ]
+  },
+  {
+    "pdb_id": "9E9G",
+    "name": "Heligmosomoides polygyrus TGF-beta Mimic 6 Domain 3 (TGM6-D3) Bound to Human TGF-beta Type II Receptor Extracellular Domain",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "TGFR-2",
+      "TGF-BETA TYPE II RECEPTOR",
+      "TRANSFORMING GROWTH FACTOR-"
+    ]
+  },
+  {
+    "pdb_id": "1J38",
+    "name": "CRYSTAL STRUCTURE OF DROSOPHILA ANCE",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF DROSOPHILA ANCE",
+      "ANCE"
+    ]
+  },
+  {
+    "pdb_id": "9QA0",
+    "name": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "DIPEPTIDYL CARBOXYPEPTIDASE I",
+      "KININASE II"
+    ]
+  },
+  {
+    "pdb_id": "9QA1",
+    "name": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "DIPEPTIDYL CARBOXYPEPTIDASE I",
+      "KININASE II"
+    ]
+  },
+  {
+    "pdb_id": "9QA2",
+    "name": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "DIPEPTIDYL CARBOXYPEPTIDASE I",
+      "KININASE II"
+    ]
+  },
+  {
+    "pdb_id": "9QA3",
+    "name": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "DIPEPTIDYL CARBOXYPEPTIDASE I",
+      "KININASE II"
+    ]
+  },
+  {
+    "pdb_id": "9QA4",
+    "name": "DROSOPHILA MELANOGASTER ANGIOTENSIN CONVERTING ENZYME HOMOLOGUE, ANCE",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "DIPEPTIDYL CARBOXYPEPTIDASE I",
+      "KININASE II"
+    ]
+  },
+  {
+    "pdb_id": "1XWD",
+    "name": "CRYSTAL STRUCTURE OF HUMAN FOLLICLE STIMULATING HORMONE COMPLEXED WITH",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "FOLLITROPIN ALPHA CHAIN",
+      "FOLLICLE-STIMULATING HORMONE ALPHA",
+      "FOLLICLE-STIMULATING HORMONE BETA SUBUNIT",
+      "FSH-BETA",
+      "FSH-B",
+      "FSH-R",
+      "FOLLITROPIN RECEPTOR"
+    ]
+  },
+  {
+    "pdb_id": "2XWT",
+    "name": "CRYSTAL STRUCTURE OF THE TSH RECEPTOR IN COMPLEX WITH A BLOCKING TYPE",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "THYROID-STIMULATING HORMONE RECEPTOR",
+      "TSH-R"
+    ]
+  },
+  {
+    "pdb_id": "3G04",
+    "name": "CRYSTAL STRUCTURE OF THE TSH RECEPTOR IN COMPLEX WITH A THYROID-",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "THYROID-STIMULATING HORMONE RECEPTOR",
+      "TSH-R"
+    ]
+  },
+  {
+    "pdb_id": "7T9I",
+    "name": "NATIVE HUMAN TSH BOUND TO HUMAN THYROTROPIN RECEPTOR IN COMPLEX WITH",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "ANTERIOR PITUITARY GLYCOPROTEIN HORMONES COMMON SUBUNIT",
+      "THYROID-STIMULATING HORMONE SUBUNIT BETA",
+      "TSH-B",
+      "TSH-BETA",
+      "ADENYLATE CYCLASE-STIMULATING G ALPHA PROTEIN",
+      "TRANSDUCIN BETA CHAIN 1",
+      "G GAMMA-I"
+    ]
+  },
+  {
+    "pdb_id": "2B2A",
+    "name": "CRYSTAL STRUCTURE OF THE TEN DOMAIN OF THE TELOMERASE REVERSE",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": [
+      "TELOMERASE CATALYTIC SUBUNIT",
+      "TELOMERASE SUBUNIT P133"
+    ]
+  },
+  {
+    "pdb_id": "2R4G",
+    "name": "THE HIGH RESOLUTION STRUCTURE OF THE RNA-BINDING DOMAIN OF TELOMERASE",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": [
+      "TELOMERASE CATALYTIC SUBUNIT",
+      "TELOMERASE SUBUNIT P133"
+    ]
+  },
+  {
+    "pdb_id": "3DU6",
+    "name": "STRUCTURE OF THE CATALYTIC SUBUNIT OF TELOMERASE, TERT",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": [
+      "STRUCTURE OF THE CATALYTIC SUBUNIT OF TELOMERASE, TERT"
+    ]
+  },
+  {
+    "pdb_id": "3KYL",
+    "name": "STRUCTURE OF THE CATALYTIC SUBUNIT OF TELOMERASE BOUND TO ITS RNA",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "4LMO",
+    "name": "STRUCTURE OF A VERTEBRATE RNA BINDING DOMAIN OF TELOMERASE (TRBD)",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5C9H",
+    "name": "STRUCTURAL BASIS OF TEMPLATE BOUNDARY DEFINITION IN TETRAHYMENA",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": [
+      "TELOMERASE CATALYTIC SUBUNIT",
+      "TELOMERASE SUBUNIT P133"
+    ]
+  },
+  {
+    "pdb_id": "5NPT",
+    "name": "STRUCTURE OF THE N-TERMINAL DOMAIN OF THE YEAST TELOMERASE REVERSE",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "6USO",
+    "name": "TELOMERASE REVERSE TRANSCRIPTASE PRENUCLEOTIDE BINARY COMPLEX,",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": [
+      "TELOMERASE CATALYTIC SUBUNIT"
+    ]
+  },
+  {
+    "pdb_id": "6ZD2",
+    "name": "STRUCTURE OF APO TELOMERASE FROM CANDIDA TROPICALIS TRUNCATED FROM C-",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": [
+      "TELOMERASE CATALYTIC SUBUNIT"
+    ]
+  },
+  {
+    "pdb_id": "6ZD6",
+    "name": "STRUCTURE OF APO TELOMERASE FROM CANDIDA TROPICALIS",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": [
+      "STRUCTURE OF APO TELOMERASE FROM CANDIDA TROPICALIS",
+      "TELOMERASE CATALYTIC SUBUNIT"
+    ]
+  },
+  {
+    "pdb_id": "6ZDQ",
+    "name": "STRUCTURE OF TELOMERASE FROM CANDIDA ALBICANS IN COMPLEXE WITH TWJ",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": [
+      "TELOMERASE CATALYTIC SUBUNIT"
+    ]
+  },
+  {
+    "pdb_id": "7KQM",
+    "name": "BINARY COMPLEX OF TERT (TELOMERASE REVERSE TRANSCRIPTASE) WITH",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "7SBE",
+    "name": "STRUCTURE OF THE K. LACTIS TELOMERASE RNA BINDING DOMAIN",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": [
+      "STRUCTURE OF THE K. LACTIS TELOMERASE RNA BINDING DOMAIN",
+      "TELOMERASE CATALYTIC SUBUNIT"
+    ]
+  },
+  {
+    "pdb_id": "4IAQ",
+    "name": "CRYSTAL STRUCTURE OF THE CHIMERIC PROTEIN OF 5-HT1B-BRIL IN COMPLEX",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "5-HT-1B",
+      "5-HT1B",
+      "SEROTONIN 1D BETA RECEPTOR",
+      "5-HT-1D-"
+    ]
+  },
+  {
+    "pdb_id": "4IAR",
+    "name": "CRYSTAL STRUCTURE OF THE CHIMERIC PROTEIN OF 5-HT1B-BRIL IN COMPLEX",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "6Y5A",
+    "name": "SEROTONIN-BOUND 5-HT3A RECEPTOR IN SALIPRO",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "SEROTONIN-BOUND 5-HT3A RECEPTOR IN SALIPRO",
+      "5-HT3A",
+      "5-HYDROXYTRYPTAMINE RECEPTOR 3",
+      "5-HT3R",
+      "SEROTONIN"
+    ]
+  },
+  {
+    "pdb_id": "9V39",
+    "name": "CRYSTAL STRUCTURE OF DE NOVO DESIGNED SEROTONIN BINDER SROB2_30",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "9V3A",
+    "name": "CRYSTAL STRUCTURE OF DE NOVO DESIGNED SEROTONIN BINDER SROB2_26_L7F",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1IS0",
+    "name": "CRYSTAL STRUCTURE OF A COMPLEX OF THE SRC SH2 DOMAIN WITH",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF A COMPLEX OF THE SRC SH2 DOMAIN WITH",
+      "SRC"
+    ]
+  },
+  {
+    "pdb_id": "2H02",
+    "name": "Structural studies of protein tyrosine phosphatase beta catalytic domain in complex with inhibitors",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "2I4G",
+    "name": "Structural studies of protein tyrosine phosphatase beta catalytic domain in complex with a sulfamic acid (soaking experiment)",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "PROTEIN-TYROSINE PHOSPHATASE BETA",
+      "R-PTP-BETA"
+    ]
+  },
+  {
+    "pdb_id": "2I4H",
+    "name": "Structural studies of protein tyrosine phosphatase beta catalytic domain co-crystallized with a sulfamic acid inhibitor",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "PROTEIN-TYROSINE PHOSPHATASE BETA",
+      "R-PTP-BETA"
+    ]
+  },
+  {
+    "pdb_id": "1FH0",
+    "name": "CRYSTAL STRUCTURE OF HUMAN CATHEPSIN V COMPLEXED WITH AN IRREVERSIBLE",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "CATHEPSIN L2"
+    ]
+  },
+  {
+    "pdb_id": "1ITO",
+    "name": "CRYSTAL STRUCTURE ANALYSIS OF BOVINE SPLEEN CATHEPSIN B-E64C COMPLEX",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1M6D",
+    "name": "CRYSTAL STRUCTURE OF HUMAN CATHEPSIN F",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF HUMAN CATHEPSIN F",
+      "CATSF"
+    ]
+  },
+  {
+    "pdb_id": "1CBR",
+    "name": "CRYSTAL STRUCTURE OF CELLULAR RETINOIC-ACID-BINDING PROTEINS I AND II",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1CBS",
+    "name": "CRYSTAL STRUCTURE OF CELLULAR RETINOIC-ACID-BINDING PROTEINS I AND II",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1EPB",
+    "name": "STRUCTURE OF THE EPIDIDYMAL RETINOIC ACID-BINDING PROTEIN AT 2.1",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1FEM",
+    "name": "CRYSTALLOGRAPHIC STUDIES ON COMPLEXES BETWEEN RETINOIDS AND PLASMA",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1GX9",
+    "name": "BOVINE BETA-LACTOGLOBULIN COMPLEXED WITH RETINOIC ACID, TRIGONAL",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "BETA-LG",
+      "ALLERGEN BOS D 5"
+    ]
+  },
+  {
+    "pdb_id": "2FR3",
+    "name": "CRYSTAL STRUCTURE OF CELLULAR RETINOIC ACID BINDING PROTEIN TYPE II IN",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "CELLULAR RETINOIC ACID BINDING PROTEIN II",
+      "CRABP-II"
+    ]
+  },
+  {
+    "pdb_id": "2LBD",
+    "name": "LIGAND-BINDING DOMAIN OF THE HUMAN RETINOIC ACID RECEPTOR GAMMA BOUND",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "E DOMAIN"
+    ]
+  },
+  {
+    "pdb_id": "2VE3",
+    "name": "RETINOIC ACID BOUND CYANOBACTERIAL CYP120A1",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "RETINOIC ACID BOUND CYANOBACTERIAL CYP120A1",
+      "CYTOCHROME P450 ENZYME"
+    ]
+  },
+  {
+    "pdb_id": "3LBD",
+    "name": "LIGAND-BINDING DOMAIN OF THE HUMAN RETINOIC ACID RECEPTOR GAMMA BOUND",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "E DOMAIN"
+    ]
+  },
+  {
+    "pdb_id": "6EU9",
+    "name": "CRYSTAL STRUCTURE OF PLATYNEREIS DUMERILII RAR LIGAND-BINDING DOMAIN",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "3RVY",
+    "name": "CRYSTAL STRUCTURE OF THE NAVAB VOLTAGE-GATED SODIUM CHANNEL",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF THE NAVAB VOLTAGE-GATED SODIUM CHANNEL"
+    ]
+  },
+  {
+    "pdb_id": "3RVZ",
+    "name": "CRYSTAL STRUCTURE OF THE NAVAB VOLTAGE-GATED SODIUM CHANNEL",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF THE NAVAB VOLTAGE-GATED SODIUM CHANNEL"
+    ]
+  },
+  {
+    "pdb_id": "3RW0",
+    "name": "CRYSTAL STRUCTURE OF THE NAVAB VOLTAGE-GATED SODIUM CHANNEL",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF THE NAVAB VOLTAGE-GATED SODIUM CHANNEL"
+    ]
+  },
+  {
+    "pdb_id": "4MS2",
+    "name": "STRUCTURAL BASIS OF CA2+ SELECTIVITY OF A VOLTAGE-GATED CALCIUM",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5VB8",
+    "name": "CRYSTAL STRUCTURE OF THE NAVAB VOLTAGE-GATED SODIUM CHANNEL IN AN OPEN",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5YUA",
+    "name": "CRYSTAL STRUCTURE OF VOLTAGE-GATED SODIUM CHANNEL NAVAB IN HIGH-PH",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": [
+      "PROKARYOTIC VOLTAGE GATED SODIUM CHANNEL"
+    ]
+  },
+  {
+    "pdb_id": "6C1P",
+    "name": "HypoPP mutant",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": [
+      "HypoPP mutant"
+    ]
+  },
+  {
+    "pdb_id": "6KE5",
+    "name": "STRUCTURE OF CAVAB IN COMPLEX WITH DILTIAZEM AND AMLODIPINE",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": [
+      "STRUCTURE OF CAVAB IN COMPLEX WITH DILTIAZEM AND AMLODIPINE"
+    ]
+  },
+  {
+    "pdb_id": "6MVV",
+    "name": "NAVAB VOLTAGE-GATED SODIUM CHANNEL, I217C/F203A",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": [
+      "NAVAB VOLTAGE-GATED SODIUM CHANNEL, I217C/F203A"
+    ]
+  },
+  {
+    "pdb_id": "6MWA",
+    "name": "NAVAB VOLTAGE-GATED SODIUM CHANNEL, RESIDUES 1-239",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": [
+      "NAVAB VOLTAGE-GATED SODIUM CHANNEL, RESIDUES 1-239"
+    ]
+  },
+  {
+    "pdb_id": "6P6X",
+    "name": "CRYSTAL STRUCTURE OF VOLTAGE-GATED SODIUM CHANNEL NAVAB G94C/Q150C",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "6SX5",
+    "name": "FULL LENGTH MUTANT OPEN-FORM SODIUM CHANNEL NAVMS",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": [
+      "FULL LENGTH MUTANT OPEN-FORM SODIUM CHANNEL NAVMS"
+    ]
+  },
+  {
+    "pdb_id": "6SX7",
+    "name": "CRYSTAL STRUCTURE OF THE VOLTAGE-GATED SODIUM CHANNEL NAVMS (F208L)",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "6SXC",
+    "name": "CRYSTAL STRUCTURE OF THE VOLTAGE-GATED SODIUM CHANNEL NAVMS (F208L) IN",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "6SXE",
+    "name": "CRYSTAL STRUCTURE OF THE VOLTAGE-GATED SODIUM CHANNEL NAVMS (F208L) IN",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "6SXG",
+    "name": "CRYSTAL STRUCTURE OF THE VOLTAGE-GATED SODIUM CHANNEL NAVMS IN COMPLEX",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1RKP",
+    "name": "CRYSTAL STRUCTURE OF PDE5A1-IBMX",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF PDE5A1-IBMX",
+      "CGB-PDE",
+      "CGMP-BINDING CGMP-SPECIFIC PHOSPHODIESTERASE"
+    ]
+  },
+  {
+    "pdb_id": "3V94",
+    "name": "TCRPDEC1 CATALYTIC DOMAIN IN COMPLEX WITH INHIBITOR WYQ16",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "TCRPDEC1 CATALYTIC DOMAIN IN COMPLEX WITH INHIBITOR WYQ16"
+    ]
+  },
+  {
+    "pdb_id": "4JV6",
+    "name": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO INHIBITOR-1",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO INHIBITOR-1",
+      "GMP-PDE DELTA",
+      "PROTEIN P17"
+    ]
+  },
+  {
+    "pdb_id": "4JV8",
+    "name": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX WITH RAC-S1",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX WITH RAC-S1",
+      "GMP-PDE DELTA",
+      "PROTEIN P17"
+    ]
+  },
+  {
+    "pdb_id": "4JVB",
+    "name": "CRYSTAL STRUCTURE OF PDE6D IN COMPLEX WITH THE INHIBITOR RAC-2",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "GMP-PDE DELTA",
+      "PROTEIN P17"
+    ]
+  },
+  {
+    "pdb_id": "4JVF",
+    "name": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX WITH THE INHIBITOR (S)-5",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "GMP-PDE DELTA",
+      "PROTEIN P17"
+    ]
+  },
+  {
+    "pdb_id": "4MD6",
+    "name": "CRYSTAL STRUCTURE OF PDE5 IN COMPLEX WITH INHIBITOR 5R",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF PDE5 IN COMPLEX WITH INHIBITOR 5R",
+      "CGMP-BINDING CGMP-SPECIFIC PHOSPHODIESTERASE",
+      "CGB-PDE"
+    ]
+  },
+  {
+    "pdb_id": "4PHL",
+    "name": "TBRPDEB1-INHIBITOR COMPLEX",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "TBRPDEB1-INHIBITOR COMPLEX"
+    ]
+  },
+  {
+    "pdb_id": "4QGE",
+    "name": "PHOSPHODIESTERASE-9A IN COMPLEX WITH INHIBITOR WYQ-C36D",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "PHOSPHODIESTERASE-9A IN COMPLEX WITH INHIBITOR WYQ-C36D"
+    ]
+  },
+  {
+    "pdb_id": "5AXQ",
+    "name": "CRYSTAL STRUCTURE OF THE CATALYTIC DOMAIN OF PDE10A COMPLEXED WITH",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5ML2",
+    "name": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX WITH INHIBITOR-3",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX WITH INHIBITOR-3",
+      "GMP-PDE DELTA",
+      "PROTEIN P17"
+    ]
+  },
+  {
+    "pdb_id": "5ML3",
+    "name": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO DELTASONAMIDE1",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO DELTASONAMIDE1",
+      "GMP-PDE DELTA",
+      "PROTEIN P17"
+    ]
+  },
+  {
+    "pdb_id": "5ML4",
+    "name": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO INHIBITOR-7",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO INHIBITOR-7",
+      "GMP-PDE DELTA",
+      "PROTEIN P17"
+    ]
+  },
+  {
+    "pdb_id": "5ML6",
+    "name": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO INHIBITOR-8",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO INHIBITOR-8",
+      "GMP-PDE DELTA",
+      "PROTEIN P17"
+    ]
+  },
+  {
+    "pdb_id": "5ML8",
+    "name": "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO INHIBITOR-4",
+    "family": "phosphodiesterase",
+    "has_structure": true,
+    "aliases": [
+      "THE CRYSTAL STRUCTURE OF PDE6D IN COMPLEX TO INHIBITOR-4",
+      "GMP-PDE DELTA",
+      "PROTEIN P17"
+    ]
+  },
+  {
+    "pdb_id": "1C3R",
+    "name": "CRYSTAL STRUCTURE OF AN HDAC HOMOLOG COMPLEXED WITH TRICHOSTATIN A",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1C3S",
+    "name": "CRYSTAL STRUCTURE OF AN HDAC HOMOLOG COMPLEXED WITH SAHA",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF AN HDAC HOMOLOG COMPLEXED WITH SAHA"
+    ]
+  },
+  {
+    "pdb_id": "1T69",
+    "name": "CRYSTAL STRUCTURE OF HUMAN HDAC8 COMPLEXED WITH SAHA",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF HUMAN HDAC8 COMPLEXED WITH SAHA",
+      "HDAC8"
+    ]
+  },
+  {
+    "pdb_id": "1VKG",
+    "name": "CRYSTAL STRUCTURE OF HUMAN HDAC8 COMPLEXED WITH CRA-19156",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF HUMAN HDAC8 COMPLEXED WITH CRA-19156",
+      "HDAC8"
+    ]
+  },
+  {
+    "pdb_id": "1W22",
+    "name": "CRYSTAL STRUCTURE OF INHIBITED HUMAN HDAC8",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF INHIBITED HUMAN HDAC8",
+      "HDAC8",
+      "CDA07"
+    ]
+  },
+  {
+    "pdb_id": "1ZZ1",
+    "name": "CRYSTAL STRUCTURE OF A HDAC-LIKE PROTEIN WITH SAHA BOUND",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF A HDAC-LIKE PROTEIN WITH SAHA BOUND",
+      "HDAC-LIKE AMIDOHYDROLASE",
+      "HDAH"
+    ]
+  },
+  {
+    "pdb_id": "2GH6",
+    "name": "CRYSTAL STRUCTURE OF A HDAC-LIKE PROTEIN WITH 9,9,9-TRIFLUORO-8-OXO-N-",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "HDAC-LIKE AMIDOHYDROLASE; HDAH"
+    ]
+  },
+  {
+    "pdb_id": "4QA0",
+    "name": "CRYSTAL STRUCTURE OF C153F HDAC8 IN COMPLEX WITH SAHA",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF C153F HDAC8 IN COMPLEX WITH SAHA"
+    ]
+  },
+  {
+    "pdb_id": "6HSK",
+    "name": "CRYSTAL STRUCTURE OF A HUMAN HDAC8 L6 LOOP MUTANT COMPLEXED WITH",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "7JVU",
+    "name": "CRYSTAL STRUCTURE OF HUMAN HISTONE DEACETYLASE 8 (HDAC8) I45T MUTATION",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "7JVW",
+    "name": "CRYSTAL STRUCTURE OF HUMAN HISTONE DEACETYLASE 8 (HDAC8) G320R",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "7SGG",
+    "name": "CRYSTAL STRUCTURE OF DANIO RERIO HISTONE DEACETYLASE 10 IN COMPLEX",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": [
+      "HISTONE DEACETYLASE 10"
+    ]
+  },
+  {
+    "pdb_id": "9GKV",
+    "name": "CRYSTAL STRUCTURE OF DEACETYLASE (HDAH) FROM VIBRIO CHOLERAE IN",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "9RJE",
+    "name": "X-RAY STRUCTURE OF CHLAMYDOMONAS REINHARDTII HISTONE DEACETYLASE 11",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "2OA8",
+    "name": "Crystal Structure of mTREX1 with ssDNA",
+    "family": "nuclease",
+    "has_structure": true,
+    "aliases": [
+      "Crystal Structure of mTREX1 with ssDNA",
+      "3'-5' EXONUCLEASE TREX1"
+    ]
+  },
+  {
+    "pdb_id": "4AF3",
+    "name": "Human Aurora B Kinase in complex with INCENP and VX-680",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "Human Aurora B Kinase in complex with INCENP and VX-680",
+      "AURORA 1",
+      "AURORA B",
+      "AURORA- AND IPL1-LIKE MIDBODY-ASSOCIATED",
+      "INCENP"
+    ]
+  },
+  {
+    "pdb_id": "4YNQ",
+    "name": "TREX1-dsDNA complex",
+    "family": "nuclease",
+    "has_structure": true,
+    "aliases": [
+      "TREX1-dsDNA complex",
+      "3'-5' EXONUCLEASE TREX1",
+      "DNASE III"
+    ]
+  },
+  {
+    "pdb_id": "8HCE",
+    "name": "Crystal structure of mTREX1-CMP complex",
+    "family": "nuclease",
+    "has_structure": true,
+    "aliases": [
+      "Crystal structure of mTREX1-CMP complex",
+      "3'-5' EXONUCLEASE TREX1"
+    ]
+  },
+  {
+    "pdb_id": "8HCF",
+    "name": "Crystal structure of mTREX1-UMP complex",
+    "family": "nuclease",
+    "has_structure": true,
+    "aliases": [
+      "Crystal structure of mTREX1-UMP complex",
+      "3'-5' EXONUCLEASE TREX1"
+    ]
+  },
+  {
+    "pdb_id": "9TDZ",
+    "name": "Crystal structure of beta-TrCP bound by diphosphorylated claspin degron peptide",
+    "family": "ubiquitin_ligase",
+    "has_structure": true,
+    "aliases": [
+      "E3RSIKAPPAB",
+      "EPIDIDYMIS TISSUE PROTEIN LI 2A",
+      "F-BOX AND WD",
+      "HCLASPIN"
+    ]
+  },
+  {
+    "pdb_id": "8HFF",
+    "name": "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "NOREPINEPHRINE TRANSPORTER",
+      "NET",
+      "SOLUTE CARRIER FAMILY 6"
+    ]
+  },
+  {
+    "pdb_id": "8HFG",
+    "name": "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "NOREPINEPHRINE TRANSPORTER",
+      "NET",
+      "SOLUTE CARRIER FAMILY 6"
+    ]
+  },
+  {
+    "pdb_id": "8HFI",
+    "name": "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "NOREPINEPHRINE TRANSPORTER",
+      "NET",
+      "SOLUTE CARRIER FAMILY 6"
+    ]
+  },
+  {
+    "pdb_id": "8HFL",
+    "name": "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "NOREPINEPHRINE TRANSPORTER",
+      "NET",
+      "SOLUTE CARRIER FAMILY 6"
+    ]
+  },
+  {
+    "pdb_id": "8I3V",
+    "name": "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "NOREPINEPHRINE TRANSPORTER",
+      "NET",
+      "SOLUTE CARRIER FAMILY 6"
+    ]
+  },
+  {
+    "pdb_id": "8JSW",
+    "name": "HUMAN VMAT2 COMPLEX WITH SEROTONIN",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "HUMAN VMAT2 COMPLEX WITH SEROTONIN",
+      "MONOAMINE TRANSPORTER",
+      "SOLUTE CARRIER FAMILY 18 MEMBER 2"
+    ]
+  },
+  {
+    "pdb_id": "8JT9",
+    "name": "HUMAN VMAT2 COMPLEX WITH KETANSERIN",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "HUMAN VMAT2 COMPLEX WITH KETANSERIN",
+      "MONOAMINE TRANSPORTER",
+      "SOLUTE CARRIER FAMILY 18 MEMBER 2"
+    ]
+  },
+  {
+    "pdb_id": "8JTB",
+    "name": "VMAT2 COMPLEX WITH DOPAMINE",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "VMAT2 COMPLEX WITH DOPAMINE",
+      "MONOAMINE TRANSPORTER",
+      "SOLUTE CARRIER FAMILY 18 MEMBER 2"
+    ]
+  },
+  {
+    "pdb_id": "8T69",
+    "name": "HUMAN VMAT2 IN COMPLEX WITH TETRABENAZINE",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "HUMAN VMAT2 IN COMPLEX WITH TETRABENAZINE",
+      "MONOAMINE TRANSPORTER",
+      "SOLUTE CARRIER FAMILY 18 MEMBER 2"
+    ]
+  },
+  {
+    "pdb_id": "8WGR",
+    "name": "CRYO-EM STRUCTURE OF INWARD-OPEN STATE HUMAN NOREPINEPHRINE",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "CRYO-EM STRUCTURE OF INWARD-OPEN STATE HUMAN NOREPINEPHRINE",
+      "NOREPINEPHRINE TRANSPORTER",
+      "NET",
+      "SOLUTE CARRIER FAMILY 6"
+    ]
+  },
+  {
+    "pdb_id": "8WRE",
+    "name": "HUMAN VMAT2 IN COMPLEX WITH DOPAMINE",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "HUMAN VMAT2 IN COMPLEX WITH DOPAMINE"
+    ]
+  },
+  {
+    "pdb_id": "8WTW",
+    "name": "CRYO-EM STRUCTURE OF NORADRENALINE TRANSPORTER IN COMPLEX WITH A X-",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "8WTX",
+    "name": "CRYO-EM STRUCTURE OF NORADRENALINE TRANSPORTER IN COMPLEX WITH",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "NOREPINEPHRINE TRANSPORTER",
+      "NET",
+      "SOLUTE CARRIER FAMILY 6"
+    ]
+  },
+  {
+    "pdb_id": "8X3K",
+    "name": "CRYO-EM STRUCTURE OF HUMAN VMAT2 IN COMPLEX WITH SEROTONIN",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "CRYO-EM STRUCTURE OF HUMAN VMAT2 IN COMPLEX WITH SEROTONIN",
+      "MONOAMINE TRANSPORTER",
+      "SOLUTE CARRIER FAMILY 18 MEMBER 2"
+    ]
+  },
+  {
+    "pdb_id": "8Y93",
+    "name": "STRUCTURE OF NET-AMITRIPTYLINE IN OUTWARD-OPEN STATE",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "STRUCTURE OF NET-AMITRIPTYLINE IN OUTWARD-OPEN STATE",
+      "NOREPINEPHRINE TRANSPORTER",
+      "NET",
+      "SOLUTE CARRIER FAMILY 6"
+    ]
+  },
+  {
+    "pdb_id": "9KQE",
+    "name": "CRYO-EM STRUCTURE OF HUMAN VMAT2 IN COMPLEX WITH DOPAMINE",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": [
+      "CRYO-EM STRUCTURE OF HUMAN VMAT2 IN COMPLEX WITH DOPAMINE",
+      "MONOAMINE TRANSPORTER",
+      "SOLUTE CARRIER FAMILY"
+    ]
+  },
+  {
+    "pdb_id": "3FLI",
+    "name": "Discovery of XL335, a Highly Potent, Selective and Orally-Active Agonist of the Farnesoid X Receptor (FXR)",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "FARNESOID X-ACTIVATED RECEPTOR",
+      "FARNESOL RECEPTOR HRR-1"
+    ]
+  },
+  {
+    "pdb_id": "3L1B",
+    "name": "COMPLEX STRUCTURE OF FXR LIGAND-BINDING DOMAIN WITH A",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "COMPLEX STRUCTURE OF FXR LIGAND-BINDING DOMAIN WITH A",
+      "NR1H4 PROTEIN"
+    ]
+  },
+  {
+    "pdb_id": "3P88",
+    "name": "FXR BOUND TO ISOQUINOLINECARBOXYLIC ACID",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "FXR BOUND TO ISOQUINOLINECARBOXYLIC ACID",
+      "NUCLEAR RECEPTOR SUBFAMILY 1",
+      "GROUP H",
+      "MEMBER 4",
+      "ISOFORM"
+    ]
+  },
+  {
+    "pdb_id": "3P89",
+    "name": "FXR BOUND TO A QUINOLINECARBOXYLIC ACID",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "FXR BOUND TO A QUINOLINECARBOXYLIC ACID",
+      "NUCLEAR RECEPTOR SUBFAMILY 1",
+      "GROUP H",
+      "MEMBER 4",
+      "ISOFORM",
+      "STEROID RECEPTOR COACTIVATOR 1",
+      "SRC-1"
+    ]
+  },
+  {
+    "pdb_id": "3RUT",
+    "name": "FXR WITH SRC1 AND GSK359",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "FXR WITH SRC1 AND GSK359",
+      "FXR",
+      "FARNESOID X-ACTIVATED RECEPTOR",
+      "FARNESOL RECEPTOR HRR-",
+      "SRC1",
+      "NCOA-1",
+      "CLASS E BASIC HELIX-LOOP-HELIX PROTEIN 74"
+    ]
+  },
+  {
+    "pdb_id": "3RUU",
+    "name": "FXR WITH SRC1 AND GSK237",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "FXR WITH SRC1 AND GSK237",
+      "FXR",
+      "FARNESOID X-ACTIVATED RECEPTOR",
+      "FARNESOL RECEPTOR HRR-",
+      "SRC1",
+      "NCOA-1",
+      "CLASS E BASIC HELIX-LOOP-HELIX PROTEIN 74"
+    ]
+  },
+  {
+    "pdb_id": "5WZX",
+    "name": "Structural basis for a pentacyclic oleanane-type triterpenoid as a ligand of FXR",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "FARNESOID X-ACTIVATED RECEPTOR",
+      "FARNESOL RECEPTOR HRR-1"
+    ]
+  },
+  {
+    "pdb_id": "6A5W",
+    "name": "FXR-LBD WITH HNC143 AND SRC1",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "FXR-LBD WITH HNC143 AND SRC1",
+      "FARNESOID X-ACTIVATED RECEPTOR",
+      "FARNESOL RECEPTOR HRR-1"
+    ]
+  },
+  {
+    "pdb_id": "6ITM",
+    "name": "CRYSTAL STRUCTURE OF FXR IN COMPLEX WITH AGONIST XJ034",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF FXR IN COMPLEX WITH AGONIST XJ034",
+      "FARNESOID X-ACTIVATED RECEPTOR",
+      "FARNESOL RECEPTOR HRR-1",
+      "SRC-1 HD3"
+    ]
+  },
+  {
+    "pdb_id": "7D42",
+    "name": "Structural basis of tropifexor as a potent and selective agonist for farnesoid X receptor",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "FARNESOID X-ACTIVATED RECEPTOR",
+      "FARNESOL RECEPTOR HRR-1",
+      "NCOA-2",
+      "CLASS E BASIC HELIX-LOOP-HELIX PROTEIN 75",
+      "BHLHE75"
+    ]
+  },
+  {
+    "pdb_id": "7TRB",
+    "name": "CRYSTAL STRUCTURE OF FARNESOID X-ACTIVATED RECEPTOR COMPLEXED WITH",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "FARNESOID X-ACTIVATED RECEPTOR",
+      "FARNESOL RECEPTOR HRR-1"
+    ]
+  },
+  {
+    "pdb_id": "7VUE",
+    "name": "Structural insight of the molecular mechanism of cilofexor bound to FXR",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "FARNESOID X-ACTIVATED RECEPTOR",
+      "FARNESOL RECEPTOR HRR-1",
+      "SRC PEPTIDE"
+    ]
+  },
+  {
+    "pdb_id": "8HD3",
+    "name": "FARNESOID X RECEPTOR AGONISTS_FXR FUSED WITH A HD3 PEPTIDE",
+    "family": "nuclear_receptor",
+    "has_structure": true,
+    "aliases": [
+      "FARNESOID X RECEPTOR AGONISTS_FXR FUSED WITH A HD3 PEPTIDE"
+    ]
+  },
+  {
+    "pdb_id": "3DY3",
+    "name": "Ubiquitina-Proteasoma (3DY3)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma (3DY3)",
+      "MACROPAIN SUBUNIT Y7",
+      "PROTEINASE YSCE SUBUNIT 7",
+      "MACROPAIN SUBUNIT Y13",
+      "PROTEINASE YSCE SUBUNIT 13",
+      "MACROPAIN SUBUNIT PRE6",
+      "PROTEINASE YSCE SUBUNIT PRE6",
+      "MACROPAIN SUBUNIT PUP2",
+      "PROTEINASE YSCE SUBUNIT PUP2",
+      "MACROPAIN SUBUNIT PRE5",
+      "PROTEINASE YSCE SUBUNIT PRE5",
+      "MACROPAIN SUBUNIT C1",
+      "PROTEINASE YSCE SUBUNIT 1",
+      "MACROPAIN SUBUNIT C7-ALPHA",
+      "MACROPAIN SUBUNIT PUP1",
+      "PROTEINASE YSCE SUBUNIT PUP1",
+      "MACROPAIN SUBUNIT PUP3",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX",
+      "MACROPAIN SUBUNIT C11",
+      "PROTEINASE YSCE SUBUNIT 11",
+      "MACROPAIN SUBUNIT PRE2",
+      "PROTEINASE YSCE SUBUNIT PRE2",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX SUBUNIT C5",
+      "MACROPAIN SUBUNIT PRE4",
+      "PROTEINASE YSCE SUBUNIT PRE4",
+      "MACROPAIN SUBUNIT PRE3",
+      "PROTEINASE YSCE SUBUNIT PRE3"
+    ]
+  },
+  {
+    "pdb_id": "3DY4",
+    "name": "Ubiquitina-Proteasoma (3DY4)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma (3DY4)",
+      "MACROPAIN SUBUNIT Y7",
+      "PROTEINASE YSCE SUBUNIT 7",
+      "MACROPAIN SUBUNIT Y13",
+      "PROTEINASE YSCE SUBUNIT 13",
+      "MACROPAIN SUBUNIT PRE6",
+      "PROTEINASE YSCE SUBUNIT PRE6",
+      "MACROPAIN SUBUNIT PUP2",
+      "PROTEINASE YSCE SUBUNIT PUP2",
+      "MACROPAIN SUBUNIT PRE5",
+      "PROTEINASE YSCE SUBUNIT PRE5",
+      "MACROPAIN SUBUNIT C1",
+      "PROTEINASE YSCE SUBUNIT 1",
+      "MACROPAIN SUBUNIT C7-ALPHA",
+      "MACROPAIN SUBUNIT PUP1",
+      "PROTEINASE YSCE SUBUNIT PUP1",
+      "MACROPAIN SUBUNIT PUP3",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX",
+      "MACROPAIN SUBUNIT C11",
+      "PROTEINASE YSCE SUBUNIT 11",
+      "MACROPAIN SUBUNIT PRE2",
+      "PROTEINASE YSCE SUBUNIT PRE2",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX SUBUNIT C5",
+      "MACROPAIN SUBUNIT PRE4",
+      "PROTEINASE YSCE SUBUNIT PRE4",
+      "MACROPAIN SUBUNIT PRE3",
+      "PROTEINASE YSCE SUBUNIT PRE3"
+    ]
+  },
+  {
+    "pdb_id": "3GPJ",
+    "name": "Ubiquitina-Proteasoma (3GPJ)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma (3GPJ)",
+      "MACROPAIN SUBUNIT Y7",
+      "PROTEINASE YSCE SUBUNIT 7",
+      "MACROPAIN SUBUNIT Y13",
+      "PROTEINASE YSCE SUBUNIT 13",
+      "MACROPAIN SUBUNIT PRE6",
+      "PROTEINASE YSCE SUBUNIT PRE6",
+      "MACROPAIN SUBUNIT PUP2",
+      "PROTEINASE YSCE SUBUNIT PUP2",
+      "MACROPAIN SUBUNIT PRE5",
+      "PROTEINASE YSCE SUBUNIT PRE5",
+      "MACROPAIN SUBUNIT C1",
+      "PROTEINASE YSCE SUBUNIT 1",
+      "MACROPAIN SUBUNIT C7-ALPHA",
+      "MACROPAIN SUBUNIT PUP1",
+      "PROTEINASE YSCE SUBUNIT PUP1",
+      "MACROPAIN SUBUNIT PUP3",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX",
+      "MACROPAIN SUBUNIT C11",
+      "PROTEINASE YSCE SUBUNIT 11",
+      "MACROPAIN SUBUNIT PRE2",
+      "PROTEINASE YSCE SUBUNIT PRE2",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX SUBUNIT C5",
+      "MACROPAIN SUBUNIT PRE4",
+      "PROTEINASE YSCE SUBUNIT PRE4",
+      "MACROPAIN SUBUNIT PRE3",
+      "PROTEINASE YSCE SUBUNIT PRE3"
+    ]
+  },
+  {
+    "pdb_id": "3GPT",
+    "name": "Ubiquitina-Proteasoma (3GPT)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma (3GPT)",
+      "MACROPAIN SUBUNIT Y7",
+      "PROTEINASE YSCE SUBUNIT 7",
+      "MACROPAIN SUBUNIT Y13",
+      "PROTEINASE YSCE SUBUNIT 13",
+      "MACROPAIN SUBUNIT PRE6",
+      "PROTEINASE YSCE SUBUNIT PRE6",
+      "MACROPAIN SUBUNIT PUP2",
+      "PROTEINASE YSCE SUBUNIT PUP2",
+      "MACROPAIN SUBUNIT PRE5",
+      "PROTEINASE YSCE SUBUNIT PRE5",
+      "MACROPAIN SUBUNIT C1",
+      "PROTEINASE YSCE SUBUNIT 1",
+      "MACROPAIN SUBUNIT C7-ALPHA",
+      "MACROPAIN SUBUNIT PUP1",
+      "PROTEINASE YSCE SUBUNIT PUP1",
+      "MACROPAIN SUBUNIT PUP3",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX",
+      "MACROPAIN SUBUNIT C11",
+      "PROTEINASE YSCE SUBUNIT 11",
+      "MACROPAIN SUBUNIT PRE2",
+      "PROTEINASE YSCE SUBUNIT PRE2",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX SUBUNIT C5",
+      "MACROPAIN SUBUNIT PRE4",
+      "PROTEINASE YSCE SUBUNIT PRE4",
+      "MACROPAIN SUBUNIT PRE3",
+      "PROTEINASE YSCE SUBUNIT PRE3"
+    ]
+  },
+  {
+    "pdb_id": "3HYE",
+    "name": "Ubiquitina-Proteasoma (3HYE)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma (3HYE)",
+      "MACROPAIN SUBUNIT Y7",
+      "PROTEINASE YSCE SUBUNIT 7",
+      "MACROPAIN SUBUNIT Y13",
+      "PROTEINASE YSCE SUBUNIT 13",
+      "MACROPAIN SUBUNIT PRE6",
+      "PROTEINASE YSCE SUBUNIT PRE6",
+      "MACROPAIN SUBUNIT PUP2",
+      "PROTEINASE YSCE SUBUNIT PUP2",
+      "MACROPAIN SUBUNIT PRE5",
+      "PROTEINASE YSCE SUBUNIT PRE5",
+      "MACROPAIN SUBUNIT C1",
+      "PROTEINASE YSCE SUBUNIT 1",
+      "MACROPAIN SUBUNIT C7-ALPHA",
+      "MACROPAIN SUBUNIT PUP1",
+      "PROTEINASE YSCE SUBUNIT PUP1",
+      "MACROPAIN SUBUNIT PUP3",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX",
+      "MACROPAIN SUBUNIT C11",
+      "PROTEINASE YSCE SUBUNIT 11",
+      "MACROPAIN SUBUNIT PRE2",
+      "PROTEINASE YSCE SUBUNIT PRE2",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX SUBUNIT C5",
+      "MACROPAIN SUBUNIT PRE4",
+      "PROTEINASE YSCE SUBUNIT PRE4",
+      "MACROPAIN SUBUNIT PRE3",
+      "PROTEINASE YSCE SUBUNIT PRE3"
+    ]
+  },
+  {
+    "pdb_id": "3MG0",
+    "name": "Ubiquitina-Proteasoma (3MG0)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma (3MG0)",
+      "MACROPAIN SUBUNIT Y7",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX",
+      "MACROPAIN SUBUNIT Y13",
+      "MACROPAIN SUBUNIT PRE6",
+      "MACROPAIN SUBUNIT PUP2",
+      "MACROPAIN SUBUNIT PRE5",
+      "MACROPAIN SUBUNIT C1",
+      "MACROPAIN SUBUNIT C7-ALPHA",
+      "MULTICATALYTIC ENDOPEPTIDASE",
+      "MACROPAIN SUBUNIT PUP1",
+      "MACROPAIN SUBUNIT PUP3",
+      "MACROPAIN SUBUNIT C11",
+      "MACROPAIN SUBUNIT PRE2",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX SUBUNIT C5",
+      "MACROPAIN SUBUNIT PRE4",
+      "MACROPAIN SUBUNIT PRE3"
+    ]
+  },
+  {
+    "pdb_id": "4EU2",
+    "name": "Ubiquitina-Proteasoma (4EU2)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma (4EU2)",
+      "MACROPAIN SUBUNIT C7-ALPHA",
+      "MULTICATALYTIC ENDOPEPTIDASE",
+      "MACROPAIN SUBUNIT Y7",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX",
+      "MACROPAIN SUBUNIT Y13",
+      "MACROPAIN SUBUNIT PRE6",
+      "MACROPAIN SUBUNIT PUP2",
+      "MACROPAIN SUBUNIT PRE5",
+      "MACROPAIN SUBUNIT C1",
+      "MACROPAIN SUBUNIT PRE3",
+      "MACROPAIN SUBUNIT PUP1",
+      "MACROPAIN SUBUNIT PUP3",
+      "MACROPAIN SUBUNIT C11",
+      "MACROPAIN SUBUNIT PRE2",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX SUBUNIT C5",
+      "MACROPAIN SUBUNIT PRE4"
+    ]
+  },
+  {
+    "pdb_id": "4LQI",
+    "name": "Ubiquitina-Proteasoma (4LQI)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma (4LQI)",
+      "MACROPAIN SUBUNIT Y7",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX",
+      "MACROPAIN SUBUNIT Y13",
+      "MACROPAIN SUBUNIT PRE6",
+      "MACROPAIN SUBUNIT PUP2",
+      "MACROPAIN SUBUNIT PRE5",
+      "MACROPAIN SUBUNIT C1",
+      "MACROPAIN SUBUNIT C7-ALPHA",
+      "MULTICATALYTIC ENDOPEPTIDASE",
+      "MACROPAIN SUBUNIT PUP1",
+      "MACROPAIN SUBUNIT PUP3",
+      "MACROPAIN SUBUNIT C11",
+      "MACROPAIN SUBUNIT PRE2",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX SUBUNIT C5",
+      "PROTEASOME",
+      "MACROPAIN SUBUNIT PRE4",
+      "MACROPAIN SUBUNIT PRE3"
+    ]
+  },
+  {
+    "pdb_id": "4RUR",
+    "name": "Ubiquitina-Proteasoma (4RUR)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma (4RUR)",
+      "MACROPAIN SUBUNIT Y7",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX",
+      "MACROPAIN SUBUNIT Y13",
+      "MACROPAIN SUBUNIT PRE6",
+      "MACROPAIN SUBUNIT PUP2",
+      "MACROPAIN SUBUNIT PRE5",
+      "MACROPAIN SUBUNIT C1",
+      "MACROPAIN SUBUNIT C7-ALPHA",
+      "MULTICATALYTIC ENDOPEPTIDASE",
+      "MACROPAIN SUBUNIT PUP1",
+      "MACROPAIN SUBUNIT PUP3",
+      "MACROPAIN SUBUNIT C11",
+      "MACROPAIN SUBUNIT PRE2",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX SUBUNIT C5",
+      "PROTEASOME",
+      "MACROPAIN SUBUNIT PRE4",
+      "MACROPAIN SUBUNIT PRE3"
+    ]
+  },
+  {
+    "pdb_id": "5CZ6",
+    "name": "Ubiquitina-Proteasoma (5CZ6)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma (5CZ6)",
+      "MACROPAIN SUBUNIT Y7",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX",
+      "MACROPAIN SUBUNIT Y13",
+      "MACROPAIN SUBUNIT PRE6",
+      "MACROPAIN SUBUNIT PUP2",
+      "MACROPAIN SUBUNIT PRE5",
+      "MACROPAIN SUBUNIT C1",
+      "MACROPAIN SUBUNIT C7-ALPHA",
+      "MULTICATALYTIC ENDOPEPTIDASE",
+      "MACROPAIN SUBUNIT PUP1",
+      "MACROPAIN SUBUNIT PUP3",
+      "MACROPAIN SUBUNIT C11",
+      "MACROPAIN SUBUNIT PRE2",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX SUBUNIT C5",
+      "PROTEASOME",
+      "MACROPAIN SUBUNIT PRE4",
+      "MACROPAIN SUBUNIT PRE3"
+    ]
+  },
+  {
+    "pdb_id": "5CZ7",
+    "name": "Ubiquitina-Proteasoma (5CZ7)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma (5CZ7)",
+      "MACROPAIN SUBUNIT Y7",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX",
+      "MACROPAIN SUBUNIT Y13",
+      "MACROPAIN SUBUNIT PRE6",
+      "MACROPAIN SUBUNIT PUP2",
+      "MACROPAIN SUBUNIT PRE5",
+      "MACROPAIN SUBUNIT C1",
+      "MACROPAIN SUBUNIT C7-ALPHA",
+      "MULTICATALYTIC ENDOPEPTIDASE",
+      "MACROPAIN SUBUNIT PUP1",
+      "MACROPAIN SUBUNIT PUP3",
+      "MACROPAIN SUBUNIT C11",
+      "MACROPAIN SUBUNIT PRE2",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX SUBUNIT C5",
+      "PROTEASOME",
+      "MACROPAIN SUBUNIT PRE4",
+      "MACROPAIN SUBUNIT PRE3"
+    ]
+  },
+  {
+    "pdb_id": "6HW5",
+    "name": "Ubiquitina-Proteasoma (6HW5)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma (6HW5)",
+      "MACROPAIN SUBUNIT Y7",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX",
+      "MACROPAIN SUBUNIT Y13",
+      "MACROPAIN SUBUNIT PRE6",
+      "MACROPAIN SUBUNIT PUP2",
+      "MACROPAIN SUBUNIT PRE5",
+      "MACROPAIN SUBUNIT C1",
+      "MACROPAIN SUBUNIT C7-ALPHA",
+      "MULTICATALYTIC ENDOPEPTIDASE",
+      "MACROPAIN SUBUNIT PUP1",
+      "MACROPAIN SUBUNIT PUP3",
+      "MACROPAIN SUBUNIT C11",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX SUBUNIT C5",
+      "PROTEASOME",
+      "MACROPAIN SUBUNIT PRE4",
+      "MACROPAIN SUBUNIT PRE3"
+    ]
+  },
+  {
+    "pdb_id": "6HW7",
+    "name": "Ubiquitina-Proteasoma (6HW7)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma (6HW7)",
+      "MACROPAIN SUBUNIT Y7",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX",
+      "MACROPAIN SUBUNIT Y13",
+      "MACROPAIN SUBUNIT PRE6",
+      "MACROPAIN SUBUNIT PUP2",
+      "MACROPAIN SUBUNIT PRE5",
+      "MACROPAIN SUBUNIT C1",
+      "MACROPAIN SUBUNIT C7-ALPHA",
+      "MULTICATALYTIC ENDOPEPTIDASE",
+      "MACROPAIN SUBUNIT PUP1",
+      "MACROPAIN SUBUNIT PUP3",
+      "MACROPAIN SUBUNIT C11",
+      "MACROPAIN SUBUNIT PRE2",
+      "MULTICATALYTIC ENDOPEPTIDASE COMPLEX SUBUNIT C5",
+      "PROTEASOME",
+      "MACROPAIN SUBUNIT PRE4",
+      "MACROPAIN SUBUNIT PRE3"
+    ]
+  },
+  {
+    "pdb_id": "7ZYJ",
+    "name": "Ubiquitina-Proteasoma (7ZYJ)",
+    "family": "proteasome",
+    "has_structure": true,
+    "aliases": [
+      "Ubiquitina-Proteasoma (7ZYJ)"
+    ]
+  },
+  {
+    "pdb_id": "1AJ6",
+    "name": "NOVOBIOCIN-RESISTANT MUTANT (R136H) OF THE N-TERMINAL 24 KDA FRAGMENT",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1EI1",
+    "name": "DIMERIZATION OF E. COLI DNA GYRASE B PROVIDES A STRUCTURAL MECHANISM",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": [
+      "GYRB"
+    ]
+  },
+  {
+    "pdb_id": "1KIJ",
+    "name": "CRYSTAL STRUCTURE OF THE 43K ATPASE DOMAIN OF THERMUS THERMOPHILUS",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1KZN",
+    "name": "CRYSTAL STRUCTURE OF E. COLI 24KDA DOMAIN IN COMPLEX WITH CLOROBIOCIN",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": [
+      "GYRASE B"
+    ]
+  },
+  {
+    "pdb_id": "3G7E",
+    "name": "CRYSTAL STRUCTURE OF E. COLI GYRASE B CO-COMPLEXED WITH PROP-2-YN-1-YL",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "4DUH",
+    "name": "CRYSTAL STRUCTURE OF 24 KDA DOMAIN OF E. COLI DNA GYRASE B IN COMPLEX",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "4WUD",
+    "name": "N-TERMINAL 43 KDA FRAGMENT OF THE E. COLI DNA GYRASE B SUBUNIT GROWN",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "4ZVI",
+    "name": "GYRASE B IN COMPLEX WITH 4,5-DIBROMOPYRROLAMIDE-BASED INHIBITOR",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5L3J",
+    "name": "ESCHERICHIA COLI DNA GYRASE B IN COMPLEX WITH BENZOTHIAZOLE-BASED",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": [
+      "TYPE IIA TOPOISOMERASE SUBUNIT GYRB"
+    ]
+  },
+  {
+    "pdb_id": "5MMN",
+    "name": "E. COLI DNA GYRASE B 24 KDA ATPASE DOMAIN IN COMPLEX WITH 1-ETHYL-3-",
+    "family": "topoisomerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1C6X",
+    "name": "ALTERNATE BINDING SITE FOR THE P1-P3 GROUP OF A CLASS OF POTENT HIV-1",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1RV7",
+    "name": "CRYSTAL STRUCTURES OF A MULTIDRUG-RESISTANT HIV-1 PROTEASE REVEAL AN",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1WBK",
+    "name": "HIV-1 PROTEASE IN COMPLEX WITH ASYMMETRIC INHIBITOR, BEA568",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "HIV-1 PROTEASE IN COMPLEX WITH ASYMMETRIC INHIBITOR, BEA568",
+      "HIV-1 PROTEASE"
+    ]
+  },
+  {
+    "pdb_id": "1WBM",
+    "name": "HIV-1 PROTEASE IN COMPLEX WITH SYMMETRIC INHIBITOR, BEA450",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "HIV-1 PROTEASE IN COMPLEX WITH SYMMETRIC INHIBITOR, BEA450",
+      "HIV-1 PROTEASE"
+    ]
+  },
+  {
+    "pdb_id": "2BQV",
+    "name": "HIV-1 PROTEASE IN COMPLEX WITH INHIBITOR AHA455",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "HIV-1 PROTEASE IN COMPLEX WITH INHIBITOR AHA455"
+    ]
+  },
+  {
+    "pdb_id": "2CEN",
+    "name": "P1' EXTENDED HIV-1 PROTEASE INHIBITORS ENCOMPASSING A TERTIARY ALCOHOL",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "HIV-1 PROTEASE"
+    ]
+  },
+  {
+    "pdb_id": "3S43",
+    "name": "HIV-1 PROTEASE TRIPLE MUTANTS V32I, I47V, V82I WITH ANTIVIRAL DRUG",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "4NJT",
+    "name": "CRYSTAL STRUCTURE OF MULTIDRUG-RESISTANT CLINICAL ISOLATE A02 HIV-1",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "4NJV",
+    "name": "CRYSTAL STRUCTURE OF MULTIDRUG-RESISTANT CLINICAL ISOLATE A02 HIV-1",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "4RVI",
+    "name": "CRYSTAL STRUCTURE OF MULTIDRUG-RESISTANT CLINICAL ISOLATE A02 HIV-1",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "4RVJ",
+    "name": "CRYSTAL STRUCTURE OF MULTIDRUG-RESISTANT CLINICAL ISOLATE A02 HIV-1",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5CON",
+    "name": "X-RAY CRYSTAL STRUCTURE OF WILD TYPE HIV-1 PROTEASE IN COMPLEX WITH",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5COP",
+    "name": "X-RAY CRYSTAL STRUCTURE OF WILD TYPE HIV-1 PROTEASE IN COMPLEX WITH",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "6MK9",
+    "name": "X-RAY CRYSTAL STRUCTURE OF DARUNAVIR-RESISTANT-P51 HIV-1 PROTEASE IN",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "6MKL",
+    "name": "X-RAY CRYSTAL STRUCTURE OF DARUNAVIR-RESISTANT-P51 HIV-1 PROTEASE IN",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "6PU8",
+    "name": "ROOM TEMPERATURE X-RAY STRUCTURE OF HIV-1 PROTEASE TRIPLE MUTANT",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "3FHV",
+    "name": "STRUCTURAL BASIS OF SALMONELLA TYPHI TYPE IVB PILS AND CYSTIC FIBROSIS",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "PILS"
+    ]
+  },
+  {
+    "pdb_id": "4K78",
+    "name": "CFTR ASSOCIATED LIGAND (CAL) E317A PDZ DOMAIN BOUND TO PEPTIDE ICAL36-",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "CFTR-ASSOCIATED LIGAND",
+      "FUSED IN GLIOBLASTOMA",
+      "PDZ PROTEIN"
+    ]
+  },
+  {
+    "pdb_id": "4YX9",
+    "name": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF BOUND TO",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF BOUND TO"
+    ]
+  },
+  {
+    "pdb_id": "5HK9",
+    "name": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF BOUND TO A UREA",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5HKA",
+    "name": "CRYSTAL STRUCTURE OF THE CFTR INHIBITORY FACTOR CIF BOUND TO AN AMIDE",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5JYC",
+    "name": "CRYSTAL STRUCTURE OF THE E153Q MUTANT OF THE CFTR INHIBITORY FACTOR",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5TNE",
+    "name": "CRYSTAL STRUCTURE OF THE E153Q MUTANT OF THE CFTR INHIBITORY FACTOR",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5TNH",
+    "name": "CRYSTAL STRUCTURE OF THE E153Q MUTANT OF THE CFTR INHIBITORY FACTOR",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5TNN",
+    "name": "CRYSTAL STRUCTURE OF THE E153Q MUTANT OF THE CFTR INHIBITORY FACTOR",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "8UBR",
+    "name": "COMPLEX OF THE PHOSPHORYLATED HUMAN CYSTIC FIBROSIS TRANSMEMBRANE",
+    "family": "ion_channel",
+    "has_structure": true,
+    "aliases": [
+      "CFTR",
+      "ATP-BINDING CASSETTE SUB-FAMILY C MEMBER 7",
+      "CHANNEL"
+    ]
+  },
+  {
+    "pdb_id": "2A3W",
+    "name": "DECAMERIC STRUCTURE OF HUMAN SERUM AMYLOID P-COMPONENT BOUND TO BIS-1,",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "SAP",
+      "9.5S ALPHA-1-GLYCOPROTEIN"
+    ]
+  },
+  {
+    "pdb_id": "2ZHR",
+    "name": "CRYSTAL STRUCTURE OF BACE1 IN COMPLEX WITH OM99-2 AT PH 5.0",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF BACE1 IN COMPLEX WITH OM99-2 AT PH 5.0",
+      "BETA-SITE APP CLEAVING ENZYME 1",
+      "BETA-SITE AMYLOID PRECURSOR"
+    ]
+  },
+  {
+    "pdb_id": "4AZY",
+    "name": "DESIGN AND SYNTHESIS OF BACE1 INHIBITORS WITH IN VIVO BRAIN REDUCTION",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "BACE1",
+      "ASPARTYL PROTEASE 2",
+      "ASP2",
+      "ASP 2",
+      "BETA-SITE AMYLOID"
+    ]
+  },
+  {
+    "pdb_id": "4JP9",
+    "name": "SPIROCYCLIC BETA-SITE AMYLOID PRECURSOR PROTEIN CLEAVING ENZYME 1",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "ASPARTYL PROTEASE 2",
+      "ASP2",
+      "ASP 2",
+      "BETA-SITE AMYLOID"
+    ]
+  },
+  {
+    "pdb_id": "4JPC",
+    "name": "SPIROCYCLIC BETA-SITE AMYLOID PRECURSOR PROTEIN CLEAVING ENZYME 1",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "ASPARTYL PROTEASE 2",
+      "ASP2",
+      "ASP 2",
+      "BETA-SITE AMYLOID"
+    ]
+  },
+  {
+    "pdb_id": "4JPE",
+    "name": "SPIROCYCLIC BETA-SITE AMYLOID PRECURSOR PROTEIN CLEAVING ENZYME 1",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "ASPARTYL PROTEASE 2",
+      "ASP2",
+      "ASP 2",
+      "BETA-SITE AMYLOID"
+    ]
+  },
+  {
+    "pdb_id": "5O65",
+    "name": "CRYSTAL STRUCTURE OF THE PSEUDOMONAS FUNCTIONAL AMYLOID SECRETION",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5O67",
+    "name": "CRYSTAL STRUCTURE OF THE FAPF POLYPEPTIDE TRANSPORTER - F103A MUTANT",
+    "family": "transporter",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "5TOL",
+    "name": "CRYSTAL STRUCTURE OF BETA-SITE APP-CLEAVING ENZYME 1 COMPLEXED WITH N-",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "ASPARTYL PROTEASE 2",
+      "ASP 2",
+      "BETA-SITE AMYLOID PRECURSOR"
+    ]
+  },
+  {
+    "pdb_id": "6VU4",
+    "name": "STRUCTURE OF A BETA-HAIRPIN PEPTIDE MIMIC DERIVED FROM ABETA 14-36",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "APP",
+      "ABPP",
+      "APPI",
+      "ALZHEIMER DISEASE AMYLOID PROTEIN",
+      "AMYLOID"
+    ]
+  },
+  {
+    "pdb_id": "1CX2",
+    "name": "CYCLOOXYGENASE-2 (PROSTAGLANDIN SYNTHASE-2) COMPLEXED WITH A SELECTIVE",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "PROSTAGLANDIN SYNTHASE-2"
+    ]
+  },
+  {
+    "pdb_id": "1DIY",
+    "name": "CRYSTAL STRUCTURE OF ARACHIDONIC ACID BOUND IN THE CYCLOOXYGENASE",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1FE2",
+    "name": "CRYSTAL STRUCTURE OF DIHOMO-GAMMA-LINOLEIC ACID BOUND IN THE CYCLOOXYGENASE CHANNEL OF PROSTAGLANDIN ENDOPEROXIDE H SYNTHASE-1.",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1IGZ",
+    "name": "CRYSTAL STRUCTURE OF LINOLEIC ACID BOUND IN THE CYCLOOXYGENASE CHANNEL",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "CYCLOOXYGENASE"
+    ]
+  },
+  {
+    "pdb_id": "1Q4G",
+    "name": "2.0 ANGSTROM CRYSTAL STRUCTURE OF OVINE PROSTAGLANDIN H2 SYNTHASE-1,",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "CYCLOOXYGENASE -1",
+      "COX-1",
+      "PROSTAGLANDIN-ENDOPEROXIDE"
+    ]
+  },
+  {
+    "pdb_id": "2AW1",
+    "name": "CARBONIC ANHYDRASE INHIBITORS: VALDECOXIB BINDS TO A DIFFERENT ACTIVE",
+    "family": "metalloenzyme",
+    "has_structure": true,
+    "aliases": [
+      "CARBONATE DEHYDRATASE II",
+      "CA-II",
+      "CARBONIC ANHYDRASE C"
+    ]
+  },
+  {
+    "pdb_id": "2AYL",
+    "name": "2.0 Angstrom Crystal Structure of Manganese Protoporphyrin IX-reconstituted Ovine Prostaglandin H2 Synthase-1 Complexed With Flurbiprofen",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "CYCLOOXYGENASE-1",
+      "COX-1",
+      "PROSTAGLANDIN-ENDOPEROXIDE SYNTHASE"
+    ]
+  },
+  {
+    "pdb_id": "2OYE",
+    "name": "INDOMETHACIN-(R)-ALPHA-ETHYL-ETHANOLAMIDE BOUND TO CYCLOOXYGENASE-1",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "CYCLOOXYGENASE- 1",
+      "COX-1",
+      "PROSTAGLANDIN-ENDOPEROXIDE"
+    ]
+  },
+  {
+    "pdb_id": "2OYU",
+    "name": "INDOMETHACIN-(S)-ALPHA-ETHYL-ETHANOLAMIDE BOUND TO CYCLOOXYGENASE-1",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "CYCLOOXYGENASE-1",
+      "COX-1",
+      "PROSTAGLANDIN-ENDOPEROXIDE SYNTHASE"
+    ]
+  },
+  {
+    "pdb_id": "3KK6",
+    "name": "CRYSTAL STRUCTURE OF CYCLOOXYGENASE-1 IN COMPLEX WITH CELECOXIB",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "CYCLOOXYGENASE-1",
+      "COX-1",
+      "PROSTAGLANDIN-ENDOPEROXIDE SYNTHASE"
+    ]
+  },
+  {
+    "pdb_id": "3N8W",
+    "name": "CRYSTAL STRUCTURE OF R120Q/NATIVE CYCLOOXYGENASE-1 HETERODIMER MUTANT",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "CYCLOOXYGENASE-1",
+      "COX-1",
+      "PROSTAGLANDIN-ENDOPEROXIDE SYNTHASE"
+    ]
+  },
+  {
+    "pdb_id": "3N8X",
+    "name": "CRYSTAL STRUCTURE OF CYCLOOXYGENASE-1 IN COMPLEX WITH NIMESULIDE",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "CYCLOOXYGENASE-1",
+      "COX-1",
+      "PROSTAGLANDIN-ENDOPEROXIDE SYNTHASE"
+    ]
+  },
+  {
+    "pdb_id": "3N8Y",
+    "name": "STRUCTURE OF ASPIRIN ACETYLATED CYCLOOXYGENASE-1 IN COMPLEX WITH",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "CYCLOOXYGENASE-1",
+      "COX-1",
+      "PROSTAGLANDIN-ENDOPEROXIDE SYNTHASE"
+    ]
+  },
+  {
+    "pdb_id": "3N8Z",
+    "name": "CRYSTAL STRUCTURE OF CYCLOOXYGENASE-1 IN COMPLEX WITH FLURBIPROFEN",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "CYCLOOXYGENASE-1",
+      "COX-1",
+      "PROSTAGLANDIN-ENDOPEROXIDE SYNTHASE"
+    ]
+  },
+  {
+    "pdb_id": "4O1Z",
+    "name": "CRYSTAL STRUCTURE OF OVINE CYCLOOXYGENASE-1 COMPLEX WITH MELOXICAM",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "CYCLOOXYGENASE-1",
+      "COX-1",
+      "PROSTAGLANDIN H2 SYNTHASE 1",
+      "PGH"
+    ]
+  },
+  {
+    "pdb_id": "5F1A",
+    "name": "THE CRYSTAL STRUCTURE OF SALICYLATE BOUND TO HUMAN CYCLOOXYGENASE-2",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "CYCLOOXYGENASE-2",
+      "COX-2",
+      "PHS II",
+      "PROSTAGLANDIN H2 SYNTHASE 2"
+    ]
+  },
+  {
+    "pdb_id": "5U6X",
+    "name": "COX-1:P6 COMPLEX STRUCTURE",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "COX-1:P6 COMPLEX STRUCTURE",
+      "CYCLOOXYGENASE-1",
+      "COX-1",
+      "PROSTAGLANDIN H2 SYNTHASE 1",
+      "PHS 1"
+    ]
+  },
+  {
+    "pdb_id": "5WBE",
+    "name": "COX-1:MOFEZOLAC COMPLEX STRUCTURE",
+    "family": "oxidoreductase",
+    "has_structure": true,
+    "aliases": [
+      "COX-1:MOFEZOLAC COMPLEX STRUCTURE",
+      "CYCLOOXYGENASE-1",
+      "COX-1",
+      "PROSTAGLANDIN H2 SYNTHASE 1",
+      "PHS 1"
+    ]
+  },
+  {
+    "pdb_id": "1TGJ",
+    "name": "HUMAN TRANSFORMING GROWTH FACTOR-BETA 3, CRYSTALLIZED FROM DIOXANE",
+    "family": "growth_factor",
+    "has_structure": true,
+    "aliases": [
+      "TGF-BETA3"
+    ]
+  },
+  {
+    "pdb_id": "5E8Y",
+    "name": "TGF-BETA RECEPTOR TYPE 2 KINASE DOMAIN (E431A,R433A,E485A,K488A,R493A,",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "TGFR-2",
+      "TGF-BETA TYPE II RECEPTOR",
+      "TRANSFORMING GROWTH FACTOR-"
+    ]
+  },
+  {
+    "pdb_id": "5E91",
+    "name": "TGF-BETA RECEPTOR TYPE 2 KINASE DOMAIN (E431A,R433A,E485A,K488A,R493A,",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "TGFR-2",
+      "TGF-BETA TYPE II RECEPTOR",
+      "TRANSFORMING GROWTH FACTOR-"
+    ]
+  },
+  {
+    "pdb_id": "5E92",
+    "name": "TGF-BETA RECEPTOR TYPE 2 KINASE DOMAIN (E431A,R433A,E485A,K488A,R493A,",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "TGFR-2",
+      "TGF-BETA TYPE II RECEPTOR",
+      "TRANSFORMING GROWTH FACTOR-"
+    ]
+  },
+  {
+    "pdb_id": "1J36",
+    "name": "CRYSTAL STRUCTURE OF DROSOPHILA ANCE",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF DROSOPHILA ANCE",
+      "ANCE"
+    ]
+  },
+  {
+    "pdb_id": "1J37",
+    "name": "CRYSTAL STRUCTURE OF DROSOPHILA ANCE",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF DROSOPHILA ANCE",
+      "ANCE"
+    ]
+  },
+  {
+    "pdb_id": "2X8Z",
+    "name": "CRYSTAL STRUCTURE OF ANCE-CAPTOPRIL COMPLEX",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF ANCE-CAPTOPRIL COMPLEX",
+      "DIPEPTIDYL CARBOXYPEPTIDASE I",
+      "KININASE II"
+    ]
+  },
+  {
+    "pdb_id": "2X90",
+    "name": "CRYSTAL STRUCTURE OF ANCE-ENALAPRILAT COMPLEX",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "CRYSTAL STRUCTURE OF ANCE-ENALAPRILAT COMPLEX",
+      "DIPEPTIDYL CARBOXYPEPTIDASE I",
+      "KININASE II"
+    ]
+  },
+  {
+    "pdb_id": "4CA7",
+    "name": "DROSOPHILA ANGIOTENSIN CONVERTING ENZYME (ANCE) IN COMPLEX WITH A",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "DIPEPTIDYL CARBOXYPEPTIDASE I",
+      "KININASE II"
+    ]
+  },
+  {
+    "pdb_id": "4CA8",
+    "name": "DROSOPHILA ANGIOTENSIN CONVERTING ENZYME (ANCE) IN COMPLEX WITH A",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "DIPEPTIDYL CARBOXYPEPTIDASE I",
+      "KININASE II"
+    ]
+  },
+  {
+    "pdb_id": "5A2R",
+    "name": "A New Crystal Structure of the Drosophila melanogaster Angiotensin Converting Enzyme Homologue AnCE.",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "DIPEPTIDYL CARBOXYPEPTIDASE I",
+      "KININASE II",
+      "ANGIOTENSIN CON"
+    ]
+  },
+  {
+    "pdb_id": "6S1Y",
+    "name": "CRYSTAL STRUCTURE OF ANOPHELES GAMBIAE ANOACE2 IN COMPLEX WITH GAMMA-",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "6S1Z",
+    "name": "CRYSTAL STRUCTURE OF ANOPHELES GAMBIAE ANOACE2 IN COMPLEX WITH",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "1KLI",
+    "name": "Cofactor-and substrate-assisted activation of factor VIIa",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "Cofactor-and substrate-assisted activation of factor VIIa"
+    ]
+  },
+  {
+    "pdb_id": "4JYV",
+    "name": "Structure of factor VIIA in complex with the inhibitor (2R)-2-[3-ETHOXY-4-(PROPAN-2-YLOXY)PHENYL]-2-(ISOQUINOLIN-6-YLAMINO)-N-[(3-SULFAMOYLPHENYL)SULFONYL]ETHANAMIDE",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "PROCONVERTIN",
+      "SERUM PROTHROMBIN CONVERSION ACCELERATOR"
+    ]
+  },
+  {
+    "pdb_id": "4JZD",
+    "name": "Structure of factor VIIA in complex with the inhibitor 2-{2-[(4-carbamimidoylphenyl)carbamoyl]-6-methoxypyridin-3-yl}-5-{[(2S)-1-hydroxy-3,3-dimethylbutan-2-yl]carbamoyl}benzoic acid",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "FACTOR VII HEAVY CHAIN",
+      "ACTIVATED FACTOR VIIA HEAVY CHAIN",
+      "FACTOR VII LIGHT CHAIN",
+      "COAGULATION FACTOR VII"
+    ]
+  },
+  {
+    "pdb_id": "4X8V",
+    "name": "FACTOR VIIA IN COMPLEX WITH THE INHIBITOR (methyl {3-[(2R)-1-{(2R)-2-(3,4-dimethoxyphenyl)-2-[(1-oxo-1,2,3,4-tetrahydroisoquinolin-7-yl)amino]acetyl}pyrrolidin-2-yl]-4-(propan-2-ylsulfonyl)phenyl}carbamate)",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "PROCONVERTIN",
+      "SERUM PROTHROMBIN CONVERSION ACCELERATOR",
+      "SPCA"
+    ]
+  },
+  {
+    "pdb_id": "5L2Y",
+    "name": "Factor VIIa in complex with the inhibitor 1-[(2R,15R)-2-[(1-amino-4-fluoroisoquinolin-6-yl)amino]-4,15,20-trimethyl-3,12-dioxo-13-oxa-4,11-diazatricyclo[14.2.2.1~6,10~]henicosa-1(18),6,8,10(21),16,19-hexaen-7-yl] cyclobutane-1-carboxylic acid",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "PROCONVERTIN",
+      "SERUM PROTHROMBIN CONVERSION ACCELERATOR",
+      "SPCA"
+    ]
+  },
+  {
+    "pdb_id": "5L2Z",
+    "name": "Factor VIIa in complex with the inhibitor 1-[(2R,15R)-2-[(1-amino-4-fluoroisoquinolin-6-yl)amino]-4,15,17-trimethyl-3,12-dioxo-13-oxa-4,11-diazatricyclo[14.2.2.1~6,10~]henicosa-1(18),6(21),7,9,16,19-hexaen-7-yl]cyclohexane-1-carboxylic acid",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "PROCONVERTIN",
+      "SERUM PROTHROMBIN CONVERSION ACCELERATOR",
+      "SPCA"
+    ]
+  },
+  {
+    "pdb_id": "5L30",
+    "name": "Factor VIIa in complex with the inhibitor (2R,15R)-2-[(1-aminoisoquinolin-6-yl)amino]-4,15,17-trimethyl-7-[1-(1H-tetrazol-5-yl)cyclopropyl]-13-oxa-4,11-diazatricyclo[14.2.2.1~6,10~]henicosa-1(18),6(21),7,9,16,19-hexaene-3,12-dione",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "PROCONVERTIN",
+      "SERUM PROTHROMBIN CONVERSION ACCELERATOR",
+      "SPCA"
+    ]
+  },
+  {
+    "pdb_id": "5PA9",
+    "name": "Crystal Structure of Factor VIIa in complex with phenylmethanamine;hydrochloride",
+    "family": "protease",
+    "has_structure": true,
+    "aliases": [
+      "PROCONVERTIN",
+      "SERUM PROTHROMBIN CONVERSION ACCELERATOR",
+      "SPCA"
+    ]
+  },
+  {
+    "pdb_id": "7T9N",
+    "name": "M22 AGONIST AUTOANTIBODY BOUND TO HUMAN THYROTROPIN RECEPTOR IN",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "ADENYLATE CYCLASE-STIMULATING G ALPHA PROTEIN",
+      "TRANSDUCIN BETA CHAIN 1",
+      "G GAMMA-I"
+    ]
+  },
+  {
+    "pdb_id": "7TM9",
+    "name": "CRYSTAL STRUCTURE OF BACTERIAL ALKALINE PHOSPHATASE FROM KLEBSIELLA",
+    "family": "hydrolase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "7UTZ",
+    "name": "HUMAN THYROTROPIN ANALOG TR1402 BOUND TO HUMAN THYROTROPIN RECEPTOR IN",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "ANTERIOR PITUITARY GLYCOPROTEIN HORMONES COMMON SUBUNIT",
+      "THYROID-STIMULATING HORMONE SUBUNIT BETA",
+      "TSH-B",
+      "TSH-BETA",
+      "ADENYLATE CYCLASE-STIMULATING G ALPHA PROTEIN",
+      "TRANSDUCIN BETA CHAIN 1",
+      "G GAMMA-I"
+    ]
+  },
+  {
+    "pdb_id": "7XW5",
+    "name": "TSHR-THYROID STIMULATING HORMONE-GS-ML109 COMPLEX",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "TSHR-THYROID STIMULATING HORMONE-GS-ML109 COMPLEX",
+      "TRANSDUCIN BETA CHAIN 1",
+      "G GAMMA-I",
+      "THYROID-STIMULATING HORMONE RECEPTOR",
+      "TSH-R",
+      "ANTERIOR PITUITARY GLYCOPROTEIN HORMONES COMMON SUBUNIT",
+      "THYROID-STIMULATING HORMONE SUBUNIT BETA",
+      "TSH-B",
+      "TSH-BETA"
+    ]
+  },
+  {
+    "pdb_id": "7XW6",
+    "name": "TSHR-GS-M22 ANTIBODY-ML109 COMPLEX",
+    "family": "gpcr",
+    "has_structure": true,
+    "aliases": [
+      "TSHR-GS-M22 ANTIBODY-ML109 COMPLEX",
+      "TRANSDUCIN BETA CHAIN 1",
+      "G GAMMA-I",
+      "THYROID-STIMULATING HORMONE RECEPTOR",
+      "TSH-R"
+    ]
+  },
+  {
+    "pdb_id": "5CQG",
+    "name": "STRUCTURE OF TRIBOLIUM TELOMERASE IN COMPLEX WITH THE HIGHLY SPECIFIC",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "6E53",
+    "name": "STRUCTURE OF TERT IN COMPLEX WITH A NOVEL TELOMERASE INHIBITOR",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": []
+  },
+  {
+    "pdb_id": "6USR",
+    "name": "TELOMERASE REVERSE TRANSCRIPTASE TERNARY COMPLEX, TERT:DNA:DGPCPP",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": [
+      "TELOMERASE CATALYTIC SUBUNIT"
+    ]
+  },
+  {
+    "pdb_id": "6ZD1",
+    "name": "STRUCTURE OF APO TELOMERASE FROM CANDIDA TROPICALIS",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": [
+      "STRUCTURE OF APO TELOMERASE FROM CANDIDA TROPICALIS",
+      "TELOMERASE CATALYTIC SUBUNIT"
+    ]
+  },
+  {
+    "pdb_id": "6ZDP",
+    "name": "STRUCTURE OF TELOMERASE FROM CANDIDA TROPICALIS IN COMPLEXE WITH TWJ",
+    "family": "polymerase",
+    "has_structure": true,
+    "aliases": [
+      "TELOMERASE CATALYTIC SUBUNIT"
+    ]
+  },
+  {
+    "pdb_id": "3OSK",
+    "name": "CTLA-4 Immune Checkpoint",
+    "family": "protein_interaction",
+    "has_structure": true,
+    "aliases": [
+      "CTLA-4 Immune Checkpoint",
+      "CYTOTOXIC T-LYMPHOCYTE-ASSOCIATED ANTIGEN 4",
+      "CTLA-4"
+    ]
+  },
+  {
+    "pdb_id": "2W96",
+    "name": "CDK4 (Apo/Cyclin D1)",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "CDK4 (Apo/Cyclin D1)",
+      "D-TYPE CYCLIN",
+      "PRAD1 ONCOGENE",
+      "CDK4",
+      "CYCLIN-DEPENDENT KINASE 4",
+      "PSK-J3"
+    ]
+  },
+  {
+    "pdb_id": "4JSX",
+    "name": "structure of mTORDeltaN-mLST8-Torin2 complex",
+    "family": "kinase",
+    "has_structure": true,
+    "aliases": [
+      "structure of mTORDeltaN-mLST8-Torin2 complex",
+      "FK506-BINDING PROTEIN 12-RAPAMYCIN COMPLEX-ASSOCIATED",
+      "TORC SUBUNIT LST8",
+      "G PROTEIN BETA SUBUNIT-LIKE",
+      "GABLE"
+    ]
+  }
+]

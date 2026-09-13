@@ -1,0 +1,299 @@
+{
+ "id": "MF-01",
+ "meta": {
+  "titulo": "El generador propio no aporta ni un complejo que el barato no diera",
+  "entradilla": "MolFlex cubre el 17.6% del estrato difícil. Vina flexible con exhaustiveness 4 cubre el 64.7%, por un tercio del coste. La decisión fue no ampliar MolFlex."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MolFlex es el generador de poses propio del proyecto: construye un ensemble conformacional y dockea cada confórmero por separado, con la idea de que así se visitan regiones del espacio que un docking flexible convencional se salta.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento pregunta lo único que decide si merece la pena seguir invirtiendo en él: ",
+     "m": null
+    },
+    {
+     "t": "¿aporta candidatas que las fuentes existentes no aportan?",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Brazo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Cobertura del estrato difícil",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "MolFlex con K=15 confórmeros",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "17.6%",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Vina flexible, exhaustiveness 4",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "64.7%",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Unión de todas las fuentes ",
+       "m": null
+      },
+      {
+       "t": "sin",
+       "m": "fuerte"
+      },
+      {
+       "t": " MolFlex",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "69.2%",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El baseline más barato disponible cubre casi cuatro veces más que el generador propio, con aproximadamente ",
+     "m": null
+    },
+    {
+     "t": "un tercio del coste",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y el dato que cierra la pregunta tal como estaba formulada: sobre la cohorte difícil, ",
+     "m": null
+    },
+    {
+     "t": "MolFlex aportó 0 complejos nuevos",
+     "m": "fuerte"
+    },
+    {
+     "t": " con las poses existentes. Ni uno. La unión sin MolFlex cubre 69.2%, y añadirlo no sube esa cifra.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué esto es más incómodo de lo que parece",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No es que MolFlex sea peor. Es que ",
+     "m": null
+    },
+    {
+     "t": "no es complementario",
+     "m": "fuerte"
+    },
+    {
+     "t": ", que era su justificación entera. Un generador con menos cobertura sigue valiendo la pena si visita sitios distintos: la unión gana aunque cada parte pierda. Aquí la unión no gana nada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las poses que MolFlex encuentra son un subconjunto de las que ya se tenían.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que este resultado desmonta",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El plan del programa tenía varios experimentos —afinar el número de confórmeros, las semillas, las políticas de generación, el pruning— y todos presuponían que la vía de mejora era ",
+     "m": null
+    },
+    {
+     "t": "afinar MolFlex",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Este experimento, junto con la comparación a presupuesto igual, dice que en el estrato objetivo el baseline barato ya alcanza el techo de la unión de tres fuentes.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La decisión registrada fue ",
+     "m": null
+    },
+    {
+     "t": "no ampliar MolFlex",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y quedó como precondición que cualquier experimento posterior de esa familia declarara antes qué cambia en el ",
+     "m": null
+    },
+    {
+     "t": "generador",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no en sus parámetros.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esa precondición es la que sigue vigente hoy, y la que ha bloqueado desde entonces cuatro identificadores del plan original.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El contexto que llegó después",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un resultado posterior explicó por qué ningún ajuste de MolFlex podía funcionar: en 30 de 33 complejos difíciles ",
+     "m": null
+    },
+    {
+     "t": "no existe",
+     "m": "fuerte"
+    },
+    {
+     "t": " ninguna pose bajo 2 Å entre las ~751 candidatas generadas por todas las fuentes juntas. No es que MolFlex escoja mal entre buenas candidatas — es que las buenas candidatas no están.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y otro acotó el problema por el lado opuesto: la ",
+     "m": null
+    },
+    {
+     "t": "conformación",
+     "m": "fuerte"
+    },
+    {
+     "t": " correcta sí suele estar disponible, un 83.9% de las veces. De modo que el cuello no es generar la forma correcta, sino encontrar dónde y con qué orientación colocarla.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Visto desde ahí, este experimento fue la primera medición que apuntaba en esa dirección, aunque en su momento se leyera sólo como «el generador propio no gana».",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-01.md"
+}

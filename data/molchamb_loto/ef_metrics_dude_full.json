@@ -1,0 +1,167 @@
+{
+  "ca2": {
+    "dataset": "DUD-E full",
+    "n_total": 31664,
+    "n_act": 492,
+    "auc": 0.9838,
+    "models": {
+      "Warhead (SMARTS) standalone": {
+        "ef1": 56.64,
+        "ef1_hits": 279,
+        "ef5": 19.76,
+        "ef5_hits": 486,
+        "ef10": 9.88,
+        "ef10_hits": 486,
+        "bedroc_a20": 0.826
+      }
+    },
+    "ceiling_ef1": 64.36
+  },
+  "mmp9": {
+    "dataset": "DUD-E full",
+    "n_total": 2858,
+    "n_act": 858,
+    "auc": 0.8913,
+    "models": {
+      "Warhead (SMARTS) standalone": {
+        "ef1": 1.95,
+        "ef1_hits": 17,
+        "ef5": 2.24,
+        "ef5_hits": 96,
+        "ef10": 2.77,
+        "ef10_hits": 238,
+        "bedroc_a20": 0.619
+      }
+    },
+    "ceiling_ef1": 3.33
+  },
+  "ace": {
+    "dataset": "DUD-E full",
+    "n_total": 2238,
+    "n_act": 82,
+    "auc": 0.7838,
+    "models": {
+      "Warhead (SMARTS) standalone": {
+        "ef1": 0.0,
+        "ef1_hits": 0,
+        "ef5": 4.39,
+        "ef5_hits": 18,
+        "ef10": 2.8,
+        "ef10_hits": 23,
+        "bedroc_a20": 0.166
+      }
+    },
+    "ceiling_ef1": 27.29
+  },
+  "hdac6": {
+    "dataset": "DUD-E full",
+    "n_total": 294,
+    "n_act": 15,
+    "auc": 0.9018,
+    "models": {
+      "Warhead (SMARTS) standalone": {
+        "ef1": 6.53,
+        "ef1_hits": 1,
+        "ef5": 6.53,
+        "ef5_hits": 5,
+        "ef10": 4.06,
+        "ef10_hits": 6,
+        "bedroc_a20": 0.246
+      }
+    },
+    "ceiling_ef1": 19.6
+  },
+  "mmp2": {
+    "dataset": "DUD-E full",
+    "n_total": 623,
+    "n_act": 26,
+    "auc": 0.8683,
+    "models": {
+      "Warhead (SMARTS) standalone": {
+        "ef1": 19.97,
+        "ef1_hits": 5,
+        "ef5": 4.64,
+        "ef5_hits": 6,
+        "ef10": 2.32,
+        "ef10_hits": 6,
+        "bedroc_a20": 0.206
+      }
+    },
+    "ceiling_ef1": 23.96
+  },
+  "_note": "M5_gated pipeline EF is computable only on LOTO checkpoints (1,933-2,003 mols) because M4/M5 require Vina poses; full DUD-E pipeline would need multi-day docking. Warhead standalone EF above is the literature-comparable number.",
+  "_loto_pipeline": {
+    "ca2": {
+      "n_total": 1933,
+      "n_act": 37,
+      "models": {
+        "M4": {
+          "ef1": 0.0,
+          "ef1_hits": 0,
+          "ef5": 2.69,
+          "ef5_hits": 5,
+          "ef10": 2.44,
+          "ef10_hits": 9,
+          "auc": 0.8042
+        },
+        "M5_gated": {
+          "ef1": 8.25,
+          "ef1_hits": 3,
+          "ef5": 5.92,
+          "ef5_hits": 11,
+          "ef10": 6.5,
+          "ef10_hits": 24,
+          "auc": 0.9314
+        }
+      }
+    },
+    "mmp9": {
+      "n_total": 1925,
+      "n_act": 50,
+      "models": {
+        "M4": {
+          "ef1": 0.0,
+          "ef1_hits": 0,
+          "ef5": 4.81,
+          "ef5_hits": 12,
+          "ef10": 4.21,
+          "ef10_hits": 21,
+          "auc": 0.8473
+        },
+        "M5_gated": {
+          "ef1": 0.0,
+          "ef1_hits": 0,
+          "ef5": 7.62,
+          "ef5_hits": 19,
+          "ef10": 5.82,
+          "ef10_hits": 29,
+          "auc": 0.9208
+        }
+      }
+    },
+    "ace": {
+      "n_total": 2003,
+      "n_act": 46,
+      "models": {
+        "M4": {
+          "ef1": 0.0,
+          "ef1_hits": 0,
+          "ef5": 0.87,
+          "ef5_hits": 2,
+          "ef10": 0.44,
+          "ef10_hits": 2,
+          "auc": 0.4362
+        },
+        "M5_gated": {
+          "ef1": 0.0,
+          "ef1_hits": 0,
+          "ef5": 0.87,
+          "ef5_hits": 2,
+          "ef10": 0.44,
+          "ef10_hits": 2,
+          "auc": 0.6708
+        }
+      }
+    }
+  }
+}

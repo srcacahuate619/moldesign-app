@@ -1,0 +1,19 @@
+# Reincorpora evidencia que dos reglas genericas de la raiz excluyen por
+# accidente. Ambas estan pensadas para otra cosa:
+#
+#   .gitignore:237  `ENV/`   convencion de virtualenv de Python. Con
+#                            core.ignorecase activo captura `validation/env/`,
+#                            que no es un entorno virtual sino el REGISTRO del
+#                            entorno de ejecucion (CPU, RAM, GPU, hashes,
+#                            version de Vina) exigido por el protocolo.
+#   .gitignore:191  `*.log`  excluye logs de desarrollo. Aqui los logs del
+#                            backend embebido son la evidencia primaria: la
+#                            traza del NameError que bloqueo PILOT-0 vive en
+#                            ellos y el informe la cita literalmente.
+#
+# Se reincorporan por ruta explicita, no con `git add -f`, para que la decision
+# quede escrita y las repeticiones futuras no dependan de recordarla.
+!env/
+!env/**
+!results/logs/
+!results/logs/**

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-12",
+  "hypothesis": "Se puede predecir el fallo de colocacion antes de dockear, con predictores disponibles sin conocer la pose cristalografica",
+  "protocol": "MF-12-PRE/PREREGISTRO.md; regresion logistica; entrenamiento en los 116 de train, evaluacion UNA sola vez en los 87 de val+test; dos niveles de disponibilidad (L solo ligando, L+S con sitio)",
+  "created_at": "2026-08-19T03:52:56.704098+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G2 precision balanceada de L supera al baseline mayoritario con CI95 que excluya el cero; G3 se reportan L y L+S por separado y el claim se hace sobre L"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/run_mf12_triage.py": "35a6b481b4dde49316efa74b6732cb3a0fab2f713409b3ee74c0e58fed4512a7"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:52:57.444192+00:00",
+  "decision_rationale": "ID declarado desde el inicio del programa y nunca ejecutado por falta de predictores medidos. Nivel L (solo ligando, sin conocer el sitio): precision balanceada 0.654 frente a 0.500 del baseline, diferencia pareada +0.218 con CI95 BCa [0.081, 0.322]. El MDE declarado ANTES de correr era 0.136, y el efecto observado lo supera: es resoluble por este diseno. Anadir descriptores de sitio (L+S) suma apenas +0.015, asi que el clasificador NO depende de conocer el bolsillo, que es lo que lo hace usable. Se descartaron por fuga los tres predictores de MF-24 que usan la pose cristalografica (rmsd_conf, enterramiento, ocupacion_caja). Dos de las tres predicciones preregistradas FALLARON: el enterramiento del sitio no era necesario (L funciona sin el) y el rendimiento supero el rango previsto. La tercera se cumplio y con holgura: las torsiones aportan +0.0165, esencialmente cero. Los coeficientes dominantes son ocupacion del conformero (-1.009) y numero de conformeros (-0.876): lo que predice el fallo es el volumen efectivo de busqueda, no el conteo de torsiones. Limitaciones: 0.654 no es un clasificador de produccion; no se mide el coste de enrutar mal; un solo modelo y un solo split.",
+  "finished_at": "2026-08-19T03:52:57.641607+00:00"
+}

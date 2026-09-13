@@ -1,0 +1,325 @@
+{
+  "experimento": "MF-11-R1",
+  "insumos": {
+    "union": "scripts/artifacts_science/MF-01-UNION (solo lectura, sellado)",
+    "splits": [
+      "train"
+    ],
+    "n_complejos_train": 116,
+    "n_antes_train": 2739,
+    "nota": "SOLO train (desviacion D1 de MF-11: la val actual queda excluida por completo; la regla se evalua unicamente sobre train)"
+  },
+  "contrato": {
+    "metrica": "RMSD pocket-frame pose-vs-pose (heavy atoms, matching 1:1 por serial, sin alineamiento; misma definicion de marco que molflex.rmsd_pose_pocket extendida por pares)",
+    "regla_admision": "diametro controlado: la pose entra al PRIMER cluster (orden de creacion) cuya distancia a TODOS los miembros es <= U (garantia: todo par de miembros a <= U); greedy por identidad ascendente; si no, cluster nuevo",
+    "representante_primario": "medoid geometrico (minimiza suma de RMSDs a los demas; empate por identidad ascendente; label-blind)",
+    "umbrales_preregistrados": [
+      0.5,
+      0.75,
+      1.0,
+      1.5,
+      2.0
+    ],
+    "seleccion": "MAYOR umbral con (a) 0 perdidas de cobertura (<= 2.0 A con el medoid), (b) degradacion mediana <= 0.1 A, (c) reduccion >= 10%; si ninguno cumple, NO_GO con tabla completa (sin elegir a dedo)",
+    "ablation": "SECUNDARIA, NO primaria: representante = mejor vina_score (label-blind); mezcla dedup con senal Vina (RS-01 la evaluara)",
+    "separacion_oraculo": "union_labels_train se lee SOLO en la fase de evaluacion (evaluar_umbral); admision y eleccion de representante NUNCA usan labels",
+    "sidecar": "cluster_members_train_{U}.jsonl del umbral elegido: audita la membresia de cada cluster (representante medoid, miembros, fuentes, provenance_keys, diametro maximo) sin reejecutar"
+  },
+  "por_umbral": {
+    "0.5": {
+      "umbral": 0.5,
+      "n_antes": 2739,
+      "n_despues": 2706,
+      "reduccion_pct": 1.2,
+      "n_complejos": 116,
+      "cubiertos_antes": 78,
+      "cubiertos_despues": 78,
+      "cobertura_antes": 0.6724,
+      "cobertura_despues": 0.6724,
+      "n_perdidos": 0,
+      "complejos_perdidos": [],
+      "degradacion_mediana": 0.0,
+      "por_fuente": {
+        "flexible_redock": {
+          "n_antes": 852,
+          "n_despues": 850,
+          "pct_supervivencia": 99.77
+        },
+        "molflex": {
+          "n_antes": 1596,
+          "n_despues": 1596,
+          "pct_supervivencia": 100.0
+        },
+        "ruta_a": {
+          "n_antes": 291,
+          "n_despues": 260,
+          "pct_supervivencia": 89.35
+        }
+      },
+      "tamanos_cluster": {
+        "P50": 1,
+        "P90": 1,
+        "max": 4,
+        "media": 1.01
+      },
+      "cumple": {
+        "a_cero_perdidas": true,
+        "b_degradacion_mediana": true,
+        "c_reduccion": false
+      },
+      "ablation_mejor_vina": {
+        "nota": "SECUNDARIA, NO primaria: mezcla deduplicacion con senal de Vina (RS-01 la evaluara; puede favorecer fuentes/configuraciones de Vina). El clustering es el mismo; solo cambia el representante.",
+        "cubiertos_despues": 78,
+        "cobertura_despues": 0.6724,
+        "n_perdidos": 0,
+        "complejos_perdidos": [],
+        "degradacion_mediana": 0.0
+      }
+    },
+    "0.75": {
+      "umbral": 0.75,
+      "n_antes": 2739,
+      "n_despues": 2660,
+      "reduccion_pct": 2.88,
+      "n_complejos": 116,
+      "cubiertos_antes": 78,
+      "cubiertos_despues": 78,
+      "cobertura_antes": 0.6724,
+      "cobertura_despues": 0.6724,
+      "n_perdidos": 0,
+      "complejos_perdidos": [],
+      "degradacion_mediana": 0.0,
+      "por_fuente": {
+        "flexible_redock": {
+          "n_antes": 852,
+          "n_despues": 845,
+          "pct_supervivencia": 99.18
+        },
+        "molflex": {
+          "n_antes": 1596,
+          "n_despues": 1566,
+          "pct_supervivencia": 98.12
+        },
+        "ruta_a": {
+          "n_antes": 291,
+          "n_despues": 249,
+          "pct_supervivencia": 85.57
+        }
+      },
+      "tamanos_cluster": {
+        "P50": 1,
+        "P90": 1,
+        "max": 4,
+        "media": 1.03
+      },
+      "cumple": {
+        "a_cero_perdidas": true,
+        "b_degradacion_mediana": true,
+        "c_reduccion": false
+      },
+      "ablation_mejor_vina": {
+        "nota": "SECUNDARIA, NO primaria: mezcla deduplicacion con senal de Vina (RS-01 la evaluara; puede favorecer fuentes/configuraciones de Vina). El clustering es el mismo; solo cambia el representante.",
+        "cubiertos_despues": 78,
+        "cobertura_despues": 0.6724,
+        "n_perdidos": 0,
+        "complejos_perdidos": [],
+        "degradacion_mediana": 0.0
+      }
+    },
+    "1.0": {
+      "umbral": 1.0,
+      "n_antes": 2739,
+      "n_despues": 2585,
+      "reduccion_pct": 5.62,
+      "n_complejos": 116,
+      "cubiertos_antes": 78,
+      "cubiertos_despues": 78,
+      "cobertura_antes": 0.6724,
+      "cobertura_despues": 0.6724,
+      "n_perdidos": 0,
+      "complejos_perdidos": [],
+      "degradacion_mediana": 0.0,
+      "por_fuente": {
+        "flexible_redock": {
+          "n_antes": 852,
+          "n_despues": 840,
+          "pct_supervivencia": 98.59
+        },
+        "molflex": {
+          "n_antes": 1596,
+          "n_despues": 1512,
+          "pct_supervivencia": 94.74
+        },
+        "ruta_a": {
+          "n_antes": 291,
+          "n_despues": 233,
+          "pct_supervivencia": 80.07
+        }
+      },
+      "tamanos_cluster": {
+        "P50": 1,
+        "P90": 1,
+        "max": 4,
+        "media": 1.06
+      },
+      "cumple": {
+        "a_cero_perdidas": true,
+        "b_degradacion_mediana": true,
+        "c_reduccion": false
+      },
+      "ablation_mejor_vina": {
+        "nota": "SECUNDARIA, NO primaria: mezcla deduplicacion con senal de Vina (RS-01 la evaluara; puede favorecer fuentes/configuraciones de Vina). El clustering es el mismo; solo cambia el representante.",
+        "cubiertos_despues": 78,
+        "cobertura_despues": 0.6724,
+        "n_perdidos": 0,
+        "complejos_perdidos": [],
+        "degradacion_mediana": 0.0
+      }
+    },
+    "1.5": {
+      "umbral": 1.5,
+      "n_antes": 2739,
+      "n_despues": 2413,
+      "reduccion_pct": 11.9,
+      "n_complejos": 116,
+      "cubiertos_antes": 78,
+      "cubiertos_despues": 78,
+      "cobertura_antes": 0.6724,
+      "cobertura_despues": 0.6724,
+      "n_perdidos": 0,
+      "complejos_perdidos": [],
+      "degradacion_mediana": 0.0,
+      "por_fuente": {
+        "flexible_redock": {
+          "n_antes": 852,
+          "n_despues": 830,
+          "pct_supervivencia": 97.42
+        },
+        "molflex": {
+          "n_antes": 1596,
+          "n_despues": 1382,
+          "pct_supervivencia": 86.59
+        },
+        "ruta_a": {
+          "n_antes": 291,
+          "n_despues": 201,
+          "pct_supervivencia": 69.07
+        }
+      },
+      "tamanos_cluster": {
+        "P50": 1,
+        "P90": 1,
+        "max": 8,
+        "media": 1.14
+      },
+      "cumple": {
+        "a_cero_perdidas": true,
+        "b_degradacion_mediana": true,
+        "c_reduccion": true
+      },
+      "ablation_mejor_vina": {
+        "nota": "SECUNDARIA, NO primaria: mezcla deduplicacion con senal de Vina (RS-01 la evaluara; puede favorecer fuentes/configuraciones de Vina). El clustering es el mismo; solo cambia el representante.",
+        "cubiertos_despues": 78,
+        "cobertura_despues": 0.6724,
+        "n_perdidos": 0,
+        "complejos_perdidos": [],
+        "degradacion_mediana": 0.0
+      }
+    },
+    "2.0": {
+      "umbral": 2.0,
+      "n_antes": 2739,
+      "n_despues": 2137,
+      "reduccion_pct": 21.98,
+      "n_complejos": 116,
+      "cubiertos_antes": 78,
+      "cubiertos_despues": 75,
+      "cobertura_antes": 0.6724,
+      "cobertura_despues": 0.6466,
+      "n_perdidos": 3,
+      "complejos_perdidos": [
+        "train|1alw",
+        "train|1bcd",
+        "train|1bn4"
+      ],
+      "degradacion_mediana": 0.0,
+      "por_fuente": {
+        "flexible_redock": {
+          "n_antes": 852,
+          "n_despues": 768,
+          "pct_supervivencia": 90.14
+        },
+        "molflex": {
+          "n_antes": 1596,
+          "n_despues": 1185,
+          "pct_supervivencia": 74.25
+        },
+        "ruta_a": {
+          "n_antes": 291,
+          "n_despues": 184,
+          "pct_supervivencia": 63.23
+        }
+      },
+      "tamanos_cluster": {
+        "P50": 1,
+        "P90": 2,
+        "max": 9,
+        "media": 1.28
+      },
+      "cumple": {
+        "a_cero_perdidas": false,
+        "b_degradacion_mediana": true,
+        "c_reduccion": true
+      },
+      "ablation_mejor_vina": {
+        "nota": "SECUNDARIA, NO primaria: mezcla deduplicacion con senal de Vina (RS-01 la evaluara; puede favorecer fuentes/configuraciones de Vina). El clustering es el mismo; solo cambia el representante.",
+        "cubiertos_despues": 76,
+        "cobertura_despues": 0.6552,
+        "n_perdidos": 2,
+        "complejos_perdidos": [
+          "train|1alw",
+          "train|1bcd"
+        ],
+        "degradacion_mediana": 0.0
+      }
+    }
+  },
+  "seleccion_umbral": {
+    "umbral_elegido": 1.5,
+    "motivo": "1.5 es el MAYOR umbral que cumple (a) 0 perdidas, (b) degradacion mediana 0.0 <= 0.1, (c) reduccion 11.9% >= 10%",
+    "umbral_per_complex": 1.5,
+    "nota_per_complex": "per_complex.jsonl usa el umbral elegido; si ninguno cumple, el fallback preregistrado (ver DESIGN.md)"
+  },
+  "empates_medoid": {
+    "umbral": 1.5,
+    "definicion_empate": "2+ miembros con la MISMA suma exacta de distancias a los demas; el desempate por identidad ascendente decidio al representante",
+    "n_clusters_no_singleton": 212,
+    "n_empates_medoid": 141,
+    "n_empates_cross_source": 31,
+    "fuente_elegida_en_empates": {
+      "flexible_redock": 31
+    },
+    "nota": "los empates cross-source son la unica via por la que el desempate por identidad puede introducir preferencia de fuente (caveat cuantificado para RS-01)"
+  },
+  "exclusiones": {
+    "test_historico": {
+      "n_test_manifest": 47,
+      "n_union": 116,
+      "interseccion": [],
+      "test_pids_sha256_ok": true,
+      "fuente": "data/pose_selector_dataset/manifest.json (metadatos de split; poses_test.jsonl NUNCA se abre)"
+    },
+    "denylist_fnd05": {
+      "n_denylist": 112,
+      "n_union": 116,
+      "interseccion": [],
+      "candidates_sha256_ok": true,
+      "fuente": "scripts/artifacts_science/FND-05/denylist_pids.json (cuarentena D-RC-CONFIRM)"
+    }
+  },
+  "label_blind": {
+    "clustering": "no lee labels (verificado por contrato y por test sintetico scripts/test_dedup_pose_union_medoid.py)",
+    "cobertura": "el oraculo (rmsd cristalografico de union_labels_train) se usa EXCLUSIVAMENTE para evaluar la preservacion DESPUES de deduplicar"
+  },
+  "determinismo": "salidas sin timestamps ni aleatoriedad; dos corridas producen bytes identicos (verificacion en DESIGN.md)"
+}

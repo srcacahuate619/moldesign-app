@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://moldesign.ai/schemas/model-manifest-v4.json",
+  "title": "MolDesign rescoring model manifest v4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifest_version",
+    "models"
+  ],
+  "properties": {
+    "manifest_version": {
+      "const": 4
+    },
+    "models": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classifier_binder",
+        "gnn_v2_cl",
+        "model_a_universal",
+        "pose_selector_v06"
+      ],
+      "properties": {
+        "classifier_binder": {
+          "$ref": "#/$defs/model"
+        },
+        "gnn_v2_cl": {
+          "$ref": "#/$defs/model"
+        },
+        "model_a_universal": {
+          "$ref": "#/$defs/model"
+        },
+        "pose_selector_v06": {
+          "$ref": "#/$defs/model"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "sha256",
+        "feature_schema",
+        "dataset",
+        "split",
+        "training_date",
+        "scientific_status",
+        "metrics",
+        "note"
+      ],
+      "properties": {
+        "file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "metadata_file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metadata_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "feature_schema": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prolif_included": {
+          "type": "boolean"
+        },
+        "dataset": {
+          "type": "object"
+        },
+        "split": {
+          "type": "object"
+        },
+        "training_date": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "scientific_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metrics": {
+          "type": "object"
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "dependentRequired": {
+        "metadata_file": [
+          "metadata_sha256"
+        ],
+        "metadata_sha256": [
+          "metadata_file"
+        ]
+      }
+    }
+  }
+}

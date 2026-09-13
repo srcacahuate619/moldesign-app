@@ -1,0 +1,82 @@
+{
+  "pdb_id": "1e2k",
+  "ok": true,
+  "n_conf": 18,
+  "top_k": 3,
+  "cpu": 1,
+  "relax_engine": "vina_local_only",
+  "openmm_status": {
+    "available": false,
+    "reasons": [
+      "SMIRNOFFTemplateGenerator: ModuleNotFoundError: No module named 'openff'",
+      "ForceField(+offxml): ValueError: Could not locate file \"openff-2.0.0.offxml\"",
+      "amber14-all createSystem: ValueError: No template found for residue 1 (ASP).  The atoms and bonds in the residue match NASP, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template"
+    ],
+    "relax_engine": "vina_local_only"
+  },
+  "time_fase1": 3.5,
+  "time_fase2": 216.6,
+  "time_fase3": 5.3,
+  "total_time_s": 225.4,
+  "ensemble_min_rmsd": 0.541,
+  "grid_cache": {
+    "mapas_generados": true,
+    "n_docks_maps": 17,
+    "n_docks_write": 1,
+    "n_docks_fresh": 0
+  },
+  "rigid_scores": [
+    -10.78,
+    -7.328,
+    -8.793,
+    -9.14,
+    -8.55,
+    -6.332,
+    -9.164,
+    -8.547,
+    -7.203,
+    -9.084,
+    -8.436,
+    -8.084,
+    -7.452,
+    -8.416,
+    -10.11,
+    -7.684,
+    -7.769,
+    -8.916
+  ],
+  "rigid_best": -10.78,
+  "top_k_relaxed": [
+    {
+      "conf_id": 0,
+      "rigid_score": -10.78,
+      "relaxed_score": -10.131,
+      "relaxed_local_score": -8.62,
+      "delta": 0.649,
+      "rmsd_to_crystal": 0.759,
+      "engine": "vina_local_only",
+      "ok": true
+    },
+    {
+      "conf_id": 14,
+      "rigid_score": -10.11,
+      "relaxed_score": -10.124,
+      "relaxed_local_score": -8.611,
+      "delta": -0.014,
+      "rmsd_to_crystal": 0.918,
+      "engine": "vina_local_only",
+      "ok": true
+    },
+    {
+      "conf_id": 6,
+      "rigid_score": -9.164,
+      "relaxed_score": -9.554,
+      "relaxed_local_score": -8.127,
+      "delta": -0.39,
+      "rmsd_to_crystal": 1.96,
+      "engine": "vina_local_only",
+      "ok": true
+    }
+  ],
+  "rmsd_best_to_crystal": 0.791
+}

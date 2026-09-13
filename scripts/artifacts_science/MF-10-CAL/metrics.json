@@ -1,0 +1,63 @@
+{
+ "experiment_id": "MF-10-CAL",
+ "timestamp": "2026-08-18T18:56:38.974603+00:00",
+ "duration_seconds": 2631.1,
+ "config": {
+  "iteraciones_barrido": [
+   500,
+   2000,
+   10000
+  ],
+  "poses_banda": 24,
+  "protocolo": "identico a MF-10 (construir_sistema reutilizado)"
+ },
+ "brazo_a": {
+  "n": 48,
+  "n_ok": 39,
+  "deriva_mediana_A": 0.401,
+  "deriva_p90_A": 0.787,
+  "deriva_max_A": 1.939,
+  "fuerza_rms_mediana": 3.2032
+ },
+ "brazo_b": {
+  "n_poses": 24,
+  "por_iteraciones": {
+   "500": {
+    "n": 21,
+    "delta_mediano": -0.05,
+    "fuerza_rms_mediana": 4.6703,
+    "cruzan": 3
+   },
+   "2000": {
+    "n": 21,
+    "delta_mediano": -0.095,
+    "fuerza_rms_mediana": 4.7978,
+    "cruzan": 4
+   },
+   "10000": {
+    "n": 21,
+    "delta_mediano": -0.111,
+    "fuerza_rms_mediana": 4.9488,
+    "cruzan": 4
+   }
+  }
+ },
+ "gates": {
+  "C1_suelo": {
+   "criterio": "la deriva mediana del cristal minimizado se reporta (medicion, sin umbral)",
+   "deriva_mediana_A": 0.401,
+   "pass": true
+  },
+  "C2_suelo_informativo": {
+   "criterio": "la deriva mediana del cristal es menor que |delta| que MF-10 habria necesitado (~1.0 A)",
+   "pass": true
+  },
+  "C3_convergencia": {
+   "criterio": "el delta mediano no mejora materialmente (>0.1 A) al subir de 500 a 10000 iteraciones",
+   "delta_500": -0.05,
+   "delta_max": -0.111,
+   "pass": true
+  }
+ },
+ "lectura": "C3 PASS => MF-10 midio con el minimizador convergido y su NO_GO es una medicion del campo de fuerza. C3 FAIL => MF-10 midio con el presupuesto agotado y su G3 debe releerse como inconcluso."
+}

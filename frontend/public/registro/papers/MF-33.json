@@ -1,0 +1,1110 @@
+{
+ "id": "MF-33",
+ "meta": {
+  "titulo": "La idea era correcta; dockearla rígido era el error",
+  "entradilla": "Los mismos confórmeros convierten 1 de 33 dockeados rígidos y 26 de 33 dockeados flexibles. Un defecto detectado después suspendió la magnitud durante dos días, y el experimento que lo midió la devolvió intacta."
+ },
+ "bloques": [
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "## Defecto declarado el 2026-08-19, resuelto el 2026-08-21  ",
+     "m": null
+    },
+    {
+     "t": "La magnitud de este experimento estuvo suspendida y vuelve a ser citable.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Lo que la suspendía: la comparación entre el brazo A y el brazo B está confundida por el número de poses que cada brazo conserva.  La métrica es de ",
+     "m": null
+    },
+    {
+     "t": "oráculo",
+     "m": "fuerte"
+    },
+    {
+     "t": ": el mejor RMSD entre las poses que el brazo conserva. Y ",
+     "m": null
+    },
+    {
+     "t": "num_modes=9",
+     "m": "codigo"
+    },
+    {
+     "t": " limita cuántas poses escribe Vina ",
+     "m": null
+    },
+    {
+     "t": "por corrida",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no cuántas busca.  | Brazo | Corridas | Poses conservadas | |---|---:|---:| | A — 1 confórmero | 1 | ",
+     "m": null
+    },
+    {
+     "t": "9",
+     "m": "fuerte"
+    },
+    {
+     "t": " | | B — K confórmeros | 29 (mediana) | ",
+     "m": null
+    },
+    {
+     "t": "261",
+     "m": "fuerte"
+    },
+    {
+     "t": " |  El brazo B extrae su oráculo de ",
+     "m": null
+    },
+    {
+     "t": "29 veces más poses",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Aunque la calidad de búsqueda fuera idéntica, ganaría sólo por conservar más muestras. No es un mecanismo: es un artefacto de medición, y afectaba igual a la etapa 2 (",
+     "m": null
+    },
+    {
+     "t": "MF-33-A2",
+     "m": "codigo"
+    },
+    {
+     "t": ").  [",
+     "m": null
+    },
+    {
+     "t": "MF-33-A3",
+     "m": "codigo"
+    },
+    {
+     "t": "](#) ",
+     "m": null
+    },
+    {
+     "t": "lo midió igualando corridas, poses (261) y CPU",
+     "m": "fuerte"
+    },
+    {
+     "t": " —gastó un 20% ",
+     "m": null
+    },
+    {
+     "t": "más",
+     "m": "enfasis"
+    },
+    {
+     "t": " que B— y aun así perdió ",
+     "m": null
+    },
+    {
+     "t": "26 a 19",
+     "m": "fuerte"
+    },
+    {
+     "t": ", con ",
+     "m": null
+    },
+    {
+     "t": "g_B",
+     "m": "codigo"
+    },
+    {
+     "t": " = 7, ",
+     "m": null
+    },
+    {
+     "t": "g_A3",
+     "m": "codigo"
+    },
+    {
+     "t": " = 0 y McNemar exacto p = 0.0156. El secundario lo cierra: ",
+     "m": null
+    },
+    {
+     "t": "A2 con 9 poses y A3 con 261 dan el mismo 19",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Multiplicar por 29 las poses conservadas desde el mismo confórmero no mueve un solo complejo.  La etiqueta ",
+     "m": null
+    },
+    {
+     "t": "defecto-abierto",
+     "m": "codigo"
+    },
+    {
+     "t": " queda levantada, y la magnitud de abajo —1/33, 12/33, 26/33— es citable. Lo que sigue sin resolver es ",
+     "m": null
+    },
+    {
+     "t": "la atribución entre ensemble y presupuesto",
+     "m": "fuerte"
+    },
+    {
+     "t": ", que es otra cosa y se discute al final de esta ficha.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento se diseñó para matar una cartera, y acabó reabriéndola.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El brazo de control de otro experimento había medido algo que nadie preguntó: dockeando ",
+     "m": null
+    },
+    {
+     "t": "flexibles",
+     "m": "fuerte"
+    },
+    {
+     "t": " los mismos confórmeros que el protocolo congelado dockea ",
+     "m": null
+    },
+    {
+     "t": "rígidos",
+     "m": "fuerte"
+    },
+    {
+     "t": ", la cobertura del estrato difícil subía de forma llamativa. Y no eran datos distintos — ",
+     "m": null
+    },
+    {
+     "t": "molflex.py",
+     "m": "codigo"
+    },
+    {
+     "t": " escribe las dos codificaciones desde el mismo objeto:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "codigo",
+   "lang": null,
+   "texto": "rigid_str, flex_str, mapa, _err = escribir_pdbqt(setups[0])\nconf{cid}.rigid.pdbqt   <- un solo ROOT, TORSDOF 0\nconf{cid}.flex.pdbqt    <- árbol de torsiones"
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Misma geometría, mismo receptor, misma caja. Dos formas de escribir el mismo confórmero.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso dejaba abierta la pregunta que decidía si MolFlex tenía arreglo o sobraba: ",
+     "m": null
+    },
+    {
+     "t": "si un solo confórmero flexible alcanza lo mismo que los K del ensemble, MolFlex no está roto — es redundante",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y no hay nada que mejorar, hay algo que borrar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La hipótesis que se preregistró fue esa: que el ensemble no aportaría nada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Tres brazos, misma cohorte de 48, mismo motor a ",
+     "m": null
+    },
+    {
+     "t": "exhaustiveness=8",
+     "m": "codigo"
+    },
+    {
+     "t": ", semilla 42.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Estrato de colocación, n=33:",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Brazo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Qué es",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Convierte",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "RMSD mediano",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "CPU mediana",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "C",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "K confórmeros, ",
+       "m": null
+      },
+      {
+       "t": "rígido",
+       "m": "fuerte"
+      },
+      {
+       "t": " — el protocolo congelado",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1 / 33",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "3.238 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "575 s",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "A",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "1 confórmero, flexible",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "12 / 33",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "3.056 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "140 s",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "B",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "K confórmeros, flexible",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "26 / 33",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "1.184 Å",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "3,822 s",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Comparación pareada A contra B: ",
+     "m": null
+    },
+    {
+     "t": "14 discordantes a favor de B, cero en contra",
+     "m": "fuerte"
+    },
+    {
+     "t": ", McNemar exacto ",
+     "m": null
+    },
+    {
+     "t": "p = 0.0001",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La hipótesis queda refutada.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El margen de equivalencia declarado antes era de ±4 complejos; el delta observado es ",
+     "m": null
+    },
+    {
+     "t": "14",
+     "m": "fuerte"
+    },
+    {
+     "t": ". No hay lectura bajo la cual el ensemble sea redundante.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Los dos factores se componen",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ninguno de los dos basta por separado, y esa es la forma del resultado:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "rígido → flexible, con un solo confórmero: ",
+      "m": null
+     },
+     {
+      "t": "1 → 12",
+      "m": "fuerte"
+     }
+    ],
+    [
+     {
+      "t": "añadir el ensemble encima de la flexibilidad: ",
+      "m": null
+     },
+     {
+      "t": "12 → 26",
+      "m": "fuerte"
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La libertad torsional aporta más que el ensemble, pero los dos son grandes. Un ensemble sin flexibilidad convierte casi nada; flexibilidad sin ensemble se queda a mitad de camino.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Y en el estrato fácil el protocolo actual está perfectamente bien",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Brazo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Convierte",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "RMSD mediano",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "C — rígido",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15 / 15",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "0.861 Å",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "A — 1 flexible",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "14 / 15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1.325 Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "B — K flexible",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15 / 15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1.010 Å",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El brazo rígido no sólo cubre los 15: tiene la ",
+     "m": null
+    },
+    {
+     "t": "mejor mediana de los tres",
+     "m": "fuerte"
+    },
+    {
+     "t": ". MolFlex no falla en general — falla exactamente en el estrato que motivó todo el programa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso explica por qué el defecto sobrevivió tanto tiempo sin detectarse. En todo lo que funcionaba, funcionaba bien.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Corrigendum de MF-09",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-09",
+     "m": "codigo"
+    },
+    {
+     "t": " concluyó que en ",
+     "m": null
+    },
+    {
+     "t": "30 de 33",
+     "m": "fuerte"
+    },
+    {
+     "t": " complejos difíciles ",
+     "m": null
+    },
+    {
+     "t": "no existe",
+     "m": "fuerte"
+    },
+    {
+     "t": " ninguna pose ≤2 Å entre una mediana de 751 candidatas, y de ahí salió la frase que sostuvo el cierre de la cartera C: ",
+     "m": null
+    },
+    {
+     "t": "«el generador no visita la región correcta»",
+     "m": "enfasis"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese material provenía de docking ",
+     "m": null
+    },
+    {
+     "t": "rígido",
+     "m": "fuerte"
+    },
+    {
+     "t": " —",
+     "m": null
+    },
+    {
+     "t": "molflex.dock_rigido_archivo",
+     "m": "codigo"
+    },
+    {
+     "t": ", TORSDOF 0—. Con los ",
+     "m": null
+    },
+    {
+     "t": "mismos confórmeros",
+     "m": "fuerte"
+    },
+    {
+     "t": " dockeados flexibles, la pose existe en ",
+     "m": null
+    },
+    {
+     "t": "26 de 33",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "MF-09",
+     "m": "codigo"
+    },
+    {
+     "t": " midió una limitación del ",
+     "m": null
+    },
+    {
+     "t": "protocolo",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no del espacio alcanzable.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La región correcta sí es alcanzable. Lo que no la alcanzaba era la forma de pedirla.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que este resultado NO dice por sí solo, y es lo más importante de esta ficha",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La atribución causal de los 14 complejos no la resuelve este diseño.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El brazo B consume ",
+     "m": null
+    },
+    {
+     "t": "27 veces",
+     "m": "fuerte"
+    },
+    {
+     "t": " la CPU del brazo A —3,822 s contra 140 s de mediana—. La brecha admite dos explicaciones que estos tres brazos no separan: puede ser el ensemble, o puede ser el presupuesto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El prerregistro declaró por eso una ",
+     "m": null
+    },
+    {
+     "t": "etapa 2",
+     "m": "fuerte"
+    },
+    {
+     "t": " obligatoria antes de cualquier claim —un confórmero con ",
+     "m": null
+    },
+    {
+     "t": "exhaustiveness",
+     "m": "codigo"
+    },
+    {
+     "t": " escalado hasta igualar la CPU de B—. Corrió como ",
+     "m": null
+    },
+    {
+     "t": "MF-33-A2",
+     "m": "codigo"
+    },
+    {
+     "t": ", y partió la brecha casi por la mitad:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Alcanza ≤2 Å en COLOCACION",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "A — 1 confórmero, ",
+       "m": null
+      },
+      {
+       "t": "exh=8",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "12 / 33",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "A2",
+       "m": "fuerte"
+      },
+      {
+       "t": " — 1 confórmero, ",
+       "m": null
+      },
+      {
+       "t": "CPU igualada a B",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "19 / 33",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "B — K confórmeros",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "26 / 33",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El presupuesto compra 7 complejos y el ensemble aporta los otros 7.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La paridad de CPU se verificó —razón A2/B de 0.975 en colocación— y el tope de ",
+     "m": null
+    },
+    {
+     "t": "exhaustiveness=1024",
+     "m": "codigo"
+    },
+    {
+     "t": " no se activó en ningún complejo. ",
+     "m": null
+    },
+    {
+     "t": "MF-33-A2",
+     "m": "codigo"
+    },
+    {
+     "t": " quedó sellado ",
+     "m": null
+    },
+    {
+     "t": "INCONCLUSIVE",
+     "m": "codigo"
+    },
+    {
+     "t": " por un detalle de redacción de su propio gate, no por el dato: pedía «6 o más discordantes a favor de B ",
+     "m": null
+    },
+    {
+     "t": "y 0 en contra",
+     "m": "fuerte"
+    },
+    {
+     "t": "», y salió 8 a favor con 1 en contra, con McNemar p = 0.0391.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y ",
+     "m": null
+    },
+    {
+     "t": "MF-33-A3",
+     "m": "codigo"
+    },
+    {
+     "t": " cerró después la explicación alternativa que quedaba —que la ventaja de B fuese conteo de poses— igualando también las poses conservadas y gastando un 20% más de CPU que B: 19 contra 26, con ",
+     "m": null
+    },
+    {
+     "t": "g_A3",
+     "m": "codigo"
+    },
+    {
+     "t": " = 0.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La frase defendible, ahora con las tres etapas sobre la mesa:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "De los 14 complejos de brecha entre A y B, ",
+     "m": null
+    },
+    {
+     "t": "unos 7 los compra el presupuesto y unos 7 los aporta la diversidad conformacional",
+     "m": "fuerte"
+    },
+    {
+     "t": ", medidos a CPU igualada y con las poses conservadas igualadas. Con n=33 eso detecta la contribución; no la cuantifica con precisión.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Una ambigüedad de mi propio prerregistro, declarada antes del resultado completo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El gate escribió ",
+     "m": null
+    },
+    {
+     "t": "«ENSEMBLE APORTA si b≥6 con c=0»",
+     "m": "enfasis"
+    },
+    {
+     "t": " ",
+     "m": null
+    },
+    {
+     "t": "sin definir b y c",
+     "m": "fuerte"
+    },
+    {
+     "t": ". El runner los define como ",
+     "m": null
+    },
+    {
+     "t": "b = gana A",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "c = gana B",
+     "m": "codigo"
+    },
+    {
+     "t": ". Leído literalmente, el gate pediría que ganara A para declarar que el ensemble aporta — lo contrario de la intención.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se detectó y se dejó por escrito con 8 filas sobre la mesa, antes del resultado completo. La corrección es reportar ",
+     "m": null
+    },
+    {
+     "t": "ambos números con su significado explícito",
+     "m": "fuerte"
+    },
+    {
+     "t": " —b = 0, c = 14— de modo que la dirección no dependa de una elección posterior a los datos. El umbral de 6 discordantes con 0 en contra es simétrico y no cambia qué pasa el gate.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es exactamente el tipo de detalle que un prerregistro existe para blindar, y se coló.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Un complejo que no aporta información",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "1l83",
+     "m": "codigo"
+    },
+    {
+     "t": " tiene ",
+     "m": null
+    },
+    {
+     "t": "un solo confórmero",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Los tres brazos son, para él, el mismo experimento: dan 1.383 Å los tres, en 3 segundos. No contribuye a la comparación pareada y queda registrado como tal en lugar de contarse como un empate informativo.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-33.md"
+}

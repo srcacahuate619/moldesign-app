@@ -1,0 +1,71 @@
+{
+ "experiment_id": "REC-03-PRE",
+ "tipo": "PREREGISTRO",
+ "decision": "PENDING",
+ "geometria_declarada": {
+  "S1_CRITICO": {
+   "n": 11,
+   "d_catalogo_mediana": 48.183,
+   "contencion_total_catalogo": 0,
+   "d_top1_mediana": 52.981,
+   "contencion_total_mp1": 2,
+   "d_mejor_de_3_mediana": 20.723,
+   "contencion_total_mejor_de_3": 3
+  },
+  "S2_GRAVE": {
+   "n": 14,
+   "d_catalogo_mediana": 19.654,
+   "contencion_total_catalogo": 3,
+   "d_top1_mediana": 34.81,
+   "contencion_total_mp1": 2,
+   "d_mejor_de_3_mediana": 9.39,
+   "contencion_total_mejor_de_3": 7
+  },
+  "S0_SIN_EXCEPCION": {
+   "n": 218,
+   "d_catalogo_mediana": 0.001,
+   "contencion_total_catalogo": 218,
+   "d_top1_mediana": 8.009,
+   "contencion_total_mp1": 125,
+   "d_mejor_de_3_mediana": 4.55,
+   "contencion_total_mejor_de_3": 163
+  }
+ },
+ "techo_geometrico_accionables": {
+  "criterio": "contencion 100% del ligando en alguno de los 3 pockets de MolPocket, caja del catalogo",
+  "S1": 3,
+  "S2": 7,
+  "total": 10,
+  "de": 25
+ },
+ "coste_medido_fuera_de_cohorte": {
+  "target": "1BN1 (S4_LEVE)",
+  "preparacion_s": 6.9,
+  "docking_s": 97.5,
+  "config": "exh=32, cpu=1"
+ },
+ "diseno": {
+  "targets": 37,
+  "cajas_por_target": 4,
+  "semillas": 3,
+  "corridas": 444,
+  "corridas_determinismo": 4,
+  "brazos": [
+   "G_CAT",
+   "G_MP1",
+   "G_MP2",
+   "G_MP3",
+   "G_MP_SCORE (derivado por score)"
+  ],
+  "metrica": "rdMolAlign.CalcRMS in situ, exito <= 2.0 A en >=2 de 3 semillas"
+ },
+ "gates_definidos": [
+  "G1_validez>=98%",
+  "G2_solo_lectura",
+  "G3_reparacion>=5/25",
+  "G4_no_regresion>=70%_control",
+  "G5_determinismo"
+ ],
+ "cuarentena": "cero solapamiento con poses_train (116) y poses_test (47)",
+ "nota": "Ninguna corrida de docking ejecutada bajo este registro. La geometria declarada es condicion de partida, no resultado."
+}

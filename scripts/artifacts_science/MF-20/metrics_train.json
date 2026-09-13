@@ -1,0 +1,81 @@
+{
+ "experiment_id": "MF-20",
+ "tipo": "medicion correlacional (hipotesis nueva)",
+ "timestamp": "2026-08-18T22:49:38.400369+00:00",
+ "duration_seconds": 2.23,
+ "split": "train",
+ "definicion": "modos = clusters de diametro <= 2.0 A (contrato MF-11-R1); degeneracion(D) = numero de modos cuyo mejor score esta a D o menos del mejor score global",
+ "n_complejos": 116,
+ "n_ok": 106,
+ "por_desenlace": {
+  "CUBIERTO": {
+   "n": 57,
+   "n_modos_mediano": 42,
+   "degeneracion_0.5_mediana": 2,
+   "degeneracion_1.0_mediana": 4,
+   "degeneracion_2.0_mediana": 9
+  },
+  "NO_CUBIERTO": {
+   "n": 49,
+   "n_modos_mediano": 187,
+   "degeneracion_0.5_mediana": 2,
+   "degeneracion_1.0_mediana": 7,
+   "degeneracion_2.0_mediana": 31
+  },
+  "TOP1_ACIERTA": {
+   "n": 31,
+   "n_modos_mediano": 32,
+   "degeneracion_0.5_mediana": 2,
+   "degeneracion_1.0_mediana": 3,
+   "degeneracion_2.0_mediana": 7
+  },
+  "TOP1_FALLA": {
+   "n": 26,
+   "n_modos_mediano": 63,
+   "degeneracion_0.5_mediana": 2,
+   "degeneracion_1.0_mediana": 5,
+   "degeneracion_2.0_mediana": 19
+  }
+ },
+ "por_estrato": {
+  "COLOCACION": {
+   "n": 32,
+   "n_modos_mediano": 192,
+   "degeneracion_1.0_mediana": 9,
+   "modos_buenos_entre_empatados_1.0_mediana": 0
+  },
+  "CONTROL": {
+   "n": 10,
+   "n_modos_mediano": 36,
+   "degeneracion_1.0_mediana": 4,
+   "modos_buenos_entre_empatados_1.0_mediana": 1
+  },
+  "RESTO": {
+   "n": 64,
+   "n_modos_mediano": 71,
+   "degeneracion_1.0_mediana": 4,
+   "modos_buenos_entre_empatados_1.0_mediana": 1
+  }
+ },
+ "limitacion": "n=48/116 y correlacional. La degeneracion se mide con la MISMA funcion cuyo fallo se investiga, asi que no distingue 'el paisaje es degenerado' de 'la funcion no resuelve': son la misma afirmacion vista de dos lados.",
+ "control_de_confundidor": {
+  "CUBIERTO": {
+   "n": 57,
+   "n_poses_mediana": 100,
+   "n_modos_mediano": 42,
+   "modos_por_pose_mediano": 0.478,
+   "degeneracion_2.0_mediana": 9,
+   "fraccion_modos_empatados_2.0_mediana": 0.292
+  },
+  "NO_CUBIERTO": {
+   "n": 49,
+   "n_poses_mediana": 252,
+   "n_modos_mediano": 187,
+   "modos_por_pose_mediano": 0.778,
+   "degeneracion_2.0_mediana": 31,
+   "fraccion_modos_empatados_2.0_mediana": 0.239
+  }
+ },
+ "veredicto_de_la_hipotesis": "REFUTADA en su forma interesante",
+ "conclusion": "La degeneracion ABSOLUTA separa (31 modos empatados a 2 kcal/mol en los no cubiertos frente a 9 en los cubiertos), pero es un ARTEFACTO DE MUESTREO: los no cubiertos tienen 252 poses medianas frente a 100, y 187 modos frente a 42. Normalizando, la FRACCION de modos empatados en la cima es 0.239 en los no cubiertos y 0.292 en los cubiertos: no solo no es mayor, es LIGERAMENTE MENOR. La hipotesis de que una degeneracion comun explica los negativos de las carteras C y D NO se sostiene. Lo unico que si separa de forma no confundida es que en 32 de 32 complejos COLOCACION NINGUNO de los modos empatados a 1 kcal/mol del mejor es bueno (<=2 A), frente a 1 de 10 en CONTROL. Pero eso es MF-09 dicho de otra forma -en 30 de 33 no existe pose buena- y no constituye informacion nueva."
+}

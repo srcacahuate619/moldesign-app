@@ -1,0 +1,377 @@
+{
+ "id": "MF-15-EXT",
+ "meta": {
+  "titulo": "Reproduce al tercer decimal con 4.6 veces más poses",
+  "entradilla": "0.1858 aquí contra 0.186 antes. La ausencia de embudo no era un artefacto de muestreo escaso, y corregir la simetría no la mueve ni un decimal."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un resultado incómodo merece que se intente tirarlo abajo antes de construir encima. La medición anterior había encontrado que en el estrato difícil no hay embudo —correlación 0.186 entre distancia al cristal y puntuación— y de esa medición dependían decisiones importantes: descartar familias enteras de métodos de optimización.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Había dos formas plausibles de que esa cifra fuera un artefacto:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "Muestreo escaso.",
+      "m": "fuerte"
+     },
+     {
+      "t": " Con pocas poses por complejo, un Spearman bajo puede ser ruido.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "La métrica de simetría.",
+      "m": "fuerte"
+     },
+     {
+      "t": " Un anillo rotado 180° es la misma molécula; si el RMSD no lo",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "trata bien, las etiquetas están sucias y cualquier correlación se degrada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento prueba las dos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Verificación primero",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Antes de nada, reproducir lo anterior sobre el material nuevo: ",
+     "m": null
+    },
+    {
+     "t": "0.1858",
+     "m": "fuerte"
+    },
+    {
+     "t": " frente a ",
+     "m": null
+    },
+    {
+     "t": "0.186",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Coincide al tercer decimal.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso verifica que la lectura del material es correcta, y es la clase de comprobación que distingue una extensión de un experimento nuevo con el mismo nombre.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó con las dos explicaciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Muestreo escaso: descartada.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Con ",
+     "m": null
+    },
+    {
+     "t": "751 poses por complejo",
+     "m": "fuerte"
+    },
+    {
+     "t": " —4.6 veces más que antes— la cifra no se mueve:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "ρ",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Colocación",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.186",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Control",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.507",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y por radios, dentro del estrato difícil:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Radio",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "ρ",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "≤ 4 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.279",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "≤ 6 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.140",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ni siquiera acercándose mejora de forma útil.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Simetría: descartada.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Corregir la métrica de simetría deja el valor en ",
+     "m": null
+    },
+    {
+     "t": "0.1858 con ambas métricas",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Idéntico. El embudo —o su ausencia— es invariante a esa elección.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esa segunda comprobación importa más de lo que parece, porque en otro experimento del programa la corrección de simetría ",
+     "m": null
+    },
+    {
+     "t": "sí",
+     "m": "fuerte"
+    },
+    {
+     "t": " cambió las cosas: reveló un 21% de etiquetas positivas mal marcadas y duplicó la brecha entre un selector y su baseline. Que aquí no cambie nada no era predecible, y por eso había que medirlo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que sigue sin poder medirse",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "A radios de 2 Å o menos ",
+     "m": null
+    },
+    {
+     "t": "siguen sin existir complejos medibles",
+     "m": "fuerte"
+    },
+    {
+     "t": " en el estrato difícil, incluso con 751 poses.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La razón no es estadística sino física: en 30 de 33 complejos ",
+     "m": null
+    },
+    {
+     "t": "no hay ninguna pose ahí",
+     "m": "fuerte"
+    },
+    {
+     "t": ". No se puede calcular una correlación en una región del espacio que el generador nunca visitó, por muchas poses que se generen fuera de ella.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué este registro existe",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Porque el resultado que verifica es de los que cierran puertas. Descartar familias de métodos basándose en una correlación medida sobre 163 poses por complejo habría sido imprudente; hacerlo sobre 751, con la métrica de simetría comprobada por ambos caminos, es otra cosa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un negativo que sostiene decisiones grandes necesita que alguien haya intentado tumbarlo.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-15-EXT.md"
+}

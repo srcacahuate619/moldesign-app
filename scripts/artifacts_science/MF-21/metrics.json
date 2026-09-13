@@ -1,0 +1,44 @@
+{
+ "experiment_id": "MF-21",
+ "tipo": "medicion (lectura de los conformeros ETKDG en disco, sin docking nuevo)",
+ "timestamp": "2026-08-19T00:25:32.666911+00:00",
+ "duration_seconds": 0.82,
+ "metrica": "RMSD ALINEADO (GetBestRMS, simetria incluida) entre cada conformero del ensemble y el ligando cristalografico. Alinear es CORRECTO aqui: mide conformacion interna, no colocacion (convencion de MF-02A/MF-02A-EXT)",
+ "n_complejos": 48,
+ "n_ok": 48,
+ "grupos": {
+  "COLOCACION": {
+   "n": 33,
+   "n_conformeros_mediano": 29,
+   "mejor_rmsd_alineado_mediano": 1.436,
+   "complejos_con_conformero_bajo_2A": 26,
+   "frac_alcanzable": 0.7879,
+   "n_conformeros_bajo_1.5A_mediano": 1
+  },
+  "CONTROL": {
+   "n": 15,
+   "n_conformeros_mediano": 9,
+   "mejor_rmsd_alineado_mediano": 0.491,
+   "complejos_con_conformero_bajo_2A": 13,
+   "frac_alcanzable": 0.8667,
+   "n_conformeros_bajo_1.5A_mediano": 5
+  },
+  "NO_CUBIERTO": {
+   "n": 30,
+   "n_conformeros_mediano": 29,
+   "mejor_rmsd_alineado_mediano": 1.364,
+   "complejos_con_conformero_bajo_2A": 23,
+   "frac_alcanzable": 0.7667,
+   "n_conformeros_bajo_1.5A_mediano": 1
+  },
+  "CUBIERTO": {
+   "n": 18,
+   "n_conformeros_mediano": 9,
+   "mejor_rmsd_alineado_mediano": 0.52,
+   "complejos_con_conformero_bajo_2A": 16,
+   "frac_alcanzable": 0.8889,
+   "n_conformeros_bajo_1.5A_mediano": 2
+  }
+ },
+ "lectura": "frac_alcanzable alta en los NO_CUBIERTO => el ensemble SI contiene un conformero suficientemente bueno y la estrategia de MF-19 (dockear rigido) es viable: el cuello seria la busqueda torsional. frac_alcanzable baja => MF-19 mide un techo inalcanzable y el cuello vuelve a ser la GENERACION de conformeros"
+}

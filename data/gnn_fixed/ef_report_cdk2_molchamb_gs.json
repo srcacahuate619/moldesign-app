@@ -1,0 +1,72 @@
+{
+  "target": "cdk2",
+  "family": "kinase",
+  "n_total": 199,
+  "n_active": 50,
+  "box_source": "curated_csv",
+  "cuts": {
+    "vina_only": {
+      "ef1": 3.98,
+      "ef5": 3.98,
+      "ef10": 3.98,
+      "auc": 0.9616,
+      "pr": 0.9287,
+      "n_total": 199,
+      "n_active": 50
+    },
+    "vina_plus_xgb": {
+      "ef1": 3.98,
+      "ef5": 3.98,
+      "ef10": 3.98,
+      "auc": 0.986,
+      "pr": 0.9591,
+      "n_total": 199,
+      "n_active": 50
+    },
+    "vina_plus_gnn": {
+      "ef1": 3.98,
+      "ef5": 3.98,
+      "ef10": 3.98,
+      "auc": 0.9616,
+      "pr": 0.9287,
+      "n_total": 199,
+      "n_active": 50
+    },
+    "vina_plus_clgnn": {
+      "ef1": 3.98,
+      "ef5": 3.98,
+      "ef10": 3.98,
+      "auc": 0.9616,
+      "pr": 0.9287,
+      "n_total": 199,
+      "n_active": 50
+    },
+    "calibrated_stacking": {
+      "ef1": 3.98,
+      "ef5": 3.98,
+      "ef10": 3.98,
+      "auc": 0.986,
+      "pr": 0.9591,
+      "n_total": 199,
+      "n_active": 50
+    },
+    "stacking_with_molchamb": {
+      "ef1": 3.98,
+      "ef5": 3.98,
+      "ef10": 3.56,
+      "auc": 0.9694,
+      "pr": 0.8982,
+      "n_total": 199,
+      "n_active": 50
+    },
+    "_diagnostics": {
+      "n_total": 199,
+      "gnn_signal_present": false,
+      "clgnn_signal_present": false,
+      "gnn_populated": 0,
+      "clgnn_populated": 0
+    }
+  },
+  "molchamb_runtime_sec": 0.2708,
+  "timestamp": "2026-07-25 18:52:20"
+}

@@ -1,0 +1,29 @@
+# Git normaliza los saltos de linea al hacer checkout (core.autocrlf). Para un
+# archivo de texto cualquiera eso es inocuo. Para un archivo cuyo SHA-256 se
+# verifica NO lo es: el checkout reescribe sus bytes y el hash deja de coincidir.
+#
+# Se detecto en un clon limpio: `model-manifest.json` pasaba de 6854 a 7003
+# bytes -149 LF convertidos a CRLF- y con ello fallaban
+# `generate_model_manifest.py --check` y el SHA del manifiesto dentro de
+# `generate_runtime_inventory.py --check`. En la maquina del mantenedor no se
+# veia porque ahi el archivo lo escribe el generador, no el checkout.
+#
+# Estas rutas se marcan `-text`: git nunca toca sus bytes.
+
+# Manifiesto de modelos y los artefactos que el mismo hashea.
+rescoring/artifacts/**            -text
+# Oferta y manifiesto de Open Babel: el manifiesto hashea la oferta.
+tools/openbabel/*.json            -text
+# Catalogo de receptores: `generate_runtime_inventory.py` publica su SHA-256.
+curated_targets.json              -text
+# Artefactos cientificos sellados: su inmutabilidad es su razon de ser.
+scripts/artifacts_science/**      -text
+# Indice y manifiesto del dataset de pose selector, tambien hasheados.
+data/pose_selector_dataset/**     -text
+
+# Estructuras: binarias de hecho, aunque `.pdb` sea texto.
+*.pdb.gz                          binary
+*.pdbqt                           -text
+*.pdb                             -text
+*.sdf                             -text
+*.mol2                            -text

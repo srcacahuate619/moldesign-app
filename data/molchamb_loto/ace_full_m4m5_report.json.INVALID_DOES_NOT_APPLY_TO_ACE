@@ -1,0 +1,58 @@
+{
+  "target": "ace",
+  "pdb": "1o86",
+  "n_total": 2003,
+  "n_actives": 46,
+  "ratio": "1:42",
+  "scorers_used": "Vina + XGBoost + GNN-v2 + CL-GNN + UMS",
+  "stacking_m4_weights": {
+    "vina": 0.0,
+    "xgb": 0.0,
+    "gnn": 0.0,
+    "clgnn": 1.0
+  },
+  "stacking_m5_weights": {
+    "m4": 0.65,
+    "ums": 0.35
+  },
+  "individual_auc": {
+    "vina": 0.4056,
+    "xgb": 0.4532,
+    "gnn_v2": 0.283,
+    "clgnn": 0.4052,
+    "univ_metal": 0.8162
+  },
+  "m4_full": {
+    "auc": 0.4052,
+    "ef_1pct": 0.0,
+    "ef_5pct": 0.4354,
+    "ef_10pct": 1.0886,
+    "bootstrap_ci": [
+      0.314,
+      0.4976
+    ]
+  },
+  "m5_full": {
+    "auc": 0.5778,
+    "ef_1pct": 2.1772,
+    "ef_5pct": 3.048,
+    "ef_10pct": 2.6126,
+    "bootstrap_ci": [
+      0.4774,
+      0.6785
+    ]
+  },
+  "delta": {
+    "mean": 0.1728,
+    "ci_low": 0.1364,
+    "ci_high": 0.2111,
+    "p_value": 0.0,
+    "significant": true
+  },
+  "gnn_clgnn_coverage": {
+    "gnn_defaults": 184,
+    "clgnn_defaults": 184,
+    "total_valid": 2003
+  },
+  "timestamp": "2026-07-29 10:17:03"
+}

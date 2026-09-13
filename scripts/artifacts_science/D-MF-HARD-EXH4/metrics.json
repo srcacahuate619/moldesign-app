@@ -1,0 +1,425 @@
+{
+  "experiment_id": "D-MF-HARD-EXH4",
+  "split": "train",
+  "n_complejos": 34,
+  "n_poses": 231,
+  "n_fallos_itt": 0,
+  "por_estrato": {
+    "hard": {
+      "n_complejos": 17,
+      "n_con_poses": 17,
+      "cobertura": 0.6471,
+      "n_cubiertos": 11,
+      "wilson_ci95_cobertura": [
+        0.413,
+        0.827
+      ],
+      "mediana_min_rmsd": 1.424,
+      "n_poses": 119
+    },
+    "control": {
+      "n_complejos": 17,
+      "n_con_poses": 17,
+      "cobertura": 0.7647,
+      "n_cubiertos": 13,
+      "wilson_ci95_cobertura": [
+        0.527,
+        0.904
+      ],
+      "mediana_min_rmsd": 1.049,
+      "n_poses": 112
+    }
+  },
+  "tiempos": {
+    "hard": {
+      "n": 17,
+      "wall_p50": 147.1,
+      "wall_p90": 203.42,
+      "cpu_p50": 147.1,
+      "cpu_p90": 203.42,
+      "nota": "cpu = wall x 1 (cpu=1 por Vina)"
+    },
+    "control": {
+      "n": 17,
+      "wall_p50": 12.5,
+      "wall_p90": 24.72,
+      "cpu_p50": 12.5,
+      "cpu_p90": 24.72,
+      "nota": "cpu = wall x 1 (cpu=1 por Vina)"
+    },
+    "total": {
+      "n": 34,
+      "wall_p50": 59.5,
+      "wall_p90": 189.47,
+      "cpu_p50": 59.5,
+      "cpu_p90": 189.47,
+      "nota": "cpu = wall x 1 (cpu=1 por Vina)"
+    }
+  },
+  "fallos_itt_por_estrato": {},
+  "gate": {
+    "enmienda": "auditada_2026-08-16",
+    "validez": "rc=0 + archivo no vacio + 1<=n_models_emitted<=9 + scores FINITOS de REMARK VINA RESULT + geometria parseable",
+    "scores": "exclusivamente_REMARK_VINA_RESULT_del_archivo",
+    "num_modes_requested": 9,
+    "n_desviaciones": 0,
+    "modos_emitidos": {
+      "hard": {
+        "n_corridas": 17,
+        "mediana": 9.0,
+        "min": 2,
+        "max": 9,
+        "distribucion": {
+          "2": 1,
+          "3": 3,
+          "4": 1,
+          "5": 1,
+          "9": 11
+        }
+      },
+      "control": {
+        "n_corridas": 17,
+        "mediana": 8.0,
+        "min": 2,
+        "max": 9,
+        "distribucion": {
+          "2": 3,
+          "3": 1,
+          "4": 1,
+          "5": 1,
+          "7": 2,
+          "8": 1,
+          "9": 8
+        }
+      }
+    },
+    "identidad_colisiones_historicos": {
+      "fnd06_hits": 0,
+      "union_hits": 0,
+      "veredicto": true
+    }
+  },
+  "config": {
+    "exhaustiveness": 4,
+    "seed_docking": 42,
+    "seed_conformer": "crystal",
+    "box": "25 A centrado en ligando cristalografico",
+    "num_modes_requested": 9,
+    "cpu": 1,
+    "workers": 6,
+    "timeout_s": 300,
+    "relax": "sin relax",
+    "engine": "vina 1.2.7"
+  },
+  "claim": "benchmark de REDOCKING/GENERACION en pocket conocida (box 25 centrado en ligando cristalografico, conformacion de entrada cristalografica); NO evidencia end-to-end para pockets desconocidas (FORECAST.md alcance del claim)",
+  "comparacion": {
+    "operacional_nivel_a": {
+      "molflex_k15": {
+        "hard": {
+          "n_cubiertos": 3,
+          "denominador": 17,
+          "cobertura": 0.1765,
+          "mediana_min_rmsd": 4.024,
+          "n_poses": 1450
+        },
+        "control": {
+          "n_cubiertos": 15,
+          "denominador": 17,
+          "cobertura": 0.8824,
+          "mediana_min_rmsd": 1.041,
+          "n_poses": 1240
+        }
+      },
+      "union": {
+        "hard": {
+          "n_cubiertos": 11,
+          "denominador": 17,
+          "cobertura": 0.6471,
+          "mediana_min_rmsd": 1.4,
+          "n_poses": 802,
+          "n_anomalias_rmsd": 0
+        },
+        "control": {
+          "n_cubiertos": 13,
+          "denominador": 17,
+          "cobertura": 0.7647,
+          "mediana_min_rmsd": 1.289,
+          "n_poses": 155,
+          "n_anomalias_rmsd": 0
+        }
+      },
+      "vina_exh4": {
+        "hard": {
+          "n_cubiertos": 11,
+          "denominador": 17,
+          "cobertura": 0.6471,
+          "mediana_min_rmsd": 1.424,
+          "n_poses": 119
+        },
+        "control": {
+          "n_cubiertos": 13,
+          "denominador": 17,
+          "cobertura": 0.7647,
+          "mediana_min_rmsd": 1.049,
+          "n_poses": 112
+        }
+      }
+    },
+    "cpu_ajustada_nivel_b": {
+      "molflex_k15": {
+        "cpu_h_p50_por_estrato": {
+          "hard": 2.214,
+          "control": 0.406,
+          "total": 2.62
+        },
+        "cpu_h_p90_total": 4.24,
+        "fuente": "FORECAST.md §6(b): hard 255 docks x 31.25 s (P50) = 2.214 h; control 159 x 9.2 s = 0.406 h; total 2.620 h (P90 total 4.24 h = 255 x 42.1 s + 159 x 28.5 s), train",
+        "por_estrato": {
+          "hard": {
+            "cobertura": 0.1765,
+            "cpu_h": 2.214,
+            "cobertura_por_cpu_h": 0.0797
+          },
+          "control": {
+            "cobertura": 0.8824,
+            "cpu_h": 0.406,
+            "cobertura_por_cpu_h": 2.1734
+          }
+        }
+      },
+      "vina_exh4": {
+        "cpu_h_medida": 0.788,
+        "por_estrato": {
+          "hard": {
+            "cobertura": 0.6471,
+            "cpu_h": 0.67,
+            "cobertura_por_cpu_h": 0.9658
+          },
+          "control": {
+            "cobertura": 0.7647,
+            "cpu_h": 0.118,
+            "cobertura_por_cpu_h": 6.4805
+          }
+        }
+      },
+      "union": {
+        "ratio_cpu": "INDEFINIDO: cobertura/0 CPU-hours (ningun dock nuevo)",
+        "coste_incremental_hoy": 0.0,
+        "coste_historico_generacion": "NO estimable desde datos sellados (FND-06 sin timing: cobertura created_at = 0/4300 conocido; 447 runs)",
+        "coste_reproduccion_estimado": "2.4-4.7 h CPU (planificacion, orden de magnitud, NO gate: ruta_a 60 runs ~0.4-1.2 h + flexible_redock 143 runs ~1.4 h + molflex 244 runs ~0.6-2.1 h)"
+      },
+      "g3_tradeoff": {
+        "hard": {
+          "mayor_cobertura": "vina_exh4",
+          "siguiente": "molflex_k15",
+          "diferencia_complejos": 8,
+          "cpu_h": {
+            "vina_exh4": 0.67,
+            "molflex_k15": 2.214
+          },
+          "tradeoff_documentado": false
+        },
+        "control": {
+          "mayor_cobertura": "molflex_k15",
+          "siguiente": "vina_exh4",
+          "diferencia_complejos": 2,
+          "cpu_h": {
+            "molflex_k15": 0.406,
+            "vina_exh4": 0.118
+          },
+          "tradeoff_documentado": false
+        }
+      }
+    },
+    "n_candidatos_nivel_c_descriptiva": {
+      "molflex_k15": {
+        "hard": {
+          "n_poses": 1450,
+          "cobertura": 0.1765,
+          "cobertura_por_100_candidatos": 0.0122
+        },
+        "control": {
+          "n_poses": 1240,
+          "cobertura": 0.8824,
+          "cobertura_por_100_candidatos": 0.0712
+        }
+      },
+      "union": {
+        "hard": {
+          "n_poses": 802,
+          "cobertura": 0.6471,
+          "cobertura_por_100_candidatos": 0.0807
+        },
+        "control": {
+          "n_poses": 155,
+          "cobertura": 0.7647,
+          "cobertura_por_100_candidatos": 0.4934
+        }
+      },
+      "vina_exh4": {
+        "hard": {
+          "n_poses": 119,
+          "cobertura": 0.6471,
+          "cobertura_por_100_candidatos": 0.5438
+        },
+        "control": {
+          "n_poses": 112,
+          "cobertura": 0.7647,
+          "cobertura_por_100_candidatos": 0.6828
+        }
+      }
+    },
+    "notas": {
+      "nivel_a": "operacional completa: numerador = complejos con min(rmsd_pose_pocket) <= 2 A sobre TODOS los candidatos del brazo; denominador = 17 complejos por estrato (train)",
+      "nivel_c": "DESCRIPTIVA, no decisoria: MF-11 no deduplica y los duplicados distorsionan N (FORECAST §6.c)",
+      "union_elementos": {
+        "n": 0,
+        "detalle": [],
+        "nota": "patron de elementos del bloque PDBQT distinto al meeko del work dir sellado (no afecta RMSD; verificado solo informativo)"
+      }
+    },
+    "g2_cuatro_niveles": {
+      "hard": {
+        "vina_exh4_vs_molflex_k15": {
+          "nivel_i_conteo": {
+            "vina_exh4": 11,
+            "molflex_k15": 3,
+            "denominador": 17
+          },
+          "nivel_ii_pareada": {
+            "b": 8,
+            "c": 0,
+            "concordantes": 9,
+            "b_desc": "vina_exh4 recupera y molflex_k15 pierde",
+            "c_desc": "molflex_k15 recupera y vina_exh4 pierde"
+          },
+          "nivel_iii_inferencia": {
+            "mcnemar_exacto_bilateral": 0.0078125,
+            "nota": "n=17: potencia baja; este nivel describe el ruido, no declara superioridad por si solo"
+          },
+          "nivel_iv_superioridad": {
+            "superior": "vina_exh4",
+            "veredicto": "vina_exh4"
+          }
+        },
+        "vina_exh4_vs_union": {
+          "nivel_i_conteo": {
+            "vina_exh4": 11,
+            "union": 11,
+            "denominador": 17
+          },
+          "nivel_ii_pareada": {
+            "b": 1,
+            "c": 1,
+            "concordantes": 15,
+            "b_desc": "vina_exh4 recupera y union pierde",
+            "c_desc": "union recupera y vina_exh4 pierde"
+          },
+          "nivel_iii_inferencia": {
+            "mcnemar_exacto_bilateral": 1.0,
+            "nota": "n=17: potencia baja; este nivel describe el ruido, no declara superioridad por si solo"
+          },
+          "nivel_iv_superioridad": {
+            "superior": null,
+            "veredicto": "INCONCLUSO"
+          }
+        },
+        "molflex_k15_vs_union": {
+          "nivel_i_conteo": {
+            "molflex_k15": 3,
+            "union": 11,
+            "denominador": 17
+          },
+          "nivel_ii_pareada": {
+            "b": 0,
+            "c": 8,
+            "concordantes": 9,
+            "b_desc": "molflex_k15 recupera y union pierde",
+            "c_desc": "union recupera y molflex_k15 pierde"
+          },
+          "nivel_iii_inferencia": {
+            "mcnemar_exacto_bilateral": 0.0078125,
+            "nota": "n=17: potencia baja; este nivel describe el ruido, no declara superioridad por si solo"
+          },
+          "nivel_iv_superioridad": {
+            "superior": "union",
+            "veredicto": "union"
+          }
+        }
+      },
+      "control": {
+        "vina_exh4_vs_molflex_k15": {
+          "nivel_i_conteo": {
+            "vina_exh4": 13,
+            "molflex_k15": 15,
+            "denominador": 17
+          },
+          "nivel_ii_pareada": {
+            "b": 0,
+            "c": 2,
+            "concordantes": 15,
+            "b_desc": "vina_exh4 recupera y molflex_k15 pierde",
+            "c_desc": "molflex_k15 recupera y vina_exh4 pierde"
+          },
+          "nivel_iii_inferencia": {
+            "mcnemar_exacto_bilateral": 0.5,
+            "nota": "n=17: potencia baja; este nivel describe el ruido, no declara superioridad por si solo"
+          },
+          "nivel_iv_superioridad": {
+            "superior": null,
+            "veredicto": "INCONCLUSO"
+          }
+        },
+        "vina_exh4_vs_union": {
+          "nivel_i_conteo": {
+            "vina_exh4": 13,
+            "union": 13,
+            "denominador": 17
+          },
+          "nivel_ii_pareada": {
+            "b": 2,
+            "c": 2,
+            "concordantes": 13,
+            "b_desc": "vina_exh4 recupera y union pierde",
+            "c_desc": "union recupera y vina_exh4 pierde"
+          },
+          "nivel_iii_inferencia": {
+            "mcnemar_exacto_bilateral": 1.0,
+            "nota": "n=17: potencia baja; este nivel describe el ruido, no declara superioridad por si solo"
+          },
+          "nivel_iv_superioridad": {
+            "superior": null,
+            "veredicto": "INCONCLUSO"
+          }
+        },
+        "molflex_k15_vs_union": {
+          "nivel_i_conteo": {
+            "molflex_k15": 15,
+            "union": 13,
+            "denominador": 17
+          },
+          "nivel_ii_pareada": {
+            "b": 3,
+            "c": 1,
+            "concordantes": 13,
+            "b_desc": "molflex_k15 recupera y union pierde",
+            "c_desc": "union recupera y molflex_k15 pierde"
+          },
+          "nivel_iii_inferencia": {
+            "mcnemar_exacto_bilateral": 0.625,
+            "nota": "n=17: potencia baja; este nivel describe el ruido, no declara superioridad por si solo"
+          },
+          "nivel_iv_superioridad": {
+            "superior": null,
+            "veredicto": "INCONCLUSO"
+          }
+        }
+      }
+    }
+  },
+  "verificaciones": {
+    "val_no_tocado_verificado": true,
+    "pids_val_en_artefactos": 0,
+    "pids_val_en_work": 0
+  }
+}

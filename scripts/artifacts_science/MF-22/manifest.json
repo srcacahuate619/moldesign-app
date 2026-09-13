@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-22",
+  "hypothesis": "El presupuesto de error explica el fallo: el error conformacional y el de colocacion se suman, y un conformero a 1.36 A consume casi todo el margen de 2 A",
+  "protocol": "medicion: cruce por conformero del RMSD alineado de entrada con el mejor RMSD en marco de pocket que ESE conformero produjo; sin computo nuevo",
+  "created_at": "2026-08-19T03:53:07.414708+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gates; curva de conversion frente al error conformacional de partida"
+  },
+  "decision": "NO_GO",
+  "assets_hashes": {
+    "scripts/analisis_mf22_presupuesto.py": "0cbee401c6e0c709efc4a1fa350e41f22ad996cecbf8d86c6d0ee7872a749a97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:08.181525+00:00",
+  "decision_rationale": "HIPOTESIS REFUTADA para el estrato dificil. En COLOCACION la tasa de conversion es CERO en todas las bandas, incluida 0.0-0.5 A (7 conformeros con conformacion practicamente perfecta y ninguno produjo una pose <=2 A). Lo que separa a los estratos es el COSTE DE COLOCACION: 0.741 A en control frente a 3.847 A en los dificiles, cinco veces mas. En CONTROL el modelo SI funciona y da una especificacion usable: curva monotona (0.947 / 0.870 / 0.581 / 0) con corte alrededor de 1.5 A de error conformacional, y colocacion casi gratis (0.55-0.78 A). Hallazgo de diseno registrado: el MF-22 planeado -dockear rigido cada conformero- YA es el pipeline (molflex.dockear_conformero dockea conf{cid}.rigid.pdbqt con TORSDOF 0), asi que se rediseno para medir el presupuesto de error. Se detecto y corrigio una violacion del teorema de cuerpo rigido (pose < alineado, imposible) en 70 de 970 conformeros, causada por el hidrogeno retenido que MolFromMolFile deja en 6 complejos; tras corregir con RemoveAllHs, 0 violaciones de 970.",
+  "finished_at": "2026-08-19T03:53:08.380021+00:00"
+}

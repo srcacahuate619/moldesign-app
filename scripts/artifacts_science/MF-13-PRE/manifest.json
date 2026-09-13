@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-13-PRE",
+  "hypothesis": "La funcion de puntuacion de Vina prefiere la pose nativa cuando se la entregan; separar fallo de busqueda de fallo de puntuacion en la cohorte dificil",
+  "protocol": "MF-13-PRE/PREREGISTRO.md; contenedor moldesign-lab; 116 complejos de train; score_only y local_only sobre la pose cristalografica en su propio receptor y su propia caja, los mismos del docking v2",
+  "created_at": "2026-08-18T20:19:46.071994+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "23ac6d11cfadfdbd1d98de59392ebdaa66539cee",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 >=95% de complejos con score finito; G2 fraccion de COLOCACION donde el cristal relajado gana al mejor dock: >=0.70 BUSQUEDA, <=0.30 PUNTUACION, intermedio MIXTO"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/run_mf13_score_nativo.py": "db24d7afe5762bad1034da83881c2d323cb6779804059e6b4b565f43cd0eff22"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T20:19:46.642578+00:00",
+  "decision_rationale": "Prerregistro escrito antes de ejecutar. MF-09 midio que el buscador no PRODUCE la pose nativa, pero nadie pregunto si la funcion la RECONOCERIA si se la entregaran. Son dos fallos con consecuencias opuestas: si la funcion prefiere la nativa la palanca es el muestreo; si no, ninguna palanca de muestreo puede funcionar. Se declaran los umbrales 0.70/0.30 y la prediccion BUSQUEDA antes de ver datos, y se declara el sondeo de 3 complejos que descubrio y corrigio un defecto del montaje (local_only no escribe REMARK VINA RESULT y la pose relajada hay que re-puntuarla).",
+  "finished_at": "2026-08-18T20:19:46.784735+00:00"
+}

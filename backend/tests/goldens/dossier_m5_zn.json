@@ -1,0 +1,318 @@
+{
+  "adr": "docs/75_DECISION_CIENTIFICA_M5_ZN_V1.md",
+  "alias_de_grafia": {
+    "descripcion": "`metaloenzyme` es alias de lectura de `metalloenzyme` (§6 del ADR 75). La DECISIÓN tiene que ser idéntica; el campo de procedencia sí difiere a propósito, porque §6.5 dice que la grafía histórica se conserva y se normaliza al cargarla.",
+    "la_decision_coincide": true,
+    "procedencia_canonica": "metalloenzyme",
+    "procedencia_legacy": "metalloenzyme (registrada como «metaloenzyme»)"
+  },
+  "descripcion": "Los tres estados de dossier de M5-Zn. En los dos últimos el score compuesto es null y NUNCA un valor neutral fabricado (§5 del ADR).",
+  "estados": {
+    "corrida_anterior_a_schema_18": [
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Observación · afinidad AutoDock Vina",
+        "razon": null,
+        "valor": "-7.20 kcal/mol (score de Vina, sin transformar)",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "NO_EVALUADO",
+        "etiqueta": "Interpretación · regresión XGBoost (pKi)",
+        "razon": "El rescoring de ML no produjo regresión para esta corrida. En evaluaciones anteriores al 2026-09-04 este campo está vacío porque el valor se perdía al sobrescribir la afinidad de Vina.",
+        "valor": null,
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Modelo de rescoring y familia estructural",
+        "razon": null,
+        "valor": "metalloenzyme",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Protocolo M5-Zn",
+        "razon": null,
+        "valor": "M5_ZN_MMP9_1GKC_V1",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Fórmula del perfil",
+        "razon": null,
+        "valor": "0.75*XGBoost + 0.25*UMS_warhead",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Componentes requeridos y presentes",
+        "razon": null,
+        "valor": "requeridos: xgb · ums — presentes: xgb",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Normalización de Vina (congelada por perfil)",
+        "razon": null,
+        "valor": "vina_reference_max = 8.247",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Señal · warheads de zinc (UMS, SMARTS)",
+        "razon": null,
+        "valor": "0.9167 — UMS HISTÓRICO (warheads + donantes + MolChamb), no la variante SMARTS-only del ADR 75. La corrida es anterior a SCHEMA 18 y no registró la señal autorizada.",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "NO_EVALUADO",
+        "etiqueta": "Score compuesto M5-Zn",
+        "razon": "La corrida no registró ningún estado de M5-Zn: es anterior a SCHEMA 18, cuando el protocolo se conectó al pipeline. Hasta entonces estaba implementado y sin llamador, así que estos casos se puntuaron con M4 y los pesos por defecto del stacking. Las señales individuales de arriba sí son de esta corrida.",
+        "valor": "NOT_EVALUATED_PROTOCOL_NOT_EXECUTED",
+        "valor_es_clasificacion": true
+      }
+    ],
+    "perfil_con_benchmark_en_revision": [
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Observación · afinidad AutoDock Vina",
+        "razon": null,
+        "valor": "-7.20 kcal/mol (score de Vina, sin transformar)",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "NO_EVALUADO",
+        "etiqueta": "Interpretación · regresión XGBoost (pKi)",
+        "razon": "El rescoring de ML no produjo regresión para esta corrida. En evaluaciones anteriores al 2026-09-04 este campo está vacío porque el valor se perdía al sobrescribir la afinidad de Vina.",
+        "valor": null,
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Modelo de rescoring y familia estructural",
+        "razon": null,
+        "valor": "metalloenzyme",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Protocolo M5-Zn",
+        "razon": null,
+        "valor": "M5_ZN_MMP9_1GKC_V1",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Fórmula del perfil",
+        "razon": null,
+        "valor": "0.75*XGBoost + 0.25*UMS_warhead",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Componentes requeridos y presentes",
+        "razon": null,
+        "valor": "requeridos: xgb · ums — presentes: xgb · ums",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Normalización de Vina (congelada por perfil)",
+        "razon": null,
+        "valor": "vina_reference_max = 8.247",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Señal · warheads de zinc (UMS, SMARTS)",
+        "razon": null,
+        "valor": "0.9167",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REVISAR",
+        "etiqueta": "Score compuesto M5-Zn",
+        "razon": "El score está calculado y es reproducible, pero se DEMOSTRÓ que el benchmark que validó este perfil no acopló en el sitio del zinc catalítico. En MMP9/1GKC ningún zinc cae dentro de la caja declarada por el criterio por eje —el catalítico queda fuera por Δz = −17.34 con semilado 12.5—, el inhibidor cristalográfico tiene sólo 4 de sus 22 átomos dentro, y el único metal dentro es un ion de calcio a 4.7 Å del centro. Medido átomo a átomo, el donante más cercano de un activo está a 15.99 Å del zinc. El componente que depende de la pose pesa 0.75. El número sirve para comparar corridas entre sí y NO debe leerse como evidencia de acoplamiento metaloproteico. Ver docs/77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md §1.1.",
+        "valor": "0.8592 · M5_ZN_MMP9_1GKC_V1 — score de ranking derivado, no una afinidad ni una medida experimental · BENCHMARK EN REVISIÓN",
+        "valor_es_clasificacion": true
+      }
+    ],
+    "perfil_con_top1_que_no_coordina": [
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Observación · afinidad AutoDock Vina",
+        "razon": null,
+        "valor": "-7.20 kcal/mol (score de Vina, sin transformar)",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "NO_EVALUADO",
+        "etiqueta": "Interpretación · regresión XGBoost (pKi)",
+        "razon": "El rescoring de ML no produjo regresión para esta corrida. En evaluaciones anteriores al 2026-09-04 este campo está vacío porque el valor se perdía al sobrescribir la afinidad de Vina.",
+        "valor": null,
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Modelo de rescoring y familia estructural",
+        "razon": null,
+        "valor": "metalloenzyme",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Protocolo M5-Zn",
+        "razon": null,
+        "valor": "M5_ZN_ACE_1O86_V1",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Fórmula del perfil",
+        "razon": null,
+        "valor": "0.20*Vina_norm + 0.40*XGBoost + 0.40*UMS_warhead",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Componentes requeridos y presentes",
+        "razon": null,
+        "valor": "requeridos: vina · xgb · ums — presentes: vina · xgb · ums",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Normalización de Vina (congelada por perfil)",
+        "razon": null,
+        "valor": "vina_reference_max = 9.566",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Señal · warheads de zinc (UMS, SMARTS)",
+        "razon": null,
+        "valor": "0.9167",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REVISAR",
+        "etiqueta": "Score compuesto M5-Zn",
+        "razon": "El score está calculado y es reproducible. La caja del benchmark SÍ contenía el zinc —en ACE/1O86 es su centro exacto, y las poses caen dentro— y aun así, de los 47 activos evaluables NINGUNA POSE TOP-1 coloca un átomo donante (N/O/S) a ≤4.0 Å del metal: mínima 6.13 Å, mediana 11.04 Å. Esas top-1 son las que produjeron las features y sostienen el AUC, así que su AUC no es evidencia de reconocimiento del metal. Los inhibidores de ACE del tipo lisinopril quelan zinc. NO se sabe si alguna pose descartada sí coordinaba: el checkpoint guardó sólo la top-1, y afirmar que la búsqueda nunca exploró la coordinación sería convertir un oráculo ausente en un muestreo fallido. Ver docs/77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md §8.",
+        "valor": "0.8532 · M5_ZN_ACE_1O86_V1 — score de ranking derivado, no una afinidad ni una medida experimental · TOP-1 SIN COORDINAR EL METAL",
+        "valor_es_clasificacion": true
+      }
+    ],
+    "perfil_exacto_falta_componente": [
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Observación · afinidad AutoDock Vina",
+        "razon": null,
+        "valor": "-7.20 kcal/mol (score de Vina, sin transformar)",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "NO_EVALUADO",
+        "etiqueta": "Interpretación · regresión XGBoost (pKi)",
+        "razon": "El rescoring de ML no produjo regresión para esta corrida. En evaluaciones anteriores al 2026-09-04 este campo está vacío porque el valor se perdía al sobrescribir la afinidad de Vina.",
+        "valor": null,
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Modelo de rescoring y familia estructural",
+        "razon": null,
+        "valor": "metalloenzyme",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Protocolo M5-Zn",
+        "razon": null,
+        "valor": "M5_ZN_CA2_3DC3_V1",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Fórmula del perfil",
+        "razon": null,
+        "valor": "0.20*Vina_norm + 0.20*XGBoost + 0.20*GNN-D + 0.40*UMS_warhead",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Componentes requeridos y presentes",
+        "razon": null,
+        "valor": "requeridos: vina · xgb · gnn_d · ums — presentes: vina · xgb · ums",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Normalización de Vina (congelada por perfil)",
+        "razon": null,
+        "valor": "vina_reference_max = 10.45",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Señal · warheads de zinc (UMS, SMARTS)",
+        "razon": null,
+        "valor": "0.9167",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "NO_EVALUADO",
+        "etiqueta": "Score compuesto M5-Zn",
+        "razon": "Faltó al menos un componente con peso distinto de cero en la fórmula del perfil. No se renormalizan pesos ni se sustituye un modelo por otro (§5). El caso de CA2/3DC3 es GNN-D: no existe productor de esa señal en producción —sólo aparece en los checkpoints de benchmark— y el §4.1 prohíbe sustituirla por CL-GNN. Componentes ausentes en esta corrida: gnn_d.",
+        "valor": "NOT_EVALUATED_MISSING_COMPONENT",
+        "valor_es_clasificacion": true
+      }
+    ],
+    "zinc_fuera_de_las_tres_dianas": [
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Observación · afinidad AutoDock Vina",
+        "razon": null,
+        "valor": "-7.20 kcal/mol (score de Vina, sin transformar)",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "NO_EVALUADO",
+        "etiqueta": "Interpretación · regresión XGBoost (pKi)",
+        "razon": "El rescoring de ML no produjo regresión para esta corrida. En evaluaciones anteriores al 2026-09-04 este campo está vacío porque el valor se perdía al sobrescribir la afinidad de Vina.",
+        "valor": null,
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Modelo de rescoring y familia estructural",
+        "razon": null,
+        "valor": "metalloenzyme",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "ABSTENCION",
+        "etiqueta": "Protocolo M5-Zn",
+        "razon": "El PDB «1BN1» no es ninguno de los tres perfiles validados (3DC3/CA2, 1GKC/MMP9, 1O86/ACE). M5-Zn prepara el receptor, conserva el zinc, ejecuta Vina y calcula señales diagnósticas, pero NO hereda los pesos de otra diana.",
+        "valor": "REVIEW_OUT_OF_VALIDATED_TARGET",
+        "valor_es_clasificacion": true
+      },
+      {
+        "estado": "NO_EVALUADO",
+        "etiqueta": "Score compuesto M5-Zn",
+        "razon": "Sin perfil validado no hay fórmula que aplicar. Las señales individuales sí están disponibles y se muestran por separado.",
+        "valor": null,
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Señal · warheads de zinc (UMS, SMARTS)",
+        "razon": null,
+        "valor": "0.9167",
+        "valor_es_clasificacion": false
+      }
+    ]
+  },
+  "golden_version": 1,
+  "protocolo": "M5_ZN"
+}

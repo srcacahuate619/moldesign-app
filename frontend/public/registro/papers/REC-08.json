@@ -1,0 +1,462 @@
+{
+ "id": "REC-08",
+ "meta": {
+  "titulo": "El sitio inter-cadena sobrevive a la preparación",
+  "entradilla": "Veintiséis complejos tienen el bolsillo formado por varias cadenas, uno de ellos por cuatro. Ninguno pierde una sola cadena al preparar el receptor. El riesgo anotado hace meses no se materializa."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "FEP-02",
+     "m": "codigo"
+    },
+    {
+     "t": " midió que ",
+     "m": null
+    },
+    {
+     "t": "43 de 203 complejos tienen el sitio de unión repartido entre más de una cadena",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y su propio código dejó anotado el riesgo concreto: que la función que detecta la cadena dominante recorte una sola y ",
+     "m": null
+    },
+    {
+     "t": "destruya un sitio inter-cadena",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese riesgo llevaba meses escrito y nunca se comprobó. Si se materializara, no sería un problema de documentación como el resto de la cartera H: sería un ",
+     "m": null
+    },
+    {
+     "t": "defecto de producción",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y todo lo medido sobre los complejos afectados arrastraría un error no declarado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Comprobarlo resultó costar once segundos, porque el material ya existía.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se comparó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Para cada complejo, dos lecturas y una resta:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "Cadenas que forman el sitio",
+      "m": "fuerte"
+     },
+     {
+      "t": " — las que aportan algún residuo con un átomo a ≤ 8 Å de",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "algún átomo pesado del ligando cristalográfico, medido sobre el PDB ",
+     "m": null
+    },
+    {
+     "t": "original",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "Cadenas presentes en el receptor preparado",
+      "m": "fuerte"
+     },
+     {
+      "t": " — el ",
+      "m": null
+     },
+     {
+      "t": "rec.pdbqt",
+      "m": "codigo"
+     },
+     {
+      "t": ", que es el que Vina",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "realmente usa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "Pérdida",
+      "m": "fuerte"
+     },
+     {
+      "t": " — cadenas de (1) ausentes de (2).",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El radio de 8 Å se reusó de ",
+     "m": null
+    },
+    {
+     "t": "FEP-02",
+     "m": "codigo"
+    },
+    {
+     "t": " en lugar de elegir uno nuevo, para que las dos mediciones sean comparables.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "0 de 116 complejos tienen el sitio mutilado.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y donde más podría haber dolido:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    []
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Complejos con sitio formado por más de una cadena",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "26",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Máximo de cadenas en un mismo sitio",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "De esos 26, cuántos pierden alguna cadena",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El riesgo no ocurre. Es un negativo limpio, y es buena noticia: no hay nada que reparar por esta vía.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La limitación que sí importa",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cobertura: 116 de 203, el 57%.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los 87 restantes son **todos de ",
+     "m": null
+    },
+    {
+     "t": "valtest",
+     "m": "codigo"
+    },
+    {
+     "t": ", y fallan por una causa única: ",
+     "m": "fuerte"
+    },
+    {
+     "t": "no existe ",
+     "m": null
+    },
+    {
+     "t": "rec.pdbqt",
+     "m": "codigo"
+    },
+    {
+     "t": " para ellos**. El receptor preparado sólo se generó para ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso no es un fallo del análisis — es una asimetría real del material. La afirmación vale para ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": " y **no se extiende a ",
+     "m": null
+    },
+    {
+     "t": "val",
+     "m": "codigo"
+    },
+    {
+     "t": " ni a ",
+     "m": null
+    },
+    {
+     "t": "test",
+     "m": "codigo"
+    },
+    {
+     "t": "**.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Queda anotado porque cualquier experimento futuro que compare receptores preparados entre splits se va a topar con lo mismo, y conviene saberlo antes de diseñarlo que después de ejecutarlo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que este resultado NO dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se compara ",
+     "m": null
+    },
+    {
+     "t": "presencia de cadena",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no identidad residuo a residuo. Una cadena presente pero ",
+     "m": null
+    },
+    {
+     "t": "recortada en su extremo",
+     "m": "fuerte"
+    },
+    {
+     "t": ", o con residuos ausentes en medio, no se detecta con este criterio.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El resultado es una ",
+     "m": null
+    },
+    {
+     "t": "cota inferior",
+     "m": "fuerte"
+    },
+    {
+     "t": " del daño: dice que no se pierden cadenas enteras, no que el receptor preparado sea idéntico al original en la región del sitio.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Medirlo exigiría comparación residuo a residuo. Es el paso natural si alguna vez aparece sospecha de recorte fino, y no hay motivo para darlo mientras no aparezca.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué merecía ejecutarse aunque saliera negativo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Era un identificador declarado en la cartera de receptor que llevaba meses sin tocarse, con un riesgo documentado y sin medir. Un riesgo escrito y no comprobado tiene el peor de los dos comportamientos posibles: no protege de nada y sigue apareciendo en cada revisión como una duda abierta.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Once segundos lo cerraron.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/REC-08.md"
+}

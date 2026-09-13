@@ -1,0 +1,256 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://moldesign.local/schemas/experiment_manifest_v1.json",
+  "title": "MolDesign experiment manifest (v1)",
+  "description": "Registro único por experimento del programa experimental científico (docs/49, sección 17). Claves en inglés; valores libres. Los artefactos de producción permanecen fuera de este árbol.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "hypothesis",
+    "protocol",
+    "created_at",
+    "status",
+    "git_state",
+    "environment",
+    "seeds",
+    "dependencies",
+    "gate",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1,
+      "description": "Versión del schema de manifest."
+    },
+    "experiment_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "description": "Identificador único del experimento (alfanumérico, puntos, guiones)."
+    },
+    "hypothesis": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Hipótesis preregistrada del experimento."
+    },
+    "protocol": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Referencia al protocolo (documento o ruta)."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Fecha/hora de creación del registro (ISO 8601)."
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Fecha/hora de inicio de la ejecución (opcional)."
+    },
+    "finished_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Fecha/hora de finalización (escrita por finish)."
+    },
+    "duration_seconds": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Duración total de la ejecución en segundos (opcional)."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["created", "running", "sealed", "finished", "failed"],
+      "description": "Estado del ciclo de vida del experimento."
+    },
+    "git_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["branch", "commit", "dirty"],
+      "description": "Estado del repositorio git al crear el registro.",
+      "properties": {
+        "branch": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Rama activa (git rev-parse --abbrev-ref HEAD)."
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^(unknown|[0-9a-f]{7,64})$",
+          "description": "Commit HEAD (git rev-parse HEAD) o 'unknown' si no hay repo."
+        },
+        "dirty": {
+          "type": "boolean",
+          "description": "True si git status --porcelain no está vacío."
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["os", "arch", "cpu_count", "total_ram_mb", "gpu"],
+      "description": "Ambiente de ejecución capturado al crear el registro.",
+      "properties": {
+        "os": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Sistema operativo (platform.system())."
+        },
+        "arch": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Arquitectura de la máquina (platform.machine())."
+        },
+        "cpu_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Número de CPUs lógicas (os.cpu_count())."
+        },
+        "total_ram_mb": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "RAM física total en MB (GlobalMemoryStatusEx en Windows; 0 si no pudo leerse)."
+        },
+        "gpu": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Nombres de GPU vía nvidia-smi, o 'unknown' si no hay CUDA/nvidia-smi."
+        }
+      }
+    },
+    "seeds": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Semilla preregistrada del experimento."
+    },
+    "dependencies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["python_version", "packages"],
+      "description": "Dependencias del experimento.",
+      "properties": {
+        "python_version": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Versión de Python usada (platform.python_version())."
+        },
+        "packages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Paquetes externos usados (vacío si el experimento es stdlib only)."
+        }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["description"],
+      "description": "Gate de decisión preregistrado.",
+      "properties": {
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Descripción del criterio de decisión."
+        }
+      }
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["PENDING", "GO", "NO_GO", "INCONCLUSIVE"],
+      "description": "Decisión del gate. PENDING hasta que finish la escriba."
+    },
+    "decision_rationale": {
+      "type": "string",
+      "description": "Razonamiento de la decisión final (escrito por finish)."
+    },
+    "dataset_hashes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "description": "Mapa {ruta_relativa: sha256} de los archivos de dataset sellados."
+    },
+    "model_hashes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "description": "Mapa {ruta_relativa: sha256} de los archivos de modelos sellados."
+    },
+    "binary_hashes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "description": "Mapa {ruta_relativa: sha256} de los archivos binarios sellados."
+    },
+    "assets_hashes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "description": "Mapa {ruta_relativa: sha256} de los archivos de assets sellados."
+    },
+    "seal_maintenance": {
+      "type": "array",
+      "description": "Historial auditado de mantenimiento del sello: una entrada por asset actualizado tras el sellado.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "date",
+          "reason",
+          "path",
+          "previous_hash",
+          "new_hash",
+          "content_commit"
+        ],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Fecha/hora del mantenimiento (ISO 8601)."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Motivo del cambio documentado por el maintainer."
+          },
+          "path": {
+            "type": "string",
+            "description": "Ruta almacenada del asset mantenido."
+          },
+          "previous_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "description": "SHA-256 sellado anterior a la actualización."
+          },
+          "new_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$",
+            "description": "SHA-256 actual del asset tras el mantenimiento."
+          },
+          "content_commit": {
+            "type": "string",
+            "description": "Commit git del cambio de contenido que motiva el mantenimiento."
+          }
+        }
+      }
+    },
+    "sealed": {
+      "type": "boolean",
+      "description": "True después de seal; congela los hashes registrados."
+    },
+    "sealed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Fecha/hora del sellado (ISO 8601)."
+    }
+  }
+}

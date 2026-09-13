@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-10",
+  "hypothesis": "Una minimizacion local dentro del bolsillo con un force field bien parametrizado (amber14 + Sage 2.2.1 + cargas NAGL) acerca la pose dockeada a la conformacion bioactiva",
+  "protocol": "MF-10-PRE/PREREGISTRO.md; contenedor moldesign-lab; 878 poses top-20 por score de 48 complejos; proteina restringida k=100 kcal/mol/A2, ligando libre, 500 iteraciones",
+  "created_at": "2026-08-18T20:19:47.812518+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "23ac6d11cfadfdbd1d98de59392ebdaa66539cee",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 capacidad, G2 >=95% con energia finita, G3 mediana de delta RMSD negativa, G4 >=5 poses de la banda 2-3 A cruzan el umbral"
+  },
+  "decision": "NO_GO",
+  "assets_hashes": {
+    "scripts/run_mf10_relax_insitu.py": "d9929bf1498a6f5f202b9793177fcfbfaf7020f14007d82f4e9fa5703161f9be"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T20:19:48.388835+00:00",
+  "decision_rationale": "Cero complejos convertidos. Las 9 poses que cruzan 2.0 A pertenecen a 7 complejos que YA tenian una pose bajo el umbral antes de relajar, y 8 de las 9 son del estrato CONTROL. G2 falla (81.3%) por un fallo de PREPARACION concentrado en 9 complejos que fallaron 20/20 con el mismo error de plantilla de OpenMM en cortes de cadena; no informa sobre el campo de fuerza. G3 falla con mediana +0.007 A. La magnitud cierra el argumento: ninguna pose se mueve mas de 0.725 A y solo 11 de 714 pasan de 0.5 A, frente al ~1 A necesario. La prediccion declarada cuadro sin residuo: 67 poses en la banda, 3 perdidas por parametrizacion, 64 medidas. La merma de cohorte NO sesga hacia el NO_GO: los 8 complejos COLOCACION perdidos estaban mas lejos de convertir (4.450 A frente a 4.024 A). Auditoria previa al sello en AUDITORIA.md: seis riesgos descartados -incluida la consistencia de la metrica antes/despues, con discrepancia maxima de 0.0005 A- y dos controles ausentes ejecutados como MF-10-CAL, que confirman que el instrumento tenia resolucion (suelo 0.401 A) y que el minimizador estaba convergido (0.061 A de mejora al multiplicar el presupuesto por 20). Es la ultima palanca sin probar de la hipotesis original del maintainer, y responde que no.",
+  "finished_at": "2026-08-18T20:19:48.523152+00:00",
+  "duration_seconds": 26035.34
+}

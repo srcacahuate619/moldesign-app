@@ -1,0 +1,45 @@
+{
+  "pdb_id": "1e4h",
+  "ok": true,
+  "n_conf": 1,
+  "top_k": 3,
+  "cpu": 1,
+  "relax_engine": "vina_local_only",
+  "openmm_status": {
+    "available": false,
+    "reasons": [
+      "SMIRNOFFTemplateGenerator: ModuleNotFoundError: No module named 'openff'",
+      "ForceField(+offxml): ValueError: Could not locate file \"openff-2.0.0.offxml\"",
+      "amber14-all createSystem: ValueError: No template found for residue 1 (ASP).  The atoms and bonds in the residue match NASP, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template"
+    ],
+    "relax_engine": "vina_local_only"
+  },
+  "time_fase1": 2.8,
+  "time_fase2": 6.1,
+  "time_fase3": 0.9,
+  "total_time_s": 9.7,
+  "ensemble_min_rmsd": 0.04,
+  "grid_cache": {
+    "mapas_generados": true,
+    "n_docks_maps": 0,
+    "n_docks_write": 1,
+    "n_docks_fresh": 0
+  },
+  "rigid_scores": [
+    -6.389
+  ],
+  "rigid_best": -6.389,
+  "top_k_relaxed": [
+    {
+      "conf_id": 0,
+      "rigid_score": -6.389,
+      "relaxed_score": -6.181,
+      "relaxed_local_score": -6.005,
+      "delta": 0.208,
+      "rmsd_to_crystal": 0.04,
+      "engine": "vina_local_only",
+      "ok": true
+    }
+  ],
+  "rmsd_best_to_crystal": 0.04
+}

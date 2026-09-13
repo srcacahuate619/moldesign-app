@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "experiment_id": "FEP-07",
+  "hypothesis": "Las tres auditorias de la cartera H miran piezas distintas y ninguna responde cuantos calculos FEP+ se pueden correr HOY. Cruzandolas, la cifra ejecutable es sustancialmente menor que las 91 parejas aptas que conto FEP-03, porque un calculo de energia libre relativa necesita las tres condiciones a la vez y sobre LOS DOS miembros de la pareja.",
+  "protocol": "Cruce de artefactos ya sellados, SIN COMPUTO NUEVO. Fuentes: FEP-03/parejas.jsonl (las 91 con apta_fep=true), FEP-01-EXT (ligandos donde el proton se mueve, es decir con decision de tautomero pendiente), FEP-02-EXT (receptores con hueco EN EL SITIO, es decir con reparacion estructural pendiente) y FEP-02 (documentado_para_fep, el criterio completo de receptor). Una pareja se clasifica EJECUTABLE_HOY si ninguno de sus dos extremos tiene tautomero pendiente ni hueco en el sitio; BLOQUEADA_POR_TAUTOMERO si el unico defecto es de tautomero; BLOQUEADA_POR_RECEPTOR si algun extremo necesita reparacion estructural. El orden de precedencia es deliberado: el receptor domina porque su arreglo es mas caro.",
+  "created_at": "2026-08-20T04:44:01.480847+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "beee39bffee2bf6f0af39d96ee27c5c3bdeaad0f",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "CRUCE DESCRIPTIVO SIN GATES DE DECISION. Cantidades de interes: numero de parejas EJECUTABLE_HOY y su fraccion sobre las 91 aptas; numero que se desbloquearia solo con declarar tautomeros, que es una decision quimica documentada y no modelado estructural; numero de complejos distintos implicados en las ejecutables. LIMITACION DECLARADA ANTES: 'ejecutable hoy' significa SIN LOS DOS BLOQUEOS MEDIDOS, no 'lista para produccion'. FEP-02 exige ademas documentar cadenas, disulfuros, metales, cofactores y aguas; ese criterio completo se reporta APARTE y NO se usa para clasificar, porque lo cumplen muy pocos y absorberia toda la senal. La cifra es por tanto una COTA SUPERIOR de lo ejecutable. PROHIBIDO citarla como 'parejas listas para FEP+'."
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/FEP-03/parejas.jsonl": "1e4474bdd1731e4989e8649bbdf58ed3cf6acab26e57555f16b1ecc4ce0b85a1",
+    "scripts/artifacts_science/FEP-01-EXT/per_complex.jsonl": "1e42ff51ac055cabf076dd5675af84d1b0fc612eb54b40e0a90044f52ad6dc97",
+    "scripts/artifacts_science/FEP-02-EXT/per_complex.jsonl": "b1b88eb61f24d6601bccca00ef046f53019ca76be73aec6be2c90b8c3658533e"
+  },
+  "assets_hashes": {
+    "scripts/analisis_fep_ejecutable_hoy.py": "d5c06e4c49361d0e0c92dc123192d8a77e5506fb00a1183de886a1882fc91416"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-20T04:44:38.485822+00:00",
+  "decision_rationale": "EL NUMERO QUE NINGUNA DE LAS CINCO AUDITORIAS ANTERIORES CONTENIA. De las 91 parejas congenericas que FEP-03 declaro aptas: 75 EJECUTABLES HOY -ningun extremo con tautomero pendiente ni con hueco en el sitio-, 7 bloqueadas solo por tautomero y 9 por receptor. Las 75 abarcan 45 complejos distintos. Declarar los tautomeros de esos 7 sube la cifra a 82, y es una decision quimica documentada, no modelado estructural. LAS DOS CIFRAS HAY QUE DARLAS JUNTAS, Y LA SEGUNDA ES LA INCOMODA: bajo el criterio COMPLETO de FEP-02 -documentado_para_fep en ambos extremos, que exige ademas cadenas, disulfuros, metales, cofactores y aguas- solo quedan 19 parejas. La distancia entre 75 y 19 NO son defectos: es DOCUMENTACION AUSENTE. Ninguna de esas 56 parejas esta rota; lo que les falta es que alguien declare que hace con las aguas del sitio, con los metales y con las cadenas. Esa distincion decide como se planifica H2, porque documentar y reparar cuestan ordenes de magnitud distintos. POR QUE LA VISTA POR PAREJA ES MAS FAVORABLE QUE LA VISTA POR COMPLEJO: FEP-01 y FEP-02 reportan 19% y 41% sobre los 203, pero las 91 parejas aptas ya son un subconjunto filtrado por FEP-03 -pocas dianas con muchos analogos- y ese subconjunto esta mejor preparado que la media. No es contradiccion entre auditorias: es que la unidad de inferencia de un calculo FEP+ es la PAREJA y no el complejo, y nadie habia contado en esa unidad. LIMITACION DECLARADA ANTES DE CORRER: 'ejecutable hoy' significa SIN LOS DOS BLOQUEOS MEDIDOS, no 'lista para produccion'. Los 75 son una COTA SUPERIOR y queda PROHIBIDO citarlos como 'parejas listas para FEP+'. El criterio completo se reporto aparte y no se uso para clasificar precisamente porque lo cumplen tan pocos que absorberia toda la senal. Sin computo nuevo: cruce de cinco artefactos ya sellados, 0.011 s.",
+  "finished_at": "2026-08-20T04:44:38.700529+00:00",
+  "duration_seconds": 1.0
+}

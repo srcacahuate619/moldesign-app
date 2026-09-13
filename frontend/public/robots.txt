@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# GEO Optimization: Permisos explícitos para Rastreadores IA
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: OmgiliBot
+Allow: /

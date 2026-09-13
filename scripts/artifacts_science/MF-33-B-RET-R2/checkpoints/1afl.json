@@ -1,0 +1,37 @@
+{
+  "pid": "1afl",
+  "estrato": "COLOCACION",
+  "failures": [],
+  "K": 30,
+  "SINGLE": {
+    "n_poses": 9,
+    "top1": 11.34,
+    "top5": 8.377,
+    "oraculo": 5.774,
+    "score_top1": -6.249,
+    "top1_identity": "1afl|conf0|model0",
+    "acierta_top1": false,
+    "acierta_top5": false,
+    "acierta_oraculo": false,
+    "margen_de_seleccion": false,
+    "pb_valid_fisica": null,
+    "pb_checks_que_fallan": null,
+    "pb_motivo": "posebusters_no_instalado"
+  },
+  "ENSEMBLE": {
+    "n_poses": 267,
+    "top1": 9.126,
+    "top5": 7.808,
+    "oraculo": 5.296,
+    "score_top1": -7.262,
+    "top1_identity": "1afl|conf15|model0",
+    "acierta_top1": false,
+    "acierta_top5": false,
+    "acierta_oraculo": false,
+    "margen_de_seleccion": false,
+    "pb_valid_fisica": null,
+    "pb_checks_que_fallan": null,
+    "pb_motivo": "posebusters_no_instalado"
+  },
+  "duration_s": 4432.848
+}

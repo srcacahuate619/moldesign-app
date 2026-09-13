@@ -1,0 +1,132 @@
+{
+  "caja": {
+    "advertencia": "El tamaño es un SUPUESTO: los logs del benchmark no registran la caja efectiva. Sólo se puede afirmar compatibilidad con 25 Å.",
+    "centro_declarado": [
+      43.82,
+      38.24,
+      46.71
+    ],
+    "fuentes_del_centro": [
+      "scripts/benchmark_ef_vina.py::TARGETS['1o86']"
+    ],
+    "limites_por_eje": {
+      "x": [
+        31.32,
+        56.32
+      ],
+      "y": [
+        25.74,
+        50.74
+      ],
+      "z": [
+        34.21,
+        59.21
+      ]
+    },
+    "tamano_supuesto": [
+      25.0,
+      25.0,
+      25.0
+    ]
+  },
+  "centroide_medio_de_poses": {
+    "advertencia": "NO es una reconstrucción del centro de la caja. Las poses se acumulan donde el scoring encuentra mínimos, no uniformemente alrededor del centro.",
+    "coordenadas": [
+      36.27,
+      45.02,
+      54.98
+    ],
+    "delta_por_eje": [
+      -7.55,
+      6.78,
+      8.27
+    ],
+    "dentro_de_la_caja": true,
+    "distancia_euclidea": 13.09
+  },
+  "checkpoint": {
+    "ruta": "data/benchmark_checkpoint_ace.json",
+    "sha256": "f646d7fb7b2e3946f638beaa213cf57d9dff9c6d37630fd1d8db593182973fb2"
+  },
+  "completitud_del_artefacto": {
+    "nota": "Es un problema de INTEGRIDAD del checkpoint, independiente de dónde se acopló. Rompe la correspondencia uno a uno entre predicción y geometría, pero no dice nada sobre el sitio.",
+    "registros_con_pose_y_sin_features": 21,
+    "registros_sin_pose": 44
+  },
+  "criterio": "inclusión POR EJE en un cubo: |Δx|≤sx/2 ∧ |Δy|≤sy/2 ∧ |Δz|≤sz/2. La distancia euclídea se informa como referencia y NO decide: usarla equivale a comparar contra la esfera inscrita, que descarta las esquinas del volumen real.",
+  "diana": "ACE",
+  "estructura": {
+    "ruta": "data/1O86_clean.pdb",
+    "sha256": "f6db5760f2b4f7a4c98d095865239ea0468621ac70749597f8e9adde2578749f"
+  },
+  "interaccion_con_el_zinc": {
+    "activos": {
+      "coordinando_2.8A": 0,
+      "en_el_entorno_4.0A": 0,
+      "mediana": 11.13,
+      "minima": 7.38,
+      "n": 16
+    },
+    "decoys": {
+      "coordinando_2.8A": 0,
+      "en_el_entorno_4.0A": 0,
+      "mediana": 9.42,
+      "minima": 5.43,
+      "n": 674
+    },
+    "definicion": "distancia mínima entre cualquier zinc de la estructura y el átomo donante (N/O/S) más cercano de la pose. NO es la distancia al centroide del ligando.",
+    "nota": "Se estratifica porque exigirle coordinación a un decoy no tiene sentido: lo informativo es si los ACTIVOS la alcanzan."
+  },
+  "ligandos_cristalograficos": [],
+  "metales": [
+    {
+      "cadena": "A",
+      "coordenadas": [
+        43.82,
+        38.24,
+        46.71
+      ],
+      "delta_por_eje": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dentro_de_la_caja": true,
+      "distancia_euclidea": 0.0,
+      "elemento": "ZN",
+      "residuo": "701"
+    }
+  ],
+  "nota_ligando": "El archivo de estructura no conserva ningún ligando cristalográfico, así que el bolsillo del inhibidor NO se puede usar como referencia independiente. Hace falta el complejo original para completar esta comprobación.",
+  "poses": {
+    "con_pose": 690,
+    "muestreadas": 734,
+    "ocupacion_por_atomo": {
+      "x": [
+        30.5,
+        45.3
+      ],
+      "y": [
+        29.9,
+        51.7
+      ],
+      "z": [
+        48.8,
+        60.3
+      ]
+    },
+    "paso_de_muestreo": 3,
+    "poses_con_todos_sus_atomos_dentro": 262,
+    "poses_enteramente_fuera": 0,
+    "poses_parcialmente_dentro": 428,
+    "registros_totales": 2202
+  },
+  "problemas": [],
+  "protocol_id": "M5_ZN_ACE_1O86_V1",
+  "reservas": [
+    "sin ligando cristalográfico en el archivo no se puede comprobar el bolsillo del inhibidor",
+    "ningún activo muestreado coloca un donante a ≤2.8 Å del zinc (mínima observada: 7.38 Å)",
+    "integridad del checkpoint: 44 registros sin pose y 21 con pose y sin features"
+  ],
+  "veredicto": "PROCEDENCIA_INCOMPLETA"
+}

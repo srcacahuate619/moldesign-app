@@ -1,0 +1,906 @@
+{
+ "fecha": "2026-09-02",
+ "herramienta": "scripts/triaje_receptores_al_vacio.py",
+ "poblacion": "cadena declarada con 0% de los atomos de la caja de docking",
+ "resumen": {
+  "RESCATE_MULTICADENA": 2,
+  "REVISAR_LA_CAJA": 15,
+  "CONTRADICCION": 1
+ },
+ "receptores": [
+  {
+   "pdb_id": "4RUR",
+   "clase_triaje": "RESCATE_MULTICADENA",
+   "motivo": "el sitio lo forman L (78%) + K (22%)",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 50.8,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "a",
+    "b"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "L",
+    "K"
+   ],
+   "reparto_del_sitio": {
+    "L": 36,
+    "K": 10
+   },
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "3WE",
+    "cadena": "L",
+    "atomos": 22,
+    "dist_centro": 0.0
+   },
+   "hotspots_por_cadena": {
+    "L": 9,
+    "K": 6
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "L": 221,
+    "K": 171,
+    "W": 5
+   }
+  },
+  {
+   "pdb_id": "5J89",
+   "clase_triaje": "RESCATE_MULTICADENA",
+   "motivo": "el sitio lo forman C (58%) + D (42%)",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 18.7,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "C",
+    "D"
+   ],
+   "reparto_del_sitio": {
+    "C": 48,
+    "D": 35
+   },
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "6GX",
+    "cadena": "C",
+    "atomos": 31,
+    "dist_centro": 0.0
+   },
+   "hotspots_por_cadena": {
+    "C": 8,
+    "D": 7
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "D": 285,
+    "C": 263
+   }
+  },
+  {
+   "pdb_id": "1IRU",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "sin ligando co-cristalizado en la caja: la unica evidencia es el volumen, y no distingue el bolsillo de la vecindad",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 96.0,
+   "cadenas_del_pdb": [
+    "1",
+    "2",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "Q",
+    "P",
+    "X"
+   ],
+   "reparto_del_sitio": {
+    "Q": 287,
+    "P": 209,
+    "X": 96
+   },
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "hotspots_por_cadena": {
+    "Q": 7,
+    "P": 5,
+    "X": 3
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "Q": 287,
+    "P": 209,
+    "X": 96
+   }
+  },
+  {
+   "pdb_id": "1RYP",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "sin ligando co-cristalizado en la caja: la unica evidencia es el volumen, y no distingue el bolsillo de la vecindad",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 71.3,
+   "cadenas_del_pdb": [
+    "1",
+    "2",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "W",
+    "X",
+    "P"
+   ],
+   "reparto_del_sitio": {
+    "W": 342,
+    "X": 311,
+    "P": 120,
+    "O": 1
+   },
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "hotspots_por_cadena": {
+    "P": 6,
+    "W": 6,
+    "X": 3
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "W": 342,
+    "X": 311,
+    "P": 120,
+    "O": 1
+   }
+  },
+  {
+   "pdb_id": "3HH2",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "sin ligando co-cristalizado en la caja: la unica evidencia es el volumen, y no distingue el bolsillo de la vecindad",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 21.1,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "C",
+    "D"
+   ],
+   "reparto_del_sitio": {
+    "C": 340,
+    "D": 181,
+    "B": 88
+   },
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "hotspots_por_cadena": {
+    "D": 7,
+    "C": 5,
+    "B": 3
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "C": 340,
+    "D": 181,
+    "B": 88
+   }
+  },
+  {
+   "pdb_id": "4DMF",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "sin ligando co-cristalizado en la caja: la unica evidencia es el volumen, y no distingue el bolsillo de la vecindad",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 18.8,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "B",
+    "C"
+   ],
+   "reparto_del_sitio": {
+    "B": 335,
+    "C": 248
+   },
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "hotspots_por_cadena": {
+    "B": 9,
+    "C": 6
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "B": 335,
+    "C": 248
+   }
+  },
+  {
+   "pdb_id": "4EU2",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "el ligando WPI esta a 16.8 A del centro: la sospecha recae sobre el grid, no sobre la cadena",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 26.5,
+   "cadenas_del_pdb": [
+    "1",
+    "2",
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "2",
+    "V"
+   ],
+   "reparto_del_sitio": {
+    "2": 34,
+    "V": 19
+   },
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "WPI",
+    "cadena": "V",
+    "atomos": 41,
+    "dist_centro": 16.8
+   },
+   "hotspots_por_cadena": {
+    "H": 8,
+    "N": 7
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "H": 461,
+    "N": 356,
+    "V": 175,
+    "2": 71,
+    "I": 35,
+    "M": 30,
+    "1": 7,
+    "J": 1
+   }
+  },
+  {
+   "pdb_id": "4I04",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "sin ligando co-cristalizado en la caja: la unica evidencia es el volumen, y no distingue el bolsillo de la vecindad",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 34.1,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "D",
+    "B"
+   ],
+   "reparto_del_sitio": {
+    "D": 448,
+    "B": 322
+   },
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "hotspots_por_cadena": {
+    "D": 9,
+    "B": 6
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "D": 448,
+    "B": 322
+   }
+  },
+  {
+   "pdb_id": "4LMO",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "sin ligando co-cristalizado en la caja: la unica evidencia es el volumen, y no distingue el bolsillo de la vecindad",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 18.2,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "B",
+    "D"
+   ],
+   "reparto_del_sitio": {
+    "B": 326,
+    "D": 163
+   },
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "hotspots_por_cadena": {
+    "B": 10,
+    "D": 5
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "B": 326,
+    "D": 163
+   }
+  },
+  {
+   "pdb_id": "5C9H",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "sin ligando co-cristalizado en la caja: la unica evidencia es el volumen, y no distingue el bolsillo de la vecindad",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 38.8,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "G"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "E",
+    "G"
+   ],
+   "reparto_del_sitio": {
+    "E": 154,
+    "G": 130,
+    "B": 47
+   },
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "hotspots_por_cadena": {
+    "E": 8,
+    "G": 7
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "E": 154,
+    "G": 130,
+    "B": 47
+   }
+  },
+  {
+   "pdb_id": "5FG9",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "sin ligando co-cristalizado en la caja: la unica evidencia es el volumen, y no distingue el bolsillo de la vecindad",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 98.4,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "a",
+    "b"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "P",
+    "O",
+    "W"
+   ],
+   "reparto_del_sitio": {
+    "P": 311,
+    "O": 183,
+    "W": 132,
+    "V": 15
+   },
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "hotspots_por_cadena": {
+    "P": 7,
+    "O": 5,
+    "W": 3
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "P": 311,
+    "O": 183,
+    "W": 132,
+    "V": 15
+   }
+  },
+  {
+   "pdb_id": "6PSD",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "sin ligando co-cristalizado en la caja: la unica evidencia es el volumen, y no distingue el bolsillo de la vecindad",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 21.2,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "K",
+    "L"
+   ],
+   "reparto_del_sitio": {
+    "K": 242,
+    "L": 98,
+    "E": 9,
+    "I": 6,
+    "H": 6
+   },
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "hotspots_por_cadena": {
+    "K": 8,
+    "E": 5,
+    "I": 2
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "K": 242,
+    "L": 98,
+    "E": 9,
+    "I": 6,
+    "H": 6
+   }
+  },
+  {
+   "pdb_id": "7T9I",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "sin ligando co-cristalizado en la caja: la unica evidencia es el volumen, y no distingue el bolsillo de la vecindad",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 115.7,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "N",
+    "R",
+    "X",
+    "Y",
+    "Z"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "N",
+    "X"
+   ],
+   "reparto_del_sitio": {
+    "N": 680,
+    "X": 601
+   },
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "hotspots_por_cadena": {
+    "N": 9,
+    "X": 6
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "N": 680,
+    "X": 601
+   }
+  },
+  {
+   "pdb_id": "7ZYJ",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "el ligando KFC esta a 15.9 A del centro: la sospecha recae sobre el grid, no sobre la cadena",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 56.0,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "L",
+    "K"
+   ],
+   "reparto_del_sitio": {
+    "L": 46,
+    "K": 17
+   },
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "KFC",
+    "cadena": "L",
+    "atomos": 26,
+    "dist_centro": 15.9
+   },
+   "hotspots_por_cadena": {
+    "L": 11,
+    "K": 4
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "K": 1044,
+    "k": 1044,
+    "L": 674,
+    "l": 674,
+    "J": 227,
+    "j": 227,
+    "M": 86,
+    "m": 86
+   }
+  },
+  {
+   "pdb_id": "8F6V",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "sin ligando co-cristalizado en la caja: la unica evidencia es el volumen, y no distingue el bolsillo de la vecindad",
+   "clase_repaso": "REVISAR",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 36.8,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "B",
+    "D"
+   ],
+   "reparto_del_sitio": {
+    "B": 358,
+    "D": 85
+   },
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "hotspots_por_cadena": {
+    "B": 14,
+    "D": 1
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "B": 358,
+    "D": 85
+   }
+  },
+  {
+   "pdb_id": "8V52",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "sin ligando co-cristalizado en la caja: la unica evidencia es el volumen, y no distingue el bolsillo de la vecindad",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 44.6,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "F",
+    "E"
+   ],
+   "reparto_del_sitio": {
+    "F": 284,
+    "E": 226
+   },
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "hotspots_por_cadena": {
+    "E": 8,
+    "F": 7
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "F": 284,
+    "E": 226
+   }
+  },
+  {
+   "pdb_id": "9F9T",
+   "clase_triaje": "REVISAR_LA_CAJA",
+   "motivo": "sin ligando co-cristalizado en la caja: la unica evidencia es el volumen, y no distingue el bolsillo de la vecindad",
+   "clase_repaso": "MULTICADENA",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 59.1,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z",
+    "a",
+    "b"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "M",
+    "L",
+    "X"
+   ],
+   "reparto_del_sitio": {
+    "M": 359,
+    "L": 215,
+    "X": 113,
+    "W": 1
+   },
+   "evidencia": "volumen en la caja",
+   "ligando": null,
+   "hotspots_por_cadena": {
+    "M": 8,
+    "L": 5,
+    "X": 2
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "M": 359,
+    "L": 215,
+    "X": 113,
+    "W": 1
+   }
+  },
+  {
+   "pdb_id": "4YNQ",
+   "clase_triaje": "CONTRADICCION",
+   "motivo": "el ligando senala 'H' y los hotspots senalan 'B': dos anotaciones independientes se contradicen (3 hotspots anotados en total)",
+   "clase_repaso": "REVISAR",
+   "cadena_declarada": "A",
+   "cadena_declarada_existe": true,
+   "distancia_declarada_al_centro_A": 24.4,
+   "cadenas_del_pdb": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H"
+   ],
+   "cadena_sugerida": null,
+   "cadenas_del_sitio": [
+    "H",
+    "B"
+   ],
+   "reparto_del_sitio": {
+    "H": 13,
+    "B": 3
+   },
+   "evidencia": "ligando co-cristalizado",
+   "ligando": {
+    "residuo": "TMP",
+    "cadena": "H",
+    "atomos": 17,
+    "dist_centro": 0.0
+   },
+   "hotspots_por_cadena": {
+    "B": 2,
+    "H": 1
+   },
+   "hotspots_en_la_declarada": 0,
+   "atomos_en_caja": {
+    "B": 265,
+    "H": 149,
+    "G": 70
+   }
+  }
+ ]
+}

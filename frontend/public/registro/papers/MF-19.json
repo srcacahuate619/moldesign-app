@@ -1,0 +1,559 @@
+{
+ "id": "MF-19",
+ "meta": {
+  "titulo": "Con el confórmero exacto, congelar las torsiones gana",
+  "entradilla": "24 de 33 con el ligando rígido contra 21 con él flexible, y un RMSD mediano cuatro veces mejor. Parece contradecir a MF-33 hasta que se mira qué confórmero entra."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Si al buscador se le entrega ",
+     "m": null
+    },
+    {
+     "t": "el confórmero cristalográfico",
+     "m": "fuerte"
+    },
+    {
+     "t": " —la conformación exacta que la molécula adopta al unirse— y se le congelan todas las torsiones, la colocación queda reducida a seis grados de libertad: tres de posición y tres de orientación.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso convierte el problema en el más simple posible. Si aun así falla, el fallo es de ",
+     "m": null
+    },
+    {
+     "t": "colocación pura",
+     "m": "fuerte"
+    },
+    {
+     "t": " e inculpa al buscador o al paisaje. Si acierta, la colocación en 6 GDL está resuelta y lo que falla es la ",
+     "m": null
+    },
+    {
+     "t": "búsqueda conformacional",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La regla de lectura se declaró en el propio runner, antes de tener el resultado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato de colocación (n=33)",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Flexible",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Rígido",
+      "m": "fuerte"
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Acierta",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "21",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "24",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Acierta en el top-1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "14",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "22",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Mejor RMSD mediano",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1.665 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.379 Å",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En control: rígido 15 de 15 frente a 13 del flexible, aunque el top-1 se invierte (10 contra 11).",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El rígido acierta en la mayoría. Por la regla declarada: ",
+     "m": null
+    },
+    {
+     "t": "la colocación en 6 grados de libertad está resuelta",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y el fallo del programa es de búsqueda conformacional.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese RMSD mediano de ",
+     "m": null
+    },
+    {
+     "t": "0.379 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": " merece detenerse: dado el confórmero correcto, el motor coloca la molécula con precisión casi cristalográfica. El buscador no es el problema.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La contradicción aparente con MF-33, y su resolución",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": " midió sobre los mismos complejos que el docking ",
+     "m": null
+    },
+    {
+     "t": "rígido",
+     "m": "fuerte"
+    },
+    {
+     "t": " alcanza ",
+     "m": null
+    },
+    {
+     "t": "1 de 33",
+     "m": "fuerte"
+    },
+    {
+     "t": " y el flexible ",
+     "m": null
+    },
+    {
+     "t": "26 de 33",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Aquí el rígido gana. Los dos resultados no pueden ser ciertos a la vez... salvo que difieran en algo, y difieren en lo único que importa:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Confórmero de entrada",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Rígido acierta",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "MF-19",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "Cristalográfico — ",
+       "m": null
+      },
+      {
+       "t": "exacto",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "24 / 33",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "MF-33",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "ETKDG — el mejor a 1.364 Å de mediana",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1 / 33",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El docking rígido es ",
+     "m": null
+    },
+    {
+     "t": "exquisitamente sensible a la calidad del confórmero",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Con el exacto rinde 24 de 33. Con el mejor disponible del ensemble, 1 de 33.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que esto explica del diseño de MolFlex",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MolFlex genera un ensemble conformacional y dockea cada confórmero ",
+     "m": null
+    },
+    {
+     "t": "rígidamente",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Visto desde aquí, ese diseño era razonable: si el ensemble contuviera el confórmero correcto, dockear rígido sería lo óptimo — menos grados de libertad, búsqueda más eficiente, y una precisión de 0.379 Å.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y ",
+     "m": null
+    },
+    {
+     "t": "MF-21",
+     "m": "codigo"
+    },
+    {
+     "t": " midió que el ensemble ",
+     "m": null
+    },
+    {
+     "t": "sí contiene",
+     "m": "fuerte"
+    },
+    {
+     "t": " un confórmero a ≤2 Å alineado del bioactivo en 23 de los 30 complejos que fallan.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La pieza que faltaba está en la distancia entre esas dos frases:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "«≤2 Å alineado» no es «suficientemente exacto para docking rígido».",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un confórmero a 1.4 Å tiene la forma aproximadamente correcta, y el docking rígido no puede corregir esa aproximación: cada ángulo torsional que sobra es error que se propaga a la colocación entera y que ninguna traslación ni rotación puede compensar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con torsiones libres, el motor arregla la conformación mientras coloca. Sin ellas, hereda todo el error del generador.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La prohibición que viaja con el resultado",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Declarada en el ",
+     "m": null
+    },
+    {
+     "t": "metrics.json",
+     "m": "codigo"
+    },
+    {
+     "t": " original y sellada con él:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El confórmero de entrada es el ",
+     "m": null
+    },
+    {
+     "t": "cristalográfico",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Esto ",
+     "m": null
+    },
+    {
+     "t": "no es una política de producción",
+     "m": "fuerte"
+    },
+    {
+     "t": ": mide un ",
+     "m": null
+    },
+    {
+     "t": "techo",
+     "m": "fuerte"
+    },
+    {
+     "t": " — qué pasaría si el generador de confórmeros fuera perfecto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Queda prohibido citar el 24 de 33 como rendimiento alcanzable. Es lo que se conseguiría con un generador que no existe.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Una limitación estructural de este registro",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este artefacto es un ",
+     "m": null
+    },
+    {
+     "t": "registro retroactivo",
+     "m": "fuerte"
+    },
+    {
+     "t": ". El experimento se ejecutó y sus resultados quedaron sin manifest mientras el documento del programa lo citaba como evidencia. Sellarlo respalda esa cita, pero:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No existe prerregistro separado.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Los gates y la regla de lectura viven en el ",
+     "m": null
+    },
+    {
+     "t": "metrics.json",
+     "m": "codigo"
+    },
+    {
+     "t": " que produjo el runner, y se sellaron tal cual sin reinterpretarse. Eso significa que sus lecturas son ",
+     "m": null
+    },
+    {
+     "t": "post-hoc por construcción",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y deben citarse así.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sellar retroactivamente convierte una cita sin respaldo en una cita con respaldo. No convierte un experimento en uno preregistrado.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-19.md"
+}

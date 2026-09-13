@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-03-PARAM-B",
+  "hypothesis": "La referencia AM1-BCC estratificada (antechamber+sqm) caracteriza descriptivamente las cargas NAGL nativas de RS-03-PARAM-A sobre los 116 ligandos train, sin ser selector ni criterio de aceptacion",
+  "protocol": "RS-03-PARAM-B-PRE sellado (147abb1) que refina el PRE maestro RS-03-PARAM-PRE (7dfa3b8); contenedor Ubuntu moldesign-science en 192.168.1.64, 3 shards disjuntos + 1 shard de reintento",
+  "created_at": "2026-08-17T18:42:29.612818+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "9e92df43820d62fddea9aecb0995d46abc4c36a1",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "Completitud del reporte (no aceptacion/rechazo de NAGL): cohorte de A, conservacion de carga reportada, |q_NAGL - q_AM1BCC| por atomo sobre mapeo biyectivo verificado, carga molecular, dipolo, estabilidad de energias, todo estratificado por los 6 estratos; prohibido concluir sobre NAGL desde B"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/RS-03-PARAM-A/per_complex.jsonl": "2785a5b84ccedc829012cb7c63daa300540b1c557bb825bba34d9c1dcc551b2c"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/RS-03-PARAM-B/DESIGN.md": "e64b8dffe9c304ad226d7e6c88f782256d10cd75269a5554b1e0ad212f87284e",
+    "scripts/artifacts_science/RS-03-PARAM-B/LECTURA.md": "741f16fede4a3ab5438c894b9ac6b55658f2b7d2288a145986e27457e0e46c89",
+    "scripts/artifacts_science/RS-03-PARAM-B/metrics.json": "dc1858981be3db9d10ea23121d26c42abd74964ceab9ebfa09f3920b44fac616",
+    "scripts/artifacts_science/RS-03-PARAM-B/per_complex.jsonl": "98a1c76cad29c1d3f033dfb4ee22a860371db1668b33826890430321cb3dacef",
+    "scripts/artifacts_science/RS-03-PARAM-B/failures.jsonl": "da75c2eecf11ca53951033874f7ae1e622d9d801d432a5734f4fa1f0c3cf723d",
+    "scripts/run_rs03_param_b.py": "1cfab9bbefa608ea2421a88346fdddf12b77430e93832b51a74ba535d38410f7",
+    "scripts/merge_rs03_param_b.py": "d27e652bf1f35565aa1dde09f7bc599259e27f7bbf8351d12e29b053e2881f34",
+    "scripts/artifacts_science/RS-03-PARAM-B-S1/failures.jsonl": "7916e2a533ea5fdca6cfb31ec4920c34e594b5a4b233126b21479259f368abe4",
+    "scripts/artifacts_science/RS-03-PARAM-B-S1/metrics.json": "37e8160682cddfde04ea06bda8ff43bc5f3ef1a2e761ea065609044af93b561e",
+    "scripts/artifacts_science/RS-03-PARAM-B-S1/per_complex.jsonl": "6ade38cf9913f68fa97b140280b38d166a2e4ad83afc16d8719e11f5699b05a9",
+    "scripts/artifacts_science/RS-03-PARAM-B-S2/failures.jsonl": "3adaf105399f7d612c7ea7d81071a9f4d26fd8e8ea8b3ecb7fbac2979f0fcd7d",
+    "scripts/artifacts_science/RS-03-PARAM-B-S2/metrics.json": "f9bace0ca7dc4f36f3d74fd41b6ba0fc89ab51781b7e216768b9bfae05eba8e0",
+    "scripts/artifacts_science/RS-03-PARAM-B-S2/per_complex.jsonl": "5a6fcf662a989ef7bce44fdee9c4f34891bf40f8d66974e94b1ef729ac68d8bb",
+    "scripts/artifacts_science/RS-03-PARAM-B-S3/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/RS-03-PARAM-B-S3/metrics.json": "5e49a2561866b6cfaf3f3e682b34c8451f75c0d4b78a912fdc71797e66e39ed7",
+    "scripts/artifacts_science/RS-03-PARAM-B-S3/per_complex.jsonl": "e7d171acf1a8882f58d9df4dda119c2c0ac7561b7622a6cb0efceea9c04d12a3",
+    "scripts/artifacts_science/RS-03-PARAM-B-S4/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/RS-03-PARAM-B-S4/metrics.json": "4134689274c40a5c6140ffc4ffe7220b11dde3822206d4303e28414fa0962835",
+    "scripts/artifacts_science/RS-03-PARAM-B-S4/per_complex.jsonl": "b7f06dd249564f8d1242c512422515d9002c89395233413438b98cd276f7c568"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T18:42:52.943485+00:00",
+  "decision_rationale": "Gate de completitud del reporte cumplido (B es caracterizacion, no selector): cobertura 115/116 (99.14%) de la cohorte de A; mapeo biyectivo VERIFICADO elemento a elemento y por coordenadas en 115/115 con max|dr|=0.0005 A, no asumido por indice como en el runner anterior; conservacion de carga de AM1-BCC max |sum q - formal| = 0.006 e; energia finita y serializable con Sage 2.2.1 en 115/115 para ambos juegos de cargas; dipolo reportado para NAGL y AM1-BCC; todo estratificado por los 6 estratos del PRE maestro. Diferencia NAGL vs AM1-BCC: |dq| por atomo medio 0.0142 e, mediana 0.0118 e, maximo 0.4255 e, con 13 de 115 ligandos por encima de 0.2 e en algun atomo; |dE| de punto unico mediana 24.3 kJ/mol y maxima 216.4 kJ/mol, que es del orden de lo que un rescoring pretende resolver. Estratos: azufre/fosforo divergen mas (0.0168 vs 0.0125 e) y contienen el maximo global; la divergencia crece con tamano y flexibilidad (fragmentos 0.0107 -> drug-like 0.0155; <5 rotables 0.0113 -> >10 rotables 0.0157). El unico fallo, 1nw5, es quimico real (sqm no converge) y no de presupuesto. Los 4 timeouts de la primera fusion eran artefacto de la contencion de 3 shards en 4 cores y se recuperaron en solitario con 2400 s. PROHIBIDO concluir sobre NAGL desde B: la decision es de RS-03-PARAM agregando A y B contra el contrato del PRE maestro.",
+  "finished_at": "2026-08-17T18:43:08.037722+00:00",
+  "duration_seconds": 30324.59
+}

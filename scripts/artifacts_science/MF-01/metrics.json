@@ -1,0 +1,354 @@
+{
+  "alcance": {
+    "n_complejos": 156,
+    "n_poses": 3469,
+    "por_split": {
+      "train": {
+        "n_complejos": 116,
+        "n_poses": 2739
+      },
+      "val": {
+        "n_complejos": 40,
+        "n_poses": 730
+      }
+    },
+    "splits": "train+val (poses EXISTENTES; test histórico fuera de alcance)"
+  },
+  "cobertura_por_estrato": {
+    "0-4": {
+      "n_complejos": 44,
+      "por_fuente": {
+        "flexible_redock": {
+          "mediana_min_rmsd": 1.389,
+          "n_complejos_con_poses": 40,
+          "n_complejos_cubiertos": 29,
+          "n_poses": 312,
+          "pct_sobre_estrato": 65.9
+        },
+        "molflex": {
+          "mediana_min_rmsd": 0.963,
+          "n_complejos_con_poses": 5,
+          "n_complejos_cubiertos": 5,
+          "n_poses": 132,
+          "pct_sobre_estrato": 11.4
+        },
+        "ruta_a": {
+          "mediana_min_rmsd": 1.336,
+          "n_complejos_con_poses": 3,
+          "n_complejos_cubiertos": 3,
+          "n_poses": 48,
+          "pct_sobre_estrato": 6.8
+        }
+      },
+      "union": {
+        "mediana_min_rmsd": 1.305,
+        "n_complejos_con_poses": 44,
+        "n_complejos_cubiertos": 33,
+        "n_poses": 492,
+        "pct_sobre_estrato": 75.0
+      }
+    },
+    "10-14": {
+      "n_complejos": 34,
+      "por_fuente": {
+        "flexible_redock": {
+          "mediana_min_rmsd": 1.412,
+          "n_complejos_con_poses": 29,
+          "n_complejos_cubiertos": 21,
+          "n_poses": 247,
+          "pct_sobre_estrato": 61.8
+        },
+        "molflex": {
+          "mediana_min_rmsd": 4.208,
+          "n_complejos_con_poses": 5,
+          "n_complejos_cubiertos": 1,
+          "n_poses": 1042,
+          "pct_sobre_estrato": 2.9
+        },
+        "ruta_a": {
+          "mediana_min_rmsd": 1.047,
+          "n_complejos_con_poses": 2,
+          "n_complejos_cubiertos": 2,
+          "n_poses": 46,
+          "pct_sobre_estrato": 5.9
+        }
+      },
+      "union": {
+        "mediana_min_rmsd": 1.424,
+        "n_complejos_con_poses": 34,
+        "n_complejos_cubiertos": 22,
+        "n_poses": 1335,
+        "pct_sobre_estrato": 64.7
+      }
+    },
+    "5-9": {
+      "n_complejos": 56,
+      "por_fuente": {
+        "flexible_redock": {
+          "mediana_min_rmsd": 1.492,
+          "n_complejos_con_poses": 55,
+          "n_complejos_cubiertos": 37,
+          "n_poses": 470,
+          "pct_sobre_estrato": 66.1
+        },
+        "molflex": {
+          "mediana_min_rmsd": 0.454,
+          "n_complejos_con_poses": 2,
+          "n_complejos_cubiertos": 2,
+          "n_poses": 213,
+          "pct_sobre_estrato": 3.6
+        },
+        "ruta_a": {
+          "mediana_min_rmsd": 1.488,
+          "n_complejos_con_poses": 4,
+          "n_complejos_cubiertos": 4,
+          "n_poses": 83,
+          "pct_sobre_estrato": 7.1
+        }
+      },
+      "union": {
+        "mediana_min_rmsd": 1.486,
+        "n_complejos_con_poses": 56,
+        "n_complejos_cubiertos": 38,
+        "n_poses": 766,
+        "pct_sobre_estrato": 67.9
+      }
+    },
+    ">=15": {
+      "n_complejos": 22,
+      "por_fuente": {
+        "flexible_redock": {
+          "mediana_min_rmsd": 1.4,
+          "n_complejos_con_poses": 19,
+          "n_complejos_cubiertos": 15,
+          "n_poses": 140,
+          "pct_sobre_estrato": 68.2
+        },
+        "molflex": {
+          "mediana_min_rmsd": 3.795,
+          "n_complejos_con_poses": 3,
+          "n_complejos_cubiertos": 0,
+          "n_poses": 547,
+          "pct_sobre_estrato": 0.0
+        },
+        "ruta_a": {
+          "mediana_min_rmsd": 1.402,
+          "n_complejos_con_poses": 11,
+          "n_complejos_cubiertos": 7,
+          "n_poses": 189,
+          "pct_sobre_estrato": 31.8
+        }
+      },
+      "union": {
+        "mediana_min_rmsd": 1.515,
+        "n_complejos_con_poses": 22,
+        "n_complejos_cubiertos": 15,
+        "n_poses": 876,
+        "pct_sobre_estrato": 68.2
+      }
+    }
+  },
+  "cobertura_por_fuente": {
+    "train": {
+      "flexible_redock": {
+        "mediana_min_rmsd": 1.412,
+        "n_complejos_con_poses": 105,
+        "n_complejos_cubiertos": 73,
+        "n_poses": 852,
+        "pct_sobre_con_poses": 69.5,
+        "pct_sobre_total": 62.9
+      },
+      "molflex": {
+        "mediana_min_rmsd": 1.518,
+        "n_complejos_con_poses": 13,
+        "n_complejos_cubiertos": 7,
+        "n_poses": 1596,
+        "pct_sobre_con_poses": 53.8,
+        "pct_sobre_total": 6.0
+      },
+      "ruta_a": {
+        "mediana_min_rmsd": 1.441,
+        "n_complejos_con_poses": 16,
+        "n_complejos_cubiertos": 13,
+        "n_poses": 291,
+        "pct_sobre_con_poses": 81.2,
+        "pct_sobre_total": 11.2
+      },
+      "union": {
+        "mediana_min_rmsd": 1.406,
+        "n_complejos_con_poses": 116,
+        "n_complejos_cubiertos": 78,
+        "n_poses": 2739,
+        "pct_sobre_con_poses": 67.2,
+        "pct_sobre_total": 67.2
+      }
+    },
+    "train_val": {
+      "flexible_redock": {
+        "mediana_min_rmsd": 1.412,
+        "n_complejos_con_poses": 143,
+        "n_complejos_cubiertos": 102,
+        "n_poses": 1169,
+        "pct_sobre_con_poses": 71.3,
+        "pct_sobre_total": 65.4
+      },
+      "molflex": {
+        "mediana_min_rmsd": 1.518,
+        "n_complejos_con_poses": 15,
+        "n_complejos_cubiertos": 8,
+        "n_poses": 1934,
+        "pct_sobre_con_poses": 53.3,
+        "pct_sobre_total": 5.1
+      },
+      "ruta_a": {
+        "mediana_min_rmsd": 1.369,
+        "n_complejos_con_poses": 20,
+        "n_complejos_cubiertos": 16,
+        "n_poses": 366,
+        "pct_sobre_con_poses": 80.0,
+        "pct_sobre_total": 10.3
+      },
+      "union": {
+        "mediana_min_rmsd": 1.398,
+        "n_complejos_con_poses": 156,
+        "n_complejos_cubiertos": 108,
+        "n_poses": 3469,
+        "pct_sobre_con_poses": 69.2,
+        "pct_sobre_total": 69.2
+      }
+    },
+    "val": {
+      "flexible_redock": {
+        "mediana_min_rmsd": 1.494,
+        "n_complejos_con_poses": 38,
+        "n_complejos_cubiertos": 29,
+        "n_poses": 317,
+        "pct_sobre_con_poses": 76.3,
+        "pct_sobre_total": 72.5
+      },
+      "molflex": {
+        "mediana_min_rmsd": 3.261,
+        "n_complejos_con_poses": 2,
+        "n_complejos_cubiertos": 1,
+        "n_poses": 338,
+        "pct_sobre_con_poses": 50.0,
+        "pct_sobre_total": 2.5
+      },
+      "ruta_a": {
+        "mediana_min_rmsd": 1.003,
+        "n_complejos_con_poses": 4,
+        "n_complejos_cubiertos": 3,
+        "n_poses": 75,
+        "pct_sobre_con_poses": 75.0,
+        "pct_sobre_total": 7.5
+      },
+      "union": {
+        "mediana_min_rmsd": 1.362,
+        "n_complejos_con_poses": 40,
+        "n_complejos_cubiertos": 30,
+        "n_poses": 730,
+        "pct_sobre_con_poses": 75.0,
+        "pct_sobre_total": 75.0
+      }
+    }
+  },
+  "definiciones": {
+    "estratos": "0-4 / 5-9 / 10-14 / >=15 rot_bonds",
+    "mediana_min_rmsd": "mediana de los min-RMSD sobre los complejos CON poses de la fuente (denominador condicional)",
+    "min_rmsd_por_fuente": "mínimo del campo rmsd (pocket-frame) entre las poses de esa fuente dentro del complejo",
+    "min_rmsd_union": "mínimo del campo rmsd entre TODAS las poses del complejo (oráculo de la unión pre-deduplicación)",
+    "oracle_covered": "min_rmsd_union <= 2.0 A",
+    "oraculo": "min RMSD pocket-frame <= 2.0 A por complejo (docs/49 §5: cobertura/oráculo; sin alineamiento rígido)",
+    "pct_sobre_estrato": "n complejos cubiertos / n del estrato",
+    "pct_sobre_total": "n complejos cubiertos / total del subconjunto (156, 116 o 40)",
+    "rot_bonds": "Descriptors.NumRotatableBonds(AddHs(mol)) del SDF cristalográfico (convención ruta_a_exh_validation.py); 'unknown' si el SDF no parsea"
+  },
+  "distribucion_poses_por_fuente_estrato": {
+    "0-4": {
+      "flexible_redock": 312,
+      "molflex": 132,
+      "ruta_a": 48
+    },
+    "10-14": {
+      "flexible_redock": 247,
+      "molflex": 1042,
+      "ruta_a": 46
+    },
+    "5-9": {
+      "flexible_redock": 470,
+      "molflex": 213,
+      "ruta_a": 83
+    },
+    ">=15": {
+      "flexible_redock": 140,
+      "molflex": 547,
+      "ruta_a": 189
+    }
+  },
+  "experiment_id": "MF-01",
+  "notas": [
+    "Determinista: dos corridas sobre los mismos insumos producen bytes idénticos (sin marcas de tiempo).",
+    "Análisis read-only: no re-docking, no scoring v0.6, no unión deduplicada (MF-11/RS-01 posteriores).",
+    "La cobertura de la unión aquí es PRE-deduplicación: cada pose cuenta una vez aunque dos fuentes generen la misma pose."
+  ],
+  "provenance_por_fuente": {
+    "n_poses_con_provenance": 3469,
+    "n_poses_sin_provenance": 0,
+    "por_fuente": {
+      "flexible_redock": {
+        "box_method": {
+          "center_from_crystal_ligand": 143
+        },
+        "exhaustiveness": {
+          "8": 143
+        },
+        "n_poses_con_provenance": 1169,
+        "n_poses_sin_provenance": 0,
+        "n_runs": 143,
+        "num_modes": {
+          "9": 143
+        },
+        "seed": {
+          "unknown": 143
+        }
+      },
+      "molflex": {
+        "box_method": {
+          "center_from_crystal_ligand": 244
+        },
+        "exhaustiveness": {
+          "8": 244
+        },
+        "n_poses_con_provenance": 1934,
+        "n_poses_sin_provenance": 0,
+        "n_runs": 244,
+        "num_modes": {
+          "9": 244
+        },
+        "seed": {
+          "42": 244
+        }
+      },
+      "ruta_a": {
+        "box_method": {
+          "center_from_crystal_ligand": 60
+        },
+        "exhaustiveness": {
+          "1": 20,
+          "2": 20,
+          "4": 20
+        },
+        "n_poses_con_provenance": 366,
+        "n_poses_sin_provenance": 0,
+        "n_runs": 60,
+        "num_modes": {
+          "9": 60
+        },
+        "seed": {
+          "unknown": 60
+        }
+      }
+    },
+    "sidecar": "scripts/artifacts_science/FND-06/poses_provenance.jsonl"
+  }
+}

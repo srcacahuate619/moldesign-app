@@ -1,0 +1,511 @@
+{
+ "id": "MF-26",
+ "meta": {
+  "titulo": "Declaré una especificación el mismo día que escribí la regla que lo prohíbe",
+  "entradilla": "En train la colocación colapsa por encima de 5 torsiones, con intervalos disjuntos. En val y test no colapsa: sube. El acantilado era un sesgo de cohorte, no una propiedad del método."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Una curva limpia en ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": " decía algo útil y accionable: la tasa de colocación cae de 0.792 en la banda de 3–5 torsiones a 0.375 en la de 6–8, y sigue bajando a 0.217 en la de 9–12. Los intervalos de Wilson de las bandas extremas son disjuntos, así que no es ruido.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "De ahí salió una especificación de producto: ",
+     "m": null
+    },
+    {
+     "t": "«MolFlex coloca de forma fiable hasta unas 5 torsiones»",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Un número concreto, con evidencia estadística detrás, listo para documentar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es falsa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó al mirar fuera de train",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Banda de torsiones",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Tasa en ",
+      "m": null
+     },
+     {
+      "t": "train",
+      "m": "codigo"
+     }
+    ],
+    [
+     {
+      "t": "Tasa en ",
+      "m": null
+     },
+     {
+      "t": "val",
+      "m": "codigo"
+     },
+     {
+      "t": "+",
+      "m": null
+     },
+     {
+      "t": "test",
+      "m": "codigo"
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "3 – 5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.792",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.600",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "6 – 8",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.375",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.632",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "9 – 12",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.217",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.550",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Fuera de ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": " la curva ",
+     "m": null
+    },
+    {
+     "t": "sube",
+     "m": "fuerte"
+    },
+    {
+     "t": " de la primera a la segunda banda, y en la de 9–12 da 0.550 frente a 0.217. Los intervalos de confianza de esa última comparación ",
+     "m": null
+    },
+    {
+     "t": "no se solapan",
+     "m": "fuerte"
+    },
+    {
+     "t": ": [0.097, 0.419] contra [0.342, 0.742].",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El coste de colocación cuenta la misma historia: llega a 6.45 Å de mediana en ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": " y no pasa de 1.97 Å en ",
+     "m": null
+    },
+    {
+     "t": "val",
+     "m": "codigo"
+    },
+    {
+     "t": "+",
+     "m": null
+    },
+    {
+     "t": "test",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El acantilado no generaliza.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La especificación queda retirada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué ocurre, y por qué debería haberlo visto venir",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es coherente con dos resultados que ya estaban sellados y que no conecté a tiempo:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "MF-02A-EXT",
+      "m": "codigo"
+     },
+     {
+      "t": " midió que **",
+      "m": null
+     },
+     {
+      "t": "train",
+      "m": "codigo"
+     },
+     {
+      "t": " es más difícil que PDBBind**: 77.6% frente a 83.9% de",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "cobertura conformacional.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "RC-F0-V2",
+      "m": "codigo"
+     },
+     {
+      "t": " documentó el gradiente ",
+      "m": null
+     },
+     {
+      "t": "train",
+      "m": "codigo"
+     },
+     {
+      "t": " < ",
+      "m": null
+     },
+     {
+      "t": "val",
+      "m": "codigo"
+     },
+     {
+      "t": " < ",
+      "m": null
+     },
+     {
+      "t": "test",
+      "m": "codigo"
+     },
+     {
+      "t": " — 79.3 / 87.5 / 97.9 — porque",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "la división por scaffold concentró los scaffolds difíciles en ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El acantilado de torsiones es ",
+     "m": null
+    },
+    {
+     "t": "otra cara del mismo sesgo de cohorte",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Los ligandos con muchas torsiones de ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": " son difíciles por razones que se correlacionan con el número de torsiones sin ser causadas por él.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La lección de método, que es lo que hace este registro incómodo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Medí una curva en ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": " y declaré una especificación ",
+     "m": null
+    },
+    {
+     "t": "sin validarla fuera",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso es exactamente el error que la sección de método del programa propone evitar. Y lo cometí ",
+     "m": null
+    },
+    {
+     "t": "el mismo día en que se escribió esa sección",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No hay una lectura amable de eso. Escribir la regla y violarla en la misma jornada significa que tener la regla escrita no basta: hace falta que algo la compruebe antes de que un número salga del cuaderno. De aquí salió la práctica de que ninguna especificación se declara sin un dato fuera del conjunto donde se midió la curva.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que sí sobrevive",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un resultado del mismo experimento aguanta el cambio de split, y por eso vale más que el que se cayó: el ",
+     "m": null
+    },
+    {
+     "t": "enterramiento",
+     "m": "fuerte"
+    },
+    {
+     "t": " del sitio favorece a los complejos que convierten en 3 de 4 bandas en ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": " y en ",
+     "m": null
+    },
+    {
+     "t": "4 de 4",
+     "m": "fuerte"
+    },
+    {
+     "t": " en ",
+     "m": null
+    },
+    {
+     "t": "val",
+     "m": "codigo"
+    },
+    {
+     "t": "+",
+     "m": null
+    },
+    {
+     "t": "test",
+     "m": "codigo"
+    },
+    {
+     "t": ". Sobrevive a la estratificación por tamaño y al cambio de conjunto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No es un acantilado ni una especificación. Es una asociación estable, que es bastante más de lo que se puede decir del hallazgo con el que este experimento empezó.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-26.md"
+}

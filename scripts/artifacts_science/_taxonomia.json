@@ -1,0 +1,102 @@
+{
+  "_doc": "Clasificacion de los registros para la vista publica /ciencia. La regla automatica vive en scripts/build_registro_cientifico.py; este archivo la SOBREESCRIBE caso por caso. Editar a mano es lo esperado: la clasificacion es un juicio editorial, no un campo del manifest.",
+  "_categorias": {
+    "hallazgo": "Gate real preregistrado, superado. Es un resultado que sostiene algo.",
+    "refutacion": "Hipotesis propia puesta a prueba y derribada. La columna de la que mas se aprende.",
+    "medicion": "Mide sin decidir: no tiene umbral de aceptacion. Describe el terreno.",
+    "prerregistro": "Declaracion de hipotesis y gate ANTES de mirar datos. Se sella GO por convencion; NO es un exito.",
+    "corrigendum": "Correccion de un resultado propio cuyo valor principal ES la correccion.",
+    "inconcluso": "Ejecutado y declarado sin conclusion. No se reclasifica a posteriori."
+  },
+  "_regla_automatica": [
+    "sufijo -PRE / -PRE-R1            -> prerregistro",
+    "decision NO_GO                   -> refutacion",
+    "decision INCONCLUSIVE            -> inconcluso",
+    "gate descriptivo / sin umbral    -> medicion",
+    "sufijo -R1 / -R2 / -RE           -> corrigendum",
+    "resto con decision GO            -> hallazgo"
+  ],
+  "_nota_categoria_vs_etiqueta": "Un registro tiene UNA categoria y N etiquetas. RS-14-R1 y MF-26 son correcciones propias, pero lo que importa de ellos es que REFUTAN: van a la columna de refutaciones con la etiqueta corrigendum, no escondidos en una capa lateral.",
+  "overrides": {
+    "FND-01-SMOKE": "medicion",
+    "CAMPANA-2-PLAN": "prerregistro",
+    "D-MF-HARD": "medicion",
+    "D-MF-HARD-CURVE": "medicion",
+    "MF-13-DIAG": "medicion",
+    "MF-33": "hallazgo",
+    "MF-33-H-COR": "corrigendum",
+    "MF-16-R1": "corrigendum",
+    "MF-21": "corrigendum",
+    "MF-26": "refutacion",
+    "RS-14-R1": "refutacion"
+  },
+  "etiquetas": {
+    "corrigendum": [
+      "AF-01-R1",
+      "MF-02B-R1",
+      "MF-11-R1",
+      "MF-11-R2",
+      "MF-16-R1",
+      "MF-21",
+      "MF-26",
+      "MF-33-H-COR",
+      "REC-01-R1",
+      "RS-01A-R1",
+      "RS-04-OOF-R1",
+      "RS-14-R1"
+    ],
+    "cierra-cartera": [
+      "RS-14",
+      "RS-14-R1",
+      "MF-25",
+      "MF-10"
+    ],
+    "sostiene-el-producto": [
+      "FEP-04",
+      "MF-12",
+      "FND-06",
+      "MF-11-R2"
+    ],
+    "auditoria-adversarial": [
+      "MF-32",
+      "FND-03",
+      "FND-04"
+    ],
+    "defecto-abierto": [
+      "MF-33-PB",
+      "MF-33-TOP1"
+    ],
+    "defecto-levantado": [
+      "MF-33",
+      "MF-33-A2"
+    ],
+    "no-paper-standalone": [
+      "MF-29-EMP-EXT",
+      "MF-33-PB",
+      "PROD-PV-H-01"
+    ]
+  },
+  "_nota_reemplazos": "El mapa reemplazos declara, en forma legible por maquina, que las cifras selladas de un registro fueron reemplazadas por otro. Va aparte de las etiquetas porque no es una clasificacion editorial sino un dato del contrato: el constructor lo emite como reemplazado_por y la vista de Ciencia pinta el aviso en la tarjeta y en la ficha. Un lector que llega a MF-33-PB por un enlace directo tiene que ver que su 2.64% ya no vale, sin depender de que alguien escribiera un parrafo.",
+  "reemplazos": {
+    "MF-33-PB": "MF-33-H-COR",
+    "MF-33-TOP1": "MF-33-H-COR"
+  },
+  "destacados": {
+    "hallazgo": [
+      "FEP-04",
+      "MF-12",
+      "FND-04",
+      "RC-F0-V2",
+      "REC-01"
+    ],
+    "refutacion": [
+      "MF-25",
+      "RS-14-R1",
+      "MF-08",
+      "MF-10",
+      "MF-31"
+    ]
+  },
+  "_nota_no_paper_standalone": "NO_PAPER_STANDALONE. La etiqueta marca registros que NO abren linea editorial propia y cuya evidencia se incorpora a un trabajo existente. No es una deuda: es una decision editorial, y por eso estos registros NO figuran en el aviso de 'sin paper' del constructor. PROD-PV-H-01 es una validacion de producto y una correccion de instrumentacion; su evidencia es incorporable a MF-33 como nota tecnica, material suplementario o seccion metodologica. MF-29-EMP-EXT recupera dos complejos que expiraron contra un timeout en duro: es mantenimiento de cohorte, y su evidencia vive en la seccion de plazos vencidos del paper de MF-29-EMP. MF-33-PB tiene su cifra de cabecera invalidada por MF-33-H-COR, asi que su valor editorial esta en el corrigendum y no en una ficha propia; el aviso de reemplazo no lo da una prosa sino el campo reemplazos, que el constructor transporta al contrato y la vista pinta.",
+  "_nota_defecto_abierto": "La etiqueta defecto-abierto marca registros cuya conclusion o magnitud esta suspendida por un defecto detectado DESPUES de sellar. No se borra el registro ni se reescribe su decision: se etiqueta, se declara el defecto en su paper y se nombra el experimento que lo resuelve. La etiqueta defecto-levantado marca los registros donde ese experimento YA CORRIO y devolvio la magnitud: en MF-33 y MF-33-A2 el defecto era el conteo de poses conservadas (9 contra 261) y MF-33-A3 lo midio igualando corridas, poses y CPU -gasto un 20% mas que B- perdiendo 26 a 19 con g_A3=0 y McNemar p=0.0156, de modo que su razon sellada ordena expresamente levantar la etiqueta y declarar citable la magnitud 1/33, 12/33, 26/33. No se retira el rastro: se cambia de etiqueta, porque un defecto resuelto no es lo mismo que uno que nunca existio. En MF-33-PB y MF-33-TOP1 el defecto es la reconstruccion de hidrogenos para PoseBusters, que dejaba los no polares en coordenadas cristalograficas incompatibles con la pose: suspende SOLO sus tasas de validez fisica -217/8215 = 2.64%, el 8/48 contra 10/48, el 8.62% contra 15.52%- y lo resuelve MF-33-H-COR, que las reemplaza por 99.48% y 91.38/94.83% sin tocar un atomo pesado. Sus cifras de RMSD, cobertura, top-1, top-5 y cascada de conversion NO estan afectadas. MF-33-PB y MF-33-TOP1 CONSERVAN defecto-abierto aunque MF-33-H-COR ya corrio, y es deliberado: sus tasas de validez fisica quedan invalidadas y reemplazadas para siempre, no reparadas, asi que la etiqueta advierte al lector de que las cifras selladas ahi no deben citarse. docs/52 y docs/54 dependen de esa lectura."
+}

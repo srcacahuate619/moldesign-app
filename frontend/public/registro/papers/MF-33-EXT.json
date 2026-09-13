@@ -1,0 +1,1147 @@
+{
+ "id": "MF-33-EXT",
+ "meta": {
+  "titulo": "El denominador estaba por debajo del listón que el propio programa se puso",
+  "entradilla": "Con generador flexible, la cobertura de los 116 sube a 0.9224 y pasa el listón de 0.90 que MF-02D falló con 0.7931. Nueve complejos no se cubren con ningún presupuesto, y están enriquecidos en sistemas que otro diagnóstico ya había marcado."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Media docena de conclusiones del programa usan la misma referencia: ",
+     "m": null
+    },
+    {
+     "t": "el conjunto de poses candidatas de la cohorte de entrenamiento",
+     "m": "enfasis"
+    },
+    {
+     "t": ". Cobertura del oráculo, techo del selector, atribución de fallos — todas dividen por él.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "RC-F0-V2-EXT",
+     "m": "codigo"
+    },
+    {
+     "t": " midió que ",
+     "m": null
+    },
+    {
+     "t": "el 93.9% de ese conjunto viene del protocolo rígido",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Y ",
+     "m": null
+    },
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": " acababa de medir que dockear flexible los mismos confórmeros cambia la cobertura del estrato difícil de 1 a 26 sobre 33.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Si eso vale sobre los 48, el denominador de todo lo demás está mal puesto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento lo mide sobre los ",
+     "m": null
+    },
+    {
+     "t": "116 de entrenamiento",
+     "m": "fuerte"
+    },
+    {
+     "t": ": mismo método que el brazo B de ",
+     "m": null
+    },
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": ", distinto alcance. Todos los ",
+     "m": null
+    },
+    {
+     "t": "conf*.flex.pdbqt",
+     "m": "codigo"
+    },
+    {
+     "t": " del ensemble ETKDG ya en disco, con los parámetros del brazo de control de ",
+     "m": null
+    },
+    {
+     "t": "MF-28",
+     "m": "codigo"
+    },
+    {
+     "t": " —",
+     "m": null
+    },
+    {
+     "t": "exh=8",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "num_modes=9",
+     "m": "codigo"
+    },
+    {
+     "t": ", semilla 42, caja de 25 Å—. Los confórmeros ",
+     "m": null
+    },
+    {
+     "t": "no",
+     "m": "fuerte"
+    },
+    {
+     "t": " se regeneran. 12.76 h de reloj con 10 workers, unas 107 CPU-h.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El listón no se inventó aquí: es el **G5 de ",
+     "m": null
+    },
+    {
+     "t": "MF-02D",
+     "m": "codigo"
+    },
+    {
+     "t": ", heredado tal cual. Y la línea base es ",
+     "m": "fuerte"
+    },
+    {
+     "t": "0.7931**, la métrica de pocket, que es la primaria de ",
+     "m": null
+    },
+    {
+     "t": "MF-02D",
+     "m": "codigo"
+    },
+    {
+     "t": " y la que falló su gate.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Cobertura del oráculo ≤2 Å",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Base rígida, conjunto v2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.7931",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Generador flexible, este experimento",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "107/116 = 0.9224",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Listón heredado del G5 de ",
+       "m": null
+      },
+      {
+       "t": "MF-02D",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "0.90",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "+12.93 puntos porcentuales",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y por encima del listón. La lectura preregistrada es ",
+     "m": null
+    },
+    {
+     "t": "EL GENERADOR FLEXIBLE ALCANZA EL LISTÓN",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo que eso significa para el registro, dicho sin adornos: **",
+     "m": null
+    },
+    {
+     "t": "MF-02D",
+     "m": "codigo"
+    },
+    {
+     "t": " está sellado ",
+     "m": null
+    },
+    {
+     "t": "NO_GO",
+     "m": "codigo"
+    },
+    {
+     "t": " precisamente porque su G5 dio 0.7931 y no alcanzó**. Mismo listón, misma cohorte, misma métrica, cambiando sólo la codificación del ligando: 0.9224.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Por estrato:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "n",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Cubiertos",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Cobertura",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Oráculo mediano",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "COLOCACION",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "33",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "26",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.7879",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1.184 Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "CONTROL",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1.0000",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1.010 Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "RESTO",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "68",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "66",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.9706",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.889 Å",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Una comprobación de consistencia que no estaba planificada y salió perfecta:",
+     "m": "fuerte"
+    },
+    {
+     "t": " en COLOCACION da 26 de 33, exactamente el brazo B de ",
+     "m": null
+    },
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": " sobre esos mismos complejos. Mismo protocolo y misma semilla debían reproducir, y reproducen.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La curva, que es el secundario",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cobertura acumulada según cuántos confórmeros se dockean, en orden de índice:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "K",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "1",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "2",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "3",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "4",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "6",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "9",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "25",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "30",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Cubiertos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "80",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "94",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "101",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "103",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "104",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "106",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "107",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "107",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Cobertura",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.690",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.810",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.871",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.888",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.897",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.914",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.922",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "0.922",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los tres primeros confórmeros compran 21 complejos. Los veintisiete siguientes compran seis.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Que la curva sea así de plana a partir de K≈9 dice algo sobre el coste: si hubiera que elegir un presupuesto, está mucho antes de 30. Pero ",
+     "m": null
+    },
+    {
+     "t": "no",
+     "m": "fuerte"
+    },
+    {
+     "t": " dice que la ventaja del ensemble sea presupuesto — eso lo midió ",
+     "m": null
+    },
+    {
+     "t": "MF-33-A3",
+     "m": "codigo"
+    },
+    {
+     "t": ", igualando corridas, poses y CPU, y la ventaja sigue en pie. Por eso el titular de este registro es la ",
+     "m": null
+    },
+    {
+     "t": "cobertura final",
+     "m": "fuerte"
+    },
+    {
+     "t": " y la curva es descriptiva.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Los nueve que no se cubren con ningún K",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "1afl",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "1bq4",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "1d7i",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "1d9i",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "1dgm",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "1elb",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "1ew8",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "1fkh",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "1jq8",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Siete están en la cohorte de 48; dos —",
+     "m": null
+    },
+    {
+     "t": "1bq4",
+     "m": "codigo"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "1elb",
+     "m": "codigo"
+    },
+    {
+     "t": "— no.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Aquí hay que corregir una cuenta propia, y es un error que ya cometí antes. La versión anterior de esta lectura hablaba de ",
+     "m": null
+    },
+    {
+     "t": "tres",
+     "m": "fuerte"
+    },
+    {
+     "t": " líneas independientes señalando el mismo conjunto. Son ",
+     "m": null
+    },
+    {
+     "t": "dos",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Que los siete no convertidos de ",
+     "m": null
+    },
+    {
+     "t": "MF-33-CRUCES",
+     "m": "codigo"
+    },
+    {
+     "t": " estén todos dentro de este grupo ",
+     "m": null
+    },
+    {
+     "t": "no es convergencia independiente",
+     "m": "fuerte"
+    },
+    {
+     "t": ": ",
+     "m": null
+    },
+    {
+     "t": "MF-33-CRUCES",
+     "m": "codigo"
+    },
+    {
+     "t": " define «no convertido» como que el brazo B no alcanza ≤2 Å sobre esos 48, y este experimento reproduce el brazo B exactamente. Ese solape de 7 sobre 7 es ",
+     "m": null
+    },
+    {
+     "t": "reproducción",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no evidencia nueva.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La línea genuinamente independiente es ",
+     "m": null
+    },
+    {
+     "t": "REC-09",
+     "m": "codigo"
+    },
+    {
+     "t": ", que midió el ",
+     "m": null
+    },
+    {
+     "t": "scoring del cristal",
+     "m": "fuerte"
+    },
+    {
+     "t": " y no el docking:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Grupo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "n",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Caen entre los nueve",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Complejos con cristal que puntúa absurdamente mal",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "6",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4 — el 67%",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Los demás",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "110",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5 — el 4.5%",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Enriquecimiento ",
+     "m": null
+    },
+    {
+     "t": "14.7×",
+     "m": "fuerte"
+    },
+    {
+     "t": ", Fisher exacto unilateral ",
+     "m": null
+    },
+    {
+     "t": "p = 2.45e-04",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La afirmación defendible, y no más:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Los fallos residuales tras un muestreo conformacional extenso están ",
+     "m": null
+    },
+    {
+     "t": "enriquecidos",
+     "m": "fuerte"
+    },
+    {
+     "t": " en complejos señalados de forma independiente por diagnósticos de preparación y puntuación.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso argumenta contra el muestreo conformacional adicional como ",
+     "m": null
+    },
+    {
+     "t": "única",
+     "m": "fuerte"
+    },
+    {
+     "t": " explicación del conjunto de fallos residuales. No afirma que la preparación cause los nueve fallos, ni niega que otro muestreador pudiera recuperarlos. Dice que esta intervención causal sobre el muestreo llegó prácticamente a su límite, y que los mismos casos siguen apareciendo por otra vía.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué justifica y qué no",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La regeneración de la cohorte con docking flexible queda justificada",
+     "m": "fuerte"
+    },
+    {
+     "t": " por la regla preregistrada. Con la advertencia obvia: justificarla no es ejecutarla. Ejecutarla es un programa con su propio re-sellado y el triaje de todos los consumidores del conjunto actual.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Límites declarados:",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "el oráculo es ",
+      "m": null
+     },
+     {
+      "t": "cota superior de lo alcanzable, no predicción",
+      "m": "fuerte"
+     },
+     {
+      "t": ": no evalúa selector, y lo",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "que llega al top-1 es otra cosa —",
+     "m": null
+    },
+    {
+     "t": "MF-33-TOP1",
+     "m": "codigo"
+    },
+    {
+     "t": " lo midió, y se atenúa;",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "los confórmeros ",
+      "m": null
+     },
+     {
+      "t": "no se regeneran",
+      "m": "fuerte"
+     },
+     {
+      "t": ": si el techo fuese conformacional, esto no lo mueve;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "parte del techo puede ser ",
+      "m": null
+     },
+     {
+      "t": "preparación",
+      "m": "fuerte"
+     },
+     {
+      "t": " y no generador, que es justo lo que sugieren los",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "nueve, y este experimento no los separa.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-33-EXT.md"
+}

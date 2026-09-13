@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-08-PRE",
+  "hypothesis": "El fallo de cobertura esta dominado por colocacion y no por conformacion; una caja de 25 A centrada en el ligando admite subsitios competidores que puntuan mejor, de modo que encoger a 20 A debe recuperar poses y agrandar a 30 A debe empeorarlas",
+  "protocol": "MF-08-PRE/PREREGISTRO.md; refina MF-08 del doc 49 invirtiendo la direccion de la hipotesis; molflex congelado salvo BOX_SIZE; B25 reutiliza el material sellado de MF-02D",
+  "created_at": "2026-08-18T02:01:18.445866+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "3e07fe51f44462efee34e2e67d5387ad345ea6c7",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 validez >=95%, G2 B20 recupera >=6 de 33, G3 monotonia B20>=B25>=B30 (mecanismo), G4 B20 pierde <=1 del control de 15, G5 determinismo"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-02D/pocket_frame.jsonl": "94110c184dcf0bf0584d4e7f6a612c34a7a83eeb9f2024815d42b155f64e9e74"
+  },
+  "binary_hashes": {
+    "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-08-PRE/PREREGISTRO.md": "019ca7538543bdf3809ee1c28f6977349ba2ccdb3fde7cc4dbd32de716569adb",
+    "scripts/artifacts_science/MF-08-PRE/descomposicion_error.json": "685c522beca0d567a68f4b69b124802227e6a3a875cb2abfd40589b580e92dbb",
+    "scripts/artifacts_science/MF-08-PRE/cohorte.json": "e0a01b81405880bcf6dd58011ca3fa91fe8854fdd605d8083a688f86f3b95d9b",
+    "scripts/run_mf08_caja.py": "61ffb64fb51d2e3c932b1be60d9a2209b3ea277b0a536416d058c86274fb0856",
+    "scripts/molflex.py": "d2bd11957cc20e8ea1413b4eca44e3f77664a686bb0fe67a38f47a856fc9aac9"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T02:01:19.413050+00:00",
+  "decision_rationale": "Prerregistro sellado antes de ejecutar, con la geometria computada y declarada. La descomposicion del error de la mejor pose alcanzable en los 116 de train muestra que en los 50 fallidos la colocacion domina en 33: mediana de colocacion 2.53 A frente a conformacion 1.89 A, con casos como 1dgm (conformacion 0.90, colocacion 3.85) donde el ligando tiene la forma correcta y esta en otro sitio. Eso invierte el enunciado original de MF-08: la caja no limita, es demasiado generosa. La caja de 15 A queda descartada POR FISICA y no por resultados: con radio mediano de ligando de 7.04 A, 32 de 116 ligandos no caben y se excluiria tambien la pose nativa. Con 20 A el subsitio decoy queda fuera en 19 de los 33, lista declarada por nombre; excluirlo es necesario pero no suficiente, asi que se espera menos de 19 y el gate exige 6. Se incluye el brazo B30 como PRUEBA DE FALSACION: si el mecanismo es competencia de sitios, agrandar debe empeorar, y si B30 no empeora el mecanismo es falso aunque B20 mejore. Cuatro complejos quedan excluidos a priori por no caber en 20 A. Declarado tambien que un GO NO transfiere a produccion: la caja esta centrada en el ligando cristalografico y REC-03 midio que el top-1 de MolPocket esta a 8 A de mediana del ligando, de modo que con ese error de centro una caja mas ajustada perderia la pose nativa mas a menudo.",
+  "finished_at": "2026-08-18T02:01:19.701026+00:00",
+  "seal_maintenance": [
+    {
+      "date": "2026-08-18T02:13:43.561622+00:00",
+      "reason": "MF-08-PRE queda superado por MF-08-PRE-R1 antes de ejecutarse; el runner se extendio con el brazo B_ADAPT. Se registra el cambio de hash por la via auditada en vez de re-sellar.",
+      "path": "scripts/run_mf08_caja.py",
+      "previous_hash": "d2aa7fdb6d55ab3cf7fd98d9b8cc18986bfb302c62ad4c34f781e249f5c8acdf",
+      "new_hash": "61ffb64fb51d2e3c932b1be60d9a2209b3ea277b0a536416d058c86274fb0856",
+      "content_commit": "PENDIENTE"
+    }
+  ]
+}

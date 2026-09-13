@@ -1,0 +1,133 @@
+{
+ "experiment_id": "FND-04",
+ "timestamp": "2026-08-18T20:36:04.079127+00:00",
+ "sanity_tests": [
+  {
+   "test": "wilson_perfecto_no_degenera",
+   "pass": true,
+   "detalle": "10/10 -> [0.7225, 1.0000]"
+  },
+  {
+   "test": "wilson_cero_no_degenera",
+   "pass": true,
+   "detalle": "0/10 -> [0.0000, 0.2775]"
+  },
+  {
+   "test": "wilson_simetrico_en_0.5",
+   "pass": true,
+   "detalle": "5/10 -> [0.2366, 0.7634]"
+  },
+  {
+   "test": "mcnemar_sin_discordancia",
+   "pass": true,
+   "detalle": "b=c=0 -> 1.0"
+  },
+  {
+   "test": "mcnemar_asimetrico",
+   "pass": true,
+   "detalle": "b=8,c=0 -> 0.007812"
+  },
+  {
+   "test": "mcnemar_simetrico",
+   "pass": true,
+   "detalle": "b=c=5 -> 1.0"
+  },
+  {
+   "test": "bootstrap_constante_degenera",
+   "pass": true,
+   "detalle": "[0.3000, 0.3000]"
+  },
+  {
+   "test": "bootstrap_positivo_excluye_cero",
+   "pass": true,
+   "detalle": "media 0.950 -> [0.935, 0.962]"
+  },
+  {
+   "test": "bootstrap_nulo_incluye_cero",
+   "pass": true,
+   "detalle": "media 0.000 -> [-0.320, 0.240]"
+  },
+  {
+   "test": "fdr_todos_nulos",
+   "pass": true,
+   "detalle": "10 x p=0.9"
+  },
+  {
+   "test": "fdr_todos_signif",
+   "pass": true,
+   "detalle": "10 x p=0.0"
+  },
+  {
+   "test": "fdr_mixto",
+   "pass": true,
+   "detalle": "[True, False, False, False, False]"
+  }
+ ],
+ "sanity_todos_pasan": true,
+ "reverificacion_independiente": [
+  {
+   "experimento": "RS-14",
+   "n_complejos_cubiertos": 92,
+   "condicional_selector_recomputada": 0.4312,
+   "condicional_baseline_recomputada": 0.4783,
+   "diferencia_pareada_recomputada": -0.0471,
+   "ci95_bca_recomputado": [
+    -0.1594,
+    0.0616
+   ],
+   "sellado": {
+    "media": -0.0471,
+    "ci95_bca": [
+     -0.1522,
+     0.0617
+    ],
+    "n_complejos": 92
+   },
+   "coincide_media": true,
+   "coincide_signo_del_gate": true,
+   "mcnemar_exacto_discordancias": {
+    "b": 26,
+    "c": 32,
+    "p": 0.511842
+   }
+  },
+  {
+   "experimento": "RS-14-R1",
+   "n_complejos_cubiertos": 92,
+   "condicional_selector_recomputada": 0.4601,
+   "condicional_baseline_recomputada": 0.5543,
+   "diferencia_pareada_recomputada": -0.0942,
+   "ci95_bca_recomputado": [
+    -0.2101,
+    0.0217
+   ],
+   "sellado": {
+    "media": -0.0942,
+    "ci95_bca": [
+     -0.2138,
+     0.0217
+    ],
+    "n_complejos": 92
+   },
+   "coincide_media": true,
+   "coincide_signo_del_gate": true,
+   "mcnemar_exacto_discordancias": {
+    "b": 25,
+    "c": 33,
+    "p": 0.358143
+   }
+  }
+ ],
+ "nota": "un desacuerdo NO reabre un sello: lo documenta. La inmutabilidad post-seal se respeta y la discrepancia se registra como hallazgo.",
+ "gates": {
+  "G1_sanity": {
+   "criterio": "todos los sanity tests perfect/random pasan",
+   "pass": true
+  },
+  "G2_reverificacion": {
+   "criterio": "la diferencia pareada recomputada coincide con la sellada (<=0.01) y el veredicto del gate no cambia",
+   "pass": true
+  }
+ },
+ "decision": "GO"
+}

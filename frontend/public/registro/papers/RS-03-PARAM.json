@@ -1,0 +1,572 @@
+{
+ "id": "RS-03-PARAM",
+ "meta": {
+  "titulo": "El contrato que llevaba semanas sin cerrarse",
+  "entradilla": "Dos experimentos lo alimentaron y uno de ellos prohibió expresamente concluir sin él. La agregación nunca se ejecutó, y el programa siguió adelante dando su conclusión por hecha."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "RS-03-PARAM-A",
+     "m": "codigo"
+    },
+    {
+     "t": " parametrizó los 116 ligandos de entrenamiento con OpenFF Sage y NAGL, pasó los once requisitos primarios del contrato congelado, y terminó su sello con una frase:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "«Siguiente: ",
+     "m": null
+    },
+    {
+     "t": "RS-03-PARAM-B",
+     "m": "codigo"
+    },
+    {
+     "t": " (AM1-BCC estratificado) y luego ",
+     "m": null
+    },
+    {
+     "t": "RS-03-PARAM",
+     "m": "codigo"
+    },
+    {
+     "t": " (agregación)».",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "RS-03-PARAM-B",
+     "m": "codigo"
+    },
+    {
+     "t": " produjo la referencia y cerró el suyo con una prohibición todavía más explícita:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "«",
+     "m": null
+    },
+    {
+     "t": "PROHIBIDO concluir sobre NAGL desde B",
+     "m": "fuerte"
+    },
+    {
+     "t": ": la decisión es de ",
+     "m": null
+    },
+    {
+     "t": "RS-03-PARAM",
+     "m": "codigo"
+    },
+    {
+     "t": " agregando A y B contra el contrato del PRE maestro».",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La agregación nunca se ejecutó. Durante semanas, el resto del programa usó las cargas nuevas dando la decisión por hecha, mientras el artefacto que debía tomarla no existía.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento la toma. No calcula ninguna carga: ",
+     "m": null
+    },
+    {
+     "t": "verifica los once requisitos contra los artefactos sellados",
+     "m": "fuerte"
+    },
+    {
+     "t": " y emite lo que el contrato define.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El veredicto",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Once de once requisitos pasan",
+     "m": "fuerte"
+    },
+    {
+     "t": ", evaluados y sellados por A:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Exigido",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Obtenido",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Cobertura global",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≥ 95%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "100%",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Cobertura por estrato",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≥ 90% en los 6",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "100%",
+       "m": "fuerte"
+      },
+      {
+       "t": " en los 6",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Determinismo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≤ 1e-6",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2.78e-17",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "\\",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Σq − carga formal\\",
+       "m": null
+      }
+     ],
+     [],
+     [
+      {
+       "t": "≤ 1e-4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1e-15",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Fallback silencioso",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Energía finita y serializable",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "100%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "100%",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Mapeo biyectivo + hash de orden",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Sí",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Sí",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Versión y SHA del modelo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Registrados",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Registrados",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Decisión del contrato: aceptar NAGL como base de cargas",
+     "m": "fuerte"
+    },
+    {
+     "t": ", en sustitución del tipado heurístico que nadie había validado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La asimetría que hace válida esta decisión, y que no puse yo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Viene del contrato congelado, escrito antes de ejecutar nada:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "AM1-BCC es ",
+      "m": null
+     },
+     {
+      "t": "referencia estratificada, no verdad absoluta",
+      "m": "fuerte"
+     },
+     {
+      "t": ";",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "queda ",
+      "m": null
+     },
+     {
+      "t": "prohibido seleccionar NAGL mirando RMSD o Top-1",
+      "m": "fuerte"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es decir: ",
+     "m": null
+    },
+    {
+     "t": "B caracteriza, no decide.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y eso importa aquí más que en ningún otro sitio, porque B encontró divergencia sustancial: diferencia de carga mediana de ",
+     "m": null
+    },
+    {
+     "t": "0.0118 e",
+     "m": "fuerte"
+    },
+    {
+     "t": " por átomo, y una diferencia de energía de punto único con mediana de ",
+     "m": null
+    },
+    {
+     "t": "24.3 kJ/mol",
+     "m": "fuerte"
+    },
+    {
+     "t": " y máxima de ",
+     "m": null
+    },
+    {
+     "t": "216.4",
+     "m": "fuerte"
+    },
+    {
+     "t": " — del orden de lo que un rescoring pretende resolver.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sin la asimetría declarada de antemano, habría sido natural leer esa divergencia como un suspenso. No lo es:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "La divergencia ",
+     "m": null
+    },
+    {
+     "t": "documenta un límite. No reprueba el método.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Reprobarlo exigiría que A fallara un requisito primario, o un experimento de ",
+     "m": null
+    },
+    {
+     "t": "rendimiento",
+     "m": "fuerte"
+    },
+    {
+     "t": " que el contrato prohíbe expresamente usar en esta decisión.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es el mejor ejemplo del programa de por qué se escribe el criterio antes: con los números delante, la tentación de dejar que 216 kJ/mol decidieran habría sido difícil de resistir, y habría sido una decisión tomada por el dato más llamativo en vez de por el criterio acordado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El caveat que viaja con la aceptación",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Aceptar NAGL ",
+     "m": null
+    },
+    {
+     "t": "no",
+     "m": "fuerte"
+    },
+    {
+     "t": " significa que las diferencias con AM1-BCC sean irrelevantes.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Son del tamaño del efecto que un rescoring quiere medir. Divergen más en azufre y fósforo. Y ",
+     "m": null
+    },
+    {
+     "t": "crecen con el tamaño y la flexibilidad",
+     "m": "fuerte"
+    },
+    {
+     "t": " del ligando — justo donde el programa trabaja.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cualquier experimento de rescoring físico debe declarar qué juego de cargas usa y por qué. No es una formalidad: es la diferencia entre medir un efecto y medir una elección de parametrización.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué un contrato sin cerrar es un problema",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Nada de lo que el programa hizo con esas cargas era incorrecto — A había pasado sus once gates y estaba sellado. Pero durante semanas la afirmación operativa «NAGL sustituye al tipado heurístico» no tenía artefacto que la sostuviera, sólo un experimento que la preparaba y otro que prohibía sacarla de él.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cerrar el contrato costó dos milisegundos. Dejarlo abierto costó semanas de una conclusión usada sin registro.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/RS-03-PARAM.md"
+}

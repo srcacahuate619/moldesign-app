@@ -1,0 +1,412 @@
+{
+ "id": "FEP-03",
+ "meta": {
+  "titulo": "El conjunto se armó para lo contrario de lo que hace falta",
+  "entradilla": "91 parejas utilizables sobre 18 dianas, de 487 evaluadas. Y la razón no es un defecto: el conjunto se construyó para maximizar diversidad de dianas, que es justo lo opuesto a lo que necesita FEP+."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los métodos de energía libre no calculan afinidades absolutas: calculan ",
+     "m": null
+    },
+    {
+     "t": "diferencias",
+     "m": "fuerte"
+    },
+    {
+     "t": " entre moléculas parecidas. Necesitan ",
+     "m": null
+    },
+    {
+     "t": "series congenéricas",
+     "m": "fuerte"
+    },
+    {
+     "t": " — varios análogos de la misma diana, que difieran en poco. Cuanto más pequeña la perturbación, más fiable el cálculo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esta auditoría cuenta cuántas parejas del material actual servirían.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "91 parejas utilizables sobre 18 dianas",
+     "m": "fuerte"
+    },
+    {
+     "t": ", de 487 evaluadas. Un ",
+     "m": null
+    },
+    {
+     "t": "19%",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Varias son de manual: tres pares con subestructura común de 26 a 33 átomos y ",
+     "m": null
+    },
+    {
+     "t": "perturbación cero",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Esas son exactamente el caso ideal.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Pero la estructura del conjunto es la equivocada, y esa es la conclusión real:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    []
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Dianas distintas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "104",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Complejos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "203",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Complejos que son la única entrada de su diana",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "la mitad",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Cobertura de subestructura común (mediana)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.50",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Perturbación (mediana)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "27 átomos",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Una perturbación mediana de 27 átomos no es una perturbación: es otra molécula.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué no es un defecto",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este es el punto que hace la auditoría útil en lugar de deprimente. El conjunto se armó para ",
+     "m": null
+    },
+    {
+     "t": "entrenar un selector de poses",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y para eso lo correcto es maximizar la diversidad de dianas: cuantos más contextos distintos vea el modelo, mejor generaliza.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Energía libre quiere lo contrario: ",
+     "m": null
+    },
+    {
+     "t": "pocas dianas con muchos análogos",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No hay nada roto. Hay un conjunto optimizado para un objetivo, evaluado contra otro. La implicación de diseño es que ",
+     "m": null
+    },
+    {
+     "t": "demostrar la ruta completa exige cohortes construidas al revés",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y esas existen: la base de datos de origen las tiene, y el grupo mayor disponible aquí ya tiene 23 miembros.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es una tarea de construcción de cohorte, no de investigación.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Un error propio, encontrado y corregido",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La primera pasada dio una cobertura de subestructura de ",
+     "m": null
+    },
+    {
+     "t": "1.11",
+     "m": "fuerte"
+    },
+    {
+     "t": " y una perturbación de ",
+     "m": null
+    },
+    {
+     "t": "−2",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Ambas son imposibles: la cobertura es una fracción y no puede pasar de 1, y una perturbación no puede ser negativa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La causa: la función que busca la subestructura común contaba un hidrógeno retenido que la función de conteo de átomos pesados no contaba. Dos formas de contar átomos que no coincidían.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Corregido, las parejas aptas bajaron de 96 a ",
+     "m": null
+    },
+    {
+     "t": "91",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Vale la pena señalar qué detectó el error: no una revisión de código, sino que ",
+     "m": null
+    },
+    {
+     "t": "el resultado era imposible",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Una fracción mayor que 1 no se puede explicar de ninguna manera. Los valores fuera de rango físico son el detector de defectos más barato que existe, y sólo funcionan si alguien mira los rangos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué 91 es una cota superior",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La agrupación de dianas se hizo por similitud de secuencia, y eso tiene dos sesgos, ambos en la misma dirección:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "no distingue mutantes puntuales",
+      "m": "fuerte"
+     },
+     {
+      "t": ", que para energía libre ",
+      "m": null
+     },
+     {
+      "t": "sí",
+      "m": "fuerte"
+     },
+     {
+      "t": " serían dianas distintas;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "puede unir isoformas",
+      "m": "fuerte"
+     },
+     {
+      "t": " que tampoco son intercambiables.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los dos inflan el conteo. Así que 91 es un techo, no una estimación central, y el número real de parejas realmente utilizables es menor.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Declararlo así evita que la cifra se cite después como si fuera el suelo.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FEP-03.md"
+}

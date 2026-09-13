@@ -1,0 +1,74 @@
+{
+  "vocabulary_version": "1.0.0",
+  "created": "2026-08-22",
+  "purpose": "Clasificacion de especies HETATM del sitio para el diff fuente -> preparado (docs/53 §6.2). Es DATO VERSIONADO, no constante de codigo: cada cambio reclasifica corridas ya emitidas, asi que la version debe viajar en el ArtifactPackage.",
+  "provenance": {
+    "waters": "backend/services/docking/preparer.py::_WATER_RESIDUES",
+    "metals": "scripts/analisis_rec12_cofactores.py::METALES (sellado en REC-12) unido a preparer.py::_METAL_COFACTORS",
+    "additives": "backend/services/chemistry/protein_surgery.py::NON_DRUG_HETATMS, que esta mejor curada que la lista ADITIVOS de REC-12-R1",
+    "known_cofactors": "backend/services/docking/preparer.py::_STANDARD_RESIDUES (fraccion de cofactores) ampliada con las especies que REC-12-R1 identifico como nucleo robusto y con grupos prosteticos de uso comun",
+    "modified_residues": "backend/services/docking/preparer.py::_STANDARD_RESIDUES (fraccion de residuos modificados)"
+  },
+  "limitaciones_declaradas": [
+    "known_cofactors es una lista POSITIVA v1 y NO esta curada por un experto: su cobertura es parcial y una especie ausente se clasifica como LIGANDO_O_DESCONOCIDO, nunca como cofactor",
+    "la clasificacion NO afirma relevancia funcional; que una especie sea cofactor conocido no implica que el sitio la necesite (prohibicion de REC-12-R1-PRE)",
+    "additives no puede usarse para reinterpretar REC-12-R1, cuyo prerregistro congelo su propia lista antes de mirar"
+  ],
+
+  "waters": ["HOH", "WAT", "DOD", "TIP", "TIP3", "SOL", "H2O", "OH2"],
+
+  "metals": [
+    "ZN", "MG", "MN", "FE", "FE2", "FE3", "CA", "CU", "CU1", "NI", "CO", "CD",
+    "HG", "NA", "K", "LI", "RB", "CS", "MO", "W", "V", "PT", "AU", "AU3", "AG",
+    "PB", "SR", "BA", "GD", "IR", "OS", "RU", "PD", "TL", "AL", "GA", "IN", "SN", "YB", "SM", "EU", "TB", "HO", "ER", "LU"
+  ],
+
+  "known_cofactors": [
+    "HEM", "HEA", "HEB", "HEC", "HDD", "VER", "SRM", "COH", "DHE",
+    "FAD", "FMN", "FDA", "RBF",
+    "NAD", "NAI", "NAP", "NDP", "NAX", "NDC",
+    "ATP", "ADP", "AMP", "ANP", "AGS", "ACP",
+    "GTP", "GDP", "GNP", "GSP",
+    "UDP", "UMP", "UTP", "UD1", "UPG",
+    "CDP", "CTP", "CMP",
+    "SAM", "SAH", "MTA",
+    "COA", "ACO", "COO", "SCA", "MLC",
+    "PLP", "PMP", "PXP",
+    "TPP", "TDP", "TPS",
+    "GSH", "GSS", "GDS", "GTS",
+    "BTN", "B12", "COB", "CNC", "B1Z",
+    "SF4", "FES", "F3S", "FS4", "CLF", "CFM", "ICS",
+    "MGD", "MSS", "PCD",
+    "PQQ", "TTQ", "LPA", "LPB",
+    "F42", "F43", "MQ7", "MQ8", "UQ1", "UQ2",
+    "BPH", "CLA", "CHL", "PHO",
+    "SIN", "FOL", "THG", "THF", "DHF", "MTX",
+    "PAP", "PPS", "3PG", "PEP"
+  ],
+
+  "modified_residues": [
+    "MSE", "SEP", "TPO", "PTR", "CSO", "CSD", "CME", "KCX", "LLP", "MLY",
+    "M3L", "ALY", "HYP", "PCA", "SAC", "CGU", "OCS", "CSS", "SNC", "NEP"
+  ],
+
+  "additives": [
+    "SO4", "PO4", "NO3", "NO2", "CO3", "BO3", "CLO", "PER",
+    "EDO", "GOL", "PEG", "P4G", "PG4", "PGE", "P6G", "1PE", "2PE", "PE4", "PE8", "XPE", "7PE",
+    "MPD", "BU3", "IPA", "ETOH", "EOH", "MOH", "ACN", "DMS", "DMF", "NMO",
+    "ACT", "ACY", "FMT", "CIT", "FLC", "TLA", "MLA", "MLI", "MES", "EPE", "TRS", "TRIS",
+    "HEPES", "BTB", "BIS", "ADA", "IMD", "CAC", "PIN", "HEP", "MPO", "NHE",
+    "BME", "DTT", "DTU", "TCE", "URE", "GAI", "SPD", "SPM", "PUT",
+    "AZI", "CYN", "SCN", "OXL", "TAR", "MAE", "PYR", "BCT",
+    "CL", "BR", "IOD", "F", "NH4", "UNX", "UNL", "UNK",
+    "NAG", "NDG", "BMA", "MAN", "FUC", "GAL", "GLC", "BGC", "FUL", "SIA", "GLA", "XYP", "RAM", "RIB", "BDF", "AAL",
+    "BOG", "LDA", "C8E", "OCT", "LMT", "DDQ", "SDS", "CPS", "PLM", "OLA", "MYR", "STE",
+    "ACE", "NH2", "NME", "B3N", "DB8", "ME2"
+  ],
+
+  "standard_residues": [
+    "ALA", "ARG", "ASN", "ASP", "CYS", "GLN", "GLU", "GLY", "HIS", "ILE",
+    "LEU", "LYS", "MET", "PHE", "PRO", "SER", "THR", "TRP", "TYR", "VAL",
+    "HID", "HIE", "HIP", "CYX", "ASH", "GLH",
+    "A", "C", "G", "U", "T", "DA", "DC", "DG", "DT", "DU"
+  ]
+}

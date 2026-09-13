@@ -1,0 +1,402 @@
+{
+ "id": "MF-10",
+ "meta": {
+  "titulo": "La última palanca de la hipótesis original, y también dice que no",
+  "entradilla": "Relajar la pose dentro del bolsillo con un campo de fuerza bien parametrizado no convirtió ningún complejo. Ninguna pose se movió más de 0.725 Å, y hacía falta cerca de 1 Å."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La sospecha era razonable y llevaba tiempo en pie: las poses que Vina entrega están tensionadas. Vina optimiza una función empírica rápida, no física real, y su geometría interna es aproximada. Si se relajara cada pose con un campo de fuerza serio —uno que trate correctamente los enlaces, los ángulos y las cargas parciales— quizá se asentaría en la conformación bioactiva que el docking rozó sin alcanzar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esta era la ",
+     "m": null
+    },
+    {
+     "t": "tercera y última",
+     "m": "fuerte"
+    },
+    {
+     "t": " palanca de la hipótesis original sobre por qué el generador no coloca. Las otras dos —la geometría de la caja y el número de reinicios de búsqueda— ya habían dicho que no.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Montarla costó trabajo: un contenedor con amber14 para la proteína, Sage 2.2.1 para el ligando y cargas NAGL, con la relajación hecha ",
+     "m": null
+    },
+    {
+     "t": "in situ",
+     "m": "enfasis"
+    },
+    {
+     "t": ", dentro del bolsillo, no en vacío.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cero complejos convertidos.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Nueve poses cruzan el umbral de 2.0 Å tras relajar, y al mirarlas de cerca no son lo que parecen: pertenecen a 7 complejos que ",
+     "m": null
+    },
+    {
+     "t": "ya tenían",
+     "m": "fuerte"
+    },
+    {
+     "t": " una pose bajo el umbral antes de relajar, y 8 de las 9 son del estrato de control. Ninguna es una conversión real.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo que cierra el argumento no es el conteo sino la magnitud del movimiento:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Valor",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Desplazamiento máximo de cualquier pose",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.725 Å",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Poses que se mueven más de 0.5 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "11 de 714",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Movimiento necesario para convertir",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "~1 Å",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La relajación no se queda corta por poco. Se queda corta por una escala entera. Y la mediana del cambio de RMSD es ",
+     "m": null
+    },
+    {
+     "t": "+0.007 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": " — es decir, ni siquiera mejora en promedio.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El fallo que no era del campo de fuerza",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un gate falla por una razón que no informa sobre la hipótesis: sólo el 81.3% de las poses obtuvieron energía finita, por debajo del 95% exigido. La causa está concentrada en ",
+     "m": null
+    },
+    {
+     "t": "9 complejos que fallaron 20 de 20 veces",
+     "m": "fuerte"
+    },
+    {
+     "t": " con el mismo error de plantilla de OpenMM, en cortes de cadena del receptor.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso es un fallo de ",
+     "m": null
+    },
+    {
+     "t": "preparación",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no del campo de fuerza. Y se verificó después: ",
+     "m": null
+    },
+    {
+     "t": "FEP-02",
+     "m": "codigo"
+    },
+    {
+     "t": " comprobó que esos 9 complejos tienen huecos de cadena, 9 de 9, contra una tasa base del 42.4% en el conjunto — la probabilidad de que eso sea coincidencia es de aproximadamente 0.0004.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La merma de cohorte tampoco sesga hacia el resultado negativo: los 8 complejos del estrato difícil que se perdieron estaban ",
+     "m": null
+    },
+    {
+     "t": "más lejos",
+     "m": "fuerte"
+    },
+    {
+     "t": " de convertir que los que quedaron (4.450 Å frente a 4.024 Å). Si hubieran entrado, el resultado habría sido igual o peor.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Los controles que faltaban",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Antes de sellar se hizo una auditoría propia que descartó seis riesgos —incluido el más peligroso, que la métrica se estuviera calculando de forma distinta antes y después de relajar, con una discrepancia máxima de 0.0005 Å— y detectó ",
+     "m": null
+    },
+    {
+     "t": "dos controles ausentes",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se ejecutaron aparte, y son los que hacen que este negativo signifique algo:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "¿Tenía resolución el instrumento?",
+      "m": "fuerte"
+     },
+     {
+      "t": " Sí: el suelo medido es de 0.401 Å, muy por",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "debajo del ~1 Å que había que detectar. Si el efecto hubiera existido, se habría visto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "¿Estaba convergido el minimizador?",
+      "m": "fuerte"
+     },
+     {
+      "t": " Sí: multiplicar su presupuesto por 20 mejora",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "0.061 Å. No se estaba parando antes de tiempo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sin esos dos controles, este resultado sería indistinguible de un experimento mal montado. Con ellos, es una respuesta.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La predicción cuadró sin residuo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se había declarado antes: 67 poses en la banda crítica de 2–3 Å, de las cuales 3 se perderían por parametrización, dejando 64 medibles. Salió exactamente eso.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Consecuencia",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con esto, las tres palancas de la hipótesis original quedan cerradas: la caja, los reinicios y el campo de fuerza. Y ",
+     "m": null
+    },
+    {
+     "t": "MF-09",
+     "m": "codigo"
+    },
+    {
+     "t": " explica por qué ninguna podía funcionar: en 30 de 33 complejos difíciles ",
+     "m": null
+    },
+    {
+     "t": "no existe",
+     "m": "fuerte"
+    },
+    {
+     "t": " una pose bajo 2 Å entre las ~751 candidatas generadas. No hay nada que relajar hacia el sitio correcto, porque el sitio correcto nunca se visitó.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Refinar mejor una pose que está en el sitio equivocado la deja en el sitio equivocado con mejor geometría.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-10.md"
+}

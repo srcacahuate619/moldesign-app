@@ -1,0 +1,306 @@
+{
+ "id": "MF-01-UNION",
+ "meta": {
+  "titulo": "Un GO operacional que no rescata el NO_GO científico",
+  "entradilla": "3,469 poses de 156 complejos unificadas sin re-dockear, con cero colisiones y determinismo byte a byte. Y una nota en el sello: esto no dice que MolFlex sirva."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Antes de poder comparar generadores de poses hay que poder ",
+     "m": null
+    },
+    {
+     "t": "mirarlos juntos",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Tres fuentes distintas producían poses en formatos, convenciones de índices y directorios distintos, generadas a lo largo de meses. Compararlas exigía materializar una unión trazable: cada pose con su geometría real y su enlace a la procedencia, sin volver a dockear nada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento es esa unión. Es puro trabajo de plomería, y está aquí por lo que dice su sello.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se entregó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    []
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Poses unificadas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2,739 + 730",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Complejos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "156",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Corridas con procedencia",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "447 / 447",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Colisiones de identificador",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Poses sin procedencia",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Geometría real (no placeholder)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "100%",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Determinismo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Byte a byte",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Acceso al conjunto de test",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Ninguno",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cero colisiones importa más de lo que parece: significa que ninguna pose de una fuente sobrescribió silenciosamente a otra al fusionar. Ese es el modo de fallo clásico de una unión, y es invisible después — el conjunto resultante parece perfectamente sano, sólo que le faltan filas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La nota que hace interesante este registro",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El sello incluye, textualmente, una advertencia contra su propia lectura optimista:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El gate ",
+     "m": null
+    },
+    {
+     "t": "científico",
+     "m": "fuerte"
+    },
+    {
+     "t": " permanece NO_GO. MolFlex aportó 0 complejos en la cohorte difícil. Este GO es exclusivamente ",
+     "m": null
+    },
+    {
+     "t": "operacional",
+     "m": "fuerte"
+    },
+    {
+     "t": " sobre el artefacto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es decir: se construyó bien la herramienta para comparar generadores, y la comparación dijo que el generador propio no aporta nada. Las dos cosas conviven en el mismo identificador y el registro se encarga de que no se confundan.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sin esa nota, dentro de seis meses alguien —incluido el propio autor— vería «MF-01-UNION: GO» en un listado y concluiría que la unión de fuentes funcionó en el sentido que importaba.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué esta distinción es una política, no un detalle",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Buena parte de los registros de este programa son de este tipo: un artefacto se construye correctamente y la pregunta científica que motivaba construirlo se responde que no. Si ambos casos se sellan igual, el recuento de «éxitos» del programa se llena de fontanería que funciona, y deja de medir nada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "De aquí sale la separación que usa el registro público entre ",
+     "m": null
+    },
+    {
+     "t": "hallazgos",
+     "m": "fuerte"
+    },
+    {
+     "t": " —gates científicos superados— y las otras poblaciones, entre ellas los artefactos operacionales. Un GO que sólo dice «la herramienta hace lo que dice» es verdad, es necesario, y no es un resultado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué quedó utilizable",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La unión materializada es la base sobre la que después se midió la cobertura por fuente, se derivó la política de deduplicación, y se reconstruyó el conjunto de poses completo. Nada de eso habría sido posible sin poder mirar las tres fuentes en el mismo marco de coordenadas y con el mismo esquema de índices.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La plomería no da resultados. Da la posibilidad de tenerlos.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-01-UNION.md"
+}

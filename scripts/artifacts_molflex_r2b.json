@@ -1,0 +1,20 @@
+{
+  "P1_top15": {
+    "n": 30,
+    "mean_n_conf": 12.1,
+    "coverage_lt_1p5": 0.7,
+    "median_minrmsd": 0.81
+  },
+  "P2_win10": {
+    "n": 30,
+    "mean_n_conf": 8.3,
+    "coverage_lt_1p5": 0.633,
+    "median_minrmsd": 0.81
+  },
+  "P3_win12": {
+    "n": 30,
+    "mean_n_conf": 10.6,
+    "coverage_lt_1p5": 0.633,
+    "median_minrmsd": 0.81
+  }
+}

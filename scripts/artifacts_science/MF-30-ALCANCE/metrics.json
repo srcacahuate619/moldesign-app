@@ -1,0 +1,98 @@
+{
+ "analisis_id": "MF-30-ALCANCE",
+ "tipo": "registro de cambio de alcance, sin computo",
+ "timestamp": "2026-08-21T02:11:49.421306+00:00",
+ "experimento_afectado": "MF-30",
+ "definicion_original": "doc 49 seccion 20.11(c): evaluar un modelo generativo preentrenado sobre la cohorte de 48, con rmsd_pose_pocket y sin reentrenar. Gate: cobertura <=2 A superior al 3/33 de MF-09 con CI95 que excluya el cero. Control obligatorio: solapamiento con el conjunto de entrenamiento del modelo.",
+ "prioridad_original": "3 de 4 en la seccion 20.11, tras MF-29 y MF-28",
+ "estado_de_las_prioridades_1_y_2": {
+  "MF-29 -> MF-29-EMP": "cerrado, lectura OBJETIVO",
+  "MF-28": "cerrado, NO_GO"
+ },
+ "RAZON_1_gate_caducado": {
+  "gate_escrito": {
+   "que_es": "existe alguna pose <=2 A entre las ~751 del conjunto v2, protocolo RIGIDO",
+   "aciertos": 3,
+   "de": 33,
+   "fraccion": 0.0909,
+   "es_el_gate_del_doc49": true
+  },
+  "comparador_activo_hoy": {
+   "que_es": "ensemble FLEXIBLE, todos los conformeros",
+   "aciertos": 26,
+   "de": 33,
+   "fraccion": 0.7879
+  },
+  "factor": 8.67,
+  "consecuencia": "un modelo que superase el gate escrito podria ser varias veces peor que el mejor brazo propio y aun asi 'pasar'. El gate exige comparador activo, y el activo no es el 3/33.",
+  "todos_los_comparadores": {
+   "MF-09_gate_escrito": {
+    "que_es": "existe alguna pose <=2 A entre las ~751 del conjunto v2, protocolo RIGIDO",
+    "aciertos": 3,
+    "de": 33,
+    "fraccion": 0.0909,
+    "es_el_gate_del_doc49": true
+   },
+   "MF-33_brazo_C": {
+    "que_es": "protocolo congelado, todos los conformeros RIGIDOS",
+    "aciertos": 1,
+    "de": 33,
+    "fraccion": 0.0303
+   },
+   "MF-33_brazo_A": {
+    "que_es": "un solo conformero FLEXIBLE (conf0.flex)",
+    "aciertos": 12,
+    "de": 33,
+    "fraccion": 0.3636
+   },
+   "MF-33_brazo_B": {
+    "que_es": "ensemble FLEXIBLE, todos los conformeros",
+    "aciertos": 26,
+    "de": 33,
+    "fraccion": 0.7879
+   },
+   "MF-33-A3_en_curso": {
+    "que_es": "K corridas del MISMO conformero, poses y CPU igualadas a B",
+    "aciertos": 18,
+    "de": 32,
+    "fraccion": 0.5625,
+    "PARCIAL": true,
+    "nota": "si A3 muestra que la ventaja de B era conteo de poses, el comparador activo baja; sigue muy por encima del 3/33 del gate escrito"
+   }
+  }
+ },
+ "RAZON_2_premisa_contradicha": {
+  "referencia": "Buttenschoen M, Morris GM, Deane CM. PoseBusters: AI-based docking methods fail to generate physically valid poses or generalise to novel sequences. Chemical Science 15, 3130 (2024).",
+  "url": "https://pubs.rsc.org/sc/article/15/9/3130/827511/",
+  "conjunto": "PoseBusters Benchmark, 308 complejos, re-docking del ligando cognado",
+  "criterio": "RMSD <= 2 A Y validez fisica (PB-valid): estereoquimica, longitudes de enlace, planaridad, energia UFF, choques con receptor y cofactores",
+  "resultados": {
+   "AutoDock Vina": 0.58,
+   "Gold": 0.55,
+   "DiffDock": 0.12
+  },
+  "nota": "cifras externas citadas con fuente, no medidas por este programa"
+ },
+ "RAZON_3_restriccion_de_producto": {
+  "restriccion": "MolDesign es 100% CPU; la GPU es opcional y nunca limitante",
+  "conflicto": "un modelo de difusion como motor convierte la GPU en requisito",
+  "distincion_que_sobrevive": "la GPU puede estar en el laboratorio y no en el producto: usarla para construir o validar un artefacto entregable en CPU es compatible; entregarla como motor, no"
+ },
+ "DECISION": {
+  "de": "prioridad 3 de la cartera pesada y direccion de producto",
+  "a": "benchmark externo opcional",
+  "no_se_cancela": true,
+  "no_hay_prerregistro_pendiente": true,
+  "deja_hueco_en_la_cartera": false
+ },
+ "QUE_LO_REABRIRIA": [
+  "un generativo con inferencia en CPU en tiempo razonable, o un uso estrictamente de laboratorio que produzca un artefacto entregable en CPU",
+  "un gate reescrito con comparador activo del momento y el control de solapamiento intacto",
+  "evidencia externa posterior a PoseBusters que revierta su resultado sobre validez fisica"
+ ],
+ "limites_declarados": [
+  "las cifras de PoseBusters son EXTERNAS y se citan con fuente; no las ha medido este programa",
+  "no cancela MF-30 ni cierra la seccion 20.11(c): la reordena y declara sus condiciones de reapertura",
+  "el comparador activo puede moverse cuando MF-33-A3 cierre; eso cambia su magnitud, no la conclusion"
+ ]
+}

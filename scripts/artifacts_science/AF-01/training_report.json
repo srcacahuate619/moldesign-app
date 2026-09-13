@@ -1,0 +1,120 @@
+{
+  "report_version": "AF-01-replica",
+  "generated_at": "2026-08-15T22:10:00Z (run 1)",
+  "training_script": "train_families.py @ 86b95f0 (rescoring/ extracted via git archive)",
+  "phase": "AF-01 - sealed replica of Fase A clean retrain (2026-08-10)",
+  "training_context": {
+    "pdbbind_version": "v2020_refined",
+    "feature_set_definition": "ALL_FEATURES = 167 (A_EXT=8, B=4, C_EXT=3, D=96, E=56)",
+    "prolif_removed": true,
+    "delta_learning": true,
+    "delta_formula": "pKi = vina_pKi + delta, vina_pKi = -vina_best_score/1.36",
+    "seed": 42,
+    "numpy_random_seed": 42,
+    "random_seed": 42,
+    "xgboost_params": {
+      "max_depth": 6,
+      "learning_rate": 0.05,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "min_child_weight": 5,
+      "gamma": 0.1,
+      "reg_alpha": 0.1,
+      "reg_lambda": 1.0,
+      "n_estimators": 500,
+      "early_stopping_rounds": 50
+    }
+  },
+  "split_context": {
+    "method": "scaffold_disjoint_stratified",
+    "frozen_holdout_ids": 328,
+    "frozen_holdout_with_features_and_labels": 328,
+    "train_pool": 537,
+    "seed": 42,
+    "split_config_sha256": "5FC4E589B78311AE12EB1D5E51EEF51D39CC218C7A9C9D033880BDFB031FB3D5"
+  },
+  "data_context": {
+    "total_cached_complexes": 865,
+    "total_labeled_complexes": 865,
+    "train_pool_complexes": 537,
+    "index_snapshot_sha256": "1C52A9B7631CC11A31C6B3344ECECA3DE8A9087C86AB3E6C5A30DC69861DE02D",
+    "cache_aggregate_sha256": "E4A1A62149639A6081F0DA109B02A1358CD50F57FDCF1CB080F2A2CE6553EB96",
+    "families_skipped_below_min": [
+      "gpcr",
+      "nuclear_receptor"
+    ]
+  },
+  "hardware": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python_version": "3.14.3",
+    "cpu_count_logical": null
+  },
+  "models": {
+    "model_a_universal": {
+      "n_features": 167,
+      "has_prolif": false,
+      "feature_set": "167 (A_EXT+B+C_EXT+D+E)",
+      "delta_model": true,
+      "spearman": 0.7731,
+      "spearman_pval": 0.0,
+      "pearson": 0.7418,
+      "ndcg_at_10": 0.4082,
+      "rmse_reference_only": 1.3492,
+      "n_train": 429,
+      "n_val": 108,
+      "best_iteration": 162
+    },
+    "model_a_kinase": {
+      "n_features": 167,
+      "has_prolif": false,
+      "feature_set": "167 (A_EXT+B+C_EXT+D+E)",
+      "delta_model": true,
+      "spearman": 0.5868,
+      "spearman_pval": 0.027384,
+      "pearson": 0.5683,
+      "ndcg_at_10": 0.9048,
+      "rmse_reference_only": 1.1229,
+      "n_train": 56,
+      "n_val": 14,
+      "best_iteration": 29
+    },
+    "model_a_protease": {
+      "n_features": 167,
+      "has_prolif": false,
+      "feature_set": "167 (A_EXT+B+C_EXT+D+E)",
+      "delta_model": true,
+      "spearman": 0.5429,
+      "spearman_pval": 0.265703,
+      "pearson": 0.5837,
+      "ndcg_at_10": 0.964,
+      "rmse_reference_only": 1.0562,
+      "n_train": 23,
+      "n_val": 6,
+      "best_iteration": 161
+    },
+    "model_a_soluble_enzyme": {
+      "n_features": 167,
+      "has_prolif": false,
+      "feature_set": "167 (A_EXT+B+C_EXT+D+E)",
+      "delta_model": true,
+      "spearman": 0.668,
+      "spearman_pval": 0.0,
+      "pearson": 0.654,
+      "ndcg_at_10": 0.4997,
+      "rmse_reference_only": 1.5938,
+      "n_train": 328,
+      "n_val": 83,
+      "best_iteration": 131
+    },
+    "model_a_gpcr": {
+      "status": "SKIPPED",
+      "reason": "n_pool=13 < MIN_FAMILY_SIZE=15",
+      "fallback": "universal"
+    },
+    "model_a_nuclear_receptor": {
+      "status": "SKIPPED",
+      "reason": "n_pool=11 < MIN_FAMILY_SIZE=15",
+      "fallback": "universal"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-02-PRE",
+  "hypothesis": "La falta de pose buena en 38 de 116 complejos de train se descompone en techo conformacional (el ensemble ETKDG nunca tuvo la conformacion bioactiva) y fallo de aplicacion/busqueda del generador; medirlos por separado decide donde esta la palanca",
+  "protocol": "MF-02-PRE/PREREGISTRO.md refina MF-02 del doc 49 seccion 8; MF-02A ejecutado y declarado como condicion de partida (precedente REC-07 seccion 6); MF-02A-EXT en contenedor Ubuntu; MF-02B con Vina local",
+  "created_at": "2026-08-17T22:36:05.090540+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "99b630cbf1723ef7b616dd6b89d15b37d0345c37",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "MF-02A y MF-02A-EXT son mediciones sin gates. MF-02B: G1 validez >=95%, G2 recuperacion >=10 de 38 con A8, G3 no regresion de la union, G4 determinismo, G5 coste descriptivo"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "data/pose_selector_dataset/poses_train.jsonl": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654"
+  },
+  "binary_hashes": {
+    "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-02-PRE/PREREGISTRO.md": "8bfb94a34ca06e59f0518684feb9cea3e1870026a1f3ab8b1d7dca4a9dc0369f",
+    "scripts/artifacts_science/MF-02A/metrics.json": "c07344497e46beede296d32321b77e67aa3bfa5b1242ac847b3c25df35ab86b0",
+    "scripts/artifacts_science/MF-02A/per_complex.jsonl": "29e6f8bb4d8cc71987976237d97c53ad3bed1862c2127aa70b929eb37d3ef8f8",
+    "scripts/run_mf02a_conf_ceiling.py": "b7de78ec6d41ddfa8426c60442ad3d7bc8fc99051148a608624ea713b3509642",
+    "scripts/run_mf02b_apply_molflex.py": "983babd2f746b8661e789eedfbf766a6c873bcec56e8a33dd0e560fc1240784c",
+    "scripts/molflex.py": "d2bd11957cc20e8ea1413b4eca44e3f77664a686bb0fe67a38f47a856fc9aac9"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T22:36:05.777946+00:00",
+  "decision_rationale": "Prerregistro maestro sellado antes de ejecutar MF-02A-EXT y MF-02B. Declara como condicion de partida dos mediciones ya hechas: (1) la descomposicion obligatoria del doc 49 seccion 9, calculada por primera vez — cobertura del oraculo 67.2% en train y 87.2% en test, precision condicional 61.5% y 61.0%, de modo que toda la diferencia de Top-1 entre train y test la explica el generador y no el selector, y en 38 de 116 complejos no existe pose que seleccionar; (2) MF-02A, el techo conformacional del ensemble ETKDG, que satura entre 60 y 90 conformeros: pasar de 30 a 150 compra 2.6 puntos, y de los 38 sin cobertura 32 YA tienen la conformacion disponible con n_conf=30, solo 1 se rescata con 150 y 5 tienen techo duro. Ademas el grupo sin cobertura tiene MEJOR disponibilidad conformacional que el cubierto (84% vs 74%): la disponibilidad conformacional no discrimina. Tercera condicion declarada: MolFlex solo se aplico a 13 de los 116 complejos, y en el caso de calibracion 1nki —listado sin cobertura, mejor pose del dataset 2.067 A— el pipeline congelado entrega hoy 0.199 A en 6.4 s. Queda prohibido concluir del eje conformacional nada sobre el selector y usar la disponibilidad conformacional como filtro de cohortes futuras sin declararlo.",
+  "finished_at": "2026-08-17T22:36:28.123755+00:00",
+  "seal_maintenance": [
+    {
+      "date": "2026-08-17T22:38:54.204477+00:00",
+      "reason": "Se anadio el flag --all-pdbbind al runner de MF-02A para poder correr la cohorte extendida MF-02A-EXT declarada en el PRE seccion 4. No cambia el metodo ni ningun criterio: mismo ensemble ETKDG seed 42 prune 0.4, mismo RMSD alineado GetBestRMS, misma curva acumulada; solo cambia de donde se lee la lista de pids.",
+      "path": "scripts/run_mf02a_conf_ceiling.py",
+      "previous_hash": "6be14e7fe208242ee726093633f32e0617f814cd48e525dfefda4327c6e25bb4",
+      "new_hash": "b7de78ec6d41ddfa8426c60442ad3d7bc8fc99051148a608624ea713b3509642",
+      "content_commit": "a09b770c206bf8ef5d34df55814340e1c50e397b"
+    }
+  ]
+}

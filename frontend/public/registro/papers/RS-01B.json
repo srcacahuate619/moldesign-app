@@ -1,0 +1,293 @@
+{
+ "id": "RS-01B",
+ "meta": {
+  "titulo": "Quitar poses duplicadas no mejoró nada, y eso también es un resultado",
+  "entradilla": "La deduplicación dejó el RMSD pareado exactamente en 0.000 Å y bajó los aciertos de 47 a 43. Ni mejora ni degrada de forma demostrable: simplemente no es la palanca."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cuando un pipeline genera candidatas desde tres fuentes distintas, muchas son la misma pose contada varias veces. Eso desperdicia presupuesto y, peor, distorsiona la densidad del espacio: una región muestreada por casualidad tres veces parece más importante de lo que es, y un selector entrenado sobre esa distribución aprende un sesgo que no está en la física.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La hipótesis era que limpiar los duplicados mejoraría la selección sin perder calidad de pose.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Aciertos Top-1 fuera de muestra",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Conjunto original",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "47/116",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Deduplicado",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "43/116",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Exigido por el gate",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≥ +3",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Delta de ",
+     "m": null
+    },
+    {
+     "t": "−4",
+     "m": "fuerte"
+    },
+    {
+     "t": ". El gate no se cumple.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los dos criterios de no-degradación sí se cumplen, y con holgura:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "mediana pareada del cambio de RMSD: 0.000 Å",
+      "m": "fuerte"
+     },
+     {
+      "t": ", con un límite de 0.1 Å. La",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "deduplicación no perdió ni una pose buena;",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "el intervalo de confianza por componentes, [−8.80, +4.00], y el test de McNemar",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "(p = 0.481) ",
+     "m": null
+    },
+    {
+     "t": "no establecen superioridad ni degradación",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Cómo hay que leer esto",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es tentador leer «bajó de 47 a 43» como que la deduplicación hace daño. La estadística no lo soporta: el intervalo contiene el cero con margen a ambos lados. Con n=116 y una diferencia de 4 complejos, esto es indistinguible del ruido.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La lectura correcta es la aburrida: ",
+     "m": null
+    },
+    {
+     "t": "la deduplicación es neutra",
+     "m": "fuerte"
+    },
+    {
+     "t": ". No mejora la selección y no estropea las poses.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Que la mediana del cambio de RMSD sea ",
+     "m": null
+    },
+    {
+     "t": "exactamente 0.000 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": " es el dato más informativo del experimento y el que justifica conservar la herramienta. Significa que el umbral elegido agrupaba poses genuinamente equivalentes: al quedarse con una representante de cada grupo, no se perdió ninguna pose que importara. Es un filtro que hace lo que dice.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué el artefacto se conserva aunque no se adopte",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El resultado es un ",
+     "m": null
+    },
+    {
+     "t": "NO_GO operacional",
+     "m": "fuerte"
+    },
+    {
+     "t": ": la deduplicación no se adopta como entrada por defecto del selector, porque no hay evidencia de que mejore nada y la regla del laboratorio es no cambiar producción sin ella.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Pero el artefacto queda disponible como opción, y esa decisión resultó acertada por una razón que en su momento no se veía. Cuando el conjunto se reconstruyó y pasó a ser ",
+     "m": null
+    },
+    {
+     "t": "6.9 veces más denso",
+     "m": "fuerte"
+    },
+    {
+     "t": ", la deduplicación dejó de ser cosmética: con ~169 candidatas por complejo en vez de ~9, reducir un tercio del volumen sin perder cobertura es una diferencia real de coste.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El umbral hubo que volver a derivarlo —el de 1.5 Å se había elegido sobre la unión escasa, y sobre la densa sale 2.0 Å— pero la herramienta ya existía y estaba validada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un negativo que deja detrás una pieza reutilizable vale más que uno que sólo deja una conclusión.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/RS-01B.md"
+}

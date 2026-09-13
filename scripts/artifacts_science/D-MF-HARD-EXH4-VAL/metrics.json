@@ -1,0 +1,109 @@
+{
+  "experiment_id": "D-MF-HARD-EXH4-VAL",
+  "split": "val",
+  "n_complejos": 10,
+  "n_poses": 76,
+  "n_fallos_itt": 0,
+  "tipo": "descriptivo_n5_sin_potencia",
+  "primera_y_unica_ejecucion_exh4_sobre_val": true,
+  "no_ciega_no_confirmatoria": "la cohorte val YA fue examinada con MolFlex K15 (sellada D-MF-HARD-CURVE-VAL)",
+  "k15_inmutable": true,
+  "claim_train_inmutable": "ningun resultado de val altera K=15 ni el claim train sellado (D-MF-HARD-EXH4 GO)",
+  "por_estrato": {
+    "hard": {
+      "n_complejos": 5,
+      "n_con_poses": 5,
+      "cobertura": 0.4,
+      "n_cubiertos": 2,
+      "wilson_ci95_cobertura": [
+        0.118,
+        0.769
+      ],
+      "mediana_min_rmsd": 2.324,
+      "n_poses": 40
+    },
+    "control": {
+      "n_complejos": 5,
+      "n_con_poses": 5,
+      "cobertura": 0.4,
+      "n_cubiertos": 2,
+      "wilson_ci95_cobertura": [
+        0.118,
+        0.769
+      ],
+      "mediana_min_rmsd": 4.143,
+      "n_poses": 36
+    }
+  },
+  "tiempos": {
+    "hard": {
+      "n": 5,
+      "wall_p50": 93.4,
+      "wall_p90": 116.22,
+      "cpu_p50": 93.4,
+      "cpu_p90": 116.22,
+      "nota": "cpu = wall x 1 (cpu=1 por Vina)"
+    },
+    "control": {
+      "n": 5,
+      "wall_p50": 24.8,
+      "wall_p90": 96.36,
+      "cpu_p50": 24.8,
+      "cpu_p90": 96.36,
+      "nota": "cpu = wall x 1 (cpu=1 por Vina)"
+    },
+    "total": {
+      "n": 10,
+      "wall_p50": 60.6,
+      "wall_p90": 114.53,
+      "cpu_p50": 60.6,
+      "cpu_p90": 114.53,
+      "nota": "cpu = wall x 1 (cpu=1 por Vina)"
+    }
+  },
+  "fallos_itt_por_estrato": {},
+  "gate": {
+    "enmienda": "auditada_2026-08-16 (heredada de D-MF-HARD-CURVE §8)",
+    "validez": "rc=0 + archivo no vacio + 1<=n_models_emitted<=9 + scores FINITOS de REMARK VINA RESULT + geometria parseable",
+    "scores": "exclusivamente_REMARK_VINA_RESULT_del_archivo",
+    "num_modes_requested": 9,
+    "n_desviaciones": 0,
+    "modos_emitidos": {
+      "hard": {
+        "n_corridas": 5,
+        "mediana": 9.0,
+        "min": 4,
+        "max": 9,
+        "distribucion": {
+          "4": 1,
+          "9": 4
+        }
+      },
+      "control": {
+        "n_corridas": 5,
+        "mediana": 9.0,
+        "min": 1,
+        "max": 9,
+        "distribucion": {
+          "1": 1,
+          "8": 1,
+          "9": 3
+        }
+      }
+    }
+  },
+  "contexto_train_referencia": {
+    "mismo_brazo_exh4": {
+      "hard": "11/17 (64.7%), mediana 1.424 A",
+      "control": "13/17 (76.5%), mediana 1.049 A"
+    },
+    "nota": "sin inferencia fuerte contra val (n=5 sin potencia); solo descripcion lado a lado"
+  },
+  "verificaciones": {
+    "pids_train_en_artefactos": 0,
+    "pids_train_en_work": 0,
+    "guardia_train_verificada": true,
+    "n_val_unicos": 10,
+    "una_corrida_por_pid": true
+  }
+}

@@ -1,0 +1,347 @@
+{
+ "id": "RS-08",
+ "meta": {
+  "titulo": "Un enrutador para nueve complejos",
+  "entradilla": "La idea era decidir por complejo si conviene repuntuar o volver a muestrear. Sólo 9 de 116 complejos estaban en el estado donde eso importa, y la regla simple ya capturaba 5 de esos 9."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cuando un selector no está seguro, tiene dos salidas distintas y hoy sólo usa una. Puede ",
+     "m": null
+    },
+    {
+     "t": "abstenerse",
+     "m": "fuerte"
+    },
+    {
+     "t": " —decir que no sabe— o puede ",
+     "m": null
+    },
+    {
+     "t": "pedir más muestreo",
+     "m": "fuerte"
+    },
+    {
+     "t": ": volver al generador y producir más candidatas para ese complejo concreto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La segunda es más útil, porque convierte una duda en trabajo dirigido. La hipótesis era que un enrutador con tres estados —resuelto, repuntuable, necesita más muestreo— captura más fallos recuperables que la regla simple de mirar sólo el margen, con el mismo presupuesto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Fallos recuperables capturados",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Enrutador de tres estados",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Regla simple de margen",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Exigido por el gate",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≥ +3 sobre la regla simple",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El enrutador captura ",
+     "m": null
+    },
+    {
+     "t": "menos",
+     "m": "fuerte"
+    },
+    {
+     "t": " que la regla que pretendía sustituir. El intervalo de confianza por componentes, [−6, 0], no excluye el cero, y el test de McNemar da p = 0.5. No hay diferencia demostrable en ninguna dirección — pero el gate pedía superioridad, y no la hay.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En falsos escalamientos empata: 14 frente a 15. No genera trabajo inútil, que era el riesgo obvio.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué no podía funcionar",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo interesante de este experimento no es que fallara el gate, sino el número que explica por qué:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estado",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Complejos",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Resuelto",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "47",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Repuntuable",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "9",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Necesita más muestreo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "60",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "De 116 complejos, sólo ",
+     "m": null
+    },
+    {
+     "t": "9",
+     "m": "fuerte"
+    },
+    {
+     "t": " están en el estado donde un enrutador puede aportar algo. Los 47 resueltos no necesitan nada, y los 60 que necesitan más muestreo no se arreglan repuntuando.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con un espacio de mejora de 9 casos, y con la regla simple capturando ya 5 de ellos, el techo del enrutador es de 4 complejos. No hay diseño de enrutador que salve eso: el problema es que el estado intermedio casi no existe en esta cohorte.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esa distribución —60 de 116 necesitan más muestreo, no mejor puntuación— es la misma conclusión a la que llegó ",
+     "m": null
+    },
+    {
+     "t": "MF-09",
+     "m": "codigo"
+    },
+    {
+     "t": " por un camino totalmente distinto: ",
+     "m": null
+    },
+    {
+     "t": "es muestreo, no puntuación",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Dos experimentos independientes, con instrumentos distintos, midiendo lo mismo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Un detalle de método",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La deriva de presupuesto global salió en 38.79%, fuera de la banda declarada de 25–35%. El análisis de sensibilidad muestra además que el enrutador sólo gana en presupuestos del 10–20%, y ahí gana ",
+     "m": null
+    },
+    {
+     "t": "+1",
+     "m": "fuerte"
+    },
+    {
+     "t": " complejo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese +1 en una ventana estrecha de presupuesto es exactamente la clase de resultado que tienta a reportar como «el enrutador funciona en el régimen adecuado». No lo es: con n=9 en el espacio accionable, un complejo de diferencia es indistinguible del ruido, y elegir la ventana de presupuesto ",
+     "m": null
+    },
+    {
+     "t": "después",
+     "m": "enfasis"
+    },
+    {
+     "t": " de ver los resultados es escoger el sitio donde el ruido favorece.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Queda registrado, no reclamado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Consecuencia",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El selector de producción no cambió. La cascada con el rescoring físico quedó pendiente de su propio experimento, porque este no aporta evidencia sobre ella.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/RS-08.md"
+}

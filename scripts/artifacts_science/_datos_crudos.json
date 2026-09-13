@@ -1,0 +1,54 @@
+{
+  "_doc": "Indice de donde vive REALMENTE el dato crudo de cada artefacto. La seccion 17 del doc 49 declara `per_complex.jsonl`, pero el programa ha usado otros nombres y en esos casos el skeleton vacio del nombre canonico sigue en el directorio. Un tercero al que se le dice que busque per_complex.jsonl encuentra un fichero vacio junto al que si tiene los datos. Este indice lo resuelve sin renombrar nada: renombrar romperia los hashes sellados. Generado y verificado por FND-08.",
+  "_generado_por": "scripts/auditoria_reproducibilidad.py (FND-08)",
+  "canonico": "per_complex.jsonl",
+  "fuera_del_nombre_canonico": {
+    "D-MF-HARD": {
+      "cohort.jsonl": 44
+    },
+    "FEP-03": {
+      "parejas.jsonl": 487
+    },
+    "MF-01-UNION": {
+      "union_candidates_train.jsonl": 2739,
+      "union_candidates_val.jsonl": 730,
+      "union_labels_train.jsonl": 2739,
+      "union_labels_val.jsonl": 730
+    },
+    "MF-02E": {
+      "corridas.jsonl": 87,
+      "pocket_frame.jsonl": 87
+    },
+    "MF-08": {
+      "corridas.jsonl": 144
+    },
+    "MF-10-CAL": {
+      "brazo_a.jsonl": 48,
+      "brazo_b.jsonl": 24
+    },
+    "MF-11-R2": {
+      "per_complex_test.jsonl": 47,
+      "per_complex_train.jsonl": 116,
+      "per_complex_val.jsonl": 40
+    },
+    "MF-15": {
+      "per_complex_train.jsonl": 116
+    },
+    "MF-20": {
+      "per_complex_train.jsonl": 116
+    },
+    "RS-01": {
+      "cache_train_only_view.jsonl": 2739
+    }
+  },
+  "sin_dato_por_unidad": {
+    "FND-04": "Re-analisis o corrigendum sobre material ya sellado. Reproducible por RE-EJECUCION del script hasheado, no verificable por LECTURA. Scripts: scripts/estadistica_fnd04.py, scripts/run_fnd04_verificacion.py, scripts/run_fnd04_potencia.py",
+    "MF-26": "Re-analisis o corrigendum sobre material ya sellado. Reproducible por RE-EJECUCION del script hasheado, no verificable por LECTURA. Scripts: scripts/analisis_mf26_acantilado.py",
+    "REC-03-PRE": "Re-analisis o corrigendum sobre material ya sellado. Reproducible por RE-EJECUCION del script hasheado, no verificable por LECTURA. Scripts: scripts/rec03_preflight.py, scripts/run_rec03_grid_repair.py",
+    "RS-01A-R1": "Re-analisis o corrigendum sobre material ya sellado. Reproducible por RE-EJECUCION del script hasheado, no verificable por LECTURA. Scripts: scripts/artifacts_science/RS-01A-R1/run_rs01a_r1_corrigendum.py, scripts/test_mcnemar_fix.py, scripts/experiment_manifest.py"
+  },
+  "excepciones_de_sello": {
+    "FND-01-SMOKE": "NO valida y NO es reparable: sello codigo (experiment_manifest.py) como dataset, y `maintain` rechaza tocar dataset_hashes por diseno. Mala clasificacion de origen: codigo sellado como dato. Artefacto de tipo smoke test; no sostiene ninguna cifra del programa. Declarado, no silenciado.",
+    "FND-02": "Declara resultados sin ningun script hasheado en el sello. NO se corrige a posteriori: anadir hashes a un sello es reescribir lo que se garantizo en su momento. Se documenta."
+  }
+}

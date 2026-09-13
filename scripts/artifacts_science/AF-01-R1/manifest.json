@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "experiment_id": "AF-01-R1",
+  "hypothesis": "El estratificado por receptor de AF-01 contiene un bug de clasificacion (overlap==1.0 incluye subsecuencias); la correccion por igualdad literal mueve 53 complejos de seen_exact a near_identity sin afectar el resultado global",
+  "protocol": "AF-01 (parent, sellada GO) + corrigendum del maintainer; docs/49",
+  "created_at": "2026-08-16T04:28:19.786542+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "67c4e30a09a0c4becdf58580772b9c86f949ee6a",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "Reproducir estratos 126/108/94 con rho 0.7240/0.5135/0.5395 y CIs dentro de tolerancia"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/AF-01-R1/DESIGN.md": "a00205caecfa8c80ce469b6ace6103800ce247ec478ca198d912f4803172f31e",
+    "scripts/artifacts_science/AF-01-R1/metrics.json": "e25bf31680b29ddbd32106706436d3d439e54747da2bdfda4128d46a235c6410",
+    "scripts/artifacts_science/AF-01-R1/metrics_estratos.json": "ae6e39af2d29c21d32da8876e94c22b9cad6662c50e02f2c9b8238adb7f6e571",
+    "scripts/artifacts_science/AF-01-R1/estratos_report.txt": "c273a8480c354fb8fe08e8a7b066002ed0e5d0a18cbf5da4a1c2b1c38abb8d93",
+    "scripts/artifacts_science/AF-01-R1/per_complex.jsonl": "6132e75a275d1d1c16e7d4ad641cfdfe4eea7f3f3dfe7e2545778444d291861b",
+    "scripts/artifacts_science/AF-01-R1/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/AF-01-R1/af01_stratify_r1.py": "ad632c3b7f2630e2b611ab02822fb73c840c3bb837f486530d59dd52f4a23c63",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T04:32:45.300101+00:00",
+  "decision_rationale": "Corrigendum: estratos corregidos por igualdad literal de secuencia (126/108/94; rho 0.7240/0.5135/0.5395) reproducidos exactamente; subanalisis estratificado de AF-01 superseded; replica global 0.6094 intacta; pre-audit reconciliado (definiciones distintas, ambas correctas)",
+  "finished_at": "2026-08-16T04:32:54.807130+00:00"
+}

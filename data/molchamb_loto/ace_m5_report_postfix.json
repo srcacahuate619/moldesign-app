@@ -1,0 +1,33 @@
+{
+  "target": "ace",
+  "phase": "post_fix",
+  "n_total": 2003,
+  "n_actives": 46,
+  "auc_vina": 0.4056,
+  "auc_xgb": 0.4532,
+  "auc_univ_metal": 0.762,
+  "auc_m4_equal": 0.4277,
+  "auc_m5_equal": 0.6673,
+  "delta_equal": 0.2396,
+  "delta_bootstrap_mean": 0.2395,
+  "delta_bootstrap_ci_low": 0.2005,
+  "delta_bootstrap_ci_high": 0.2783,
+  "p_value": 0.5007,
+  "significant": false,
+  "note": "Recomputed post-fix of detect_warheads (RDKit SMARTS). Supersedes ace_m5_report.json pre-fix values.",
+  "SUPERSEDED": {
+    "fecha": "2026-09-04",
+    "por": "data/molchamb_loto/ace_m5_report.json",
+    "adr": "docs/75_DECISION_CIENTIFICA_M5_ZN_V1.md §9.3 y §9.4",
+    "motivo": "Este archivo declaraba a la vez un intervalo de bootstrap POSITIVO [0.2005, 0.2783], p_value=0.5007 y significant=false: tres cosas incompatibles entre si. La causa no era el JSON sino el script que lo produjo: compute_ace_m5.py usaba el UMS HISTORICO (warheads + donantes + MolChamb) mientras bootstrap_ci.py, delong_paired_test.py y ef_metrics.py usan la variante SMARTS pura. No median la misma senal, asi que sus numeros no se podian reconciliar con delong_paired_report.",
+    "regenerado_da": {
+      "auc_m4_equal": 0.4362,
+      "auc_m5_equal": 0.6708,
+      "delta_equal": 0.2345,
+      "p_value": 0.0,
+      "significant": true,
+      "coincide_con_delong": true
+    },
+    "no_editar": "No se corrigieron los valores a mano. Se arreglo el script y se regenero; este archivo se conserva como procedencia de lo que se publico antes."
+  }
+}

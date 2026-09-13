@@ -1,0 +1,60 @@
+{
+ "experiment_id": "MF-33-A3",
+ "tipo": "corrigendum y control de confundido (poses y reinicios igualados)",
+ "timestamp": "2026-08-21T02:20:26.574963+00:00",
+ "duration_seconds": 24691.12,
+ "config": {
+  "box": 25.0,
+  "exh": 8,
+  "num_modes": 9,
+  "umbral_A": 2.0,
+  "ligando": "conf0.flex.pdbqt",
+  "semillas": "42..42+K-1",
+  "K": "n_docks del brazo B por complejo",
+  "brazos_reusados": "A, B, C de MF-33 y A2 de MF-33-A2, sin recomputo"
+ },
+ "n_complejos": 48,
+ "n_ok": 48,
+ "por_estrato": {
+  "COLOCACION": {
+   "n": 33,
+   "A_alcanza": 12,
+   "A2_alcanza": 19,
+   "A3_alcanza": 19,
+   "B_alcanza": 26,
+   "C_alcanza": 1,
+   "g_A3_alcanza_y_B_no": 0,
+   "g_B_alcanza_y_A3_no": 7,
+   "A3vsB_mcnemar_p": 0.0156,
+   "A3vsB_delta_complejos": 7,
+   "A3_rmsd_mediano": 1.572,
+   "A3_poses_medianas": 261,
+   "A3_cpu_mediana_s": 4570.2,
+   "B_cpu_mediana_s": 3821.7,
+   "n_corridas_fallidas": 0,
+   "margen_equivalencia_declarado": "+-4 complejos",
+   "mde_declarado": "g_B >= 6 con g_A3 = 0",
+   "razon_cpu_A3_sobre_B": 1.196
+  },
+  "CONTROL": {
+   "n": 15,
+   "A_alcanza": 14,
+   "A2_alcanza": 14,
+   "A3_alcanza": 15,
+   "B_alcanza": 15,
+   "C_alcanza": 15,
+   "g_A3_alcanza_y_B_no": 0,
+   "g_B_alcanza_y_A3_no": 0,
+   "A3vsB_mcnemar_p": null,
+   "A3vsB_delta_complejos": 0,
+   "A3_rmsd_mediano": 1.064,
+   "A3_poses_medianas": 63,
+   "A3_cpu_mediana_s": 154.0,
+   "B_cpu_mediana_s": 140.1,
+   "n_corridas_fallidas": 0,
+   "margen_equivalencia_declarado": "+-4 complejos",
+   "mde_declarado": "g_B >= 6 con g_A3 = 0",
+   "razon_cpu_A3_sobre_B": 1.099
+  }
+ }
+}

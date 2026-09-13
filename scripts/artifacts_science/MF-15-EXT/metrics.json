@@ -1,0 +1,140 @@
+{
+ "experiment_id": "MF-15-EXT",
+ "tipo": "medicion (relectura de material sellado, sin computo nuevo)",
+ "timestamp": "2026-08-18T21:22:27.635109+00:00",
+ "duration_seconds": 3.96,
+ "material": "MF-02D (prefijo K30) + MF-02F, ~751 poses por complejo",
+ "convencion": "vina_score mas negativo = mejor; EMBUDO => rho POSITIVO",
+ "n_complejos": 48,
+ "n_ok": 46,
+ "resumen": {
+  "COLOCACION": {
+   "n": 33,
+   "n_poses_mediana": 751,
+   "spearman_ingenuo": {
+    "2.0": {
+     "n_complejos": 0,
+     "rho_mediano": null
+    },
+    "3.0": {
+     "n_complejos": 2,
+     "rho_mediano": 0.5857
+    },
+    "4.0": {
+     "n_complejos": 11,
+     "rho_mediano": 0.279
+    },
+    "6.0": {
+     "n_complejos": 27,
+     "rho_mediano": 0.14
+    },
+    "8.0": {
+     "n_complejos": 32,
+     "rho_mediano": 0.1517
+    },
+    "12.0": {
+     "n_complejos": 32,
+     "rho_mediano": 0.1656
+    },
+    "global": {
+     "n_complejos": 33,
+     "rho_mediano": 0.1858
+    }
+   },
+   "spearman_corregido": {
+    "2.0": {
+     "n_complejos": 0,
+     "rho_mediano": null
+    },
+    "3.0": {
+     "n_complejos": 2,
+     "rho_mediano": 0.5634
+    },
+    "4.0": {
+     "n_complejos": 11,
+     "rho_mediano": 0.2572
+    },
+    "6.0": {
+     "n_complejos": 27,
+     "rho_mediano": 0.1473
+    },
+    "8.0": {
+     "n_complejos": 32,
+     "rho_mediano": 0.1477
+    },
+    "12.0": {
+     "n_complejos": 32,
+     "rho_mediano": 0.1677
+    },
+    "global": {
+     "n_complejos": 33,
+     "rho_mediano": 0.1858
+    }
+   }
+  },
+  "CONTROL": {
+   "n": 13,
+   "n_poses_mediana": 80,
+   "spearman_ingenuo": {
+    "2.0": {
+     "n_complejos": 8,
+     "rho_mediano": 0.4654
+    },
+    "3.0": {
+     "n_complejos": 9,
+     "rho_mediano": 0.3934
+    },
+    "4.0": {
+     "n_complejos": 9,
+     "rho_mediano": 0.4799
+    },
+    "6.0": {
+     "n_complejos": 10,
+     "rho_mediano": 0.3927
+    },
+    "8.0": {
+     "n_complejos": 11,
+     "rho_mediano": 0.4489
+    },
+    "12.0": {
+     "n_complejos": 12,
+     "rho_mediano": 0.4643
+    },
+    "global": {
+     "n_complejos": 13,
+     "rho_mediano": 0.5065
+    }
+   },
+   "spearman_corregido": {
+    "2.0": {
+     "n_complejos": 8,
+     "rho_mediano": 0.3672
+    },
+    "3.0": {
+     "n_complejos": 9,
+     "rho_mediano": 0.4113
+    },
+    "4.0": {
+     "n_complejos": 9,
+     "rho_mediano": 0.4365
+    },
+    "6.0": {
+     "n_complejos": 10,
+     "rho_mediano": 0.3933
+    },
+    "8.0": {
+     "n_complejos": 11,
+     "rho_mediano": 0.4365
+    },
+    "12.0": {
+     "n_complejos": 12,
+     "rho_mediano": 0.4585
+    },
+    "global": {
+     "n_complejos": 13,
+     "rho_mediano": 0.5065
+    }
+   }
+  }
+ }
+}

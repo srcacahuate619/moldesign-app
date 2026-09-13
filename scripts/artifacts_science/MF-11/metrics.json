@@ -1,0 +1,205 @@
+﻿{
+    "experimento":  "MF-11",
+    "insumos":  {
+                    "union":  "scripts/artifacts_science/MF-01-UNION (solo lectura, sellado)",
+                    "regla_predefinida":  {
+                                              "metrica":  "RMSD pocket-frame pose-vs-pose (heavy atoms, matching 1:1 por serial, sin alineamiento; misma definiciÃ³n de marco que molflex.rmsd_pose_pocket extendida por pares)",
+                                              "umbral":  2.0,
+                                              "algoritmo":  "clustering greedy por identidad ascendente; la pose se une al primer cluster cuyo representante estÃ¡ a RMSD \u003c= umbral",
+                                              "representante":  "primera pose del cluster en orden de identidad (label-blind)",
+                                              "caveat":  "matching 1:1 sin simetrÃ­a quÃ­mica (heredado de rmsd_pose_pocket); la mÃ©trica simÃ©trica es trabajo futuro"
+                                          },
+                    "separacion_oraculo":  "los labels solo se leen en la fase de evaluaciÃ³n (evaluar_preservacion); el clustering no los recibe"
+                },
+    "por_split":  {
+                      "train":  {
+                                    "n_antes":  2739,
+                                    "n_despues":  2093,
+                                    "reduccion_pct":  23.59,
+                                    "n_complejos":  116,
+                                    "cubiertos_antes":  78,
+                                    "cubiertos_despues":  76,
+                                    "cobertura_antes":  0.6724,
+                                    "cobertura_despues":  0.6552,
+                                    "complejos_perdidos":  [
+                                                               "train|1alw",
+                                                               "train|1bcd"
+                                                           ],
+                                    "n_complejos_perdidos":  2,
+                                    "detalle_complejos_perdidos":  {
+                                                                       "train|1alw":  {
+                                                                                          "mejor_pose":  "train|1alw|flexible_redock|1alw|3",
+                                                                                          "mejor_pose_rmsd":  1.95,
+                                                                                          "mejor_pose_es_representante":  false,
+                                                                                          "min_rmsd_representantes":  2.44,
+                                                                                          "n_antes":  9,
+                                                                                          "n_despues":  7
+                                                                                      },
+                                                                       "train|1bcd":  {
+                                                                                          "mejor_pose":  "train|1bcd|flexible_redock|1bcd|2",
+                                                                                          "mejor_pose_rmsd":  1.384,
+                                                                                          "mejor_pose_es_representante":  false,
+                                                                                          "min_rmsd_representantes":  2.016,
+                                                                                          "n_antes":  9,
+                                                                                          "n_despues":  7
+                                                                                      }
+                                                                   },
+                                    "por_fuente":  {
+                                                       "flexible_redock":  {
+                                                                               "n_antes":  852,
+                                                                               "n_despues":  797,
+                                                                               "pct_supervivencia":  93.54
+                                                                           },
+                                                       "molflex":  {
+                                                                       "n_antes":  1596,
+                                                                       "n_despues":  1148,
+                                                                       "pct_supervivencia":  71.93
+                                                                   },
+                                                       "ruta_a":  {
+                                                                      "n_antes":  291,
+                                                                      "n_despues":  148,
+                                                                      "pct_supervivencia":  50.86
+                                                                  }
+                                                   },
+                                    "tamanos_cluster":  {
+                                                            "P50":  1,
+                                                            "P90":  2,
+                                                            "max":  14,
+                                                            "media":  1.31
+                                                        }
+                                },
+                      "val":  {
+                                  "n_antes":  730,
+                                  "n_despues":  559,
+                                  "reduccion_pct":  23.42,
+                                  "n_complejos":  40,
+                                  "cubiertos_antes":  30,
+                                  "cubiertos_despues":  30,
+                                  "cobertura_antes":  0.75,
+                                  "cobertura_despues":  0.75,
+                                  "complejos_perdidos":  [
+
+                                                         ],
+                                  "n_complejos_perdidos":  0,
+                                  "detalle_complejos_perdidos":  {
+
+                                                                 },
+                                  "por_fuente":  {
+                                                     "flexible_redock":  {
+                                                                             "n_antes":  317,
+                                                                             "n_despues":  298,
+                                                                             "pct_supervivencia":  94.01
+                                                                         },
+                                                     "molflex":  {
+                                                                     "n_antes":  338,
+                                                                     "n_despues":  229,
+                                                                     "pct_supervivencia":  67.75
+                                                                 },
+                                                     "ruta_a":  {
+                                                                    "n_antes":  75,
+                                                                    "n_despues":  32,
+                                                                    "pct_supervivencia":  42.67
+                                                                }
+                                                 },
+                                  "tamanos_cluster":  {
+                                                          "P50":  1,
+                                                          "P90":  2,
+                                                          "max":  8,
+                                                          "media":  1.31
+                                                      }
+                              }
+                  },
+    "global":  {
+                   "n_antes":  3469,
+                   "n_despues":  2652,
+                   "reduccion_pct":  23.55,
+                   "n_complejos":  156,
+                   "cubiertos_antes":  108,
+                   "cubiertos_despues":  106,
+                   "cobertura_antes":  0.6923,
+                   "cobertura_despues":  0.6795,
+                   "complejos_perdidos":  [
+                                              "train|1alw",
+                                              "train|1bcd"
+                                          ],
+                   "n_complejos_perdidos":  2,
+                   "detalle_complejos_perdidos":  {
+                                                      "train|1alw":  {
+                                                                         "mejor_pose":  "train|1alw|flexible_redock|1alw|3",
+                                                                         "mejor_pose_rmsd":  1.95,
+                                                                         "mejor_pose_es_representante":  false,
+                                                                         "min_rmsd_representantes":  2.44,
+                                                                         "n_antes":  9,
+                                                                         "n_despues":  7
+                                                                     },
+                                                      "train|1bcd":  {
+                                                                         "mejor_pose":  "train|1bcd|flexible_redock|1bcd|2",
+                                                                         "mejor_pose_rmsd":  1.384,
+                                                                         "mejor_pose_es_representante":  false,
+                                                                         "min_rmsd_representantes":  2.016,
+                                                                         "n_antes":  9,
+                                                                         "n_despues":  7
+                                                                     }
+                                                  },
+                   "por_fuente":  {
+                                      "flexible_redock":  {
+                                                              "n_antes":  1169,
+                                                              "n_despues":  1095,
+                                                              "pct_supervivencia":  93.67
+                                                          },
+                                      "molflex":  {
+                                                      "n_antes":  1934,
+                                                      "n_despues":  1377,
+                                                      "pct_supervivencia":  71.2
+                                                  },
+                                      "ruta_a":  {
+                                                     "n_antes":  366,
+                                                     "n_despues":  180,
+                                                     "pct_supervivencia":  49.18
+                                                 }
+                                  },
+                   "tamanos_cluster":  {
+                                           "P50":  1,
+                                           "P90":  2,
+                                           "max":  14,
+                                           "media":  1.31
+                                       }
+               },
+    "exclusiones":  {
+                        "test_historico":  {
+                                               "n_test_manifest":  47,
+                                               "n_union":  156,
+                                               "interseccion":  [
+
+                                                                ],
+                                               "test_pids_sha256_ok":  true,
+                                               "fuente":  "data/pose_selector_dataset/manifest.json (metadatos de split; poses_test.jsonl NUNCA se abre)"
+                                           },
+                        "denylist_fnd05":  {
+                                               "n_denylist":  112,
+                                               "n_union":  156,
+                                               "interseccion":  [
+
+                                                                ],
+                                               "candidates_sha256_ok":  true,
+                                               "fuente":  "scripts/artifacts_science/FND-05/denylist_pids.json (cuarentena D-RC-CONFIRM)"
+                                           }
+                    },
+    "label_blind":  {
+                        "clustering":  "no lee labels (verificado por contrato y por test sintÃ©tico scripts/test_dedup_pose_union.py)",
+                        "cobertura":  "el orÃ¡culo (rmsd cristalogrÃ¡fico de union_labels_*) se usa EXCLUSIVAMENTE para evaluar la preservaciÃ³n DESPUÃ‰S de deduplicar"
+                    },
+    "determinismo":  "salidas sin timestamps ni aleatoriedad; dos corridas producen bytes idÃ©nticos (verificaciÃ³n en DESIGN.md)",
+    "desviaciones_procedimentales":  [
+                                         {
+                                             "descripcion":  "val procesado junto con train; se habia autorizado train primero",
+                                             "id":  "D1",
+                                             "impacto":  "la val actual ya no puede validar ninguna variante posterior"
+                                         },
+                                         {
+                                             "descripcion":  "representante = primera identidad en vez del medoid geometrico autorizado",
+                                             "id":  "D2",
+                                             "impacto":  "regla arbitraria label-blind; causa directa de las 2 perdidas de frontera"
+                                         }
+                                     ]
+}

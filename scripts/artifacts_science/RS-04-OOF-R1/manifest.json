@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-04-OOF-R1",
+  "hypothesis": "El NO_GO de RS-04-OOF es solido y su alcance es limitado a la feature, modelo y contrato",
+  "protocol": "Corrigendum narrativo del sello RS-04-OOF (a8c9523)",
+  "created_at": "2026-08-17T00:01:51.225145+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "a8c9523d99b227fbad842ab50f8ce8c392831bab",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "Narrativo: sin cambio de datos, sin re-evaluacion"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/RS-04-OOF-R1/DESIGN.md": "fc91989166913e8eb096d4ad3b7f8f12b59bd0641fe5e10a57f7e8263ff389c3",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T00:03:34.820551+00:00",
+  "decision_rationale": "Corrigendum narrativo/estadistico confirmando NO_GO de RS-04-OOF: reduccion observada de 8 hits, bootstrap primario BCa por 38 componentes [-14,-1] excluye cero, McNemar p=0.115 (sensibilidad por complejo), mediana pareada 0.000A = ausencia de desplazamiento no equivalencia. NO_GO limitado a esta feature, modelo y contrato. Sello historico intacto.",
+  "finished_at": "2026-08-17T00:03:35.183491+00:00"
+}

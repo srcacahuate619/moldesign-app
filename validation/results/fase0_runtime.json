@@ -1,0 +1,301 @@
+{
+  "arnes": "scripts/qa_embedded_controls.py",
+  "protocolo": {
+    "fichero": "validation/protocols/alpha-controls-v1.json",
+    "sha256": "7082e96154825ad3d6a07a4a0ac18d95981f4d6a78b9c38f1d2ff48aa4b26dcd",
+    "frozen_at_utc": "2026-09-10T19:39:40.443496+00:00"
+  },
+  "ejecutado_utc": "2026-09-10T19:43:18.334386+00:00",
+  "modo": "COPIA_AISLADA",
+  "resultado": {
+    "fase": "FASE_0_RUNTIME",
+    "contrato_de_arranque": {
+      "estado": "OK",
+      "declaradas_por_el_arnes_y_ausentes_en_el_lanzador": [],
+      "puestas_por_el_lanzador_y_desconocidas_para_el_arnes": [],
+      "fuente": "D:\\moldesign-worktrees\\claude-embedded-controls\\frontend\\src-tauri\\src\\backend.rs"
+    },
+    "entorno": {
+      "modo": "COPIA_AISLADA",
+      "declaracion": "NO EJECUTADO EN VM",
+      "bundle": "D:\\moldesign-audit\\bundle-copy",
+      "runtime_manifest_sha256": "047721c568d735750bd9c0f8558179e341c3141b39b03c5935693ec26fb331d1",
+      "producto": {
+        "version": "1.0.0",
+        "profile": "desktop-mvp",
+        "generado_en": "2026-09-09T16:43:29+00:00"
+      },
+      "activos_criticos": {
+        "python/python.exe": {
+          "presente": true,
+          "declarado_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+          "real_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+          "coincide": true
+        },
+        "backend/api/main.py": {
+          "presente": true,
+          "declarado_sha256": "1e01cd21f12147ef4fa4b9f78b0052dd74ae698002208d450b61db7ac59528ab",
+          "real_sha256": "1e01cd21f12147ef4fa4b9f78b0052dd74ae698002208d450b61db7ac59528ab",
+          "coincide": true
+        },
+        "rescoring/artifacts/model-manifest.json": {
+          "presente": true,
+          "declarado_sha256": "84c843c86935fc96d0db5cee125185bc90ca2c7a175352e1a56691089bdb5be0",
+          "real_sha256": "84c843c86935fc96d0db5cee125185bc90ca2c7a175352e1a56691089bdb5be0",
+          "coincide": true
+        },
+        "rescoring/artifacts/model_a_universal.json": {
+          "presente": true,
+          "declarado_sha256": "d2041777857586065aa29dcc8b876a9c1e89394dacbf517e9c071e5cba27f0b2",
+          "real_sha256": "d2041777857586065aa29dcc8b876a9c1e89394dacbf517e9c071e5cba27f0b2",
+          "coincide": true
+        },
+        "rescoring/artifacts/pose_selector_v06.xgb": {
+          "presente": true,
+          "declarado_sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+          "real_sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+          "coincide": true
+        },
+        "tools/vina/vina.exe": {
+          "presente": true,
+          "declarado_sha256": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5",
+          "real_sha256": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5",
+          "coincide": true
+        },
+        "tools/openbabel/bin/obabel.exe": {
+          "presente": true,
+          "declarado_sha256": "c76d669a0b557d9585904ac35afc88ed26507ff03704e347ed64aa1bf24ac88b",
+          "real_sha256": "c76d669a0b557d9585904ac35afc88ed26507ff03704e347ed64aa1bf24ac88b",
+          "coincide": true
+        },
+        "tools/openbabel/openbabel-manifest.json": {
+          "presente": true,
+          "declarado_sha256": "0b34a0fca0263a7a67defdea7d36880670092cb128b2a77480489507371d4748",
+          "real_sha256": "0b34a0fca0263a7a67defdea7d36880670092cb128b2a77480489507371d4748",
+          "coincide": true
+        },
+        "curated_targets.json": {
+          "presente": true,
+          "declarado_sha256": "7c653ab5875537321a7dbd99435166638a54708311f4346e3d0a6f99ecd71f1c",
+          "real_sha256": "7c653ab5875537321a7dbd99435166638a54708311f4346e3d0a6f99ecd71f1c",
+          "coincide": true
+        }
+      },
+      "vina_version": [
+        "AutoDock Vina v1.2.7"
+      ],
+      "host": {
+        "os": "Windows-10-10.0.26200-SP0",
+        "maquina": "AMD64",
+        "procesador": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+        "python_del_arnes": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]"
+      },
+      "medido_utc": "2026-09-10T19:43:18.451541+00:00"
+    },
+    "arranque_s": 4.71,
+    "puerto": 63953,
+    "n_rutas": 112,
+    "rutas_de_evaluacion": [
+      "/evaluation/ai-report/{molecule_id}",
+      "/evaluation/ai-report/{molecule_id}/stream",
+      "/evaluation/batch",
+      "/evaluation/batch/{batch_id}",
+      "/evaluation/batch/{batch_id}/csv",
+      "/evaluation/batch/{batch_id}/export",
+      "/evaluation/cancel",
+      "/evaluation/cohort-runs/{run_id}",
+      "/evaluation/cohort-runs/{run_id}/cancel",
+      "/evaluation/cohort-runs/{run_id}/dossier/package",
+      "/evaluation/cohort-runs/{run_id}/dossier/preview",
+      "/evaluation/cohort-runs/{run_id}/evidence",
+      "/evaluation/cohort-runs/{run_id}/resume",
+      "/evaluation/cohorts",
+      "/evaluation/cohorts/preflight",
+      "/evaluation/cohorts/{cohort_id}",
+      "/evaluation/cohorts/{cohort_id}/runs",
+      "/evaluation/cohorts/{cohort_id}/runs/latest",
+      "/evaluation/dossier/{molecule_id}/package",
+      "/evaluation/dossier/{molecule_id}/preview",
+      "/evaluation/engines",
+      "/evaluation/engines/{motor_id}/encender",
+      "/evaluation/evaluate",
+      "/evaluation/files/complex/{molecule_id}",
+      "/evaluation/files/poses/{molecule_id}",
+      "/evaluation/files/protein/{molecule_id}",
+      "/evaluation/gnn-attention/{molecule_id}",
+      "/evaluation/interactions/{molecule_id}",
+      "/evaluation/preflight",
+      "/evaluation/result/{molecule_id}",
+      "/evaluation/status/{task_id}",
+      "/evaluation/stream/{task_id}",
+      "/evaluation/submit",
+      "/history/evaluations"
+    ],
+    "capturas": {
+      "/health": {
+        "status": 200,
+        "cuerpo": {
+          "status": "healthy",
+          "app": "mol-design",
+          "version": "1.0.0-alpha.2",
+          "app_mode": "DESKTOP",
+          "components": {
+            "mode": {
+              "status": "healthy",
+              "value": "DESKTOP"
+            },
+            "rdkit": {
+              "status": "healthy",
+              "rdkit_version": "2025.09.6",
+              "test_passed": true
+            },
+            "vina": {
+              "status": "healthy",
+              "path": "D:\\moldesign-audit\\bundle-copy\\tools\\vina\\vina.exe",
+              "exists": true
+            },
+            "open_babel": {
+              "status": "healthy",
+              "estado": "AVAILABLE",
+              "detalle": "Open Babel empaquetado disponible y verificado (Open Babel 3.1.0 -- Feb 17 2026 -- 06:51:18).",
+              "version": "3.1.1.23",
+              "version_reportada": "Open Babel 3.1.0 -- Feb 17 2026 -- 06:51:18",
+              "licencia_spdx": "GPL-2.0-only",
+              "path": "tools/openbabel/bin/obabel.exe",
+              "sha256": "c76d669a0b557d9585904ac35afc88ed26507ff03704e347ed64aa1bf24ac88b",
+              "invocacion": "subproceso CLI",
+              "programa_independiente": true
+            },
+            "database": {
+              "status": "healthy",
+              "engine": "SQLite"
+            },
+            "storage": {
+              "status": "healthy",
+              "engine": "local_disk"
+            },
+            "model_manifest": {
+              "status": "degraded",
+              "manifest_version": 4,
+              "models": [
+                "classifier_binder",
+                "gnn_v2_cl",
+                "model_a_universal",
+                "pose_selector_v06"
+              ],
+              "errors": [
+                "gnn_v2_cl:artifact ausente:gnn_v2_cl_best.pt",
+                "gnn_v2_cl:metadata ausente:contrastive_v31_pretrained.pt"
+              ]
+            }
+          }
+        }
+      },
+      "/hardware": {
+        "status": 200,
+        "cuerpo": {
+          "cpu": {
+            "model": "AMD Ryzen 5 5500",
+            "cores_physical": 6,
+            "cores_logical": 12
+          },
+          "ram": {
+            "total_gb": 31.9,
+            "available_gb": 13.7
+          },
+          "gpu": {
+            "available": false,
+            "name": null,
+            "vram_gb": 0.0,
+            "cuda": false,
+            "opencl": false,
+            "openmm_platforms": [
+              "Reference",
+              "CPU",
+              "OpenCL"
+            ]
+          },
+          "recommendations": {
+            "workers": 5,
+            "parallel_docks": 1
+          },
+          "warnings": [
+            "No se detectó GPU. MM-GBSA y GNN rescoring correrán en CPU (más lento)."
+          ]
+        }
+      },
+      "/rescoring/health": {
+        "status": 200,
+        "cuerpo": {
+          "mode": "direct (in-process, unified v1.3)",
+          "available": true,
+          "model_version": "unknown",
+          "families_trained": [
+            "kinase",
+            "protease",
+            "gpcr",
+            "nuclear_receptor",
+            "soluble_enzyme"
+          ],
+          "ram_mb": 537.9
+        }
+      },
+      "/rescoring/info": {
+        "status": 200,
+        "cuerpo": {
+          "model_version": "unknown",
+          "training_date": null,
+          "training_samples": null,
+          "ndcg_at_10": null,
+          "spearman": null,
+          "applicability_domain_threshold": 16.1556,
+          "families_trained": [
+            "kinase",
+            "protease",
+            "gpcr",
+            "nuclear_receptor",
+            "soluble_enzyme"
+          ]
+        }
+      },
+      "/": {
+        "status": 200,
+        "cuerpo": {
+          "name": "MolDesign API",
+          "version": "1.0.0-alpha.2",
+          "environment": "production",
+          "mission": "pipeline científico reproducible para diseño molecular asistido"
+        }
+      }
+    },
+    "diagnostico_de_salud": {
+      "status_global": "healthy",
+      "environment": "DESKTOP",
+      "hallazgos": [
+        {
+          "componente": "model_manifest",
+          "clase": "ARTEFACTO_AUSENTE_EN_BUNDLE",
+          "error": "gnn_v2_cl:artifact ausente:gnn_v2_cl_best.pt",
+          "presente_en_bundle": [],
+          "nota": "Declarado por un manifiesto que SI viaja en el bundle."
+        },
+        {
+          "componente": "model_manifest",
+          "clase": "ARTEFACTO_AUSENTE_EN_BUNDLE",
+          "error": "gnn_v2_cl:metadata ausente:contrastive_v31_pretrained.pt",
+          "presente_en_bundle": [],
+          "nota": "Declarado por un manifiesto que SI viaja en el bundle."
+        }
+      ]
+    },
+    "escritura_en_resources": {
+      "nuevos": [],
+      "n_nuevos": 0,
+      "borrados": [],
+      "n_borrados": 0,
+      "modificados": [],
+      "n_modificados": 0,
+      "invariante_cumplida": true
+    }
+  }
+}

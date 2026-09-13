@@ -1,0 +1,405 @@
+{
+  "alcance": {
+    "fuente": "REC-01/per_complex.jsonl (sellado)",
+    "n_targets": 387,
+    "sin_docking": true,
+    "sin_re_derivar_geometria": true
+  },
+  "cohorte_accionable": {
+    "S1_CRITICO": [
+      "1IGZ",
+      "3GPT",
+      "3HYE",
+      "3MG0",
+      "4JSX",
+      "5J89",
+      "5TNH",
+      "5U6X",
+      "6MWA",
+      "7XW6",
+      "8UBR"
+    ],
+    "S2_GRAVE": [
+      "1CX2",
+      "1DIY",
+      "1Q4G",
+      "2OYE",
+      "2OYU",
+      "3FHV",
+      "3KK6",
+      "3N8W",
+      "3N8X",
+      "3N8Y",
+      "3N8Z",
+      "5F1A",
+      "5WBE",
+      "7ZYJ"
+    ]
+  },
+  "corrigendum_de": "REC-01",
+  "entorno": {
+    "duracion_s": 0.01,
+    "ejecutor_rec01_sha256": "e244a76a8682fe314580f3d0742e5575b315285a9e04562be6520543eda9f26f",
+    "generado_utc": "2026-08-17T06:48:06.630056+00:00",
+    "python": "3.14.3",
+    "so": "Windows 11"
+  },
+  "excepciones": {
+    "antes_REC01": {
+      "n_targets": 57,
+      "pct": 0.1473,
+      "por_codigo": {
+        "E1_CENTRO_LEJOS": 34,
+        "E2_LIGANDO_RECORTADO": 23,
+        "E3_HOTSPOTS_FUERA": 17,
+        "E4_HOTSPOTS_INVALIDOS": 8,
+        "E5_HOTSPOTS_AUSENTES": 7
+      }
+    },
+    "delta_targets": 52,
+    "despues_R1": {
+      "n_targets": 109,
+      "pct": 0.2817,
+      "por_codigo": {
+        "E1_CENTRO_LEJOS": 34,
+        "E2_LIGANDO_RECORTADO": 23,
+        "E3_HOTSPOTS_FUERA": 17,
+        "E4_HOTSPOTS_INVALIDOS": 8,
+        "E5_HOTSPOTS_AUSENTES": 7,
+        "E8_HOTSPOT_FUERA_DE_CAJA": 65
+      }
+    },
+    "nuevos_solo_por_E8": [
+      "1BN1",
+      "1EPB",
+      "1FH0",
+      "1GKU",
+      "1HSG",
+      "1HWK",
+      "1IRU",
+      "1J36",
+      "1J37",
+      "1M6D",
+      "1SUU",
+      "1VPB",
+      "1XWD",
+      "1ZZ1",
+      "2HZI",
+      "2I4G",
+      "2P4E",
+      "2QCQ",
+      "2ZJT",
+      "3DY4",
+      "3ERT",
+      "3G04",
+      "3HH2",
+      "3PP0",
+      "3V94",
+      "4DM7",
+      "4EJJ",
+      "4LMO",
+      "4NY4",
+      "4PHL",
+      "4PHU",
+      "4QGE",
+      "5CQG",
+      "5FG9",
+      "5JHW",
+      "5TUN",
+      "5VA1",
+      "6A5W",
+      "6CM4",
+      "6HL0",
+      "6HSK",
+      "7PAC",
+      "7T9I",
+      "7TRB",
+      "8HFE",
+      "9F9T",
+      "9QA0",
+      "9QA1",
+      "9QA2",
+      "9QA3",
+      "9QA4",
+      "9RAW"
+    ]
+  },
+  "expectativa_vs_observado": {
+    "coincide": false,
+    "declarado_en_preregistro": {
+      "S1_CRITICO": 23,
+      "excepciones_totales": 109,
+      "nuevos_por_E8": 52
+    },
+    "observado": {
+      "S1_CRITICO": 11,
+      "excepciones_totales": 109,
+      "nuevos_por_E8": 52
+    }
+  },
+  "experiment_id": "REC-01-R1",
+  "gates": {
+    "G1_integridad_entrada": {
+      "criterio": "per_complex.jsonl de REC-01 coincide con su SHA-256 sellado",
+      "decision_fuente": "GO",
+      "pass": true,
+      "sha256_esperado": "3f4da5ab35391e235fa2518274a472f93378711ca34846709080f8191d0eee23",
+      "sha256_real": "3f4da5ab35391e235fa2518274a472f93378711ca34846709080f8191d0eee23"
+    },
+    "G2_aceptacion_5TUN": {
+      "criterio": "5TUN capturado por E8 con severidad S4_LEVE",
+      "encontrado": true,
+      "excepciones": [
+        "E8_HOTSPOT_FUERA_DE_CAJA"
+      ],
+      "margen_min_hotspots": -5.147,
+      "pass": true,
+      "severidad": "S4_LEVE"
+    },
+    "G3_conservacion": {
+      "codigos_E1_E7_reproducidos": {
+        "E1_CENTRO_LEJOS": true,
+        "E2_LIGANDO_RECORTADO": true,
+        "E3_HOTSPOTS_FUERA": true,
+        "E4_HOTSPOTS_INVALIDOS": true,
+        "E5_HOTSPOTS_AUSENTES": true,
+        "E6_SIN_PDB": true,
+        "E7_PDB_NO_PARSEABLE": true
+      },
+      "criterio": "ningun target pierde una excepcion de REC-01; codigos E1-E7 se reproducen",
+      "n_targets_con_perdidas": 0,
+      "pass": true,
+      "perdidas": []
+    },
+    "G4_severidad_total": {
+      "criterio": "los 387 con exactamente un nivel S0-S5, sin nulos",
+      "n_sin_severidad": 0,
+      "niveles_usados": [
+        "S0_SIN_EXCEPCION",
+        "S1_CRITICO",
+        "S2_GRAVE",
+        "S3_MODERADO",
+        "S4_LEVE",
+        "S5_METADATO"
+      ],
+      "pass": true
+    },
+    "G5_determinismo": {
+      "criterio": "dos corridas -> per_complex.jsonl byte-identico",
+      "evidencia": "dos corridas independientes 2026-08-17; per_complex.jsonl byte-identico (cmp)",
+      "pass": true,
+      "sha256_per_complex": "c48fe2822ae4adc8024fcb9281ee09fcd3b138c757e00af55ccbffe6a2b533f3"
+    },
+    "G6_aislamiento": {
+      "criterio": "REC-01 conserva los SHA-256 de sus assets",
+      "evidencia": "experiment_manifest.py validate REC-01 -> 'Validation OK' tras ejecutar R1 dos veces",
+      "hashes_rec01_post": {
+        "LECTURA.md": "d80662b7711f78617597688bb80701128c6a02e72d31a58f941fd8e2e7f417d2",
+        "PREREGISTRO.md": "d67486335f4c728c14f05541de15b793d7c8d83f3a5827f98157feefbee1d69e",
+        "failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "manifest.json": "8b964bca547a659132b09a7a722d862ac6c244236fec7218eeb262356c74aa00",
+        "metrics.json": "4cff8c362fcaf4e8ebe54859b33f923f5c6dd3c6f0071f68065a99edfa76a308",
+        "per_complex.jsonl": "3f4da5ab35391e235fa2518274a472f93378711ca34846709080f8191d0eee23"
+      },
+      "pass": true
+    }
+  },
+  "nota_epistemica": "El desenlace numerico ya estaba declarado en REC-01/LECTURA.md seccion 4 antes de ejecutar R1. No es un hallazgo independiente: es el mismo dato con el criterio corregido. Ver PREREGISTRO seccion 1.",
+  "por_familia": {
+    "atp_synthase": {
+      "S1_CRITICO": 0,
+      "excepciones": 0,
+      "n": 1,
+      "pct_excepcion": 0.0
+    },
+    "chaperone": {
+      "S1_CRITICO": 0,
+      "excepciones": 0,
+      "n": 1,
+      "pct_excepcion": 0.0
+    },
+    "cytochrome_p450": {
+      "S1_CRITICO": 0,
+      "excepciones": 3,
+      "n": 4,
+      "pct_excepcion": 0.75
+    },
+    "gpcr": {
+      "S1_CRITICO": 1,
+      "excepciones": 6,
+      "n": 30,
+      "pct_excepcion": 0.2
+    },
+    "growth_factor": {
+      "S1_CRITICO": 0,
+      "excepciones": 3,
+      "n": 9,
+      "pct_excepcion": 0.3333
+    },
+    "gtpase": {
+      "S1_CRITICO": 0,
+      "excepciones": 1,
+      "n": 1,
+      "pct_excepcion": 1.0
+    },
+    "hydrolase": {
+      "S1_CRITICO": 0,
+      "excepciones": 4,
+      "n": 26,
+      "pct_excepcion": 0.1538
+    },
+    "ion_channel": {
+      "S1_CRITICO": 3,
+      "excepciones": 8,
+      "n": 31,
+      "pct_excepcion": 0.2581
+    },
+    "isomerase": {
+      "S1_CRITICO": 0,
+      "excepciones": 0,
+      "n": 1,
+      "pct_excepcion": 0.0
+    },
+    "kinase": {
+      "S1_CRITICO": 1,
+      "excepciones": 5,
+      "n": 29,
+      "pct_excepcion": 0.1724
+    },
+    "ligase": {
+      "S1_CRITICO": 0,
+      "excepciones": 1,
+      "n": 2,
+      "pct_excepcion": 0.5
+    },
+    "lyase": {
+      "S1_CRITICO": 0,
+      "excepciones": 0,
+      "n": 1,
+      "pct_excepcion": 0.0
+    },
+    "metalloenzyme": {
+      "S1_CRITICO": 0,
+      "excepciones": 1,
+      "n": 3,
+      "pct_excepcion": 0.3333
+    },
+    "methyltransferase": {
+      "S1_CRITICO": 0,
+      "excepciones": 0,
+      "n": 2,
+      "pct_excepcion": 0.0
+    },
+    "nuclear_receptor": {
+      "S1_CRITICO": 0,
+      "excepciones": 5,
+      "n": 29,
+      "pct_excepcion": 0.1724
+    },
+    "nuclease": {
+      "S1_CRITICO": 0,
+      "excepciones": 2,
+      "n": 10,
+      "pct_excepcion": 0.2
+    },
+    "oxidoreductase": {
+      "S1_CRITICO": 2,
+      "excepciones": 17,
+      "n": 20,
+      "pct_excepcion": 0.85
+    },
+    "phosphodiesterase": {
+      "S1_CRITICO": 0,
+      "excepciones": 5,
+      "n": 19,
+      "pct_excepcion": 0.2632
+    },
+    "polymerase": {
+      "S1_CRITICO": 0,
+      "excepciones": 5,
+      "n": 18,
+      "pct_excepcion": 0.2778
+    },
+    "protease": {
+      "S1_CRITICO": 0,
+      "excepciones": 16,
+      "n": 63,
+      "pct_excepcion": 0.254
+    },
+    "proteasome": {
+      "S1_CRITICO": 3,
+      "excepciones": 9,
+      "n": 18,
+      "pct_excepcion": 0.5
+    },
+    "protein_interaction": {
+      "S1_CRITICO": 1,
+      "excepciones": 9,
+      "n": 26,
+      "pct_excepcion": 0.3462
+    },
+    "topoisomerase": {
+      "S1_CRITICO": 0,
+      "excepciones": 4,
+      "n": 18,
+      "pct_excepcion": 0.2222
+    },
+    "transcription_factor": {
+      "S1_CRITICO": 0,
+      "excepciones": 1,
+      "n": 1,
+      "pct_excepcion": 1.0
+    },
+    "transferase": {
+      "S1_CRITICO": 0,
+      "excepciones": 1,
+      "n": 5,
+      "pct_excepcion": 0.2
+    },
+    "transporter": {
+      "S1_CRITICO": 0,
+      "excepciones": 3,
+      "n": 18,
+      "pct_excepcion": 0.1667
+    },
+    "ubiquitin_ligase": {
+      "S1_CRITICO": 0,
+      "excepciones": 0,
+      "n": 1,
+      "pct_excepcion": 0.0
+    }
+  },
+  "prueba_ciega": false,
+  "seed": 42,
+  "severidad": {
+    "S0_SIN_EXCEPCION": {
+      "n": 278,
+      "pct": 0.7183
+    },
+    "S1_CRITICO": {
+      "n": 11,
+      "pct": 0.0284
+    },
+    "S2_GRAVE": {
+      "n": 14,
+      "pct": 0.0362
+    },
+    "S3_MODERADO": {
+      "n": 9,
+      "pct": 0.0233
+    },
+    "S4_LEVE": {
+      "n": 69,
+      "pct": 0.1783
+    },
+    "S5_METADATO": {
+      "n": 6,
+      "pct": 0.0155
+    }
+  },
+  "umbrales_preregistrados": {
+    "E8_margen": 0.0,
+    "severidad_grave_contencion": 0.5,
+    "severidad_grave_d_centro_A": 15.0
+  }
+}

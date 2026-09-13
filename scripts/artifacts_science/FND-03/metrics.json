@@ -1,0 +1,46 @@
+{
+ "experiment_id": "FND-03",
+ "tipo": "control de ruido (P0 declarado desde el inicio, sin artefacto hasta hoy)",
+ "timestamp": "2026-08-19T03:38:51.602487+00:00",
+ "duration_seconds": 1922.41,
+ "config": {
+  "semillas": [
+   42,
+   43,
+   44,
+   45,
+   46
+  ],
+  "exhaustiveness": 8,
+  "num_modes": 9,
+  "box": 25.0,
+  "conformero": "el de menor RMSD alineado (identico a MF-25)"
+ },
+ "n_complejos": 48,
+ "n_ok": 48,
+ "resumen": {
+  "COLOCACION": {
+   "n": 33,
+   "sd_mediana": 0.283,
+   "sd_p90": 1.422,
+   "rango_mediano": 0.71,
+   "rango_max": 4.022,
+   "complejos_con_veredicto_inestable": 0
+  },
+  "CONTROL": {
+   "n": 15,
+   "sd_mediana": 0.011,
+   "sd_p90": 0.108,
+   "rango_mediano": 0.031,
+   "rango_max": 0.946,
+   "complejos_con_veredicto_inestable": 1
+  }
+ },
+ "comparacion_declarada": {
+  "MF-08_efecto": -0.82,
+  "MF-02F_efecto": -0.79,
+  "MF-25_efecto": -0.784,
+  "nota": "si la sd por semilla es del orden de estos efectos, las tres lecturas quedan sin control de ruido y deben releerse"
+ },
+ "lectura": "sd mediana >= 0.4 A => los efectos de ~0.8 A de la cartera C estan al borde del ruido de una sola corrida. sd << 0.4 A => los efectos son reales y las lecturas se sostienen. veredictos inestables > 0 => la confianza por complejo NO se puede vender sin repeticiones"
+}

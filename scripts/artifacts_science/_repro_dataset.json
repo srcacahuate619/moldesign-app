@@ -1,0 +1,26 @@
+{
+ "pass": true,
+ "splits": {
+  "train": {
+   "n_original": 2739,
+   "n_reproducido": 2739,
+   "identico": true,
+   "sha256_original": "f6c9492289aa8dd34516012400bac10f7f9ab10113f1340832f8397c18691a37",
+   "sha256_reproducido": "f6c9492289aa8dd34516012400bac10f7f9ab10113f1340832f8397c18691a37"
+  },
+  "val": {
+   "n_original": 730,
+   "n_reproducido": 730,
+   "identico": true,
+   "sha256_original": "4697ce6224b3691a4251fd9ae04763aeb36bbc0e74ad883eca314cb038e40832",
+   "sha256_reproducido": "4697ce6224b3691a4251fd9ae04763aeb36bbc0e74ad883eca314cb038e40832"
+  },
+  "test": {
+   "n_original": 831,
+   "n_reproducido": 831,
+   "identico": true,
+   "sha256_original": "f441396a28e6eb53f316e3b08948ee30ededbbb090e01581c759f7db51f7d873",
+   "sha256_reproducido": "f441396a28e6eb53f316e3b08948ee30ededbbb090e01581c759f7db51f7d873"
+  }
+ }
+}

@@ -1,0 +1,433 @@
+{
+ "id": "MF-16-R1",
+ "meta": {
+  "titulo": "Estaba ordenando por severidad de colisión, no por calidad de unión",
+  "entradilla": "El experimento original usó energías de punto único: 36 de 714 poses superaban 10⁴ kcal/mol y algunas llegaban a 10⁸. Relajando antes de puntuar, el potencial físico supera a Vina justo donde Vina es débil."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un experimento anterior había medido que un potencial físico no ordena las poses mejor que la función empírica de Vina, y había concluido que la física no aporta. Este experimento demuestra que esa conclusión era un artefacto del método, y la invalida.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El defecto",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El experimento original puntuó las poses con energías de ",
+     "m": null
+    },
+    {
+     "t": "punto único",
+     "m": "fuerte"
+    },
+    {
+     "t": ": la energía de la geometría tal como sale del docking, sin relajar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El problema con eso es el rango. De 714 poses, ",
+     "m": null
+    },
+    {
+     "t": "36 superan 10⁴ kcal/mol",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y algunas llegan a ",
+     "m": null
+    },
+    {
+     "t": "10⁸",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Esos valores no son energías de unión: son choques estéricos, dos átomos solapados. Un solo contacto malo domina la suma por muchos órdenes de magnitud.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con esos números en el conjunto, la correlación no ordenaba por calidad de unión. Ordenaba por ",
+     "m": null
+    },
+    {
+     "t": "severidad de colisión",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasa al relajar",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Punto único",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Relajado",
+      "m": "fuerte"
+     }
+    ],
+    [
+     {
+      "t": "Vina",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Colocación",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−0.110",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.199",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "0.132",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Control",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.140",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.588",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "0.533",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En el estrato difícil el potencial de punto único tenía correlación ",
+     "m": null
+    },
+    {
+     "t": "negativa",
+     "m": "fuerte"
+    },
+    {
+     "t": " —ordenaba al revés— y relajado pasa a 0.199. La conclusión anterior queda ",
+     "m": null
+    },
+    {
+     "t": "invalidada",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La lectura correcta no es la que sugieren las medianas",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Aquí hay una trampa que este registro evita explícitamente. Las cifras de arriba sugieren que el potencial físico gana en los dos estratos. Comparando ",
+     "m": null
+    },
+    {
+     "t": "de forma pareada, complejo a complejo",
+     "m": "fuerte"
+    },
+    {
+     "t": ", la historia es otra:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Δ pareado",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Mejor en",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Colocación",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+0.107",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "16 de 25",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Control",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−0.099",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "6 de 13",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En el control ",
+     "m": null
+    },
+    {
+     "t": "pierde",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Las medianas por estrato decían lo contrario, y por eso se reporta el pareado: comparar dos medianas calculadas sobre el mismo conjunto no es lo mismo que comparar dentro de cada complejo, y cuando las dos discrepan, la pareada es la que responde a la pregunta.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El hallazgo específico, entonces, es más interesante que «el potencial físico es mejor»:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El potencial físico ayuda ",
+     "m": null
+    },
+    {
+     "t": "justo donde Vina es débil",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso es lo que se busca en un método complementario. Un método que gana donde el baseline ya gana no aporta nada; uno que gana donde el baseline falla, sí.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La advertencia que va con el resultado",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Relajar ",
+     "m": null
+    },
+    {
+     "t": "mueve la pose",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Eso significa que el RMSD después de relajar no es el mismo objeto que el RMSD con el que se evalúa a Vina. La comparación es ",
+     "m": null
+    },
+    {
+     "t": "indicativa, no un enfrentamiento exacto",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sin esa nota, alguien podría citar el +0.107 como una victoria medida en igualdad de condiciones. No lo es, y el sello lo dice.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué esto conecta con algo más grande",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Relajar cada pose antes de puntuarla es, sin que se propusiera como tal, exactamente el mecanismo que la física computacional usa para tratar paisajes rugosos: sustituir la energía de un punto por la energía del mínimo local alcanzado desde ese punto, convirtiendo una superficie llena de picos en una escalonada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento lo midió por accidente. Convertirlo en un buscador —minimizar cada pose propuesta antes de aceptarla o rechazarla— es un experimento que sigue abierto, con una objeción de coste ya conocida: relajar cuesta unos 20 segundos por pose, lo que hace inviable un buscador que minimice en cada paso.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-16-R1.md"
+}

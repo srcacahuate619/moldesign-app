@@ -1,0 +1,23 @@
+﻿# llama.cpp binary package — CPU (x64)
+# Downloaded from: https://github.com/ggml-org/llama.cpp/releases/tag/b10199
+# Date: 2026-07-31
+# Version: b10199 (commit b4ca032)
+
+# Source package (ZIP):
+#   Name: llama-b10199-bin-win-cpu-x64.zip
+#   SHA256: b10b8cbcc0fef99771daf13cfea426d1dde4baf36618a9b4c4c30a6f79115650
+#   Size: 18,350,490 bytes (~17.5 MB compressed)
+
+# Main executable:
+llama-server.exe  SHA256=338827a298c806afb8ef678d7903ee7fe2078faed40797295c36a52aace73bfb
+
+# Implementation DLL:
+llama-server-impl.dll  SHA256=fceb006bda70337acfa98e0da1ba1281901baa89bc19ba027318aa9d09a1278d
+
+# Full package contents (20 files, 37 MB uncompressed):
+#   llama-server.exe, llama-server-impl.dll, llama-common.dll
+#   ggml.dll, ggml-base.dll
+#   ggml-cpu-{alderlake,cannonlake,cascadelake,cooperlake,haswell,icelake,
+#             ivybridge,piledriver,sandybridge,sapphirerapids,skylakex,
+#             sse42,x64,zen4}.dll
+#   libomp140.x86_64.dll (OpenMP runtime)

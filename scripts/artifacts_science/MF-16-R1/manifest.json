@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-16-R1",
+  "hypothesis": "El potencial fisico relajado ordena las poses mejor que Vina; la conclusion de MF-16 era un artefacto del punto unico",
+  "protocol": "corrigendum: relectura de las energias YA MINIMIZADAS que MF-10 registro sobre las mismas 714 poses; sin computo nuevo",
+  "created_at": "2026-08-19T03:53:02.633659+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gates; comparacion PAREADA por complejo contra Vina"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/run_mf16_embudo_ff.py": "78b031eb5d9106bd2070b8b8d0eba07abcba5aeb39b4c1b0d172a74e7f6c9114"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:03.457163+00:00",
+  "decision_rationale": "CORRIGENDUM de MF-16, que se ejecuto y se reporto con energias de PUNTO UNICO. Esa energia esta dominada por choque esterico -36 de 714 poses superan 1e4 kcal/mol y algunas llegan a 1e8- de modo que el Spearman ordenaba por severidad de colision, no por calidad de union. Con las energias relajadas: rho 0.199 en COLOCACION frente a -0.110 del punto unico y 0.132 de Vina; 0.588 en CONTROL frente a 0.140 y 0.533. La conclusion de MF-16 -que el potencial fisico no orienta- queda INVALIDADA. Pero la lectura correcta NO es que el FF gane en ambos estratos: comparado PAREADO, en COLOCACION el FF supera a Vina (delta +0.107, mejor en 16 de 25) y en CONTROL PIERDE (delta -0.099, mejor en 6 de 13). Las medianas por estrato sugerian lo contrario en CONTROL y por eso se reporta el pareado. El hallazgo especifico es que el potencial fisico ayuda JUSTO donde Vina es debil. Advertencia: la relajacion mueve la pose, asi que rmsd_despues no es el mismo objeto que el rmsd_antes con el que se evalua a Vina; la comparacion es indicativa y no un head-to-head exacto.",
+  "finished_at": "2026-08-19T03:53:03.676033+00:00"
+}

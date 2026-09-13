@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "experiment_id": "AF-01",
+  "hypothesis": "La Fase A reproduce con inputs congelados y su holdout tiene solapamiento por receptor con el desarrollo",
+  "protocol": "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md AF-01 reformulado + docs/44_RELEASE_BASELINE_2026-08-15.md",
+  "created_at": "2026-08-16T04:02:38.611442+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "0593983f5b388c1bda79447c58e2329b885ed24c",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "GO=REPRODUCED_WITH_SCOPE_LIMITATION si Spearman reproduce 0.6094 (+-0.005); NO_GO=P0 si no"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "data/pdbbind/INDEX_refined_data.2020.faseA_20260813_184439": "1c52a9b7631cc11a31c6b3344ececa3de8a9087c86ab3e6c5a30dc69861de02d",
+    "rescoring/artifacts/split_config.json": "5fc4e589b78311ae12eb1d5e51eef51d39cc218c7a9c9d033880bdfb031fb3d5"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/AF-01/DESIGN.md": "5b2b053cebedf16f1a6d756ce1c5abb35b14ea1558f867b6ef8219ae3a0ddb94",
+    "scripts/artifacts_science/AF-01/metrics.json": "c9b6983c0caef4f2c2e72e787d0e80081eafe92f0f429705cdb001fc17a4c822",
+    "scripts/artifacts_science/AF-01/metrics_estratos.json": "ca4f2797b9cc45cb55cd8a62559dada9118267d4bbbe6dc8435aeb11d36bcc13",
+    "scripts/artifacts_science/AF-01/estratos_report.txt": "c5b9f28ac69fe44b283b19ed87e5aa758babddea13437702767e0ce0becd66a5",
+    "scripts/artifacts_science/AF-01/per_complex.jsonl": "996c02c055580f5fbf82cb7e896e0d392d9db2d55ea373fccd65c17e62415478",
+    "scripts/artifacts_science/AF-01/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/AF-01/training_report.json": "d449a0923282ea37cba79d262530daca995e39653b69615257d1d8c55eaf80ee",
+    "scripts/artifacts_science/AF-01/evaluation_report.json": "cbf09e4f5a10eea4eae3916b4641ad396ef0977cbe94a97db9a0f4cd0fd9dec2",
+    "scripts/artifacts_science/AF-01/af01_stratify.py": "339ecf03de8d209411fc1177d75f24d78dda8d57a0aa5811e1650ded0e6a32dd",
+    "scripts/af01_stratify.py": "339ecf03de8d209411fc1177d75f24d78dda8d57a0aa5811e1650ded0e6a32dd",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T04:18:32.361077+00:00",
+  "decision_rationale": "AF-01 replica sellada de Fase A: Spearman 0.6094 reproducido con delta 0.0 (CI95 0.5282-0.6791, n=328, seed 42, inputs congelados); REPRODUCED_WITH_SCOPE_LIMITATION â€” solapamiento por receptor documentado (estratos 179/55/94: 0.7138/0.3626/0.5395); el resultado NO es receptor-disjoint ni universal sobre targets nuevos; 0.8732 permanece INVALIDATED",
+  "finished_at": "2026-08-16T04:18:41.028268+00:00"
+}

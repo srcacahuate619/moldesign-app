@@ -1,0 +1,346 @@
+{
+ "id": "MF-21",
+ "meta": {
+  "titulo": "El confórmero bueno está, pero diluido entre los malos",
+  "entradilla": "En 23 de los 30 complejos que fallan, el ensemble ya contiene un confórmero a ≤2 Å del bioactivo. La mediana de confórmeros buenos por complejo es 1. Y el primer intento medía poses ya dockeadas."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Si el docking flexible falla, una explicación posible es que la molécula nunca adopte la forma correcta durante la búsqueda. Otra es que la forma correcta ya esté disponible desde el principio, en el ensemble de confórmeros generado antes de dockear, y que la búsqueda la descarte.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La diferencia es operativa: si el material bueno ya existe, el problema es la búsqueda; si no existe, el problema es el generador de confórmeros.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En ",
+     "m": null
+    },
+    {
+     "t": "23 de los 30",
+     "m": "fuerte"
+    },
+    {
+     "t": " complejos que fallan (77%), el ensemble ",
+     "m": null
+    },
+    {
+     "t": "sí contiene",
+     "m": "fuerte"
+    },
+    {
+     "t": " un confórmero a 2 Å o menos del bioactivo, con mediana del mejor en ",
+     "m": null
+    },
+    {
+     "t": "1.364 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El material está. Lo que cambia entre estratos es la ",
+     "m": null
+    },
+    {
+     "t": "densidad",
+     "m": "fuerte"
+    },
+    {
+     "t": ":",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Mediana del mejor confórmero",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Confórmeros bajo 1.5 Å",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Control",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.360 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "6",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Los que fallan",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1.364 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En los complejos que fallan, el confórmero bueno está ",
+     "m": null
+    },
+    {
+     "t": "diluido",
+     "m": "fuerte"
+    },
+    {
+     "t": ": hay uno, entre decenas. En los que funcionan hay seis. La búsqueda tiene seis oportunidades de encontrar la correcta frente a una.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese es el hallazgo, y es lo que da nombre al experimento: el techo del docking rígido está más alto de lo que parecía, porque el material de partida es mejor de lo que se creía.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El corrigendum, incluido en este sello",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La primera versión de este experimento usó un patrón de archivos que también capturaba ficheros llamados ",
+     "m": null
+    },
+    {
+     "t": "conf{N}.relax.rigid.pdbqt",
+     "m": "codigo"
+    },
+    {
+     "t": ". Esos ",
+     "m": null
+    },
+    {
+     "t": "no son confórmeros de entrada",
+     "m": "fuerte"
+    },
+    {
+     "t": ": son poses ya dockeadas y relajadas, es decir, ",
+     "m": null
+    },
+    {
+     "t": "la salida del pipeline",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El efecto era medir lo que el docking consiguió en lugar de lo que el generador ofrece. Consecuencias concretas:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "inflaba el techo de 23 a 24 complejos;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "producía casos espectaculares falsos: un complejo aparecía con un confórmero a ",
+      "m": null
+     },
+     {
+      "t": "0.014 Å",
+      "m": "fuerte"
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "del bioactivo, cifra que habría sido notable. Era una pose relajada, no un confórmero.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Corregido con un patrón estricto. El error es de los más silenciosos que existen: un glob demasiado permisivo que mete la respuesta en el conjunto de partida. No lanza ninguna excepción y produce resultados mejores de lo real.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La advertencia que impide la lectura optimista",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Tener el confórmero a ≤2 Å es condición ",
+     "m": null
+    },
+    {
+     "t": "necesaria, no suficiente",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un experimento posterior lo demostró de la forma más directa posible: en el estrato difícil la tasa de conversión es ",
+     "m": null
+    },
+    {
+     "t": "cero en todas las bandas de calidad conformacional",
+     "m": "fuerte"
+    },
+    {
+     "t": ", incluida la de 0.0–0.5 Å. Siete confórmeros con conformación prácticamente perfecta, y ninguno produjo una pose correcta.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Así que este resultado no dice «el docking rígido resolvería esto». Dice algo más acotado y más útil: ",
+     "m": null
+    },
+    {
+     "t": "el cuello no está en generar la forma correcta",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Está en colocarla.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esa acotación es la que orientó el resto del programa hacia la posición y la orientación, y no hacia el generador de confórmeros.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-21.md"
+}

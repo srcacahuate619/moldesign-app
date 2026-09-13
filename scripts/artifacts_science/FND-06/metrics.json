@@ -1,0 +1,353 @@
+{
+  "n_poses": 4300,
+  "n_sin_provenance": 0,
+  "n_registros": 560,
+  "n_registros_invalidos": 0,
+  "cobertura_por_campo": {
+    "source": {
+      "conocido": 4300,
+      "unknown": 0,
+      "faltante": 0
+    },
+    "seed": {
+      "conocido": 2213,
+      "unknown": 2087,
+      "faltante": 0
+    },
+    "conformer_id": {
+      "conocido": 4300,
+      "unknown": 0,
+      "faltante": 0
+    },
+    "exhaustiveness": {
+      "conocido": 4300,
+      "unknown": 0,
+      "faltante": 0
+    },
+    "num_modes": {
+      "conocido": 4300,
+      "unknown": 0,
+      "faltante": 0
+    },
+    "box": {
+      "conocido": 4300,
+      "unknown": 0,
+      "faltante": 0
+    },
+    "preparation": {
+      "conocido": 4300,
+      "unknown": 0,
+      "faltante": 0
+    },
+    "engine": {
+      "conocido": 4300,
+      "unknown": 0,
+      "faltante": 0
+    },
+    "experiment_id": {
+      "conocido": 4300,
+      "unknown": 0,
+      "faltante": 0
+    },
+    "created_at": {
+      "conocido": 0,
+      "unknown": 4300,
+      "faltante": 0
+    }
+  },
+  "cobertura_por_fuente": {
+    "flexible_redock": {
+      "n_poses": 1534,
+      "sin_provenance": 0,
+      "campos": {
+        "source": {
+          "conocido": 1534,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "seed": {
+          "conocido": 0,
+          "unknown": 1534,
+          "faltante": 0
+        },
+        "conformer_id": {
+          "conocido": 1534,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "exhaustiveness": {
+          "conocido": 1534,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "num_modes": {
+          "conocido": 1534,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "box": {
+          "conocido": 1534,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "preparation": {
+          "conocido": 1534,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "engine": {
+          "conocido": 1534,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "experiment_id": {
+          "conocido": 1534,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "created_at": {
+          "conocido": 0,
+          "unknown": 1534,
+          "faltante": 0
+        }
+      }
+    },
+    "futuro": {
+      "n_poses": 0,
+      "sin_provenance": 0,
+      "campos": {
+        "source": {
+          "conocido": 0,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "seed": {
+          "conocido": 0,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "conformer_id": {
+          "conocido": 0,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "exhaustiveness": {
+          "conocido": 0,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "num_modes": {
+          "conocido": 0,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "box": {
+          "conocido": 0,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "preparation": {
+          "conocido": 0,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "engine": {
+          "conocido": 0,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "experiment_id": {
+          "conocido": 0,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "created_at": {
+          "conocido": 0,
+          "unknown": 0,
+          "faltante": 0
+        }
+      }
+    },
+    "molflex": {
+      "n_poses": 2213,
+      "sin_provenance": 0,
+      "campos": {
+        "source": {
+          "conocido": 2213,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "seed": {
+          "conocido": 2213,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "conformer_id": {
+          "conocido": 2213,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "exhaustiveness": {
+          "conocido": 2213,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "num_modes": {
+          "conocido": 2213,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "box": {
+          "conocido": 2213,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "preparation": {
+          "conocido": 2213,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "engine": {
+          "conocido": 2213,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "experiment_id": {
+          "conocido": 2213,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "created_at": {
+          "conocido": 0,
+          "unknown": 2213,
+          "faltante": 0
+        }
+      }
+    },
+    "ruta_a": {
+      "n_poses": 553,
+      "sin_provenance": 0,
+      "campos": {
+        "source": {
+          "conocido": 553,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "seed": {
+          "conocido": 0,
+          "unknown": 553,
+          "faltante": 0
+        },
+        "conformer_id": {
+          "conocido": 553,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "exhaustiveness": {
+          "conocido": 553,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "num_modes": {
+          "conocido": 553,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "box": {
+          "conocido": 553,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "preparation": {
+          "conocido": 553,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "engine": {
+          "conocido": 553,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "experiment_id": {
+          "conocido": 553,
+          "unknown": 0,
+          "faltante": 0
+        },
+        "created_at": {
+          "conocido": 0,
+          "unknown": 553,
+          "faltante": 0
+        }
+      }
+    }
+  },
+  "poses_completamente_trazables": 0,
+  "poses_parcialmente_trazables": 4300,
+  "pct_poses_completamente_trazables": 0.0,
+  "unknown_por_campo_fuente": {
+    "source": {
+      "flexible_redock": 0,
+      "futuro": 0,
+      "molflex": 0,
+      "ruta_a": 0
+    },
+    "seed": {
+      "flexible_redock": 1534,
+      "futuro": 0,
+      "molflex": 0,
+      "ruta_a": 553
+    },
+    "conformer_id": {
+      "flexible_redock": 0,
+      "futuro": 0,
+      "molflex": 0,
+      "ruta_a": 0
+    },
+    "exhaustiveness": {
+      "flexible_redock": 0,
+      "futuro": 0,
+      "molflex": 0,
+      "ruta_a": 0
+    },
+    "num_modes": {
+      "flexible_redock": 0,
+      "futuro": 0,
+      "molflex": 0,
+      "ruta_a": 0
+    },
+    "box": {
+      "flexible_redock": 0,
+      "futuro": 0,
+      "molflex": 0,
+      "ruta_a": 0
+    },
+    "preparation": {
+      "flexible_redock": 0,
+      "futuro": 0,
+      "molflex": 0,
+      "ruta_a": 0
+    },
+    "engine": {
+      "flexible_redock": 0,
+      "futuro": 0,
+      "molflex": 0,
+      "ruta_a": 0
+    },
+    "experiment_id": {
+      "flexible_redock": 0,
+      "futuro": 0,
+      "molflex": 0,
+      "ruta_a": 0
+    },
+    "created_at": {
+      "flexible_redock": 1534,
+      "futuro": 0,
+      "molflex": 2213,
+      "ruta_a": 553
+    }
+  },
+  "notas": [
+    "Determinista: dos corridas sobre los mismos insumos producen bytes identicos (sin marcas de tiempo).",
+    "Regla del laboratorio: lo irrecuperable se marca 'unknown' con justificacion en failures.jsonl, nunca se inventa."
+  ]
+}

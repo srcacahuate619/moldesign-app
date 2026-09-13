@@ -1,0 +1,553 @@
+{
+ "fecha": "2026-09-02",
+ "criterio": "D5 del expediente: menos de 100 atomos de proteina dentro de la caja de docking. La mediana del catalogo son 669 y el peor caso legitimo tiene 153.",
+ "decision": "del propietario, 2026-09-02",
+ "nota": "La fila completa se guarda aqui: retirar del catalogo no es borrar la evidencia. Reponer un objetivo es copiar `fila_completa` de vuelta a curated_targets.json.",
+ "total": 7,
+ "retirados": [
+  {
+   "pdb_id": "2ONV",
+   "name": "CRYSTAL STRUCTURE OF THE AMYLOID-FIBRIL FORMING PEPTIDE GGVVIA DERIVED",
+   "organismo": "Homo sapiens",
+   "familia": "protein_interaction",
+   "atomos_en_la_caja": 36,
+   "lado_de_la_caja_A": 22.0,
+   "hotspots": 0,
+   "motivo": "cristal de peptido corto, no un receptor: la caja de docking es casi toda vacio y cualquier afinidad calculada contra el carece de significado fisico",
+   "fila_completa": {
+    "pdb_id": "2ONV",
+    "name": "CRYSTAL STRUCTURE OF THE AMYLOID-FIBRIL FORMING PEPTIDE GGVVIA DERIVED",
+    "chain": "A",
+    "description": "Estructura cristalina del péptido formador de fibrillas de amiloide GGVVIA derivado del amiloide Abeta (Abeta37-42) del Alzheimer.",
+    "grid_center_x": 1.634,
+    "grid_center_y": 10.498,
+    "grid_center_z": 1.164,
+    "grid_size_x": 22.0,
+    "grid_size_y": 22.0,
+    "grid_size_z": 22.0,
+    "requires_cns": 0,
+    "structural_family": "protein_interaction",
+    "organism": "Homo sapiens",
+    "resolution": 1.61,
+    "hotspots": null,
+    "affinity_threshold": -7.5,
+    "specificity_floor": 0.5,
+    "is_hot": 0,
+    "spearman_rho": null,
+    "calibration_date": null,
+    "prepared_file_path": "targets/2ONV/prepared.pdbqt",
+    "is_prepared": 1,
+    "cofactors_whitelist": [],
+    "is_private": 0,
+    "is_community": 0,
+    "is_anti_target": 0,
+    "anti_target_risk": null,
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 36
+    },
+    "site_evidence": "box_volume",
+    "site_ligand": null,
+    "hotspots_source": "auto_pocket_top15"
+   }
+  },
+  {
+   "pdb_id": "5TXJ",
+   "name": "POLYMORPHIC FORM 1 OF AMYLOID-BETA DERIVED PEPTIDE - IFAEDV",
+   "organismo": "Homo sapiens",
+   "familia": "protein_interaction",
+   "atomos_en_la_caja": 98,
+   "lado_de_la_caja_A": 22.0,
+   "hotspots": 0,
+   "motivo": "cristal de peptido corto, no un receptor: la caja de docking es casi toda vacio y cualquier afinidad calculada contra el carece de significado fisico",
+   "fila_completa": {
+    "pdb_id": "5TXJ",
+    "name": "POLYMORPHIC FORM 1 OF AMYLOID-BETA DERIVED PEPTIDE - IFAEDV",
+    "chain": "A",
+    "description": "Forma polimórfica 1 del péptido derivado de beta amiloide: IFAEDV. Entidad: péptido derivado de beta-amiloide",
+    "grid_center_x": 1.924,
+    "grid_center_y": -2.409,
+    "grid_center_z": 7.535,
+    "grid_size_x": 22.0,
+    "grid_size_y": 22.0,
+    "grid_size_z": 22.0,
+    "requires_cns": 0,
+    "structural_family": "protein_interaction",
+    "organism": "Homo sapiens",
+    "resolution": 1.13,
+    "hotspots": null,
+    "affinity_threshold": -7.5,
+    "specificity_floor": 0.5,
+    "is_hot": 0,
+    "spearman_rho": null,
+    "calibration_date": null,
+    "prepared_file_path": null,
+    "is_prepared": 1,
+    "cofactors_whitelist": [],
+    "is_private": 0,
+    "is_community": 0,
+    "is_anti_target": 0,
+    "anti_target_risk": null,
+    "site_chains": [
+     "A",
+     "B"
+    ],
+    "site_chain_atoms": {
+     "A": 49,
+     "B": 49
+    },
+    "site_evidence": "box_volume",
+    "site_ligand": null,
+    "hotspots_source": "auto_pocket_top15"
+   }
+  },
+  {
+   "pdb_id": "1TW7",
+   "name": "WIDE OPEN 1.3A STRUCTURE OF A MULTI-DRUG RESISTANT HIV-1 PROTEASE",
+   "organismo": "HUMAN IMMUNODEFICIENCY VIRUS 1",
+   "familia": "protease",
+   "motivo": "Los diez hotspots anotados estan a 16-25 A del sitio: la caja cae sobre la triada catalitica del dimero (B:THR26 y A:THR26 a 2,0 A) y la anotacion describe la region del codo. El docking seria correcto -la preparacion multicadena usa las dos cadenas- pero el dossier nombraria residuos que no participan. Falta reanotar diez hotspots a mano: MolPocket da druggability 0,10 en la cavidad mas cercana y no sirve de guia.",
+   "tanda": 2,
+   "fila_completa": {
+    "pdb_id": "1TW7",
+    "name": "WIDE OPEN 1.3A STRUCTURE OF A MULTI-DRUG RESISTANT HIV-1 PROTEASE",
+    "chain": "A",
+    "description": "La estructura abierta 1.3A de una proteasa del VIH-1 resistente a múltiples fármacos representa un nuevo objetivo farmacológico",
+    "grid_center_x": 0.1,
+    "grid_center_y": 22.45,
+    "grid_center_z": -13.2,
+    "grid_size_x": 25.2,
+    "grid_size_y": 25.2,
+    "grid_size_z": 25.2,
+    "requires_cns": 0,
+    "structural_family": "protease",
+    "organism": "HUMAN IMMUNODEFICIENCY VIRUS 1",
+    "resolution": 1.3,
+    "hotspots": [
+     {
+      "name": "B:LYS14",
+      "importance": 1.0
+     },
+     {
+      "name": "B:LYS70",
+      "importance": 1.0
+     },
+     {
+      "name": "B:GLU65",
+      "importance": 0.88
+     },
+     {
+      "name": "B:PRO63",
+      "importance": 0.81
+     },
+     {
+      "name": "B:ILE64",
+      "importance": 0.81
+     },
+     {
+      "name": "B:VAL71",
+      "importance": 0.75
+     },
+     {
+      "name": "B:ILE15",
+      "importance": 0.62
+     },
+     {
+      "name": "B:GLY16",
+      "importance": 0.59
+     },
+     {
+      "name": "B:GLY17",
+      "importance": 0.59
+     },
+     {
+      "name": "B:GLN18",
+      "importance": 0.56
+     }
+    ],
+    "affinity_threshold": -7.5,
+    "specificity_floor": 0.5,
+    "is_hot": 0,
+    "spearman_rho": null,
+    "calibration_date": null,
+    "prepared_file_path": null,
+    "is_prepared": 1,
+    "cofactors_whitelist": [],
+    "is_private": 0,
+    "is_community": 0,
+    "is_anti_target": 0,
+    "anti_target_risk": null,
+    "site_chains": [
+     "B",
+     "A"
+    ],
+    "site_chain_atoms": {
+     "B": 316,
+     "A": 309
+    },
+    "site_evidence": "box_volume",
+    "site_ligand": null,
+    "hotspots_source": "auto_pocket_top15"
+   }
+  },
+  {
+   "pdb_id": "5T4X",
+   "name": "CRYSTAL STRUCTURE OF PDE6D IN APO-STATE",
+   "organismo": "MUS MUSCULUS",
+   "familia": "phosphodiesterase",
+   "motivo": "PDE6-delta apo. Los hotspots parecen el bolsillo prenilo real, que es su sitio farmacologico, y la caja no cae sobre el. Es el unico de los cinco donde la sospecha recae sobre la CAJA: la cavidad que ofrece el detector esta cerca del centro pero es la 8a de 8, con druggability 0,25.",
+   "tanda": 2,
+   "fila_completa": {
+    "pdb_id": "5T4X",
+    "name": "CRYSTAL STRUCTURE OF PDE6D IN APO-STATE",
+    "chain": "A",
+    "description": "Promueve la liberación de proteínas diana preniladas de las membranas celulares. Modula la actividad de los miembros de la familia Ras prenilados o palmitoilados regulando su ubicación subcelular. Requerido para el direccionamiento ciliar normal de proteínas diana farnesiladas, como INPP5E (por similitud). Requerido para la localización de RAB28 en los segmentos externos de las células del cono en la retina. Modula la ubicación subcelular de las proteínas diana actuando como un inhibidor de disociación específico de GTP (GDI). Aumenta la afinidad de ARL3 por GTP en varios órdenes de magnitud. Estabiliza ARL3-GTP al disminuir la tasa de disociación de nucleótidos.",
+    "grid_center_x": -6.504,
+    "grid_center_y": -6.644,
+    "grid_center_z": 11.21,
+    "grid_size_x": 22.0,
+    "grid_size_y": 22.0,
+    "grid_size_z": 22.0,
+    "requires_cns": 0,
+    "structural_family": "phosphodiesterase",
+    "organism": "MUS MUSCULUS",
+    "resolution": 1.81,
+    "hotspots": [
+     {
+      "name": "A:TRP32",
+      "importance": 1.0
+     },
+     {
+      "name": "A:ILE109",
+      "importance": 0.88
+     },
+     {
+      "name": "A:ALA58",
+      "importance": 0.81
+     },
+     {
+      "name": "A:VAL59",
+      "importance": 0.81
+     },
+     {
+      "name": "A:TRP90",
+      "importance": 0.81
+     },
+     {
+      "name": "A:CYS56",
+      "importance": 0.75
+     },
+     {
+      "name": "A:LYS57",
+      "importance": 0.75
+     },
+     {
+      "name": "A:GLU110",
+      "importance": 0.75
+     },
+     {
+      "name": "A:MET20",
+      "importance": 0.69
+     },
+     {
+      "name": "A:LEU22",
+      "importance": 0.69
+     },
+     {
+      "name": "A:LEU38",
+      "importance": 0.69
+     },
+     {
+      "name": "A:VAL49",
+      "importance": 0.69
+     },
+     {
+      "name": "A:ILE53",
+      "importance": 0.69
+     },
+     {
+      "name": "A:LEU54",
+      "importance": 0.69
+     },
+     {
+      "name": "A:VAL80",
+      "importance": 0.69
+     }
+    ],
+    "affinity_threshold": -7.5,
+    "specificity_floor": 0.5,
+    "is_hot": 0,
+    "spearman_rho": null,
+    "calibration_date": null,
+    "prepared_file_path": null,
+    "is_prepared": 1,
+    "cofactors_whitelist": [],
+    "is_private": 0,
+    "is_community": 0,
+    "is_anti_target": 0,
+    "anti_target_risk": null,
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 482
+    },
+    "site_evidence": "box_volume",
+    "site_ligand": null,
+    "hotspots_source": "auto_pocket_top15"
+   }
+  },
+  {
+   "pdb_id": "5VB8",
+   "name": "CRYSTAL STRUCTURE OF THE NAVAB VOLTAGE-GATED SODIUM CHANNEL IN AN OPEN",
+   "organismo": "ARCOBACTER BUTZLERI",
+   "familia": "ion_channel",
+   "motivo": "Canal de sodio NavAb. El archivo trae UNA cadena y el PDB declara 'AUTHOR DETERMINED BIOLOGICAL UNIT: TETRAMERIC': la unidad hay que generarla con las matrices BIOMT del REMARK 350. El 80,5% de los atomos que deberian estar dentro de la caja pertenecen a las tres copias que faltan, y el centro queda a 10,3 A del atomo mas cercano porque apunta al eje del poro.",
+   "tanda": 2,
+   "fila_completa": {
+    "pdb_id": "5VB8",
+    "name": "CRYSTAL STRUCTURE OF THE NAVAB VOLTAGE-GATED SODIUM CHANNEL IN AN OPEN",
+    "chain": "A",
+    "description": "Estructura cristalina del canal de sodio dependiente de voltaje NavAb en estado abierto. Entidad: Proteína transportadora de iones",
+    "grid_center_x": -75.55,
+    "grid_center_y": -87.44,
+    "grid_center_z": -77.81,
+    "grid_size_x": 39.9,
+    "grid_size_y": 39.9,
+    "grid_size_z": 39.9,
+    "requires_cns": 0,
+    "structural_family": "ion_channel",
+    "organism": "ARCOBACTER BUTZLERI",
+    "resolution": 2.85,
+    "hotspots": null,
+    "affinity_threshold": -7.5,
+    "specificity_floor": 0.5,
+    "is_hot": 1,
+    "spearman_rho": null,
+    "calibration_date": null,
+    "prepared_file_path": null,
+    "is_prepared": 1,
+    "cofactors_whitelist": [],
+    "is_private": 0,
+    "is_community": 0,
+    "is_anti_target": 0,
+    "anti_target_risk": null,
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 516
+    },
+    "site_evidence": "box_volume",
+    "site_ligand": null,
+    "hotspots_source": "auto_pocket_top15"
+   }
+  },
+  {
+   "pdb_id": "6PSD",
+   "name": "Complex of CRACR2a with a Dynein Light Intermediate Chain Peptide",
+   "organismo": "Homo sapiens",
+   "familia": "gtpase",
+   "motivo": "Interfaz de un complejo proteina-proteina (CRACR2a con la cadena intermedia ligera de dineina). Druggability 0,30: una interfaz PPI no es un bolsillo de molecula pequena. Antes de anotarlo hay que decidir si un objetivo asi pertenece a un catalogo de docking.",
+   "tanda": 2,
+   "fila_completa": {
+    "pdb_id": "6PSD",
+    "name": "Complex of CRACR2a with a Dynein Light Intermediate Chain Peptide",
+    "chain": "K",
+    "description": "Proteína de unión a Ca(2+) que desempeña un papel clave en la entrada de Ca(2+) operada por almacén (SOCE) en las células T mediante la regulación de la activación del canal CRAC. Actúa como un sensor de calcio citoplásmico que facilita la agrupación de ORAI1 y STIM1 en las regiones de unión entre la membrana plasmática y el retículo endoplásmico ante una concentración baja de Ca(2+). De este modo, regula la activación del canal CRAC, incluida la translocación y agrupación de ORAI1 y STIM1. Tras el aumento de Ca(2+) citoplasmático resultante de la apertura de los canales CRAC, se disocia de ORAI1 y STIM1, desestabilizando así el complejo ORAI1-STIM1.",
+    "grid_center_x": -12.578,
+    "grid_center_y": 17.225,
+    "grid_center_z": -20.79,
+    "grid_size_x": 22.0,
+    "grid_size_y": 22.0,
+    "grid_size_z": 22.0,
+    "requires_cns": 0,
+    "structural_family": "gtpase",
+    "organism": "Homo sapiens",
+    "resolution": 2.66,
+    "hotspots": [
+     {
+      "name": "K:ARG72",
+      "importance": 1.0
+     },
+     {
+      "name": "E:LYS73",
+      "importance": 0.91
+     },
+     {
+      "name": "K:GLU90",
+      "importance": 0.91
+     },
+     {
+      "name": "K:PHE93",
+      "importance": 0.91
+     },
+     {
+      "name": "K:ASP91",
+      "importance": 0.86
+     },
+     {
+      "name": "K:ASP94",
+      "importance": 0.86
+     },
+     {
+      "name": "I:ARG72",
+      "importance": 0.82
+     },
+     {
+      "name": "I:TYR103",
+      "importance": 0.82
+     },
+     {
+      "name": "K:ASP97",
+      "importance": 0.82
+     },
+     {
+      "name": "E:ASP74",
+      "importance": 0.77
+     },
+     {
+      "name": "E:ARG77",
+      "importance": 0.77
+     },
+     {
+      "name": "K:GLN76",
+      "importance": 0.73
+     },
+     {
+      "name": "K:GLY100",
+      "importance": 0.68
+     },
+     {
+      "name": "E:LYS67",
+      "importance": 0.64
+     },
+     {
+      "name": "E:GLN76",
+      "importance": 0.64
+     }
+    ],
+    "affinity_threshold": -7.5,
+    "specificity_floor": 0.5,
+    "is_hot": 1,
+    "spearman_rho": null,
+    "calibration_date": null,
+    "prepared_file_path": null,
+    "is_prepared": 1,
+    "cofactors_whitelist": [],
+    "is_private": 0,
+    "is_community": 0,
+    "is_anti_target": 0,
+    "anti_target_risk": null,
+    "site_chains": [
+     "K",
+     "L"
+    ],
+    "site_chain_atoms": {
+     "K": 242,
+     "L": 98
+    },
+    "site_evidence": "box_volume",
+    "site_ligand": null,
+    "hotspots_source": "auto_pocket_top15"
+   }
+  },
+  {
+   "pdb_id": "6VU4",
+   "name": "STRUCTURE OF A BETA-HAIRPIN PEPTIDE MIMIC DERIVED FROM ABETA 14-36",
+   "organismo": "Homo sapiens",
+   "familia": "protein_interaction",
+   "motivo": "Mimico peptidico beta-hairpin: 28 residuos entre dos cadenas. El MEA que hay en la caja es un aditivo de cristalizacion, no un ligando. Misma categoria que 2ONV y 5TXJ; se salvo del filtro D5 por tener 452 atomos en la caja frente a los 36 de 2ONV.",
+   "tanda": 2,
+   "fila_completa": {
+    "pdb_id": "6VU4",
+    "name": "STRUCTURE OF A BETA-HAIRPIN PEPTIDE MIMIC DERIVED FROM ABETA 14-36",
+    "chain": "A",
+    "description": "Estructura de un imitador de péptido beta-horquilla derivado de Abeta 14-36. Entidad: Imitador del péptido precursor beta-amiloide beta-horquilla",
+    "grid_center_x": 114.134,
+    "grid_center_y": 30.797,
+    "grid_center_z": 104.387,
+    "grid_size_x": 30.0,
+    "grid_size_y": 30.0,
+    "grid_size_z": 30.0,
+    "requires_cns": 0,
+    "structural_family": "protein_interaction",
+    "organism": "Homo sapiens",
+    "resolution": 2.08,
+    "hotspots": [
+     {
+      "name": "C:VAL5",
+      "importance": 1.0
+     },
+     {
+      "name": "C:PHE7",
+      "importance": 0.88
+     },
+     {
+      "name": "C:LEU4",
+      "importance": 0.78
+     },
+     {
+      "name": "C:GLY14",
+      "importance": 0.73
+     },
+     {
+      "name": "C:ILE12",
+      "importance": 0.69
+     },
+     {
+      "name": "C:ILE13",
+      "importance": 0.62
+     },
+     {
+      "name": "A:ILE12",
+      "importance": 0.62
+     },
+     {
+      "name": "C:ALA8",
+      "importance": 0.51
+     },
+     {
+      "name": "C:LEU15",
+      "importance": 0.51
+     }
+    ],
+    "affinity_threshold": -7.5,
+    "specificity_floor": 0.5,
+    "is_hot": 1,
+    "spearman_rho": null,
+    "calibration_date": null,
+    "prepared_file_path": null,
+    "is_prepared": 1,
+    "cofactors_whitelist": [],
+    "is_private": 0,
+    "is_community": 0,
+    "is_anti_target": 0,
+    "anti_target_risk": null,
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 65
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "MEA",
+    "hotspots_source": "auto_pocket_top15"
+   }
+  }
+ ],
+ "tanda_2": {
+  "fecha": "2026-09-03",
+  "criterio": "los cinco que el expediente no pudo cerrar. NINGUNO es un fallo de codigo: los cinco exigen una decision cientifica, y dos -6PSD y 6VU4- son de alcance de producto (que cuenta como receptor).",
+  "reversible": "`fila_completa` guarda la fila entera. Reponer un objetivo es copiarla de vuelta a curated_targets.json.",
+  "pdb_ids": [
+   "1TW7",
+   "5T4X",
+   "5VB8",
+   "6PSD",
+   "6VU4"
+  ]
+ }
+}

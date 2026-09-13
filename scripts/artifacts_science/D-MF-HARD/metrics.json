@@ -1,0 +1,209 @@
+{
+  "anomalias": {
+    "n": 0,
+    "nota": "anomalías no fatales documentadas en failures.jsonl"
+  },
+  "denylist": {
+    "fuente": "scripts/artifacts_science/FND-05/denylist_pids.json",
+    "interseccion_con_cohorte": 0,
+    "interseccion_con_universo": 0,
+    "n": 112
+  },
+  "determinismo": {
+    "nota": "sin aleatoriedad ni dependencia del orden de iteración; dos corridas producen cohort.jsonl y metrics.json byte-idénticos (verificado externamente con sha256)"
+  },
+  "entregable": 6,
+  "experiment": "D-MF-HARD",
+  "hashes_entrada": {
+    "artifacts_molflex_v1": "82d03ce23264669c73f5002cc867c79040344ad2949b8dbccf22c712ffe82955",
+    "denylist": "93186207643f54c73af186ddaf64f5442d6a58dfdfa3b973c63b83bd3daf35dd",
+    "mf01_per_complex": "441b473bf0b7cab74d4fb1927cc52c51b8f9e293a38f723cb6d20ca92eddd4e4",
+    "protocolo_40": "3eae6ae03540b2b333a864b506930ea79e5f01af96938f4de6bc2018824894a8",
+    "union_labels_train": "19843afd49135f30297884ce56889312a4f34b6f75cd708127eca1789338bfbb",
+    "union_labels_val": "bb9ff2642e31023d0ffb8459067d10b9fa4dc7f0fd25cf675111a7efcc2976ab"
+  },
+  "historical_timeout": {
+    "fuente": "scripts/artifacts_molflex_v1.json (V1 = 10 de los 74 fallidos del redock Fase B, todos vina_timeout_300s) + auditoría docs/40_MOLFLEX_PROTOCOL.md",
+    "n": 1,
+    "pids": [
+      "1aaq"
+    ],
+    "prohibicion_aplicada": "no se infirió timeout desde n_poses == 0"
+  },
+  "ligand_size": {
+    "cobertura": "44/44",
+    "fuente": "SDF cristalográfico data/pdbbind/{pid}/{pid}_ligand.sdf",
+    "n_null": 0
+  },
+  "low_yield": {
+    "n": 5,
+    "pids": [
+      "1b4z",
+      "1fd0",
+      "1flr",
+      "1n0s",
+      "1nvq"
+    ],
+    "tipo": "indicador TÉCNICO de pocas poses válidas",
+    "umbral": "n_poses_total <= 5 (unión MF-01-UNION)"
+  },
+  "matching": {
+    "delta_mw": {
+      "media": 153.855,
+      "rango": [
+        22.641,
+        282.906
+      ],
+      "suma": 3384.811
+    },
+    "delta_n_heavy": {
+      "media": 10.591,
+      "rango": [
+        0,
+        17
+      ],
+      "suma": 233
+    },
+    "metodo": "greedy estable: hards en orden (n_heavy desc, MW desc, pid asc); cada hard toma el control libre de su split con mínimo (|Δn_heavy|, |ΔMW|, |Δn_residuos|, pid) lexicográfico",
+    "n_pares": 22,
+    "por_split": {
+      "train": {
+        "delta_mw": {
+          "media": 186.611,
+          "rango": [
+            76.034,
+            282.906
+          ],
+          "suma": 3172.381
+        },
+        "delta_n_heavy": {
+          "media": 12.941,
+          "rango": [
+            8,
+            17
+          ],
+          "suma": 220
+        },
+        "n_pares": 17
+      },
+      "val": {
+        "delta_mw": {
+          "media": 42.486,
+          "rango": [
+            22.641,
+            66.047
+          ],
+          "suma": 212.43
+        },
+        "delta_n_heavy": {
+          "media": 2.6,
+          "rango": [
+            0,
+            5
+          ],
+          "suma": 13
+        },
+        "n_pares": 5
+      }
+    },
+    "sin_reemplazo": true
+  },
+  "oracle_gap": {
+    "n": 13,
+    "pids": [
+      "1aaq",
+      "1afk",
+      "1afl",
+      "1apv",
+      "1cny",
+      "1jq8",
+      "1njs",
+      "1bgq",
+      "1fki",
+      "1fv0",
+      "1hp5",
+      "1m2x",
+      "1nm6"
+    ],
+    "rol": "SECUNDARIO — dependiente de etiqueta; no decide membresía, matching ni parámetros",
+    "umbral": "min rmsd > 2.0 Å (union_labels_*.jsonl)"
+  },
+  "receptor_size": {
+    "cobertura": "44/44",
+    "fuente": "n residuos (ATOM, por cadena+resSeq+iCode) de data/pdbbind/{pid}/{pid}_protein.pdb",
+    "n_null": 0
+  },
+  "strata": {
+    "control": {
+      "criterio": "rot_bonds <= 4, emparejados sin reemplazo dentro de cada split",
+      "n": 22,
+      "pids": [
+        "1alw",
+        "1bgq",
+        "1bju",
+        "1bm7",
+        "1bn3",
+        "1ejn",
+        "1f4e",
+        "1fd0",
+        "1fki",
+        "1flr",
+        "1fv0",
+        "1gpn",
+        "1hlk",
+        "1hp5",
+        "1i7z",
+        "1lrh",
+        "1m2x",
+        "1n0s",
+        "1nm6",
+        "1np0",
+        "1nq7",
+        "1nvq"
+      ],
+      "train": 17,
+      "val": 5
+    },
+    "hard": {
+      "criterio": "rot_bonds >= 15",
+      "n": 22,
+      "pids": [
+        "1aaq",
+        "1afk",
+        "1afl",
+        "1apv",
+        "1b2h",
+        "1b32",
+        "1b38",
+        "1b46",
+        "1b4z",
+        "1bxr",
+        "1cny",
+        "1hih",
+        "1hii",
+        "1hmr",
+        "1hms",
+        "1hmt",
+        "1hn4",
+        "1j4r",
+        "1jlr",
+        "1jn4",
+        "1jq8",
+        "1njs"
+      ],
+      "train": 17,
+      "val": 5
+    }
+  },
+  "test_historico": {
+    "archivos_leidos": 0,
+    "interseccion": 0,
+    "nota": "no se lee ningún archivo de test; por construcción todos los pids seleccionados pertenecen al universo 156 train+val y la biyección pids(unión)==pids(universo) lo verifica"
+  },
+  "universe": {
+    "fuente": "scripts/artifacts_science/MF-01/per_complex.jsonl",
+    "n_total": 156,
+    "n_train": 116,
+    "n_val": 40
+  }
+}

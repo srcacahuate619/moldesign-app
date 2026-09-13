@@ -1,0 +1,98 @@
+{
+ "experiment_id": "MF-14",
+ "tipo": "medicion con regla de lectura preregistrada",
+ "timestamp": "2026-08-18T21:14:16.851946+00:00",
+ "duration_seconds": 2484.77,
+ "config": {
+  "radios": [
+   0.5,
+   1.0,
+   2.0,
+   3.0,
+   4.0
+  ],
+  "replicas": 6,
+  "angulo_max_grados": 30.0,
+  "seed": 42,
+  "box": 25.0
+ },
+ "n_complejos": 48,
+ "n_ok": 48,
+ "resumen": {
+  "COLOCACION": {
+   "n_complejos": 33,
+   "curva_retorno": {
+    "0.5": {
+     "n": 198,
+     "vuelven": 154,
+     "frac": 0.7778
+    },
+    "1.0": {
+     "n": 198,
+     "vuelven": 144,
+     "frac": 0.7273
+    },
+    "2.0": {
+     "n": 198,
+     "vuelven": 101,
+     "frac": 0.5101
+    },
+    "3.0": {
+     "n": 198,
+     "vuelven": 60,
+     "frac": 0.303
+    },
+    "4.0": {
+     "n": 198,
+     "vuelven": 27,
+     "frac": 0.1364
+    }
+   },
+   "r50_mediano": 2.0,
+   "complejos_sin_r50": 4
+  },
+  "CONTROL": {
+   "n_complejos": 15,
+   "curva_retorno": {
+    "0.5": {
+     "n": 90,
+     "vuelven": 87,
+     "frac": 0.9667
+    },
+    "1.0": {
+     "n": 90,
+     "vuelven": 83,
+     "frac": 0.9222
+    },
+    "2.0": {
+     "n": 90,
+     "vuelven": 65,
+     "frac": 0.7222
+    },
+    "3.0": {
+     "n": 90,
+     "vuelven": 36,
+     "frac": 0.4
+    },
+    "4.0": {
+     "n": 90,
+     "vuelven": 21,
+     "frac": 0.2333
+    }
+   },
+   "r50_mediano": 3.0,
+   "complejos_sin_r50": 0
+  }
+ },
+ "gates": {
+  "G1_validez": {
+   "criterio": ">=95% de las perturbaciones producen pose final",
+   "tasa": 1.0
+  },
+  "G2_radio": {
+   "criterio": "r50 mediano de COLOCACION",
+   "r50_mediano": 2.0,
+   "lectura": "<=1.0 A => cuenca ESTRECHA: ninguna busqueda global la encuentra por azar y eso explica MF-08/MF-02F/MF-09/MF-10. >=3.0 A => cuenca ANCHA: el muestreador deberia caer en ella y el defecto es del muestreador. 1-3 A => intermedio"
+  }
+ }
+}

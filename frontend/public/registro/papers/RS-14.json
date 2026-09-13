@@ -1,0 +1,443 @@
+{
+ "id": "RS-14",
+ "meta": {
+  "titulo": "El selector aprende señal real, y aun así no sirve",
+  "entradilla": "Rinde tres veces por encima del azar, así que no memoriza ruido. Pero lo que aprende no añade nada sobre la puntuación cruda de Vina, y el diseño no podía detectar menos de 10 puntos."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La apuesta era vieja y razonable: Vina puntúa poses con una función empírica de 2009. Un modelo entrenado sobre 233 características por pose debería poder ordenarlas mejor.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un intento anterior había fallado, y el diagnóstico fue que el problema era el ",
+     "m": null
+    },
+    {
+     "t": "denominador",
+     "m": "fuerte"
+    },
+    {
+     "t": ": con unos 9 candidatos por complejo apenas había nada que ordenar. La regla del laboratorio exige que, para reabrir una línea cerrada, se declare qué cambia en el denominador. ",
+     "m": null
+    },
+    {
+     "t": "RC-F0-V2",
+     "m": "codigo"
+    },
+    {
+     "t": " lo cambió: reconstruyó el conjunto entero, subió la cobertura de 67.2% a 79.3% y llevó la tarea de ordenar ~9 candidatos a ordenar ",
+     "m": null
+    },
+    {
+     "t": "~169",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento es la reapertura.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Precisión condicional",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Selector",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.4312",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Baseline ",
+       "m": null
+      },
+      {
+       "t": "vina_score",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "0.4783",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Diferencia pareada",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−0.0471",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "CI95",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[−0.1522, +0.0617]",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El gate exigía superioridad demostrada con un intervalo que excluyera el cero. No la hay.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Tres matices que el NO_GO no debe ocultar",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "1. El selector sí aprende señal real.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Con 200 permutaciones que barajan las etiquetas dentro de cada complejo, el nulo tiene media 0.104 y percentil 95 en 0.163. El selector alcanza 0.431, con p empírico 0.0 — casi ",
+     "m": null
+    },
+    {
+     "t": "tres veces",
+     "m": "fuerte"
+    },
+    {
+     "t": " por encima del azar. En el régimen p > n que temíamos, el modelo no está memorizando ruido.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2. El intervalo cruza el cero.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La lectura honesta no es «el selector pierde», es «el selector empata dentro del ruido» y el gate exigía ganar. Así se preregistró.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "3. Lo que aprende no añade nada sobre el score de Vina.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Esa es la conclusión, y es distinta de las dos anteriores.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El hallazgo operativo, que resultó valer más que el resultado",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con 92 complejos cubiertos, la diferencia observada equivale a ",
+     "m": null
+    },
+    {
+     "t": "4.3 complejos",
+     "m": "fuerte"
+    },
+    {
+     "t": " y un intervalo de ±0.10 equivale a ",
+     "m": null
+    },
+    {
+     "t": "9",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Es decir:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Este diseño no puede detectar diferencias menores a unos 10 puntos porcentuales.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y más semillas, más features o más árboles ",
+     "m": null
+    },
+    {
+     "t": "no lo arreglan",
+     "m": "fuerte"
+    },
+    {
+     "t": ", porque la incertidumbre viene del número de complejos, no del modelo. La variabilidad entre semillas —0.467, 0.380, 0.446— tiene un rango de 0.087, casi el doble de la diferencia con el baseline. Es otra manifestación del mismo límite.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Harían falta unas cuatro veces más complejos para resolver diferencias de 5 puntos. Eso confirma cuantitativamente lo que la regla de futilidad afirmaba cualitativamente: ",
+     "m": null
+    },
+    {
+     "t": "la palanca es multiplicar complejos, no señales.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "FND-04",
+     "m": "codigo"
+    },
+    {
+     "t": " afinó después este número con una implementación independiente y lo empeoró: el diseño sólo podía detectar ",
+     "m": null
+    },
+    {
+     "t": "22.3 pp",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no ~10, y harían falta ",
+     "m": null
+    },
+    {
+     "t": "1,972",
+     "m": "fuerte"
+    },
+    {
+     "t": " complejos, no ~370.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El contraste que duele",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-09",
+     "m": "codigo"
+    },
+    {
+     "t": " había medido que en el estrato de control ",
+     "m": null
+    },
+    {
+     "t": "8 de 15 complejos tienen la pose correcta disponible",
+     "m": "fuerte"
+    },
+    {
+     "t": ", el top-1 por score no la elige, pero sí está entre las cinco primeras.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "O sea: el margen existe. Está ahí, en los datos, esperando a que alguien lo capture. Y el selector no lo captura.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo que sí lo captura es entregar cinco poses en vez de una — que es lo que ",
+     "m": null
+    },
+    {
+     "t": "FEP-04",
+     "m": "codigo"
+    },
+    {
+     "t": " midió después y lo que se convirtió en decisión de producto. La solución no era un modelo mejor. Era dejar de fingir que hay que elegir una.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Consecuencia",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La cartera se reabrió con el denominador corregido, que era la condición exigida, y el resultado es que ",
+     "m": null
+    },
+    {
+     "t": "el problema no era el denominador",
+     "m": "fuerte"
+    },
+    {
+     "t": ": el espacio de características actual está agotado frente a ",
+     "m": null
+    },
+    {
+     "t": "vina_score",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No se tocaron ",
+     "m": null
+    },
+    {
+     "t": "val",
+     "m": "codigo"
+    },
+    {
+     "t": " ni ",
+     "m": null
+    },
+    {
+     "t": "test",
+     "m": "codigo"
+    },
+    {
+     "t": ". Un NO_GO en ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": " no consume el confirmatorio.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/RS-14.md"
+}

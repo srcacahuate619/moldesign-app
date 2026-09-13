@@ -1,0 +1,43 @@
+{
+  "abstenciones": {
+    "sin_gnn_d": {
+      "componentes_ausentes": [
+        "gnn_d"
+      ],
+      "estado": "NOT_EVALUATED_MISSING_COMPONENT",
+      "m5_score": null,
+      "nota": "CA2 requiere GNN-D. No se sustituye por CL-GNN ni se redistribuyen sus pesos (§4.1 del ADR 75)."
+    },
+    "sin_zinc_confirmado": {
+      "componentes_ausentes": [
+        "zinc_confirmado"
+      ],
+      "estado": "REVIEW_OUT_OF_VALIDATED_TARGET",
+      "m5_score": null,
+      "nota": "Un warhead del ligando es una feature, no una condición suficiente (§8 del ADR 75)."
+    }
+  },
+  "entrada": {
+    "gnn_d_prob": 0.66,
+    "hay_zinc_confirmado": true,
+    "pdb_id": "3DC3",
+    "smiles": "CC(=O)Nc1nnc(S(N)(=O)=O)s1",
+    "vina_kcal_mol": -7.2,
+    "xgb_prob": 0.84
+  },
+  "formula": "0.20*Vina_norm + 0.20*XGBoost + 0.20*GNN-D + 0.40*UMS_warhead",
+  "golden_version": 1,
+  "protocolo": "M5_ZN_CA2_3DC3_V1",
+  "resultado": {
+    "componentes_ausentes": [],
+    "estado": "VALIDATED_PROFILE",
+    "m5_score": 0.804466,
+    "señales": {
+      "gnn_d_prob": 0.66,
+      "n_warheads": 2,
+      "ums_warhead": 0.9166666666666666,
+      "vina_kcal_mol": -7.2,
+      "xgb_prob": 0.84
+    }
+  }
+}

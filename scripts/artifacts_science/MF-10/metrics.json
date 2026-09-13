@@ -1,0 +1,89 @@
+{
+ "experiment_id": "MF-10",
+ "timestamp": "2026-08-18T14:58:00.586104+00:00",
+ "duration_seconds": 26035.34,
+ "sondeo": {
+  "ok": true,
+  "pid": "10gs",
+  "energia_kcal": -8212.81,
+  "n_atomos_ligando": 33,
+  "t_s": 8.0
+ },
+ "config": {
+  "max_poses_por_complejo": 20,
+  "k_restraint_kcal_A2": 100.0,
+  "max_iter": 500,
+  "ff": "amber14-all + openff-2.2.1 (SMIRNOFF)",
+  "cargas": "openff-gnn-am1bcc-1.0.0 (NAGL, validado en RS-03-PARAM-A)"
+ },
+ "n_complejos": 48,
+ "n_poses_relajadas": 714,
+ "n_errores": 164,
+ "delta_rmsd": {
+  "mediana": 0.007,
+  "mejoran": 337,
+  "empeoran": 374
+ },
+ "banda_2_3A": {
+  "n": 64,
+  "delta_mediano": -0.069,
+  "cruzan": 9
+ },
+ "cruzan_umbral": 9,
+ "energias_finitas": 714,
+ "errores_ejemplo": [
+  {
+   "score": -8.068,
+   "rmsd_antes": 9.02,
+   "error": "ValueError:  and bonds in the residue match NVAL, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template",
+   "t_s": 3.2
+  },
+  {
+   "score": -7.977,
+   "rmsd_antes": 7.444,
+   "error": "ValueError:  and bonds in the residue match NVAL, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template",
+   "t_s": 2.0
+  },
+  {
+   "score": -7.808,
+   "rmsd_antes": 6.985,
+   "error": "ValueError:  and bonds in the residue match NVAL, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template",
+   "t_s": 2.2
+  },
+  {
+   "score": -7.779,
+   "rmsd_antes": 12.49,
+   "error": "ValueError:  and bonds in the residue match NVAL, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template",
+   "t_s": 2.2
+  },
+  {
+   "score": -7.774,
+   "rmsd_antes": 8.019,
+   "error": "ValueError:  and bonds in the residue match NVAL, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template",
+   "t_s": 2.2
+  }
+ ],
+ "gates": {
+  "G1_capacidad": {
+   "criterio": "el stack parametriza proteina+ligando con Sage 2.2.1",
+   "pass": true
+  },
+  "G2_validez": {
+   "criterio": ">=95% de poses relajadas con energia finita",
+   "tasa": 0.8132,
+   "pass": false
+  },
+  "G3_mejora": {
+   "criterio": "la mediana de delta RMSD es negativa (la relajacion acerca)",
+   "mediana": 0.007,
+   "pass": false
+  },
+  "G4_conversion": {
+   "criterio": "al menos 5 poses de la banda 2-3 A cruzan el umbral",
+   "cruzan": 9,
+   "de": 64,
+   "pass": true
+  }
+ },
+ "decision": "NO_GO"
+}

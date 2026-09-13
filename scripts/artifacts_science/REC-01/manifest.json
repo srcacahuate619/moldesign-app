@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "experiment_id": "REC-01",
+  "hypothesis": "Los grids del catalogo de 387 targets contienen un subconjunto acotado y reproducible de casos desalineados respecto al sitio de union real; auditarlos separando HOLO (con ligando nativo como ground truth) de APO (sin ground truth directo) produce una lista de excepciones accionable sin re-docking.",
+  "protocol": "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md seccion 7 (Cartera B, REC-01); reutiliza backend/scripts/audit_grid_hotspots.py y docs/35_GRID_APO_5TUN_PENDIENTE.md",
+  "created_at": "2026-08-17T06:38:40.133632+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "93541c9dc610d56014d19b73a2b72527d36abe41",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 cobertura 100% de los 387 targets auditados (0 omitidos silenciosos); G2 clasificacion HOLO/APO deterministica y reproducible; G3 lista de excepciones con criterio numerico preregistrado; G4 determinismo bit-a-bit entre dos corridas; G5 cero escrituras en catalogo/DB/produccion"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "curated_targets.json": "ba8654ebce79c35eebe77d5c0589155fbf569df48f3349b9e965ea2ce491c7c2"
+  },
+  "assets_hashes": {
+    "scripts/run_rec01_grid_audit.py": "e244a76a8682fe314580f3d0742e5575b315285a9e04562be6520543eda9f26f",
+    "backend/scripts/audit_grid_hotspots.py": "64a7a12397d879f730fecc30cc69e92224ac479c12ce5a6071da17188c25195c",
+    "scripts/artifacts_science/REC-01/per_complex.jsonl": "3f4da5ab35391e235fa2518274a472f93378711ca34846709080f8191d0eee23",
+    "scripts/artifacts_science/REC-01/metrics.json": "4cff8c362fcaf4e8ebe54859b33f923f5c6dd3c6f0071f68065a99edfa76a308",
+    "scripts/artifacts_science/REC-01/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/REC-01/PREREGISTRO.md": "d67486335f4c728c14f05541de15b793d7c8d83f3a5827f98157feefbee1d69e",
+    "scripts/artifacts_science/REC-01/LECTURA.md": "d80662b7711f78617597688bb80701128c6a02e72d31a58f941fd8e2e7f417d2"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T06:39:39.270866+00:00",
+  "decision_rationale": "Los cinco gates del instrumento pasan: G1 cobertura 387/387 sin omisiones ni fallos; G2 estrato deterministico en todos; G3 toda excepcion con codigo E1-E7 y valor disparador; G4 determinismo byte-identico en tres corridas incluida una tras reconstruir el directorio (sha 3f4da5ab); G5 catalogo y CSV con SHA-256 intacto. GO = la auditoria es valida y reproducible, NO que el catalogo este sano. Resultado: 57/387 targets con excepcion (14.7%), 25 con grid a mas de 15 A del ligando nativo y 23 con contencion de ligando 0.00 (la caja no contiene ni un atomo del sitio real) — ~4.75x el orden de magnitud de los '12 grids problematicos' que asumia el doc 49 seccion 7. HALLAZGO NEGATIVO DECLARADO: el caso testigo 5TUN del doc 35 NO fue capturado (contencion_hotspots 0.800 en la frontera exacta del umbral y ground truth debil por ser APO), pese a tener un hotspot 5.147 A fuera de la caja; siguiendo el preregistro el umbral NO se ajusta y la correccion pasa a REC-01-R1 con el codigo E8_HOTSPOT_FUERA_DE_CAJA, que capturaria 52 targets hoy invisibles (57 -> 109, 14.7% -> 28.2%). Sin docking, sin red, cero escrituras fuera del directorio del experimento.",
+  "finished_at": "2026-08-17T06:39:50.544226+00:00",
+  "duration_seconds": 47.0
+}

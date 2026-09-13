@@ -1,0 +1,52 @@
+{
+ "experiment_id": "RC-F0-SYM",
+ "tipo": "medicion (relectura del material de RC-F0-V2, sin computo nuevo, sin selector)",
+ "timestamp": "2026-08-18T18:40:56.628921+00:00",
+ "duration_seconds": 7.89,
+ "umbral_A": 2.0,
+ "alcance": "solo poses de fuente molflex (94% del conjunto) son recomputables; las de flexible_redock y ruta_a conservan su RMSD ingenuo, por lo que la cobertura corregida es una COTA INFERIOR",
+ "n_complejos": 203,
+ "n_ok": 203,
+ "resumen": {
+  "test": {
+   "n_complejos": 47,
+   "n_poses_recomputadas": 7445,
+   "reproduccion_ok": true,
+   "repro_err_max": 0.0005,
+   "cobertura_ingenua": 0.9787,
+   "cobertura_corregida": 0.9787,
+   "n_cubiertos_ingenuo": 46,
+   "n_cubiertos_corregido": 46,
+   "complejos_que_ganan": [],
+   "poses_que_cruzan": 36,
+   "sesgo_max": 1.689
+  },
+  "train": {
+   "n_complejos": 116,
+   "n_poses_recomputadas": 17669,
+   "reproduccion_ok": true,
+   "repro_err_max": 0.0005,
+   "cobertura_ingenua": 0.7931,
+   "cobertura_corregida": 0.7931,
+   "n_cubiertos_ingenuo": 92,
+   "n_cubiertos_corregido": 92,
+   "complejos_que_ganan": [],
+   "poses_que_cruzan": 75,
+   "sesgo_max": 10.71
+  },
+  "val": {
+   "n_complejos": 40,
+   "n_poses_recomputadas": 7101,
+   "reproduccion_ok": true,
+   "repro_err_max": 0.0005,
+   "cobertura_ingenua": 0.875,
+   "cobertura_corregida": 0.875,
+   "n_cubiertos_ingenuo": 35,
+   "n_cubiertos_corregido": 35,
+   "complejos_que_ganan": [],
+   "poses_que_cruzan": 9,
+   "sesgo_max": 3.797
+  }
+ },
+ "errores": []
+}

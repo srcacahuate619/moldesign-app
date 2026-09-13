@@ -1,0 +1,80 @@
+pdb_id,name,chain,family,area,grid_cx,grid_cy,grid_cz,grid_sx,grid_sy,grid_sz,hotspots,grid_center_x,grid_center_y,grid_center_z
+7E2Y,5-HT1A Serotonin Receptor,R,gpcr,CNS,103.030,114.790,108.360,40.0,40.0,40.0,15,103.030,114.790,108.360
+6X1A,GLP-1R TMD,R,gpcr,Metabolic,131.347,116.776,155.038,30.0,30.0,30.0,15,131.347,116.776,155.038
+6CM4,mu-Opioid Receptor,A,gpcr,CNS,9.930,5.850,-9.580,23.0,23.0,23.0,15,9.930,5.850,-9.580
+5TGZ,CB1 Cannabinoid Receptor,A,gpcr,CNS,43.640,27.470,318.530,24.0,24.0,24.0,15,43.640,27.470,318.530
+4BVN,A2A Adenosine Receptor,A,gpcr,CNS,-23.650,6.420,14.180,22.0,22.0,22.0,15,-23.650,6.420,14.180
+6PS2,beta-2 Adrenergic Receptor,A,gpcr,Cardiovascular,1.960,3.550,50.480,34.6,34.6,34.6,11,1.960,3.550,50.480
+7DFL,H1 Histamine Receptor,B,gpcr,Allergy,132.659,132.757,158.489,22.9,22.9,22.9,0,132.659,132.757,158.489
+6WHA,M2 Muscarinic Receptor,C,gpcr,CNS,98.126,106.210,94.142,28.8,28.8,28.8,15,98.126,106.210,94.142
+5NDD,CCR5 Chemokine Receptor,A,gpcr,Infectious,16.974,5.926,55.826,26.0,26.0,26.0,15,16.974,5.926,55.826
+6MEO,CXCR4 Chemokine Receptor,G,gpcr,Oncology,145.886,166.486,155.291,27.6,27.6,27.6,0,145.886,166.486,155.291
+7BVQ,AT1 Angiotensin Receptor,A,gpcr,Cardiovascular,21.310,-21.660,2.960,22.0,22.0,22.0,13,21.310,-21.660,2.960
+4PHU,FFA1/GPR40 Free Fatty Acid,A,gpcr,Metabolic,-49.990,-1.940,59.650,30.0,30.0,30.0,15,-49.990,-1.940,59.650
+5ZBH,PAR2 Protease-Activated Receptor,A,gpcr,Inflammation,14.326,23.859,-53.306,37.1,37.1,37.1,15,14.326,23.859,-53.306
+1M17,EGFR Kinase Domain,A,kinase,Oncology,22.014,0.253,52.794,32.5,32.5,32.5,15,22.014,0.253,52.794
+4FK3,BRAF V600E Kinase,B,kinase,Oncology,-1.985,50.204,20.149,32.1,32.1,32.1,15,-1.985,50.204,20.149
+3PP0,CDK4 Cyclin D1,B,kinase,Oncology,17.100,16.550,26.600,22.0,22.0,22.0,15,17.100,16.550,26.600
+4ZZZ,CDK4/Cyclin D1 Complex,A,kinase,Oncology,63.410,6.480,9.590,22.0,22.0,22.0,13,63.410,6.480,9.590
+3WZE,BTK Bruton Tyrosine Kinase,A,kinase,Oncology,22.876,24.550,36.824,37.0,37.0,37.0,15,22.876,24.550,36.824
+3G0E,JAK2 Kinase,A,kinase,Oncology,34.165,-3.628,-78.308,27.8,27.8,27.8,15,34.165,-3.628,-78.308
+4E4N,ALK Anaplastic Lymphoma Kinase,A,kinase,Oncology,5.970,55.550,1.090,22.0,22.0,22.0,15,5.970,55.550,1.090
+2HZI,ABL1 Kinase Imatinib,A,kinase,Oncology,16.200,14.590,3.940,22.0,22.0,22.0,15,16.200,14.590,3.940
+5Z2R,CDK6 Cyclin D3,F,kinase,Oncology,-16.270,-18.460,22.070,22.0,22.0,22.0,15,-16.270,-18.460,22.070
+4BCF,PI3K-delta Catalytic,A,kinase,Oncology,54.296,-18.216,-11.557,29.7,29.7,29.7,15,54.296,-18.216,-11.557
+3GEN,VEGFR2 Kinase,A,kinase,Oncology,-17.360,6.472,-14.948,30.9,30.9,30.9,15,-17.360,6.472,-14.948
+6GUE,FGFR1 Kinase,A,kinase,Oncology,-6.240,-22.230,22.670,22.0,22.0,22.0,15,-6.240,-22.230,22.670
+5QTS,MEK1 Kinase,B,kinase,Oncology,-10.140,-5.850,-0.740,29.0,29.0,29.0,5,-10.140,-5.850,-0.740
+4AUA,AKT1/PKB Kinase,A,kinase,Oncology,22.700,34.786,-9.209,27.6,27.6,27.6,15,22.700,34.786,-9.209
+3ERT,ER-alpha LBD Tamoxifen,A,nuclear_receptor,Oncology,31.575,-1.590,25.599,22.0,22.0,22.0,15,31.575,-1.590,25.599
+5L2I,ER-alpha LBD Estradiol,A,nuclear_receptor,Oncology,13.978,28.183,9.647,33.0,33.0,33.0,15,13.978,28.183,9.647
+4JPS,ER-alpha LBD Bound,A,nuclear_receptor,Oncology,-1.319,-9.513,16.948,30.3,30.3,30.3,15,-1.319,-9.513,16.948
+3O96,ER-alpha LBD Unbound,A,nuclear_receptor,Oncology,8.373,-6.828,12.622,24.0,24.0,24.0,15,8.373,-6.828,12.622
+2AM9,Androgen Receptor LBD,A,nuclear_receptor,Oncology,26.767,2.339,4.632,27.6,27.6,27.6,15,26.767,2.339,4.632
+1X7R,PPAR-gamma LBD,A,nuclear_receptor,Metabolic,15.707,31.763,22.356,28.7,28.7,28.7,15,15.707,31.763,22.356
+3DZY,Glucocorticoid Receptor LBD,D,nuclear_receptor,Inflammation,-10.743,19.284,15.227,29.5,29.5,29.5,0,-10.743,19.284,15.227
+4OIV,VDR Vitamin D Receptor,B,nuclear_receptor,Metabolic,12.860,14.060,-20.800,28.8,28.8,28.8,15,12.860,14.060,-20.800
+6FBQ,ROR-gamma-t Ligand Binding,A,nuclear_receptor,Autoimmune,-21.834,24.663,38.064,25.2,25.2,25.2,8,-21.834,24.663,38.064
+3KJF,DPP-4 Dipeptidyl Peptidase,A,protease,Metabolic,21.578,-5.202,10.866,31.8,31.8,31.8,7,21.578,-5.202,10.866
+2JDI,Thrombin Coagulation,A,protease,Cardiovascular,38.420,89.680,94.380,22.0,22.0,22.0,15,38.420,89.680,94.380
+4Y79,Factor Xa Coagulation,A,protease,Cardiovascular,8.234,5.597,21.645,31.3,31.3,31.3,15,8.234,5.597,21.645
+4DQC,BACE-1 Beta-Secretase,A,protease,CNS,19.710,29.685,14.080,33.1,33.1,33.1,15,19.710,29.685,14.080
+5TY1,MMP-9 Gelatinase B,A,protease,Oncology,-4.787,3.190,15.218,26.3,26.3,26.3,15,-4.787,3.190,15.218
+5I3T,ACE2 Peptidase,C,protease,Infectious,53.332,51.821,91.492,21.2,21.2,21.2,10,53.332,51.821,91.492
+5EPN,Renin Protease,A,protease,Cardiovascular,-14.116,-19.010,15.618,35.8,35.8,35.8,15,-14.116,-19.010,15.618
+4CVL,Furin Proprotein Convertase,A,protease,Infectious,20.698,-31.082,-8.937,29.9,29.9,29.9,15,20.698,-31.082,-8.937
+6LU7,SARS-CoV-2 Mpro,A,protease,Infectious,-11.575,14.612,65.164,24.6,24.6,24.6,14,-11.575,14.612,65.164
+5RFY,HCV NS3/4A Protease,A,protease,Infectious,6.740,-3.991,23.862,25.3,25.3,25.3,15,6.740,-3.991,23.862
+1NHY,HIV-1 Protease,A,protease,Infectious,-14.948,10.659,36.915,22.0,22.0,22.0,6,-14.948,10.659,36.915
+5J89,PD-L1 (CD274),A,checkpoint,Oncology,15.820,31.330,186.160,24.0,24.0,24.0,0,15.820,31.330,186.160
+6U26,PCSK9 Allosteric,B,hydrolase,Metabolic,40.873,30.187,29.780,40.0,40.0,40.0,0,40.873,30.187,29.780
+1HWK,HMG-CoA Reductase,A,hydrolase,Metabolic,18.310,8.380,15.170,22.0,22.0,22.0,11,18.310,8.380,15.170
+5NN5,SGLT2 Transporter,A,transporter,Metabolic,-13.651,-31.493,96.643,22.2,22.2,22.2,15,-13.651,-31.493,96.643
+6HL1,FXR Bile Acid Receptor,A,nuclear_receptor,Metabolic,11.313,-14.166,12.479,32.0,32.0,32.0,15,11.313,-14.166,12.479
+5HYK,FASN Fatty Acid Synthase,A,transferase,Oncology,8.911,34.016,19.064,27.8,27.8,27.8,15,8.911,34.016,19.064
+6BOS,ACC Acetyl-CoA Carboxylase,A,transferase,Metabolic,-3.269,-39.166,1.037,23.7,23.7,23.7,15,-3.269,-39.166,1.037
+5TBO,HDAC2 Histone Deacetylase,A,hydrolase,Oncology,23.500,-17.280,-15.050,30.0,30.0,30.0,15,23.500,-17.280,-15.050
+5LSH,BRD4 Bromodomain BET,A,bromodomain,Oncology,-10.974,11.547,6.545,25.5,25.5,25.5,6,-10.974,11.547,6.545
+6G2O,EZH2 Methyltransferase,A,transferase,Oncology,-2.974,8.209,-20.605,28.1,28.1,28.1,13,-2.974,8.209,-20.605
+4NY4,CYP3A4,A,cytochrome,Safety,-21.940,-17.840,-9.840,22.0,22.0,22.0,15,-21.940,-17.840,-9.840
+5TFT,CYP2D6,A,cytochrome,Safety,-3.750,28.530,6.330,22.0,22.0,22.0,15,-3.750,28.530,6.330
+4EJJ,CYP2C9,A,cytochrome,Safety,-13.760,-13.630,-7.460,22.0,22.0,22.0,15,-13.760,-13.630,-7.460
+3QXX,CYP2C19,A,cytochrome,Safety,1.220,-24.050,-23.770,22.0,22.0,22.0,15,1.220,-24.050,-23.770
+2NNJ,CYP1A2,A,cytochrome,Safety,48.760,15.280,-24.280,31.6,31.6,31.6,15,48.760,15.280,-24.280
+6MVW,NaV1.5 SCN5A,C,ion_channel,Safety,125.443,163.436,14.781,20.0,20.0,20.0,0,125.443,163.436,14.781
+4NC3,5-HT2B HTR2B,A,gpcr,Safety,-22.060,-18.620,12.050,22.0,22.0,22.0,15,-22.060,-18.620,12.050
+1SO2,PDE3A Cardiac,C,phosphodiesterase,Safety,60.710,0.540,10.440,22.0,22.0,22.0,15,60.710,0.540,10.440
+4W1V,PDE4B Inflammation,B,phosphodiesterase,Inflammation,-10.080,-4.860,-19.100,22.0,22.0,22.0,9,-10.080,-4.860,-19.100
+6N7B,PDE5A cGMP-specific,A,phosphodiesterase,Cardiovascular,-24.500,3.670,-1.340,22.0,22.0,22.0,15,-24.500,3.670,-1.340
+6Y5E,GABA-A Receptor,J,ion_channel,CNS,113.787,132.058,133.714,20.6,20.6,20.6,2,113.787,132.058,133.714
+4I5H,CFTR Chloride Channel,A,ion_channel,Respiratory,-18.997,73.358,135.209,35.1,35.1,35.1,15,-18.997,73.358,135.209
+1HVY,PARP1 Catalytic,A,transferase,Oncology,0.400,12.390,17.770,23.0,23.0,23.0,15,0.400,12.390,17.770
+6P3D,KRAS G12C Oncogene,A,gtpase,Oncology,43.920,25.238,6.870,37.2,37.2,37.2,15,43.920,25.238,6.870
+4PXZ,BCL-2 Apoptosis,A,protein_interaction,Oncology,13.400,-2.490,53.860,31.6,31.6,31.6,15,13.400,-2.490,53.860
+5F4W,MDM2-p53 Interaction,C,protein_interaction,Oncology,56.236,70.724,34.080,27.3,27.3,27.3,15,56.236,70.724,34.080
+2XAB,HSP90 Heat Shock Protein,B,chaperone,Oncology,-1.000,35.290,-0.780,22.0,22.0,22.0,15,-1.000,35.290,-0.780
+6NTW,DHFR Reductase,A,reductase,Infectious,21.488,-32.368,42.152,27.9,27.9,27.9,12,21.488,-32.368,42.152
+3SRW,DNA Gyrase B,X,isomerase,Infectious,-5.150,-32.120,6.070,38.4,38.4,38.4,0,-5.150,-32.120,6.070
+4ZUD,MAO-B Monoamine Oxidase B,A,oxidoreductase,CNS,-40.873,63.309,28.224,29.2,29.2,29.2,15,-40.873,63.309,28.224
+3L54,Cholinesterase AChE,A,hydrolase,CNS,23.750,14.281,22.084,27.5,27.5,27.5,15,23.750,14.281,22.084
+5WIU,SOD1 Superoxide Dismutase,A,oxidoreductase,CNS,-17.420,15.260,-16.670,22.0,22.0,22.0,15,-17.420,15.260,-16.670

@@ -1,0 +1,17 @@
+# El prerregistro se verifica por SHA-256 sobre los BYTES del fichero
+# (`verificar_prerregistro()` en scripts/qa_embedded_controls.py).
+#
+# Este repositorio tiene `core.autocrlf = true`. Sin esta regla, un clon en
+# Windows materializaria el protocolo con CRLF, su SHA-256 dejaria de coincidir
+# con el congelado y el arnes abortaria declarando invalidado un prerregistro
+# que nadie toco. El fallo apareceria SOLO en un clon limpio: exactamente el
+# tipo de «verde en tu maquina» que esta validacion existe para no repetir.
+#
+# `-text` desactiva toda conversion: los bytes que se commitean son los que se
+# recuperan, en cualquier plataforma.
+protocols/alpha-controls-v1.json -text
+protocols/alpha-controls-v1.sha256 -text
+
+# Las cohortes son entrada del arnes y se citan en el informe; se congelan por
+# la misma razon aunque hoy no lleven hash propio.
+cohorts/*.json -text

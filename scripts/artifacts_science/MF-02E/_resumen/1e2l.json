@@ -1,0 +1,82 @@
+{
+  "pdb_id": "1e2l",
+  "ok": true,
+  "n_conf": 18,
+  "top_k": 3,
+  "cpu": 1,
+  "relax_engine": "vina_local_only",
+  "openmm_status": {
+    "available": false,
+    "reasons": [
+      "SMIRNOFFTemplateGenerator: ModuleNotFoundError: No module named 'openff'",
+      "ForceField(+offxml): ValueError: Could not locate file \"openff-2.0.0.offxml\"",
+      "amber14-all createSystem: ValueError: No template found for residue 1 (ASP).  The atoms and bonds in the residue match NASP, but the set of externally bonded atoms has 1 N atom too many.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template"
+    ],
+    "relax_engine": "vina_local_only"
+  },
+  "time_fase1": 2.9,
+  "time_fase2": 182.3,
+  "time_fase3": 5.6,
+  "total_time_s": 190.8,
+  "ensemble_min_rmsd": 0.5,
+  "grid_cache": {
+    "mapas_generados": true,
+    "n_docks_maps": 17,
+    "n_docks_write": 1,
+    "n_docks_fresh": 0
+  },
+  "rigid_scores": [
+    -10.98,
+    -6.271,
+    -7.818,
+    -8.446,
+    -7.667,
+    -6.646,
+    -8.709,
+    -8.361,
+    -8.234,
+    -7.411,
+    -8.374,
+    -8.712,
+    -7.903,
+    -8.786,
+    -7.18,
+    -7.882,
+    -8.113,
+    -7.883
+  ],
+  "rigid_best": -10.98,
+  "top_k_relaxed": [
+    {
+      "conf_id": 0,
+      "rigid_score": -10.98,
+      "relaxed_score": -10.122,
+      "relaxed_local_score": -8.613,
+      "delta": 0.858,
+      "rmsd_to_crystal": 0.844,
+      "engine": "vina_local_only",
+      "ok": true
+    },
+    {
+      "conf_id": 13,
+      "rigid_score": -8.786,
+      "relaxed_score": -8.805,
+      "relaxed_local_score": -7.49,
+      "delta": -0.019,
+      "rmsd_to_crystal": 1.776,
+      "engine": "vina_local_only",
+      "ok": true
+    },
+    {
+      "conf_id": 11,
+      "rigid_score": -8.712,
+      "relaxed_score": -8.743,
+      "relaxed_local_score": -7.438,
+      "delta": -0.031,
+      "rmsd_to_crystal": 1.186,
+      "engine": "vina_local_only",
+      "ok": true
+    }
+  ],
+  "rmsd_best_to_crystal": 0.845
+}

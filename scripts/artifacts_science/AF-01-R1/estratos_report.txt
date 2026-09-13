@@ -1,0 +1,11 @@
+AF-01-R1 — solapamiento por receptor (fix igualdad literal, k-mers k=8, SEQRES por cadena)
+
+grupos de secuencia exacta que cruzan dev<->holdout: 61
+complejos dev con cadena exacta compartida:   134/537
+complejos holdout con cadena exacta compartida: 126/328
+pares de complejos (dev x holdout) con cadena >=0.90: 1600
+pares de cadenas (dev x holdout) >=0.90: 2370
+
+receptor_seen_exact: n=126 spearman=0.724 ci95=[0.6254, 0.7915] (n_pred=126)
+receptor_near_identity: n=108 spearman=0.5135 ci95=[0.3397, 0.6623] (n_pred=108)
+receptor_unrelated: n=94 spearman=0.5395 ci95=[0.3761, 0.666] (n_pred=94)

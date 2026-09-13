@@ -1,0 +1,887 @@
+{
+ "id": "MF-33-TOP1",
+ "meta": {
+  "titulo": "La cobertura sube 26.7 puntos y al top-1 llegan 11.2",
+  "entradilla": "De los 31 complejos ganados a nivel de oráculo sobreviven 18 al top-5 y 13 al top-1. La fracción de lo cubierto que se realiza en top-1 baja del 62.9% al 53.0%: el siguiente cuello es la selección."
+ },
+ "bloques": [
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "## ⚠ Defecto detectado después de sellar, corregido en otro registro  ",
+     "m": null
+    },
+    {
+     "t": "Las tasas de validez física de este artefacto —8.62% en single y 15.52% en ensemble— están invalidadas y reemplazadas.",
+     "m": "fuerte"
+    },
+    {
+     "t": " No medían tensión del ligando dockeado: medían un defecto de la capa que ",
+     "m": null
+    },
+    {
+     "t": "reconstruía los hidrógenos",
+     "m": "fuerte"
+    },
+    {
+     "t": " antes de pasar la pose a PoseBusters.  [",
+     "m": null
+    },
+    {
+     "t": "MF-33-H-COR",
+     "m": "codigo"
+    },
+    {
+     "t": "](#) lo midió con los átomos pesados idénticos —desplazamiento máximo 0.0 Å, mismo SMILES canónico, misma carga, mismos enlaces— y las 232 poses top-1 de este experimento pasan de ",
+     "m": null
+    },
+    {
+     "t": "12.07% a 93.10%",
+     "m": "fuerte"
+    },
+    {
+     "t": ": 91.38% en single y 94.83% en ensemble.  ",
+     "m": null
+    },
+    {
+     "t": "Todo lo demás de esta ficha sigue en pie sin reservas",
+     "m": "fuerte"
+    },
+    {
+     "t": ": RMSD, cobertura del oráculo, top-1, top-5 y la cascada de conversión no dependen de los hidrógenos. Este artefacto queda sellado e inmutable con sus cifras originales, y el corrigendum que las reemplaza queda nombrado al lado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": " midió que el ensemble de confórmeros sube la ",
+     "m": null
+    },
+    {
+     "t": "cobertura del oráculo",
+     "m": "fuerte"
+    },
+    {
+     "t": ". El oráculo es el mejor RMSD entre las poses que el brazo conserva: dice qué hay disponible, no qué se entrega.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo que el investigador recibe es el ",
+     "m": null
+    },
+    {
+     "t": "top-1 por score",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Y ",
+     "m": null
+    },
+    {
+     "t": "MF-09",
+     "m": "codigo"
+    },
+    {
+     "t": " había medido, en el estrato difícil, que el top-1 acierta 0 de 33 y el top-20 llega a 2. Con esa distancia entre lo disponible y lo entregado, subir el techo podría no mover nada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento mide si el mecanismo llega hasta abajo. Sin cómputo de docking: los ",
+     "m": null
+    },
+    {
+     "t": "conf<i>.out.pdbqt",
+     "m": "codigo"
+    },
+    {
+     "t": " del protocolo congelado están en disco para los 116 de entrenamiento, con sus scores y sus nueve modelos por corrida. Dos brazos pareados: ",
+     "m": null
+    },
+    {
+     "t": "SINGLE",
+     "m": "fuerte"
+    },
+    {
+     "t": " con las 9 poses de ",
+     "m": null
+    },
+    {
+     "t": "conf0.out",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "ENSEMBLE",
+     "m": "fuerte"
+    },
+    {
+     "t": " con las K×9 de todos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "McNemar exacto pareado sobre «acierta ≤2 Å», por separado en las tres métricas:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Sobre los 116",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Single",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Ensemble",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Δ",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "b / c",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "p",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Oráculo",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "35",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "66",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "+26.72 pp",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "31 / 0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.0",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Top-5",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "35",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "53",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "+15.52 pp",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "20 / 2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.000121",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Top-1",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "22",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "35",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "+11.21 pp",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "13 / 0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.000244",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las tres mejoran con significación. Y las tres mejoran ",
+     "m": null
+    },
+    {
+     "t": "cada vez menos",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "De los ",
+     "m": null
+    },
+    {
+     "t": "+31",
+     "m": "fuerte"
+    },
+    {
+     "t": " complejos ganados a nivel de oráculo, sobreviven ",
+     "m": null
+    },
+    {
+     "t": "18",
+     "m": "fuerte"
+    },
+    {
+     "t": " al top-5 —el 58% de la ganancia— y ",
+     "m": null
+    },
+    {
+     "t": "13",
+     "m": "fuerte"
+    },
+    {
+     "t": " al top-1 —el 42%—.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La atenuación es el resultado",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El gate preregistrado da la etiqueta ",
+     "m": null
+    },
+    {
+     "t": "LA_VENTAJA_LLEGA_AL_USUARIO",
+     "m": "codigo"
+    },
+    {
+     "t": ", y esa etiqueta se conserva porque se escribió antes de mirar. ",
+     "m": null
+    },
+    {
+     "t": "Pero no debe usarse como titular",
+     "m": "fuerte"
+    },
+    {
+     "t": ": como afirmación científica sobrepasa lo medido.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La formulación publicable es ésta, y es la que hay que usar:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Aunque el muestreo por ensemble aumentó la cobertura del oráculo, la fracción de complejos cubiertos que se realiza en top-1 bajó del ",
+     "m": null
+    },
+    {
+     "t": "62.9%",
+     "m": "fuerte"
+    },
+    {
+     "t": " al ",
+     "m": null
+    },
+    {
+     "t": "53.0%",
+     "m": "fuerte"
+    },
+    {
+     "t": ", ampliando el hueco oráculo-a-top-1 de ",
+     "m": null
+    },
+    {
+     "t": "13",
+     "m": "fuerte"
+    },
+    {
+     "t": " a ",
+     "m": null
+    },
+    {
+     "t": "31",
+     "m": "fuerte"
+    },
+    {
+     "t": " complejos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los cuatro números son el hecho observado. Están ",
+     "m": null
+    },
+    {
+     "t": "relacionados matemáticamente",
+     "m": "fuerte"
+    },
+    {
+     "t": " y la causalidad ",
+     "m": null
+    },
+    {
+     "t": "no",
+     "m": "fuerte"
+    },
+    {
+     "t": " está demostrada. La interpretación va aparte y en condicional: ",
+     "m": null
+    },
+    {
+     "t": "aumentar la cobertura de candidatos parece imponer una carga mayor sobre la selección de pose",
+     "m": "enfasis"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Una sutileza que un revisor señalaría, y hay que anticipar.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Ese 53.0% ",
+     "m": null
+    },
+    {
+     "t": "no",
+     "m": "fuerte"
+    },
+    {
+     "t": " significa que el selector sea peor. El selector del brazo ensemble se enfrenta a un ",
+     "m": null
+    },
+    {
+     "t": "problema distinto",
+     "m": "fuerte"
+    },
+    {
+     "t": " —un espacio de candidatos mucho mayor y potencialmente con más cuencas competitivas—, así que la caída de 62.9% a 53.0% no demuestra por sí sola que el algoritmo de ranking se haya degradado intrínsecamente.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo que sí demuestra, y basta para identificar la selección como el siguiente cuello:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "La capacidad del pipeline de convertir cobertura disponible en top-1 ",
+     "m": null
+    },
+    {
+     "t": "no escala proporcionalmente",
+     "m": "fuerte"
+    },
+    {
+     "t": " con el aumento de cobertura.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "*(Enmienda del 2026-08-21: la versión anterior de esta lectura decía que mejorar la generación agrava el cuello de selección ",
+     "m": null
+    },
+    {
+     "t": "porque",
+     "m": "fuerte"
+    },
+    {
+     "t": " el oráculo sube más rápido que la capacidad de elegir. Eso afirmaba una causalidad que estos datos no establecen, y se retiró.)*",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "En el estrato difícil no hay señal, y era previsible",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "COLOCACION (n=33)",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Single",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Ensemble",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Top-1, top-5 y oráculo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cero en los tres campos para los dos brazos. No es un resultado nulo interesante: el protocolo ",
+     "m": null
+    },
+    {
+     "t": "rígido",
+     "m": "fuerte"
+    },
+    {
+     "t": " tiene techo de 1 de 33 en el estrato difícil, según el brazo C de ",
+     "m": null
+    },
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": ". Aquí no hay nada que atenuar porque no hay nada que propagar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La limitación central, declarada en el gate",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Estas poses son del protocolo rígido.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Las flexibles del brazo B de ",
+     "m": null
+    },
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": " no existen: el runner las escribió en un ",
+     "m": null
+    },
+    {
+     "t": "TemporaryDirectory",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Así que esto ",
+     "m": null
+    },
+    {
+     "t": "no mide el brazo del paper",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Mide si el ",
+     "m": null
+    },
+    {
+     "t": "mecanismo",
+     "m": "fuerte"
+    },
+    {
+     "t": " llega al selector en el único protocolo cuyas poses sobrevivieron. Contestar la misma pregunta sobre el brazo flexible exigió volver a dockear, y para eso se selló ",
+     "m": null
+    },
+    {
+     "t": "MF-33-B-RET",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Otros límites: se ordena por score de Vina ",
+     "m": null
+    },
+    {
+     "t": "sin rescoring",
+     "m": "fuerte"
+    },
+    {
+     "t": " —la cartera RS mide eso aparte—; SINGLE usa ",
+     "m": null
+    },
+    {
+     "t": "conf0",
+     "m": "codigo"
+    },
+    {
+     "t": " por índice y no por calidad, como el brazo A de ",
+     "m": null
+    },
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": "; y el ensemble selecciona sobre un pool K veces mayor, que ",
+     "m": null
+    },
+    {
+     "t": "es el fenómeno",
+     "m": "fuerte"
+    },
+    {
+     "t": " y no un confundido.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué cierra y qué deja expuesto",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cierra",
+     "m": "fuerte"
+    },
+    {
+     "t": " la amenaza T1 del paper a nivel de mecanismo: el efecto no vive exclusivamente en una métrica de oráculo, llega a lo que se entrega.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Deja expuestos",
+     "m": "fuerte"
+    },
+    {
+     "t": " dos cuellos posteriores que estaban ocultos detrás del de generación:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "Selección",
+      "m": "fuerte"
+     },
+     {
+      "t": " — 31 complejos que contienen una solución correcta y no la entregan en",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "top-1, nominalmente identificados en ",
+     "m": null
+    },
+    {
+     "t": "per_complex.jsonl",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "Validez física",
+      "m": "fuerte"
+     },
+     {
+      "t": " — que aquí se midió mal y se corrigió después. Con las tasas",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "corregidas de ",
+     "m": null
+    },
+    {
+     "t": "MF-33-H-COR",
+     "m": "codigo"
+    },
+    {
+     "t": " el cuello no es el que este artefacto creyó ver, y el residuo real está caracterizado allí.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La razón por la que la validez física entró en este diseño sigue siendo buena aunque su medición fallara: ",
+     "m": null
+    },
+    {
+     "t": "un selector que pase de 35 a 55 entregando poses inválidas no habría mejorado el producto.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Optimizar una métrica intermedia sin mirar la física es la forma estándar de mejorar un número y empeorar el resultado.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-33-TOP1.md"
+}

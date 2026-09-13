@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "experiment_id": "D-MF-HARD-CURVE-VAL",
+  "hypothesis": "La validacion piloto de val con K=15 describe el comportamiento fuera de train",
+  "protocol": "D-MF-HARD-CURVE (sello train K=15, commit f31bfeb) + FORECAST.md",
+  "created_at": "2026-08-16T08:02:33.121514+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "ed39cc604c133967b4f4d5cfbe70ff864e692724",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "Solo K=15, solo 5+5 val, config identica, descriptivo n=5, K inmutable tras el resultado"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/D-MF-HARD/cohort.jsonl": "6d3f3a09dcd7e7393b4572ae1425c1e87d6ec0e233afbd7c7be3775ae50779ba"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/D-MF-HARD-CURVE-VAL/DESIGN.md": "e4137cdc0339e52c6ed77ae64e53d1da749d354801374b700a9c3e2234004039",
+    "scripts/artifacts_science/D-MF-HARD-CURVE-VAL/metrics.json": "766d46d4031d2ad5cd7db76174fe16d3ec050208c68f46a9f0d33d17569f613f",
+    "scripts/artifacts_science/D-MF-HARD-CURVE-VAL/curve_poses_val.jsonl": "1b23dbb3a61b4309155aa45aee9b199834859f5ed7e6e288ca3b73d6761e3057",
+    "scripts/artifacts_science/D-MF-HARD-CURVE-VAL/curve_provenance.jsonl": "02772b5bf13242cd45e82c5e2e3d906987ed266c4d54314cf28c8d6719ee47a6",
+    "scripts/artifacts_science/D-MF-HARD-CURVE-VAL/curve_candidates_val.jsonl": "a89a6ea05350057bad773ffa7d04fdf58c0c5591e3e43f111c6cb37132bb3d92",
+    "scripts/artifacts_science/D-MF-HARD-CURVE-VAL/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/D-MF-HARD-CURVE-VAL/deviations.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/D-MF-HARD-CURVE-VAL/technical_retries.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/D-MF-HARD-CURVE-VAL/per_complex.jsonl": "e5fa967b4b984f8eaaf4545b6cbfb39976683cf37cce569ea77d87dde7b37b91",
+    "scripts/run_molflex_curve_val.py": "b8d4a1716ea6e76d28bc4f4119c295de19813b3b35087ac6163d98f58bf581cb",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T08:16:45.698222+00:00",
+  "decision_rationale": "Validacion piloto descriptiva completada UNA sola vez con K=15: hard 2/5 (40%, CI95 0.118-0.769), controles 4/5 (80%, CI95 0.376-0.964); 0 fallos ITT; n=5 sin potencia (intervalos se solapan con train); K permanece 15 e inmutable; K30 no abierto",
+  "finished_at": "2026-08-16T08:16:46.065903+00:00"
+}

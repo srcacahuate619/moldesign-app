@@ -1,0 +1,41 @@
+{
+  "artefactos": {
+    "openbabel-src-77993b9a.tar.gz": {
+      "descripcion": "fuentes de Open Babel en el commit 77993b9a3b96fb9bd86249098beb97ab0fcbafc6",
+      "sha256": "e796fe82710d316f2b7da78de4391730e15a198b95b1164b18652c5af3d6feea"
+    },
+    "openbabel-wheel-recipe-c6b2731d.tar.gz": {
+      "descripcion": "recetas de compilaciÃ³n del wheel en el commit c6b2731dbd0a559ee56b8084b6d9997df1beb16f",
+      "sha256": "2656a8d6f9dee3eb3e1264c322bfd9bd308db21ccbd86867ea36a60212686ca3"
+    }
+  },
+  "binario_distribuido": {
+    "ruta": "tools/openbabel/bin/obabel.exe",
+    "sha256": "c76d669a0b557d9585904ac35afc88ed26507ff03704e347ed64aa1bf24ac88b"
+  },
+  "licencia_spdx": "GPL-2.0-only",
+  "obligacion": "GPL-2.0-only Â§3: acompaÃ±ar el binario distribuido del cÃ³digo fuente correspondiente de la versiÃ³n exacta, o de una oferta escrita vÃ¡lida.",
+  "procedencia": {
+    "empaquetador_commit": "c6b2731dbd0a559ee56b8084b6d9997df1beb16f",
+    "empaquetador_repo": "https://github.com/njzjz/openbabel-wheel",
+    "fuentes_incorporadas_commit": "77993b9a3b96fb9bd86249098beb97ab0fcbafc6",
+    "fuentes_incorporadas_repo": "https://github.com/njzjz/openbabel",
+    "licencia_spdx": "GPL-2.0-only",
+    "paquete": "openbabel-wheel",
+    "plataforma": "CPython 3.11, Windows x86-64",
+    "upstream": "https://github.com/openbabel/openbabel",
+    "upstream_version": "3.1.1",
+    "version_paquete": "3.1.1.23",
+    "wheel": "openbabel_wheel-3.1.1.23-cp311-cp311-win_amd64.whl",
+    "wheel_sha256": "f0568906e6959fc541518c8e4cea26973e58707bd2434fb7cddfc5f745c32df7"
+  },
+  "programa": "Open Babel",
+  "schema_version": 1,
+  "version": "3.1.1.23",
+  "wheel_de_origen": {
+    "nombre": "openbabel_wheel-3.1.1.23-cp311-cp311-win_amd64.whl",
+    "sha256": "f0568906e6959fc541518c8e4cea26973e58707bd2434fb7cddfc5f745c32df7"
+  },
+  "estado": "SATISFECHA POR ACOMPANAMIENTO (GPL-2.0 sec. 3a) desde 2026-09-12. Los dos .tar.gz estan en este mismo directorio y viajan dentro del paquete, junto al binario. No se depende de una oferta escrita a tres anos: el codigo fuente correspondiente acompana al binario.",
+  "verificacion": "Los SHA-256 de artefactos[] se comprueban contra los ficheros presentes; scripts/check_openbabel_boundary.py y el manifiesto los vuelven a verificar en cada build."
+}

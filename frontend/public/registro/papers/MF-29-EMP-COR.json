@@ -1,0 +1,1172 @@
+{
+ "id": "MF-29-EMP-COR",
+ "meta": {
+  "titulo": "El testigo comparaba un ligando sin torsiones contra uno con seis",
+  "entradilla": "Vina divide la afinidad por (1 + w_rot · N_rot). El salto de escala vale 1.055 kcal/mol medianos y el déficit que se estaba leyendo como fallo de búsqueda valía 0.491. Noventa y ocho segundos de cómputo retiraron un instrumento."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-29-EMP",
+     "m": "codigo"
+    },
+    {
+     "t": " se quedó ",
+     "m": null
+    },
+    {
+     "t": "INCONCLUSIVE",
+     "m": "codigo"
+    },
+    {
+     "t": " porque sus dos instrumentos preregistrados apuntaban en direcciones opuestas. La cantidad primaria decía que subir el presupuesto no compra nada —3 de 48—. El testigo decía que la búsqueda fallaba en el 70.8% de los complejos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cuando dos instrumentos válidos se contradicen, no se elige el que gusta. Se mide si alguno de los dos es válido.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El defecto, en una línea",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-13",
+     "m": "codigo"
+    },
+    {
+     "t": " escribía el ",
+     "m": null
+    },
+    {
+     "t": "rigid_str",
+     "m": "codigo"
+    },
+    {
+     "t": " de ",
+     "m": null
+    },
+    {
+     "t": "molflex.escribir_pdbqt",
+     "m": "codigo"
+    },
+    {
+     "t": " —",
+     "m": null
+    },
+    {
+     "t": "ROOT / átomos / ENDROOT / TORSDOF 0",
+     "m": "codigo"
+    },
+    {
+     "t": "— y ",
+     "m": null
+    },
+    {
+     "t": "MF-29-EMP",
+     "m": "codigo"
+    },
+    {
+     "t": " dockeaba ",
+     "m": null
+    },
+    {
+     "t": "conf0.flex.pdbqt",
+     "m": "codigo"
+    },
+    {
+     "t": ", con hasta seis torsiones activas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Vina divide la afinidad por ",
+     "m": null
+    },
+    {
+     "t": "(1 + w_rot · N_rot)",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Un ligando sin torsiones no paga esa penalización y uno con seis sí, para la misma pose.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los dos números nunca estuvieron en la misma escala. El «déficit» del cristal contra el brazo masivo mezclaba física con contabilidad de torsiones.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El diseño: cambiar una sola cosa",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se repitió ",
+     "m": null
+    },
+    {
+     "t": "MF-13",
+     "m": "codigo"
+    },
+    {
+     "t": " con ",
+     "m": null
+    },
+    {
+     "t": "un único cambio",
+     "m": "fuerte"
+    },
+    {
+     "t": " —el ",
+     "m": null
+    },
+    {
+     "t": "flex_str",
+     "m": "codigo"
+    },
+    {
+     "t": " en vez del ",
+     "m": null
+    },
+    {
+     "t": "rigid_str",
+     "m": "codigo"
+    },
+    {
+     "t": "— y todo lo demás idéntico: mismo tipado de Meeko, mismo receptor, misma caja de 25 Å, misma semilla 42, mismo binario en el mismo contenedor.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los umbrales se sellaron en ",
+     "m": null
+    },
+    {
+     "t": "MF-29-EMP-COR-PRE",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "antes de correr",
+     "m": "fuerte"
+    },
+    {
+     "t": ", con el hash del script: ",
+     "m": null
+    },
+    {
+     "t": "≤0.30 → ARTEFACTO DE ESCALA",
+     "m": "fuerte"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "≥0.70 → EL TESTIGO SOBREVIVE",
+     "m": "fuerte"
+    },
+    {
+     "t": ", intermedio → ",
+     "m": null
+    },
+    {
+     "t": "MIXTO",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y antes del primario, dos gates de validez, porque una preparación distinta podría no ser comparable:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Gate",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Criterio",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Resultado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "G1",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "TORSDOF del cristal flexible == el de ",
+       "m": null
+      },
+      {
+       "t": "conf0.flex.pdbqt",
+       "m": "codigo"
+      },
+      {
+       "t": " en ≥95%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "48/48 = 1.0",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "G2",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "deriva mediana del ",
+       "m": null
+      },
+      {
+       "t": "--local_only",
+       "m": "codigo"
+      },
+      {
+       "t": " ≤ 2.0 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.3425 Å",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los 0.3425 Å son casi idénticos a los 0.322 Å que derivó el rígido en ",
+     "m": null
+    },
+    {
+     "t": "MF-13",
+     "m": "codigo"
+    },
+    {
+     "t": ": la relajación local mueve el cristal lo mismo en las dos preparaciones.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Cantidad",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Valor",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Salto de escala",
+       "m": "fuerte"
+      },
+      {
+       "t": " (mismo cristal, flexible − rígido)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+1.055",
+       "m": "fuerte"
+      },
+      {
+       "t": " medianos · máx +3.895 · mín −0.293",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Déficit que el testigo leía",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+0.491",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Déficit corregido",
+       "m": "fuerte"
+      },
+      {
+       "t": ", a igual escala",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−0.406",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Complejos donde el masivo puntúa mejor por >0.10",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "36 de 48",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Complejos donde el cristal aún gana",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4 de 48",
+       "m": "fuerte"
+      },
+      {
+       "t": " → ",
+       "m": null
+      },
+      {
+       "t": "f",
+       "m": "codigo"
+      },
+      {
+       "t": " = 0.0833",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "f",
+     "m": "codigo"
+    },
+    {
+     "t": " = 0.0833 está por debajo de 0.30: ",
+     "m": null
+    },
+    {
+     "t": "ARTEFACTO DE ESCALA",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El artefacto solo —1.055— cubre de sobra el déficit que se estaba leyendo como fallo de búsqueda —0.491—. Corregido, el signo se invierte: lo que la búsqueda encuentra iguala o supera el valor del cristal relajado a igual escala.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los cuatro que sobreviven, con su deriva local, que en todos es menor de 0.35 Å:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Complejo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Cristal flex",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Masivo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Déficit",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Deriva",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "1k9s",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "RESTO",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−9.507",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−8.496",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+1.011",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.237 Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1add",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "CONTROL",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−8.916",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−8.366",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+0.550",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.229 Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1ax0",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "RESTO",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−6.513",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−5.976",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+0.537",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.350 Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1flr",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "CONTROL",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−12.257",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−11.977",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+0.280",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.221 Å",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El modelo lo anticipaba, y por eso no bastaba",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con ",
+     "m": null
+    },
+    {
+     "t": "w_rot = 0.05846",
+     "m": "codigo"
+    },
+    {
+     "t": " y el TORSDOF real de cada complejo, la penalización ",
+     "m": null
+    },
+    {
+     "t": "sola",
+     "m": "fuerte"
+    },
+    {
+     "t": " predecía un déficit artefactual de ",
+     "m": null
+    },
+    {
+     "t": "1.367",
+     "m": "fuerte"
+    },
+    {
+     "t": " medianos, contra los 0.491 observados. Es decir: el artefacto por sí solo predecía ",
+     "m": null
+    },
+    {
+     "t": "más",
+     "m": "enfasis"
+    },
+    {
+     "t": " déficit del que había.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso motivó el experimento y no lo sustituye. Una decisión de gate no se cambia con un modelo algebraico de la fórmula del motor cuando medirlo cuesta ",
+     "m": null
+    },
+    {
+     "t": "98 segundos",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que pareció destapar, y no era — corregido el mismo día",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Al cerrar este corrigendum se registró la sospecha de que ",
+     "m": null
+    },
+    {
+     "t": "MF-13",
+     "m": "codigo"
+    },
+    {
+     "t": " arrastraba el mismo desajuste, acompañada de una indicación exploratoria alarmante: sobre los 48 complejos del solapamiento, la fracción «el cristal gana al mejor dock» caía de 0.396 a 0.021.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esa indicación era inválida y la sospecha se retiró.",
+     "m": "fuerte"
+    },
+    {
+     "t": " ",
+     "m": null
+    },
+    {
+     "t": "MF-13-ESCALA",
+     "m": "codigo"
+    },
+    {
+     "t": " lo midió:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    []
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Complejos donde el top-1 de ",
+       "m": null
+      },
+      {
+       "t": "MF-13",
+       "m": "codigo"
+      },
+      {
+       "t": " viene de ",
+       "m": null
+      },
+      {
+       "t": "molflex",
+       "m": "codigo"
+      },
+      {
+       "t": " —que dockea rígido—",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "102 de 116",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Gate G2 de COLOCACION, como se midió",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "23/33 = ",
+       "m": null
+      },
+      {
+       "t": "0.6970",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "El mismo gate restringido a poses de fuente ",
+       "m": null
+      },
+      {
+       "t": "rígida",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "23/33 = ",
+       "m": null
+      },
+      {
+       "t": "0.6970",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Complejos que cambian de veredicto",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-13",
+     "m": "codigo"
+    },
+    {
+     "t": " comparaba rígido contra rígido: escala homogénea. El error estuvo en ",
+     "m": null
+    },
+    {
+     "t": "suponer",
+     "m": "fuerte"
+    },
+    {
+     "t": " que las poses del conjunto v2 eran flexibles en vez de comprobarlo —",
+     "m": null
+    },
+    {
+     "t": "RC-F0-V2-EXT",
+     "m": "codigo"
+    },
+    {
+     "t": " ya había medido que el 93.9% viene del protocolo rígido—. Y aquel 0.396 → 0.021 comparaba un cristal ",
+     "m": null
+    },
+    {
+     "t": "flexible",
+     "m": "fuerte"
+    },
+    {
+     "t": " contra poses ",
+     "m": null
+    },
+    {
+     "t": "rígidas",
+     "m": "fuerte"
+    },
+    {
+     "t": ": el desajuste inverso, tan inválido como el que este corrigendum retiró.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El ",
+     "m": null
+    },
+    {
+     "t": "MIXTO",
+     "m": "codigo"
+    },
+    {
+     "t": " de ",
+     "m": null
+    },
+    {
+     "t": "MF-13",
+     "m": "codigo"
+    },
+    {
+     "t": " se sostiene tal como está sellado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Nada de esto toca lo que se midió aquí. El desajuste que este corrigendum retiró era real —cristal rígido de ",
+     "m": null
+    },
+    {
+     "t": "MF-13",
+     "m": "codigo"
+    },
+    {
+     "t": " contra el brazo masivo, que sí dockea flexible— y su magnitud está medida.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Hallazgo lateral, exploratorio",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "1ew8",
+     "m": "codigo"
+    },
+    {
+     "t": " puntúa ",
+     "m": null
+    },
+    {
+     "t": "+1.714",
+     "m": "fuerte"
+    },
+    {
+     "t": " preparado flexible: positivo. ",
+     "m": null
+    },
+    {
+     "t": "MF-13",
+     "m": "codigo"
+    },
+    {
+     "t": " ya lo había señalado —junto a ",
+     "m": null
+    },
+    {
+     "t": "1fkh",
+     "m": "codigo"
+    },
+    {
+     "t": "— como sistema probablemente mal montado, por su −2.181 rígido, y planteó que faltara un cofactor, un metal o una agua estructural, o que la protonación estuviese mal. Verlo cruzar a positivo ",
+     "m": null
+    },
+    {
+     "t": "refuerza",
+     "m": "fuerte"
+    },
+    {
+     "t": " esa hipótesis; no la establece.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Límites declarados",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "**No reabre la cantidad primaria de ",
+      "m": null
+     },
+     {
+      "t": "MF-29-EMP",
+      "m": "codigo"
+     },
+     {
+      "t": "** —masivo contra producción—, que ningún",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "resultado de aquí puede tocar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "No certifica optimalidad global.",
+      "m": "fuerte"
+     },
+     {
+      "t": " ",
+      "m": null
+     },
+     {
+      "t": "MF-29",
+      "m": "codigo"
+     },
+     {
+      "t": " sigue abierto.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Cohorte de 48 y no 50: el brazo masivo de ",
+      "m": null
+     },
+     {
+      "t": "1mmr",
+      "m": "codigo"
+     },
+     {
+      "t": " y ",
+      "m": null
+     },
+     {
+      "t": "1nm6",
+      "m": "codigo"
+     },
+     {
+      "t": " expiró, y eso lo recupera",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-29-EMP-EXT",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-29-EMP-COR.md"
+}

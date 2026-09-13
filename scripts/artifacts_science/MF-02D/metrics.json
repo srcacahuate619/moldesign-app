@@ -1,0 +1,129 @@
+{
+ "experiment_id": "MF-02D",
+ "timestamp": "2026-08-18T01:20:01.342750+00:00",
+ "duration_seconds": 4842.55,
+ "config": {
+  "n_conf": 30,
+  "top_k": 3,
+  "exhaustiveness": 8,
+  "umbral_A": 2.0,
+  "poses_dir": "data\\molflex_train_v2",
+  "protocolo": "molflex congelado docs/40 con --keep"
+ },
+ "n_complejos": 116,
+ "n_ok": 116,
+ "cobertura_antes": {
+  "n": 78,
+  "de": 116,
+  "frac": 0.6724
+ },
+ "cobertura_despues": {
+  "n": 108,
+  "de": 116,
+  "frac": 0.931
+ },
+ "reproduccion_mf02b": {
+  "comparables": 38,
+  "coincidencias": 38,
+  "discrepancias": []
+ },
+ "complejos_sin_pose_en_disco": [],
+ "coste": {
+  "n": 116,
+  "mediana_s": 319.0,
+  "total_s": 44668.2
+ },
+ "fuera_de_alcance": "No reconstruye poses_train.jsonl con features ni evalua ningun selector: produce el material y mide la cobertura.",
+ "gates": {
+  "G1_validez": {
+   "criterio": ">=95% completan sin error",
+   "tasa": 1.0,
+   "pass": true
+  },
+  "G2_material": {
+   "criterio": "todo complejo con exito deja sus pdbqt de pose en disco",
+   "sin_disco": [],
+   "pass": true
+  },
+  "G3_reproduccion": {
+   "criterio": "reproduce la decision de MF-02B en los 38 sin cobertura",
+   "comparables": 38,
+   "coincidencias": 38,
+   "pass": true
+  },
+  "G4_no_regresion": {
+   "criterio": "la union no reduce la cobertura de ningun complejo",
+   "perdidos": [],
+   "pass": true
+  },
+  "G5_cobertura": {
+   "criterio": "cobertura de train con la union >= 90% (metrica de pocket, primaria)",
+   "cobertura": 0.7931,
+   "pass": false
+  }
+ },
+ "decision": "NO_GO",
+ "metrica_primaria": {
+  "definicion": "rmsd_pose_pocket: RMSD de atomos pesados en el marco del pocket, SIN alinear",
+  "por_que": "El dataset etiqueta con esta metrica y el repo la exige para poses dockeadas (leccion de auditoria 2026-08-14): GetBestRMS alinea y oculta desplazamientos. molflex.ejecutar_complejo devuelve el RMSD ALINEADO, que es el que consumio MF-02B.",
+  "alcance": "minimo sobre TODAS las poses dockeadas (conf*.out.pdbqt, todos los MODEL), que es exactamente el conjunto que consume build_pose_selector_dataset.py fuente S2"
+ },
+ "cobertura_pocket_antes": {
+  "n": 78,
+  "de": 116,
+  "frac": 0.6724
+ },
+ "cobertura_pocket_despues": {
+  "n": 92,
+  "de": 116,
+  "frac": 0.7931
+ },
+ "recuperados_pocket": {
+  "n": 14,
+  "pids": [
+   "1ax0",
+   "1b8y",
+   "1bjv",
+   "1bq4",
+   "1cnw",
+   "1f74",
+   "1fv0",
+   "1g3e",
+   "1hp5",
+   "1jaq",
+   "1lan",
+   "1lbk",
+   "1m2x",
+   "1nki"
+  ]
+ },
+ "inflados_por_metrica_alineada": {
+  "n": 12,
+  "pids": [
+   "1a30",
+   "1afk",
+   "1amw",
+   "1d7i",
+   "1dgm",
+   "1ew8",
+   "1ew9",
+   "1fh7",
+   "1fkg",
+   "1mmr",
+   "1njs",
+   "1nw5"
+  ]
+ },
+ "oraculo_generacion_pocket": {
+  "mediana": 1.68,
+  "n": 116
+ },
+ "cobertura_alineada_heredada": {
+  "nota": "cifra de MF-02B/MF-02D con la metrica alineada; se conserva para auditoria y NO es el resultado",
+  "despues": {
+   "n": 108,
+   "de": 116,
+   "frac": 0.931
+  }
+ }
+}

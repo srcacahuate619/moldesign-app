@@ -1,0 +1,206 @@
+{
+ "experiment_id": "MF-33-EXT",
+ "tipo": "extension de alcance de MF-33 brazo B con regla de lectura preregistrada",
+ "timestamp": "2026-08-21T15:07:45.490580+00:00",
+ "duration_seconds": 45942.57,
+ "config": {
+  "exh": 8,
+  "num_modes": 9,
+  "seed": 42,
+  "box": 25.0,
+  "umbral_A": 2.0,
+  "metrica": "rmsd_pose_pocket sin alineamiento",
+  "ligandos": "todos los conf*.flex.pdbqt del ensemble ETKDG ya en disco",
+  "identico_a": "brazo de control de MF-28, reusado como brazo B por MF-33"
+ },
+ "n_complejos": 116,
+ "n_ok": 116,
+ "cantidad_primaria": {
+  "definicion": "fraccion de complejos con oraculo <= 2.0 A (metrica de pocket)",
+  "cubiertos": 107,
+  "de": 116,
+  "cobertura": 0.9224,
+  "liston_heredado_de_MF02D_G5": 0.9,
+  "base_rigida_conjunto_v2": 0.7931,
+  "diferencia_vs_base": 0.1293,
+  "lectura_preregistrada": "EL_GENERADOR_FLEXIBLE_ALCANZA_EL_LISTON"
+ },
+ "por_estrato": {
+  "COLOCACION": {
+   "n": 33,
+   "cubiertos": 26,
+   "cobertura": 0.7879,
+   "oraculo_mediano": 1.184
+  },
+  "CONTROL": {
+   "n": 15,
+   "cubiertos": 15,
+   "cobertura": 1.0,
+   "oraculo_mediano": 1.01
+  },
+  "RESTO": {
+   "n": 68,
+   "cubiertos": 66,
+   "cobertura": 0.9706,
+   "oraculo_mediano": 0.889
+  }
+ },
+ "curva_cobertura_vs_presupuesto": [
+  {
+   "k": 1,
+   "cubiertos": 80,
+   "cobertura": 0.6897
+  },
+  {
+   "k": 2,
+   "cubiertos": 94,
+   "cobertura": 0.8103
+  },
+  {
+   "k": 3,
+   "cubiertos": 101,
+   "cobertura": 0.8707
+  },
+  {
+   "k": 4,
+   "cubiertos": 103,
+   "cobertura": 0.8879
+  },
+  {
+   "k": 5,
+   "cubiertos": 103,
+   "cobertura": 0.8879
+  },
+  {
+   "k": 6,
+   "cubiertos": 104,
+   "cobertura": 0.8966
+  },
+  {
+   "k": 7,
+   "cubiertos": 105,
+   "cobertura": 0.9052
+  },
+  {
+   "k": 8,
+   "cubiertos": 105,
+   "cobertura": 0.9052
+  },
+  {
+   "k": 9,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 10,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 11,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 12,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 13,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 14,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 15,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 16,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 17,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 18,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 19,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 20,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 21,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 22,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 23,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 24,
+   "cubiertos": 106,
+   "cobertura": 0.9138
+  },
+  {
+   "k": 25,
+   "cubiertos": 107,
+   "cobertura": 0.9224
+  },
+  {
+   "k": 26,
+   "cubiertos": 107,
+   "cobertura": 0.9224
+  },
+  {
+   "k": 27,
+   "cubiertos": 107,
+   "cobertura": 0.9224
+  },
+  {
+   "k": 28,
+   "cubiertos": 107,
+   "cobertura": 0.9224
+  },
+  {
+   "k": 29,
+   "cubiertos": 107,
+   "cobertura": 0.9224
+  },
+  {
+   "k": 30,
+   "cubiertos": 107,
+   "cobertura": 0.9224
+  }
+ ],
+ "limites_declarados": [
+  "el oraculo es cota superior de lo alcanzable, no prediccion: no evalua selector",
+  "no decide la regeneracion por si solo; ejecutarla es un programa con su re-sellado",
+  "los conformeros no se regeneran: si el techo fuese conformacional esto no lo mueve",
+  "parte del techo puede ser PREPARACION y no generador (MF-33-CRUCES, REC-09); no los separa"
+ ]
+}

@@ -1,0 +1,65 @@
+{
+  "target": "5ht1a",
+  "family": "gpcr",
+  "n_total": 2543,
+  "n_active": 47,
+  "box_source": "curated_csv",
+  "cuts": {
+    "vina_only": {
+      "ef1": 19.48,
+      "ef5": 5.96,
+      "ef10": 4.05,
+      "auc": 0.7972,
+      "pr": 0.2055,
+      "n_total": 2543,
+      "n_active": 47
+    },
+    "vina_plus_xgb": {
+      "ef1": 36.79,
+      "ef5": 9.37,
+      "ef10": 5.33,
+      "auc": 0.8285,
+      "pr": 0.4128,
+      "n_total": 2543,
+      "n_active": 47
+    },
+    "vina_plus_gnn": {
+      "ef1": 2.16,
+      "ef5": 2.56,
+      "ef10": 1.7,
+      "auc": 0.5384,
+      "pr": 0.0459,
+      "n_total": 2543,
+      "n_active": 47
+    },
+    "vina_plus_clgnn": {
+      "ef1": 19.48,
+      "ef5": 5.96,
+      "ef10": 4.05,
+      "auc": 0.7972,
+      "pr": 0.2054,
+      "n_total": 2543,
+      "n_active": 47
+    },
+    "calibrated_stacking": {
+      "ef1": 36.79,
+      "ef5": 9.37,
+      "ef10": 5.33,
+      "auc": 0.8285,
+      "pr": 0.4128,
+      "n_total": 2543,
+      "n_active": 47
+    },
+    "stacking_with_molchamb": {
+      "ef1": 34.63,
+      "ef5": 9.37,
+      "ef10": 4.9,
+      "auc": 0.7659,
+      "pr": 0.3854,
+      "n_total": 2543,
+      "n_active": 47
+    }
+  },
+  "molchamb_runtime_sec": 2.5227,
+  "timestamp": "2026-07-25 18:45:57"
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-09-PRE",
+  "hypothesis": "El selector v0.6 de produccion es robusto a rotacion/traslacion rigida, al orden de poses y a perturbacion debil sigma=0.1A sobre la cohorte completa de 116 complejos train (invarianza 1e-6, orden 116/116, flips ok->mal <=2, >=60% de cambios en terciles 1-2 de margen, drift=0, aislamiento SHA)",
+  "protocol": "scripts/artifacts_science/RS-09-PRE/PREREGISTRO.md",
+  "created_at": "2026-08-17T07:26:21.850245+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "93541c9dc610d56014d19b73a2b72527d36abe41",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "GO si G1-G6 PASS; NO_GO si algun gate falla (evidencia de bug con reporte)"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/RS-09-PRE/PREREGISTRO.md": "8be007111ed60fd9ba690239f163abe78dd62dee7ab43e1017c1f8931c422b3e"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T07:26:22.329472+00:00",
+  "decision_rationale": "Prerregistro procedimental sellado: hipotesis, metodos A/B/C, cohorte 116 train, gates G1-G6. Nada ejecutado bajo este registro. Ejecucion en RS-09 (run_rs09_robustez.py) con sello aparte.",
+  "finished_at": "2026-08-17T07:26:22.464906+00:00"
+}

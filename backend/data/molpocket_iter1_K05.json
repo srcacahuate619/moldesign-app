@@ -1,0 +1,1076 @@
+{
+  "motor": "molpocket",
+  "fecha": "2026-08-01T10:44:29",
+  "config": {
+    "db": "C:\\Users\\Johan Amezcua\\MolDesign\\data\\moldesign_local.db",
+    "pdb_dir": "D:\\moldesign-build\\data\\target_library",
+    "catalog": "derivado",
+    "max_median": 4.0,
+    "offline": true
+  },
+  "catalogo": {
+    "derivado": true,
+    "n_targets": 216
+  },
+  "resumen": {
+    "N": 40,
+    "median": 21.91529075658623,
+    "p75": 31.87551775788009,
+    "mean": 25.95973517313568,
+    "pct_le_4": 0.0,
+    "pct_le_6": 15.0,
+    "pct_le_10": 30.0,
+    "min": 4.139120715383316,
+    "max": 111.84426709990827
+  },
+  "por_familia": {
+    "growth_factor": {
+      "N": 1,
+      "median": 12.505659699798871,
+      "p75": 12.505659699798871
+    },
+    "hydrolase": {
+      "N": 7,
+      "median": 12.303916796416505,
+      "p75": 18.472241432279286
+    },
+    "kinase": {
+      "N": 1,
+      "median": 22.821250991224538,
+      "p75": 22.821250991224538
+    },
+    "metalloenzyme": {
+      "N": 2,
+      "median": 8.783854799655412,
+      "p75": 9.13487139728776
+    },
+    "nuclear_receptor": {
+      "N": 5,
+      "median": 19.105689285396465,
+      "p75": 21.414445073860335
+    },
+    "oxidoreductase": {
+      "N": 5,
+      "median": 33.1239400211357,
+      "p75": 33.34215763355945
+    },
+    "phosphodiesterase": {
+      "N": 2,
+      "median": 20.50645375339072,
+      "p75": 24.69999922462722
+    },
+    "protease": {
+      "N": 12,
+      "median": 20.1047541471575,
+      "p75": 33.368163533722374
+    },
+    "protein_interaction": {
+      "N": 1,
+      "median": 111.84426709990827,
+      "p75": 111.84426709990827
+    },
+    "topoisomerase": {
+      "N": 4,
+      "median": 40.33483556935697,
+      "p75": 51.19873041541602
+    }
+  },
+  "por_target": {
+    "1AJ6": {
+      "distancia_a_ligando": 14.308,
+      "ground_truth": "A:NOV1",
+      "score": 0.9852,
+      "druggability": 0.9484,
+      "pocket_center": [
+        59.64,
+        4.25,
+        42.49
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 5742,
+      "n_pockets": 5
+    },
+    "1BN1": {
+      "distancia_a_ligando": 9.486,
+      "ground_truth": "A:AL5555",
+      "score": 0.3871,
+      "druggability": 0.3369,
+      "pocket_center": [
+        -9.77,
+        -2.12,
+        16.06
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 8660,
+      "n_pockets": 5
+    },
+    "1C3R": {
+      "distancia_a_ligando": 6.166,
+      "ground_truth": "A:TSN502",
+      "score": 0.3836,
+      "druggability": 0.3321,
+      "pocket_center": [
+        49.73,
+        4.71,
+        97.48
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 26181,
+      "n_pockets": 5
+    },
+    "1C3S": {
+      "distancia_a_ligando": 12.304,
+      "ground_truth": "A:SHH952",
+      "score": 0.3853,
+      "druggability": 0.3344,
+      "pocket_center": [
+        29.36,
+        35.13,
+        56.39
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 12904,
+      "n_pockets": 5
+    },
+    "1C6X": {
+      "distancia_a_ligando": 4.812,
+      "ground_truth": "B:3IN622",
+      "score": 0.9862,
+      "druggability": 0.9487,
+      "pocket_center": [
+        41.35,
+        24.73,
+        20.39
+      ],
+      "pocket_radius": 5.98,
+      "n_spheres": 6095,
+      "n_pockets": 5
+    },
+    "1CBR": {
+      "distancia_a_ligando": 24.15,
+      "ground_truth": "A:REA200",
+      "score": 0.4329,
+      "druggability": 0.4007,
+      "pocket_center": [
+        16.65,
+        -5.62,
+        8.78
+      ],
+      "pocket_radius": 5.91,
+      "n_spheres": 2,
+      "n_pockets": 5
+    },
+    "1CBS": {
+      "distancia_a_ligando": 9.772,
+      "ground_truth": "A:REA200",
+      "score": 0.382,
+      "druggability": 0.3301,
+      "pocket_center": [
+        17.32,
+        20.96,
+        26.9
+      ],
+      "pocket_radius": 5.98,
+      "n_spheres": 4342,
+      "n_pockets": 5
+    },
+    "1CX2": {
+      "distancia_a_ligando": 70.089,
+      "ground_truth": "A:HEM682",
+      "score": 0.7953,
+      "druggability": 0.8547,
+      "pocket_center": [
+        78.62,
+        -4.21,
+        16.65
+      ],
+      "pocket_radius": 4.52,
+      "n_spheres": 10,
+      "n_pockets": 5
+    },
+    "1DIY": {
+      "distancia_a_ligando": 33.342,
+      "ground_truth": "A:COH601",
+      "score": 0.5495,
+      "druggability": 0.5737,
+      "pocket_center": [
+        254.01,
+        119.25,
+        -30.6
+      ],
+      "pocket_radius": 2.48,
+      "n_spheres": 4,
+      "n_pockets": 5
+    },
+    "1EI1": {
+      "distancia_a_ligando": 45.361,
+      "ground_truth": "A:ANP394",
+      "score": 0.5123,
+      "druggability": 0.5185,
+      "pocket_center": [
+        33.53,
+        63.16,
+        39.48
+      ],
+      "pocket_radius": 2.01,
+      "n_spheres": 2,
+      "n_pockets": 5
+    },
+    "1EPB": {
+      "distancia_a_ligando": 21.414,
+      "ground_truth": "A:9CR165",
+      "score": 0.9788,
+      "druggability": 0.9465,
+      "pocket_center": [
+        -4.64,
+        9.65,
+        29.36
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 10733,
+      "n_pockets": 5
+    },
+    "1F0R": {
+      "distancia_a_ligando": 39.96,
+      "ground_truth": "A:815401",
+      "score": 0.8999,
+      "druggability": 0.9168,
+      "pocket_center": [
+        44.18,
+        -4.75,
+        34.03
+      ],
+      "pocket_radius": 5.69,
+      "n_spheres": 27,
+      "n_pockets": 5
+    },
+    "1FE2": {
+      "distancia_a_ligando": 33.124,
+      "ground_truth": "A:COH601",
+      "score": 0.6686,
+      "druggability": 0.7333,
+      "pocket_center": [
+        228.87,
+        110.22,
+        -18.53
+      ],
+      "pocket_radius": 3.83,
+      "n_spheres": 7,
+      "n_pockets": 5
+    },
+    "1FEM": {
+      "distancia_a_ligando": 19.106,
+      "ground_truth": "A:REA184",
+      "score": 0.5064,
+      "druggability": 0.5095,
+      "pocket_center": [
+        16.99,
+        14.55,
+        58.99
+      ],
+      "pocket_radius": 2.59,
+      "n_spheres": 2,
+      "n_pockets": 5
+    },
+    "1FH0": {
+      "distancia_a_ligando": 22.679,
+      "ground_truth": "A:0IW1280",
+      "score": 0.4769,
+      "druggability": 0.4654,
+      "pocket_center": [
+        39.33,
+        58.09,
+        8.44
+      ],
+      "pocket_radius": 3.06,
+      "n_spheres": 4,
+      "n_pockets": 5
+    },
+    "1GPK": {
+      "distancia_a_ligando": 22.416,
+      "ground_truth": "A:HUP1540",
+      "score": 0.634,
+      "druggability": 0.6908,
+      "pocket_center": [
+        3.4,
+        46.17,
+        70.06
+      ],
+      "pocket_radius": 2.4,
+      "n_spheres": 13,
+      "n_pockets": 5
+    },
+    "1GX9": {
+      "distancia_a_ligando": 7.834,
+      "ground_truth": "A:REA1163",
+      "score": 0.9858,
+      "druggability": 0.9486,
+      "pocket_center": [
+        11.04,
+        49.77,
+        58.71
+      ],
+      "pocket_radius": 5.98,
+      "n_spheres": 5156,
+      "n_pockets": 5
+    },
+    "1HSG": {
+      "distancia_a_ligando": 4.818,
+      "ground_truth": "B:MK1902",
+      "score": 0.9844,
+      "druggability": 0.9482,
+      "pocket_center": [
+        15.85,
+        25.91,
+        3.66
+      ],
+      "pocket_radius": 5.97,
+      "n_spheres": 6142,
+      "n_pockets": 5
+    },
+    "1IGZ": {
+      "distancia_a_ligando": 31.459,
+      "ground_truth": "A:COH601",
+      "score": 0.4526,
+      "druggability": 0.4294,
+      "pocket_center": [
+        247.27,
+        78.68,
+        -13.9
+      ],
+      "pocket_radius": 3.5,
+      "n_spheres": 6,
+      "n_pockets": 5
+    },
+    "1IS0": {
+      "distancia_a_ligando": 22.821,
+      "ground_truth": "C:AY0252",
+      "score": 0.3823,
+      "druggability": 0.3305,
+      "pocket_center": [
+        26.58,
+        29.38,
+        29.3
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 6825,
+      "n_pockets": 5
+    },
+    "1ITO": {
+      "distancia_a_ligando": 29.975,
+      "ground_truth": "A:E6C700",
+      "score": 0.3887,
+      "druggability": 0.3389,
+      "pocket_center": [
+        33.3,
+        36.62,
+        -19.33
+      ],
+      "pocket_radius": 2.89,
+      "n_spheres": 2,
+      "n_pockets": 5
+    },
+    "1J36": {
+      "distancia_a_ligando": 31.171,
+      "ground_truth": "A:LPR801",
+      "score": 0.5719,
+      "druggability": 0.6063,
+      "pocket_center": [
+        33.46,
+        10.14,
+        33.45
+      ],
+      "pocket_radius": 3.02,
+      "n_spheres": 5,
+      "n_pockets": 5
+    },
+    "1J37": {
+      "distancia_a_ligando": 89.156,
+      "ground_truth": "A:X8Z801",
+      "score": 0.5921,
+      "druggability": 0.6348,
+      "pocket_center": [
+        51.06,
+        -5.46,
+        98.87
+      ],
+      "pocket_radius": 3.06,
+      "n_spheres": 5,
+      "n_pockets": 5
+    },
+    "1KIJ": {
+      "distancia_a_ligando": 68.711,
+      "ground_truth": "A:NOV400",
+      "score": 0.4325,
+      "druggability": 0.4001,
+      "pocket_center": [
+        3.03,
+        11.97,
+        -22.78
+      ],
+      "pocket_radius": 3.11,
+      "n_spheres": 1,
+      "n_pockets": 5
+    },
+    "1KLI": {
+      "distancia_a_ligando": 41.865,
+      "ground_truth": "H:BEN300",
+      "score": 0.5473,
+      "druggability": 0.5704,
+      "pocket_center": [
+        31.91,
+        2.45,
+        13.07
+      ],
+      "pocket_radius": 5.31,
+      "n_spheres": 6,
+      "n_pockets": 5
+    },
+    "1KZN": {
+      "distancia_a_ligando": 35.308,
+      "ground_truth": "A:CBN1",
+      "score": 0.8047,
+      "druggability": 0.8615,
+      "pocket_center": [
+        15.6,
+        -2.68,
+        46.58
+      ],
+      "pocket_radius": 5.94,
+      "n_spheres": 11,
+      "n_pockets": 5
+    },
+    "1M6D": {
+      "distancia_a_ligando": 17.531,
+      "ground_truth": "A:MYP1280",
+      "score": 0.3915,
+      "druggability": 0.3427,
+      "pocket_center": [
+        1.35,
+        -3.93,
+        14.57
+      ],
+      "pocket_radius": 2.47,
+      "n_spheres": 1,
+      "n_pockets": 5
+    },
+    "1Q4G": {
+      "distancia_a_ligando": 28.026,
+      "ground_truth": "A:HEM801",
+      "score": 0.3836,
+      "druggability": 0.3322,
+      "pocket_center": [
+        46.95,
+        32.83,
+        189.71
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 40632,
+      "n_pockets": 5
+    },
+    "1RKP": {
+      "distancia_a_ligando": 12.119,
+      "ground_truth": "A:IBM201",
+      "score": 0.9818,
+      "druggability": 0.9474,
+      "pocket_center": [
+        40.02,
+        12.39,
+        59.51
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 10261,
+      "n_pockets": 5
+    },
+    "1RV7": {
+      "distancia_a_ligando": 6.898,
+      "ground_truth": "B:AB11001",
+      "score": 0.9799,
+      "druggability": 0.9468,
+      "pocket_center": [
+        18.6,
+        40.92,
+        -0.77
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 5991,
+      "n_pockets": 5
+    },
+    "1T69": {
+      "distancia_a_ligando": 14.528,
+      "ground_truth": "A:SHH379",
+      "score": 0.9893,
+      "druggability": 0.9496,
+      "pocket_center": [
+        28.59,
+        1.14,
+        -0.05
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 11613,
+      "n_pockets": 5
+    },
+    "1TGJ": {
+      "distancia_a_ligando": 12.506,
+      "ground_truth": "A:DIO113",
+      "score": 0.4389,
+      "druggability": 0.4093,
+      "pocket_center": [
+        -25.86,
+        11.99,
+        16.42
+      ],
+      "pocket_radius": 2.4,
+      "n_spheres": 1,
+      "n_pockets": 5
+    },
+    "1VKG": {
+      "distancia_a_ligando": 5.111,
+      "ground_truth": "A:CRI402",
+      "score": 0.9861,
+      "druggability": 0.9487,
+      "pocket_center": [
+        13.42,
+        64.77,
+        75.02
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 23548,
+      "n_pockets": 5
+    },
+    "1W22": {
+      "distancia_a_ligando": 5.146,
+      "ground_truth": "A:NHB1378",
+      "score": 0.9875,
+      "druggability": 0.9491,
+      "pocket_center": [
+        3.93,
+        14.59,
+        24.51
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 23658,
+      "n_pockets": 5
+    },
+    "1WBK": {
+      "distancia_a_ligando": 4.139,
+      "ground_truth": "B:5681100",
+      "score": 0.9844,
+      "druggability": 0.9482,
+      "pocket_center": [
+        15.5,
+        25.96,
+        3.65
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 6186,
+      "n_pockets": 5
+    },
+    "1WBM": {
+      "distancia_a_ligando": 4.364,
+      "ground_truth": "B:BLL1100",
+      "score": 0.9855,
+      "druggability": 0.9485,
+      "pocket_center": [
+        15.64,
+        25.79,
+        3.58
+      ],
+      "pocket_radius": 5.99,
+      "n_spheres": 6060,
+      "n_pockets": 5
+    },
+    "1XP0": {
+      "distancia_a_ligando": 28.894,
+      "ground_truth": "A:VDN201",
+      "score": 0.584,
+      "druggability": 0.6235,
+      "pocket_center": [
+        -21.13,
+        22.32,
+        90.87
+      ],
+      "pocket_radius": 4.5,
+      "n_spheres": 5,
+      "n_pockets": 5
+    },
+    "1ZZ1": {
+      "distancia_a_ligando": 27.593,
+      "ground_truth": "A:SHH2452",
+      "score": 0.9872,
+      "druggability": 0.949,
+      "pocket_center": [
+        -3.92,
+        5.06,
+        15.34
+      ],
+      "pocket_radius": 6.0,
+      "n_spheres": 48735,
+      "n_pockets": 5
+    },
+    "2A3W": {
+      "distancia_a_ligando": 111.844,
+      "ground_truth": "A:CPJ341",
+      "score": 0.6361,
+      "druggability": 0.6935,
+      "pocket_center": [
+        -24.81,
+        58.93,
+        68.38
+      ],
+      "pocket_radius": 4.52,
+      "n_spheres": 10,
+      "n_pockets": 5
+    },
+    "2AW1": {
+      "distancia_a_ligando": 8.082,
+      "ground_truth": "A:COX264",
+      "score": 0.3866,
+      "druggability": 0.3362,
+      "pocket_center": [
+        -8.76,
+        -1.91,
+        15.55
+      ],
+      "pocket_radius": 5.97,
+      "n_spheres": 8725,
+      "n_pockets": 5
+    }
+  },
+  "skipped": [
+    {
+      "pdb_id": "1C3P",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1IAS",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1IRU",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1J38",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1KTZ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1M9Z",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1RYP",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1SUU",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1TW7",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1UZJ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1VL4",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1VPB",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "1XWD",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2B2A",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2I3U",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2J4O",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2QCQ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2R4G",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2XWT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "2ZJT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3DU6",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3E50",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3F75",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3G04",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3HH2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3IG0",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3JTG",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3KD2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3KDA",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3KYL",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "3MXJ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4DLN",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4DM7",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4DMF",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4I04",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4LMO",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "4NPU",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5C9H",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5DIY",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5E4G",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5E8V",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5FG9",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5FPW",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5JHW",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5NPT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5T4X",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5TPT",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5TUN",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5TXJ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5YWS",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "5YWV",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6GAV",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6HL0",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6OGV",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6PSD",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6RML",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6USO",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6W10",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6ZD2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6ZD6",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "6ZDQ",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7KQM",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7SBE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "7T9I",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8F6U",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8F6V",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8GJR",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8HFE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8J47",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8V52",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "8WZL",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9E9G",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9F9T",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9KJE",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9NX5",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA0",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA1",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA2",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA3",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9QA4",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9RAW",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    },
+    {
+      "pdb_id": "9RAX",
+      "motivo": "sin_ligando_druglike",
+      "detalle": "el PDB local no contiene HETATM no-SKIP con 6..500 átomos"
+    }
+  ],
+  "fallos": {},
+  "peores_outliers": [
+    {
+      "pdb_id": "2A3W",
+      "distancia": 111.844
+    },
+    {
+      "pdb_id": "1J37",
+      "distancia": 89.156
+    },
+    {
+      "pdb_id": "1CX2",
+      "distancia": 70.089
+    },
+    {
+      "pdb_id": "1KIJ",
+      "distancia": 68.711
+    },
+    {
+      "pdb_id": "1EI1",
+      "distancia": 45.361
+    }
+  ],
+  "exit_code": 1
+}

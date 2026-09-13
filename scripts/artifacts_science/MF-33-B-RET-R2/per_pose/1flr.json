@@ -1,0 +1,38 @@
+[
+  {
+    "identity": "1flr|conf0|model0",
+    "pid": "1flr",
+    "conformer": 0,
+    "model_idx": 0,
+    "score": -11.959,
+    "rmsd_pose_pocket": 0.30927521724186036,
+    "raw_pdbqt": "raw_pdbqt/1flr/conf0.out.pdbqt",
+    "raw_sha256": "ae4db3c13826f35c9812f9f65d57b854b418e6443714e80150606cb3996888b2",
+    "stdout": "logs/1flr/conf0.stdout.txt",
+    "stderr": "logs/1flr/conf0.stderr.txt"
+  },
+  {
+    "identity": "1flr|conf1|model0",
+    "pid": "1flr",
+    "conformer": 1,
+    "model_idx": 0,
+    "score": -12.125,
+    "rmsd_pose_pocket": 0.30331660027106944,
+    "raw_pdbqt": "raw_pdbqt/1flr/conf1.out.pdbqt",
+    "raw_sha256": "125de23d3670c5bdba93b4a8c0d7219d4ef48ae71b950b6cbc69697e9798f616",
+    "stdout": "logs/1flr/conf1.stdout.txt",
+    "stderr": "logs/1flr/conf1.stderr.txt"
+  },
+  {
+    "identity": "1flr|conf1|model1",
+    "pid": "1flr",
+    "conformer": 1,
+    "model_idx": 1,
+    "score": -11.718,
+    "rmsd_pose_pocket": 4.355698818789012,
+    "raw_pdbqt": "raw_pdbqt/1flr/conf1.out.pdbqt",
+    "raw_sha256": "125de23d3670c5bdba93b4a8c0d7219d4ef48ae71b950b6cbc69697e9798f616",
+    "stdout": "logs/1flr/conf1.stdout.txt",
+    "stderr": "logs/1flr/conf1.stderr.txt"
+  }
+]

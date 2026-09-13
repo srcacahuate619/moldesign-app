@@ -1,0 +1,46 @@
+{
+ "experiment_id": "MF-09",
+ "timestamp": "2026-08-18T06:40:32.797707+00:00",
+ "duration_seconds": 1.24,
+ "material": "data\\molflex_reinicios",
+ "umbral_A": 2.0,
+ "n_complejos": 48,
+ "n_ok": 48,
+ "resumen": {
+  "COLOCACION": {
+   "n": 33,
+   "n_poses_mediana": 751,
+   "oraculo_mediana": 2.961,
+   "top1_mediana": 7.683,
+   "existe_pose_buena": 3,
+   "top1_acierta": 0,
+   "acierta_top5": 1,
+   "acierta_top9": 1,
+   "acierta_top20": 2,
+   "margen_de_seleccion": 3,
+   "spearman_mediano": 0.1858,
+   "rango_mediano_de_la_mejor_rmsd": 64,
+   "percentil_mediano_de_la_mejor_rmsd": 0.1111
+  },
+  "CONTROL": {
+   "n": 15,
+   "n_poses_mediana": 80,
+   "oraculo_mediana": 0.956,
+   "top1_mediana": 2.097,
+   "existe_pose_buena": 15,
+   "top1_acierta": 7,
+   "acierta_top5": 14,
+   "acierta_top9": 14,
+   "acierta_top20": 15,
+   "margen_de_seleccion": 8,
+   "spearman_mediano": 0.4829,
+   "rango_mediano_de_la_mejor_rmsd": 3,
+   "percentil_mediano_de_la_mejor_rmsd": 0.1667
+  }
+ },
+ "definiciones": {
+  "muestreo": "no existe ninguna pose <=2 A entre todas las generadas: ningun selector puede arreglarlo",
+  "puntuacion": "existe pose buena pero el top-1 por score no acierta: margen para un selector",
+  "margen_de_seleccion": "complejos con pose buena disponible que el top-1 por score falla"
+ }
+}

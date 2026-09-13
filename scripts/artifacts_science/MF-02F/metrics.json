@@ -1,0 +1,155 @@
+{
+ "experiment_id": "MF-02F",
+ "timestamp": "2026-08-18T06:13:58.767778+00:00",
+ "duration_seconds": 4237.3,
+ "config": {
+  "ks": [
+   30,
+   60,
+   90
+  ],
+  "umbral_A": 2.0,
+  "k_max_generado": 90,
+  "metrica": "min rmsd_pose_pocket sobre todas las poses dockeadas del brazo",
+  "nota_K30": "material sellado de MF-02D; no se recomputa"
+ },
+ "cohorte": {
+  "colocacion": 33,
+  "control": 15
+ },
+ "n_complejos": 48,
+ "n_ok": 48,
+ "resumen_por_brazo": {
+  "K30": {
+   "COLOCACION": {
+    "n": 33,
+    "cubiertos": 0,
+    "pids": [],
+    "mediana_oraculo": 3.746,
+    "n_conf_mediano": 29
+   },
+   "CONTROL": {
+    "n": 15,
+    "cubiertos": 15,
+    "pids": [
+     "187l",
+     "188l",
+     "1add",
+     "1ai4",
+     "1alw",
+     "1bcd",
+     "1bju",
+     "1d7j",
+     "1fd0",
+     "1flr",
+     "1g3d",
+     "1hlk",
+     "1iih",
+     "1mmq",
+     "1nq7"
+    ],
+    "mediana_oraculo": 0.956,
+    "n_conf_mediano": 9
+   }
+  },
+  "K60": {
+   "COLOCACION": {
+    "n": 33,
+    "cubiertos": 0,
+    "pids": [],
+    "mediana_oraculo": 3.664,
+    "n_conf_mediano": 58
+   },
+   "CONTROL": {
+    "n": 15,
+    "cubiertos": 15,
+    "pids": [
+     "187l",
+     "188l",
+     "1add",
+     "1ai4",
+     "1alw",
+     "1bcd",
+     "1bju",
+     "1d7j",
+     "1fd0",
+     "1flr",
+     "1g3d",
+     "1hlk",
+     "1iih",
+     "1mmq",
+     "1nq7"
+    ],
+    "mediana_oraculo": 0.956,
+    "n_conf_mediano": 9
+   }
+  },
+  "K90": {
+   "COLOCACION": {
+    "n": 33,
+    "cubiertos": 3,
+    "pids": [
+     "1ela",
+     "1fkg",
+     "1mu8"
+    ],
+    "mediana_oraculo": 2.961,
+    "n_conf_mediano": 86
+   },
+   "CONTROL": {
+    "n": 15,
+    "cubiertos": 15,
+    "pids": [
+     "187l",
+     "188l",
+     "1add",
+     "1ai4",
+     "1alw",
+     "1bcd",
+     "1bju",
+     "1d7j",
+     "1fd0",
+     "1flr",
+     "1g3d",
+     "1hlk",
+     "1iih",
+     "1mmq",
+     "1nq7"
+    ],
+    "mediana_oraculo": 0.956,
+    "n_conf_mediano": 9
+   }
+  }
+ },
+ "coste": {
+  "mediana_s": 601.4
+ },
+ "nota_monotonia": "Con prefijos anidados K90 contiene a K60 y este a K30: la cobertura solo puede subir. La monotonia es tautologica y NO es evidencia (PRE seccion 4).",
+ "gates": {
+  "G1_validez": {
+   "criterio": ">=95% completan sin error",
+   "tasa": 1.0,
+   "pass": true
+  },
+  "G2_recuperacion": {
+   "criterio": "K90 recupera >=3 de los 33 sobre lo que ya daba K30",
+   "K30": 0,
+   "K60": 0,
+   "K90": 3,
+   "recuperados_sobre_K30": 3,
+   "pass": true
+  },
+  "G3_saturacion": {
+   "criterio": "informativo: si K60->K90 no anade complejos, satura en K60",
+   "delta_K60_K90": 3,
+   "satura_en_K60": false,
+   "pass": true
+  },
+  "G5_anidamiento": {
+   "criterio": "el ensemble K30 es prefijo exacto del K90 en toda la cohorte",
+   "no_anidan": [],
+   "pass": true
+  }
+ },
+ "decision": "GO"
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-02A-EXT",
+  "hypothesis": "El techo conformacional del ensemble ETKDG medido en los 116 de train generaliza al conjunto de PDBBind, y su curva permite saber cuanto compra anadir conformeros a escala",
+  "protocol": "Declarado en MF-02-PRE seccion 4, sellado antes de ejecutar; mismo metodo que MF-02A (ETKDG seed 42, prune 0.4, GetBestRMS alineado, curva acumulada sobre un unico embebido de 150) en el contenedor Ubuntu",
+  "created_at": "2026-08-18T06:51:07.629534+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "e3df898ab254f33018a72ddf97832613b7ec5a39",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "Sin gates de aceptacion: es una medicion descriptiva del generador"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-02A-EXT/LECTURA.md": "b35877e5b3f3c27081a93665c035220ed240403632dc7277946e142a4d1a4c86",
+    "scripts/artifacts_science/MF-02A-EXT/metrics.json": "97062e33eb001906fe7e2d1dee2fcd416fa94922cd3c19c042d19e1a1fab5889",
+    "scripts/artifacts_science/MF-02A-EXT/per_complex.jsonl": "b56e7dbe6f6e5c3315442449127cd52cf7ca2f46e46af7a654bc4338300cc3c0",
+    "scripts/artifacts_science/MF-02A-EXT/failures.jsonl": "d52b469de0993065f5284946162e183069a2e2db2ea92a81107073859531eded",
+    "scripts/run_mf02a_conf_ceiling.py": "b7de78ec6d41ddfa8426c60442ad3d7bc8fc99051148a608624ea713b3509642"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T06:51:33.164888+00:00",
+  "decision_rationale": "Medicion descriptiva sin gates, declarada en MF-02-PRE seccion 4 antes de ejecutar. Sobre 4636 complejos de PDBBind medidos (de 5316; 680 fallaron el embebido de RDKit, un 12.8 por ciento que no pasa ni la primera fase del generador), la curva de disponibilidad conformacional a <=2 A es 75.2, 81.2, 83.9, 86.2, 87.2 y 88.1 por ciento para K5, K15, K30, K60, K90 y K150. TRES LECTURAS. (1) El techo generaliza: alrededor del 12 por ciento de PDBBind no tiene la conformacion bioactiva en el ensemble ETKDG ni con 150 conformeros, y eso es propiedad del metodo de embebido y no de la cohorte de 116. (2) CORRIGE A MF-02A: sobre los 116 la curva se aplanaba en 80.2 por ciento desde K60 y declare saturacion; sobre 4636 sigue subiendo alrededor de 1 punto por duplicacion (86.2 a 87.2 a 88.1), de modo que el plateau aparente era en parte artefacto del tamano de muestra. La conclusion cualitativa se mantiene -rendimientos decrecientes, 5x de coste de K30 a K150 para 4.2 puntos- pero la palabra satura era demasiado fuerte. (3) El conjunto de train es MAS DIFICIL que PDBBind en general: a K30 la disponibilidad es 83.9 por ciento en PDBBind frente a 77.6 en los 116, coherente con el gradiente train menor que val menor que test que encontro RC-F0-V2, lo que sugiere sesgo en como se armo la cohorte y no en el generador. Junto con MF-09, que mostro que en 30 de 33 complejos dificiles no existe pose buena entre 751 candidatas, las dos mediciones acotan el problema por ambos lados: el material conformacional suele estar disponible y el docking no lo coloca.",
+  "finished_at": "2026-08-18T06:51:33.329479+00:00",
+  "duration_seconds": 24898.0
+}

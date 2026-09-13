@@ -1,0 +1,400 @@
+{
+ "id": "MF-31",
+ "meta": {
+  "titulo": "Correlaciona, predice, y aun así no es la palanca",
+  "entradilla": "La ocupación de caja correlaciona con el fallo (ρ=0.384) y sirve para predecirlo. Pero el test de dosis-respuesta da ρ=-0.054: apretar más no mejora más. Es un marcador, no una causa."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Había una historia limpia y era casi seguramente falsa, así que valía la pena comprobarla.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La historia: los ligandos que fallan la colocación ocupan una fracción pequeña de la caja de búsqueda. Tienen sitio de sobra para deslizarse dentro del bolsillo, la búsqueda se pierde en ese volumen vacío, y por eso no encuentra la pose correcta. Si eso fuera cierto, apretar la caja sería una palanca directa: menos volumen inútil, mejor búsqueda.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La correlación existía y era fuerte. La pregunta era si era causal.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Cómo se distingue un marcador de una palanca",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Una correlación transversal no basta. Que los complejos con baja ocupación fallen más puede deberse a que la ocupación ",
+     "m": null
+    },
+    {
+     "t": "causa",
+     "m": "enfasis"
+    },
+    {
+     "t": " el fallo, o a que ambas cosas son consecuencia de otra —por ejemplo, que los ligandos grandes y flexibles fallan más ",
+     "m": null
+    },
+    {
+     "t": "y además",
+     "m": "enfasis"
+    },
+    {
+     "t": " llenan la caja de otra forma.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo que distingue las dos es la ",
+     "m": null
+    },
+    {
+     "t": "dosis-respuesta pareada",
+     "m": "fuerte"
+    },
+    {
+     "t": ": dentro de cada complejo, si se cambia la ocupación, ¿cambia el resultado en proporción?",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento aprovecha que ",
+     "m": null
+    },
+    {
+     "t": "MF-08",
+     "m": "codigo"
+    },
+    {
+     "t": " ya había producido el material necesario. Su intervención de cajas —144 corridas con cajas de 20 Å, 30 Å y adaptativa— cambia la ocupación ",
+     "m": null
+    },
+    {
+     "t": "en distinta medida para cada complejo",
+     "m": "fuerte"
+    },
+    {
+     "t": ", porque la caja adaptativa se ajusta al tamaño del ligando. Eso da variación pareada gratis, sin cómputo nuevo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El test transversal confirma la correlación",
+     "m": "fuerte"
+    },
+    {
+     "t": ": ρ = ",
+     "m": null
+    },
+    {
+     "t": "0.384",
+     "m": "fuerte"
+    },
+    {
+     "t": " entre ocupación y oráculo sobre las 144 corridas. La historia parecía sostenerse.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El test pareado de dosis-respuesta la derriba",
+     "m": "fuerte"
+    },
+    {
+     "t": ":",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Grupo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "ρ (dosis-respuesta)",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Global",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−0.054",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Estrato colocación",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+0.150",
+       "m": "fuerte"
+      },
+      {
+       "t": " ← signo contrario al predicho",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Estrato control",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−0.216",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los tres cerca de cero, y sin coherencia de signo. En el estrato que importa, el efecto va en la dirección ",
+     "m": null
+    },
+    {
+     "t": "opuesta",
+     "m": "fuerte"
+    },
+    {
+     "t": " a la hipótesis.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo desconcertante: apretar la caja sí funciona",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y aquí está lo que hace este resultado más interesante que un simple negativo. Apretar la caja ",
+     "m": null
+    },
+    {
+     "t": "sí mejora",
+     "m": "fuerte"
+    },
+    {
+     "t": " el oráculo:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "delta mediano ",
+      "m": null
+     },
+     {
+      "t": "−0.379 Å",
+      "m": "fuerte"
+     },
+     {
+      "t": ", CI95 [−0.713, −0.204]",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "mejoran ",
+      "m": null
+     },
+     {
+      "t": "27 de 48",
+      "m": "fuerte"
+     },
+     {
+      "t": " complejos",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El efecto es real. Pero ",
+     "m": null
+    },
+    {
+     "t": "no es proporcional a cuánto se aprieta",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso resuelve algo que ",
+     "m": null
+    },
+    {
+     "t": "MF-08",
+     "m": "codigo"
+    },
+    {
+     "t": " había dejado colgando sin explicación. ",
+     "m": null
+    },
+    {
+     "t": "MF-08",
+     "m": "codigo"
+    },
+    {
+     "t": " convirtió 3 de 33 complejos moviendo la mediana 0.82 Å, y nadie sabía por qué el beneficio era tan disperso. La respuesta es esta: si la ocupación fuera la palanca, la ganancia se habría concentrado en los complejos donde la caja se apretó más. No lo hizo. La mejora viene de otra cosa que la caja pequeña arrastra consigo, no del volumen en sí.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué sobrevive de todo esto",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "**El clasificador de ",
+     "m": null
+    },
+    {
+     "t": "MF-12",
+     "m": "codigo"
+    },
+    {
+     "t": " no queda invalidado.** Su predictor dominante es precisamente la ocupación del confórmero, y este experimento acaba de decir que la ocupación no es causal. Pero predecir no requiere causalidad. Un marcador es perfectamente válido para triage: si quiero saber qué complejos van a fallar para no gastar cómputo en ellos, me da igual que la variable sea causa o síntoma.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo que este resultado prohíbe es lo otro: ",
+     "m": null
+    },
+    {
+     "t": "usar la ocupación como intervención",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Diseñar el pipeline para maximizar ocupación de caja, esperando que el rendimiento suba en proporción, no funcionaría. La correlación no se transfiere a la manipulación.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es una distinción que suena académica hasta que alguien construye un producto sobre el lado equivocado de ella.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-31.md"
+}

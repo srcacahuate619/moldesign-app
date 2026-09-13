@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "FEP-04",
+  "hypothesis": "Se puede acompanar la pose entregada de una confianza que calibra: abstenerse en los casos menos confiables sube la precision del resto",
+  "protocol": "medicion sobre los 203: tres senales calculables sin conocer la respuesta (margen de score entre modos distintos, dispersion del top-5, modos empatados a 1 kcal/mol) y curva riesgo-cobertura",
+  "created_at": "2026-08-19T03:53:20.476473+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gates; metrica primaria de incertidumbre segun la seccion 5 del doc. 49"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_fep04_confianza.py": "c8604e57b711f00a5b630f20a659b9ba1fb6e929fa166d32acc5cda0ab6dde9a"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:21.312069+00:00",
+  "decision_rationale": "LAS TRES SENALES FUNCIONAN. Precision del top-1 global 0.330; abstenerse en el 75% menos confiable la sube a 0.620 con modos empatados, 0.600 con margen y 0.580 con dispersion del top-5. Los intervalos de Wilson de los extremos apenas se solapan ([0.269,0.398] frente a [0.482,0.741]). Las tres son GRATIS: se calculan de las poses ya generadas, sin modelo entrenado ni informacion del cristal. Segundo hallazgo con consecuencia de producto: top-1 acierta 0.330, top-5 acierta 0.465 y el oraculo es 0.615. Entregar cinco alternativas en vez de una sube la cobertura util 13 puntos sin tocar el motor. Es un cambio de diseno, no de investigacion: dejar de entregar una pose y entregar K con confianza. Limitaciones: la curva es OPTIMISTA porque las senales se observan sobre los mismos datos donde se mide -un uso en produccion exige calibrar en train y medir en val/test-; a cobertura 25% quedan n=50 con CI de +-13 puntos, asi que la forma de la curva es solida pero el valor puntual no; y no se combinaron las tres senales. Nota posterior: FND-03 midio rangos por semilla de hasta 4 A por complejo, asi que esta confianza deberia incorporar repeticiones.",
+  "finished_at": "2026-08-19T03:53:21.502228+00:00"
+}

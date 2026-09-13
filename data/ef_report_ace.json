@@ -1,0 +1,37 @@
+{
+  "target": "ace (1o86)",
+  "target_family": "metaloenzyme",
+  "engine": "cpu",
+  "vina_exhaustiveness": 4,
+  "workers": 4,
+  "features_used": "Shell 96 + ECIF 56 + 1D/2D 8 = 160",
+  "classifier": "binder XGBoost (AUC 0.858)",
+  "gnn_enabled": false,
+  "box_source": "target_config",
+  "box_center": [
+    43.82,
+    38.24,
+    46.71
+  ],
+  "box_size": 25,
+  "pipeline_complete": {
+    "n_total": 2202,
+    "n_actives": 50,
+    "coverage_n3": 0,
+    "coverage_n2": 2202,
+    "coverage_n1": 0,
+    "coverage_n0": 0,
+    "EF_1pct": 0.0,
+    "EF_5pct": 0.8,
+    "EF_10pct": 0.4,
+    "ROC_AUC": 0.4547
+  },
+  "vina_only": {
+    "n_total": 2003,
+    "EF_1pct": 0.0,
+    "EF_5pct": 0.0,
+    "EF_10pct": 0.22,
+    "ROC_AUC": 0.4056
+  },
+  "timestamp": "2026-07-29 08:05:30"
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-33-EXT-MOD-PRE",
+  "hypothesis": "Sobre los 116 se pueden contestar tres cosas que los 33 no permitian: (1) si la ventaja del ensemble es general o esta concentrada en el estrato dificil; (2) si los seis predictores de MF-33-DOSIS replican, y sobre todo si sobreviven en los 68 complejos que NO estaban en la cohorte de 48; y (3) si el fenomeno es de DOSIS -mas oportunidades, mas espacio conformacional- o de ACIERTO -basta con que una inicializacion caiga en region favorable-, que es la hipotesis derivada de MF-33-A3 y MF-33-DOSIS y que hasta ahora no se podia contrastar.",
+  "protocol": "ANALISIS PREREGISTRADO ANTES DE QUE MF-33-EXT CIERRE, sobre los datos que su runner ya registra y sin computo nuevo. BLOQUE 1: curva_oraculo[0] ES el resultado de un solo conformero y el oraculo final el del ensemble, asi que la comparacion sale pareada por complejo sin coste. BLOQUE 2: los seis predictores de MF-33-DOSIS sobre los 116, declarados como REPLICACION y no como descubrimiento, porque ya se miraron en los 33. BLOQUE 3: los cinco prospectivos sobre los 68 que no estan en la cohorte de 48, con FDR propio; frac_vuelve queda excluido porque MF-14 solo cubrio 48 complejos y no tiene version fuera de muestra. BLOQUE 4: primer_dock_que_cubre contra una geometrica con p estimada por maxima verosimilitud. Spearman de rangos, Benjamini-Hochberg q=0.05. Script: scripts/analisis_mf33ext_moderadores.py.",
+  "created_at": "2026-08-21T03:23:52.008882+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "8a86edc5710495ea582cff38d8e16e12d2fa6f9c",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "BLOQUE 1, TRES LECTURAS ESCRITAS ANTES con umbrales de 5 y 15 puntos porcentuales fijados aqui y que NO se mueven: ESCENARIO A EFECTO REAL PERO CONCENTRADO si delta global < 5 pp y delta en COLOCACION >= 15 pp, y entonces NO se justifica regenerar la cohorte universalmente; ESCENARIO B EFECTO GENERAL si delta global >= 15 pp, y entonces la arquitectura debe cambiar y la regeneracion queda justificada; ESCENARIO C EFECTO GRANDE E IMPREDECIBLE si hay delta >= 15 pp en el global o en un subconjunto Y ningun predictor sobrevive los bloques 2 y 3, y entonces lo indicado es muestreo secuencial con criterio de parada y no una politica de descriptores estaticos. Cualquier otra combinacion se reporta como MIXTO con sus numeros, sin forzarla. BLOQUE 2 ES REPLICACION Y NO DESCUBRIMIENTO: los seis ya se miraron en los 33, no son hipotesis virgenes, y LA CONCLUSION SE TOMA DEL BLOQUE 3. Un predictor que aparezca en los 116 y desaparezca en los 68 externos es estructura de la cohorte original filtrandose por los 48 solapados. BLOQUE 3 ES LA REGLA DE DECISION: un predictor solo se declara candidato a politica adaptativa si sobrevive AQUI. BLOQUE 4: compatible con ACIERTO si la curva observada no se separa de la geometrica y el primer acierto no se concentra en la corrida 1; compatible con DOSIS si crece sostenidamente por encima de la geometrica; HETEROGENEIDAD si se queda por debajo, lo que indicaria complejos con p cercano a cero que ningun K rescata. PROHIBIDO: mover los umbrales de 5 y 15 pp; presentar el bloque 2 como descubrimiento; reabrir la cantidad primaria de MF-33-EXT, que es su cobertura contra el liston de 0.90 heredado del G5 de MF-02D y esta declarada en MF-33-EXT-PRE."
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-33-DOSIS/per_complex.jsonl": "b6f560dd23f1f3e5433330862bd8dac1e5a18116cd4d6c46dce7c7d3f6b6f796",
+    "scripts/artifacts_science/MF-33/per_complex.jsonl": "ee1d03c926eef6ff02bdf2b189d097d2b1b1240f5b0f56827203a10343edb48d"
+  },
+  "assets_hashes": {
+    "scripts/analisis_mf33ext_moderadores.py": "60ee6c8475ca1e5b81391b02ac207434280b8654f3f3325bd52698a06422404b"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-21T03:23:54.053125+00:00",
+  "decision_rationale": "Prerregistro sellado con el hash del script MIENTRAS MF-33-EXT AUN CORRE -iba por 10 de 116 al momento de sellar-, de modo que las tres reglas de lectura son demostrablemente anteriores a los datos. Es la unica forma de que este analisis no sea post-hoc, y la razon de sellarlo ahora y no manana. TRES DECISIONES QUE SE TOMAN AQUI Y NO DESPUES. PRIMERA, los umbrales de 5 y 15 puntos porcentuales del bloque 1 quedan fijados sin haber visto ninguna cobertura. SEGUNDA, y es la que mas protege: el bloque 2 se declara REPLICACION y no descubrimiento. Los seis predictores ya se miraron en los 33 de MF-33-DOSIS; volver a mirarlos en un conjunto que contiene a esos mismos 33 no los convierte en hipotesis nuevas, y presentarlo asi seria contar dos veces la misma observacion. Por eso la regla de decision se traslada explicitamente al bloque 3, los 68 complejos que no estaban. TERCERA, se declara de antemano que frac_vuelve no puede pasar el bloque 3, porque MF-14 solo cubrio 48 complejos: si acabara siendo el unico superviviente del bloque 2, no bastaria, y conviene saberlo antes de que la tentacion exista. EL BLOQUE 4 ES LA PRIMERA OPORTUNIDAD DE CONTRASTAR la hipotesis de acierto-contra-dosis, que hasta ahora era una lectura de dos nulos independientes -A3 mostro que multiplicar por 29 las poses desde el mismo conformero no mueve un complejo, y DOSIS que la dispersion del ensemble no correlaciona con su beneficio-. El campo primer_dock_que_cubre que el runner de MF-33-EXT ya registra permite compararla contra un modelo explicito, y se declara ademas el tercer desenlace -heterogeneidad, complejos con p cercano a cero- porque seria evidencia convergente con lo que MF-33-CRUCES y REC-09 sugirieron por otra via: que parte de los fallos no son de muestreo sino de especificacion.",
+  "finished_at": "2026-08-21T03:23:54.512162+00:00"
+}

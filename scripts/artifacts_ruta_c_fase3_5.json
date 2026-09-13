@@ -1,0 +1,784 @@
+{
+  "generated_at": "2026-08-14T21:10:00-0600",
+  "protocolo": "docs/42_RUTA_C_PROTOCOLO.md (C5, R-RC5)",
+  "fase": "3.5 (abstencion por decidibilidad) + R-RC5 (robustez metamorfica)",
+  "referencias": {
+    "v06_top1_test": 0.6596,
+    "fase3_umbral_margen_val": 0.097663
+  },
+  "config": {
+    "features_decidibilidad": [
+      "n_poses",
+      "vina_top_raw",
+      "z_vina_top",
+      "pct_vina_top",
+      "margin",
+      "p_top1",
+      "std_scores",
+      "cluster_top1",
+      "cluster_max",
+      "n_cluster_ge1",
+      "max_abs_z_cpa4",
+      "spread_contacts_6",
+      "spread_shell_O_N_0_4",
+      "n_contactos4_top1",
+      "cpa4_top1",
+      "n_clashes_top1",
+      "vina_min",
+      "vina_std"
+    ],
+    "meta_top1_aceptados": 0.85,
+    "meta_max_abstencion": 0.35,
+    "tolerancia_invarianza": 1e-06,
+    "sigma_ruido_rc5b": 0.1,
+    "n_complejos_invarianza": 10
+  },
+  "_ultima_etapa": "completo",
+  "reentreno_v06": {
+    "eval_metric": "auc",
+    "best_iteration": 51,
+    "top1_test_reentrenado": 0.6596,
+    "top1_test_referencia": 0.6596,
+    "delta": 0.0,
+    "reproducibilidad": "EXACTA"
+  },
+  "decidibilidad_modelo": {
+    "modelo": "LogisticRegression",
+    "features": [
+      "n_poses",
+      "vina_top_raw",
+      "z_vina_top",
+      "pct_vina_top",
+      "margin",
+      "p_top1",
+      "std_scores",
+      "cluster_top1",
+      "cluster_max",
+      "n_cluster_ge1",
+      "max_abs_z_cpa4",
+      "spread_contacts_6",
+      "spread_shell_O_N_0_4",
+      "n_contactos4_top1",
+      "cpa4_top1",
+      "n_clashes_top1",
+      "vina_min",
+      "vina_std"
+    ],
+    "justificacion_features": "La decidibilidad de un complejo (existe >=1 pose <=2 A) se caracteriza por tres familias: (a) saliencia de la pose elegida por v0.6 (margin, p_top1, std_scores, z_vina_top, pct_vina_top: si la mejor pose no se despega, el complejo es dudoso); (b) calidad de interaccion de la pose elegida (n_contactos4_top1, cpa4_top1, n_clashes_top1, cluster_top1, vina_top_raw: una pose cristalina interactua fuerte y esta en un cumulo); (c) estructura poblacional del conjunto de poses (n_poses, cluster_max, n_cluster_ge1, max_abs_z_cpa4, spread_contacts_6, spread_shell_O_N_0_4, vina_min, vina_std: los complejos decidibles suelen tener un cumulo nativo y dispersion de senal de interaccion). spread = std de la feature RAW entre las poses del complejo (la std de un z-score seria siempre 1 por construccion, por eso se usa la raw); max_abs_z_cpa4 = maximo |z| de contacts_per_ha_4 entre las poses (std del complejo == 0 -> z = 0, convencion de v0.6).",
+    "coeficientes_logistica": {
+      "n_poses": -0.8221,
+      "vina_top_raw": -1.2054,
+      "z_vina_top": -0.2231,
+      "pct_vina_top": -0.1967,
+      "margin": 0.3624,
+      "p_top1": 0.2701,
+      "std_scores": -0.1242,
+      "cluster_top1": 0.6619,
+      "cluster_max": 0.583,
+      "n_cluster_ge1": -0.7919,
+      "max_abs_z_cpa4": 0.2233,
+      "spread_contacts_6": -0.1492,
+      "spread_shell_O_N_0_4": -0.1814,
+      "n_contactos4_top1": -0.9509,
+      "cpa4_top1": 0.2698,
+      "n_clashes_top1": 0.2265,
+      "vina_min": -0.8748,
+      "vina_std": 1.3697
+    },
+    "auc_train": 0.9474,
+    "auc_val": 0.9621,
+    "n_val_usados": 39,
+    "n_val_total": 40,
+    "nota_modelo": "",
+    "mediana_imputacion_margin": 0.18223777413368225,
+    "balance_label_train": {
+      "decidibles": 78,
+      "indecidibles": 38
+    }
+  },
+  "puntos_operacion_val": {
+    "margen_fase3_t": 0.097663,
+    "td_solo_f1": {
+      "f1": 0.9355,
+      "t_d": 0.24158
+    },
+    "combinada": {
+      "elegido": {
+        "t_m": 0.0,
+        "t_d": 0.399889,
+        "n_abstenciones": 14,
+        "tasa_abstencion": 0.35,
+        "n_aceptados": 26,
+        "top1_aceptados": 0.8077,
+        "top1_rechazados": 0.1429
+      },
+      "justificacion": "ningun punto cumple la meta estricta; rodilla: maximo top-1 aceptado dentro de abstencion <= 0.35",
+      "n_puntos_grilla": 660,
+      "n_marg_cands": 20,
+      "n_p_cands": 33
+    }
+  },
+  "recomendacion": {
+    "criterio": "sin dominancia de las reglas de decidibilidad; se conserva la regla por margen de Fase 3",
+    "regla_recomendada": "margin_only",
+    "config_recomendada": {
+      "t_m": 0.097663,
+      "t_d": null,
+      "n_abstenciones": 20,
+      "tasa_abstencion": 0.4255,
+      "n_aceptados": 27,
+      "top1_aceptados": 0.8519,
+      "top1_rechazados": 0.4
+    },
+    "mecanismo_mejorado": false,
+    "veredicto": "SIN_MEJORA_HONESTA: la regla combinada no alcanza top-1 >= 0.85 con abstencion <= 0.35 y ninguna regla basada en decidibilidad domina al margen a presupuesto igualado; la regla por margen de Fase 3 se mantiene",
+    "comparacion_test": [
+      {
+        "regla": "margin_only",
+        "top1_aceptados": 0.8519,
+        "tasa_abstencion": 0.4255,
+        "config": {
+          "t_m": 0.097663,
+          "t_d": null
+        }
+      },
+      {
+        "regla": "decidibilidad_only",
+        "top1_aceptados": 0.7143,
+        "tasa_abstencion": 0.1064,
+        "config": {
+          "t_m": null,
+          "t_d": 0.24158
+        }
+      },
+      {
+        "regla": "combinada",
+        "top1_aceptados": 0.7073,
+        "tasa_abstencion": 0.1277,
+        "config": {
+          "t_m": 0.0,
+          "t_d": 0.399889
+        }
+      }
+    ],
+    "comparacion_presupuesto_igualado": {
+      "decidibilidad_only": {
+        "abstencion_regla": 0.1064,
+        "top1_regla": 0.7143,
+        "margen_presupuesto_igualado": {
+          "t": 0.019467,
+          "tasa_abstencion": 0.1064,
+          "top1_aceptados": 0.7143,
+          "top1_rechazados": 0.2
+        },
+        "domina_al_margen": false
+      },
+      "combinada": {
+        "abstencion_regla": 0.1277,
+        "top1_regla": 0.7073,
+        "margen_presupuesto_igualado": {
+          "t": 0.033132,
+          "tasa_abstencion": 0.1489,
+          "top1_aceptados": 0.75,
+          "top1_rechazados": 0.1429
+        },
+        "domina_al_margen": false
+      }
+    }
+  },
+  "reglas_comparacion": {
+    "val": {
+      "margin_only": {
+        "t_m": 0.097663,
+        "t_d": null,
+        "n_abstenciones": 16,
+        "tasa_abstencion": 0.4,
+        "n_aceptados": 24,
+        "top1_aceptados": 0.625,
+        "top1_rechazados": 0.5
+      },
+      "decidibilidad_only": {
+        "t_m": null,
+        "t_d": 0.24158,
+        "n_abstenciones": 8,
+        "tasa_abstencion": 0.2,
+        "n_aceptados": 32,
+        "top1_aceptados": 0.7188,
+        "top1_rechazados": 0.0
+      },
+      "combinada": {
+        "t_m": 0.0,
+        "t_d": 0.399889,
+        "n_abstenciones": 14,
+        "tasa_abstencion": 0.35,
+        "n_aceptados": 26,
+        "top1_aceptados": 0.8077,
+        "top1_rechazados": 0.1429
+      }
+    },
+    "test": {
+      "margin_only": {
+        "t_m": 0.097663,
+        "t_d": null,
+        "n_abstenciones": 20,
+        "tasa_abstencion": 0.4255,
+        "n_aceptados": 27,
+        "top1_aceptados": 0.8519,
+        "top1_rechazados": 0.4
+      },
+      "decidibilidad_only": {
+        "t_m": null,
+        "t_d": 0.24158,
+        "n_abstenciones": 5,
+        "tasa_abstencion": 0.1064,
+        "n_aceptados": 42,
+        "top1_aceptados": 0.7143,
+        "top1_rechazados": 0.2
+      },
+      "combinada": {
+        "t_m": 0.0,
+        "t_d": 0.399889,
+        "n_abstenciones": 6,
+        "tasa_abstencion": 0.1277,
+        "n_aceptados": 41,
+        "top1_aceptados": 0.7073,
+        "top1_rechazados": 0.3333
+      }
+    },
+    "confusion_rc4_test": {
+      "margin_only": {
+        "abstenidos": {
+          "n": 20,
+          "sin_pose_buena": 4,
+          "con_pose_buena": 16,
+          "con_pose_buena_aciertos_top1": 8,
+          "aciertos_top1": 8,
+          "top1": 0.4
+        },
+        "aceptados": {
+          "n": 27,
+          "sin_pose_buena": 2,
+          "con_pose_buena": 25,
+          "con_pose_buena_aciertos_top1": 23,
+          "aciertos_top1": 23,
+          "top1": 0.8519
+        }
+      },
+      "decidibilidad_only": {
+        "abstenidos": {
+          "n": 5,
+          "sin_pose_buena": 4,
+          "con_pose_buena": 1,
+          "con_pose_buena_aciertos_top1": 1,
+          "aciertos_top1": 1,
+          "top1": 0.2
+        },
+        "aceptados": {
+          "n": 42,
+          "sin_pose_buena": 2,
+          "con_pose_buena": 40,
+          "con_pose_buena_aciertos_top1": 30,
+          "aciertos_top1": 30,
+          "top1": 0.7143
+        }
+      },
+      "combinada": {
+        "abstenidos": {
+          "n": 6,
+          "sin_pose_buena": 4,
+          "con_pose_buena": 2,
+          "con_pose_buena_aciertos_top1": 2,
+          "aciertos_top1": 2,
+          "top1": 0.3333
+        },
+        "aceptados": {
+          "n": 41,
+          "sin_pose_buena": 2,
+          "con_pose_buena": 39,
+          "con_pose_buena_aciertos_top1": 29,
+          "aciertos_top1": 29,
+          "top1": 0.7073
+        }
+      }
+    },
+    "origen_umbrales": {
+      "margin_only": "Fase 3 (artifacts_ruta_c_fase3.json)",
+      "decidibilidad_only": "t_d = max F1 sobre val",
+      "combinada": "grilla t_m x t_d sobre val"
+    }
+  },
+  "r_rc5": {
+    "A_invarianza": {
+      "n_complejos": 10,
+      "pids": [
+        "1a1e",
+        "1a28",
+        "1ado",
+        "1aid",
+        "1b55",
+        "1bnn",
+        "1bnt",
+        "1bnw",
+        "1br6",
+        "1c5q"
+      ],
+      "transformacion": "R rotacion propia (QR de gaussiana, semilla 1000+i) + t uniforme en [-50, 50]^3 aplicada a coords de poses y receptor",
+      "tolerancia": 1e-06,
+      "max_dif_224": 0.0,
+      "features_sobre_tolerancia": [],
+      "veredicto_invarianza": "OK",
+      "n_selecciones_estables_rot": 10,
+      "n_selecciones_estables_vs_canonico": 10,
+      "detalle": [
+        {
+          "pid": "1a1e",
+          "n_poses": 180,
+          "max_dif_limpio_vs_rotado": 0.0,
+          "seleccion_estable_rot": true,
+          "seleccion_estable_vs_canonico": true,
+          "seleccion_limpia": [
+            "molflex",
+            "conf5.out",
+            0
+          ],
+          "seleccion_rotada": [
+            "molflex",
+            "conf5.out",
+            0
+          ],
+          "seleccion_canonica": [
+            "molflex",
+            "conf5.out",
+            0
+          ]
+        },
+        {
+          "pid": "1a28",
+          "n_poses": 45,
+          "max_dif_limpio_vs_rotado": 0.0,
+          "seleccion_estable_rot": true,
+          "seleccion_estable_vs_canonico": true,
+          "seleccion_limpia": [
+            "molflex",
+            "conf0.out",
+            0
+          ],
+          "seleccion_rotada": [
+            "molflex",
+            "conf0.out",
+            0
+          ],
+          "seleccion_canonica": [
+            "molflex",
+            "conf0.out",
+            0
+          ]
+        },
+        {
+          "pid": "1ado",
+          "n_poses": 63,
+          "max_dif_limpio_vs_rotado": 0.0,
+          "seleccion_estable_rot": true,
+          "seleccion_estable_vs_canonico": true,
+          "seleccion_limpia": [
+            "molflex",
+            "conf2.out",
+            0
+          ],
+          "seleccion_rotada": [
+            "molflex",
+            "conf2.out",
+            0
+          ],
+          "seleccion_canonica": [
+            "molflex",
+            "conf2.out",
+            0
+          ]
+        },
+        {
+          "pid": "1aid",
+          "n_poses": 31,
+          "max_dif_limpio_vs_rotado": 0.0,
+          "seleccion_estable_rot": true,
+          "seleccion_estable_vs_canonico": true,
+          "seleccion_limpia": [
+            "ruta_a",
+            "exh1",
+            1
+          ],
+          "seleccion_rotada": [
+            "ruta_a",
+            "exh1",
+            1
+          ],
+          "seleccion_canonica": [
+            "ruta_a",
+            "exh1",
+            1
+          ]
+        },
+        {
+          "pid": "1b55",
+          "n_poses": 29,
+          "max_dif_limpio_vs_rotado": 0.0,
+          "seleccion_estable_rot": true,
+          "seleccion_estable_vs_canonico": true,
+          "seleccion_limpia": [
+            "ruta_a",
+            "exh2",
+            0
+          ],
+          "seleccion_rotada": [
+            "ruta_a",
+            "exh2",
+            0
+          ],
+          "seleccion_canonica": [
+            "ruta_a",
+            "exh2",
+            0
+          ]
+        },
+        {
+          "pid": "1bnn",
+          "n_poses": 9,
+          "max_dif_limpio_vs_rotado": 0.0,
+          "seleccion_estable_rot": true,
+          "seleccion_estable_vs_canonico": true,
+          "seleccion_limpia": [
+            "flexible_redock",
+            "1bnn",
+            2
+          ],
+          "seleccion_rotada": [
+            "flexible_redock",
+            "1bnn",
+            2
+          ],
+          "seleccion_canonica": [
+            "flexible_redock",
+            "1bnn",
+            2
+          ]
+        },
+        {
+          "pid": "1bnt",
+          "n_poses": 9,
+          "max_dif_limpio_vs_rotado": 0.0,
+          "seleccion_estable_rot": true,
+          "seleccion_estable_vs_canonico": true,
+          "seleccion_limpia": [
+            "flexible_redock",
+            "1bnt",
+            0
+          ],
+          "seleccion_rotada": [
+            "flexible_redock",
+            "1bnt",
+            0
+          ],
+          "seleccion_canonica": [
+            "flexible_redock",
+            "1bnt",
+            0
+          ]
+        },
+        {
+          "pid": "1bnw",
+          "n_poses": 32,
+          "max_dif_limpio_vs_rotado": 0.0,
+          "seleccion_estable_rot": true,
+          "seleccion_estable_vs_canonico": true,
+          "seleccion_limpia": [
+            "ruta_a",
+            "exh2",
+            3
+          ],
+          "seleccion_rotada": [
+            "ruta_a",
+            "exh2",
+            3
+          ],
+          "seleccion_canonica": [
+            "ruta_a",
+            "exh2",
+            3
+          ]
+        },
+        {
+          "pid": "1br6",
+          "n_poses": 30,
+          "max_dif_limpio_vs_rotado": 0.0,
+          "seleccion_estable_rot": true,
+          "seleccion_estable_vs_canonico": true,
+          "seleccion_limpia": [
+            "flexible_redock",
+            "1br6",
+            0
+          ],
+          "seleccion_rotada": [
+            "flexible_redock",
+            "1br6",
+            0
+          ],
+          "seleccion_canonica": [
+            "flexible_redock",
+            "1br6",
+            0
+          ]
+        },
+        {
+          "pid": "1c5q",
+          "n_poses": 9,
+          "max_dif_limpio_vs_rotado": 0.0,
+          "seleccion_estable_rot": true,
+          "seleccion_estable_vs_canonico": true,
+          "seleccion_limpia": [
+            "flexible_redock",
+            "1c5q",
+            0
+          ],
+          "seleccion_rotada": [
+            "flexible_redock",
+            "1c5q",
+            0
+          ],
+          "seleccion_canonica": [
+            "flexible_redock",
+            "1c5q",
+            0
+          ]
+        }
+      ]
+    },
+    "B_ruido": {
+      "sigma_angstrom": 0.1,
+      "semilla_base": 42,
+      "n_complejos": 47,
+      "n_cambiaron": 9,
+      "fraccion_cambio": 0.1915,
+      "n_flips_ok_mal": 3,
+      "flips": [
+        {
+          "pid": "1fao",
+          "cambio": "ok->mal"
+        },
+        {
+          "pid": "1g54",
+          "cambio": "ok->mal"
+        },
+        {
+          "pid": "1lhu",
+          "cambio": "mal->ok"
+        }
+      ],
+      "margen_cambiados": {
+        "n": 9,
+        "media": 0.0402,
+        "mediana": 0.0298,
+        "min": 0.0012,
+        "max": 0.1008
+      },
+      "margen_no_cambiados": {
+        "n": 36,
+        "media": 0.2146,
+        "mediana": 0.1865,
+        "min": 0.0047,
+        "max": 0.6494
+      },
+      "terciles_margen": [
+        {
+          "tercil": 1,
+          "rango_margen": [
+            0.0012,
+            0.066
+          ],
+          "n_complejos": 15,
+          "n_cambiaron": 7,
+          "fraccion_cambio": 0.4667
+        },
+        {
+          "tercil": 2,
+          "rango_margen": [
+            0.0685,
+            0.2241
+          ],
+          "n_complejos": 15,
+          "n_cambiaron": 2,
+          "fraccion_cambio": 0.1333
+        },
+        {
+          "tercil": 3,
+          "rango_margen": [
+            0.2287,
+            0.6494
+          ],
+          "n_complejos": 15,
+          "n_cambiaron": 0,
+          "fraccion_cambio": 0.0
+        }
+      ],
+      "pids_cambiados": [
+        "1a28",
+        "1ado",
+        "1b55",
+        "1br6",
+        "1fao",
+        "1g54",
+        "1h0a",
+        "1lhu",
+        "1mai"
+      ],
+      "detalle_cambios": [
+        {
+          "pid": "1a28",
+          "margin": 0.011042,
+          "sel_canonica": [
+            "molflex",
+            "conf0.out",
+            0
+          ],
+          "sel_perturbada": [
+            "molflex",
+            "conf7.out",
+            0
+          ]
+        },
+        {
+          "pid": "1ado",
+          "margin": 0.001174,
+          "sel_canonica": [
+            "molflex",
+            "conf2.out",
+            0
+          ],
+          "sel_perturbada": [
+            "molflex",
+            "conf0.out",
+            0
+          ]
+        },
+        {
+          "pid": "1b55",
+          "margin": 0.029843,
+          "sel_canonica": [
+            "ruta_a",
+            "exh2",
+            0
+          ],
+          "sel_perturbada": [
+            "ruta_a",
+            "exh4",
+            0
+          ]
+        },
+        {
+          "pid": "1br6",
+          "margin": 0.080308,
+          "sel_canonica": [
+            "flexible_redock",
+            "1br6",
+            0
+          ],
+          "sel_perturbada": [
+            "ruta_a",
+            "exh4",
+            0
+          ]
+        },
+        {
+          "pid": "1fao",
+          "margin": 0.050363,
+          "sel_canonica": [
+            "flexible_redock",
+            "1fao",
+            0
+          ],
+          "sel_perturbada": [
+            "flexible_redock",
+            "1fao",
+            4
+          ]
+        },
+        {
+          "pid": "1g54",
+          "margin": 0.100771,
+          "sel_canonica": [
+            "flexible_redock",
+            "1g54",
+            8
+          ],
+          "sel_perturbada": [
+            "flexible_redock",
+            "1g54",
+            7
+          ]
+        },
+        {
+          "pid": "1h0a",
+          "margin": 0.02603,
+          "sel_canonica": [
+            "flexible_redock",
+            "1h0a",
+            3
+          ],
+          "sel_perturbada": [
+            "flexible_redock",
+            "1h0a",
+            0
+          ]
+        },
+        {
+          "pid": "1lhu",
+          "margin": 0.009455,
+          "sel_canonica": [
+            "ruta_a",
+            "exh2",
+            0
+          ],
+          "sel_perturbada": [
+            "flexible_redock",
+            "1lhu",
+            0
+          ]
+        },
+        {
+          "pid": "1mai",
+          "margin": 0.052482,
+          "sel_canonica": [
+            "flexible_redock",
+            "1mai",
+            5
+          ],
+          "sel_perturbada": [
+            "flexible_redock",
+            "1mai",
+            1
+          ]
+        }
+      ],
+      "drift_reextraccion_limpia_vs_canonico": {
+        "n_mismatch": 0,
+        "detalle": [],
+        "interpretacion": "0 mismatches => la comparacion perturbada vs canonica aisla el efecto del ruido"
+      }
+    }
+  },
+  "resumen": {
+    "v06_test_top1": 0.6596,
+    "decidibilidad_auc_val": 0.9621,
+    "regla_recomendada": "margin_only",
+    "rc5a_max_dif": 0.0,
+    "rc5b_fraccion_cambio": 0.1915
+  },
+  "caveats_honestos": [
+    "El clasificador de decidibilidad usa agregados calculados con los scores v0.6 de TRAIN (in-sample para train; honesto para val/test). AUC val sobre los complejos con >=2 poses (n=39, igual que Fase 3).",
+    "Los umbrales (t_d solo, t_m/t_d combinados) se eligen SOLO sobre val (40 complejos, ruido estadistico) y se aplican a test una sola vez; el punto elegido puede trasladarse con varianza al test.",
+    "Complejos de 1 pose (margin None) no participan de la abstencion por margen (igual que Fase 3); si participan de la regla por decidibilidad (su P se calcula con margen imputado por mediana).",
+    "Re-extraccion R-RC5: las coords de poses se leen de los archivos de docking (S1/S2/S3, logica de build_pose_selector_dataset.py) con los mapas serial->mol de cada fuente; las 5 features baratas geometricas y las 215 ricas se recalculan, las 4 baratas no geometricas (vina_score, varianza/rango, n_heavy) se conservan del dataset congelado. La re-extraccion limpia reproduce el cache v0.5 exactamente (verificado en muestras S1/S2/S3 y via 'drift' en R-RC5B).",
+    "R-RC5A transforma poses y receptor juntos: la invarianza esperada es exacta (las 224 features dependen solo de distancias). El cluster_density se recalcula sobre coords transformadas (no se copia del canonico).",
+    "R-RC5B perturba SOLO las poses (el receptor queda fijo), por eso el cambio de seleccion es esperable en complejos con poses casi empatadas (margen bajo); se reporta el analisis de margenes."
+  ],
+  "duracion_total_s": 38.9
+}

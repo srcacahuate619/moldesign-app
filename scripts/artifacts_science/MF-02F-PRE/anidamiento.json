@@ -1,0 +1,30 @@
+{
+ "verificacion_anidamiento": [
+  {
+   "pid": "10gs",
+   "k30": 29,
+   "k90": 76,
+   "prefijo_identico": 29
+  },
+  {
+   "pid": "1a30",
+   "k30": 29,
+   "k90": 86,
+   "prefijo_identico": 29
+  },
+  {
+   "pid": "1dgm",
+   "k30": 23,
+   "k90": 46,
+   "prefijo_identico": 23
+  },
+  {
+   "pid": "1eld",
+   "k30": 24,
+   "k90": 47,
+   "prefijo_identico": 24
+  }
+ ],
+ "metodo": "construir_ensemble(m,30) vs construir_ensemble(m,90); comparacion de coordenadas atol=1e-6",
+ "consecuencia": "K30 = material sellado de MF-02D; solo se dockean los conformeros mas alla del prefijo"
+}

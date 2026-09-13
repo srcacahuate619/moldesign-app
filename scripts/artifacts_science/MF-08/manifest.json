@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-08",
+  "hypothesis": "El fallo de cobertura esta dominado por colocacion; apretar la caja reduce el margen de deslizamiento del ligando dentro del bolsillo y debe recuperar poses, con la caja adaptativa por ligando como mejor brazo",
+  "protocol": "MF-08-PRE-R1 sellado (e6c551f); molflex congelado salvo BOX_SIZE parcheado dentro del worker; B25 reutiliza el material sellado de MF-02D",
+  "created_at": "2026-08-18T04:39:22.444892+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "2cbd932fc94543a08b8886ba4281a19693c765f2",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 validez >=95%, G2 B_ADAPT recupera >=7 de 33, G3 monotonia en el margen de deslizamiento, G4 B_ADAPT pierde <=1 del control"
+  },
+  "decision": "NO_GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-02D/pocket_frame.jsonl": "94110c184dcf0bf0584d4e7f6a612c34a7a83eeb9f2024815d42b155f64e9e74"
+  },
+  "binary_hashes": {
+    "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-08/LECTURA.md": "6a12779ddb5281884a34c6d6a4a99dda99c7036d9647c347a8e29b17e83d3de3",
+    "scripts/artifacts_science/MF-08/metrics.json": "29425409c85b58a02a3b8d304aa97d84f4a98e1129f23e144f7926b518484214",
+    "scripts/artifacts_science/MF-08/corridas.jsonl": "2d88e1e4df13f271753b47e32d448509a42228dcfd53181c6912decad6d74882",
+    "scripts/artifacts_science/MF-08/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/MF-08/cohorte.json": "e0a01b81405880bcf6dd58011ca3fa91fe8854fdd605d8083a688f86f3b95d9b",
+    "scripts/run_mf08_caja.py": "61ffb64fb51d2e3c932b1be60d9a2209b3ea277b0a536416d058c86274fb0856",
+    "scripts/molflex.py": "d2bd11957cc20e8ea1413b4eca44e3f77664a686bb0fe67a38f47a856fc9aac9"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T04:39:23.306407+00:00",
+  "decision_rationale": "Falla G2: la caja adaptativa recupera 3 de los 33 dominados por colocacion frente a los 7 exigidos, cuando la prediccion declarada era que dejaria el subsitio fuera en 21 de 33. Excluir el decoy era necesario pero no suficiente, y asi estaba dicho, pero la brecha entre lo abordable y lo convertido es mucho mayor de lo anticipado. DEFECTO DE DISENO QUE SE DECLARA: la cohorte se definio como los complejos que fallan bajo B25, de modo que B25=0/33 es TAUTOLOGICO y no una medicion, lo que invalida parcialmente el gate G3 de monotonia por incluir un punto fijo por construccion; debi excluir B25 del gate o definir la cohorte con un criterio independiente del brazo de referencia. La decision NO_GO no depende de ese defecto: G2 falla por si solo y no tiene sesgo de seleccion. RESULTADO LIMPIO sobre los tres brazos que no intervinieron en seleccionar la cohorte: la mediana del oraculo es monotona en el margen de deslizamiento -3.18 A con B_ADAPT (margen 2.83), 3.224 con B20 (3.62), 4.004 con B30 (8.6)-, de modo que el mecanismo EXISTE y va en la direccion predicha, mejorando 0.82 A de B30 a B_ADAPT, pero es insuficiente por un orden de magnitud: esas poses estan a 3.18 A y necesitan bajar de 2.0, y no hay caja menor que probar porque B_ADAPT ya es el minimo que contiene al ligando con margen de solvatacion. Dos hallazgos utiles para produccion: apretar la caja NO rompe nada (15/15 del control en los cuatro brazos, cero regresion) y es 23 por ciento mas barato (425 s frente a 554 s), aunque el ahorro solo es cobrable si antes se resuelve la precision del centro, porque REC-03 midio el top-1 de MolPocket a 8 A de mediana del ligando. Consecuencia: el fallo de colocacion no es espacio para deslizarse; queda MF-02F, que da mas intentos en vez de menos espacio.",
+  "finished_at": "2026-08-18T04:39:42.488816+00:00",
+  "duration_seconds": 6856.0
+}

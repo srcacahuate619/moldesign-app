@@ -1,0 +1,353 @@
+{
+ "id": "FND-05",
+ "meta": {
+  "titulo": "Un conjunto que se usa una sola vez, custodiado antes de existir",
+  "entradilla": "112 complejos separados del desarrollo por identidad, química de ligando y secuencia de receptor. Se selló antes de puntuar nada, y sólo puede consumirse una vez."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Casi todo lo que hace este programa es exploratorio. Se prueba una idea, se mide, se declara el resultado, y el conocimiento acumulado guía la siguiente prueba. Ese ciclo es legítimo, pero tiene un coste que casi nunca se contabiliza: cada vez que se mira un conjunto de datos para decidir qué hacer después, ese conjunto queda un poco más gastado como prueba independiente.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un conjunto ",
+     "m": null
+    },
+    {
+     "t": "confirmatorio",
+     "m": "fuerte"
+    },
+    {
+     "t": " es la reserva contra ese desgaste. Se aparta antes de empezar, no se toca, y se consume una sola vez al final para responder la pregunta principal.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento lo construye y lo sella.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se exigió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La separación tenía que ser real por tres vías simultáneas, porque cualquiera de ellas por separado deja pasar fuga:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Criterio",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Cómo",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Por identidad",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "El mismo complejo no puede estar a los dos lados",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Por química del ligando",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Scaffold, clave de conectividad InChI, y huella ECFP con umbral 0.90",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Por receptor",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Identidad y homología por cadena, con solapamiento de k-meros a 0.90",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La tercera es la que faltaba en el conjunto original y la que la auditoría de fuga había encontrado rota. Aquí se exige desde el diseño.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    []
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Complejos totales",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "112",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Estrato primario (drug-like)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "102",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Análisis secundario, descriptivo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "10",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los 10 restantes son 1 fragmento, 6 péptidos, 1 oligonucleótido y 2 casos de enlace cruzado. Se apartan del gate primario porque su tamaño no permite inferencia fuerte, y se declaran como análisis descriptivo ",
+     "m": null
+    },
+    {
+     "t": "antes",
+     "m": "fuerte"
+    },
+    {
+     "t": " de mirar nada. Meterlos en el numerador o sacarlos después de ver los resultados serían dos formas de la misma trampa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El determinismo y la cuarentena se verificaron. El manifiesto se selló ",
+     "m": null
+    },
+    {
+     "t": "antes de puntuar un solo complejo",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que este sello sí garantiza, y lo que no",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Conviene ser exacto, porque el proyecto usa la palabra «cegamiento» y merece decir de qué tipo:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "El secuestro es ",
+     "m": null
+    },
+    {
+     "t": "procedimental",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no técnico. Las etiquetas están apartadas por disciplina y por registro, no por control de acceso de máquina.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es un holdout interno custodiado por un procedimiento, y el propio manifiesto lo declara así: ",
+     "m": null
+    },
+    {
+     "t": "sin control de acceso real, no se afirma cegamiento real",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Un solo mantenedor con acceso a todo no puede demostrar que no miró; lo que puede hacer es dejar constancia sellada de cuándo se fijó el conjunto y con qué criterio, de modo que cualquier cambio posterior sea visible.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esa es una garantía más débil que el cegamiento, y decirlo es parte de lo que hace que el registro valga.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué sigue sin dispararse",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La regla escrita antes es que un resultado negativo en el confirmatorio ",
+     "m": null
+    },
+    {
+     "t": "se publica y cierra el claim",
+     "m": "fuerte"
+    },
+    {
+     "t": ": no se reintenta, no se reajusta el gate, y no se reclasifica a posteriori como exploratorio.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con esa regla en pie, disparar el confirmatorio sobre un candidato inmaduro destruye el activo sin comprar nada. Hoy el selector empata o pierde contra la puntuación cruda de Vina, así que la precondición no se cumple y el conjunto sigue guardado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Hay además una reserva declarada: de los 440 candidatos elegibles, los 328 no seleccionados quedan marcados como pool para un eventual segundo confirmatorio, con prohibición expresa de usarlos para desarrollo o depuración — de modo que sigan siendo elegibles si algún día hacen falta.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Preferible declarar el programa incompleto que gastar la única bala que hay.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FND-05.md"
+}

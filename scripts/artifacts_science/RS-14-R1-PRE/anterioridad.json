@@ -1,0 +1,26 @@
+{
+ "documento": "scratch/PREREGISTRO_RS-14-R1.md",
+ "sha256": "0a4132fdefdd0f5e3a382c18cda0a0ca5dab1d97fdd89a8d79460bfdd7714ca7",
+ "bytes": 9464,
+ "registrado_utc": "2026-08-18T19:02:51.346139+00:00",
+ "proposito": "evidencia de anterioridad: el prerregistro existe con este contenido ANTES de lanzar la corrida. El sello posterior debe recomputar este hash; si no coincide, el documento se toco despues de ejecutar y el registro queda invalidado.",
+ "runner": "scripts/run_rs14r1_selector_sym.py",
+ "runner_sha256": "875c843b67208de361302f5f6a36b5aec5a88a27c24c65664f07378635c9723d",
+ "runner_base": "scripts/run_rs14_selector_v2.py",
+ "runner_base_sha256": "c5d9c9fc4fa094b1176267bbdf377f0043f64fce81270de17bda9c1780a5c9ef",
+ "etiquetas": "scripts/artifacts_science/RC-F0-SYM/poses_rmsd_sym.jsonl",
+ "etiquetas_sha256": "4f767670e5e6539982a78937a1c298cd98bb0321cb00f1718cd52e0cf285d20c",
+ "prediccion_declarada": {
+  "condicional_selector_esperada": [
+   0.45,
+   0.58
+  ],
+  "diferencia_pareada_esperada": [
+   -0.15,
+   0.05
+  ],
+  "decision_predicha": "NO_GO",
+  "baseline_corregido_ya_medido": 0.5543,
+  "baseline_ingenuo_rs14": 0.4783
+ }
+}

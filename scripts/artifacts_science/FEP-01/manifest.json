@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "FEP-01",
+  "hypothesis": "La integridad quimica del ligando (estereo, tautomero, protonacion, carga, atom mapping) esta declarada en el material actual",
+  "protocol": "auditoria sin docking sobre los 203 de train+val/test; centros quirales sin asignar, dobles sin estereo, enumeracion de tautomeros y biyectividad del index_map",
+  "created_at": "2026-08-19T03:53:16.948926+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "auditoria sin gates; se cuenta cuantos complejos pasarian los cuatro campos"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_fep01_integridad.py": "2ea7996a1ad3aed5e1bb79a82cee8a323dc8b33eef195ff53a7110dcce724519"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:17.738656+00:00",
+  "decision_rationale": "Solo 39 de 203 complejos (19%) pasan hoy los cuatro campos. Dos campos estan LIMPIOS y contradicen la sospecha de partida: 138 ligandos tienen centros quirales y CERO estan sin asignar, pese a que el pipeline llama a Molecule.from_rdkit con allow_undefined_stereo=True -ese flag permite algo que en la practica no ocurre-; y el atom mapping es biyectivo y cubre los pesados en los 203, lo que verifica por primera vez la base de todos los RMSD del programa. El cuello es el TAUTOMERO: 164 de 203 (81%) tienen mas de un tautomero enumerable y 48 alcanzan el tope de 10. El pipeline no declara cual usa. Para docking con Vina apenas importa; para FEP+ es determinante, porque el tautomero define que atomos donan y cuales aceptan puentes de hidrogeno. Limitacion: la enumeracion de RDKit es heuristica de transformaciones, no calculo de poblaciones; >1 senala AMBIGUEDAD NO DECLARADA, no error.",
+  "finished_at": "2026-08-19T03:53:17.911928+00:00"
+}

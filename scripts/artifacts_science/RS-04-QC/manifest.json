@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-04-QC",
+  "hypothesis": "El strain MMFF94s es tecnicamente viable sobre las poses train de la union original",
+  "protocol": "CAMPANA-2-PLAN sellado (41b7f09) IT1 QA-5/QA-6",
+  "created_at": "2026-08-16T22:40:29.779294+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "41b7f09d1a864e9c8fde60bc0fc4c5dc7215c519",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "Mapeo biyectivo >=99%; pesados no se mueven; cobertura >=95%; determinismo; cold-start P95 <=5s/ligando; cacheado P95 <=100ms/pose y <=3s/complejo"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/RS-04-QC/DESIGN.md": "216c65eb70460926b2efce07b71ba129e3fb3f56edbf15cf4e095ce0dd388cfc",
+    "scripts/artifacts_science/RS-04-QC/metrics.json": "81d5b2d3725efb4fccc7236f573ca77106e366ef25b5789c34c1dbf57ee8e5cc",
+    "scripts/artifacts_science/RS-04-QC/per_complex.jsonl": "2793e695938cfddb6178c1d619493f187541a44141869e8addc0d049cf1dee05",
+    "scripts/artifacts_science/RS-04-QC/failures.jsonl": "44ff7934d99d29f3683dbc38581aeb1d380cd80facc27e1de7856a97ab8f70ad",
+    "scripts/artifacts_science/RS-04-QC/benchmarks.json": "e918e0c791d675eae84bfdd5c21c7c5a0f491adf91e3e45b466e3223c6e45ca8",
+    "scripts/run_rs04_qc.py": "45e19925f5255647d962b6cd38dfb9f92ed3abb1a9c3bc46229e108ec8bfa216",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T22:57:44.374672+00:00",
+  "decision_rationale": "QC tecnico PASS: mapeo biyectivo 99.49% (>=99%), pesados no se mueven (0.0A exacto), cobertura MMFF94s 116/116 ligandos (>=95%, sin UFF), determinismo byte-identico, cold-start P95 55.7ms (<=5s), cacheado P95 68.0ms/pose (<=100ms) y 1726ms/complejo (<=3s). 14 poses degeneradas (1kpm, 1nm6) parametrizadas como no computables. RS-04 OOF puede proceder.",
+  "finished_at": "2026-08-16T22:57:44.736359+00:00"
+}

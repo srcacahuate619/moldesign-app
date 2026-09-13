@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "experiment_id": "REC-12",
+  "hypothesis": "Los cofactores no metalicos del sitio -HETATM que no son ni agua ni metal, como NAD, FAD o hemo, y tambien aditivos de cristalizacion como glicerol o sulfato- son el eje de especificacion que nadie ha inventariado, y podrian explicar los cristales que REC-09 encontro puntuando absurdo con CERO aguas bloqueantes: 1d7i y 1ew9.",
+  "protocol": "Metodo identico al de REC-08-EXT, tercera entidad. Sitio a 8 A de un atomo pesado del ligando cristalografico -el radio de FEP-02-; emparejamiento entre original y preparado POR COORDENADA con tolerancia de 0.5 A, porque la preparacion renumera. Fuente del original: data/pdbbind/<pid>/<pid>_protein.pdb, la misma que uso REC-08-EXT. Script: scripts/analisis_rec12_cofactores.py. G1 de validez de la fuente anadido tras el primer intento: la fuente debe contener HETATM no-agua no-metal en algun sitio de la estructura, porque si no los contiene un inventario de cero seria del ARCHIVO y no de las estructuras.",
+  "created_at": "2026-08-20T22:40:14.011968+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "f4728ae7fb7cada83af63136d81bc829716e9611",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "INVENTARIO SIN GATES DE DECISION, con UN GATE DE VALIDEZ DE LA FUENTE. G1: fraccion de complejos cuyo <pid>_protein.pdb contiene algun HETATM que no sea agua ni metal, en cualquier posicion de la estructura. Minimo 0.05 para que el inventario se pueda leer. Si G1 falla, el cero medido NO es un hecho sobre las estructuras sino sobre el archivo, y el inventario NO SE LEE. LIMITACION DECLARADA: no clasifica cofactor funcional frente a aditivo de cristalizacion -esa distincion es quimica y por complejo-; no decide sobre 1d7i ni 1ew9; el emparejamiento por coordenada hace que los recuentos de perdida sean cota superior."
+  },
+  "decision": "INCONCLUSIVE",
+  "dataset_hashes": {
+    "scripts/artifacts_science/REC-09/per_complex.jsonl": "53724db592d534538e05e2dd5fea264876c5c9ae18a2ad26516c12bd09dcd225",
+    "scripts/artifacts_science/MF-13/per_complex.jsonl": "e2110221a169cf499644e0d06b4a3ac8fbb3ecfd81d7ed4547d07630cf17c953"
+  },
+  "assets_hashes": {
+    "scripts/analisis_rec12_cofactores.py": "bb7518619035a9c65dd2f5368223db67b28cb7673f5bb6c48e0061a58272590d"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-20T22:40:14.838142+00:00",
+  "decision_rationale": "G1 DE VALIDEZ DE LA FUENTE FALLA: 1 de 48 = 0.0208, por debajo del minimo de 0.05. EL INVENTARIO NO SE LEE, y el hallazgo es por que. La fuente del programa para la estructura original es data/pdbbind/<pid>/<pid>_protein.pdb, y PDBBind entrega ahi una estructura LIMPIADA: conserva aguas y metales y ELIMINA el resto de heteroatomos. Verificado sobre los 48 disponibles: los unicos resnames HETATM en el conjunto entero son HOH (8844 atomos), CA (22), ZN (15), MG (6), HG (1), CU (1) y ACE (6), y ACE es un grupo acetilo de cierre de cadena, no un cofactor. El cero de cofactores que el primer intento produjo era del ARCHIVO, no de las estructuras. LO QUE ESTO SI ESTABLECE, Y NO ES MENOR: todos los receptores del programa se construyeron desde una fuente que elimina los cofactores no metalicos. Si algun complejo de la cohorte necesita un NAD, un FAD o un hemo para que su sitio este completo, ese receptor esta incompleto Y NADIE PODRIA VERLO CON LOS DATOS ACTUALES, porque la evidencia se pierde en el mismo archivo del que se parte. Eso es exactamente un defecto de especificacion del tipo que REC-08-EXT y REC-09 vinieron destapando, con el agravante de que aqui el instrumento de deteccion tambien esta ciego. NO SE ESTABLECE que haya cofactores perdidos: no se ha medido ninguno, ni a favor ni en contra. LA PREGUNTA DE REC-09 SIGUE ABIERTA: 1d7i y 1ew9 puntuan absurdo con cero aguas bloqueantes, y esta via no los explica ni los descarta. QUE HARIA FALTA PARA MEDIRLO: la entrada original de RCSB de cada complejo, no el protein.pdb de PDBBind. Son 116 descargas y el analisis es el mismo script sin tocar; el bloqueo es de datos, no de metodo. Se deja anotado como deuda con su coste. LIMITE ADICIONAL descubierto de paso: el servidor solo tiene 48 de los 116 <pid>_protein.pdb -el local tiene 3887 archivos de PDBBind-, asi que incluso con una fuente valida habria que sincronizar antes. Ninguno de los dos problemas se arregla con computo.",
+  "finished_at": "2026-08-20T22:40:35.204188+00:00"
+}

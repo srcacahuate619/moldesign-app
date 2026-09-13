@@ -1,0 +1,811 @@
+{
+ "id": "FND-08",
+ "meta": {
+  "titulo": "Le pedimos al registro que se sostuviera solo, y en diez sitios no lo hacía",
+  "entradilla": "Auditoría de solo lectura sobre los 94 artefactos sellados. Fallan tres de los cuatro criterios, y el hallazgo principal no era ninguno de ellos: diez artefactos guardan sus datos bajo un nombre que el contrato no declara."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El programa promete algo concreto: que cualquiera pueda reconstruir sus resultados sin memoria de sesión. El experimento que debería probarlo —un tercero reconstruyendo el paquete de transferencia— depende de un export que todavía no existe.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Pero hay una pregunta anterior que ",
+     "m": null
+    },
+    {
+     "t": "no depende de nada",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y que tiene que responderse antes de que ningún tercero mire nada:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "¿El registro se sostiene por sí solo?",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esta auditoría lo comprueba mecánicamente. Cuesta segundos y no escribe nada: sólo lee.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Los cuatro criterios y el resultado",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Gate",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Qué exige",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Resultado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "G1",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "Todo artefacto sellado valida sus hashes",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "93 / 94",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "G2",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "El ",
+       "m": null
+      },
+      {
+       "t": "n",
+       "m": "codigo"
+      },
+      {
+       "t": " declarado coincide con las filas de su registro",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "23 / 23",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "G3",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "Todo artefacto con resultados tiene dato crudo no vacío",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "60 / 64",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "G4",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "El script que produjo el resultado está hasheado",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "63 / 64",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Tres de cuatro fallan. ",
+     "m": null
+    },
+    {
+     "t": "NO_GO",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y ese es el resultado útil: una auditoría que pasa a la primera normalmente significa que no miró lo suficiente.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El hallazgo principal no era ninguno de los gates",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Diez artefactos guardan su dato crudo bajo un nombre distinto del canónico:",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Artefacto",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Dónde vive realmente el dato",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "D-MF-HARD",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "cohort.jsonl",
+       "m": "codigo"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "FEP-03",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "parejas.jsonl",
+       "m": "codigo"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "MF-01-UNION",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "union_candidates_*.jsonl",
+       "m": "codigo"
+      },
+      {
+       "t": ", ",
+       "m": null
+      },
+      {
+       "t": "union_labels_*.jsonl",
+       "m": "codigo"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "MF-02E",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "corridas.jsonl",
+       "m": "codigo"
+      },
+      {
+       "t": ", ",
+       "m": null
+      },
+      {
+       "t": "pocket_frame.jsonl",
+       "m": "codigo"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "MF-08",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "corridas.jsonl",
+       "m": "codigo"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "MF-10-CAL",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "brazo_a.jsonl",
+       "m": "codigo"
+      },
+      {
+       "t": ", ",
+       "m": null
+      },
+      {
+       "t": "brazo_b.jsonl",
+       "m": "codigo"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "MF-11-R2",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "per_complex_{train,val,test}.jsonl",
+       "m": "codigo"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "MF-15",
+       "m": "codigo"
+      },
+      {
+       "t": ", ",
+       "m": null
+      },
+      {
+       "t": "MF-20",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "per_complex_train.jsonl",
+       "m": "codigo"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "RS-01",
+       "m": "codigo"
+      }
+     ],
+     [
+      {
+       "t": "cache_train_only_view.jsonl",
+       "m": "codigo"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El contrato declara ",
+     "m": null
+    },
+    {
+     "t": "per_complex.jsonl",
+     "m": "codigo"
+    },
+    {
+     "t": ", y en los diez casos ",
+     "m": null
+    },
+    {
+     "t": "ese fichero sigue en el directorio, vacío, junto al que sí tiene los datos",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "A un tercero se le dice que busque un archivo que está vacío. No hay pérdida de información —los datos están ahí— pero es incumplimiento de contrato, y es exactamente la fricción que hace fracasar una transferencia: el que llega mira donde se le dijo, ve cero filas, y concluye que el artefacto está vacío.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La corrección no es renombrar.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Renombrar rompería hashes sellados. Se resuelve con un índice aditivo —",
+     "m": null
+    },
+    {
+     "t": "scripts/artifacts_science/_datos_crudos.json",
+     "m": "codigo"
+    },
+    {
+     "t": "— que dice para cada artefacto dónde vive su dato realmente.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Los fallos, uno a uno",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "**",
+     "m": null
+    },
+    {
+     "t": "FND-01-SMOKE",
+     "m": "codigo"
+    },
+    {
+     "t": " no valida, y no es reparable.** Selló ",
+     "m": null
+    },
+    {
+     "t": "experiment_manifest.py",
+     "m": "codigo"
+    },
+    {
+     "t": " como ",
+     "m": null
+    },
+    {
+     "t": "dataset",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Cuando la herramienta se amplió con el subcomando ",
+     "m": null
+    },
+    {
+     "t": "maintain",
+     "m": "codigo"
+    },
+    {
+     "t": ", el hash dejó de coincidir — y ",
+     "m": null
+    },
+    {
+     "t": "maintain",
+     "m": "codigo"
+    },
+    {
+     "t": " rechaza tocar ",
+     "m": null
+    },
+    {
+     "t": "dataset_hashes",
+     "m": "codigo"
+    },
+    {
+     "t": " por diseño, porque los datasets son inmutables.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La causa raíz es una mala clasificación: ",
+     "m": null
+    },
+    {
+     "t": "código sellado como dato",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Es un artefacto cuya hipótesis literal dice «smoke test» y no sostiene ninguna cifra del programa, pero el fallo es real y queda declarado en lugar de silenciado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cuatro artefactos declaran resultados sin ningún fichero de datos por unidad",
+     "m": "fuerte"
+    },
+    {
+     "t": ": ",
+     "m": null
+    },
+    {
+     "t": "FND-04",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "MF-26",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "REC-03-PRE",
+     "m": "codigo"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "RS-01A-R1",
+     "m": "codigo"
+    },
+    {
+     "t": ". Los cuatro son re-análisis o corrigenda sobre material ya sellado, y sus scripts ",
+     "m": null
+    },
+    {
+     "t": "sí",
+     "m": "fuerte"
+    },
+    {
+     "t": " están hasheados. De modo que:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Son reproducibles por ",
+     "m": null
+    },
+    {
+     "t": "re-ejecución",
+     "m": "fuerte"
+    },
+    {
+     "t": ". No son verificables por ",
+     "m": null
+    },
+    {
+     "t": "lectura",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esa distinción existía de facto y no estaba declarada en ningún sitio. Ahora sí.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "**",
+     "m": null
+    },
+    {
+     "t": "FND-02",
+     "m": "codigo"
+    },
+    {
+     "t": " declara resultados sin ningún script hasheado.** No se corrige a posteriori: añadir hashes a un sello es reescribir lo que se garantizó en su momento. Se documenta.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cero hashes apuntan a ficheros ausentes.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Eso sí salió limpio, y es el chequeo que más me preocupaba.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Nota de método: la auditoría se equivocó dos veces antes de sellar",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Vale la pena contarlo porque es la parte instructiva.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Primera versión.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Buscaba el dato crudo en una lista fija de nombres de fichero. Reportó ",
+     "m": null
+    },
+    {
+     "t": "8 fallos de G3, cinco de ellos falsos",
+     "m": "fuerte"
+    },
+    {
+     "t": ": el dato existía, sólo que bajo un nombre que la lista no contemplaba.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Segunda versión.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Comparó el ",
+     "m": null
+    },
+    {
+     "t": "n",
+     "m": "codigo"
+    },
+    {
+     "t": " declarado contra el ",
+     "m": null
+    },
+    {
+     "t": ".jsonl",
+     "m": "codigo"
+    },
+    {
+     "t": " más largo del directorio. Produjo ",
+     "m": null
+    },
+    {
+     "t": "6 falsos positivos en G2",
+     "m": "fuerte"
+    },
+    {
+     "t": ", porque varios artefactos llevan ficheros auxiliares —cohortes, parejas, brazos— con más filas que complejos tiene la cohorte.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ambos criterios se corrigieron ",
+     "m": null
+    },
+    {
+     "t": "antes",
+     "m": "fuerte"
+    },
+    {
+     "t": " de sellar. Si se hubiera publicado la primera versión, habría enviado a arreglar cinco cosas que estaban bien.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Una auditoría mal calibrada es peor que ninguna: gasta credibilidad en defectos que no existen.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es el mismo error que la auditoría persigue —afirmar algo que el dato no sostiene— cometido por el instrumento que iba a detectarlo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué habilita esto",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ninguno de estos defectos invalida un resultado científico. Todos son de ",
+     "m": null
+    },
+    {
+     "t": "contrato",
+     "m": "fuerte"
+    },
+    {
+     "t": ": el registro promete una estructura y en algunos sitios entrega otra.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Pero son justo los que un evaluador externo encuentra en los primeros diez minutos, y son baratos de arreglar ahora y caros de descubrir cuando los encuentre otro. Arreglarlos es la precondición de que ",
+     "m": null
+    },
+    {
+     "t": "FEP-06",
+     "m": "codigo"
+    },
+    {
+     "t": " —el dry-run con un tercero de verdad— tenga alguna probabilidad de salir bien.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FND-08.md"
+}

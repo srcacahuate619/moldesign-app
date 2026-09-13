@@ -1,0 +1,109 @@
+[tool.pytest.ini_options]
+# asyncio_mode = "strict": todos los tests async deben marcarse explícitamente
+# con @pytest.mark.asyncio. Evita marcar accidentalmente tests como async.
+asyncio_mode = "strict"
+
+# Loop scope por función (default de pytest-asyncio). El scope="session"
+# anterior asumía conexiones asyncpg compartidas entre fixtures — ese backend
+# ya no existe (modo desktop: SQLite + ThreadPoolExecutor). Con scope="session"
+# un solo asyncio.run() síncrono en cualquier test (ver test_llama_server.py)
+# cerraba el loop de sesión y hacía fallar en cascada todos los tests async de
+# los archivos siguientes en orden alfabético (37 tests, auditoría 2026-08-16).
+asyncio_default_fixture_loop_scope = "function"
+asyncio_default_test_loop_scope = "function"
+
+# ── Marcas ──────────────────────────────────────────────────────────────────
+#
+# `slow`: pruebas que corren sobre estructuras reales del catálogo. Miden lo que
+# ninguna prueba con datos inventados puede medir —el contrato del 95% de acierto
+# del modo automático de ingesta corre MolPocket sobre estructuras apo de verdad—
+# y por eso valen su minuto. Se pueden excluir con `-m "not slow"` cuando hace
+# falta una vuelta rápida, pero NO están excluidas por defecto: una prueba que
+# nadie corre no protege nada.
+markers = [
+    "slow: corre sobre estructuras reales; tarda decenas de segundos",
+]
+
+# ── Ruido de terceros ───────────────────────────────────────────────────────
+#
+# Un aviso repetido cien veces no informa: entierra al aviso nuevo. Aquí se
+# silencian SÓLO los de dependencias, uno a uno y con su motivo, para que los
+# nuestros sigan viéndose. Nunca un `ignore::DeprecationWarning` global: eso
+# taparía también el próximo aviso propio, que es justo el que hay que leer.
+filterwarnings = [
+    # pytest-asyncio 0.26 usa la API de políticas de bucle que Python 3.14
+    # marcó como obsoleta. No es nuestro código y no hay alternativa hasta que
+    # el plugin se actualice; son ~110 avisos por corrida.
+    'ignore:.asyncio\.(get|set)_event_loop_policy. is deprecated:DeprecationWarning',
+    # `prody` importa `numpy.chararray`, retirado del espacio de nombres
+    # principal. Lo arregla prody, no nosotros.
+    'ignore:.np\.chararray. is deprecated:DeprecationWarning',
+    # `admet_ai` usa `importlib.resources.path`, obsoleto desde 3.11.
+    'ignore:path is deprecated\. Use files\(\) instead:DeprecationWarning',
+]
+
+
+# ── Ruff (linter + formatter) ──────────────────────────────────────────────
+# lentos: aumentar gradualmente. No flag de TODO urgente.
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = [
+  "tests/fixtures",
+  "migrations",
+  "__pycache__",
+  ".venv",
+]
+
+[tool.ruff.lint]
+# Reglas activas (poco a poco, no queremos avalancha de warnings iniciales):
+#   E  = pycodestyle errors (indentación, whitespace)
+#   W  = pycodestyle warnings
+#   F  = pyflakes (imports sin usar, undefined names, redefiniciones)
+#   B  = flake8-bugbear (pitfalls comunes de Python, ej. mutable default args)
+#   C4 = flake8-comprehensions (list(dict.keys()) → dict.keys())
+#   SIM = flake8-simplify (bool == True → bool, etc.)
+#   T20 = flake8-print (encontrar print() en producción)
+# Fase 2: añadir UP (pyupgrade) cuando consolidemos Python 3.11+.
+select = ["E", "W", "F", "B", "C4", "SIM", "T20"]
+ignore = [
+  "E501",  # line-too-long: ya tenemos line-length=100, manejado por formatter
+  "B008",  # Function call in default arg (FastAPI Depends() usa esto legítimamente)
+  "B904",  # raise from en chain (lo veremos en refactor siguiente)
+  "SIM117",  # combinar isinstance checks (a veces menos legible)
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Permitir prints en scripts CLI standalone (no quedan en producción)
+"**/cli/**" = ["T20"]
+"**/scripts/**" = ["T20"]
+"**/debug_*.py" = ["T20"]
+"train_pipeline*.py" = ["T20"]
+# Tests pueden tener atributos mágicos y asserts largos
+"tests/**" = ["B015", "B017"]
+
+
+# ── mypy (typing estático, gradual) ─────────────────────────────────────────
+[tool.mypy]
+python_version = "3.11"
+# Empezar laxo (no rompemos build), subir gradualmente:
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = false       # Fase 2: activar
+disallow_untyped_defs = false # Fase 2: activar en servicios críticos
+check_untyped_defs = true
+no_implicit_optional = true
+warn_unused_configs = true
+ignore_missing_imports = true   # ML deps (torch, MDAnalysis) no tienen stubs
+exclude = [
+  "^tests/",
+  "^migrations/",
+  "^build/",
+  "^dist/",
+]
+
+# Por ahora no exigimos tipos en toda la app (los módulos legacy fallarían mucho).
+# Activar mypy en módulos específicos gradualmente:
+[[tool.mypy.overrides]]
+module = "core.*,api.main,api.dependencies,api.middleware"
+disallow_untyped_defs = true

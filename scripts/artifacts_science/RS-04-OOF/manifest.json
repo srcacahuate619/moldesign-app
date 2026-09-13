@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-04-OOF",
+  "hypothesis": "La feature de strain MMFF94s mejora Top-1 OOF de v0.6 sin degradar RMSD pareado",
+  "protocol": "CAMPANA-2-PLAN sellado (41b7f09) QA-6 + RS-04-QC sellado (5ffb256)",
+  "created_at": "2026-08-16T23:27:03.349822+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "5ffb25639280e49f10e7f9af7f6d4405939e7281",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "Top-1 OOF >=50/116; mediana pareada dRMSD <=+0.1A; cobertura >=95%; costes P95; sin regresion grave por estrato"
+  },
+  "decision": "NO_GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/RS-04-OOF/DESIGN.md": "4d827bd19d2c06108600bdc2c2192ce859f5fadf9779919ed6f9c9b1df1878c1",
+    "scripts/artifacts_science/RS-04-OOF/metrics.json": "7dd850c780b9e830ee7091bdcdfdd4ce01f5345f3c7b4f6ad6cebf819451be1c",
+    "scripts/artifacts_science/RS-04-OOF/per_complex.jsonl": "b4fb7d580d6d5c63b569b4f69777fa5e454afc550b4d3f6d88ad12a4a3c76c4d",
+    "scripts/artifacts_science/RS-04-OOF/failures.jsonl": "912ec7a827bf1a57d098f0fd135b44a044be698d2f66e814da45d61620db2b7b",
+    "scripts/artifacts_science/RS-04-OOF/benchmarks.json": "f282273decb73b89b95404115215e865950e9ee0af72a1b8afe73d11b84087cc",
+    "scripts/run_rs04_oof.py": "b83dfe4871a91426e382ad9ee24f9403fdcba3903d87dd2c25a49a9b49c704e7",
+    "scripts/run_rs04_qc.py": "45e19925f5255647d962b6cd38dfb9f92ed3abb1a9c3bc46229e108ec8bfa216",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T23:53:29.314279+00:00",
+  "decision_rationale": "Gate operacional FAIL: Top-1 OOF 39/116 vs 50 requeridos (baseline v0.6 47/116, Delta -8); McNemar bilateral p=0.115318 (ns); regresion grave en estrato hard. Mediana pareada 0.000 A cumple (<=0.1), cobertura 100% y costes P95 cumplen. El strain MMFF94s es coste-neutral en RMSD pero sin poder de seleccion en esta cohorte; v0.6 sigue siendo el selector de produccion. val40/D-RC-CONFIRM intactas.",
+  "finished_at": "2026-08-16T23:53:29.708386+00:00"
+}

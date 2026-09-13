@@ -1,0 +1,623 @@
+{
+ "id": "MF-28",
+ "meta": {
+  "titulo": "El bolsillo no tiene sitio donde poner un mapa",
+  "entradilla": "Cuatro de cada mil configuraciones muestreadas en el bolsillo no chocan. Un roadmap probabilístico convierte 4 de 33 donde Vina convierte 26, y el porqué vale más que el veredicto: la búsqueda sesgada no es un defecto a corregir, es lo que hace viable el problema."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Quedaban dos vías abiertas para reabrir la cartera de colocación. Una era ",
+     "m": null
+    },
+    {
+     "t": "más presupuesto del mismo buscador",
+     "m": "fuerte"
+    },
+    {
+     "t": " —",
+     "m": null
+    },
+    {
+     "t": "MF-29-EMP",
+     "m": "codigo"
+    },
+    {
+     "t": " la cerró—. La otra era ",
+     "m": null
+    },
+    {
+     "t": "otra estrategia de exploración",
+     "m": "fuerte"
+    },
+    {
+     "t": ": si Vina no llega a la cuenca nativa, quizá el problema sea ",
+     "m": null
+    },
+    {
+     "t": "cómo",
+     "m": "enfasis"
+    },
+    {
+     "t": " busca, no cuánto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La forma canónica de esa idea viene de planificación de movimientos: construir un ",
+     "m": null
+    },
+    {
+     "t": "roadmap probabilístico",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Se muestrean configuraciones del ligando, se descartan las que chocan, se conectan las que quedan con un planificador local, y se explora el grafo resultante. Es exploración sin sesgo, deliberadamente ciega al gradiente que Vina sí usa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La hipótesis preregistrada fue directa: ",
+     "m": null
+    },
+    {
+     "t": "con el mismo CPU, el roadmap alcanza la cuenca nativa que la búsqueda sesgada de Vina no alcanza",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Misma cohorte congelada de 48, mismo ensemble ETKDG, y paridad de CPU ",
+     "m": null
+    },
+    {
+     "t": "medida",
+     "m": "fuerte"
+    },
+    {
+     "t": ": el roadmap recibe exactamente el wall-clock que Vina consumió en ese complejo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato de colocación (n=33)",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Vina exh=8",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Roadmap",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Alcanza ≤2 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "26",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "4",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "RMSD mediano",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1.184 Å",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "4.437 Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "CPU mediana",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3,822 s",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3,822 s (por construcción)",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "McNemar exacto pareado: ",
+     "m": null
+    },
+    {
+     "t": "b = 1",
+     "m": "fuerte"
+    },
+    {
+     "t": " complejo donde gana el roadmap, ",
+     "m": null
+    },
+    {
+     "t": "c = 23",
+     "m": "fuerte"
+    },
+    {
+     "t": " donde gana Vina, ",
+     "m": null
+    },
+    {
+     "t": "p = 0.0",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En control (n=15) el patrón se repite: Vina 15 de 15, roadmap 7, b = 0, c = 8, p = 0.0078.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El MDE preregistrado pedía ",
+     "m": null
+    },
+    {
+     "t": "b ≥ 6 con c = 0",
+     "m": "fuerte"
+    },
+    {
+     "t": " para declarar mejora. Se obtuvo b = 1 con c = 23. No es que la mejora no alcance significación: es pérdida masiva y significativa en la dirección contraria.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La hipótesis queda falsificada en la dirección declarada.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El porqué, que es lo que vale",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un NO_GO que sólo dice «no funcionó» no compra nada. Éste dice por qué, y la cifra es el secundario descriptivo:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Fracción mediana de nodos ",
+      "m": null
+     },
+     {
+      "t": "libres",
+      "m": "fuerte"
+     }
+    ],
+    []
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Estrato de colocación",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.00417",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Control",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.0213",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cuatro de cada mil configuraciones muestreadas no chocan.",
+     "m": "fuerte"
+    },
+    {
+     "t": " En dos complejos del control el muestreo no encontró ",
+     "m": null
+    },
+    {
+     "t": "ninguna",
+     "m": "fuerte"
+    },
+    {
+     "t": " configuración libre en absoluto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un roadmap probabilístico uniforme necesita espacio libre donde poner nodos. El bolsillo de unión no lo tiene: es un volumen tan ajustado al ligando que el muestreo ciego cae casi siempre dentro de la proteína. Con cuatro nodos útiles por mil intentos, el grafo que se construye no describe el espacio de configuraciones — describe el ruido que sobrevivió al filtro de choque.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "La búsqueda sesgada de Vina no es un defecto a corregir con mejor exploración. Es lo que hace viable el problema.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ese sesgo —seguir el gradiente del campo de puntuación en vez de muestrear uniformemente— es exactamente lo que convierte un espacio casi enteramente prohibido en uno recorrible. Quitarlo no libera la búsqueda: la deja sin suelo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que cierra",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Junto con ",
+     "m": null
+    },
+    {
+     "t": "MF-29-EMP",
+     "m": "codigo"
+    },
+    {
+     "t": ", que midió que subir 64× el presupuesto del mismo buscador mueve tres complejos de 48, esto ",
+     "m": null
+    },
+    {
+     "t": "cierra las dos vías de exploración que quedaban abiertas",
+     "m": "fuerte"
+    },
+    {
+     "t": ". La cartera de colocación no se reabre por ahí, y el presupuesto de atención se va a la hipótesis alternativa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y encaja con el paisaje que ",
+     "m": null
+    },
+    {
+     "t": "MF-15-EXT",
+     "m": "codigo"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "MF-14",
+     "m": "codigo"
+    },
+    {
+     "t": " habían medido: sin embudo que guíe desde lejos, con la cuenca estrecha y rugosa, y ahora además ",
+     "m": null
+    },
+    {
+     "t": "sin espacio libre donde muestrear a ciegas",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Las tres propiedades apuntan al mismo sitio: la información de la función de puntuación no es un lujo del método, es el único asidero.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Dos notas de integridad, ambas declaradas",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Desviación de protocolo, declarada antes de correr.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El espacio torsional se discretiza por el ensemble ETKDG en vez de muestrearse continuo. La justificación es que ",
+     "m": null
+    },
+    {
+     "t": "MF-02A-EXT",
+     "m": "codigo"
+    },
+    {
+     "t": " midió que el confórmero necesario está disponible en el 83.9% de los casos a K=30. Un roadmap con torsiones continuas es otro experimento, no éste.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "**El ",
+     "m": null
+    },
+    {
+     "t": "metrics.json",
+     "m": "codigo"
+    },
+    {
+     "t": " se reconstruyó desde ",
+     "m": null
+    },
+    {
+     "t": "per_complex.jsonl",
+     "m": "codigo"
+    },
+    {
+     "t": ".** La fase de resumen del runner cayó con un ",
+     "m": null
+    },
+    {
+     "t": "TypeError",
+     "m": "codigo"
+    },
+    {
+     "t": " —",
+     "m": null
+    },
+    {
+     "t": "median()",
+     "m": "codigo"
+    },
+    {
+     "t": " recibió ",
+     "m": null
+    },
+    {
+     "t": "None",
+     "m": "codigo"
+    },
+    {
+     "t": " de los dos complejos sin configuración libre—. Los 48 complejos se ejecutaron completos y ",
+     "m": null
+    },
+    {
+     "t": "no se recomputó ningún docking",
+     "m": "fuerte"
+    },
+    {
+     "t": ": la reconstrucción sólo rehace la agregación. La métrica se verificó contra ",
+     "m": null
+    },
+    {
+     "t": "molflex.rmsd_pose_pocket",
+     "m": "codigo"
+    },
+    {
+     "t": " en 46 complejos con delta máximo ",
+     "m": null
+    },
+    {
+     "t": "0.0",
+     "m": "fuerte"
+    },
+    {
+     "t": " a cuatro decimales.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Una limitación estructural de este registro",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es un ",
+     "m": null
+    },
+    {
+     "t": "sellado retroactivo",
+     "m": "fuerte"
+    },
+    {
+     "t": ". El experimento corrió completo el 2026-08-19 —48 de 48 complejos, 40,247 s— y sus resultados se commitearon esa misma noche, pero el directorio se quedó sin ",
+     "m": null
+    },
+    {
+     "t": "manifest.json",
+     "m": "codigo"
+    },
+    {
+     "t": " mientras el documento del programa lo daba por sellado ",
+     "m": null
+    },
+    {
+     "t": "NO_GO",
+     "m": "codigo"
+    },
+    {
+     "t": ". El barrido del registro detectó el hueco y esto lo cierra sin recomputar nada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El prerregistro sí es anterior a la corrida",
+     "m": "fuerte"
+    },
+    {
+     "t": ": ",
+     "m": null
+    },
+    {
+     "t": "MF-28-PRE",
+     "m": "codigo"
+    },
+    {
+     "t": " se commiteó el 2026-08-19 a las 00:44, y la corrida empezó después. Lo que faltaba era el artefacto, no la declaración.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-28.md"
+}

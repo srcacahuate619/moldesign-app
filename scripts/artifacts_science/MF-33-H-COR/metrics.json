@@ -1,0 +1,617 @@
+{
+ "experiment_id": "MF-33-H-COR",
+ "tipo": "corrigendum de implementacion; reconstruccion historica contra corregida",
+ "timestamp": "2026-08-23T17:38:57.884698+00:00",
+ "prerregistro": "MF-33-H-COR-PRE, sellado antes de la corrida",
+ "NO_ES_CIEGO_Y_NO_LO_FINGE": "Los 12 complejos del piloto diagnostico fueron INSPECCIONADOS antes de disenar la correccion, y la prueba tecnica previa al sellado miro ademas el complejo 10gs del ambito B. Ese piloto DEMUESTRA EL DEFECTO Y DISENA LA CORRECCION; no estima la tasa nueva, que es lo que mide este artefacto sobre las cohortes completas. Un corrigendum de implementacion no se aprueba ni se rechaza: se ejecuta y se reporta, con la reconstruccion historica al lado para que la diferencia sea auditable.",
+ "procedencia": {
+  "ejecucion": "servidor 192.168.1.64, contenedor mf33hcor, imagen moldesign-lab-pb:0.6.5",
+  "trabajos": "164 = 48 del ambito A + 116 del ambito B, todos completados, salida 0",
+  "cohorte_A": "MF-33-B-RET-R2, no R1: 8224 poses sobre 48 complejos. MF-33-PB sello 8215 poses porque corrio sobre R1.",
+  "diferencia_conocida_1afl": "1afl aporta 267 poses en R2 frente a 258 en R1. Es la UNICA diferencia de cohorte entre los dos artefactos, y estaba PREDICHA en los limites declarados de MF-33-PB: «47 de los 48 complejos tienen poses byte-identicas a las que tendra MF-33-B-RET-R2; 1afl cambiara y habra que recalcularlo».",
+  "cohorte_B": "MF-33-TOP1: 116 complejos del protocolo rigido, top-1 de los dos brazos, 232 poses",
+  "descarga_verificada": "331 archivos contrastados por SHA-256 contra el servidor: 331 coinciden, 0 difieren, 0 faltan",
+  "artefactos_originales": "MF-33-PB y MF-33-TOP1 quedan sellados e inmutables; este artefacto NO los modifica"
+ },
+ "invariantes": {
+  "poses_examinadas": {
+   "A": 8224,
+   "B": 232
+  },
+  "poses_con_invariante_violada": {},
+  "total_violadas": 0,
+  "desplazamiento_pesado_max_global_A": 0.0,
+  "hidrogenos_heredados_del_cristal_total": 0,
+  "detalle_violaciones": [],
+  "lectura": "las cinco invariantes se cumplen en TODAS las poses: la molecula corregida es la misma que la historica con los hidrogenos regenerados"
+ },
+ "reproduccion_de_lo_historico": {
+  "A_contra_MF-33-PB": {
+   "complejos_contrastados": 48,
+   "top1_discordantes": [],
+   "complejos_con_distinto_numero_de_poses": [
+    {
+     "pid": "1afl",
+     "MF-33-PB": 258,
+     "MF-33-H-COR": 267
+    }
+   ],
+   "lectura": "la reconstruccion HISTORICA de este artefacto reproduce top-1 a top-1 lo que sello MF-33-PB, salvo donde el numero de poses cambia por R2"
+  },
+  "B_contra_MF-33-TOP1": {
+   "complejos_contrastados": 116,
+   "pb_valid_discordantes": [],
+   "lectura": "la reconstruccion HISTORICA reproduce pose a pose el pb_valid_fisica sellado en MF-33-TOP1"
+  },
+  "veredicto": "REPRODUCCION EXACTA"
+ },
+ "tasas": {
+  "A": {
+   "n_complejos": 48,
+   "poses_evaluadas": 8224,
+   "HISTORICA": {
+    "validas": 217,
+    "tasa": 0.0264,
+    "ic95_wilson": [
+     0.0231,
+     0.0301
+    ],
+    "checks_que_fallan": [
+     [
+      "internal_energy",
+      8006
+     ],
+     [
+      "double_bond_flatness",
+      598
+     ],
+     [
+      "internal_steric_clash",
+      23
+     ],
+     [
+      "minimum_distance_to_protein",
+      13
+     ],
+     [
+      "bond_angles",
+      7
+     ],
+     [
+      "bond_lengths",
+      7
+     ]
+    ]
+   },
+   "CORREGIDA": {
+    "validas": 8181,
+    "tasa": 0.9948,
+    "ic95_wilson": [
+     0.993,
+     0.9961
+    ],
+    "checks_que_fallan": [
+     [
+      "internal_steric_clash",
+      23
+     ],
+     [
+      "minimum_distance_to_protein",
+      13
+     ],
+     [
+      "bond_angles",
+      7
+     ],
+     [
+      "bond_lengths",
+      7
+     ],
+     [
+      "internal_energy",
+      7
+     ]
+    ]
+   },
+   "poses_invalidas_unicas_CORREGIDA": 43,
+   "ADVERTENCIA_SOLAPE": "los recuentos por control NO suman poses invalidas unicas: una pose puede fallar varios controles a la vez. Invalidas unicas=43; suma de recuentos por control=57."
+  },
+  "B": {
+   "n_complejos": 116,
+   "poses_evaluadas": 232,
+   "HISTORICA": {
+    "validas": 28,
+    "tasa": 0.1207,
+    "ic95_wilson": [
+     0.0848,
+     0.1689
+    ],
+    "checks_que_fallan": [
+     [
+      "internal_energy",
+      203
+     ],
+     [
+      "minimum_distance_to_protein",
+      14
+     ],
+     [
+      "double_bond_flatness",
+      12
+     ],
+     [
+      "internal_steric_clash",
+      2
+     ],
+     [
+      "volume_overlap_with_protein",
+      1
+     ]
+    ]
+   },
+   "CORREGIDA": {
+    "validas": 216,
+    "tasa": 0.931,
+    "ic95_wilson": [
+     0.8909,
+     0.9571
+    ],
+    "checks_que_fallan": [
+     [
+      "minimum_distance_to_protein",
+      14
+     ],
+     [
+      "internal_steric_clash",
+      2
+     ],
+     [
+      "volume_overlap_with_protein",
+      1
+     ]
+    ]
+   },
+   "poses_invalidas_unicas_CORREGIDA": 16,
+   "ADVERTENCIA_SOLAPE": "los recuentos por control NO suman poses invalidas unicas: una pose puede fallar varios controles a la vez. Invalidas unicas=16; suma de recuentos por control=17."
+  }
+ },
+ "cantidades_pareadas": {
+  "A": {
+   "etiqueta": "ambito A, flexible, top-1 por brazo",
+   "CORREGIDA": {
+    "tabla_2x2": {
+     "ambos_validos": 47,
+     "solo_ensemble": 0,
+     "solo_single": 1,
+     "ninguno": 0,
+     "n_complejos": 48
+    },
+    "single_validos": 48,
+    "ensemble_validos": 47,
+    "de": 48,
+    "tasa_single": 1.0,
+    "tasa_ensemble": 0.9792,
+    "discordancia": 0.0208,
+    "mcnemar_p_exacto": 1.0,
+    "mde_pp_para_esta_discordancia": 5.41,
+    "lectura": "SIN_EVIDENCIA_INTERPRETABLE_DE_DIFERENCIA. Las discordancias son 1 de 48 complejos y McNemar exacto da p=1.0. Con la tasa cerca del techo, este diseno no distingue entre brazos: NO se afirma ventaja de ninguno, y tampoco equivalencia, que exigiria una prueba de no-inferioridad con margen preregistrado que aqui no existe."
+   },
+   "HISTORICA": {
+    "tabla_2x2": {
+     "ambos_validos": 7,
+     "solo_ensemble": 3,
+     "solo_single": 1,
+     "ninguno": 37,
+     "n_complejos": 48
+    },
+    "single_validos": 8,
+    "ensemble_validos": 10,
+    "de": 48,
+    "tasa_single": 0.1667,
+    "tasa_ensemble": 0.2083,
+    "discordancia": 0.0833,
+    "mcnemar_p_exacto": 0.625,
+    "mde_pp_para_esta_discordancia": 10.82
+   },
+   "discordantes_corregida": [
+    {
+     "pid": "1nm6",
+     "single_valida": true,
+     "ensemble_valida": false,
+     "single_checks": [],
+     "ensemble_checks": [
+      "internal_steric_clash"
+     ]
+    }
+   ]
+  },
+  "B": {
+   "etiqueta": "ambito B, rigido, top-1 por brazo",
+   "CORREGIDA": {
+    "tabla_2x2": {
+     "ambos_validos": 104,
+     "solo_ensemble": 6,
+     "solo_single": 2,
+     "ninguno": 4,
+     "n_complejos": 116
+    },
+    "single_validos": 106,
+    "ensemble_validos": 110,
+    "de": 116,
+    "tasa_single": 0.9138,
+    "tasa_ensemble": 0.9483,
+    "discordancia": 0.069,
+    "mcnemar_p_exacto": 0.289062,
+    "mde_pp_para_esta_discordancia": 6.61,
+    "lectura": "SIN_EVIDENCIA_INTERPRETABLE_DE_DIFERENCIA. Las discordancias son 8 de 116 complejos y McNemar exacto da p=0.289062. Con la tasa cerca del techo, este diseno no distingue entre brazos: NO se afirma ventaja de ninguno, y tampoco equivalencia, que exigiria una prueba de no-inferioridad con margen preregistrado que aqui no existe."
+   },
+   "HISTORICA": {
+    "tabla_2x2": {
+     "ambos_validos": 10,
+     "solo_ensemble": 8,
+     "solo_single": 0,
+     "ninguno": 98,
+     "n_complejos": 116
+    },
+    "single_validos": 10,
+    "ensemble_validos": 18,
+    "de": 116,
+    "tasa_single": 0.0862,
+    "tasa_ensemble": 0.1552,
+    "discordancia": 0.069,
+    "mcnemar_p_exacto": 0.007812,
+    "mde_pp_para_esta_discordancia": 6.61
+   },
+   "discordantes_corregida": [
+    {
+     "pid": "1b46",
+     "single_valida": false,
+     "ensemble_valida": true,
+     "single_checks": [
+      "minimum_distance_to_protein"
+     ],
+     "ensemble_checks": []
+    },
+    {
+     "pid": "1ela",
+     "single_valida": false,
+     "ensemble_valida": true,
+     "single_checks": [
+      "minimum_distance_to_protein"
+     ],
+     "ensemble_checks": []
+    },
+    {
+     "pid": "1hii",
+     "single_valida": false,
+     "ensemble_valida": true,
+     "single_checks": [
+      "minimum_distance_to_protein"
+     ],
+     "ensemble_checks": []
+    },
+    {
+     "pid": "1k9s",
+     "single_valida": false,
+     "ensemble_valida": true,
+     "single_checks": [
+      "minimum_distance_to_protein"
+     ],
+     "ensemble_checks": []
+    },
+    {
+     "pid": "1m0n",
+     "single_valida": false,
+     "ensemble_valida": true,
+     "single_checks": [
+      "minimum_distance_to_protein"
+     ],
+     "ensemble_checks": []
+    },
+    {
+     "pid": "1mmr",
+     "single_valida": true,
+     "ensemble_valida": false,
+     "single_checks": [],
+     "ensemble_checks": [
+      "internal_steric_clash"
+     ]
+    },
+    {
+     "pid": "1moq",
+     "single_valida": false,
+     "ensemble_valida": true,
+     "single_checks": [
+      "minimum_distance_to_protein"
+     ],
+     "ensemble_checks": []
+    },
+    {
+     "pid": "1nm6",
+     "single_valida": true,
+     "ensemble_valida": false,
+     "single_checks": [],
+     "ensemble_checks": [
+      "internal_steric_clash"
+     ]
+    }
+   ]
+  }
+ },
+ "residuo_cientifico": {
+  "A": {
+   "poses_invalidas_unicas": 43,
+   "de_poses_evaluadas": 8224,
+   "por_control": [
+    [
+     "internal_steric_clash",
+     23
+    ],
+    [
+     "minimum_distance_to_protein",
+     13
+    ],
+    [
+     "bond_angles",
+     7
+    ],
+    [
+     "bond_lengths",
+     7
+    ],
+    [
+     "internal_energy",
+     7
+    ]
+   ],
+   "suma_de_recuentos_por_control": 57,
+   "combinaciones_de_controles": [
+    [
+     "internal_steric_clash",
+     23
+    ],
+    [
+     "minimum_distance_to_protein",
+     13
+    ],
+    [
+     "bond_angles+bond_lengths+internal_energy",
+     7
+    ]
+   ],
+   "complejos_afectados": 7,
+   "top_complejos": [
+    [
+     "1nm6",
+     21
+    ],
+    [
+     "1mmq",
+     9
+    ],
+    [
+     "1add",
+     5
+    ],
+    [
+     "1b38",
+     4
+    ],
+    [
+     "1fh7",
+     2
+    ],
+    [
+     "1amw",
+     1
+    ],
+    [
+     "1apv",
+     1
+    ]
+   ],
+   "NOTA_SOLAPE": "la suma de recuentos por control excede las poses invalidas unicas porque una misma pose puede fallar varios controles; las combinaciones de arriba si son disjuntas y si suman."
+  },
+  "B": {
+   "poses_invalidas_unicas": 16,
+   "de_poses_evaluadas": 232,
+   "por_control": [
+    [
+     "minimum_distance_to_protein",
+     14
+    ],
+    [
+     "internal_steric_clash",
+     2
+    ],
+    [
+     "volume_overlap_with_protein",
+     1
+    ]
+   ],
+   "suma_de_recuentos_por_control": 17,
+   "combinaciones_de_controles": [
+    [
+     "minimum_distance_to_protein",
+     13
+    ],
+    [
+     "internal_steric_clash",
+     2
+    ],
+    [
+     "minimum_distance_to_protein+volume_overlap_with_protein",
+     1
+    ]
+   ],
+   "complejos_afectados": 12,
+   "top_complejos": [
+    [
+     "1b2h",
+     2
+    ],
+    [
+     "1b4z",
+     2
+    ],
+    [
+     "1bxr",
+     2
+    ],
+    [
+     "1flr",
+     2
+    ],
+    [
+     "1b46",
+     1
+    ],
+    [
+     "1ela",
+     1
+    ],
+    [
+     "1hii",
+     1
+    ],
+    [
+     "1k9s",
+     1
+    ],
+    [
+     "1m0n",
+     1
+    ],
+    [
+     "1mmr",
+     1
+    ]
+   ],
+   "NOTA_SOLAPE": "la suma de recuentos por control excede las poses invalidas unicas porque una misma pose puede fallar varios controles; las combinaciones de arriba si son disjuntas y si suman."
+  }
+ },
+ "internal_energy": {
+  "ambito_A_CORREGIDA": 7,
+  "ambito_A_HISTORICA": 8006,
+  "PRECISION_IMPORTANTE": "el 8006 de este artefacto NO es el 7997 de MF-33-PB: aquel era sobre 8215 poses de R1 y este es sobre 8224 de R2. Son cohortes distintas por 1afl, no una correccion de la cifra vieja. La caida real que mide este corrigendum es 8006 -> 7 DENTRO DE LA MISMA COHORTE R2."
+ },
+ "double_bond_flatness": {
+  "ambito_A_HISTORICA": 598,
+  "ambito_A_CORREGIDA": 0,
+  "CORRIGE_UNA_AFIRMACION_NUESTRA": "el prerregistro y el commit del corrigendum dijeron que el defecto afectaba a la ENERGIA INTERNA. Tambien contaminaba la planaridad de dobles enlaces, que depende de los hidrogenos sustituyentes: 598 -> 0. La afirmacion previa de que solo estaba afectada la energia era incompleta y queda corregida aqui."
+ },
+ "concordancia_con_el_runner": {
+  "metrics_del_servidor_coincide_con_este_recalculo": true,
+  "resumen_del_servidor": {
+   "A": {
+    "poses_evaluadas": 8224,
+    "validas_reconstruccion_HISTORICA": 217,
+    "validas_reconstruccion_CORREGIDA": 8181,
+    "tasa_historica": 0.0264,
+    "tasa_corregida": 0.9948,
+    "checks_que_fallan_historica": [
+     [
+      "internal_energy",
+      8006
+     ],
+     [
+      "double_bond_flatness",
+      598
+     ],
+     [
+      "internal_steric_clash",
+      23
+     ],
+     [
+      "minimum_distance_to_protein",
+      13
+     ],
+     [
+      "bond_angles",
+      7
+     ],
+     [
+      "bond_lengths",
+      7
+     ]
+    ],
+    "checks_que_fallan_corregida": [
+     [
+      "internal_steric_clash",
+      23
+     ],
+     [
+      "minimum_distance_to_protein",
+      13
+     ],
+     [
+      "bond_angles",
+      7
+     ],
+     [
+      "bond_lengths",
+      7
+     ],
+     [
+      "internal_energy",
+      7
+     ]
+    ],
+    "poses_con_invariante_violada": 0
+   },
+   "B": {
+    "poses_evaluadas": 232,
+    "validas_reconstruccion_HISTORICA": 28,
+    "validas_reconstruccion_CORREGIDA": 216,
+    "tasa_historica": 0.1207,
+    "tasa_corregida": 0.931,
+    "checks_que_fallan_historica": [
+     [
+      "internal_energy",
+      203
+     ],
+     [
+      "minimum_distance_to_protein",
+      14
+     ],
+     [
+      "double_bond_flatness",
+      12
+     ],
+     [
+      "internal_steric_clash",
+      2
+     ],
+     [
+      "volume_overlap_with_protein",
+      1
+     ]
+    ],
+    "checks_que_fallan_corregida": [
+     [
+      "minimum_distance_to_protein",
+      14
+     ],
+     [
+      "internal_steric_clash",
+      2
+     ],
+     [
+      "volume_overlap_with_protein",
+      1
+     ]
+    ],
+    "poses_con_invariante_violada": 0
+   }
+  }
+ },
+ "limites_declarados": [
+  "NO demuestra exactitud de pose ni de union: una pose puede ser fisicamente valida y estar en el sitio equivocado",
+  "NO mide el protocolo de docking, que no se toca aqui: corrige la CAPA DE RECONSTRUCCION",
+  "NO establece ventaja de ningun brazo, y tampoco equivalencia entre ellos",
+  "la tasa corregida es CONDICIONAL a la reconstruccion canonica de hidrogenos: el PDBQT es una representacion de atomo unido y no contiene la geometria explicita completa",
+  "los recuentos por control se solapan y no suman poses invalidas unicas",
+  "config redock de PoseBusters, que usa la verdad de terreno; NO es la config dock que usa produccion",
+  "el ambito A corre sobre R2 y el ambito B sobre el protocolo rigido: sus tasas no son comparables entre si"
+ ]
+}

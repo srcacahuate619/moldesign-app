@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-14-R1",
+  "hypothesis": "Corregidas las etiquetas por simetria, el selector supera al baseline vina_score en precision condicional",
+  "protocol": "RS-14-R1-PRE/PREREGISTRO.md; v2 train; etiquetas rmsd_sym; protocolo de RS-14 congelado e importado",
+  "created_at": "2026-08-18T20:19:51.209581+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "23ac6d11cfadfdbd1d98de59392ebdaa66539cee",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 validez, G2 superioridad con CI95 BCa pareado excluyendo cero, G3 nulo por permutacion"
+  },
+  "decision": "NO_GO",
+  "assets_hashes": {
+    "scripts/run_rs14r1_selector_sym.py": "875c843b67208de361302f5f6a36b5aec5a88a27c24c65664f07378635c9723d"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-18T20:19:51.779245+00:00",
+  "decision_rationale": "Precision condicional 0.4601 frente a 0.5543 del baseline, diferencia pareada -0.0942 con CI95 BCa [-0.2138, +0.0217] sobre los mismos 92 complejos cubiertos. Corregir el defecto ENSANCHO la brecha: de -0.0471 en RS-14 a -0.0942 aqui, porque el baseline gano +7.6 pp (7 complejos) y el selector solo +2.9 pp. El defecto de simetria estaba ocultando cuanto mejor es ya vina_score. Las tres predicciones preregistradas se cumplieron: selector en [0.45, 0.58] -> 0.4601; diferencia en [-0.15, +0.05] -> -0.0942; G3 pasa con holgura -> 0.4601 frente a p95 0.1848 con p empirico 0.0. El selector SIGUE aprendiendo senal real, casi 2.5x el nulo, pero lo que aprende no anade nada sobre el score de Vina. Por la regla de cierre declarada en el prerregistro antes de ejecutar, este NO_GO cierra la cartera D de forma definitiva: el corrigendum no cambio la decision, asi que por la §19.1 no reinicia el contador de futilidad, y RS-11/12/13 quedan bloqueados permanentemente bajo este diseno. Limitacion declarada: 1,143 de 18,812 poses (6.1%) conservan RMSD ingenuo, sesgo que va EN CONTRA de un GO. Val y test intactos.",
+  "finished_at": "2026-08-18T20:19:51.918291+00:00",
+  "duration_seconds": 2936.0
+}

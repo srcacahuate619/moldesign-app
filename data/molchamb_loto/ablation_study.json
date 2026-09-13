@@ -1,0 +1,56 @@
+{
+  "ca2": {
+    "dude_original": {
+      "n": 31664,
+      "n_act": 492,
+      "auc_warhead_only": 0.9838,
+      "auc_warhead_donor": 0.952,
+      "auc_warhead_molchamb": 0.9838,
+      "auc_full": 0.9508
+    },
+    "molchamb_loto": {
+      "n": 1933,
+      "n_act": 37,
+      "auc_warhead_only": 0.971,
+      "auc_warhead_donor": 0.9823,
+      "auc_warhead_molchamb": 0.9619,
+      "auc_full": 0.9844
+    }
+  },
+  "mmp9": {
+    "dude_original": {
+      "n": 2858,
+      "n_act": 858,
+      "auc_warhead_only": 0.8913,
+      "auc_warhead_donor": 0.8792,
+      "auc_warhead_molchamb": 0.8913,
+      "auc_full": 0.8787
+    },
+    "molchamb_loto": {
+      "n": 1925,
+      "n_act": 50,
+      "auc_warhead_only": 0.9308,
+      "auc_warhead_donor": 0.9063,
+      "auc_warhead_molchamb": 0.9308,
+      "auc_full": 0.9061
+    }
+  },
+  "ace": {
+    "dude_original": {
+      "n": 2238,
+      "n_act": 82,
+      "auc_warhead_only": 0.7838,
+      "auc_warhead_donor": 0.7505,
+      "auc_warhead_molchamb": 0.7838,
+      "auc_full": 0.751
+    },
+    "molchamb_loto": {
+      "n": 2003,
+      "n_act": 46,
+      "auc_warhead_only": 0.8002,
+      "auc_warhead_donor": 0.761,
+      "auc_warhead_molchamb": 0.8002,
+      "auc_full": 0.762
+    }
+  }
+}

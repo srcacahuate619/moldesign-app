@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-33-B-RET-R1-PRE",
+  "hypothesis": "La repeticion completa del brazo B MF-33, con retencion forense, reproduce su oraculo sellado y permite distinguir ganancia de generacion de ganancia entregada por score Vina.",
+  "protocol": "Repeticion tecnica completa de 48 complejos: exh8, 9 modos, seed42, caja25A, cpu1; sin rescoring; retencion PDBQT/log/per-pose/checkpoint.",
+  "created_at": "2026-08-22T04:27:06.116733+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "8ac7950802b398540bf72a1d2fc9484102b6100a",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G0: 48/48 sin fallos; G1: oraculo ENSEMBLE reproduce B sellado dentro 0.001A en >=95%; primario McNemar top1/top5/oraculo con lectura exacta de MF-33-B-RET-PRE."
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-33/per_complex.jsonl": "ee1d03c926eef6ff02bdf2b189d097d2b1b1240f5b0f56827203a10343edb48d",
+    "scripts/artifacts_science/MF-33-B-RET-PRE/manifest.json": "2d1fbffcd886e002f63dca26481699be6505a8a78176a6e62e20bb7dc4e9b8e9",
+    "scripts/artifacts_science/MF-33-B-RET-PARTIAL/manifest.json": "ee5fab5f01990df3e204e245b3e9cdb33ee99781fd5431be1022b8898df20ea3"
+  },
+  "assets_hashes": {
+    "scripts/run_mf33bret_r1.py": "cf776c9cefc86a7410e6ddfb487c75d449876f56e09ebc0b21ed7af0ac60b01d",
+    "scripts/artifacts_science/MF-33-B-RET-R1-PRE/DESIGN.md": "6444b672ce12628e1ca72941b41c559aabf54a9c27c805c8ed33a015b7f28f45",
+    "scripts/posebusters_metrica.py": "e4e17593b77b82c7c9d0b56d7dc0e87de2a1aea4b637e477cbdefdacc7f25213",
+    "scripts/estadistica_fnd04.py": "824725da91103311458f5a19f2051d967af9b6c25538ba1fdfe6464ccabe5f93"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-22T04:27:38.660646+00:00",
+  "decision_rationale": "Preregistro técnico sellado: repetición completa de 48 complejos con protocolo y gate del contrato padre, reteniendo evidencia por pose y permitiendo reanudación sin sobrescribir el parcial.",
+  "finished_at": "2026-08-22T04:27:38.831049+00:00"
+}

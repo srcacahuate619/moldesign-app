@@ -1,0 +1,25 @@
+{
+  "target": "ace",
+  "pdb": "1o86",
+  "n_total": 2003,
+  "n_actives": 46,
+  "auc_vina": 0.4056,
+  "auc_xgb": 0.4532,
+  "auc_univ_metal": 0.8002,
+  "auc_m4_equal": 0.4362,
+  "auc_m5_equal": 0.6708,
+  "delta_equal": 0.2345,
+  "delta_bootstrap_mean": 0.2344,
+  "delta_bootstrap_ci_low": 0.1985,
+  "delta_bootstrap_ci_high": 0.2701,
+  "p_value": 0.0,
+  "significant": true,
+  "m4_ci": [
+    0.373,
+    0.5034
+  ],
+  "m5_ci": [
+    0.6355,
+    0.7079
+  ]
+}

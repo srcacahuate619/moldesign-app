@@ -1,0 +1,13 @@
+{
+  "n_nodes": 2630,
+  "n_edges": 64576,
+  "n_labeled": 2623,
+  "n_train": 2098,
+  "n_val": 525,
+  "train_spearman": 0.7025,
+  "train_p": 0.0,
+  "val_spearman": 0.5805,
+  "val_p": 1.2752519280524423e-48,
+  "best_epoch": 479,
+  "device": "cuda"
+}

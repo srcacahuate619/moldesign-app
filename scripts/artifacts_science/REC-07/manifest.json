@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "experiment_id": "REC-07",
+  "hypothesis": "El grid APO de 5TUN puede corregirse sin regresion. La correccion propuesta en doc 35 (G_MP de MolPocket) contiene los 15 hotspots pero se ALEJA del nucleofilo catalitico Cys25; una caja adaptativa minima que contenga los 15 hotspots mas la triada catalitica (G_ADAPT) los contiene todos, esta mas cerca de Cys25 que ambas alternativas y ocupa menos volumen que G_MP. Un control de docking con E64c (inhibidor canonico de cisteina-proteasas, extraido del homologo 1ITO) debe situar la pose top-1 en contacto con Cys25 SG bajo el grid aceptado.",
+  "protocol": "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md seccion 7 (Cartera B, REC-07); docs/35_GRID_APO_5TUN_PENDIENTE.md; consume la evidencia sellada de REC-01-R1 (5TUN con E8, margen -5.147 A)",
+  "created_at": "2026-08-17T07:08:26.933333+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "93541c9dc610d56014d19b73a2b72527d36abe41",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 contencion: el grid aceptado contiene 15/15 hotspots y 3/3 residuos de la triada catalitica; G2 ancla: no mas lejos de Cys25 SG que el grid actual del catalogo; G3 validez de docking: rc=0, archivo no vacio, 1<=modos<=9, scores finitos de REMARK VINA RESULT, geometria parseable en todas las corridas; G4 contacto catalitico: pose top-1 de E64c a <=5.0 A de Cys25 SG en al menos 3 de 5 semillas; G5 no regresion frente a G_DB en la metrica de contacto; G6 determinismo por semilla; G7 solo lectura, cero escrituras en catalogo o DB"
+  },
+  "decision": "NO_GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/REC-01-R1/per_complex.jsonl": "c48fe2822ae4adc8024fcb9281ee09fcd3b138c757e00af55ccbffe6a2b533f3",
+    "data/target_library/03_protease/1ITO.pdb": "252faa02a4fa6f8626e1d702e670d231fa1d67fe1e1cd9eeb574a3f0dcdb9158"
+  },
+  "binary_hashes": {
+    "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/REC-07/PREREGISTRO.md": "a91cc8c5659744bbc8a8f4a10ec9776e75d35b0bba8384a8eb86130f1ca8a6d9",
+    "scripts/artifacts_science/REC-07/LECTURA.md": "7cefb309b5e294b3a34526459abcdbfd57703bb6322ce2e926124e7d10019dcf",
+    "scripts/artifacts_science/REC-07/metrics.json": "fac58aac315d502027643efaee686ac8f42d4fdccbf9f3d4dd91f239d096b49b",
+    "scripts/artifacts_science/REC-07/per_complex.jsonl": "6c7627129723e3b97acf2b0f7135d0b1d2633a1902e92b792417cf67ef8d341a",
+    "scripts/artifacts_science/REC-07/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/run_rec07_grid_5tun.py": "78831e2a455be602a2e733066bafafd5abdc3faa45adac6eb25092c697bcde44",
+    "scripts/rec07_determinismo.py": "e67f369409020dc1cddbdfbb272c8f02e3505c14bfe05a5e3029261201864966"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-17T16:30:42.285689+00:00",
+  "decision_rationale": "6 de 7 gates pasan pero G5 (no regresion) falla: el grid recomendado G_ADAPT logra contacto catalitico en 4 de 5 semillas frente a 5 de 5 del grid del catalogo G_DB, y la regla congelada exige los siete gates para un GO. No se recomienda cambio de grid para 5TUN. El hallazgo sustantivo es que el defecto geometrico detectado por la auditoria (3 de 15 hotspots recortados, margen_min -5.147 A) NO se traduce en fallo de docking: G_DB pone el ligando E64c en contacto con Cys25 SG en las 5 semillas, mediana 0.773 A. El unico fallo de contacto de la tabla es de G_ADAPT en la semilla 45 (top-1 a 12.89 A) y es fluctuacion de muestreo, no del grid: el mejor de los 9 modos de esa misma corrida queda a 2.09 A. G_MP tiene el mejor score mediano (-6.182 vs -5.095) y contacto 5/5, pero el prerregistro seccion 6 prohibe usar el score para elegir el grid. G6 determinismo PASS: misma semilla reproduce score y distancia identicos en los 3 brazos. Incidencia registrada: la primera ejecucion paso el PDB crudo a Meeko, conservo las 387 aguas y devolvio scores positivos (+23 a +33) con 1-5 modos; G3 la marco FAIL, se corrigio la preparacion y se repitio la tanda completa sin tocar ningun criterio de decision. Consecuencia para el programa: una excepcion geometrica del catalogo no implica un fallo de docking, y la cola de 57 targets de REC-01 es una lista a verificar, no una lista de targets rotos.",
+  "finished_at": "2026-08-17T16:30:55.877400+00:00",
+  "duration_seconds": 3661.38
+}

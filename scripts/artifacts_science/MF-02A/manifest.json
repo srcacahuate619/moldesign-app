@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-02A",
+  "hypothesis": "El eje conformacional esta agotado: anadir conformeros no mejora la disponibilidad de la conformacion bioactiva",
+  "protocol": "medicion declarada en MF-02-PRE seccion 4; curva de RMSD minimo ALINEADO (GetBestRMS) del ensemble ETKDG frente al cristal, sobre los 116 de train",
+  "created_at": "2026-08-19T03:53:21.707281+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gates"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/run_mf02a_conf_ceiling.py": "b7de78ec6d41ddfa8426c60442ad3d7bc8fc99051148a608624ea713b3509642"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:53:22.514168+00:00",
+  "decision_rationale": "Artefacto que quedo sin sellar en su momento y se sella ahora para cerrar la trazabilidad de la linea. Midio la curva del techo conformacional sobre los 116 de train y concluyo saturacion entre 60 y 90 conformeros. CORRECCION POSTERIOR YA SELLADA: MF-02A-EXT rehizo la medicion sobre 5,316 complejos de PDBBind y mostro que la saturacion declarada aqui era en parte artefacto del tamano de muestra -sobre 4,636 complejos la curva sigue subiendo 86.2 -> 87.2 -> 88.1%- y que train es mas dificil que PDBBind (77.6% frente a 83.9% a K30). La conclusion cualitativa se mantiene; \"satura\" era demasiado fuerte.",
+  "finished_at": "2026-08-19T03:53:22.695526+00:00"
+}

@@ -1,0 +1,64 @@
+{
+  "auc_del_perfil": {
+    "casos_completos": 0.9208,
+    "delta": 0.0457,
+    "limite_inferior_itt_adverso": 0.875,
+    "n_completos": 1925,
+    "n_itt": 2023,
+    "nota": "ANÁLISIS DE SENSIBILIDAD, no un AUC corregido. Imputa al registro perdido el peor valor de su clase —0.0 a un activo, 1.0 a un decoy—, que es el escenario más adverso posible. Es un LÍMITE INFERIOR bajo esa imputación: mide la fragilidad ante los ausentes y NO estima qué puntuación habrían obtenido realmente."
+  },
+  "completitud_por_clase": {
+    "activos": {
+      "completos": 50,
+      "con_pose_sin_features": 0,
+      "sin_pose": 0,
+      "total": 50
+    },
+    "decoys": {
+      "completos": 1875,
+      "con_pose_sin_features": 3,
+      "sin_pose": 95,
+      "total": 1973
+    }
+  },
+  "coordinacion": {
+    "activos_oraculo": {
+      "coordinando_2.8A": 0,
+      "en_el_entorno_4.0A": 0,
+      "maxima": 19.71,
+      "mediana": 16.99,
+      "minima": 14.91,
+      "n": 50
+    },
+    "activos_top1": {
+      "coordinando_2.8A": 0,
+      "en_el_entorno_4.0A": 0,
+      "maxima": 19.71,
+      "mediana": 16.99,
+      "minima": 14.91,
+      "n": 50
+    },
+    "decoys_top1": {
+      "coordinando_2.8A": 0,
+      "en_el_entorno_4.0A": 0,
+      "maxima": 23.4,
+      "mediana": 17.27,
+      "minima": 8.44,
+      "n": 1816
+    },
+    "definicion": "distancia del zinc al átomo donante (N/O/S) más cercano de la pose"
+  },
+  "diana": "1GKC",
+  "ensemble": {
+    "hay_oraculo": false,
+    "modelos_por_registro": {
+      "max": 1,
+      "min": 0
+    },
+    "nota": "El checkpoint guarda UN solo MODEL por registro: conservó la pose top-1 y descartó el resto. Sin ensemble no se puede distinguir «el ligando nunca alcanza el zinc» de «lo alcanza en otra pose y el scoring eligió mal». El oráculo coincide con top-1 por construcción."
+  },
+  "formula": "0.75*XGBoost + 0.25*UMS_warhead",
+  "protocol_id": "M5_ZN_MMP9_1GKC_V1",
+  "veredicto_coordinacion": "NINGUN_TOP1_DE_ACTIVO_COORDINA",
+  "zincs_en_la_estructura": 4
+}

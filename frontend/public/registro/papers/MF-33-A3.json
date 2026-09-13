@@ -1,0 +1,869 @@
+{
+ "id": "MF-33-A3",
+ "meta": {
+  "titulo": "Veintinueve veces más poses desde el mismo confórmero no mueven un solo complejo",
+  "entradilla": "A3 igualó corridas, poses (261) y CPU —gastó un 20% más que B— y perdió 26 a 19. La explicación alternativa que suspendía la magnitud de MF-33 está medida y no aporta nada."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": " midió que el ensemble flexible convierte 26 de 33 donde un solo confórmero flexible convierte 12. Poco después de sellarlo apareció un defecto que suspendía esa magnitud, y era serio.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La métrica es de ",
+     "m": null
+    },
+    {
+     "t": "oráculo",
+     "m": "fuerte"
+    },
+    {
+     "t": ": el mejor RMSD entre las poses que el brazo ",
+     "m": null
+    },
+    {
+     "t": "conserva",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Y ",
+     "m": null
+    },
+    {
+     "t": "num_modes=9",
+     "m": "codigo"
+    },
+    {
+     "t": " limita cuántas poses escribe Vina ",
+     "m": null
+    },
+    {
+     "t": "por corrida",
+     "m": "fuerte"
+    },
+    {
+     "t": ", no cuántas busca.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Brazo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Corridas",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Poses conservadas",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "A y A2 — 1 confórmero",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "9",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "B — K confórmeros",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "29 (mediana)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "261",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El brazo B extraía su oráculo de ",
+     "m": null
+    },
+    {
+     "t": "veintinueve veces más muestras",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Aunque la calidad de búsqueda fuera idéntica, ganaría sólo por conservar más. No es un mecanismo: es un artefacto de medición, y afectaba igual a ",
+     "m": null
+    },
+    {
+     "t": "MF-33-A2",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento existe para medirlo, y la hipótesis preregistrada fue la incómoda: ",
+     "m": null
+    },
+    {
+     "t": "que la ventaja del ensemble fuera conteo de poses",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El diseño: igualar las tres variables confundidas",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El brazo ",
+     "m": null
+    },
+    {
+     "t": "A3",
+     "m": "codigo"
+    },
+    {
+     "t": " hace **K corridas independientes de Vina desde el mismo ",
+     "m": null
+    },
+    {
+     "t": "conf0.flex.pdbqt",
+     "m": "codigo"
+    },
+    {
+     "t": "**, con K = el número de docks que el brazo B hizo en ese complejo, ",
+     "m": null
+    },
+    {
+     "t": "exh=8",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "num_modes=9",
+     "m": "codigo"
+    },
+    {
+     "t": " y semillas distintas 42…42+K−1. El oráculo se toma sobre las K×9 poses.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso iguala a B en las tres variables que estaban confundidas —corridas independientes, poses conservadas y CPU— y deja como ",
+     "m": null
+    },
+    {
+     "t": "única",
+     "m": "fuerte"
+    },
+    {
+     "t": " diferencia la conformación de partida.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Variable igualada",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "B",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "A3",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Corridas independientes",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "K",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "K",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Poses conservadas (mediana)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "261",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "261",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "CPU mediana en COLOCACION",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3,822 s",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4,570 s",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La razón de CPU A3/B es ",
+     "m": null
+    },
+    {
+     "t": "1.196",
+     "m": "fuerte"
+    },
+    {
+     "t": ": A3 gastó un ",
+     "m": null
+    },
+    {
+     "t": "20% más",
+     "m": "fuerte"
+    },
+    {
+     "t": " que B. Cualquier sesgo residual de presupuesto favorecía a A3.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los brazos A, B y C se reusan de ",
+     "m": null
+    },
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": " y A2 de ",
+     "m": null
+    },
+    {
+     "t": "MF-33-A2",
+     "m": "codigo"
+    },
+    {
+     "t": ", sin recomputo. Prohibido por el prerregistro: elegir el confórmero por RMSD, o cambiar ",
+     "m": null
+    },
+    {
+     "t": "num_modes",
+     "m": "codigo"
+    },
+    {
+     "t": " respecto de B.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato de colocación (n=33)",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Alcanza ≤2 Å",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "C — K confórmeros, rígido",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "A — 1 confórmero, flexible",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "12",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "A2 — 1 confórmero, CPU igualada, ",
+       "m": null
+      },
+      {
+       "t": "9 poses",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "19",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "A3 — 1 confórmero, CPU igualada, 261 poses",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "19",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "B — K confórmeros, flexible",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "26",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Pareado A3 contra B: ",
+     "m": null
+    },
+    {
+     "t": "g_B = 7",
+     "m": "fuerte"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "g_A3 = 0",
+     "m": "fuerte"
+    },
+    {
+     "t": ", McNemar exacto ",
+     "m": null
+    },
+    {
+     "t": "p = 0.0156",
+     "m": "fuerte"
+    },
+    {
+     "t": ". El umbral declarado antes de correr era g_B ≥ 6 con g_A3 = 0, y se cumple exactamente.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La hipótesis queda falsificada en la dirección declarada.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El defecto era real como confundido y ",
+     "m": null
+    },
+    {
+     "t": "no explica",
+     "m": "fuerte"
+    },
+    {
+     "t": " la ventaja. Los siete complejos de diferencia van todos en la misma dirección: no hay ni uno solo donde A3 alcance y B no.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "El secundario cierra el argumento, y es lo más limpio del experimento",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "A2 con 9 poses conservadas alcanza 19. A3 con 261 alcanza 19.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Idéntico.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los dos tienen paridad de CPU y el mismo confórmero de partida; se diferencian sólo en cuántas poses conservan. Multiplicar por 29 las poses conservadas desde el mismo confórmero ",
+     "m": null
+    },
+    {
+     "t": "no mueve un solo complejo",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El conteo de poses —la explicación alternativa que este experimento venía a descartar— está medido, y no aporta nada. Los siete complejos de diferencia son atribuibles a la única variable que quedaba libre: ",
+     "m": null
+    },
+    {
+     "t": "la conformación de partida",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Comprobación de cordura, declarada y cumplida",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En control (n=15) todos los brazos convergen —C 15, A 14, A2 14, A3 15, B 15— con g_A3 = g_B = 0. El efecto es específico del estrato difícil y no un artefacto general del brazo. Cero corridas fallidas en los 48 complejos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Consecuencias para el registro",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "**Se levanta la etiqueta ",
+      "m": null
+     },
+     {
+      "t": "defecto-abierto",
+      "m": "codigo"
+     },
+     {
+      "t": " de ",
+      "m": null
+     },
+     {
+      "t": "MF-33",
+      "m": "codigo"
+     },
+     {
+      "t": " y de ",
+      "m": null
+     },
+     {
+      "t": "MF-33-A2",
+      "m": "codigo"
+     },
+     {
+      "t": ".** La magnitud de",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-33",
+     "m": "codigo"
+    },
+    {
+     "t": " —1/33 rígido, 12/33 un confórmero flexible, 26/33 ensemble flexible— es ",
+     "m": null
+    },
+    {
+     "t": "citable",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y el claim externo queda autorizado por la regla (2) del prerregistro.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "**",
+      "m": null
+     },
+     {
+      "t": "MF-33-A2",
+      "m": "codigo"
+     },
+     {
+      "t": " se relee sin cambiar su número.** Su 19/33 no era una limitación de conteo de",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "poses.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "**",
+      "m": null
+     },
+     {
+      "t": "MF-33-EXT",
+      "m": "codigo"
+     },
+     {
+      "t": ", que estaba esperando esta respuesta",
+      "m": null
+     },
+     {
+      "t": ", puede titularse por su ",
+      "m": "fuerte"
+     },
+     {
+      "t": "cobertura",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "final** y no por la cobertura a presupuesto igualado, porque la ventaja del ensemble no es presupuesto. Su curva de cobertura contra presupuesto se conserva como secundario descriptivo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "**",
+      "m": null
+     },
+     {
+      "t": "MF-30-ALCANCE",
+      "m": "codigo"
+     },
+     {
+      "t": "** mantiene su comparador activo en 26/33, y su gate caducado sigue",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "caducado 8.67×.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Límites",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "n = 33 en COLOCACION y el MDE declarado era de 6 complejos: esto ",
+      "m": null
+     },
+     {
+      "t": "detecta",
+      "m": "fuerte"
+     },
+     {
+      "t": " el efecto, no",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "lo cuantifica con precisión.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "No dice por qué",
+      "m": "fuerte"
+     },
+     {
+      "t": " la diversidad conformacional ayuda. Sólo que ayuda.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No toca la cuestión de si esos confórmeros son alcanzables en producción, que es el techo",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "que ",
+     "m": null
+    },
+    {
+     "t": "MF-02A-EXT",
+     "m": "codigo"
+    },
+    {
+     "t": " midió en 83.9% a K=30.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-33-A3.md"
+}

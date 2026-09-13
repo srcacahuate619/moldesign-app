@@ -1,0 +1,991 @@
+{
+  "generated_at": "2026-08-14T20:52:22-0600",
+  "protocolo": "docs/42_RUTA_C_PROTOCOLO.md",
+  "fase": "3 (calibracion C5 + R-RC2/R-RC3/R-RC4 + checkpoint v0.6)",
+  "nota_reentreno": "el artefacto de Fase 1.6 no guarda scores por pose; se reentrena v0.6 con el protocolo exacto (seed 42) y se re-infieren val/test",
+  "referencias": {
+    "v06_top1_test": 0.6596,
+    "vina_top1_test": 0.5319
+  },
+  "config": {
+    "umbral_positiva_angstroms": 2.0,
+    "umbral_rc3_rmsd": 10.0,
+    "seniales_confianza": "margin = score(top1) - score(top2); p_top1 = softmax(scores)_top1; complejo de 1 pose: margin None (se acepta siempre)",
+    "barrido_val": "cuantiles 0.05..0.95 (paso 0.05) de los margenes finitos de val + t = 0",
+    "r_rc2": {
+      "seed": 42,
+      "proporciones_por_pose": [
+        0.7,
+        0.15,
+        0.15
+      ]
+    },
+    "protocolo_v06": {
+      "objective": "rank:pairwise",
+      "n_estimators": 500,
+      "max_depth": 6,
+      "learning_rate": 0.05,
+      "subsample": 0.8,
+      "early_stopping_rounds": 50,
+      "n_jobs": 4,
+      "seed": 42,
+      "random_state": 42
+    }
+  },
+  "_ultima_etapa": "completo",
+  "reentreno_v06": {
+    "eval_metric": "auc",
+    "best_iteration": 51,
+    "best_score": 0.726777464285768,
+    "top1_test_reentrenado": 0.6596,
+    "top1_test_referencia": 0.6596,
+    "delta": 0.0,
+    "reproducibilidad": "EXACTA"
+  },
+  "calibracion": {
+    "seniales": "margin = score(top1) - score(top2); p_top1 = softmax(scores)_top1; complejo de 1 pose: margin None (se acepta siempre)",
+    "n_val_complejos": 40,
+    "n_val_margenes_finitos": 39,
+    "barrido_val": [
+      {
+        "umbral": 0.0,
+        "n_abstenciones": 0,
+        "tasa_abstencion": 0.0,
+        "n_aceptados": 40,
+        "top1_aceptados": 0.575,
+        "top1_rechazados": null
+      },
+      {
+        "umbral": 0.019467,
+        "n_abstenciones": 2,
+        "tasa_abstencion": 0.05,
+        "n_aceptados": 38,
+        "top1_aceptados": 0.6053,
+        "top1_rechazados": 0.0
+      },
+      {
+        "umbral": 0.033132,
+        "n_abstenciones": 4,
+        "tasa_abstencion": 0.1,
+        "n_aceptados": 36,
+        "top1_aceptados": 0.6111,
+        "top1_rechazados": 0.25
+      },
+      {
+        "umbral": 0.040152,
+        "n_abstenciones": 6,
+        "tasa_abstencion": 0.15,
+        "n_aceptados": 34,
+        "top1_aceptados": 0.5882,
+        "top1_rechazados": 0.5
+      },
+      {
+        "umbral": 0.043359,
+        "n_abstenciones": 8,
+        "tasa_abstencion": 0.2,
+        "n_aceptados": 32,
+        "top1_aceptados": 0.5938,
+        "top1_rechazados": 0.5
+      },
+      {
+        "umbral": 0.045917,
+        "n_abstenciones": 10,
+        "tasa_abstencion": 0.25,
+        "n_aceptados": 30,
+        "top1_aceptados": 0.6,
+        "top1_rechazados": 0.5
+      },
+      {
+        "umbral": 0.05899,
+        "n_abstenciones": 12,
+        "tasa_abstencion": 0.3,
+        "n_aceptados": 28,
+        "top1_aceptados": 0.6071,
+        "top1_rechazados": 0.5
+      },
+      {
+        "umbral": 0.08106,
+        "n_abstenciones": 14,
+        "tasa_abstencion": 0.35,
+        "n_aceptados": 26,
+        "top1_aceptados": 0.6154,
+        "top1_rechazados": 0.5
+      },
+      {
+        "umbral": 0.097663,
+        "n_abstenciones": 16,
+        "tasa_abstencion": 0.4,
+        "n_aceptados": 24,
+        "top1_aceptados": 0.625,
+        "top1_rechazados": 0.5
+      },
+      {
+        "umbral": 0.113332,
+        "n_abstenciones": 18,
+        "tasa_abstencion": 0.45,
+        "n_aceptados": 22,
+        "top1_aceptados": 0.6364,
+        "top1_rechazados": 0.5
+      },
+      {
+        "umbral": 0.128943,
+        "n_abstenciones": 20,
+        "tasa_abstencion": 0.5,
+        "n_aceptados": 20,
+        "top1_aceptados": 0.6,
+        "top1_rechazados": 0.55
+      },
+      {
+        "umbral": 0.148228,
+        "n_abstenciones": 21,
+        "tasa_abstencion": 0.525,
+        "n_aceptados": 19,
+        "top1_aceptados": 0.6316,
+        "top1_rechazados": 0.5238
+      },
+      {
+        "umbral": 0.202376,
+        "n_abstenciones": 23,
+        "tasa_abstencion": 0.575,
+        "n_aceptados": 17,
+        "top1_aceptados": 0.6471,
+        "top1_rechazados": 0.5217
+      },
+      {
+        "umbral": 0.225769,
+        "n_abstenciones": 25,
+        "tasa_abstencion": 0.625,
+        "n_aceptados": 15,
+        "top1_aceptados": 0.6667,
+        "top1_rechazados": 0.52
+      },
+      {
+        "umbral": 0.227435,
+        "n_abstenciones": 27,
+        "tasa_abstencion": 0.675,
+        "n_aceptados": 13,
+        "top1_aceptados": 0.6923,
+        "top1_rechazados": 0.5185
+      },
+      {
+        "umbral": 0.278469,
+        "n_abstenciones": 29,
+        "tasa_abstencion": 0.725,
+        "n_aceptados": 11,
+        "top1_aceptados": 0.7273,
+        "top1_rechazados": 0.5172
+      },
+      {
+        "umbral": 0.311722,
+        "n_abstenciones": 31,
+        "tasa_abstencion": 0.775,
+        "n_aceptados": 9,
+        "top1_aceptados": 0.6667,
+        "top1_rechazados": 0.5484
+      },
+      {
+        "umbral": 0.32272,
+        "n_abstenciones": 33,
+        "tasa_abstencion": 0.825,
+        "n_aceptados": 7,
+        "top1_aceptados": 0.8571,
+        "top1_rechazados": 0.5152
+      },
+      {
+        "umbral": 0.400096,
+        "n_abstenciones": 35,
+        "tasa_abstencion": 0.875,
+        "n_aceptados": 5,
+        "top1_aceptados": 1.0,
+        "top1_rechazados": 0.5143
+      },
+      {
+        "umbral": 0.616159,
+        "n_abstenciones": 37,
+        "tasa_abstencion": 0.925,
+        "n_aceptados": 3,
+        "top1_aceptados": 1.0,
+        "top1_rechazados": 0.5405
+      }
+    ],
+    "umbral_elegido": 0.097663,
+    "justificacion": "ningun umbral cumple la meta estricta; rodilla: maximo top-1 aceptado dentro del limite de abstencion <= 0.40 (0.625)",
+    "test_con_abstencion": {
+      "umbral": 0.097663,
+      "n_abstenciones": 20,
+      "tasa_abstencion": 0.4255,
+      "n_aceptados": 27,
+      "top1_aceptados": 0.8519,
+      "top1_rechazados": 0.4
+    },
+    "test_sin_abstencion_referencia": 0.6596,
+    "barrido_test_informativo": [
+      {
+        "umbral": 0.0,
+        "n_abstenciones": 0,
+        "tasa_abstencion": 0.0,
+        "n_aceptados": 47,
+        "top1_aceptados": 0.6596,
+        "top1_rechazados": null
+      },
+      {
+        "umbral": 0.019467,
+        "n_abstenciones": 5,
+        "tasa_abstencion": 0.1064,
+        "n_aceptados": 42,
+        "top1_aceptados": 0.7143,
+        "top1_rechazados": 0.2
+      },
+      {
+        "umbral": 0.033132,
+        "n_abstenciones": 7,
+        "tasa_abstencion": 0.1489,
+        "n_aceptados": 40,
+        "top1_aceptados": 0.75,
+        "top1_rechazados": 0.1429
+      },
+      {
+        "umbral": 0.040152,
+        "n_abstenciones": 8,
+        "tasa_abstencion": 0.1702,
+        "n_aceptados": 39,
+        "top1_aceptados": 0.7692,
+        "top1_rechazados": 0.125
+      },
+      {
+        "umbral": 0.043359,
+        "n_abstenciones": 9,
+        "tasa_abstencion": 0.1915,
+        "n_aceptados": 38,
+        "top1_aceptados": 0.7632,
+        "top1_rechazados": 0.2222
+      },
+      {
+        "umbral": 0.045917,
+        "n_abstenciones": 10,
+        "tasa_abstencion": 0.2128,
+        "n_aceptados": 37,
+        "top1_aceptados": 0.7568,
+        "top1_rechazados": 0.3
+      },
+      {
+        "umbral": 0.05899,
+        "n_abstenciones": 14,
+        "tasa_abstencion": 0.2979,
+        "n_aceptados": 33,
+        "top1_aceptados": 0.8182,
+        "top1_rechazados": 0.2857
+      },
+      {
+        "umbral": 0.08106,
+        "n_abstenciones": 18,
+        "tasa_abstencion": 0.383,
+        "n_aceptados": 29,
+        "top1_aceptados": 0.8276,
+        "top1_rechazados": 0.3889
+      },
+      {
+        "umbral": 0.097663,
+        "n_abstenciones": 20,
+        "tasa_abstencion": 0.4255,
+        "n_aceptados": 27,
+        "top1_aceptados": 0.8519,
+        "top1_rechazados": 0.4
+      },
+      {
+        "umbral": 0.113332,
+        "n_abstenciones": 22,
+        "tasa_abstencion": 0.4681,
+        "n_aceptados": 25,
+        "top1_aceptados": 0.84,
+        "top1_rechazados": 0.4545
+      },
+      {
+        "umbral": 0.128943,
+        "n_abstenciones": 24,
+        "tasa_abstencion": 0.5106,
+        "n_aceptados": 23,
+        "top1_aceptados": 0.8261,
+        "top1_rechazados": 0.5
+      },
+      {
+        "umbral": 0.148228,
+        "n_abstenciones": 25,
+        "tasa_abstencion": 0.5319,
+        "n_aceptados": 22,
+        "top1_aceptados": 0.8636,
+        "top1_rechazados": 0.48
+      },
+      {
+        "umbral": 0.202376,
+        "n_abstenciones": 28,
+        "tasa_abstencion": 0.5957,
+        "n_aceptados": 19,
+        "top1_aceptados": 0.9474,
+        "top1_rechazados": 0.4643
+      },
+      {
+        "umbral": 0.225769,
+        "n_abstenciones": 30,
+        "tasa_abstencion": 0.6383,
+        "n_aceptados": 17,
+        "top1_aceptados": 1.0,
+        "top1_rechazados": 0.4667
+      },
+      {
+        "umbral": 0.227435,
+        "n_abstenciones": 30,
+        "tasa_abstencion": 0.6383,
+        "n_aceptados": 17,
+        "top1_aceptados": 1.0,
+        "top1_rechazados": 0.4667
+      },
+      {
+        "umbral": 0.278469,
+        "n_abstenciones": 33,
+        "tasa_abstencion": 0.7021,
+        "n_aceptados": 14,
+        "top1_aceptados": 1.0,
+        "top1_rechazados": 0.5152
+      },
+      {
+        "umbral": 0.311722,
+        "n_abstenciones": 35,
+        "tasa_abstencion": 0.7447,
+        "n_aceptados": 12,
+        "top1_aceptados": 1.0,
+        "top1_rechazados": 0.5429
+      },
+      {
+        "umbral": 0.32272,
+        "n_abstenciones": 35,
+        "tasa_abstencion": 0.7447,
+        "n_aceptados": 12,
+        "top1_aceptados": 1.0,
+        "top1_rechazados": 0.5429
+      },
+      {
+        "umbral": 0.400096,
+        "n_abstenciones": 39,
+        "tasa_abstencion": 0.8298,
+        "n_aceptados": 8,
+        "top1_aceptados": 1.0,
+        "top1_rechazados": 0.5897
+      },
+      {
+        "umbral": 0.616159,
+        "n_abstenciones": 44,
+        "tasa_abstencion": 0.9362,
+        "n_aceptados": 3,
+        "top1_aceptados": 1.0,
+        "top1_rechazados": 0.6364
+      }
+    ]
+  },
+  "r_rc4": {
+    "umbral": 0.097663,
+    "confusion": {
+      "abstenidos": {
+        "n": 20,
+        "sin_pose_buena": 4,
+        "con_pose_buena": 16,
+        "con_pose_buena_aciertos_top1": 8,
+        "aciertos_top1": 8,
+        "top1": 0.4
+      },
+      "aceptados": {
+        "n": 27,
+        "sin_pose_buena": 2,
+        "con_pose_buena": 25,
+        "con_pose_buena_aciertos_top1": 23,
+        "aciertos_top1": 23,
+        "top1": 0.8519
+      }
+    },
+    "interpretacion": "abstenidos-sin-pose-buena = abstencion correcta (indecidible); abstenidos-con-pose-buena = abstencion costosa (podiamos ganar); aceptados-sin-pose-buena = fallo garantizado (no existia pose buena que elegir)"
+  },
+  "bonus_decidibilidad": {
+    "features": [
+      "n_poses",
+      "vina_min",
+      "vina_media",
+      "vina_std",
+      "p_top1",
+      "margin",
+      "std_scores",
+      "cluster_top1",
+      "n_contactos4_top1",
+      "n_clashes_top1"
+    ],
+    "coeficientes": {
+      "n_poses": -1.3771,
+      "vina_min": -1.3887,
+      "vina_media": -0.3483,
+      "vina_std": 1.2152,
+      "p_top1": 0.0693,
+      "margin": 0.5327,
+      "std_scores": -0.1498,
+      "cluster_top1": 0.9687,
+      "n_contactos4_top1": -0.901,
+      "n_clashes_top1": 0.0951
+    },
+    "auc_train": 0.9305,
+    "auc_val": 0.9276,
+    "n_val_usados": 39,
+    "n_val_total": 40,
+    "nota": "complejos de 1 pose (margin NaN) excluidos de la evaluacion en val; el test congelado no se usa"
+  },
+  "r_rc2": {
+    "config": {
+      "seed": 42,
+      "proporciones_por_pose": [
+        0.7,
+        0.15,
+        0.15
+      ],
+      "n_poses": {
+        "train": 3010,
+        "val": 645,
+        "test": 645
+      },
+      "n_pids": {
+        "train": 203,
+        "val": 158,
+        "test": 162
+      },
+      "eval_metric": "auc",
+      "best_iteration": 169
+    },
+    "n_pids_test_con_poses_en_train": 162,
+    "top1_test_pose_level": 0.216,
+    "mediana_rmsd_test": 5.073,
+    "top1_val_pose_level": 0.1709,
+    "top1_test_complejo_nivel_referencia": 0.6596,
+    "delta": -0.4436,
+    "veredicto": "SIN_EVIDENCIA_DE_LEAKAGE"
+  },
+  "r_rc3": {
+    "umbral_rmsd_elegida": 10.0,
+    "criterio": "pose elegida > 10 A y existe pose <= 2 A en el complejo",
+    "v06": {
+      "n_casos": 1,
+      "n_total": 47,
+      "tasa": 0.0213,
+      "detalle": [
+        {
+          "pid": "1aid",
+          "rmsd_elegida": 10.161,
+          "min_rmsd": 1.793
+        }
+      ]
+    },
+    "vina": {
+      "n_casos": 1,
+      "n_total": 47,
+      "tasa": 0.0213,
+      "detalle": [
+        {
+          "pid": "1aid",
+          "rmsd_elegida": 10.315,
+          "min_rmsd": 1.793
+        }
+      ]
+    }
+  },
+  "checkpoint_produccion": {
+    "modelo": "data\\pose_selector_dataset\\v06_production_model.xgb",
+    "meta": "data\\pose_selector_dataset\\v06_production_meta.json",
+    "sha256_modelo": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+    "verificacion_puntuar_complejo": {
+      "n_complejos_test": 47,
+      "n_concordancias_argmax": 47,
+      "max_diferencia_scores": 0.0,
+      "max_diferencia_vs_xgbranker_test": 0.0,
+      "top1_puntuar_complejo": 0.6596,
+      "top1_modelo": 0.6596,
+      "reproduce_top1_test": true,
+      "reproduce_referencia_06596": true
+    }
+  },
+  "detalle_test": [
+    {
+      "pid": "1a1e",
+      "n_poses": 180,
+      "margin": 0.06847697496414185,
+      "p_top1": 0.009435,
+      "top1_rmsd": 9.711,
+      "top1_ok": false,
+      "min_rmsd": 3.096,
+      "tiene_pose_buena": false
+    },
+    {
+      "pid": "1a28",
+      "n_poses": 45,
+      "margin": 0.011041685938835144,
+      "p_top1": 0.030764,
+      "top1_rmsd": 0.962,
+      "top1_ok": true,
+      "min_rmsd": 0.76,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1ado",
+      "n_poses": 63,
+      "margin": 0.001174241304397583,
+      "p_top1": 0.021586,
+      "top1_rmsd": 2.204,
+      "top1_ok": false,
+      "min_rmsd": 0.628,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1aid",
+      "n_poses": 31,
+      "margin": 0.03761199116706848,
+      "p_top1": 0.042444,
+      "top1_rmsd": 10.161,
+      "top1_ok": false,
+      "min_rmsd": 1.793,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1b55",
+      "n_poses": 29,
+      "margin": 0.02984301745891571,
+      "p_top1": 0.042039,
+      "top1_rmsd": 5.932,
+      "top1_ok": false,
+      "min_rmsd": 3.435,
+      "tiene_pose_buena": false
+    },
+    {
+      "pid": "1bnn",
+      "n_poses": 9,
+      "margin": 0.11264246702194214,
+      "p_top1": 0.161452,
+      "top1_rmsd": 0.956,
+      "top1_ok": true,
+      "min_rmsd": 0.956,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1bnt",
+      "n_poses": 9,
+      "margin": 0.46109646558761597,
+      "p_top1": 0.238953,
+      "top1_rmsd": 1.083,
+      "top1_ok": true,
+      "min_rmsd": 1.083,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1bnw",
+      "n_poses": 32,
+      "margin": 0.1263774335384369,
+      "p_top1": 0.053839,
+      "top1_rmsd": 1.989,
+      "top1_ok": true,
+      "min_rmsd": 1.989,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1br6",
+      "n_poses": 30,
+      "margin": 0.08030787110328674,
+      "p_top1": 0.056066,
+      "top1_rmsd": 0.714,
+      "top1_ok": true,
+      "min_rmsd": 0.714,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1c5q",
+      "n_poses": 9,
+      "margin": 0.33833232522010803,
+      "p_top1": 0.222262,
+      "top1_rmsd": 0.277,
+      "top1_ok": true,
+      "min_rmsd": 0.277,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1c5s",
+      "n_poses": 9,
+      "margin": 0.3301853537559509,
+      "p_top1": 0.204686,
+      "top1_rmsd": 1.016,
+      "top1_ok": true,
+      "min_rmsd": 1.016,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1ceb",
+      "n_poses": 9,
+      "margin": 0.08319899439811707,
+      "p_top1": 0.155503,
+      "top1_rmsd": 1.816,
+      "top1_ok": true,
+      "min_rmsd": 1.816,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1d3d",
+      "n_poses": 9,
+      "margin": 0.13044381141662598,
+      "p_top1": 0.168945,
+      "top1_rmsd": 2.844,
+      "top1_ok": false,
+      "min_rmsd": 1.565,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1e2k",
+      "n_poses": 4,
+      "margin": 0.29217159003019333,
+      "p_top1": 0.364618,
+      "top1_rmsd": 1.028,
+      "top1_ok": true,
+      "min_rmsd": 1.028,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1e2l",
+      "n_poses": 8,
+      "margin": 0.04232826828956604,
+      "p_top1": 0.164194,
+      "top1_rmsd": 1.134,
+      "top1_ok": true,
+      "min_rmsd": 1.125,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1e3g",
+      "n_poses": 1,
+      "margin": null,
+      "p_top1": 1.0,
+      "top1_rmsd": 0.675,
+      "top1_ok": true,
+      "min_rmsd": 0.675,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1e66",
+      "n_poses": 1,
+      "margin": null,
+      "p_top1": 1.0,
+      "top1_rmsd": 0.234,
+      "top1_ok": true,
+      "min_rmsd": 0.234,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1fao",
+      "n_poses": 31,
+      "margin": 0.05036257207393646,
+      "p_top1": 0.041391,
+      "top1_rmsd": 1.301,
+      "top1_ok": true,
+      "min_rmsd": 1.301,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1g1d",
+      "n_poses": 9,
+      "margin": 0.4886225759983063,
+      "p_top1": 0.217844,
+      "top1_rmsd": 1.459,
+      "top1_ok": true,
+      "min_rmsd": 1.459,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1g36",
+      "n_poses": 9,
+      "margin": 0.22410190105438232,
+      "p_top1": 0.171335,
+      "top1_rmsd": 2.525,
+      "top1_ok": false,
+      "min_rmsd": 1.415,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1g45",
+      "n_poses": 9,
+      "margin": 0.17492857575416565,
+      "p_top1": 0.177115,
+      "top1_rmsd": 2.334,
+      "top1_ok": false,
+      "min_rmsd": 2.025,
+      "tiene_pose_buena": false
+    },
+    {
+      "pid": "1g46",
+      "n_poses": 9,
+      "margin": 0.1979977935552597,
+      "p_top1": 0.168633,
+      "top1_rmsd": 1.913,
+      "top1_ok": true,
+      "min_rmsd": 1.913,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1g48",
+      "n_poses": 9,
+      "margin": 0.04486963152885437,
+      "p_top1": 0.151965,
+      "top1_rmsd": 1.199,
+      "top1_ok": true,
+      "min_rmsd": 1.199,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1g4o",
+      "n_poses": 33,
+      "margin": 0.0659824013710022,
+      "p_top1": 0.052015,
+      "top1_rmsd": 0.773,
+      "top1_ok": true,
+      "min_rmsd": 0.769,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1g52",
+      "n_poses": 9,
+      "margin": 0.11796532571315765,
+      "p_top1": 0.151814,
+      "top1_rmsd": 1.353,
+      "top1_ok": true,
+      "min_rmsd": 1.353,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1g53",
+      "n_poses": 9,
+      "margin": 0.2710490822792053,
+      "p_top1": 0.201119,
+      "top1_rmsd": 1.676,
+      "top1_ok": true,
+      "min_rmsd": 1.676,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1g54",
+      "n_poses": 9,
+      "margin": 0.100771090015769,
+      "p_top1": 0.133395,
+      "top1_rmsd": 1.314,
+      "top1_ok": true,
+      "min_rmsd": 1.314,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1h0a",
+      "n_poses": 9,
+      "margin": 0.026029914617538452,
+      "p_top1": 0.138134,
+      "top1_rmsd": 6.378,
+      "top1_ok": false,
+      "min_rmsd": 5.519,
+      "tiene_pose_buena": false
+    },
+    {
+      "pid": "1i9n",
+      "n_poses": 9,
+      "margin": 0.016863107681274414,
+      "p_top1": 0.156975,
+      "top1_rmsd": 2.86,
+      "top1_ok": false,
+      "min_rmsd": 1.897,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1i9p",
+      "n_poses": 9,
+      "margin": 0.08501940965652466,
+      "p_top1": 0.16769,
+      "top1_rmsd": 2.085,
+      "top1_ok": false,
+      "min_rmsd": 1.393,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1if7",
+      "n_poses": 9,
+      "margin": 0.04652494192123413,
+      "p_top1": 0.145965,
+      "top1_rmsd": 5.543,
+      "top1_ok": false,
+      "min_rmsd": 1.445,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1if8",
+      "n_poses": 9,
+      "margin": 0.1644839122891426,
+      "p_top1": 0.143367,
+      "top1_rmsd": 6.915,
+      "top1_ok": false,
+      "min_rmsd": 2.11,
+      "tiene_pose_buena": false
+    },
+    {
+      "pid": "1k1j",
+      "n_poses": 9,
+      "margin": 0.3673352748155594,
+      "p_top1": 0.192802,
+      "top1_rmsd": 1.314,
+      "top1_ok": true,
+      "min_rmsd": 1.314,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1k21",
+      "n_poses": 9,
+      "margin": 0.21339155733585358,
+      "p_top1": 0.15119,
+      "top1_rmsd": 1.428,
+      "top1_ok": true,
+      "min_rmsd": 1.428,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1k6c",
+      "n_poses": 9,
+      "margin": 0.0782439261674881,
+      "p_top1": 0.155813,
+      "top1_rmsd": 0.85,
+      "top1_ok": true,
+      "min_rmsd": 0.85,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1kjr",
+      "n_poses": 9,
+      "margin": 0.23553496599197388,
+      "p_top1": 0.179945,
+      "top1_rmsd": 0.653,
+      "top1_ok": true,
+      "min_rmsd": 0.653,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1kyv",
+      "n_poses": 9,
+      "margin": 0.4115380048751831,
+      "p_top1": 0.258698,
+      "top1_rmsd": 1.514,
+      "top1_ok": true,
+      "min_rmsd": 1.514,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1lcp",
+      "n_poses": 9,
+      "margin": 0.05074793100357056,
+      "p_top1": 0.16786,
+      "top1_rmsd": 2.975,
+      "top1_ok": false,
+      "min_rmsd": 2.175,
+      "tiene_pose_buena": false
+    },
+    {
+      "pid": "1lhu",
+      "n_poses": 11,
+      "margin": 0.009455256164073944,
+      "p_top1": 0.105772,
+      "top1_rmsd": 6.693,
+      "top1_ok": false,
+      "min_rmsd": 0.603,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1lpk",
+      "n_poses": 9,
+      "margin": 0.47760099172592163,
+      "p_top1": 0.270969,
+      "top1_rmsd": 0.77,
+      "top1_ok": true,
+      "min_rmsd": 0.77,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1m0o",
+      "n_poses": 6,
+      "margin": 0.3481405973434448,
+      "p_top1": 0.298668,
+      "top1_rmsd": 1.27,
+      "top1_ok": true,
+      "min_rmsd": 1.27,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1m0q",
+      "n_poses": 7,
+      "margin": 0.29293182492256165,
+      "p_top1": 0.266472,
+      "top1_rmsd": 1.47,
+      "top1_ok": true,
+      "min_rmsd": 1.47,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1mai",
+      "n_poses": 31,
+      "margin": 0.052482232451438904,
+      "p_top1": 0.040249,
+      "top1_rmsd": 5.782,
+      "top1_ok": false,
+      "min_rmsd": 0.788,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1mfa",
+      "n_poses": 9,
+      "margin": 0.44584444910287857,
+      "p_top1": 0.188749,
+      "top1_rmsd": 0.678,
+      "top1_ok": true,
+      "min_rmsd": 0.678,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1mfd",
+      "n_poses": 29,
+      "margin": 0.004695594310760498,
+      "p_top1": 0.050205,
+      "top1_rmsd": 5.831,
+      "top1_ok": false,
+      "min_rmsd": 1.267,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1nc1",
+      "n_poses": 9,
+      "margin": 0.6494272165000439,
+      "p_top1": 0.212287,
+      "top1_rmsd": 0.266,
+      "top1_ok": true,
+      "min_rmsd": 0.266,
+      "tiene_pose_buena": true
+    },
+    {
+      "pid": "1nt1",
+      "n_poses": 7,
+      "margin": 0.22871464490890503,
+      "p_top1": 0.27314,
+      "top1_rmsd": 0.558,
+      "top1_ok": true,
+      "min_rmsd": 0.558,
+      "tiene_pose_buena": true
+    }
+  ],
+  "caveats_honestos": [
+    "El barrido de umbrales usa cuantiles de los margenes de VAL (40 complejos, ruido estadistico); el punto de operacion elegido sobre val puede trasladarse con varianza al test congelado.",
+    "Complejos de 1 sola pose (1 en val, 2 en test) no tienen margen: se aceptan siempre (no hay desacuerdo interno que detectar).",
+    "El clasificador de decidibilidad usa agregados computados con los scores v0.6 de TRAIN (in-sample para train; honesto para val). AUC val con n=39 (se excluye el complejo de 1 pose).",
+    "R-RC2: el split por-pose degrada a v0.6 POR DISENO (la comparacion intra-complejo se rompe al partir los complejos en particiones); el criterio de refutacion es inflacion, no degradacion: pose-level < complejo-level -> sin evidencia de leakage.",
+    "El umbral de abstencion se elige sobre VAL y se aplica a TEST una sola vez (sin tunear sobre test).",
+    "Reproducibilidad del reentreno v0.6 documentada en 'reentreno_v06' (misma version de xgboost 3.2.0 y seed 42)."
+  ],
+  "duracion_total_s": 7.8
+}

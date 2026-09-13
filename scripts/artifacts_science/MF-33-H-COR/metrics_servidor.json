@@ -1,0 +1,124 @@
+{
+ "experiment_id": "MF-33-H-COR",
+ "tipo": "corrigendum de implementacion; reconstruccion historica contra corregida",
+ "timestamp": "2026-08-23T10:50:54.363654+00:00",
+ "no_es_ciego": "Los 12 casos del piloto diagnostico ya fueron inspeccionados. El piloto demuestra el defecto y disena la correccion; NO estima la tasa nueva, que es lo que este artefacto mide.",
+ "ambitos": {
+  "A": "MF-33-PB: 48 complejos, 8215 poses del brazo flexible",
+  "B": "MF-33-TOP1: 116 complejos del protocolo rigido, top-1 de los dos brazos"
+ },
+ "config": {
+  "posebusters_config": "redock",
+  "max_iter_h": 500,
+  "tolerancia_pesados_A": 1e-06
+ },
+ "resumen": {
+  "A": {
+   "poses_evaluadas": 8224,
+   "validas_reconstruccion_HISTORICA": 217,
+   "validas_reconstruccion_CORREGIDA": 8181,
+   "tasa_historica": 0.0264,
+   "tasa_corregida": 0.9948,
+   "checks_que_fallan_historica": [
+    [
+     "internal_energy",
+     8006
+    ],
+    [
+     "double_bond_flatness",
+     598
+    ],
+    [
+     "internal_steric_clash",
+     23
+    ],
+    [
+     "minimum_distance_to_protein",
+     13
+    ],
+    [
+     "bond_angles",
+     7
+    ],
+    [
+     "bond_lengths",
+     7
+    ]
+   ],
+   "checks_que_fallan_corregida": [
+    [
+     "internal_steric_clash",
+     23
+    ],
+    [
+     "minimum_distance_to_protein",
+     13
+    ],
+    [
+     "bond_angles",
+     7
+    ],
+    [
+     "bond_lengths",
+     7
+    ],
+    [
+     "internal_energy",
+     7
+    ]
+   ],
+   "poses_con_invariante_violada": 0
+  },
+  "B": {
+   "poses_evaluadas": 232,
+   "validas_reconstruccion_HISTORICA": 28,
+   "validas_reconstruccion_CORREGIDA": 216,
+   "tasa_historica": 0.1207,
+   "tasa_corregida": 0.931,
+   "checks_que_fallan_historica": [
+    [
+     "internal_energy",
+     203
+    ],
+    [
+     "minimum_distance_to_protein",
+     14
+    ],
+    [
+     "double_bond_flatness",
+     12
+    ],
+    [
+     "internal_steric_clash",
+     2
+    ],
+    [
+     "volume_overlap_with_protein",
+     1
+    ]
+   ],
+   "checks_que_fallan_corregida": [
+    [
+     "minimum_distance_to_protein",
+     14
+    ],
+    [
+     "internal_steric_clash",
+     2
+    ],
+    [
+     "volume_overlap_with_protein",
+     1
+    ]
+   ],
+   "poses_con_invariante_violada": 0
+  }
+ },
+ "artefactos_originales": "sellados e inmutables; este corrigendum NO los modifica",
+ "limites_declarados": [
+  "no invalida RMSD, cobertura, top-1/top-5 ni la cascada de conversion: esas cantidades no dependen de los hidrogenos",
+  "los controles exclusivamente geometricos de atomos pesados tampoco se ven afectados y se reportan por separado",
+  "el indicador compuesto PB-valid SI se recalcula, porque exige que internal_energy pase",
+  "corrige la CAPA DE RECONSTRUCCION, no el protocolo de docking, que no se toca"
+ ]
+}

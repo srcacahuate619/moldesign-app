@@ -1,0 +1,70 @@
+{
+  "experiment": "AF-01 replica",
+  "model": "model_a_universal (167 features, delta-learning)",
+  "n_holdout": 328,
+  "spearman": 0.6094,
+  "spearman_ci95": [
+    0.5282,
+    0.6791
+  ],
+  "pearson": 0.6048,
+  "pearson_ci95": [
+    0.5339,
+    0.6694
+  ],
+  "rmse": 1.9755,
+  "mae": 1.6749,
+  "y_true_range": [
+    2.64,
+    11.22
+  ],
+  "y_pred_range": [
+    2.36,
+    10.63
+  ],
+  "bootstrap_iterations": 10000,
+  "family_breakdown": {
+    "gpcr": {
+      "n": 5,
+      "spearman": -0.7,
+      "pval": 0.1881,
+      "rmse": 2.727
+    },
+    "kinase": {
+      "n": 26,
+      "spearman": 0.6779,
+      "pval": 0.0001,
+      "rmse": 1.609
+    },
+    "nuclear_receptor": {
+      "n": 8,
+      "spearman": -0.1429,
+      "pval": 0.7358,
+      "rmse": 2.266
+    },
+    "protease": {
+      "n": 22,
+      "spearman": 0.2346,
+      "pval": 0.2933,
+      "rmse": 2.428
+    },
+    "soluble_enzyme": {
+      "n": 267,
+      "spearman": 0.6395,
+      "pval": 0.0,
+      "rmse": 1.94
+    }
+  },
+  "universal_cv_val_spearman": 0.7731,
+  "target_fase_a": {
+    "spearman": 0.6094,
+    "spearman_ci95": [
+      0.5282,
+      0.6791
+    ],
+    "pearson": 0.6048,
+    "rmse": 1.9755,
+    "mae": 1.6749
+  },
+  "reproduced": true
+}

@@ -1,0 +1,96 @@
+{
+ "experiment_id": "MF-02B",
+ "timestamp": "2026-08-17T23:20:42.175499+00:00",
+ "duration_seconds": 2536.01,
+ "config": {
+  "n_conf": 30,
+  "top_k": 3,
+  "umbral_A": 2.0,
+  "brazos": {
+   "A8": 8
+  },
+  "seed_muestreo_control": 42,
+  "metrica": "mejor RMSD entre las poses ENTREGADAS (top-K relajadas)"
+ },
+ "cohorte": {
+  "sin_cobertura": 38,
+  "control": 12,
+  "control_pids": [
+   "188l",
+   "1a99",
+   "1b46",
+   "1bcd",
+   "1bju",
+   "1bn3",
+   "1d7j",
+   "1ela",
+   "1f0u",
+   "1i7z",
+   "1m48",
+   "1np0"
+  ]
+ },
+ "n_corridas": 50,
+ "n_ok": 50,
+ "recuperados_A8": 30,
+ "de_sin_cobertura": 38,
+ "recuperados_A32": 0,
+ "control_A8_entrega": 9,
+ "control_n": 12,
+ "cobertura_oraculo_antes": 0.6724,
+ "cobertura_oraculo_despues_A8": 0.931,
+ "coste": {
+  "A8": {
+   "n": 50,
+   "mediana_s": 344.1,
+   "total_s": 19021.7
+  }
+ },
+ "determinismo": [
+  {
+   "pid": "10gs",
+   "rmsd_original": 2.739,
+   "rmsd_repeticion": 2.739,
+   "score_original": -8.955,
+   "score_repeticion": -8.955,
+   "identico": true
+  },
+  {
+   "pid": "1a30",
+   "rmsd_original": 1.751,
+   "rmsd_repeticion": 1.751,
+   "score_original": -9.619,
+   "score_repeticion": -9.619,
+   "identico": true
+  }
+ ],
+ "gates": {
+  "G1_validez": {
+   "criterio": ">=95% de corridas completan sin error",
+   "tasa": 1.0,
+   "pass": true
+  },
+  "G2_recuperacion": {
+   "criterio": "A8 entrega pose <=2.0 A en >=10 de los 38 sin cobertura",
+   "recuperados": 30,
+   "de": 38,
+   "pass": true
+  },
+  "G3_no_regresion": {
+   "criterio": "la union no reduce la cobertura de ningun complejo",
+   "perdidos": [],
+   "pass": true
+  },
+  "G4_determinismo": {
+   "criterio": "misma semilla -> mismo RMSD y mismo score",
+   "n": 2,
+   "identicos": 2,
+   "pass": true
+  },
+  "G5_coste": {
+   "criterio": "descriptivo, sin umbral",
+   "pass": true
+  }
+ },
+ "decision": "GO"
+}

@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-07-06T13:00:31.801717",
+  "molchat_nctx": "16384 (default)",
+  "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "win32",
+  "model_loaded": false,
+  "load_error": "VRAM insuficiente: 0.3 GB libres en GPU (se necesita ≥2 GB para el modelo de ~2.5 GB más cache). Cerrá juegos o apps gráficas o configurá un proveedor cloud."
+}

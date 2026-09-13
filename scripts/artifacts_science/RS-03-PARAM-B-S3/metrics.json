@@ -1,0 +1,114 @@
+{
+ "experiment_id": "RS-03-PARAM-B",
+ "shard_out_name": "RS-03-PARAM-B-S3",
+ "timestamp": "2026-08-17T17:40:00.300931+00:00",
+ "duration_seconds": 9684.74,
+ "decision": "GO",
+ "cohorte": "116 ligandos train (PASS de RS-03-PARAM-A)",
+ "n_total": 38,
+ "n_passed": 38,
+ "n_failed": 0,
+ "coverage_vs_a": 1.0,
+ "global_abs_dq_mean_e": 0.014764,
+ "global_abs_dq_max_e": 0.4255,
+ "max_delta_q_am1bcc_vs_formal_e": 0.003,
+ "n_energy_finite": 38,
+ "n_atom_order_match": 38,
+ "mean_delta_dipolo_debye": 0.781133,
+ "max_delta_dipolo_debye": 2.667272,
+ "mean_abs_delta_energy_kjmol": 37.817659,
+ "max_abs_delta_energy_kjmol": 152.354101,
+ "strata_stats": {
+  "is_ionized": {
+   "False": {
+    "n": 30,
+    "max_abs_dq": 0.4255,
+    "mean_abs_dq_e": 0.015433
+   },
+   "True": {
+    "n": 8,
+    "max_abs_dq": 0.155879,
+    "mean_abs_dq_e": 0.012255
+   }
+  },
+  "has_halogens": {
+   "False": {
+    "n": 34,
+    "max_abs_dq": 0.4255,
+    "mean_abs_dq_e": 0.015581
+   },
+   "True": {
+    "n": 4,
+    "max_abs_dq": 0.045154,
+    "mean_abs_dq_e": 0.007822
+   }
+  },
+  "has_sulfur_phosphorus": {
+   "False": {
+    "n": 24,
+    "max_abs_dq": 0.22625399999999998,
+    "mean_abs_dq_e": 0.012043
+   },
+   "True": {
+    "n": 14,
+    "max_abs_dq": 0.4255,
+    "mean_abs_dq_e": 0.01943
+   }
+  },
+  "mw_stratum": {
+   "<300": {
+    "n": 12,
+    "max_abs_dq": 0.10320300000000004,
+    "mean_abs_dq_e": 0.012341
+   },
+   "300-500": {
+    "n": 21,
+    "max_abs_dq": 0.4255,
+    "mean_abs_dq_e": 0.013967
+   },
+   ">500": {
+    "n": 5,
+    "max_abs_dq": 0.41383200000000003,
+    "mean_abs_dq_e": 0.023928
+   }
+  },
+  "rot_stratum": {
+   "<5": {
+    "n": 14,
+    "max_abs_dq": 0.22625399999999998,
+    "mean_abs_dq_e": 0.013811
+   },
+   ">10": {
+    "n": 11,
+    "max_abs_dq": 0.41383200000000003,
+    "mean_abs_dq_e": 0.018019
+   },
+   "5-10": {
+    "n": 13,
+    "max_abs_dq": 0.4255,
+    "mean_abs_dq_e": 0.013037
+   }
+  },
+  "drug_likeness": {
+   "fragment": {
+    "n": 11,
+    "max_abs_dq": 0.10320300000000004,
+    "mean_abs_dq_e": 0.012849
+   },
+   "drug_like": {
+    "n": 26,
+    "max_abs_dq": 0.4255,
+    "mean_abs_dq_e": 0.015038
+   },
+   "extreme_out_of_domain": {
+    "n": 1,
+    "max_abs_dq": 0.41383200000000003,
+    "mean_abs_dq_e": 0.028705
+   }
+  }
+ },
+ "nota_selector": "AM1-BCC es referencia estratificada, no verdad absoluta. PROHIBIDO seleccionar NAGL por RMSD ni Top-1 (PRE maestro §4). Sin gate de aceptacion/rechazo de NAGL.",
+ "antechamber": "/opt/conda/envs/science/bin/antechamber",
+ "sqm": "/opt/conda/envs/science/bin/sqm",
+ "garantia_cuarentena": "cero val40/test/D-RC-CONFIRM; cohorte = 116 train PASS de A"
+}

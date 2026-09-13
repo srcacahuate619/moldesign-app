@@ -1,0 +1,64 @@
+# MF-33-CRUCES
+
+Registro experimental generado por `scripts/experiment_manifest.py` (FND-01).
+Este archivo se regenera desde `manifest.json`; no editar a mano.
+
+## Hipótesis
+
+Los 7 complejos de la cohorte de 48 que el ensemble flexible de MF-33 no convierte comparten propiedades medibles que ya estan en artefactos sellados: cuenca mas rugosa (MF-14), mas aguas retenidas en el sitio (REC-08-EXT y REC-09) y, la que no estaba en la lista, cristal que puntua absurdamente mal (REC-09), que es senal de sistema mal montado y no de fallo de busqueda.
+
+## Protocolo
+
+Referencia: `SIN COMPUTO NUEVO. Joins sobre per_complex.jsonl de MF-33, MF-14, REC-08-EXT y REC-09, con solape de 48 de 48. Cruce 1: fraccion de puntos con vuelve=True a r_nominal=0.5 de MF-14, comparada entre el grupo que el brazo B convierte y el que no. Cruce 2: aguas_sitio de REC-08-EXT -presencia a 8 A- y n_aguas_bloqueantes de REC-09 -choque a 2.6 A-, que es lo que la hipotesis quiere decir de verdad. Cruce 3: solape entre la lista de absurdos de REC-09 y los 7 que no convierten. Script: scripts/analisis_mf33_cruces.py.`
+
+## Gate
+
+MEDICIONES DE ASOCIACION SIN GATES DE DECISION. Son n pequeno -7 contra 41- y no autorizan atribucion causal: se describen y se nombran los complejos, que es lo util. LIMITACION DECLARADA: no relee MF-33 ni lo toca; lo que MF-33-A3 mide -si la ventaja del ensemble era diversidad conformacional o conteo de poses- afecta al POR QUE convierte y no a CUALES, asi que estos cruces no dependen de A3. REC-09 quedo INCONCLUSIVE: su lista de absurdos es dato medido con G1 pasado en 116 de 116; lo indeciso alli es si las aguas los explican, no cuales son.
+
+## Ambiente
+
+- Sistema operativo: Windows (AMD64)
+- CPU: 12 núcleos
+- RAM total: 32659 MB
+- GPU: NVIDIA GeForce GTX 1660 SUPER
+- Python: 3.14.3
+- Seeds: 42
+- Git: rama `experimentos/ruta-c-molflex`, commit `9e385a7f2cef002fb1ca16352534966841a1d116`, dirty=True
+
+## Estado
+
+- Creado: 2026-08-20T20:47:41.915266+00:00
+- Status: finished
+- Decisión: GO
+- Sellado: sí (2026-08-20T20:47:44.043880+00:00)
+- Finalizado: 2026-08-20T21:48:09.909475+00:00
+- Razón de la decisión: Los tres cruces dan senal en la direccion hipotetizada, y el tercero -que no estaba en la lista de la 12.2 y aparecio al correr REC-09- es el que genera la hipotesis mas fuerte. CRUCE 3: de los 7 complejos que el ensemble flexible no convierte, 4 COINCIDEN con cristales que puntuan absurdamente mal -1afl, 1d7i, 1ew8, 1fkh-. Eso es el 57.1% contra el 4.9% entre los 41 que si convierte: un enriquecimiento de 12x. FORMULACION DEFENDIBLE, Y ES LA QUE VALE: mas de la mitad de los fallos del mejor brazo de MF-33 COINCIDEN con sistemas mal especificados. Eso justifica mover recursos experimentales hacia preparacion. NO demuestra que la preparacion sea la causa de esos fallos, por tres razones que se declaran aqui: el denominador es 7; el enriquecimiento es una asociacion y este artefacto no tiene gate causal por diseno; y -la que mas pesa- 'cristal que puntua absurdo' NO IDENTIFICA QUE COMPONENTE de la preparacion falla, solo que algo falla. REC-09 mostro que en 1fkh son dos aguas y en 1d7i no hay ninguna agua bloqueante, asi que ni siquiera dentro de los cuatro la causa es la misma. ENMIENDA DEL 2026-08-20: la version anterior de esta razon afirmaba que los fallos 'no son fallos de busqueda: son sistemas mal montados', lo que contradecia el gate de este mismo artefacto -que declara explicitamente que n=7 no autoriza atribucion causal- y sobrepasaba lo medido. Se corrige a 'coinciden con'. El dato numerico no cambia; cambia lo que se afirma sobre el. CRUCE 1, la cuenca rugosa: la fraccion mediana de puntos que regresan desde 0.5 A es 1.0 en los que convierten y 0.6667 en los que no. La hipotesis que la 12.2 tenia apuntada se confirma en direccion, con el limite de que ambos grupos llegan a min 0.0 y max 1.0 y n=7 no permite mas. CRUCE 2, las aguas: en presencia a 8 A la diferencia es modesta -15 contra 19 medianos- pero en CHOQUE a 2.6 A separa mejor, 0 contra 1 mediano, que era justo la distincion que el diseno queria hacer: lo que importa no es que haya aguas cerca sino que estorben. La hipotesis que REC-08-EXT dejo declarada en su sello queda apoyada, no establecida. CONSECUENCIA PARA EL PROGRAMA: la cuenta de fallos de MF-33 hay que releerla, porque sus 7 no son un bloque homogeneo. Junto con MF-28 -NO_GO, la exploracion alternativa no es la palanca- y MF-29-EMP -OBJETIVO, mas presupuesto del mismo buscador no rinde-, esto justifica dirigir el siguiente esfuerzo experimental a preparacion, que es cartera B y no C. Justifica el movimiento de recursos; no cierra la pregunta. LIMITES: asociaciones sobre n=7, sin gates y sin causalidad; no relee MF-33 ni depende de MF-33-A3.
+- Hashes de dataset: 4 archivo(s) con SHA-256
+- Hashes de assets: 1 archivo(s) con SHA-256
+
+## Flujo de trabajo
+
+1. `init`: crea este directorio con `manifest.json` prellenado y skeletons vacíos.
+2. Ejecutar el experimento: escribir `metrics.json`, `per_complex.jsonl` y `failures.jsonl`.
+3. `validate`: verifica `manifest.json` contra `manifest.schema.json`.
+4. `seal`: registra los SHA-256 de datasets/modelos/binarios/assets y congela el manifest.
+5. `finish`: escribe la decisión (GO/NO_GO/INCONCLUSIVE), la razón y la duración.
+6. `maintain`: documenta de forma auditada los assets sellados que cambian tras el sello.
+
+Después del `seal`, `validate` falla si cualquier archivo sellado cambia o desaparece.
+
+## Inmutabilidad post-seal
+
+- No se permite volver a sellar un experimento ya sellado (protege el cegamiento FND-05).
+- `finish` y `maintain` son las únicas operaciones que modifican `manifest.json` después del sellado.
+- `maintain` solo actualiza `assets_hashes` y registra cada cambio en `seal_maintenance`; datasets/modelos/binarios son inmutables.
+- El README.md regenerado por `seal`/`finish`/`maintain` es la excepción documentada a la regla anterior.
+- Los artefactos de producción permanecen fuera de este árbol (docs/49, sección 17).
+
+## Archivos
+
+- `manifest.json`: registro único del experimento (config, hashes, código, ambiente, salida).
+- `metrics.json`: métricas agregadas del experimento.
+- `per_complex.jsonl`: una línea JSON por complejo evaluado.
+- `failures.jsonl`: una línea JSON por fallo.
+- `README.md`: este archivo.

@@ -1,0 +1,459 @@
+{
+ "id": "MF-14",
+ "meta": {
+  "titulo": "A media ángstrom del mínimo, una de cada cinco poses se pierde",
+  "entradilla": "La cuenca de captura del estrato difícil es un tercio más estrecha que la del control. Y dentro de ella hay barreras: perturbar 0.5 Å basta para que el 22% no regrese."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un buscador estocástico no necesita aterrizar en el mínimo exacto. Le basta con caer ",
+     "m": null
+    },
+    {
+     "t": "dentro de su cuenca de captura",
+     "m": "fuerte"
+    },
+    {
+     "t": ": la región desde la cual una minimización local termina el trabajo y desciende al fondo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El tamaño de esa cuenca decide cuánta precisión hace falta. Si es amplia y lisa, acercarse basta. Si es estrecha, hay que apuntar fino. Y si es ",
+     "m": null
+    },
+    {
+     "t": "rugosa",
+     "m": "fuerte"
+    },
+    {
+     "t": " —con barreras internas—, acercarse no garantiza nada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento la mide directamente: coge una pose correcta, la perturba a distancias crecientes, vuelve a minimizar, y cuenta cuántas regresan.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Fracción que regresa a ≤2 Å tras perturbar y re-minimizar, con 6 réplicas por radio:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Perturbación",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Colocación (n=33)",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Control (n=15)",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "0.5 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.778",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "0.967",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1.0 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.727",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.922",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "2.0 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.510",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.722",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "3.0 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.303",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.400",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "4.0 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.136",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0.233",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "r50 mediano: 2.0 Å en el estrato difícil, 3.0 Å en el control.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Cuatro complejos del estrato difícil no alcanzan r50 en ningún radio; ninguno del control.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Dos lecturas, y la segunda es peor",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La cuenca es un tercio más estrecha donde importa.",
+     "m": "fuerte"
+    },
+    {
+     "t": " r50 de 2.0 Å contra 3.0 Å. En los complejos que motivan el programa hay que acercarse más para que la minimización termine el trabajo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y es rugosa.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Esta es la fila que cuesta digerir:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "A ",
+     "m": null
+    },
+    {
+     "t": "0.5 Å",
+     "m": "fuerte"
+    },
+    {
+     "t": " —partiendo prácticamente de la pose correcta— el ",
+     "m": null
+    },
+    {
+     "t": "22.2%",
+     "m": "fuerte"
+    },
+    {
+     "t": " no regresa en el estrato difícil. En control, el 3.3%.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso no es estrechez. Una cuenca estrecha pero lisa devolvería casi todo desde media ángstrom. Que una de cada cinco se pierda a esa distancia significa que ",
+     "m": null
+    },
+    {
+     "t": "hay barreras dentro de la propia cuenca",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un buscador puede estar a media ángstrom del mínimo nativo y caer en otro sitio.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Dónde encaja esto",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con ",
+     "m": null
+    },
+    {
+     "t": "MF-15-EXT",
+     "m": "codigo"
+    },
+    {
+     "t": ", que midió que no hay embudo en el estrato difícil (ρ = 0.186), el cuadro del paisaje queda completo y es desalentador:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "no hay gradiente",
+      "m": "fuerte"
+     },
+     {
+      "t": " que lleve hacia el mínimo nativo desde lejos;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "y aun estando encima, la cuenca tiene baches",
+      "m": "fuerte"
+     },
+     {
+      "t": " que desvían la minimización.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es un pozo sin señalización, en una meseta, con el fondo agrietado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Eso descarta más de lo que parece. Cualquier método que asuma «basta con acercarse y refinar» —refinamiento iterativo, minimización local sobre poses aproximadas, la relajación que ",
+     "m": null
+    },
+    {
+     "t": "MF-10",
+     "m": "codigo"
+    },
+    {
+     "t": " probó— trabaja contra las dos propiedades a la vez.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Una limitación estructural de este registro",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es un ",
+     "m": null
+    },
+    {
+     "t": "registro retroactivo",
+     "m": "fuerte"
+    },
+    {
+     "t": ". El experimento se ejecutó y sus resultados quedaron sin manifest en un directorio de trabajo, mientras el documento del programa lo citaba como evidencia — «cuenca de captura r50 ≈ 2 Å y rugosa: 22% escapa desde 0.5 Å».",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La cita era correcta. Ahora está respaldada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Pero ",
+     "m": null
+    },
+    {
+     "t": "no existe prerregistro separado",
+     "m": "fuerte"
+    },
+    {
+     "t": ": los gates viven en el ",
+     "m": null
+    },
+    {
+     "t": "metrics.json",
+     "m": "codigo"
+    },
+    {
+     "t": " que produjo el runner, y se sellaron tal cual. Sus lecturas son ",
+     "m": null
+    },
+    {
+     "t": "post-hoc por construcción",
+     "m": "fuerte"
+    },
+    {
+     "t": " y deben citarse así.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sellar retroactivamente convierte una cita sin respaldo en una cita con respaldo. No la convierte en evidencia preregistrada.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-14.md"
+}

@@ -1,0 +1,7 @@
+{
+ "experiment_id": "MF-33-MIN",
+ "estado": "CANCELLED_BEFORE_EXECUTION",
+ "superado_por": "MF-33-H-COR",
+ "n_poses_evaluadas": 0,
+ "nota": "No se ejecuto. Su premisa -que el 97.3% de fallos de internal_energy medido por MF-33-PB refleja tension del ligando dockeado- quedo suspendida por MF-33-H-COR antes de lanzarlo."
+}

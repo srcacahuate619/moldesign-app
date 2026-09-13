@@ -1,0 +1,61 @@
+{
+ "experiment_id": "MF-13",
+ "tipo": "medicion con regla de lectura preregistrada",
+ "timestamp": "2026-08-18T20:08:18.385549+00:00",
+ "duration_seconds": 605.47,
+ "config": {
+  "box": 25.0,
+  "seed": 42,
+  "receptor_y_caja": "los mismos del docking v2"
+ },
+ "n_complejos": 116,
+ "n_ok": 116,
+ "resumen": {
+  "COLOCACION": {
+   "n": 33,
+   "cristal_gana": 19,
+   "frac_cristal_gana": 0.5758,
+   "cristal_local_gana": 23,
+   "frac_cristal_local_gana": 0.697,
+   "ventaja_mediana": 2.052,
+   "ventaja_local_mediana": 2.391,
+   "percentil_cristal_mediano": 0.0,
+   "deriva_local_mediana_A": 0.322
+  },
+  "CONTROL": {
+   "n": 15,
+   "cristal_gana": 8,
+   "frac_cristal_gana": 0.5333,
+   "cristal_local_gana": 8,
+   "frac_cristal_local_gana": 0.5333,
+   "ventaja_mediana": 0.204,
+   "ventaja_local_mediana": 0.637,
+   "percentil_cristal_mediano": 0.0,
+   "deriva_local_mediana_A": 0.304
+  },
+  "RESTO": {
+   "n": 68,
+   "cristal_gana": 38,
+   "frac_cristal_gana": 0.5588,
+   "cristal_local_gana": 45,
+   "frac_cristal_local_gana": 0.6618,
+   "ventaja_mediana": 0.231,
+   "ventaja_local_mediana": 0.855,
+   "percentil_cristal_mediano": 0.0,
+   "deriva_local_mediana_A": 0.253
+  }
+ },
+ "gates": {
+  "G1_validez": {
+   "criterio": ">=95% de complejos con score finito del cristal",
+   "tasa": 1.0,
+   "pass": true
+  },
+  "G2_diagnostico": {
+   "criterio": "fraccion de COLOCACION donde el cristal relajado localmente puntua mejor que el mejor pose dockeado",
+   "fraccion": 0.697,
+   "lectura": ">=0.70 => FALLO DE BUSQUEDA: la funcion prefiere la nativa y el optimizador no la encuentra; la palanca es el muestreo. <=0.30 => FALLO DE PUNTUACION: el minimo de Vina no esta en la nativa y ninguna palanca de muestreo puede funcionar. 0.30-0.70 => mixto, se reporta la distribucion."
+  }
+ },
+ "diagnostico": "MIXTO"
+}

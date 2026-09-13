@@ -1,0 +1,46 @@
+{
+  "target": "5ht1a",
+  "family": "gpcr",
+  "gnn_fixed": true,
+  "n_total": 2550,
+  "n_active": 50,
+  "n_valid": 2547,
+  "gnn_silent_failures": 1,
+  "gnn_silent_failure_rate": 0.0004,
+  "vina_only": {
+    "ef1": 19.51,
+    "ef5": 5.97,
+    "ef10": 4.05,
+    "auc": 0.7975,
+    "pr": 0.2055
+  },
+  "vina_plus_xgb": {
+    "ef1": 36.85,
+    "ef5": 9.39,
+    "ef10": 5.33,
+    "auc": 0.8288,
+    "pr": 0.4128
+  },
+  "vina_plus_gnn": {
+    "ef1": 2.17,
+    "ef5": 2.56,
+    "ef10": 1.71,
+    "auc": 0.5382,
+    "pr": 0.0459
+  },
+  "vina_plus_clgnn": {
+    "ef1": 19.51,
+    "ef5": 5.97,
+    "ef10": 4.05,
+    "auc": 0.7976,
+    "pr": 0.2054
+  },
+  "calibrated_stacking": {
+    "ef1": 8.67,
+    "ef5": 4.27,
+    "ef10": 2.56,
+    "auc": 0.6606,
+    "pr": 0.0951
+  },
+  "timestamp": "2026-07-25 18:40:13"
+}

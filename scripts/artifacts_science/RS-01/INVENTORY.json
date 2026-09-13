@@ -1,0 +1,215 @@
+{
+  "experimento": "RS-01",
+  "fecha_inventario": "2026-08-16",
+  "rama": "experimentos/ruta-c-molflex",
+  "estado": "PREREGISTRO (nada ejecutado; sin seal, sin finish)",
+  "metodologia": "RS-01A auditoria in-sample del checkpoint congelado; RS-01B cross-fitting OOF de clones v0.6 con folds simultaneos por scaffold y receptor",
+
+  "checkpoint_v06": {
+    "archivo": "rescoring/artifacts/pose_selector_v06.xgb",
+    "sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+    "bytes": 199127,
+    "meta": "rescoring/artifacts/pose_selector_v06_meta.json",
+    "meta_sha256": "296b125ba852522259c11385063dc825c18efc3769228a22a640702ea5b5147d",
+    "generado": "2026-08-14 (Fase 3; copia de data/pose_selector_dataset/v06_production_model.xgb)",
+    "n_features_modelo": 233,
+    "n_features_raw": 224,
+    "n_trees_guardadas": 52,
+    "best_iteration": 51,
+    "n_train_complejos": 116,
+    "n_train_poses": 2739,
+    "umbral_abstencion": 0.097663,
+    "origen_umbral_abstencion": "Fase 3: barrido sobre cuantiles 0.05-0.95 de margenes de val + t=0; regla top1_aceptados>=0.75 y abstencion<=0.40 con menor abstencion (ruta_c_fase3_calibracion.py:232-274,492-506)",
+    "selector_produccion": {
+      "selector_py": "rescoring/pose_selector/selector.py",
+      "selector_py_sha256": "ef16a00b514842002d306e4e65f2e3478afe1d948d56666e94775d287cbd9d80",
+      "feature_extractor_py": "rescoring/pose_selector/feature_extractor.py",
+      "feature_extractor_py_sha256": "2a347fd0567e4d54114e9e0746fe2be38491e09b364bfa318ab594bb00b36f52"
+    },
+    "contrato_features": {
+      "familias_224": [
+        "geometricas 9: vina_score, pose_score_variance, pose_score_range, n_heavy, n_contacts_4, n_contacts_6, contacts_per_ha_4, n_clashes, cluster_density",
+        "shells 96: 4 elementos proteina (C,N,O,S) x 8 ligando (C,N,O,S,F,P,Cl,Br) x 3 bins ((0,4),(4,8),(8,12) A)",
+        "ecif_lite 56: 8 tipos proteina x 7 tipos ligando, pares < 6.0 A (sin ponderacion por conectividad extendida)",
+        "per_residuo 63: 21 residuos x {ligando<4A, ligando<6A, hbond N/O<3.5A}"
+      ],
+      "procedencia": "extractor v0.5 (scripts/ruta_c_fase1_5_v05.py, replica de rescoring/pose_selector/feature_extractor.py); 215 ricas en cache congelado data/pose_selector_dataset/features_v05_progress.jsonl (vista train-only para RS-01); de las 9 baratas, SOLO 8 se leen de poses_train.jsonl — pose_score_variance, pose_score_range, n_heavy, n_contacts_4, n_contacts_6, contacts_per_ha_4, n_clashes, cluster_density — porque vina_score ya viene de union_candidates_train.jsonl",
+      "pct_raw": ["vina_score", "n_contacts_4", "n_contacts_6", "contacts_per_ha_4", "n_clashes", "pose_score_variance", "pose_score_range", "cluster_density", "n_heavy"],
+      "transformacion": "z-score por columna dentro de cada complejo (std==0 -> z=0) + rango percentil 0-100 (empates -> rango promedio; complejo 1 pose -> 50.0); NaN -> 0 despues de transformar; round(...,4) en valores congelados de variance/range",
+      "cluster_density_semantica_historica": {
+        "definicion": "pares de poses del MISMO complejo con RMSD pocket-frame de atomos pesados < 2.0 A, SIN alineamiento; cada pose del par suma 1",
+        "dataset_builder": "build_pose_selector_dataset.py:57 (UMBRAL_CLUSTER=2.0), 662-681 (pasada B sobre las 2739 originales, todas las fuentes mezcladas)",
+        "produccion": "selector.py:77-113 (_cluster_density_por_serials, seriales de PDBQT; degrada todo a 0 con warning si seriales no alinean)",
+        "nota": "PRESERVAR esta semantica para el recalculo post-dedup; NO corregirla (romperia el contrato del modelo entrenado)"
+      },
+      "variance_range_semantica": {
+        "dataset_congelado": "POR-RUN (varianza/rango de modelos del MISMO .out de docking; build_pose_selector_dataset.py:353-361)",
+        "selector_produccion": "varianza/rango del CONJUNTO del request (selector.py:219-225); la auditoria reporta ambas lecturas para el conjunto deduplicado"
+      }
+    },
+    "hiperparametros": {
+      "nota": "configuracion HISTORICA del entrenamiento v0.6 (Fase 1.6) — NO es la configuracion planificada de los clones RS-01B (ver config_planificada_rs01b)",
+      "objective": "rank:pairwise",
+      "n_estimators": 500,
+      "max_depth": 6,
+      "learning_rate": 0.05,
+      "subsample": 0.8,
+      "early_stopping_rounds": 50,
+      "n_jobs": 4,
+      "seed": 42,
+      "random_state": 42,
+      "eval_metric": "auc",
+      "fallback_metric": "rmse",
+      "relevancia": "-rmsd",
+      "grupos": "por complejo"
+    },
+    "rendimiento_historico": {
+      "train_top1": 0.6724,
+      "train_mediana_rmsd": 1.425,
+      "val_top1": 0.575,
+      "test_top1": 0.6596,
+      "gate_v06b": "PASS (0.6596 > 0.5319)"
+    }
+  },
+
+  "config_planificada_rs01b": {
+    "nota": "configuracion PLANIFICADA de los clones v0.6 del cross-fitting RS-01B (B3 del maintainer, IT1); SEPARADA de la historica de arriba",
+    "n_estimators": 52,
+    "justificacion_n_estimators": "el checkpoint efectivo guarda 52 arboles (best_iteration 51 + 1); los clones replican ese numero exacto",
+    "early_stopping": false,
+    "early_stopping_rounds": null,
+    "datos_entrenamiento": "TODOS los complejos del outer-train del fold (sin ES-set interno)",
+    "resto_de_hiperparametros": "identicos a la historica: objective rank:pairwise, max_depth 6, learning_rate 0.05, subsample 0.8, n_jobs 4, seed 42, random_state 42, eval_metric auc (fallback rmse), relevancia -rmsd, grupos por complejo",
+    "lectura_features_rs01b": "A1 (contrato primario): variance/range por corrida en ambos brazos; cluster_density recalculada post-dedup con semantica historica",
+    "val": "nunca usada (ni early stopping ni seleccion)"
+  },
+
+  "assets_entrenamiento_clones": {
+    "entrenador": "scripts/ruta_c_fase1_6_v06.py",
+    "entrenador_sha256": "021f20868c906ec52ece71e1f5caa33813f73b865dcafee6ba06a4691ab41f48",
+    "artefacto_fase": "scripts/artifacts_ruta_c_fase1_6.json",
+    "deps_datos": [
+      {"archivo": "data/pose_selector_dataset/poses_train.jsonl", "sha256": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654"},
+      {"archivo": "data/pose_selector_dataset/features_v05_progress.jsonl", "sha256": "1d487db9ab5c35ca4e8e74c7b42cddd2e67069ec002e16d9b84052e7a696ce48"},
+      {"archivo": "data/pose_selector_dataset/manifest.json", "sha256": "d4b1a98051e94193c324017fd544f71808cba9be01b92c236c795eb2875f2813"}
+    ],
+    "reproducibilidad": "parcial",
+    "reproducibilidad_nota": "codigo commiteado + datos congelados con sha256 validada en carga + seed 42; PERO la version de xgboost del entrenamiento historico NO esta registrada en los artefactos (rescoring/requirements.txt pina 2.1.4 para el microservicio; los interpretes actuales del sistema (3.14.3) y python-embed (3.11.9) tienen xgboost 3.2.0). Reproduccion bit a bit del checkpoint entregado no verificable; los clones RS-01B son internamente consistentes (mismo stack para ambas variantes) y la comparacion es pareada OOF.",
+    "tiempos_historicos": {
+      "fase_1_6_total_s": 5.3,
+      "v05_extraccion_features_primer_paso_s": 93,
+      "v05_entrenamiento_2_modelos_min": 2,
+      "dataset_build_total_s": 17.5,
+      "fuente": "scripts/artifacts_ruta_c_fase1_6.json (duracion_total_s) + scripts/artifacts_ruta_c_fase1_5.json (nota_tiempos) + data/pose_selector_dataset/manifest.json (duracion_total_s)"
+    }
+  },
+
+  "artefactos_dedup": {
+    "experimento": "MF-11-R1 (sellada GO, commit 0ec65da, sealed_at 2026-08-16T19:40:18Z)",
+    "umbral_elegido": 1.5,
+    "regla_seleccion": "MAYOR umbral con 0 perdidas de cobertura (<=2.0 A), degradacion mediana <=0.1 A y reduccion >=10%; solo train; label-blind",
+    "n_antes": 2739,
+    "n_despues": 2413,
+    "reduccion_pct": 11.9,
+    "n_perdidos": 0,
+    "degradacion_mediana": 0.0,
+    "sidecar": {
+      "archivo": "scripts/artifacts_science/MF-11-R1/cluster_members_train_1.5.jsonl",
+      "sha256": "7026b8dea49062d49e4765ab116864fe6bd550ac660c76da646aabb7a645d0a0",
+      "n_registros": 2413,
+      "campos": ["cluster_key", "representative_identity", "member_identities", "member_sources", "member_provenance_keys", "cluster_size", "max_pairwise_rmsd"],
+      "suficiente_para_recomputar_features_dependientes": true,
+      "suficiencia_nota": "las identidades miembro resuelven a coords PDBQT embebidas en la union sellada (union_candidates_train.jsonl sha 61ab0e26...), lo que permite recomputar cluster_density entre supervivientes, varianza/rango del conjunto y el estado de empate del medoid sin reejecutar la dedup"
+    },
+    "union_sellada": {
+      "candidates_train": "scripts/artifacts_science/MF-01-UNION/union_candidates_train.jsonl",
+      "candidates_sha256": "61ab0e26901659c0d6e8bf98f47bbcae82d187265fc8181953d58ff6a2033ce9",
+      "labels_train": "scripts/artifacts_science/MF-01-UNION/union_labels_train.jsonl",
+      "labels_sha256": "19843afd49135f30297884ce56889312a4f34b6f75cd708127eca1789338bfbb"
+    },
+    "otros_assets_sello": {
+      "dedup_candidates_train_1.5.jsonl": "fef90c21c92d3527a3431d8e880601d33208a1c12688057f8ebf95642589fa78",
+      "dedup_labels_train_1.5.jsonl": "e07a9fec590ebfa646ae90f217f1c4727dd2c334f545d9476c977502e6e9f815",
+      "metrics.json": "2d271875f10270e197f72a0bedb39fb52f0b347109781a931432dcdca4c0c5cd",
+      "DESIGN.md": "71ca2ddf9f35cfc1953f977fdf87993d89b35abcec58209387e5fd79fdf1ef16",
+      "dedup_pose_union_medoid.py": "1b843da8e7d06c95dfc9d0a0f9d7aaa5da68b867a4c8daa895779fbc645e2df9"
+    }
+  },
+
+  "empates_cross_source_31": {
+    "cuantificados_en": "scripts/artifacts_science/MF-11-R1/metrics.json (bloque empates_medoid)",
+    "n_clusters_no_singleton": 212,
+    "n_empates_medoid": 141,
+    "n_empates_cross_source": 31,
+    "fuente_ganadora_en_empates": {"flexible_redock": 31},
+    "causa": "desempate por identidad ascendente; el orden lexicografico (split|pid|source|...) coloca f<m<r",
+    "localizables_individualmente": true,
+    "localizacion_nota": "el artefacto NO conserva una lista precocinada de los 31 clusters (solo conteos y fuente ganadora). Se identifican por recomputacion determinista: dmat por pid desde las coords PDBQT de la union sellada + membresias del sidecar + medoid_detalle (scripts/dedup_pose_union_medoid.py:186-245). RS-01A los analiza explicitamente (contrafactual: ganador v0.6 con el miembro empatado descartado como representante)."
+  },
+
+  "val_test_drc": {
+    "val40": {
+      "estado": "GASTADA — solo reporte descriptivo",
+      "n_complejos": 40,
+      "n_poses": 730,
+      "gasto": [
+        "early stopping del entrenamiento v0.6 (ruta_c_fase1_6_v06.py:366-382, eval_set val)",
+        "barrido del umbral de abstencion Fase 3 sobre val (ruta_c_fase3_calibracion.py:492-506)",
+        "desviacion D1 de MF-11: val procesada junto con train -> no puede validar variantes (MF-11/DESIGN.md:136); MF-11-R1 la excluyo por completo"
+      ],
+      "gate_historico": "val >= 25/40 NO se cumple ni historicamente (v0.6-B val top1 = 0.575 = 23/40)"
+    },
+    "test": {
+      "estado": "SELLADO E INTOCADO",
+      "n_complejos": 47,
+      "n_poses": 831,
+      "sha256_poses_test": "a36d12451f33d5c3815eaebbad058f56e5b1da94ae501b465b018d91a9f62d02",
+      "verificacion_mf11r1": "n_test_manifest=47, interseccion con union=[], solo metadatos leidos"
+    },
+    "drc_confirm": {
+      "estado": "SELLADO E INTOCADO",
+      "n_denylist": 112,
+      "archivo": "scripts/artifacts_science/FND-05/denylist_pids.json",
+      "sha256": "93186207643f54c73af186ddaf64f5442d6a58dfdfa3b973c63b83bd3daf35dd",
+      "verificacion_mf11r1": "interseccion con union=[]; candidates sha256 OK"
+    },
+    "compromiso_diseno": "RS-01 no abre, no lee poses, no infiere ni entrena sobre test ni denylist; cero referencias a ejecutarlos"
+  },
+
+  "referencia_folds": {
+    "scaffold": "scripts/build_pose_selector_dataset.py:477-494 (scaffold_del_pid: Murcko via RDKit, fallback pid:<pid>)",
+    "receptor": "scripts/build_confirm_cohort.py:126-127 (K_MER=8, UMBRAL_CADENA=0.90), 282-315 (cadenas SEQRES/CA), 331-359 (solapamiento k-meros), 360-400 (union-find cierre transitivo)",
+    "division_historica": "scripts/build_pose_selector_dataset.py:497-519 (holdout scaffold greedy seed 42; NO se reutiliza para los folds RS-01B, solo como precedente)"
+  },
+
+  "ambiente": {
+    "python_sistema": "3.14.3 (xgboost 3.2.0)",
+    "python_embed": "3.11.9 (xgboost 3.2.0)",
+    "runtime_planificado_rs01": "python-embed/python.exe 3.11.9 con xgboost 3.2.0, numpy 2.4.4, scipy 1.17.1, rdkit 2025.09.6 (verificado en IT1; registrado en manifest.json dependencies)",
+    "pin_microservicio": "rescoring/requirements.txt: xgboost==2.1.4 (Python 3.12; NO es el interprete de los scripts del programa)",
+    "cpu_count": 12,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER (no requerida)"
+  },
+
+  "artefactos_it1": {
+    "fold_plan": {
+      "archivo": "scripts/artifacts_science/RS-01/fold_plan.json",
+      "sha256": "9d97ad70b25331b4ae3e926210f6372ed7ec092d5a7a5fff6fe61af83b961c30",
+      "generador": "scripts/build_rs01_fold_plan.py",
+      "generador_sha256": "99f92ae3c4aee20feb969f0c332ce72f07d4120300f6b42ecf86c8442ee68321",
+      "verificacion_preaudit": "38 componentes (ok), max 55 (ok), folds [55,16,15,15,15] (ok), 19 aciclicos acyclic:<ik14> (ok), 0 sin secuencia de receptor, 0 sin scaffold; determinista (2 corridas byte-identicas)"
+    },
+    "vista_cache": {
+      "archivo": "scripts/artifacts_science/RS-01/cache_train_only_view.jsonl",
+      "sha256": "6afeb3705ad4ba0d49918e6849da2876cd63e4260aa8f47487b0b393596bbc34",
+      "n_registros": 2739,
+      "manifest": "scripts/artifacts_science/RS-01/cache_view_manifest.json",
+      "manifest_sha256": "ed7e9ec63d912c6936023cd57159febe891462f256d10314d40106d0d042d640",
+      "materializador": "scripts/materialize_cache_train_view.py",
+      "materializador_sha256": "4b26e9cf2349f7fc7637471bc420466171d9d17bc91db8f724c265a2b6b3d5bb",
+      "verificacion_posicional": "2739/2739 identidades coincidentes contra union_candidates_train.jsonl; idx 0..2738; split train en todos; bytes exactos del origen (CRLF preservado); 2 corridas byte-identicas",
+      "instrumentacion_c2": "bytes_leidos_del_origen=3418167 (cabecera + bloque train; 63.7% del archivo total de 5364997 bytes); una sola pasada; el bloque val/test del cache NO fue leido ni hasheado; sha del origen registrado como provenance no recalculada (1d487db9..., valor del inventario IT0)",
+      "cuarentena": "el script solo abre: cache origen, union train (lectura), vista y manifest (escritura); NO abre poses_val.jsonl ni poses_test.jsonl"
+    }
+  }
+}

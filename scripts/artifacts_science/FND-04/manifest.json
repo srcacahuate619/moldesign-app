@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "experiment_id": "FND-04",
+  "hypothesis": "Una biblioteca comun de incertidumbre evita que cada experimento implemente sus propios estadisticos, y permite reverificar los intervalos ya sellados con codigo independiente",
+  "protocol": "FND-04/README; Wilson, McNemar exacto, bootstrap BCa pareado y Benjamini-Hochberg; 12 sanity tests perfect/random; reverificacion de RS-14 y RS-14-R1",
+  "created_at": "2026-08-19T03:52:54.248997+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "6bae87c3cda6de687a37b19f2b7dd219cd53e053",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "G1 todos los sanity tests pasan; G2 la diferencia pareada recomputada coincide con la sellada (<=0.01) y el veredicto del gate no cambia"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/estadistica_fnd04.py": "824725da91103311458f5a19f2051d967af9b6c25538ba1fdfe6464ccabe5f93",
+    "scripts/run_fnd04_verificacion.py": "62298c562e5f2b7c35a572bd9f1dbad56d261b0e3ed8186cd048b3d22568d59c",
+    "scripts/run_fnd04_potencia.py": "918eea37337d6452b309745c8d4bccd4f296f6263bdce2cb1cf2a03da08019b3"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-19T03:52:55.168423+00:00",
+  "decision_rationale": "P0 declarado y sin artefacto mientras RS-14, RS-14-R1, MF-08, REC-03 y el entregable 8 usaban cada uno su propia implementacion. 12/12 sanity tests. Reverificacion independiente: RS-14 recomputado -0.0471 CI [-0.1594,+0.0616] frente al sellado -0.0471 [-0.1522,+0.0617]; RS-14-R1 recomputado -0.0942 [-0.2101,+0.0217] frente a -0.0942 [-0.2138,+0.0217]. Los puntos coinciden al cuarto decimal y los CI dentro del ruido de remuestreo. Es la primera vez que un CI del programa se verifica con una implementacion distinta de la que lo produjo. Un sanity test fallo en la primera pasada por un defecto del TEST, no de la biblioteca: comparaba un float con == 1.0 cuando el borde de Wilson para 10/10 vale 1.0 solo analiticamente; corregido con tolerancia. Se anadio ademas efecto_minimo_detectable y n_necesario, y su aplicacion retrospectiva mostro que RS-14 solo podia detectar 22.3 pp -no ~10- y que harian falta 1,972 complejos para resolver 5 pp, no los ~370 estimados. MF-19 y MF-08 tambien resultan formalmente indetectables por diseno.",
+  "finished_at": "2026-08-19T03:52:55.360193+00:00"
+}

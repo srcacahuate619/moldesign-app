@@ -1,0 +1,185 @@
+{
+ "experiment_id": "MF-26",
+ "tipo": "medicion (reanalisis de MF-24, sin computo nuevo)",
+ "timestamp": "2026-08-19T01:08:06.800928+00:00",
+ "n_complejos": 116,
+ "curva_conversion_por_torsiones": {
+  "0-2": {
+   "n": 14,
+   "convierten": 12,
+   "tasa": 0.8571,
+   "wilson95": [
+    0.6006,
+    0.9599
+   ],
+   "coloc_mediano": 0.909,
+   "rmsd_conf_mediano": 0.114,
+   "pesados_mediano": 9
+  },
+  "3-5": {
+   "n": 24,
+   "convierten": 19,
+   "tasa": 0.7917,
+   "wilson95": [
+    0.5953,
+    0.9076
+   ],
+   "coloc_mediano": 0.555,
+   "rmsd_conf_mediano": 0.404,
+   "pesados_mediano": 14
+  },
+  "6-8": {
+   "n": 24,
+   "convierten": 9,
+   "tasa": 0.375,
+   "wilson95": [
+    0.2116,
+    0.5729
+   ],
+   "coloc_mediano": 1.411,
+   "rmsd_conf_mediano": 0.82,
+   "pesados_mediano": 21
+  },
+  "9-12": {
+   "n": 23,
+   "convierten": 5,
+   "tasa": 0.2174,
+   "wilson95": [
+    0.0966,
+    0.419
+   ],
+   "coloc_mediano": 3.124,
+   "rmsd_conf_mediano": 1.245,
+   "pesados_mediano": 30
+  },
+  "13-17": {
+   "n": 25,
+   "convierten": 4,
+   "tasa": 0.16,
+   "wilson95": [
+    0.064,
+    0.3465
+   ],
+   "coloc_mediano": 5.5,
+   "rmsd_conf_mediano": 1.47,
+   "pesados_mediano": 33
+  },
+  "18-inf": {
+   "n": 6,
+   "convierten": 1,
+   "tasa": 0.1667,
+   "wilson95": [
+    0.0301,
+    0.5635
+   ],
+   "coloc_mediano": 6.448,
+   "rmsd_conf_mediano": 1.736,
+   "pesados_mediano": 35
+  }
+ },
+ "enterramiento_estratificado": {
+  "3-5": {
+   "n_convierten": 19,
+   "n_no": 5,
+   "enterramiento_convierten": 1.7,
+   "enterramiento_no": 3.625,
+   "diferencia": -1.925
+  },
+  "6-8": {
+   "n_convierten": 9,
+   "n_no": 15,
+   "enterramiento_convierten": 1.875,
+   "enterramiento_no": 1.471,
+   "diferencia": 0.404
+  },
+  "9-12": {
+   "n_convierten": 5,
+   "n_no": 18,
+   "enterramiento_convierten": 2.438,
+   "enterramiento_no": 1.44,
+   "diferencia": 0.999
+  },
+  "13-17": {
+   "n_convierten": 4,
+   "n_no": 21,
+   "enterramiento_convierten": 2.187,
+   "enterramiento_no": 1.32,
+   "diferencia": 0.867
+  }
+ },
+ "enterramiento_veredicto": "el efecto del enterramiento favorece a los que convierten en 3 de 4 bandas con muestra suficiente",
+ "limitacion": "bandas con 10-30 complejos: los CI de Wilson son anchos y ninguna banda individual soporta un claim. Se busca la FORMA de la curva. Correlacional: la banda se observo, no se asigno",
+ "validacion_val_test": {
+  "n_complejos": 87,
+  "curva_conversion_por_torsiones": {
+   "0-2": {
+    "n": 7,
+    "convierten": 7,
+    "tasa": 1.0,
+    "wilson95": [
+     0.6457,
+     1.0
+    ],
+    "coloc_mediano": 0.268
+   },
+   "3-5": {
+    "n": 20,
+    "convierten": 12,
+    "tasa": 0.6,
+    "wilson95": [
+     0.3866,
+     0.7812
+    ],
+    "coloc_mediano": 1.128
+   },
+   "6-8": {
+    "n": 19,
+    "convierten": 12,
+    "tasa": 0.6316,
+    "wilson95": [
+     0.4104,
+     0.8085
+    ],
+    "coloc_mediano": 0.875
+   },
+   "9-12": {
+    "n": 20,
+    "convierten": 11,
+    "tasa": 0.55,
+    "wilson95": [
+     0.3421,
+     0.7418
+    ],
+    "coloc_mediano": 0.668
+   },
+   "13-17": {
+    "n": 15,
+    "convierten": 5,
+    "tasa": 0.3333,
+    "wilson95": [
+     0.1518,
+     0.5829
+    ],
+    "coloc_mediano": 1.973
+   },
+   "18-inf": {
+    "n": 6,
+    "convierten": 4,
+    "tasa": 0.6667,
+    "wilson95": [
+     0.3,
+     0.9032
+    ],
+    "coloc_mediano": 0.915
+   }
+  }
+ },
+ "veredicto": "EL ACANTILADO NO GENERALIZA",
+ "correccion": "La especificacion declarada a partir de train -'MolFlex coloca fiable hasta ~5 torsiones'- NO es valida. En train la tasa cae de 0.792 (3-5 torsiones) a 0.375 (6-8); en val+test SUBE de 0.600 a 0.632, y en 9-12 da 0.550 frente a 0.217 de train, con intervalos de Wilson que NO se solapan ([0.097,0.419] vs [0.342,0.742]). El coste de colocacion mediano llega a 6.45 A en train y no pasa de 1.97 A en val+test. Es coherente con dos resultados ya sellados que no se conectaron a tiempo: MF-02A-EXT midio que train es mas dificil que PDBBind (77.6% vs 83.9% de disponibilidad conformacional) y RC-F0-V2 documento el gradiente train<val<test (79.3/87.5/97.9). El acantilado es otra cara del sesgo de cohorte de train, donde torsiones y dificultad estan confundidas, no una propiedad del motor de docking.",
+ "lo_que_sobrevive": [
+  "dentro de train la relacion torsiones-coste es solida (rho=0.53, CI de bandas extremas disjuntos)",
+  "el enterramiento sigue siendo el candidato interesante: sobrevivio a la estratificacion en train, falta comprobarlo en val+test",
+  "MF-25 no queda invalidado: corre sobre la cohorte de 48 (train) y su pregunta sigue siendo valida ahi"
+ ],
+ "leccion_de_metodo": "se midio una curva en train y se declaro especificacion sin validarla fuera. Es exactamente el error que la seccion 20.9 propone evitar, cometido el mismo dia que se escribio esa seccion"
+}

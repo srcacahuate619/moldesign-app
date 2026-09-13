@@ -1,0 +1,18 @@
+# Dependencias del servicio local ESMFold
+#
+# Modo stub: solo fastapi + uvicorn + pydantic
+# Modo fast/pro: necesita tambien las deps ML (ver install_real.bat)
+#
+# ── Base (siempre) ────────────────────────────────────────────────────
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.5.0
+
+# ── ML (ESMFOLD_MODE=fast / pro) ──────────────────────────────────────
+# Instalar con: pip install -r requirements.txt
+torch>=2.1.0
+transformers>=4.36.0
+rdkit>=2023.9.1
+
+# ── Refinamiento (opcional, mejora calidad de poses) ──────────────────
+openmm>=8.0

@@ -1,0 +1,25 @@
+{
+  "contrato": {
+    "afinidad_derivada_de_confianza": false,
+    "aviso_esperado": "MOTOR_SUSTITUIDO",
+    "executed_engine": "vina",
+    "fold_plddt": null,
+    "nota": "El motor pedido no está: se declara la sustitución en CRÍTICA y el número que se reporta es de Vina. Antes esta ruta devolvía -4.0 kcal/mol siempre.",
+    "requested_engine": "esmfold",
+    "severidad_esperada": "CRITICA",
+    "vina_affinity_kcal_mol": "real, del acoplamiento de sustitución"
+  },
+  "entrada": {
+    "nombre": "tri-alanina",
+    "peptide_docking_engine": "esmfold",
+    "smiles": "C[C@H](N)C(=O)N[C@@H](C)C(=O)N[C@@H](C)C(O)=O"
+  },
+  "escenario": "sin_pesos_instalados",
+  "golden_version": 1,
+  "invariantes": {
+    "ninguna_afinidad_derivada_de_plddt": true,
+    "requested_distinto_de_executed_se_declara": true,
+    "sin_caja_declarada_la_corrida_falla": true
+  },
+  "protocolo": "PEPTIDE_ESMFOLD_VINA"
+}

@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-07-06T14:00:25.013240",
+  "molchat_nctx": "16384 (default)",
+  "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "win32",
+  "model_loaded": true,
+  "max_context": 16384,
+  "using_gpu": true,
+  "gpu_layers": -1,
+  "gpu_name_llm": "NVIDIA GeForce GTX 1660 SUPER"
+}

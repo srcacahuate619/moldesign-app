@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-33-A2-PRE",
+  "hypothesis": "La brecha de 14 complejos que MF-33 midio entre el brazo A (1 conformero flexible) y el brazo B (K conformeros flexibles) se debe al ENSEMBLE y no al PRESUPUESTO. Si igualando la CPU un solo conformero alcanza lo que alcanza el ensemble, la brecha era CPU y MolFlex vuelve a ser redundante.",
+  "protocol": "Etapa 2 declarada como condicional en MF-33-PRE y activada porque B supero a A (14 discordantes a favor, 0 en contra, p=0.0001). Brazo A2: conf0.flex.pdbqt -el MISMO ligando del brazo A, primero por indice sin mirar RMSD- con exhaustiveness escalado POR COMPLEJO hasta igualar la CPU medida del brazo B: exh_A2 = round(8 * cpu_B / cpu_A), acotado a [8, 1024] y registrando cuando el tope actua. Vina escala aproximadamente lineal en exhaustiveness, asi que ese cociente iguala presupuesto sin tener que medirlo por ensayo y error. Todo lo demas congelado: semilla 42, num_modes=9, caja 25 A, mismo receptor, metrica rmsd_pose_pocket sin alineamiento, oraculo por brazo. Los brazos A y B se REUSAN de MF-33 sin recomputo. Cohorte: los mismos 48 (33 COLOCACION + 15 CONTROL).",
+  "created_at": "2026-08-19T19:52:57.375466+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "b5c11ab2459be03e41e23806d5cd0acb089f83eb",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "PRIMARIO A2 vs B pareado en COLOCACION (n=33), McNemar exacto bilateral, con las mismas cifras declaradas en MF-33. TRES LECTURAS ESCRITAS ANTES: (1) LA BRECHA ERA CPU si A2 alcanza equivalencia con B -CI95 de la diferencia dentro de +-4 complejos-; entonces el ensemble NO aporta, MolFlex vuelve a ser redundante y la cartera C NO se reabre pese al resultado de MF-33; (2) LA BRECHA ERA EL ENSEMBLE si B sigue superando a A2 con 6 o mas discordantes a favor de B y 0 en contra; entonces la reapertura de la cartera C queda confirmada y el claim externo se autoriza; (3) MIXTA si A2 recupera parte de la brecha sin alcanzar equivalencia; se reporta la fraccion recuperada y NO se autoriza ningun claim de atribucion causal limpia. SECUNDARIO descriptivo: A2 vs A, que mide cuanto compra el presupuesto solo. PROHIBIDO: cambiar el conformero, elegirlo por RMSD, o reinterpretar MF-33 en funcion de este resultado sin sellar un corrigendum."
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-33/metrics.json": "2defb2402c11e2b16c6326f4c89ca3d430fd286cb18a6fe265fedb804ac9b53c"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-20T03:06:40.977152+00:00",
+  "decision_rationale": "Prerregistro de la etapa 2 declarado ANTES de ejecutar: brazo A2 con exhaustiveness escalado por complejo para igualar la CPU de B, y las TRES lecturas posibles escritas con antelacion (CPU / ENSEMBLE / MIXTA). Se sella GO por convencion al declararse, NO por haber superado nada. El resultado activo la lectura (3).",
+  "finished_at": "2026-08-20T03:06:41.166838+00:00"
+}

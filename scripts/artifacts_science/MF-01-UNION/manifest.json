@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-01-UNION",
+  "hypothesis": "Las poses existentes pueden materializarse en una union trazable sin re-docking, con geometrias y enlace a provenance",
+  "protocol": "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md 15 (entregable 4) + MF-01/DESIGN.md",
+  "created_at": "2026-08-16T04:45:36.612063+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "experimentos/ruta-c-molflex",
+    "commit": "b0b0895c73d14d7a76c8307edcbac8d8764fcca4",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "2739+730 poses, 156 complejos, 447 corridas, 0 colisiones, 0 sin provenance, determinismo byte a byte, sin acceso a test"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "data/pose_selector_dataset/poses_train.jsonl": "d2076355e53f6dd6dc09a4017655f3992baabb221b8ae5606d94d73fd747e654",
+    "data/pose_selector_dataset/poses_val.jsonl": "4a0f8bada19da8f7ee91034264a9b24a2886d4f718ed2dc7e659756fd29b97a1"
+  },
+  "assets_hashes": {
+    "scripts/artifacts_science/MF-01-UNION/DESIGN.md": "0b55cfe943f71967473300d5f774ba101b4c1813a42d2cedb4b9522e1ce178e6",
+    "scripts/artifacts_science/MF-01-UNION/metrics.json": "248dd1045bd8b3620ea756c236932fb10ab294849bcd55aef1352baf8ba469b1",
+    "scripts/artifacts_science/MF-01-UNION/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/MF-01-UNION/per_complex.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/MF-01-UNION/union_candidates_train.jsonl": "61ab0e26901659c0d6e8bf98f47bbcae82d187265fc8181953d58ff6a2033ce9",
+    "scripts/artifacts_science/MF-01-UNION/union_candidates_val.jsonl": "21df7637c23e2de8cc814825784e12016ca82bcea3a8ff8cd35c92fc5fbab9fe",
+    "scripts/artifacts_science/MF-01-UNION/union_labels_train.jsonl": "19843afd49135f30297884ce56889312a4f34b6f75cd708127eca1789338bfbb",
+    "scripts/artifacts_science/MF-01-UNION/union_labels_val.jsonl": "bb9ff2642e31023d0ffb8459067d10b9fa4dc7f0fd25cf675111a7efcc2976ab",
+    "scripts/build_pose_union.py": "fd3d393b883bb7b8d88e14468ff4b58eff5942fbdc15e4141dbfb16c2ab57948",
+    "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
+    "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
+  },
+  "sealed": true,
+  "sealed_at": "2026-08-16T04:48:46.619516+00:00",
+  "decision_rationale": "PASS OPERACIONAL: union materializada 2739+730 poses, 156 complejos, 447/447 corridas de provenance, 0 colisiones, 100% PDBQT real, determinismo byte a byte, sin acceso a test. NOTA: el gate CIENTIFICO de MF-01 permanece NO_GO (MolFlex 0 complejos en D-MF-HARD; decision en RS-01); este GO es exclusivamente operacional sobre el artefacto",
+  "finished_at": "2026-08-16T04:48:54.031468+00:00"
+}

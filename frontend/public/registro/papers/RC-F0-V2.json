@@ -1,0 +1,411 @@
+{
+ "id": "RC-F0-V2",
+ "meta": {
+  "titulo": "Reconstruir el conjunto entero para poder confiar en él",
+  "entradilla": "34,302 poses sobre 203 complejos. Antes de añadir una sola se reprodujo el conjunto anterior línea a línea, y las 2,087 heredadas se recalcularon en vez de copiarse del caché."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un conjunto de datos que crece por acumulación deja de ser un conjunto de datos y pasa a ser un sedimento. Las poses viejas vienen de una versión del generador, las nuevas de otra, y nadie puede decir qué parte de una diferencia medida se debe al método y qué parte a la geología.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este experimento reconstruye el conjunto entero aplicando el generador congelado a los tres cortes de datos, para que todo lo que hay dentro venga del mismo sitio.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Los dos gates que sostienen los demás",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Antes de generar nada nuevo hubo que demostrar dos cosas, y son las que dan valor a todo lo que vino después.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Reproducir el conjunto anterior línea a línea.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Desde los registros intermedios, sin mirar el resultado final: 2,739 / 730 / 831 filas idénticas en los tres cortes, incluida la división por scaffold con su semilla. Si eso hubiera fallado, el conjunto anterior —y todo lo medido sobre él— habría quedado en entredicho.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Recalcular las poses heredadas en vez de copiarlas.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Las 2,087 poses que sobreviven del conjunto anterior se volvieron a extraer desde el material crudo. Coincidieron 2,087 de 2,087.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Reusar el caché habría sido mucho más barato. Recalcular es lo que demuestra que el extractor sigue produciendo lo mismo hoy que el día que se ejecutó.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los siete gates pasan. El conjunto v2 tiene ",
+     "m": null
+    },
+    {
+     "t": "34,302 poses",
+     "m": "fuerte"
+    },
+    {
+     "t": " con 224 características cada una, sobre 203 complejos: 2,087 conservadas y 32,215 nuevas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La cobertura del oráculo —la fracción de complejos donde ",
+     "m": null
+    },
+    {
+     "t": "existe",
+     "m": "enfasis"
+    },
+    {
+     "t": " una pose correcta entre las candidatas— sube en los tres cortes:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Corte",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Antes",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Después",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "train",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "67.2%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "79.3%",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "val",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "75.0%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "87.5%",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "test",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "87.2%",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "97.9%",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Estas cifras coinciden ",
+     "m": null
+    },
+    {
+     "t": "exactamente",
+     "m": "fuerte"
+    },
+    {
+     "t": " con las medidas por una vía independiente sobre el material crudo: dos caminos de código distintos, el mismo número.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Tres consecuencias que se declaran, y una de ellas es incómoda",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "1. v2 no es v1 ampliado.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La tarea cambia de ordenar unos 9 candidatos a ordenar unos",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "Queda prohibido comparar cifras del selector entre las dos versiones sin",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "reentrenarlo: no es la misma tarea con más datos, es otra tarea.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2. El gradiente train < val < test persiste, y no es una buena noticia.",
+     "m": "fuerte"
+    },
+    {
+     "t": " 79.3 < 87.5 < 97.9. La división por scaffold concentró los scaffolds difíciles en ",
+     "m": null
+    },
+    {
+     "t": "train",
+     "m": "codigo"
+    },
+    {
+     "t": ". Eso significa que un selector entrenado ahí y evaluado en ",
+     "m": null
+    },
+    {
+     "t": "test",
+     "m": "codigo"
+    },
+    {
+     "t": " ",
+     "m": null
+    },
+    {
+     "t": "tiene el generador a favor",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y esa ventaja no es suya. Cualquier cifra de rendimiento en ",
+     "m": null
+    },
+    {
+     "t": "test",
+     "m": "codigo"
+    },
+    {
+     "t": " está inflada por una propiedad del corte de datos, no del modelo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "**3. ",
+     "m": null
+    },
+    {
+     "t": "test",
+     "m": "codigo"
+    },
+    {
+     "t": " queda casi saturado**, con 46 de 47 complejos cubiertos. Ahí ya no hay techo de generación que ganar; lo que se mida será selección pura.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que deliberadamente no se hizo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No se entrena ni evalúa ningún selector aquí. Este experimento construye el terreno; medir sobre él es otro experimento, y mezclarlos habría permitido ajustar el terreno en función del resultado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Y ",
+     "m": null
+    },
+    {
+     "t": "no se aplicó la deduplicación",
+     "m": "fuerte"
+    },
+    {
+     "t": " de poses que ya estaba disponible, aunque habría hecho el conjunto más manejable. Su umbral de 1.5 Å se eligió sobre una unión ",
+     "m": null
+    },
+    {
+     "t": "6.9 veces menos densa",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y reusarlo aquí sería extrapolarlo a otro régimen sin comprobarlo. La re-derivación se hizo después, en su propio experimento, y dio un umbral distinto —2.0 Å— lo que confirma que aplicar el viejo habría sido un error.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Epílogo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Este conjunto se construyó para dar una segunda oportunidad al selector de poses: la hipótesis era que su fracaso anterior se debía a tener pocos candidatos que ordenar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se le dio 6.9 veces más material, y volvió a perder contra la puntuación cruda de Vina. El denominador no era el problema. Pero eso sólo se pudo afirmar porque el conjunto sobre el que se midió era reproducible línea a línea.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/RC-F0-V2.md"
+}

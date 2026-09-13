@@ -1,0 +1,40 @@
+{
+  "experimento": "RS-01A-R1",
+  "tipo": "CORRIGENDUM ESTADISTICO",
+  "padre": {
+    "experimento": "RS-01A",
+    "commit_sello": "2943a38",
+    "metrics_sha256": "c6f4a2ef98d9646ba2850efb52f101b16ea6cc7be32fe3010ee61513edbaeb46",
+    "nota": "el sello historico de RS-01A NO se modifica; este corrigendum vive en RS-01A-R1 y solo reexpresa el p de McNemar"
+  },
+  "bug": "mcnemar_hits multiplicaba por 2 el pvalue de scipy.stats.binomtest(...), que YA es bilateral",
+  "fix": "se elimina el factor 2: p = binomtest(min(b,c), b+c, 0.5).pvalue; 0 pares discordantes -> p = 1.0",
+  "correcciones": [
+    {
+      "bloque": "a1.pareado.mcnemar",
+      "b_orig_hit_dedup_miss": 4,
+      "c_orig_miss_dedup_hit": 0,
+      "n_discordantes": 4,
+      "p_antiguo": 0.25,
+      "p_corregido": 0.125
+    },
+    {
+      "bloque": "a2.pareado.mcnemar",
+      "b_orig_hit_dedup_miss": 3,
+      "c_orig_miss_dedup_hit": 1,
+      "n_discordantes": 4,
+      "p_antiguo": 1.0,
+      "p_corregido": 0.625
+    }
+  ],
+  "que_no_cambia": "ningun gate ni decision de RS-01A cambia: A0 sigue reproduciendo el historico; A1 sigue observando -4 hits Top-1 con 0 recuperaciones; la mediana pareada sigue 0.000 A; el contrafactual de los 31 empates sigue siendo sensible al desempate de fuente. El GO procedimental del sello historico permanece intacto.",
+  "verificacion": {
+    "p_b4_c0_reproducido": true,
+    "padre_sha_ok": true
+  },
+  "archivos_abiertos_repo": [
+    "scripts/artifacts_science/RS-01A/metrics.json"
+  ],
+  "garantia_cuarentena": "solo se lee el metrics.json sellado del padre (verificado por sha) y se escriben los artefactos de RS-01A-R1; cero acceso a val/test/CONFIRM",
+  "determinismo": "salidas sin timestamps ni aleatoriedad; dos corridas producen bytes identicos"
+}

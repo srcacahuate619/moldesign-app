@@ -1,0 +1,24 @@
+{
+  "experimento": "RS-04-OOF",
+  "fold": 3,
+  "brazo": "baseline",
+  "hiperparametros": {
+    "objective": "rank:pairwise",
+    "n_estimators": 52,
+    "max_depth": 6,
+    "learning_rate": 0.05,
+    "subsample": 0.8,
+    "n_jobs": 4,
+    "seed": 42,
+    "random_state": 42
+  },
+  "eval_metric": "auc",
+  "n_filas": 2405,
+  "n_complejos_train": 101,
+  "n_grupos": 101,
+  "n_features": 233,
+  "n_arboles": 52,
+  "seed": 42,
+  "sha256_archivo_xgb": "8eab79bf5fa5540d3e9172b6faf913b2f793038c65637cde1b47c106889a0333",
+  "nota": "sin early stopping; todos los datos outer-train; relevancia -rmsd; grupos por complejo; orden canonico"
+}
