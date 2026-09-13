@@ -38,7 +38,12 @@ def warhead_only_score(smi):
     wh = detect_warheads(smi)
     if not any(wh.values()):
         return 0.0
-    n = sum(1 for v in wh.values() if v)
+    # V2: `n` cuenta GRUPOS QUIMICOS distintos, no claves que casaron. Varias de
+    # las siete describen el mismo grupo -una sulfonamida primaria casa tambien
+    # `sulfonamide`-, y la formula es monotona en n, asi que el doble conteo
+    # subia el score. Produccion usa la misma funcion: si esto se separa, el
+    # script del paper deja de reproducir lo que el producto calcula.
+    n = contar_warheads_distintos(wh)
     return 0.85 + 0.10 * min(n / 3.0, 1.0)
 
 

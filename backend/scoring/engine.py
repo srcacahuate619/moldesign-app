@@ -501,9 +501,14 @@ def calculate_score_breakdown(
 
     # ── [A3] Disponibilidad real de componentes (sin fabricar 0.5) ──
     # Cada componente es None si su fuente falta o devuelve NaN/Inf.
+    # `is not None` y no la verdad-ez del float: una afinidad de 0.0 es un
+    # RESULTADO —el peor posible, y el validador de `DockingResult` lo admite—,
+    # no una señal ausente. Con `if docking.best_affinity` caía a `None`, el
+    # stack se marcaba degradado y renormalizaba el peso de Vina a XGBoost, que
+    # es un clasificador ligand-only y no ha visto el receptor.
     vina_norm = (
         _finite_or_none(min(1.0, abs(docking.best_affinity) / 12.0), "vina")
-        if docking.best_affinity
+        if docking.best_affinity is not None
         else None
     )
     xgb_val = _finite_or_none(xgb_prob, "xgb")

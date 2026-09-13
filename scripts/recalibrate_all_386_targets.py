@@ -76,78 +76,34 @@ def find_pdb_file(pdb_id: str) -> Path | None:
     return download_pdb_from_rcsb(pdb_id_upper)
 
 def extract_accurate_pocket_centroid(pdb_path: Path):
+    """El centro del sitio, delegado al backend.
+
+    ESTO ERA UNA CUARTA COPIA del mismo algoritmo -las otras tres: el backend,
+    `scripts/universal_metal_score.py` y la transcripcion del manifiesto de M5-
+    y arrastraba los dos defectos que el backend corrigio el 2026-09-13:
+
+      * agrupaba los HETATM por NOMBRE de residuo, asi que con el mismo ligando
+        en varias cadenas el "centroide del ligando" era el promedio de todas
+        las copias, que cae entre ellas y no dentro de ninguna. Medido sobre las
+        411 estructuras locales: 139 daban un centro mas lejos del semilado de
+        la caja que la copia mas cercana;
+      * elegia el metal por NUMERO de iones, que devuelve el estructural: MMP9
+        tiene cinco calcios y un zinc catalitico.
+
+    Y es justo el script que calibra `curated_targets.json`, asi que una copia
+    con el defecto lo reintroduciria en el catalogo en la siguiente pasada.
     """
-    Rigorously calculates the active site 3D centroid from:
-    1. Co-crystallized drug/inhibitor small-molecule ligand.
-    2. Catalytic metal ions (ZN, FE, MN, MG) if metalloenzyme.
-    3. Protein ATOM centroid as final fallback.
-    """
-    drug_hetatms = {}
-    metal_hetatms = {}
-    all_hetatms = {}
-    protein_atoms = []
-    
-    with open(pdb_path, "r", encoding="utf-8", errors="ignore") as f:
-        for line in f:
-            if line.startswith("ATOM"):
-                try:
-                    x = float(line[30:38])
-                    y = float(line[38:46])
-                    z = float(line[46:54])
-                    protein_atoms.append((x, y, z))
-                except ValueError:
-                    pass
-            elif line.startswith("HETATM"):
-                res_name = line[17:20].strip()
-                if res_name in ["HOH", "WAT", "DOD", "TIP", "SOL"]:
-                    continue
-                try:
-                    x = float(line[30:38])
-                    y = float(line[38:46])
-                    z = float(line[46:54])
-                    all_hetatms.setdefault(res_name, []).append((x, y, z))
-                    if res_name in CATALYTIC_METALS:
-                        metal_hetatms.setdefault(res_name, []).append((x, y, z))
-                    elif res_name not in NON_DRUG_HETATMS:
-                        drug_hetatms.setdefault(res_name, []).append((x, y, z))
-                except ValueError:
-                    pass
-                    
-    # Priority 1: True drug / inhibitor ligand
-    if drug_hetatms:
-        # Choose the largest small molecule ligand (most atoms)
-        best_res = max(drug_hetatms.keys(), key=lambda r: len(drug_hetatms[r]))
-        coords = drug_hetatms[best_res]
-        cx = round(sum(c[0] for c in coords) / len(coords), 3)
-        cy = round(sum(c[1] for c in coords) / len(coords), 3)
-        cz = round(sum(c[2] for c in coords) / len(coords), 3)
-        return (cx, cy, cz), f"DRUG_LIGAND ({best_res})"
-        
-    # Priority 2: Catalytic metal ion in active site (e.g. ZN in 9QA0-9QA4)
-    if metal_hetatms:
-        best_metal = max(metal_hetatms.keys(), key=lambda r: len(metal_hetatms[r]))
-        coords = metal_hetatms[best_metal]
-        cx = round(sum(c[0] for c in coords) / len(coords), 3)
-        cy = round(sum(c[1] for c in coords) / len(coords), 3)
-        cz = round(sum(c[2] for c in coords) / len(coords), 3)
-        return (cx, cy, cz), f"CATALYTIC_METAL ({best_metal})"
+    import sys
 
-    # Priority 3: Non-drug HETATMs (solvents/buffers) centroid
-    if all_hetatms:
-        all_coords = [c for coords in all_hetatms.values() for c in coords]
-        cx = round(sum(c[0] for c in all_coords) / len(all_coords), 3)
-        cy = round(sum(c[1] for c in all_coords) / len(all_coords), 3)
-        cz = round(sum(c[2] for c in all_coords) / len(all_coords), 3)
-        return (cx, cy, cz), f"HETATM_BUFFER_FALLBACK ({list(all_hetatms.keys())})"
+    backend = str(RAIZ / "backend")
+    if backend not in sys.path:
+        sys.path.insert(0, backend)
+    from services.chemistry.protein_surgery import (  # noqa: PLC0415
+        extract_accurate_pocket_centroid as _centroide,
+    )
 
-    # Priority 4: Protein ATOM centroid
-    if protein_atoms:
-        cx = round(sum(c[0] for c in protein_atoms) / len(protein_atoms), 3)
-        cy = round(sum(c[1] for c in protein_atoms) / len(protein_atoms), 3)
-        cz = round(sum(c[2] for c in protein_atoms) / len(protein_atoms), 3)
-        return (cx, cy, cz), "PROTEIN_ATOM_FALLBACK"
+    return _centroide(str(pdb_path))
 
-    return None, "FAILED"
 
 def main():
     print("=== RECALIBRATING ALL 386 TARGET ACTIVE SITE GRID CENTERS ===")

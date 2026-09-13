@@ -174,7 +174,7 @@ def test_m4_deriva_las_metricas_de_vina_y_no_del_ml():
 def test_m5_zn_ejercita_el_perfil_mas_completo():
     """CA2/3DC3 es el único con los cuatro componentes."""
     d = _golden("m5_zn_ca2_3dc3")
-    assert d["protocolo"] == "M5_ZN_CA2_3DC3_V1"
+    assert d["protocolo"] == "M5_ZN_CA2_3DC3_V2"
     assert "GNN-D" in d["formula"]
     assert d["resultado"]["estado"] == "VALIDATED_PROFILE"
     assert d["resultado"]["m5_score"] is not None
@@ -193,14 +193,38 @@ def test_m5_zn_sella_las_dos_abstenciones():
 
 
 @pytest.mark.parametrize("pdb", ["3DC3", "1GKC", "1O86"])
-def test_el_replay_reproduce_la_auc_publicada(pdb: str):
-    """La garantía de que la fórmula sigue siendo la del paper."""
+def test_el_replay_reproduce_la_auc_declarada(pdb: str):
+    """La garantía de que la fórmula sigue siendo la del perfil.
+
+    Comparaba contra `auc_m5_publicada`, que es la de V1. Desde V2 el detector
+    de warheads es otro —el nitro dejó de contar como quelante y `n_warheads`
+    cuenta grupos, no claves— así que la referencia correcta es la que el
+    PERFIL declara. La de V1 se conserva en el golden para que el cambio de
+    versión quede en el registro, y la mejora se comprueba abajo.
+    """
     perfil = _golden("m5_zn_replay")["perfiles"][pdb]
     if "checkpoint_ausente" in perfil:
         pytest.skip(f"checkpoint ausente: {perfil['checkpoint_ausente']}")
-    assert perfil["coincide"] is True, (
+    assert perfil["coincide_con_el_perfil"] is True, (
         f"{pdb}: la AUC reconstruida ({perfil['auc_m5_reconstruida']}) no "
-        f"coincide con la publicada ({perfil['auc_m5_publicada']})"
+        f"coincide con la que declara el perfil ({perfil['auc_m5_declarada']})"
+    )
+
+
+@pytest.mark.parametrize("pdb", ["3DC3", "1GKC", "1O86"])
+def test_v2_ordena_mejor_que_v1_en_los_tres(pdb: str):
+    """Lo que justifica el cambio de versión, medido y no supuesto.
+
+    Corregir el detector no era sólo química correcta: mejora el orden en los
+    tres perfiles sobre sus propios checkpoints. Si algún día deja de mejorar,
+    el detector volvió a cambiar y hay que rehacer la medición antes de sellar.
+    """
+    perfil = _golden("m5_zn_replay")["perfiles"][pdb]
+    if "checkpoint_ausente" in perfil:
+        pytest.skip(f"checkpoint ausente: {perfil['checkpoint_ausente']}")
+    assert perfil["mejora_sobre_v1"] > 0, (
+        f"{pdb}: V2 mide {perfil['auc_m5_reconstruida']} y V1 medía "
+        f"{perfil['auc_m5_publicada_v1']}"
     )
 
 

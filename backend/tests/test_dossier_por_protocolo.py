@@ -105,7 +105,7 @@ def test_m4_nunca_presenta_el_ml_como_la_afinidad(estado: str):
 
 def test_m5_perfil_completo_muestra_formula_y_normalizador():
     campos = _golden("dossier_m5_zn")["estados"]["perfil_con_benchmark_en_revision"]
-    assert _campo(campos, "Protocolo M5-Zn")["valor"] == "M5_ZN_MMP9_1GKC_V1"
+    assert _campo(campos, "Protocolo M5-Zn")["valor"] == "M5_ZN_MMP9_1GKC_V2"
     formula = _campo(campos, "Fórmula del perfil")["valor"]
     assert "0.75*XGBoost" in formula and "0.25*UMS_warhead" in formula
 
@@ -120,7 +120,7 @@ def test_el_score_en_cuarentena_se_muestra_con_su_advertencia():
     campos = _golden("dossier_m5_zn")["estados"]["perfil_con_benchmark_en_revision"]
     score = _campo(campos, "Score compuesto M5-Zn")
     assert score["estado"] == "REVISAR"
-    assert "0.8592" in score["valor"] and "M5_ZN_MMP9_1GKC_V1" in score["valor"]
+    assert "0.8508" in score["valor"] and "M5_ZN_MMP9_1GKC_V2" in score["valor"]
     assert "BENCHMARK EN REVISIÓN" in score["valor"]
     assert "no una afinidad" in score["valor"], (
         "el score compuesto es una interpretación de ranking, y el dossier "
@@ -144,7 +144,7 @@ def test_top1_que_no_coordina_es_su_propio_estado():
     campos = _golden("dossier_m5_zn")["estados"]["perfil_con_top1_que_no_coordina"]
     score = _campo(campos, "Score compuesto M5-Zn")
     assert score["estado"] == "REVISAR"
-    assert "0.8532" in score["valor"] and "TOP-1 SIN COORDINAR EL METAL" in score["valor"]
+    assert "0.8399" in score["valor"] and "TOP-1 SIN COORDINAR EL METAL" in score["valor"]
     assert "SÍ contenía el zinc" in score["razon"]
     assert "6.13" in score["razon"] and "47 activos" in score["razon"]
     assert "NINGUNA POSE TOP-1" in score["razon"]
@@ -170,7 +170,7 @@ def test_ca2_se_abstiene_porque_gnn_d_no_tiene_productor():
     redistribuir su peso, así que el perfil más completo de los tres se abstiene.
     """
     campos = _golden("dossier_m5_zn")["estados"]["perfil_exacto_falta_componente"]
-    assert _campo(campos, "Protocolo M5-Zn")["valor"] == "M5_ZN_CA2_3DC3_V1"
+    assert _campo(campos, "Protocolo M5-Zn")["valor"] == "M5_ZN_CA2_3DC3_V2"
     score = _campo(campos, "Score compuesto M5-Zn")
     assert score["valor"] == "NOT_EVALUATED_MISSING_COMPONENT"
     assert "gnn_d" in score["razon"].lower()
@@ -383,7 +383,7 @@ def test_el_perfil_se_resuelve_con_un_resultado_con_forma_de_orm():
         ums_score=0.9167,
     )
     campos = _bloque_m5(resultado, SimpleNamespace(pdb_id="3DC3"))
-    assert _campo(campos, "Protocolo M5-Zn")["valor"] == "M5_ZN_CA2_3DC3_V1"
+    assert _campo(campos, "Protocolo M5-Zn")["valor"] == "M5_ZN_CA2_3DC3_V2"
     assert _campo(campos, "Fórmula del perfil")["estado"] == "REGISTRADO"
 
 

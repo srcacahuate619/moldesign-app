@@ -56,8 +56,9 @@ def test_mmp9_calcula_su_score_y_queda_en_revision():
     salida = _ejecutar("1GKC")
     assert salida is not None
     assert salida.estado == "REVIEW_INVALID_BENCHMARK_SITE"
-    assert salida.protocol_id == "M5_ZN_MMP9_1GKC_V1"
-    # 0.75*0.84 + 0.25*(0.85 + 0.10*min(2/3,1)) — a mano, no desde el módulo.
+    assert salida.protocol_id == "M5_ZN_MMP9_1GKC_V2"
+    # 0.75*0.84 + 0.25*(0.85 + 0.10*min(1/3,1)) — a mano, no desde el módulo.
+    # V2: la sulfonamida primaria es UN grupo, aunque case dos claves.
     esperado = 0.75 * 0.84 + 0.25 * salida.ums_warhead
     assert salida.score == pytest.approx(esperado, abs=1e-6), (
         "el score se sigue calculando: ocultarlo dejaria de poder auditarse"
@@ -142,7 +143,7 @@ def test_ca2_se_abstiene_porque_gnn_d_no_tiene_productor():
     """
     salida = _ejecutar("3DC3")
     assert salida is not None
-    assert salida.protocol_id == "M5_ZN_CA2_3DC3_V1"
+    assert salida.protocol_id == "M5_ZN_CA2_3DC3_V2"
     assert salida.estado == "NOT_EVALUATED_MISSING_COMPONENT"
     assert salida.score is None, "§5: no se fabrica un neutro"
     assert salida.componentes_ausentes == ("gnn_d",)
@@ -189,8 +190,10 @@ def test_una_diana_que_no_es_de_metal_no_devuelve_salida():
 
 def test_el_ums_es_la_variante_smarts_only():
     """Sin donantes y sin MolChamb: el §2 del ADR sólo autoriza esta."""
-    # La sulfonamida casa dos warheads -> 0.85 + 0.10*(2/3).
-    assert ums_autorizado(SULFONAMIDA) == pytest.approx(0.85 + 0.10 * (2 / 3), abs=1e-9)
+    # V2: una sulfonamida primaria casa DOS claves —`sulfonamide` y
+    # `primary_sulfonamide`— y sigue siendo UN grupo químico, así que n=1.
+    # Antes contaba 2 y la fórmula, monótona en n, le regalaba 0.033.
+    assert ums_autorizado(SULFONAMIDA) == pytest.approx(0.85 + 0.10 * (1 / 3), abs=1e-9)
 
 
 def test_sin_warheads_es_cero_y_sin_smiles_es_ausencia():

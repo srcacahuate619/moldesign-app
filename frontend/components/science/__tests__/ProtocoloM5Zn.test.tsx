@@ -26,7 +26,10 @@ function resultado(parcial: Partial<EvaluationResult>): EvaluationResult {
     m5_score: 0.99,
     m5_scientific_status: null,
     m5_missing_components: null,
-    ums_warhead: 0.9167,
+    // V2: una sulfonamida primaria es UN grupo químico, así que n=1 y el
+    // componente vale 0.85 + 0.10·(1/3). Con n=2 —el doble conteo de V1— daba
+    // 0.9167, que es lo que este fixture traía.
+    ums_warhead: 0.8833,
     ...parcial,
   } as unknown as EvaluationResult;
 }

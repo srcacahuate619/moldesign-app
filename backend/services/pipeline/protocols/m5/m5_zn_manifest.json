@@ -29,17 +29,19 @@
         "vina_reference_max": 8.247
       },
       "pdb_id": "1GKC",
-      "protocol_id": "M5_ZN_MMP9_1GKC_V1",
+      "protocol_id": "M5_ZN_MMP9_1GKC_V2",
       "quarantine": {
         "corrigendum": "docs/77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md",
         "en_revision": true,
         "motivo": "NINGUN zinc cae dentro de la caja declarada por el criterio por eje: el catalitico ZN A1450 queda fuera por dz=-17.34 con semilado 12.5. El inhibidor cristalografico NFH A1448 tiene solo 4 de sus 22 atomos dentro, y el ion de CALCIO CA A1447 si esta dentro, a 4.7 A del centro. Medido atomo a atomo sobre los 50 activos, el donante mas cercano queda a 14.91 A del zinc (mediana 16.99). 0.75 del score depende de features de esa pose. Ver docs/77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md §1.1."
       },
       "reference_auc": {
-        "delta": 0.073504,
-        "fuente": "data/molchamb_loto/delong_paired_report.json",
+        "delta": 0.0816373333,
+        "fuente_m4": "data/molchamb_loto/delong_paired_report.json",
+        "fuente_m5": "medida de nuevo sobre el mismo checkpoint con los patrones de warhead V2; el reporte DeLong contiene la de V1",
         "m4": 0.8472693333333332,
-        "m5": 0.9207733333333333
+        "m5": 0.9289066666666667,
+        "nota": "Reproducible, NO validada: dos de los tres benchmarks siguen en cuarentena por el sitio y estas AUC se miden sobre esos mismos datos."
       },
       "required_components": [
         "xgb",
@@ -65,17 +67,19 @@
         "vina_reference_max": 9.566
       },
       "pdb_id": "1O86",
-      "protocol_id": "M5_ZN_ACE_1O86_V1",
+      "protocol_id": "M5_ZN_ACE_1O86_V2",
       "quarantine": {
         "corrigendum": "docs/77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md",
         "en_revision": true,
         "motivo": "El sitio era CORRECTO —ZN A701 es el centro exacto de la caja y las poses caen dentro— y aun asi, de los 47 activos evaluables (de 50), NINGUNA pose top-1 coloca un atomo donante a <=4.0 A del metal: minima 6.13 A, mediana 11.04. Esas top-1 son las que produjeron las features y sostienen el AUC. Los inhibidores de ACE del tipo lisinopril quelan zinc, asi que lo que se puntuo no reproduce su modo de union. NO se sabe si alguna pose descartada si coordinaba: el checkpoint guardo solo la top-1. La procedencia ademas esta incompleta —falta el complejo cristalografico y ningun artefacto registra la caja efectiva— y el AUC de casos completos, 0.6708, baja a 0.5612 bajo imputacion adversa de los ausentes, lo que mide su fragilidad y no una correccion. Ver docs/77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md §1.2 y §8."
       },
       "reference_auc": {
-        "delta": 0.234531559,
-        "fuente": "data/molchamb_loto/delong_paired_report.json",
+        "delta": 0.2816422652,
+        "fuente_m4": "data/molchamb_loto/delong_paired_report.json",
+        "fuente_m5": "medida de nuevo sobre el mismo checkpoint con los patrones de warhead V2; el reporte DeLong contiene la de V1",
         "m4": 0.43623780853569133,
-        "m5": 0.6707693674879475
+        "m5": 0.7178800737597476,
+        "nota": "Reproducible, NO validada: dos de los tres benchmarks siguen en cuarentena por el sitio y estas AUC se miden sobre esos mismos datos."
       },
       "required_components": [
         "vina",
@@ -102,17 +106,19 @@
         "vina_reference_max": 10.45
       },
       "pdb_id": "3DC3",
-      "protocol_id": "M5_ZN_CA2_3DC3_V1",
+      "protocol_id": "M5_ZN_CA2_3DC3_V2",
       "quarantine": {
         "corrigendum": null,
         "en_revision": false,
         "motivo": null
       },
       "reference_auc": {
-        "delta": 0.1271667237,
-        "fuente": "data/molchamb_loto/delong_paired_report.json",
+        "delta": 0.146481925,
+        "fuente_m4": "data/molchamb_loto/delong_paired_report.json",
+        "fuente_m5": "medida de nuevo sobre el mismo checkpoint con los patrones de warhead V2; el reporte DeLong contiene la de V1",
         "m4": 0.8042108564260463,
-        "m5": 0.9313775801117572
+        "m5": 0.9506927813889839,
+        "nota": "Reproducible, NO validada: dos de los tres benchmarks siguen en cuarentena por el sitio y estas AUC se miden sobre esos mismos datos."
       },
       "required_components": [
         "vina",
@@ -143,6 +149,6 @@
       "phosphonate",
       "n_hydroxy"
     ],
-    "warhead_smarts_sha256": "e02142bbacbbeed76ec75c9ed402c17b233e35acedfa31759da7ecdd820b4914"
+    "warhead_smarts_sha256": "86ba78260c62711522d963b5b988d99f5ee81954022f3b96bd65750f5f1e3188"
   }
 }

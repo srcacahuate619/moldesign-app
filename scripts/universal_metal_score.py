@@ -38,35 +38,52 @@ import sys
 # multiple canonical SMILES representations (e.g., C(=O)NO vs O=C(NO)).
 # SMARTS provides chemically aware substructure matching via RDKit.
 
-_WARHEAD_SMARTS = {
-    "sulfonamide": [
-        "S(=O)(=O)[N;!$(N-C=O)]",          # sulfonamide S(=O)(=O)N, exclude sulfonamides
-        "O=S(=O)[N;!$(N-C=O)]",            # reverse orientation
-    ],
-    "primary_sulfonamide": [
-        "S(=O)(=O)[NH2]",                   # primary sulfonamide
-        "O=S(=O)[NH2]",
-    ],
-    "hydroxamic": [
-        "[C;$(C(=O))]N[O;$(O-*)]",          # C(=O)NOH — vorinostat, marimastat, batimastat
-        "C(=O)NO",                           # explicit
-    ],
-    "thiol": [
-        "[SH]",                              # explicit [SH] bracket notation
-    ],
-    "carboxylate": [
-        "C(=O)[O-]",                         # deprotonated carboxylate
-        "C(=O)[OH1]",                        # protonated carboxylic acid (OH with 1 H)
-    ],
-    "phosphonate": [
-        "P(=O)(O)(O)",                       # phosphonic acid
-        "P(=O)(O)([O-])",                    # deprotonated
-    ],
-    "n_hydroxy": [
-        "[N]-[OH1]",                         # N-OH single bond, hydroxylamine-type
-        "N(O)",                              # explicit N-oxide notation
-    ],
-}
+# ══════════════════════════════════════════════════════════════════════════
+# V2 (2026-09-13). ESTE BLOQUE ERA UNA TERCERA COPIA DE LOS MISMOS PATRONES
+# ══════════════════════════════════════════════════════════════════════════
+#
+# Habia tres: esta, `backend/scoring/ums.py` y la transcripcion del manifiesto
+# de M5. `test_produccion_y_el_script_del_paper_calculan_lo_mismo` existe justo
+# porque dos implementaciones que se parecen acaban divergiendo — y lo hicieron:
+# el fallo del nitro se corrigio en el backend y aqui seguia.
+#
+# Ahora los patrones vienen del backend cuando esta disponible. Si no lo esta
+# -este script se usa suelto-, la copia de respaldo es IDENTICA y el gate
+# `test_los_patrones_del_script_del_paper_son_los_del_backend` lo comprueba.
+try:
+    import os as _os
+    import sys as _sys
+    _BACKEND = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), "backend")
+    if _BACKEND not in _sys.path:
+        _sys.path.insert(0, _BACKEND)
+    from scoring.ums import _WARHEAD_SMARTS  # type: ignore  # noqa: F401
+except Exception:  # pragma: no cover - solo si se ejecuta sin el backend al lado
+    _WARHEAD_SMARTS = {
+        "sulfonamide": [
+            "S(=O)(=O)[NX3;H1,H2;!$(N-C=O)]",
+            "O=S(=O)[NX3;H1,H2;!$(N-C=O)]",
+        ],
+        "primary_sulfonamide": [
+            "S(=O)(=O)[NX3;H2]",
+            "O=S(=O)[NX3;H2]",
+        ],
+        "hydroxamic": [
+            "[CX3](=O)[NX3][OX2H1]",
+        ],
+        "thiol": [
+            "[SX2H1]",
+        ],
+        "carboxylate": [
+            "[CX3](=O)[OX1H0-]",
+            "[CX3](=O)[OX2H1]",
+        ],
+        "phosphonate": [
+            "[PX4](=O)([OX2H1,OX1H0-])[OX2H1,OX1H0-]",
+        ],
+        "n_hydroxy": [
+            "[NX3;!$(N-C=O)][OX2H1]",
+        ],
+    }
 
 # Ordered list of warhead keys for feature vector stability
 WARHEAD_KEYS = [
@@ -159,11 +176,29 @@ def compute_universal_metal_score(
 
     # Warhead vector: for each warhead type, 1 if present
     wh_vec = {k: int(warheads.get(k, False)) for k in WARHEAD_KEYS}
-    n_warheads = sum(wh_vec.values())
+    # V2: grupos quimicos distintos, no claves que casaron. Una sulfonamida
+    # primaria casa `sulfonamide` y `primary_sulfonamide` y sigue siendo un solo
+    # grupo; la formula es monotona en n, asi que el doble conteo subia el score.
+    try:
+        from scoring.ums import contar_warheads_distintos as _distintos
+        n_warheads = _distintos(warheads)
+    except Exception:  # pragma: no cover - sin el backend al lado
+        _familias = {
+            "sulfonamide": "sulfonamida", "primary_sulfonamide": "sulfonamida",
+            "hydroxamic": "hidroxamico", "n_hydroxy": "n_hidroxi",
+            "thiol": "tiol", "carboxylate": "carboxilato", "phosphonate": "fosfonato",
+        }
+        n_warheads = len({_familias[k] for k, v in warheads.items() if v and k in _familias})
 
     # If this is not a metalloenzyme, return conservative estimate
     # (only use MolChamb, which is generally neutral on non-metal targets)
-    if target_family and target_family != "metaloenzyme":
+    #
+    # Comparaba contra `"metaloenzyme"` con UNA L, y el §6 del ADR 75 fijo
+    # `"metalloenzyme"` -dos L- como la grafia canonica. Pasarle la canonica
+    # devolvia el 0.5 conservador EN SILENCIO: el numero salia, parecia un
+    # score, y no era la rama de metal. Las dos se aceptan, como en el backend.
+    _FAMILIAS_METAL = {"metaloenzyme", "metalloenzyme"}
+    if target_family and target_family.strip().lower() not in _FAMILIAS_METAL:
         score = 0.3 * molchamb_score + 0.7 * 0.5  # pull toward 0.5
         score = max(0.0, min(1.0, score))
         return round(score, 4), {

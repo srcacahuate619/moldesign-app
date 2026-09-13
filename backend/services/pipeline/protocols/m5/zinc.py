@@ -1,4 +1,4 @@
-"""M5-Zn V1: los tres perfiles autorizados, y la abstención fuera de ellos.
+"""M5-Zn V2: los tres perfiles autorizados, y la abstención fuera de ellos.
 
 Implementa `docs/75_DECISION_CIENTIFICA_M5_ZN_V1.md`. Ese ADR es normativo: si
 algo de aquí y algo de allí discrepan, manda el ADR y esto es el defecto.
@@ -25,29 +25,47 @@ Sobre la segunda: **CA2 usa GNN-D, no CL-GNN.** Por eso no bastaba con cambiar
 0.06 por 0.40 — la entrada genérica no reproduce ninguno de los tres.
 
 ═══════════════════════════════════════════════════════════════════════════
-VERIFICACIÓN ANTES DE ESCRIBIR ESTO
+POR QUÉ ESTO ES V2, Y QUÉ CAMBIÓ RESPECTO A V1
 ═══════════════════════════════════════════════════════════════════════════
 
-Los tres perfiles se reconstruyeron desde los checkpoints originales y
-reproducen las AUC de `data/molchamb_loto/delong_paired_report.json` a
-precisión de máquina:
+V1 reproducía `data/molchamb_loto/delong_paired_report.json` a precisión de
+máquina. **V2 ya no, y es lo correcto**: el §2 del ADR dice que cambiar un
+patrón de warhead crea una versión de protocolo nueva, y aquí cambiaron dos
+cosas del detector, las dos por defecto:
 
-    perfil    n     pos   AUC M5 reconstruida   AUC del reporte    delta
-    CA2     1933     37       0.9313775801        0.9313775801    +1.1e-16
-    MMP9    1925     50       0.9207733333        0.9207733333     0.0
-    ACE     2003     46       0.6707693675        0.6707693675    -1.1e-16
+1. **`"N(O)"` casaba cualquier grupo nitro.** En SMARTS es «nitrógeno alifático
+   unido por enlace simple a oxígeno alifático», y el enlace N–[O-] de un nitro
+   es exactamente eso. El nitro no coordina zinc y es uno de los grupos más
+   comunes de la química medicinal: el nitrobenceno puntuaba como un quelante.
+2. **`n_warheads` contaba claves, no grupos.** Una sulfonamida primaria casa
+   `sulfonamide` y `primary_sulfonamide`; un hidroxámico lleva un N–OH dentro.
+   La fórmula `0.85 + 0.10·min(n/3, 1)` es monótona en n, así que un solo grupo
+   funcional entraba valiendo el doble.
 
-Y las tres constantes de normalización congeladas por el ADR salen exactas del
+Rehechas las AUC sobre los MISMOS checkpoints, con los mismos pesos y la misma
+normalización, sólo cambiando el detector:
+
+    perfil    n     pos    AUC M4     V1        V2        delta
+    CA2     1933     37    0.8042   0.9314    0.9507    +0.0193
+    MMP9    1925     50    0.8473   0.9208    0.9289    +0.0081
+    ACE     2003     46    0.4362   0.6708    0.7179    +0.0471
+
+Ordena MEJOR en los tres. Eso dice que la corrección no degradó nada; **no dice
+que los perfiles estén validados**, porque dos de los tres benchmarks siguen en
+cuarentena por el sitio (ver la sección siguiente) y las AUC de arriba se miden
+sobre esos mismos datos.
+
+Las tres constantes de normalización no cambian y siguen saliendo exactas del
 máximo de |Vina| de cada checkpoint: 10.450, 8.247 y 9.566.
 
-`tests/test_m5_zn_perfiles.py` ancla las dos comprobaciones.
+`tests/test_m5_zn_perfiles.py` ancla las comprobaciones.
 
 ═══════════════════════════════════════════════════════════════════════════
 DOS DE LOS TRES PERFILES ESTÁN EN CUARENTENA
 ═══════════════════════════════════════════════════════════════════════════
 
-Las AUC de arriba siguen siendo exactas. Lo que el 2026-09-04 dejó de estar
-claro es QUÉ miden.
+Las AUC de arriba son reproducibles. Lo que el 2026-09-04 dejó de estar claro
+es QUÉ miden.
 
 Reconstruyendo la caja real desde las poses guardadas en los propios
 checkpoints, los benchmarks de MMP9 y ACE **no acoplaron en el sitio del zinc
@@ -104,11 +122,17 @@ def ums_warhead_score(n_warheads: int) -> float:
 
 
 def contar_warheads(smiles: str) -> int:
-    """Cuántos de los siete warheads de zinc casan. Ver `scoring/ums.py`."""
-    from scoring.ums import detect_warheads
+    """Cuántos GRUPOS de unión a zinc distintos hay. Ver `scoring/ums.py`.
 
-    detectados = detect_warheads(smiles)
-    return sum(1 for presente in detectados.values() if presente)
+    Cuenta grupos químicos, no claves que casaron. Contaba claves, y varias de
+    las siete describen el mismo grupo: una sulfonamida primaria casa también
+    `sulfonamide`, y un ácido hidroxámico lleva un N–OH dentro. La acetazolamida
+    entraba en la fórmula con n=2 por un único grupo funcional, y `0.85 +
+    0.10·min(n/3, 1)` es monótona en n: el doble conteo subía el score.
+    """
+    from scoring.ums import contar_warheads_distintos, detect_warheads
+
+    return contar_warheads_distintos(detect_warheads(smiles))
 
 
 def ums_desde_smiles(smiles: str) -> float:
@@ -250,7 +274,7 @@ class PerfilM5Zn:
 #: se sustituye por CL-GNN ni se reparten sus pesos (§4.1 del ADR).
 PERFILES: dict[str, PerfilM5Zn] = {
     "3DC3": PerfilM5Zn(
-        protocol_id="M5_ZN_CA2_3DC3_V1",
+        protocol_id="M5_ZN_CA2_3DC3_V2",
         diana="CA2",
         pdb_id="3DC3",
         peso_vina=0.20,
@@ -261,10 +285,10 @@ PERFILES: dict[str, PerfilM5Zn] = {
         checkpoint="data/gnn_v31/checkpoints/benchmark_checkpoint_ca2.json",
         checkpoint_sha256="92f5c3dcc5d0bbe13159ea44ad2516a3596e217bebdc6903909236dbe1233e49",
         auc_m4_referencia=0.8042108564260463,
-        auc_m5_referencia=0.9313775801117572,
+        auc_m5_referencia=0.9506927813889839,
     ),
     "1GKC": PerfilM5Zn(
-        protocol_id="M5_ZN_MMP9_1GKC_V1",
+        protocol_id="M5_ZN_MMP9_1GKC_V2",
         diana="MMP9",
         pdb_id="1GKC",
         peso_vina=0.0,
@@ -286,10 +310,10 @@ PERFILES: dict[str, PerfilM5Zn] = {
         checkpoint="data/benchmark_checkpoint_mmp9.json",
         checkpoint_sha256="593b50762830bb475ea361bcb7e5f5e525811545f562339675304eeae94c4bf3",
         auc_m4_referencia=0.8472693333333332,
-        auc_m5_referencia=0.9207733333333333,
+        auc_m5_referencia=0.9289066666666667,
     ),
     "1O86": PerfilM5Zn(
-        protocol_id="M5_ZN_ACE_1O86_V1",
+        protocol_id="M5_ZN_ACE_1O86_V2",
         diana="ACE",
         pdb_id="1O86",
         peso_vina=0.20,
@@ -316,7 +340,7 @@ PERFILES: dict[str, PerfilM5Zn] = {
         checkpoint="data/benchmark_checkpoint_ace.json",
         checkpoint_sha256="f646d7fb7b2e3946f638beaa213cf57d9dff9c6d37630fd1d8db593182973fb2",
         auc_m4_referencia=0.43623780853569133,
-        auc_m5_referencia=0.6707693674879475,
+        auc_m5_referencia=0.7178800737597476,
     ),
 }
 

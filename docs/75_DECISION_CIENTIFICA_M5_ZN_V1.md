@@ -21,6 +21,41 @@
 > Hoy **ningún perfil M5-Zn produce un resultado científicamente liberable**:
 > CA2 se abstiene por ausencia de GNN-D, y MMP9 y ACE están en revisión.
 
+> **V2 2026-09-13 — el detector de warheads tenía dos defectos, y el §2 obliga a versión nueva.**
+>
+> Los tres perfiles pasan a `…_V2`. No cambian pesos, ni fórmulas, ni las
+> constantes de normalización: cambia el **detector de warheads**, y el §2 de
+> este ADR dice que eso crea una versión de protocolo.
+>
+> 1. **El grupo nitro contaba como warhead de zinc.** El patrón
+>    `"n_hydroxy"` incluía `"N(O)"`, comentado como «notación explícita de
+>    N-óxido». En SMARTS eso casa el enlace N–[O⁻] de **cualquier nitro**.
+>    Medido: nitrobenceno UMS 0.6500, metronidazol 0.6700, nifedipino 0.6833,
+>    contra 0.6833 del lisinopril, que sí quela el zinc de ACE.
+> 2. **`n_warheads` contaba claves, no grupos.** Una sulfonamida primaria casa
+>    `sulfonamide` y `primary_sulfonamide`; un hidroxámico lleva un N–OH
+>    dentro. Como `0.85 + 0.10·min(n/3, 1)` es monótona en n, un solo grupo
+>    funcional entraba valiendo el doble.
+>
+> Además, la sulfonamida ahora exige al menos un N–H: el zinc se une a la forma
+> desprotonada R-SO₂-NH⁻, y una sulfonamida terciaria no la tiene. El
+> sildenafilo puntuaba 0.7033, por encima del lisinopril.
+>
+> Rehechas las AUC sobre los **mismos checkpoints**, con los mismos pesos y la
+> misma normalización, sólo cambiando el detector:
+>
+> | perfil | n | pos | AUC M4 | V1 | V2 | delta |
+> |---|---|---|---|---|---|---|
+> | CA2 | 1933 | 37 | 0.8042 | 0.9314 | **0.9507** | +0.0193 |
+> | MMP9 | 1925 | 50 | 0.8473 | 0.9208 | **0.9289** | +0.0081 |
+> | ACE | 2003 | 46 | 0.4362 | 0.6708 | **0.7179** | +0.0471 |
+>
+> Ordena mejor en los tres. Eso dice que la corrección no degradó nada; **no
+> dice que los perfiles estén validados**: las AUC se miden sobre los mismos
+> datos que el corrigendum de arriba puso en cuarentena, y el estado liberable
+> no cambia. `data/molchamb_loto/delong_paired_report.json` conserva las de V1
+> y no se toca: es el registro de lo que se publicó.
+
 ---
 
 ## 1. Decisión

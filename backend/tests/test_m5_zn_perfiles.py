@@ -1,4 +1,4 @@
-"""M5-Zn V1: los tres perfiles, reconstruidos desde los checkpoints.
+"""M5-Zn V2: los tres perfiles, reconstruidos desde los checkpoints.
 
 Implementa los gates de aceptación del §10 de
 `docs/75_DECISION_CIENTIFICA_M5_ZN_V1.md`. Ese ADR es normativo: si algo del
@@ -9,16 +9,23 @@ LA RECONSTRUCCIÓN, QUE ES EL GATE §10.4
 ═══════════════════════════════════════════════════════════════════════════
 
 Las tres fórmulas se recalculan desde los checkpoints originales y se comparan
-con `data/molchamb_loto/delong_paired_report.json`. Medido antes de implementar
-nada:
+con la AUC que declara cada perfil:
 
-    perfil    n     pos   AUC M5 reconstruida   AUC del reporte    delta
-    CA2     1933     37       0.9313775801        0.9313775801    +1.1e-16
-    MMP9    1925     50       0.9207733333        0.9207733333     0.0
-    ACE     2003     46       0.6707693675        0.6707693675    -1.1e-16
+    perfil    n     pos    AUC M4       V1        V2        delta
+    CA2     1933     37     0.8042   0.9314    0.9507    +0.0193
+    MMP9    1925     50     0.8473   0.9208    0.9289    +0.0081
+    ACE     2003     46     0.4362   0.6708    0.7179    +0.0471
 
-Precisión de máquina. Y las tres constantes de normalización congeladas por el
-§3 salen exactas del máximo de |Vina| de cada checkpoint.
+V1 reproducía `data/molchamb_loto/delong_paired_report.json` a precisión de
+máquina. V2 ya no, y **ése es el punto**: cambiaron dos cosas del detector de
+warheads —el grupo nitro dejó de contarse como quelante de zinc, y `n_warheads`
+pasó a contar grupos químicos en vez de claves que casaron— así que el §2 del
+ADR obliga a una versión de protocolo nueva. Ordena mejor en los tres, lo que
+dice que la corrección no degradó nada; NO dice que los perfiles estén
+validados: dos de los tres benchmarks siguen en cuarentena por el sitio.
+
+Las tres constantes de normalización congeladas por el §3 no cambian y siguen
+saliendo exactas del máximo de |Vina| de cada checkpoint.
 
 Sin esta prueba, un cambio de un dígito en un peso —o volver al UMS histórico
 con donantes y MolChamb— produciría otros números sin que nada fallara.
@@ -76,13 +83,18 @@ def test_produccion_y_el_script_del_paper_calculan_lo_mismo():
     fórmula: dos fórmulas iguales con detectores distintos dan valores
     distintos.
     """
-    from scoring.ums import detect_warheads
+    from scoring.ums import contar_warheads_distintos, detect_warheads
 
     def warhead_only_score(smi: str) -> float:
         wh = detect_warheads(smi)
         if not any(wh.values()):
             return 0.0
-        n = sum(1 for v in wh.values() if v)
+        # V2: grupos químicos distintos, no claves que casaron. La transcripción
+        # de esta fórmula tiene que seguir a producción; si se queda con
+        # `sum(1 for v in wh.values() if v)`, esta prueba deja de comprobar que
+        # el script del paper y el producto calculan lo mismo y pasa a fijar la
+        # divergencia.
+        n = contar_warheads_distintos(wh)
         return 0.85 + 0.10 * min(n / 3.0, 1.0)
 
     moleculas = [
@@ -140,8 +152,22 @@ def test_la_normalizacion_no_depende_de_las_otras_moleculas():
 
 # ── El gate §10.4: reconstruir las AUC ───────────────────────────────────
 
+#: Lo que V1 medía, para que el cambio de versión quede documentado y no se
+#: pueda revertir en silencio. El reporte DeLong sigue conteniendo estas.
+AUC_V1 = {"ca2": 0.9313775801117572, "mmp9": 0.9207733333333333, "ace": 0.6707693674879475}
+
+
 @pytest.mark.parametrize("pdb,clave", CASOS, ids=[c[1] for c in CASOS])
-def test_el_perfil_reconstruye_la_auc_publicada(pdb: str, clave: str):
+def test_el_perfil_reconstruye_su_auc_declarada(pdb: str, clave: str):
+    """§10.4, con la salvedad de V2.
+
+    V1 reproducía `delong_paired_report.json` a precisión de máquina. V2 ya no,
+    y **ese es el punto**: cambiaron los patrones de warhead, así que el §2 del
+    ADR obliga a una versión de protocolo nueva. Lo que esta prueba fija es que
+    la fórmula reproduce la AUC que el PERFIL declara, y que ese número sigue
+    siendo distinto del de V1 — si alguien revierte el detector sin tocar la
+    versión, esto falla.
+    """
     from sklearn.metrics import roc_auc_score
 
     perfil = PERFILES[pdb]
@@ -164,6 +190,7 @@ def test_el_perfil_reconstruye_la_auc_publicada(pdb: str, clave: str):
         )
         etiquetas.append(1 if r.get("is_active") else 0)
 
+    # La cohorte NO cambia entre versiones: cambió el detector, no los datos.
     assert len(etiquetas) == referencia["n_total"], (
         f"{clave}: {len(etiquetas)} moléculas y el reporte dice "
         f"{referencia['n_total']}"
@@ -171,12 +198,19 @@ def test_el_perfil_reconstruye_la_auc_publicada(pdb: str, clave: str):
     assert sum(etiquetas) == referencia["n_pos"]
 
     auc = roc_auc_score(etiquetas, scores)
-    assert auc == pytest.approx(referencia["auc_m5"], abs=1e-9), (
-        f"{clave}: la fórmula del perfil da AUC {auc:.10f} y el reporte DeLong "
-        f"dice {referencia['auc_m5']:.10f}. Revisa pesos, normalización y "
+    assert auc == pytest.approx(perfil.auc_m5_referencia, abs=1e-9), (
+        f"{clave}: la fórmula del perfil da AUC {auc:.10f} y el perfil declara "
+        f"{perfil.auc_m5_referencia:.10f}. Revisa pesos, normalización y "
         "variante de UMS antes que esta prueba."
     )
-    assert auc == pytest.approx(perfil.auc_m5_referencia, abs=1e-9)
+
+    # El reporte DeLong conserva la de V1, y tiene que seguir siendo distinta.
+    assert referencia["auc_m5"] == pytest.approx(AUC_V1[clave], abs=1e-12)
+    assert auc > AUC_V1[clave], (
+        f"{clave}: V2 corrigió dos falsos positivos del detector (el nitro y el "
+        "doble conteo) y midió mejor en los tres perfiles. Si deja de ser así, "
+        "el detector cambió otra vez y hace falta rehacer esta medición."
+    )
 
 
 # ── Las fórmulas exactas del §4 ──────────────────────────────────────────
@@ -291,7 +325,7 @@ def test_el_perfil_completo_si_produce_score():
     assert resultado.estado is EstadoM5Zn.BENCHMARK_EN_REVISION
     esperado = 0.75 * 0.80 + 0.25 * ums_desde_smiles("ONC(=O)CCCc1ccccc1")
     assert resultado.m5_score == pytest.approx(esperado, abs=1e-6)
-    assert resultado.protocol_id == "M5_ZN_MMP9_1GKC_V1"
+    assert resultado.protocol_id == "M5_ZN_MMP9_1GKC_V2"
     assert "NINGUN zinc cae dentro de la caja" in resultado.motivo
 
 

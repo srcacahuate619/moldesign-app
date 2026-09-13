@@ -166,26 +166,63 @@ NON_DRUG_HETATMS = {
 CATALYTIC_METALS = {"ZN", "FE", "MN", "MG", "CA", "CU", "NI", "CO", "CD"}
 
 
+#: Orden de preferencia entre metales cuando hay varios. El catalítico primero.
+#:
+#: Antes se elegía por número de iones, y eso escoge el ESTRUCTURAL: MMP9 tiene
+#: cinco calcios estructurales y un zinc catalítico, así que `max(...)` por
+#: cuenta devolvía CA. `services/pipeline/protocols/m5/base.py` ya lo dice con
+#: todas las letras —«tratarlos igual sería un error de sitio, no sólo de
+#: metal»— y esta función hacía exactamente ese error.
+_PREFERENCIA_DE_METAL = ("ZN", "FE", "MN", "CU", "NI", "CO", "CD", "MG", "CA")
+
+
 def extract_accurate_pocket_centroid(pdb_path: str) -> tuple[tuple[float, float, float] | None, str]:
     """
     Compute active-site 3D centroid from a PDB file using 4 descending priorities.
 
-    Priority 1: co-crystallized drug/inhibitor HETATM (largest by atom count)
-    Priority 2: catalytic metal ion (ZN, FE, ...) — metalloenzyme active site
+    Priority 1: co-crystallized drug/inhibitor HETATM (largest single copy)
+    Priority 2: catalytic metal ion (ZN, FE, ...) — one ion, by catalytic preference
     Priority 3: non-water HETATM buffers/solvents         (low-confidence fallback)
     Priority 4: protein ATOM centroid                     (geometric fallback)
+
+    ═════════════════════════════════════════════════════════════════════
+    SE AGRUPA POR COPIA, NO POR NOMBRE DE RESIDUO
+    ═════════════════════════════════════════════════════════════════════
+
+    Los HETATM se agrupaban por `res_name` y se promediaban todos juntos. Si el
+    mismo ligando está en cuatro cadenas —un homotetrámero, o dos copias en la
+    unidad asimétrica— el «centroide del ligando» era el promedio de las cuatro
+    copias, que cae ENTRE ellas y no dentro de ninguna.
+
+    Medido sobre las 411 estructuras del catálogo local antes de corregirlo:
+
+        184 (44.8 %) promediaban varias copias
+        139 (33.8 %) daban un centro más lejos del SEMILADO de la caja que la
+                     copia más cercana — es decir, la caja no contenía ningún
+                     sitio de unión
+
+        peor caso   5CZX   centro a 52.2 Å del calcio más cercano
+                    2A3W   10 copias de CPJ, centro a 44.1 Å de la más cercana
+
+    Es el mismo modo de fallo que el corrigendum de M5 documentó para el
+    benchmark de MMP9 («ningún zinc cae dentro de la caja declarada»), sólo que
+    en la ruta viva. No afecta a los 380 receptores del catálogo curado, que
+    traen su centro explícito; afecta al PDB que sube el usuario, que es
+    justamente el caso sin centro confirmado por nadie.
 
     Args:
         pdb_path: absolute or relative path to .pdb file
 
     Returns:
         ((cx, cy, cz) | None, method_label) — tuple is None iff no atom coords are readable.
-        Label is one of: 'DRUG_LIGAND (XXX)' | 'CATALYTIC_METAL (XX)' |
-                         'HETATM_BUFFER_FALLBACK (...)' | 'PROTEIN_ATOM_FALLBACK' | 'FAILED'
+        La etiqueta nombra la COPIA elegida (residuo, cadena y número) y, si
+        había más de una, cuántas se descartaron: el número que se enseña tiene
+        que poder explicarse.
     """
-    drug_hetatms: dict[str, list[tuple[float, float, float]]] = {}
-    metal_hetatms: dict[str, list[tuple[float, float, float]]] = {}
-    all_hetatms: dict[str, list[tuple[float, float, float]]] = {}
+    # Clave: (res_name, cadena, num_residuo) — una COPIA, no un tipo de residuo.
+    drug: dict[tuple[str, str, str], list[tuple[float, float, float]]] = {}
+    metal: dict[tuple[str, str, str], list[tuple[float, float, float]]] = {}
+    otros: dict[tuple[str, str, str], list[tuple[float, float, float]]] = {}
     protein_atoms: list[tuple[float, float, float]] = []
 
     try:
@@ -203,13 +240,15 @@ def extract_accurate_pocket_centroid(pdb_path: str) -> tuple[tuple[float, float,
                         continue
                     try:
                         x = float(line[30:38]); y = float(line[38:46]); z = float(line[46:54])
-                        all_hetatms.setdefault(res_name, []).append((x, y, z))
-                        if res_name in CATALYTIC_METALS:
-                            metal_hetatms.setdefault(res_name, []).append((x, y, z))
-                        elif res_name not in NON_DRUG_HETATMS:
-                            drug_hetatms.setdefault(res_name, []).append((x, y, z))
                     except ValueError:
-                        pass
+                        continue
+                    copia = (res_name, line[21:22].strip(), line[22:26].strip())
+                    if res_name in CATALYTIC_METALS:
+                        metal.setdefault(copia, []).append((x, y, z))
+                    elif res_name not in NON_DRUG_HETATMS:
+                        drug.setdefault(copia, []).append((x, y, z))
+                    else:
+                        otros.setdefault(copia, []).append((x, y, z))
     except OSError:
         return None, "FAILED"
 
@@ -221,17 +260,37 @@ def extract_accurate_pocket_centroid(pdb_path: str) -> tuple[tuple[float, float,
             round(sum(c[2] for c in coords) / n, 3),
         )
 
-    if drug_hetatms:
-        best = max(drug_hetatms.keys(), key=lambda r: len(drug_hetatms[r]))
-        return _centroid(drug_hetatms[best]), f"DRUG_LIGAND ({best})"
+    def _etiqueta(prefijo: str, copia: tuple[str, str, str], total: int) -> str:
+        res, cadena, num = copia
+        donde = f"{res} {cadena}{num}".strip()
+        if total > 1:
+            return f"{prefijo} ({donde}; {total} copias, se usó una)"
+        return f"{prefijo} ({donde})"
 
-    if metal_hetatms:
-        best = max(metal_hetatms.keys(), key=lambda r: len(metal_hetatms[r]))
-        return _centroid(metal_hetatms[best]), f"CATALYTIC_METAL ({best})"
+    if drug:
+        # La copia con MÁS átomos, no el tipo de residuo con más átomos sumados.
+        elegida = max(drug, key=lambda c: (len(drug[c]), c))
+        return _centroid(drug[elegida]), _etiqueta("DRUG_LIGAND", elegida, len(drug))
 
-    if all_hetatms:
-        flat = [c for coords in all_hetatms.values() for c in coords]
-        return _centroid(flat), f"HETATM_BUFFER_FALLBACK ({sorted(all_hetatms.keys())})"
+    if metal:
+        # Por preferencia catalítica y, dentro del mismo elemento, la primera
+        # copia en orden estable. Nunca por cuántos iones hay de cada uno.
+        def _rango(copia: tuple[str, str, str]) -> tuple[int, tuple[str, str, str]]:
+            elemento = copia[0]
+            orden = (
+                _PREFERENCIA_DE_METAL.index(elemento)
+                if elemento in _PREFERENCIA_DE_METAL
+                else len(_PREFERENCIA_DE_METAL)
+            )
+            return (orden, copia)
+
+        elegida = min(metal, key=_rango)
+        mismos = sum(1 for c in metal if c[0] == elegida[0])
+        return _centroid(metal[elegida]), _etiqueta("CATALYTIC_METAL", elegida, mismos)
+
+    if otros:
+        elegida = max(otros, key=lambda c: (len(otros[c]), c))
+        return _centroid(otros[elegida]), _etiqueta("HETATM_BUFFER_FALLBACK", elegida, len(otros))
 
     if protein_atoms:
         return _centroid(protein_atoms), "PROTEIN_ATOM_FALLBACK"

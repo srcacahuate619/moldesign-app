@@ -230,8 +230,14 @@ def golden_m5_replay() -> dict:
             "n_total": len(etiquetas),
             "n_positivos": sum(etiquetas),
             "auc_m5_reconstruida": round(auc, 10),
-            "auc_m5_publicada": round(referencia["auc_m5"], 10),
-            "coincide": abs(auc - referencia["auc_m5"]) < 1e-9,
+            # Lo que el PERFIL declara. Desde V2 no es lo que dice el reporte
+            # DeLong, y comparar contra el reporte marcaría los tres como
+            # discrepantes: el detector de warheads cambió, no los datos.
+            "auc_m5_declarada": round(perfil.auc_m5_referencia, 10),
+            "coincide_con_el_perfil": abs(auc - perfil.auc_m5_referencia) < 1e-9,
+            # La de V1, para que el cambio de versión quede en el registro.
+            "auc_m5_publicada_v1": round(referencia["auc_m5"], 10),
+            "mejora_sobre_v1": round(auc - referencia["auc_m5"], 10),
             "vina_reference_max": perfil.vina_reference_max,
         }
 
@@ -239,9 +245,15 @@ def golden_m5_replay() -> dict:
         "golden_version": GOLDEN_VERSION,
         "descripcion": (
             "Replay matemático de los tres perfiles desde los checkpoints "
-            "originales, comparado con delong_paired_report.json."
+            "originales, comparado con la AUC que declara cada perfil. Desde "
+            "V2 esa AUC ya no es la de delong_paired_report.json: el §2 del "
+            "ADR obliga a versión nueva al cambiar un patrón de warhead, y "
+            "aquí cambiaron dos (el nitro y el doble conteo)."
         ),
-        "fuente_de_referencia": "data/molchamb_loto/delong_paired_report.json",
+        "fuente_de_referencia": (
+            "backend/services/pipeline/protocols/m5/zinc.py::PERFILES "
+            "(V1 en data/molchamb_loto/delong_paired_report.json)"
+        ),
         "perfiles": perfiles,
     }
 
@@ -439,8 +451,8 @@ def golden_dossier_m5_zn() -> dict:
     # Ver docs/77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md §1.1.
     completo = _campos_de_dossier(
         {"target_family": "metalloenzyme",
-         "xgb_score": 0.84, "ums_warhead": 0.9166666666666666,
-         "m5_score": 0.859167, "m5_protocol_id": "M5_ZN_MMP9_1GKC_V1",
+         "xgb_score": 0.84, "ums_warhead": 0.8833333333333333,
+         "m5_score": 0.850833, "m5_protocol_id": "M5_ZN_MMP9_1GKC_V2",
          "m5_scientific_status": "REVIEW_INVALID_BENCHMARK_SITE"},
         resumen_completo, "1GKC",
     )
@@ -449,8 +461,8 @@ def golden_dossier_m5_zn() -> dict:
     # es lo que 3DC3 devuelve hoy en una corrida real.
     falta_componente = _campos_de_dossier(
         {"target_family": "metalloenzyme",
-         "xgb_score": 0.84, "ums_warhead": 0.9166666666666666,
-         "m5_score": None, "m5_protocol_id": "M5_ZN_CA2_3DC3_V1",
+         "xgb_score": 0.84, "ums_warhead": 0.8833333333333333,
+         "m5_score": None, "m5_protocol_id": "M5_ZN_CA2_3DC3_V2",
          "m5_scientific_status": "NOT_EVALUATED_MISSING_COMPONENT"},
         resumen_completo, "3DC3",
     )
@@ -461,8 +473,8 @@ def golden_dossier_m5_zn() -> dict:
     # el checkpoint no las guardo. Ver docs/77 §8.
     sin_verificar = _campos_de_dossier(
         {"target_family": "metalloenzyme",
-         "xgb_score": 0.84, "ums_warhead": 0.9166666666666666,
-         "m5_score": 0.8532, "m5_protocol_id": "M5_ZN_ACE_1O86_V1",
+         "xgb_score": 0.84, "ums_warhead": 0.8833333333333333,
+         "m5_score": 0.839867, "m5_protocol_id": "M5_ZN_ACE_1O86_V2",
          "m5_scientific_status": "REVIEW_BENCHMARK_TOP1_NOT_METAL_COORDINATING"},
         {"top_pose_affinity": -7.2}, "1O86",
     )
@@ -476,14 +488,14 @@ def golden_dossier_m5_zn() -> dict:
     # Otra metaloenzima de zinc: señales sí, score compuesto no.
     fuera_de_diana = _campos_de_dossier(
         {"target_family": "metalloenzyme",
-         "xgb_score": 0.84, "ums_warhead": 0.9166666666666666,
+         "xgb_score": 0.84, "ums_warhead": 0.8833333333333333,
          "m5_scientific_status": "REVIEW_OUT_OF_VALIDATED_TARGET"},
         resumen_completo, "1BN1",
     )
     # Y la grafía legacy tiene que dar exactamente lo mismo.
     alias_legacy = _campos_de_dossier(
         {"target_family": "metaloenzyme",
-         "xgb_score": 0.84, "ums_warhead": 0.9166666666666666,
+         "xgb_score": 0.84, "ums_warhead": 0.8833333333333333,
          "m5_scientific_status": "REVIEW_OUT_OF_VALIDATED_TARGET"},
         resumen_completo, "1BN1",
     )

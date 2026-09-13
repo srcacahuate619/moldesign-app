@@ -141,7 +141,18 @@ def construir() -> dict:
                 "m4": perfil.auc_m4_referencia,
                 "m5": perfil.auc_m5_referencia,
                 "delta": round(perfil.auc_m5_referencia - perfil.auc_m4_referencia, 10),
-                "fuente": "data/molchamb_loto/delong_paired_report.json",
+                # La procedencia de las dos NO es la misma, y decir que ambas
+                # salen del reporte DeLong seria falso desde V2.
+                "fuente_m4": "data/molchamb_loto/delong_paired_report.json",
+                "fuente_m5": (
+                    "medida de nuevo sobre el mismo checkpoint con los patrones "
+                    "de warhead V2; el reporte DeLong contiene la de V1"
+                ),
+                "nota": (
+                    "Reproducible, NO validada: dos de los tres benchmarks siguen "
+                    "en cuarentena por el sitio y estas AUC se miden sobre esos "
+                    "mismos datos."
+                ),
             },
         }
 

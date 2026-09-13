@@ -27,15 +27,15 @@
   },
   "formula": "0.20*Vina_norm + 0.20*XGBoost + 0.20*GNN-D + 0.40*UMS_warhead",
   "golden_version": 1,
-  "protocolo": "M5_ZN_CA2_3DC3_V1",
+  "protocolo": "M5_ZN_CA2_3DC3_V2",
   "resultado": {
     "componentes_ausentes": [],
     "estado": "VALIDATED_PROFILE",
-    "m5_score": 0.804466,
+    "m5_score": 0.791132,
     "señales": {
       "gnn_d_prob": 0.66,
-      "n_warheads": 2,
-      "ums_warhead": 0.9166666666666666,
+      "n_warheads": 1,
+      "ums_warhead": 0.8833333333333333,
       "vina_kcal_mol": -7.2,
       "xgb_prob": 0.84
     }

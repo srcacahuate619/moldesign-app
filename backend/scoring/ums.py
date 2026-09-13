@@ -74,34 +74,86 @@ log = get_logger(__name__)
 # canónicos (ej: C(=O)NO vs O=C(NO)); SMARTS es químicamente consciente.
 
 _WARHEAD_SMARTS = {
+    # El zinc se une a la forma DESPROTONADA R-SO2-NH(-), así que hace falta al
+    # menos un hidrógeno en el nitrógeno. Sin `H1,H2` esto casaba también las
+    # sulfonamidas terciarias, que no tienen ese hidrógeno y no coordinan: el
+    # sildenafilo puntuaba 0.7033 y el lisinopril —quelante real de zinc en
+    # ACE— 0.6833. El orden estaba invertido.
     "sulfonamide": [
-        "S(=O)(=O)[N;!$(N-C=O)]",          # sulfonamida S(=O)(=O)N, excluye amidas
-        "O=S(=O)[N;!$(N-C=O)]",            # orientación inversa
+        "S(=O)(=O)[NX3;H1,H2;!$(N-C=O)]",
+        "O=S(=O)[NX3;H1,H2;!$(N-C=O)]",
     ],
     "primary_sulfonamide": [
-        "S(=O)(=O)[NH2]",                   # sulfonamida primaria
-        "O=S(=O)[NH2]",
+        "S(=O)(=O)[NX3;H2]",
+        "O=S(=O)[NX3;H2]",
     ],
+    # El OH es la parte que quela; sin exigirlo entraban los hidroxamatos
+    # O-metilados, que son profármacos y no quelantes.
     "hydroxamic": [
-        "[C;$(C(=O))]N[O;$(O-*)]",          # C(=O)NOH — vorinostat, marimastat, batimastat
-        "C(=O)NO",                           # explícito
+        "[CX3](=O)[NX3][OX2H1]",
     ],
     "thiol": [
-        "[SH]",                              # notación explícita [SH]
+        "[SX2H1]",
     ],
     "carboxylate": [
-        "C(=O)[O-]",                         # carboxilato desprotonado
-        "C(=O)[OH1]",                        # ácido carboxílico protonado (OH con 1 H)
+        "[CX3](=O)[OX1H0-]",
+        "[CX3](=O)[OX2H1]",
     ],
+    # Dos oxígenos ácidos. `P(=O)(O)(O)` casaba cualquier fosfato esterificado,
+    # porque `O` sin restringir incluye el oxígeno del éster.
     "phosphonate": [
-        "P(=O)(O)(O)",                       # ácido fosfónico
-        "P(=O)(O)([O-])",                    # desprotonado
+        "[PX4](=O)([OX2H1,OX1H0-])[OX2H1,OX1H0-]",
     ],
+    # ═════════════════════════════════════════════════════════════════════
+    # AQUÍ ESTABA EL FALSO POSITIVO QUE MÁS CARO SALÍA
+    # ═════════════════════════════════════════════════════════════════════
+    #
+    # Decía `"N(O)"`, con el comentario «notación explícita N-óxido». En SMARTS
+    # eso es «un nitrógeno alifático unido por enlace simple a un oxígeno
+    # alifático», y el enlace N–[O-] de CUALQUIER grupo nitro es exactamente
+    # eso. Medido:
+    #
+    #     nitrobenceno   UMS 0.6500      lisinopril (quelante real)  0.6833
+    #     metronidazol   UMS 0.6700
+    #     nifedipino     UMS 0.6833
+    #
+    # El nitro es uno de los grupos más comunes de la química medicinal y no
+    # coordina zinc. Exigir el hidroxilo lo deja fuera: el [O-] de un nitro no
+    # es `[OX2H1]`. Se excluye además el nitrógeno acilado, que es el del
+    # hidroxámico y ya tiene su propia clave.
     "n_hydroxy": [
-        "[N]-[OH1]",                         # enlace simple N-OH, tipo hidroxilamina
-        "N(O)",                              # notación explícita N-óxido
+        "[NX3;!$(N-C=O)][OX2H1]",
     ],
 }
+
+#: A qué GRUPO QUÍMICO pertenece cada clave. Varias claves describen el mismo
+#: grupo: una sulfonamida primaria es una sulfonamida, y un ácido hidroxámico
+#: lleva un N–OH dentro. Contarlas por separado inflaba `n_warheads`, que entra
+#: directo en `0.85 + 0.10·min(n/3, 1)`: la acetazolamida tenía n=2 por un solo
+#: grupo funcional.
+_FAMILIA_DE_WARHEAD = {
+    "sulfonamide": "sulfonamida",
+    "primary_sulfonamide": "sulfonamida",
+    "hydroxamic": "hidroxamico",
+    "n_hydroxy": "n_hidroxi",
+    "thiol": "tiol",
+    "carboxylate": "carboxilato",
+    "phosphonate": "fosfonato",
+}
+
+
+def familias_de_warhead(warheads: dict) -> set[str]:
+    """Los grupos químicos distintos que hay, no las claves que casaron."""
+    return {
+        _FAMILIA_DE_WARHEAD[k]
+        for k, presente in warheads.items()
+        if presente and k in _FAMILIA_DE_WARHEAD
+    }
+
+
+def contar_warheads_distintos(warheads: dict) -> int:
+    """`n_warheads` de la fórmula: grupos distintos, sin contar dos veces uno."""
+    return len(familias_de_warhead(warheads))
 
 # Lista ordenada de claves de warhead para estabilidad del vector de features
 WARHEAD_KEYS = [
@@ -249,7 +301,10 @@ def compute_universal_metal_score(
 
     # Vector de warheads: 1 si presente por tipo
     wh_vec = {k: int(warheads.get(k, False)) for k in WARHEAD_KEYS}
-    n_warheads = sum(wh_vec.values())
+    # `n_warheads` cuenta GRUPOS QUÍMICOS distintos, no claves que casaron: una
+    # sulfonamida primaria casa dos claves y sigue siendo un solo grupo.
+    familias = familias_de_warhead(warheads)
+    n_warheads = len(familias)
 
     # Si NO es metaloenzima: score conservador (solo MolChamb, que es neutral
     # en targets no-metal). Se usa _is_metalloenzyme_family para tolerar la
@@ -265,6 +320,7 @@ def compute_universal_metal_score(
             "is_metalloenzyme": False,
             "universal_metal_score": round(score, 4),
             "warheads": wh_vec,
+            "familias_de_warhead": sorted(familias),
         }
 
     # Metaloenzima: combinar señales
@@ -292,6 +348,7 @@ def compute_universal_metal_score(
         "is_metalloenzyme": True,
         "universal_metal_score": round(score, 4),
         "warheads": wh_vec,
+        "familias_de_warhead": sorted(familias),
     }
 
     return round(score, 4), features
