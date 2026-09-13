@@ -44,11 +44,31 @@ pub fn get_resource_dir(app: AppHandle) -> Result<String, String> {
 /// impone su frontera de contención.
 ///
 /// En desktop/dev es `resource_dir`. En un paquete MSIX es
-/// `%USERPROFILE%\MolDesign\models` —writable y persistente, a diferencia de
+/// `%USERPROFILE%\MolDesign` —writable y persistente, a diferencia de
 /// `WindowsApps` (solo lectura) y de `LocalCache` (que se borra al desinstalar).
+///
+/// POR QUÉ AQUÍ Y NO EN `…\MolDesign\models`. Esta función devolvía
+/// `persistent_data_dir().join("models")`, y el frontend le concatena el destino
+/// que declara `launcher-manifest.json`. Eso producía rutas con el segmento
+/// duplicado —`…\MolDesign\models\models\llm\`— mientras el backend buscaba en
+/// otro sitio: la descarga se marcaba correcta y el motor no encontraba nada.
+///
+/// La raíz correcta la fijan los dos consumidores, no esta función:
+///
+///   `backend/services/ai/local_llm.py`      MODEL_SEARCH_PATHS incluye
+///                                           `~/MolDesign` + `models/llm`
+///   `backend/services/motores/catalogo.py`  directorios_de_busqueda() incluye
+///                                           `~/MolDesign`, y ESMFOLD_ARCHIVOS
+///                                           son `esmfold/models/…`
+///
+/// Con la raíz en `~/MolDesign`, los destinos del manifiesto —`models/llm/` y
+/// `esmfold/models/`— aterrizan exactamente donde se buscan. Hay una prueba que
+/// fija esa correspondencia: si alguien cambia un destino del manifiesto o una
+/// ruta de búsqueda del backend, falla en vez de descubrirse con una descarga
+/// de 8,4 GB que no sirve.
 fn model_root(app: &AppHandle) -> Result<PathBuf, String> {
     let candidate = if crate::is_packaged_app() {
-        crate::persistent_data_dir(app).map(|d| d.join("models"))
+        crate::persistent_data_dir(app)
     } else {
         app.path().resource_dir().ok()
     };
