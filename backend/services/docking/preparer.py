@@ -438,6 +438,81 @@ def _recortar_al_sitio(
     return contenido
 
 
+# ── Indice de ficheros PDB sueltos en el directorio de datos ────────────────
+#
+# Sustituye a un `glob("**/targets/**/{id}*")` que se ejecutaba una vez POR
+# RECEPTOR. El catalogo tiene 380 entradas y el glob recorria entero el arbol de
+# datos del usuario: 100 s medidos para abrir el catalogo, y creciendo con el
+# uso.
+#
+# El indice se construye recorriendo el arbol UNA vez y se reutiliza durante
+# `_TTL_INDICE` segundos. Dentro de una misma peticion -las 380 llamadas- hay un
+# solo recorrido. Un fichero nuevo (un receptor recien descargado) aparece en el
+# indice en cuanto vence el TTL; mientras tanto, la ruta exacta de la prioridad 2
+# ya lo encuentra, porque es ahi donde se escriben las descargas.
+_TTL_INDICE = 5.0
+#: {raiz: (indice, vence_en)}. Una entrada por raiz indexada.
+_indices: dict[str, tuple[dict[str, Path], float]] = {}
+
+
+def _construir_indice(raiz: Path, solo_bajo_targets: bool) -> dict[str, Path]:
+    """{pdb_id en minusculas: ruta} de los .pdb bajo `raiz`.
+
+    `solo_bajo_targets` limita la busqueda a subdirectorios llamados `targets`,
+    que es lo que hacia el glob original del directorio de datos. Para la
+    biblioteca de targets se recorre entera, como hacian sus tres globs.
+    """
+    encontrado: dict[str, Path] = {}
+    if not raiz.is_dir():
+        return encontrado
+    ramas = raiz.rglob("targets") if solo_bajo_targets else [raiz]
+    for rama in ramas:
+        if not rama.is_dir():
+            continue
+        for fichero in rama.rglob("*.pdb"):
+            if fichero.is_file():
+                # El indice es insensible a mayusculas: eso cubre de una vez los
+                # tres globs (exacto, upper, lower) que habia antes.
+                encontrado.setdefault(fichero.stem.lower(), fichero)
+    return encontrado
+
+
+def _buscar_en_indice(raiz: Path, pdb_id: str, solo_bajo_targets: bool = False) -> Path | None:
+    """Ruta indexada de `pdb_id` bajo `raiz`, o None. Reconstruye si vencio."""
+    import time
+
+    clave = str(raiz)
+    ahora = time.monotonic()
+    indice, vence = _indices.get(clave, ({}, 0.0))
+    if ahora >= vence:
+        indice = _construir_indice(raiz, solo_bajo_targets)
+        _indices[clave] = (indice, ahora + _TTL_INDICE)
+
+    ruta = indice.get(pdb_id.lower())
+    # El indice puede estar rancio respecto al disco: se confirma antes de
+    # devolver. Decir que un fichero esta cuando ya no esta es peor que no
+    # encontrarlo.
+    if ruta is not None and ruta.is_file():
+        return ruta
+    return None
+
+
+def _buscar_en_indice_de_targets(pdb_id: str) -> Path | None:
+    """Busca en los subdirectorios `targets/` del directorio de datos."""
+    return _buscar_en_indice(
+        Path(get_settings().local_data_dir), pdb_id, solo_bajo_targets=True
+    )
+
+
+def invalidar_indice_de_targets() -> None:
+    """Fuerza la reconstruccion de todos los indices.
+
+    Para las pruebas y para quien escriba un .pdb y necesite verlo ya, sin
+    esperar al TTL.
+    """
+    _indices.clear()
+
+
 def get_target_pdb_path(pdb_id: str) -> str:
     """Resuelve la ruta local al archivo PDB del target.
     
@@ -456,29 +531,39 @@ def get_target_pdb_path(pdb_id: str) -> str:
     if bundle.exists():
         return str(bundle)
 
-    # 1b. Search target_library subdirectories recursively
-    library_dir = root_dir / "data" / "target_library"
-    if library_dir.exists():
-        for sub in library_dir.glob(f"**/{pdb_id_clean}.pdb"):
-            if sub.exists():
-                return str(sub)
-        for sub in library_dir.glob(f"**/{pdb_id_clean.upper()}.pdb"):
-            if sub.exists():
-                return str(sub)
-        for sub in library_dir.glob(f"**/{pdb_id_clean.lower()}.pdb"):
-            if sub.exists():
-                return str(sub)
+    # 1b. Biblioteca de targets, por indice.
+    #
+    # Eran TRES globs recursivos por receptor -exacto, mayusculas, minusculas-
+    # sobre `data/target_library`. El indice es insensible a mayusculas, asi que
+    # una sola consulta cubre los tres casos. Ese directorio no viaja en el
+    # paquete, de modo que esto no afectaba al usuario instalado; si mordia en
+    # el arbol de desarrollo, y dejar el patron habria sido dejar puesta la
+    # misma mina que costo 100 s en el catalogo.
+    encontrada = _buscar_en_indice(root_dir / "data" / "target_library", pdb_id_clean)
+    if encontrada is not None:
+        return str(encontrada)
 
     # 2. Cache del escritorio.
     local = Path(settings.local_data_dir) / "targets" / f"{pdb_id_clean}.pdb"
     if local.exists():
         return str(local)
 
-    # Fallback search in local data dir recursively in case they are there.
-    local_dir = Path(settings.local_data_dir)
-    for sub in local_dir.glob(f"**/targets/**/{pdb_id_clean}*"):
-        if sub.suffix.lower() == ".pdb" and sub.exists():
-            return str(sub)
+    # Fallback: buscar en subdirectorios `targets/` anidados del directorio de
+    # datos. Se hace sobre un INDICE con TTL, no con un glob por llamada.
+    #
+    # POR QUE. Esto era `local_dir.glob(f"**/targets/**/{pdb_id}*")`, un recorrido
+    # recursivo del arbol de datos del usuario POR CADA receptor. El catalogo
+    # tiene 380 y sus ficheros viajan comprimidos (`.pdb.gz`), asi que la ruta
+    # exacta falla para 403 de 407 y todos caian aqui. Medido sobre un perfil con
+    # 884 entradas: 248,9 ms por glob x 403 = 100 s para abrir el catalogo.
+    #
+    # Los tres sintomas que el usuario describio salen de esto: el reloj empieza
+    # al ABRIR el catalogo -es por peticion, no de arranque-, no mejora nunca
+    # -no habia cache- y empeora con el uso, porque el arbol que recorre es
+    # justo donde se acumulan poses, dossiers y conformeros.
+    encontrada = _buscar_en_indice_de_targets(pdb_id_clean)
+    if encontrada is not None:
+        return str(encontrada)
 
     # Return the path even if it doesn't exist yet (will be downloaded on demand).
     return str(local)
