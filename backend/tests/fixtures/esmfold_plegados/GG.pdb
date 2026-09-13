@@ -1,0 +1,15 @@
+REMARK   Plegado real de ESMFold v1, modo fast, CPU.
+REMARK   secuencia GG  pLDDT 57.4
+REMARK   Sellado para `test_traspaso_con_coordenadas_de_esmfold.py`:
+REMARK   un conformero de RDKit NO reproduce este caso.
+PARENT N/A
+ATOM      1  N   GLY A   1       3.073   9.877  -8.877  1.00  0.56           N  
+ATOM      2  CA  GLY A   1       3.277  11.259  -9.282  1.00  0.60           C  
+ATOM      3  C   GLY A   1       3.963  11.391 -10.628  1.00  0.54           C  
+ATOM      4  O   GLY A   1       3.652  12.298 -11.403  1.00  0.53           O  
+ATOM      5  N   GLY A   2       0.814   3.187 -18.091  1.00  0.60           N  
+ATOM      6  CA  GLY A   2       2.140   3.099 -18.680  1.00  0.60           C  
+ATOM      7  C   GLY A   2       3.090   2.226 -17.882  1.00  0.59           C  
+ATOM      8  O   GLY A   2       3.726   2.695 -16.936  1.00  0.57           O  
+TER       9      GLY A   2
+END

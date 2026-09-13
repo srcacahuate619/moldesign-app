@@ -1,0 +1,46 @@
+REMARK   Plegado real de ESMFold v1, modo fast, CPU.
+REMARK   secuencia YGGFM  pLDDT 58.8
+REMARK   Sellado para `test_traspaso_con_coordenadas_de_esmfold.py`:
+REMARK   un conformero de RDKit NO reproduce este caso.
+PARENT N/A
+ATOM      1  N   TYR A   1      -1.150   3.872   4.045  1.00  0.63           N  
+ATOM      2  CA  TYR A   1      -1.588   4.987   3.213  1.00  0.65           C  
+ATOM      3  C   TYR A   1      -1.742   4.555   1.760  1.00  0.64           C  
+ATOM      4  CB  TYR A   1      -0.599   6.152   3.310  1.00  0.61           C  
+ATOM      5  O   TYR A   1      -0.749   4.310   1.070  1.00  0.60           O  
+ATOM      6  CG  TYR A   1      -1.142   7.349   4.051  1.00  0.61           C  
+ATOM      7  CD1 TYR A   1      -0.997   7.462   5.432  1.00  0.57           C  
+ATOM      8  CD2 TYR A   1      -1.801   8.369   3.374  1.00  0.59           C  
+ATOM      9  CE1 TYR A   1      -1.497   8.563   6.120  1.00  0.55           C  
+ATOM     10  CE2 TYR A   1      -2.305   9.474   4.051  1.00  0.57           C  
+ATOM     11  OH  TYR A   1      -2.646  10.654   6.098  1.00  0.64           O  
+ATOM     12  CZ  TYR A   1      -2.148   9.562   5.422  1.00  0.57           C  
+ATOM     13  N   GLY A   2      -1.797   3.478   1.767  1.00  0.69           N  
+ATOM     14  CA  GLY A   2      -2.640   2.805   0.791  1.00  0.68           C  
+ATOM     15  C   GLY A   2      -3.699   3.710   0.191  1.00  0.67           C  
+ATOM     16  O   GLY A   2      -4.877   3.613   0.541  1.00  0.63           O  
+ATOM     17  N   GLY A   3      -3.165   4.668  -0.436  1.00  0.63           N  
+ATOM     18  CA  GLY A   3      -3.553   5.877  -1.146  1.00  0.63           C  
+ATOM     19  C   GLY A   3      -3.156   5.864  -2.610  1.00  0.61           C  
+ATOM     20  O   GLY A   3      -1.968   5.912  -2.936  1.00  0.57           O  
+ATOM     21  N   PHE A   4      -3.027   4.887  -2.924  1.00  0.55           N  
+ATOM     22  CA  PHE A   4      -2.842   4.405  -4.287  1.00  0.55           C  
+ATOM     23  C   PHE A   4      -1.929   3.185  -4.310  1.00  0.54           C  
+ATOM     24  CB  PHE A   4      -2.263   5.510  -5.175  1.00  0.54           C  
+ATOM     25  O   PHE A   4      -0.775   3.274  -4.735  1.00  0.52           O  
+ATOM     26  CG  PHE A   4      -3.163   6.707  -5.320  1.00  0.54           C  
+ATOM     27  CD1 PHE A   4      -2.770   7.952  -4.846  1.00  0.53           C  
+ATOM     28  CD2 PHE A   4      -4.405   6.587  -5.931  1.00  0.54           C  
+ATOM     29  CE1 PHE A   4      -3.601   9.062  -4.979  1.00  0.55           C  
+ATOM     30  CE2 PHE A   4      -5.242   7.691  -6.067  1.00  0.54           C  
+ATOM     31  CZ  PHE A   4      -4.838   8.927  -5.590  1.00  0.55           C  
+ATOM     32  N   MET A   5      -1.646   2.570  -3.228  1.00  0.61           N  
+ATOM     33  CA  MET A   5      -1.350   1.145  -3.337  1.00  0.62           C  
+ATOM     34  C   MET A   5      -2.631   0.318  -3.297  1.00  0.60           C  
+ATOM     35  CB  MET A   5      -0.408   0.704  -2.216  1.00  0.57           C  
+ATOM     36  O   MET A   5      -3.435   0.456  -2.374  1.00  0.57           O  
+ATOM     37  CG  MET A   5       0.271  -0.632  -2.475  1.00  0.58           C  
+ATOM     38  SD  MET A   5       1.881  -0.782  -1.608  1.00  0.55           S  
+ATOM     39  CE  MET A   5       1.541  -2.214  -0.546  1.00  0.54           C  
+TER      40      MET A   5
+END

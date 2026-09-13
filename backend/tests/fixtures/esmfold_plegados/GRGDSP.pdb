@@ -1,0 +1,47 @@
+REMARK   Plegado real de ESMFold v1, modo fast, CPU.
+REMARK   secuencia GRGDSP  pLDDT 77.6
+REMARK   Sellado para `test_traspaso_con_coordenadas_de_esmfold.py`:
+REMARK   un conformero de RDKit NO reproduce este caso.
+PARENT N/A
+ATOM      1  N   GLY A   1       3.780  -5.680   5.020  1.00  0.67           N  
+ATOM      2  CA  GLY A   1       2.984  -6.881   4.821  1.00  0.71           C  
+ATOM      3  C   GLY A   1       1.631  -6.604   4.194  1.00  0.69           C  
+ATOM      4  O   GLY A   1       1.171  -5.460   4.179  1.00  0.61           O  
+ATOM      5  N   ARG A   2       1.169  -7.140   3.053  1.00  0.86           N  
+ATOM      6  CA  ARG A   2      -0.020  -6.801   2.279  1.00  0.83           C  
+ATOM      7  C   ARG A   2      -1.239  -6.657   3.183  1.00  0.79           C  
+ATOM      8  CB  ARG A   2      -0.285  -7.862   1.208  1.00  0.79           C  
+ATOM      9  O   ARG A   2      -1.391  -7.403   4.153  1.00  0.70           O  
+ATOM     10  CG  ARG A   2      -1.419  -7.509   0.258  1.00  0.75           C  
+ATOM     11  CD  ARG A   2      -1.555  -8.530  -0.862  1.00  0.75           C  
+ATOM     12  NE  ARG A   2      -2.696  -8.235  -1.725  1.00  0.76           N  
+ATOM     13  NH1 ARG A   2      -1.421  -7.598  -3.543  1.00  0.64           N  
+ATOM     14  NH2 ARG A   2      -3.709  -7.563  -3.673  1.00  0.61           N  
+ATOM     15  CZ  ARG A   2      -2.606  -7.799  -2.978  1.00  0.77           C  
+ATOM     16  N   GLY A   3      -1.769  -5.793   3.236  1.00  0.86           N  
+ATOM     17  CA  GLY A   3      -2.976  -5.350   3.916  1.00  0.82           C  
+ATOM     18  C   GLY A   3      -4.249  -5.851   3.260  1.00  0.78           C  
+ATOM     19  O   GLY A   3      -4.203  -6.456   2.187  1.00  0.73           O  
+ATOM     20  N   ASP A   4      -5.363  -6.271   4.054  1.00  0.81           N  
+ATOM     21  CA  ASP A   4      -6.681  -6.831   3.769  1.00  0.80           C  
+ATOM     22  C   ASP A   4      -7.568  -5.812   3.058  1.00  0.80           C  
+ATOM     23  CB  ASP A   4      -7.353  -7.304   5.060  1.00  0.78           C  
+ATOM     24  O   ASP A   4      -7.766  -4.700   3.553  1.00  0.77           O  
+ATOM     25  CG  ASP A   4      -6.525  -8.325   5.820  1.00  0.78           C  
+ATOM     26  OD1 ASP A   4      -6.068  -9.316   5.210  1.00  0.80           O  
+ATOM     27  OD2 ASP A   4      -6.330  -8.138   7.040  1.00  0.78           O  
+ATOM     28  N   SER A   5      -7.228  -5.705   1.581  1.00  0.89           N  
+ATOM     29  CA  SER A   5      -8.055  -4.914   0.676  1.00  0.89           C  
+ATOM     30  C   SER A   5      -9.513  -4.908   1.122  1.00  0.90           C  
+ATOM     31  CB  SER A   5      -7.952  -5.450  -0.753  1.00  0.86           C  
+ATOM     32  O   SER A   5     -10.042  -5.938   1.545  1.00  0.89           O  
+ATOM     33  OG  SER A   5      -6.597  -5.563  -1.151  1.00  0.83           O  
+ATOM     34  N   PRO A   6     -10.006  -3.387   1.499  1.00  0.80           N  
+ATOM     35  CA  PRO A   6     -11.435  -3.690   1.606  1.00  0.80           C  
+ATOM     36  C   PRO A   6     -11.871  -4.815   0.670  1.00  0.79           C  
+ATOM     37  CB  PRO A   6     -12.105  -2.368   1.222  1.00  0.76           C  
+ATOM     38  O   PRO A   6     -11.169  -5.128  -0.294  1.00  0.75           O  
+ATOM     39  CG  PRO A   6     -10.975  -1.413   1.012  1.00  0.71           C  
+ATOM     40  CD  PRO A   6      -9.699  -2.199   0.911  1.00  0.73           C  
+TER      41      PRO A   6
+END

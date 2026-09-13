@@ -287,6 +287,23 @@ local_services/
 1. Aumentar `ESMFOLD_IDLE_MIN` (ej. `30` para pipelines lentos)
 2. Desactivar con `ESMFOLD_IDLE_MIN=0` si necesitas control manual
 
+### Se apagaba DURANTE una predicción larga (corregido el 2026-09-13)
+
+Distinto del anterior, y no se arreglaba subiendo `ESMFOLD_IDLE_MIN`. El
+middleware marcaba actividad sólo al **entrar** la petición, así que durante un
+`/predict` de quince minutos el watchdog veía quince minutos de inactividad y
+ejecutaba `os._exit(0)` **con el cliente esperando**. Lo que llegaba era una
+conexión cerrada sin motivo:
+
+    ConnectionResetError: [WinError 10054]
+
+Medido: un péptido de 8 residuos contra 1HSG en CPU tarda más de diez minutos
+en Vina, y el watchdog por omisión dispara a los diez.
+
+Ahora hay un contador de peticiones en curso —el watchdog no apaga mientras
+haya alguna— y la actividad se marca también al **salir**, para que los minutos
+de gracia se cuenten desde que la petición terminó.
+
 ### Más de 1 predicción falla seguidas → circuit breaker
 
 El circuit breaker abre tras 3 fallos en 60s y se cierra solo tras 30s de cooldown.

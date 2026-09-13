@@ -297,13 +297,25 @@ class ESMFoldFastPredictor(BasePredictor):
             # `<raíz>/esmfold/` bastaba con `parent.parent`, y esa ruta quedó
             # obsoleta al moverlo al árbol que el instalador sí copia.
             raiz = Path(__file__).resolve().parents[3]
+            # ── UNA RUTA VACIA NO ES UN CANDIDATO ────────────────────────
+            #
+            # `Path(os.environ.get("VINA_EXECUTABLE_PATH", ""))` es `Path(".")`
+            # cuando la variable no esta puesta, y `Path(".").exists()` es True:
+            # el bucle elegia EL DIRECTORIO ACTUAL como binario de Vina, nunca
+            # llegaba a `tools/vina/vina.exe`, y `subprocess` intentaba ejecutar
+            # una carpeta. Medido: `PermissionError: [WinError 5] Acceso
+            # denegado`, con `vina_available=True` en el log un segundo antes.
+            #
+            # Se exige ademas que sea un FICHERO: un directorio que exista no es
+            # un ejecutable, y ese era exactamente el modo de fallo.
+            declarada = (os.environ.get("VINA_EXECUTABLE_PATH") or "").strip()
             candidates = [
-                Path(os.environ.get("VINA_EXECUTABLE_PATH", "")),
+                *( [Path(declarada)] if declarada else [] ),
                 raiz / "tools" / "vina" / "vina.exe",
                 raiz / "tools" / "vina" / "vina",
             ]
             for c in candidates:
-                if c.exists():
+                if c.is_file():
                     self._vina_path = str(c)
                     break
 
@@ -418,6 +430,15 @@ class ESMFoldFastPredictor(BasePredictor):
                     self._vina_dock, ligand_input_path, rec_path,
                     grid_center, grid_size, num_poses
                 )
+                # `_parse_vina_pdbqt` no conoce el plegado, asi que deja
+                # `confidence=0.0`. Cero se lee como «confianza nula», y la
+                # confianza ESTRUCTURAL de estas poses existe y es la del
+                # plegado del que TODAS salen: el mismo pLDDT que ya viaja en
+                # `best_confidence`. El docstring de `PredictedPose` promete
+                # exactamente eso, y la afinidad sigue sin tocarla nadie.
+                for pose in poses:
+                    if not pose.confidence:
+                        pose.confidence = round(plddt / 100.0, 3)
 
             # El SDF de Vina conserva la geometria y el grafo quimico V1.
             # No se sobrescribe con OpenMM, que no vuelve a serializar el mapa atomico.
@@ -736,9 +757,34 @@ class ESMFoldFastPredictor(BasePredictor):
             # el acoplamiento entero. El resto del árbol ya lo hace bien —ver
             # `services/docking/preparer.py`, que usa `-m
             # meeko.cli.mk_prepare_receptor`— así que aquí se hace igual.
-            def _meeko(modulo: str, entrada: str, salida: Path) -> subprocess.CompletedProcess:
+            # ── `-i` ENTRA POR PRODY, Y PRODY NO ARRANCA CON NUMPY 2 ─────
+            #
+            # `mk_prepare_receptor -i` es el atajo de `--read_with_prody`, y
+            # ProDy sigue importando `numpy.alltrue`, que NumPy retiro en la 2.0.
+            # El runtime embebido trae NumPy 2.4.4, asi que la preparacion del
+            # receptor moria SIEMPRE con:
+            #
+            #     returncode 2
+            #     cannot import name 'alltrue' from 'numpy'
+            #
+            # Y el log no lo decia: `result.stderr[:300]` recorta desde el
+            # PRINCIPIO, y ahi solo caben dos DeprecationWarning de ProDy. El
+            # error real quedaba fuera del recorte.
+            #
+            # `--read_pdb` usa el lector propio de Meeko y no toca ProDy.
+            # Verificado sobre 1HSG con este mismo runtime: returncode 0.
+            #
+            # Y dos detalles mas de la misma llamada:
+            #
+            #   * faltaba `-p`, que es la bandera que ESCRIBE el receptor rigido;
+            #   * `-o receptor.pdbqt` produce `receptor.pdbqt.pdbqt`, porque
+            #     Meeko anade la extension. Vina recibia una ruta inexistente.
+            #     Se le pasa el tronco, sin extension.
+            def _meeko_receptor(entrada: str, salida: Path) -> subprocess.CompletedProcess:
+                tronco = salida.with_suffix("")
                 return subprocess.run(
-                    [sys.executable, "-m", modulo, "-i", entrada, "-o", str(salida)],
+                    [sys.executable, "-m", "meeko.cli.mk_prepare_receptor",
+                     "--read_pdb", entrada, "-o", str(tronco), "-p"],
                     capture_output=True, text=True, timeout=120, cwd=str(tmp),
                 )
 
@@ -784,9 +830,17 @@ class ESMFoldFastPredictor(BasePredictor):
                             error=f"{type(exc).__name__}: {exc}"[:300])
                 return ESMFoldFastPredictor._fallback_poses(ligand_pdb_path)
 
-            result = _meeko("meeko.cli.mk_prepare_receptor", receptor_pdb_path, rec_pdbqt)
-            if result.returncode != 0:
-                log.warning("meeko_receptor_prep_failed", stderr=result.stderr[:300])
+            result = _meeko_receptor(receptor_pdb_path, rec_pdbqt)
+            # El recorte va por la COLA. `stderr[:300]` dejaba fuera el error y
+            # guardaba dos DeprecationWarning de ProDy: un log que no permitia
+            # diagnosticar el fallo que estaba registrando.
+            if result.returncode != 0 or not rec_pdbqt.is_file():
+                log.warning(
+                    "meeko_receptor_prep_failed",
+                    returncode=result.returncode,
+                    salida_existe=rec_pdbqt.is_file(),
+                    stderr=(result.stderr or "")[-600:],
+                )
                 return ESMFoldFastPredictor._fallback_poses(ligand_pdb_path)
 
             # Ejecutar Vina
@@ -801,10 +855,61 @@ class ESMFoldFastPredictor(BasePredictor):
                 "--exhaustiveness", "8",
                 "--seed", "42",
             ]
-            result = subprocess.run(
-                vina_cmd, capture_output=True, text=True, timeout=300,
-                cwd=str(tmp),
-            )
+            # ── TRES TIMEOUTS EN CASCADA, Y ÉSTE ES EL QUE MANDA ─────────
+            #
+            # Estaba en 300 s fijos, por debajo del timeout de la predicción y
+            # del cliente: subir aquellos no cambiaba nada porque este cortaba
+            # antes. Medido con el receptor 1HSG y su caja de 25 Å en CPU:
+            #
+            #     6 residuos,  41 átomos pesados     ~120 s   completa
+            #     6 residuos,  52 átomos pesados     >300 s   se cortaba aquí
+            #     8 residuos,  75 átomos pesados     >300 s   se cortaba aquí
+            #    12 residuos,  81 átomos pesados     >300 s   se cortaba aquí
+            #
+            # El plegado son 5-10 s; esto es Vina buscando en los grados de
+            # libertad de un péptido, que es mucho más caro que una molécula
+            # pequeña.
+            #
+            # La jerarquía tiene que ir de dentro afuera para que cada capa
+            # pueda dar un motivo en vez de ser cortada por la de encima:
+            #
+            #     Vina (aquí)                    900 s
+            #     predict_timeout_seconds       1200 s   config.py
+            #     PREDICT_TIMEOUT_S del cliente 1320 s   services/esmfold/
+            VINA_TIMEOUT_S = float(os.environ.get("ESMFOLD_VINA_TIMEOUT", "900"))
+            try:
+                result = subprocess.run(
+                    vina_cmd, capture_output=True, text=True, timeout=VINA_TIMEOUT_S,
+                    cwd=str(tmp),
+                )
+            except subprocess.TimeoutExpired:
+                # El límite es real y conviene decirlo con su causa. Medido en
+                # CPU contra 1HSG con caja de 25 Å y exhaustiveness 8:
+                #
+                #     41 átomos pesados (6 residuos)    120 s   completa
+                #     52 átomos pesados (6 residuos)    297 s   completa
+                #     75 átomos pesados (8 residuos)   >900 s   no cabe
+                #
+                # «Timeout» a secas manda a mirar la red o el disco. Lo que pasa
+                # es que el ligando tiene demasiados grados de libertad para el
+                # tiempo concedido, y eso el investigador sí puede accionarlo:
+                # acortar el péptido, estrechar la caja o usar una máquina con
+                # GPU.
+                n_pesados = getattr(mol, "GetNumHeavyAtoms", lambda: 0)()
+                log.warning(
+                    "vina_timeout_peptido",
+                    segundos=VINA_TIMEOUT_S,
+                    atomos_pesados=n_pesados,
+                )
+                raise RuntimeError(
+                    f"AutoDock Vina no terminó en {int(VINA_TIMEOUT_S)} s para un "
+                    f"péptido de {n_pesados} átomos pesados. No es un fallo de "
+                    "configuración: el coste de búsqueda crece con los grados de "
+                    "libertad del ligando, y en CPU el límite práctico está "
+                    "alrededor de 50-60 átomos pesados. Usa un péptido más corto, "
+                    "una caja más estrecha, o una máquina con GPU. Se puede subir "
+                    "el límite con ESMFOLD_VINA_TIMEOUT."
+                ) from None
             if result.returncode != 0 or not out_pdbqt.exists():
                 log.warning("vina_docking_failed", returncode=result.returncode,
                            stderr=result.stderr[:200])

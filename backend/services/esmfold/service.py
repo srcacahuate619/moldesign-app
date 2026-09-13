@@ -163,10 +163,28 @@ class ESMFoldService:
     desarrollador, `local_services/esmfold/`).
     """
 
-    # Timeouts
+    # ── Timeouts ─────────────────────────────────────────────────────────
+    #
+    # EL CLIENTE NO PUEDE RENDIRSE ANTES QUE EL SERVIDOR. Estaba en 180 s
+    # mientras el sidecar aborta a los 300 (`ESMFOLD_PREDICT_TIMEOUT`): el
+    # cliente declaraba «ESMFold no responde a tiempo» con el sidecar todavía
+    # trabajando, y cuando éste terminaba no había nadie recogiendo el
+    # resultado. Peor: el reintento encontraba el proceso ocupado.
+    #
+    # Y 180 s no daban ni para un caso pequeño. Medido en CPU con el runtime
+    # embebido, receptor 1HSG y la caja del catálogo:
+    #
+    #     GRGDSP, 6 residuos, 41 átomos pesados     120 s
+    #     péptidos de 8-9 residuos                  agotan los 300 s del sidecar
+    #
+    # El plegado es la parte rápida —5-10 s—; lo que tarda es Vina con un
+    # ligando de 70-80 átomos pesados y sus grados de libertad. 1200 s es lo
+    # que `services/esmfold_pro/service.py` ya usa para la misma clase de
+    # trabajo; el cliente espera un poco más para que el veredicto de abortar
+    # sea del servidor, que es quien sabe por qué.
     HEALTH_TIMEOUT_S = 3.0       # health check debe ser rapidísimo
-    PREDICT_TIMEOUT_S = 180.0    # una inferencia real puede tardar minutos
-    READ_TIMEOUT_S = 180.0
+    PREDICT_TIMEOUT_S = 1320.0
+    READ_TIMEOUT_S = 1320.0
 
     # Caché de health
     HEALTH_TTL_S = 30.0          # cache de "está vivo" por 30s

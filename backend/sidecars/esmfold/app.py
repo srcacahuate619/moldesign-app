@@ -157,6 +157,11 @@ async def _watchdog_idle_shutdown() -> None:
             )
             break  # shutdown solicitado
         except asyncio.TimeoutError:
+            if _en_vuelo > 0:
+                # Hay trabajo en curso. Apagar aquí mata una predicción que el
+                # cliente está esperando, y `_last_activity` no lo delata
+                # porque se marca al ENTRAR la petición.
+                continue
             idle = (time.monotonic() - _last_activity) / 60.0
             if idle >= _cfg.shutdown_idle_minutes:
                 log.warning(
@@ -233,10 +238,41 @@ app = FastAPI(
 )
 
 
+#: Peticiones en curso. El watchdog no puede apagar el servicio mientras haya
+#: alguna, y `_last_activity` sola no bastaba para saberlo.
+_en_vuelo: int = 0
+
+
 @app.middleware("http")
 async def activity_middleware(request: Request, call_next):
+    """Marca actividad al ENTRAR y al SALIR, y cuenta lo que está en curso.
+
+    ═════════════════════════════════════════════════════════════════════
+    UNA PREDICCIÓN LARGA APAGABA SU PROPIO SERVICIO
+    ═════════════════════════════════════════════════════════════════════
+
+    `_touch_activity()` se llamaba sólo antes de `call_next`, así que durante
+    un `/predict` de quince minutos `_last_activity` no se movía: el watchdog
+    veía quince minutos de inactividad y ejecutaba `os._exit(0)` **a mitad de
+    la predicción**, con el cliente esperando.
+
+    No era hipotético. El timeout de Vina para un péptido grande es de 900 s y
+    el watchdog se dispara a los 600: cualquier péptido que tarde más de diez
+    minutos se mataba a sí mismo, y lo que llegaba al cliente era una conexión
+    cerrada sin motivo — el peor error posible, porque no dice nada.
+
+    Dos cambios, y hacen falta los dos: el contador impide apagar mientras algo
+    corre, y el segundo `_touch_activity()` hace que los diez minutos de gracia
+    se cuenten desde que la petición TERMINÓ, no desde que empezó.
+    """
+    global _en_vuelo
     _touch_activity()
-    response = await call_next(request)
+    _en_vuelo += 1
+    try:
+        response = await call_next(request)
+    finally:
+        _en_vuelo -= 1
+        _touch_activity()
     return response
 
 

@@ -55,8 +55,17 @@ class ServiceConfig:
     # Tamaño máximo del PDB del receptor (MB) — para no aceptar payloads absurdos.
     max_protein_pdb_mb: float = 10.0
     # Timeout duro por predicción (s). Si ESMFold tarda más, se cancela.
+    #
+    # Eran 300 y no bastaban. Medido en CPU con el runtime embebido, receptor
+    # 1HSG y la caja del catálogo: un hexapéptido tarda ~120 s de punta a punta
+    # y los de 8-9 residuos agotaban los 300. El plegado es la parte rápida
+    # —5-10 s—; lo que tarda es Vina con un ligando de 70-80 átomos pesados.
+    #
+    # 1200 s es lo que el sidecar «pro» ya usa para la misma clase de trabajo, y
+    # el cliente del backend espera 1320 para que quien decide abortar sea el
+    # servidor, que es el que sabe por qué.
     predict_timeout_seconds: float = field(
-        default_factory=lambda: float(os.getenv("ESMFOLD_PREDICT_TIMEOUT", "300"))
+        default_factory=lambda: float(os.getenv("ESMFOLD_PREDICT_TIMEOUT", "1200"))
     )
     # Número máximo de poses que devolverá el servicio.
     max_poses: int = field(default_factory=lambda: int(os.getenv("ESMFOLD_MAX_POSES", "10")))
