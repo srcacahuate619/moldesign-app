@@ -36,7 +36,7 @@ Pendiente, y ninguno depende de escribir código:
 
 - Incluir la identidad exacta reservada en Partner Center.
 - Proporcionar `LICENSE` como términos adicionales; no dejar el campo vacío.
-- **Unificar el contacto de soporte.** `PRIVACY.md` declara `srcacahuate619@gmail.com` y el panel de Soporte de la aplicación escribe a `moldesign-ai@proton.me`. Son dos direcciones para lo mismo y el revisor comprueba que la de la ficha responda.
+- **Que los dos buzones existan y reciban.** Desde el 2026-09-13 el producto declara `moldesign@amezcua-dev.com` (privacidad, licencias, seguridad) y `soporte-moldesign@amezcua-dev.com` (soporte y reporte de respuestas de MolChat), en el mismo dominio que la identidad del paquete. Ya no hay dos direcciones para lo mismo; lo que queda es comprobar que ambas entregan antes de enviar, porque el revisor escribe a la de la ficha.
 - Confirmar que avisos, textos y ofertas de fuente de terceros viajan en el MSIX.
 - Ejecutar Windows App Certification Kit **sobre el paquete que se envía**: el informe que hay en `E:\rel\v1.0.0.0\wack-report.xml` es de las 21:50 del 2026-09-12 y el MSIX vigente se construyó a las 00:55 del 13. No corresponden.
 - Al menos una captura de pantalla: el Store no acepta un envío sin ella.

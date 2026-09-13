@@ -16,5 +16,5 @@ MolDesign does not redistribute it, and the artifacts that reproduce
 PDBbind-derived affinities are excluded from the distribution channel. See
 [`LICENSE-MODELS`](LICENSE-MODELS).
 
-Contact: srcacahuate619@gmail.com
+Contact: moldesign@amezcua-dev.com
 

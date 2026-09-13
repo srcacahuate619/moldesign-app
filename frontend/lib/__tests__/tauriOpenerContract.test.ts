@@ -68,6 +68,6 @@ describe("capability del opener", () => {
     // Y al revés: todo lo que la frontera acepta debe tener patrón que lo cubra.
     expect(esExterno("https://github.com/srcacahuate619/moldesign-app")).toBe(true);
     expect(esExterno("http://127.0.0.1:8001/health")).toBe(true);
-    expect(esExterno("mailto:srcacahuate619@gmail.com")).toBe(true);
+    expect(esExterno("mailto:moldesign@amezcua-dev.com")).toBe(true);
   });
 });

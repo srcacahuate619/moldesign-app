@@ -15,7 +15,7 @@ oferta comercial.
 No hay una «comisión automática» fijada por el repositorio. La licencia
 comercial puede adoptar una tarifa, regalía, comisión de ingresos u otra
 estructura, negociada por escrito según el caso. Contacto:
-srcacahuate619@gmail.com.
+moldesign@amezcua-dev.com.
 
 ## Qué no cambia
 

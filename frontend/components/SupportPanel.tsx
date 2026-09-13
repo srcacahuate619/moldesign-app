@@ -67,11 +67,11 @@ export function SupportContent() {
           Contacto
         </h3>
         <ExternalLink
-          href="mailto:moldesign-ai@proton.me"
+          href="mailto:soporte-moldesign@amezcua-dev.com"
           className="flex min-h-11 items-center gap-2.5 rounded-[10px] border border-[var(--border)] bg-[var(--bg)] px-3.5 py-3 text-sm text-[var(--text)] no-underline transition-colors hover:border-[var(--accent)] hover:bg-[var(--bg-alt)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)] active:bg-[var(--bg-secondary)]"
         >
           <Mail size={18} className="shrink-0 text-[var(--accent)]" aria-hidden="true" />
-          <span className="min-w-0 flex-1 truncate">moldesign-ai@proton.me</span>
+          <span className="min-w-0 flex-1 truncate">soporte-moldesign@amezcua-dev.com</span>
           <ExternalLinkIcon size={14} className="shrink-0 text-[var(--text-dim)]" aria-hidden="true" />
         </ExternalLink>
         <p className="mt-2 text-xs leading-5 text-[var(--text-dim)]">

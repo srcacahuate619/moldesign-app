@@ -21,7 +21,7 @@ Valores decididos para el **primer envío oficial** (2026-09-12):
 | **Version** | `1.0.0.0` — decidido con `store_build_override: 0`, para que el número que ve el usuario coincida con la versión del producto. Ver `msix/msix-config.json → version_del_store`. |
 | **Additional license terms** | `https://github.com/srcacahuate619/moldesign-app/blob/v1.0.0/LICENSE` — no dejar vacío: MolDesign no usa los Standard Application License Terms como licencia principal. |
 | **Privacy policy** | `https://github.com/srcacahuate619/moldesign-app/blob/v1.0.0/PRIVACY.md` — y marcar que la app puede transmitir información cuando se activan integraciones externas. |
-| **Support contact** | `srcacahuate619@gmail.com` |
+| **Support contact** | `soporte-moldesign@amezcua-dev.com` |
 | **Developed by** | `Johan Amezcua` |
 | **Copyright/trademark** | `Copyright © 2026 Johan Amezcua. MolDesign no es una marca registrada declarada.` |
 | **Website** | **Dejar vacío en este envío.** |

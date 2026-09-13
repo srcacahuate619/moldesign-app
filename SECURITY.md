@@ -9,7 +9,7 @@ humana.
 
 No publiques credenciales, archivos de casos, coordenadas privadas ni detalles
 de una vulnerabilidad sin corregir en un issue público. Envía un informe
-privado a `srcacahuate619@gmail.com` o utiliza un aviso privado de seguridad de
+privado a `moldesign@amezcua-dev.com` o utiliza un aviso privado de seguridad de
 GitHub cuando esté habilitado para el repositorio.
 
 Incluye, si es posible:

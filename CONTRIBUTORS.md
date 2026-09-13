@@ -11,7 +11,7 @@ Format:
 
 ---
 
-- Johan Amezcua <srcacahuate619@gmail.com> — project maintainer and sole copyright holder
+- Johan Amezcua <moldesign@amezcua-dev.com> — project maintainer and sole copyright holder
   at the time the CLA was introduced (2026-08-19)
 
 ---

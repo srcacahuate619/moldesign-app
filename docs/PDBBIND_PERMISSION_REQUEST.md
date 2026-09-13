@@ -28,7 +28,7 @@ I can provide an exact inventory of affected models, training splits and intende
 Sincerely,
 
 Johan Amezcua
-srcacahuate619@gmail.com
+moldesign@amezcua-dev.com
 https://github.com/srcacahuate619/moldesign-app
 
 ## Resumen interno en español

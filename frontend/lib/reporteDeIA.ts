@@ -18,7 +18,7 @@
  * que lo declara.
  */
 
-export const CORREO_DE_REPORTE = "moldesign-ai@proton.me";
+export const CORREO_DE_REPORTE = "soporte-moldesign@amezcua-dev.com";
 
 /**
  * Cuánta respuesta cabe. Los clientes de correo empiezan a truncar alrededor de

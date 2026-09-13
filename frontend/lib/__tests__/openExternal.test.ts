@@ -46,11 +46,11 @@ describe("frontera de navegación externa", () => {
   it("abre mailto en el fallback del navegador", async () => {
     const open = vi.spyOn(window, "open").mockReturnValue({} as Window);
 
-    await openExternal("mailto:moldesign-ai@proton.me");
+    await openExternal("mailto:soporte-moldesign@amezcua-dev.com");
 
     expect(open).toHaveBeenCalledTimes(1);
     expect(open).toHaveBeenCalledWith(
-      "mailto:moldesign-ai@proton.me",
+      "mailto:soporte-moldesign@amezcua-dev.com",
       "_blank",
       "noopener,noreferrer",
     );

@@ -341,7 +341,7 @@ export const TRANSLATIONS: Record<Locale, Record<string, string>> = {
     ia_reportar_cuerpo_cabecera: "Describe qué tiene de incorrecto o de inapropiado esta respuesta:",
     ia_reportar_cuerpo_respuesta: "Respuesta reportada",
     ia_reportar_cuerpo_proveedor: "Proveedor",
-    ia_reportar_sin_correo: "No se pudo abrir el programa de correo. Escribe a moldesign-ai@proton.me y adjunta la respuesta.",
+    ia_reportar_sin_correo: "No se pudo abrir el programa de correo. Escribe a soporte-moldesign@amezcua-dev.com y adjunta la respuesta.",
   },
   en: {
     options: "Options",
@@ -634,7 +634,7 @@ export const TRANSLATIONS: Record<Locale, Record<string, string>> = {
     ia_reportar_cuerpo_cabecera: "Describe what is wrong or inappropriate about this answer:",
     ia_reportar_cuerpo_respuesta: "Reported answer",
     ia_reportar_cuerpo_proveedor: "Provider",
-    ia_reportar_sin_correo: "Could not open your mail client. Write to moldesign-ai@proton.me and attach the answer.",
+    ia_reportar_sin_correo: "Could not open your mail client. Write to soporte-moldesign@amezcua-dev.com and attach the answer.",
   },
 };
 
