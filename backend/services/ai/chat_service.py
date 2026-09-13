@@ -1058,13 +1058,14 @@ class ChatService:
         Devuelve "" cuando se puede enviar. La puerta va **antes** de tocar la
         conversación: si el destino no está autorizado no se envía, y tampoco se
         guarda el turno como si hubiera ocurrido.
-        """
-        from services.ai.consent import destino_de, hay_consentimiento, mensaje_de_falta
 
-        destino = destino_de(provider)
-        if hay_consentimiento(destino, user_id):
-            return ""
-        return mensaje_de_falta(destino)
+        Pregunta por `motivo_de_bloqueo` y no por `hay_consentimiento` porque el
+        permiso es sólo una de las dos condiciones: el modo offline manda sobre
+        él, y aquí no se miraba.
+        """
+        from services.ai.consent import destino_de, motivo_de_bloqueo
+
+        return motivo_de_bloqueo(destino_de(provider), user_id)
 
     async def _wait_for_resources(self, provider_id: str, max_wait_s: int = 60) -> bool:
         """Poll pipeline state hasta que termine. Returns True si ya está disponible."""

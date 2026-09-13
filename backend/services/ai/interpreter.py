@@ -12,6 +12,14 @@ Proveedores (en orden de fallback):
 
 Regla: la IA no calcula quimica ni altera numeros. Solo transforma
 resultados ya calculados en una explicacion farmacologica prudente.
+
+Los cuatro escalones de arriba son cuatro destinos, y tres de ellos pueden estar
+fuera de esta máquina. Hasta MOLCHAT-NET-006 ninguno pasaba por la puerta de
+`services/ai/consent.py`: el reporte IA era el tercer camino a la red —después
+del turno de MolChat y de las herramientas de `services/ai/red.py`— y el único
+sin autorizar. Lo que salía por él no es poco: el SMILES de la molécula, el
+receptor, la afinidad y, cuando la cuenta tiene memoria, un extracto de sus
+evaluaciones anteriores.
 """
 
 from __future__ import annotations
@@ -27,6 +35,33 @@ settings = get_settings()
 log = get_logger(__name__)
 
 import json
+
+
+class ReporteBloqueado(RuntimeError):
+    """El reporte habría salido de esta máquina sin que la cuenta lo autorizara.
+
+    Se distingue de «no disponible» a propósito. Devolver `None` aquí sería el
+    mismo error que ya costó cuatro componentes en este árbol: un fallo con
+    causa accionable convertido en un hueco silencioso.
+
+    Y sobre todo: lo que se responde por este camino **no se persiste**. El
+    reporte se cachea en `ai_report` y se sirve desde ahí para siempre; guardar
+    un aviso de consentimiento en ese campo dejaría a la molécula sin reporte
+    incluso después de autorizar el destino.
+    """
+
+
+def _bloqueo(provider_id: str, base_url: str | None, user_id: str | None) -> str:
+    """Qué impide mandar este reporte hacia ese proveedor, o `""` si nada.
+
+    Misma puerta que el turno de MolChat, y el destino se calcula igual que
+    allí: `ollama` apuntado a otra máquina sale de aquí, y apuntado a
+    `localhost` —que es el valor por defecto— no. Así el camino local, que es el
+    que el §8 pide inequívoco, sigue sin fricción.
+    """
+    from services.ai.consent import destino_propuesto, motivo_de_bloqueo
+
+    return motivo_de_bloqueo(destino_propuesto(provider_id, base_url), user_id)
 
 def build_ai_messages(request: AIReportRequest, include_memory: bool = True) -> list[dict]:
     smiles = request.molecule_smiles
@@ -87,6 +122,9 @@ async def generate_claude_report(request: AIReportRequest) -> str | None:
     """Genera reporte usando Claude (Anthropic)."""
     if not settings.anthropic_api_key:
         return None
+    falta = _bloqueo("claude", None, request.user_id)
+    if falta:
+        raise ReporteBloqueado(falta)
     try:
         client = anthropic.AsyncAnthropic(api_key=settings.anthropic_api_key)
         response = await client.messages.create(
@@ -105,6 +143,10 @@ async def generate_gemini_report(request: AIReportRequest) -> str | None:
     if not settings.gemini_api_key:
         log.error("Clave de API de Gemini no configurada.")
         return None
+
+    falta = _bloqueo("gemini", None, request.user_id)
+    if falta:
+        raise ReporteBloqueado(falta)
 
     url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent"
     headers = {"x-goog-api-key": settings.gemini_api_key}
@@ -166,6 +208,10 @@ async def generate_ollama_report(request: AIReportRequest) -> str | None:
     if not settings.ollama_base_url:
         return None
 
+    falta = _bloqueo("ollama", settings.ollama_base_url, request.user_id)
+    if falta:
+        raise ReporteBloqueado(falta)
+
     url = f"{settings.ollama_base_url.rstrip('/')}/api/chat"
     payload = {
         "model": settings.ollama_model,
@@ -213,7 +259,12 @@ async def stream_ollama_report(request: AIReportRequest):
     except Exception:
         pass
 
-    # 2. Ollama
+    # 2. Ollama — sólo si el destino no sale de la máquina o la cuenta lo autorizó.
+    # El SSE no es un camino distinto por ser SSE: manda lo mismo que el síncrono.
+    falta = _bloqueo("ollama", settings.ollama_base_url, request.user_id)
+    if falta:
+        raise ReporteBloqueado(falta)
+
     url = f"{settings.ollama_base_url.rstrip('/')}/api/chat"
     payload = {
         "model": settings.ollama_model,
@@ -242,6 +293,12 @@ async def generate_ai_report(request: AIReportRequest) -> str | None:
     """
     Orquestador de reportes con fallback automatico.
     Prioridad: Local LLM -> Ollama -> Claude -> Gemini.
+
+    Un destino sin autorizar no es un proveedor caído, así que no corta la
+    cadena: se anota y se sigue probando, por si el siguiente sí está
+    autorizado. Pero si al final no hubo reporte y sí hubo destinos bloqueados,
+    se dice cuál y por qué. Devolver `None` en ese caso sería contar como «no se
+    pudo generar» lo que en realidad fue «no te dejé mandarlo».
     """
     # 1. Local LLM (llama-server.exe + Qwen2.5 1.5B, default, offline)
     report = await generate_local_report(request)
@@ -249,31 +306,38 @@ async def generate_ai_report(request: AIReportRequest) -> str | None:
         log.info("Reporte generado con Local LLM (llama-server + Qwen2.5)")
         return report
 
-    # 2. Ollama (si esta instalado)
-    report = await generate_ollama_report(request)
-    if report:
-        log.info(f"Reporte generado con Ollama ({settings.ollama_model})")
-        return report
+    bloqueos: list[str] = []
+    for nombre, generar in (
+        (f"Ollama ({settings.ollama_model})", generate_ollama_report),
+        ("Claude", generate_claude_report),
+        ("Gemini", generate_gemini_report),
+    ):
+        try:
+            report = await generar(request)
+        except ReporteBloqueado as bloqueo:
+            log.info("reporte_ia_no_enviado", proveedor=nombre)
+            bloqueos.append(str(bloqueo))
+            continue
+        if report:
+            log.info(f"Reporte generado con {nombre}")
+            return report
 
-    # 3. Claude (API key)
-    report = await generate_claude_report(request)
-    if report:
-        log.info("Reporte generado con Claude")
-        return report
-
-    # 4. Gemini (API key)
-    report = await generate_gemini_report(request)
-    if report:
-        log.info("Reporte generado con Gemini")
-        return report
-
+    if bloqueos:
+        raise ReporteBloqueado(bloqueos[0])
     return None
 
 
 async def safe_generate_ai_report(request: AIReportRequest) -> str | None:
-    """Wrapper con manejo de errores para endpoints HTTP."""
+    """Wrapper con manejo de errores para endpoints HTTP.
+
+    `ReporteBloqueado` no se traga: es la única respuesta de este módulo que el
+    investigador puede accionar, y este `except Exception` la convertiría en el
+    `None` que la interfaz muestra como «no se pudo generar el reporte».
+    """
     try:
         return await generate_ai_report(request)
+    except ReporteBloqueado:
+        raise
     except Exception as e:
         log.error("ai_report_generation_failed", error=str(e))
         return None

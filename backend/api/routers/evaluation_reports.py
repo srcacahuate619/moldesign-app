@@ -41,7 +41,7 @@ async def generate_ai_report_stream_endpoint(
     current_user: UserORM | None = Depends(get_current_user_optional),
     db: AsyncSession = Depends(get_db),
 ):
-    from services.ai.interpreter import stream_ollama_report
+    from services.ai.interpreter import ReporteBloqueado, stream_ollama_report
     from services.ai.report_context import build_evaluation_report_request
 
     repository = Repository(db)
@@ -93,6 +93,13 @@ async def generate_ai_report_stream_endpoint(
                             molecule_id=molecule_id,
                             ai_report=full_text,
                         )
+            except ReporteBloqueado as bloqueo:
+                # Se entrega el motivo y **no se persiste**: el reporte se sirve
+                # desde `ai_report` en cuanto existe, así que guardar aquí el
+                # aviso dejaría a esta molécula sin reporte para siempre, incluso
+                # después de autorizar el destino.
+                log.info("reporte_ia_sse_no_enviado", molecule_id=str(molecule_id))
+                yield f"data: {json.dumps(str(bloqueo))}\n\n"
             except Exception as e:
                 log.error("Error in SSE stream", error=str(e))
                 import json
@@ -119,7 +126,7 @@ async def generate_ai_report_endpoint(
     db: AsyncSession = Depends(get_db),
 ) -> AIReportResponse:
     """Genera, persiste y devuelve el reporte IA de una evaluación."""
-    from services.ai.interpreter import safe_generate_ai_report
+    from services.ai.interpreter import ReporteBloqueado, safe_generate_ai_report
     from services.ai.report_context import build_evaluation_report_request
 
     repository = Repository(db)
@@ -164,6 +171,16 @@ async def generate_ai_report_endpoint(
             )
 
         return AIReportResponse(ai_report=report)
+
+    except ReporteBloqueado as bloqueo:
+        # 409, no 500: no falló nada. El reporte habría salido de la máquina
+        # hacia un destino que esta cuenta no autorizó, y no se persiste nada
+        # para que autorizarlo y reintentar produzca el reporte de verdad.
+        log.info("reporte_ia_no_enviado", molecule_id=str(molecule_id))
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=str(bloqueo),
+        ) from None
 
     except Exception as e:
         log.error("Error generando reporte IA bajo demanda", error=str(e), molecule_id=str(molecule_id))

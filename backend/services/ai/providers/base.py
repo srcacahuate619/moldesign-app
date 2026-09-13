@@ -12,6 +12,11 @@ class HealthStatus(Enum):
     NO_TOKENS = "no_tokens"
     CONNECTION_ERROR = "connection_error"
     NOT_AVAILABLE = "not_available"
+    #: No se preguntó. El `health_check` de un proveedor cloud es una llamada
+    #: real a su API, así que sondear un destino sin autorizar es exactamente lo
+    #: que el consentimiento impide. Es un estado y no un fallo: no se sabe si
+    #: funciona, y decir otra cosa sería inventarlo.
+    SIN_CONSENTIMIENTO = "sin_consentimiento"
 
 
 @dataclass

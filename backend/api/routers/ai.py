@@ -160,10 +160,20 @@ def _bootstrap_tools():
 
 
 @router.get("/startup")
-async def startup_detection():
+async def startup_detection(
+    current_user: UserORM | None = Depends(get_current_user_optional),
+):
+    """Sonda de arranque. La identidad es opcional, pero cambia lo que sale.
+
+    Es la llamada más temprana del producto y sondeaba a Anthropic, Google y
+    OpenAI con un turno real antes de que nadie autorizara nada. Ahora se
+    resuelve con la cuenta que pregunta: sin sesión no hay consentimiento
+    posible, así que no se consulta ningún destino remoto y MolChat arranca en
+    local.
+    """
     _bootstrap_providers()
     _bootstrap_tools()
-    return await detect_startup_mode()
+    return await detect_startup_mode(**_vista_de(current_user))
 
 
 @router.get("/providers", response_model=list[ProviderInfoResponse])

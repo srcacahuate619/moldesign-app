@@ -187,6 +187,39 @@ def mensaje_de_falta(destino: Destino) -> str:
     )
 
 
+def motivo_de_bloqueo(destino: Destino, user_id: str | None) -> str:
+    """Por qué **no** se puede salir hacia ese destino ahora, o `""` si se puede.
+
+    Es la puerta; `hay_consentimiento` es sólo una de las dos preguntas que la
+    componen. La otra es el modo offline, y el orden entre ellas importa: el
+    equipo declarado incomunicado manda sobre cualquier autorización, igual que
+    en `red.exigir_permiso`.
+
+    Estaba sin cerrar. `red.py` documenta `MOLDESIGN_OFFLINE=1` como «niega toda
+    salida aunque haya permiso, para que 'este equipo no habla con nadie' sea
+    una afirmación comprobable», y `/ai/consent/red` lo publica — pero la puerta
+    del proveedor de chat nunca lo miraba. Con el modo activado y un proveedor
+    remoto ya consentido, el turno salía igual: la afirmación valía para las
+    herramientas y no para MolChat, que es justo el camino por el que sale el
+    trabajo del investigador.
+    """
+    if not destino.es_remoto:
+        return ""
+
+    from services.ai.red import modo_offline
+
+    if modo_offline():
+        return (
+            f"Este equipo está en modo offline y esto saldría hacia {destino.host}. "
+            "No lo envié, aunque el destino esté autorizado: el modo offline manda "
+            "sobre el permiso. Usá el motor local, que no sale de la máquina."
+        )
+
+    if hay_consentimiento(destino, user_id):
+        return ""
+    return mensaje_de_falta(destino)
+
+
 def estado_de_destinos(
     registry: Any, user_id: str, incluir_heredadas: bool = False
 ) -> list[dict[str, Any]]:
