@@ -11,33 +11,36 @@ Los pesos ligeros se distribuyen como **obra del autor** bajo PolyForm Noncommer
 - Se **excluyen del canal de distribución** los artefactos que reproducen afinidades derivadas: `backend/data/benchmark_pdbbind*.json`, `pocket_dataset*.json` y `rescoring/artifacts/pdbbind_audit_report.json`. El empaquetado MSIX los retira del layout (`scripts/build_msix.py`).
 - El registro Zenodo 7014096 sin `Rights` se cita únicamente como fuente; no se afirma `CC-BY`.
 
-## Los textos de licencia que viajan están un commit atrasados — decisión del autor
+## Los textos de licencia que viajan — resuelto
 
-Estado: **abierto (detectado el 2026-09-12)**. Bloquea el envío, no el build.
+Estado: **RESUELTO (2026-09-12)**.
 
-El staging copia `frontend/public/legal/` a `resources/licenses/`: esa copia es la que lee el usuario. Dos textos no se actualizaron cuando `bf50af3` los modificó en la raíz del repositorio, y en ambos casos el párrafo que falta es la limitación sobre PDBbind:
+El staging copia `frontend/public/legal/` a `resources/licenses/`: esa copia es la que lee el usuario, y durante un tiempo dijo algo distinto del original. `LICENSE-MODELS` afirmaba que los artefactos entrenados con PDBbind «no deben incluirse en un instalador» mientras el paquete incluía los pesos, y las copias enviadas de `MOLDESIGN-MODELS.txt` y `COMMERCIAL-LICENSE.md` se habían quedado en el texto anterior a `bf50af3`.
 
-| Texto que viaja | Falta respecto al original |
-|---|---|
-| `licenses/MOLDESIGN-MODELS.txt` | «*Some current manifests describe artifacts trained or evaluated with PDBbind v2020. Their public redistribution remains `REVIEW_REQUIRED`… those artifacts must not be included in a public repository, model hub or installer*» |
-| `licenses/COMMERCIAL-LICENSE.md` | «*PDBbind-derived artifacts remain excluded until their rights are documented*» |
+Los cuatro pares declarados en `PARES_LEGALES` —`LICENSE`, `LICENSE-MODELS`, `COMMERCIAL-LICENSE.md` y `PRIVACY.md`— coinciden byte a byte con su original. `DIVERGENCIAS_LEGALES_CONOCIDAS` está **vacía**, y el gate `test_las_copias_enviadas_no_se_desincronizan_del_original` falla en las dos direcciones: avisa si aparece una divergencia nueva y también si alguien deja enterrada en la lista una que ya se resolvió.
 
-Hay dos cosas que resolver, y ninguna es automatizable:
-
-1. **`LICENSE-MODELS` de la raíz contradice la determinación del 2026-09-12.** Dice que los artefactos entrenados con PDBbind «no deben incluirse en un instalador», y el paquete incluye los pesos. El resto de documentos (`docs/78`, `docs/86`, este fichero, `THIRD_PARTY_NOTICES.md`) se actualizaron ese día; `LICENSE-MODELS` no. Enviar a Store con la licencia de modelos diciendo lo contrario de lo que hace el paquete es un riesgo evitable en una revisión.
-2. **Sincronizar las copias que viajan** una vez decidido el texto definitivo.
-
-No se edita ningún texto de licencia desde el empaquetado: es decisión del autor. El gate `test_las_copias_enviadas_no_se_desincronizan_del_original` mantiene la lista de divergencias conocidas y avisa si aparece una tercera o si una queda resuelta.
+No se edita ningún texto de licencia desde el empaquetado: sigue siendo decisión del autor.
 
 ## Microsoft Store — condiciones pendientes
 
-Estado: **pendiente de completar al enviar el MSIX**.
+Estado: **pendiente de completar al enviar el MSIX**. Corte del 2026-09-13.
+
+Resuelto desde el código:
+
+- `PRIVACY.md` viaja en el paquete y su copia está atada al original por gate. Su §4 declara MolChat como texto generado por IA, qué sale cuando el usuario autoriza un proveedor en la nube, y que no se entrena nada con sus datos.
+- **Divulgación de IA generativa y canal de reporte**: el panel de MolChat lleva un aviso permanente —no se puede cerrar— y cada respuesta un botón «Reportar respuesta» que abre el correo del usuario con la respuesta ya escrita. No se transmite nada por detrás: sería contradecir el propio aviso.
+- **Ninguna salida a la red sin consentimiento por cuenta y destino.** Incluye la sonda de arranque, que sondeaba a Anthropic, Google y OpenAI con una llamada real antes de que nadie autorizara nada, y el reporte IA de una evaluación.
+- Sólo se ofrecen los idiomas que están completos (español e inglés), con gate.
+
+Pendiente, y ninguno depende de escribir código:
 
 - Incluir la identidad exacta reservada en Partner Center.
 - Proporcionar `LICENSE` como términos adicionales; no dejar el campo vacío.
-- Publicar y enlazar `PRIVACY.md` y un contacto de soporte.
+- **Unificar el contacto de soporte.** `PRIVACY.md` declara `srcacahuate619@gmail.com` y el panel de Soporte de la aplicación escribe a `moldesign-ai@proton.me`. Son dos direcciones para lo mismo y el revisor comprueba que la de la ficha responda.
 - Confirmar que avisos, textos y ofertas de fuente de terceros viajan en el MSIX.
-- Ejecutar Windows App Certification Kit y una instalación mediante audiencia privada antes de hacerla pública.
+- Ejecutar Windows App Certification Kit **sobre el paquete que se envía**: el informe que hay en `E:\rel\v1.0.0.0\wack-report.xml` es de las 21:50 del 2026-09-12 y el MSIX vigente se construyó a las 00:55 del 13. No corresponden.
+- Al menos una captura de pantalla: el Store no acepta un envío sin ella.
+- Instalación mediante audiencia privada antes de hacerla pública.
 
 ## Open Babel — frontera resuelta; cumplimiento por release
 

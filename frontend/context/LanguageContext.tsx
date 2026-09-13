@@ -322,6 +322,26 @@ export const TRANSLATIONS: Record<Locale, Record<string, string>> = {
     moldex_table_name: "Nombre del Receptor",
     moldex_table_type: "Tipo",
     moldex_table_resolution: "Resolución",
+
+    // Divulgación de IA generativa. Microsoft la exige para cualquier
+    // aplicación que entregue texto generado por un modelo, y pide además una
+    // vía para reportar una respuesta dañina o inapropiada.
+    //
+    // El texto dice tres cosas y ninguna es decorativa: que lo escribe un
+    // modelo, que puede equivocarse, y que no es un resultado científico. Esa
+    // tercera es la que importa aquí: MolChat habla de moléculas y receptores
+    // junto a una pantalla que sí calcula, y confundir las dos superficies es
+    // el error caro. No se puede cerrar, a diferencia del aviso del modelo
+    // local: una divulgación que se oculta deja de serlo.
+    ia_aviso_generativa: "Las respuestas de MolChat las escribe un modelo de lenguaje. Pueden ser incorrectas y no son un resultado científico: los números del expediente salen del cálculo, no de aquí.",
+    ia_reportar: "Reportar respuesta",
+    ia_reportar_titulo: "Reportar esta respuesta al equipo de MolDesign",
+    ia_reportar_aviso: "Abre tu programa de correo con la respuesta y el proveedor ya escritos. No se envía nada hasta que tú lo mandes.",
+    ia_reportar_asunto: "Reporte de respuesta de MolChat",
+    ia_reportar_cuerpo_cabecera: "Describe qué tiene de incorrecto o de inapropiado esta respuesta:",
+    ia_reportar_cuerpo_respuesta: "Respuesta reportada",
+    ia_reportar_cuerpo_proveedor: "Proveedor",
+    ia_reportar_sin_correo: "No se pudo abrir el programa de correo. Escribe a moldesign-ai@proton.me y adjunta la respuesta.",
   },
   en: {
     options: "Options",
@@ -605,6 +625,16 @@ export const TRANSLATIONS: Record<Locale, Record<string, string>> = {
     moldex_table_name: "Receptor Name",
     moldex_table_type: "Type",
     moldex_table_resolution: "Resolution",
+
+    ia_aviso_generativa: "MolChat's answers are written by a language model. They can be wrong and they are not a scientific result: the numbers in the case file come from the computation, not from here.",
+    ia_reportar: "Report answer",
+    ia_reportar_titulo: "Report this answer to the MolDesign team",
+    ia_reportar_aviso: "Opens your mail client with the answer and the provider already filled in. Nothing is sent until you send it.",
+    ia_reportar_asunto: "MolChat answer report",
+    ia_reportar_cuerpo_cabecera: "Describe what is wrong or inappropriate about this answer:",
+    ia_reportar_cuerpo_respuesta: "Reported answer",
+    ia_reportar_cuerpo_proveedor: "Provider",
+    ia_reportar_sin_correo: "Could not open your mail client. Write to moldesign-ai@proton.me and attach the answer.",
   },
 };
 

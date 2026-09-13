@@ -23,6 +23,7 @@ import { ChatMessage } from "./ChatMessage";
 import { ChatInput } from "./ChatInput";
 import { ProviderBadge } from "./ProviderBadge";
 import { AISettingsModal } from "./AISettingsModal";
+import { AvisoDeIAGenerativa } from "./AvisoDeIAGenerativa";
 import { useDownload } from "@/hooks/useDownload";
 
 export function ChatPanel() {
@@ -751,6 +752,11 @@ export function ChatPanel() {
                 )}
                 <div ref={messagesEndRef} />
               </div>
+
+              {/* Divulgación de IA generativa. Va aquí, pegada al campo de
+                  escritura, y no arriba con los avisos que se cierran: describe
+                  lo que este panel es, no un estado que pasa. */}
+              <AvisoDeIAGenerativa />
 
               {/* Input */}
               <ChatInput

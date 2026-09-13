@@ -403,3 +403,80 @@ python scripts/accept_msix_cases.py  --msix E:\rel\v1.0.2.0\amezcua-dev.com.MolD
 
 Las dos aceptaciones escriben su evidencia **junto al paquete**, con su sha256.
 Falta el WACK sobre ese mismo `.msix`, en consola elevada.
+
+---
+
+## 8. Consentimiento e IA generativa (2026-09-13)
+
+Los dos requisitos que quedaban del lado del código, y un hallazgo que no
+estaba en la lista.
+
+### 8.1 La sonda de arranque salía antes que nadie
+
+`/ai/startup` era la llamada a la red **más temprana** del producto y la única
+sin puerta. El `health_check` de un proveedor cloud no inspecciona
+configuración: manda un turno real —`"hi"`, `max_tokens=1`— a
+`api.anthropic.com`, a Google o al `base_url` de OpenAI. Corría al montarse
+`ChatPanel`, que vive en `app/layout.tsx` y por tanto en cada arranque, sin
+identidad de cuenta, sin consultar `services/ai/consent.py` y sin mirar
+`MOLDESIGN_OFFLINE`.
+
+No viajaba trabajo del investigador —el prompt es «hi»—, pero sí la clave de
+API, la dirección IP del equipo y el hecho de que el producto acaba de
+arrancar, hacia tres empresas, antes de que nadie autorizara nada. Con eso, «no
+se envía nada sin tu permiso» era falso, y es exactamente lo que la ficha de
+privacidad tiene que poder afirmar.
+
+Las otras dos salidas sin puerta eran el reporte IA de una evaluación (cadena
+local → Ollama → Claude → Gemini, y por ahí sale el SMILES) y el modo offline,
+que `red.py` documenta como absoluto pero que el proveedor de chat nunca
+miraba. Los tres cierran contra la misma puerta, `consent.motivo_de_bloqueo`.
+
+### 8.2 El reporte IA no lo alcanza ninguna interfaz
+
+Medido antes de decidir nada: `getAiReport` existe en `frontend/lib/api.ts` y
+**no tiene ni un llamador**; no hay `EventSource` contra la ruta SSE, y
+`ai_report` está declarado en `lib/types.ts` pero no se renderiza en ningún
+sitio. La superficie de IA generativa que un usuario alcanza en la 1.0.0 es
+**MolChat y sólo MolChat**. Los endpoints se quedan —ahora con puerta—, pero la
+divulgación se dimensiona por lo que la interfaz entrega.
+
+### 8.3 La divulgación
+
+Aviso permanente en el panel de MolChat, pegado al campo de escritura, y un
+botón «Reportar respuesta» por cada respuesta del modelo. Dos decisiones
+deliberadas:
+
+- **no se puede cerrar.** Este panel ya tiene tres avisos que se cierran y
+  todos con razón: describen estados que pasan. Éste describe lo que el panel
+  es, y uno que desaparece al segundo turno no divulga nada;
+- **el reporte es un `mailto:`, no una llamada a un servicio.** Abrir una cuarta
+  salida a la red —que además mandaría la conversación— para cumplir una
+  obligación de transparencia contradiría el aviso que está justo encima. El
+  correo se abre con todo escrito y lo manda la persona.
+
+`PRIVACY.md` §4 lo declara, y su copia enviada está atada al original por gate.
+
+### 8.4 Lo que esto obliga a rehacer
+
+El paquete `1.0.0.0` de `E:\rel\v1.0.0.0\` (sha256 `493f95b4…`) se construyó
+desde `a516a4e`, que es el commit público. Nada de esta sección está en ese
+commit: está en `codex/release-hygiene`. Para que el revisor lea la política que
+describe MolChat hace falta llevar estos cambios al repositorio público, volver
+a etiquetar y reconstruir.
+
+Y hay que rehacer el WACK aunque no se tocara el código: el informe de
+`E:\rel\v1.0.0.0\wack-report.xml` está fechado a las **21:50 del 2026-09-12**
+y el MSIX que hay en esa misma carpeta se construyó a las **00:55 del 13**. El
+informe no corresponde al paquete. Su lectura sigue siendo la misma —un solo
+test obligatorio en fallo, `App manifest`, con «No se pudo extraer la
+información de la API importada»— pero de otro paquete, y eso no es evidencia.
+
+### 8.5 Correcciones a lo escrito antes en este documento
+
+- El punto **5** de §7 («las URLs públicas de `LICENSE` y `PRIVACY.md` son
+  404») está resuelto: ambas responden **200** bajo el tag `v1.0.0`. Lo que no
+  está resuelto es que ese tag sirve la política **anterior** a §8.3.
+- La ficha de Store decía «sin enviar estructuras a ningún sitio», el mismo
+  absoluto que `7c49e76` retiró de la interfaz. Corregido en el artefacto de
+  envío.

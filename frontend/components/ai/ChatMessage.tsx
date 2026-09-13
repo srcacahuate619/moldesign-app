@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { User, Bot, Globe, X } from "lucide-react";
 import { MarkdownRenderer } from "./MarkdownRenderer";
 import { BloqueDeEvidencia, separarEvidencia } from "./BloqueDeEvidencia";
+import { BotonDeReporte } from "./AvisoDeIAGenerativa";
 import { useAI } from "@/context/AIContext";
 import type { AIMessage } from "@/context/AIContext";
 
@@ -87,6 +88,13 @@ export function ChatMessage({ message, isStreaming }: Props) {
         >
           <MarkdownRenderer content={displayContent} />
           {!isUser && <BloqueDeEvidencia evidencias={evidencias} />}
+          {/* El canal de reporte va por respuesta y no sólo en el panel: lo que
+              se reporta es una respuesta concreta, y pedirle a alguien que la
+              copie a mano es un canal que nadie usa. Mientras se escribe no
+              aparece: todavía no hay respuesta que reportar. */}
+          {!isUser && !isStreaming && displayContent.trim() !== "" && (
+            <BotonDeReporte respuesta={displayContent} />
+          )}
           {isStreaming && (
             <span
               style={{
