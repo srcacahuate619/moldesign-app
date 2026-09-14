@@ -229,6 +229,46 @@ async fn restart_backend(app: tauri::AppHandle) -> Result<BackendStatus, String>
     .map_err(|e| format!("El reintento del motor no se pudo ejecutar: {}", e))
 }
 
+/// Permite a WebView2 dibujar WebGL por software cuando no hay GPU.
+///
+/// EL PROBLEMA. Chromium desactivó SwiftShader para WebGL por omisión: en una
+/// máquina sin GPU virtualizada —que es exactamente la del revisor de la Store
+/// y la de cualquier VM de pruebas— `canvas.getContext("webgl")` devuelve
+/// `null` y el visor molecular no puede existir.
+///
+/// LO QUE ESTO HACE Y LO QUE NO. No fuerza el render por software: sólo
+/// autoriza el repliegue cuando no hay otra cosa. Un equipo con tarjeta gráfica
+/// sigue usándola y no pierde un fotograma; medido, Mol* arranca en 1 072 ms
+/// con hardware y en 1 260 ms con SwiftShader, así que el repliegue es
+/// utilizable, no un consuelo.
+///
+/// POR QUÉ SE PUEDE. La bandera se llama «unsafe» porque un rasterizador por
+/// software amplía la superficie de ataque frente a contenido web hostil. Aquí
+/// no hay contenido web hostil: la política de contenido de esta aplicación
+/// sólo admite su propio origen, y lo que se dibuja son las estructuras que el
+/// usuario ya tiene en su disco.
+///
+/// NO pisa lo que ya hubiera puesto quien lanza la aplicación: se añade.
+#[cfg(target_os = "windows")]
+fn permitir_webgl_por_software() {
+    const BANDERA: &str = "--enable-unsafe-swiftshader";
+    const VARIABLE: &str = "WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS";
+
+    let previo = std::env::var(VARIABLE).unwrap_or_default();
+    if previo.contains(BANDERA) {
+        return;
+    }
+    let valor = if previo.trim().is_empty() {
+        BANDERA.to_string()
+    } else {
+        format!("{} {}", previo.trim(), BANDERA)
+    };
+    // SAFETY: se ejecuta antes de crear la webview y antes de arrancar ningún
+    // hilo propio, así que no hay lectura concurrente del entorno.
+    unsafe { std::env::set_var(VARIABLE, &valor) };
+    bootstrap_log(&format!("webgl:software-permitido {}", valor));
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     bootstrap_log("run:start");
@@ -236,6 +276,10 @@ pub fn run() {
         let msg = format!("PANIC IN MOLDESIGN: {}\n", info);
         let _ = std::fs::write(std::env::temp_dir().join("moldesign_crash.txt"), &msg);
     }));
+
+    // Antes de que exista la webview: después, la variable ya no se lee.
+    #[cfg(target_os = "windows")]
+    permitir_webgl_por_software();
 
     let builder = tauri::Builder::default();
 

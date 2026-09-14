@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Box, Crosshair } from "lucide-react";
+import { AvisoSinWebGL, NotaRenderPorSoftware } from "./AvisoSinWebGL";
 import {
   VIEWER_LABEL_BUTTON_CLASS,
   VIEWER_LABEL_PANEL_CLASS,
@@ -220,6 +221,14 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
   const viewerRef = useRef<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  /**
+   * El equipo no pudo dar un contexto 3D.
+   *
+   * Se separa de `error` porque no es lo mismo: un error es algo que falló y
+   * puede reintentarse; esto es una capacidad que la máquina no tiene, y lo que
+   * hay que decir entonces no es «ha fallado» sino qué sigue siendo válido.
+   */
+  const [sinContexto3D, setSinContexto3D] = useState(false);
   const [viewerReady, setViewerReady] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -324,12 +333,41 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           }
         });
 
+        // ── Mol* puede «crear» y aun así no dibujar ────────────────────────
+        //
+        // `Viewer.create` resuelve sin lanzar aunque el contexto 3D no llegue a
+        // existir: lo que hace entonces es escribir SU mensaje dentro del
+        // contenedor —«WebGL does not seem to be available… or bad weather»—.
+        // Ese texto le habla de navegadores desactualizados a alguien que está
+        // usando una aplicación de escritorio, y no responde a la única
+        // pregunta que importa: ¿he perdido la corrida?
+        //
+        // Por eso no basta con el `catch`: hay que MIRAR el contenedor. Si Mol*
+        // se ha pintado un error, se desecha el visor y se levanta un estado
+        // propio, que es lo que ve el usuario.
+        const pintado = containerRef.current?.textContent ?? "";
+        const seQuejoDeWebGL = /webgl/i.test(pintado) && !containerRef.current?.querySelector("canvas");
+        if (seQuejoDeWebGL) {
+          try { viewer.dispose(); } catch { /* ya está roto; no empeora */ }
+          if (!cancelled) {
+            if (containerRef.current) containerRef.current.innerHTML = "";
+            setSinContexto3D(true);
+          }
+          return;
+        }
+
         viewerRef.current = viewer;
         setViewerReady(true);
       } catch (err) {
         if (!cancelled) {
           console.error("Error al inicializar Molstar:", err);
-          setError("No se pudo cargar el visor 3D científico (Mol*).");
+          // Un fallo de contexto 3D no es «la librería no cargó»: se distingue
+          // para poder explicar qué sigue siendo válido en vez de dar un error.
+          if (/webgl|context|gpu/i.test(String(err))) {
+            setSinContexto3D(true);
+          } else {
+            setError("No se pudo cargar el visor 3D científico (Mol*).");
+          }
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -697,8 +735,23 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
         </div>
       )}
 
+      {/* El 3D lo está dibujando el procesador. No estorba —es una nota, no un
+          aviso— pero evita que alguien piense que la aplicación está rota
+          cuando lo que pasa es que su máquina no tiene tarjeta gráfica. */}
+      {!sinContexto3D && !error && <NotaRenderPorSoftware />}
+
       {/* Error HUD */}
-      {error && (
+      {/* El equipo no tiene contexto 3D. Va ANTES que `error` porque es más
+          específico: decir «no se pudo cargar el visor» cuando lo que pasa es
+          que la máquina no puede dibujar en 3D manda a buscar un fallo que no
+          existe. */}
+      {sinContexto3D && (
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#05080f]/95 p-4">
+          <AvisoSinWebGL forzar />
+        </div>
+      )}
+
+      {error && !sinContexto3D && (
         <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#05080f]/90 gap-2 p-4 text-center">
           <span className="text-2xl text-rose-500">⚠️</span>
           <p className="text-xs text-rose-400 font-bold">{error}</p>
