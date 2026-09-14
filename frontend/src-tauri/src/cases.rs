@@ -55,8 +55,8 @@ pub const MANIFEST_FILE: &str = "case.json";
 pub const BACKUP_FILE: &str = ".case.json.bak";
 // Must stay aligned with frontend/lib/cases/types.ts. The native boundary
 // decides whether the frontend manifest can be written to disk.
-const CURRENT_CASE_SCHEMA_VERSION: u64 = 6;
-const SUPPORTED_CASE_SCHEMA_VERSIONS: &[u64] = &[1, 2, 3, 4, 5, CURRENT_CASE_SCHEMA_VERSION];
+const CURRENT_CASE_SCHEMA_VERSION: u64 = 7;
+const SUPPORTED_CASE_SCHEMA_VERSIONS: &[u64] = &[1, 2, 3, 4, 5, 6, CURRENT_CASE_SCHEMA_VERSION];
 const REGISTRY_FILE: &str = "authorized_cases.json";
 const MAX_FOLDER_NAME_LEN: usize = 64;
 const MAX_MANIFEST_BYTES: u64 = 4 * 1024 * 1024;
@@ -990,7 +990,44 @@ pub fn validate_manifest(contents: &str) -> Result<(), String> {
         }
     }
 
-    validate_active_run(obj.get("activeRun"))?;
+    // `activeRun` sólo llega en manifiestos v1-v6. Desde v7 el frontend escribe
+    // el LIBRO y deriva el puntero al releer, así que aquí se validan los dos:
+    // un v6 en disco sigue teniendo que abrirse.
+    validate_run_entry(obj.get("activeRun"), "activeRun")?;
+    validate_case_runs(obj.get("runs"))?;
+    Ok(())
+}
+
+/// Valida el libro de corridas con el MISMO contrato que `parseCaseRuns` en
+/// TypeScript.
+///
+/// AUSENTE ES VÁLIDO —un caso recién creado no ha lanzado nada— y una lista
+/// vacía también. Lo que se rechaza es un `runs` que no sea lista, una fila
+/// mal formada, o dos filas con el mismo `taskId`: un libro con la misma
+/// corrida dos veces no permitiría decir cuál de las dos es la buena, y este
+/// es el lado que decide si el archivo llega a escribirse.
+fn validate_case_runs(value: Option<&serde_json::Value>) -> Result<(), String> {
+    let Some(value) = value else { return Ok(()) };
+    if value.is_null() {
+        return Ok(());
+    }
+    let runs = value
+        .as_array()
+        .ok_or_else(|| "INVALID_MANIFEST: `runs` debe ser una lista.".to_string())?;
+    let mut seen: std::collections::HashSet<&str> = std::collections::HashSet::new();
+    for (index, entry) in runs.iter().enumerate() {
+        let path = format!("runs[{index}]");
+        validate_run_entry(Some(entry), &path)?;
+        let task_id = entry
+            .get("taskId")
+            .and_then(|v| v.as_str())
+            .unwrap_or_default();
+        if !seen.insert(task_id) {
+            return Err(format!(
+                "INVALID_MANIFEST: `runs` contiene dos veces el taskId {task_id}."
+            ));
+        }
+    }
     Ok(())
 }
 
@@ -1198,53 +1235,100 @@ const RUN_EXECUTION_STATES: [&str; 7] = [
     "cancelled",
 ];
 
-/// Valida `activeRun` con el MISMO contrato que `parseActiveRun` en TypeScript.
+/// Valida UNA corrida con el MISMO contrato que `parseRunEntry` en TypeScript.
 ///
-/// AUSENTE ES VÁLIDO: un caso creado por R1 no tiene esta clave y tiene que
+/// AUSENTE ES VÁLIDO: un caso creado por R1 no tiene corridas y tiene que
 /// seguir abriéndose. Lo que se rechaza es una corrida PRESENTE y mal formada:
 /// una corrida que existe y cuyo registro está roto es justo lo que no se puede
 /// tratar como "no hay corrida", porque la tarea sigue viva en el backend.
-fn validate_active_run(value: Option<&serde_json::Value>) -> Result<(), String> {
+///
+/// `path` es la ruta exacta dentro del manifiesto —`activeRun` en los v1-v6,
+/// `runs[2]` desde v7— porque el error tiene que decir qué fila falla.
+fn validate_run_entry(value: Option<&serde_json::Value>, path: &str) -> Result<(), String> {
     let Some(value) = value else { return Ok(()) };
     if value.is_null() {
         return Ok(());
     }
     let run = value
         .as_object()
-        .ok_or_else(|| "INVALID_MANIFEST: `activeRun` debe ser un objeto.".to_string())?;
+        .ok_or_else(|| format!("INVALID_MANIFEST: `{path}` debe ser un objeto."))?;
 
     match run.get("taskId").and_then(|v| v.as_str()) {
         Some(s) if !s.is_empty() => {}
-        _ => return Err("INVALID_MANIFEST: `activeRun.taskId` falta o no es una cadena.".into()),
+        _ => return Err(format!(
+            "INVALID_MANIFEST: `{path}.taskId` falta o no es una cadena."
+        )),
     }
     match run.get("executionState").and_then(|v| v.as_str()) {
         Some(s) if RUN_EXECUTION_STATES.contains(&s) => {}
         Some(s) => {
             return Err(format!(
-                "INVALID_MANIFEST: `activeRun.executionState` desconocido: {s}."
+                "INVALID_MANIFEST: `{path}.executionState` desconocido: {s}."
             ))
         }
-        None => return Err("INVALID_MANIFEST: falta `activeRun.executionState`.".into()),
+        None => return Err(format!("INVALID_MANIFEST: falta `{path}.executionState`.")),
     }
     match run.get("startedAt").and_then(|v| v.as_str()) {
         Some(s) if is_iso_8601(s) => {}
         Some(s) => {
             return Err(format!(
-                "INVALID_MANIFEST: `activeRun.startedAt` no es una fecha ISO 8601: {s}."
+                "INVALID_MANIFEST: `{path}.startedAt` no es una fecha ISO 8601: {s}."
             ))
         }
-        None => return Err("INVALID_MANIFEST: falta `activeRun.startedAt`.".into()),
+        None => return Err(format!("INVALID_MANIFEST: falta `{path}.startedAt`.")),
+    }
+    if let Some(finished) = run.get("finishedAt") {
+        match finished.as_str() {
+            Some(s) if is_iso_8601(s) => {}
+            _ => {
+                return Err(format!(
+                    "INVALID_MANIFEST: `{path}.finishedAt` no es una fecha ISO 8601."
+                ))
+            }
+        }
     }
     if let Some(progress) = run.get("lastKnownProgress") {
         if !progress.is_number() {
-            return Err(
-                "INVALID_MANIFEST: `activeRun.lastKnownProgress` debe ser un número.".into(),
-            );
+            return Err(format!(
+                "INVALID_MANIFEST: `{path}.lastKnownProgress` debe ser un número."
+            ));
         }
     }
     if let Some(err) = run.get("lastError") {
         if !err.is_string() {
-            return Err("INVALID_MANIFEST: `activeRun.lastError` debe ser una cadena.".into());
+            return Err(format!(
+                "INVALID_MANIFEST: `{path}.lastError` debe ser una cadena."
+            ));
+        }
+    }
+    if let Some(affinity) = run.get("affinityKcal") {
+        if affinity.as_f64().map_or(true, |v| !v.is_finite()) {
+            return Err(format!(
+                "INVALID_MANIFEST: `{path}.affinityKcal` debe ser un número finito."
+            ));
+        }
+    }
+    if let Some(protocol) = run.get("protocol") {
+        let protocol = protocol
+            .as_object()
+            .ok_or_else(|| format!("INVALID_MANIFEST: `{path}.protocol` debe ser un objeto."))?;
+        match protocol.get("dockingEngine").and_then(|v| v.as_str()) {
+            Some(s) if !s.is_empty() => {}
+            _ => {
+                return Err(format!(
+                    "INVALID_MANIFEST: `{path}.protocol.dockingEngine` falta o no es una cadena."
+                ))
+            }
+        }
+        for key in ["exhaustiveness", "numPoses", "conformers"] {
+            match protocol.get(key).and_then(|v| v.as_u64()) {
+                Some(n) if n > 0 => {}
+                _ => {
+                    return Err(format!(
+                        "INVALID_MANIFEST: `{path}.protocol.{key}` debe ser un entero positivo."
+                    ))
+                }
+            }
         }
     }
     Ok(())

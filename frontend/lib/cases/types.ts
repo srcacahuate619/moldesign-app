@@ -36,13 +36,19 @@
  * cadena, caja efectiva, protocolo y huella. El caso puede seguir recibiendo
  * infinitos ligandos, pero no puede cambiar silenciosamente de sistema.
  *
+ * v7 guarda el LIBRO de corridas (`runs`) en lugar de sólo la última. Hasta v6
+ * el manifiesto tenía un `activeRun` singular y cada corrida nueva pisaba el
+ * puntero a la anterior: el informe seguía intacto en el backend y dejaba de
+ * ser alcanzable desde el caso. `activeRun` pasa a DERIVARSE de la última
+ * entrada y ya no se escribe en disco.
+ *
  * Las migraciones viven en `schema.ts` y son explicitas; un manifiesto v1 o v2
  * se sigue leyendo y se normaliza al abrirlo.
  */
-export const CASE_SCHEMA_VERSION = 6;
+export const CASE_SCHEMA_VERSION = 7;
 
 /** Versiones que este build sabe leer. Una version mayor se rechaza. */
-export const SUPPORTED_SCHEMA_VERSIONS: readonly number[] = [1, 2, 3, 4, 5, 6];
+export const SUPPORTED_SCHEMA_VERSIONS: readonly number[] = [1, 2, 3, 4, 5, 6, 7];
 
 // ── Estado cientifico del caso ───────────────────────────────────────
 
@@ -146,6 +152,124 @@ export interface ActiveRun {
    * "corresponde"; se declara desconocido (ver `runMatchesInputs`).
    */
   readonly inputFingerprint?: string;
+}
+
+// ── El LIBRO de corridas del caso ────────────────────────────────────
+//
+// `activeRun` responde «¿qué corrida está mirando o siguiendo esta superficie
+// ahora?». NO responde «¿qué ha producido este caso?», y durante seis versiones
+// del esquema fue lo único que se guardó: cada corrida nueva pisaba el puntero a
+// la anterior y su informe dejaba de ser alcanzable desde el caso. El dato nunca
+// se perdía —`evaluation_runs` guarda en el backend el snapshot inmutable de
+// cada `task_id` precisamente «de modo que casos y cohortes no cambien al
+// ejecutar de nuevo la misma molécula»—; lo que faltaba era el puntero.
+//
+// `runs` es ese libro, y reparte las responsabilidades igual que el backend:
+//
+//   runs        el LIBRO   una fila por corrida; no se sobrescribe
+//   activeRun   el DEDO    proyección de la última fila
+//
+// `activeRun` NO SE PERSISTE. Se deriva de la última entrada de `runs` al
+// parsear (`schema.ts`). Escribir las dos cosas daría dos fuentes de verdad
+// para lo mismo y la próxima escritura tendría que decidir cuál gana.
+//
+// De cada corrida se guarda su IDENTIDAD más lo justo para pintar su fila SIN
+// backend —ligando, afinidad, protocolo—. El payload científico sigue siendo
+// del backend: copiarlo aquí lo dejaría envejecer sin que nada lo revalidara,
+// que es la misma regla que ya cumple `PreflightSummary`.
+
+/**
+ * Protocolo con el que se ejecutó UNA corrida.
+ *
+ * Se sella por corrida y no por caso a propósito. El sistema estructural
+ * —receptor, cadena, caja— sí es del caso: cambiarlo hace que las corridas
+ * dejen de ser el mismo experimento. El esfuerzo de muestreo no: repetir el
+ * mismo ligando con más `exhaustiveness` para comprobar convergencia es
+ * trabajo normal, y prohibirlo no protegía nada. Lo que hay que impedir es
+ * comparar en silencio dos corridas que no se pueden comparar, y para eso
+ * basta con que cada una diga con qué protocolo se ejecutó.
+ */
+export interface CaseRunProtocol {
+  readonly dockingEngine: string;
+  readonly exhaustiveness: number;
+  readonly numPoses: number;
+  readonly conformers: number;
+}
+
+/**
+ * Una fila del libro. Es `ActiveRun` más lo que hace falta para enseñarla
+ * cuando el backend no contesta.
+ */
+export interface CaseRun extends ActiveRun {
+  /** Momento en que alcanzó un estado terminal. Ausente mientras no lo sea. */
+  readonly finishedAt?: string;
+  /** SMILES tal como se envió. Identifica la fila; no sustituye al canónico. */
+  readonly ligandSmiles?: string;
+  /** Titular de la corrida, kcal/mol. Ausente si no terminó o no la produjo. */
+  readonly affinityKcal?: number;
+  /** Protocolo efectivo. Ausente en corridas migradas de v6. */
+  readonly protocol?: CaseRunProtocol;
+}
+
+/** Última fila del libro: la corrida a la que apunta `activeRun`. */
+export function latestRun(runs: readonly CaseRun[] | undefined): CaseRun | undefined {
+  if (!runs || runs.length === 0) return undefined;
+  return runs[runs.length - 1];
+}
+
+/**
+ * Inserta o actualiza una corrida CONSERVANDO el orden del libro.
+ *
+ * Único punto por el que el libro cambia, y por eso el único sitio donde vive
+ * el invariante «activeRun es la última entrada». Una corrida ya presente se
+ * actualiza EN SU SITIO —el progreso de una corrida viva llega muchas veces— y
+ * una desconocida se añade al final. Nada se borra: un libro del que se puede
+ * quitar una página no sirve como registro de lo que un caso produjo.
+ */
+export function upsertRun(
+  runs: readonly CaseRun[] | undefined,
+  run: CaseRun,
+): readonly CaseRun[] {
+  const book = runs ?? [];
+  const index = book.findIndex((entry) => entry.taskId === run.taskId);
+  if (index === -1) return [...book, run];
+  // Se fusiona en vez de reemplazar: una actualización de progreso no trae
+  // `ligandSmiles` ni `affinityKcal`, y sustituir la fila entera los perdería.
+  const merged: CaseRun = { ...book[index], ...run };
+  const next = [...book];
+  next[index] = merged;
+  return next;
+}
+
+/** `true` si alguna corrida del caso llegó a producir evidencia. */
+export function hasCompletedRun(runs: readonly CaseRun[] | undefined): boolean {
+  return (runs ?? []).some((run) => run.executionState === "completed");
+}
+
+/**
+ * Cómo se relaciona el protocolo de una corrida con el del sistema del caso.
+ *
+ * `desconocido` NO se resuelve a «el mismo»: una corrida migrada de v6 no
+ * declaró protocolo, y afirmar que coincide sería inventarlo.
+ */
+export type RunProtocolRelation = "mismo_protocolo" | "otro_protocolo" | "desconocido";
+
+export function runProtocolRelation(
+  run: CaseRun,
+  system: CaseStructuralSystem | undefined,
+): RunProtocolRelation {
+  if (!run.protocol || !system) return "desconocido";
+  return run.protocol.dockingEngine === system.dockingEngine &&
+    run.protocol.exhaustiveness === system.exhaustiveness &&
+    run.protocol.numPoses === system.numPoses &&
+    run.protocol.conformers === system.conformers
+    ? "mismo_protocolo"
+    : "otro_protocolo";
+}
+
+/** Etiqueta corta del protocolo para la fila del libro. */
+export function describeRunProtocol(protocol: CaseRunProtocol): string {
+  return `${protocol.dockingEngine} · exh ${protocol.exhaustiveness} · ${protocol.numPoses} poses`;
 }
 
 // ── Disposicion de la EVIDENCIA ──────────────────────────────────────
@@ -615,27 +739,53 @@ export function structuralSystemFromRun(
 }
 
 /**
- * Restituye los campos estructurales desde el ancla y deja libre únicamente la
- * hipótesis de ligando. Centralizarlo evita que una ruta nueva cambie la caja
- * o el motor por accidente después de que el caso ya es comparable.
+ * Si el sistema del caso está SELLADO o todavía es provisional.
+ *
+ * El sistema se escribe al nacer el `taskId` —es el único instante en que la
+ * huella y la configuración efectiva son las de esa corrida— pero no queda
+ * sellado hasta que alguna corrida TERMINA en él. La versión anterior sellaba
+ * en el envío, así que una primera corrida que fallaba —caja mal puesta, Vina
+ * reventando en la preparación— casaba el caso para siempre con una
+ * configuración que nunca produjo nada, y la única salida era crear otro caso
+ * y perder el nombre, el contexto y las notas.
+ *
+ * Provisional NO significa ausente: el sistema se enseña igual, porque es el
+ * que se está usando. Significa que todavía se puede corregir.
+ */
+export function structuralSystemIsSealed(record: {
+  readonly structuralSystem?: CaseStructuralSystem;
+  readonly runs?: readonly CaseRun[];
+}): boolean {
+  return Boolean(record.structuralSystem) && hasCompletedRun(record.runs);
+}
+
+/**
+ * Restituye los campos ESTRUCTURALES desde el ancla y deja libre el resto.
+ *
+ * QUÉ SE RESTITUYE Y QUÉ NO. Receptor, cadena, caja y residuos definen el
+ * sistema: dos corridas que no los comparten no son el mismo experimento, y
+ * dejarlos editables después de sellar es el error más caro que puede cometer
+ * este producto. El protocolo —motor, exhaustiveness, poses, confórmeros— no
+ * define el sistema: define el esfuerzo. Restituirlo también obligaba a crear
+ * un caso nuevo para repetir el mismo ligando con más muestreo, que es trabajo
+ * normal de laboratorio, y no protegía nada que `runProtocolRelation` no diga
+ * mejor: cada corrida declara su protocolo y una que se salga se ve.
+ *
+ * Centralizarlo evita que una ruta nueva cambie la caja por accidente después
+ * de que el caso ya es comparable.
  */
 export function inputsForStructuralSystem(
   system: CaseStructuralSystem,
-  ligand: CaseLigand | undefined,
+  requested: CaseInputs,
 ): CaseInputs {
   return {
+    ...requested,
     receptor: { ...system.receptor },
-    ...(ligand ? { ligand: { ...ligand } } : {}),
     grid: {
       center: [...system.grid.center] as [number, number, number],
       size: [...system.grid.size] as [number, number, number],
     },
     customHotspots: [...system.customHotspots],
-    dockingEngine: system.dockingEngine,
-    exhaustiveness: system.exhaustiveness,
-    numPoses: system.numPoses,
-    conformers: system.conformers,
-    ...(system.pipelineConfig ? { pipelineConfig: system.pipelineConfig } : {}),
   };
 }
 
@@ -705,7 +855,17 @@ export interface CaseRecord {
   readonly activeView: CaseView;
   readonly context: CaseContext;
   readonly archived: boolean;
-  /** Última corrida, viva o terminal. Ausente antes de ejecutar o tras reset. */
+  /**
+   * Libro de corridas del caso, en orden de arranque. Nunca se sobrescribe una
+   * entrada por otra: cada corrida que este caso lanzó conserva su fila.
+   */
+  readonly runs: readonly CaseRun[];
+  /**
+   * Última corrida, viva o terminal. DERIVADA de `runs`: no se persiste y no
+   * se escribe a mano. Sigue aquí porque es la pregunta que hace casi toda la
+   * UI —qué corrida se está siguiendo— y obligarla a mirar el libro entero
+   * para responderla sólo repartiría la misma derivación por treinta sitios.
+   */
   readonly activeRun?: ActiveRun;
   /** Receptor y ligando elegidos. Ausente mientras no se elija ninguno. */
   readonly inputs?: CaseInputs;

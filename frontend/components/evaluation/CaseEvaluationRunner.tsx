@@ -52,6 +52,7 @@ import { notifyRunFinished } from "../../lib/activityNotifications";
 import type {
   ActiveRun,
   CaseInputs,
+  CaseRun,
   CasePipelineConfig,
   CaseStructuralSystem,
   HumanDecision,
@@ -141,7 +142,7 @@ export interface CaseEvaluationRunnerProps {
   /** Notifica trabajo vivo NO persistido (MM-GBSA). */
   readonly onLiveWorkChange?: (patch: LiveWorkPatch) => void;
   /** Registra o cierra la corrida persistida. `null` la cierra. */
-  readonly onActiveRunChange?: (run: ActiveRun | null) => void;
+  readonly onActiveRunChange?: (run: CaseRun | null) => void;
   /**
    * Persiste la corrida recién nacida y ESPERA a que llegue al repositorio.
    *
@@ -149,7 +150,7 @@ export interface CaseEvaluationRunnerProps {
    * progreso posteriores siguen por `onActiveRunChange`, con su debounce: ahí
    * perder una actualización no pierde la tarea.
    */
-  readonly onRunRegistered?: (run: ActiveRun) => Promise<boolean>;
+  readonly onRunRegistered?: (run: CaseRun) => Promise<boolean>;
   /**
    * Publica la referencia MÍNIMA al resultado con el que se puede armar un
    * informe, o `null` si no hay ninguno.
@@ -176,6 +177,12 @@ export interface CaseEvaluationRunnerProps {
   readonly inputs?: CaseInputs;
   /** Sistema fijado por la primera corrida del caso, si ya existe. */
   readonly structuralSystem?: CaseStructuralSystem;
+  /** El sistema ya está SELLADO: alguna corrida del caso terminó en él. */
+  readonly structuralSystemSealed?: boolean;
+  /** Cuántas corridas tiene el caso en su libro. */
+  readonly runCount?: number;
+  /** Abre el historial de corridas del caso, si el contenedor lo ofrece. */
+  readonly onOpenRunHistory?: () => void;
   /** Persiste receptor/ligando/caja. Invalida el preflight si algo cambió. */
   readonly onInputsChange?: (patch: Partial<CaseInputs>) => void;
   /** Resumen del último preflight guardado en el caso. */
@@ -195,6 +202,9 @@ export default function CaseEvaluationRunner({
   onReportRecoveryChange,
   inputs,
   structuralSystem,
+  structuralSystemSealed = false,
+  runCount = 0,
+  onOpenRunHistory,
   onInputsChange,
   preflight,
   onPreflightChange,
@@ -399,6 +409,20 @@ export default function CaseEvaluationRunner({
           : {}),
       executionState,
       startedAt: status?.started_at ?? activeRun?.startedAt ?? new Date().toISOString(),
+      // El titular de la corrida se copia a su fila para que el libro se pueda
+      // leer sin backend. NO es una segunda copia del informe: es la cifra y el
+      // ligando que identifican la fila; el payload sigue detrás del
+      // `moleculeId`, que es lo único con lo que se reabre.
+      ...(status?.finished_at ? { finishedAt: status.finished_at } : {}),
+      ...(typeof status?.result?.affinity_kcal === "number"
+        ? { affinityKcal: status.result.affinity_kcal }
+        : {}),
+      // `ligandSmiles` NO se escribe aquí. Lo puso el submit con el SMILES
+      // inspeccionado y `upsertRun` lo conserva al fusionar. Rellenarlo desde
+      // `inputs.ligand` sería atribuir a esta corrida el ligando que haya AHORA
+      // en pantalla, que es precisamente la atribución falsa que el resto del
+      // modelo se dedica a impedir. Una fila migrada de v6 no lo tiene, y lo
+      // correcto es que diga que no lo sabe.
       // El fingerprint es de la corrida, no del momento: sobrevive a cada
       // actualización de progreso. Perderlo aquí dejaría la corrida sin poder
       // demostrar a qué hipótesis pertenece.
@@ -975,7 +999,7 @@ export default function CaseEvaluationRunner({
       // seguir: con el debounce de 600 ms, cerrar la ventana en esa ventana
       // dejaba la tarea viva en el backend sin que nada la registrara.
       const startedAt = new Date().toISOString();
-      const newRun: ActiveRun = {
+      const newRun: CaseRun = {
         taskId: result.task_id,
         executionState: "submitted",
         startedAt,
@@ -983,6 +1007,17 @@ export default function CaseEvaluationRunner({
         // que permitirá, más tarde, decir si el informe guardado corresponde a
         // la hipótesis que haya entonces en pantalla o a una anterior.
         ...(preflight?.fingerprint ? { inputFingerprint: preflight.fingerprint } : {}),
+        // Lo justo para que la fila del libro se pueda pintar SIN backend. El
+        // ligando y el protocolo salen de lo INSPECCIONADO, no de los controles
+        // de la pantalla: si esas dos cosas pudieran diferir, la fila afirmaría
+        // un protocolo que la corrida no usó.
+        ligandSmiles: inspectedSmiles,
+        protocol: {
+          dockingEngine: execution.dockingEngine,
+          exhaustiveness: execution.exhaustiveness,
+          numPoses: execution.numPoses,
+          conformers: execution.conformers ?? 1,
+        },
       };
       let registered = true;
       try {
@@ -1333,15 +1368,27 @@ export default function CaseEvaluationRunner({
       stopPolling={stopPolling}
       onLongRunningWorkChange={setAnalysisBusy}
       structuralSystem={structuralSystem}
+      structuralSystemSealed={structuralSystemSealed}
+      runCount={runCount}
+      onOpenRunHistory={onOpenRunHistory}
       preparationSlot={preparationSlot}
       runBlockedReason={runBlockedReason}
       initialRunConfiguration={initialRunConfiguration}
       onRunConfigurationChange={(config) => {
-        if (structuralSystem) {
-          setError(
-            "La configuración estructural de este caso está fijada. " +
-              "Puedes evaluar otro ligando con el mismo sistema.",
-          );
+        // Con el sistema SELLADO viaja sólo el protocolo. La caja y los
+        // residuos no se reenvían siquiera: `setInputs` los restituiría desde
+        // el ancla y de paso levantaría un aviso de que se intentó cambiarlos,
+        // que es ruido cuando la interfaz ya los tiene deshabilitados.
+        //
+        // Con el sistema PROVISIONAL —escrito por una corrida que aún no ha
+        // terminado— viaja todo: todavía se puede corregir.
+        if (structuralSystemSealed && structuralSystem) {
+          notifyInputs.current?.({
+            dockingEngine: config.dockingEngine,
+            exhaustiveness: config.exhaustiveness,
+            numPoses: config.numPoses,
+            pipelineConfig: config.pipelineConfig,
+          });
           return;
         }
         notifyInputs.current?.({

@@ -69,6 +69,17 @@ interface Props {
   gpuAvailable?: boolean;
   gpuCuda?: boolean;
   isPeptide?: boolean;
+  /**
+   * El caso ya tiene una corrida TERMINADA en su sistema estructural.
+   *
+   * Congela la caja y los residuos —lo que define el sistema— y deja libre el
+   * protocolo. La versión anterior no abría siquiera este modal: cambiar la
+   * exhaustiveness para comprobar convergencia obligaba a crear otro caso, y
+   * eso no protegía ninguna comparación. Lo que hay que impedir es comparar en
+   * silencio dos corridas incomparables, y de eso se encarga el libro de
+   * corridas, que enseña el protocolo de cada una.
+   */
+  systemSealed?: boolean;
 }
 
 // ── Valores por defecto ─────────────────────────────────────────
@@ -218,6 +229,7 @@ function NumberInput({
   max,
   step,
   label,
+  disabled = false,
 }: {
   value: number;
   onChange: (v: number) => void;
@@ -225,14 +237,16 @@ function NumberInput({
   max: number;
   step: number;
   label: string;
+  disabled?: boolean;
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-sm font-mono uppercase tracking-wider text-zinc-500">{label}</label>
+      <label className={`text-sm font-mono uppercase tracking-wider ${disabled ? "text-zinc-600" : "text-zinc-500"}`}>{label}</label>
       <div className="flex items-center gap-1.5">
         <button
           onClick={() => onChange(Math.max(min, value - step))}
-          className="w-7 h-7 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-600 flex items-center justify-center text-sm font-mono transition-colors cursor-pointer"
+          disabled={disabled}
+          className="w-7 h-7 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-600 flex items-center justify-center text-sm font-mono transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:text-zinc-400 disabled:hover:border-zinc-700"
         >
           −
         </button>
@@ -242,15 +256,17 @@ function NumberInput({
           min={min}
           max={max}
           step={step}
+          disabled={disabled}
           onChange={(e) => {
             const v = parseFloat(e.target.value);
             if (!isNaN(v)) onChange(Math.min(max, Math.max(min, v)));
           }}
-          className="w-16 text-center bg-black border border-zinc-700 rounded-lg py-1.5 font-mono text-sm text-white outline-none focus:border-purple-500/40 transition-colors"
+          className="w-16 text-center bg-black border border-zinc-700 rounded-lg py-1.5 font-mono text-sm text-white outline-none focus:border-purple-500/40 transition-colors disabled:cursor-not-allowed disabled:text-zinc-500"
         />
         <button
           onClick={() => onChange(Math.min(max, value + step))}
-          className="w-7 h-7 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-600 flex items-center justify-center text-sm font-mono transition-colors cursor-pointer"
+          disabled={disabled}
+          className="w-7 h-7 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-600 flex items-center justify-center text-sm font-mono transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:text-zinc-400 disabled:hover:border-zinc-700"
         >
           +
         </button>
@@ -361,6 +377,7 @@ export default function ProOptionsModal({
   gpuAvailable = false,
   gpuCuda = false,
   isPeptide = false,
+  systemSealed = false,
 }: Props) {
   useScrollLock(isOpen);
   const [engine, setEngine] = useState<DockingEngineConfig>(initialEngine || DEFAULT_ENGINE);
@@ -502,13 +519,18 @@ export default function ProOptionsModal({
     onClose();
   };
 
+  // Los residuos son parte del SISTEMA, no del protocolo: cambiarlos mueve la
+  // región que guía la búsqueda. El guard va aquí y no sólo en el botón para
+  // que una ruta nueva no se lo salte.
   const toggleHotspot = (name: string) => {
+    if (systemSealed) return;
     setSelectedHotspots((prev) =>
       prev.includes(name) ? prev.filter((h) => h !== name) : [...prev, name]
     );
   };
 
   const toggleAllHotspots = () => {
+    if (systemSealed) return;
     setSelectedHotspots(
       selectedHotspots.length === targetHotspots.length
         ? []
@@ -743,15 +765,30 @@ export default function ProOptionsModal({
                     {/* Grid Box Preview */}
                     <GridBoxPreview config={gridBox} />
 
+                    {systemSealed && (
+                      <div className="mt-4 rounded-xl border border-purple-500/20 bg-purple-500/[0.04] p-3">
+                        <p className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-purple-200">
+                          Caja y residuos fijados
+                        </p>
+                        <p className="mt-1 text-sm font-mono leading-relaxed text-zinc-300">
+                          Una corrida de este caso ya terminó en este sistema. La caja y los residuos
+                          definen qué se está comparando y no se pueden mover sin que las corridas
+                          dejen de ser el mismo experimento; para cambiarlos, crea otro caso.
+                          El protocolo —motor, exhaustiveness, poses— sí se puede cambiar: cada
+                          corrida guarda el suyo y el historial del caso enseña cuál usó cada una.
+                        </p>
+                      </div>
+                    )}
+
                     {/* Coordenadas del Centro */}
                     <div className="mt-4 space-y-3">
                       <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500">
                         Centro del Grid Box (Å)
                       </p>
                       <div className="grid grid-cols-3 gap-2">
-                        <NumberInput label="X" value={gridBox.centerX} onChange={(v) => setGridBox({ ...gridBox, centerX: v })} min={-100} max={100} step={0.5} />
-                        <NumberInput label="Y" value={gridBox.centerY} onChange={(v) => setGridBox({ ...gridBox, centerY: v })} min={-100} max={100} step={0.5} />
-                        <NumberInput label="Z" value={gridBox.centerZ} onChange={(v) => setGridBox({ ...gridBox, centerZ: v })} min={-100} max={100} step={0.5} />
+                        <NumberInput label="X" value={gridBox.centerX} onChange={(v) => setGridBox({ ...gridBox, centerX: v })} min={-100} max={100} step={0.5} disabled={systemSealed} />
+                        <NumberInput label="Y" value={gridBox.centerY} onChange={(v) => setGridBox({ ...gridBox, centerY: v })} min={-100} max={100} step={0.5} disabled={systemSealed} />
+                        <NumberInput label="Z" value={gridBox.centerZ} onChange={(v) => setGridBox({ ...gridBox, centerZ: v })} min={-100} max={100} step={0.5} disabled={systemSealed} />
                       </div>
                     </div>
 
@@ -761,9 +798,9 @@ export default function ProOptionsModal({
                         Dimensiones del Grid Box (Å)
                       </p>
                       <div className="grid grid-cols-3 gap-2">
-                        <NumberInput label="Tamaño X" value={gridBox.sizeX} onChange={(v) => setGridBox({ ...gridBox, sizeX: v })} min={5} max={50} step={0.5} />
-                        <NumberInput label="Tamaño Y" value={gridBox.sizeY} onChange={(v) => setGridBox({ ...gridBox, sizeY: v })} min={5} max={50} step={0.5} />
-                        <NumberInput label="Tamaño Z" value={gridBox.sizeZ} onChange={(v) => setGridBox({ ...gridBox, sizeZ: v })} min={5} max={50} step={0.5} />
+                        <NumberInput label="Tamaño X" value={gridBox.sizeX} onChange={(v) => setGridBox({ ...gridBox, sizeX: v })} min={5} max={50} step={0.5} disabled={systemSealed} />
+                        <NumberInput label="Tamaño Y" value={gridBox.sizeY} onChange={(v) => setGridBox({ ...gridBox, sizeY: v })} min={5} max={50} step={0.5} disabled={systemSealed} />
+                        <NumberInput label="Tamaño Z" value={gridBox.sizeZ} onChange={(v) => setGridBox({ ...gridBox, sizeZ: v })} min={5} max={50} step={0.5} disabled={systemSealed} />
                       </div>
                     </div>
 
@@ -826,7 +863,8 @@ export default function ProOptionsModal({
                     <button
                       type="button"
                       onClick={toggleAllHotspots}
-                      className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-zinc-700 transition-colors cursor-pointer"
+                      disabled={systemSealed}
+                      className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-zinc-700 transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-zinc-800 disabled:hover:text-zinc-300"
                     >
                       {selectedHotspots.length === targetHotspots.length
                         ? "Desmarcar todos"
@@ -834,8 +872,10 @@ export default function ProOptionsModal({
                     </button>
                   </div>
                   <p className="text-sm font-mono text-zinc-500 leading-relaxed">
-                    Define qué residuos del bolsillo guían la búsqueda. Desmarcá los que no quieras considerar.
-                    ({selectedHotspots.length}/{targetHotspots.length} activos)
+                    {systemSealed
+                      ? "Fijados por la primera corrida que terminó en este caso."
+                      : "Define qué residuos del bolsillo guían la búsqueda. Desmarcá los que no quieras considerar."}
+                    {" "}({selectedHotspots.length}/{targetHotspots.length} activos)
                   </p>
                   <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1">
                     {targetHotspots.map((h) => {
@@ -845,8 +885,11 @@ export default function ProOptionsModal({
                           key={h.name}
                           type="button"
                           onClick={() => toggleHotspot(h.name)}
+                          disabled={systemSealed}
                           title={`${h.name} · importancia ${h.importance?.toFixed?.(2) ?? h.importance}`}
-                          className={`px-2 py-1 rounded-lg text-[10px] font-mono font-bold transition-all cursor-pointer border ${
+                          className={`px-2 py-1 rounded-lg text-[10px] font-mono font-bold transition-all border disabled:cursor-not-allowed ${
+                            systemSealed ? "cursor-not-allowed" : "cursor-pointer"
+                          } ${
                             active
                               ? "bg-purple-500/15 border-purple-500/40 text-purple-300"
                               : "bg-zinc-900/60 border-zinc-800 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700"

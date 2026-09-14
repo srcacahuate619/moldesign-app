@@ -160,7 +160,7 @@ describe("trabajo vivo de una corrida recuperada", () => {
       await repository.updateCase({
         ...(await repository.readCase(id)),
         status: "running",
-        activeRun: { taskId: "task-vieja", executionState: "running", startedAt: RUN.startedAt },
+        runs: [{ taskId: "task-vieja", executionState: "running", startedAt: RUN.startedAt }],
       });
     });
     // Se cierra y se vuelve a abrir, como haría un reinicio.
@@ -196,7 +196,7 @@ describe("trabajo vivo de una corrida recuperada", () => {
     await act(async () => {
       await repository.updateCase({
         ...(await repository.readCase(id)),
-        activeRun: { taskId: "t", executionState: "completed", startedAt: RUN.startedAt },
+        runs: [{ taskId: "t", executionState: "completed", startedAt: RUN.startedAt }],
       });
     });
     await act(async () => {

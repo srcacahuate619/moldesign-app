@@ -227,7 +227,7 @@ fn manifest_validation_rejects_partial_manifests() {
     // v5 is current: a partial v5 manifest is invalid for its missing fields,
     // not because the native layer is behind the frontend schema.
     assert!(validate_manifest(r#"{"schemaVersion":4,"id":"a"}"#).is_err());
-    assert!(validate_manifest(r#"{"schemaVersion":7,"id":"a"}"#)
+    assert!(validate_manifest(r#"{"schemaVersion":8,"id":"a"}"#)
         .unwrap_err()
         .starts_with("UNSUPPORTED_VERSION"));
 
@@ -1125,6 +1125,124 @@ fn active_run_contract_matches_typescript() {
 }
 
 #[test]
+fn the_run_book_is_validated_row_by_row() {
+    // El libro de corridas (v7) sustituye a `activeRun`. Esta frontera es la
+    // que decide si el archivo LLEGA A ESCRIBIRSE: una fila rota que se dejara
+    // pasar aquí reventaría después en TypeScript, con el archivo ya en disco.
+    let dir = temp_dir("run_book");
+    let good = valid_manifest("id-book", &dir);
+    let with_runs = |runs: serde_json::Value| {
+        let mut value: serde_json::Value = serde_json::from_str(&good).unwrap();
+        value["runs"] = runs;
+        serde_json::to_string(&value).unwrap()
+    };
+
+    // Un libro con varias corridas, con y sin metadatos de fila.
+    validate_manifest(&with_runs(serde_json::json!([
+        {
+            "taskId": "t-1",
+            "executionState": "completed",
+            "startedAt": "2026-08-23T12:00:00.000Z",
+            "finishedAt": "2026-08-23T12:04:00.000Z",
+            "ligandSmiles": "CCO",
+            "affinityKcal": -7.4,
+            "protocol": {
+                "dockingEngine": "vina",
+                "exhaustiveness": 8,
+                "numPoses": 9,
+                "conformers": 1,
+            },
+        },
+        {
+            "taskId": "t-2",
+            "executionState": "running",
+            "startedAt": "2026-08-23T13:00:00.000Z",
+        },
+    ])))
+    .unwrap();
+
+    for (nombre, runs) in [
+        (
+            "runs no es lista",
+            serde_json::json!({"taskId": "t-1"}),
+        ),
+        (
+            "fila no es objeto",
+            serde_json::json!(["t-1"]),
+        ),
+        (
+            "fila sin taskId",
+            serde_json::json!([{"executionState":"running","startedAt":"2026-08-23T12:00:00.000Z"}]),
+        ),
+        (
+            "estado desconocido",
+            serde_json::json!([{"taskId":"t","executionState":"corriendo","startedAt":"2026-08-23T12:00:00.000Z"}]),
+        ),
+        (
+            "finishedAt no es fecha",
+            serde_json::json!([{"taskId":"t","executionState":"completed","startedAt":"2026-08-23T12:00:00.000Z","finishedAt":"luego"}]),
+        ),
+        (
+            "afinidad no numérica",
+            serde_json::json!([{"taskId":"t","executionState":"completed","startedAt":"2026-08-23T12:00:00.000Z","affinityKcal":"buena"}]),
+        ),
+        (
+            "protocolo sin motor",
+            serde_json::json!([{"taskId":"t","executionState":"completed","startedAt":"2026-08-23T12:00:00.000Z","protocol":{"exhaustiveness":8,"numPoses":9,"conformers":1}}]),
+        ),
+        (
+            "exhaustiveness cero",
+            serde_json::json!([{"taskId":"t","executionState":"completed","startedAt":"2026-08-23T12:00:00.000Z","protocol":{"dockingEngine":"vina","exhaustiveness":0,"numPoses":9,"conformers":1}}]),
+        ),
+        (
+            // Un libro con la misma corrida dos veces no permitiría decir cuál
+            // de las dos es la buena.
+            "taskId repetido",
+            serde_json::json!([
+                {"taskId":"t","executionState":"completed","startedAt":"2026-08-23T12:00:00.000Z"},
+                {"taskId":"t","executionState":"failed","startedAt":"2026-08-23T13:00:00.000Z"},
+            ]),
+        ),
+    ] {
+        assert!(
+            validate_manifest(&with_runs(runs)).is_err(),
+            "debería rechazar: {nombre}"
+        );
+    }
+
+    // AUSENTE y VACÍO son los dos legítimos: un caso recién creado no ha
+    // lanzado nada.
+    validate_manifest(&good).unwrap();
+    validate_manifest(&with_runs(serde_json::json!([]))).unwrap();
+    validate_manifest(&with_runs(serde_json::Value::Null)).unwrap();
+
+    let _ = fs::remove_dir_all(dir);
+}
+
+#[test]
+fn a_v6_manifest_with_its_single_run_still_opens() {
+    // La migración a v7 la hace TypeScript al abrir. Rust sólo tiene que dejar
+    // pasar el v6 tal como está en disco: rechazarlo aquí dejaría inaccesibles
+    // todos los casos existentes.
+    let dir = temp_dir("v6_run");
+    let good = valid_manifest("id-v6", &dir);
+    let mut value: serde_json::Value = serde_json::from_str(&good).unwrap();
+    value["schemaVersion"] = serde_json::json!(6);
+    value["activeRun"] = serde_json::json!({
+        "taskId": "t-legacy",
+        "executionState": "completed",
+        "startedAt": "2026-08-23T12:00:00.000Z",
+    });
+    validate_manifest(&serde_json::to_string(&value).unwrap()).unwrap();
+
+    // Y su `activeRun` se sigue validando con el mismo contrato.
+    value["activeRun"] = serde_json::json!({"taskId": "t", "executionState": "corriendo"});
+    assert!(validate_manifest(&serde_json::to_string(&value).unwrap()).is_err());
+
+    let _ = fs::remove_dir_all(dir);
+}
+
+#[test]
 fn dates_are_validated_as_dates_not_just_as_strings() {
     let dir = temp_dir("dates");
     let good = valid_manifest("id-f", &dir);
@@ -1170,7 +1288,7 @@ fn a_new_case_lands_on_evaluation_not_on_a_questionnaire() {
     let text = initial_manifest("id-v2", "Caso", "explore-hypothesis", NOW, &dir);
     let value: serde_json::Value = serde_json::from_str(&text).unwrap();
 
-    assert_eq!(value["schemaVersion"], 6);
+    assert_eq!(value["schemaVersion"], 7);
     assert_eq!(value["ownerUserId"], "test-owner");
     assert_eq!(value["activeView"], "evaluation");
     // La clave vieja NO se escribe: dos nombres para lo mismo obligarían a

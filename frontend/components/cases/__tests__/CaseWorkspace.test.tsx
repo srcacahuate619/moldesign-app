@@ -396,11 +396,13 @@ describe("Case Workspace", () => {
           activeView: "report",
           context: { studyKind: "explore-hypothesis" },
           archived: false,
-          activeRun: {
-            taskId: REPORTABLE.taskId,
-            executionState: "completed",
-            startedAt: now,
-          },
+          runs: [
+            {
+              taskId: REPORTABLE.taskId,
+              executionState: "completed",
+              startedAt: now,
+            },
+          ],
         }),
       );
 
@@ -522,11 +524,13 @@ describe("Case Workspace", () => {
       await act(async () => {
         await repository.updateCase({
           ...(await repository.readCase(entry.id)),
-          activeRun: {
-            taskId: "task-perdida-0001",
-            executionState: "completed",
-            startedAt: "2026-08-01T10:00:00.000Z",
-          },
+          runs: [
+            {
+              taskId: "task-perdida-0001",
+              executionState: "completed",
+              startedAt: "2026-08-01T10:00:00.000Z",
+            },
+          ],
         });
       });
       // Se reabre, como haría un reinicio.
@@ -689,12 +693,14 @@ describe("atribución del informe", () => {
       const record = await repository.readCase(entry.id);
       await repository.updateCase({
         ...record,
-        activeRun: {
-          taskId: "task-anterior",
-          executionState: "completed",
-          startedAt: "2026-08-24T09:00:00.000Z",
-          ...(fingerprint ? { inputFingerprint: fingerprint } : {}),
-        },
+        runs: [
+          {
+            taskId: "task-anterior",
+            executionState: "completed",
+            startedAt: "2026-08-24T09:00:00.000Z",
+            ...(fingerprint ? { inputFingerprint: fingerprint } : {}),
+          },
+        ],
         ...(preflightFingerprint
           ? {
               preflight: {

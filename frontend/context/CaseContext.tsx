@@ -43,18 +43,22 @@ import {
   type RegistryHealth,
 } from "../lib/cases/repository";
 import { CaseSaveQueue, type SaveOutcome } from "../lib/cases/saveQueue";
-import { touchCase } from "../lib/cases/schema";
+import { caseWithRun, touchCase } from "../lib/cases/schema";
 import {
   CaseError,
+  hasCompletedRun,
   inputsForStructuralSystem,
+  latestRun,
   isRunBlocking,
   runMatchesInputs,
   structuralSystemFromRun,
+  structuralSystemIsSealed,
   type ActiveRun,
   type CaseContext as CaseContextData,
   type CaseIndexEntry,
   type CaseInputs,
   type CaseRecord,
+  type CaseRun,
   type CaseDispositionKind,
   type CaseStudyKind,
   type CaseView,
@@ -139,12 +143,13 @@ export interface CaseContextValue {
   /** Lo llama el runner para el trabajo que NO se persiste (MM-GBSA). */
   setLiveWork(patch: Partial<LiveWork>): void;
   /**
-   * Registra, actualiza o limpia la última corrida PERSISTIDA del caso activo.
+   * Escribe o actualiza una corrida en el LIBRO del caso activo.
    *
-   * `null` la limpia por una acción explícita. Los estados terminales se
-   * conservan: no bloquean, pero permiten recuperar el resultado al volver.
+   * `null` significa que esta superficie dejó de seguir una tarea; no retira
+   * nada del libro. Los estados terminales se conservan: dejan de bloquear,
+   * pero siguen siendo el vínculo para recuperar su informe.
    */
-  setActiveRun(run: ActiveRun | null): void;
+  setActiveRun(run: CaseRun | null): void;
   /**
    * Persiste la corrida y ESPERA a que llegue al repositorio.
    *
@@ -153,9 +158,9 @@ export interface CaseContextValue {
    * en esa ventana la tarea queda viva en el backend sin que nada la registre.
    * Devuelve `false` si NO se pudo escribir.
    */
-  registerRun(run: ActiveRun): Promise<boolean>;
+  registerRun(run: CaseRun): Promise<boolean>;
   /** Corrida cuyo registro no llegó a disco. Bloquea y ofrece reintentar. */
-  readonly unregisteredRun: ActiveRun | null;
+  readonly unregisteredRun: CaseRun | null;
   retryRegisterRun(): Promise<boolean>;
   retrySave(): Promise<void>;
   refresh(): Promise<void>;
@@ -237,7 +242,7 @@ export function CaseProvider({
    * escritura sería el peor desenlace posible. Bloquea el cambio de caso y se
    * puede reintentar o copiar.
    */
-  const [unregisteredRun, setUnregisteredRun] = useState<ActiveRun | null>(null);
+  const [unregisteredRun, setUnregisteredRun] = useState<CaseRun | null>(null);
 
   const mounted = useRef(true);
   const activeCaseRef = useRef<CaseRecord | null>(null);
@@ -508,20 +513,24 @@ export function CaseProvider({
       setActiveCase((current) => {
         if (!current) return current;
         const requestedInputs = inputsReadyForPersistence({ ...current.inputs, ...patch });
-        // Una vez que una corrida registró el sistema, receptor/caja/protocolo
-        // dejan de ser controles editables de este caso. La UI los bloquea,
-        // pero esta frontera también protege contra rutas futuras o llamadas
+        // Una vez que una corrida TERMINÓ en este sistema, receptor, caja y
+        // residuos dejan de ser controles editables. La UI los bloquea, pero
+        // esta frontera también protege contra rutas futuras o llamadas
         // directas: un caso no puede cambiar de sistema por accidente.
-        const nextInputs = current.structuralSystem
-          ? inputsForStructuralSystem(current.structuralSystem, requestedInputs.ligand)
+        //
+        // El protocolo NO se restituye. Ver `inputsForStructuralSystem`: motor,
+        // exhaustiveness, poses y confórmeros son esfuerzo de muestreo, cada
+        // corrida sella el suyo y el libro enseña cuál se salió del protocolo
+        // del caso. Congelarlos obligaba a crear un caso nuevo para repetir un
+        // ligando con más muestreo, y eso no protegía ninguna comparación.
+        const sealed = structuralSystemIsSealed(current);
+        const nextInputs = sealed && current.structuralSystem
+          ? inputsForStructuralSystem(current.structuralSystem, requestedInputs)
           : requestedInputs;
-        if (
-          current.structuralSystem &&
-          JSON.stringify(nextInputs) !== JSON.stringify(requestedInputs)
-        ) {
+        if (sealed && JSON.stringify(nextInputs) !== JSON.stringify(requestedInputs)) {
           setError(
-            "Este caso ya está fijado a su sistema estructural. Puedes cambiar el ligando; " +
-              "para cambiar receptor, caja o protocolo crea otro caso.",
+            "Este caso ya está fijado a su sistema estructural. Puedes cambiar el ligando y el " +
+              "protocolo; para cambiar receptor, caja o residuos crea otro caso.",
           );
         }
         const invalidates = inputsAffectRun(current.inputs, nextInputs);
@@ -820,29 +829,41 @@ export function CaseProvider({
    *   toca: el usuario pudo haberlo marcado a mano.
    */
   const setActiveRun = useCallback(
-    (run: ActiveRun | null) => {
+    (run: CaseRun | null) => {
       setActiveCase((current) => {
         if (!current) return current;
         const wasRunning = current.status === "running";
         const live = run !== null && isRunBlocking(run.executionState);
         const status = live ? "running" : wasRunning ? "review" : current.status;
 
-        const next = touchCase(current, { status });
+        // `null` significa «esta superficie no está siguiendo ninguna tarea»,
+        // NO «este caso no ha corrido nada». El libro no pierde filas por eso:
+        // una corrida se deja de seguir muchas veces —al recargar, al cambiar
+        // de vista— y cada una de ellas borraba antes el único puntero que
+        // quedaba a su informe.
+        //
+        // Pero una fila que se queda en `running` para siempre bloquearía el
+        // caso para siempre, así que se mueve a `interrupted`, que es el estado
+        // que existe exactamente para esto: dice lo único cierto —que no
+        // sabemos cómo acabó— y conserva el `taskId` para volver a preguntar.
+        // Marcarla `failed` sería una afirmación sobre el backend que nadie ha
+        // comprobado, y dejarla `running` sería fingir que sigue viva.
+        const abandoned = run === null ? latestRun(current.runs) : undefined;
         const withRun: CaseRecord = run
-          ? { ...next, activeRun: run }
-          : (() => {
-              const { activeRun: _drop, ...rest } = next;
-              return rest as CaseRecord;
-            })();
+          ? caseWithRun(current, run)
+          : abandoned && isRunBlocking(abandoned.executionState)
+            ? caseWithRun(current, { ...abandoned, executionState: "interrupted" })
+            : touchCase(current, { status });
+        const next: CaseRecord = { ...withRun, status };
         // Si nada cambió, no se encola una escritura inútil.
         if (
-          JSON.stringify(withRun.activeRun ?? null) === JSON.stringify(current.activeRun ?? null)
-          && withRun.status === current.status
+          JSON.stringify(next.runs) === JSON.stringify(current.runs)
+          && next.status === current.status
         ) {
           return current;
         }
-        queue.enqueue(withRun);
-        return withRun;
+        queue.enqueue(next);
+        return next;
       });
       setLiveWorkState((current) => ({
         ...current,
@@ -861,19 +882,22 @@ export function CaseProvider({
    * esto confirme.
    */
   const registerRun = useCallback(
-    async (run: ActiveRun): Promise<boolean> => {
+    async (run: CaseRun): Promise<boolean> => {
       const current = activeCaseRef.current;
       if (!current) return false;
 
-      // El taskId es el momento correcto para fijar el sistema: antes de él la
-      // persona aún puede corregir receptor o caja; después hay una corrida
-      // cuya evidencia debe conservar una única referencia estructural.
-      const newSystem = current.structuralSystem
+      // El taskId es el momento correcto para ESCRIBIR el sistema: es el único
+      // instante en que la huella y la configuración efectiva son las de esta
+      // corrida. No es el momento de SELLARLO —eso lo hace la primera corrida
+      // que termina, ver `structuralSystemIsSealed`—, así que mientras ninguna
+      // haya terminado el sistema se reescribe con el de la corrida nueva. Sin
+      // esto, una primera corrida fallida casaba el caso para siempre con una
+      // configuración que nunca produjo nada.
+      const newSystem = hasCompletedRun(current.runs)
         ? null
         : structuralSystemFromRun(current.inputs, current.preflight, run);
-      const next = touchCase(current, {
+      const next = touchCase(caseWithRun(current, run), {
         status: "running",
-        activeRun: run,
         ...(newSystem
           ? {
               structuralSystem: newSystem,

@@ -16,7 +16,7 @@ import type { ReactNode } from "react";
 import { CaseProvider, useCases } from "../CaseContext";
 import { createBrowserCaseRepository } from "../../lib/cases/browserCaseRepository";
 import type { CaseRepository } from "../../lib/cases/repository";
-import type { CaseRecord } from "../../lib/cases/types";
+import { structuralSystemIsSealed, type CaseRecord } from "../../lib/cases/types";
 
 /** Repositorio real de navegador con la escritura bajo control del test. */
 function controllableRepository(): {
@@ -151,7 +151,7 @@ describe("el drenaje bloquea la transición", () => {
 });
 
 describe("corrida persistida", () => {
-  it("fija el sistema de la primera corrida y sólo deja cambiar el ligando", async () => {
+  it("el sistema queda PROVISIONAL mientras ninguna corrida ha terminado", async () => {
     window.localStorage.clear();
     const { repository } = controllableRepository();
     const { result } = renderHook(() => useCases(), { wrapper: wrapper(repository) });
@@ -222,13 +222,103 @@ describe("corrida persistida", () => {
       preparedReceptorSha256: "prepared-hash",
     });
 
-    // Una llamada directa no puede desanclar el caso aunque una futura vista
-    // olvidara deshabilitar sus controles. El nuevo SMILES sí queda libre.
+    // PROVISIONAL: el sistema está escrito, pero ninguna corrida ha terminado
+    // todavía en él. Sellarlo aquí era el defecto: una primera corrida que
+    // fallaba casaba el caso para siempre con una configuración que nunca
+    // produjo nada, y la única salida era crear otro caso y perder el nombre,
+    // el contexto y las notas.
+    expect(structuralSystemIsSealed(result.current.activeCase!)).toBe(false);
+    act(() => {
+      result.current.setInputs({
+        receptor: { pdbId: "1ABC", chain: "B", origin: "curado" },
+      });
+    });
+    await waitFor(() => expect(result.current.activeCase?.inputs?.receptor?.pdbId).toBe("1ABC"));
+    expect(result.current.error).toBeNull();
+
+    // La ancla llega a disco igual, que es lo que preserva la comparación
+    // entre futuras moléculas tras reiniciar la aplicación.
+    const stored = await repository.readCase(result.current.activeCase!.id);
+    expect(stored.structuralSystem?.sourceRunTaskId).toBe("task-sistema-fijado");
+    expect(stored.runs.map((run) => run.taskId)).toEqual(["task-sistema-fijado"]);
+  });
+
+  it("al TERMINAR la corrida se sella el sistema, pero el protocolo sigue libre", async () => {
+    window.localStorage.clear();
+    const { repository } = controllableRepository();
+    const { result } = renderHook(() => useCases(), { wrapper: wrapper(repository) });
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    await act(async () => {
+      await result.current.createCase("Sistema sellado", "compare-series");
+    });
+
+    const startedAt = "2026-08-26T12:00:00.000Z";
+    act(() => {
+      result.current.setInputs({
+        receptor: { pdbId: "6HSK", chain: "A", origin: "curado" },
+        ligand: { inputSmiles: "CCO", canonicalSmiles: "CCO" },
+        grid: { center: [0, 0, 0], size: [20, 20, 20] },
+        customHotspots: ["A:ASP101"],
+        dockingEngine: "vina",
+        exhaustiveness: 8,
+        numPoses: 9,
+        conformers: 1,
+      });
+      result.current.setPreflight({
+        fingerprint: "sha256:sistema-sellado",
+        inputDocument: "{}",
+        generatedAt: startedAt,
+        schemaVersion: 1,
+        executionRoute: "docking_vina",
+        blockers: [],
+        warnings: [],
+        notEvaluated: [],
+        receptorLabel: "6HSK · cadena A",
+        ligandLabel: "CCO",
+        gridLabel: "(-15.02, 2.30, -14.27)",
+        receptorSourceSha256: "source-hash",
+        preparedReceptorSha256: "prepared-hash",
+        executionConfig: {
+          gridCenter: [-15.02, 2.3, -14.27],
+          gridSize: [22, 22, 22],
+          customHotspots: ["A:ASP101"],
+          dockingEngine: "vina",
+          exhaustiveness: 8,
+          numPoses: 9,
+          seed: 42,
+          conformers: 1,
+        },
+      });
+    });
+    await waitFor(() => expect(result.current.activeCase?.preflight?.fingerprint).toBe("sha256:sistema-sellado"));
+
+    await act(async () => {
+      await result.current.registerRun({
+        taskId: "task-sellada",
+        executionState: "running",
+        startedAt,
+        inputFingerprint: "sha256:sistema-sellado",
+      });
+    });
+    act(() =>
+      result.current.setActiveRun({
+        taskId: "task-sellada",
+        executionState: "completed",
+        startedAt,
+        moleculeId: "4b67aeb2-e1a8-4ea2-9c3a-001a8ecbf106",
+      }),
+    );
+    await waitFor(() =>
+      expect(structuralSystemIsSealed(result.current.activeCase!)).toBe(true),
+    );
+
+    // Una llamada directa no puede desanclar el SISTEMA aunque una futura vista
+    // olvidara deshabilitar sus controles.
     act(() => {
       result.current.setInputs({
         receptor: { pdbId: "1ABC", chain: "B", origin: "curado" },
         grid: { center: [99, 99, 99], size: [10, 10, 10] },
-        dockingEngine: "otro-motor",
         ligand: { inputSmiles: "CCN", canonicalSmiles: "CCN" },
       });
     });
@@ -236,17 +326,20 @@ describe("corrida persistida", () => {
     expect(result.current.activeCase?.inputs).toMatchObject({
       receptor: { pdbId: "6HSK", chain: "A" },
       grid: { center: [-15.02, 2.3, -14.27], size: [22, 22, 22] },
-      dockingEngine: "vina",
     });
     expect(result.current.error).toMatch(/sistema estructural/i);
     // El ligando cambia la hipótesis, por tanto el preflight de CCO no se
     // puede reciclar como si describiera CCN.
     expect(result.current.activeCase?.preflight).toBeUndefined();
 
-    // La ancla también llega a disco, que es lo que preserva la comparación
-    // entre futuras moléculas tras reiniciar la aplicación.
-    const stored = await repository.readCase(result.current.activeCase!.id);
-    expect(stored.structuralSystem?.sourceRunTaskId).toBe("task-sistema-fijado");
+    // El PROTOCOLO sí pasa. Repetir un ligando con más muestreo es trabajo
+    // normal de laboratorio: lo que no se puede es hacerlo sin que quede
+    // dicho, y de eso se encarga el protocolo sellado en cada fila del libro.
+    act(() => {
+      result.current.setInputs({ exhaustiveness: 32, numPoses: 20 });
+    });
+    await waitFor(() => expect(result.current.activeCase?.inputs?.exhaustiveness).toBe(32));
+    expect(result.current.activeCase?.inputs?.numPoses).toBe(20);
   });
 
   it("registrar una corrida pone el caso en `running` y la escribe", async () => {
@@ -347,9 +440,11 @@ describe("corrida persistida", () => {
     // NO `completed`: un cálculo que termina no completa un caso, lo deja
     // pendiente de que una persona lo mire.
     expect(result.current.activeCase?.status).not.toBe("completed");
-    expect(result.current.activeCase?.activeRun).toBeUndefined();
     // Y el caso NO se queda atrapado en `running`.
     expect(result.current.hasLiveWork).toBe(false);
+    // Pero la corrida NO desaparece del libro. Dejar de seguirla no es no
+    // haberla hecho: su fila es el único puntero que queda a su informe.
+    expect(result.current.activeCase?.runs.map((run) => run.taskId)).toEqual(["task-2"]);
   });
 
   it("una corrida INTERRUMPIDA conserva el taskId sin bloquear el workspace", async () => {

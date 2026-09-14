@@ -12,6 +12,7 @@ import { animateElements, cancelAnimations } from "../../../lib/webAnimation";
 import {
   Database, Play, ShieldCheck, Download, Activity,
   FileText, Eye, ExternalLink as IconoEnlaceExterno, Settings, FlaskConical, AlertTriangle, X,
+  History,
 } from "lucide-react";
 import { KetcherEditor } from "../../KetcherEditor";
 import { ThinkingOrb } from "../../ui/ThinkingOrb";
@@ -102,6 +103,22 @@ interface ProEvaluationProps {
   /** Ancla reproducible del caso después de su primera corrida registrada. */
   structuralSystem?: CaseStructuralSystem;
   /**
+   * El ancla está SELLADA: alguna corrida del caso terminó en ella.
+   *
+   * Separado de `structuralSystem` a propósito. El sistema se escribe al nacer
+   * el `taskId` —es el único instante en que la huella y la configuración
+   * efectiva son las de esa corrida— pero no queda sellado hasta que una
+   * corrida produce evidencia. Antes esto no existía y se bloqueaba en el
+   * envío: una primera corrida que fallaba casaba el caso para siempre con una
+   * configuración que nunca produjo nada, y la única salida era crear otro caso
+   * y perder el nombre, el contexto y las notas.
+   */
+  structuralSystemSealed?: boolean;
+  /** Abre el historial de corridas del caso. Ausente fuera de un caso. */
+  onOpenRunHistory?: () => void;
+  /** Cuántas corridas tiene el caso en su libro. */
+  runCount?: number;
+  /**
    * Panel de «Preparación de la corrida», inyectado por el contenedor.
    *
    * Llega como nodo en vez de construirse aquí porque su estado —el informe
@@ -152,6 +169,9 @@ export default function ProEvaluation({
   poseData,
   onTargetUploadSuccess,
   structuralSystem,
+  structuralSystemSealed = false,
+  onOpenRunHistory,
+  runCount = 0,
   status,
   resultRecovery,
   onRetryResultRecovery,
@@ -194,7 +214,12 @@ export default function ProEvaluation({
   const [showResults, setShowResults] = useState(true);
   const [physicalFocusRequest, setPhysicalFocusRequest] = useState(0);
   const [poseComparison, setPoseComparison] = useState<{ leftRank: number; rightRank: number } | null>(null);
-  const structuralSystemLocked = Boolean(structuralSystem);
+  // El sistema PROVISIONAL se enseña pero todavía se puede corregir; el
+  // SELLADO ya no. `structuralSystemLocked` congela sólo lo que define el
+  // sistema —receptor, caja, residuos—; el protocolo se sigue pudiendo cambiar
+  // y cada corrida guarda el suyo.
+  const structuralSystemLocked = Boolean(structuralSystem) && structuralSystemSealed;
+  const structuralSystemProvisional = Boolean(structuralSystem) && !structuralSystemSealed;
 
   useEffect(() => {
     if (!showPdfPreview) return;
@@ -818,7 +843,9 @@ export default function ProEvaluation({
           <div className="min-w-0 rounded-2xl border border-purple-500/20 bg-purple-500/[0.04] px-4 py-3 lg:col-span-2">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-purple-200">
-                Sistema estructural fijado
+                {structuralSystemProvisional
+                  ? "Sistema estructural provisional"
+                  : "Sistema estructural fijado"}
               </p>
               <span className="font-mono text-xs font-medium text-zinc-300">
                 desde la corrida {structuralSystem.sourceRunTaskId.slice(0, 8)}…
@@ -832,7 +859,9 @@ export default function ProEvaluation({
               {" · "}{structuralSystem.dockingEngine}
             </p>
             <p className="mt-1 text-sm font-medium leading-6 text-zinc-300">
-              Puedes evaluar nuevos SMILES en este sistema. Para cambiar receptor, caja o protocolo, crea otro caso.
+              {structuralSystemProvisional
+                ? "Todavía no ha terminado ninguna corrida en este sistema, así que aún puedes corregir receptor o caja. Quedará fijado cuando una corrida termine."
+                : "Puedes evaluar nuevos SMILES y cambiar el protocolo en este sistema. Para cambiar receptor, caja o residuos, crea otro caso."}
             </p>
           </div>
         )}
@@ -865,16 +894,43 @@ export default function ProEvaluation({
 
         <div className="flex items-center gap-3">
           <button 
-            onClick={() => {
-              if (!structuralSystemLocked) setShowOptionsModal(true);
-            }}
-            disabled={structuralSystemLocked}
-            title={structuralSystemLocked ? "El protocolo está fijado por la primera corrida de este caso." : undefined}
-            className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:border-purple-500/30 hover:bg-zinc-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 cursor-pointer disabled:cursor-not-allowed disabled:opacity-45"
+            onClick={() => setShowOptionsModal(true)}
+            title={
+              structuralSystemLocked
+                ? "Caja y residuos fijados por la primera corrida que terminó. El protocolo se puede cambiar."
+                : undefined
+            }
+            className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:border-purple-500/30 hover:bg-zinc-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 cursor-pointer"
           >
             <Settings size={14} />
             Opciones
           </button>
+
+          {/* El libro de corridas del caso. Antes no había ninguna puerta: la
+              corrida anterior seguía intacta en el backend y el caso había
+              perdido el puntero, así que recuperarla exigía buscarla en Moldex
+              o en el historial global y repetirla desde cero. */}
+          {onOpenRunHistory && (
+            <button
+              type="button"
+              onClick={onOpenRunHistory}
+              disabled={runCount === 0}
+              title={
+                runCount === 0
+                  ? "Este caso todavía no ha lanzado ninguna evaluación."
+                  : "Ver las evaluaciones anteriores de este caso"
+              }
+              className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:border-purple-500/30 hover:bg-zinc-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 cursor-pointer disabled:cursor-not-allowed disabled:opacity-45"
+            >
+              <History size={14} />
+              Evaluaciones anteriores
+              {runCount > 0 && (
+                <span className="rounded-md bg-zinc-800 px-1.5 py-0.5 text-[10px] text-zinc-300">
+                  {runCount}
+                </span>
+              )}
+            </button>
+          )}
 
           <button 
             onClick={() => {
@@ -1560,8 +1616,27 @@ export default function ProEvaluation({
 
       <ProOptionsModal
         onClose={() => setShowOptionsModal(false)}
-        onApply={(engine, grid, adv, hotspots) => {
-          if (structuralSystemLocked) return;
+        onApply={(engineRaw, gridRaw, adv, hotspotsRaw) => {
+          // Con el sistema sellado, la caja y los residuos vuelven al ancla
+          // pase lo que pase. El modal ya los deshabilita; esto es la segunda
+          // frontera, porque un control deshabilitado protege la pantalla y no
+          // la hipótesis. El protocolo —motor, exhaustiveness, poses— sí pasa:
+          // es esfuerzo de muestreo y cada corrida sella el suyo.
+          const engine = engineRaw;
+          const grid = structuralSystemLocked && structuralSystem
+            ? {
+                ...gridRaw,
+                centerX: structuralSystem.grid.center[0],
+                centerY: structuralSystem.grid.center[1],
+                centerZ: structuralSystem.grid.center[2],
+                sizeX: structuralSystem.grid.size[0],
+                sizeY: structuralSystem.grid.size[1],
+                sizeZ: structuralSystem.grid.size[2],
+              }
+            : gridRaw;
+          const hotspots = structuralSystemLocked && structuralSystem
+            ? [...structuralSystem.customHotspots]
+            : hotspotsRaw;
           setDockingEngine(engine);
           setGridBox(grid);
           setAdvancedOpts(adv);
@@ -1601,7 +1676,8 @@ export default function ProEvaluation({
             },
           });
         }}
-        isOpen={showOptionsModal && !structuralSystemLocked}
+        isOpen={showOptionsModal}
+        systemSealed={structuralSystemLocked}
         initialEngine={dockingEngine}
         initialGridBox={gridBox}
         initialAdvanced={advancedOpts}

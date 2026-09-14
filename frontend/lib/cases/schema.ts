@@ -34,14 +34,18 @@ import {
   CasePipelineConfig,
   CaseLigand,
   CaseReceptor,
+  CaseRun,
+  CaseRunProtocol,
   CaseView,
   HumanDecision,
+  latestRun,
   normalizeReceptorOrigin,
   PreflightSummary,
   viewFromLegacySection,
   RUN_EXECUTION_STATES,
   RunExecutionState,
   SUPPORTED_SCHEMA_VERSIONS,
+  upsertRun,
 } from "./types";
 
 // ── Utilidades de tipo ───────────────────────────────────────────────
@@ -298,22 +302,28 @@ function parseContext(value: unknown, where: string): CaseContext {
  * se puede tratar como "no hay corrida", porque la tarea sigue viva en el
  * backend y perderiamos su rastro.
  */
-function parseActiveRun(value: unknown, where: string): ActiveRun | undefined {
-  if (value === undefined || value === null) return undefined;
+/**
+ * Parsea UNA corrida del libro.
+ *
+ * `path` es la ruta exacta dentro del manifiesto —`case.json.runs[2]` o, al
+ * migrar de v6, `case.json.activeRun`— porque el `detail` de un manifiesto
+ * corrupto tiene que decir qué fila falla, no que «alguna» falla.
+ */
+function parseRunEntry(value: unknown, path: string): CaseRun {
   if (!isRecord(value)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "El registro de la corrida activa está corrupto.",
-      `${where}.activeRun debe ser un objeto; se recibió ${describe(value)}.`,
+      "El registro de una corrida del caso está corrupto.",
+      `${path} debe ser un objeto; se recibió ${describe(value)}.`,
     );
   }
-  const taskId = requireString(value, "taskId", `${where}.activeRun`);
+  const taskId = requireString(value, "taskId", path);
   const executionState = requireEnum(
-    value, "executionState", RUN_EXECUTION_STATES, `${where}.activeRun`,
+    value, "executionState", RUN_EXECUTION_STATES, path,
   ) as RunExecutionState;
-  const startedAt = requireIsoDate(value, "startedAt", `${where}.activeRun`);
+  const startedAt = requireIsoDate(value, "startedAt", path);
 
-  const run: { -readonly [K in keyof ActiveRun]: ActiveRun[K] } = {
+  const run: { -readonly [K in keyof CaseRun]: CaseRun[K] } = {
     taskId, executionState, startedAt,
   };
   if (value.moleculeId !== undefined) {
@@ -321,7 +331,7 @@ function parseActiveRun(value: unknown, where: string): ActiveRun | undefined {
       throw new CaseError(
         "INVALID_MANIFEST",
         "La referencia al resultado de la corrida esta corrupta.",
-        `${where}.activeRun.moleculeId debe ser una cadena no vacia.`,
+        `${path}.moleculeId debe ser una cadena no vacia.`,
       );
     }
     run.moleculeId = value.moleculeId;
@@ -330,8 +340,8 @@ function parseActiveRun(value: unknown, where: string): ActiveRun | undefined {
     if (typeof value.lastKnownProgress !== "number" || !Number.isFinite(value.lastKnownProgress)) {
       throw new CaseError(
         "INVALID_MANIFEST",
-        "El progreso de la corrida activa está corrupto.",
-        `${where}.activeRun.lastKnownProgress debe ser un número.`,
+        "El progreso de una corrida del caso está corrupto.",
+        `${path}.lastKnownProgress debe ser un número.`,
       );
     }
     run.lastKnownProgress = value.lastKnownProgress;
@@ -340,8 +350,8 @@ function parseActiveRun(value: unknown, where: string): ActiveRun | undefined {
     if (typeof value.lastError !== "string") {
       throw new CaseError(
         "INVALID_MANIFEST",
-        "El error de la corrida activa está corrupto.",
-        `${where}.activeRun.lastError debe ser una cadena.`,
+        "El error de una corrida del caso está corrupto.",
+        `${path}.lastError debe ser una cadena.`,
       );
     }
     run.lastError = value.lastError;
@@ -351,12 +361,78 @@ function parseActiveRun(value: unknown, where: string): ActiveRun | undefined {
       throw new CaseError(
         "INVALID_MANIFEST",
         "El fingerprint de la corrida está corrupto.",
-        `${where}.activeRun.inputFingerprint debe ser una cadena no vacía.`,
+        `${path}.inputFingerprint debe ser una cadena no vacía.`,
       );
     }
     run.inputFingerprint = value.inputFingerprint;
   }
+  if (value.finishedAt !== undefined && value.finishedAt !== null) {
+    run.finishedAt = requireIsoDate(value, "finishedAt", path);
+  }
+  const ligandSmiles = parseOptionalString(value.ligandSmiles, `${path}.ligandSmiles`);
+  if (ligandSmiles) run.ligandSmiles = ligandSmiles;
+  if (value.affinityKcal !== undefined && value.affinityKcal !== null) {
+    if (typeof value.affinityKcal !== "number" || !Number.isFinite(value.affinityKcal)) {
+      throw new CaseError(
+        "INVALID_MANIFEST",
+        "La afinidad guardada de una corrida está corrupta.",
+        `${path}.affinityKcal debe ser un número finito.`,
+      );
+    }
+    run.affinityKcal = value.affinityKcal;
+  }
+  const protocol = parseRunProtocol(value.protocol, `${path}.protocol`);
+  if (protocol) run.protocol = protocol;
   return run;
+}
+
+function parseRunProtocol(value: unknown, path: string): CaseRunProtocol | undefined {
+  if (value === undefined || value === null) return undefined;
+  if (!isRecord(value)) {
+    throw new CaseError(
+      "INVALID_MANIFEST",
+      "El protocolo guardado de una corrida está corrupto.",
+      `${path} debe ser un objeto; se recibió ${describe(value)}.`,
+    );
+  }
+  return {
+    dockingEngine: requireString(value, "dockingEngine", path),
+    exhaustiveness: parsePositiveInteger(value.exhaustiveness, `${path}.exhaustiveness`),
+    numPoses: parsePositiveInteger(value.numPoses, `${path}.numPoses`),
+    conformers: parsePositiveInteger(value.conformers, `${path}.conformers`),
+  };
+}
+
+/**
+ * Parsea el libro entero.
+ *
+ * AUSENTE ES VÁLIDO y significa libro vacío: un caso recién creado no ha
+ * lanzado nada. Lo que no se acepta es un `runs` presente que no sea una lista,
+ * ni dos filas con el mismo `taskId`: un libro con la misma corrida dos veces
+ * no permitiría decir cuál de las dos es la buena.
+ */
+function parseCaseRuns(value: unknown, where: string): readonly CaseRun[] {
+  if (value === undefined || value === null) return [];
+  if (!Array.isArray(value)) {
+    throw new CaseError(
+      "INVALID_MANIFEST",
+      "El libro de corridas del caso está corrupto.",
+      `${where}.runs debe ser una lista; se recibió ${describe(value)}.`,
+    );
+  }
+  const runs = value.map((entry, index) => parseRunEntry(entry, `${where}.runs[${index}]`));
+  const seen = new Set<string>();
+  for (const run of runs) {
+    if (seen.has(run.taskId)) {
+      throw new CaseError(
+        "INVALID_MANIFEST",
+        "El libro de corridas tiene una corrida repetida.",
+        `${where}.runs contiene dos veces el taskId ${run.taskId}.`,
+      );
+    }
+    seen.add(run.taskId);
+  }
+  return runs;
 }
 
 function parseStorage(value: unknown, where: string): CaseStorage {
@@ -846,6 +922,24 @@ export function migrateManifest(
     version = 6;
   }
 
+  if (version === 6) {
+    // v6 → v7: `activeRun` —una sola corrida, sobrescrita por la siguiente—
+    // pasa a ser la primera fila del LIBRO. La corrida que el caso tenía se
+    // conserva tal cual: es la única que ese manifiesto llegó a guardar y no
+    // se inventan las anteriores, que nunca estuvieron ahí.
+    //
+    // La clave vieja se ELIMINA. `activeRun` se deriva ahora de la última fila
+    // del libro; dejar las dos en disco daría dos fuentes de verdad para lo
+    // mismo y la próxima escritura tendría que decidir cuál gana.
+    const { activeRun: legacyRun, ...rest } = current;
+    current = {
+      ...rest,
+      ...(legacyRun !== undefined && legacyRun !== null ? { runs: [legacyRun] } : {}),
+      schemaVersion: 7,
+    };
+    version = 7;
+  }
+
   if (version === CASE_SCHEMA_VERSION) return current;
   throw new CaseError(
     "UNSUPPORTED_VERSION",
@@ -891,7 +985,11 @@ export function parseCaseManifest(input: unknown, where = "case.json"): CaseReco
   }
 
   const migrated = migrateManifest(input, rawVersion);
-  const activeRun = parseActiveRun(migrated.activeRun, where);
+  const runs = parseCaseRuns(migrated.runs, where);
+  // `activeRun` NO se lee del manifiesto: se DERIVA de la última fila. Es lo
+  // que hace estructuralmente imposible que el disco lleve una contradicción
+  // entre el puntero y el libro.
+  const activeRun = latestRun(runs);
   const inputs = parseInputs(migrated.inputs, where);
   const preflight = parsePreflight(migrated.preflight, where);
   const structuralSystem = parseStructuralSystem(migrated.structuralSystem, where);
@@ -914,6 +1012,7 @@ export function parseCaseManifest(input: unknown, where = "case.json"): CaseReco
     // No normalizar corrupción a `false`: en navegador no hay una segunda
     // frontera Rust que pueda detectar el tipo incorrecto.
     archived: requireBoolean(migrated, "archived", where),
+    runs,
     ...(activeRun ? { activeRun } : {}),
     ...(inputs ? { inputs } : {}),
     ...(preflight ? { preflight } : {}),
@@ -941,7 +1040,14 @@ export function serializeCaseManifest(record: CaseRecord): string {
     // Se omite si no hay corrida: un `null` en disco obligaria a distinguir
     // "sin corrida" de "corrida borrada", y no hay tal distincion. Lo mismo
     // vale para inputs, preflight, sistema estructural y decisiones.
-    ...(record.activeRun ? { activeRun: record.activeRun } : {}),
+    //
+    // `activeRun` NO SE ESCRIBE. Es la última fila de `runs` y al releer se
+    // deriva de ahí; persistirlo además dejaría en disco dos respuestas a la
+    // misma pregunta, que es justo lo que la v7 vino a quitar.
+    // `?? []` defensivo: el tipo lo exige, pero serializar es el paso que
+    // ESCRIBE en disco y no puede reventar por un registro construido a mano
+    // en un test o por un legacy que se coló sin pasar por el parser.
+    ...((record.runs ?? []).length > 0 ? { runs: record.runs } : {}),
     ...(record.inputs ? { inputs: record.inputs } : {}),
     ...(record.preflight ? { preflight: record.preflight } : {}),
     ...(record.structuralSystem ? { structuralSystem: record.structuralSystem } : {}),
@@ -1005,6 +1111,7 @@ export function createCaseRecord(input: CreateCaseInput): CaseRecord {
     lastOpenedAt: now,
     status: "draft",
     storage: input.storage,
+    runs: [],
     activeView: "evaluation",
     context: { studyKind: input.studyKind },
     archived: false,
@@ -1018,4 +1125,23 @@ export function touchCase(
   now = new Date().toISOString(),
 ): CaseRecord {
   return { ...record, ...changes, updatedAt: now };
+}
+
+/**
+ * Escribe una corrida en el libro y reproyecta `activeRun` DE UNA VEZ.
+ *
+ * Única puerta por la que el libro cambia. Existe para que el invariante
+ * —`activeRun` es la última fila— no dependa de que cada llamante se acuerde
+ * de actualizar las dos cosas: en memoria no hay parseo que lo reconcilie, así
+ * que un `touchCase({ runs })` suelto dejaría el puntero apuntando a la corrida
+ * anterior hasta la próxima recarga.
+ */
+export function caseWithRun(
+  record: CaseRecord,
+  run: CaseRun,
+  now = new Date().toISOString(),
+): CaseRecord {
+  const runs = upsertRun(record.runs, run);
+  const projected = latestRun(runs);
+  return touchCase(record, { runs, ...(projected ? { activeRun: projected } : {}) }, now);
 }

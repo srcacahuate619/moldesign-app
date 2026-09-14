@@ -65,6 +65,7 @@ function caseRecord(overrides: Partial<CaseRecord> = {}): CaseRecord {
     lastOpenedAt: "2026-08-01T09:30:00.000Z",
     status: "review",
     storage: { mode: "browser", label: "Guardado en este navegador" },
+    runs: [],
     activeView: "report",
     context: { question: "¿Tolera el andamio el sustituyente?" },
     archived: false,

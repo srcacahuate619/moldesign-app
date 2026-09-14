@@ -52,6 +52,7 @@ import {
   type CaseStudyKind,
   type CaseView,
   runMatchesInputs,
+  structuralSystemIsSealed,
   type ReportableResult,
   type ReportRecoveryState,
 } from "../../lib/cases/types";
@@ -63,6 +64,10 @@ import { CaseReportView } from "./CaseReportView";
 import { CaseDispositionPanel } from "./CaseDispositionPanel";
 import { CreateCaseDialog } from "./CreateCaseDialog";
 import { EngineStatusBar } from "../EngineStatusBar";
+
+// El historial de corridas se carga SÓLO al abrirlo: es un panel que no pinta
+// nada mientras está cerrado y trae consigo el cliente del resultado.
+const CaseRunHistoryModal = dynamic(() => import("./CaseRunHistoryModal"), { ssr: false });
 
 const CaseEvaluationRunner = dynamic(() => import("../evaluation/CaseEvaluationRunner"), {
   ssr: false,
@@ -97,6 +102,7 @@ export function CaseWorkspace() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [runHistoryOpen, setRunHistoryOpen] = useState(false);
   /** Carpeta elegida sin `case.json`: token para autorizar, ruta para enseñar. */
   const [pendingFolder, setPendingFolder] = useState<
     { token: string; displayPath: string } | null
@@ -783,6 +789,9 @@ export function CaseWorkspace() {
                     onReportRecoveryChange={handleRecoveryChange}
                     inputs={activeCase.inputs}
                     structuralSystem={activeCase.structuralSystem}
+                    structuralSystemSealed={structuralSystemIsSealed(activeCase)}
+                    runCount={activeCase.runs.length}
+                    onOpenRunHistory={() => setRunHistoryOpen(true)}
                     onInputsChange={setInputs}
                     preflight={activeCase.preflight}
                     onPreflightChange={setPreflight}
@@ -837,6 +846,16 @@ export function CaseWorkspace() {
           saveState={saveState}
           onChange={updateContext}
           onRetry={retrySave}
+        />
+      )}
+
+      {activeCase && runHistoryOpen && (
+        <CaseRunHistoryModal
+          runs={activeCase.runs}
+          structuralSystem={activeCase.structuralSystem}
+          currentFingerprint={activeCase.preflight?.fingerprint ?? null}
+          activeTaskId={activeCase.activeRun?.taskId}
+          onClose={() => setRunHistoryOpen(false)}
         />
       )}
 
