@@ -18,6 +18,8 @@
 //    Vina observada, con ese nombre.
 
 import { describe, expect, it, beforeEach, vi } from "vitest";
+
+import { invalidarCatalogo } from "../../../../lib/catalogoDeReceptores";
 import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 
 vi.mock("../../../../components/interfaces/pro/TargetSelectorModal", () => ({
@@ -226,6 +228,10 @@ function urlsLlamadas(): string[] {
 
 describe("Cohortes", () => {
   beforeEach(() => {
+    // El catálogo se cachea entre montajes: cada prueba parte sin nada. Sin
+    // esto, la prueba del catálogo caído nunca ve el fallo, porque le sirve lo
+    // que cargó la prueba anterior.
+    invalidarCatalogo();
     creados.length = 0;
     revocados.length = 0;
     instalarObjectUrls();
@@ -236,6 +242,34 @@ describe("Cohortes", () => {
       "moldesign_auth",
       JSON.stringify({ user: { user_id: "test-user" } }),
     );
+  });
+
+  it("declara el contrato de entrada antes de cargar y sólo permite Vina", async () => {
+    enrutar(RUTAS_BASE);
+    render(<CohortesPage />);
+
+    const guia = screen.getByRole("region", { name: "Prepara el archivo" });
+    expect(within(guia).getByText(/máximo 500 moléculas.*8 MiB/i)).toBeVisible();
+    expect(within(guia).getByText(/Para CSV, usa UTF-8.*encabezado.*comas como separador/i)).toBeVisible();
+    expect(within(guia).getAllByText("smiles")[0]).toBeVisible();
+    expect(within(guia).getByText(/único receptor.*misma configuración congelada/i)).toBeVisible();
+    expect(within(guia).getByText(/smiles,name,active,control_role/i)).toBeVisible();
+
+    const entrada = screen.getByLabelText("Archivo de moléculas");
+    expect(entrada).toHaveAttribute("accept");
+    expect(entrada.getAttribute("accept")?.split(",")).toEqual([
+      ".csv", ".xlsx", ".sdf", ".smi", ".txt",
+    ]);
+
+    const vina = screen.getByRole("radio", { name: /AutoDock Vina/i });
+    const quickVina = screen.getByRole("radio", { name: /QuickVina 2.*Próximamente/i });
+    expect(vina).toBeChecked();
+    expect(quickVina).toBeDisabled();
+    expect(screen.getByText(/requiere un binario Windows validado.*ejecuta únicamente Vina/i)).toBeVisible();
+
+    fireEvent.click(quickVina);
+    expect(quickVina).not.toBeChecked();
+    expect(vina).toBeChecked();
   });
 
   // ── El flujo completo ───────────────────────────────────────────
@@ -271,6 +305,7 @@ describe("Cohortes", () => {
     const cuerpo = (llamada?.[1] as RequestInit).body as FormData;
     const estudio = JSON.parse(String(cuerpo.get("study")));
     expect(estudio.receptor).toEqual({ pdb_id: "2XYZ", chain: "B" });
+    expect(estudio.config.docking_engine).toBe("vina");
   });
 
   it("mantiene disponible la entrada manual si el catálogo falla y permite reintentarlo", async () => {
@@ -456,7 +491,9 @@ describe("Cohortes", () => {
     expect(screen.getByLabelText("Nombre de la cohorte")).toHaveValue("Serie congelada");
     expect(screen.getByLabelText("Receptor PDB ID")).toHaveValue("2XYZ");
     expect(screen.getByLabelText("Cadena")).toHaveValue("B");
-    expect(screen.getByLabelText("Motor de docking")).toHaveValue("qvina2");
+    expect(screen.getByRole("radio", { name: /AutoDock Vina/i })).not.toBeChecked();
+    expect(screen.getByRole("radio", { name: /QuickVina 2.*Próximamente/i })).toBeChecked();
+    expect(screen.getByText(/Motor histórico configurado.*se conserva sin normalizar/i)).toBeVisible();
     expect(screen.getByLabelText("Exhaustividad")).toHaveValue(17);
     expect(screen.getByLabelText("Poses")).toHaveValue(9);
     expect(screen.getByLabelText("Semilla")).toHaveValue("73");

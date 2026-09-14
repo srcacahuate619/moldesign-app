@@ -41,7 +41,8 @@ import {
   type CohortListItem, type CohortPreflightResult, type CohortRecord, type CohortRun,
   type CohortStudy, type RunEvidence, type RowStatus,
 } from "../../../lib/cohorts";
-import { getTargets, type Target } from "../../../lib/api";
+import { type Target } from "../../../lib/api";
+import { obtenerCatalogo } from "../../../lib/catalogoDeReceptores";
 import { saveBlobAs } from "../../../lib/dossier";
 import { beginFileDownload, failFileDownload, notifyRunFinished } from "../../../lib/activityNotifications";
 import { getUserItem, removeUserItem, setUserItem } from "../../../lib/userStorage";
@@ -66,16 +67,18 @@ const FILTROS: readonly { readonly id: RowStatus | "todas"; readonly label: stri
   { id: "not_evaluated", label: "No evaluadas" },
 ];
 
-const CAJA = "rounded-lg border border-white/5 bg-white/[0.02]";
-const ETIQUETA = "text-[11px] font-semibold uppercase tracking-wider text-white/65";
+const CAJA = "rounded-lg border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.02]";
+const ETIQUETA = "text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-white/65";
 const INPUT =
-  "w-full rounded-md border border-white/10 bg-black/30 px-3 py-2 text-sm text-white/90 " +
-  "outline-none transition-colors focus:border-brand-400/60";
+  "w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 " +
+  "outline-none transition-colors focus-visible:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500/30 " +
+  "dark:border-white/10 dark:bg-black/30 dark:text-white/90 dark:focus-visible:border-brand-400/60";
 const BOTON =
   "inline-flex items-center gap-2 rounded-md px-3 py-2 text-xs font-medium transition-colors " +
-  "disabled:cursor-not-allowed disabled:opacity-40";
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 focus-visible:ring-offset-2 " +
+  "focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-40 dark:focus-visible:ring-offset-[#08090c]";
 const PRIMARIO = `${BOTON} bg-brand-600 text-white hover:bg-brand-500`;
-const SECUNDARIO = `${BOTON} border border-white/10 bg-white/[0.03] text-white/70 hover:text-white`;
+const SECUNDARIO = `${BOTON} border border-zinc-300 bg-zinc-50 text-zinc-700 hover:text-zinc-950 dark:border-white/10 dark:bg-white/[0.03] dark:text-white/70 dark:hover:text-white`;
 
 const MENSAJES_COHORTE: Readonly<Record<string, string>> = {
   ARCHIVO_ILEGIBLE: "No se pudo leer el archivo. Verifica que no esté dañado.",
@@ -108,7 +111,6 @@ export default function CohortesPage() {
   const [archivo, setArchivo] = useState<File | null>(null);
   const [pdbId, setPdbId] = useState("");
   const [cadena, setCadena] = useState("");
-  const [motor, setMotor] = useState<"vina" | "qvina2">("vina");
   const [exhaustividad, setExhaustividad] = useState(8);
   const [poses, setPoses] = useState(5);
   const [semilla, setSemilla] = useState<string>("");
@@ -163,15 +165,17 @@ export default function CohortesPage() {
       name: nombre.trim(),
       receptor: { pdb_id: pdbId.trim().toUpperCase(), ...(cadena.trim() ? { chain: cadena.trim().toUpperCase() } : {}) },
       config: {
-        docking_engine: motor,
+        docking_engine: "vina",
         exhaustiveness: exhaustividad,
         num_poses: poses,
         ...(semilla.trim() ? { seed: Number(semilla) } : {}),
       },
     };
-  }, [nombre, pdbId, cadena, motor, exhaustividad, poses, semilla]);
+  }, [nombre, pdbId, cadena, exhaustividad, poses, semilla]);
 
   const bloqueada = Boolean(preflight && preflight.decision === "blocked");
+  const motorHistoricoQuickVina =
+    cohorte?.preflight.normalized_study.config.docking_engine === "qvina2";
 
   // Batch comparte el catálogo canónico con Evaluación. El campo manual sigue
   // disponible porque no poder listar el catálogo no invalida un PDB conocido.
@@ -179,7 +183,7 @@ export default function CohortesPage() {
     setLoadingTargets(true);
     setTargetsError(null);
     try {
-      setTargets(await getTargets());
+      setTargets([...(await obtenerCatalogo())]);
     } catch (fallo) {
       setTargetsError(`No se pudo cargar el catálogo: ${mensajeDe(fallo)}`);
     } finally {
@@ -210,7 +214,6 @@ export default function CohortesPage() {
     setArchivo(null);
     setPdbId(estudioGuardado.receptor.pdb_id);
     setCadena(estudioGuardado.receptor.chain ?? "");
-    setMotor(estudioGuardado.config.docking_engine);
     setExhaustividad(estudioGuardado.config.exhaustiveness);
     setPoses(estudioGuardado.config.num_poses);
     setSemilla(estudioGuardado.config.seed == null ? "" : String(estudioGuardado.config.seed));
@@ -440,7 +443,7 @@ export default function CohortesPage() {
   const filasVisibles = filtro === "todas" ? filas : filas.filter((m) => m.status === filtro);
 
   return (
-    <div className="min-h-screen bg-[#08090c] text-white/90">
+    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#08090c] dark:text-white/90">
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
         {/* ── Cabecera ────────────────────────────────────────────── */}
         <div className="flex flex-wrap items-center justify-between gap-3">
@@ -451,7 +454,7 @@ export default function CohortesPage() {
             </Link>
             <div>
               <h1 className="text-lg font-semibold tracking-tight">Cohortes</h1>
-              <p className="text-xs text-white/40">
+              <p className="text-sm text-zinc-600 dark:text-white/60">
                 Define una cohorte comparable, comprueba sus entradas, ejecútala bajo una
                 configuración común y entrega evidencia con su cobertura.
               </p>
@@ -466,10 +469,10 @@ export default function CohortesPage() {
               key={p.id}
               data-testid={`paso-${p.id}`}
               aria-current={paso === p.id ? "step" : undefined}
-              className={`rounded-md border px-2.5 py-1 text-[11px] font-medium ${
+              className={`rounded-md border px-2.5 py-1 text-xs font-medium ${
                 paso === p.id
-                  ? "border-brand-500/40 bg-brand-600/15 text-white"
-                  : "border-white/5 bg-white/[0.02] text-white/60"
+                  ? "border-brand-500/40 bg-brand-600/10 text-brand-800 dark:bg-brand-600/15 dark:text-white"
+                  : "border-zinc-200 bg-white text-zinc-600 dark:border-white/10 dark:bg-white/[0.02] dark:text-white/60"
               }`}
             >
               {p.n} · {p.label}
@@ -478,12 +481,12 @@ export default function CohortesPage() {
         </nav>
 
         {error && (
-          <p role="alert" className="mt-4 rounded-md border border-red-500/25 bg-red-500/10 px-4 py-3 text-xs leading-relaxed text-red-300">
+          <p role="alert" className="mt-4 rounded-md border border-red-300 bg-red-50 px-4 py-3 text-sm leading-relaxed text-red-800 dark:border-red-500/25 dark:bg-red-500/10 dark:text-red-300">
             {error}
           </p>
         )}
         {pollError && corrida && (
-          <div role="alert" className="mt-4 flex flex-wrap items-center gap-3 rounded-md border border-amber-500/25 bg-amber-500/10 px-4 py-3 text-xs leading-relaxed text-amber-200">
+          <div role="alert" className="mt-4 flex flex-wrap items-center gap-3 rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-900 dark:border-amber-500/25 dark:bg-amber-500/10 dark:text-amber-200">
             <span className="min-w-0 flex-1">{pollError}</span>
             <button type="button" className={SECUNDARIO} onClick={() => setPollNonce((value) => value + 1)}>
               <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" /> Reintentar seguimiento
@@ -496,22 +499,45 @@ export default function CohortesPage() {
             {/* ── 1 · Definir ───────────────────────────────────── */}
             <section className={`${CAJA} p-4`} aria-labelledby="def">
               <h2 id="def" className="text-sm font-semibold">1 · Nueva cohorte</h2>
-              <p className="mt-1 text-xs text-white/40">
+              <p className="mt-1 text-sm text-zinc-600 dark:text-white/60">
                 Un receptor y una configuración común para todas las moléculas. Es lo que
                 hace comparables las filas entre sí.
               </p>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 <label className="block">
                   <span className={ETIQUETA}>Nombre</span>
                   <input className={`${INPUT} mt-1`} value={nombre} onChange={(e) => setNombre(e.target.value)}
                     placeholder="Serie de anilinas · lote 3" aria-label="Nombre de la cohorte" />
                 </label>
+
+                <section className="sm:col-span-2 rounded-md border border-zinc-200 bg-zinc-50 p-4 dark:border-white/10 dark:bg-black/20" aria-labelledby="guia-archivo">
+                  <h3 id="guia-archivo" className="text-sm font-semibold">Prepara el archivo</h3>
+                  <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm leading-relaxed text-zinc-700 dark:text-white/70">
+                    <li>Incluye como máximo 500 moléculas en un archivo de hasta 8 MiB.</li>
+                    <li>Para CSV, usa UTF-8, una primera fila de encabezado, comas como separador y la columna recomendada <code className="font-mono font-semibold text-zinc-900 dark:text-white">smiles</code>; también se aceptan <code className="font-mono">canonical_smiles</code> y <code className="font-mono">structure</code>.</li>
+                    <li>Todas las moléculas usarán un único receptor y la misma configuración congelada.</li>
+                  </ol>
+                  <p className="mt-3 text-xs font-semibold text-zinc-700 dark:text-white/65">Ejemplo CSV mínimo</p>
+                  <pre className="mt-1 overflow-x-auto rounded-md border border-zinc-300 bg-white p-3 text-sm leading-relaxed text-zinc-900 dark:border-white/10 dark:bg-black/40 dark:text-white/90"><code>{`smiles,name,active,control_role
+CCO,etanol,1,reference
+CC(=O)O,acido_acetico,0,none`}</code></pre>
+                  <details className="mt-3 text-sm text-zinc-700 dark:text-white/70">
+                    <summary className="cursor-pointer rounded-sm font-semibold text-zinc-900 outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white">Ver todos los formatos y campos</summary>
+                    <div className="mt-3 space-y-3 border-t border-zinc-200 pt-3 dark:border-white/10">
+                      <p><strong>CSV y XLSX:</strong> requieren una columna de estructura. Se recomienda <code className="font-mono">smiles</code>; también se aceptan <code className="font-mono">canonical_smiles</code> o <code className="font-mono">structure</code>. Las columnas opcionales son <code className="font-mono">name</code>, <code className="font-mono">active</code> y <code className="font-mono">control_role</code>. XLSX usa la hoja activa y su primera fila como encabezado.</p>
+                      <p><strong>SMI y TXT:</strong> una molécula por línea con el formato <code className="font-mono">SMILES nombre active control_role</code>, separado por espacios. Las líneas que comienzan con <code className="font-mono">#</code> son comentarios y el nombre no puede contener espacios.</p>
+                      <p><strong>SDF:</strong> se admite una molécula por registro. El nombre se lee de <code className="font-mono">_Name</code>; las propiedades <code className="font-mono">active</code> y <code className="font-mono">control_role</code> son opcionales.</p>
+                      <p>Para <code className="font-mono">active</code>, usa <code className="font-mono">1</code> para activa y <code className="font-mono">0</code> para inactiva. Para <code className="font-mono">control_role</code>, usa <code className="font-mono">reference</code>, <code className="font-mono">positive</code>, <code className="font-mono">negative</code> o <code className="font-mono">none</code>.</p>
+                    </div>
+                  </details>
+                </section>
+
                 <label className="block">
                   <span className={ETIQUETA}>Archivo de moléculas</span>
-                  <input type="file" accept=".csv,.xlsx,.xls,.sdf,.smi,.txt" aria-label="Archivo de moléculas"
+                  <input type="file" accept=".csv,.xlsx,.sdf,.smi,.txt" aria-label="Archivo de moléculas"
                     onChange={(e) => setArchivo(e.target.files?.[0] ?? null)}
-                    className="mt-1 block w-full text-xs text-white/60 file:mr-3 file:rounded-md file:border-0 file:bg-white/10 file:px-3 file:py-2 file:text-xs file:text-white/80" />
+                    className="mt-1 block w-full text-sm text-zinc-600 file:mr-3 file:rounded-md file:border file:border-zinc-300 file:bg-zinc-100 file:px-3 file:py-2 file:text-sm file:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white/60 dark:file:border-0 dark:file:bg-white/10 dark:file:text-white/80" />
                 </label>
                 <div className="block">
                   <label htmlFor="cohort-receptor-pdb" className={ETIQUETA}>Receptor (PDB ID)</label>
@@ -531,7 +557,7 @@ export default function CohortesPage() {
                     </button>
                   </div>
                   {targetsError && (
-                    <p role="status" className="mt-1.5 text-[11px] leading-relaxed text-amber-300/80">
+                    <p role="status" className="mt-1.5 text-xs leading-relaxed text-amber-800 dark:text-amber-300/80">
                       {targetsError} Puedes introducir el PDB ID manualmente.
                     </p>
                   )}
@@ -541,14 +567,27 @@ export default function CohortesPage() {
                   <input className={`${INPUT} mt-1`} value={cadena} onChange={(e) => setCadena(e.target.value)}
                     placeholder="A" aria-label="Cadena" />
                 </label>
-                <label className="block">
-                  <span className={ETIQUETA}>Motor</span>
-                  <select className={`${INPUT} mt-1`} value={motor} aria-label="Motor de docking"
-                    onChange={(e) => setMotor(e.target.value as "vina" | "qvina2")}>
-                    <option value="vina">vina</option>
-                    <option value="qvina2">qvina2</option>
-                  </select>
-                </label>
+                <fieldset className="sm:col-span-2">
+                  <legend className={ETIQUETA}>Motor</legend>
+                  <div className="mt-1 grid gap-2 sm:grid-cols-2">
+                    <label className={`flex items-start gap-3 rounded-md border p-3 ${
+                      motorHistoricoQuickVina
+                        ? "border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/[0.02]"
+                        : "border-brand-500/40 bg-brand-50 dark:bg-brand-600/10"
+                    }`}>
+                      <input type="radio" name="motor" value="vina" checked={!motorHistoricoQuickVina} readOnly className="mt-0.5 accent-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50" />
+                      <span><span className="block text-sm font-semibold">AutoDock Vina</span><span className="block text-xs text-zinc-600 dark:text-white/60">Motor disponible para cohortes nuevas.</span></span>
+                    </label>
+                    <label className={`flex cursor-not-allowed items-start gap-3 rounded-md border p-3 ${
+                      motorHistoricoQuickVina
+                        ? "border-amber-300 bg-amber-50 text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-100"
+                        : "border-zinc-200 bg-zinc-100 text-zinc-500 dark:border-white/10 dark:bg-white/[0.02] dark:text-white/60"
+                    }`}>
+                      <input type="radio" name="motor" checked={motorHistoricoQuickVina} disabled aria-describedby="quickvina-note" className="mt-0.5" />
+                      <span><span className="block text-sm font-semibold">QuickVina 2 · Próximamente</span><span id="quickvina-note" className="block text-xs leading-relaxed">{motorHistoricoQuickVina ? "Motor histórico configurado en esta cohorte; se conserva sin normalizar. Esta versión ejecuta únicamente Vina." : "Requiere un binario Windows validado. Esta versión ejecuta únicamente Vina."}</span></span>
+                    </label>
+                  </div>
+                </fieldset>
                 <div className="grid grid-cols-3 gap-2">
                   <label className="block">
                     <span className={ETIQUETA}>Exhaust.</span>
@@ -574,7 +613,7 @@ export default function CohortesPage() {
                   {ocupado === "comprobar" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Search className="h-3.5 w-3.5" />}
                   Comprobar cohorte
                 </button>
-                <span className="text-[11px] text-white/30">
+                <span className="text-xs text-zinc-500 dark:text-white/60">
                   Comprobar no ejecuta nada.
                 </span>
               </div>
@@ -584,7 +623,7 @@ export default function CohortesPage() {
             {preflight && (
               <section className={`${CAJA} p-4`} aria-labelledby="pre" data-testid="resumen-preflight">
                 <h2 id="pre" className="text-sm font-semibold">2 · Comprobación previa</h2>
-                <p className="mt-1 text-xs text-white/40">
+                <p className="mt-1 text-sm text-zinc-600 dark:text-white/60">
                   Superarla no predice unión ni calidad farmacológica: todavía no se ha
                   calculado nada.
                 </p>
@@ -600,14 +639,14 @@ export default function CohortesPage() {
                     ["Positivos", resumen!.explicit_positive_controls],
                     ["Negativos", resumen!.explicit_negative_controls],
                   ].map(([etiqueta, valor]) => (
-                    <div key={String(etiqueta)} className="rounded-md border border-white/5 bg-black/20 px-3 py-2">
+                    <div key={String(etiqueta)} className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 dark:border-white/10 dark:bg-black/20">
                       <dt className={ETIQUETA}>{etiqueta}</dt>
                       <dd className="mt-0.5 text-sm font-medium">{valor}</dd>
                     </div>
                   ))}
                 </dl>
 
-                <p className="mt-3 text-xs text-white/50" data-testid="cobertura-preflight">
+                <p className="mt-3 text-sm text-zinc-600 dark:text-white/50" data-testid="cobertura-preflight">
                   Cobertura de entrada:{" "}
                   {resumen!.input_coverage === null
                     ? "no medible (sin filas)"
@@ -615,28 +654,28 @@ export default function CohortesPage() {
                 </p>
 
                 {preflight.blockers.length > 0 && (
-                  <div role="alert" data-testid="blockers" className="mt-3 rounded-md border border-red-500/25 bg-red-500/10 px-3 py-2">
-                    <p className="text-xs font-semibold text-red-300">
+                  <div role="alert" data-testid="blockers" className="mt-3 rounded-md border border-red-300 bg-red-50 px-3 py-2 dark:border-red-500/25 dark:bg-red-500/10">
+                    <p className="text-sm font-semibold text-red-800 dark:text-red-300">
                       <XCircle className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" />
                       Bloqueada — no se puede guardar ni ejecutar
                     </p>
                     <ul className="mt-1 space-y-0.5">
                       {preflight.blockers.map((b) => (
-                        <li key={b} className="text-xs leading-relaxed text-red-100/90">{mensajeCohorte(b)}</li>
+                        <li key={b} className="text-sm leading-relaxed text-red-800 dark:text-red-100/90">{mensajeCohorte(b)}</li>
                       ))}
                     </ul>
                   </div>
                 )}
 
                 {preflight.warnings.length > 0 && (
-                  <div data-testid="warnings" className="mt-3 rounded-md border border-amber-500/25 bg-amber-500/10 px-3 py-2">
-                    <p className="text-xs font-semibold text-amber-300">
+                  <div data-testid="warnings" className="mt-3 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 dark:border-amber-500/25 dark:bg-amber-500/10">
+                    <p className="text-sm font-semibold text-amber-900 dark:text-amber-300">
                       <AlertTriangle className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" />
                       Avisos — no bloquean
                     </p>
                     <ul className="mt-1 space-y-0.5">
                       {preflight.warnings.map((w) => (
-                        <li key={w} className="text-xs leading-relaxed text-amber-100/90">{mensajeCohorte(w)}</li>
+                        <li key={w} className="text-sm leading-relaxed text-amber-900 dark:text-amber-100/90">{mensajeCohorte(w)}</li>
                       ))}
                     </ul>
                   </div>
@@ -648,7 +687,7 @@ export default function CohortesPage() {
                     {ocupado === "guardar" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
                     3 · Guardar cohorte
                   </button>
-                  <span className="break-all font-mono text-[11px] font-medium text-white/55">
+                  <span className="break-all font-mono text-xs font-medium text-zinc-600 dark:text-white/55">
                     {preflight.cohort_fingerprint}
                   </span>
                 </div>
@@ -659,16 +698,16 @@ export default function CohortesPage() {
             {cohorte && (
               <section className={`${CAJA} p-4`} aria-labelledby="run" data-testid="cohorte-guardada">
                 <h2 id="run" className="text-sm font-semibold">4 · Ejecución</h2>
-                <p className="mt-1 break-all font-mono text-[11px] font-medium text-white/60">
+                <p className="mt-1 break-all font-mono text-xs font-medium text-zinc-600 dark:text-white/60">
                   cohorte {cohorte.id} · {cohorte.source.filename} · sha256 {cohorte.source.sha256.slice(0, 16)}…
                 </p>
 
                 <div className="mt-3 flex flex-wrap items-center gap-2">
-                  <label className="flex items-center gap-2 text-xs font-medium text-white/65">
+                  <label className="flex items-center gap-2 text-xs font-medium text-zinc-600 dark:text-white/65">
                     Paralelismo
                     <input type="number" min={1} max={4} value={workers} aria-label="Paralelismo"
                       onChange={(e) => setWorkers(Number(e.target.value))}
-                      className="w-14 rounded-md border border-white/10 bg-black/30 px-2 py-1 text-xs text-white/80" />
+                      className="w-14 rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-900 outline-none focus-visible:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500/30 dark:border-white/10 dark:bg-black/30 dark:text-white/80" />
                   </label>
                   <button type="button" className={PRIMARIO} onClick={lanzar}
                     disabled={Boolean(corrida && isRunActive(corrida.status)) || ocupado === "ejecutar"}>
@@ -684,7 +723,7 @@ export default function CohortesPage() {
                         {RUN_STATUS_LABELS[corrida.status]}
                         {corrida.cancel_requested && corrida.status !== "cancelled" && " · cancelación pedida"}
                       </span>
-                      <span className="break-all font-mono text-[11px] font-medium text-white/55">
+                      <span className="break-all font-mono text-xs font-medium text-zinc-600 dark:text-white/55">
                         corrida {corrida.id}
                       </span>
                     </div>
@@ -698,15 +737,15 @@ export default function CohortesPage() {
                         ["Fallidas", corrida.progress.failed_rows],
                         ["No evaluadas", corrida.progress.not_evaluated_rows],
                       ].map(([etiqueta, valor]) => (
-                        <div key={String(etiqueta)} className="border-l border-white/15 py-1 pl-3">
-                          <dt className="text-[11px] font-medium uppercase tracking-wider text-white/60">{etiqueta}</dt>
+                        <div key={String(etiqueta)} className="border-l border-zinc-300 py-1 pl-3 dark:border-white/15">
+                          <dt className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-white/60">{etiqueta}</dt>
                           <dd className="text-sm font-semibold tabular-nums">{valor}</dd>
                         </div>
                       ))}
                     </dl>
 
                     {corrida.last_error && (
-                      <p role="status" className="mt-2 rounded-md border border-amber-500/25 bg-amber-500/10 px-3 py-2 text-xs text-amber-200">
+                      <p role="status" className="mt-2 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-500/25 dark:bg-amber-500/10 dark:text-amber-200">
                         {corrida.last_error}
                       </p>
                     )}
@@ -737,7 +776,7 @@ export default function CohortesPage() {
             {evidencia && (
               <section className={`${CAJA} p-4`} aria-labelledby="ev" data-testid="evidencia">
                 <h2 id="ev" className="text-sm font-semibold">5 · Evidencia</h2>
-                <p className="mt-1 text-xs text-white/40">
+                <p className="mt-1 text-sm text-zinc-600 dark:text-white/60">
                   Ordenada por afinidad Vina observada. Es un orden, no un veredicto:
                   completar un acoplamiento no demuestra actividad.
                 </p>
@@ -753,7 +792,7 @@ export default function CohortesPage() {
                     ["No evaluadas", evidencia.coverage.not_evaluated_rows],
                     ["No elegibles", evidencia.coverage.not_eligible_rows],
                   ].map(([etiqueta, valor]) => (
-                    <div key={String(etiqueta)} className="border-l border-white/15 py-1 pl-3">
+                    <div key={String(etiqueta)} className="border-l border-zinc-300 py-1 pl-3 dark:border-white/15">
                       <dt className={ETIQUETA}>{etiqueta}</dt>
                       <dd className="mt-0.5 text-sm font-semibold tabular-nums">{valor}</dd>
                     </div>
@@ -761,7 +800,7 @@ export default function CohortesPage() {
                 </dl>
 
                 {/* Métricas: evaluables o abstención declarada */}
-                <div className="mt-3 rounded-md border border-white/5 bg-black/20 px-3 py-2" data-testid="metricas">
+                <div className="mt-3 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 dark:border-white/10 dark:bg-black/20" data-testid="metricas">
                   <p className={ETIQUETA}>Métricas etiquetadas</p>
                   {evidencia.labeled_metrics.status === "evaluated" ? (
                     <>
@@ -771,28 +810,28 @@ export default function CohortesPage() {
                           .map((ef) => `EF@${Math.round(ef.fraction * 100)}% ${ef.value?.toFixed(2)}`)
                           .join(" · ")}
                       </p>
-                      <p className="mt-1 text-[11px] text-white/40">
+                      <p className="mt-1 text-xs text-zinc-600 dark:text-white/60">
                         n={evidencia.labeled_metrics.n_total} ({evidencia.labeled_metrics.n_positive} activas,{" "}
                         {evidencia.labeled_metrics.n_negative} inactivas) · cobertura{" "}
                         {evidencia.labeled_metrics.coverage}
                       </p>
-                      <p className="mt-1 text-[11px] text-white/40">
+                      <p className="mt-1 text-xs text-zinc-600 dark:text-white/60">
                         {evidencia.labeled_metrics.interpretation_limit}
                       </p>
                     </>
                   ) : (
-                    <p className="mt-1 text-xs font-medium text-white/70">
+                    <p className="mt-1 text-sm font-medium text-zinc-700 dark:text-white/70">
                       Métricas no calculadas — {evidencia.labeled_metrics.reason}
                     </p>
                   )}
                 </div>
 
                 {evidencia.labeled_metrics.controls.length > 0 && (
-                  <div className="mt-3 rounded-md border border-white/5 bg-black/20 px-3 py-2" data-testid="controles">
+                  <div className="mt-3 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 dark:border-white/10 dark:bg-black/20" data-testid="controles">
                     <p className={ETIQUETA}>Controles declarados (fuera de la población de la métrica)</p>
                     <ul className="mt-1 space-y-0.5">
                       {evidencia.labeled_metrics.controls.map((c) => (
-                        <li key={c.source_row_index} className="text-xs text-white/60">
+                        <li key={c.source_row_index} className="text-xs text-zinc-600 dark:text-white/60">
                           #{c.source_row_index} {c.source_name ?? "—"} · {CONTROL_ROLE_LABELS[c.control_role]} ·{" "}
                           {c.observed_vina_affinity_kcal_mol?.toFixed(2) ?? "sin afinidad"}
                         </li>
@@ -801,9 +840,9 @@ export default function CohortesPage() {
                   </div>
                 )}
 
-                <div className="mt-3 rounded-md border border-amber-500/20 bg-amber-500/5 px-3 py-2">
+                <div className="mt-3 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 dark:border-amber-500/20 dark:bg-amber-500/5">
                   <p className={ETIQUETA}>Límites de interpretación</p>
-                  <ul className="mt-1 list-disc space-y-1 pl-4 text-[11px] leading-relaxed text-amber-100/70">
+                  <ul className="mt-1 list-disc space-y-1 pl-4 text-xs leading-relaxed text-amber-900 dark:text-amber-100/70">
                     {evidencia.limits.map((limit) => <li key={limit}>{limit}</li>)}
                   </ul>
                 </div>
@@ -812,10 +851,10 @@ export default function CohortesPage() {
                   {FILTROS.map((f) => (
                     <button key={f.id} type="button" onClick={() => setFiltro(f.id)}
                       aria-pressed={filtro === f.id}
-                      className={`rounded-md border px-2 py-1 text-[11px] ${
+                      className={`rounded-md border px-2 py-1 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 ${
                         filtro === f.id
-                          ? "border-brand-500/40 bg-brand-600/15 text-white"
-                          : "border-white/5 bg-white/[0.02] text-white/40 hover:text-white/70"
+                          ? "border-brand-500/40 bg-brand-600/10 text-brand-800 dark:bg-brand-600/15 dark:text-white"
+                          : "border-zinc-200 bg-white text-zinc-600 hover:text-zinc-900 dark:border-white/10 dark:bg-white/[0.02] dark:text-white/60 dark:hover:text-white/70"
                       }`}>
                       {f.label}
                     </button>
@@ -824,7 +863,7 @@ export default function CohortesPage() {
 
                 <div className="mt-3 overflow-x-auto">
                   <table className="w-full min-w-[46rem] text-left text-xs tabular-nums">
-                    <thead className="font-medium text-white/65">
+                    <thead className="font-medium text-zinc-600 dark:text-white/65">
                       <tr>
                         <th className="px-2 py-1.5 font-normal">#</th>
                         <th className="px-2 py-1.5 font-normal">Nombre</th>
@@ -836,20 +875,20 @@ export default function CohortesPage() {
                     </thead>
                     <tbody data-testid="tabla-evidencia">
                       {filasVisibles.map((m) => (
-                        <tr key={m.source_row_index} className="border-t border-white/5">
-                          <td className="px-2 py-1.5 text-white/40">{m.source_row_index}</td>
+                        <tr key={m.source_row_index} className="border-t border-zinc-200 dark:border-white/10">
+                          <td className="px-2 py-1.5 text-zinc-500 dark:text-white/60">{m.source_row_index}</td>
                           <td className="px-2 py-1.5">{m.source_name ?? "—"}</td>
                           <td className="px-2 py-1.5">
                             {ROW_STATUS_LABELS[m.status]}
                             {m.error_code && (
-                              <span className="mt-0.5 block max-w-xs text-[11px] leading-snug text-white/60">
+                              <span className="mt-0.5 block max-w-xs text-xs leading-snug text-zinc-600 dark:text-white/60">
                                 {m.error_detail || "La evaluación no pudo completarse."}
                               </span>
                             )}
                           </td>
                           <td className="px-2 py-1.5 font-mono">
                             {m.observed_vina_affinity_kcal_mol?.toFixed(2) ?? (
-                              <span className="text-white/30">NO DISPONIBLE</span>
+                              <span className="text-zinc-500 dark:text-white/60">NO DISPONIBLE</span>
                             )}
                           </td>
                           <td className="px-2 py-1.5">
@@ -860,7 +899,7 @@ export default function CohortesPage() {
                       ))}
                       {filasVisibles.length === 0 && (
                         <tr>
-                          <td colSpan={6} className="border-t border-white/5 px-2 py-6 text-center text-white/60">
+                          <td colSpan={6} className="border-t border-zinc-200 px-2 py-6 text-center text-zinc-600 dark:border-white/10 dark:text-white/60">
                             No hay moléculas con este estado.
                           </td>
                         </tr>
@@ -890,16 +929,16 @@ export default function CohortesPage() {
                   </button>
                 </div>
                 {zipGuardado && (
-                  <p role="status" className="mt-2 text-[11px] text-white/40">
+                  <p role="status" className="mt-2 text-xs text-zinc-600 dark:text-white/60">
                     Paquete descargado como <span className="font-mono">{zipGuardado}</span>. Incluye su
                     manifiesto con hashes; la verificación la hace quien lo reciba.
                   </p>
                 )}
-                <div className="mt-3 h-[70vh] min-h-[24rem] overflow-hidden rounded-md border border-white/5 bg-black/40">
+                <div className="mt-3 h-[70vh] min-h-[24rem] overflow-hidden rounded-md border border-zinc-200 bg-zinc-100 dark:border-white/10 dark:bg-black/40">
                   {pdfUrl ? (
                     <iframe src={`${pdfUrl}#toolbar=0`} title="Dossier de cohorte" className="h-full w-full border-none" />
                   ) : (
-                    <div className="flex h-full items-center justify-center text-xs text-white/30">
+                    <div className="flex h-full items-center justify-center text-xs text-zinc-500 dark:text-white/60">
                       El dossier no está cargado.
                     </div>
                   )}
@@ -912,20 +951,20 @@ export default function CohortesPage() {
           <aside className={`${CAJA} h-fit p-3`} aria-label="Cohortes guardadas">
             <div className="flex items-center justify-between">
               <h2 className="text-xs font-semibold">Cohortes guardadas</h2>
-              <button type="button" onClick={refrescarLista} className="text-white/30 hover:text-white/60" aria-label="Refrescar lista">
+              <button type="button" onClick={refrescarLista} className="rounded-sm text-zinc-500 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white/60 dark:hover:text-white/80" aria-label="Refrescar lista">
                 <RefreshCw className="h-3 w-3" />
               </button>
             </div>
             {guardadas.length === 0 ? (
-              <p className="mt-2 text-xs font-medium text-white/55">Ninguna todavía.</p>
+              <p className="mt-2 text-xs font-medium text-zinc-600 dark:text-white/55">Ninguna todavía.</p>
             ) : (
               <ul className="mt-2 space-y-1">
                 {guardadas.map((item) => (
                   <li key={item.id}>
                     <button type="button" onClick={() => abrirGuardada(item)}
-                      className="w-full rounded-md border border-white/5 bg-black/20 px-2 py-1.5 text-left transition-colors hover:border-white/15">
+                      className="w-full rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1.5 text-left transition-colors hover:border-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:border-white/10 dark:bg-black/20 dark:hover:border-white/20">
                       <span className="block truncate text-xs">{item.name}</span>
-                      <span className="block text-[11px] font-medium text-white/60">
+                      <span className="block text-xs font-medium text-zinc-600 dark:text-white/60">
                         {item.receptor_pdb_id} · {item.summary.eligible_rows}/{item.summary.total_rows} elegibles
                       </span>
                     </button>
@@ -933,14 +972,14 @@ export default function CohortesPage() {
                 ))}
               </ul>
             )}
-            <p className="mt-3 border-t border-white/5 pt-2 text-[11px] font-medium leading-relaxed text-white/55">
+            <p className="mt-3 border-t border-zinc-200 pt-2 text-xs font-medium leading-relaxed text-zinc-600 dark:border-white/10 dark:text-white/60">
               Una cohorte guardada es inmutable: cambiar receptor, configuración o archivo
               produce otra cohorte, no una edición.
             </p>
           </aside>
         </div>
 
-        <p className="mt-6 text-xs font-medium leading-relaxed text-white/55">
+        <p className="mt-6 text-sm font-medium leading-relaxed text-zinc-600 dark:text-white/55">
           <CheckCircle2 className="mr-1 inline h-3 w-3" aria-hidden="true" />
           Esta pantalla no ordena moléculas por mérito farmacológico ni produce ninguna
           puntuación agregada. La afinidad Vina observada es una señal de ranking dentro de

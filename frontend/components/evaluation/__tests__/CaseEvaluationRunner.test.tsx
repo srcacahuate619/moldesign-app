@@ -108,8 +108,11 @@ vi.mock("../../interfaces/pro/ProEvaluation", () => ({
 }));
 
 import CaseEvaluationRunner from "../CaseEvaluationRunner";
+import { invalidarCatalogo } from "../../../lib/catalogoDeReceptores";
 
 beforeEach(() => {
+  // El catálogo se cachea entre montajes: cada prueba parte sin nada.
+  invalidarCatalogo();
   authState.isLoading = false;
   authState.token = "token-prueba";
   authState.user = { user_id: "usuario-prueba" };

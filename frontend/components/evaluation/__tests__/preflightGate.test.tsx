@@ -11,6 +11,8 @@
 // no la pantalla de presentación.
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
+
+import { invalidarCatalogo } from "../../../lib/catalogoDeReceptores";
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 import { LanguageProvider } from "../../../context/LanguageContext";
@@ -134,6 +136,8 @@ const PREFLIGHT: PreflightSummary = {
 
 describe("puerta de ejecución", () => {
   beforeEach(() => {
+    // El catálogo se cachea entre montajes: cada prueba parte sin nada.
+    invalidarCatalogo();
     getJobStatus.mockReset();
     getTargets.mockReset();
     getTargets.mockResolvedValue([]);

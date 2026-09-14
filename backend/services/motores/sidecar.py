@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import atexit
 import os
+import socket
 import subprocess
 import sys
 import threading
@@ -56,6 +57,13 @@ ESPERA_ARRANQUE_S = 180.0
 INTERVALO_SONDA_S = 1.0
 TIMEOUT_SONDA_S = 2.0
 
+#: Cuánto se espera a que el puerto ACEPTE, antes de gastar la sonda HTTP.
+#:
+#: Un `accept` en loopback lo resuelve el sistema operativo y es inmediato
+#: aunque el proceso esté ocupado. Medio segundo es holgadísimo incluso en
+#: una máquina virtual, y si se agota es que no hay nadie al otro lado.
+TIMEOUT_CONEXION_S = 0.5
+
 
 class MotorSidecar:
     """Un motor en su propio proceso. Idempotente en encender y apagar."""
@@ -83,8 +91,35 @@ class MotorSidecar:
         """El proceso existe y no ha terminado. No dice que ya sirva."""
         return self._proceso is not None and self._proceso.poll() is None
 
+    def _puerto_acepta(self) -> bool:
+        """¿Hay alguien escuchando? Pregunta barata antes de la cara.
+
+        MEDIDO en Windows contra el puerto del sidecar apagado: el puerto no
+        RECHAZA la conexión, la traga en silencio —lo hace el cortafuegos—, así
+        que `connect` agota el tiempo que se le dé, sea el que sea:
+
+            urlopen, timeout 2 s      2 013 ms
+            socket.connect, 250 ms      264 ms
+
+        Un `accept` de TCP en loopback lo hace el sistema operativo, no la
+        aplicación: un sidecar ocupado cargando 8 GB de pesos sigue aceptando la
+        conexión al instante, y entonces se cae a la sonda HTTP de siempre. Por
+        eso este atajo no puede declarar apagado un motor que esté encendido.
+        """
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(TIMEOUT_CONEXION_S)
+        try:
+            s.connect(("127.0.0.1", self.motor.sidecar.puerto))
+            return True
+        except OSError:
+            return False
+        finally:
+            s.close()
+
     def responde(self) -> bool:
         """`/health` contesta. Es lo único que autoriza a decir «listo»."""
+        if not self._puerto_acepta():
+            return False
         try:
             peticion = urllib.request.Request(f"{self.url}/health", method="GET")
             with urllib.request.urlopen(peticion, timeout=TIMEOUT_SONDA_S) as r:
@@ -92,8 +127,43 @@ class MotorSidecar:
         except (urllib.error.URLError, OSError, ValueError):
             return False
 
+    def _puede_estar_vivo(self) -> bool:
+        """¿Tiene sentido siquiera preguntarle?
+
+        Un motor cuyos pesos NO están descargados no puede estar sirviendo: el
+        sidecar no arranca sin checkpoint. Preguntárselo igual es gastar el
+        presupuesto entero de la sonda contra un puerto donde no hay nadie.
+        """
+        if self.esta_vivo():
+            return True
+        return not archivos_que_faltan(self.motor)
+
     def estado(self) -> EstadoMotor:
-        return estado_de(self.motor, encendido=self.responde(), error=self._error)
+        # ── POR QUÉ NO SE SONDEA SIEMPRE ───────────────────────────────────
+        #
+        # Esto era `estado_de(self.motor, encendido=self.responde(), ...)`, y
+        # Python evalúa los argumentos ANTES de llamar: la sonda corría en todas
+        # las llamadas, incluso cuando el propio `estado_de` iba a devolver
+        # «no instalado» sin mirarla.
+        #
+        # MEDIDO sobre el runtime empaquetado, con ESMFold sin descargar:
+        #
+        #     inventario_de_motores()            2 022 ms
+        #       estados_de_motores_descargables()  2 012 ms   <- la sonda
+        #       archivos_que_faltan(esmfold)           0.8 ms
+        #       dependencias_que_faltan(esmfold)       1.0 ms
+        #
+        # Dos segundos exactos, que es el timeout, en CADA apertura del panel de
+        # opciones y en cada arranque de la interfaz. Y se pagan justamente en
+        # la máquina donde más duele: una instalación recién hecha, que es la
+        # que nunca ha descargado los pesos. En la máquina del revisor de la
+        # Store, siempre.
+        #
+        # Con esta guarda, quien no ha descargado el motor no espera nada; quien
+        # sí lo ha descargado sigue recibiendo la respuesta honesta de la sonda,
+        # que es la única que autoriza a decir «listo».
+        encendido = self.responde() if self._puede_estar_vivo() else False
+        return estado_de(self.motor, encendido=encendido, error=self._error)
 
     # ── Ciclo de vida ─────────────────────────────────────────────────────
 

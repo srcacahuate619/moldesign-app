@@ -35,13 +35,17 @@ import {
   downloadComplexFile,
   getEvaluationResult,
   getJobStatus,
-  getTargets,
   saveMolecule,
   submitEvaluation,
   validateSmiles,
   type Target,
 } from "../../lib/api";
 import { useAuth } from "../../lib/auth";
+import {
+  catalogoEnMemoria,
+  invalidarCatalogo,
+  obtenerCatalogo,
+} from "../../lib/catalogoDeReceptores";
 import type { JobStatus, MolecularSuggestion, ValidationResult } from "../../lib/types";
 import { playSound } from "../../lib/sounds";
 import { notifyRunFinished } from "../../lib/activityNotifications";
@@ -211,8 +215,13 @@ export default function CaseEvaluationRunner({
   const [target, setTarget] = useState(
     structuralSystem?.receptor.pdbId ?? inputs?.receptor?.pdbId ?? "",
   );
-  const [targets, setTargets] = useState<Target[]>([]);
-  const [loadingTargets, setLoadingTargets] = useState(true);
+  // El catálogo es GLOBAL: los mismos 380 receptores para todos los casos. Si
+  // ya está en memoria se arranca con él, y entonces no hay ni parpadeo de
+  // «cargando» ni 1,2 MB de descarga al cambiar de caso. Ver
+  // `lib/catalogoDeReceptores.ts` para la medición que lo motiva.
+  const catalogoInicial = catalogoEnMemoria();
+  const [targets, setTargets] = useState<Target[]>(() => [...(catalogoInicial ?? [])]);
+  const [loadingTargets, setLoadingTargets] = useState(catalogoInicial === null);
 
   const [validation, setValidation] = useState<ValidationResult | null>(null);
   // Arranca DESDE la corrida persistida: si el caso trae una, este componente
@@ -582,10 +591,17 @@ export default function CaseEvaluationRunner({
     />
   );
 
-  const loadTargets = useCallback(() => {
-    setLoadingTargets(true);
-    getTargets()
-      .then(setTargets)
+  /**
+   * `forzar` es para el botón de recargar, que existe para volver a preguntar
+   * de verdad; el montaje normal se queda con lo que haya en memoria.
+   *
+   * La pantalla NO se pone en «cargando» si ya hay receptores: hacerlo
+   * vaciaría un selector que está lleno para volver a llenarlo con lo mismo.
+   */
+  const loadTargets = useCallback((forzar = false) => {
+    setLoadingTargets((previo) => previo || forzar);
+    obtenerCatalogo({ forzar })
+      .then((receptores) => setTargets([...receptores]))
       .catch((err) => setError(`No se pudieron cargar los receptores: ${(err as Error).message}`))
       .finally(() => setLoadingTargets(false));
   }, []);
@@ -1197,7 +1213,15 @@ export default function CaseEvaluationRunner({
       }}
       targets={targets}
       loadingTargets={loadingTargets}
-      onTargetUploadSuccess={loadTargets}
+      // Subir un receptor propio cambia el catálogo para TODA la aplicación:
+      // se invalida lo guardado antes de volver a pedirlo, o los demás casos
+      // seguirían mostrando un catálogo sin el receptor recién subido. Se
+      // envuelve en una lambda a propósito: pasar `loadTargets` directo le
+      // entregaría el argumento del llamador como si fuera `forzar`.
+      onTargetUploadSuccess={() => {
+        invalidarCatalogo();
+        loadTargets(true);
+      }}
       validation={validation}
       setValidation={setValidation}
       taskId={taskId}
