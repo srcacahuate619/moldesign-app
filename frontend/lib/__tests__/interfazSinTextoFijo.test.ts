@@ -47,7 +47,6 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
   "components/CertificationModal.tsx": 30,
   "app/evaluation/batch/page.tsx": 29,
   "components/interfaces/pro/ProOptionsModal.tsx": 27,
-  "components/ui/LegalModal.tsx": 27,
   "components/interfaces/pro/ProAnalysisTabs.tsx": 22,
   "app/moldex/page.tsx": 21,
   "components/interfaces/pro/ProEvaluation.tsx": 20,
@@ -131,7 +130,7 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
 };
 
 /** Techo global. Es el que cuenta: el detalle por fichero sólo dice dónde. */
-const PRESUPUESTO_TOTAL = 552;
+const PRESUPUESTO_TOTAL = 525;
 
 function ficheros(dir: string, acc: string[] = []): string[] {
   let entradas: string[];
@@ -214,6 +213,7 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
     // el presupuesto en un trinquete y no en una foto.
     const TERMINADAS: string[] = [
       "components/evaluation/EstimacionDeCorrida.tsx",
+      "components/ui/LegalModal.tsx",
     ];
     for (const rel of TERMINADAS) {
       const f = medidos.find((m) => m.rel === rel);

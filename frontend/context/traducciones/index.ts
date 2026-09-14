@@ -18,6 +18,7 @@
 import { casos } from "./casos";
 import { comun } from "./comun";
 import { evaluacion } from "./evaluacion";
+import { legal } from "./legal";
 import { lote } from "./lote";
 import { moldex } from "./moldex";
 
@@ -27,7 +28,9 @@ export interface ModuloDeTraduccion {
   readonly en: Readonly<Record<string, string>>;
 }
 
-const MODULOS: readonly ModuloDeTraduccion[] = [comun, evaluacion, lote, moldex, casos];
+const MODULOS: readonly ModuloDeTraduccion[] = [
+  comun, evaluacion, lote, moldex, casos, legal,
+];
 
 /**
  * Funde los modulos en las dos columnas.

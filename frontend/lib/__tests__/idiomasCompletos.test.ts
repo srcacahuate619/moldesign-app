@@ -27,7 +27,7 @@ const INTRADUCIBLES = new Set([
   "MolDesign", "MolDesign AI", "Moldex", "MolChat", "AutoDock Vina", "Vina",
   "RDKit", "PDB", "SMILES", "Open Babel", "ESMFold", "TabPFN", "Batch", "Error",
   "PDB ID", "Selector", "Pose", "poses", "Vina top-1", "Vina top-1 (original)",
-  "Δ pose 1–2", "Local-First",
+  "Δ pose 1–2", "Local-First", "Copyleft", "source-available",
 ]);
 
 /**
