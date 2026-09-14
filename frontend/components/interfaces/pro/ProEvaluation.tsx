@@ -32,7 +32,7 @@ import { PoseComparisonDialog } from "./PoseComparisonDialog";
 import { PipelineTimeline, stagesForPipeline } from "./PipelineTimeline";
 import { getTargetPdb, getPoseFile, getProteinFile, getJobStatus, getInteractions } from "../../../lib/api";
 import type { Target } from "../../../lib/api";
-import { runMmgbsa } from "../../../lib/proApi";
+import { runAdmet, runMmgbsa } from "../../../lib/proApi";
 import { subscribeToPipelineEvents, stageEventToOrbUpdate } from "../../../lib/pipelineStream";
 import type { PipelineEvent } from "../../../lib/pipelineStream";
 import { PIPELINES_BY_FAMILY, FAMILY_LABELS } from "../../../lib/pipelineDefinitions";
@@ -297,6 +297,10 @@ export default function ProEvaluation({
     [selectedTargetObj]
   );
   const [advancedOpts, setAdvancedOpts] = useState<AdvancedConfig>(() => ({
+    // Reabrir una corrida guardada tiene que recuperar SU pH, no el por
+    // defecto: si no, el panel enseñaría 7.4 sobre un expediente que se acopló
+    // a otro pH, y al reejecutar lo cambiaría en silencio.
+    protonationPh: Number(initialRunConfiguration?.pipelineConfig?.stage_params?.conformer?.ph ?? 7.4) || 7.4,
     numWorkers: initialRunConfiguration?.pipelineConfig?.pro_workers ?? 4,
     parallelDocks: initialRunConfiguration?.pipelineConfig?.pro_parallel_docks ?? 2,
     enableSelectivity: initialRunConfiguration?.pipelineConfig?.pro_selectivity ?? false,
@@ -404,6 +408,69 @@ export default function ProEvaluation({
       setMmgbsaState("error");
     }
   }, [mmgbsaState, realResult?.molecule_id, mmgbsaPoseRank, mmgbsaNumSteps, taskId, setStatus]);
+
+  // ── ADMET-AI post-docking ────────────────────────────────────────────────
+  //
+  // ADMET-AI es opt-in y la decisión se toma en Opciones ANTES de ejecutar.
+  // Quien no lo marcó se quedaba sin perfil para siempre: la única forma de
+  // tenerlo era volver a acoplar la molécula entera —minutos de Vina— para
+  // recalcular algo que sólo depende del SMILES.
+  //
+  // Mismo trato que MM-GBSA: se pide después, sobre una corrida que ya existe,
+  // y el backend lo PERSISTE, así que el dossier lo verá.
+  const [admetState, setAdmetState] = useState<"idle" | "running" | "done" | "error">("idle");
+  const [admetError, setAdmetError] = useState<string | null>(null);
+
+  /** Ya hay perfil: del pipeline o de un cálculo post-docking de esta sesión. */
+  const admetYaEsta =
+    realResult?.blood_viability_score != null || admetState === "done";
+
+  const handleRunAdmet = useCallback(async () => {
+    if (admetState === "running") return;
+    const moleculeId = realResult?.molecule_id;
+    if (!moleculeId) {
+      setAdmetError("Requiere una corrida terminada con una molécula identificable.");
+      setAdmetState("error");
+      return;
+    }
+    setAdmetState("running");
+    setAdmetError(null);
+    try {
+      const perfil = await runAdmet(moleculeId);
+      // El backend lo guarda en la base, pero `status` es la INSTANTÁNEA del
+      // trabajo y no se entera sola: sin fusionarlo aquí, el panel de
+      // propiedades seguiría diciendo que no hay perfil hasta recargar. Es lo
+      // mismo que ya le pasa a MM-GBSA.
+      if (status?.result) {
+        setStatus?.({
+          ...status,
+          result: {
+            ...status.result,
+            blood_viability_score: perfil.blood_viability_score,
+            blood_solubility_logs: perfil.blood_solubility_logs,
+            blood_ppb_category: perfil.blood_ppb_category,
+            blood_bbb_permeable: perfil.blood_bbb_permeable,
+            blood_bbb_motivo: perfil.blood_bbb_motivo,
+            blood_cns_mpo: perfil.blood_cns_mpo,
+            blood_hia_permeable: perfil.blood_hia_permeable,
+            blood_systemic_reactivity: perfil.blood_systemic_reactivity,
+            blood_tabpfn_estado: perfil.blood_tabpfn_estado,
+          },
+        } as JobStatus);
+      }
+      // Se calculó pero no se pudo guardar: el usuario lo ve y el dossier no lo
+      // leería. Decirlo es la diferencia entre un número y un número fiable.
+      setAdmetError(
+        perfil.persistido
+          ? null
+          : "El perfil se calculó pero NO se pudo guardar: el dossier de esta corrida no lo incluirá.",
+      );
+      setAdmetState("done");
+    } catch (err) {
+      setAdmetError(err instanceof Error ? err.message : String(err));
+      setAdmetState("error");
+    }
+  }, [admetState, realResult?.molecule_id, status, setStatus]);
 
   // ── Reactividad del Grid Box con el receptor seleccionado ──
   // Cuando el usuario elige un target, el centro y tamaño del grid box se
@@ -823,6 +890,14 @@ export default function ProEvaluation({
                   enabled_stages: ["validation", "properties", "sa_filter", "conformer", "docking", "xgb", "clgnn"],
                   stage_params: {
                     docking: { exhaustiveness: gridBox.exhaustiveness, num_poses: gridBox.numModes },
+                    // NO se declara aquí `conformer`. Este objeto llega a
+                    // `handleSubmit` como `_pipelineConfig` y se DESCARTA: lo
+                    // que se ejecuta es la copia que inspeccionó el preflight,
+                    // para que la huella firmada describa la corrida real.
+                    // El protocolo del confórmero —número y pH— se escribe en
+                    // los inputs del caso: `conformers` desde el panel de
+                    // preparación y `ph` al aplicar Opciones. Ponerlo también
+                    // aquí no haría nada y sugeriría que sí.
                     // La elección de ADMET viaja SIEMPRE, encendida o apagada.
                     // Omitirla dejaba que el defecto del backend decidiera por
                     // el usuario: el interruptor de Opciones no llegaba a la
@@ -1345,6 +1420,10 @@ export default function ProEvaluation({
               }}
               mmgbsaRunning={mmgbsaState === "running"}
               mmgbsaDone={mmgbsaAlreadyDone}
+              onRequestAdmet={handleRunAdmet}
+              admetRunning={admetState === "running"}
+              admetDone={admetYaEsta}
+              admetError={admetError}
             />
           </section>
 
@@ -1502,7 +1581,13 @@ export default function ProEvaluation({
               stage_params: {
                 docking: { exhaustiveness: grid.exhaustiveness, num_poses: grid.numModes },
                 properties: { run_admet_ai: adv.enableADMET },
-                conformer: { conformers: initialRunConfiguration?.pipelineConfig?.stage_params?.conformer?.conformers ?? 1 },
+                // `conformers` y `ph` viajan juntos: los dos son del mismo
+                // paso. Mandar uno y olvidar el otro dejaba el control de pH
+                // de adorno según por dónde se lanzara la corrida.
+                conformer: {
+                  conformers: initialRunConfiguration?.pipelineConfig?.stage_params?.conformer?.conformers ?? 1,
+                  ph: adv.protonationPh,
+                },
               },
               docking_engine: engine.engine,
               pro_workers: adv.numWorkers,

@@ -13,6 +13,7 @@ import {
   ArrowLeftRight,
   Boxes,
   FlaskConical,
+  Gauge,
   GitFork,
   ListChecks,
   ShieldCheck,
@@ -36,7 +37,7 @@ import {
 } from "../../../lib/structuralEvidence";
 
 type PrimaryTab = "structure" | "properties" | "advanced" | "compare" | "evidence";
-type AdvancedTab = "xai" | "selectivity" | "sar" | "mmgbsa";
+type AdvancedTab = "xai" | "selectivity" | "sar" | "mmgbsa" | "admet";
 
 const PHYSICAL_STATUS: Record<PhysicalStatus, { label: string; className: string }> = {
   passed: { label: "Controles superados", className: "text-emerald-300" },
@@ -188,6 +189,18 @@ interface ProAnalysisTabsProps {
   onRequestMmgbsa?: () => void;
   mmgbsaRunning?: boolean;
   mmgbsaDone?: boolean;
+  /**
+   * Calcular el perfil ADMET sobre una corrida ya terminada.
+   *
+   * ADMET-AI es opt-in y se decide en Opciones ANTES de ejecutar. Sin esta
+   * puerta, quien no lo marcó tenía que volver a acoplar la molécula entera
+   * para obtener algo que sólo depende del SMILES.
+   */
+  onRequestAdmet?: () => void;
+  admetRunning?: boolean;
+  admetDone?: boolean;
+  /** Un fallo, o el aviso de que se calculó pero no se pudo guardar. */
+  admetError?: string | null;
   /** Resultado completo que alimenta la evidencia estructural y sus poses. */
   structuralEvidenceResult?: EvaluationResultWithEvidence | null;
   /** Navega desde el resumen global hacia Controles físicos. */
@@ -205,6 +218,10 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
   onRequestMmgbsa,
   mmgbsaRunning = false,
   mmgbsaDone = false,
+  onRequestAdmet,
+  admetRunning = false,
+  admetDone = false,
+  admetError = null,
   structuralEvidenceResult,
   physicalFocusRequest = 0,
   onComparePoses,
@@ -265,6 +282,8 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
   const avanzadoConDatos: Record<AdvancedTab, boolean> = {
     selectivity: Boolean(selectivityResult) || Boolean(result?.selectivity_ran),
     mmgbsa: mmgbsaDone || result?.mmgbsa_score != null,
+    // El índice es lo que decide: si hay perfil, hay número; si no, no lo hay.
+    admet: admetDone || result?.blood_viability_score != null,
     // SAR consulta la base por `moleculeId`; sin corrida no hay nada que
     // comparar, y con corrida el propio panel dice si encontró análogos.
     sar: Boolean(moleculeId),
@@ -310,6 +329,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
   const advancedTabs: Array<{ id: AdvancedTab; icon: typeof Activity; label: string }> = [
     { id: "selectivity", icon: ShieldCheck, label: "Selectividad" },
     { id: "mmgbsa", icon: FlaskConical, label: "MM-GBSA" },
+    { id: "admet", icon: Gauge, label: "ADMET" },
     { id: "sar", icon: GitFork, label: "SAR" },
     { id: "xai", icon: Activity, label: "Explicabilidad" },
   ];
@@ -546,6 +566,58 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                 >
                   <FlaskConical size={14} aria-hidden="true" />
                   {mmgbsaRunning ? "Calculando…" : mmgbsaDone ? "MM-GBSA disponible" : "Configurar MM-GBSA"}
+                </button>
+              </div>
+              {!moleculeId && (
+                <p className="mt-3 text-[11px] leading-5 text-zinc-500">Requiere una corrida terminada con una molécula identificable.</p>
+              )}
+            </section>
+          )}
+
+          {advancedTab === "admet" && (
+            <section id="advanced-panel-admet" role="tabpanel" aria-labelledby="advanced-tab-admet" className="rounded-xl border border-sky-500/20 bg-sky-500/[0.035] p-4">
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div className="min-w-0 max-w-[70ch]">
+                  <div className="flex items-center gap-2">
+                    <Gauge size={16} className="text-sky-300" aria-hidden="true" />
+                    <h4 id="admet-post-title" className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-sky-200">
+                      Calcular el perfil ADMET
+                    </h4>
+                  </div>
+                  <p className="mt-2 text-xs leading-5 text-zinc-400">
+                    Predice solubilidad, absorción intestinal, permeabilidad BBB y unión a
+                    proteínas plasmáticas con ADMET-AI, en esta máquina. Depende{" "}
+                    <strong className="font-semibold text-zinc-300">sólo del SMILES</strong>:
+                    no usa la pose ni el receptor, así que no hace falta repetir el acoplamiento.
+                  </p>
+                  {/* La misma advertencia que lleva el interruptor de Opciones.
+                      Un modelo predictivo no es una medición, y el sitio donde
+                      alguien pulsa el botón es donde tiene que leerlo. */}
+                  <p className="mt-1.5 text-[11px] leading-5 text-amber-200/70">
+                    Son predicciones de un modelo, no mediciones: se citan como tales. La
+                    primera ejecución carga el ensamble y puede tardar —especialmente en una
+                    máquina virtual o sin GPU—.
+                  </p>
+                  {admetDone && !admetError && (
+                    <p className="mt-2 text-[11px] leading-5 text-sky-200/80">
+                      El perfil está calculado y guardado con la corrida: aparece en{" "}
+                      <strong className="font-semibold">Propiedades</strong> y viaja en el dossier.
+                    </p>
+                  )}
+                  {admetError && (
+                    <p role="alert" className="mt-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 text-[11px] leading-5 text-amber-200">
+                      {admetError}
+                    </p>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={onRequestAdmet}
+                  disabled={!moleculeId || admetRunning || admetDone}
+                  className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-sky-400/30 bg-sky-500/15 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-wider text-sky-100 transition-colors hover:bg-sky-500/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <Gauge size={14} aria-hidden="true" />
+                  {admetRunning ? "Calculando…" : admetDone ? "ADMET disponible" : "Calcular ADMET"}
                 </button>
               </div>
               {!moleculeId && (

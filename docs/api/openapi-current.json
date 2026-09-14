@@ -6838,7 +6838,7 @@
     "description": "MolDesign expone un pipeline científico basado en RDKit, AutoDock Vina y scoring explícito. La IA interpreta resultados ya calculados y no genera métricas químicas por sí misma.",
     "summary": "Plataforma de diseño molecular asistido con pipeline científico reproducible.",
     "title": "MolDesign API",
-    "version": "1.0.0-alpha.2"
+    "version": "1.0.0"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -8202,7 +8202,26 @@
     },
     "/ai/startup": {
       "get": {
+        "description": "Sonda de arranque. La identidad es opcional, pero cambia lo que sale.\n\nEs la llamada más temprana del producto y sondeaba a Anthropic, Google y\nOpenAI con un turno real antes de que nadie autorizara nada. Ahora se\nresuelve con la cuenta que pregunta: sin sesión no hay consentimiento\nposible, así que no se consulta ningún destino remoto y MolChat arranca en\nlocal.",
         "operationId": "startup_detection_ai_startup_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -8211,6 +8230,16 @@
               }
             },
             "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
           }
         },
         "summary": "Startup Detection",
@@ -12019,6 +12048,79 @@
         "summary": "Obtiene el catálogo de moléculas evaluadas (Moldex)",
         "tags": [
           "Moldex"
+        ]
+      }
+    },
+    "/pro/admet/{molecule_id}": {
+      "post": {
+        "description": "Calcula el perfil ADMET de una molecula ya evaluada, y lo guarda.",
+        "operationId": "run_admet_endpoint_pro_admet__molecule_id__post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "molecule_id",
+            "required": true,
+            "schema": {
+              "title": "Molecule Id",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Vuelve a calcularlo aunque ya haya un perfil guardado. Por omision se devuelve el que hay: el modelo tarda y el resultado es el mismo.",
+            "in": "query",
+            "name": "recalcular",
+            "required": false,
+            "schema": {
+              "default": false,
+              "description": "Vuelve a calcularlo aunque ya haya un perfil guardado. Por omision se devuelve el que hay: el modelo tarda y el resultado es el mismo.",
+              "title": "Recalcular",
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Run Admet Endpoint Pro Admet  Molecule Id  Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Perfil ADMET de una molecula ya evaluada, calculado despues del acoplamiento",
+        "tags": [
+          "PRO Features"
         ]
       }
     },

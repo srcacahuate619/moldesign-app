@@ -298,7 +298,14 @@ export function ProParametersTab({ result }: Props) {
             están vacíos porque no se midió nada,{" "}
             <strong className="font-semibold">no</strong> porque la molécula haya dado
             un resultado desfavorable. El resto de la evaluación —acoplamiento, poses y
-            controles físicos— no depende de este bloque.
+            controles físicos— no depende de este bloque.{" "}
+            {/* Ahora SÍ hay algo que hacer. El párrafo sigue sin nombrar una causa
+                —desde aquí no se distinguen— pero sí la salida: ADMET depende sólo
+                del SMILES, así que se puede calcular sin repetir el acoplamiento. */}
+            <strong className="font-semibold">
+              Puedes calcularlo ahora desde Análisis avanzado → ADMET
+            </strong>
+            : no hace falta repetir el acoplamiento, porque sólo depende del SMILES.
           </p>
         )}
 

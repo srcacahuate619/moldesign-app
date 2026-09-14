@@ -1042,3 +1042,173 @@ def _get_openmm_platforms() -> list[str]:
         ]
     except ImportError:
         return []
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# ADMET-AI POST-DOCKING
+# ═══════════════════════════════════════════════════════════════════════════
+#
+# POR QUE EXISTE. ADMET-AI es opt-in en las opciones avanzadas, y esa decision
+# se toma ANTES de ejecutar. Quien no lo marco se quedaba sin perfil ADMET para
+# siempre: la unica forma de tenerlo era volver a acoplar la molecula entera
+# —minutos de Vina— para recalcular algo que solo depende del SMILES.
+#
+# Este endpoint es el mismo trato que ya tiene MM-GBSA: un modulo caro que se
+# pide despues, sobre una corrida que ya existe, y que se PERSISTE porque quien
+# hace el trabajo es quien lo guarda.
+#
+# TRES COSAS QUE PROTEGE:
+#
+# 1. **El mismo calculo que el pipeline.** Llama a `calculate_properties(...,
+#    run_admet_ai=True)` y persiste con `Repository.upsert_evaluation_result`,
+#    que es el mapeo canonico. Escribir las columnas a mano aqui crearia una
+#    segunda copia del mapeo, y dos copias divergen —es exactamente el defecto
+#    que costo doce minutos de build en el gate del dossier embebido—.
+#
+# 2. **No inventa un perfil.** Si ADMET-AI no esta disponible, `predict_admet_ai`
+#    devuelve `None` en vez de valores simulados y el indice sale `None`. Aqui se
+#    comprueba DESPUES de correr: si no hay indice, se responde que no se pudo
+#    evaluar en vez de declarar exito sobre un perfil vacio.
+#
+# 3. **No pisa el docking ni la marca de control.** `upsert_evaluation_result`
+#    solo escribe lo que recibe, asi que la evidencia de acoplamiento sigue
+#    intacta; pero `is_control` SI se escribe siempre, y por eso se le reenvia
+#    el valor que ya tenia el registro. Sin eso, calcular ADMET sobre un control
+#    lo convertiria en una molecula normal.
+
+
+@router.post(
+    "/admet/{molecule_id}",
+    summary="Perfil ADMET de una molecula ya evaluada, calculado despues del acoplamiento",
+)
+async def run_admet_endpoint(
+    molecule_id: str,
+    recalcular: bool = Query(
+        False,
+        description=(
+            "Vuelve a calcularlo aunque ya haya un perfil guardado. Por omision "
+            "se devuelve el que hay: el modelo tarda y el resultado es el mismo."
+        ),
+    ),
+    current_user: UserORM | None = Depends(get_current_user_optional),
+    db: AsyncSession = Depends(get_db),
+) -> dict[str, Any]:
+    """Calcula el perfil ADMET de una molecula ya evaluada, y lo guarda."""
+    from uuid import UUID
+
+    try:
+        mol_uuid = UUID(molecule_id)
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid molecule_id")
+
+    repository = Repository(db)
+    await require_owned_molecule(
+        repository=repository,
+        db=db,
+        molecule_id=mol_uuid,
+        current_user=current_user,
+        forbidden_detail="No tienes permiso para operar esta evaluacion.",
+        missing_detail="Evaluation not found",
+    )
+    evaluation = await repository.get_evaluation_result(mol_uuid)
+    if evaluation is None:
+        raise HTTPException(status_code=404, detail="Evaluation not found")
+    if evaluation.molecule is None:
+        raise HTTPException(status_code=404, detail="Molecule missing")
+
+    smiles = evaluation.molecule.smiles
+
+    def _perfil(origen: Any) -> dict[str, Any]:
+        """Lo que la interfaz necesita, leido de una sola fuente."""
+        return {
+            "blood_viability_score": getattr(origen, "blood_viability_score", None),
+            "blood_solubility_logs": getattr(origen, "blood_solubility_logs", None),
+            "blood_ppb_category": getattr(origen, "blood_ppb_category", None),
+            "blood_bbb_permeable": getattr(origen, "blood_bbb_permeable", None),
+            "blood_bbb_motivo": getattr(origen, "blood_bbb_motivo", None),
+            "blood_cns_mpo": getattr(origen, "blood_cns_mpo", None),
+            "blood_hia_permeable": getattr(origen, "blood_hia_permeable", None),
+            "blood_systemic_reactivity": list(
+                getattr(origen, "blood_systemic_reactivity", None) or []
+            ),
+            "blood_tabpfn_estado": getattr(origen, "blood_tabpfn_estado", None),
+        }
+
+    # Ya calculado: se devuelve tal cual. Repetirlo costaria la carga del modelo
+    # para obtener el mismo numero, y en una maquina virtual eso son minutos.
+    if not recalcular and evaluation.blood_viability_score is not None:
+        return {
+            "molecule_id": molecule_id,
+            "estado": "ya_calculado",
+            "persistido": True,
+            **_perfil(evaluation),
+        }
+
+    # ── FUERA DEL BUCLE DE EVENTOS ──────────────────────────────────────────
+    #
+    # La primera prediccion carga el ensamble de Chemprop y domina el reloj de
+    # la llamada. Este endpoint es `async def`: correrlo aqui dejaria el backend
+    # sin contestar nada mas mientras dura —ni el sondeo de la corrida, ni
+    # `/health`—, que es el mismo defecto que ya se corrigio en MM-GBSA.
+    from anyio.to_thread import run_sync
+
+    from chem.properties import calculate_properties
+
+    try:
+        props = await run_sync(
+            functools.partial(calculate_properties, smiles, run_admet_ai=True)
+        )
+    except Exception as exc:  # noqa: BLE001 - se reporta, no se traga
+        log.error(
+            "admet_post_docking_fallo",
+            molecule_id=molecule_id,
+            error=f"{type(exc).__name__}: {exc}",
+        )
+        raise HTTPException(
+            status_code=422,
+            detail=f"El perfil ADMET no se pudo calcular ({type(exc).__name__}).",
+        )
+
+    # NO se declara exito sobre un perfil vacio. `predict_admet_ai` devuelve
+    # `None` cuando el modelo no esta disponible —a proposito, para que nadie
+    # confunda un hueco con un valor—, y eso llega aqui como indice nulo.
+    if props.blood_viability_score is None:
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                "ADMET-AI no esta disponible en esta instalacion, asi que no hay "
+                "perfil que calcular. No se devuelve un perfil vacio como si lo "
+                "fuera."
+            ),
+        )
+
+    persistido = False
+    try:
+        # El mapeo canonico, el mismo que usa el pipeline. `is_control` se
+        # reenvia porque `upsert_evaluation_result` lo escribe SIEMPRE y su
+        # valor por omision convertiria un control en molecula normal.
+        await repository.upsert_evaluation_result(
+            molecule_id=mol_uuid,
+            properties=props,
+            is_control=bool(evaluation.is_control),
+        )
+        from core.database import commit_with_retry
+
+        await commit_with_retry(db)
+        persistido = True
+    except Exception as exc:  # noqa: BLE001 - se reporta, no se traga
+        log.error(
+            "admet_post_docking_no_persistido",
+            molecule_id=molecule_id,
+            error=f"{type(exc).__name__}: {exc}",
+        )
+
+    log.info("admet_post_docking", molecule_id=molecule_id, persistido=persistido)
+    return {
+        "molecule_id": molecule_id,
+        "estado": "calculado",
+        # Se dice si quedo guardado. Un perfil que el usuario ve pero que el
+        # dossier no leera es peor que uno que no se calculo.
+        "persistido": persistido,
+        **_perfil(props),
+    }

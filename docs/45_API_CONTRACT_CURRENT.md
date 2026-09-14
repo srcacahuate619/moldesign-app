@@ -6,10 +6,10 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 
 ## Identidad del snapshot
 
-- Paths: **112**
-- Operaciones HTTP: **118**
-- Versión declarada: `1.0.0-alpha.2`
-- SHA-256: `a40b450d997809ed5e61208e1cdcd376cfd7a326ff3faa931486b3a1fd4dfeff`
+- Paths: **113**
+- Operaciones HTTP: **119**
+- Versión declarada: `1.0.0`
+- SHA-256: `a35cc4721039f98bf917cb73ffe8c0c042cd0b7c3e517cf7a5bce488f40e823b`
 - Schema completo: [api/openapi-current.json](api/openapi-current.json)
 - Regenerar: `python scripts/generate_openapi_contract.py --write`
 - Verificar en CI: `python scripts/generate_openapi_contract.py --check`
@@ -106,6 +106,7 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `POST` | `/history/save/{molecule_id}` | `save_molecule_history_save__molecule_id__post` | Guardar molécula explícitamente en la cuenta | Historial de evaluaciones |
 | `GET` | `/history/stats` | `get_stats_history_stats_get` | Estadísticas del usuario | Historial de evaluaciones |
 | `GET` | `/moldex` | `get_moldex_moldex_get` | Obtiene el catálogo de moléculas evaluadas (Moldex) | Moldex |
+| `POST` | `/pro/admet/{molecule_id}` | `run_admet_endpoint_pro_admet__molecule_id__post` | Perfil ADMET de una molecula ya evaluada, calculado despues del acoplamiento | PRO Features |
 | `GET` | `/pro/anti-targets` | `list_anti_targets_pro_anti_targets_get` | List Anti Targets | PRO Features |
 | `GET` | `/pro/gpu` | `gpu_status_pro_gpu_get` | Gpu Status | PRO Features |
 | `POST` | `/pro/mmgbsa/{molecule_id}` | `run_mmgbsa_endpoint_pro_mmgbsa__molecule_id__post` | Run Mmgbsa Endpoint | PRO Features |

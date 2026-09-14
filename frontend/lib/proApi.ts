@@ -286,6 +286,46 @@ export async function runMmgbsa(
   return res.json();
 }
 
+/**
+ * Perfil ADMET de una molécula YA evaluada.
+ *
+ * Existe porque ADMET-AI es opt-in en las opciones avanzadas y esa decisión se
+ * toma antes de ejecutar: quien no lo marcó se quedaba sin perfil salvo que
+ * volviera a acoplar la molécula entera —minutos de Vina— para recalcular algo
+ * que sólo depende del SMILES.
+ *
+ * El backend lo PERSISTE, así que el dossier lo verá. Pero el resultado que la
+ * pantalla tiene en memoria viene de una instantánea del trabajo, no de la base:
+ * hay que fusionarlo en el estado local, igual que se hace con MM-GBSA.
+ */
+export async function runAdmet(
+  moleculeId: string,
+  opciones: { readonly recalcular?: boolean } = {},
+): Promise<{
+  molecule_id: string;
+  /** `calculado` la primera vez; `ya_calculado` si lo devolvió de la base. */
+  estado: "calculado" | "ya_calculado";
+  /** `false` si se calculó pero no se pudo guardar. El dossier no lo vería. */
+  persistido: boolean;
+  blood_viability_score: number | null;
+  blood_solubility_logs: number | null;
+  blood_ppb_category: string | null;
+  blood_bbb_permeable: boolean | null;
+  blood_bbb_motivo: string | null;
+  blood_cns_mpo: number | null;
+  blood_hia_permeable: boolean | null;
+  blood_systemic_reactivity: string[];
+  blood_tabpfn_estado: string | null;
+}> {
+  const query = opciones.recalcular ? "?recalcular=true" : "";
+  const res = await customFetch(
+    `${await getApiUrl()}/pro/admet/${moleculeId}${query}`,
+    { method: "POST" },
+  );
+  await assertOk(res);
+  return res.json();
+}
+
 // ── GPU Status ─────────────────────────────────────────────────
 
 export async function getGpuStatus(): Promise<{
