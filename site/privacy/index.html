@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="es" data-language="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Aviso de privacidad de MolDesign AI: tratamiento local, integraciones externas opcionales y MolChat.">
+    <meta name="theme-color" content="#0b0c10">
+    <title>Aviso de privacidad | MolDesign AI</title>
+    <link rel="canonical" href="https://molecule-design.amezcua-dev.com/privacy/">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%2308090c'/%3E%3Ccircle cx='12' cy='12' r='3.1' fill='%23b79cff'/%3E%3Cellipse cx='12' cy='12' rx='9' ry='3.7' fill='none' stroke='%23b79cff' stroke-width='1.2' transform='rotate(-28 12 12)'/%3E%3Cellipse cx='12' cy='12' rx='9' ry='3.7' fill='none' stroke='%23b79cff' stroke-width='1.2' transform='rotate(32 12 12)'/%3E%3C/svg%3E">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="MolDesign AI">
+    <meta property="og:url" content="https://molecule-design.amezcua-dev.com/privacy/">
+    <meta property="og:title" content="Aviso de privacidad — MolDesign AI">
+    <meta property="og:description" content="Qué se trata localmente, qué puede salir del equipo y sólo con autorización explícita, y cómo funciona MolChat.">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Aviso de privacidad — MolDesign AI">
+    <meta name="twitter:description" content="Qué se trata localmente, qué puede salir del equipo y sólo con autorización explícita, y cómo funciona MolChat.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap">
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0b0c10;
+        --bg-raised: #11131a;
+        --paper: #f1eee8;
+        --paper-soft: #e6e1d8;
+        --ink: #17171b;
+        --ink-muted: #5b5b63;
+        --line: #d4cfc5;
+        --line-dark: rgba(255, 255, 255, 0.1);
+        --text: #f5f2f8;
+        --muted: #aaabb6;
+        --accent: #b79cff;
+        --accent-deep: #7355c8;
+        --mint: #a4e6c4;
+        --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+        --body: "Inter", "Segoe UI", system-ui, sans-serif;
+        --mono: "JetBrains Mono", "Cascadia Mono", ui-monospace, monospace;
+      }
+
+      * { box-sizing: border-box; }
+      html { overflow-x: clip; scroll-behavior: smooth; }
+      body {
+        min-width: 320px;
+        margin: 0;
+        overflow-x: clip;
+        background: radial-gradient(circle at 80% 0%, rgba(111, 76, 206, 0.15), transparent 32rem), var(--bg);
+        color: var(--text);
+        font-family: var(--body);
+        line-height: 1.6;
+      }
+      a { color: inherit; }
+      a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+      html:not([data-language="en"]) .lang-en { display: none; }
+      html[data-language="en"] .lang-es { display: none; }
+      html[data-language="en"] .lang-en { display: inline; }
+      html[data-language="en"] .lang-block-es { display: none; }
+      html[data-language="en"] .lang-block-en { display: block; }
+      html:not([data-language="en"]) .lang-block-en { display: none; }
+
+      .skip-link {
+        position: absolute;
+        top: -4rem;
+        left: 1rem;
+        z-index: 30;
+        padding: 0.65rem 0.85rem;
+        border-radius: 0.35rem;
+        background: var(--accent);
+        color: #130d1d;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+      .skip-link:focus { top: 1rem; }
+      .site-shell { width: min(100% - 2rem, 1180px); margin-inline: auto; }
+
+      .legal-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid var(--line-dark);
+        background: rgba(11, 12, 16, 0.9);
+        backdrop-filter: blur(18px);
+      }
+      .header-inner { display: flex; min-height: 4.5rem; align-items: center; justify-content: space-between; gap: 1rem; }
+      .brand { display: inline-flex; min-width: 0; align-items: center; gap: 0.75rem; text-decoration: none; }
+      .brand-mark { display: grid; width: 2.25rem; height: 2.25rem; flex: 0 0 auto; place-items: center; border: 1px solid rgba(183, 156, 255, 0.72); border-radius: 50%; background: rgba(183, 156, 255, 0.07); color: var(--accent); }
+      .brand-mark svg { width: 1.25rem; height: 1.25rem; }
+      .brand-name { color: var(--text); font-family: var(--display); font-size: 0.95rem; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+      .brand-tag { display: block; margin-top: 0.1rem; color: #747581; font-family: var(--mono); font-size: 0.57rem; letter-spacing: 0.14em; line-height: 1; text-transform: uppercase; white-space: nowrap; }
+      .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+      .back-link, .language-toggle { color: var(--muted); font-family: var(--mono); font-size: 0.67rem; font-weight: 700; letter-spacing: 0.08em; text-decoration: none; text-transform: uppercase; white-space: nowrap; }
+      .back-link:hover { color: var(--text); }
+      .language-toggle { padding: 0.5rem 0.65rem; border: 1px solid #30333e; border-radius: 999px; background: transparent; cursor: pointer; }
+      .language-toggle:hover { border-color: var(--accent); color: var(--text); }
+
+      .document-intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.36fr); gap: 3rem; align-items: end; padding: clamp(4rem, 9vw, 7.5rem) 0 clamp(3rem, 6vw, 5rem); }
+      .eyebrow, .section-index { color: var(--accent); font-family: var(--mono); font-size: 0.66rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+      .document-intro h1 { max-width: 10ch; margin-top: 1rem; font-family: var(--display); font-size: clamp(3.2rem, 7vw, 7rem); letter-spacing: -0.08em; line-height: 0.9; overflow-wrap: anywhere; }
+      .intro-copy { max-width: 42rem; margin-top: 1.4rem; color: var(--muted); font-size: clamp(1rem, 1.5vw, 1.15rem); line-height: 1.75; }
+      .effective-card { padding: 1.2rem; border: 1px solid rgba(183, 156, 255, 0.3); border-radius: 0.65rem; background: rgba(183, 156, 255, 0.06); }
+      .effective-card strong { display: block; margin-top: 0.55rem; color: var(--text); font-family: var(--display); font-size: 1.08rem; }
+      .effective-card p { margin-top: 0.45rem; color: var(--muted); font-size: 0.78rem; }
+
+      .legal-layout { display: grid; grid-template-columns: 13rem minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; padding-bottom: 6rem; }
+      .legal-rail { position: sticky; top: 6rem; }
+      .rail-label { color: #777985; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; }
+      .toc { display: grid; gap: 0.15rem; margin-top: 0.85rem; }
+      .toc a { padding: 0.45rem 0.55rem; border-left: 1px solid #333641; color: var(--muted); font-size: 0.76rem; line-height: 1.35; text-decoration: none; }
+      .toc a:hover { border-left-color: var(--accent); color: var(--text); }
+      .rail-note { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--line-dark); color: #777985; font-size: 0.72rem; line-height: 1.6; }
+
+      .paper { overflow: clip; border: 1px solid #c8c2b8; border-radius: 0.8rem; background: var(--paper); color: var(--ink); box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.22); }
+      .paper-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.1rem clamp(1.2rem, 4vw, 3rem); border-bottom: 1px solid var(--line); background: var(--paper-soft); color: var(--ink-muted); font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; }
+      .paper-top span:last-child { color: var(--accent-deep); }
+      .policy-language { padding: clamp(1.4rem, 5vw, 3.6rem); }
+      .policy-language > header { padding-bottom: 2rem; border-bottom: 1px solid var(--line); }
+      .policy-language h2 { margin-top: 0.65rem; color: var(--ink); font-family: var(--display); font-size: clamp(1.65rem, 3vw, 2.7rem); letter-spacing: -0.06em; line-height: 1; }
+      .policy-language header p { max-width: 49rem; margin-top: 0.9rem; color: var(--ink-muted); font-size: 0.92rem; }
+      .summary { margin-top: 1.5rem; padding: 1.1rem 1.2rem; border-left: 3px solid var(--accent-deep); background: rgba(115, 85, 200, 0.08); color: var(--ink); font-size: 0.9rem; }
+      .policy-section { padding: 2.2rem 0; border-bottom: 1px solid var(--line); }
+      .policy-section:last-child { padding-bottom: 0; border-bottom: 0; }
+      .policy-section h3 { max-width: 30rem; color: var(--ink); font-family: var(--display); font-size: clamp(1.15rem, 2vw, 1.5rem); letter-spacing: -0.04em; line-height: 1.1; }
+      .policy-section p { max-width: 52rem; margin-top: 0.95rem; color: var(--ink-muted); font-size: 0.88rem; line-height: 1.78; }
+      .policy-section ul { display: grid; gap: 0.8rem; max-width: 52rem; margin-top: 1rem; padding-left: 1.25rem; list-style: disc; }
+      .policy-section li { padding-left: 0.35rem; color: var(--ink-muted); font-size: 0.88rem; line-height: 1.7; }
+      .policy-section strong { color: var(--ink); font-weight: 700; }
+      .contact-box { margin-top: 1.1rem; padding: 1rem 1.15rem; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.3); }
+      .contact-box a { color: var(--accent-deep); font-weight: 700; text-decoration-thickness: 1px; text-underline-offset: 0.15em; }
+      .policy-footnote { padding: 1.4rem clamp(1.2rem, 4vw, 3rem); border-top: 1px solid var(--line); background: var(--paper-soft); color: var(--ink-muted); font-size: 0.76rem; }
+
+      .site-footer { padding: 1.4rem 0 2rem; border-top: 1px solid var(--line-dark); color: #777985; font-family: var(--mono); font-size: 0.62rem; }
+      .footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; }
+      .footer-links { display: flex; flex-wrap: wrap; gap: 1rem; }
+      .footer-links a { color: var(--muted); text-decoration: none; }
+      .footer-links a:hover { color: var(--text); }
+
+      @media (max-width: 820px) {
+        .document-intro { grid-template-columns: 1fr; gap: 2rem; }
+        .document-intro h1 { max-width: 12ch; }
+        .legal-layout { grid-template-columns: 1fr; }
+        .legal-rail { position: static; }
+        .toc { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.2rem 0.65rem; }
+        .rail-note { display: none; }
+      }
+      @media (max-width: 560px) {
+        .site-shell { width: min(100% - 1.25rem, 1180px); }
+        .legal-header { position: relative; }
+        .header-actions { gap: 0.45rem; }
+        .back-link { font-size: 0.58rem; }
+        .document-intro { padding-top: 4rem; }
+        .toc { grid-template-columns: 1fr; }
+        .paper-top { align-items: flex-start; flex-direction: column; gap: 0.35rem; }
+        .footer-inner { align-items: flex-start; flex-direction: column; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip-link" href="#privacy-document"><span class="lang-es">Saltar al aviso</span><span class="lang-en">Skip to notice</span></a>
+
+    <header class="legal-header">
+      <div class="site-shell header-inner">
+        <a class="brand" href="../" aria-label="MolDesign AI">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="3.1" fill="currentColor" />
+              <ellipse cx="12" cy="12" rx="9" ry="3.7" stroke="currentColor" stroke-width="1.2" transform="rotate(-28 12 12)" />
+              <ellipse cx="12" cy="12" rx="9" ry="3.7" stroke="currentColor" stroke-width="1.2" transform="rotate(32 12 12)" />
+            </svg>
+          </span>
+          <span><span class="brand-name">MolDesign AI</span><span class="brand-tag">Public legal document</span></span>
+        </a>
+        <div class="header-actions">
+          <a class="back-link" href="../"><span class="lang-es">Volver al producto</span><span class="lang-en">Back to product</span></a>
+          <button class="language-toggle" type="button" data-language-toggle aria-pressed="false" aria-label="Switch to English">ES / EN</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="privacy-document">
+      <div class="site-shell">
+        <header class="document-intro">
+          <div>
+            <p class="eyebrow"><span class="lang-es">Documento público / Privacidad</span><span class="lang-en">Public document / Privacy</span></p>
+            <h1><span class="lang-es">Aviso de privacidad.</span><span class="lang-en">Privacy notice.</span></h1>
+            <p class="intro-copy"><span class="lang-es">MolDesign es una aplicación de escritorio local-first. Este aviso explica qué datos trata, qué permanece en el dispositivo y qué ocurre cuando el usuario activa voluntariamente una integración externa.</span><span class="lang-en">MolDesign is a local-first desktop application. This notice explains what data it handles, what remains on the device, and what happens when a user voluntarily activates an external integration.</span></p>
+          </div>
+          <aside class="effective-card">
+            <p class="section-index"><span class="lang-es">Versión vigente</span><span class="lang-en">Current version</span></p>
+            <strong><span class="lang-es">13 de septiembre de 2026</span><span class="lang-en">13 September 2026</span></strong>
+            <p><span class="lang-es">Responsable: Johan Amezcua / amezcua-dev.com</span><span class="lang-en">Controller: Johan Amezcua / amezcua-dev.com</span></p>
+          </aside>
+        </header>
+
+        <div class="legal-layout">
+          <aside class="legal-rail" aria-label="Table of contents">
+            <p class="rail-label"><span class="lang-es">En esta página</span><span class="lang-en">On this page</span></p>
+            <nav class="toc lang-block-es">
+              <a href="#es-local">1. Datos locales</a>
+              <a href="#es-credentials">2. Credenciales</a>
+              <a href="#es-external">3. Conexiones externas</a>
+              <a href="#es-ai">4. MolChat</a>
+              <a href="#es-models">5. Modelos</a>
+              <a href="#es-retention">6. Conservación</a>
+              <a href="#es-sensitive">7. Investigación sensible</a>
+              <a href="#es-changes">8. Cambios y contacto</a>
+            </nav>
+            <nav class="toc lang-block-en">
+              <a href="#en-local">1. Local data</a>
+              <a href="#en-credentials">2. Credentials</a>
+              <a href="#en-external">3. External connections</a>
+              <a href="#en-ai">4. MolChat</a>
+              <a href="#en-models">5. Models</a>
+              <a href="#en-retention">6. Retention</a>
+              <a href="#en-sensitive">7. Sensitive research</a>
+              <a href="#en-changes">8. Changes and contact</a>
+            </nav>
+            <p class="rail-note"><span class="lang-es">La aplicación no incorpora analítica propia, publicidad, seguimiento entre aplicaciones ni crash reporting remoto.</span><span class="lang-en">The application includes no first-party analytics, advertising, cross-app tracking, or remote crash reporting.</span></p>
+          </aside>
+
+          <article class="paper">
+            <div class="paper-top"><span>MolDesign AI / <span class="lang-es">AVISO DE PRIVACIDAD</span><span class="lang-en">PRIVACY NOTICE</span></span><span><span class="lang-es">Vigente desde 13.09.2026</span><span class="lang-en">Effective 2026-09-13</span></span></div>
+
+            <div class="policy-language lang-block-es">
+              <header>
+                <p class="section-index">Política de privacidad de MolDesign</p>
+                <h2>Local-first, con conexiones externas explícitas.</h2>
+                <p><strong>Responsable:</strong> Johan Amezcua / amezcua-dev.com · <strong>Contacto general y solicitudes de privacidad:</strong> <a href="mailto:moldesign@amezcua-dev.com">moldesign@amezcua-dev.com</a> · <strong>Soporte y reporte de respuestas de MolChat:</strong> <a href="mailto:soporte-moldesign@amezcua-dev.com">soporte-moldesign@amezcua-dev.com</a></p>
+                <div class="summary">Los casos y resultados permanecen en el espacio de trabajo local, salvo cuando el usuario activa una integración externa identificada. MolDesign no recibe automáticamente los casos o resultados guardados localmente.</div>
+              </header>
+
+              <section class="policy-section" id="es-local"><h3>1. Datos tratados localmente</h3><p>MolDesign puede guardar en el dispositivo cuentas locales, preferencias, rutas de trabajo, receptores, secuencias, moléculas, configuraciones, corridas, poses, resultados, informes, registros técnicos y respaldos. Estos datos sirven para ejecutar y reproducir el trabajo solicitado por el usuario.</p><p>MolDesign no incorpora analítica de uso propia, publicidad, seguimiento entre aplicaciones ni crash reporting remoto. El desarrollador no recibe automáticamente los casos o resultados guardados localmente.</p></section>
+              <section class="policy-section" id="es-credentials"><h3>2. Credenciales</h3><p>Las claves de proveedores configuradas por el usuario se cifran en reposo mediante una clave local de la instalación. El cifrado reduce la exposición accidental, pero no protege frente a una persona o programa que ya controle la cuenta de Windows o el dispositivo. El usuario es responsable de limitar el acceso al equipo y revocar las credenciales comprometidas.</p></section>
+              <section class="policy-section" id="es-external"><h3>3. Comunicaciones externas opcionales</h3><p>El funcionamiento básico y AutoDock Vina son locales. Sólo cuando el usuario activa una función externa, MolDesign puede comunicar los datos necesarios al proveedor correspondiente:</p><ul><li><strong>Hugging Face:</strong> identificadores de modelos y descarga de archivos seleccionados.</li><li><strong>RCSB PDB, PubChem, ChEMBL y UniProt:</strong> identificadores, nombres, secuencias, PDB IDs, SMILES o consultas científicas necesarias.</li><li><strong>OpenAI, Anthropic u otro proveedor de IA configurado:</strong> el texto y contexto que el usuario decida enviar, junto con la credencial del proveedor.</li><li><strong>Solana devnet (prueba de concepto):</strong> dirección pública de la cartera y un memo técnico. Una blockchain pública es observable e inmutable; no se debe incluir información personal, confidencial ni un resultado con significado de certificación científica.</li></ul><p>Esos terceros procesan los datos bajo sus propias condiciones y políticas. MolDesign no controla su conservación posterior. Antes de usar una integración, el usuario debe comprobar que puede comunicar legalmente esos datos, especialmente si pertenecen a pacientes, clientes, colaboradores o investigaciones confidenciales.</p></section>
+              <section class="policy-section" id="es-ai"><h3>4. Texto generado por IA (MolChat)</h3><p>MolDesign incluye <strong>MolChat</strong>, un asistente que responde con texto generado por un modelo de lenguaje. Lo que escribe MolChat <strong>no es un resultado calculado</strong>: los números del expediente, como afinidad, poses, propiedades y controles, salen de AutoDock Vina y de los modelos de reescalado, no del asistente. Una respuesta de MolChat puede ser incorrecta, estar incompleta o describir mal un resultado propio, y no debe citarse como evidencia.</p><ul><li><strong>Dónde corre.</strong> Por omisión, el modelo es local (Qwen2.5 1.5B) y la conversación no sale del equipo. Un proveedor en la nube sólo interviene si el usuario lo configura y autoriza su destino; hasta entonces el turno no se envía y la aplicación lo dice en pantalla.</li><li><strong>Qué sale cuando se autoriza.</strong> El texto de la conversación, el contexto de caso y molécula asociado y la credencial del proveedor. El destino concreto se muestra antes de autorizarlo y la autorización no se hereda al cambiarlo.</li><li><strong>Cómo reportar una respuesta.</strong> Cada respuesta de MolChat lleva un botón «Reportar respuesta» que abre el programa de correo del usuario con la respuesta y el proveedor ya escritos, dirigido a <a href="mailto:soporte-moldesign@amezcua-dev.com">soporte-moldesign@amezcua-dev.com</a>. No se envía nada hasta que la persona lo manda: MolDesign no transmite conversaciones por su cuenta, tampoco para procesar un reporte.</li><li><strong>Sin entrenamiento con tus datos.</strong> MolDesign no usa las conversaciones ni los casos para entrenar ni ajustar ningún modelo. Lo que haga con ellos un proveedor en la nube que el usuario haya autorizado se rige por las condiciones de ese proveedor.</li></ul></section>
+              <section class="policy-section" id="es-models"><h3>5. Modelos descargables</h3><p>ESMFold y los modelos de lenguaje pesados no se incluyen necesariamente en la instalación. Si el usuario solicita su descarga, la aplicación contacta al repositorio indicado. Tras descargarse, la inferencia configurada como local no transmite por sí misma las muestras al autor de MolDesign.</p></section>
+              <section class="policy-section" id="es-retention"><h3>6. Conservación y eliminación</h3><p>Los datos locales permanecen hasta que el usuario los elimina, borra el espacio de trabajo o desinstala la aplicación. La desinstalación puede no borrar carpetas de trabajo o respaldos elegidos por el usuario. Las copias exportadas deben eliminarse por separado. MolDesign no puede borrar datos ya enviados a un tercero o publicados en Solana devnet.</p></section>
+              <section class="policy-section" id="es-sensitive"><h3>7. Investigación sensible</h3><p>MolDesign no está diseñado para almacenar datos clínicos identificables y no debe usarse como sistema de expediente médico. No envíe información personal, secretos comerciales o materiales sujetos a acuerdos de confidencialidad a integraciones externas sin la autorización y las salvaguardas correspondientes.</p></section>
+              <section class="policy-section" id="es-changes"><h3>8. Cambios y contacto</h3><p>Esta política se actualizará cuando cambien las funciones de red o el tratamiento de datos. La versión vigente se publicará con el código y en la página oficial del producto.</p><div class="contact-box"><p><strong>Privacidad:</strong> <a href="mailto:moldesign@amezcua-dev.com">moldesign@amezcua-dev.com</a><br><strong>Soporte y reporte de respuestas de MolChat:</strong> <a href="mailto:soporte-moldesign@amezcua-dev.com">soporte-moldesign@amezcua-dev.com</a></p></div></section>
+            </div>
+
+            <div class="policy-language lang-block-en">
+              <header>
+                <p class="section-index">MolDesign privacy policy</p>
+                <h2>Local-first, with explicit external connections.</h2>
+                <p><strong>Controller:</strong> Johan Amezcua / amezcua-dev.com · <strong>Privacy requests:</strong> <a href="mailto:moldesign@amezcua-dev.com">moldesign@amezcua-dev.com</a> · <strong>Support and MolChat reports:</strong> <a href="mailto:soporte-moldesign@amezcua-dev.com">soporte-moldesign@amezcua-dev.com</a></p>
+                <div class="summary">Research cases and results remain in the local workspace unless the user activates an identified external integration. MolDesign does not automatically receive locally stored cases or results.</div>
+              </header>
+
+              <section class="policy-section" id="en-local"><h3>1. Data handled locally</h3><p>MolDesign may store local accounts, preferences, work paths, receptors, sequences, molecules, configurations, runs, poses, results, reports, technical logs, and backups on the device. This data is used to execute and reproduce the work requested by the user.</p><p>MolDesign includes no first-party usage analytics, advertising, cross-app tracking, or remote crash reporting. The developer does not automatically receive locally stored cases or results.</p></section>
+              <section class="policy-section" id="en-credentials"><h3>2. Credentials</h3><p>Provider keys configured by the user are encrypted at rest using a local installation key. Encryption reduces accidental exposure, but does not protect against a person or program that already controls the Windows account or device. The user is responsible for limiting access to the device and revoking compromised credentials.</p></section>
+              <section class="policy-section" id="en-external"><h3>3. Optional external communications</h3><p>The basic workflow and AutoDock Vina are local. Only when the user activates an external feature may MolDesign communicate the data necessary for that operation to the relevant provider:</p><ul><li><strong>Hugging Face:</strong> model identifiers and selected file downloads.</li><li><strong>RCSB PDB, PubChem, ChEMBL, and UniProt:</strong> identifiers, names, sequences, PDB IDs, SMILES, or scientific queries required for the request.</li><li><strong>OpenAI, Anthropic, or another configured AI provider:</strong> the text and context the user chooses to send, together with the provider credential.</li><li><strong>Solana devnet proof of concept:</strong> the public wallet address and a technical memo. A public blockchain is observable and immutable; personal, confidential, or scientifically certifying information should not be included.</li></ul><p>Those third parties process data under their own terms and policies. MolDesign does not control their subsequent retention. Before using an integration, the user should confirm that the data may legally be shared, especially when it belongs to patients, clients, collaborators, or confidential research.</p></section>
+              <section class="policy-section" id="en-ai"><h3>4. AI-generated text (MolChat)</h3><p>MolDesign includes <strong>MolChat</strong>, an assistant that responds with text generated by a language model. What MolChat writes <strong>is not a computed result</strong>: dossier numbers such as affinity, poses, properties, and controls come from AutoDock Vina and rescoring models, not from the assistant. A MolChat response may be wrong, incomplete, or misdescribe a result, and must not be cited as evidence.</p><ul><li><strong>Where it runs.</strong> By default, the model is local (Qwen2.5 1.5B) and the conversation does not leave the device. A cloud provider is used only when the user configures it and authorizes its destination; until then the turn is not sent and the application says so on screen.</li><li><strong>What leaves the device after authorization.</strong> Conversation text, associated case and molecule context, and the provider credential. The concrete destination is shown before authorization, and authorization is not inherited when the destination changes.</li><li><strong>How to report a response.</strong> Every MolChat response includes a Report answer button that opens the user's mail client with the answer and provider already written, addressed to <a href="mailto:soporte-moldesign@amezcua-dev.com">soporte-moldesign@amezcua-dev.com</a>. Nothing is sent until the person sends it: MolDesign does not transmit conversations on its own, including to process a report.</li><li><strong>No training with your data.</strong> MolDesign does not use conversations or cases to train or fine-tune any model. A cloud provider authorized by the user handles them under that provider's terms.</li></ul></section>
+              <section class="policy-section" id="en-models"><h3>5. Downloadable models</h3><p>ESMFold and large language models are not necessarily included in the installation. If the user requests a download, the application contacts the indicated repository. After download, inference configured to run locally does not itself transmit samples to the MolDesign author.</p></section>
+              <section class="policy-section" id="en-retention"><h3>6. Retention and deletion</h3><p>Local data remains until the user deletes it, removes the workspace, or uninstalls the application. Uninstalling may not remove work folders or backups selected by the user. Exported copies must be deleted separately. MolDesign cannot delete data already sent to a third party or published on Solana devnet.</p></section>
+              <section class="policy-section" id="en-sensitive"><h3>7. Sensitive research</h3><p>MolDesign is not designed to store identifiable clinical data and must not be used as a medical records system. Do not send personal information, trade secrets, or material subject to confidentiality agreements to external integrations without appropriate authorization and safeguards.</p></section>
+              <section class="policy-section" id="en-changes"><h3>8. Changes and contact</h3><p>This policy will be updated when network features or data handling changes. The current version will be published with the code and on the official product page.</p><div class="contact-box"><p><strong>Privacy:</strong> <a href="mailto:moldesign@amezcua-dev.com">moldesign@amezcua-dev.com</a><br><strong>Support and MolChat reports:</strong> <a href="mailto:soporte-moldesign@amezcua-dev.com">soporte-moldesign@amezcua-dev.com</a></p></div></section>
+            </div>
+
+            <div class="policy-footnote"><span class="lang-es">Esta página publica la versión vigente del aviso de privacidad de MolDesign AI. No sustituye la revisión jurídica aplicable a tu jurisdicción.</span><span class="lang-en">This page publishes the current MolDesign AI privacy notice. It does not replace legal review applicable to your jurisdiction.</span></div>
+          </article>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-shell footer-inner">
+        <span>© 2026 Johan Amezcua / amezcua-dev.com</span>
+        <div class="footer-links">
+          <a href="../"><span class="lang-es">Producto</span><span class="lang-en">Product</span></a>
+          <a href="https://github.com/srcacahuate619/moldesign-app" rel="noopener noreferrer"><span class="lang-es">Código fuente</span><span class="lang-en">Source code</span></a>
+          <a href="mailto:moldesign@amezcua-dev.com"><span class="lang-es">Contacto</span><span class="lang-en">Contact</span></a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (() => {
+        const root = document.documentElement;
+        const toggle = document.querySelector("[data-language-toggle]");
+        if (!toggle) return;
+        toggle.addEventListener("click", () => {
+          const next = root.dataset.language === "es" ? "en" : "es";
+          root.dataset.language = next;
+          root.lang = next;
+          toggle.setAttribute("aria-pressed", String(next === "en"));
+          toggle.setAttribute("aria-label", next === "es" ? "Switch to English" : "Cambiar a español");
+        });
+      })();
+    </script>
+  </body>
+</html>

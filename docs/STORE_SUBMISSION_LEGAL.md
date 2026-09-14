@@ -20,15 +20,15 @@ Valores decididos para el **primer envío oficial** (2026-09-12):
 |---|---|
 | **Version** | `1.0.0.0` — decidido con `store_build_override: 0`, para que el número que ve el usuario coincida con la versión del producto. Ver `msix/msix-config.json → version_del_store`. |
 | **Additional license terms** | `https://github.com/srcacahuate619/moldesign-app/blob/v1.0.0/LICENSE` — no dejar vacío: MolDesign no usa los Standard Application License Terms como licencia principal. |
-| **Privacy policy** | `https://github.com/srcacahuate619/moldesign-app/blob/v1.0.0/PRIVACY.md` — y marcar que la app puede transmitir información cuando se activan integraciones externas. |
+| **Privacy policy** | `https://molecule-design.amezcua-dev.com/privacy/` — publicar primero `site/privacy/index.html` en Cloudflare Pages y marcar que la app puede transmitir información cuando se activan integraciones externas. |
 | **Support contact** | `soporte-moldesign@amezcua-dev.com` |
 | **Developed by** | `Johan Amezcua` |
 | **Copyright/trademark** | `Copyright © 2026 Johan Amezcua. MolDesign no es una marca registrada declarada.` |
-| **Website** | **Dejar vacío en este envío.** |
+| **Website** | `https://molecule-design.amezcua-dev.com/` — publicar primero `site/index.html` en Cloudflare Pages. |
 
-Las dos URL legales exigen que el repositorio esté publicado y la etiqueta `v1.0.0` creada. Ambas apuntan a una etiqueta, no a una rama: una URL de rama cambia de contenido bajo los pies del revisor.
+La URL de licencia sigue apuntando a la etiqueta `v1.0.0`, no a una rama: una URL de rama cambia de contenido bajo los pies del revisor. Las URLs de privacidad y web dependen del despliegue HTTPS en Cloudflare Pages; deben responder sin login, sin backend y con el contenido vigente antes de completar Partner Center.
 
-Sobre el sitio web: `https://molecule-design.vercel.app/` existe pero **no sirve todavía para ningún campo de Partner Center**. Comprobado el 2026-09-12: anuncia un servicio web con login que ya no está activo, se queda en «CARGANDO DATOS DEL CAMPUS…» y no contiene ni política de privacidad ni términos. Enlazarlo desde la ficha llevaría al revisor —y al usuario— a un producto que no es el que se envía. Cuando el sitio describa la aplicación de escritorio y redirija a `molecule-design.amezcua-dev.com`, se puede añadir en un envío posterior: Partner Center permite cambiar estos campos entre envíos.
+Sobre el sitio anterior: `https://molecule-design.vercel.app/` anunciaba un servicio web con login que ya no está activo, se quedaba en «CARGANDO DATOS DEL CAMPUS…» y no contenía ni política de privacidad ni términos. **No usarlo en Partner Center.** La nueva superficie pública vive en `site/index.html` y `site/privacy/index.html`; se sirve como HTML estático separado de la aplicación desktop para que el revisor no dependa del backend local ni del login.
 
 La URL del repositorio ya viaja **dentro de la aplicación**, en *Acerca de → Código fuente* (`PRODUCT.sourceUrl` en `frontend/lib/softwareCatalog.ts`).
 
