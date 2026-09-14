@@ -16,6 +16,7 @@
 // fusionado, asi que una clave que falte en `en` no llega a produccion.
 
 import { casos } from "./casos";
+import { certificacion } from "./certificacion";
 import { comun } from "./comun";
 import { evaluacion } from "./evaluacion";
 import { legal } from "./legal";
@@ -29,7 +30,7 @@ export interface ModuloDeTraduccion {
 }
 
 const MODULOS: readonly ModuloDeTraduccion[] = [
-  comun, evaluacion, lote, moldex, casos, legal,
+  comun, evaluacion, lote, moldex, casos, legal, certificacion,
 ];
 
 /**

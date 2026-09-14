@@ -44,11 +44,9 @@ const MARCAS_ES =
  * Los que faltan valen cero: una pantalla nueva nace traducida.
  */
 const PRESUPUESTO: Readonly<Record<string, number>> = {
-  "components/CertificationModal.tsx": 30,
   "app/evaluation/batch/page.tsx": 29,
   "components/interfaces/pro/ProOptionsModal.tsx": 27,
   "components/interfaces/pro/ProAnalysisTabs.tsx": 22,
-  "app/moldex/page.tsx": 21,
   "components/interfaces/pro/ProEvaluation.tsx": 20,
   "components/evaluation/PreparationPanel.tsx": 16,
   "components/interfaces/pro/CustomReceptorModal.tsx": 16,
@@ -58,6 +56,7 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
   "components/cases/CaseWorkspace.tsx": 13,
   "components/interfaces/pro/DockingEnginePanel.tsx": 13,
   "app/history/page.tsx": 12,
+  "app/moldex/page.tsx": 11,
   "components/interfaces/pro/ProParametersTab.tsx": 11,
   "components/ai/ChatPanel.tsx": 10,
   "components/interfaces/pro/EvaluationEvidencePanel.tsx": 10,
@@ -130,7 +129,7 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
 };
 
 /** Techo global. Es el que cuenta: el detalle por fichero sólo dice dónde. */
-const PRESUPUESTO_TOTAL = 525;
+const PRESUPUESTO_TOTAL = 485;
 
 function ficheros(dir: string, acc: string[] = []): string[] {
   let entradas: string[];
@@ -214,6 +213,7 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
     const TERMINADAS: string[] = [
       "components/evaluation/EstimacionDeCorrida.tsx",
       "components/ui/LegalModal.tsx",
+      "components/CertificationModal.tsx",
     ];
     for (const rel of TERMINADAS) {
       const f = medidos.find((m) => m.rel === rel);

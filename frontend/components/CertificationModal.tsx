@@ -6,6 +6,7 @@
 "use client";
 
 import React, { useEffect, useId, useRef, useState } from "react";
+import { useLanguage } from "../context/LanguageContext";
 import { urlDelExplorador } from "../lib/moldex";
 import {
   AlertCircle,
@@ -75,6 +76,7 @@ function ChoiceIcon({ children }: { children: React.ReactNode }) {
 }
 
 export function CertificationModal({ moleculeId, onClose, onSuccess }: CertificationModalProps) {
+  const { t } = useLanguage();
   const { publicKey, sendTransaction } = useWallet();
   const { connection } = useConnection();
   const billeteraNoDisponible = isDesktopRuntime();
@@ -123,7 +125,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
 
   const handleDevnetPoc = async () => {
     if (!health?.available) {
-      setError(health?.reason || "Solana devnet no está disponible en este momento.");
+      setError(health?.reason || t("ce_devnet_no_disponible"));
       return;
     }
     setStep("poc-funding");
@@ -138,7 +140,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
         complete({ signature: prepared.signature, signer: "experimental" });
         return;
       }
-      if (!prepared.memo) throw new Error("No se pudo generar el memo de integridad.");
+      if (!prepared.memo) throw new Error(t("ce_memo_fallido"));
 
       const fundingSignature = await connection.requestAirdrop(
         ephemeralSigner.publicKey,
@@ -168,7 +170,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
       setError(
         err instanceof Error
           ? err.message
-          : "La prueba de Solana devnet no pudo completarse. El faucet público puede limitar solicitudes.",
+          : t("ce_prueba_fallida"),
       );
       setStep("error");
     }
@@ -176,7 +178,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
 
   const handleWeb3 = async () => {
     if (!publicKey) {
-      setError("Conecta tu wallet antes de continuar.");
+      setError(t("ce_conecta_wallet"));
       return;
     }
 
@@ -192,7 +194,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
         return;
       }
 
-      if (!prepared.memo) throw new Error("No se pudo generar el memo de integridad.");
+      if (!prepared.memo) throw new Error(t("ce_memo_fallido"));
 
       setStep("web3-signing");
       const transaction = new Transaction().add(
@@ -209,7 +211,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
       await linkCertification(moleculeId, signature);
       complete({ signature, signer: "wallet" });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al firmar con tu wallet.");
+      setError(err instanceof Error ? err.message : t("ce_error_firma"));
       setStep("error");
     }
   };
@@ -217,15 +219,15 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
   const flowLabel = () => {
     switch (step) {
       case "poc-funding":
-        return "Solicitando SOL de prueba en devnet";
+        return t("ce_paso_faucet");
       case "poc-signing":
-        return "Publicando el memo experimental";
+        return t("ce_paso_memo");
       case "web3-prepare":
-        return "Preparando el comprobante";
+        return t("ce_paso_comprobante");
       case "web3-signing":
-        return "Esperando tu aprobación en la wallet";
+        return t("ce_paso_aprobacion");
       case "verifying":
-        return "Confirmando la transacción en Solana";
+        return t("ce_paso_confirmando");
       default:
         return "Procesando";
     }
@@ -259,13 +261,13 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
                 Registrar evidencia en Solana
               </h2>
               <p className="mt-1 text-xs leading-relaxed text-surface-400">
-                Prueba de concepto en devnet. Los archivos permanecen locales; la red recibe una huella y metadata mínima.
+                {t("ce_poc_resumen")}
               </p>
               <div className="mt-2 flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-wider">
                 <span className="text-surface-400">{health?.network || "comprobando red"}</span>
                 <span aria-hidden="true" className="text-surface-700">·</span>
                 <span className={health?.available ? "text-emerald-400" : health ? "text-red-400" : "text-surface-400"}>
-                  {health?.available ? "devnet accesible" : health ? "devnet no disponible" : "verificando"}
+                  {health?.available ? t("ce_devnet_accesible") : health ? t("ce_devnet_etiqueta") : t("ce_verificando")}
                 </span>
               </div>
             </div>
@@ -285,7 +287,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
           {step === "select" && (
             <div className="space-y-3">
               <div className="mb-5 rounded-lg border border-cyan-500/20 bg-cyan-500/[0.05] p-3 text-xs leading-relaxed text-cyan-100/75">
-                EXPERIMENTAL · Devnet puede reiniciarse y borrar sus registros. Este POC sólo prueba el flujo técnico; no certifica autoría, prioridad ni validez científica.
+                {t("ce_poc_experimental")}
               </div>
 
               <button
@@ -303,7 +305,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
                     </span>
                   </span>
                   <span className="mt-1 block text-xs leading-relaxed text-surface-400">
-                    Crea una identidad efímera local, solicita SOL sin valor al faucet y publica un memo real. La clave se descarta al terminar.
+                    {t("ce_efimera_detalle")}
                   </span>
                 </span>
               </button>
@@ -312,19 +314,19 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
                 type="button"
                 onClick={() => setStep("wallet")}
                 disabled={billeteraNoDisponible}
-                title={billeteraNoDisponible ? "Las wallets sólo están disponibles en el navegador web" : undefined}
+                title={billeteraNoDisponible ? t("ce_wallets_solo_web") : undefined}
                 className="group flex w-full items-start gap-4 rounded-lg border border-white/10 bg-white/[0.02] p-4 text-left transition-colors hover:border-white/20 hover:bg-white/[0.04] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 active:bg-white/[0.06]"
               >
                 <ChoiceIcon><Wallet size={19} /></ChoiceIcon>
                 <span className="min-w-0 flex-1">
-                  <span className="font-bold text-white">Tengo una wallet</span>
+                  <span className="font-bold text-white">{t("ce_tengo_wallet")}</span>
                   <span className="mt-1 block text-xs leading-relaxed text-surface-400">
-                    Tú apruebas la transacción y pagas la comisión. La firma pública queda asociada a tu dirección.
+                    {t("ce_wallet_detalle")}
                   </span>
                 </span>
               </button>
               {billeteraNoDisponible && (
-                <p className="px-2 text-[10px] font-semibold uppercase tracking-wide text-amber-300/80">Sólo navegador web · wallet no disponible en la app de escritorio</p>
+                <p className="px-2 text-[10px] font-semibold uppercase tracking-wide text-amber-300/80">{t("ce_solo_navegador")}</p>
               )}
 
               <button
@@ -334,9 +336,9 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
               >
                 <ChoiceIcon><KeyRound size={19} /></ChoiceIcon>
                 <span className="min-w-0 flex-1">
-                  <span className="font-bold text-white">Quiero crear una wallet</span>
+                  <span className="font-bold text-white">{t("ce_quiero_wallet")}</span>
                   <span className="mt-1 block text-xs leading-relaxed text-surface-400">
-                    Consulta wallets compatibles y elige su modelo de custodia. MolDesign nunca solicitará tu frase de recuperación.
+                    {t("ce_directorio_detalle")}
                   </span>
                 </span>
               </button>
@@ -346,24 +348,24 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
           {step === "poc-confirm" && (
             <div className="space-y-5">
               <button type="button" onClick={goBack} className="flex min-h-11 items-center gap-2 text-xs font-bold text-surface-400 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400">
-                <ArrowLeft size={15} /> Cambiar método
+                <ArrowLeft size={15} /> {t("ce_cambiar_metodo")}
               </button>
               <div>
-                <h3 className="text-base font-bold text-white">Prueba técnica en Solana devnet</h3>
+                <h3 className="text-base font-bold text-white">{t("ce_prueba_tecnica")}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-surface-400">
-                  Publicará una transacción real en una red de pruebas que puede reiniciarse. No tiene validez oficial, científica ni económica.
+                  {t("ce_red_pruebas")}
                 </p>
               </div>
               <dl className="divide-y divide-white/5 rounded-lg border border-white/10 bg-black/20 px-4">
-                <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">Fondos</dt><dd className="font-bold text-white">Faucet devnet · sin valor</dd></div>
-                <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">Firma</dt><dd className="font-bold text-white">Identidad efímera local</dd></div>
+                <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">Fondos</dt><dd className="font-bold text-white">{t("ce_faucet_sin_valor")}</dd></div>
+                <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">Firma</dt><dd className="font-bold text-white">{t("ce_identidad_efimera")}</dd></div>
                 <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">Red</dt><dd className="font-mono text-white">{health?.network || "—"}</dd></div>
-                <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">Datos científicos</dt><dd className="font-bold text-white">Permanecen locales</dd></div>
+                <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">{t("ce_datos_cientificos")}</dt><dd className="font-bold text-white">Permanecen locales</dd></div>
               </dl>
               {health && !health.available && (
                 <div role="alert" className="flex gap-2 rounded-lg border border-red-500/25 bg-red-500/[0.07] p-3 text-xs leading-relaxed text-red-300">
                   <AlertCircle size={16} className="mt-0.5 shrink-0" />
-                  {health.reason || "Solana devnet no está disponible."}
+                  {health.reason || t("ce_devnet_no_disponible_corto")}
                 </div>
               )}
               <button
@@ -380,19 +382,19 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
           {step === "wallet" && (
             <div className="space-y-5">
               <button type="button" onClick={goBack} className="flex min-h-11 items-center gap-2 text-xs font-bold text-surface-400 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400">
-                <ArrowLeft size={15} /> Cambiar método
+                <ArrowLeft size={15} /> {t("ce_cambiar_metodo")}
               </button>
               <div>
-                <h3 className="text-base font-bold text-white">Firmar con mi wallet</h3>
+                <h3 className="text-base font-bold text-white">{t("ce_firmar")}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-surface-400">
-                  Tu wallet aprobará el memo de integridad y pagará la comisión de la red seleccionada.
+                  {t("ce_wallet_aprobara")}
                 </p>
               </div>
               {billeteraNoDisponible ? (
                 <div className="rounded-lg border border-amber-500/25 bg-amber-500/[0.06] p-4">
-                  <p className="text-xs font-bold text-amber-300">No disponible dentro de esta app de escritorio</p>
+                  <p className="text-xs font-bold text-amber-300">{t("ce_no_en_escritorio")}</p>
                   <p className="mt-2 text-xs leading-relaxed text-amber-100/70">
-                    El WebView de escritorio no carga extensiones de wallet. Puedes ejecutar el POC con identidad efímera o abrir MolDesign en un navegador compatible para usar tu wallet.
+                    {t("ce_webview_sin_extensiones")}
                   </p>
                   <ExternalLink href={SOLANA_WALLETS_URL} className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-lg border border-amber-500/30 px-3 text-xs font-bold text-amber-200 hover:bg-amber-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300">
                     Ver wallets en Solana <IconoEnlaceExterno size={14} />
@@ -414,24 +416,24 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
           {step === "create-wallet" && (
             <div className="space-y-5">
               <button type="button" onClick={goBack} className="flex min-h-11 items-center gap-2 text-xs font-bold text-surface-400 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400">
-                <ArrowLeft size={15} /> Cambiar método
+                <ArrowLeft size={15} /> {t("ce_cambiar_metodo")}
               </button>
               <div>
-                <h3 className="text-base font-bold text-white">Crear una wallet propia</h3>
+                <h3 className="text-base font-bold text-white">{t("ce_crear_wallet")}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-surface-400">
-                  MolDesign no crea ni custodia claves privadas en esta versión. El directorio oficial de Solana permite comparar wallets por plataforma y modelo de custodia.
+                  {t("ce_no_custodia")}
                 </p>
               </div>
               <div className="rounded-lg border border-white/10 bg-black/20 p-4 text-xs leading-relaxed text-surface-400">
-                <p className="font-bold text-white">Antes de continuar</p>
+                <p className="font-bold text-white">{t("ce_antes_de_continuar")}</p>
                 <ul className="mt-3 space-y-2">
-                  <li>· Descarga únicamente desde el dominio oficial del proveedor.</li>
-                  <li>· Nunca compartas tu frase de recuperación con MolDesign ni con soporte.</li>
-                  <li>· Esta build de escritorio no conecta extensiones; el POC efímero de devnet sí funciona aquí.</li>
+                  <li>{t("ce_aviso_dominio")}</li>
+                  <li>{t("ce_aviso_frase")}</li>
+                  <li>{t("ce_aviso_extensiones")}</li>
                 </ul>
               </div>
               <ExternalLink href={SOLANA_WALLETS_URL} className="flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-brand-500 px-4 text-xs font-bold uppercase tracking-wider text-white hover:bg-brand-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:bg-brand-600">
-                Explorar wallets de Solana <IconoEnlaceExterno size={15} />
+                {t("ce_explorar_wallets")} <IconoEnlaceExterno size={15} />
               </ExternalLink>
             </div>
           )}
@@ -439,7 +441,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
           {isProcessing && (
             <div aria-live="polite" className="flex min-h-64 flex-col items-center justify-center gap-4 py-8 text-center">
               <ThinkingOrb state="processing" size="md" label={flowLabel()} />
-              <p className="max-w-sm text-xs leading-relaxed text-surface-400">No cierres esta ventana hasta recibir la confirmación de la red.</p>
+              <p className="max-w-sm text-xs leading-relaxed text-surface-400">{t("ce_no_cierres")}</p>
             </div>
           )}
 
@@ -447,10 +449,10 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
             <div aria-live="polite" className="flex min-h-64 flex-col items-center justify-center gap-4 py-6 text-center">
               <ThinkingOrb state="complete" size="md" label="Comprobante registrado" />
               <p className="max-w-md text-xs leading-relaxed text-surface-400">
-                El flujo técnico terminó en devnet. Este registro puede desaparecer si la red de pruebas se reinicia y no constituye certificación.
+                {t("ce_flujo_termino")}
               </p>
               <div className="w-full rounded-lg border border-emerald-500/25 bg-emerald-500/[0.06] p-4 text-left">
-                <div className="flex items-center gap-2 text-xs font-bold text-emerald-300"><CheckCircle2 size={15} /> Comprobante de integridad creado</div>
+                <div className="flex items-center gap-2 text-xs font-bold text-emerald-300"><CheckCircle2 size={15} /> {t("ce_comprobante_creado")}</div>
                 <p className="mt-2 break-all font-mono text-[10px] leading-relaxed text-emerald-100/60">{receipt.signature}</p>
               </div>
               <ExternalLink href={urlDelExplorador(receipt.signature, health?.network)} className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/10 px-4 text-xs font-bold text-white/70 hover:border-brand-500/40 hover:text-brand-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400">
@@ -464,12 +466,12 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
 
           {step === "error" && (
             <div className="flex min-h-64 flex-col items-center justify-center gap-4 py-6 text-center">
-              <ThinkingOrb state="error" size="md" label="No se pudo registrar" />
+              <ThinkingOrb state="error" size="md" label={t("ce_no_registrado")} />
               <div role="alert" className="w-full rounded-lg border border-red-500/25 bg-red-500/[0.07] p-4 text-left text-xs leading-relaxed text-red-300">
-                {error || "La operación no pudo completarse."}
+                {error || t("ce_operacion_fallida")}
               </div>
               <button type="button" onClick={goBack} className="min-h-11 rounded-lg border border-white/10 px-5 text-xs font-bold text-white/70 hover:border-white/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 active:bg-white/5">
-                Elegir otro método
+                {t("ce_elegir_otro")}
               </button>
             </div>
           )}

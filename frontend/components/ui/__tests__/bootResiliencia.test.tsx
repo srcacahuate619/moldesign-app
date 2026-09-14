@@ -116,7 +116,18 @@ describe("certificación con billetera del navegador", () => {
     expect(condicion).toBeGreaterThan(-1);
     expect(boton).toBeGreaterThan(condicion);
     // Y se nombra el POC efímero que sí funciona en la app instalada.
-    expect(modal).toContain("Ejecutar prueba devnet");
-    expect(modal).toContain("identidad efímera");
+    //
+    // El texto ya no está en el componente: vive en el módulo de traducción,
+    // porque el paquete declara `es-ES` y `en-US` y una cadena escrita a mano
+    // se vería en castellano con el idioma en English. La comprobación se parte
+    // en dos —que el componente use la clave, y que la clave diga lo que tiene
+    // que decir— que es lo mismo que antes verificaba una sola cadena.
+    expect(modal).toContain("ce_efimera_detalle");
+    const { certificacion } = await import("../../../context/traducciones/certificacion");
+    expect(certificacion.es.ce_efimera_detalle).toContain("identidad efímera");
+    expect(certificacion.en.ce_efimera_detalle).toContain("ephemeral identity");
+    // Y la salida de devnet se ofrece en los dos idiomas, no sólo en uno.
+    expect(certificacion.es.ce_prueba_tecnica).toContain("devnet");
+    expect(certificacion.en.ce_prueba_tecnica).toContain("devnet");
   });
 });

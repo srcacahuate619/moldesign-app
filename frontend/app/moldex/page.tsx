@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   getMoldex,
@@ -45,6 +46,7 @@ import { ExternalLink } from "@/components/ui/ExternalLink";
 const NAV_HEIGHT = 56; // h-14 del Navigation.tsx
 
 export default function MoldexPage() {
+  const { t } = useLanguage();
   // Los enlaces de descarga se construyen EN RENDER, así que no pueden esperar
   // a una promesa: el hook devuelve null hasta que Rust confirma el puerto y
   // vuelve a pintar entonces. Mientras tanto los enlaces quedan inertes; usar
@@ -66,7 +68,7 @@ export default function MoldexPage() {
   const [showLeftPanel, setShowLeftPanel] = useState(true);
   const [showRightPanel, setShowRightPanel] = useState(true);
 
-  // Comparison state — "el comparador"
+  // Comparison state — t("mx_comparador")
   const [compareMode, setCompareMode] = useState(false);
   const [selectionForCompare, setSelectionForCompare] = useState<string[]>([]);
 
@@ -115,7 +117,7 @@ export default function MoldexPage() {
       setError(
         e instanceof Error
           ? e.message
-          : "No se pudo completar la descarga.",
+          : t("mx_descarga_fallida"),
       );
     } finally {
       setDescargando(null);
@@ -160,7 +162,7 @@ export default function MoldexPage() {
   // cuando el usuario recién guardó una molécula en /evaluation), se respeta
   // como selectedId final SIEMPRE que esa molécula exista en la respuesta.
   // Sin esto, `setSelectedId(normalized[0].id)` pisaría la selección que el
-  // handler ya decidió, rompiendo la UX "acabo de guardar, llévame a ella".
+  // handler ya decidió, rompiendo la UX t("mx_llevame_a_ella").
   const loadMoldex = useCallback((preferSelectId?: string) => {
     setLoading(true);
     getMoldex(undefined, 100, 0)
@@ -195,7 +197,7 @@ export default function MoldexPage() {
         }
       })
       .catch((err) => {
-        console.error("Error al cargar la bioteca:", err);
+        console.error(t("mx_error_bioteca"), err);
         setError(err.message);
       })
       .finally(() => setLoading(false));
@@ -346,7 +348,7 @@ export default function MoldexPage() {
           <div className="mb-4 inline-block p-3 rounded-full bg-red-500/10 border border-red-500/30">
             <AlertCircle size={32} className="text-red-500" />
           </div>
-          <h1 className="mb-2 text-lg font-black uppercase tracking-wider text-theme">Error de conexión</h1>
+          <h1 className="mb-2 text-lg font-black uppercase tracking-wider text-theme">{t("mx_error_conexion")}</h1>
           <p className="mb-6 text-xs leading-relaxed text-muted">{error}</p>
           <button
             onClick={() => { setError(null); loadMoldex(); }}
@@ -441,9 +443,9 @@ export default function MoldexPage() {
             className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full max-w-xl py-2"
           >
             {[
-              { n: "1", t: "Diseña", d: "con el Ketcher Editor" },
-              { n: "2", t: "Acopla", d: "Vina + XGBoost + GNN" },
-              { n: "3", t: "Guarda", d: "salva en tu bioteca" },
+              { n: "1", t: t("mx_paso_disena"), d: t("mx_paso_disena_d") },
+              { n: "2", t: t("mx_paso_acopla"), d: "Vina + XGBoost + GNN" },
+              { n: "3", t: t("mx_paso_guarda"), d: t("mx_paso_guarda_d") },
             ].map(s => (
               <div
                 key={s.n}
@@ -564,7 +566,7 @@ export default function MoldexPage() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={14} />
                 <input
                   type="text"
-                  placeholder="Buscar molécula..."
+                  placeholder={t("mx_buscar")}
                   className="w-full rounded-2xl border border-[var(--border-light)] bg-[var(--bg-secondary)] py-3 pl-10 pr-4 text-xs text-theme outline-none transition-all focus-visible:border-indigo-500/50 focus-visible:ring-2 focus-visible:ring-indigo-500/30 dark:border-white/10 dark:bg-black/40 dark:text-slate-200"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -605,9 +607,9 @@ export default function MoldexPage() {
                   }}
                   className="ml-auto flex flex-shrink-0 items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--bg-secondary)] px-4 py-2 text-xs font-black uppercase tracking-widest text-muted transition-all hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 dark:border-white/5 dark:bg-black/40 dark:text-slate-400 dark:hover:text-slate-200"
                 >
-                  {sortMode === "DATE_DESC" ? "🕒 RECIENTES"
-                   : sortMode === "SCORE_DESC" ? "ÍNDICE HISTÓRICO MAYOR"
-                   : "ÍNDICE HISTÓRICO MENOR"}
+                  {sortMode === "DATE_DESC" ? t("mx_orden_recientes")
+                   : sortMode === "SCORE_DESC" ? t("mx_orden_indice_mayor")
+                   : t("mx_orden_indice_menor")}
                 </button>
               </div>
             </div>
@@ -620,7 +622,7 @@ export default function MoldexPage() {
                 animate={{ opacity: 1 }}
                 className="rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] p-8 text-center dark:border-white/5 dark:bg-slate-900/40"
               >
-                <p className="font-mono text-xs text-muted">No se encontraron moléculas con esos filtros.</p>
+                <p className="font-mono text-xs text-muted">{t("mx_sin_resultados")}</p>
               </motion.div>
             ) : (
               <Virtuoso
@@ -688,8 +690,8 @@ export default function MoldexPage() {
                 <div className="mx-auto flex max-w-sm flex-col items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] px-6 py-4 shadow-2xl backdrop-blur-2xl dark:border-white/10 dark:bg-black/80 md:max-w-6xl md:flex-row md:gap-16 md:rounded-[3rem] md:px-10 md:py-6 md:dark:bg-black/60">
                   <div className="flex-1 min-w-0 w-full text-center md:text-left">
                     <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 mb-1 md:mb-2">
-                      <span className="rounded-full bg-indigo-500 px-2 py-0.5 text-xs font-black uppercase tracking-widest text-white md:px-3 md:py-1">Sitio del receptor</span>
-                      <h3 className="w-full truncate text-xl font-black tracking-tighter text-theme md:w-auto md:text-3xl">{selectedMolecule?.name || "Molécula"}</h3>
+                      <span className="rounded-full bg-indigo-500 px-2 py-0.5 text-xs font-black uppercase tracking-widest text-white md:px-3 md:py-1">{t("mx_sitio_receptor")}</span>
+                      <h3 className="w-full truncate text-xl font-black tracking-tighter text-theme md:w-auto md:text-3xl">{selectedMolecule?.name || t("mx_molecula")}</h3>
                     </div>
                     <p className="hidden truncate font-mono text-sm text-muted md:block">{selectedMolecule?.smiles}</p>
                   </div>
@@ -703,7 +705,7 @@ export default function MoldexPage() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="mb-0.5 text-xs font-black uppercase tracking-widest text-muted md:mb-1">ÍNDICE COMPUESTO HISTÓRICO</p>
+                      <p className="mb-0.5 text-xs font-black uppercase tracking-widest text-muted md:mb-1">{t("mx_indice_compuesto")}</p>
                       <div className="text-2xl font-black tabular-nums text-indigo-700 dark:text-indigo-300 md:text-4xl">
                         {selectedMolecule?.metrics?.score?.toFixed(1) ?? "—"}
                       </div>
@@ -754,12 +756,12 @@ export default function MoldexPage() {
                 </h2>
                 <div className="space-y-3">
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-widest text-muted">Proteína receptora</p>
-                    <p className="text-sm font-black leading-tight text-theme">{selectedMolecule?.target?.name || "Sin nombre"}</p>
+                    <p className="text-xs font-bold uppercase tracking-widest text-muted">{t("mx_proteina_receptora")}</p>
+                    <p className="text-sm font-black leading-tight text-theme">{selectedMolecule?.target?.name || t("mx_sin_nombre")}</p>
                   </div>
                   <div className="flex items-center justify-between border-t border-[var(--border)] pt-2 dark:border-white/5">
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-widest text-muted">Correlación del benchmark</p>
+                      <p className="text-xs font-bold uppercase tracking-widest text-muted">{t("mx_correlacion_benchmark")}</p>
                       <p className="font-mono text-xs text-emerald-700 dark:text-emerald-400">Spearman ρ = {selectedMolecule?.target?.spearman_rho?.toFixed(3) ?? "N/A"}</p>
                     </div>
                     <div className="h-10 w-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
@@ -807,12 +809,12 @@ export default function MoldexPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   {[
-                    { label: "Lipofilia",  value: selectedMolecule?.metrics?.log_p?.toFixed(2) ?? "—",                         unit: "LogP" },
-                    { label: "Masa",       value: selectedMolecule?.metrics?.mw?.toFixed(0) ?? "—",                             unit: "Da" },
-                    { label: "Polaridad",  value: selectedMolecule?.metrics?.tpsa?.toFixed(1) ?? "—",                            unit: "Å²" },
-                    { label: "Hotspots",   value: `${Array.isArray(selectedMolecule?.hotspots_hit) ? selectedMolecule.hotspots_hit.length : 0}/${Array.isArray(selectedMolecule?.target?.hotspots) ? selectedMolecule.target.hotspots.length : 0}`, unit: "HITS" },
-                    { label: "Señal GNN (legacy)",     value: selectedMolecule?.metrics?.gnn_score !== null && selectedMolecule?.metrics?.gnn_score !== undefined ? selectedMolecule.metrics.gnn_score.toFixed(1) : "N/A", unit: "señal" },
-                    { label: "Lipinski",   value: selectedMolecule?.metrics?.lipinski_pass === null ? "—" : selectedMolecule?.metrics?.lipinski_pass ? "Cumple" : "No cumple",        unit: "regla" },
+                    { label: t("mx_lipofilia"),  value: selectedMolecule?.metrics?.log_p?.toFixed(2) ?? "—",                         unit: "LogP" },
+                    { label: t("mx_masa"),       value: selectedMolecule?.metrics?.mw?.toFixed(0) ?? "—",                             unit: "Da" },
+                    { label: t("mx_polaridad"),  value: selectedMolecule?.metrics?.tpsa?.toFixed(1) ?? "—",                            unit: "Å²" },
+                    { label: t("mx_hotspots"),   value: `${Array.isArray(selectedMolecule?.hotspots_hit) ? selectedMolecule.hotspots_hit.length : 0}/${Array.isArray(selectedMolecule?.target?.hotspots) ? selectedMolecule.target.hotspots.length : 0}`, unit: "HITS" },
+                    { label: t("mx_senal_gnn"),     value: selectedMolecule?.metrics?.gnn_score !== null && selectedMolecule?.metrics?.gnn_score !== undefined ? selectedMolecule.metrics.gnn_score.toFixed(1) : "N/A", unit: "señal" },
+                    { label: "Lipinski",   value: selectedMolecule?.metrics?.lipinski_pass === null ? "—" : selectedMolecule?.metrics?.lipinski_pass ? t("mx_cumple") : t("mx_no_cumple"),        unit: "regla" },
                   ].map(stat => (
                     <div key={stat.label} className="group rounded-2xl border border-[var(--border)] bg-[var(--bg-secondary)] p-4 transition-all hover:border-indigo-500/30 dark:border-white/5 dark:bg-black/40">
                       <p className="mb-1 text-xs font-black uppercase tracking-widest text-muted">{stat.label}</p>
@@ -825,7 +827,7 @@ export default function MoldexPage() {
               {/* MÓDULO 4: EVIDENCIA BLOCKCHAIN */}
               <section>
                 <div className="rounded-[2.5rem] bg-gradient-to-br from-indigo-600/20 to-transparent border border-indigo-500/20 p-8 text-center">
-                  <h2 className="mb-2 text-xs font-black uppercase tracking-[0.4em] text-indigo-600 dark:text-indigo-400">Registro de integridad</h2>
+                  <h2 className="mb-2 text-xs font-black uppercase tracking-[0.4em] text-indigo-600 dark:text-indigo-400">{t("mx_registro_integridad")}</h2>
                   {/* MOLDEX-UX-008: el modal y el PDF ya decían esto; la ficha,
                       que es lo que se ve todo el tiempo, no lo decía. */}
                   <p className="mb-4 text-xs leading-relaxed text-muted">
@@ -967,11 +969,11 @@ export default function MoldexPage() {
             <div className="flex items-center justify-between rounded-t-2xl border-b border-[var(--border)] bg-[var(--bg-secondary)] p-4 dark:border-slate-800 dark:bg-[#0a0a0a]">
               <div className="flex items-center gap-3">
                 <span className="text-xl">📄</span>
-                <h2 id="moldex-report-title" className="text-lg font-bold tracking-wide text-theme">Reporte científico</h2>
+                <h2 id="moldex-report-title" className="text-lg font-bold tracking-wide text-theme">{t("mx_reporte_cientifico")}</h2>
               </div>
               <button
                 onClick={() => setShowPdfViewer(false)}
-                aria-label="Cerrar reporte científico"
+                aria-label={t("mx_cerrar_reporte")}
                 className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--bg)] text-muted transition-colors hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/70 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white"
               >
                 ✕
