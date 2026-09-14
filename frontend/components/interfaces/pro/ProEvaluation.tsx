@@ -6,6 +6,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useLanguage } from "../../../context/LanguageContext";
 import { ChipsDelSitio } from "../../science/ChipsDelSitio";
 import { DetalleDelSitio } from "../../science/DetalleDelSitio";
 import { EstimacionDeCorrida } from "../../evaluation/EstimacionDeCorrida";
@@ -209,6 +210,10 @@ export default function ProEvaluation({
   }, []);
 
   const [showTargetModal, setShowTargetModal] = useState(false);
+  // La interfaz se sirve en los dos idiomas que declara el paquete. Todo
+  // texto visible pasa por `t()`; una cadena escrita a mano aqui se veria en
+  // castellano con el idioma en English, que es motivo de rechazo en Store.
+  const { t } = useLanguage();
   const [showPdfPreview, setShowPdfPreview] = useState(false);
   const [showCertificationModal, setShowCertificationModal] = useState(false);
   const [receptorPdb, setReceptorPdb] = useState<string | null>(null);
@@ -465,7 +470,7 @@ export default function ProEvaluation({
     if (admetState === "running") return;
     const moleculeId = realResult?.molecule_id;
     if (!moleculeId) {
-      setAdmetError("Requiere una corrida terminada con una molécula identificable.");
+      setAdmetError(t("ev_admet_requiere_corrida"));
       setAdmetState("error");
       return;
     }
@@ -499,7 +504,7 @@ export default function ProEvaluation({
       setAdmetError(
         perfil.persistido
           ? null
-          : "El perfil se calculó pero NO se pudo guardar: el dossier de esta corrida no lo incluirá.",
+          : t("ev_admet_no_guardado"),
       );
       setAdmetState("done");
     } catch (err) {
@@ -875,8 +880,8 @@ export default function ProEvaluation({
             </p>
             <p className="mt-1 text-sm font-medium leading-6 text-zinc-300">
               {structuralSystemProvisional
-                ? "Todavía no ha terminado ninguna corrida en este sistema, así que aún puedes corregir receptor o caja. Quedará fijado cuando una corrida termine."
-                : "Puedes evaluar nuevos SMILES y cambiar el protocolo en este sistema. Para cambiar receptor, caja o residuos, crea otro caso."}
+                ? t("ev_sistema_provisional_detalle")
+                : t("ev_sistema_fijado_detalle")}
             </p>
           </div>
         )}
@@ -927,7 +932,7 @@ export default function ProEvaluation({
             onClick={() => setShowOptionsModal(true)}
             title={
               structuralSystemLocked
-                ? "Caja y residuos fijados por la primera corrida que terminó. El protocolo se puede cambiar."
+                ? t("ev_opciones_fijadas")
                 : undefined
             }
             className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:border-purple-500/30 hover:bg-zinc-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 cursor-pointer"
@@ -947,8 +952,8 @@ export default function ProEvaluation({
               disabled={runCount === 0}
               title={
                 runCount === 0
-                  ? "Este caso todavía no ha lanzado ninguna evaluación."
-                  : "Ver las evaluaciones anteriores de este caso"
+                  ? t("ev_sin_evaluaciones_aun")
+                  : t("ev_ver_evaluaciones_anteriores")
               }
               className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:border-purple-500/30 hover:bg-zinc-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 cursor-pointer disabled:cursor-not-allowed disabled:opacity-45"
             >
@@ -1005,7 +1010,7 @@ export default function ProEvaluation({
             disabled={busy || isRunning || !canRunEvaluation || Boolean(runBlockedReason)}
             title={
               runBlockedReason ??
-              (!canRunEvaluation ? "Añade un SMILES válido y selecciona un receptor" : undefined)
+              (!canRunEvaluation ? t("ev_falta_smiles_o_receptor") : undefined)
             }
             aria-describedby={runBlockedReason ? "run-blocked-reason" : undefined}
             className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-purple-400/30 bg-purple-600 px-6 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-purple-950/50 transition-colors hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-300 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
@@ -1030,7 +1035,7 @@ export default function ProEvaluation({
                 void handleCancel?.();
               }}
               className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-rose-400/30 bg-rose-600/80 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-300 cursor-pointer"
-              title="Cancela la evaluación y mata todos los procesos (docking, MM-GBSA, etc.)"
+              title={t("ev_cancelar_corrida")}
             >
               <X size={14} />
               Cancelar
@@ -1567,7 +1572,7 @@ export default function ProEvaluation({
                   ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
                   : "border-purple-500/40 bg-purple-500/15 text-purple-200 hover:border-purple-400 hover:bg-purple-500/25"
               }`}
-              title="Registra en Solana el compuesto, target, señal de score y fecha; no certifica validez científica ni sustituye el dossier."
+              title={t("ev_certificar_aviso")}
             >
               <ShieldCheck size={14} />
               {realResult?.blockchain_tx_id ? "Integridad registrada" : "Registrar integridad en Solana"}
@@ -1609,11 +1614,11 @@ export default function ProEvaluation({
             <div className="flex items-center justify-between px-5 py-4 border-b border-surface-800 bg-surface-950 rounded-t-2xl shrink-0">
               <div className="flex items-center gap-3">
                 <FileText size={16} className="text-purple-400" />
-                <h3 id="evaluation-pdf-title" className="text-sm font-black text-white uppercase tracking-widest">Reporte Científico — Vista Previa</h3>
+                <h3 id="evaluation-pdf-title" className="text-sm font-black text-white uppercase tracking-widest">{t("ev_reporte_vista_previa")}</h3>
               </div>
               <button
                 onClick={() => setShowPdfPreview(false)}
-                aria-label="Cerrar vista previa del reporte"
+                aria-label={t("ev_cerrar_vista_previa")}
                 className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
                 title="Cerrar"
               >
@@ -1755,7 +1760,7 @@ export default function ProEvaluation({
                 type="button"
                 onClick={() => { if (mmgbsaState !== "running") setShowMmgbsaModal(false); }}
                 disabled={mmgbsaState === "running"}
-                aria-label="Cerrar cálculo MM-GBSA"
+                aria-label={t("ev_mmgbsa_cerrar")}
                 className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 text-white/40 hover:text-white hover:bg-white/10 transition-colors text-sm disabled:opacity-40"
               >✕</button>
             </div>
@@ -1763,7 +1768,7 @@ export default function ProEvaluation({
             {/* Explanation */}
             <div className="px-6 py-3 bg-emerald-500/5 border-b border-emerald-500/10 shrink-0">
               <p className="text-[11px] text-emerald-300/80 font-mono leading-relaxed">
-                <span className="font-bold text-emerald-300">¿Qué calcula?</span> MM-GBSA post-hoc minimiza la pose con OpenMM y combina términos de mecánica molecular, Generalized Born y superficie accesible al solvente para estimar un ΔG dependiente del protocolo. El signo y la magnitud sólo deben compararse dentro de la misma configuración; no sustituyen una afinidad experimental.
+                <span className="font-bold text-emerald-300">{t("ev_mmgbsa_que_calcula")}</span> MM-GBSA post-hoc minimiza la pose con OpenMM y combina términos de mecánica molecular, Generalized Born y superficie accesible al solvente para estimar un ΔG dependiente del protocolo. El signo y la magnitud sólo deben compararse dentro de la misma configuración; no sustituyen una afinidad experimental.
               </p>
             </div>
 
@@ -1784,7 +1789,7 @@ export default function ProEvaluation({
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-white/30 mb-2">Pasos de minimización</label>
+                  <label className="block text-[10px] font-black uppercase tracking-widest text-white/30 mb-2">{t("ev_mmgbsa_pasos")}</label>
                   <select
                     value={mmgbsaNumSteps}
                     onChange={(e) => setMmgbsaNumSteps(Number(e.target.value))}
@@ -1827,8 +1832,8 @@ export default function ProEvaluation({
               {mmgbsaState === "idle" && (
                 <div className="flex flex-col items-center justify-center py-16 gap-3 text-white/40">
                   <FlaskConical size={48} className="text-emerald-500/20" />
-                  <p className="text-sm font-bold text-white/50">Configura los parámetros y ejecuta el cálculo</p>
-                  <p className="text-xs text-white/30 text-center max-w-xs">El tiempo depende del número de pasos y la disponibilidad de GPU.</p>
+                  <p className="text-sm font-bold text-white/50">{t("ev_mmgbsa_configura")}</p>
+                  <p className="text-xs text-white/30 text-center max-w-xs">{t("ev_mmgbsa_depende_gpu")}</p>
                 </div>
               )}
 
@@ -1841,9 +1846,9 @@ export default function ProEvaluation({
                     </div>
                   </div>
                   <div className="text-center space-y-1">
-                    <p className="text-sm font-black text-emerald-400 uppercase tracking-widest animate-pulse">Minimización en curso...</p>
+                    <p className="text-sm font-black text-emerald-400 uppercase tracking-widest animate-pulse">{t("ev_mmgbsa_en_curso")}</p>
                     <p className="text-xs text-white/40 font-mono">{mmgbsaNumSteps.toLocaleString()} pasos · OpenMM</p>
-                    <p className="text-[10px] text-white/30">Este proceso puede tomar entre 30 segundos y varios minutos según el hardware.</p>
+                    <p className="text-[10px] text-white/30">{t("ev_mmgbsa_puede_tardar")}</p>
                   </div>
                 </div>
               )}
@@ -1851,11 +1856,11 @@ export default function ProEvaluation({
               {mmgbsaState === "error" && (
                 <div className="flex flex-col items-center justify-center py-12 gap-3 px-6">
                   <AlertTriangle size={40} className="text-rose-400/70" />
-                  <p className="text-sm font-black text-rose-300 uppercase tracking-widest font-mono">El cálculo falló</p>
+                  <p className="text-sm font-black text-rose-300 uppercase tracking-widest font-mono">{t("ev_mmgbsa_fallo")}</p>
                   <p className="text-xs font-mono text-white/40 text-center max-w-md leading-relaxed">
                     {mmgbsaError ?? "Error desconocido al ejecutar MM-GBSA."}
                   </p>
-                  <p className="text-[10px] font-mono text-white/25">Podés reintentar con el botón de abajo.</p>
+                  <p className="text-[10px] font-mono text-white/25">{t("ev_mmgbsa_puedes_reintentar")}</p>
                 </div>
               )}
 
@@ -1882,7 +1887,7 @@ export default function ProEvaluation({
                   <div className="p-6 space-y-6">
                     {/* ΔG Total Hero */}
                     <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.05] p-5 text-center">
-                      <p className="mb-1 text-[10px] font-black uppercase tracking-widest text-emerald-300">Estimación MM-GBSA (ΔG)</p>
+                      <p className="mb-1 text-[10px] font-black uppercase tracking-widest text-emerald-300">{t("ev_mmgbsa_estimacion")}</p>
                       <p className="font-mono text-4xl font-black text-emerald-300">
                         {totalKcal.toFixed(2)} <span className="text-xl font-bold">kcal/mol</span>
                       </p>
@@ -1902,14 +1907,14 @@ export default function ProEvaluation({
                         significa, y esa frase es la mitad del dato. */}
                     {r.condicion_de_validez && (
                       <p className="rounded-xl border border-amber-500/25 bg-amber-500/[0.05] p-3.5 text-[11px] leading-relaxed text-amber-100/80">
-                        <strong className="font-semibold">Cómo se puede usar este número.</strong>{" "}
+                        <strong className="font-semibold">{t("ev_mmgbsa_como_usarlo")}</strong>{" "}
                         {r.condicion_de_validez}
                       </p>
                     )}
 
                     {/* Decomposition */}
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">Descomposición de Energía por Contribución</p>
+                      <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">{t("ev_mmgbsa_descomposicion")}</p>
                       {hasDecomposition ? (
                         <div className="space-y-3">
                           {numericComponents.map((comp) => {

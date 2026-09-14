@@ -30,6 +30,30 @@ const INTRADUCIBLES = new Set([
   "Δ pose 1–2", "Local-First",
 ]);
 
+/**
+ * Un formato o una unidad coincide entre idiomas POR SER CORRECTO.
+ *
+ * `{n} min` y `kcal/mol` se escriben igual en castellano y en inglés, y
+ * «traducirlos» sería inventarse una unidad. Se reconoce por la forma —sólo
+ * marcadores, cifras, separadores y símbolos de unidad— en vez de por una lista
+ * de valores: una lista hay que ampliarla cada vez que aparece una unidad
+ * nueva, y quien la amplía acaba metiendo ahí una frase de verdad para callar
+ * la prueba.
+ */
+const UNIDADES = ["s", "min", "h", "ms", "Å", "kcal/mol", "%", "×", "°C", "pH", "Da"];
+
+export function esFormatoOUnidad(valor: string): boolean {
+  // Una unidad entera primero: `kcal/mol` lleva dentro un separador y trocearla
+  // daría «kcal» y «mol», que por separado no son unidades de nada.
+  if (UNIDADES.includes(valor.trim())) return true;
+  const sinMarcadores = valor.replace(/\{\w+\}/g, " ");
+  const restos = sinMarcadores
+    .split(/[\s,:;·/()–—-]+/)
+    .map((parte) => parte.trim())
+    .filter((parte) => parte.length > 0 && !/^[\d.]+$/.test(parte));
+  return restos.length > 0 && restos.every((parte) => UNIDADES.includes(parte));
+}
+
 describe("idiomas de la interfaz", () => {
   it("ofrece al menos español e inglés", () => {
     const codigos = LANGUAGES.map((l) => l.code);
@@ -71,7 +95,11 @@ describe("idiomas de la interfaz", () => {
     for (const { code } of LANGUAGES) {
       if (code === REFERENCIA) continue;
       const copiadas = Object.entries(TRANSLATIONS[code])
-        .filter(([k, v]) => referencia[k] === v && !INTRADUCIBLES.has(v) && v.length > 3)
+        .filter(([k, v]) =>
+          referencia[k] === v
+          && !INTRADUCIBLES.has(v)
+          && !esFormatoOUnidad(v)
+          && v.length > 3)
         .map(([k]) => k);
       expect(
         copiadas,

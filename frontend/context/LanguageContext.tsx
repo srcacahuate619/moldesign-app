@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "../lib/auth";
 import { getUserItem, setUserItem } from "../lib/userStorage";
+import { TRADUCCIONES_POR_SUPERFICIE } from "./traducciones";
 
 export type Locale = "es" | "en";
 
@@ -20,7 +21,12 @@ export const LANGUAGES: Language[] = [
 const MVP_LOCALES = new Set<Locale>(LANGUAGES.map((language) => language.code));
 
 export const TRANSLATIONS: Record<Locale, Record<string, string>> = {
+  // Los modulos por superficie van PRIMERO: si alguna clave coincidiera con una
+  // del bloque historico, gana la historica y nada cambia de comportamiento.
+  // Que no coincidan lo comprueba `idiomasCompletos.test.ts`, porque un choque
+  // silencioso haria que una pantalla cambiara de texto al editar otra.
   es: {
+    ...TRADUCCIONES_POR_SUPERFICIE.es,
     // Nav / Common
     options: "Opciones",
     batch: "Batch",
@@ -351,6 +357,7 @@ export const TRANSLATIONS: Record<Locale, Record<string, string>> = {
     ia_reportar_sin_correo: "No se pudo abrir el programa de correo. Escribe a soporte-moldesign@amezcua-dev.com y adjunta la respuesta.",
   },
   en: {
+    ...TRADUCCIONES_POR_SUPERFICIE.en,
     options: "Options",
     batch: "Batch",
     evaluation: "Evaluation",
@@ -652,11 +659,35 @@ export const TRANSLATIONS: Record<Locale, Record<string, string>> = {
   },
 };
 
+/**
+ * Valores que se interpolan en una traduccion.
+ *
+ * POR QUE HACEN FALTA. Media interfaz dice cosas como «3 de 12 receptores» o
+ * «se hace una sola vez». Sin interpolacion hay dos salidas y las dos son
+ * malas: partir la frase en tres claves —que en ingles se ordenan distinto— o
+ * concatenar en el componente, que es como se cuelan las cadenas sin traducir.
+ */
+export type ValoresDeTraduccion = Readonly<Record<string, string | number>>;
+
 interface LanguageContextProps {
   locale: Locale;
   setLocale: (l: Locale) => void;
-  t: (key: string) => string;
+  t: (key: string, valores?: ValoresDeTraduccion) => string;
   currentLanguage: Language;
+}
+
+/**
+ * Sustituye `{nombre}` por su valor.
+ *
+ * Un marcador sin valor SE DEJA COMO ESTA en vez de vaciarse: «quedan {n}
+ * dias» es un error visible que alguien arregla, y «quedan  dias» es un error
+ * que pasa inadvertido hasta que lo ve un usuario.
+ */
+export function interpolar(plantilla: string, valores?: ValoresDeTraduccion): string {
+  if (!valores) return plantilla;
+  return plantilla.replace(/\{(\w+)\}/g, (completo, nombre: string) =>
+    nombre in valores ? String(valores[nombre]) : completo,
+  );
 }
 
 const LanguageContext = createContext<LanguageContextProps | undefined>(undefined);
@@ -690,16 +721,16 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     } catch {}
   };
 
-  const t = (key: string): string => {
+  const t = (key: string, valores?: ValoresDeTraduccion): string => {
     const dict = TRANSLATIONS[locale] || TRANSLATIONS.es;
-    return dict[key] || TRANSLATIONS.es[key] || key;
+    return interpolar(dict[key] || TRANSLATIONS.es[key] || key, valores);
   };
 
   const currentLanguage = LANGUAGES.find((lang) => lang.code === locale) || LANGUAGES[0];
 
   if (!hydrated) {
     return (
-      <LanguageContext.Provider value={{ locale: "es", setLocale: () => {}, t: (k) => TRANSLATIONS.es[k] || k, currentLanguage: LANGUAGES[0] }}>
+      <LanguageContext.Provider value={{ locale: "es", setLocale: () => {}, t: (k, v) => interpolar(TRANSLATIONS.es[k] || k, v), currentLanguage: LANGUAGES[0] }}>
         {children}
       </LanguageContext.Provider>
     );
@@ -741,6 +772,7 @@ let avisoDeProviderEmitido = false;
 const RESPALDO_SIN_PROVIDER: LanguageContextProps = {
   locale: "es",
   setLocale: () => {},
-  t: (key: string) => TRANSLATIONS.es[key] ?? key,
+  t: (key: string, valores?: ValoresDeTraduccion) =>
+    interpolar(TRANSLATIONS.es[key] ?? key, valores),
   currentLanguage: LANGUAGES[0],
 };

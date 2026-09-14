@@ -31,6 +31,7 @@ import { useEffect, useState } from "react";
 import { Clock, TriangleAlert } from "lucide-react";
 
 import { estimarCorrida, type EstimacionDeCorrida as Estimacion } from "../../lib/api";
+import { useLanguage } from "../../context/LanguageContext";
 
 export interface EstimacionDeCorridaProps {
   readonly exhaustiveness: number;
@@ -69,6 +70,7 @@ export function EstimacionDeCorrida({
   ligandos,
   visible = true,
 }: EstimacionDeCorridaProps) {
+  const { t } = useLanguage();
   const [estimacion, setEstimacion] = useState<Estimacion | null>(null);
 
   // La clave de las dependencias se serializa: `gridSize` es un array nuevo en
@@ -109,7 +111,7 @@ export function EstimacionDeCorrida({
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <Clock size={14} className="shrink-0 self-center text-purple-400" aria-hidden="true" />
         <span className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500">
-          {(estimacion.ligandos ?? 1) > 1 ? "Duración estimada de la cohorte" : "Duración estimada"}
+          {(estimacion.ligandos ?? 1) > 1 ? t("ev_duracion_estimada_cohorte") : t("ev_duracion_estimada")}
         </span>
         <span className="font-mono text-sm font-bold text-zinc-100">
           {formatearDuracion(segundos_min)} – {formatearDuracion(segundos_max)}
@@ -121,7 +123,7 @@ export function EstimacionDeCorrida({
               : "border-zinc-700 bg-zinc-900 text-zinc-400"
           }`}
         >
-          {calibrado ? "Calibrado con tu equipo" : "Sin historial todavía"}
+          {calibrado ? t("ev_calibrado_con_tu_equipo") : t("ev_sin_historial_todavia")}
         </span>
       </div>
 
@@ -133,9 +135,12 @@ export function EstimacionDeCorrida({
           parezca rota al lado de la segunda. */}
       {una_vez && (
         <p className="mt-2 rounded-lg border border-purple-500/20 bg-purple-500/[0.04] px-3 py-2 text-sm leading-6 text-purple-100/90">
-          <span className="font-bold">Sólo esta primera vez: </span>
-          {una_vez.nota} Añade entre {formatearDuracion(una_vez.segundos_min)} y{" "}
-          {formatearDuracion(una_vez.segundos_max)}.
+          <span className="font-bold">{t("ev_solo_primera_vez")}</span>
+          {una_vez.nota}{" "}
+          {t("ev_anade_entre", {
+            min: formatearDuracion(una_vez.segundos_min),
+            max: formatearDuracion(una_vez.segundos_max),
+          })}
         </p>
       )}
 
@@ -152,7 +157,7 @@ export function EstimacionDeCorrida({
 
       <details className="group mt-2">
         <summary className="cursor-pointer list-none font-mono text-[10px] font-bold uppercase tracking-wider text-zinc-500 hover:text-zinc-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400">
-          De qué se compone
+          {t("ev_de_que_se_compone")}
         </summary>
         <ul className="mt-1.5 space-y-1">
           {etapas.map((etapa) => (
