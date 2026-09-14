@@ -38,16 +38,25 @@ async def _generar_conformaciones(smiles: str, params_por_etapa) -> dict:
     except Exception:                                              # noqa: BLE001
         k = 1
 
+    # El pH de protonacion del ligando. Viaja por el MISMO canal que `conformers`
+    # porque es un parametro del mismo paso; `chem/conformer.py::acotar_ph` lo
+    # valida y deja dicho si hubo que acotarlo.
+    ph = None
+    try:
+        ph = ((params_por_etapa or {}).get("conformer") or {}).get("ph")
+    except Exception:                                              # noqa: BLE001
+        ph = None
+
     if k <= 1:
-        return await generate_conformer(smiles)
+        return await generate_conformer(smiles, ph)
 
     try:
         from chem.conformer_ensemble import generate_conformer_ensemble
 
-        return await generate_conformer_ensemble(smiles, k)
+        return await generate_conformer_ensemble(smiles, k, ph)
     except Exception as exc:                                       # noqa: BLE001
         log.warning("ensemble_no_disponible", error=str(exc)[:200], k=k)
-        base = await generate_conformer(smiles)
+        base = await generate_conformer(smiles, ph)
         base["conformer_warnings"] = [
             f"El ensemble de {k} conformaciones no se pudo generar "
             f"({type(exc).__name__}); la corrida sigue con una sola."

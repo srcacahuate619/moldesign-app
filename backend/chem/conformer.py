@@ -139,7 +139,49 @@ def _get_ring_size_info(mol: Mol) -> str:
 
 # ── Función principal ─────────────────────────────────────────────────────────
 
-async def generate_conformer(smiles: str) -> dict:
+#: Rango de pH que se acepta.
+#:
+#: No es el rango en el que dimorphite sabe trabajar —acepta cualquier número—
+#: sino aquel en el que la tabla de pKa por clase de `chem/ionizacion.py` dice
+#: algo útil. Fuera de él, Henderson-Hasselbalch devuelve fracciones saturadas
+#: a 0 o a 1 para todos los centros y la elección de microestado deja de
+#: discriminar: el resultado parecería una decisión química y sería una
+#: saturación aritmética.
+PH_MINIMO: float = 1.0
+PH_MAXIMO: float = 12.0
+
+#: El de siempre. Una corrida que no diga nada se comporta exactamente igual
+#: que antes de que el pH fuera configurable.
+PH_POR_DEFECTO: float = 7.4
+
+
+def acotar_ph(ph: float | None) -> tuple[float, str | None]:
+    """Devuelve `(ph_usado, aviso)`. Nunca lanza: un pH raro no tumba la corrida.
+
+    Se acota y se DICE. Aceptarlo tal cual sería ejecutar química que nadie
+    puede interpretar; rechazarlo con una excepción convertiría un campo mal
+    escrito en una corrida perdida.
+    """
+    if ph is None:
+        return PH_POR_DEFECTO, None
+    try:
+        valor = float(ph)
+    except (TypeError, ValueError):
+        return PH_POR_DEFECTO, f"pH no numérico ({ph!r}); se usa {PH_POR_DEFECTO:g}."
+    if valor != valor:  # NaN
+        return PH_POR_DEFECTO, f"pH no numérico; se usa {PH_POR_DEFECTO:g}."
+    if valor < PH_MINIMO:
+        return PH_MINIMO, (
+            f"pH {valor:g} por debajo del rango admitido; se acopla a {PH_MINIMO:g}."
+        )
+    if valor > PH_MAXIMO:
+        return PH_MAXIMO, (
+            f"pH {valor:g} por encima del rango admitido; se acopla a {PH_MAXIMO:g}."
+        )
+    return valor, None
+
+
+async def generate_conformer(smiles: str, ph: float | None = None) -> dict:
     """
     Genera una estructura 3D para la molécula y la guarda localmente.
 
@@ -177,7 +219,7 @@ async def generate_conformer(smiles: str) -> dict:
     aplicación— y se ejecuta en el pool de hilos. Aquí sólo queda la escritura
     del archivo, que sí es E/S y ya era asíncrona.
     """
-    datos = await run_in_threadpool(_construir_conformero, smiles)
+    datos = await run_in_threadpool(_construir_conformero, smiles, ph)
 
     object_path = StoragePath.ligand_conformer(datos["smiles_hash"])
     await write_text(
@@ -198,7 +240,7 @@ async def generate_conformer(smiles: str) -> dict:
     return {**datos, "conformer_path": object_path}
 
 
-def _construir_conformero(smiles: str) -> dict:
+def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
     """El trabajo de RDKit, sin bucle de eventos y sin tocar el disco.
 
     Todo lo que hacía `generate_conformer` salvo escribir el .sdf. Se separa
@@ -314,13 +356,17 @@ def _construir_conformero(smiles: str) -> dict:
         estado_del_ligando["tautomeria"]["motivo"] = f"{type(e).__name__}: {e}"[:200]
         log.warning("Error enumerando tautómeros, usando SMILES original", error=str(e))
 
+    ph_usado, aviso_de_ph = acotar_ph(ph)
+    if aviso_de_ph:
+        log.warning("pH fuera de rango", aviso=aviso_de_ph)
+
     try:
         import dimorphite_dl
         # dimorphite_dl devuelve una lista de SMILES protonados
         protonated_list = dimorphite_dl.protonate_smiles(
             canonical,
-            ph_min=7.4,
-            ph_max=7.4,
+            ph_min=ph_usado,
+            ph_max=ph_usado,
             precision=1.0
         )
         if protonated_list:
@@ -350,20 +396,27 @@ def _construir_conformero(smiles: str) -> dict:
             # criterio con el que eligió viaja en `estado_del_ligando`.
             from chem.ionizacion import elegir_microestado
 
+            # El MISMO pH en los dos lados. Enumerar a un pH y elegir con la
+            # predicción de otro es el acoplamiento que hacía imposible exponer
+            # este parámetro; ver `chem/ionizacion.py::cargas_esperadas_a_ph`.
             canonical, criterio_protonacion = elegir_microestado(
-                canonical, list(protonated_list)
+                canonical, list(protonated_list), ph_usado
             )
             estado_del_ligando["protonacion"] = {
                 "aplicada": True,
                 "motor": "dimorphite-dl",
-                "ph": 7.4,
+                # El pH REAL, no el fisiológico escrito a mano. Si se acotó, lo
+                # que se guarda es el que se ejecutó.
+                "ph": ph_usado,
+                "ph_solicitado": None if ph is None else float(ph),
+                "aviso_de_ph": aviso_de_ph,
                 # Cuántos estados devolvió, y cuál se acopló de ellos.
                 "alternativas": len(protonated_list),
                 "seleccion": criterio_protonacion,
                 "motivo": None,
             }
             log.info(
-                "SMILES protonado a pH 7.4 con dimorphite-dl",
+                f"SMILES protonado a pH {ph_usado:g} con dimorphite-dl",
                 protonated_smiles=canonical,
                 criterio=criterio_protonacion.get("criterio"),
                 alternativas=len(protonated_list),

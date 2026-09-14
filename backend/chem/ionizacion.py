@@ -379,12 +379,18 @@ def _centros_por_instancia(mol) -> list[tuple[str, float, str]]:
     return encontrados
 
 
-def cargas_esperadas_a_ph_74(smiles: str) -> tuple[int, int] | None:
-    """(centros catiónicos, centros aniónicos) esperados a pH 7.4.
+def cargas_esperadas_a_ph(smiles: str, ph: float = PH_FISIOLOGICO) -> tuple[int, int] | None:
+    """(centros catiónicos, centros aniónicos) esperados a ese pH.
 
     `None` si no se puede leer la molécula o no se reconoce ningún centro: sin
     centros no hay nada que comparar, y devolver (0, 0) afirmaría que la
     molécula es neutra cuando lo que pasa es que no se sabe.
+
+    El pH es un PARÁMETRO desde que el usuario puede elegirlo en las opciones
+    avanzadas. Antes estaba escrito a mano en las dos llamadas de abajo, y ése
+    es exactamente el acoplamiento que hacía imposible exponerlo: dimorphite
+    enumeraba las especies del pH pedido y esta función seguía prediciendo las
+    de 7.4, así que el selector elegía la más parecida al pH equivocado.
     """
     try:
         from rdkit import Chem
@@ -402,12 +408,12 @@ def cargas_esperadas_a_ph_74(smiles: str) -> tuple[int, int] | None:
     positivos = sum(
         1
         for _, pka, caracter in centros
-        if caracter == "base" and _fraccion_ionizada(pka, "base") >= 0.5
+        if caracter == "base" and _fraccion_ionizada(pka, "base", ph) >= 0.5
     )
     negativos = sum(
         1
         for _, pka, caracter in centros
-        if caracter == "acido" and _fraccion_ionizada(pka, "acido") >= 0.5
+        if caracter == "acido" and _fraccion_ionizada(pka, "acido", ph) >= 0.5
     )
     return positivos, negativos
 
@@ -428,8 +434,12 @@ def _cargas_formales(smiles: str) -> tuple[int, int] | None:
     return positivos, negativos
 
 
-def elegir_microestado(smiles_neutro: str, microestados: list[str]) -> tuple[str, dict]:
-    """Escoge el microestado más cercano al estado predicho a pH 7.4.
+def elegir_microestado(
+    smiles_neutro: str,
+    microestados: list[str],
+    ph: float = PH_FISIOLOGICO,
+) -> tuple[str, dict]:
+    """Escoge el microestado más cercano al estado predicho a ese pH.
 
     Devuelve `(smiles_elegido, criterio)`, donde `criterio` es lo que se guarda
     en `estado_del_ligando` para que el dossier pueda decir por qué se acopló
@@ -438,7 +448,7 @@ def elegir_microestado(smiles_neutro: str, microestados: list[str]) -> tuple[str
     if not microestados:
         return smiles_neutro, {"criterio": "sin_microestados", "indice": None}
 
-    esperadas = cargas_esperadas_a_ph_74(smiles_neutro)
+    esperadas = cargas_esperadas_a_ph(smiles_neutro, ph)
     if esperadas is None:
         return microestados[0], {
             "criterio": "primero_de_la_lista",
@@ -487,7 +497,11 @@ def elegir_microestado(smiles_neutro: str, microestados: list[str]) -> tuple[str
     mejor_distancia, elegido = min(candidatos)
 
     return elegido, {
-        "criterio": "cargas_esperadas_ph_7.4",
+        # El nombre del criterio lleva el pH REAL, no el fisiológico escrito a
+        # mano: es lo que se guarda en el expediente y lo que alguien va a leer
+        # dentro de un año para saber qué especie se acopló.
+        "criterio": f"cargas_esperadas_ph_{ph:g}",
+        "ph": ph,
         "cationes_esperados": pos_esperados,
         "aniones_esperados": neg_esperados,
         "desajuste": mejor_distancia,
@@ -496,7 +510,7 @@ def elegir_microestado(smiles_neutro: str, microestados: list[str]) -> tuple[str
         "empatados": sum(1 for d, _ in candidatos if d == mejor_distancia),
         "motivo": (
             "Se comparan los recuentos de carga formal de cada microestado con "
-            "los centros que Henderson-Hasselbalch predice ionizados a pH 7.4, "
+            f"los centros que Henderson-Hasselbalch predice ionizados a pH {ph:g}, "
             "usando los pKa por clase de este módulo. Los empates se rompen por "
             "orden alfabético del SMILES, no por el orden de dimorphite-dl, que "
             "no es reproducible entre corridas."

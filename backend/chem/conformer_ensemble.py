@@ -88,7 +88,11 @@ def normalizar_k(valor: Any) -> int:
     return min(k, CONFORMEROS_MAXIMO)
 
 
-async def generate_conformer_ensemble(smiles: str, k: Any = CONFORMEROS_POR_DEFECTO) -> dict:
+async def generate_conformer_ensemble(
+    smiles: str,
+    k: Any = CONFORMEROS_POR_DEFECTO,
+    ph: float | None = None,
+) -> dict:
     """
     Genera K conformaciones y devuelve sus rutas, en orden.
 
@@ -109,7 +113,9 @@ async def generate_conformer_ensemble(smiles: str, k: Any = CONFORMEROS_POR_DEFE
     k = normalizar_k(k)
 
     # ── K = 1: el camino de siempre, sin desviarse ───────────────────
-    base = await generate_conformer(smiles)
+    # El mismo pH que el resto de la corrida: el ensemble varia la
+    # CONFORMACION, no la especie protonada.
+    base = await generate_conformer(smiles, ph)
     if k == 1:
         return {
             **base,

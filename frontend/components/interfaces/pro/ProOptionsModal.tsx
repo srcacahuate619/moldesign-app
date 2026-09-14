@@ -33,6 +33,16 @@ export interface GridBoxConfig {
 }
 
 export interface AdvancedConfig {
+  /**
+   * pH al que se protona el LIGANDO antes de acoplarlo.
+   *
+   * No es un ajuste del motor: cambia la especie química que entra a Vina. Un
+   * ácido carboxílico a pH 1 se acopla neutro y a pH 7.4 como anión, y ésa es
+   * una molécula distinta con otra huella y otro resultado. Medido sobre el
+   * runtime empaquetado: ibuprofeno neutro a pH 1-4 y `[O-]` de 7.4 en
+   * adelante; lisina da tres especies distintas entre pH 1 y 12.
+   */
+  protonationPh: number;
   numWorkers: number;
   parallelDocks: number;
   enableSelectivity: boolean;
@@ -84,6 +94,10 @@ const DEFAULT_ADVANCED: AdvancedConfig = {
   parallelDocks: 2,
   enableSelectivity: false,
   selectedAntiTargets: ["5VA1", "4NY4", "4NC3", "1SO2", "6MVW"],
+  // 7.4 es el de siempre: una corrida que no lo toque produce exactamente el
+  // mismo SMILES protonado, el mismo hash y la misma entrada de caché que
+  // antes de que este campo existiera. Verificado sobre cuatro moléculas.
+  protonationPh: 7.4,
   enableMMGBSA: true,
   mmgbsaSteps: 1000,
   // OPT-IN, no opt-out. ADMET-AI es un modelo aparte que se carga en local y
@@ -869,6 +883,56 @@ export default function ProOptionsModal({
                     onChange={(v) => setAdvanced({ ...advanced, parallelDocks: v })}
                     min={1} max={8} step={1}
                   />
+                </div>
+              </div>
+
+              {/* ── Preparación del ligando ────────────────────────────────
+                  Va ANTES de los módulos del pipeline porque no es un módulo:
+                  no se enciende ni se apaga, siempre ocurre. Lo que se elige
+                  aquí es QUÉ MOLÉCULA entra al motor. */}
+              <div className="mt-4 pt-3 border-t border-zinc-800/60">
+                <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-1.5">
+                  <Atom size={11} /> Preparación del ligando
+                </p>
+
+                <div className="mt-3 p-3 rounded-xl bg-zinc-900/50 border border-zinc-800/60">
+                  <div className="flex flex-wrap items-end justify-between gap-3">
+                    <NumberInput
+                      label="pH de protonación"
+                      value={advanced.protonationPh}
+                      onChange={(v) =>
+                        // `NumberInput` suma y resta en coma flotante: sin
+                        // redondear, 7.4 − 0.1 se convierte en 7.300000000000001
+                        // y eso acabaría escrito en el expediente.
+                        setAdvanced({ ...advanced, protonationPh: Math.round(v * 10) / 10 })
+                      }
+                      min={1} max={12} step={0.1}
+                    />
+                    {advanced.protonationPh !== DEFAULT_ADVANCED.protonationPh && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setAdvanced({ ...advanced, protonationPh: DEFAULT_ADVANCED.protonationPh })
+                        }
+                        className="rounded-lg border border-zinc-700 px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-zinc-400 transition-colors hover:border-zinc-600 hover:text-white cursor-pointer"
+                      >
+                        Volver a 7.4
+                      </button>
+                    )}
+                  </div>
+                  <p className="text-sm font-mono text-zinc-600 mt-2 leading-relaxed">
+                    Cambia la <span className="text-zinc-400">especie química</span> que se acopla,
+                    no un ajuste del motor. Un ácido carboxílico entra neutro a pH 1 y como anión a
+                    7.4; la lisina da tres especies distintas entre 1 y 12. Dos pH que producen
+                    especies distintas son corridas distintas y no comparten caché.
+                  </p>
+                  {advanced.protonationPh !== DEFAULT_ADVANCED.protonationPh && (
+                    <p className="mt-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 text-sm leading-relaxed text-amber-300">
+                      Fuera del pH fisiológico (7.4). El receptor se prepara aparte y no sigue a
+                      este valor: la comparación con una corrida a 7.4 deja de ser directa. El pH
+                      usado queda escrito en el expediente.
+                    </p>
+                  )}
                 </div>
               </div>
 

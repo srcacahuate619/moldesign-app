@@ -458,6 +458,55 @@ def _campos_de_protocolo_y_abstencion(eval_result, resumen) -> list:
     # La transferencia ESMFold→ligando se presenta sólo si fue persistida;
     # nunca se reconstruye desde el PDB ni desde la etiqueta del motor.
     ligand_state = _v(eval_result, "ligand_state") or {}
+
+    # ── A qué pH se protonó, y qué especie salió de ahí ────────────────────
+    #
+    # `ligand_state` se persistía entero y el dossier sólo leía de él la
+    # transferencia de péptidos. Mientras el pH estuvo escrito a mano en 7.4
+    # eso era una omisión tolerable: siempre era el mismo. Desde que el usuario
+    # puede elegirlo en las opciones avanzadas deja de serlo — dos corridas de
+    # la misma molécula pueden haber acoplado especies distintas, y sin esto el
+    # expediente no permite distinguirlas.
+    protonacion = ligand_state.get("protonacion") if isinstance(ligand_state, dict) else None
+    if isinstance(protonacion, dict) and protonacion.get("aplicada"):
+        ph_usado = protonacion.get("ph")
+        ph_pedido = protonacion.get("ph_solicitado")
+        aviso_ph = protonacion.get("aviso_de_ph")
+
+        # Lo que se EJECUTÓ, y —si no coincide— lo que se pidió. Un expediente
+        # que dijera el pH solicitado cuando corrió otro sería peor que uno que
+        # no lo dijera: parecería verificado.
+        texto_ph = None if ph_usado is None else f"{ph_usado:g}"
+        if texto_ph is not None and aviso_ph and ph_pedido is not None:
+            texto_ph = f"{ph_usado:g} (se pidió {ph_pedido:g}; fuera del rango admitido)"
+        campos.append(_campo_dato(
+            "pH de protonación del ligando",
+            texto_ph,
+            "La corrida no registró a qué pH se protonó el ligando.",
+        ))
+
+        seleccion = protonacion.get("seleccion")
+        if isinstance(seleccion, dict):
+            empatados = seleccion.get("empatados")
+            alternativas = protonacion.get("alternativas")
+            descripcion = None
+            if ph_usado is not None:
+                descripcion = (
+                    f"Microestado más próximo al predicho a pH {ph_usado:g}"
+                    + (f", de {alternativas} enumerados" if isinstance(alternativas, int) else "")
+                    # Un empate lo rompe el orden alfabético del SMILES, no la
+                    # química. Se dice, porque cambia cuánto vale la elección.
+                    + (
+                        f"; {empatados} empataron y el desempate fue alfabético"
+                        if isinstance(empatados, int) and empatados > 1 else ""
+                    )
+                )
+            campos.append(_campo_dato(
+                "Especie acoplada",
+                descripcion,
+                "La corrida no registró con qué criterio se eligió el microestado.",
+            ))
+
     transfer = ligand_state.get("peptide_transfer") if isinstance(ligand_state, dict) else None
     if isinstance(transfer, dict):
         transfer_status = transfer.get("status")
@@ -588,9 +637,28 @@ def _campo_conformaciones(eval_result: Any) -> Campo:
         )
 
     completo = conseguidas >= pedidas
+
+    # ── DE CUÁNTAS CANDIDATAS SALIÓ LA AFINIDAD ────────────────────────────
+    #
+    # El ensemble acopla cada conformación por separado y junta las
+    # `conformaciones × num_poses` poses en UNA piscina ordenada por afinidad.
+    # La que se entrega es, por tanto, la mejor de esa piscina.
+    #
+    # Sin decir el tamaño de la piscina, dos dossiers de la misma molécula —uno
+    # con confórmero único y otro con ensemble— presentan su afinidad igual,
+    # aunque una sea la mejor de 9 candidatas y la otra la mejor de 144. Eso no
+    # es una advertencia sobre el método: es el denominador, y quien compare dos
+    # expedientes lo necesita para saber que está comparando.
+    num_poses = protocolo.get("num_poses")
+    piscina = (
+        f" · pose elegida entre {conseguidas * num_poses} candidatas"
+        if isinstance(num_poses, int) and num_poses > 0 and conseguidas > 0
+        else ""
+    )
+
     return Campo(
         "Generación conformacional",
-        f"Ensemble · {conseguidas} de {pedidas} conformaciones",
+        f"Ensemble · {conseguidas} de {pedidas} conformaciones{piscina}",
         Estado.REGISTRADO if completo else Estado.REVISAR,
         None if completo else (
             f"Se pidieron {pedidas} conformaciones y se generaron {conseguidas}: la "

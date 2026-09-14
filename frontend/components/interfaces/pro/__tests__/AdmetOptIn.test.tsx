@@ -104,7 +104,8 @@ describe("defecto de ADMET-AI", () => {
 
 describe("configuración explícita de ADMET-AI", () => {
   const base: AdvancedConfig = {
-    numWorkers: 4,
+    protonationPh: 7.4,
+  numWorkers: 4,
     parallelDocks: 2,
     enableSelectivity: false,
     selectedAntiTargets: [],

@@ -32,7 +32,7 @@ from __future__ import annotations
 
 import pytest
 
-from chem.ionizacion import cargas_esperadas_a_ph_74, elegir_microestado
+from chem.ionizacion import cargas_esperadas_a_ph, elegir_microestado
 
 dimorphite_dl = pytest.importorskip(
     "dimorphite_dl",
@@ -65,7 +65,7 @@ def test_los_centros_esperados_son_los_de_manual(
     La lisina es el caso que obliga a contar por instancia y no por clase: tiene
     DOS aminas alifáticas, y a pH 7.4 las dos están protonadas.
     """
-    assert cargas_esperadas_a_ph_74(smiles) == (cationes, aniones), (
+    assert cargas_esperadas_a_ph(smiles) == (cationes, aniones), (
         f"{nombre}: la tabla de clases dejó de predecir el estado esperado"
     )
 
@@ -122,7 +122,7 @@ def test_la_eleccion_no_depende_del_orden_en_que_venga_la_lista(
 def test_sin_centros_reconocidos_se_conserva_el_primero_y_se_dice():
     """La cafeína no tiene centro ionizable: no hay nada que comparar."""
     smiles = "CN1C=NC2=C1C(=O)N(C)C(=O)N2C"
-    assert cargas_esperadas_a_ph_74(smiles) is None
+    assert cargas_esperadas_a_ph(smiles) is None
 
     microestados = _microestados(smiles)
     elegido, criterio = elegir_microestado(smiles, microestados)
