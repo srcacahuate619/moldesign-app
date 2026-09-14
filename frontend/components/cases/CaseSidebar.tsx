@@ -18,7 +18,7 @@
 // `truncate` en cada fila).
 
 import { useEffect, useMemo, useState } from "react";
-import { AlertTriangle, Archive, ArchiveRestore, FolderOpen, Plus, Search } from "lucide-react";
+import { AlertTriangle, Archive, ArchiveRestore, FolderOpen, PanelLeftClose, Plus, Search } from "lucide-react";
 
 import { filterCaseEntries } from "../../lib/cases/repository";
 import {
@@ -42,6 +42,11 @@ export interface CaseSidebarProps {
   /** Bloquea toda operación que reemplace el caso activo, y lo explica. */
   readonly workLocked: boolean;
   readonly workLockedReason?: string;
+  /**
+   * Pliega el panel. Va aquí, en su cabecera, y no flotando encima: un botón
+   * superpuesto tapaba «Nuevo caso».
+   */
+  readonly onCollapse?: () => void;
 }
 
 function formatRelative(iso: string, now: number): string {
@@ -77,6 +82,7 @@ export function CaseSidebar({
   canReveal,
   workLocked,
   workLockedReason,
+  onCollapse,
 }: CaseSidebarProps) {
   const [query, setQuery] = useState("");
   const [now, setNow] = useState(() => Date.now());
@@ -201,6 +207,19 @@ export function CaseSidebar({
           <Plus className="h-3.5 w-3.5" aria-hidden="true" />
           Nuevo caso
         </button>
+        {onCollapse && (
+          <button
+            type="button"
+            onClick={onCollapse}
+            aria-expanded
+            aria-controls="case-sidebar-panel"
+            aria-label="Ocultar el panel de casos"
+            title="Ocultar los casos"
+            className="grid h-7 w-7 shrink-0 place-items-center rounded-md text-zinc-500 transition-colors hover:bg-surface-800 hover:text-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+          >
+            <PanelLeftClose className="h-4 w-4" aria-hidden="true" />
+          </button>
+        )}
       </div>
 
       <div className="border-b border-surface-800 px-3 py-2">

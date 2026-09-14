@@ -57,6 +57,7 @@ import {
 } from "../../lib/cases/types";
 import { CaseEmptyState } from "./CaseEmptyState";
 import { CaseSidebar } from "./CaseSidebar";
+import { CaseSidebarShell } from "./CaseSidebarShell";
 import { CaseDetailsDrawer, describePendingDetails } from "./CaseDetailsDrawer";
 import { CaseReportView } from "./CaseReportView";
 import { CaseDispositionPanel } from "./CaseDispositionPanel";
@@ -329,7 +330,12 @@ export function CaseWorkspace() {
     ? "Hay trabajo en curso en este caso. Espera a que termine o cancélalo para cambiar de caso."
     : undefined;
 
-  const sidebar = (
+  /**
+   * `onCollapse` sólo existe en escritorio: en el cajón móvil el panel ya se
+   * cierra con su propia X, y ofrecer dos formas de cerrarlo en el mismo sitio
+   * no ayuda a nadie.
+   */
+  const renderSidebar = (onCollapse?: () => void) => (
     <CaseSidebar
       cases={cases}
       activeCaseId={activeCase?.id ?? null}
@@ -342,8 +348,10 @@ export function CaseWorkspace() {
       canReveal={capabilities.canRevealInFileManager}
       workLocked={hasLiveWork}
       workLockedReason={workLockedReason}
+      onCollapse={onCollapse}
     />
   );
+  const sidebar = renderSidebar();
 
   const evaluationVisible = view === "evaluation";
   const evaluationKeepAlive = useMemo(
@@ -371,7 +379,16 @@ export function CaseWorkspace() {
       className="flex min-h-0 w-full flex-col overflow-hidden bg-surface-950 text-zinc-200 lg:flex-row"
       style={{ height: `calc(100dvh - ${NAV_HEIGHT})` }}
     >
-      <div className="hidden w-[272px] shrink-0 lg:block">{sidebar}</div>
+      {/* El panel de casos se pliega a un raíl y se redimensiona; las dos
+          preferencias se recuerdan. Ver `CaseSidebarShell` para el porqué. */}
+      <CaseSidebarShell
+        totalCasos={cases.length}
+        onCreate={() => setDialogOpen(true)}
+        createDisabled={hasLiveWork}
+        createDisabledReason={workLockedReason}
+      >
+        {({ plegar }) => renderSidebar(plegar)}
+      </CaseSidebarShell>
 
       <div className="flex items-center justify-between gap-2 border-b border-surface-800 px-3 py-2 lg:hidden">
         <button
@@ -583,6 +600,14 @@ export function CaseWorkspace() {
           />
         ) : (
           <>
+            {/* ── El scroll empieza AQUÍ, antes de la cabecera ──────────
+                Antes la cabecera era hermana del contenedor que scrollea, así
+                que sus 94 px —medidos a 1440×900— no se iban nunca de la
+                pantalla. Ahora scrollea con el contenido y sólo se queda
+                anclada la tira de pestañas, que es el control que hace falta
+                tener a mano; la identidad del caso se puede volver a ver
+                subiendo, que es lo que uno hace cuando quiere leerla. */}
+            <div className="evaluation-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain">
             <header className="border-b border-surface-800 px-4 py-3 sm:px-6">
               <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
                 <div className="min-w-0">
@@ -631,11 +656,20 @@ export function CaseWorkspace() {
                 {describePendingDetails(activeCase.context)}
               </p>
 
-              {/* La botonera SÓLO existe cuando hay dos destinos reales. Un
-                  único modo no necesita conmutador, y un conmutador con un
-                  destino deshabilitado prometería algo que todavía no hay. */}
-              {reportable && (
-                <div className="mt-3 inline-flex rounded-lg border border-surface-700 bg-surface-950 p-1 shadow-inner" role="tablist" aria-label="Modo del caso">
+            </header>
+
+            {/* La botonera SÓLO existe cuando hay dos destinos reales. Un
+                único modo no necesita conmutador, y un conmutador con un
+                destino deshabilitado prometería algo que todavía no hay.
+
+                Y es lo ÚNICO que se queda anclado al desplazarse: cambiar de
+                Evaluación a Informe tiene que estar siempre a un clic, pero
+                la ficha del caso no necesita ocupar sitio mientras se trabaja.
+                Cuando no hay informe no se ancla nada y se recupera la altura
+                entera. */}
+            {reportable && (
+              <div className="sticky top-0 z-20 border-b border-surface-800 bg-surface-950/95 px-4 py-2 backdrop-blur sm:px-6">
+                <div className="inline-flex rounded-lg border border-surface-700 bg-surface-950 p-1 shadow-inner" role="tablist" aria-label="Modo del caso">
                   {CASE_VIEWS.map((mode) => {
                     const selected = view === mode;
                     return (
@@ -678,8 +712,8 @@ export function CaseWorkspace() {
                     );
                   })}
                 </div>
-              )}
-            </header>
+              </div>
+            )}
 
             {/* Llamada explícita, NO navegación automática. Terminar un cálculo
                 no autoriza a mover al usuario de pantalla: se le ofrece. */}
@@ -723,7 +757,11 @@ export function CaseWorkspace() {
                 Mantener además `CaseRunTracker` montado significaría dos
                 seguidores escribiendo la misma corrida. */}
 
-            <div className="evaluation-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain">
+            {/* El scroll ya lo lleva el contenedor de arriba, que empieza
+                antes de la cabecera. Este envoltorio sólo agrupa los dos
+                paneles; `min-h-0` conserva el comportamiento de flex que
+                tenía cuando era él quien scrolleaba. */}
+            <div className="min-h-0 flex-1">
               <div
                 id="case-panel-evaluation"
                 role={reportable ? "tabpanel" : undefined}
@@ -784,6 +822,7 @@ export function CaseWorkspace() {
                   />
                 </div>
               )}
+            </div>
             </div>
           </>
         )}
