@@ -203,8 +203,19 @@ def estimate_evaluation_time(
     num_anti_targets: int = 0,
     use_mmgbsa: bool = False,
 ) -> dict[str, Any]:
-    """
-    Estimate evaluation time based on hardware and selected features.
+    """Estimate evaluation time based on hardware and selected features.
+
+    OBSOLETA. Usa `services.estimacion.estimar_corrida`.
+
+    Esta version decide el tiempo de acoplamiento con una tabla de tres casos
+    sobre los nucleos fisicos y nada mas. Medido el 2026-09-14 sobre 1WBM, mismo
+    ligando y misma caja: con 2 nucleos decia 45 s y tardo 102.7 s —2.3x por
+    debajo— y con exhaustiveness 32 decia lo mismo que con 8, cuando triplica.
+    Ignora la exhaustiveness, el receptor, los conformeros y el coste de una
+    sola vez de preparar el receptor.
+
+    Se conserva porque `/hardware/estimate` sigue publicandola; ningun
+    componente del frontend la consume.
     """
     estimates = {
         "validation_properties": "1-3s",

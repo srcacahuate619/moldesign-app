@@ -7,6 +7,8 @@
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { ChipsDelSitio } from "../../science/ChipsDelSitio";
+import { DetalleDelSitio } from "../../science/DetalleDelSitio";
+import { EstimacionDeCorrida } from "../../evaluation/EstimacionDeCorrida";
 import { ProtocoloM5Zn } from "../../science/ProtocoloM5Zn";
 import { animateElements, cancelAnimations } from "../../../lib/webAnimation";
 import {
@@ -218,6 +220,15 @@ export default function ProEvaluation({
   // SELLADO ya no. `structuralSystemLocked` congela sólo lo que define el
   // sistema —receptor, caja, residuos—; el protocolo se sigue pudiendo cambiar
   // y cada corrida guarda el suyo.
+  // `stage_params` es un Record<string, unknown>: el número hay que
+  // estrecharlo, no asumirlo. Un confórmero es un acoplamiento más, así que
+  // colarse aquí multiplicaría la estimación entera.
+  const conformerosCrudos =
+    initialRunConfiguration?.pipelineConfig?.stage_params?.conformer?.conformers;
+  const conformerosConfigurados =
+    typeof conformerosCrudos === "number" && Number.isFinite(conformerosCrudos)
+      ? conformerosCrudos
+      : 1;
   const structuralSystemLocked = Boolean(structuralSystem) && structuralSystemSealed;
   const structuralSystemProvisional = Boolean(structuralSystem) && !structuralSystemSealed;
 
@@ -830,8 +841,12 @@ export default function ProEvaluation({
               guardado, o vuelve tras cambiar de pestaña, no pasa por el
               catálogo y se llevaría el número sin la condición. */}
           {selectedTargetObj && (
-            <div className="mt-2 px-1">
+            <div className="mt-2 space-y-2 px-1">
               <ChipsDelSitio target={selectedTargetObj} variante="linea" />
+              {/* Y aquí, abrible, lo que el chip da por sabido. Quien abre un
+                  caso guardado no pasa por el catálogo: si la condición sólo
+                  viviera allí, se llevaría el número sin ella. */}
+              <DetalleDelSitio target={selectedTargetObj} />
             </div>
           )}
         </div>
@@ -875,6 +890,21 @@ export default function ProEvaluation({
           y la que ocupaba el sitio era la que no había mirado los archivos.
           Ahora el hueco lo llena la comprobación previa real. */}
       {preparationSlot}
+
+      {/* Cuánto va a tardar, JUSTO antes del botón. Aquí es donde se hace la
+          pregunta —no al configurar—, y por eso el estimador que ya existía no
+          lo leía nadie: vivía en un panel de opciones que ningún componente
+          importaba. Se oculta solo si no hay receptor y ligando: estimar sin
+          saber qué se va a correr sería inventar. */}
+      <EstimacionDeCorrida
+        visible={Boolean(canRunEvaluation)}
+        exhaustiveness={gridBox.exhaustiveness}
+        conformers={conformerosConfigurados}
+        targetPdbId={structuralSystem?.receptor.pdbId ?? target}
+        gridSize={[gridBox.sizeX, gridBox.sizeY, gridBox.sizeZ]}
+        antiTargets={advancedOpts.enableSelectivity ? advancedOpts.selectedAntiTargets.length : 0}
+        mmgbsa={advancedOpts.enableMMGBSA}
+      />
 
       {/* ── Botonera de Control ── */}
       <div className="w-full max-w-[1600px] flex flex-wrap items-center justify-between gap-4 p-4 border border-zinc-800/80 rounded-2xl bg-zinc-950/80 backdrop-blur-xl">

@@ -22,6 +22,7 @@ import re
 import shutil
 import sys
 import tempfile
+import time
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -437,6 +438,7 @@ async def _run_vina_subprocess(
         stderr=asyncio.subprocess.PIPE,
         creationflags=BANDERAS_SIN_VENTANA,
     )
+    arranque = time.monotonic()
     try:
         # Timeout de 10 minutos para soportar ex=32 en GPCRs
         stdout_bytes, stderr_bytes = await asyncio.wait_for(
@@ -472,6 +474,26 @@ async def _run_vina_subprocess(
             vina_exit_code=process.returncode,
             detail=stderr or stdout,
         )
+
+    # Lo que de verdad tardó, en ESTA máquina. Es lo que convierte la estimación
+    # que se le ensena al usuario antes de pulsar «Evaluar» en una medida en vez
+    # de una tabla. Sólo cuentan los acoplamientos que terminaron bien: uno que
+    # falló a los dos segundos no dice cuánto cuesta uno que funciona.
+    #
+    # Va en un `try` amplio a proposito, y es el unico sitio de este archivo
+    # donde eso es correcto: calibrar es accesorio, y perder una estimacion
+    # nunca puede costar una corrida que el motor ya completo.
+    try:
+        from services.estimacion import registrar_docking
+
+        registrar_docking(
+            segundos=time.monotonic() - arranque,
+            cpu=int(settings.vina_cpu),
+            exhaustiveness=exh,
+            volumen_caja=float(size[0]) * float(size[1]) * float(size[2]),
+        )
+    except Exception:  # noqa: BLE001
+        pass
 
     return stdout
 

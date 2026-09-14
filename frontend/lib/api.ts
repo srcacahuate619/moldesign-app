@@ -108,7 +108,63 @@ export async function getTargetPdb(pdbId: string): Promise<string> {
   return res.text();
 }
 
-import { getApiUrl } from "./config";
+import { getApiUrl, resetApiUrl } from "./config";
+
+// ── Recuperación de un puerto que dejó de ser el del backend ────────────────
+//
+// EL FALLO QUE ARREGLA. `getApiUrl()` memoriza el puerto —`if (resolved) return
+// resolved`— y `ensure_backend` sólo se pregunta UNA vez, en el arranque de
+// `DownloadProvider`. No hay nadie escuchando después. Si el backend muere y
+// Rust lo relevanta en otro puerto del rango 8000-8019, el frontend se queda
+// llamando al viejo: `fetch` lanza, la interfaz dice «no se pudo establecer
+// contacto con el motor local» y el motor está perfectamente sano.
+//
+// Lo peor no era el error, era que no se podía salir de él. El «Reintentar» de
+// Moldex es `loadMoldex()`, que vuelve a pedir con LA MISMA dirección
+// memorizada: el mismo fallo, tantas veces como se pulse.
+//
+// LA REGLA. Un `fetch` que lanza no es un error del servidor —un 500 no lanza—:
+// es que la petición no llegó a ninguna parte. Así que se le vuelve a preguntar
+// a Rust dónde está el backend y **sólo se reintenta si el puerto resultó ser
+// otro**. Reintentar contra la misma URL muerta no es un reintento: es el mismo
+// fallo dos veces, y encima duplicaría un POST cuyo destino sí estuviera vivo.
+//
+// Al revalidar se actualiza la caché compartida de `config.ts`, así que una
+// sola recuperación arregla también a quien llama a `fetch` por su cuenta
+// —descargas, PDF, SSE— sin que cada sitio tenga que repetir esta lógica.
+
+/** Revalidación en curso. Diez peticiones que fallan a la vez preguntan UNA. */
+let revalidacionDelPuerto: Promise<string | null> | null = null;
+
+/**
+ * Vuelve a resolver la dirección del backend.
+ *
+ * Devuelve la nueva SÓLO si difiere de la que acaba de fallar; `null` en
+ * cualquier otro caso —misma dirección, o no se pudo resolver—, que es la señal
+ * de que no hay nada que reintentar.
+ */
+async function revalidarPuertoDelMotor(baseQueFallo: string): Promise<string | null> {
+  if (!revalidacionDelPuerto) {
+    revalidacionDelPuerto = (async () => {
+      resetApiUrl();
+      try {
+        return await getApiUrl();
+      } catch {
+        // El motor no está: se dirá con el error de conexión de siempre. Aquí
+        // sólo se declara que no hay una dirección nueva a la que ir.
+        return null;
+      } finally {
+        revalidacionDelPuerto = null;
+      }
+    })();
+  }
+  const nueva = await revalidacionDelPuerto;
+  return nueva && nueva !== baseQueFallo ? nueva : null;
+}
+
+const ERROR_DE_CONEXION =
+  "Error de conexión: no se pudo establecer contacto con el motor local de MolDesign. " +
+  "Revisa su estado en la aplicación y vuelve a intentarlo.";
 
 /**
  * Detección de runtime Tauri v2. Mismo criterio que lib/auth.tsx
@@ -203,7 +259,8 @@ async function attemptRefresh(): Promise<boolean> {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const fetchUrl = `${await getApiUrl()}${path}`;
+  const base = await getApiUrl();
+  let fetchUrl = `${base}${path}`;
   const fetchInit = {
     ...init,
     headers: {
@@ -220,7 +277,17 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     response = await fetch(fetchUrl, fetchInit);
   } catch (err) {
     console.error(`Fetch error on ${fetchUrl}:`, err);
-    throw new Error("Error de conexión: no se pudo establecer contacto con el motor local de MolDesign. Revisa su estado en la aplicación y vuelve a intentarlo.");
+    // El motor pudo haberse movido de puerto. Se pregunta de nuevo y se
+    // reintenta SÓLO si la dirección cambió; ver `revalidarPuertoDelMotor`.
+    const nuevaBase = await revalidarPuertoDelMotor(base);
+    if (nuevaBase === null) throw new Error(ERROR_DE_CONEXION);
+    fetchUrl = `${nuevaBase}${path}`;
+    try {
+      response = await fetch(fetchUrl, fetchInit);
+    } catch (err2) {
+      console.error(`Fetch error on ${fetchUrl} (tras revalidar el puerto):`, err2);
+      throw new Error(ERROR_DE_CONEXION);
+    }
   }
 
   if (response.status === 401) {
@@ -816,4 +883,64 @@ export async function checkBlockchainHealth(): Promise<{
   } catch {
     return { available: false, rpc_url: "", network: "unknown" };
   }
+}
+
+// ── Cuánto va a tardar esta corrida ────────────────────────────────
+
+/**
+ * Una etapa del desglose. El usuario tiene derecho a ver de qué se compone el
+ * número, no sólo el número.
+ */
+export interface EtapaEstimada {
+  etapa: string;
+  segundos_min: number;
+  segundos_max: number;
+  nota: string;
+}
+
+export interface EstimacionDeCorrida {
+  segundos_min: number;
+  segundos_max: number;
+  /** `historial` si se calibró con corridas reales de este equipo. */
+  apoyo: "historial" | "modelo";
+  detalle_apoyo: string;
+  etapas: EtapaEstimada[];
+  /** Coste que se paga UNA vez —preparar el receptor—, o `null`. */
+  una_vez: EtapaEstimada | null;
+  avisos: string[];
+  ligandos: number;
+}
+
+export interface PeticionDeEstimacion {
+  exhaustiveness: number;
+  conformers?: number;
+  targetPdbId?: string;
+  gridSize?: readonly [number, number, number];
+  rotables?: number;
+  antiTargets?: number;
+  mmgbsa?: boolean;
+  ligandos?: number;
+}
+
+/**
+ * Estima una corrida, un ensemble o una cohorte en ESTE equipo.
+ *
+ * `targetPdbId` no es decorativo: con él el backend comprueba en disco si el
+ * receptor ya está preparado, que es el coste de una sola vez —8.8 s medidos—
+ * responsable de que una primera corrida parezca rota al lado de la segunda.
+ */
+export async function estimarCorrida(p: PeticionDeEstimacion): Promise<EstimacionDeCorrida> {
+  const params = new URLSearchParams({ exhaustiveness: String(p.exhaustiveness) });
+  if (p.conformers) params.set("conformers", String(p.conformers));
+  if (p.targetPdbId) params.set("target_pdb_id", p.targetPdbId);
+  if (p.gridSize) {
+    params.set("grid_size_x", String(p.gridSize[0]));
+    params.set("grid_size_y", String(p.gridSize[1]));
+    params.set("grid_size_z", String(p.gridSize[2]));
+  }
+  if (typeof p.rotables === "number") params.set("rotables", String(p.rotables));
+  if (p.antiTargets) params.set("anti_targets", String(p.antiTargets));
+  if (p.mmgbsa) params.set("mmgbsa", "true");
+  if (p.ligandos && p.ligandos > 1) params.set("ligandos", String(p.ligandos));
+  return request<EstimacionDeCorrida>(`/evaluation/estimate?${params}`);
 }

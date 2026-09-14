@@ -7,6 +7,7 @@ import type { Target } from "../../../lib/api";
 import { shareCustomTarget } from "../../../lib/api";
 import { groupTargets, readClassificationMode, writeClassificationMode } from "../../../lib/targetGrouping";
 import { ChipsDelSitio } from "../../science/ChipsDelSitio";
+import { DetalleDelSitio } from "../../science/DetalleDelSitio";
 import type { ClassificationMode } from "../../../lib/targetGrouping";
 import { CustomReceptorModal } from "./CustomReceptorModal";
 import { ReceptorVariantModal } from "./ReceptorVariantModal";
@@ -385,8 +386,15 @@ export default function TargetSelectorModal({
                             es: no una métrica de calidad sino parte de qué es esta
                             estructura. Los mismos chips que la pestaña de Evaluación
                             —componente compartido para que no puedan divergir—. */}
-                        <div className="mb-4">
+                        <div className="mb-4 space-y-2">
                           <ChipsDelSitio target={targetObj} />
+                          {/* La versión larga, cerrada de entrada. El chip de
+                              arriba basta para quien ya lee «Interfaz A·B»; esto
+                              existe para quien no, y para los 110 receptores en
+                              los que el aviso ámbar cambia cómo hay que leer la
+                              afinidad. Antes eso vivía en un `title`, que en
+                              táctil y con teclado no se alcanza. */}
+                          <DetalleDelSitio target={targetObj} />
                         </div>
 
                         {targetObj.preparation_parent_id && (

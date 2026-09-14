@@ -41,6 +41,7 @@ import {
   type CohortListItem, type CohortPreflightResult, type CohortRecord, type CohortRun,
   type CohortStudy, type RunEvidence, type RowStatus,
 } from "../../../lib/cohorts";
+import { EstimacionDeCorrida } from "../../../components/evaluation/EstimacionDeCorrida";
 import { type Target } from "../../../lib/api";
 import { obtenerCatalogo } from "../../../lib/catalogoDeReceptores";
 import { saveBlobAs } from "../../../lib/dossier";
@@ -457,6 +458,10 @@ export default function CohortesPage() {
 
   // ── Render ────────────────────────────────────────────────────────
   const resumen = preflight?.summary;
+  // Cuántos ligandos se van a acoplar DE VERDAD: los elegibles, no las filas
+  // del archivo. Estimar sobre el total prometería tiempo por moléculas que la
+  // comprobación previa ya descartó.
+  const ligandosDeLaCohorte = resumen?.eligible_rows ?? 0;
   const filas = evidencia?.molecules ?? [];
   const filasVisibles = filtro === "todas" ? filas : filas.filter((m) => m.status === filtro);
 
@@ -738,6 +743,20 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                   <p id="motor-historico-bloqueado" role="status" className="mt-3 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-100">
                     QuickVina 2 no está disponible en esta versión; la evidencia histórica sigue siendo legible.
                   </p>
+                )}
+
+                {/* Cuánto va a tardar la COHORTE, antes de lanzarla. Aquí es
+                    donde más importa: una evaluación suelta que se estima mal
+                    cuesta minutos, y una cohorte de cientos de ligandos cuesta
+                    horas. El paralelismo entra en el cálculo porque es la
+                    palanca que el usuario tiene delante. */}
+                {!corrida && ligandosDeLaCohorte > 0 && (
+                  <div className="mt-3">
+                    <EstimacionDeCorrida
+                      exhaustiveness={8}
+                      ligandos={ligandosDeLaCohorte}
+                    />
+                  </div>
                 )}
 
                 {corrida && (

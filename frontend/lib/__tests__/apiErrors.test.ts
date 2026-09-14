@@ -1,6 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-vi.mock("../config", () => ({ getApiUrl: async () => "http://127.0.0.1:9999" }));
+// `resetApiUrl` la usa `api.ts` para revalidar el puerto cuando `fetch` lanza.
+// Aquí no hay puerto que revalidar —la dirección es fija— así que no hace nada
+// y la revalidación devuelve la misma: exactamente el caso en que NO se
+// reintenta. Ver `puertoDelMotor.test.ts`.
+vi.mock("../config", () => ({
+  getApiUrl: async () => "http://127.0.0.1:9999",
+  resetApiUrl: () => {},
+}));
 
 import { ApiError, createTargetVariant, getEvaluationResult, getJobStatus, submitEvaluation } from "../api";
 

@@ -543,6 +543,64 @@ async def estimate_time(
     )
 
 
+@app.get(
+    "/evaluation/estimate",
+    tags=["Meta"],
+    summary="Cuánto tardaría esta corrida en ESTE equipo",
+)
+async def estimar_esta_corrida(
+    exhaustiveness: int = 8,
+    conformers: int = 1,
+    target_pdb_id: str | None = None,
+    grid_size_x: float = 30.0,
+    grid_size_y: float = 30.0,
+    grid_size_z: float = 30.0,
+    rotables: int | None = None,
+    anti_targets: int = 0,
+    mmgbsa: bool = False,
+    ligandos: int = 1,
+) -> dict[str, Any]:
+    """Estimación para una evaluación, un ensemble o una cohorte.
+
+    `ligandos` es lo único que separa los tres casos. Y `target_pdb_id` no es
+    decorativo: con él se comprueba EN DISCO si el receptor ya está preparado,
+    que es el coste de una sola vez —medido en 8.8 s— responsable de que una
+    primera corrida parezca rota al lado de la segunda.
+    """
+    from core.config import get_settings as _ajustes
+    from services.estimacion import estimar_corrida
+
+    hw = detect_hardware()
+
+    receptor_preparado = True
+    if target_pdb_id:
+        try:
+            from utils.file_handlers import StoragePath
+            from utils.local_storage import data_dir
+
+            ruta = data_dir() / StoragePath.target_prepared(target_pdb_id.strip().upper())
+            receptor_preparado = ruta.is_file()
+        except Exception:  # noqa: BLE001
+            # No saberlo se trata como «ya está»: es preferible quedarse corto
+            # en la estimación a inventar un coste que quizá no exista.
+            receptor_preparado = True
+
+    return estimar_corrida(
+        cpu=int(getattr(_ajustes(), "vina_cpu", 0) or hw.cpu_cores_logical or 1),
+        exhaustiveness=exhaustiveness,
+        conformers=conformers,
+        volumen_caja=float(grid_size_x) * float(grid_size_y) * float(grid_size_z),
+        receptor_preparado=receptor_preparado,
+        rotables_del_ligando=rotables,
+        anti_targets=anti_targets,
+        docks_en_paralelo=hw.recommended_parallel_docks,
+        usa_mmgbsa=mmgbsa,
+        gpu_cuda=hw.gpu_cuda,
+        gpu_opencl=hw.gpu_opencl,
+        ligandos=ligandos,
+    )
+
+
 @app.get("/health", tags=["Meta"], summary="Estado integral del sistema")
 async def health() -> JSONResponse:
     rdkit_health = await _safe_health_check("rdkit", _check_rdkit_health)
