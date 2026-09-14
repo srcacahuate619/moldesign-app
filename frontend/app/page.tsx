@@ -122,25 +122,6 @@ function HeroSplit({ stats }: { stats: typeof MOCK_STATS }) {
     return dict[locale] || dict.es;
   };
 
-  const getFidelityTitle = () => {
-    const dict: Record<string, string> = {
-      es: "Cribado de Alta Fidelidad",
-      en: "High-Fidelity Screening",
-      pt: "Cribagem de Alta Fidelidade",
-      fr: "Criblage Haute Fidélité",
-      de: "High-Fidelity-Screening",
-      it: "Screening ad Alta Fedeltà",
-      zh: "高保真虚拟筛选",
-      ja: "高精度バーチャルスクリーニング",
-      ko: "고정밀 가상 스크리닝",
-      ru: "Высокоточный скрининг",
-      hi: "उच्च-सटीकता स्क्रीनिंग",
-      ar: "فحص عالي الدقة",
-      tr: "Yüksek Hassasiyetli Tarama",
-    };
-    return dict[locale] || dict.es;
-  };
-
   return (
     <section className="min-h-screen grid grid-cols-1 lg:grid-cols-12 pt-48 pb-16 px-8 lg:px-16 gap-0">
       <div className="lg:col-span-5 flex flex-col pr-0 lg:pr-12 border-r-0 lg:border-r border-theme">
@@ -245,12 +226,12 @@ function HeroSplit({ stats }: { stats: typeof MOCK_STATS }) {
             transition={{ duration: 0.5, ease }}
           >
             <span className="font-mono text-sm uppercase tracking-[0.3em] text-muted">
-              {getFidelityTitle()}
+              {t("evidence_tagline")}
             </span>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.9] text-theme mt-6 uppercase">
-              <AnimatedLine text="Descubrimiento" delay={0} />
-              <AnimatedLine text="Molecular" delay={0.06} />
-              <AnimatedLine text="Acelerado" delay={0.12} />
+              <AnimatedLine text={t("evidence_title_1")} delay={0} />
+              <AnimatedLine text={t("evidence_title_2")} delay={0.06} />
+              <AnimatedLine text={t("evidence_title_3")} delay={0.12} />
             </h1>
           </motion.div>
 
@@ -292,6 +273,28 @@ function HeroSplit({ stats }: { stats: typeof MOCK_STATS }) {
             </div>
           </motion.div>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function FutureVisionSection() {
+  const { t } = useLanguage();
+
+  return (
+    <section className="border-t border-theme px-8 py-20 lg:px-16">
+      <div className="mx-auto grid max-w-6xl gap-6 border-l-2 pl-5 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]" style={{ borderLeftColor: "var(--accent)" }}>
+        <div>
+          <span className="font-mono text-sm uppercase tracking-[0.25em] text-muted">
+            {t("vision_label")}
+          </span>
+          <h2 className="mt-3 text-3xl font-black uppercase tracking-tight text-theme lg:text-4xl">
+            {t("vision_title")}
+          </h2>
+        </div>
+        <p className="max-w-3xl text-base uppercase leading-relaxed tracking-wide text-muted lg:pt-8">
+          {t("vision_desc")}
+        </p>
       </div>
     </section>
   );
@@ -400,13 +403,13 @@ function LeaderboardSection() {
 
       <div className="max-w-4xl mx-auto px-8 lg:px-16">
         <div className="overflow-hidden border border-theme/20">
-          <div className="grid grid-cols-3 gap-4 px-6 py-3 text-caption font-bold text-muted bg-black/20 border-b border-theme/10">
+          <div className="grid grid-cols-3 gap-4 border-b border-theme bg-[var(--bg-secondary)] px-6 py-3 text-caption font-bold text-muted">
             <span>#</span>
             <span>{getMolCol()}</span>
             <span className="text-right">{locale === "es" ? "Afinidad (kcal/mol)" : "Affinity (kcal/mol)"}</span>
           </div>
           {leaders.map((l, i) => (
-            <div key={l.molecule_id || i} className="grid grid-cols-3 gap-4 px-6 py-3 text-xs font-mono border-b border-theme/5 hover:bg-white/5 transition-colors items-center">
+            <div key={l.molecule_id || i} className="grid grid-cols-3 items-center gap-4 border-b border-theme px-6 py-3 font-mono text-xs transition-colors hover:bg-[var(--bg-secondary)]">
               <span className="text-muted">{(i + 1).toString().padStart(2, "0")}</span>
               <span className="truncate text-theme" title={l.smiles || l.target_name}>
                 {(l.smiles || l.target_name || "—").slice(0, 36)}
@@ -447,6 +450,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen font-mono" style={{ backgroundColor: "var(--bg)", color: "var(--text)" }}>
       <HeroSplit stats={stats} />
+      <FutureVisionSection />
       <PipelineFlowchart />
       <TechStackSection />
       <ContrasteInicio />

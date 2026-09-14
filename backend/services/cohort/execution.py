@@ -262,12 +262,13 @@ def _engine_version(engine: str) -> str | None:
     """
     try:
         from services.docking.vina_service import _resolve_executable
-        from core.config import get_settings
 
         settings = get_settings()
-        ruta = getattr(settings, "vina_path", None) if engine == "vina" else getattr(
-            settings, "qvina_path", None
-        )
+        setting_name = {
+            "vina": "vina_executable_path",
+            "qvina2": "qvina2_executable_path",
+        }.get(engine)
+        ruta = getattr(settings, setting_name, None) if setting_name else None
         if not ruta:
             return None
         ejecutable = _resolve_executable(str(ruta))

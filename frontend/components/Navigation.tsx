@@ -21,7 +21,7 @@ export function Navigation() {
 
   return (
     <>
-      <nav className="sticky top-0 z-[100] border-b border-zinc-800/80 bg-black font-mono">
+      <nav className="sticky top-0 z-[100] border-b border-[var(--border)] bg-[var(--bg-alt)] font-mono">
         <div className="relative mx-auto flex max-w-[1600px] items-center justify-between px-6 py-3.5 h-14">
 
           {/* Extremo izquierdo: panel utilitario único */}
@@ -32,7 +32,7 @@ export function Navigation() {
               aria-expanded={showOptions}
               aria-haspopup="dialog"
               onClick={() => setShowOptions(true)}
-              className={`${linkBaseClass} flex cursor-pointer items-center gap-2 ${showOptions ? "text-purple-300" : "text-white hover:text-purple-300"}`}
+              className={`${linkBaseClass} flex cursor-pointer items-center gap-2 ${showOptions ? "text-purple-400 dark:text-purple-300" : "text-theme hover:text-purple-500 dark:hover:text-purple-300"}`}
             >
               <Settings size={14} className="shrink-0" aria-hidden="true" />
               <span>OPCIONES</span>
@@ -44,7 +44,7 @@ export function Navigation() {
             <Link
               href="/comunidad"
               className={`${linkBaseClass} ${
-                pathname === "/comunidad" ? "text-white font-extrabold" : "text-zinc-400 hover:text-white"
+                pathname === "/comunidad" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
               }`}
             >
               COMUNIDAD
@@ -53,7 +53,7 @@ export function Navigation() {
             <Link
               href="/ciencia"
               className={`${linkBaseClass} ${
-                pathname === "/ciencia" ? "text-white font-extrabold" : "text-zinc-400 hover:text-white"
+                pathname === "/ciencia" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
               }`}
             >
               CIENCIA
@@ -62,7 +62,7 @@ export function Navigation() {
             <Link
               href="/evaluation/batch"
               className={`${linkBaseClass} ${
-                pathname === "/evaluation/batch" ? "text-white font-extrabold" : "text-zinc-400 hover:text-white"
+                pathname === "/evaluation/batch" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
               }`}
             >
               BATCH
@@ -73,7 +73,7 @@ export function Navigation() {
           <Link
             href="/"
             aria-label="MolDesign — ir al inicio"
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-9 w-9 rounded-full border border-white/80 flex items-center justify-center p-1.5 bg-black hover:border-purple-400 hover:scale-105 transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] shrink-0 z-20"
+            className="absolute left-1/2 top-1/2 z-20 flex h-9 w-9 shrink-0 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--border-light)] bg-[var(--bg-alt)] p-1.5 shadow-[0_0_15px_rgba(127,127,127,0.12)] transition-all hover:scale-105 hover:border-purple-400"
           >
             <Image
               src="/logo.png"
@@ -89,7 +89,7 @@ export function Navigation() {
             <Link
               href="/evaluation"
               className={`${linkBaseClass} ${
-                pathname === "/evaluation" ? "text-white font-extrabold" : "text-zinc-400 hover:text-white"
+                pathname === "/evaluation" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
               }`}
             >
               EVALUACIÓN
@@ -98,7 +98,7 @@ export function Navigation() {
             <Link
               href="/moldex"
               className={`${linkBaseClass} ${
-                pathname === "/moldex" ? "text-white font-extrabold" : "text-zinc-400 hover:text-white"
+                pathname === "/moldex" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
               }`}
             >
               MOLDEX
@@ -107,7 +107,7 @@ export function Navigation() {
             <Link
               href="/history"
               className={`${linkBaseClass} ${
-                pathname === "/history" ? "text-white font-extrabold" : "text-zinc-400 hover:text-white"
+                pathname === "/history" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
               }`}
             >
               HISTORIAL
@@ -117,21 +117,21 @@ export function Navigation() {
           {/* Extremo Derecho: User & SALIR / ENTRAR */}
           <div className="flex items-center gap-5 z-10">
             <DownloadNotifications />
-            <span className={`${linkBaseClass} text-zinc-500 font-normal`}>
+            <span className={`${linkBaseClass} text-dim font-normal`}>
               {user ? user.username : "Desktop User"}
             </span>
 
             {user ? (
               <button
                 onClick={logout}
-                className={`${linkBaseClass} text-white hover:text-purple-300 cursor-pointer`}
+                className={`${linkBaseClass} cursor-pointer text-theme hover:text-purple-500 dark:hover:text-purple-300`}
               >
                 SALIR
               </button>
             ) : (
               <Link
                 href="/login"
-                className={`${linkBaseClass} text-white hover:text-purple-300`}
+                className={`${linkBaseClass} text-theme hover:text-purple-500 dark:hover:text-purple-300`}
               >
                 ENTRAR
               </Link>
@@ -139,7 +139,7 @@ export function Navigation() {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden p-2 text-zinc-400 hover:text-white transition-colors"
+              className="p-2 text-muted transition-colors hover:text-theme md:hidden"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <X size={20} /> : <Menu size={20} />}
@@ -157,13 +157,13 @@ export function Navigation() {
         <div className="fixed inset-0 z-[200] md:hidden font-mono">
           <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={() => setIsOpen(false)} />
 
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-sm bg-zinc-950 border border-zinc-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 flex w-[90vw] max-w-sm -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] shadow-2xl">
 
-            <div className="flex items-center justify-between px-6 py-4 border-b border-zinc-800 bg-black">
-              <span className="text-xs font-mono tracking-widest text-purple-300 uppercase font-bold">
+            <div className="flex items-center justify-between border-b border-[var(--border)] bg-[var(--bg-alt)] px-6 py-4">
+              <span className="font-mono text-xs font-bold uppercase tracking-widest text-purple-500 dark:text-purple-300">
                 Navegación
               </span>
-              <button onClick={() => setIsOpen(false)} className="text-zinc-400 hover:text-white transition-colors">
+              <button onClick={() => setIsOpen(false)} className="text-muted transition-colors hover:text-theme">
                 <X size={18} />
               </button>
             </div>
@@ -172,36 +172,36 @@ export function Navigation() {
               <button
                 type="button"
                 onClick={() => { setIsOpen(false); setShowOptions(true); }}
-                className="block w-full cursor-pointer py-2 text-left text-zinc-300 hover:text-white"
+                className="block w-full cursor-pointer py-2 text-left text-muted hover:text-theme"
               >
                 OPCIONES
               </button>
-              <Link href="/comunidad" onClick={() => setIsOpen(false)} className="block py-2 text-zinc-300 hover:text-white">
+              <Link href="/comunidad" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
                 COMUNIDAD
               </Link>
-              <Link href="/ciencia" onClick={() => setIsOpen(false)} className="block py-2 text-zinc-300 hover:text-white">
+              <Link href="/ciencia" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
                 CIENCIA
               </Link>
-              <Link href="/evaluation/batch" onClick={() => setIsOpen(false)} className="block py-2 text-zinc-300 hover:text-white">
+              <Link href="/evaluation/batch" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
                 BATCH
               </Link>
-              <Link href="/evaluation" onClick={() => setIsOpen(false)} className="block py-2 text-zinc-300 hover:text-white">
+              <Link href="/evaluation" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
                 EVALUACIÓN
               </Link>
-              <Link href="/moldex" onClick={() => setIsOpen(false)} className="block py-2 text-zinc-300 hover:text-white">
+              <Link href="/moldex" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
                 MOLDEX
               </Link>
-              <Link href="/history" onClick={() => setIsOpen(false)} className="block py-2 text-zinc-300 hover:text-white">
+              <Link href="/history" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
                 HISTORIAL
               </Link>
-              <div className="pt-4 border-t border-zinc-800 flex items-center justify-between">
-                <span className="text-zinc-500">{user ? user.username : "Desktop User"}</span>
+              <div className="flex items-center justify-between border-t border-[var(--border)] pt-4">
+                <span className="text-dim">{user ? user.username : "Desktop User"}</span>
                 {user ? (
-                  <button onClick={() => { logout(); setIsOpen(false); }} className="text-white hover:text-purple-300">
+                  <button onClick={() => { logout(); setIsOpen(false); }} className="text-theme hover:text-purple-500 dark:hover:text-purple-300">
                     SALIR
                   </button>
                 ) : (
-                  <Link href="/login" onClick={() => setIsOpen(false)} className="text-white hover:text-purple-300">
+                  <Link href="/login" onClick={() => setIsOpen(false)} className="text-theme hover:text-purple-500 dark:hover:text-purple-300">
                     ENTRAR
                   </Link>
                 )}

@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { KeepAliveContext } from "../context/KeepAliveContext";
 
 const KeepAliveLoader = () => (
-  <div className="flex h-screen items-center justify-center bg-[#050508]">
+  <div className="flex h-screen items-center justify-center bg-[var(--bg)]">
     <div className="h-10 w-10 animate-spin rounded-full border-2 border-purple-500 border-t-transparent" />
   </div>
 );

@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import subprocess
 import uuid
 from pathlib import Path
 
@@ -941,6 +942,47 @@ async def test_una_corrida_ajena_no_existe_para_quien_pregunta(entorno, evaluado
 
 
 # ── 16 y 17. Run fingerprint ─────────────────────────────────────────
+
+
+@pytest.mark.parametrize(
+    ("engine", "setting_name", "configured_path"),
+    [
+        ("vina", "vina_executable_path", "tools/vina/vina.exe"),
+        ("qvina2", "qvina2_executable_path", "tools/qvina2/qvina2.exe"),
+    ],
+)
+def test_version_del_motor_usa_la_ruta_configurada(
+    monkeypatch, engine, setting_name, configured_path
+):
+    from services.docking import vina_service
+
+    settings = type(
+        "Settings",
+        (),
+        {
+            "vina_executable_path": "otra-ruta-vina",
+            "qvina2_executable_path": "otra-ruta-qvina2",
+            setting_name: configured_path,
+        },
+    )()
+    resolved_paths = []
+
+    monkeypatch.setattr(ex, "get_settings", lambda: settings)
+    monkeypatch.setattr(
+        vina_service,
+        "_resolve_executable",
+        lambda path: resolved_paths.append(path) or f"resolved/{engine}",
+    )
+    monkeypatch.setattr(
+        subprocess,
+        "run",
+        lambda *args, **kwargs: subprocess.CompletedProcess(
+            args=args[0], returncode=0, stdout="AutoDock Vina 1.2.7\n", stderr=""
+        ),
+    )
+
+    assert ex._engine_version(engine) == "AutoDock Vina 1.2.7"
+    assert resolved_paths == [configured_path]
 
 
 def _config(**over) -> ex.EffectiveConfig:

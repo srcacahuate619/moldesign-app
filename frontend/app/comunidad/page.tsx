@@ -78,23 +78,23 @@ export default function ComunidadPage() {
   );
 
   const getRankIcon = (index: number) => {
-    if (index === 0) return <Crown className="w-4 h-4 text-amber-400" />;
-    if (index === 1) return <Medal className="w-4 h-4 text-zinc-300" />;
+    if (index === 0) return <Crown className="w-4 h-4 text-amber-600 dark:text-amber-400" />;
+    if (index === 1) return <Medal className="w-4 h-4 text-muted" />;
     if (index === 2) return <Award className="w-4 h-4 text-amber-600" />;
-    return <span className="text-xs font-mono text-zinc-600 w-4 text-center">#{index + 1}</span>;
+    return <span className="w-4 text-center font-mono text-xs text-dim">#{index + 1}</span>;
   };
 
   const getRankBg = (index: number) => {
     if (index === 0) return "bg-gradient-to-r from-amber-500/[0.06] to-transparent border-amber-500/20";
     if (index === 1) return "bg-gradient-to-r from-zinc-400/[0.04] to-transparent border-zinc-500/15";
     if (index === 2) return "bg-gradient-to-r from-amber-700/[0.04] to-transparent border-amber-700/15";
-    return "bg-zinc-900/40 border-zinc-800/50";
+    return "bg-[var(--bg-card)] border-[var(--border)]";
   };
 
   return (
-    <main className="min-h-screen bg-black text-white font-mono">
+    <main className="min-h-screen bg-[var(--bg)] font-mono text-theme">
       {/* Hero Header */}
-      <section className="relative overflow-hidden border-b border-zinc-800/60">
+      <section className="relative overflow-hidden border-b border-[var(--border)]">
         <div className="absolute inset-0 bg-gradient-to-b from-purple-900/[0.06] via-transparent to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.04),transparent_60%)]" />
         
@@ -103,39 +103,39 @@ export default function ComunidadPage() {
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <div className="h-10 w-10 rounded-full border border-purple-500/30 bg-purple-500/[0.08] flex items-center justify-center">
-                  <Globe className="w-5 h-5 text-purple-400" />
+                  <Globe className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div className="flex items-center gap-2">
                   {connected ? (
-                    <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <span className="flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-emerald-700 dark:text-emerald-400">
                       <Wifi className="w-3 h-3" /> Conectado
                     </span>
                   ) : (
-                    <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-zinc-800 text-zinc-500 border border-zinc-700">
+                    <span className="flex items-center gap-1.5 rounded-full border border-[var(--border-light)] bg-[var(--bg-secondary)] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-muted">
                       <WifiOff className="w-3 h-3" /> Sin Conexión
                     </span>
                   )}
                   {cloudUser && (
-                    <span className="text-[10px] font-mono text-purple-400 border border-purple-500/20 rounded-full px-2.5 py-1 bg-purple-500/[0.06]">
+                    <span className="rounded-full border border-purple-500/20 bg-purple-500/[0.06] px-2.5 py-1 font-mono text-[10px] text-purple-600 dark:text-purple-400">
                       @{cloudUser}
                     </span>
                   )}
                 </div>
               </div>
               
-              <h1 className="text-3xl lg:text-4xl font-black uppercase tracking-tight text-white mb-3">
+              <h1 className="mb-3 text-3xl font-black uppercase tracking-tight text-theme lg:text-4xl">
                 Comunidad Global
               </h1>
-              <p className="text-sm text-zinc-400 max-w-lg leading-relaxed">
-                Explora targets compartidos por la comunidad, descarga receptores curados y compite
-                en el leaderboard global de descubrimientos moleculares.
+              <p className="max-w-lg text-sm leading-relaxed text-muted">
+                Explora targets compartidos por la comunidad, descarga receptores curados y consulta
+                evaluaciones publicadas bajo sus condiciones declaradas.
               </p>
             </div>
 
             <button
               onClick={fetchCommunity}
               disabled={loading}
-              className="hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-lg border border-zinc-700 bg-zinc-900 text-xs font-bold uppercase tracking-wider text-zinc-300 hover:border-purple-500/40 hover:text-white transition-all cursor-pointer disabled:opacity-50"
+              className="hidden cursor-pointer items-center gap-2 rounded-lg border border-[var(--border-light)] bg-[var(--bg-card)] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-muted transition-all hover:border-purple-500/40 hover:text-theme disabled:opacity-50 lg:flex"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
               Actualizar
@@ -145,16 +145,16 @@ export default function ComunidadPage() {
           {/* Stats Row */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
             {[
-              { label: "Targets Compartidos", value: communityTargets.length, icon: Target, color: "text-purple-400" },
-              { label: "Investigadores", value: leaderboard.length, icon: Users, color: "text-blue-400" },
-              { label: "Mejor Score", value: leaderboard[0]?.total_score?.toFixed(0) || "—", icon: TrendingUp, color: "text-emerald-400" },
-              { label: "Mejor Afinidad", value: leaderboard[0]?.affinity_kcal ? `${leaderboard[0].affinity_kcal.toFixed(1)} kcal` : "—", icon: Zap, color: "text-amber-400" },
+              { label: "Targets Compartidos", value: communityTargets.length, icon: Target, color: "text-purple-600 dark:text-purple-400" },
+              { label: "Investigadores", value: leaderboard.length, icon: Users, color: "text-blue-600 dark:text-blue-400" },
+              { label: "Mejor Score", value: leaderboard[0]?.total_score?.toFixed(0) || "—", icon: TrendingUp, color: "text-emerald-700 dark:text-emerald-400" },
+              { label: "Mejor Afinidad", value: leaderboard[0]?.affinity_kcal ? `${leaderboard[0].affinity_kcal.toFixed(1)} kcal` : "—", icon: Zap, color: "text-amber-600 dark:text-amber-400" },
             ].map((stat, i) => (
-              <div key={i} className="relative rounded-xl border border-zinc-800/60 bg-zinc-900/50 px-5 py-4 overflow-hidden group">
+              <div key={i} className="group relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-5 py-4">
                 <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-purple-500/[0.03] to-transparent rounded-bl-full" />
                 <stat.icon className={`w-4 h-4 ${stat.color} mb-2`} />
-                <p className="text-xl font-black text-white font-mono">{stat.value}</p>
-                <p className="text-[10px] uppercase tracking-widest text-zinc-500 mt-1">{stat.label}</p>
+                <p className="font-mono text-xl font-black text-theme">{stat.value}</p>
+                <p className="mt-1 text-[10px] uppercase tracking-widest text-muted">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -164,10 +164,10 @@ export default function ComunidadPage() {
       {/* Content Grid */}
       <div className="max-w-7xl mx-auto px-6 py-10">
         {error && (
-          <div className="flex items-center gap-3 p-4 rounded-xl bg-red-500/[0.06] border border-red-500/15 text-sm text-red-400 mb-8">
+          <div className="mb-8 flex items-center gap-3 rounded-xl border border-red-500/15 bg-red-500/[0.06] p-4 text-sm text-red-700 dark:text-red-400">
             <WifiOff className="w-4 h-4 shrink-0" />
             <span>{error}</span>
-            <button onClick={fetchCommunity} className="ml-auto text-red-300 hover:text-white transition-colors">
+            <button onClick={fetchCommunity} className="ml-auto text-red-500 transition-colors hover:text-theme dark:text-red-300">
               <RefreshCw className="w-4 h-4" />
             </button>
           </div>
@@ -179,9 +179,9 @@ export default function ComunidadPage() {
           <div className="lg:col-span-3 space-y-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Users className="w-4 h-4 text-purple-400" />
-                <h2 className="text-sm font-bold uppercase tracking-widest text-white">Targets Compartidos</h2>
-                <span className="text-[10px] font-mono text-zinc-600 bg-zinc-900 px-2 py-0.5 rounded-full border border-zinc-800">
+                <Users className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                <h2 className="text-sm font-bold uppercase tracking-widest text-theme">Targets Compartidos</h2>
+                <span className="rounded-full border border-[var(--border)] bg-[var(--bg-card)] px-2 py-0.5 font-mono text-[10px] text-dim">
                   {filteredTargets.length}
                 </span>
               </div>
@@ -189,26 +189,26 @@ export default function ComunidadPage() {
 
             {/* Search Bar */}
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-600" />
+              <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-dim" />
               <input
                 type="text"
                 placeholder="Buscar por PDB ID, nombre o categoría..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 rounded-xl bg-zinc-900/60 border border-zinc-800/60 text-sm text-zinc-200 placeholder:text-zinc-600 focus:outline-none focus:border-purple-500/30 focus:ring-1 focus:ring-purple-500/20 font-mono transition-all"
+                className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg-card)] py-3 pr-4 pl-11 font-mono text-sm text-theme transition-all placeholder:text-dim focus:border-purple-500/30 focus:ring-1 focus:ring-purple-500/20 focus:outline-none"
               />
             </div>
 
             {/* Targets Grid */}
             {loading && !connected ? (
-              <div className="flex items-center justify-center gap-3 py-16 text-zinc-500">
+              <div className="flex items-center justify-center gap-3 py-16 text-muted">
                 <RefreshCw className="w-5 h-5 animate-spin" />
                 <span className="text-sm font-mono">Conectando con la comunidad...</span>
               </div>
             ) : filteredTargets.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
-                <Target className="w-8 h-8 text-zinc-700 mb-3" />
-                <p className="text-sm text-zinc-500">
+                <Target className="mb-3 h-8 w-8 text-dim" />
+                <p className="text-sm text-muted">
                   {searchQuery ? "Sin resultados para esta búsqueda" : "No hay targets compartidos aún"}
                 </p>
               </div>
@@ -217,13 +217,13 @@ export default function ComunidadPage() {
                 {filteredTargets.map(t => (
                   <div
                     key={t.pdb_id}
-                    className="group relative rounded-xl border border-zinc-800/60 bg-zinc-900/40 p-4 hover:border-purple-500/20 hover:bg-zinc-900/60 transition-all"
+                    className="group relative rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4 transition-all hover:border-purple-500/20 hover:bg-[var(--bg-secondary)]"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-mono font-black text-purple-400 tracking-wide">{t.pdb_id}</span>
+                        <span className="font-mono text-sm font-black tracking-wide text-purple-600 dark:text-purple-400">{t.pdb_id}</span>
                         {t.resolution && (
-                          <span className="text-[9px] font-mono text-zinc-500 bg-zinc-800 px-1.5 py-0.5 rounded">
+                          <span className="rounded bg-[var(--bg-secondary)] px-1.5 py-0.5 font-mono text-[9px] text-muted">
                             {t.resolution}Å
                           </span>
                         )}
@@ -231,7 +231,7 @@ export default function ComunidadPage() {
                       <button
                         onClick={() => handleDownload(t.pdb_id)}
                         disabled={downloading === t.pdb_id}
-                        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border border-zinc-700 text-zinc-400 hover:text-white hover:border-purple-500/30 hover:bg-purple-500/[0.06] transition-all disabled:opacity-40 cursor-pointer"
+                        className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-[var(--border-light)] px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-muted transition-all hover:border-purple-500/30 hover:bg-purple-500/[0.06] hover:text-theme disabled:opacity-40"
                       >
                         {downloading === t.pdb_id ? (
                           <RefreshCw className="w-3 h-3 animate-spin" />
@@ -242,20 +242,20 @@ export default function ComunidadPage() {
                       </button>
                     </div>
 
-                    <p className="text-xs text-zinc-300 leading-relaxed mb-3 line-clamp-2">
+                    <p className="mb-3 line-clamp-2 text-xs leading-relaxed text-muted">
                       {t.name || "Target sin nombre"}
                     </p>
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         {t.structural_family && (
-                          <span className="text-[9px] font-mono uppercase tracking-wider text-zinc-500 bg-zinc-800/60 px-2 py-0.5 rounded-full border border-zinc-700/50">
+                          <span className="rounded-full border border-[var(--border-light)] bg-[var(--bg-secondary)] px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-muted">
                             {t.structural_family}
                           </span>
                         )}
                       </div>
                       {t.creator_username && (
-                        <span className="flex items-center gap-1 text-[10px] font-mono text-purple-400/70">
+                        <span className="flex items-center gap-1 font-mono text-[10px] text-purple-700/80 dark:text-purple-400/70">
                           <User className="w-3 h-3" />@{t.creator_username}
                         </span>
                       )}
@@ -269,16 +269,16 @@ export default function ComunidadPage() {
           {/* RIGHT: Leaderboard (2 cols) */}
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center gap-3">
-              <Trophy className="w-4 h-4 text-amber-400" />
-              <h2 className="text-sm font-bold uppercase tracking-widest text-white">Leaderboard Global</h2>
+              <Trophy className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+              <h2 className="text-sm font-bold uppercase tracking-widest text-theme">Leaderboard Global</h2>
             </div>
 
             <div className="space-y-2">
               {leaderboard.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-16 text-center rounded-xl border border-zinc-800/40 bg-zinc-900/30">
-                  <Trophy className="w-8 h-8 text-zinc-700 mb-3" />
-                  <p className="text-sm text-zinc-500">Sin datos de leaderboard</p>
-                  <p className="text-[10px] text-zinc-600 mt-1">Evalúa moléculas para aparecer aquí</p>
+                <div className="flex flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--bg-card)] py-16 text-center">
+                  <Trophy className="mb-3 h-8 w-8 text-dim" />
+                  <p className="text-sm text-muted">Sin datos de leaderboard</p>
+                  <p className="mt-1 text-[10px] text-dim">Evalúa moléculas para aparecer aquí</p>
                 </div>
               ) : (
                 leaderboard.map((entry, i) => (
@@ -289,20 +289,20 @@ export default function ComunidadPage() {
                     <div className="flex items-center gap-3">
                       {getRankIcon(i)}
                       <div>
-                        <span className="text-sm font-bold text-zinc-200">@{entry.username}</span>
+                        <span className="text-sm font-bold text-theme">@{entry.username}</span>
                         {entry.target_pdb_id && (
-                          <span className="ml-2 text-[9px] font-mono text-zinc-600">{entry.target_pdb_id}</span>
+                          <span className="ml-2 font-mono text-[9px] text-dim">{entry.target_pdb_id}</span>
                         )}
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <p className="text-sm font-mono font-black text-emerald-400">{entry.total_score?.toFixed(0)}</p>
-                        <p className="text-[9px] font-mono text-zinc-600 uppercase">Score</p>
+                        <p className="font-mono text-sm font-black text-emerald-700 dark:text-emerald-400">{entry.total_score?.toFixed(0)}</p>
+                        <p className="font-mono text-[9px] uppercase text-dim">Score</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm font-mono font-bold text-zinc-400">{entry.affinity_kcal?.toFixed(1)}</p>
-                        <p className="text-[9px] font-mono text-zinc-600 uppercase">kcal/mol</p>
+                        <p className="font-mono text-sm font-bold text-muted">{entry.affinity_kcal?.toFixed(1)}</p>
+                        <p className="font-mono text-[9px] uppercase text-dim">kcal/mol</p>
                       </div>
                     </div>
                   </div>
@@ -313,24 +313,24 @@ export default function ComunidadPage() {
             {/* Share CTA */}
             <div className="rounded-xl border border-purple-500/15 bg-gradient-to-br from-purple-500/[0.04] to-transparent p-5 space-y-3">
               <div className="flex items-center gap-2">
-                <Share2 className="w-4 h-4 text-purple-400" />
-                <h3 className="text-xs font-bold uppercase tracking-widest text-purple-300">Comparte tus descubrimientos</h3>
+                <Share2 className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                <h3 className="text-xs font-bold uppercase tracking-widest text-purple-600 dark:text-purple-300">Comparte tu evidencia</h3>
               </div>
-              <p className="text-xs text-zinc-400 leading-relaxed">
+              <p className="text-xs leading-relaxed text-muted">
                 {cloudUser
                   ? "Sube un target público para colaborar con la comunidad científica global."
                   : "Inicia sesión cloud para compartir targets con atribución."
                 }
               </p>
-              <button className="flex items-center gap-2 px-4 py-2 rounded-lg text-[10px] font-bold uppercase tracking-widest border border-purple-500/20 text-purple-300 hover:bg-purple-500/[0.08] hover:border-purple-500/30 transition-all cursor-pointer">
+              <button className="flex cursor-pointer items-center gap-2 rounded-lg border border-purple-500/20 px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-purple-700 transition-all hover:border-purple-500/30 hover:bg-purple-500/[0.08] dark:text-purple-300">
                 <ArrowUpRight className="w-3.5 h-3.5" />
                 {cloudUser ? "Compartir Target" : "Conectar Cloud"}
               </button>
             </div>
 
             {/* Quick Stats */}
-            <div className="rounded-xl border border-zinc-800/40 bg-zinc-900/30 p-5 space-y-4">
-              <h3 className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Actividad Reciente</h3>
+            <div className="space-y-4 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5">
+              <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted">Actividad Reciente</h3>
               <div className="space-y-3">
                 {[
                   { text: "Nuevo target compartido", time: "Hace 2h", icon: Target },
@@ -338,9 +338,9 @@ export default function ComunidadPage() {
                   { text: "Investigador se unió", time: "Hace 1d", icon: User },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3 text-xs">
-                    <item.icon className="w-3.5 h-3.5 text-zinc-600 shrink-0" />
-                    <span className="text-zinc-400 flex-1">{item.text}</span>
-                    <span className="text-[9px] font-mono text-zinc-600">{item.time}</span>
+                    <item.icon className="h-3.5 w-3.5 shrink-0 text-dim" />
+                    <span className="flex-1 text-muted">{item.text}</span>
+                    <span className="font-mono text-[9px] text-dim">{item.time}</span>
                   </div>
                 ))}
               </div>

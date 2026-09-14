@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* ThemeContext owns the theme through root classes, independently of the OS. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ── Custom Theme ───────────────────────────────────────────────── */
 
 @theme {
@@ -101,7 +104,7 @@
   --text: #09090b;
   --text-secondary: #52525b;
   --text-muted: #52525b;
-  --text-dim: #a1a1aa;
+  --text-dim: #64646e;
   --border: #e4e4e7;
   --border-light: #d4d4d8;
   --accent: #7c3aed;
@@ -237,6 +240,12 @@
 
 .dark .glass-panel {
   background: rgba(10, 10, 10, 0.65);
+}
+
+.light .glass-panel {
+  background: color-mix(in srgb, var(--bg-card) 88%, transparent);
+  border-color: var(--border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 4px 24px -4px rgba(24, 24, 27, 0.12);
 }
 
 @layer utilities {

@@ -85,7 +85,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               "name": "MolDesign AI",
               "applicationCategory": "ScienceApplication",
               "operatingSystem": "Windows, Web",
-              "description": "Herramienta abierta para preparar, evaluar y documentar hipótesis estructurales reproducibles en investigación molecular.",
+              "description": "Herramienta local con código fuente público para preparar, evaluar y documentar evidencia estructural reproducible y auditable.",
               "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
             })
           }}
