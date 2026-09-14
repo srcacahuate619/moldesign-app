@@ -48,24 +48,28 @@ import { saveBlobAs } from "../../../lib/dossier";
 import { beginFileDownload, failFileDownload, notifyRunFinished } from "../../../lib/activityNotifications";
 import { getUserItem, removeUserItem, setUserItem } from "../../../lib/userStorage";
 import TargetSelectorModal from "../../../components/interfaces/pro/TargetSelectorModal";
+import { TRANSLATIONS, useLanguage } from "../../../context/LanguageContext";
 
 type Paso = "definir" | "comprobar" | "guardar" | "ejecutar" | "evidencia" | "informe";
 
-const PASOS: readonly { readonly id: Paso; readonly n: number; readonly label: string }[] = [
-  { id: "definir", n: 1, label: "Definir" },
-  { id: "comprobar", n: 2, label: "Comprobar" },
-  { id: "guardar", n: 3, label: "Guardar" },
-  { id: "ejecutar", n: 4, label: "Ejecutar" },
-  { id: "evidencia", n: 5, label: "Evidencia" },
-  { id: "informe", n: 6, label: "Informe" },
+// Las constantes de modulo no pueden llamar a `t()` —viven fuera de React— asi
+// que llevan la CLAVE y la traduce quien las pinta. Es lo que permite que el
+// idioma cambie sin recargar: el texto se resuelve en cada render.
+const PASOS: readonly { readonly id: Paso; readonly n: number; readonly clave: string }[] = [
+  { id: "definir", n: 1, clave: "lo_paso_definir" },
+  { id: "comprobar", n: 2, clave: "lo_paso_comprobar" },
+  { id: "guardar", n: 3, clave: "lo_paso_guardar" },
+  { id: "ejecutar", n: 4, clave: "lo_paso_ejecutar" },
+  { id: "evidencia", n: 5, clave: "lo_paso_evidencia" },
+  { id: "informe", n: 6, clave: "lo_paso_informe" },
 ];
 
-const FILTROS: readonly { readonly id: RowStatus | "todas"; readonly label: string }[] = [
-  { id: "todas", label: "Todas" },
-  { id: "completed", label: "Completadas" },
-  { id: "duplicate_reused", label: "Duplicados" },
-  { id: "failed", label: "Fallidas" },
-  { id: "not_evaluated", label: "No evaluadas" },
+const FILTROS: readonly { readonly id: RowStatus | "todas"; readonly clave: string }[] = [
+  { id: "todas", clave: "lo_filtro_todas" },
+  { id: "completed", clave: "lo_filtro_completadas" },
+  { id: "duplicate_reused", clave: "lo_filtro_duplicados" },
+  { id: "failed", clave: "lo_filtro_fallidas" },
+  { id: "not_evaluated", clave: "lo_filtro_no_evaluadas" },
 ];
 
 const CAJA = "rounded-lg border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.02]";
@@ -81,32 +85,38 @@ const BOTON =
 const PRIMARIO = `${BOTON} bg-brand-600 text-white hover:bg-brand-500`;
 const SECUNDARIO = `${BOTON} border border-zinc-300 bg-zinc-50 text-zinc-700 hover:text-zinc-950 dark:border-white/10 dark:bg-white/[0.03] dark:text-white/70 dark:hover:text-white`;
 
-const MENSAJES_COHORTE: Readonly<Record<string, string>> = {
-  ARCHIVO_ILEGIBLE: "No se pudo leer el archivo. Verifica que no esté dañado.",
-  FORMATO_NO_SOPORTADO: "El formato del archivo no es compatible.",
-  COLUMNA_SMILES_AUSENTE: "El archivo no contiene una columna de estructuras SMILES.",
-  COHORTE_VACIA: "El archivo no contiene moléculas.",
-  SIN_MOLECULAS_ELEGIBLES: "Ninguna molécula puede entrar en esta corrida.",
-  LECTOR_NO_DISPONIBLE: "Esta instalación no incluye el lector necesario para ese formato.",
-  VALIDADOR_NO_DISPONIBLE: "El validador químico no está disponible en esta instalación.",
-  SIN_CONTROLES_DECLARADOS: "No se declararon controles; no podrá compararse el resultado con una referencia.",
-  SIN_ETIQUETAS_ACTIVE: "No hay etiquetas de actividad; no se calcularán métricas supervisadas.",
-  DUPLICADOS_CANONICOS: "Hay estructuras repetidas; se ejecutarán una vez y se declarará su reutilización.",
-  FILAS_INVALIDAS: "Algunas filas no entrarán en la corrida. Revisa la cobertura antes de continuar.",
-  CAJA_NO_DECLARADA: "La caja de búsqueda se tomará de la configuración validada del receptor.",
-  SEMILLA_NO_DECLARADA: "No se indicó semilla; se congelará la semilla predeterminada de esta instalación.",
-};
-
-function mensajeCohorte(codigo: string): string {
-  return MENSAJES_COHORTE[codigo] ?? "La comprobación detectó una condición que requiere revisión.";
+/**
+ * El codigo de la comprobacion previa a su clave de traduccion.
+ *
+ * Se conserva el codigo del backend tal cual —`lo_msg_ARCHIVO_ILEGIBLE`— para
+ * poder cruzarlo de un vistazo con `services/cohort/`. Un codigo que el backend
+ * anada y aqui falte cae en `lo_msg_desconocido`, que dice que hay una
+ * condicion sin describir en vez de callarla.
+ */
+function claveDelMensaje(codigo: string): string {
+  const clave = `lo_msg_${codigo}`;
+  return clave in TRANSLATIONS.es ? clave : "lo_msg_desconocido";
 }
 
-function mensajeDe(error: unknown): string {
+/**
+ * Texto de un fallo. `t` entra por parametro porque esto vive fuera de React.
+ *
+ * El mensaje de `CohortError` lo compone el backend y viaja en el idioma en que
+ * lo escribio; traducirlo aqui exigiria adivinar su contenido. Lo que si se
+ * traduce es el respaldo, que es nuestro.
+ */
+function mensajeDe(error: unknown, t: (clave: string) => string): string {
   if (error instanceof CohortError) return error.message;
-  return (error as Error)?.message || "La operación no se pudo completar.";
+  return (error as Error)?.message || t("lo_operacion_fallida");
 }
+
 
 export default function CohortesPage() {
+  // Toda la pantalla pasa por `t()`: es la superficie con mas texto de la
+  // aplicacion y la que peor tolera una traduccion a medias, porque aqui se
+  // declara lo que una corrida NO midio.
+  const { t } = useLanguage();
+
   // ── Definición ────────────────────────────────────────────────────
   const [nombre, setNombre] = useState("");
   const [archivo, setArchivo] = useState<File | null>(null);
@@ -186,7 +196,7 @@ export default function CohortesPage() {
     try {
       setTargets([...(await obtenerCatalogo())]);
     } catch (fallo) {
-      setTargetsError(`No se pudo cargar el catálogo: ${mensajeDe(fallo)}`);
+      setTargetsError(t("lo_catalogo_no_cargado", { detalle: mensajeDe(fallo, t) }));
     } finally {
       setLoadingTargets(false);
     }
@@ -296,7 +306,7 @@ export default function CohortesPage() {
         if (pollEpoch.current !== epoch) return;
         failures += 1;
         if (failures >= 5) {
-          setPollError("Se interrumpió el seguimiento de la cohorte. La corrida conserva su estado en el backend; puedes reintentar.");
+          setPollError(t("lo_seguimiento_interrumpido"));
           return;
         }
         schedule(Math.min(15000, 2500 * 2 ** (failures - 1)));
@@ -317,7 +327,7 @@ export default function CohortesPage() {
     try {
       return await accion();
     } catch (fallo) {
-      setError(mensajeDe(fallo));
+      setError(mensajeDe(fallo, t));
       return null;
     } finally {
       setOcupado(null);
@@ -498,7 +508,7 @@ export default function CohortesPage() {
                   : "border-zinc-200 bg-white text-zinc-600 dark:border-white/10 dark:bg-white/[0.02] dark:text-white/60"
               }`}
             >
-              {p.n} · {p.label}
+              {p.n} · {t(p.clave)}
             </span>
           ))}
         </nav>
@@ -531,22 +541,22 @@ export default function CohortesPage() {
                 <label className="block">
                   <span className={ETIQUETA}>Nombre</span>
                   <input className={`${INPUT} mt-1`} value={nombre} onChange={(e) => setNombre(e.target.value)}
-                    placeholder="Serie de anilinas · lote 3" aria-label="Nombre de la cohorte" />
+                    placeholder={t("lo_nombre_ejemplo")} aria-label={t("lo_nombre_cohorte")} />
                 </label>
 
                 <section className="sm:col-span-2 rounded-md border border-zinc-200 bg-zinc-50 p-4 dark:border-white/10 dark:bg-black/20" aria-labelledby="guia-archivo">
-                  <h3 id="guia-archivo" className="text-sm font-semibold">Prepara el archivo</h3>
+                  <h3 id="guia-archivo" className="text-sm font-semibold">{t("lo_prepara_archivo")}</h3>
                   <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm leading-relaxed text-zinc-700 dark:text-white/70">
-                    <li>Incluye como máximo 500 moléculas en un archivo de hasta 8 MiB.</li>
+                    <li>{t("lo_limite_moleculas")}</li>
                     <li>Para CSV, usa UTF-8, una primera fila de encabezado, comas como separador y la columna recomendada <code className="font-mono font-semibold text-zinc-900 dark:text-white">smiles</code>; también se aceptan <code className="font-mono">canonical_smiles</code> y <code className="font-mono">structure</code>.</li>
-                    <li>Todas las moléculas usarán un único receptor y la misma configuración congelada.</li>
+                    <li>{t("lo_mismo_receptor")}</li>
                   </ol>
-                  <p className="mt-3 text-xs font-semibold text-zinc-700 dark:text-white/65">Ejemplo CSV mínimo</p>
+                  <p className="mt-3 text-xs font-semibold text-zinc-700 dark:text-white/65">{t("lo_ejemplo_csv")}</p>
                   <pre className="mt-1 overflow-x-auto rounded-md border border-zinc-300 bg-white p-3 text-sm leading-relaxed text-zinc-900 dark:border-white/10 dark:bg-black/40 dark:text-white/90"><code>{`smiles,name,active,control_role
 CCO,etanol,1,reference
 CC(=O)O,acido_acetico,0,none`}</code></pre>
                   <details className="mt-3 text-sm text-zinc-700 dark:text-white/70">
-                    <summary className="cursor-pointer rounded-sm font-semibold text-zinc-900 outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white">Ver todos los formatos y campos</summary>
+                    <summary className="cursor-pointer rounded-sm font-semibold text-zinc-900 outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white">{t("lo_ver_formatos")}</summary>
                     <div className="mt-3 space-y-3 border-t border-zinc-200 pt-3 dark:border-white/10">
                       <p><strong>CSV y XLSX:</strong> requieren una columna de estructura. Se recomienda <code className="font-mono">smiles</code>; también se aceptan <code className="font-mono">canonical_smiles</code> o <code className="font-mono">structure</code>. Las columnas opcionales son <code className="font-mono">name</code>, <code className="font-mono">active</code> y <code className="font-mono">control_role</code>. XLSX usa la hoja activa y su primera fila como encabezado.</p>
                       <p><strong>SMI y TXT:</strong> una molécula por línea con el formato <code className="font-mono">SMILES nombre active control_role</code>, separado por espacios. Las líneas que comienzan con <code className="font-mono">#</code> son comentarios y el nombre no puede contener espacios.</p>
@@ -557,8 +567,8 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                 </section>
 
                 <label className="block">
-                  <span className={ETIQUETA}>Archivo de moléculas</span>
-                  <input type="file" accept=".csv,.xlsx,.sdf,.smi,.txt" aria-label="Archivo de moléculas"
+                  <span className={ETIQUETA}>{t("lo_archivo_moleculas")}</span>
+                  <input type="file" accept=".csv,.xlsx,.sdf,.smi,.txt" aria-label={t("lo_archivo_moleculas")}
                     onChange={(e) => seleccionarArchivo(e.target.files?.[0] ?? null)}
                     className="mt-1 block w-full text-sm text-zinc-600 file:mr-3 file:rounded-md file:border file:border-zinc-300 file:bg-zinc-100 file:px-3 file:py-2 file:text-sm file:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white/60 dark:file:border-0 dark:file:bg-white/10 dark:file:text-white/80" />
                 </label>
@@ -576,7 +586,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                       onClick={() => targetsError ? void cargarTargets() : setShowTargetModal(true)}
                     >
                       {loadingTargets ? <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" /> : <Search className="h-3.5 w-3.5" aria-hidden="true" />}
-                      {loadingTargets ? "Cargando" : targetsError ? "Reintentar" : `Catálogo (${targets.length})`}
+                      {loadingTargets ? "Cargando" : targetsError ? "Reintentar" : t("lo_catalogo_con_cuenta", { n: targets.length })}
                     </button>
                   </div>
                   {targetsError && (
@@ -599,7 +609,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                         : "border-brand-500/40 bg-brand-50 dark:bg-brand-600/10"
                     }`}>
                       <input type="radio" name="motor" value="vina" checked={!motorHistoricoQuickVina} readOnly className="mt-0.5 accent-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50" />
-                      <span><span className="block text-sm font-semibold">AutoDock Vina</span><span className="block text-xs text-zinc-600 dark:text-white/60">Motor disponible para cohortes nuevas.</span></span>
+                      <span><span className="block text-sm font-semibold">AutoDock Vina</span><span className="block text-xs text-zinc-600 dark:text-white/60">{t("lo_motor_disponible")}</span></span>
                     </label>
                     <label className={`flex cursor-not-allowed items-start gap-3 rounded-md border p-3 ${
                       motorHistoricoQuickVina
@@ -607,7 +617,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                         : "border-zinc-200 bg-zinc-100 text-zinc-500 dark:border-white/10 dark:bg-white/[0.02] dark:text-white/60"
                     }`}>
                       <input type="radio" name="motor" checked={motorHistoricoQuickVina} disabled aria-describedby="quickvina-note" className="mt-0.5" />
-                      <span><span className="block text-sm font-semibold">QuickVina 2 · Próximamente</span><span id="quickvina-note" className="block text-xs leading-relaxed">{motorHistoricoQuickVina ? "QuickVina 2 no está disponible en esta versión; la evidencia histórica sigue siendo legible." : "Requiere un binario Windows validado. Esta versión ejecuta únicamente Vina."}</span></span>
+                      <span><span className="block text-sm font-semibold">{t("lo_qvina_proximamente")}</span><span id="quickvina-note" className="block text-xs leading-relaxed">{motorHistoricoQuickVina ? t("lo_qvina_no_disponible") : t("lo_qvina_requiere_binario")}</span></span>
                     </label>
                   </div>
                 </fieldset>
@@ -645,7 +655,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
             {/* ── 2 · Comprobar ─────────────────────────────────── */}
             {preflight && (
               <section className={`${CAJA} p-4`} aria-labelledby="pre" data-testid="resumen-preflight">
-                <h2 id="pre" className="text-sm font-semibold">2 · Comprobación previa</h2>
+                <h2 id="pre" className="text-sm font-semibold">{t("lo_titulo_comprobacion")}</h2>
                 <p className="mt-1 text-sm text-zinc-600 dark:text-white/60">
                   Superarla no predice unión ni calidad farmacológica: todavía no se ha
                   calculado nada.
@@ -653,9 +663,9 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
 
                 <dl className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
                   {[
-                    ["Filas", resumen!.total_rows],
-                    ["Elegibles", resumen!.eligible_rows],
-                    ["Inválidas", resumen!.invalid_rows],
+                    [t("lo_filas"), resumen!.total_rows],
+                    [t("lo_elegibles"), resumen!.eligible_rows],
+                    [t("lo_invalidas"), resumen!.invalid_rows],
                     ["Duplicados", resumen!.duplicate_rows],
                     ["Moléculas únicas", resumen!.unique_canonical_ligands],
                     ["Referencia", resumen!.explicit_reference_controls],
@@ -684,7 +694,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     </p>
                     <ul className="mt-1 space-y-0.5">
                       {preflight.blockers.map((b) => (
-                        <li key={b} className="text-sm leading-relaxed text-red-800 dark:text-red-100/90">{mensajeCohorte(b)}</li>
+                        <li key={b} className="text-sm leading-relaxed text-red-800 dark:text-red-100/90">{t(claveDelMensaje(b))}</li>
                       ))}
                     </ul>
                   </div>
@@ -698,7 +708,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     </p>
                     <ul className="mt-1 space-y-0.5">
                       {preflight.warnings.map((w) => (
-                        <li key={w} className="text-sm leading-relaxed text-amber-900 dark:text-amber-100/90">{mensajeCohorte(w)}</li>
+                        <li key={w} className="text-sm leading-relaxed text-amber-900 dark:text-amber-100/90">{t(claveDelMensaje(w))}</li>
                       ))}
                     </ul>
                   </div>
@@ -720,7 +730,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
             {/* ── 3/4 · Cohorte guardada y ejecución ─────────────── */}
             {cohorte && (
               <section className={`${CAJA} p-4`} aria-labelledby="run" data-testid="cohorte-guardada">
-                <h2 id="run" className="text-sm font-semibold">4 · Ejecución</h2>
+                <h2 id="run" className="text-sm font-semibold">{t("lo_titulo_ejecucion")}</h2>
                 <p className="mt-1 break-all font-mono text-xs font-medium text-zinc-600 dark:text-white/60">
                   cohorte {cohorte.id} · {cohorte.source.filename} · sha256 {cohorte.source.sha256.slice(0, 16)}…
                 </p>
@@ -728,7 +738,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   <label className="flex items-center gap-2 text-xs font-medium text-zinc-600 dark:text-white/65">
                     Paralelismo
-                    <input type="number" min={1} max={4} value={workers} aria-label="Paralelismo"
+                    <input type="number" min={1} max={4} value={workers} aria-label={t("lo_paralelismo")}
                       onChange={(e) => setWorkers(Number(e.target.value))}
                       className="w-14 rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-900 outline-none focus-visible:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500/30 dark:border-white/10 dark:bg-black/30 dark:text-white/80" />
                   </label>
@@ -736,12 +746,12 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     aria-describedby={motorHistoricoQuickVina ? "motor-historico-bloqueado" : undefined}
                     disabled={motorHistoricoQuickVina || Boolean(corrida && isRunActive(corrida.status)) || ocupado === "ejecutar"}>
                     {ocupado === "ejecutar" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Play className="h-3.5 w-3.5" />}
-                    {ocupado === "ejecutar" ? "Preparando y abriendo…" : "Ejecutar cohorte"}
+                    {ocupado === "ejecutar" ? t("lo_preparando") : t("lo_ejecutar_cohorte")}
                   </button>
                 </div>
                 {motorHistoricoQuickVina && (
                   <p id="motor-historico-bloqueado" role="status" className="mt-3 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-100">
-                    QuickVina 2 no está disponible en esta versión; la evidencia histórica sigue siendo legible.
+                    {t("lo_qvina_no_disponible")}
                   </p>
                 )}
 
@@ -846,7 +856,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
 
                 {/* Métricas: evaluables o abstención declarada */}
                 <div className="mt-3 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 dark:border-white/10 dark:bg-black/20" data-testid="metricas">
-                  <p className={ETIQUETA}>Métricas etiquetadas</p>
+                  <p className={ETIQUETA}>{t("lo_metricas_etiquetadas")}</p>
                   {evidencia.labeled_metrics.status === "evaluated" ? (
                     <>
                       <p className="mt-1 text-sm">
@@ -873,7 +883,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
 
                 {evidencia.labeled_metrics.controls.length > 0 && (
                   <div className="mt-3 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 dark:border-white/10 dark:bg-black/20" data-testid="controles">
-                    <p className={ETIQUETA}>Controles declarados (fuera de la población de la métrica)</p>
+                    <p className={ETIQUETA}>{t("lo_controles_declarados")}</p>
                     <ul className="mt-1 space-y-0.5">
                       {evidencia.labeled_metrics.controls.map((c) => (
                         <li key={c.source_row_index} className="text-xs text-zinc-600 dark:text-white/60">
@@ -886,13 +896,13 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                 )}
 
                 <div className="mt-3 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 dark:border-amber-500/20 dark:bg-amber-500/5">
-                  <p className={ETIQUETA}>Límites de interpretación</p>
+                  <p className={ETIQUETA}>{t("lo_limites_interpretacion")}</p>
                   <ul className="mt-1 list-disc space-y-1 pl-4 text-xs leading-relaxed text-amber-900 dark:text-amber-100/70">
                     {evidencia.limits.map((limit) => <li key={limit}>{limit}</li>)}
                   </ul>
                 </div>
 
-                <div className="mt-3 flex flex-wrap gap-1.5" role="group" aria-label="Filtrar por estado">
+                <div className="mt-3 flex flex-wrap gap-1.5" role="group" aria-label={t("lo_filtrar_por_estado")}>
                   {FILTROS.map((f) => (
                     <button key={f.id} type="button" onClick={() => setFiltro(f.id)}
                       aria-pressed={filtro === f.id}
@@ -901,7 +911,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                           ? "border-brand-500/40 bg-brand-600/10 text-brand-800 dark:bg-brand-600/15 dark:text-white"
                           : "border-zinc-200 bg-white text-zinc-600 hover:text-zinc-900 dark:border-white/10 dark:bg-white/[0.02] dark:text-white/60 dark:hover:text-white/70"
                       }`}>
-                      {f.label}
+                      {t(f.clave)}
                     </button>
                   ))}
                 </div>
@@ -927,7 +937,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                             {ROW_STATUS_LABELS[m.status]}
                             {m.error_code && (
                               <span className="mt-0.5 block max-w-xs text-xs leading-snug text-zinc-600 dark:text-white/60">
-                                {m.error_detail || "La evaluación no pudo completarse."}
+                                {m.error_detail || t("lo_evaluacion_no_completada")}
                               </span>
                             )}
                           </td>
@@ -981,7 +991,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                 )}
                 <div className="mt-3 h-[70vh] min-h-[24rem] overflow-hidden rounded-md border border-zinc-200 bg-zinc-100 dark:border-white/10 dark:bg-black/40">
                   {pdfUrl ? (
-                    <iframe src={`${pdfUrl}#toolbar=0`} title="Dossier de cohorte" className="h-full w-full border-none" />
+                    <iframe src={`${pdfUrl}#toolbar=0`} title={t("lo_dossier_cohorte")} className="h-full w-full border-none" />
                   ) : (
                     <div className="flex h-full items-center justify-center text-xs text-zinc-500 dark:text-white/60">
                       El dossier no está cargado.
@@ -1001,7 +1011,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
               </button>
             </div>
             {guardadas.length === 0 ? (
-              <p className="mt-2 text-xs font-medium text-zinc-600 dark:text-white/55">Ninguna todavía.</p>
+              <p className="mt-2 text-xs font-medium text-zinc-600 dark:text-white/55">{t("lo_ninguna_todavia")}</p>
             ) : (
               <ul className="mt-2 space-y-1">
                 {guardadas.map((item) => (

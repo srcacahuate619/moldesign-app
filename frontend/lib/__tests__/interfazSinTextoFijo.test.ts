@@ -44,8 +44,8 @@ const MARCAS_ES =
  * Los que faltan valen cero: una pantalla nueva nace traducida.
  */
 const PRESUPUESTO: Readonly<Record<string, number>> = {
-  "app/evaluation/batch/page.tsx": 48,
   "components/CertificationModal.tsx": 30,
+  "app/evaluation/batch/page.tsx": 29,
   "components/interfaces/pro/ProOptionsModal.tsx": 27,
   "components/ui/LegalModal.tsx": 27,
   "components/interfaces/pro/ProAnalysisTabs.tsx": 22,
@@ -131,7 +131,7 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
 };
 
 /** Techo global. Es el que cuenta: el detalle por fichero sólo dice dónde. */
-const PRESUPUESTO_TOTAL = 571;
+const PRESUPUESTO_TOTAL = 552;
 
 function ficheros(dir: string, acc: string[] = []): string[] {
   let entradas: string[];
