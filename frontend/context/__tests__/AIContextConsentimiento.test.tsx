@@ -44,6 +44,14 @@ describe("el contexto trata el cambio de destino como tal", () => {
     expect(posicionDispatch).toBeGreaterThan(posicionRetorno);
   });
 
+  it("rechaza cualquier otro non-2xx antes de despachar la configuración", () => {
+    const posicionRechazo = fuente.indexOf('if (!res.ok)', fuente.indexOf("/ai/providers/configure"));
+    const posicionDispatch = fuente.indexOf('dispatch({ type: "SET_PROVIDER_CONFIG", config })');
+
+    expect(posicionRechazo).toBeGreaterThan(-1);
+    expect(posicionDispatch).toBeGreaterThan(posicionRechazo);
+  });
+
   it("pide el estado de destinos y sabe otorgarlo y revocarlo", () => {
     expect(fuente).toContain("/ai/consent");
     expect(fuente).toContain("otorgarConsentimiento");

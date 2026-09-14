@@ -322,25 +322,25 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
   }, [loadedUserId, state.allowWeb, user]);
 
   const loadProviders = useCallback(async () => {
-    try {
-      const res = await fetch(`${await getApiUrl()}/ai/providers`, { headers: getAuthHeaders() });
-      if (res.ok) {
-        const providers: AIProviderInfo[] = await res.json();
-        if (providers.length > 0) {
-          dispatch({ type: "SET_PROVIDERS", providers });
-        }
-        const active = providers.find((p) => p.active);
-        if (active) {
-          dispatch({ type: "SET_ACTIVE_PROVIDER", id: active.id });
-        }
-      }
-    } catch (err: any) {
-      // Keep fallback provider — backend not available
+    const res = await fetch(`${await getApiUrl()}/ai/providers`, { headers: getAuthHeaders() });
+    if (!res.ok) {
+      throw new Error(`No se pudieron cargar los proveedores (HTTP ${res.status}).`);
+    }
+    const providers: AIProviderInfo[] = await res.json();
+    if (providers.length > 0) {
+      dispatch({ type: "SET_PROVIDERS", providers });
+    }
+    const active = providers.find((p) => p.active);
+    if (active) {
+      dispatch({ type: "SET_ACTIVE_PROVIDER", id: active.id });
     }
   }, []);
 
   useEffect(() => {
-    loadProviders();
+    void loadProviders().catch(() => {
+      // El fallback permanece sin comprobar; la pantalla de ajustes muestra el
+      // fallo cuando la persona la abre.
+    });
   }, [loadProviders]);
 
   const detectStartup = useCallback(async () => {
@@ -390,17 +390,15 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const setActiveProvider = useCallback(async (id: string) => {
-    try {
-      await fetch(`${await getApiUrl()}/ai/providers/active`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
-        body: JSON.stringify({ provider_id: id }),
-      });
-      dispatch({ type: "SET_ACTIVE_PROVIDER", id });
-      await loadProviders();
-    } catch (err: any) {
-      console.warn("setActiveProvider failed:", err.message);
+    const res = await fetch(`${await getApiUrl()}/ai/providers/active`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      body: JSON.stringify({ provider_id: id }),
+    });
+    if (!res.ok) {
+      throw new Error(`No se pudo activar el proveedor (HTTP ${res.status}).`);
     }
+    await loadProviders();
   }, [loadProviders]);
 
   const loadDestinos = useCallback(async () => {
@@ -462,29 +460,28 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
    * pedirlo con `confirmar_destino`. Devolver `null` significa que se aplicó.
    */
   const updateProviderConfig = useCallback(async (config: AIProviderConfig) => {
-    try {
-      const res = await fetch(`${await getApiUrl()}/ai/providers/configure`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
-        body: JSON.stringify(config),
-      });
+    const res = await fetch(`${await getApiUrl()}/ai/providers/configure`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      body: JSON.stringify(config),
+    });
 
-      if (res.status === 409) {
-        const cuerpo = await res.json();
-        const detalle = cuerpo?.detail;
-        if (detalle?.motivo === "cambio_de_destino") {
-          return detalle as CambioDeDestino;
-        }
+    if (res.status === 409) {
+      const cuerpo = await res.json();
+      const detalle = cuerpo?.detail;
+      if (detalle?.motivo === "cambio_de_destino") {
+        return detalle as CambioDeDestino;
       }
-
-      dispatch({ type: "SET_PROVIDER_CONFIG", config });
-      await loadProviders();
-      await loadDestinos();
-      return null;
-    } catch (err: any) {
-      console.warn("updateProviderConfig failed:", err.message);
-      return null;
     }
+
+    if (!res.ok) {
+      throw new Error(`No se pudo guardar la configuración (HTTP ${res.status}).`);
+    }
+
+    await loadProviders();
+    dispatch({ type: "SET_PROVIDER_CONFIG", config });
+    await loadDestinos();
+    return null;
   }, [loadProviders, loadDestinos]);
 
   const fetchConversations = useCallback(async () => {
@@ -552,16 +549,15 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const setKeepLoaded = useCallback(async (keep: boolean) => {
-    try {
-      await fetch(`${await getApiUrl()}/ai/settings`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
-        body: JSON.stringify({ keep_loaded: keep }),
-      });
-      dispatch({ type: "SET_KEEP_LOADED", keep });
-    } catch (err: any) {
-      console.warn("setKeepLoaded failed:", err.message);
+    const res = await fetch(`${await getApiUrl()}/ai/settings`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+      body: JSON.stringify({ keep_loaded: keep }),
+    });
+    if (!res.ok) {
+      throw new Error(`No se pudo cambiar la carga persistente (HTTP ${res.status}).`);
     }
+    dispatch({ type: "SET_KEEP_LOADED", keep });
   }, []);
 
   const setMoleculeContext = useCallback(

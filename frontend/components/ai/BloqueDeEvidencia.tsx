@@ -102,7 +102,7 @@ export function BloqueDeEvidencia({ evidencias }: { evidencias: Evidencia[] }) {
     <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 6 }}>
       <div
         style={{
-          fontSize: "0.72em",
+          fontSize: "0.75rem",
           letterSpacing: "0.04em",
           textTransform: "uppercase",
           color: "var(--text-dim, #94A3B8)",
@@ -119,11 +119,11 @@ export function BloqueDeEvidencia({ evidencias }: { evidencias: Evidencia[] }) {
             borderLeft: `3px solid ${colorDe(e.clase, e.verificada)}`,
             borderRadius: 6,
             padding: "6px 10px",
-            background: "rgba(255,255,255,0.03)",
-            fontSize: "0.82em",
+            background: "var(--bg-secondary)",
+            fontSize: "0.8125rem",
           }}
         >
-          <div style={{ color: colorDe(e.clase, e.verificada), marginBottom: 2 }}>
+          <div style={{ color: "var(--text)", marginBottom: 2 }}>
             {e.verificada
               ? `${e.clase} · ${e.fuente}`
               : "sin clasificar — trátalo como no verificado"}

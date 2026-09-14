@@ -34,7 +34,7 @@ function Insignia({ cat }: { cat: Categoria }) {
       style={{
         display: "inline-block",
         padding: "2px 8px",
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: 700,
         letterSpacing: "0.08em",
         textTransform: "uppercase",
@@ -55,6 +55,7 @@ function Tarjeta({ e, onClick }: { e: Experimento; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
+      className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
       style={{
         display: "block",
         width: "100%",
@@ -94,7 +95,7 @@ function Tarjeta({ e, onClick }: { e: Experimento; onClick: () => void }) {
         {e.tiene_paper && (
           <span
             style={{
-              fontSize: 9,
+              fontSize: 12,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
               color: "var(--text-dim)",
@@ -107,14 +108,14 @@ function Tarjeta({ e, onClick }: { e: Experimento; onClick: () => void }) {
           </span>
         )}
         {e.etiquetas.includes("corrigendum") && (
-          <span style={{ fontSize: 9, letterSpacing: "0.1em", color: "#fbbf24" }}>
+          <span style={{ fontSize: 12, letterSpacing: "0.1em", color: "#fbbf24" }}>
             CORRIGENDUM
           </span>
         )}
         {e.reemplazado_por && (
           <span
             style={{
-              fontSize: 9,
+              fontSize: 12,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
               color: "#fbbf24",
@@ -143,7 +144,7 @@ function Tarjeta({ e, onClick }: { e: Experimento; onClick: () => void }) {
       <div
         style={{
           marginTop: 8,
-          fontSize: 10.5,
+          fontSize: 12,
           fontFamily: "var(--font-mono)",
           color: "var(--text-dim)",
           display: "flex",
@@ -169,7 +170,7 @@ function Dato({ k, v }: { k: string; v: React.ReactNode }) {
           minWidth: 130,
           color: "var(--text-dim)",
           fontFamily: "var(--font-mono)",
-          fontSize: 11,
+          fontSize: 12,
           textTransform: "uppercase",
           letterSpacing: "0.05em",
         }}
@@ -186,7 +187,7 @@ function Seccion({ titulo, children }: { titulo: string; children: React.ReactNo
     <section style={{ marginBottom: 32 }}>
       <h3
         style={{
-          fontSize: 11,
+          fontSize: 12,
           fontWeight: 700,
           letterSpacing: "0.14em",
           textTransform: "uppercase",
@@ -239,6 +240,7 @@ function VistaExperimento({
     <div style={{ maxWidth: 780, margin: "0 auto", padding: "0 24px 96px" }}>
       <button
         onClick={volver}
+        className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
         style={{
           background: "none",
           border: "none",
@@ -260,7 +262,7 @@ function VistaExperimento({
           <span
             style={{
               fontFamily: "var(--font-mono)",
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: 700,
               letterSpacing: "0.1em",
               color: e.decision === "NO_GO" ? "#f87171" : "var(--text-muted)",
@@ -273,7 +275,7 @@ function VistaExperimento({
           <span
             key={t}
             style={{
-              fontSize: 10,
+              fontSize: 12,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
               color: "var(--text-dim)",
@@ -409,7 +411,7 @@ function VistaExperimento({
             >
               <div
                 style={{
-                  fontSize: 10.5,
+                  fontSize: 12,
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
                   color: est.color,
@@ -537,7 +539,7 @@ export function RegistroCientifico() {
         <div
           style={{
             fontFamily: "var(--font-mono)",
-            fontSize: 11,
+            fontSize: 12,
             letterSpacing: "0.16em",
             textTransform: "uppercase",
             color: "var(--text-dim)",
@@ -618,7 +620,7 @@ export function RegistroCientifico() {
           </div>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               letterSpacing: "0.14em",
               textTransform: "uppercase",
               color: "var(--text-dim)",
@@ -645,7 +647,7 @@ export function RegistroCientifico() {
           </div>
           <div
             style={{
-              fontSize: 11,
+              fontSize: 12,
               letterSpacing: "0.14em",
               textTransform: "uppercase",
               color: "var(--text-dim)",
@@ -719,6 +721,7 @@ export function RegistroCientifico() {
                 onClick={() =>
                   setCapas((p) => (p.includes(c) ? p.filter((x) => x !== c) : [...p, c]))
                 }
+                className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
                 style={{
                   padding: "8px 14px",
                   fontSize: 12,
@@ -734,7 +737,7 @@ export function RegistroCientifico() {
                 <span
                   style={{
                     display: "block",
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 400,
                     color: "var(--text-dim)",
                     marginTop: 2,
@@ -778,7 +781,7 @@ export function RegistroCientifico() {
           marginTop: 72,
           paddingTop: 24,
           borderTop: "1px solid var(--border)",
-          fontSize: 11.5,
+          fontSize: 12,
           fontFamily: "var(--font-mono)",
           color: "var(--text-dim)",
           lineHeight: 1.8,

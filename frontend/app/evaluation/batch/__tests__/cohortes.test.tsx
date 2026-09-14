@@ -125,6 +125,27 @@ const COHORTE = {
   provenance: {}, preflight: PREFLIGHT_OK,
 };
 
+const COHORTE_QUICKVINA = {
+  ...COHORTE,
+  name: "Serie congelada",
+  preflight: {
+    ...PREFLIGHT_OK,
+    normalized_study: {
+      ...PREFLIGHT_OK.normalized_study,
+      name: "Serie congelada",
+      receptor: { pdb_id: "2XYZ", chain: "B" },
+      config: { docking_engine: "qvina2", exhaustiveness: 17, num_poses: 9, seed: 73 },
+    },
+  },
+};
+
+const ITEM_QUICKVINA = {
+  ...COHORTE_QUICKVINA,
+  receptor_pdb_id: "2XYZ",
+  docking_engine: "qvina2",
+  summary: RESUMEN,
+};
+
 const PROGRESO = {
   total_rows: 5, eligible_rows: 3, completed_rows: 2, failed_rows: 0,
   not_evaluated_rows: 0, pending_rows: 0, running_rows: 0,
@@ -458,29 +479,10 @@ describe("Cohortes", () => {
   });
 
   it("al abrir una cohorte restaura toda su configuración congelada", async () => {
-    const guardada = {
-      ...COHORTE,
-      name: "Serie congelada",
-      preflight: {
-        ...PREFLIGHT_OK,
-        normalized_study: {
-          ...PREFLIGHT_OK.normalized_study,
-          name: "Serie congelada",
-          receptor: { pdb_id: "2XYZ", chain: "B" },
-          config: { docking_engine: "qvina2", exhaustiveness: 17, num_poses: 9, seed: 73 },
-        },
-      },
-    };
-    const item = {
-      ...guardada,
-      receptor_pdb_id: "2XYZ",
-      docking_engine: "qvina2",
-      summary: RESUMEN,
-    };
     enrutar([
-      [/cohorts\/coh-1\/runs\/latest$/, "GET", () => json(CORRIDA)],
-      [/cohorts\/coh-1$/, "GET", () => json(guardada)],
-      [LISTA, "GET", () => json([item])],
+      [/cohorts\/coh-1\/runs\/latest$/, "GET", () => json({ ...CORRIDA, status: "interrupted" })],
+      [/cohorts\/coh-1$/, "GET", () => json(COHORTE_QUICKVINA)],
+      [LISTA, "GET", () => json([ITEM_QUICKVINA])],
       [CATALOGO, "GET", () => json(TARGETS)],
     ]);
     render(<CohortesPage />);
@@ -493,12 +495,43 @@ describe("Cohortes", () => {
     expect(screen.getByLabelText("Cadena")).toHaveValue("B");
     expect(screen.getByRole("radio", { name: /AutoDock Vina/i })).not.toBeChecked();
     expect(screen.getByRole("radio", { name: /QuickVina 2.*Próximamente/i })).toBeChecked();
-    expect(screen.getByText(/Motor histórico configurado.*se conserva sin normalizar/i)).toBeVisible();
+    expect(screen.getAllByText("QuickVina 2 no está disponible en esta versión; la evidencia histórica sigue siendo legible.")).toHaveLength(2);
     expect(screen.getByLabelText("Exhaustividad")).toHaveValue(17);
     expect(screen.getByLabelText("Poses")).toHaveValue(9);
     expect(screen.getByLabelText("Semilla")).toHaveValue("73");
-    expect(screen.getByTestId("progreso")).toHaveTextContent("Completada");
+    expect(screen.getByTestId("progreso")).toHaveTextContent("Interrumpida");
+    expect(screen.getByRole("button", { name: /Ejecutar cohorte/i })).toBeDisabled();
+    expect(screen.getByRole("button", { name: /Reanudar/i })).toBeDisabled();
     expect(window.localStorage.getItem("moldesign_cohort_run:user:test-user")).toBe("run-1");
+  });
+
+  it("un archivo nuevo abandona el contexto histórico QuickVina antes del preflight Vina", async () => {
+    enrutar([
+      [/cohorts\/preflight$/, "POST", () => json(PREFLIGHT_OK)],
+      [/cohorts\/coh-1\/runs\/latest$/, "GET", () => json({ ...CORRIDA, status: "interrupted" })],
+      [/cohorts\/coh-1$/, "GET", () => json(COHORTE_QUICKVINA)],
+      [LISTA, "GET", () => json([ITEM_QUICKVINA])],
+      [CATALOGO, "GET", () => json(TARGETS)],
+    ]);
+    render(<CohortesPage />);
+
+    fireEvent.click(await screen.findByRole("button", { name: /Serie congelada/ }));
+    await screen.findByTestId("cohorte-guardada");
+    expect(screen.getByRole("radio", { name: /QuickVina 2/i })).toBeChecked();
+
+    const entrada = screen.getByLabelText("Archivo de moléculas") as HTMLInputElement;
+    Object.defineProperty(entrada, "files", { value: [archivo()], configurable: true });
+    fireEvent.change(entrada);
+
+    expect(screen.getByRole("radio", { name: /AutoDock Vina/i })).toBeChecked();
+    expect(screen.getByRole("radio", { name: /QuickVina 2/i })).not.toBeChecked();
+    expect(screen.queryByTestId("cohorte-guardada")).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: /comprobar cohorte/i }));
+    await screen.findByTestId("resumen-preflight");
+    const llamada = fetchMock.mock.calls.find((call) => String(call[0]).endsWith("/evaluation/cohorts/preflight"));
+    const cuerpo = (llamada?.[1] as RequestInit).body as FormData;
+    expect(JSON.parse(String(cuerpo.get("study"))).config.docking_engine).toBe("vina");
   });
 
   // ── Cancelar y reanudar ─────────────────────────────────────────

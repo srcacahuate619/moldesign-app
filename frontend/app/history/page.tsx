@@ -67,8 +67,8 @@ export default function HistoryPage() {
         description={
           <>
             El historial guarda huellas que solo tus ojos deben ver:
-            evaluaciones, scores, certificados blockchain.
-            Identificate para continuar.
+            evaluaciones, resultados y recibos de integridad.
+            Identifícate para continuar.
           </>
         }
         ritual={[
@@ -157,12 +157,12 @@ export default function HistoryPage() {
             // ── ESTADO 3/3: Logueado, sin historial (ThinkingOrb idle, ritual de workflow) ──
             <EmptyState
               orbState="idle"
-              title="Historial en Stand-By"
+              title="Historial en espera"
               description={
                 <>
-                  Todavía no conservaste ninguna evaluación molecular.
-                  Cada molécula guardada es una conquista:
-                  docking, scores, hotspots y certificado blockchain.
+                  Todavía no has guardado ninguna evaluación molecular.
+                  Una evaluación guardada conserva el docking, sus resultados,
+                  los hotspots observados y, cuando existe, su recibo de integridad.
                 </>
               }
               ritual={[
@@ -188,7 +188,7 @@ export default function HistoryPage() {
                     <th className="px-3 py-3 text-center font-semibold text-surface-400">MW</th>
                     <th className="px-3 py-3 text-center font-semibold text-surface-400">Lipinski</th>
                     <th className="px-3 py-3 text-center font-semibold text-surface-400">QED</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">Certificado</th>
+                    <th className="px-3 py-3 text-center font-semibold text-surface-400">Recibo</th>
                     <th className="px-3 py-3 text-right font-semibold text-surface-400">Fecha</th>
                   </tr>
                 </thead>
@@ -202,7 +202,7 @@ export default function HistoryPage() {
                         <span>{item.smiles}</span>
                         {item.is_saved && (
                           <span
-                            className="ml-2 rounded bg-brand-500/10 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-brand-400"
+                            className="ml-2 rounded bg-brand-500/10 px-1.5 py-0.5 text-xs font-bold uppercase tracking-wide text-brand-400"
                             title="Promovida a Moldex"
                           >
                             Moldex
@@ -224,14 +224,15 @@ export default function HistoryPage() {
                         {item.task_id ? (
                           <button
                             onClick={() => navigator.clipboard?.writeText(item.task_id as string)}
-                            className="rounded px-1.5 py-0.5 font-mono text-[10px] text-surface-400 transition-colors hover:bg-surface-800 hover:text-surface-200"
+                            className="rounded px-1.5 py-0.5 font-mono text-xs text-surface-400 transition-colors hover:bg-surface-800 hover:text-surface-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
                             title={`Copiar identificador de corrida: ${item.task_id}`}
+                            aria-label={`Copiar identificador de corrida ${item.task_id}`}
                           >
                             {item.task_id.slice(0, 8)}…
                           </button>
                         ) : (
                           <span
-                            className="font-mono text-[10px] text-surface-600"
+                            className="font-mono text-xs text-surface-600"
                             title="Corrida anterior al registro por task_id"
                           >
                             —
@@ -265,14 +266,15 @@ export default function HistoryPage() {
                         {item.blockchain_tx_id ? (
                           <button
                             onClick={() => downloadCertificate(item.molecule_id)}
-                            className="inline-flex items-center gap-1.5 rounded-md bg-brand-500/10 px-2 py-1 text-[10px] font-bold text-brand-400 transition-colors hover:bg-brand-500/20"
-                            title="Descargar Certificado PDF"
+                            className="inline-flex items-center gap-1.5 rounded-md bg-brand-500/10 px-2 py-1 text-xs font-bold text-brand-400 transition-colors hover:bg-brand-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
+                            title="Descargar recibo de integridad PDF"
+                            aria-label="Descargar recibo de integridad PDF"
                           >
-                            <Download className="w-3.5 h-3.5" />
+                            <Download className="w-3.5 h-3.5" aria-hidden="true" />
                               PDF
                           </button>
                         ) : (
-                          <span className="text-[10px] text-surface-600">No cert.</span>
+                          <span className="text-xs text-surface-600">Sin recibo</span>
                         )}
                       </td>
                       <td className="px-3 py-3 text-right text-surface-500">
@@ -367,7 +369,7 @@ function StatusBadge({ status }: { status: string }) {
     label: status,
   };
   return (
-    <span className={`inline-block rounded-md px-2 py-0.5 text-[10px] font-semibold ${c.bg} ${c.text}`}>
+    <span className={`inline-block rounded-md px-2 py-0.5 text-xs font-semibold ${c.bg} ${c.text}`}>
       {c.label}
     </span>
   );

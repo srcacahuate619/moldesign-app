@@ -38,7 +38,7 @@ export function AvisoDeIAGenerativa() {
         padding: "8px 16px",
         borderTop: "1px solid var(--border)",
         background: "var(--bg-secondary)",
-        fontSize: "0.76em",
+        fontSize: "0.8125rem",
         lineHeight: 1.5,
         color: "var(--text-dim, var(--text-secondary))",
       }}
@@ -101,7 +101,7 @@ export function BotonDeReporte({ respuesta }: { respuesta: string }) {
           color: "var(--text-dim, var(--text-secondary))",
           border: "1px solid var(--border)",
           borderRadius: 6,
-          fontSize: "0.78em",
+          fontSize: "0.75rem",
           cursor: "pointer",
         }}
       >
@@ -109,7 +109,7 @@ export function BotonDeReporte({ respuesta }: { respuesta: string }) {
         {t("ia_reportar")}
       </button>
       {fallo && (
-        <p style={{ margin: "6px 0 0", fontSize: "0.78em", color: "#EAB308" }}>
+        <p style={{ margin: "6px 0 0", fontSize: "0.75rem", color: "var(--text)" }}>
           {t("ia_reportar_sin_correo")}
         </p>
       )}

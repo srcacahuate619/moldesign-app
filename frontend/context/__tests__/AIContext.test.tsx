@@ -494,6 +494,131 @@ describe("AIContext — setActiveProvider persiste y disparar loadProviders", ()
     // dispatch SET_ACTIVE_PROVIDER cambia el provider activo a "gemini".
     expect(result.current.state.activeProviderId).toBe("gemini");
   });
+
+  it("un non-2xx no cambia el proveedor activo", async () => {
+    global.fetch = vi.fn(async (url: string, init?: RequestInit) => {
+      if (url.endsWith("/ai/providers") && !init?.method) return jsonResponse([]);
+      if (url.endsWith("/ai/providers/active")) {
+        return jsonResponse({ detail: "denied" }, { status: 403 });
+      }
+      throw new Error(`Unexpected fetch: ${url}`);
+    }) as unknown as typeof fetch;
+
+    const { result } = renderHook(() => useAI(), { wrapper });
+    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+
+    await act(async () => {
+      await expect(result.current.setActiveProvider("gemini")).rejects.toThrow("HTTP 403");
+    });
+
+    expect(result.current.state.activeProviderId).toBe("local");
+  });
+
+  it("un non-2xx no guarda configuración local ni informa éxito", async () => {
+    global.fetch = vi.fn(async (url: string, init?: RequestInit) => {
+      if (url.endsWith("/ai/providers") && !init?.method) return jsonResponse([]);
+      if (url.endsWith("/ai/providers/configure")) {
+        return jsonResponse({ detail: "invalid" }, { status: 422 });
+      }
+      throw new Error(`Unexpected fetch: ${url}`);
+    }) as unknown as typeof fetch;
+
+    const { result } = renderHook(() => useAI(), { wrapper });
+    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+
+    await act(async () => {
+      await expect(
+        result.current.updateProviderConfig({
+          provider_id: "gemini",
+          api_key: "invalid",
+          base_url: "",
+          model: "gemini-flash",
+          temperature: 0.5,
+        })
+      ).rejects.toThrow("HTTP 422");
+    });
+
+    expect(result.current.state.providerConfigs.gemini).toBeUndefined();
+  });
+
+  it("POST exitoso seguido de recarga 500 conserva el proveedor activo anterior", async () => {
+    let providerLoads = 0;
+    global.fetch = vi.fn(async (url: string, init?: RequestInit) => {
+      const method = init?.method || "GET";
+      if (url.endsWith("/ai/providers") && method === "GET") {
+        providerLoads += 1;
+        if (providerLoads === 1) {
+          return jsonResponse([
+            { id: "local", name: "Local", active: true, configured: true },
+          ]);
+        }
+        return jsonResponse({ detail: "reload failed" }, { status: 500 });
+      }
+      if (url.endsWith("/ai/providers/active") && method === "POST") {
+        return jsonResponse({ ok: true });
+      }
+      throw new Error(`Unexpected fetch: ${method} ${url}`);
+    }) as unknown as typeof fetch;
+
+    const { result } = renderHook(() => useAI(), { wrapper });
+    await waitFor(() => expect(providerLoads).toBe(1));
+
+    await act(async () => {
+      await expect(result.current.setActiveProvider("gemini")).rejects.toThrow("HTTP 500");
+    });
+
+    expect(result.current.state.activeProviderId).toBe("local");
+  });
+
+  it("configuración exitosa seguida de recarga 500 conserva la configuración anterior", async () => {
+    let providerLoads = 0;
+    global.fetch = vi.fn(async (url: string, init?: RequestInit) => {
+      const method = init?.method || "GET";
+      if (url.endsWith("/ai/providers") && method === "GET") {
+        providerLoads += 1;
+        if (providerLoads === 1) return jsonResponse([]);
+        return jsonResponse({ detail: "reload failed" }, { status: 500 });
+      }
+      if (url.endsWith("/ai/providers/configure") && method === "POST") {
+        return jsonResponse({ ok: true });
+      }
+      throw new Error(`Unexpected fetch: ${method} ${url}`);
+    }) as unknown as typeof fetch;
+
+    const { result } = renderHook(() => useAI(), { wrapper });
+    await waitFor(() => expect(providerLoads).toBe(1));
+    act(() => {
+      result.current.dispatch({
+        type: "SET_PROVIDER_CONFIG",
+        config: {
+          provider_id: "gemini",
+          api_key: "old-key",
+          base_url: "https://old.example",
+          model: "old-model",
+          temperature: 0.2,
+        },
+      });
+    });
+
+    await act(async () => {
+      await expect(
+        result.current.updateProviderConfig({
+          provider_id: "gemini",
+          api_key: "new-key",
+          base_url: "https://new.example",
+          model: "new-model",
+          temperature: 0.7,
+        })
+      ).rejects.toThrow("HTTP 500");
+    });
+
+    expect(result.current.state.providerConfigs.gemini).toMatchObject({
+      api_key: "old-key",
+      base_url: "https://old.example",
+      model: "old-model",
+      temperature: 0.2,
+    });
+  });
 });
 
 describe("AIContext — newConversation resetea estado y clear warning", () => {

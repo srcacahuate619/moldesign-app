@@ -7,14 +7,9 @@ import {
   X,
   Settings,
   Plus,
-  MessageSquare,
-  Trash2,
   ChevronLeft,
   AlertTriangle,
   Info,
-  Cpu,
-  PieChart,
-  Coins,
   Globe,
   ShieldAlert,
 } from "lucide-react";
@@ -46,6 +41,11 @@ export function ChatPanel() {
   // desfasado, la banda se quedaba fija encima de la conversacion para siempre.
   const [avisoLlmCerrado, setAvisoLlmCerrado] = React.useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closePanelRef = useRef<HTMLButtonElement>(null);
+  const panelTriggerRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const settingsOpenRef = useRef(state.isSettingsOpen);
   const [showSidebar, setShowSidebar] = React.useState(false);
   const startupDetected = useRef(false);
 
@@ -72,6 +72,48 @@ export function ChatPanel() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [state.messages, state.streamingContent]);
+
+  settingsOpenRef.current = state.isSettingsOpen;
+
+  useEffect(() => {
+    if (!state.isPanelOpen) return;
+
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
+    const trigger = panelTriggerRef.current;
+    closePanelRef.current?.focus();
+
+    function handleDialogKeyDown(event: KeyboardEvent) {
+      if (settingsOpenRef.current) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
+        dispatch({ type: "SET_PANEL_OPEN", open: false });
+        return;
+      }
+      if (event.key !== "Tab" || !panelRef.current) return;
+
+      const focusable = Array.from(
+        panelRef.current.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [href], [tabindex]:not([tabindex="-1"])'
+        )
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleDialogKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleDialogKeyDown);
+      (previousFocusRef.current || trigger)?.focus();
+    };
+  }, [state.isPanelOpen, dispatch]);
 
   function handleStop() {
     stopStreaming();
@@ -103,19 +145,18 @@ export function ChatPanel() {
       : []),
   ];
 
-  // Mock Metrics Calculation
-  const isLocal = activeProvider?.id === "local" || activeProvider?.id === "ollama";
-  const maxTokens = isLocal ? 8192 : 128000;
-  const estimatedTokens = Math.floor(allMessages.reduce((acc, m) => acc + (m.content?.length || 0) / 4, 0));
-  const contextPercent = Math.min(100, (estimatedTokens / maxTokens) * 100).toFixed(1);
-  const sessionCost = isLocal ? 0 : (estimatedTokens / 1000) * 0.0015; // $0.0015 per 1k tokens (mock)
-
   return (
     <>
       {/* Floating button */}
       <button
+        ref={panelTriggerRef}
+        type="button"
         onClick={handleTogglePanel}
         title="MolChat - Intérprete IA"
+        aria-label={state.isPanelOpen ? "Cerrar MolChat" : "Abrir MolChat"}
+        aria-expanded={state.isPanelOpen}
+        aria-controls="molchat-panel"
+        className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
         style={{
           position: "fixed",
           bottom: 24,
@@ -134,7 +175,7 @@ export function ChatPanel() {
           boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
         }}
       >
-        <Bot size={24} />
+        <Bot size={24} aria-hidden="true" />
       </button>
 
       {/* Side panel */}
@@ -154,6 +195,7 @@ export function ChatPanel() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
               onClick={handleTogglePanel}
+              aria-hidden="true"
               style={{
                 position: "absolute",
                 inset: 0,
@@ -163,6 +205,12 @@ export function ChatPanel() {
               }}
             />
             <motion.div
+              ref={panelRef}
+              id="molchat-panel"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="molchat-title"
+              aria-hidden={state.isSettingsOpen || undefined}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
@@ -195,7 +243,11 @@ export function ChatPanel() {
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <button
+                    type="button"
                     onClick={() => setShowSidebar(!showSidebar)}
+                    aria-label={showSidebar ? "Ocultar historial" : "Mostrar historial"}
+                    aria-expanded={showSidebar}
+                    className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                     style={{
                       background: "none",
                       border: "none",
@@ -204,18 +256,20 @@ export function ChatPanel() {
                       padding: 4,
                     }}
                   >
-                    <ChevronLeft size={16} />
+                    <ChevronLeft size={16} aria-hidden="true" />
                   </button>
-                  <Bot size={18} color="var(--accent)" />
-                  <span
+                  <Bot size={18} color="var(--accent)" aria-hidden="true" />
+                  <h2
+                    id="molchat-title"
                     style={{
+                      margin: 0,
                       fontWeight: 600,
                       fontSize: "0.95em",
                       color: "var(--text)",
                     }}
                   >
                     MolChat
-                  </span>
+                  </h2>
                   {/* Speed vs Reasoning toggle */}
                   <div
                     style={{
@@ -228,12 +282,14 @@ export function ChatPanel() {
                     }}
                   >
                     <button
+                      type="button"
+                      aria-pressed={state.chatMode === "speed"}
                       onClick={() =>
                         dispatch({ type: "SET_CHAT_MODE", mode: "speed" })
                       }
                       style={{
                         padding: "3px 8px",
-                        fontSize: "0.7em",
+                        fontSize: "0.75rem",
                         fontWeight: state.chatMode === "speed" ? 600 : 400,
                         background:
                           state.chatMode === "speed"
@@ -247,9 +303,11 @@ export function ChatPanel() {
                         cursor: "pointer",
                       }}
                     >
-                      Faster
+                      Rápido
                     </button>
                     <button
+                      type="button"
+                      aria-pressed={state.chatMode === "reasoning"}
                       onClick={() =>
                         dispatch({
                           type: "SET_CHAT_MODE",
@@ -258,7 +316,7 @@ export function ChatPanel() {
                       }
                       style={{
                         padding: "3px 8px",
-                        fontSize: "0.7em",
+                        fontSize: "0.75rem",
                         fontWeight:
                           state.chatMode === "reasoning" ? 600 : 400,
                         background:
@@ -273,12 +331,13 @@ export function ChatPanel() {
                         cursor: "pointer",
                       }}
                     >
-                      Deep
+                      Razonamiento
                     </button>
                   </div>
 
                   {/* Modo web toggle (offline/online) */}
                   <button
+                    type="button"
                     onClick={() =>
                       dispatch({
                         type: "SET_ALLOW_WEB",
@@ -287,10 +346,11 @@ export function ChatPanel() {
                     }
                     title={
                       state.allowWeb
-                        ? "Modo web activo: enriquece con PubChem/ChEMBL (puede tardar 2-3s extra)"
+                        ? "Modo web activo: enriquece con PubChem/ChEMBL y puede tardar más"
                         : "Modo offline: activar modo web para enriquecer con PubChem/ChEMBL"
                     }
-                    aria-label="Toggle modo web"
+                    aria-label={state.allowWeb ? "Desactivar modo web" : "Activar modo web"}
+                    aria-pressed={state.allowWeb}
                     style={{
                       background: state.allowWeb
                         ? "rgba(59, 130, 246, 0.15)"
@@ -306,21 +366,24 @@ export function ChatPanel() {
                       cursor: "pointer",
                       marginLeft: 8,
                       color: state.allowWeb ? "#3B82F6" : "var(--text-dim)",
-                      fontSize: "0.7em",
+                      fontSize: "0.75rem",
                       fontWeight: state.allowWeb ? 600 : 400,
                       transition: "all 0.15s",
                     }}
                   >
-                    <Globe size={13} />
+                    <Globe size={13} aria-hidden="true" />
                     {state.allowWeb ? "Web" : "Offline"}
                   </button>
                 </div>
                 <div style={{ display: "flex", gap: 4 }}>
                   <button
+                    type="button"
                     onClick={() =>
                       dispatch({ type: "SET_SETTINGS_OPEN", open: true })
                     }
                     title="Configuración"
+                    aria-label="Abrir configuración de MolChat"
+                    className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                     style={{
                       background: "none",
                       border: "none",
@@ -329,11 +392,15 @@ export function ChatPanel() {
                       padding: 6,
                     }}
                   >
-                    <Settings size={16} />
+                    <Settings size={16} aria-hidden="true" />
                   </button>
                   <button
+                    ref={closePanelRef}
+                    type="button"
                     onClick={handleTogglePanel}
                     title="Cerrar"
+                    aria-label="Cerrar MolChat"
+                    className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                     style={{
                       background: "none",
                       border: "none",
@@ -342,7 +409,7 @@ export function ChatPanel() {
                       padding: 6,
                     }}
                   >
-                    <X size={16} />
+                    <X size={16} aria-hidden="true" />
                   </button>
                 </div>
               </div>
@@ -364,7 +431,7 @@ export function ChatPanel() {
                     <div style={{ padding: "8px", maxHeight: 200, overflow: "auto" }}>
                       <div
                         style={{
-                          fontSize: "0.75em",
+                          fontSize: "0.75rem",
                           color: "var(--text-secondary)",
                           padding: "4px 8px 8px",
                           textTransform: "uppercase",
@@ -377,7 +444,7 @@ export function ChatPanel() {
                         <div
                           style={{
                             padding: "12px 8px",
-                            fontSize: "0.82em",
+                            fontSize: "0.8125rem",
                             color: "var(--text-dim)",
                             textAlign: "center",
                           }}
@@ -386,7 +453,8 @@ export function ChatPanel() {
                         </div>
                       ) : (
                         state.conversations.map((conv) => (
-                          <div
+                          <button
+                            type="button"
                             key={conv.id}
                             onClick={() => {
                               loadConversation(conv.id);
@@ -396,22 +464,27 @@ export function ChatPanel() {
                               padding: "8px",
                               borderRadius: 6,
                               cursor: "pointer",
-                              fontSize: "0.82em",
+                              fontSize: "0.8125rem",
                               background:
-                                conv.active ? "rgba(255,255,255,0.05)" : "transparent",
+                                conv.active ? "var(--bg-card)" : "transparent",
+                              border: "none",
                               borderBottom: "1px solid var(--border)",
                               transition: "background 0.1s",
+                              width: "100%",
+                              textAlign: "left",
+                              color: "inherit",
+                              fontFamily: "inherit",
                             }}
                             onMouseEnter={(e) => {
                               if (!conv.active)
-                                (e.currentTarget as HTMLDivElement).style.background =
-                                  "rgba(255,255,255,0.03)";
+                                e.currentTarget.style.background = "var(--bg-card)";
                             }}
                             onMouseLeave={(e) => {
                               if (!conv.active)
-                                (e.currentTarget as HTMLDivElement).style.background =
-                                  "transparent";
+                                e.currentTarget.style.background = "transparent";
                             }}
+                            aria-current={conv.active ? "true" : undefined}
+                            className="focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--accent)]"
                           >
                             <div
                               style={{
@@ -426,7 +499,7 @@ export function ChatPanel() {
                             </div>
                             <div
                               style={{
-                                fontSize: "0.82em",
+                                fontSize: "0.75rem",
                                 color: "var(--text-dim)",
                                 display: "flex",
                                 gap: 8,
@@ -443,7 +516,7 @@ export function ChatPanel() {
                                 })}
                               </span>
                             </div>
-                          </div>
+                          </button>
                         ))
                       )}
                     </div>
@@ -471,21 +544,8 @@ export function ChatPanel() {
                   }
                 />
 
-                <div className="flex flex-col items-end gap-1" style={{ fontSize: "0.65rem", fontFamily: "var(--font-mono)" }}>
-                  <div className="flex items-center gap-3 text-white/50">
-                    <span title="Tokens estimados" className="flex items-center gap-1">
-                      <Cpu size={10} /> {estimatedTokens.toLocaleString()} / {(maxTokens/1000).toFixed(0)}k tok
-                    </span>
-                    <span title="Porcentaje de contexto" className="flex items-center gap-1">
-                      <PieChart size={10} /> {contextPercent}%
-                    </span>
-                  </div>
-                  <div className={`font-bold tracking-wider flex items-center gap-1 ${isLocal ? "text-emerald-400" : "text-sky-400"}`}>
-                    <Coins size={10} /> ${sessionCost.toFixed(4)} USD
-                  </div>
-                </div>
-
                 <button
+                  type="button"
                   onClick={newConversation}
                   title="Nueva conversación"
                   style={{
@@ -496,12 +556,12 @@ export function ChatPanel() {
                     display: "flex",
                     alignItems: "center",
                     gap: 4,
-                    fontSize: "0.82em",
+                    fontSize: "0.8125rem",
                     padding: "4px 8px",
                     borderRadius: 6,
                   }}
                 >
-                  <Plus size={14} />
+                  <Plus size={14} aria-hidden="true" />
                   Nuevo chat
                 </button>
               </div>
@@ -518,17 +578,21 @@ export function ChatPanel() {
                     display: "flex",
                     alignItems: "flex-start",
                     gap: 8,
-                    fontSize: "0.82em",
-                    color: "#EF4444",
+                    fontSize: "0.8125rem",
+                    color: "var(--text)",
                   }}
                 >
                   <ShieldAlert size={14} style={{ flexShrink: 0, marginTop: 2 }} />
                   <span>
                     Lo que escribas saldrá de tu máquina hacia{" "}
-                    <strong>{destinoActivo.host}</strong>, con el contexto de caso y molécula.
+                    <strong>{destinoActivo.host}</strong>.{" "}
+                    {state.moleculeContext
+                      ? "También se adjunta el contexto molecular disponible. "
+                      : "No hay contexto molecular adjunto. "}
                     Esta cuenta todavía no autorizó ese destino.
                   </span>
                   <button
+                    type="button"
                     onClick={() =>
                       otorgarConsentimiento(destinoActivo.provider_id, destinoActivo.host)
                     }
@@ -536,7 +600,7 @@ export function ChatPanel() {
                       background: "none",
                       border: "1px solid rgba(239, 68, 68, 0.5)",
                       borderRadius: 4,
-                      color: "#EF4444",
+                      color: "var(--text)",
                       cursor: "pointer",
                       marginLeft: "auto",
                       flexShrink: 0,
@@ -561,8 +625,8 @@ export function ChatPanel() {
                     display: "flex",
                     alignItems: "flex-start",
                     gap: 8,
-                    fontSize: "0.82em",
-                    color: "#F87171",
+                    fontSize: "0.8125rem",
+                    color: "var(--text)",
                   }}
                 >
                   <ShieldAlert size={14} style={{ flexShrink: 0, marginTop: 2 }} />
@@ -570,6 +634,7 @@ export function ChatPanel() {
                     No pude responder: {state.turnoFallido.motivo}
                   </span>
                   <button
+                    type="button"
                     onClick={() => void retryLastTurn()}
                     disabled={state.isStreaming}
                     style={{
@@ -585,6 +650,7 @@ export function ChatPanel() {
                     Reintentar
                   </button>
                   <button
+                    type="button"
                     onClick={() =>
                       dispatch({ type: "SET_TURNO_FALLIDO", fallido: null })
                     }
@@ -596,8 +662,9 @@ export function ChatPanel() {
                       flexShrink: 0,
                       padding: 2,
                     }}
+                    aria-label="Ocultar error del último turno"
                   >
-                    <X size={12} />
+                    <X size={12} aria-hidden="true" />
                   </button>
                 </div>
               )}
@@ -612,13 +679,14 @@ export function ChatPanel() {
                     display: "flex",
                     alignItems: "flex-start",
                     gap: 8,
-                    fontSize: "0.82em",
-                    color: "#EAB308",
+                    fontSize: "0.8125rem",
+                    color: "var(--text)",
                   }}
                 >
                   <AlertTriangle size={14} style={{ flexShrink: 0, marginTop: 2 }} />
                   <span>{state.warningBanner}</span>
                   <button
+                    type="button"
                     onClick={() =>
                       dispatch({ type: "SET_WARNING_BANNER", warning: null })
                     }
@@ -631,8 +699,9 @@ export function ChatPanel() {
                       flexShrink: 0,
                       padding: 2,
                     }}
+                    aria-label="Ocultar aviso"
                   >
-                    <X size={12} />
+                    <X size={12} aria-hidden="true" />
                   </button>
                 </div>
               )}
@@ -653,12 +722,13 @@ export function ChatPanel() {
                     alignItems: "center",
                     justifyContent: "space-between",
                     gap: 8,
-                    fontSize: "0.82em",
-                    color: "#FF6B35",
+                    fontSize: "0.8125rem",
+                    color: "var(--text)",
                   }}
                 >
                   <span>Modelo LLM no descargado</span>
                   <button
+                    type="button"
                     onClick={() => startDownload("llm-qwen15")}
                     style={{
                       background: "#FF6B35",
@@ -666,7 +736,7 @@ export function ChatPanel() {
                       border: "none",
                       borderRadius: 4,
                       padding: "4px 12px",
-                      fontSize: "0.82em",
+                      fontSize: "0.75rem",
                       fontWeight: 600,
                       cursor: "pointer",
                       flexShrink: 0,
@@ -675,8 +745,10 @@ export function ChatPanel() {
                     Descargar
                   </button>
                   <button
+                    type="button"
                     onClick={() => setAvisoLlmCerrado(true)}
                     title="Ocultar este aviso"
+                    aria-label="Ocultar aviso del modelo local"
                     style={{
                       background: "transparent",
                       color: "#FF6B35",
@@ -687,7 +759,7 @@ export function ChatPanel() {
                       flexShrink: 0,
                     }}
                   >
-                    <X size={14} />
+                    <X size={14} aria-hidden="true" />
                   </button>
                 </div>
               )}
@@ -702,7 +774,7 @@ export function ChatPanel() {
                     display: "flex",
                     alignItems: "flex-start",
                     gap: 8,
-                    fontSize: "0.82em",
+                    fontSize: "0.8125rem",
                     color: "var(--text-secondary)",
                     lineHeight: 1.5,
                   }}
@@ -735,10 +807,14 @@ export function ChatPanel() {
                   >
                     <Bot size={40} style={{ marginBottom: 16, opacity: 0.3 }} />
                     <p style={{ margin: 0, fontSize: "0.95em" }}>
-                      Pregúntame sobre la molécula actual
+                      {state.moleculeContext
+                        ? "Pregunta sobre la molécula adjunta"
+                        : "Pregunta sobre evidencia estructural"}
                     </p>
-                    <p style={{ margin: "8px 0 0", fontSize: "0.82em" }}>
-                      o analiza evaluaciones anteriores
+                    <p style={{ margin: "8px 0 0", fontSize: "0.8125rem" }}>
+                      {state.moleculeContext
+                        ? "El contexto molecular disponible se adjunta a cada turno."
+                        : "No hay una molécula adjunta. Puedes pegar datos en tu mensaje."}
                     </p>
                   </div>
                 ) : (

@@ -14,9 +14,7 @@ type UseSpeechRecognitionOptions = {
 export function useSpeechRecognition(options: UseSpeechRecognitionOptions = {}) {
   const { lang = "es-ES", onResult } = options;
   const [state, setState] = useState<SpeechState>("idle");
-  const [interimText, setInterimText] = useState("");
-  const [mode, setMode] = useState<"local" | "webapi" | "unsupported">("unsupported");
-  const recognitionRef = useRef<InstanciaSpeechRecognition | null>(null);
+  const [mode, setMode] = useState<"local" | "unsupported">("unsupported");
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
 
@@ -29,19 +27,19 @@ export function useSpeechRecognition(options: UseSpeechRecognitionOptions = {}) 
         const res = await fetch(`${await getApiUrl()}/ai/speech-to-text/status`, {
           headers: getAuthHeaders(),
         });
-        if (res.ok) {
-          const data = await res.json();
-          if (data.available && !cancelled) {
-            setMode("local");
-            return;
-          }
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
+        const data = await res.json();
+        if (data.available && !cancelled) {
+          setMode("local");
+          return;
         }
       } catch {}
 
-      const speechAPI =
-        window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!cancelled) {
-        setMode(speechAPI ? "webapi" : "unsupported");
+        setMode("unsupported");
+        setState("unsupported");
       }
     }
 
@@ -78,21 +76,19 @@ export function useSpeechRecognition(options: UseSpeechRecognitionOptions = {}) 
 
         try {
           const langCode = lang.startsWith("es") ? "es" : "en";
-          const formData = new FormData();
-          formData.append("audio", blob, "recording.webm");
-
           const res = await fetch(
             `${await getApiUrl()}/ai/speech-to-text?lang=${langCode}`,
             { method: "POST", body: blob, headers: getAuthHeaders() }
           );
-          if (res.ok) {
-            const data = await res.json();
-            if (data.text) {
-              onResult?.(data.text);
-            }
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+          }
+          const data = await res.json();
+          if (data.text) {
+            onResult?.(data.text);
           }
         } catch {
-          setState("idle");
+          setState("error");
           return;
         }
         setState("idle");
@@ -100,13 +96,13 @@ export function useSpeechRecognition(options: UseSpeechRecognitionOptions = {}) 
 
       recorder.onerror = () => {
         stream.getTracks().forEach((t) => t.stop());
-        setState("idle");
+        setState("error");
       };
 
       mediaRecorderRef.current = recorder;
       recorder.start();
     } catch {
-      setState("unsupported");
+      setState("error");
     }
   }, [lang, onResult, state, mode]);
 
@@ -119,85 +115,21 @@ export function useSpeechRecognition(options: UseSpeechRecognitionOptions = {}) 
     }
   }, []);
 
-  // ── Web Speech API mode (fallback) ────────────────────────────
-  const startWebAPI = useCallback(() => {
-    if (state === "listening" || mode !== "webapi") return;
-
-    const SpeechRecognition =
-      window.SpeechRecognition ||
-      window.webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-      setMode("unsupported");
-      return;
-    }
-
-    const recognition = new SpeechRecognition();
-    recognition.lang = lang;
-    recognition.interimResults = true;
-    recognition.continuous = false;
-    recognition.maxAlternatives = 1;
-
-    recognition.onstart = () => {
-      setState("listening");
-      setInterimText("");
-    };
-
-    recognition.onresult = (event: EventoDeReconocimientoDeVoz) => {
-      let interim = "";
-      let final = "";
-
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        const result = event.results[i];
-        if (result.isFinal) final += result[0].transcript;
-        else interim += result[0].transcript;
-      }
-
-      if (interim) setInterimText(interim);
-      if (final) {
-        setState("processing");
-        setInterimText("");
-        onResult?.(final.trim());
-        setTimeout(() => setState("idle"), 300);
-      }
-    };
-
-    recognition.onerror = () => setState("idle");
-    recognition.onend = () => {
-      setState("idle");
-      recognitionRef.current = null;
-    };
-
-    recognitionRef.current = recognition;
-    recognition.start();
-  }, [lang, onResult, state, mode]);
-
-  const stopWebAPI = useCallback(() => {
-    if (recognitionRef.current) {
-      recognitionRef.current.abort();
-      recognitionRef.current = null;
-    }
-    setState("idle");
-    setInterimText("");
-  }, []);
-
   // ── Public API ────────────────────────────────────────────────
   const startListening = useCallback(() => {
     if (mode === "local") startLocal();
-    else if (mode === "webapi") startWebAPI();
-  }, [mode, startLocal, startWebAPI]);
+  }, [mode, startLocal]);
 
   const stopListening = useCallback(() => {
     if (mode === "local") stopLocal();
-    else if (mode === "webapi") stopWebAPI();
-  }, [mode, stopLocal, stopWebAPI]);
+  }, [mode, stopLocal]);
 
   return {
     state,
-    interimText,
+    interimText: "",
     startListening,
     stopListening,
-    isSupported: mode !== "unsupported",
+    isSupported: mode === "local",
     mode,
   };
 }

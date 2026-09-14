@@ -18,6 +18,10 @@ import { describe, expect, it } from "vitest";
 
 const aqui = dirname(fileURLToPath(import.meta.url));
 const fuente = readFileSync(resolve(aqui, "..", "AIContext.tsx"), "utf8");
+const ajustes = readFileSync(
+  resolve(aqui, "..", "..", "components", "ai", "AISettingsModal.tsx"),
+  "utf8",
+);
 
 /** Todas las llamadas `fetch` a `/ai/...` que aparecen en el contexto. */
 function llamadasAi(texto: string): string[] {
@@ -53,5 +57,12 @@ describe("las llamadas de MolChat llevan sesión", () => {
 
     expect(chat.length).toBe(1);
     expect(chat[0]).toContain("getAuthHeaders()");
+  });
+
+  it("todas las rutas del navegador de modelos llevan la misma sesión", () => {
+    const llamadas = llamadasAi(ajustes).filter((l) => l.startsWith("/ai/models"));
+
+    expect(llamadas).toHaveLength(6);
+    expect(llamadas.filter((llamada) => !llamada.includes("getAuthHeaders()"))).toEqual([]);
   });
 });

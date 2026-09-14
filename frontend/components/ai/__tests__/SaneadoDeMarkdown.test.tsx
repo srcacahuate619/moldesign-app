@@ -58,3 +58,26 @@ describe("lo activo se neutraliza", () => {
     expect(sanearMarkdown(texto)).toBe(texto);
   });
 });
+
+describe("los bloques se adaptan al tema", () => {
+  it("renderiza citas con tokens de superficie y texto", () => {
+    render(<MarkdownRenderer content="> La evidencia requiere revisión." />);
+
+    const cita = screen.getByText("La evidencia requiere revisión.").closest("blockquote");
+    expect(cita).toHaveStyle({
+      background: "var(--bg-secondary)",
+      color: "var(--text-secondary)",
+    });
+  });
+
+  it("renderiza tablas sin colores exclusivos del tema oscuro", () => {
+    const { container } = render(
+      <MarkdownRenderer content={"| Métrica | Valor |\n| --- | --- |\n| RMSD | 1.2 Å |"} />,
+    );
+
+    expect(container.querySelector("table")?.getAttribute("style")).toContain(
+      "border: 1px solid var(--border)",
+    );
+    expect(screen.getByText("RMSD")).toHaveStyle({ color: "var(--text-secondary)" });
+  });
+});

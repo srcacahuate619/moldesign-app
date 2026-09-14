@@ -5,7 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Check, Eye, EyeOff, RefreshCw, Zap, AlertTriangle, Monitor, Package, Wrench, Star, Download, CheckCircle2, XCircle, Globe, Server } from "lucide-react";
 import { useAI, type AIProviderInfo, type CambioDeDestino } from "@/context/AIContext";
 import { getApiUrl } from "../../lib/config";
+import { getAuthHeaders } from "../../lib/api";
 import { FALLBACK_PROVIDER } from "@/context/AIContext";
+
+function mensajeDeError(error: unknown, fallback: string): string {
+  return error instanceof Error ? error.message : fallback;
+}
 
 export function AISettingsModal() {
   const { state, dispatch, setActiveProvider, updateProviderConfig, loadProviders, detectStartup, setKeepLoaded } = useAI();
@@ -19,6 +24,10 @@ export function AISettingsModal() {
   /** Detalle del 409 cuando el guardado cambiaría a dónde salen los datos. */
   const [cambioDestino, setCambioDestino] = useState<CambioDeDestino | null>(null);
   const [quantInfo, setQuantInfo] = useState<any>(null);
+  const [settingsError, setSettingsError] = useState<string | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
 
   // model browser
   const [searchQuery, setSearchQuery] = useState("");
@@ -32,9 +41,50 @@ export function AISettingsModal() {
 
   useEffect(() => {
     if (state.isSettingsOpen) {
-      loadProviders();
+      setSettingsError(null);
+      void loadProviders().catch((error) => {
+        setSettingsError(mensajeDeError(error, "No se pudieron cargar los proveedores."));
+      });
     }
   }, [state.isSettingsOpen, loadProviders]);
+
+  useEffect(() => {
+    if (!state.isSettingsOpen) return;
+
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
+    closeButtonRef.current?.focus();
+
+    function handleDialogKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        dispatch({ type: "SET_SETTINGS_OPEN", open: false });
+        return;
+      }
+      if (event.key !== "Tab" || !dialogRef.current) return;
+
+      const focusable = Array.from(
+        dialogRef.current.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [href], [tabindex]:not([tabindex="-1"])'
+        )
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleDialogKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleDialogKeyDown);
+      previousFocusRef.current?.focus();
+    };
+  }, [state.isSettingsOpen, dispatch]);
 
   // Initialize selection when opening modal or changing active provider globally
   useEffect(() => {
@@ -42,7 +92,7 @@ export function AISettingsModal() {
       const active = state.providers.find((p) => p.id === state.activeProviderId);
       setSelectedProvider(active || null);
     }
-  }, [state.isSettingsOpen, state.activeProviderId]);
+  }, [state.isSettingsOpen, state.activeProviderId, state.providers]);
 
   // Sync config fields when selectedProvider or global config loads
   useEffect(() => {
@@ -58,26 +108,36 @@ export function AISettingsModal() {
 
   async function loadLocalModels() {
     try {
-      const res = await fetch(`${await getApiUrl()}/ai/models/local`);
-      if (res.ok) {
-        const data = await res.json();
-        setLocalModels(data.models || []);
+      const res = await fetch(`${await getApiUrl()}/ai/models/local`, {
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) {
+        throw new Error(`No se pudieron cargar los modelos locales (HTTP ${res.status}).`);
       }
-    } catch {}
+      const data = await res.json();
+      setLocalModels(data.models || []);
+    } catch (error) {
+      setSettingsError(mensajeDeError(error, "No se pudieron cargar los modelos locales."));
+    }
   }
 
   async function handleSearch() {
     if (!searchQuery.trim() || searchQuery.trim().length < 2) return;
     setSearching(true);
+    setSettingsError(null);
     try {
       const res = await fetch(
-        `${await getApiUrl()}/ai/models/search?q=${encodeURIComponent(searchQuery.trim())}&limit=12`
+        `${await getApiUrl()}/ai/models/search?q=${encodeURIComponent(searchQuery.trim())}&limit=12`,
+        { headers: getAuthHeaders() }
       );
-      if (res.ok) {
-        const data = await res.json();
-        setSearchResults(data.results || []);
+      if (!res.ok) {
+        throw new Error(`No se pudo buscar modelos (HTTP ${res.status}).`);
       }
-    } catch {} finally {
+      const data = await res.json();
+      setSearchResults(data.results || []);
+    } catch (error) {
+      setSettingsError(mensajeDeError(error, "No se pudo buscar modelos."));
+    } finally {
       setSearching(false);
     }
   }
@@ -92,25 +152,32 @@ export function AISettingsModal() {
   function pollDownload(dlId: string, dlKey: string) {
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`${await getApiUrl()}/ai/models/download/${dlId}`);
-        if (res.ok) {
-          const dl = await res.json();
-          setDownloading((prev) => ({
-            ...prev,
-            [dlKey]: { status: dl.status, progress: dl.progress_pct },
-          }));
-          if (dl.status === "completed" || dl.status === "failed") {
-            clearInterval(interval);
-            pollIntervalsRef.current.delete(interval);
-            if (dl.status === "completed") {
-              setModel(dl.filename || filenameFromKey(dlKey));
-              loadLocalModels();
-            }
+        const res = await fetch(`${await getApiUrl()}/ai/models/download/${dlId}`, {
+          headers: getAuthHeaders(),
+        });
+        if (!res.ok) {
+          throw new Error(`No se pudo consultar la descarga (HTTP ${res.status}).`);
+        }
+        const dl = await res.json();
+        setDownloading((prev) => ({
+          ...prev,
+          [dlKey]: { status: dl.status, progress: dl.progress_pct },
+        }));
+        if (dl.status === "completed" || dl.status === "failed") {
+          clearInterval(interval);
+          pollIntervalsRef.current.delete(interval);
+          if (dl.status === "completed") {
+            setModel(dl.filename || filenameFromKey(dlKey));
+            void loadLocalModels();
+          } else {
+            setSettingsError("La descarga del modelo falló.");
           }
         }
-      } catch {
+      } catch (error) {
         clearInterval(interval);
         pollIntervalsRef.current.delete(interval);
+        setDownloading((prev) => ({ ...prev, [dlKey]: { status: "error", progress: 0 } }));
+        setSettingsError(mensajeDeError(error, "No se pudo consultar la descarga."));
       }
     }, 1500);
     pollIntervalsRef.current.add(interval);
@@ -123,28 +190,36 @@ export function AISettingsModal() {
   async function handleDownload(modelId: string, filename: string) {
     const dlKey = `${modelId}::${filename}`;
     setDownloading((prev) => ({ ...prev, [dlKey]: { status: "starting", progress: 0 } }));
+    setSettingsError(null);
     try {
       const res = await fetch(`${await getApiUrl()}/ai/models/download`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({ model_id: modelId, filename }),
       });
-      if (res.ok) {
-        const dl = await res.json();
-        pollDownload(dl.id, dlKey);
-      } else {
-        setDownloading((prev) => ({ ...prev, [dlKey]: { status: "error", progress: 0 } }));
+      if (!res.ok) {
+        throw new Error(`No se pudo iniciar la descarga (HTTP ${res.status}).`);
       }
-    } catch {
+      const dl = await res.json();
+      pollDownload(dl.id, dlKey);
+    } catch (error) {
       setDownloading((prev) => ({ ...prev, [dlKey]: { status: "error", progress: 0 } }));
+      setSettingsError(mensajeDeError(error, "No se pudo iniciar la descarga."));
     }
   }
 
   async function openModelsFolder() {
+    setSettingsError(null);
     try {
-      await fetch(`${await getApiUrl()}/ai/models/open-folder`, { method: "POST" });
-    } catch (err) {
-      console.error("Error opening models folder:", err);
+      const res = await fetch(`${await getApiUrl()}/ai/models/open-folder`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) {
+        throw new Error(`No se pudo abrir la carpeta de modelos (HTTP ${res.status}).`);
+      }
+    } catch (error) {
+      setSettingsError(mensajeDeError(error, "No se pudo abrir la carpeta de modelos."));
     }
   }
 
@@ -161,12 +236,17 @@ export function AISettingsModal() {
 
   async function loadQuantRecommendation() {
     try {
-      const res = await fetch(`${await getApiUrl()}/ai/models/recommend-quant`);
-      if (res.ok) {
-        const data = await res.json();
-        setQuantInfo(data);
+      const res = await fetch(`${await getApiUrl()}/ai/models/recommend-quant`, {
+        headers: getAuthHeaders(),
+      });
+      if (!res.ok) {
+        throw new Error(`No se pudo recomendar una cuantización (HTTP ${res.status}).`);
       }
-    } catch {}
+      const data = await res.json();
+      setQuantInfo(data);
+    } catch (error) {
+      setSettingsError(mensajeDeError(error, "No se pudo recomendar una cuantización."));
+    }
   }
 
   if (!state.isSettingsOpen) return null;
@@ -180,25 +260,31 @@ export function AISettingsModal() {
    */
   async function handleSave(confirmarDestino = false) {
     if (!selectedProvider) return;
-    const cambio = await updateProviderConfig({
-      provider_id: selectedProvider.id,
-      api_key: apiKey,
-      base_url: baseUrl,
-      model: model,
-      temperature: temperature,
-      ...(confirmarDestino ? { confirmar_destino: true } : {}),
-    });
+    setSettingsError(null);
+    try {
+      const cambio = await updateProviderConfig({
+        provider_id: selectedProvider.id,
+        api_key: apiKey,
+        base_url: baseUrl,
+        model: model,
+        temperature: temperature,
+        ...(confirmarDestino ? { confirmar_destino: true } : {}),
+      });
 
-    if (cambio) {
-      setCambioDestino(cambio);
-      return;
+      if (cambio) {
+        setCambioDestino(cambio);
+        return;
+      }
+
+      setCambioDestino(null);
+      await setActiveProvider(selectedProvider.id);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+      setTimeout(() => detectStartup(), 500);
+    } catch (error) {
+      setSaved(false);
+      setSettingsError(mensajeDeError(error, "No se pudo guardar la configuración."));
     }
-
-    setCambioDestino(null);
-    await setActiveProvider(selectedProvider.id);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
-    setTimeout(() => detectStartup(), 500);
   }
 
   function handleClose() {
@@ -223,6 +309,7 @@ export function AISettingsModal() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleClose}
+            aria-hidden="true"
             style={{
               position: "absolute",
               inset: 0,
@@ -231,6 +318,11 @@ export function AISettingsModal() {
             }}
           />
           <motion.div
+            ref={dialogRef}
+            data-ai-settings-dialog="true"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="ai-settings-title"
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -257,11 +349,15 @@ export function AISettingsModal() {
                 borderBottom: "1px solid var(--border)",
               }}
             >
-              <h2 style={{ margin: 0, fontSize: "1.05em", fontWeight: 600, color: "var(--text)" }}>
+              <h2 id="ai-settings-title" style={{ margin: 0, fontSize: "1.05em", fontWeight: 600, color: "var(--text)" }}>
                 Intérprete IA
               </h2>
               <button
+                ref={closeButtonRef}
+                type="button"
                 onClick={handleClose}
+                aria-label="Cerrar configuración de MolChat"
+                className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                 style={{
                   background: "none",
                   border: "none",
@@ -270,11 +366,28 @@ export function AISettingsModal() {
                   padding: 4,
                 }}
               >
-                <X size={18} />
+                <X size={18} aria-hidden="true" />
               </button>
             </div>
 
             <div style={{ padding: "16px 20px" }}>
+              {settingsError && (
+                <div
+                  role="alert"
+                  style={{
+                    marginBottom: 16,
+                    padding: "10px 12px",
+                    borderRadius: 8,
+                    border: "1px solid rgba(239, 68, 68, 0.4)",
+                    background: "rgba(239, 68, 68, 0.08)",
+                    color: "var(--text)",
+                    fontSize: "0.8125rem",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {settingsError}
+                </div>
+              )}
               {/* Modo: Local vs Online */}
               <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 6 }}>
                 Modo
@@ -411,7 +524,7 @@ export function AISettingsModal() {
                           placeholder={selectedProvider.env_key || "sk-..."}
                           style={{ width: "100%", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 36px 10px 12px", color: "var(--text)", fontSize: "0.9em", outline: "none" }}
                         />
-                        <button onClick={() => setShowKey(!showKey)} style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "var(--text-secondary)", cursor: "pointer" }}>
+                        <button type="button" onClick={() => setShowKey(!showKey)} aria-label={showKey ? "Ocultar API key" : "Mostrar API key"} style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "var(--text-secondary)", cursor: "pointer" }}>
                           {showKey ? <EyeOff size={16} /> : <Eye size={16} />}
                         </button>
                       </div>
@@ -629,7 +742,7 @@ export function AISettingsModal() {
                                 padding: "5px 10px", borderRadius: 6, border: `1.5px solid ${opt.is_recommended ? "#22C55E" : "var(--border)"}`,
                                 background: isSelected ? "var(--accent)" : opt.is_recommended ? "rgba(34,197,94,0.08)" : "var(--bg)",
                                 color: isSelected ? "#fff" : opt.is_recommended ? "#22C55E" : opt.fits ? "var(--text-secondary)" : "var(--text-dim)",
-                                cursor: opt.fits ? "pointer" : "default", fontSize: "0.74em", whiteSpace: "nowrap",
+                                cursor: opt.fits ? "pointer" : "default", fontSize: "0.75rem", whiteSpace: "nowrap",
                                 opacity: opt.fits ? 1 : 0.4, fontWeight: isSelected || opt.is_recommended ? 600 : 400,
                               }}
                             >
@@ -645,7 +758,14 @@ export function AISettingsModal() {
                   {/* Keep loaded toggle */}
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <input type="checkbox" id="keep-loaded" checked={state.resourceStatus?.keep_loaded || false}
-                      onChange={async (e) => { await setKeepLoaded(e.target.checked); }}
+                      onChange={async (e) => {
+                        setSettingsError(null);
+                        try {
+                          await setKeepLoaded(e.target.checked);
+                        } catch (error) {
+                          setSettingsError(mensajeDeError(error, "No se pudo cambiar la carga persistente."));
+                        }
+                      }}
                       style={{ accentColor: "var(--accent)" }}
                     />
                     <label htmlFor="keep-loaded" style={{ fontSize: "0.8em", color: "var(--text-secondary)", cursor: "pointer", lineHeight: 1.4 }}>

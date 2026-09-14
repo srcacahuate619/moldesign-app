@@ -2,9 +2,8 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import {
-  Globe, Users, Trophy, Download, RefreshCw, Wifi, WifiOff,
-  Share2, User, Search, ArrowUpRight, Zap, Target, Star,
-  TrendingUp, Crown, Medal, Award, ChevronRight, ExternalLink
+  Globe, Users, Download, RefreshCw, Wifi, WifiOff,
+  Share2, User, Search, Activity, Target,
 } from "lucide-react";
 import { getApiUrl } from "../../lib/config";
 import type { Target as TargetType } from "../../lib/api";
@@ -25,6 +24,7 @@ export default function ComunidadPage() {
   const [error, setError] = useState<string | null>(null);
   const [connected, setConnected] = useState(false);
   const [downloading, setDownloading] = useState<string | null>(null);
+  const [downloadError, setDownloadError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [cloudUser] = useState<string | null>(
     getUserItem("moldesign_cloud_user")
@@ -38,15 +38,13 @@ export default function ComunidadPage() {
         fetch(`${await getApiUrl()}/targets/community`),
         fetch(`${await getApiUrl()}/stats/leaderboard`),
       ]);
-      if (targetsRes.ok) {
-        const t = await targetsRes.json();
-        setCommunityTargets(Array.isArray(t) ? t : []);
-        setConnected(true);
+      if (!targetsRes.ok || !leaderRes.ok) {
+        throw new Error("Los datos compartidos no están disponibles.");
       }
-      if (leaderRes.ok) {
-        const l = await leaderRes.json();
-        setLeaderboard(Array.isArray(l) ? l : []);
-      }
+      const [t, l] = await Promise.all([targetsRes.json(), leaderRes.json()]);
+      setCommunityTargets(Array.isArray(t) ? t : []);
+      setLeaderboard(Array.isArray(l) ? l : []);
+      setConnected(true);
     } catch {
       setError("No se pudo conectar con la comunidad. Verifica tu conexión a internet.");
       setConnected(false);
@@ -61,12 +59,14 @@ export default function ComunidadPage() {
 
   const handleDownload = async (pdbId: string) => {
     setDownloading(pdbId);
+    setDownloadError(null);
     try {
       const r = await fetch(`${await getApiUrl()}/targets/community/download/${pdbId}`, { method: "POST" });
-      if (r.ok) {
-        window.dispatchEvent(new CustomEvent("target_downloaded", { detail: { pdb_id: pdbId } }));
-      }
-    } catch {}
+      if (!r.ok) throw new Error(`No se pudo descargar el receptor ${pdbId}.`);
+      window.dispatchEvent(new CustomEvent("target_downloaded", { detail: { pdb_id: pdbId } }));
+    } catch {
+      setDownloadError(`No se pudo descargar el receptor ${pdbId}.`);
+    }
     finally { setDownloading(null); }
   };
 
@@ -76,20 +76,6 @@ export default function ComunidadPage() {
     t.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     t.structural_family?.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const getRankIcon = (index: number) => {
-    if (index === 0) return <Crown className="w-4 h-4 text-amber-600 dark:text-amber-400" />;
-    if (index === 1) return <Medal className="w-4 h-4 text-muted" />;
-    if (index === 2) return <Award className="w-4 h-4 text-amber-600" />;
-    return <span className="w-4 text-center font-mono text-xs text-dim">#{index + 1}</span>;
-  };
-
-  const getRankBg = (index: number) => {
-    if (index === 0) return "bg-gradient-to-r from-amber-500/[0.06] to-transparent border-amber-500/20";
-    if (index === 1) return "bg-gradient-to-r from-zinc-400/[0.04] to-transparent border-zinc-500/15";
-    if (index === 2) return "bg-gradient-to-r from-amber-700/[0.04] to-transparent border-amber-700/15";
-    return "bg-[var(--bg-card)] border-[var(--border)]";
-  };
 
   return (
     <main className="min-h-screen bg-[var(--bg)] font-mono text-theme">
@@ -107,16 +93,16 @@ export default function ComunidadPage() {
                 </div>
                 <div className="flex items-center gap-2">
                   {connected ? (
-                    <span className="flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-emerald-700 dark:text-emerald-400">
+                    <span className="flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs font-bold uppercase tracking-widest text-emerald-700 dark:text-emerald-400">
                       <Wifi className="w-3 h-3" /> Conectado
                     </span>
                   ) : (
-                    <span className="flex items-center gap-1.5 rounded-full border border-[var(--border-light)] bg-[var(--bg-secondary)] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-muted">
+                    <span className="flex items-center gap-1.5 rounded-full border border-[var(--border-light)] bg-[var(--bg-secondary)] px-2.5 py-1 text-xs font-bold uppercase tracking-widest text-muted">
                       <WifiOff className="w-3 h-3" /> Sin Conexión
                     </span>
                   )}
                   {cloudUser && (
-                    <span className="rounded-full border border-purple-500/20 bg-purple-500/[0.06] px-2.5 py-1 font-mono text-[10px] text-purple-600 dark:text-purple-400">
+                    <span className="rounded-full border border-purple-500/20 bg-purple-500/[0.06] px-2.5 py-1 font-mono text-xs text-purple-600 dark:text-purple-400">
                       @{cloudUser}
                     </span>
                   )}
@@ -135,7 +121,7 @@ export default function ComunidadPage() {
             <button
               onClick={fetchCommunity}
               disabled={loading}
-              className="hidden cursor-pointer items-center gap-2 rounded-lg border border-[var(--border-light)] bg-[var(--bg-card)] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-muted transition-all hover:border-purple-500/40 hover:text-theme disabled:opacity-50 lg:flex"
+              className="hidden cursor-pointer items-center gap-2 rounded-lg border border-[var(--border-light)] bg-[var(--bg-card)] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-muted transition-all hover:border-purple-500/40 hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/60 disabled:opacity-50 lg:flex"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
               Actualizar
@@ -143,18 +129,16 @@ export default function ComunidadPage() {
           </div>
 
           {/* Stats Row */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-10">
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {[
-              { label: "Targets Compartidos", value: communityTargets.length, icon: Target, color: "text-purple-600 dark:text-purple-400" },
-              { label: "Investigadores", value: leaderboard.length, icon: Users, color: "text-blue-600 dark:text-blue-400" },
-              { label: "Mejor Score", value: leaderboard[0]?.total_score?.toFixed(0) || "—", icon: TrendingUp, color: "text-emerald-700 dark:text-emerald-400" },
-              { label: "Mejor Afinidad", value: leaderboard[0]?.affinity_kcal ? `${leaderboard[0].affinity_kcal.toFixed(1)} kcal` : "—", icon: Zap, color: "text-amber-600 dark:text-amber-400" },
+              { label: "Targets Compartidos", value: connected ? communityTargets.length : "—", icon: Target, color: "text-purple-600 dark:text-purple-400" },
+              { label: "Resultados compartidos", value: connected ? leaderboard.length : "—", icon: Users, color: "text-blue-600 dark:text-blue-400" },
             ].map((stat, i) => (
               <div key={i} className="group relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-5 py-4">
                 <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-purple-500/[0.03] to-transparent rounded-bl-full" />
                 <stat.icon className={`w-4 h-4 ${stat.color} mb-2`} />
                 <p className="font-mono text-xl font-black text-theme">{stat.value}</p>
-                <p className="mt-1 text-[10px] uppercase tracking-widest text-muted">{stat.label}</p>
+                <p className="mt-1 text-xs uppercase tracking-widest text-muted">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -164,13 +148,18 @@ export default function ComunidadPage() {
       {/* Content Grid */}
       <div className="max-w-7xl mx-auto px-6 py-10">
         {error && (
-          <div className="mb-8 flex items-center gap-3 rounded-xl border border-red-500/15 bg-red-500/[0.06] p-4 text-sm text-red-700 dark:text-red-400">
+          <div role="alert" className="mb-8 flex items-center gap-3 rounded-xl border border-red-500/15 bg-red-500/[0.06] p-4 text-sm text-red-700 dark:text-red-400">
             <WifiOff className="w-4 h-4 shrink-0" />
             <span>{error}</span>
-            <button onClick={fetchCommunity} className="ml-auto text-red-500 transition-colors hover:text-theme dark:text-red-300">
+            <button onClick={fetchCommunity} aria-label="Reintentar carga de datos compartidos" className="ml-auto rounded text-red-500 transition-colors hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/60 dark:text-red-300">
               <RefreshCw className="w-4 h-4" />
             </button>
           </div>
+        )}
+        {downloadError && (
+          <p role="alert" className="mb-8 rounded-xl border border-red-500/20 bg-red-500/[0.06] p-4 text-sm text-red-700 dark:text-red-300">
+            {downloadError}
+          </p>
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
@@ -181,7 +170,7 @@ export default function ComunidadPage() {
               <div className="flex items-center gap-3">
                 <Users className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                 <h2 className="text-sm font-bold uppercase tracking-widest text-theme">Targets Compartidos</h2>
-                <span className="rounded-full border border-[var(--border)] bg-[var(--bg-card)] px-2 py-0.5 font-mono text-[10px] text-dim">
+                <span className="rounded-full border border-[var(--border)] bg-[var(--bg-card)] px-2 py-0.5 font-mono text-xs text-dim">
                   {filteredTargets.length}
                 </span>
               </div>
@@ -193,6 +182,7 @@ export default function ComunidadPage() {
               <input
                 type="text"
                 placeholder="Buscar por PDB ID, nombre o categoría..."
+                aria-label="Buscar receptores compartidos"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg-card)] py-3 pr-4 pl-11 font-mono text-sm text-theme transition-all placeholder:text-dim focus:border-purple-500/30 focus:ring-1 focus:ring-purple-500/20 focus:outline-none"
@@ -209,7 +199,11 @@ export default function ComunidadPage() {
               <div className="flex flex-col items-center justify-center py-16 text-center">
                 <Target className="mb-3 h-8 w-8 text-dim" />
                 <p className="text-sm text-muted">
-                  {searchQuery ? "Sin resultados para esta búsqueda" : "No hay targets compartidos aún"}
+                  {searchQuery
+                    ? "Sin resultados para esta búsqueda"
+                    : error
+                      ? "Los receptores compartidos no están disponibles."
+                      : "No hay targets compartidos aún"}
                 </p>
               </div>
             ) : (
@@ -223,7 +217,7 @@ export default function ComunidadPage() {
                       <div className="flex items-center gap-2">
                         <span className="font-mono text-sm font-black tracking-wide text-purple-600 dark:text-purple-400">{t.pdb_id}</span>
                         {t.resolution && (
-                          <span className="rounded bg-[var(--bg-secondary)] px-1.5 py-0.5 font-mono text-[9px] text-muted">
+                          <span className="rounded bg-[var(--bg-secondary)] px-1.5 py-0.5 font-mono text-xs text-muted">
                             {t.resolution}Å
                           </span>
                         )}
@@ -231,7 +225,7 @@ export default function ComunidadPage() {
                       <button
                         onClick={() => handleDownload(t.pdb_id)}
                         disabled={downloading === t.pdb_id}
-                        className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-[var(--border-light)] px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-muted transition-all hover:border-purple-500/30 hover:bg-purple-500/[0.06] hover:text-theme disabled:opacity-40"
+                        className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-[var(--border-light)] px-2.5 py-1.5 text-xs font-bold uppercase tracking-wider text-muted transition-all hover:border-purple-500/30 hover:bg-purple-500/[0.06] hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/60 disabled:opacity-40"
                       >
                         {downloading === t.pdb_id ? (
                           <RefreshCw className="w-3 h-3 animate-spin" />
@@ -249,13 +243,13 @@ export default function ComunidadPage() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         {t.structural_family && (
-                          <span className="rounded-full border border-[var(--border-light)] bg-[var(--bg-secondary)] px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-muted">
+                          <span className="rounded-full border border-[var(--border-light)] bg-[var(--bg-secondary)] px-2 py-0.5 font-mono text-xs uppercase tracking-wider text-muted">
                             {t.structural_family}
                           </span>
                         )}
                       </div>
                       {t.creator_username && (
-                        <span className="flex items-center gap-1 font-mono text-[10px] text-purple-700/80 dark:text-purple-400/70">
+                        <span className="flex items-center gap-1 font-mono text-xs text-purple-700/80 dark:text-purple-400/70">
                           <User className="w-3 h-3" />@{t.creator_username}
                         </span>
                       )}
@@ -266,84 +260,69 @@ export default function ComunidadPage() {
             )}
           </div>
 
-          {/* RIGHT: Leaderboard (2 cols) */}
+          {/* RIGHT: Shared results (2 cols) */}
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center gap-3">
-              <Trophy className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-              <h2 className="text-sm font-bold uppercase tracking-widest text-theme">Leaderboard Global</h2>
+              <Activity className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+              <h2 className="text-sm font-bold uppercase tracking-widest text-theme">Resultados compartidos</h2>
             </div>
 
             <div className="space-y-2">
               {leaderboard.length === 0 ? (
                 <div className="flex flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--bg-card)] py-16 text-center">
-                  <Trophy className="mb-3 h-8 w-8 text-dim" />
-                  <p className="text-sm text-muted">Sin datos de leaderboard</p>
-                  <p className="mt-1 text-[10px] text-dim">Evalúa moléculas para aparecer aquí</p>
+                  <Activity className="mb-3 h-8 w-8 text-dim" />
+                  <p className="text-sm text-muted">No hay resultados compartidos disponibles.</p>
                 </div>
               ) : (
                 leaderboard.map((entry, i) => (
                   <div
                     key={i}
-                    className={`flex items-center justify-between px-4 py-3.5 rounded-xl border transition-all ${getRankBg(i)}`}
+                    className="flex items-center justify-between rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3.5"
                   >
                     <div className="flex items-center gap-3">
-                      {getRankIcon(i)}
+                      <Activity className="h-4 w-4 text-dim" aria-hidden="true" />
                       <div>
                         <span className="text-sm font-bold text-theme">@{entry.username}</span>
                         {entry.target_pdb_id && (
-                          <span className="ml-2 font-mono text-[9px] text-dim">{entry.target_pdb_id}</span>
+                          <span className="ml-2 font-mono text-xs text-dim">{entry.target_pdb_id}</span>
                         )}
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <p className="font-mono text-sm font-black text-emerald-700 dark:text-emerald-400">{entry.total_score?.toFixed(0)}</p>
-                        <p className="font-mono text-[9px] uppercase text-dim">Score</p>
+                        <p className="font-mono text-sm font-black text-theme">{entry.total_score?.toFixed(0) ?? "—"}</p>
+                        <p className="font-mono text-xs uppercase text-dim">Resultado compartido</p>
                       </div>
                       <div className="text-right">
                         <p className="font-mono text-sm font-bold text-muted">{entry.affinity_kcal?.toFixed(1)}</p>
-                        <p className="font-mono text-[9px] uppercase text-dim">kcal/mol</p>
+                        <p className="font-mono text-xs uppercase text-dim">Afinidad observada · kcal/mol</p>
                       </div>
                     </div>
                   </div>
                 ))
               )}
             </div>
+            <p className="text-xs leading-relaxed text-muted">
+              El orden refleja los datos compartidos por el servicio; no es un ranking de candidatos ni una predicción de actividad.
+            </p>
 
-            {/* Share CTA */}
+            {/* Sharing capability */}
             <div className="rounded-xl border border-purple-500/15 bg-gradient-to-br from-purple-500/[0.04] to-transparent p-5 space-y-3">
               <div className="flex items-center gap-2">
                 <Share2 className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                 <h3 className="text-xs font-bold uppercase tracking-widest text-purple-600 dark:text-purple-300">Comparte tu evidencia</h3>
               </div>
               <p className="text-xs leading-relaxed text-muted">
-                {cloudUser
-                  ? "Sube un target público para colaborar con la comunidad científica global."
-                  : "Inicia sesión cloud para compartir targets con atribución."
-                }
+                Compartir receptores desde esta pantalla no está disponible en esta versión.
               </p>
-              <button className="flex cursor-pointer items-center gap-2 rounded-lg border border-purple-500/20 px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-purple-700 transition-all hover:border-purple-500/30 hover:bg-purple-500/[0.08] dark:text-purple-300">
-                <ArrowUpRight className="w-3.5 h-3.5" />
-                {cloudUser ? "Compartir Target" : "Conectar Cloud"}
-              </button>
             </div>
 
             {/* Quick Stats */}
             <div className="space-y-4 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5">
-              <h3 className="text-[10px] font-bold uppercase tracking-widest text-muted">Actividad Reciente</h3>
-              <div className="space-y-3">
-                {[
-                  { text: "Nuevo target compartido", time: "Hace 2h", icon: Target },
-                  { text: "Record de score superado", time: "Hace 5h", icon: Star },
-                  { text: "Investigador se unió", time: "Hace 1d", icon: User },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 text-xs">
-                    <item.icon className="h-3.5 w-3.5 shrink-0 text-dim" />
-                    <span className="flex-1 text-muted">{item.text}</span>
-                    <span className="font-mono text-[9px] text-dim">{item.time}</span>
-                  </div>
-                ))}
-              </div>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Actividad reciente</h3>
+              <p className="text-xs leading-relaxed text-muted">
+                No hay un feed de actividad disponible en esta versión.
+              </p>
             </div>
           </div>
 

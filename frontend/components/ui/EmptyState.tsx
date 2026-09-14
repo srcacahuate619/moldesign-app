@@ -1,10 +1,10 @@
 "use client";
 
 /**
- * EmptyState — Panel cinematográfico para estados "vacíos" / "blocked" / "idle".
+ * EmptyState — Panel para estados vacíos, bloqueados o en espera.
  *
  * Patrón visual cohesivo con /moldex y /history:
- *   - bg #050508 + glow radial purple
+ *   - tokens de superficie con la apariencia oscura original en dark mode
  *   - ThinkingOrb (idle / complete / error) en el centro
  *   - ✦ headline con tracking-tight uppercase
  *   - ritual 1·2·3 adaptable
@@ -14,7 +14,7 @@
  * Uso:
  *   <EmptyState
  *     orbState="idle"
- *     title="Bioteca en Stand-By"
+ *     title="Bioteca en espera"
  *     description="Tu colección molecular te espera."
  *     ritual={[{ n:"1", t:"Diseña", d:"con Ketcher" }, ...]}
  *     ctaHref="/evaluation"
@@ -24,7 +24,7 @@
  *
  * Composición con animaciones suaves: stagger fadeIn por secciones (orb →
  * headline → ritual → CTA → footer). Capaz de scrollear bien (min-h-screen).
- * No requiere build, es puramente presentational +客户端 framer-motion.
+ * Es puramente presentational + framer-motion.
  */
 
 import { ReactNode } from "react";
@@ -83,7 +83,7 @@ export function EmptyState({
   subline,
 }: EmptyStateProps) {
   return (
-    <div className="relative min-h-screen bg-[#050508] text-white/70 font-sans flex items-center justify-center overflow-hidden">
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[var(--bg)] font-sans text-muted dark:bg-[#050508]">
 
       {/* ── Glow ambiental purple radial (estático desde el fondo) ── */}
       <div
@@ -128,7 +128,7 @@ export function EmptyState({
             <motion.p
               animate={{ opacity: [0.4, 0.75, 0.4] }}
               transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-              className="text-[10px] font-mono tracking-[0.4em] uppercase text-white/45"
+              className="font-mono text-xs uppercase tracking-[0.4em] text-dim dark:text-white/60"
             >
               {subline}
             </motion.p>
@@ -137,15 +137,15 @@ export function EmptyState({
 
         {/* Headline ✦ TÍTULO ✦ */}
         <motion.div variants={itemVariants} className="space-y-3">
-          <div className="flex items-center justify-center gap-3 text-white/30">
-            <span className="text-[10px] font-mono tracking-[0.5em] uppercase">✦</span>
-            <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white uppercase">
+          <div className="flex items-center justify-center gap-3 text-dim dark:text-white/45">
+            <span className="font-mono text-xs uppercase tracking-[0.5em]">✦</span>
+            <h1 className="text-3xl font-black uppercase tracking-tight text-theme md:text-4xl">
               {title}
             </h1>
-            <span className="text-[10px] font-mono tracking-[0.5em] uppercase">✦</span>
+            <span className="font-mono text-xs uppercase tracking-[0.5em]">✦</span>
           </div>
           {description && (
-            <p className="text-sm md:text-[15px] text-white/40 leading-relaxed max-w-md mx-auto">
+            <p className="mx-auto max-w-md text-sm leading-relaxed text-muted md:text-[15px]">
               {description}
             </p>
           )}
@@ -160,13 +160,13 @@ export function EmptyState({
             {ritual.map(s => (
               <div
                 key={s.n}
-                className="rounded-xl border border-white/5 bg-white/[0.015] p-4 backdrop-blur-sm hover:border-purple-500/30 transition-all group"
+                className="group rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4 backdrop-blur-sm transition-all hover:border-purple-500/30 dark:border-white/5 dark:bg-white/[0.015]"
               >
                 <div className="flex items-baseline gap-2 mb-1">
-                  <span className="text-[10px] font-mono font-bold text-purple-400">{s.n}</span>
-                  <span className="text-sm font-black text-white tracking-tight uppercase">{s.t}</span>
+                  <span className="font-mono text-xs font-bold text-purple-600 dark:text-purple-400">{s.n}</span>
+                  <span className="text-sm font-black uppercase tracking-tight text-theme">{s.t}</span>
                 </div>
-                <p className="text-[10px] font-mono text-white/30 uppercase tracking-wider">{s.d}</p>
+                <p className="font-mono text-xs uppercase tracking-wider text-dim">{s.d}</p>
               </div>
             ))}
           </motion.div>
@@ -179,7 +179,7 @@ export function EmptyState({
             href={ctaHref}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-xl font-mono text-xs font-bold uppercase tracking-[0.2em] text-white bg-purple-600 hover:bg-purple-500 shadow-lg shadow-purple-950/50 border border-purple-400/30 transition-all"
+            className="group relative inline-flex items-center gap-3 rounded-xl border border-purple-400/30 bg-purple-600 px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.2em] text-white shadow-lg shadow-purple-950/50 transition-all hover:bg-purple-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
           >
             <Play size={14} className="fill-white" />
             {ctaLabel}
@@ -196,7 +196,7 @@ export function EmptyState({
           transition={{ delay: 0.9, duration: 0.6 }}
           className="absolute bottom-6 left-0 right-0 z-10 flex justify-center"
         >
-          <p className="text-[10px] font-mono tracking-[0.3em] uppercase text-white/15">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-dim">
             {footerStatus}
           </p>
         </motion.div>

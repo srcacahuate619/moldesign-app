@@ -41,7 +41,6 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
     startListening,
     stopListening,
     isSupported,
-    mode: voiceMode,
   } = useSpeechRecognition({
     lang,
     onResult: handleResult,
@@ -76,6 +75,7 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
 
   const isListening = micState === "listening";
   const displayText = isListening && interimText ? `${input} ${interimText}` : input;
+  const canSend = Boolean(input.trim()) && !disabled;
 
   return (
     <div
@@ -93,7 +93,7 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
             alignItems: "center",
             gap: 6,
             padding: "4px 0 8px",
-            fontSize: "0.78em",
+            fontSize: "0.8125rem",
             color: "#EF4444",
           }}
         >
@@ -108,7 +108,7 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
           />
           Escuchando...{" "}
           <span style={{ color: "var(--text-dim)" }}>
-            (hablá claramente)
+            (habla claramente)
           </span>
         </div>
       )}
@@ -120,28 +120,32 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
           alignItems: "flex-end",
         }}
       >
-        {/* Language toggle */}
-        <button
-          onClick={() => setLang(lang === "es-ES" ? "en-US" : "es-ES")}
-          title={lang === "es-ES" ? "Español" : "English"}
-          style={{
-            background: "var(--bg)",
-            border: "1px solid var(--border)",
-            borderRadius: 10,
-            width: 40,
-            height: 40,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-            color: "var(--text-secondary)",
-            fontSize: "0.7em",
-            fontWeight: 700,
-            flexShrink: 0,
-          }}
-        >
-          {lang === "es-ES" ? "ES" : "EN"}
-        </button>
+        {/* Language toggle only configures the local transcription engine. */}
+        {isSupported && (
+          <button
+            type="button"
+            onClick={() => setLang(lang === "es-ES" ? "en-US" : "es-ES")}
+            title={lang === "es-ES" ? "Español" : "English"}
+            aria-label={lang === "es-ES" ? "Idioma de dictado: español" : "Idioma de dictado: inglés"}
+            style={{
+              background: "var(--bg)",
+              border: "1px solid var(--border)",
+              borderRadius: 10,
+              width: 40,
+              height: 40,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              color: "var(--text-secondary)",
+              fontSize: "0.75rem",
+              fontWeight: 700,
+              flexShrink: 0,
+            }}
+          >
+            {lang === "es-ES" ? "ES" : "EN"}
+          </button>
+        )}
 
         <textarea
           ref={textareaRef}
@@ -153,7 +157,7 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
               ? "Escuchando..."
               : isStreaming
               ? "MolChat está respondiendo..."
-              : "Preguntale a MolChat..."
+              : "Pregunta a MolChat..."
           }
           rows={1}
           disabled={disabled || isListening}
@@ -178,8 +182,8 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
         />
 
         {/* Mic button */}
-        {isSupported && (
-          <button
+        <button
+            type="button"
             onClick={() => {
               if (isListening) {
                 stopListening();
@@ -187,12 +191,26 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
                 startListening();
               }
             }}
-            disabled={isStreaming}
-            title={isListening ? "Detener grabación" : "Dictar por voz"}
+            disabled={isStreaming || !isSupported}
+            title={
+              isSupported
+                ? isListening
+                  ? "Detener grabación"
+                  : "Dictar por voz con el modelo local"
+                : "Dictado no disponible: esta instalación no incluye reconocimiento de voz local"
+            }
+            aria-label={
+              isSupported
+                ? isListening
+                  ? "Detener grabación"
+                  : "Dictar por voz con el modelo local"
+                : "Dictado no disponible"
+            }
+            aria-describedby={!isSupported ? "dictado-no-disponible" : undefined}
             style={{
               background: isListening
                 ? "#EF4444"
-                : "rgba(255,255,255,0.08)",
+                : "var(--bg)",
               color: isListening ? "#fff" : "var(--text-secondary)",
               border: isListening
                 ? "2px solid #EF4444"
@@ -203,9 +221,9 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              cursor: isStreaming ? "default" : "pointer",
+              cursor: isStreaming || !isSupported ? "not-allowed" : "pointer",
               flexShrink: 0,
-              opacity: isStreaming ? 0.4 : 1,
+              opacity: isStreaming || !isSupported ? 0.45 : 1,
               animation: isListening
                 ? "pulse-mic 1.5s ease-in-out infinite"
                 : "none",
@@ -213,7 +231,6 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
           >
             {isListening ? <MicOff size={16} /> : <Mic size={16} />}
           </button>
-        )}
 
         {isStreaming ? (
           <button
@@ -237,34 +254,36 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
           </button>
         ) : (
           <button
+            type="button"
             onClick={() => void handleSubmit()}
-            disabled={!input.trim() || disabled}
+            disabled={!canSend}
             title="Enviar"
+            aria-label="Enviar mensaje"
             style={{
-              background: input.trim()
+              background: canSend
                 ? "var(--accent)"
-                : "rgba(255,255,255,0.1)",
-              color: "#fff",
-              border: "none",
+                : "var(--bg)",
+              color: canSend ? "#fff" : "var(--text-secondary)",
+              border: canSend ? "none" : "1px solid var(--border)",
               borderRadius: 10,
               width: 40,
               height: 40,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              cursor: input.trim() ? "pointer" : "default",
+              cursor: canSend ? "pointer" : "default",
               flexShrink: 0,
-              opacity: input.trim() ? 1 : 0.4,
+              opacity: canSend ? 1 : 0.7,
             }}
           >
-            <Send size={16} />
+            <Send size={16} aria-hidden="true" />
           </button>
         )}
       </div>
 
       <div
         style={{
-          fontSize: "0.75em",
+          fontSize: "0.75rem",
           color: "var(--text-secondary)",
           marginTop: 6,
           textAlign: "center",
@@ -275,11 +294,15 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
       >
         <span>Enter · enviar</span>
         <span>Shift+Enter · nueva línea</span>
-        {isSupported && (
-          <span>
-            🎤 · dictar
-            {voiceMode === "local" ? " (local)" : voiceMode === "webapi" ? " (web)" : ""}
+        {isSupported ? (
+          <span>Micrófono · dictado local</span>
+        ) : (
+          <span id="dictado-no-disponible" role="status">
+            Dictado no disponible: falta el reconocimiento de voz local. Puedes seguir escribiendo.
           </span>
+        )}
+        {micState === "error" && (
+          <span role="alert">El dictado local falló. Puedes seguir escribiendo.</span>
         )}
       </div>
     </div>

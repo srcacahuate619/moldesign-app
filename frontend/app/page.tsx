@@ -19,11 +19,11 @@ const TechNetwork3D = dynamic(() => import("@/components/TechNetwork3D").then((m
   loading: () => <div className="w-full h-[500px] flex items-center justify-center text-muted font-mono text-xs uppercase tracking-widest animate-pulse">Iniciando Red 3D...</div>,
 });
 
-// ─── Mock Data (initial values — replaced with real stats once backend is ready)
-const MOCK_STATS = {
-  total_molecules: 0,
-  best_affinity: 0,
-  total_certifications: 0,
+// La ausencia del backend no es una medición de cero.
+const EMPTY_STATS = {
+  total_molecules: null as number | null,
+  best_affinity: null as number | null,
+  total_certifications: null as number | null,
 };
 
 // ─── Animation Constants ──────────────────────────────────────
@@ -48,7 +48,7 @@ function AnimatedLine({ text, delay = 0 }: { text: string; delay?: number }) {
 //  HERO SPLIT — Desktop-first, symmetrical, large type
 // ═══════════════════════════════════════════════════════════════
 
-function HeroSplit({ stats }: { stats: typeof MOCK_STATS }) {
+function HeroSplit({ stats }: { stats: typeof EMPTY_STATS }) {
   const { t, locale } = useLanguage();
 
   const EDU_STEPS = [
@@ -252,18 +252,18 @@ function HeroSplit({ stats }: { stats: typeof MOCK_STATS }) {
           >
             <div>
               <span className="font-mono text-xs uppercase tracking-wider text-muted">{t("stats_molecules")}</span>
-              <p className="text-4xl lg:text-5xl font-black text-accent font-mono mt-2">{stats.total_molecules.toLocaleString()}</p>
+              <p className="text-4xl lg:text-5xl font-black text-accent font-mono mt-2">{stats.total_molecules?.toLocaleString() ?? "—"}</p>
             </div>
             <div>
               <span className="font-mono text-xs uppercase tracking-wider text-muted">{t("stats_best_score")}</span>
               <p className="text-4xl lg:text-5xl font-black text-theme font-mono mt-2">
-                {stats.best_affinity.toFixed(2)}{" "}
-                <span className="text-base text-muted">kcal/mol</span>
+                {stats.best_affinity?.toFixed(2) ?? "—"}{" "}
+                {stats.best_affinity != null && <span className="text-base text-muted">kcal/mol</span>}
               </p>
             </div>
             <div>
               <span className="font-mono text-xs uppercase tracking-wider text-muted">{t("stats_certified")}</span>
-              <p className="text-4xl lg:text-5xl font-black text-accent font-mono mt-2">{stats.total_certifications.toLocaleString()}</p>
+              <p className="text-4xl lg:text-5xl font-black text-accent font-mono mt-2">{stats.total_certifications?.toLocaleString() ?? "—"}</p>
             </div>
             <div>
               <span className="font-mono text-xs uppercase tracking-wider text-muted">Pipeline</span>
@@ -430,20 +430,20 @@ function LeaderboardSection() {
 // ═══════════════════════════════════════════════════════════════
 
 export default function HomePage() {
-  const [stats, setStats] = useState(MOCK_STATS);
+  const [stats, setStats] = useState(EMPTY_STATS);
   const { t } = useLanguage();
 
   useEffect(() => {
     getGlobalStats()
       .then((realStats) => {
         setStats({
-          total_molecules: (realStats.total_molecules !== undefined && realStats.total_molecules !== null) ? realStats.total_molecules : MOCK_STATS.total_molecules,
-          best_affinity: realStats.best_affinity ?? realStats.best_score ?? MOCK_STATS.best_affinity,
-          total_certifications: (realStats.total_certifications !== undefined && realStats.total_certifications !== null) ? realStats.total_certifications : MOCK_STATS.total_certifications,
+          total_molecules: realStats.total_molecules ?? null,
+          best_affinity: realStats.best_affinity ?? realStats.best_score ?? null,
+          total_certifications: realStats.total_certifications ?? null,
         });
       })
       .catch(() => {
-        // Backend no disponible aún — stats quedan en 0 hasta que conecte
+        // La UI conserva la ausencia; no la convierte en una medición de cero.
       });
   }, []);
 

@@ -245,10 +245,11 @@ export default function CohortesPage() {
       try {
         const recuperada = await getRun(guardado);
         if (!vivo) return;
+        const suya = await getCohort(recuperada.cohort_id);
+        if (!vivo) return;
+        restaurarDefinicion(suya);
         setCorrida(recuperada);
         setPaso("ejecutar");
-        const suya = await getCohort(recuperada.cohort_id);
-        if (vivo) restaurarDefinicion(suya);
       } catch {
         if (vivo) removeUserItem("moldesign_cohort_run");
       }
@@ -334,6 +335,23 @@ export default function CohortesPage() {
       return resultado;
     });
 
+  const seleccionarArchivo = (siguiente: File | null) => {
+    setArchivo(siguiente);
+    if (!siguiente) return;
+
+    // Un archivo nuevo inicia otra cohorte. No debe heredar ni siquiera la
+    // proyección visual del motor de un registro histórico abierto.
+    setPreflight(null);
+    setCohorte(null);
+    setCorrida(null);
+    setEvidencia(null);
+    publicarPdf(null);
+    setPdfBlob(null);
+    setZipGuardado(null);
+    removeUserItem("moldesign_cohort_run");
+    setPaso("definir");
+  };
+
   const guardar = () =>
     ejecutar("guardar", async () => {
       if (!archivo || !estudio || !preflight) return null;
@@ -348,7 +366,7 @@ export default function CohortesPage() {
 
   const lanzar = () =>
     ejecutar("ejecutar", async () => {
-      if (!cohorte) return null;
+      if (!cohorte || motorHistoricoQuickVina) return null;
       const aceptada = await openRun(cohorte.id, workers);
       setUserItem("moldesign_cohort_run", aceptada.run_id);
       setCorrida(await getRun(aceptada.run_id));
@@ -365,7 +383,7 @@ export default function CohortesPage() {
 
   const reanudar = () =>
     ejecutar("reanudar", async () => {
-      if (!corrida) return null;
+      if (!corrida || motorHistoricoQuickVina) return null;
       await resumeRun(corrida.id, workers);
       setCorrida(await getRun(corrida.id));
       return true;
@@ -536,7 +554,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                 <label className="block">
                   <span className={ETIQUETA}>Archivo de moléculas</span>
                   <input type="file" accept=".csv,.xlsx,.sdf,.smi,.txt" aria-label="Archivo de moléculas"
-                    onChange={(e) => setArchivo(e.target.files?.[0] ?? null)}
+                    onChange={(e) => seleccionarArchivo(e.target.files?.[0] ?? null)}
                     className="mt-1 block w-full text-sm text-zinc-600 file:mr-3 file:rounded-md file:border file:border-zinc-300 file:bg-zinc-100 file:px-3 file:py-2 file:text-sm file:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white/60 dark:file:border-0 dark:file:bg-white/10 dark:file:text-white/80" />
                 </label>
                 <div className="block">
@@ -584,7 +602,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                         : "border-zinc-200 bg-zinc-100 text-zinc-500 dark:border-white/10 dark:bg-white/[0.02] dark:text-white/60"
                     }`}>
                       <input type="radio" name="motor" checked={motorHistoricoQuickVina} disabled aria-describedby="quickvina-note" className="mt-0.5" />
-                      <span><span className="block text-sm font-semibold">QuickVina 2 · Próximamente</span><span id="quickvina-note" className="block text-xs leading-relaxed">{motorHistoricoQuickVina ? "Motor histórico configurado en esta cohorte; se conserva sin normalizar. Esta versión ejecuta únicamente Vina." : "Requiere un binario Windows validado. Esta versión ejecuta únicamente Vina."}</span></span>
+                      <span><span className="block text-sm font-semibold">QuickVina 2 · Próximamente</span><span id="quickvina-note" className="block text-xs leading-relaxed">{motorHistoricoQuickVina ? "QuickVina 2 no está disponible en esta versión; la evidencia histórica sigue siendo legible." : "Requiere un binario Windows validado. Esta versión ejecuta únicamente Vina."}</span></span>
                     </label>
                   </div>
                 </fieldset>
@@ -710,11 +728,17 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                       className="w-14 rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-900 outline-none focus-visible:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500/30 dark:border-white/10 dark:bg-black/30 dark:text-white/80" />
                   </label>
                   <button type="button" className={PRIMARIO} onClick={lanzar}
-                    disabled={Boolean(corrida && isRunActive(corrida.status)) || ocupado === "ejecutar"}>
+                    aria-describedby={motorHistoricoQuickVina ? "motor-historico-bloqueado" : undefined}
+                    disabled={motorHistoricoQuickVina || Boolean(corrida && isRunActive(corrida.status)) || ocupado === "ejecutar"}>
                     {ocupado === "ejecutar" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Play className="h-3.5 w-3.5" />}
                     {ocupado === "ejecutar" ? "Preparando y abriendo…" : "Ejecutar cohorte"}
                   </button>
                 </div>
+                {motorHistoricoQuickVina && (
+                  <p id="motor-historico-bloqueado" role="status" className="mt-3 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-100">
+                    QuickVina 2 no está disponible en esta versión; la evidencia histórica sigue siendo legible.
+                  </p>
+                )}
 
                 {corrida && (
                   <div className="mt-4" data-testid="progreso">
@@ -756,7 +780,9 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                         <XCircle className="h-3.5 w-3.5" /> Cancelar
                       </button>
                       <button type="button" className={SECUNDARIO} onClick={reanudar}
+                        aria-describedby={motorHistoricoQuickVina ? "motor-historico-bloqueado" : undefined}
                         disabled={
+                          motorHistoricoQuickVina ||
                           !(corrida.status === "interrupted" || corrida.status === "completed_with_exceptions") ||
                           ocupado === "reanudar"
                         }>

@@ -17,7 +17,6 @@ import React from "react";
  * ejecutables y caracteres de control que rompen el trazado.
  */
 const ESQUEMA_ACTIVO = /\b(javascript|vbscript|data)\s*:/gi;
-// eslint-disable-next-line no-control-regex
 const CONTROL = /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g;
 
 export function sanearMarkdown(text: string): string {
@@ -44,39 +43,40 @@ function renderTable(lines: string[], startIdx: number): React.ReactNode {
   const rows = tableLines.slice(2).map(parseTableRow);
 
   return (
-    <table key={`table-${startIdx}`} style={{
-      width: "100%", borderCollapse: "collapse", margin: "12px 0",
-      fontSize: "0.85em", border: "1px solid rgba(255,255,255,0.1)",
-    }}>
-      <thead>
-        <tr style={{ borderBottom: "2px solid rgba(255,255,255,0.15)" }}>
-          {header.map((h, j) => (
-            <th key={j} style={{ padding: "6px 12px", textAlign: "left", fontWeight: 600, color: "rgba(255,255,255,0.7)" }}>{h}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row, ri) => (
-          <tr key={ri} style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-            {row.map((cell, ci) => (
-              <td key={ci} style={{ padding: "6px 12px", color: "rgba(255,255,255,0.6)" }}>{cell}</td>
+    <div key={`table-${startIdx}`} style={{ overflowX: "auto", margin: "12px 0" }}>
+      <table style={{
+        width: "100%", borderCollapse: "collapse",
+        fontSize: "0.8125rem", border: "1px solid var(--border)",
+      }}>
+        <thead>
+          <tr style={{ borderBottom: "2px solid var(--border)", background: "var(--bg-secondary)" }}>
+            {header.map((h, j) => (
+              <th key={j} style={{ padding: "6px 12px", textAlign: "left", fontWeight: 600, color: "var(--text)" }}>{h}</th>
             ))}
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {rows.map((row, ri) => (
+            <tr key={ri} style={{ borderBottom: "1px solid var(--border)" }}>
+              {row.map((cell, ci) => (
+                <td key={ci} style={{ padding: "6px 12px", color: "var(--text-secondary)" }}>{cell}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
 function renderInline(text: string): React.ReactNode[] {
   const parts: React.ReactNode[] = [];
-  let remaining = sanearMarkdown(text);
+  const remaining = sanearMarkdown(text);
 
   const boldRegex = /\*\*(.*?)\*\*/g;
   const codeRegex = /`([^`]+)`/g;
   const italicRegex = /\*(.*?)\*/g;
 
-  let lastIndex = 0;
   const tokens: { type: string; content: string; index: number }[] = [];
 
   let match;
@@ -106,7 +106,8 @@ function renderInline(text: string): React.ReactNode[] {
           <code
             key={pos}
             style={{
-              background: "rgba(255,255,255,0.1)",
+              background: "var(--bg-secondary)",
+              border: "1px solid var(--border)",
               padding: "1px 6px",
               borderRadius: 4,
               fontSize: "0.9em",
@@ -159,7 +160,8 @@ export function MarkdownRenderer({ content }: { content: string }) {
           <pre
             key={`code-${i}`}
             style={{
-              background: "rgba(0,0,0,0.3)",
+               background: "var(--bg-secondary)",
+               border: "1px solid var(--border)",
               padding: 12,
               borderRadius: 8,
               overflow: "auto",
@@ -218,6 +220,25 @@ export function MarkdownRenderer({ content }: { content: string }) {
       continue;
     }
 
+    if (line.startsWith("> ")) {
+      flushList(`list-${i}`);
+      elements.push(
+        <blockquote
+          key={`quote-${i}`}
+          style={{
+            margin: "8px 0",
+            padding: "4px 12px",
+            borderLeft: "3px solid var(--border)",
+            color: "var(--text-secondary)",
+            background: "var(--bg-secondary)",
+          }}
+        >
+          {renderInline(line.slice(2))}
+        </blockquote>
+      );
+      continue;
+    }
+
     flushList(`list-${i}`);
 
     if (line.trim() === "") {
@@ -247,7 +268,8 @@ export function MarkdownRenderer({ content }: { content: string }) {
       <pre
         key="code-unclosed"
         style={{
-          background: "rgba(0,0,0,0.3)",
+          background: "var(--bg-secondary)",
+          border: "1px solid var(--border)",
           padding: 12,
           borderRadius: 8,
           overflow: "auto",
