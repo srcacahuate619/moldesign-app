@@ -20,6 +20,7 @@
 // celebratorio por cada tecla.
 
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 
 import {
   CASE_CONTEXT_SPECS,
@@ -100,6 +101,7 @@ function ContextField({
   value: string | undefined;
   onCommit: (field: CaseContextField, value: string) => void;
 }) {
+  const { t } = useLanguage();
   const [draft, setDraft] = useState(value ?? "");
   const lastExternal = useRef(value ?? "");
 
@@ -139,13 +141,13 @@ function ContextField({
           lastExternal.current = event.target.value;
           onCommit(field, event.target.value);
         }}
-        placeholder="No definido"
+        placeholder={t("c_no_definido")}
         className="mt-2 w-full resize-y rounded-md border border-surface-800 bg-surface-950 px-3 py-2 text-sm leading-relaxed text-zinc-100 placeholder:text-zinc-600 focus-visible:border-brand-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500"
       />
 
       {!answered && (
         <p className="mt-1.5 font-mono text-[10px] uppercase tracking-wider text-zinc-600">
-          No definido
+          {t("c_no_definido")}
         </p>
       )}
     </div>
@@ -159,6 +161,7 @@ export function CaseContextPanel({
   onRetry,
   embedded = false,
 }: CaseContextPanelProps) {
+  const { t } = useLanguage();
   const pending = summarizePendingContext(context);
 
   const commit = (field: CaseContextField, value: string) => {
@@ -193,15 +196,14 @@ export function CaseContextPanel({
       </div>
 
       <p className="mt-2 text-xs leading-relaxed text-zinc-500">
-        Ninguna de estas preguntas bloquea la evaluación. Lo que quede en «No definido» se
-        declarará como tal en el dossier, no se rellenará por su cuenta.
+        {t("ca_nada_bloquea")}
       </p>
 
       <dl className="mt-4 flex flex-wrap gap-x-6 gap-y-1 border-y border-surface-800 py-2 font-mono text-[11px] text-zinc-500">
         <div className="flex gap-1.5">
           <dt>Tipo:</dt>
           <dd className="text-zinc-400">
-            {context.studyKind ? CASE_STUDY_KIND_LABELS[context.studyKind] : "No definido"}
+            {context.studyKind ? CASE_STUDY_KIND_LABELS[context.studyKind] : t("c_no_definido")}
           </dd>
         </div>
         <div className="flex gap-1.5">

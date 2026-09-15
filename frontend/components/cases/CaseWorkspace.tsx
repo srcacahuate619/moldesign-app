@@ -17,7 +17,7 @@
 //   · abrir o crear un caso lleva directamente a la EVALUACIÓN real;
 //   · sólo hay dos modos, y el segundo —Informe— se REVELA cuando existe una
 //     corrida completada cuyo `molecule_id` se ha recuperado de verdad;
-//   · el contexto científico vive en «Detalles del caso», a un botón de
+//   · el contexto científico vive en «{t("ca_detalles")}», a un botón de
 //     distancia, y no bloquea nada.
 //
 // CUATRO DECISIONES QUE NO SON COSMÉTICAS:
@@ -39,6 +39,7 @@
 //    `100dvh - 3.5rem`. Antes pedía `100dvh` y se salía por debajo del viewport.
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 import dynamic from "next/dynamic";
 import { AlertTriangle, FileText, SlidersHorizontal, X } from "lucide-react";
 
@@ -90,6 +91,7 @@ function formatTimestamp(iso: string): string {
 }
 
 export function CaseWorkspace() {
+  const { t } = useLanguage();
   const {
     cases, activeCase, loading, error, saveState, hasLiveWork,
     repository, createCase, selectCase, updateContext, setActiveView, setArchived,
@@ -431,7 +433,7 @@ export function CaseWorkspace() {
             <button
               type="button"
               onClick={() => setSidebarOpen(false)}
-              aria-label="Cerrar panel de casos"
+              aria-label={t("ca_cerrar_panel")}
               className="absolute right-1 top-1 rounded p-1.5 text-zinc-500 hover:text-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
             >
               <X className="h-4 w-4" aria-hidden="true" />
@@ -480,7 +482,7 @@ export function CaseWorkspace() {
             className="flex flex-wrap items-center gap-2 border-b border-red-500/30 bg-red-500/10 px-4 py-2 text-xs leading-relaxed text-red-200"
           >
             <span className="min-w-0 flex-1">
-              La corrida arrancó pero <strong>su identificador no se pudo guardar</strong>. Sólo
+              {t("ca_corrida_arranco")} <strong>{t("ca_id_no_guardado")}</strong>. Sólo
               existe en memoria:{" "}
               <code className="break-all font-mono">{unregisteredRun.taskId}</code>
             </span>
@@ -520,15 +522,14 @@ export function CaseWorkspace() {
         {relocationConflict && (
           <div
             role="alertdialog"
-            aria-label="El caso ya está registrado en otra carpeta"
+            aria-label={t("ca_ya_registrado")}
             className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-3 text-xs leading-relaxed text-amber-100"
           >
             <p>
               <strong>{relocationConflict.name}</strong> ya está registrado en{" "}
               <span className="break-all font-mono">{relocationConflict.registeredPath}</span>. La
               carpeta que has elegido es{" "}
-              <span className="break-all font-mono">{relocationConflict.displayPath}</span>. No se
-              ha cambiado nada.
+              <span className="break-all font-mono">{relocationConflict.displayPath}</span>{t("ca_nada_cambiado")}
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
               <button
@@ -542,7 +543,7 @@ export function CaseWorkspace() {
                 }}
                 className="rounded-md border border-amber-500/40 px-3 py-1 text-xs hover:text-amber-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
               >
-                Usar la carpeta nueva
+                {t("ca_usar_carpeta_nueva")}
               </button>
               <button
                 type="button"
@@ -558,14 +559,13 @@ export function CaseWorkspace() {
         {pendingFolder && (
           <div
             role="alertdialog"
-            aria-label="Carpeta sin caso"
+            aria-label={t("ca_carpeta_sin_caso")}
             className="border-b border-surface-700 bg-surface-900 px-4 py-3 text-xs leading-relaxed text-zinc-300"
           >
             <p>
               La carpeta{" "}
               <span className="break-all font-mono text-zinc-400">{pendingFolder.displayPath}</span>{" "}
-              no contiene un <code className="font-mono">case.json</code>. No se importará por su
-              cuenta.
+              no contiene un <code className="font-mono">case.json</code>{t("ca_no_se_importa_solo")}
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
               <button
@@ -579,7 +579,7 @@ export function CaseWorkspace() {
                 }}
                 className="rounded-md border border-brand-500/40 bg-brand-600 px-3 py-1 text-xs font-medium text-white hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
               >
-                Inicializar como caso
+                {t("ca_inicializar_como_caso")}
               </button>
               <button
                 type="button"
@@ -649,12 +649,12 @@ export function CaseWorkspace() {
                   aria-expanded={detailsOpen}
                   aria-controls={DETAILS_DRAWER_ID}
                   aria-haspopup="dialog"
-                  aria-label={`Detalles del caso, ${describePendingDetails(activeCase.context)}`}
+                  aria-label={t("ca_detalles_con_pendientes", { pendientes: describePendingDetails(activeCase.context) })}
                   className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md border border-surface-700 px-2.5 py-1 text-xs text-zinc-300 transition-colors hover:border-surface-600 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
                 >
                   <SlidersHorizontal className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                   <span className="sm:hidden">Detalles</span>
-                  <span className="hidden sm:inline">Detalles del caso</span>
+                  <span className="hidden sm:inline">{t("ca_detalles")}</span>
                 </button>
               </div>
 
@@ -675,7 +675,7 @@ export function CaseWorkspace() {
                 entera. */}
             {reportable && (
               <div className="sticky top-0 z-20 border-b border-surface-800 bg-surface-950/95 px-4 py-2 backdrop-blur sm:px-6">
-                <div className="inline-flex rounded-lg border border-surface-700 bg-surface-950 p-1 shadow-inner" role="tablist" aria-label="Modo del caso">
+                <div className="inline-flex rounded-lg border border-surface-700 bg-surface-950 p-1 shadow-inner" role="tablist" aria-label={t("ca_modo_del_caso")}>
                   {CASE_VIEWS.map((mode) => {
                     const selected = view === mode;
                     return (
@@ -749,7 +749,7 @@ export function CaseWorkspace() {
                 className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-2 text-xs leading-relaxed text-amber-200 sm:px-6"
               >
                 Este caso guarda una corrida completada, pero{" "}
-                <strong>su resultado no se ha podido recuperar</strong>, así que no hay informe que
+                <strong>{t("ca_resultado_no_recuperado")}</strong>, así que no hay informe que
                 abrir. El identificador sigue guardado:{" "}
                 <code className="break-all font-mono">{activeCase.activeRun?.taskId}</code>
               </p>

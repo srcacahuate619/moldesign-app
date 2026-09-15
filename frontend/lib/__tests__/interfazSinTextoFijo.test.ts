@@ -51,7 +51,6 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
   "components/registro/RegistroCientifico.tsx": 15,
   "components/interfaces/pro/ProSelectivityPanel.tsx": 14,
   "components/interfaces/pro/ProXaiTab.tsx": 14,
-  "components/cases/CaseWorkspace.tsx": 13,
   "components/interfaces/pro/DockingEnginePanel.tsx": 13,
   "app/history/page.tsx": 12,
   "app/moldex/page.tsx": 11,
@@ -62,25 +61,18 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
   "app/comunidad/page.tsx": 9,
   "components/ui/OptionsMenu.tsx": 9,
   "components/ai/AISettingsModal.tsx": 8,
-  "components/cases/CaseReportView.tsx": 8,
   "components/MethodDisclaimer.tsx": 8,
-  "components/cases/CaseDispositionPanel.tsx": 6,
-  "components/cases/CaseRunHistoryModal.tsx": 6,
   "components/interfaces/pro/ProDockingTab.tsx": 6,
   "components/MoleculeViewer3D.tsx": 6,
   "components/ScoreCard.tsx": 6,
   "components/ui/AboutModal.tsx": 6,
   "app/global-error.tsx": 5,
-  "components/cases/CaseDossierViewer.tsx": 5,
-  "components/cases/CreateCaseDialog.tsx": 5,
   "components/DrugLikenessPanel.tsx": 5,
   "components/evaluation/CaseEvaluationRunner.tsx": 5,
   "components/interfaces/pro/ProConfigPanel.tsx": 5,
   "components/interfaces/pro/Web3DViewer.tsx": 5,
   "components/PropertiesPanel.tsx": 5,
   "components/ai/ChatInput.tsx": 4,
-  "components/cases/CaseSidebar.tsx": 4,
-  "components/cases/CaseSidebarShell.tsx": 4,
   "components/interfaces/pro/EstadoDelLigando.tsx": 4,
   "components/interfaces/pro/ProSarTab.tsx": 4,
   "components/interfaces/pro/ReceptorVariantModal.tsx": 4,
@@ -94,9 +86,6 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
   "components/OptionsPanel.tsx": 3,
   "components/PDFReportViewer.tsx": 3,
   "components/ai/ChatMessage.tsx": 2,
-  "components/cases/CaseContextPanel.tsx": 2,
-  "components/cases/CaseDetailsDrawer.tsx": 2,
-  "components/cases/CaseEmptyState.tsx": 2,
   "components/DownloadCard.tsx": 2,
   "components/DownloadNotifications.tsx": 2,
   "components/evaluation/LipinskiSpiderChart.tsx": 2,
@@ -127,7 +116,7 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
 };
 
 /** Techo global. Es el que cuenta: el detalle por fichero sólo dice dónde. */
-const PRESUPUESTO_TOTAL = 438;
+const PRESUPUESTO_TOTAL = 381;
 
 function ficheros(dir: string, acc: string[] = []): string[] {
   let entradas: string[];
@@ -214,6 +203,17 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
       "components/CertificationModal.tsx",
       "components/interfaces/pro/ProEvaluation.tsx",
       "components/interfaces/pro/ProOptionsModal.tsx",
+      "components/cases/CaseContextPanel.tsx",
+      "components/cases/CaseDetailsDrawer.tsx",
+      "components/cases/CaseDispositionPanel.tsx",
+      "components/cases/CaseDossierViewer.tsx",
+      "components/cases/CaseEmptyState.tsx",
+      "components/cases/CaseReportView.tsx",
+      "components/cases/CaseRunHistoryModal.tsx",
+      "components/cases/CaseSidebar.tsx",
+      "components/cases/CaseSidebarShell.tsx",
+      "components/cases/CaseWorkspace.tsx",
+      "components/cases/CreateCaseDialog.tsx",
     ];
     for (const rel of TERMINADAS) {
       const f = medidos.find((m) => m.rel === rel);

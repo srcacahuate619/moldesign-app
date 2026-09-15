@@ -18,6 +18,7 @@
 // `truncate` en cada fila).
 
 import { useEffect, useMemo, useState } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 import { AlertTriangle, Archive, ArchiveRestore, FolderOpen, PanelLeftClose, Plus, Search } from "lucide-react";
 
 import { filterCaseEntries } from "../../lib/cases/repository";
@@ -84,6 +85,7 @@ export function CaseSidebar({
   workLockedReason,
   onCollapse,
 }: CaseSidebarProps) {
+  const { t } = useLanguage();
   const [query, setQuery] = useState("");
   const [now, setNow] = useState(() => Date.now());
 
@@ -109,7 +111,7 @@ export function CaseSidebar({
           <div className="min-w-0 flex-1">
             <span className="block truncate text-sm text-zinc-300">{entry.name}</span>
             <span className="mt-0.5 block font-mono text-[10px] uppercase tracking-wider text-amber-400/90">
-              No disponible
+              {t("c_no_disponible")}
             </span>
           </div>
         </div>
@@ -170,7 +172,7 @@ export function CaseSidebar({
               <button
                 type="button"
                 onClick={() => onReveal(entry.id)}
-                aria-label={`Mostrar la carpeta de ${entry.name}`}
+                aria-label={t("ca_mostrar_carpeta", { nombre: entry.name })}
                 className="rounded p-1 text-zinc-500 transition-colors hover:text-zinc-200 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
               >
                 <FolderOpen className="h-3.5 w-3.5" aria-hidden="true" />
@@ -213,8 +215,8 @@ export function CaseSidebar({
             onClick={onCollapse}
             aria-expanded
             aria-controls="case-sidebar-panel"
-            aria-label="Ocultar el panel de casos"
-            title="Ocultar los casos"
+            aria-label={t("ca_ocultar_panel")}
+            title={t("ca_ocultar_casos")}
             className="grid h-7 w-7 shrink-0 place-items-center rounded-md text-zinc-500 transition-colors hover:bg-surface-800 hover:text-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
           >
             <PanelLeftClose className="h-4 w-4" aria-hidden="true" />

@@ -35,6 +35,7 @@
 //    dossier, lo dice el propio visor, con reintento.
 
 import { ArrowLeft } from "lucide-react";
+import { useLanguage } from "../../context/LanguageContext";
 
 import { CaseDossierViewer } from "./CaseDossierViewer";
 import type { CaseRecord, ReportableResult, RunInputsRelation } from "../../lib/cases/types";
@@ -77,11 +78,12 @@ export function CaseReportView({
   onBackToEvaluation,
   runRelation,
 }: CaseReportViewProps) {
+  const { t } = useLanguage();
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="min-w-0 text-sm font-semibold tracking-tight text-zinc-100">
-          Informe del caso
+          {t("ca_informe_titulo")}
         </h2>
         <button
           type="button"
@@ -89,7 +91,7 @@ export function CaseReportView({
           className="inline-flex items-center gap-1.5 rounded-md border border-surface-700 px-2.5 py-1 text-xs text-zinc-300 transition-colors hover:border-surface-600 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
         >
           <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-          Volver a Evaluación
+          {t("ca_volver_evaluacion")}
         </button>
       </div>
 
@@ -100,16 +102,11 @@ export function CaseReportView({
         >
           {runRelation === "corrida_anterior" ? (
             <>
-              <strong>Este informe es de una corrida anterior.</strong> Los inputs del caso han
-              cambiado desde que se ejecutó, así que no es evidencia de la hipótesis actual. Para
-              obtener evidencia de los inputs de ahora hay que comprobar la preparación y volver a
-              ejecutar.
+              <strong>{t("ca_informe_anterior")}</strong> {t("ca_informe_anterior_detalle")}
             </>
           ) : (
             <>
-              <strong>No se puede afirmar a qué inputs corresponde este informe.</strong> La
-              corrida se lanzó antes de que el caso registrara la huella de sus inputs. Se conserva
-              por trazabilidad; no se le atribuye la hipótesis actual.
+              <strong>{t("ca_informe_sin_huella")}</strong> {t("ca_informe_sin_huella_detalle")}
             </>
           )}
         </p>
@@ -121,12 +118,10 @@ export function CaseReportView({
           id="case-report-dossier"
           className="text-xs font-semibold uppercase tracking-wider text-zinc-400"
         >
-          Dossier de la corrida
+          {t("ca_dossier_corrida")}
         </h3>
         <p className="mt-1.5 text-xs leading-relaxed text-zinc-500">
-          El documento lo redacta el motor con lo que este caso declaró y con lo que la corrida
-          produjo de verdad. Lo que quedó sin responder aparece dentro como «NO DEFINIDO»: no se
-          rellena por su cuenta.
+          {t("ca_dossier_lo_redacta")}
         </p>
 
         <div className="mt-3">

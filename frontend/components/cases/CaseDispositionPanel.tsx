@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 import { Check, CircleSlash, Flag } from "lucide-react";
 
 import type { CaseDisposition, CaseDispositionKind, RunInputsRelation } from "../../lib/cases/types";
@@ -18,6 +19,7 @@ export interface CaseDispositionPanelProps {
 }
 
 export function CaseDispositionPanel({ disposition, runRelation, onSubmit }: CaseDispositionPanelProps) {
+  const { t } = useLanguage();
   const relationOk = runRelation === "corresponde";
   const [kind, setKind] = useState<CaseDispositionKind>(
     disposition?.kind ?? (relationOk ? "limit" : "abstain"),
@@ -43,10 +45,10 @@ export function CaseDispositionPanel({ disposition, runRelation, onSubmit }: Cas
           <Flag className="mt-0.5 h-4 w-4 shrink-0 text-brand-400" aria-hidden="true" />
           <div className="min-w-0">
             <h2 id="case-disposition-title" className="text-sm font-semibold text-zinc-100">
-              Disposición científica
+              {t("ca_disposicion_titulo")}
             </h2>
             <p className="mt-1 text-xs leading-relaxed text-zinc-500">
-              Decide qué puede afirmarse de esta corrida. La justificación queda guardada junto a la huella de inputs.
+              {t("ca_disposicion_descripcion")}
             </p>
           </div>
         </div>
@@ -61,11 +63,11 @@ export function CaseDispositionPanel({ disposition, runRelation, onSubmit }: Cas
           <>
             {!relationOk && (
               <p role="status" className="rounded-md border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs leading-relaxed text-amber-200">
-                Esta evidencia no coincide con los inputs actuales o no tiene una huella comprobable. Sólo puedes documentar una abstención hasta volver a ejecutar con los inputs actuales.
+                {t("ca_disposicion_sin_huella")}
               </p>
             )}
             {relationOk ? (
-              <div className="grid gap-2 sm:grid-cols-3" role="radiogroup" aria-label="Disposición científica">
+              <div className="grid gap-2 sm:grid-cols-3" role="radiogroup" aria-label={t("ca_disposicion_titulo")}>
                 {(Object.keys(LABELS) as CaseDispositionKind[]).map((option) => {
                   const selected = kind === option;
                   return (
@@ -80,13 +82,13 @@ export function CaseDispositionPanel({ disposition, runRelation, onSubmit }: Cas
             ) : (
               <div className="flex min-h-11 items-center gap-2 rounded-md border border-brand-500/40 bg-brand-500/10 px-3 py-2 text-xs text-zinc-100">
                 <CircleSlash className="h-4 w-4 shrink-0 text-brand-300" aria-hidden="true" />
-                <span><strong>Abstenerse.</strong> No se afirmará una conclusión con esta corrida.</span>
+                <span><strong>Abstenerse.</strong> {t("ca_disposicion_abstencion")}</span>
               </div>
             )}
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
               <label className="min-w-0 flex-1 text-xs text-zinc-400">
-                Justificación (obligatoria)
-                <textarea value={rationale} onChange={(event) => setRationale(event.target.value)} rows={2} maxLength={4000} placeholder="Qué evidencia respalda esta decisión y qué límites tiene…" className="mt-1 block w-full resize-y rounded-md border border-surface-700 bg-surface-900 px-3 py-2 text-xs leading-relaxed text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20" />
+                {t("ca_justificacion")}
+                <textarea value={rationale} onChange={(event) => setRationale(event.target.value)} rows={2} maxLength={4000} placeholder={t("ca_justificacion_ejemplo")} className="mt-1 block w-full resize-y rounded-md border border-surface-700 bg-surface-900 px-3 py-2 text-xs leading-relaxed text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20" />
               </label>
               <button type="button" onClick={submit} className="min-h-11 shrink-0 whitespace-nowrap rounded-md bg-brand-600 px-4 text-xs font-medium text-white transition-colors hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400">
                 {relationOk ? "Guardar disposición" : "Guardar abstención"}

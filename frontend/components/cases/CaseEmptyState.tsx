@@ -13,6 +13,7 @@
 // contradiria el tono. Aquel componente se conserva intacto para sus rutas.
 
 import { FolderOpen, Plus } from "lucide-react";
+import { useLanguage } from "../../context/LanguageContext";
 
 export interface CaseEmptyStateProps {
   readonly onCreate: () => void;
@@ -35,15 +36,15 @@ export function CaseEmptyState({
   createDisabled = false,
   createDisabledReason,
 }: CaseEmptyStateProps) {
+  const { t } = useLanguage();
   return (
     <div className="flex h-full w-full items-center justify-center px-6 py-12">
       <div className="w-full max-w-xl">
         <h1 className="text-xl font-semibold tracking-tight text-zinc-100">
-          Crea un caso de estudio
+          {t("ca_crear_titulo")}
         </h1>
         <p className="mt-3 text-sm leading-relaxed text-zinc-400">
-          Reúne una proteína, una hipótesis de sitio, ligandos, corridas, controles e informes
-          en un espacio reproducible.
+          {t("ca_crear_descripcion")}
         </p>
 
         <div className="mt-8 flex flex-wrap items-center gap-3">

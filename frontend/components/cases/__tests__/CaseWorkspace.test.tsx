@@ -726,7 +726,13 @@ describe("atribución del informe", () => {
     const navs = await within(reopened.container.ownerDocument.body).findAllByRole("navigation", {
       name: "Casos",
     });
-    fireEvent.click(within(navs[navs.length - 1]).getAllByText("Con corrida")[0]);
+    // `findAllByText` y no `getAllByText`: la lista de casos se carga del
+    // repositorio de forma asíncrona, así que una consulta SÍNCRONA justo
+    // después de montar caía a veces sobre «Cargando casos…». Era una carrera
+    // latente de la prueba —fallaba una de cada dos ejecuciones— y no del
+    // producto.
+    const fila = await within(navs[navs.length - 1]).findAllByText("Con corrida");
+    fireEvent.click(fila[0]);
     await waitFor(() => expect(declareReportable).not.toBeNull());
     act(() => declareReportable?.(REPORTABLE));
     return reopened;

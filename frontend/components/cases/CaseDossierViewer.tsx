@@ -34,6 +34,7 @@
 //    exactamente la afirmación sin comprobar que el dossier quiere impedir.
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 import { AlertCircle, Download, FileArchive, FileText, Loader2, RefreshCw } from "lucide-react";
 
 import {
@@ -64,6 +65,7 @@ export function CaseDossierViewer({
   reportable,
   runRelation,
 }: CaseDossierViewerProps) {
+  const { t } = useLanguage();
   const [state, setState] = useState<LoadState>("loading");
   const [error, setError] = useState<string | null>(null);
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
@@ -286,8 +288,7 @@ export function CaseDossierViewer({
           role="status"
           className="border-b border-surface-800 bg-surface-900/60 px-4 py-2 text-xs leading-relaxed text-zinc-400"
         >
-          Paquete descargado como <code className="font-mono text-zinc-300">{packageSaved}</code>.
-          Incluye su propio manifiesto con hashes; la verificación la hace quien lo reciba.
+          {t("ca_dossier_descargado")} <code className="font-mono text-zinc-300">{packageSaved}</code>{t("ca_dossier_manifiesto")}
         </p>
       )}
 
@@ -309,7 +310,7 @@ export function CaseDossierViewer({
           >
             <Loader2 className="h-8 w-8 animate-spin text-brand-500" aria-hidden="true" />
             <span className="font-mono text-xs uppercase tracking-wider text-surface-400">
-              Generando el dossier del caso…
+              {t("ca_dossier_generando")}
             </span>
           </div>
         )}
@@ -317,7 +318,7 @@ export function CaseDossierViewer({
         {state === "error" && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center">
             <AlertCircle className="h-10 w-10 text-red-400" aria-hidden="true" />
-            <div className="font-bold text-red-400">No se pudo generar el dossier</div>
+            <div className="font-bold text-red-400">{t("ca_dossier_fallo")}</div>
             <p role="alert" className="max-w-md text-sm leading-relaxed text-surface-400">
               {error}
             </p>
@@ -336,7 +337,7 @@ export function CaseDossierViewer({
           <iframe
             src={`${blobUrl}#toolbar=0`}
             className="absolute inset-0 h-full w-full border-none bg-transparent"
-            title="Dossier del caso"
+            title={t("ca_dossier_caso")}
           />
         )}
       </div>

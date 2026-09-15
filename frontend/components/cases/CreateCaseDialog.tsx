@@ -15,6 +15,7 @@
 // una escritura en disco dejaria una carpeta a medias.
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 import { FolderOpen, X } from "lucide-react";
 
 import {
@@ -62,6 +63,7 @@ export function CreateCaseDialog({
   storageLabel,
   onPickDirectory,
 }: CreateCaseDialogProps) {
+  const { t } = useLanguage();
   const [name, setName] = useState("");
   const [studyKind, setStudyKind] = useState<CaseStudyKind>("explore-hypothesis");
   const [directory, setDirectory] = useState<{ token: string; displayPath: string } | null>(null);
@@ -204,8 +206,7 @@ export function CreateCaseDialog({
               Nuevo caso
             </h2>
             <p id={descriptionId} className="mt-1 text-xs leading-relaxed text-zinc-500">
-              Las preguntas científicas se responden después, en «Detalles del caso». Aquí sólo
-              lo mínimo.
+              {t("ca_solo_lo_minimo")}
             </p>
           </div>
           <button
@@ -232,7 +233,7 @@ export function CreateCaseDialog({
               aria-invalid={Boolean(nameProblem)}
               aria-describedby={nameProblem ? nameErrorId : undefined}
               className="mt-2 w-full rounded-md border border-surface-700 bg-surface-950 px-3 py-2 text-sm text-zinc-100 placeholder:text-zinc-600 focus-visible:border-brand-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500"
-              placeholder="p. ej. Serie de inhibidores — cribado inicial"
+              placeholder={t("ca_ejemplo_nombre")}
             />
             {nameProblem && (
               <p id={nameErrorId} className="mt-2 text-xs text-amber-400">
@@ -267,7 +268,7 @@ export function CreateCaseDialog({
 
           <div>
             <span className="block text-xs font-medium uppercase tracking-wider text-zinc-400">
-              Ubicación
+              {t("ca_ubicacion")}
             </span>
             {requiresDirectory ? (
               <div className="mt-2">
@@ -286,8 +287,7 @@ export function CreateCaseDialog({
                 </p>
                 {folderPreview && folderPreview !== trimmed && (
                   <p className="mt-1 text-[11px] leading-relaxed text-zinc-500">
-                    La carpeta se llamará <span className="font-mono">{folderPreview}</span>: el
-                    nombre visible del caso conserva lo que has escrito.
+                    {t("ca_carpeta_se_llamara")} <span className="font-mono">{folderPreview}</span>{t("ca_nombre_visible_conserva")}
                   </p>
                 )}
               </div>

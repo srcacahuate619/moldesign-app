@@ -24,6 +24,7 @@
 // botón que lo abre lleva `aria-expanded` y `aria-controls` apuntando aquí.
 
 import { useCallback, useEffect, useRef } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 import { X } from "lucide-react";
 
 import { CaseContextPanel } from "./CaseContextPanel";
@@ -62,6 +63,7 @@ export function CaseDetailsDrawer({
   onChange,
   onRetry,
 }: CaseDetailsDrawerProps) {
+  const { t } = useLanguage();
   const panelRef = useRef<HTMLDivElement | null>(null);
   const openerRef = useRef<HTMLElement | null>(null);
   const titleId = `${id}-title`;
@@ -120,7 +122,7 @@ export function CaseDetailsDrawer({
         <div className="flex items-start justify-between gap-3 border-b border-surface-800 px-4 py-3">
           <div className="min-w-0">
             <h2 id={titleId} className="text-sm font-semibold tracking-tight text-zinc-100">
-              Detalles del caso
+              {t("ca_detalles")}
             </h2>
             <p className="mt-0.5 font-mono text-[11px] text-zinc-500">
               {describePendingDetails(context)}
@@ -129,7 +131,7 @@ export function CaseDetailsDrawer({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Cerrar detalles del caso"
+            aria-label={t("ca_cerrar_detalles")}
             className="shrink-0 rounded p-1.5 text-zinc-500 transition-colors hover:text-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
           >
             <X className="h-4 w-4" aria-hidden="true" />

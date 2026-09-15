@@ -19,6 +19,7 @@
 // 48 px que ahorra.
 
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 import { PanelLeftOpen, Plus } from "lucide-react";
 
 /** Lo que ocupa el raíl plegado. Cabe un botón de 44 px con su margen. */
@@ -72,7 +73,7 @@ export interface CaseSidebarShellProps {
   readonly children: (api: { readonly plegar: () => void }) => ReactNode;
   /** Se muestra en el raíl para que plegado siga informando. */
   readonly totalCasos: number;
-  /** Crear un caso desde el raíl, sin tener que desplegarlo antes. */
+  /** {t("ca_crear_boton")} desde el raíl, sin tener que desplegarlo antes. */
   readonly onCreate: () => void;
   readonly createDisabled?: boolean;
   readonly createDisabledReason?: string;
@@ -85,6 +86,7 @@ export function CaseSidebarShell({
   createDisabled = false,
   createDisabledReason,
 }: CaseSidebarShellProps) {
+  const { t } = useLanguage();
   // El primer render debe coincidir con el del servidor o la hidratación se
   // queja; las preferencias se leen después, ya en el cliente.
   const [montado, setMontado] = useState(false);
@@ -173,8 +175,8 @@ export function CaseSidebarShell({
             onClick={alternar}
             aria-expanded={false}
             aria-controls="case-sidebar-panel"
-            title="Mostrar los casos"
-            aria-label="Mostrar el panel de casos"
+            title={t("ca_mostrar_casos")}
+            aria-label={t("ca_mostrar_panel")}
             className="grid h-9 w-9 place-items-center rounded-md text-zinc-400 transition-colors hover:bg-surface-800 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
           >
             <PanelLeftOpen className="h-4 w-4" aria-hidden="true" />
@@ -184,7 +186,7 @@ export function CaseSidebarShell({
             onClick={onCreate}
             disabled={createDisabled}
             title={createDisabled ? createDisabledReason : "Caso nuevo"}
-            aria-label="Crear un caso"
+            aria-label={t("ca_crear_boton")}
             className="grid h-9 w-9 place-items-center rounded-md text-zinc-400 transition-colors hover:bg-surface-800 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent"
           >
             <Plus className="h-4 w-4" aria-hidden="true" />
@@ -216,7 +218,7 @@ export function CaseSidebarShell({
           <div
             role="separator"
             aria-orientation="vertical"
-            aria-label="Ancho del panel de casos"
+            aria-label={t("ca_ancho_panel")}
             aria-valuenow={ancho}
             aria-valuemin={ANCHO_MINIMO}
             aria-valuemax={ANCHO_MAXIMO}

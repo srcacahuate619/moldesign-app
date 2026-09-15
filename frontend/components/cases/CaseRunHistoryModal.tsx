@@ -25,6 +25,7 @@
 // atribución falsa que el resto del modelo se dedica a impedir.
 
 import { useCallback, useEffect, useState } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 import { useScrollLock } from "@/hooks/useScrollLock";
 import {
   AlertTriangle,
@@ -124,6 +125,7 @@ export default function CaseRunHistoryModal({
   activeTaskId,
   onClose,
 }: CaseRunHistoryModalProps) {
+  const { t } = useLanguage();
   useScrollLock(true);
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
   const [detail, setDetail] = useState<
@@ -198,7 +200,7 @@ export default function CaseRunHistoryModal({
                 id="case-run-history-title"
                 className="font-mono text-xs font-bold uppercase tracking-[0.14em]"
               >
-                Evaluaciones anteriores de este caso
+                {t("ca_historial_titulo")}
               </h2>
             </div>
             <p className="mt-1.5 text-xs leading-5 text-zinc-500">
@@ -213,7 +215,7 @@ export default function CaseRunHistoryModal({
             type="button"
             onClick={onClose}
             className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] text-zinc-400 transition-colors hover:border-white/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
-            aria-label="Cerrar historial de evaluaciones del caso"
+            aria-label={t("ca_historial_cerrar")}
           >
             <X size={16} aria-hidden="true" />
           </button>
@@ -222,7 +224,7 @@ export default function CaseRunHistoryModal({
         <div className="min-h-0 flex-1 overflow-y-auto">
           {ordered.length === 0 ? (
             <p className="p-8 text-center text-xs leading-5 text-zinc-500">
-              Este caso todavía no ha lanzado ninguna evaluación.
+              {t("ca_sin_evaluaciones")}
             </p>
           ) : (
             <ul className="divide-y divide-surface-800">
@@ -251,7 +253,7 @@ export default function CaseRunHistoryModal({
                           )}
                           {inputsRelation === "corrida_anterior" && (
                             <span className="rounded-md border border-zinc-700 bg-zinc-900 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-zinc-400">
-                              Otra hipótesis
+                              {t("ca_otra_hipotesis")}
                             </span>
                           )}
                           {/* El protocolo que se salió del sistema se marca en
@@ -259,7 +261,7 @@ export default function CaseRunHistoryModal({
                               ligando con más muestreo sin comparar a ciegas. */}
                           {protocolRelation === "otro_protocolo" && (
                             <span className="rounded-md border border-amber-500/30 bg-amber-500/[0.07] px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-amber-200">
-                              Otro protocolo
+                              {t("ca_otro_protocolo")}
                             </span>
                           )}
                         </div>
@@ -333,11 +335,12 @@ function RunDetail({
     | { kind: "error"; message: string };
   moleculeId: string;
 }) {
+  const { t } = useLanguage();
   if (detail.kind === "loading") {
     return (
       <div className="mt-3 flex items-center gap-2 rounded-xl border border-surface-800 bg-black/40 p-4 text-zinc-400" role="status">
         <Loader2 className="h-4 w-4 animate-spin text-purple-300" aria-hidden="true" />
-        <p className="text-xs">Recuperando el resultado guardado de esta corrida…</p>
+        <p className="text-xs">{t("ca_recuperando_resultado")}</p>
       </div>
     );
   }
