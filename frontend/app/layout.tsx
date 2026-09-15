@@ -1,5 +1,5 @@
 
-import { useLanguage } from "@/context/LanguageContext";
+import { TRADUCCIONES_POR_SUPERFICIE } from "../context/traducciones";
 import "./globals.css";
 import type { ReactNode } from "react";
 import { headers } from "next/headers";
@@ -30,8 +30,12 @@ export const metadata = {
   description: "Prepara hipótesis moleculares, explora poses y documenta la evidencia computacional de cada corrida.",
 };
 
+function translateLayout(key: string): string {
+  return TRADUCCIONES_POR_SUPERFICIE.es[key] ?? key;
+}
+
 export default async function RootLayout({ children }: { children: ReactNode }) {
-  const { t } = useLanguage();
+  const t = translateLayout;
   // La web lee el nonce inyectado por proxy vía x-nonce. En Tauri no
   // existe un servidor Next ni proxy por request: la CSP viene de
   // tauri.conf.prod.json y el layout debe poder exportarse como HTML estático.
