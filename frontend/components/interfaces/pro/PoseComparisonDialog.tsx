@@ -46,7 +46,7 @@ export function PoseComparisonDialog({
   // La diferencia con los otros seis, mirada una por una:
   //
   //     AboutModal, LegalModal, TargetSelectorModal,
-  //     ProOptionsModal, Cloud/LocalAISettingsModal
+  //     ProOptionsModal y otros modales de configuracion
   //         fixed inset-0 flex items-center justify-center   -> sin scroll
   //         el panel:  flex flex-col overflow-hidden  + cuerpo overflow-y-auto
   //

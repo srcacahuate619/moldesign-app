@@ -6,10 +6,8 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowLeft,
-  Brain,
   Check,
   ChevronRight,
-  Database,
   Download,
   FileJson,
   FileText,
@@ -29,9 +27,7 @@ import { useTheme } from "../../context/ThemeContext";
 import { LANGUAGES, useLanguage } from "../../context/LanguageContext";
 import { SupportContent } from "../SupportPanel";
 import { AboutModal } from "./AboutModal";
-import { CloudAISettingsModal } from "./CloudAISettingsModal";
 import { LegalModal } from "./LegalModal";
-import { LocalAISettingsModal } from "./LocalAISettingsModal";
 import { useAuth } from "../../lib/auth";
 import { getUserItem, removeUserItem, setUserItem } from "../../lib/userStorage";
 import { PRODUCT } from "@/lib/softwareCatalog";
@@ -72,9 +68,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
   const [showLangPicker, setShowLangPicker] = useState(false);
   const [legalOpen, setLegalOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
-  const [localAIOpen, setLocalAIOpen] = useState(false);
-  const [cloudAIOpen, setCloudAIOpen] = useState(false);
-  const childModalOpen = legalOpen || aboutOpen || localAIOpen || cloudAIOpen;
+  const childModalOpen = legalOpen || aboutOpen;
 
   useEffect(() => {
     setMounted(true);
@@ -90,8 +84,6 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
     if (isOpen) return;
     setLegalOpen(false);
     setAboutOpen(false);
-    setLocalAIOpen(false);
-    setCloudAIOpen(false);
     setShowLangPicker(false);
     setActiveView("options");
   }, [isOpen]);
@@ -360,25 +352,6 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                     </div>
                   </section>
 
-                  <section>
-                    <h3 className={sectionLabelClass}>{t("ia_interprete")}</h3>
-                    <div className="space-y-1">
-                      <button type="button" onClick={() => setLocalAIOpen(true)} className={optionButtonClass}>
-                        <span className="flex items-center gap-3">
-                          <Brain size={16} className="text-emerald-400" aria-hidden="true" />
-                          <span className={optionTextClass}>{t("ia_interprete_local")}</span>
-                        </span>
-                        <span className="text-[11px] text-[var(--text-dim)]">Configurar</span>
-                      </button>
-                      <button type="button" onClick={() => setCloudAIOpen(true)} className={optionButtonClass}>
-                        <span className="flex items-center gap-3">
-                          <Database size={16} className="text-sky-400" aria-hidden="true" />
-                          <span className={optionTextClass}>{t("ia_interprete_online")}</span>
-                        </span>
-                        <span className="text-[11px] text-[var(--text-dim)]">Cloud / API</span>
-                      </button>
-                    </div>
-                  </section>
 
                   <section>
                     <h3 className={sectionLabelClass}>Modelos y motores</h3>
@@ -467,8 +440,6 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
       {portal}
       <LegalModal isOpen={legalOpen} onClose={() => setLegalOpen(false)} />
       <AboutModal isOpen={aboutOpen} onClose={() => setAboutOpen(false)} onRequestLegal={() => { setAboutOpen(false); setLegalOpen(true); }} />
-      <LocalAISettingsModal isOpen={localAIOpen} onClose={() => setLocalAIOpen(false)} />
-      <CloudAISettingsModal isOpen={cloudAIOpen} onClose={() => setCloudAIOpen(false)} />
     </>
   );
 }

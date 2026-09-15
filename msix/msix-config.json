@@ -40,6 +40,21 @@
     "consecuencia": "runFullTrust es una capacidad RESTRINGIDA: Partner Center exige justificacion escrita y la revisa una persona. Un envio sin justificacion se rechaza. El texto de justificacion es decision del responsable del producto, no de este script."
   },
 
+  "dependencia_webview2": {
+    "name": "Microsoft.WebView2",
+    "publisher": "CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "min_version": "1.1.1.1",
+    "optional": false,
+    "por_que": [
+      "La app depende del runtime WebView2 del sistema: sin el, la ventana no renderiza la interfaz y el producto no arranca.",
+      "Tauri 2.11 solo produce los targets msi y nsis; NO produce MSIX, asi que el webviewInstallMode del bundle de Tauri no aplica a esta ruta.",
+      "El Store y el App Installer instalan en cadena el runtime Evergreen cuando falta en la maquina.",
+      "El Publisher fijo es el valor que el esquema documentado de Microsoft permite para win32dependencies:ExternalDependency."
+    ],
+    "caveat": "Limitacion documentada por Microsoft: win32dependencies:ExternalDependency se honra SOLO en instalaciones via la app Microsoft App Installer; la API PackageManager, los cmdlets de PowerShell (Add-AppxPackage) y Microsoft Intune lo IGNORAN. Es exactamente por eso que la prueba previa en VM sin WebView2 fallo: el MSIX no declaraba nada y el mecanismo de instalacion usado no resuelve la dependencia. MinVersion se toma del ejemplo del documento oficial del esquema para este elemento; si una prueba futura con App Installer demostrara que exige una version publicada concreta, es un cambio de una linea.",
+    "declarado_en": "La plantilla de scripts/build_msix.py emite el elemento win32dependencies:ExternalDependency en Package.appxmanifest."
+  },
+
   "contenido_del_paquete": {
     "runtime_staged_completo": true,
     "origen": "frontend/src-tauri/resources, generado por scripts/bundle_helper.py (stage:desktop)",

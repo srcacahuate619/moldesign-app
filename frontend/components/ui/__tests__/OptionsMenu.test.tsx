@@ -32,8 +32,6 @@ vi.mock("../../../context/LanguageContext", () => ({
 
 vi.mock("../LegalModal", () => ({ LegalModal: () => null }));
 vi.mock("../AboutModal", () => ({ AboutModal: () => null }));
-vi.mock("../LocalAISettingsModal", () => ({ LocalAISettingsModal: () => null }));
-vi.mock("../CloudAISettingsModal", () => ({ CloudAISettingsModal: () => null }));
 
 describe("OptionsMenu", () => {
   it("mantiene Soporte como la última vista del mismo drawer", async () => {

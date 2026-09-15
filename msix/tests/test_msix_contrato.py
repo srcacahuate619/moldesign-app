@@ -65,6 +65,18 @@ def test_el_manifiesto_generado_repite_la_identidad_exacta():
     assert f"<PublisherDisplayName>{PUBLISHER_DISPLAY_NAME}</PublisherDisplayName>" in xml
 
 
+@pytest.mark.skipif(not MANIFIESTO.is_file(),
+                    reason="Package.appxmanifest aun no generado (fase manifest).")
+def test_el_manifiesto_declara_webview2_como_dependencia_externa():
+    xml = MANIFIESTO.read_text(encoding="utf-8")
+    assert 'xmlns:win32dependencies="http://schemas.microsoft.com/appx/manifest/externaldependencies"' in xml
+    assert "IgnorableNamespaces=\"uap rescap win32dependencies\"" in xml
+    assert '<win32dependencies:ExternalDependency' in xml
+    assert 'Name="Microsoft.WebView2"' in xml
+    assert ('Publisher="CN=Microsoft Windows, O=Microsoft Corporation, '
+            'L=Redmond, S=Washington, C=US"') in xml
+    assert 'MinVersion="1.1.1.1"' in xml
+    assert 'Optional="false"' in xml
 # ── Version ─────────────────────────────────────────────────────────────────
 
 @pytest.mark.parametrize("semver,esperado", [
@@ -145,7 +157,32 @@ def test_la_configuracion_declara_que_run_full_trust_es_restringida():
     assert conf["por_que_es_necesario"], "Debe quedar escrito POR QUE se necesita."
 
 
+def test_la_configuracion_declara_la_dependencia_webview2():
+    conf = _cargar(CONFIG)["dependencia_webview2"]
+    assert conf["name"] == "Microsoft.WebView2"
+    assert conf["publisher"] == (
+        "CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, "
+        "S=Washington, C=US"
+    )
+    assert conf["min_version"] == "1.1.1.1"
+    assert conf["optional"] is False
+    assert conf["por_que"]
+    assert "App Installer" in conf["caveat"]
+    assert "Add-AppxPackage" in conf["caveat"]
 # ── No-regresion de la ruta NSIS ────────────────────────────────────────────
+def test_webview2_runtime_ausente_se_detecta_y_falla_con_guia(monkeypatch):
+    import accept_msix_store
+    monkeypatch.setattr(accept_msix_store, "_ps_json", lambda _script: None)
+    estado = accept_msix_store.webview2_runtime()
+    assert estado["installed"] is False
+    with pytest.raises(accept_msix_store.AceptacionFallida, match="Microsoft.WebView2"):
+        accept_msix_store.comprobar_webview2_runtime()
+def test_webview2_runtime_presente_se_detecta_en_el_registro(monkeypatch):
+    import accept_msix_store
+    monkeypatch.setattr(accept_msix_store, "_ps_json", lambda _script: {
+        "path": "HKLM:\\SOFTWARE\\...",
+        "pv": "130.0.2849.68",
+    })
 
 def test_la_ruta_nsis_sigue_intacta():
     """El encargo era anadir MSIX, no sustituir el instalador existente."""

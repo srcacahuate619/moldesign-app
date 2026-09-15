@@ -69,6 +69,9 @@ La ronda del 11-sep se corrió sobre un paquete anterior. Sobre el paquete
    & "C:\Program Files (x86)\Windows Kits\10\App Certification Kit\appcert.exe" test -appxpackagepath "E:\rel\v1.0.0.0\amezcua-dev.com.MolDesign_1.0.0.0_x64.msix" -reportoutputpath "E:\rel\v1.0.0.0\wack-report.xml"
    ```
 
+La ruta anterior ya no es valida para una corrida nueva: el informe debe quedar junto al MSIX final en E:\rel\v1.0.0.0 y ambos deben compartir el mismo hash de evidencia. Si se reconstruye, primero se archiva la carpeta sellada y se vuelve a ejecutar el comando sobre los bytes nuevos.
+
+El manifiesto final tambien contiene la dependencia externa de Microsoft.WebView2. App Installer y Microsoft Store pueden encadenarla; Add-AppxPackage, PackageManager e Intune no la resuelven, de modo que una prueba local sin el runtime debe fallar en el preflight con una guia clara.
 2. Si persisten los tres `No se pudo extraer...`, es el patrón API-set
    confirmado; el vuelo de Store (audiencia privada) es el veredicto definitivo.
    Microsoft no publica apps por el resultado local de `appcert.exe`: publica por

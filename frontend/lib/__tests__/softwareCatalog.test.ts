@@ -51,6 +51,7 @@ describe("softwareCatalog", () => {
     expect(openBabel?.version).toBe("3.1.1.23");
     expect(openBabel?.attention).toBe("copyleft");
     expect(openBabel?.linkage).toBe("subproceso");
+    expect(openBabel?.role).toContain("3.1.0");
   });
 
   it("ningún componente vuelve a declararse GPL-2.0-or-later", () => {
@@ -66,5 +67,6 @@ describe("softwareCatalog", () => {
     const ficha = cards.find((card) => card.name === "Open Babel");
     expect(ficha?.description).toContain("línea de órdenes");
     expect(ficha?.description).toContain("No se enlaza");
+    expect(ficha?.description).toContain("3.1.0");
   });
 });

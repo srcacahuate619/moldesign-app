@@ -236,7 +236,8 @@ PLANTILLA_MANIFIESTO = """<?xml version="1.0" encoding="utf-8"?>
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap rescap">
+  xmlns:win32dependencies="http://schemas.microsoft.com/appx/manifest/externaldependencies"
+  IgnorableNamespaces="uap rescap win32dependencies">
 
   <Identity
     Name="{identity_name}"
@@ -252,6 +253,20 @@ PLANTILLA_MANIFIESTO = """<?xml version="1.0" encoding="utf-8"?>
 
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="{min_version}" MaxVersionTested="{max_tested}" />
+    <!-- Esquema documentado por Microsoft para declarar el runtime de WebView2
+         como dependencia externa en MSIX: win32dependencies:ExternalDependency.
+         Name y Publisher son los valores fijos que Microsoft permite para este
+         elemento. MinVersion "1.1.1.1" es el valor del ejemplo del documento
+         oficial del esquema y significa que CUALQUIER runtime Evergreen ya
+         instalado lo satisface: la instalacion en cadena solo se dispara en una
+         maquina donde el runtime falta. Optional="false" falla cerrado: una
+         instalacion sin red en una maquina sin runtime falla de forma honesta
+         en vez de producir una aplicacion que no puede arrancar. -->
+    <win32dependencies:ExternalDependency
+      Name="Microsoft.WebView2"
+      Publisher="CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US"
+      MinVersion="1.1.1.1"
+      Optional="false" />
   </Dependencies>
 
   <Resources>

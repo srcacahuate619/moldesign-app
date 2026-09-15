@@ -335,6 +335,18 @@ Lo único que sigue sin arnés es la **descarga de modelos bajo identidad de
 paquete**: el redirect a `%USERPROFILE%\MolDesign\models` está escrito,
 compilado y empaquetado, pero ninguna prueba lo ejercita instalado.
 
+### 5.3.1 WebView2 y WACK del paquete final
+
+El manifiesto del MSIX declara Microsoft.WebView2 como win32dependencies:ExternalDependency, con Optional=false. La app necesita el runtime para renderizar; no es una dependencia opcional.
+
+Microsoft documenta una limitacion importante: esa dependencia se resuelve mediante Microsoft App Installer, pero Add-AppxPackage, la API PackageManager y Microsoft Intune la ignoran. Por eso accept_msix_store.py comprueba antes de instalar que exista el runtime Evergreen en el registro y muestra una guia de instalacion offline si falta.
+
+La ronda WACK debe ejecutarse sobre el mismo archivo que acompana a build-evidence.json y accept-evidence.json, desde una consola elevada:
+
+& "C:\Program Files (x86)\Windows Kits\10\App Certification Kit\appcert.exe" reset
+& "C:\Program Files (x86)\Windows Kits\10\App Certification Kit\appcert.exe" test -appxpackagepath "E:\rel\v1.0.0.0\amezcua-dev.com.MolDesign_1.0.0.0_x64.msix" -reportoutputpath "E:\rel\v1.0.0.0\wack-report.xml"
+
+No se debe reutilizar una carpeta de version ya sellada: archiva E:\rel\v1.0.0.0 antes de reconstruir el paquete.
 ### 5.4 Lo que la auditoría del 2026-09-12 cambió en el paquete
 
 | Qué | Antes | Ahora |

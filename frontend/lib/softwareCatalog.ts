@@ -72,7 +72,7 @@ export const SOFTWARE_SECTIONS: SoftwareSection[] = [
         // aparte. La distinción no es cosmética: decide qué obligaciones de
         // licencia arrastra. Ver docs/79_ADR_FRONTERA_OPEN_BABEL.md.
         description:
-          "Programa independiente que MolDesign ejecuta como herramienta de línea de órdenes para convertir PDBQT a SDF cuando la exportación del ligando falla. No se enlaza como biblioteca.",
+          "Programa independiente que MolDesign ejecuta como herramienta de línea de órdenes para convertir PDBQT a SDF cuando la exportación del ligando falla. No se enlaza como biblioteca. El ejecutable empaquetado se identifica internamente como 3.1.0 porque la 3.1.1 fue una correccion de empaquetado que no actualizo la cadena; el valor medido vive en el manifiesto del paquete.",
         credit: "Open Babel contributors; empaquetado del wheel por Jinzhe Zeng",
       },
       {
@@ -353,7 +353,7 @@ export const LICENSE_HIGHLIGHTS: LicenseHighlight[] = [
     // y PolyForm Noncommercial no puede relicenciar esos bindings — por eso
     // este componente se ejecuta como programa aparte.
     license: "GPL-2.0-only",
-    role: "Conversión estructural de respaldo (PDBQT → SDF)",
+    role: "Conversión estructural de respaldo (PDBQT → SDF) El ejecutable empaquetado reporta internamente 3.1.0 por una correccion de empaquetado; el valor medido consta en el manifiesto del paquete.",
     sourceUrl: "https://github.com/openbabel/openbabel",
     attention: "copyleft",
     linkage: "subproceso",

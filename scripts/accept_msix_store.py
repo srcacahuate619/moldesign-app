@@ -90,7 +90,74 @@ def _ps_json(script: str, timeout: float = 600) -> Any:
     return json.loads(out)
 
 
+WEBVIEW2_REGISTRY_KEYS = (
+    r"HKLM:\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}",
+    r"HKCU:\Software\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}",
+)
+WEBVIEW2_INSTALL_GUIDE = (
+    "Instala el runtime Evergreen de WebView2 con el instalador offline de Microsoft: "
+    "MicrosoftEdgeWebView2RuntimeInstallerX64.exe /silent /install"
+)
+
+
+def _version_tuple(value: Any) -> tuple[int, int, int, int]:
+    """Convierte una version del registro en cuatro enteros comparables."""
+    if value is None:
+        return (0, 0, 0, 0)
+    parts = str(value).strip().split(".")
+    if not parts or not all(part.isdigit() for part in parts):
+        return (0, 0, 0, 0)
+    numbers = [int(part) for part in parts[:4]]
+    if len(numbers) < 4:
+        numbers.extend([0] * (4 - len(numbers)))
+    return tuple(numbers[:4])
+
+
+def webview2_runtime() -> dict[str, Any]:
+    """Lee las dos ubicaciones oficiales del runtime Evergreen instalado."""
+    script = r"""
+$paths = @(
+  ('HKLM:' + [char]92 + 'SOFTWARE' + [char]92 + 'WOW6432Node' + [char]92 + 'Microsoft' + [char]92 + 'EdgeUpdate' + [char]92 + 'Clients' + [char]92 + '{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}'),
+  ('HKCU:' + [char]92 + 'Software' + [char]92 + 'Microsoft' + [char]92 + 'EdgeUpdate' + [char]92 + 'Clients' + [char]92 + '{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}')
+)
+foreach ($path in $paths) {
+  try {
+    $pv = (Get-ItemProperty -LiteralPath $path -Name pv -ErrorAction Stop).pv
+    if ($null -ne $pv) {
+      [PSCustomObject]@{ path = $path; pv = [string]$pv }
+    }
+  } catch {
+  }
+}
+"""
+    datos = _ps_json(script)
+    filas = datos if isinstance(datos, list) else ([datos] if isinstance(datos, dict) else [])
+    versiones = []
+    for fila in filas:
+        if not isinstance(fila, dict):
+            continue
+        valor = fila.get("pv")
+        if _version_tuple(valor) > (0, 0, 0, 0):
 # ── Paquete ─────────────────────────────────────────────────────────────────
+            versiones.append({"path": fila.get("path"), "pv": str(valor)})
+    return {
+        "installed": bool(versiones),
+        "versions": versiones,
+        "registry_keys_checked": list(WEBVIEW2_REGISTRY_KEYS),
+    }
+
+
+def comprobar_webview2_runtime() -> dict[str, Any]:
+    estado = webview2_runtime()
+    if not estado["installed"]:
+        raise AceptacionFallida(
+            "No se encontro Microsoft.WebView2 Runtime Evergreen en el registro. "
+            "Add-AppxPackage no resuelve win32dependencies:ExternalDependency; "
+            + WEBVIEW2_INSTALL_GUIDE
+            + ". Para probar el encadenamiento de la Store, instala mediante "
+            "Microsoft App Installer con internet."
+        )
+    return estado
 
 def paquete_instalado(nombre: str) -> dict | None:
     datos = _ps_json(
@@ -154,6 +221,19 @@ def comprobar_identidad_y_version(msix: Path, cfg: dict) -> dict[str, Any]:
         for i, c in enumerate(campos):
             if not c.isdigit() or int(c) > 65535:
                 fallos.append(f"Campo {i} de la version fuera de rango: {c!r}")
+
+    dependencia = cfg.get("dependencia_webview2", {})
+    fragmentos_webview2 = (
+        'xmlns:win32dependencies="http://schemas.microsoft.com/appx/manifest/externaldependencies"',
+        'Name="Microsoft.WebView2"',
+        f'Publisher="{dependencia.get("publisher", "")}"',
+        f'MinVersion="{dependencia.get("min_version", "")}"',
+        f'Optional="{str(dependencia.get("optional", False)).lower()}"',
+    )
+    if not dependencia or any(fragmento not in xml for fragmento in fragmentos_webview2):
+        fallos.append(
+            "El manifiesto no declara la dependencia externa exacta de Microsoft.WebView2."
+        )
 
     confianza = 'Name="runFullTrust"' in xml
     if not confianza:
@@ -460,6 +540,9 @@ def main() -> int:
         print(f"      {ev['resultados']['identidad']}")
 
         previo = paquete_instalado(nombre_paquete)
+        print("[0] runtime WebView2")
+        ev["resultados"]["webview2"] = comprobar_webview2_runtime()
+
         if previo:
             print(f"      hay una instalacion previa: {previo['PackageFullName']}; se quita")
             desinstalar(previo["PackageFullName"])
