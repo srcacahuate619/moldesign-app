@@ -17,6 +17,11 @@ export const moldex: ModuloDeTraduccion = {
   es: {
     // ── Estado vacío y errores ────────────────────────────────────
     mx_error_conexion: "Error de conexión",
+    mx_error_carga: "No se pudo cargar Moldex",
+    mx_error_motor_listo:
+      "El motor local está listo, pero Moldex no pudo leer la biblioteca. Revisa el detalle y vuelve a intentarlo.",
+    mx_motor_no_disponible:
+      "El motor local todavía no está listo. Revisa su estado y vuelve a intentarlo.",
     mx_error_bioteca: "Error al cargar la bioteca:",
     mx_descarga_fallida: "No se pudo completar la descarga.",
     mx_sin_resultados: "No se encontraron moléculas con esos filtros.",
@@ -58,6 +63,11 @@ export const moldex: ModuloDeTraduccion = {
   },
   en: {
     mx_error_conexion: "Connection error",
+    mx_error_carga: "Could not load Moldex",
+    mx_error_motor_listo:
+      "The local engine is ready, but Moldex could not read the library. Check the detail and try again.",
+    mx_motor_no_disponible:
+      "The local engine is not ready yet. Check its status and try again.",
     mx_error_bioteca: "Could not load the library:",
     mx_descarga_fallida: "The download could not be completed.",
     mx_sin_resultados: "No molecules matched those filters.",

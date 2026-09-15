@@ -21,7 +21,9 @@ import {
   type MoldexMolecule,
 } from "../../lib/moldex";
 import { useApiUrl } from "../../hooks/useApiUrl";
+import { useDownload } from "../../hooks/useDownload";
 import { useKeepAliveActive } from "../../context/KeepAliveContext";
+import { isDesktopRuntime } from "../../lib/tauri";
 import { MoleculeViewer3D } from "../../components/MoleculeViewer3D";
 import MoldexCard from "../../components/MoldexCard";
 import MolecularComparison from "../../components/MolecularComparison";
@@ -45,6 +47,17 @@ import { ExternalLink } from "@/components/ui/ExternalLink";
 
 const NAV_HEIGHT = 56; // h-14 del Navigation.tsx
 
+type MoldexErrorKind = "engine" | "request" | "download";
+
+type MoldexError = {
+  kind: MoldexErrorKind;
+  message: string;
+};
+
+function isTransportError(message: string): boolean {
+  return /no se pudo establecer contacto|failed to fetch|networkerror|econnrefused|econnreset|timeout/i.test(message);
+}
+
 export default function MoldexPage() {
   const { t } = useLanguage();
   // Los enlaces de descarga se construyen EN RENDER, así que no pueden esperar
@@ -52,6 +65,8 @@ export default function MoldexPage() {
   // vuelve a pintar entonces. Mientras tanto los enlaces quedan inertes; usar
   // 8000 como conjetura podría enviarlos a otro producto instalado en el equipo.
   const apiUrl = useApiUrl();
+  const { engine, initialized, retryEngine } = useDownload();
+  const desktopRuntime = isDesktopRuntime();
   // FIX (keep-alive): /moldex vive en el DOM sin desmontarse (KeepAliveLayout).
   // useKeepAliveActive() es true solo cuando esta ruta es la activa. Con esto
   // recargamos la lista cada vez que el usuario VUELVE a Moldex, no solo al
@@ -80,7 +95,7 @@ export default function MoldexPage() {
   const [windowHeight, setWindowHeight] = useState(1000);
   const [showCertificationModal, setShowCertificationModal] = useState(false);
   const [showPdfViewer, setShowPdfViewer] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<MoldexError | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
   // ── Red del sello (MOLDEX-UX-008) ──
@@ -114,11 +129,10 @@ export default function MoldexPage() {
       if (que === "pdf") await downloadCertificate(selectedId);
       else await downloadComplexFile(selectedId);
     } catch (e) {
-      setError(
-        e instanceof Error
-          ? e.message
-          : t("mx_descarga_fallida"),
-      );
+      setError({
+        kind: "download",
+        message: e instanceof Error ? e.message : t("mx_descarga_fallida"),
+      });
     } finally {
       setDescargando(null);
     }
@@ -164,6 +178,7 @@ export default function MoldexPage() {
   // Sin esto, `setSelectedId(normalized[0].id)` pisaría la selección que el
   // handler ya decidió, rompiendo la UX t("mx_llevame_a_ella").
   const loadMoldex = useCallback((preferSelectId?: string) => {
+    setError(null);
     setLoading(true);
     getMoldex(undefined, 100, 0)
       .then((data) => {
@@ -198,7 +213,10 @@ export default function MoldexPage() {
       })
       .catch((err) => {
         console.error(t("mx_error_bioteca"), err);
-        setError(err.message);
+        setError({
+          kind: "request",
+          message: err instanceof Error ? err.message : String(err),
+        });
       })
       .finally(() => setLoading(false));
   }, []);
@@ -207,8 +225,28 @@ export default function MoldexPage() {
   // sin esto, guardar una molécula en /evaluation y volver a /moldex mostraba
   // la lista vieja del primer montaje.
   useEffect(() => {
+    if (!isActive) return;
+
+    // Moldex shares the same startup state as the rest of the desktop app.
+    // Do not issue a request while Rust is still publishing the real port.
+    if (desktopRuntime) {
+      if (!initialized || engine.state === "starting" || engine.state === "idle") {
+        setError(null);
+        setLoading(true);
+        return;
+      }
+      if (engine.state !== "ready") {
+        setLoading(false);
+        setError({
+          kind: "engine",
+          message: engine.detail || "",
+        });
+        return;
+      }
+    }
+
     loadMoldex();
-  }, [loadMoldex, isActive]);
+  }, [loadMoldex, isActive, desktopRuntime, initialized, engine.state, engine.detail]);
 
   // Listener cross-route: cuando /evaluation (o cualquier otra ruta) hace
   // saveMolecule exitosamente, emite `moldex:invalidated` con detail.moleculeId.
@@ -342,16 +380,35 @@ export default function MoldexPage() {
   }
 
   if (error) {
+    const motorListo = !desktopRuntime || engine.state === "ready";
+    const transporteConMotorListo =
+      motorListo && error.kind === "request" && isTransportError(error.message);
+    const titulo = error.kind === "engine"
+      ? t("mx_error_conexion")
+      : t("mx_error_carga");
+    const detalle = error.kind === "engine" && !error.message
+      ? t("mx_motor_no_disponible")
+      : transporteConMotorListo
+        ? t("mx_error_motor_listo")
+        : error.message;
+
     return (
       <div className="flex h-screen items-center justify-center bg-[var(--bg)] p-6 font-sans text-muted dark:bg-[#05080f] dark:text-slate-300">
         <div role="alert" className="w-full max-w-md rounded-2xl border border-red-300 bg-red-50 p-8 text-center shadow-2xl backdrop-blur-xl dark:border-red-500/20 dark:bg-red-950/20">
           <div className="mb-4 inline-block p-3 rounded-full bg-red-500/10 border border-red-500/30">
             <AlertCircle size={32} className="text-red-500" />
           </div>
-          <h1 className="mb-2 text-lg font-black uppercase tracking-wider text-theme">{t("mx_error_conexion")}</h1>
-          <p className="mb-6 text-xs leading-relaxed text-muted">{error}</p>
+          <h1 className="mb-2 text-lg font-black uppercase tracking-wider text-theme">{titulo}</h1>
+          <p className="mb-6 text-xs leading-relaxed text-muted">{detalle}</p>
           <button
-            onClick={() => { setError(null); loadMoldex(); }}
+            onClick={async () => {
+              setError(null);
+              if (error.kind === "engine" || transporteConMotorListo) {
+                await retryEngine();
+              } else {
+                loadMoldex();
+              }
+            }}
             className="w-full rounded-xl bg-red-600 py-3.5 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
           >
             {t("pg_mx_reintentar")}
