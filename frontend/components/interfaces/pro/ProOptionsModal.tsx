@@ -1,5 +1,6 @@
 "use client";
 import { useScrollLock } from "@/hooks/useScrollLock";
+import { useLanguage } from "../../../context/LanguageContext";
 
 import React, { useState, useRef, useEffect } from "react";
 import {
@@ -36,7 +37,7 @@ export interface AdvancedConfig {
   /**
    * pH al que se protona el LIGANDO antes de acoplarlo.
    *
-   * No es un ajuste del motor: cambia la especie química que entra a Vina. Un
+   * No es un ajuste del motor: cambia la {t("op_ph_especie")} que entra a Vina. Un
    * ácido carboxílico a pH 1 se acopla neutro y a pH 7.4 como anión, y ésa es
    * una molécula distinta con otra huella y otro resultado. Medido sobre el
    * runtime empaquetado: ibuprofeno neutro a pH 1-4 y `[O-]` de 7.4 en
@@ -379,6 +380,7 @@ export default function ProOptionsModal({
   isPeptide = false,
   systemSealed = false,
 }: Props) {
+  const { t } = useLanguage();
   useScrollLock(isOpen);
   const [engine, setEngine] = useState<DockingEngineConfig>(initialEngine || DEFAULT_ENGINE);
 
@@ -559,17 +561,17 @@ export default function ProOptionsModal({
             </div>
             <div>
               <h2 id="pro-options-title" className="text-sm font-bold font-mono text-white uppercase tracking-wider">
-                Opciones de Evaluación
+                {t("op_titulo")}
               </h2>
               <p className="text-sm text-zinc-500 font-mono mt-0.5">
-                Configura el motor, el bolsillo de unión y los recursos antes de ejecutar
+                {t("op_subtitulo")}
               </p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            aria-label="Cerrar opciones de evaluación"
+            aria-label={t("op_cerrar")}
             className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-purple-500/30 transition-colors cursor-pointer"
           >
             <X size={18} />
@@ -580,14 +582,14 @@ export default function ProOptionsModal({
         <div className="flex-1 overflow-y-auto p-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-            {/* ═══ COLUMNA 1: Motor de Docking ═══ */}
+            {/* ═══ COLUMNA 1: {t("op_motor_docking")} ═══ */}
             <div>
-              <SectionHeader icon={Dna} label="Motor de Docking" subtitle="¿Con qué herramienta?" />
+              <SectionHeader icon={Dna} label={t("op_motor_docking")} subtitle={t("op_sub_herramienta")} />
 
               {/* Moléculas pequeñas */}
               <div className="space-y-2 mb-4">
                 <p className="text-sm font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-                  <Atom size={12} /> Moléculas Pequeñas
+                  <Atom size={12} /> {t("op_moleculas_pequenas")}
                 </p>
 
                 <RadioCard
@@ -704,11 +706,11 @@ export default function ProOptionsModal({
                   ))}
               </div>
 
-              {/* Precisión GNN */}
+              {/* {t("op_precision_gnn")} */}
               {!isPeptide && (
                 <div className="space-y-2 pt-3 border-t border-zinc-800/60">
                   <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-1.5">
-                    <Gauge size={11} /> Precisión GNN
+                    <Gauge size={11} /> {t("op_precision_gnn")}
                   </p>
                   <div className="grid grid-cols-2 gap-2">
                     {(["fp32", "fp16"] as const).map((p) => (
@@ -733,9 +735,9 @@ export default function ProOptionsModal({
               )}
             </div>
 
-            {/* ═══ COLUMNA 2: Parámetros del Bolsillo ═══ */}
+            {/* ═══ COLUMNA 2: {t("op_parametros_bolsillo")} ═══ */}
             <div>
-              <SectionHeader icon={Box} label="Parámetros del Bolsillo" subtitle="¿Dónde acoplar?" />
+              <SectionHeader icon={Box} label={t("op_parametros_bolsillo")} subtitle={t("op_sub_donde")} />
 
               {/* Lógica de aplicabilidad del Grid Box */}
               {(() => {
@@ -752,7 +754,7 @@ export default function ProOptionsModal({
                   return (
                     <div className="flex flex-col items-center justify-center h-48 border border-zinc-800/40 border-dashed rounded-xl bg-zinc-900/20 p-4 text-center">
                       <Box className="w-8 h-8 text-zinc-600 mb-3" />
-                      <p className="text-sm font-semibold text-zinc-400">No aplica para el motor seleccionado</p>
+                      <p className="text-sm font-semibold text-zinc-400">{t("op_no_aplica")}</p>
                       <p className="text-sm text-zinc-500 mt-2 leading-relaxed max-w-[200px]">
                         {reason}
                       </p>
@@ -768,14 +770,10 @@ export default function ProOptionsModal({
                     {systemSealed && (
                       <div className="mt-4 rounded-xl border border-purple-500/20 bg-purple-500/[0.04] p-3">
                         <p className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-purple-200">
-                          Caja y residuos fijados
+                          {t("op_sistema_sellado_titulo")}
                         </p>
                         <p className="mt-1 text-sm font-mono leading-relaxed text-zinc-300">
-                          Una corrida de este caso ya terminó en este sistema. La caja y los residuos
-                          definen qué se está comparando y no se pueden mover sin que las corridas
-                          dejen de ser el mismo experimento; para cambiarlos, crea otro caso.
-                          El protocolo —motor, exhaustiveness, poses— sí se puede cambiar: cada
-                          corrida guarda el suyo y el historial del caso enseña cuál usó cada una.
+                          {t("op_sistema_sellado")}
                         </p>
                       </div>
                     )}
@@ -783,7 +781,7 @@ export default function ProOptionsModal({
                     {/* Coordenadas del Centro */}
                     <div className="mt-4 space-y-3">
                       <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500">
-                        Centro del Grid Box (Å)
+                        {t("op_centro_grid")}
                       </p>
                       <div className="grid grid-cols-3 gap-2">
                         <NumberInput label="X" value={gridBox.centerX} onChange={(v) => setGridBox({ ...gridBox, centerX: v })} min={-100} max={100} step={0.5} disabled={systemSealed} />
@@ -795,19 +793,19 @@ export default function ProOptionsModal({
                     {/* Tamaño del Grid Box */}
                     <div className="mt-4 space-y-3">
                       <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500">
-                        Dimensiones del Grid Box (Å)
+                        {t("op_dimensiones_grid")}
                       </p>
                       <div className="grid grid-cols-3 gap-2">
-                        <NumberInput label="Tamaño X" value={gridBox.sizeX} onChange={(v) => setGridBox({ ...gridBox, sizeX: v })} min={5} max={50} step={0.5} disabled={systemSealed} />
-                        <NumberInput label="Tamaño Y" value={gridBox.sizeY} onChange={(v) => setGridBox({ ...gridBox, sizeY: v })} min={5} max={50} step={0.5} disabled={systemSealed} />
-                        <NumberInput label="Tamaño Z" value={gridBox.sizeZ} onChange={(v) => setGridBox({ ...gridBox, sizeZ: v })} min={5} max={50} step={0.5} disabled={systemSealed} />
+                        <NumberInput label={t("op_tamano_x")} value={gridBox.sizeX} onChange={(v) => setGridBox({ ...gridBox, sizeX: v })} min={5} max={50} step={0.5} disabled={systemSealed} />
+                        <NumberInput label={t("op_tamano_y")} value={gridBox.sizeY} onChange={(v) => setGridBox({ ...gridBox, sizeY: v })} min={5} max={50} step={0.5} disabled={systemSealed} />
+                        <NumberInput label={t("op_tamano_z")} value={gridBox.sizeZ} onChange={(v) => setGridBox({ ...gridBox, sizeZ: v })} min={5} max={50} step={0.5} disabled={systemSealed} />
                       </div>
                     </div>
 
                     {/* Exhaustiveness & Num Modes */}
                     <div className="mt-4 space-y-3">
                       <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500">
-                        Parámetros de Búsqueda
+                        {t("op_parametros_busqueda")}
                       </p>
                       <div className="grid grid-cols-2 gap-3">
                         <div className="flex flex-col gap-1">
@@ -845,8 +843,7 @@ export default function ProOptionsModal({
                     <div className="mt-4 p-3 rounded-xl bg-purple-500/[0.04] border border-purple-500/10 flex items-start gap-2">
                       <Info size={13} className="text-purple-400 mt-0.5 shrink-0" />
                       <p className="text-sm font-mono text-zinc-400 leading-relaxed">
-                        El grid box define la región del espacio donde Vina buscará poses del ligando.
-                        Un grid más grande = búsqueda más exhaustiva, pero más lenta.
+                        {t("op_grid_explicacion")}
                       </p>
                     </div>
                   </div>
@@ -858,7 +855,7 @@ export default function ProOptionsModal({
                 <div className="mt-6 space-y-3">
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-1.5">
-                      <Target size={11} /> Residuos del sitio activo (Hotspots)
+                      <Target size={11} /> {t("op_hotspots")}
                     </p>
                     <button
                       type="button"
@@ -867,14 +864,14 @@ export default function ProOptionsModal({
                       className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-zinc-700 transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-zinc-800 disabled:hover:text-zinc-300"
                     >
                       {selectedHotspots.length === targetHotspots.length
-                        ? "Desmarcar todos"
-                        : "Marcar todos"}
+                        ? t("op_desmarcar_todos")
+                        : t("op_marcar_todos")}
                     </button>
                   </div>
                   <p className="text-sm font-mono text-zinc-500 leading-relaxed">
                     {systemSealed
-                      ? "Fijados por la primera corrida que terminó en este caso."
-                      : "Define qué residuos del bolsillo guían la búsqueda. Desmarcá los que no quieras considerar."}
+                      ? t("op_hotspots_fijados")
+                      : t("op_hotspots_explicacion")}
                     {" "}({selectedHotspots.length}/{targetHotspots.length} activos)
                   </p>
                   <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1">
@@ -906,12 +903,12 @@ export default function ProOptionsModal({
 
             {/* ═══ COLUMNA 3: Opciones Avanzadas ═══ */}
             <div>
-              <SectionHeader icon={Sliders} label="Opciones Avanzadas" subtitle="¿Con cuántos recursos?" />
+              <SectionHeader icon={Sliders} label={t("op_opciones_avanzadas")} subtitle={t("op_sub_recursos")} />
 
               {/* Workers & Parallel Docks */}
               <div className="space-y-3">
                 <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-1.5">
-                  <Cpu size={11} /> Recursos de Cómputo
+                  <Cpu size={11} /> {t("op_recursos")}
                 </p>
                 <div className="grid grid-cols-2 gap-3">
                   <NumberInput
@@ -929,19 +926,19 @@ export default function ProOptionsModal({
                 </div>
               </div>
 
-              {/* ── Preparación del ligando ────────────────────────────────
+              {/* ── {t("op_preparacion_ligando")} ────────────────────────────────
                   Va ANTES de los módulos del pipeline porque no es un módulo:
                   no se enciende ni se apaga, siempre ocurre. Lo que se elige
                   aquí es QUÉ MOLÉCULA entra al motor. */}
               <div className="mt-4 pt-3 border-t border-zinc-800/60">
                 <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-1.5">
-                  <Atom size={11} /> Preparación del ligando
+                  <Atom size={11} /> {t("op_preparacion_ligando")}
                 </p>
 
                 <div className="mt-3 p-3 rounded-xl bg-zinc-900/50 border border-zinc-800/60">
                   <div className="flex flex-wrap items-end justify-between gap-3">
                     <NumberInput
-                      label="pH de protonación"
+                      label={t("op_ph_protonacion")}
                       value={advanced.protonationPh}
                       onChange={(v) =>
                         // `NumberInput` suma y resta en coma flotante: sin
@@ -964,15 +961,11 @@ export default function ProOptionsModal({
                     )}
                   </div>
                   <p className="text-sm font-mono text-zinc-600 mt-2 leading-relaxed">
-                    Cambia la <span className="text-zinc-400">especie química</span> que se acopla,
-                    no un ajuste del motor. Un ácido carboxílico entra neutro a pH 1 y como anión a
-                    7.4; la lisina da tres especies distintas entre 1 y 12. Dos pH que producen
-                    especies distintas son corridas distintas y no comparten caché.
+                    {t("op_ph_cambia_a")} <span className="text-zinc-400">{t("op_ph_especie")}</span> {t("op_ph_cambia_b")}
                   </p>
                   {advanced.protonationPh !== DEFAULT_ADVANCED.protonationPh && (
                     <p className="mt-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 text-sm leading-relaxed text-amber-300">
-                      Fuera del pH fisiológico (7.4). El receptor se prepara aparte y no sigue a
-                      este valor: la comparación con una corrida a 7.4 deja de ser directa. El pH
+                      {t("op_ph_fuera_fisiologico")} El pH
                       usado queda escrito en el expediente.
                     </p>
                   )}
@@ -982,7 +975,7 @@ export default function ProOptionsModal({
               {/* Toggles */}
               <div className="mt-4 space-y-3 pt-3 border-t border-zinc-800/60">
                 <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-1.5">
-                  <Layers size={11} /> Módulos del Pipeline
+                  <Layers size={11} /> {t("op_modulos_pipeline")}
                 </p>
 
                 {[
@@ -1062,7 +1055,7 @@ export default function ProOptionsModal({
                     min={100} max={5000} step={100}
                   />
                   <p className="text-sm font-mono text-zinc-600 mt-1">
-                    Más pasos aumentan el coste y pueden mejorar la convergencia; no garantizan precisión. 1000 es un valor orientativo para screening.
+                    {t("op_pasos_no_garantizan")}
                   </p>
                 </div>
               )}
@@ -1083,7 +1076,7 @@ export default function ProOptionsModal({
             className="px-6 py-2.5 rounded-xl font-mono text-sm font-bold uppercase tracking-wider bg-purple-600 hover:bg-purple-500 text-white shadow-lg shadow-purple-950/50 border border-purple-400/30 transition-all flex items-center gap-2 cursor-pointer"
           >
             <CheckCircle size={14} />
-            Aplicar Configuración
+            {t("op_aplicar")}
           </button>
         </div>
       </div>

@@ -20,6 +20,42 @@ import type { ModuloDeTraduccion } from "./index";
 
 export const evaluacion: ModuloDeTraduccion = {
   es: {
+    // ── Estado y resultados ───────────────────────────────────────
+    ev_comprobando_visor: "Comprobando compatibilidad del visor 3D…",
+    ev_ejecutar: "Ejecutar evaluación",
+    ev_fallo: "La evaluación falló",
+    ev_sin_resultados_titulo: "La evaluación terminó sin resultados",
+    ev_sin_resultados_detalle:
+      "El pipeline reportó éxito pero el resultado no llegó a la interfaz. Esto "
+      + "suele ser un problema de serialización del resultado en el backend (no "
+      + "un problema del acoplamiento). Reintenta la evaluación o revisa los logs "
+      + "del backend.",
+    ev_sin_resultados_aun: "Sin resultados todavía",
+    ev_elige_para_empezar:
+      "Elige un receptor y una molécula, y ejecuta la evaluación para ver el "
+      + "reporte completo del acoplamiento molecular.",
+    ev_pipeline_degradado: "Pipeline degradado en esta corrida",
+    ev_peso_no_reportado: "peso no reportado",
+    ev_pesos_no_calibrados:
+      "Pesos serializados por el pipeline · no representan confianza calibrada",
+    ev_vista_previa_certificado: "Vista previa del certificado",
+    ev_mmgbsa_ejecutar: "Ejecutar cálculo MM-GBSA",
+    ev_mmgbsa_explicacion:
+      "MM-GBSA post-hoc minimiza la pose con OpenMM y combina términos de "
+      + "mecánica molecular, Generalized Born y superficie accesible al solvente "
+      + "para estimar un ΔG dependiente del protocolo. El signo y la magnitud "
+      + "sólo deben compararse dentro de la misma configuración; no sustituyen "
+      + "una afinidad experimental.",
+    ev_mmgbsa_post_hoc:
+      "Señal post-hoc dependiente del protocolo; no clasifica por sí sola al "
+      + "ligando como candidato.",
+    ev_mmgbsa_sin_descomposicion:
+      "La descomposición por contribución (vdW, electrostática, GB, SASA) no está "
+      + "disponible en este endpoint. El valor reportado es la diferencia "
+      + "calculada entre complejo, receptor y ligando sobre la pose de docking "
+      + "minimizada; depende de la parametrización y no es una medición "
+      + "experimental.",
+
     // ── Sistema estructural del caso ──────────────────────────────
     ev_sistema_fijado: "Sistema estructural fijado",
     ev_sistema_provisional: "Sistema estructural provisional",
@@ -118,6 +154,40 @@ export const evaluacion: ModuloDeTraduccion = {
     ev_no_produjeron_salida: "no produjeron salida",
   },
   en: {
+    ev_comprobando_visor: "Checking 3D viewer compatibility…",
+    ev_ejecutar: "Run evaluation",
+    ev_fallo: "The evaluation failed",
+    ev_sin_resultados_titulo: "The evaluation finished with no results",
+    ev_sin_resultados_detalle:
+      "The pipeline reported success but the result never reached the interface. "
+      + "This is usually a result-serialisation problem in the backend (not a "
+      + "docking problem). Retry the evaluation or check the backend logs.",
+    ev_sin_resultados_aun: "No results yet",
+    ev_elige_para_empezar:
+      "Choose a receptor and a molecule, then run the evaluation to see the full "
+      + "molecular docking report.",
+    ev_pipeline_degradado: "Pipeline degraded on this run",
+    ev_peso_no_reportado: "weight not reported",
+    ev_pesos_no_calibrados:
+      "Weights serialised by the pipeline · they do not represent calibrated "
+      + "confidence",
+    ev_vista_previa_certificado: "Certificate preview",
+    ev_mmgbsa_ejecutar: "Run MM-GBSA calculation",
+    ev_mmgbsa_explicacion:
+      "Post-hoc MM-GBSA minimises the pose with OpenMM and combines molecular "
+      + "mechanics, Generalized Born and solvent-accessible surface terms to "
+      + "estimate a protocol-dependent ΔG. Its sign and magnitude may only be "
+      + "compared within the same configuration; they do not replace an "
+      + "experimental affinity.",
+    ev_mmgbsa_post_hoc:
+      "Post-hoc, protocol-dependent signal; on its own it does not qualify the "
+      + "ligand as a candidate.",
+    ev_mmgbsa_sin_descomposicion:
+      "The per-contribution decomposition (vdW, electrostatics, GB, SASA) is not "
+      + "available from this endpoint. The reported value is the difference "
+      + "calculated between complex, receptor and ligand over the minimised "
+      + "docking pose; it depends on the parameterisation and is not an "
+      + "experimental measurement.",
     ev_sistema_fijado: "Structural system locked",
     ev_sistema_provisional: "Structural system provisional",
     ev_sistema_desde_corrida: "from run {taskId}…",

@@ -766,7 +766,7 @@ export default function ProEvaluation({
               <AvisoSinWebGL />
             ) : webglDisponible === null ? (
               <div role="status" className="font-mono text-xs uppercase tracking-wider text-zinc-500">
-                Comprobando compatibilidad del visor 3D…
+                {t("ev_comprobando_visor")}
               </div>
             ) : viewerMode === "molstar" ? (
               <AdvancedMolstarViewer
@@ -1023,7 +1023,7 @@ export default function ProEvaluation({
             ) : (
               <>
                 <Play size={14} />
-                Ejecutar Evaluación
+                {t("ev_ejecutar")}
               </>
             )}
           </button>
@@ -1067,7 +1067,7 @@ export default function ProEvaluation({
       {/* ─── Pantalla de Carga: ThinkingOrb + Pipeline Timeline LIVE (SSE) ─── */}
       {showProcessing && (
         <div className="w-full max-w-[1600px] flex flex-col items-center justify-center gap-4 animate-in fade-in duration-300">
-          <ThinkingOrb state="processing" size="lg" label="Procesando resultados del pipeline" />
+          <ThinkingOrb state="processing" size="lg" label={t("ev_procesando")} />
           <PipelineTimeline
             stages={timelineStages}
             stageStates={stageStates}
@@ -1084,7 +1084,7 @@ export default function ProEvaluation({
         <div className="w-full max-w-[1600px] rounded-2xl border border-rose-500/25 bg-rose-950/20 p-10 flex flex-col items-center gap-3 text-center animate-in fade-in duration-300">
           <AlertTriangle size={40} className="text-rose-400/70" />
           <p className="text-sm font-black uppercase tracking-widest text-rose-300 font-mono">
-            La evaluación falló
+            {t("ev_fallo")}
           </p>
           <p className="text-xs font-mono text-white/40 max-w-lg leading-relaxed">
             {status?.error ?? error ?? "Error desconocido durante el pipeline."}
@@ -1137,12 +1137,10 @@ export default function ProEvaluation({
         <div className="w-full max-w-[1600px] rounded-2xl border border-amber-500/25 bg-amber-950/20 p-10 flex flex-col items-center gap-3 text-center animate-in fade-in duration-300">
           <AlertTriangle size={40} className="text-amber-400/70" />
           <p className="text-sm font-black uppercase tracking-widest text-amber-300 font-mono">
-            La evaluación terminó sin resultados
+            {t("ev_sin_resultados_titulo")}
           </p>
           <p className="text-xs font-mono text-white/40 max-w-lg leading-relaxed">
-            El pipeline reportó éxito pero el resultado no llegó a la interfaz. Esto suele ser un
-            problema de serialización del resultado en el backend (no un problema del acoplamiento).
-            Reintentá la evaluación o revisá los logs del backend.
+            {t("ev_sin_resultados_detalle")}
           </p>
           <button
             onClick={() => handleReset?.()}
@@ -1158,10 +1156,10 @@ export default function ProEvaluation({
         <div className="w-full max-w-[1600px] rounded-2xl border border-white/5 bg-white/[0.02] p-10 flex flex-col items-center gap-3 text-center animate-in fade-in duration-300">
           <Activity size={32} className="text-white/15" />
           <p className="text-sm font-black uppercase tracking-widest text-white/30 font-mono">
-            Sin resultados todavía
+            {t("ev_sin_resultados_aun")}
           </p>
           <p className="text-xs font-mono text-white/25 max-w-md leading-relaxed">
-            Elige un receptor y una molécula, y ejecuta la evaluación para ver el reporte completo del acoplamiento molecular.
+            {t("ev_elige_para_empezar")}
           </p>
         </div>
       )}
@@ -1323,7 +1321,7 @@ export default function ProEvaluation({
                       className="mb-4 rounded-lg border border-amber-500/25 bg-amber-500/[0.05] px-3 py-2.5"
                     >
                       <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-amber-300">
-                        Pipeline degradado en esta corrida
+                        {t("ev_pipeline_degradado")}
                       </p>
                       <p className="mt-1.5 max-w-[78ch] text-[11px] leading-relaxed text-amber-100/80">
                         {ausentes.map((etapa) => etapa.label).join(", ")}{" "}
@@ -1395,7 +1393,7 @@ export default function ProEvaluation({
                           )}
                           {!node.post_hoc && node.weight > 0 && node.reportedWeight == null && (
                             <span className="text-[10px] font-mono uppercase tracking-wider text-white/20">
-                              peso no reportado
+                              {t("ev_peso_no_reportado")}
                             </span>
                           )}
                           {node.weight === 0 &&
@@ -1481,7 +1479,7 @@ export default function ProEvaluation({
                     Diseño de la familia: {pipeline.note}
                   </p>
                   <p className="text-[10px] font-mono text-white/15 mt-1 text-right">
-                    Pesos serializados por el pipeline · no representan confianza calibrada
+                    {t("ev_pesos_no_calibrados")}
                   </p>
                 </section>
                 </>
@@ -1543,7 +1541,7 @@ export default function ProEvaluation({
               className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-lg border border-white/10 bg-white/[0.02] px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-white/50 transition-colors hover:border-white/20 hover:text-white/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 disabled:cursor-not-allowed disabled:opacity-30"
             >
               <Eye size={14} />
-              Vista previa del certificado
+              {t("ev_vista_previa_certificado")}
             </button>
             <button
               onClick={() => handleDownloadComplex?.()}
@@ -1752,7 +1750,7 @@ export default function ProEvaluation({
                   <FlaskConical size={18} className="text-emerald-400" />
                 </div>
                 <div>
-                  <h3 id="mmgbsa-dialog-title" className="text-sm font-black text-white uppercase tracking-widest">MM-GBSA — estimación de ΔG de unión</h3>
+                  <h3 id="mmgbsa-dialog-title" className="text-sm font-black text-white uppercase tracking-widest">{t("ev_mmgbsa_titulo")}</h3>
                   <p className="text-[10px] text-white/30 font-mono mt-0.5">Molecular Mechanics / Generalized Born Surface Area</p>
                 </div>
               </div>
@@ -1768,7 +1766,7 @@ export default function ProEvaluation({
             {/* Explanation */}
             <div className="px-6 py-3 bg-emerald-500/5 border-b border-emerald-500/10 shrink-0">
               <p className="text-[11px] text-emerald-300/80 font-mono leading-relaxed">
-                <span className="font-bold text-emerald-300">{t("ev_mmgbsa_que_calcula")}</span> MM-GBSA post-hoc minimiza la pose con OpenMM y combina términos de mecánica molecular, Generalized Born y superficie accesible al solvente para estimar un ΔG dependiente del protocolo. El signo y la magnitud sólo deben compararse dentro de la misma configuración; no sustituyen una afinidad experimental.
+                <span className="font-bold text-emerald-300">{t("ev_mmgbsa_que_calcula")}</span> {t("ev_mmgbsa_explicacion")}
               </p>
             </div>
 
@@ -1796,10 +1794,10 @@ export default function ProEvaluation({
                     disabled={mmgbsaState === "running"}
                     className="w-full h-9 px-3 font-mono text-xs font-bold rounded-lg outline-none cursor-pointer disabled:opacity-40 bg-black border border-white/10 text-white"
                   >
-                    <option value={500}>500 pasos (Rápido)</option>
-                    <option value={1000}>1,000 pasos (Estándar)</option>
+                    <option value={500}>{t("ev_mmgbsa_pasos_rapido")}</option>
+                    <option value={1000}>{t("ev_mmgbsa_pasos_estandar")}</option>
                     <option value={2500}>2,500 pasos (Preciso)</option>
-                    <option value={5000}>5,000 pasos (Máximo)</option>
+                    <option value={5000}>{t("ev_mmgbsa_pasos_maximo")}</option>
                   </select>
                 </div>
               </div>
@@ -1821,7 +1819,7 @@ export default function ProEvaluation({
                 ) : (
                   <>
                     <Play size={16} />
-                    Ejecutar cálculo MM-GBSA
+                    {t("ev_mmgbsa_ejecutar")}
                   </>
                 )}
               </button>
@@ -1892,7 +1890,7 @@ export default function ProEvaluation({
                         {totalKcal.toFixed(2)} <span className="text-xl font-bold">kcal/mol</span>
                       </p>
                       <p className="mx-auto mt-3 max-w-md text-[10px] leading-4 text-white/35">
-                        Señal post-hoc dependiente del protocolo; no clasifica por sí sola al ligando como candidato.
+                        {t("ev_mmgbsa_post_hoc")}
                       </p>
                       <p className="text-[10px] text-white/30 mt-2 font-mono">
                         Pose #{(r.pose_rank ?? mmgbsaPoseRank)} · Minimizado {r.minimized ? "✓" : "—"} · {r.platform ?? "OpenMM"} · {r.execution_time_s != null ? `${r.execution_time_s.toFixed(1)}s` : "—"}
@@ -1951,8 +1949,7 @@ export default function ProEvaluation({
                         </div>
                       ) : (
                         <div className="rounded-xl p-4 border border-white/5 bg-white/[0.02] text-[11px] text-slate-400/80 leading-relaxed">
-                          La descomposición por contribución (vdW, electrostática, GB, SASA) no está
-                          disponible en este endpoint. El valor reportado es la diferencia calculada entre complejo, receptor y ligando sobre la pose de docking minimizada; depende de la parametrización y no es una medición experimental.
+                          {t("ev_mmgbsa_sin_descomposicion")}
                         </div>
                       )}
                     </div>
