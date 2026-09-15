@@ -45,13 +45,7 @@ const MARCAS_ES =
  */
 const PRESUPUESTO: Readonly<Record<string, number>> = {
   "app/evaluation/batch/page.tsx": 29,
-  "components/interfaces/pro/ProAnalysisTabs.tsx": 22,
-  "components/evaluation/PreparationPanel.tsx": 16,
-  "components/interfaces/pro/CustomReceptorModal.tsx": 16,
   "components/registro/RegistroCientifico.tsx": 15,
-  "components/interfaces/pro/ProSelectivityPanel.tsx": 14,
-  "components/interfaces/pro/ProXaiTab.tsx": 14,
-  "components/interfaces/pro/DockingEnginePanel.tsx": 13,
   "app/history/page.tsx": 12,
   "app/moldex/page.tsx": 11,
   "components/interfaces/pro/ProParametersTab.tsx": 11,
@@ -116,7 +110,7 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
 };
 
 /** Techo global. Es el que cuenta: el detalle por fichero sólo dice dónde. */
-const PRESUPUESTO_TOTAL = 381;
+const PRESUPUESTO_TOTAL = 286;
 
 function ficheros(dir: string, acc: string[] = []): string[] {
   let entradas: string[];
@@ -198,11 +192,7 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
     // Las superficies terminadas se listan aquí con cero. Es lo que convierte
     // el presupuesto en un trinquete y no en una foto.
     const TERMINADAS: string[] = [
-      "components/evaluation/EstimacionDeCorrida.tsx",
-      "components/ui/LegalModal.tsx",
       "components/CertificationModal.tsx",
-      "components/interfaces/pro/ProEvaluation.tsx",
-      "components/interfaces/pro/ProOptionsModal.tsx",
       "components/cases/CaseContextPanel.tsx",
       "components/cases/CaseDetailsDrawer.tsx",
       "components/cases/CaseDispositionPanel.tsx",
@@ -214,6 +204,16 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
       "components/cases/CaseSidebarShell.tsx",
       "components/cases/CaseWorkspace.tsx",
       "components/cases/CreateCaseDialog.tsx",
+      "components/evaluation/EstimacionDeCorrida.tsx",
+      "components/evaluation/PreparationPanel.tsx",
+      "components/interfaces/pro/CustomReceptorModal.tsx",
+      "components/interfaces/pro/DockingEnginePanel.tsx",
+      "components/interfaces/pro/ProAnalysisTabs.tsx",
+      "components/interfaces/pro/ProEvaluation.tsx",
+      "components/interfaces/pro/ProOptionsModal.tsx",
+      "components/interfaces/pro/ProSelectivityPanel.tsx",
+      "components/interfaces/pro/ProXaiTab.tsx",
+      "components/ui/LegalModal.tsx",
     ];
     for (const rel of TERMINADAS) {
       const f = medidos.find((m) => m.rel === rel);

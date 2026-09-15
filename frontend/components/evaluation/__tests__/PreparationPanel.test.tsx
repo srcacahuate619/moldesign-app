@@ -119,7 +119,7 @@ const report: PreflightReport = {
 };
 
 describe("legibilidad y lenguaje público del preflight", () => {
-  it("eleva el contraste y no expone constantes ni rutas internas", () => {
+  it("eleva el contraste y no expone constantes ni rutas internas", async () => {
     montar(
       <PreparationPanel
         report={report}
@@ -134,7 +134,13 @@ describe("legibilidad y lenguaje público del preflight", () => {
       />,
     );
 
-    expect(screen.getByText(/comprobación previa sobre los archivos reales/i)).toHaveClass(
+    // El texto ya no está en el componente: viene del módulo de traducción, y en
+    // jsdom `navigator.language` es `en-US`, así que el panel se sirve EN INGLÉS.
+    // Lo que esta prueba mide es el CONTRASTE, no el idioma, así que se busca por
+    // el valor traducido en lugar de por una cadena castellana fija —que es
+    // justamente lo que se quitó—.
+    const { pro } = await import("../../../context/traducciones/pro");
+    expect(screen.getByText(pro.en.pr_preparacion_explicacion)).toHaveClass(
       "text-zinc-300",
       "font-medium",
     );

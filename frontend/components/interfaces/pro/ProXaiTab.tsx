@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useLanguage } from "../../../context/LanguageContext";
 import { motion } from "framer-motion";
 import { Activity, Info, Sliders } from "lucide-react";
 import { getGnnAttentionSvg } from "../../../lib/api";
@@ -80,6 +81,7 @@ interface Props {
 }
 
 export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharmacophores, moleculeId, inApplicabilityDomain, fallbackReason }: Props) {
+  const { t } = useLanguage();
   const [expandedSHAP, setExpandedSHAP] = useState<string | null>(null);
   const [expandedGNN, setExpandedGNN] = useState<"2d" | "1d" | null>(null);
   // UI-7: el SVG ya no viaja en el polling; lo fetcheamos on-demand cuando el
@@ -114,10 +116,10 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
             <div className="text-body text-slate-300 mb-2 font-mono bg-gradient-to-r from-indigo-500/10 to-transparent p-3.5 rounded-xl border border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.05)]">
               <div className="flex items-center gap-2 mb-1.5">
                 <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></div>
-                <span className="text-indigo-300 font-bold tracking-wider">SHAP NATIVO DE XGBOOST</span>
+                <span className="text-indigo-300 font-bold tracking-wider">{t("pr_xai_shap_nativo")}</span>
               </div>
               <p className="opacity-90 leading-relaxed">
-                Diagrama de abejas direccional. Las características hacia la <span className="text-emerald-400 font-bold">derecha (verdes)</span> aumentan la afinidad, hacia la <span className="text-rose-400 font-bold">izquierda (rojas)</span> la penalizan.
+                {t("pr_xai_abejas_a")} <span className="text-emerald-400 font-bold">derecha (verdes)</span> {t("pr_xai_abejas_b")} <span className="text-rose-400 font-bold">izquierda (rojas)</span> {t("pr_xai_abejas_c")}
               </p>
             </div>
 
@@ -196,16 +198,16 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
               <div className="mt-5 p-4 bg-black/40 rounded-xl border border-emerald-500/20 relative overflow-hidden">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-emerald-400 font-bold flex items-center gap-1.5 text-sm uppercase tracking-wider">
-                    <Activity size={14} /> Atención GNN (RTMScore)
+                    <Activity size={14} /> {t("pr_xai_atencion_gnn")}
                   </span>
-                  <span className="text-xs text-slate-400 font-mono">MAPA DE HOTSPOTS</span>
+                  <span className="text-xs text-slate-400 font-mono">{t("pr_xai_mapa_hotspots")}</span>
                 </div>
                 <div className="grid grid-cols-2 gap-4 items-stretch">
                   <div
                     onClick={() => { if (effectiveSvg) setExpandedGNN('2d') }}
                     className={`flex flex-col items-center justify-center p-3 bg-slate-900/60 rounded-xl border border-white/5 shadow-inner transition-colors duration-200 ${effectiveSvg ? 'cursor-pointer hover:bg-slate-800/80' : ''}`}
                   >
-                    <span className="text-body text-slate-500 uppercase font-mono mb-2 tracking-widest">Topología 2D</span>
+                    <span className="text-body text-slate-500 uppercase font-mono mb-2 tracking-widest">{t("pr_xai_topologia")}</span>
                     {effectiveSvg ? (
                       <GnnAttentionSvg
                         svg={effectiveSvg}
@@ -213,7 +215,7 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                       />
                     ) : (
                       <div className="w-full aspect-square max-h-[160px] flex items-center justify-center text-xs text-slate-500 italic">
-                        Generando proyección...
+                        {t("pr_xai_generando")}
                       </div>
                     )}
                   </div>
@@ -221,11 +223,11 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                     onClick={() => { if (gnnPharmacophores) setExpandedGNN('1d') }}
                     className={`flex flex-col items-center justify-start p-3 bg-slate-900/60 rounded-xl border border-white/5 shadow-inner relative overflow-hidden group transition-colors duration-200 ${gnnPharmacophores ? 'cursor-pointer hover:bg-slate-800/80' : ''}`}
                   >
-                    <span className="text-body text-slate-500 uppercase font-mono mb-2 tracking-widest z-10">Desglose Farmacóforos</span>
+                    <span className="text-body text-slate-500 uppercase font-mono mb-2 tracking-widest z-10">{t("pr_xai_farmacoforos")}</span>
                     <div className="w-full flex-grow relative min-h-[120px] z-10 flex items-center justify-center">
                       {(() => {
                         const pharm = gnnPharmacophores as Record<string, number> | null | undefined;
-                        if (!pharm) return <div className="text-xs text-slate-500 italic mt-8">No disponible</div>;
+                        if (!pharm) return <div className="text-xs text-slate-500 italic mt-8">{t("c_no_disponible")}</div>;
                         // FIX (keys alignment, 2026-08-04): las categorías del
                         // radar DEBEN coincidir con los keys reales que genera
                         // backend/services/ai/gnn_explainability.py. Antes
@@ -311,17 +313,17 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
             <div className="w-10 h-10 rounded-full bg-slate-800/50 flex items-center justify-center mb-3">
               <Activity size={18} className="text-slate-500" />
             </div>
-            <span className="text-sm font-medium">Sin datos de explicabilidad.</span>
-            <span className="text-xs mt-1 opacity-70">El motor SHAP nativo poblará esta área al completar una evaluación de ligando exitosa.</span>
+            <span className="text-sm font-medium">{t("pr_xai_sin_datos")}</span>
+            <span className="text-xs mt-1 opacity-70">{t("pr_xai_shap_poblara")}</span>
           </div>
         )}
       </div>
 
-      {/* ── Dominio de aplicabilidad (F-21) ────────────────────────────── */}
+      {/* ── {t("pr_xai_dominio")} (F-21) ────────────────────────────── */}
       <div className="p-4 bg-black/40 rounded-xl border border-white/10 space-y-2.5">
         <div className="flex items-center justify-between">
           <span className="text-xs uppercase font-mono font-bold tracking-wider text-slate-400">
-            Dominio de aplicabilidad
+            {t("pr_xai_dominio")}
           </span>
           {inApplicabilityDomain === true ? (
             <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border bg-emerald-500/15 text-emerald-300 border-emerald-500/25">
@@ -329,11 +331,11 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
             </span>
           ) : inApplicabilityDomain === false ? (
             <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border bg-rose-500/15 text-rose-300 border-rose-500/25">
-              ✗ Fuera de dominio
+              {t("pr_xai_fuera_dominio")}
             </span>
           ) : (
             <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border bg-white/5 text-slate-400 border-white/10">
-              No disponible
+              {t("c_no_disponible")}
             </span>
           )}
         </div>

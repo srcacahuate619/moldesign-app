@@ -114,6 +114,7 @@ function ControlRow({
   acknowledged: boolean;
   onAcknowledge: (code: string) => void;
 }) {
+  const { t } = useLanguage();
   return (
     <li className="border-b border-surface-800 py-4 last:border-b-0">
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -134,7 +135,7 @@ function ControlRow({
         <div className="mt-2">
           {acknowledged ? (
             <p className="font-mono text-[11px] font-semibold uppercase tracking-wide text-emerald-300">
-              Revisada y aceptada por ti
+              {t("pr_revisada_aceptada")}
             </p>
           ) : (
             <button
@@ -142,7 +143,7 @@ function ControlRow({
               onClick={() => onAcknowledge(control.code)}
               className="rounded border border-surface-700 px-2.5 py-1 text-xs font-medium text-zinc-200 transition-colors hover:border-surface-600 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
             >
-              Marcar como revisada
+              {t("pr_marcar_revisada")}
             </button>
           )}
         </div>
@@ -201,11 +202,10 @@ export function PreparationPanel({
             id="preparation-panel-title"
             className="text-sm font-semibold tracking-tight text-zinc-100"
           >
-            Preparación de la corrida
+            {t("pr_preparacion_titulo")}
           </h2>
           <p className="mt-1 max-w-[70ch] text-sm font-medium leading-6 text-zinc-300">
-            Comprobación previa sobre los archivos reales. No ejecuta el acoplamiento y no emite
-            ningún veredicto sobre la molécula.
+            {t("pr_preparacion_explicacion")}
           </p>
         </div>
 
@@ -231,7 +231,7 @@ export function PreparationPanel({
                 aria-label={t("ayuda_ensemble_titulo")}
                 className="rounded border border-surface-700 bg-transparent px-1.5 py-0.5 text-xs text-zinc-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
               >
-                <option value="unico">Confórmero único</option>
+                <option value="unico">{t("pr_conformero_unico")}</option>
                 <option value="ensemble">Ensemble</option>
               </select>
               {conformacionesEfectivas > 1 && (
@@ -242,7 +242,7 @@ export function PreparationPanel({
                     min={2}
                     max={64}
                     value={conformacionesEfectivas}
-                    aria-label="Número de conformaciones del ensemble"
+                    aria-label={t("pr_num_conformaciones")}
                     onChange={(e) => {
                       const bruto = Number.parseInt(e.target.value, 10);
                       if (!Number.isFinite(bruto)) return;
@@ -289,8 +289,7 @@ export function PreparationPanel({
 
       {stale && report && (
         <p role="status" className="mt-3 text-xs leading-relaxed text-amber-300">
-          Los inputs cambiaron desde la última comprobación, así que ya no describe lo que se
-          ejecutaría. Vuelve a comprobar la preparación.
+          {t("pr_inputs_cambiaron")}
         </p>
       )}
 
@@ -336,7 +335,7 @@ export function PreparationPanel({
             </span>
           </div>
           <p className="mt-2 text-sm leading-6 text-zinc-300">
-            Resumen guardado con el caso. Vuelve a comprobar para recuperar el detalle de controles y el diff actualizado.
+            {t("pr_resumen_guardado")}
           </p>
         </div>
       )}
@@ -360,7 +359,7 @@ export function PreparationPanel({
             </div>
             <div className="min-w-0">
               <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">
-                Ligando (canónico)
+                {t("pr_ligando_canonico")}
               </dt>
               <dd className="truncate text-sm font-semibold text-zinc-100" title={visible.ligand.canonical_smiles ?? undefined}>
                 {visible.ligand.canonical_smiles ?? "No definido"}
@@ -417,7 +416,7 @@ export function PreparationPanel({
                   id={`${detailId}-diff`}
                   className="text-sm font-semibold uppercase tracking-wide text-zinc-200"
                 >
-                  De la fuente a la entrada del preparador
+                  {t("pr_de_la_fuente")}
                 </h3>
                 {visible.preparation_diff.state === "evaluado" && visible.preparation_diff.removed ? (
                   <>
@@ -463,9 +462,9 @@ export function PreparationPanel({
                     </div>
                     {removedSpecies.length > 0 && (
                       <div className="mt-4 rounded-lg border border-surface-700 bg-surface-900/70 p-3">
-                        <h4 className="text-sm font-semibold text-zinc-100">Especies químicas identificadas como retiradas</h4>
+                        <h4 className="text-sm font-semibold text-zinc-100">{t("pr_especies_retiradas")}</h4>
                         <p className="mt-1 text-xs font-medium leading-5 text-zinc-300">
-                          Los códigos corresponden a los nombres de residuo del archivo PDB; el conteo indica registros atómicos retirados.
+                          {t("pr_codigos_residuo")}
                         </p>
                         <ul className="mt-2 flex flex-wrap gap-2">
                           {removedSpecies.map((species) => (
@@ -497,11 +496,11 @@ export function PreparationPanel({
                   id={`${detailId}-policy`}
                   className="text-sm font-semibold uppercase tracking-wide text-zinc-200"
                 >
-                  Política de preparación de esta ruta
+                  {t("pr_politica_preparacion")}
                 </h3>
                 <dl className="mt-2 space-y-2 text-sm text-zinc-100">
                   <div className="flex flex-wrap gap-x-2">
-                    <dt className="font-semibold text-zinc-300">Método:</dt>
+                    <dt className="font-semibold text-zinc-300">{t("pr_metodo")}</dt>
                     <dd className="font-medium">
                       {dockingMethodLabel(
                         visible.effective_config.docking_engine,
@@ -511,7 +510,7 @@ export function PreparationPanel({
                   </div>
                   <div className="flex flex-wrap gap-x-2">
                     <dt className="font-semibold text-zinc-300">Aguas:</dt>
-                    <dd className="font-medium">Se eliminan todas antes del acoplamiento</dd>
+                    <dd className="font-medium">{t("pr_aguas_eliminadas")}</dd>
                   </div>
                   <div className="flex flex-wrap gap-x-2">
                     <dt className="font-semibold text-zinc-300">Metales:</dt>
@@ -522,7 +521,7 @@ export function PreparationPanel({
                     </dd>
                   </div>
                   <div className="flex flex-wrap gap-x-2">
-                    <dt className="font-semibold text-zinc-300">Cofactores orgánicos reconocidos:</dt>
+                    <dt className="font-semibold text-zinc-300">{t("pr_cofactores_reconocidos")}</dt>
                     <dd className="min-w-0 break-words font-mono text-xs font-medium text-zinc-100">
                       {visible.effective_config.heteroatom_policy.organic_cofactors_kept.join(", ")}
                     </dd>

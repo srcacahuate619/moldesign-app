@@ -7,6 +7,7 @@
 // trazabilidad estructural de la corrida.
 
 import React, { useEffect, useMemo, useState } from "react";
+import { useLanguage } from "../../../context/LanguageContext";
 import {
   Activity,
   AlertTriangle,
@@ -53,6 +54,7 @@ function PoseComparisonWorkspace({
   readonly rows: PoseComparisonRow[];
   readonly onComparePoses?: (leftRank: number, rightRank: number) => void;
 }) {
+  const { t } = useLanguage();
   const ranks = rows.map((row) => row.rank);
   const ranksKey = ranks.join(",");
   const [leftRank, setLeftRank] = useState<number | null>(null);
@@ -79,17 +81,17 @@ function PoseComparisonWorkspace({
       <header className="max-w-[78ch]">
         <h3 className="font-display text-lg font-bold tracking-tight text-zinc-100">Comparar poses</h3>
         <p className="mt-1.5 text-xs leading-5 text-zinc-500">
-          Elige cualquier par de poses generado por esta corrida. La comparación conserva afinidad, señal del selector y estado físico; no convierte esos datos en una única calificación.
+          {t("pr_comparar_explicacion")}
         </p>
       </header>
 
       {rows.length === 0 ? (
         <p className="rounded-xl border border-white/[0.08] bg-black/20 p-4 text-xs leading-relaxed text-zinc-400">
-          No hay poses serializadas que comparar todavía.
+          {t("pr_sin_poses")}
         </p>
       ) : (
         <>
-          <section aria-label="Elegir poses para comparar" className="rounded-xl border border-white/[0.08] bg-black/20 p-4">
+          <section aria-label={t("pr_elegir_poses")} className="rounded-xl border border-white/[0.08] bg-black/20 p-4">
             <div className="flex flex-wrap items-end gap-3">
               <label className="grid min-w-[12rem] gap-1.5 font-mono text-[10px] uppercase tracking-wider text-zinc-500">
                 Pose A
@@ -128,25 +130,25 @@ function PoseComparisonWorkspace({
                 className="inline-flex min-h-10 whitespace-nowrap items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-500/[0.1] px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-wider text-purple-100 transition-colors hover:bg-purple-500/[0.18] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 disabled:cursor-not-allowed disabled:opacity-45"
               >
                 <ArrowLeftRight size={14} aria-hidden="true" />
-                Abrir comparación 3D
+                {t("pr_abrir_comparacion")}
               </button>
             </div>
             {rows.length < 2 && (
               <p className="mt-3 text-[11px] leading-relaxed text-zinc-500">
-                Se necesitan al menos dos poses para abrir una comparación.
+                {t("pr_minimo_dos_poses")}
               </p>
             )}
           </section>
 
           <div className="overflow-x-auto rounded-xl border border-white/[0.07]">
             <table className="w-full min-w-[42rem] border-collapse text-xs">
-              <caption className="sr-only">Resumen comparable de todas las poses generadas</caption>
+              <caption className="sr-only">{t("pr_resumen_poses")}</caption>
               <thead>
                 <tr className="border-b border-white/[0.08] text-left font-mono text-[10px] uppercase tracking-wider text-zinc-500">
                   <th scope="col" className="px-3 py-2.5 font-normal">Pose</th>
                   <th scope="col" className="px-3 py-2.5 font-normal">Afinidad Vina</th>
                   <th scope="col" className="px-3 py-2.5 font-normal">Selector</th>
-                  <th scope="col" className="px-3 py-2.5 font-normal">Controles físicos</th>
+                  <th scope="col" className="px-3 py-2.5 font-normal">{t("pr_controles_fisicos")}</th>
                   <th scope="col" className="px-3 py-2.5 font-normal">Papel</th>
                 </tr>
               </thead>
@@ -190,7 +192,7 @@ interface ProAnalysisTabsProps {
   mmgbsaRunning?: boolean;
   mmgbsaDone?: boolean;
   /**
-   * Calcular el perfil ADMET sobre una corrida ya terminada.
+   * {t("pr_calcular_admet")} sobre una corrida ya terminada.
    *
    * ADMET-AI es opt-in y se decide en Opciones ANTES de ejecutar. Sin esta
    * puerta, quien no lo marcó tenía que volver a acoplar la molécula entera
@@ -203,7 +205,7 @@ interface ProAnalysisTabsProps {
   admetError?: string | null;
   /** Resultado completo que alimenta la evidencia estructural y sus poses. */
   structuralEvidenceResult?: EvaluationResultWithEvidence | null;
-  /** Navega desde el resumen global hacia Controles físicos. */
+  /** Navega desde el resumen global hacia {t("pr_controles_fisicos")}. */
   physicalFocusRequest?: number;
   /** Abre una comparación 3D de los rangos elegidos por el usuario. */
   onComparePoses?: (leftRank: number, rightRank: number) => void;
@@ -226,6 +228,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
   physicalFocusRequest = 0,
   onComparePoses,
 }) => {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<PrimaryTab>("structure");
   const [advancedTab, setAdvancedTab] = useState<AdvancedTab>("selectivity");
   const [selectedPoseRank, setSelectedPoseRank] = useState<number | null>(null);
@@ -335,11 +338,11 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
   ];
 
   return (
-    <section className="space-y-5" aria-label="Análisis de la corrida">
+    <section className="space-y-5" aria-label={t("pr_analisis_corrida")}>
       <div
         className="flex flex-wrap items-center justify-center gap-1 rounded-xl border border-white/[0.06] bg-black/10 p-1"
         role="tablist"
-        aria-label="Áreas de análisis"
+        aria-label={t("pr_areas_analisis")}
       >
         {tabs.map((tab) => {
           const active = activeTab === tab.id;
@@ -458,13 +461,13 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
       {activeTab === "advanced" && (
         <div id="analysis-panel-advanced" role="tabpanel" aria-labelledby="analysis-tab-advanced" className="space-y-5">
           <header className="max-w-[78ch]">
-            <h3 className="font-display text-lg font-bold tracking-tight text-zinc-100">Análisis post-docking</h3>
+            <h3 className="font-display text-lg font-bold tracking-tight text-zinc-100">{t("pr_post_docking")}</h3>
             <p className="mt-1.5 text-xs leading-5 text-zinc-500">
-              Estas acciones amplían la evidencia de la corrida; no convierten una afinidad de docking en actividad, eficacia o selectividad experimental.
+              {t("pr_post_docking_limite")}
             </p>
           </header>
 
-          <div className="flex flex-wrap gap-2" role="tablist" aria-label="Métodos de análisis avanzado">
+          <div className="flex flex-wrap gap-2" role="tablist" aria-label={t("pr_metodos_avanzados")}>
             {advancedTabs.map((tab) => {
               const active = advancedTab === tab.id;
               const Icon = tab.icon;
@@ -534,7 +537,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                   <div className="flex items-center gap-2">
                     <FlaskConical size={16} className="text-emerald-300" aria-hidden="true" />
                     <h4 id="mmgbsa-post-title" className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-emerald-200">
-                      Refinar una pose con MM-GBSA
+                      {t("pr_refinar_mmgbsa")}
                     </h4>
                   </div>
                   {/* La frase anterior era «Usa la pose real de docking y reporta
@@ -548,14 +551,11 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                   <p className="mt-2 text-xs leading-5 text-zinc-400">
                     Reminimiza la pose real del acoplamiento con OpenMM y resta
                     receptor y ligando aislados. Sirve para{" "}
-                    <strong className="font-semibold text-zinc-300">ordenar poses de esta misma molécula</strong>{" "}
+                    <strong className="font-semibold text-zinc-300">{t("pr_ordenar_poses")}</strong>{" "}
                     contra este mismo receptor.
                   </p>
                   <p className="mt-1.5 text-[11px] leading-5 text-amber-200/70">
-                    No es comparable entre moléculas distintas ni con un ΔG experimental:
-                    el ligando se parametriza con tipos de átomo de proteína (AMBER14), no
-                    con un campo de fuerzas de molécula pequeña. Requiere C, H, O, N, S o P
-                    — con halógenos el cálculo no puede ejecutarse.
+                    {t("pr_mmgbsa_no_comparable")}
                   </p>
                 </div>
                 <button
@@ -569,7 +569,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                 </button>
               </div>
               {!moleculeId && (
-                <p className="mt-3 text-[11px] leading-5 text-zinc-500">Requiere una corrida terminada con una molécula identificable.</p>
+                <p className="mt-3 text-[11px] leading-5 text-zinc-500">{t("ev_admet_requiere_corrida")}</p>
               )}
             </section>
           )}
@@ -581,27 +581,23 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                   <div className="flex items-center gap-2">
                     <Gauge size={16} className="text-sky-300" aria-hidden="true" />
                     <h4 id="admet-post-title" className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-sky-200">
-                      Calcular el perfil ADMET
+                      {t("pr_calcular_admet")}
                     </h4>
                   </div>
                   <p className="mt-2 text-xs leading-5 text-zinc-400">
-                    Predice solubilidad, absorción intestinal, permeabilidad BBB y unión a
-                    proteínas plasmáticas con ADMET-AI, en esta máquina. Depende{" "}
-                    <strong className="font-semibold text-zinc-300">sólo del SMILES</strong>:
-                    no usa la pose ni el receptor, así que no hace falta repetir el acoplamiento.
+                    {t("pr_admet_predice")}{" "}
+                    <strong className="font-semibold text-zinc-300">{t("pr_solo_smiles")}</strong>{t("pr_admet_no_repite")}
                   </p>
                   {/* La misma advertencia que lleva el interruptor de Opciones.
                       Un modelo predictivo no es una medición, y el sitio donde
                       alguien pulsa el botón es donde tiene que leerlo. */}
                   <p className="mt-1.5 text-[11px] leading-5 text-amber-200/70">
-                    Son predicciones de un modelo, no mediciones: se citan como tales. La
-                    primera ejecución carga el ensamble y puede tardar —especialmente en una
-                    máquina virtual o sin GPU—.
+                    {t("pr_admet_predicciones")}
                   </p>
                   {admetDone && !admetError && (
                     <p className="mt-2 text-[11px] leading-5 text-sky-200/80">
                       El perfil está calculado y guardado con la corrida: aparece en{" "}
-                      <strong className="font-semibold">Propiedades</strong> y viaja en el dossier.
+                      <strong className="font-semibold">Propiedades</strong> {t("pr_viaja_en_dossier")}
                     </p>
                   )}
                   {admetError && (
@@ -621,7 +617,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                 </button>
               </div>
               {!moleculeId && (
-                <p className="mt-3 text-[11px] leading-5 text-zinc-500">Requiere una corrida terminada con una molécula identificable.</p>
+                <p className="mt-3 text-[11px] leading-5 text-zinc-500">{t("ev_admet_requiere_corrida")}</p>
               )}
             </section>
           )}
@@ -631,7 +627,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
               <div>
                 <h4 id="sar-available-title" className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-zinc-300">Evidencia SAR disponible</h4>
                 <p className="mt-1 text-xs leading-5 text-zinc-500">
-                  Consulta análogos que ya existen en el historial. Esta versión no genera actividad ni inventa una serie SAR cuando no hay mediciones comparables.
+                  {t("pr_sar_explicacion")}
                 </p>
               </div>
               <ProSarTab moleculeId={moleculeId} />

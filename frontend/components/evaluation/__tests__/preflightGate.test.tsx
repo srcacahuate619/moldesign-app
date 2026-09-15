@@ -166,7 +166,10 @@ describe("puerta de ejecución", () => {
     montar(<CaseEvaluationRunner caseId="c1" inputs={INPUTS} preflight={PREFLIGHT} />);
 
     expect(await screen.findByText("7E2Y · cadena A")).toBeInTheDocument();
-    expect(screen.getByText(/resumen guardado con el caso/i)).toBeInTheDocument();
+    // Mismo motivo que en `PreparationPanel.test.tsx`: el texto vive en el módulo
+    // de traducción y jsdom resuelve `en-US`.
+    const { pro } = await import("../../../context/traducciones/pro");
+    expect(screen.getByText(pro.en.pr_resumen_guardado)).toBeInTheDocument();
     expect(screen.getByText(/vina · ex 8 · 9 poses/i)).toBeInTheDocument();
   });
 

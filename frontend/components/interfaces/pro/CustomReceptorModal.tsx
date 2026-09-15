@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { useLanguage } from "../../../context/LanguageContext";
 import { X, Upload, Info, FileText, CheckCircle2, Zap } from "lucide-react";
 import { uploadCustomTarget } from "../../../lib/api";
 
@@ -10,6 +11,7 @@ interface CustomReceptorModalProps {
 }
 
 export function CustomReceptorModal({ onClose, onSuccess }: CustomReceptorModalProps) {
+  const { t } = useLanguage();
   const [mode, setMode] = useState<"auto" | "manual">("auto");
   const [file, setFile] = useState<File | null>(null);
   const [name, setName] = useState("");
@@ -139,14 +141,14 @@ export function CustomReceptorModal({ onClose, onSuccess }: CustomReceptorModalP
                 Subir Receptor Personalizado
               </h2>
               <p className="text-xs font-mono text-zinc-400 mt-0.5">
-                Integra tus propias proteínas a la base de datos privada de MolDesign.
+                {t("pr_receptor_intro")}
               </p>
             </div>
           </div>
           <button 
             type="button"
             onClick={onClose}
-            aria-label="Cerrar subida de receptor"
+            aria-label={t("pr_cerrar_subida")}
             className="p-2 text-zinc-400 hover:text-white bg-zinc-900 hover:bg-zinc-800 rounded-xl border border-zinc-800 transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
@@ -168,7 +170,7 @@ export function CustomReceptorModal({ onClose, onSuccess }: CustomReceptorModalP
               }`}
             >
               <Zap className="w-4 h-4 text-purple-400/80" />
-              Modo Automático (.PDB)
+              {t("pr_modo_automatico")}
             </button>
             <button
               type="button"
@@ -190,15 +192,15 @@ export function CustomReceptorModal({ onClose, onSuccess }: CustomReceptorModalP
             <div>
               {mode === "auto" ? (
                 <ul className="list-disc pl-4 space-y-1">
-                  <li>Sube un archivo <b>.pdb</b> (por ejemplo, extraído del RCSB PDB).</li>
-                  <li>El pipeline filtrará la cadena y el agua, y generará el PDBQT con Meeko.</li>
-                  <li>Se autodescubrirá el <b>Sitio Activo</b> basado en el ligando cocristalizado.</li>
+                  <li>{t("pr_sube_archivo")} <b>.pdb</b> {t("pr_por_ejemplo_rcsb")}</li>
+                  <li>{t("pr_pipeline_filtrara")}</li>
+                  <li>{t("pr_se_autodescubrira")} <b>Sitio Activo</b> {t("pr_basado_cocristal")}</li>
                 </ul>
               ) : (
                 <ul className="list-disc pl-4 space-y-1">
-                  <li>Sube un archivo <b>.pdbqt</b> ya preparado en tu entorno de trabajo.</li>
-                  <li>No modificaremos la estructura, se inyectará directamente al motor Vina.</li>
-                  <li>Es <b>obligatorio</b> indicar las coordenadas (X, Y, Z) del centro de la caja.</li>
+                  <li>{t("pr_sube_archivo")} <b>.pdbqt</b> {t("pr_ya_preparado")}</li>
+                  <li>{t("pr_no_modificaremos")}</li>
+                  <li>Es <b>obligatorio</b> {t("pr_indicar_coordenadas")}</li>
                 </ul>
               )}
             </div>
@@ -210,7 +212,7 @@ export function CustomReceptorModal({ onClose, onSuccess }: CustomReceptorModalP
             <div className="space-y-4">
               <div>
                 <label className="block text-xs font-bold uppercase text-zinc-400 mb-1.5">
-                  Nombre del Receptor
+                  {t("pr_nombre_receptor")}
                 </label>
                 <input 
                   type="text" 
@@ -283,7 +285,7 @@ export function CustomReceptorModal({ onClose, onSuccess }: CustomReceptorModalP
                   </div>
                   <div>
                     <label className="block text-xs font-bold uppercase text-zinc-400 mb-1.5">
-                      Tamaño de la Caja (Grid Size)
+                      {t("pr_tamano_caja")}
                     </label>
                     <div className="grid grid-cols-3 gap-2">
                       <input type="number" step="0.1" placeholder="SX" value={gridSizeX} onChange={e => setGridSizeX(e.target.value)} className="bg-black border border-zinc-800 rounded-xl px-3 py-2 text-white text-xs text-center outline-none focus:border-purple-500/40" />
@@ -294,9 +296,9 @@ export function CustomReceptorModal({ onClose, onSuccess }: CustomReceptorModalP
                 </>
               ) : (
                 <div className="bg-black border border-zinc-800 rounded-xl p-4 space-y-1">
-                  <h4 className="text-xs font-bold uppercase text-purple-300">Automatización Inteligente</h4>
+                  <h4 className="text-xs font-bold uppercase text-purple-300">{t("pr_automatizacion")}</h4>
                   <p className="text-xs text-zinc-400 leading-relaxed">
-                    El servidor rastreará la estructura PDB y computará un centro espacial en el ligando cocristalizado principal.
+                    {t("pr_servidor_rastreara")}
                   </p>
                 </div>
               )}
@@ -322,7 +324,7 @@ export function CustomReceptorModal({ onClose, onSuccess }: CustomReceptorModalP
                 className="w-4 h-4 accent-purple-500 rounded cursor-pointer"
               />
               <label htmlFor="share_community" className="text-xs font-bold uppercase text-zinc-300 cursor-pointer">
-                Compartir con la comunidad
+                {t("pr_compartir_comunidad")}
               </label>
             </div>
 

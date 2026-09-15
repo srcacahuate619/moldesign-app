@@ -23,6 +23,7 @@ import { legal } from "./legal";
 import { lote } from "./lote";
 import { moldex } from "./moldex";
 import { opciones } from "./opciones";
+import { pro } from "./pro";
 
 /** Las dos columnas de un modulo. Mismas claves, distinto idioma. */
 export interface ModuloDeTraduccion {
@@ -32,6 +33,7 @@ export interface ModuloDeTraduccion {
 
 const MODULOS: readonly ModuloDeTraduccion[] = [
   comun, evaluacion, lote, moldex, casos, legal, certificacion, opciones,
+  pro,
 ];
 
 /**

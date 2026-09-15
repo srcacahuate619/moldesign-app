@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useLanguage } from "../../../context/LanguageContext";
 import { createPortal } from "react-dom";
 import { ShieldCheck, Play, RefreshCw, AlertTriangle, CheckCircle2, ShieldAlert, Cpu, Activity, BookOpen, Sparkles, X, Info, Loader2 } from "lucide-react";
 import { dockSingleAntiTarget, saveSelectivityResults } from "../../../lib/proApi";
@@ -167,6 +168,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
   onUpdateResult,
   autoPoll = false,
 }) => {
+  const { t } = useLanguage();
   const [resultsMap, setResultsMap] = useState<Record<string, any>>({});
   // Espejo del mapa para poder componer el siguiente estado fuera del
   // actualizador sin leer una versión obsoleta en una tanda de dockings.
@@ -200,6 +202,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
 
   const guardar = (objeto: Parameters<typeof saveSelectivityResults>[1]) => {
     if (!moleculeId) {
+  const { t } = useLanguage();
       // Sin evaluación a la que anclarlo no hay nada que guardar, y el usuario
       // tiene que saberlo antes de cambiar de pestaña.
       setPersistencia("fallido");
@@ -215,7 +218,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
       });
   };
 
-  // Modal para "Saber más"
+  // Modal para t("pr_sel_saber_mas")
   const [selectedDetail, setSelectedDetail] = useState<{
     at: AntiTargetInfo;
     aff: number | null;
@@ -539,7 +542,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
           role="alert"
           className="rounded-xl border border-amber-500/40 bg-amber-950/25 px-3 py-2 font-mono text-[11px] text-amber-200"
         >
-          <span className="font-bold uppercase tracking-wider">Resultado sin guardar.</span>{" "}
+          <span className="font-bold uppercase tracking-wider">{t("pr_sel_sin_guardar")}</span>{" "}
           Este panel se ejecutó pero no se pudo escribir en la evaluación: si cambias de
           pestaña lo pierdes, y el informe dirá que no se registró ningún anti-target.
           {errorAlGuardar ? <span className="text-amber-300/70"> ({errorAlGuardar})</span> : null}
@@ -551,7 +554,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
         <div className="flex items-center gap-2 font-mono">
           <ShieldCheck size={18} className="text-purple-400" />
           <span className="font-black uppercase tracking-wider text-zinc-200 text-xs sm:text-sm">
-            PANEL DE SELECTIVIDAD 1 A 1 (REGULATORIO)
+            {t("pr_sel_titulo")}
           </span>
         </div>
 
@@ -585,8 +588,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
         <div className="flex items-center gap-2.5 rounded-xl border border-purple-500/25 bg-purple-950/30 px-3.5 py-2.5 font-mono text-xs text-purple-200">
           <Loader2 size={14} className="animate-spin text-purple-300 shrink-0" />
           <span>
-            El pipeline está evaluando el panel de selectividad en background.
-            Los resultados aparecerán aquí automáticamente al terminar (sin bloquear la evaluación).
+            {t("pr_sel_en_background")}
           </span>
         </div>
       )}
@@ -614,7 +616,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
 
           <div className="flex-1 min-w-0">
             <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest block mb-0.5 font-bold">
-              Resumen de selectividad (in silico)
+              {t("pr_sel_resumen")}
             </span>
             <p className="text-xs sm:text-sm font-bold leading-relaxed" style={{ color: ratioColor }}>
               {verdict}
@@ -682,7 +684,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
             ) : (
               <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/30 p-3.5 font-mono text-xs text-emerald-300 flex items-center gap-2">
                 <CheckCircle2 size={16} className="text-emerald-400 shrink-0" />
-                <span className="font-bold">0 umbrales rebasados en el panel; esto no constituye una conclusión de seguridad.</span>
+                <span className="font-bold">{t("pr_sel_sin_conclusion")}</span>
               </div>
             )}
           </div>
@@ -692,7 +694,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
       {/* Anti-Targets 1-by-1 Cards List */}
       <div className="space-y-3">
         <span className="block text-xs font-mono font-bold uppercase tracking-widest text-zinc-300">
-          Anti-targets del panel (5 receptores)
+          {t("pr_sel_anti_targets")}
         </span>
 
         {DEFAULT_ANTI_TARGETS.map((at) => {
@@ -732,14 +734,14 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
                 <p className="text-xs text-zinc-300 font-sans leading-relaxed">{at.risk}</p>
                 <div className="flex items-center gap-3 text-xs font-mono">
                   <span className="text-zinc-400">
-                    Umbral Mínimo: <strong className="text-zinc-200">{thresh.toFixed(1)} kcal/mol</strong>
+                    {t("pr_sel_umbral_minimo")} <strong className="text-zinc-200">{thresh.toFixed(1)} kcal/mol</strong>
                   </span>
                   <button
                     onClick={() => setSelectedDetail({ at, aff, isDanger, thresh })}
                     className="text-purple-400 hover:text-purple-300 flex items-center gap-1 font-bold underline cursor-pointer text-xs"
                   >
                     <BookOpen size={12} />
-                    Saber más
+                    {t("pr_sel_saber_mas")}
                   </button>
                 </div>
               </div>
@@ -757,7 +759,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
                       {aff.toFixed(1)} kcal/mol
                     </span>
                   ) : (
-                    <span className="text-zinc-400 text-xs font-bold">Sin evaluar</span>
+                    <span className="text-zinc-400 text-xs font-bold">{t("pr_sel_sin_evaluar")}</span>
                   )}
                 </div>
 
@@ -774,7 +776,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
         })}
       </div>
 
-      {/* Modal Educativo y de Optimización SAR "Saber más" */}
+      {/* Modal Educativo y de Optimización SAR t("pr_sel_saber_mas") */}
       {selectedDetail && typeof window !== "undefined" && createPortal(
         <div
           className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md font-sans"
@@ -813,13 +815,13 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
                     {selectedDetail.aff.toFixed(1)} kcal/mol
                   </span>
                 ) : (
-                  <span className="text-zinc-500 font-bold">Sin evaluar</span>
+                  <span className="text-zinc-500 font-bold">{t("pr_sel_sin_evaluar")}</span>
                 )}
               </div>
 
               <div className="bg-black/50 p-3 rounded-xl border border-white/10 space-y-0.5">
                 <span className="text-zinc-400 block font-bold uppercase text-[10px]">
-                  Concentración implicada por el score:
+                  {t("pr_sel_concentracion")}
                 </span>
                 {selectedDetail.aff !== null && selectedDetail.aff !== undefined ? (
                   (() => {
@@ -845,7 +847,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
             {/* La advertencia va PEGADA al número, no en un pie de página.
                 Separarla del dato es lo que permite leer el dato sin ella. */}
             <p className="rounded-xl border border-amber-500/25 bg-amber-500/[0.05] p-3 text-[11px] leading-relaxed text-amber-100/85 font-sans">
-              <strong className="font-semibold">Esa concentración no es una Ki ni una IC50.</strong>{" "}
+              <strong className="font-semibold">{t("pr_sel_no_es_ki")}</strong>{" "}
               El score de Vina es una función empírica de puntuación, no una energía libre
               medida, y su dispersión frente a afinidades experimentales es de unos
               ±{INCERTIDUMBRE_VINA_KCAL} kcal/mol — que en escala exponencial son más de dos
@@ -857,7 +859,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
             {/* Function & Pathophysiology */}
             <div className="space-y-2">
               <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
-                <Activity size={14} /> Función Biológica &amp; Mecanismo
+                <Activity size={14} /> {t("pr_sel_funcion_biologica")}
               </h4>
               <p className="text-xs text-zinc-300 leading-relaxed font-sans bg-black/30 p-3 rounded-xl border border-white/5">
                 {selectedDetail.at.targetFunction}
@@ -866,7 +868,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
 
             <div className="space-y-2">
               <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-rose-300 flex items-center gap-1.5">
-                <AlertTriangle size={14} /> Relevancia Clínica &amp; Riesgo Farmacológico
+                <AlertTriangle size={14} /> {t("pr_sel_relevancia_clinica")}
               </h4>
               <p className="text-xs text-zinc-300 leading-relaxed font-sans bg-rose-950/20 p-3 rounded-xl border border-rose-500/20">
                 {selectedDetail.at.bioDetails}
@@ -876,7 +878,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
             {/* Medicinal Chemistry Mitigation SAR */}
             <div className="space-y-2">
               <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-1.5">
-                <Sparkles size={14} /> Optimización Química Medicinal (SAR)
+                <Sparkles size={14} /> {t("pr_sel_optimizacion")}
               </h4>
               <p className="text-xs text-zinc-300 leading-relaxed font-sans bg-emerald-950/20 p-3 rounded-xl border border-emerald-500/20">
                 {selectedDetail.at.mitigationSar}

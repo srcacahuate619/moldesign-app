@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useLanguage } from "../../../context/LanguageContext";
 import {
   Dna, Zap, Cpu, Brain, FlaskConical, ExternalLink,
   Info, AlertTriangle, ChevronDown, ChevronUp, Atom, Sparkles
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, isPeptide, collapsed: initialCollapsed }: Props) {
+  const { t } = useLanguage();
   const [expanded, setExpanded] = useState(!initialCollapsed);
 
   return (
@@ -40,7 +42,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
           <div className="text-left">
             {/* Title: matches ScoreCard h3 — text-sm font-semibold */}
             <h3 className="text-sm font-semibold tracking-tight text-zinc-800 dark:text-zinc-200">
-              Motor de Docking
+              {t("op_motor_docking")}
             </h3>
             {/* Subtitle: matches ScoreCard disclaimer — text-[11px] */}
             <p className="text-[11px] text-zinc-500 mt-0.5">
@@ -65,12 +67,12 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
           >
             <div className="px-4 pb-5 space-y-5 border-t border-zinc-200 dark:border-white/5 pt-4">
 
-              {/* ── Moléculas Pequeñas ───────────────────────────── */}
+              {/* ── {t("op_moleculas_pequenas")} ───────────────────────────── */}
               <div className="space-y-2">
                 {/* Section label: text-xs font-semibold — matches ScoreBar label scale */}
                 <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5">
                   <Atom className="w-3.5 h-3.5" />
-                  Moléculas Pequeñas
+                  {t("op_moleculas_pequenas")}
                 </h4>
 
                 <div className="grid grid-cols-1 gap-2.5">
@@ -94,12 +96,12 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                           AutoDock Vina 1.2.7
                         </span>
                         <span className="text-[11px] px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-400 font-mono font-bold">
-                          CLÁSICO
+                          {t("pr_mot_clasico")}
                         </span>
                       </div>
                       {/* Description: text-xs — up from text-[11px], readable */}
                       <p className="text-xs text-zinc-500 mt-1 leading-relaxed">
-                        Motor de docking estándar. Exhaustiveness=8. ~20s por ligando.
+                        {t("pr_mot_clasico_d")}
                       </p>
                       <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-zinc-400">
                         <Cpu className="w-3 h-3" />
@@ -128,11 +130,11 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                         </span>
                         <span className="text-[11px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 font-mono font-bold flex items-center gap-1">
                           <Zap className="w-2.5 h-2.5" />
-                          RÁPIDO
+                          {t("pr_mot_rapido")}
                         </span>
                       </div>
                       <p className="text-xs text-zinc-500 mt-1 leading-relaxed">
-                        Smart sampling, 2–3× más rápido que Vina. Misma precisión.
+                        {t("pr_mot_rapido_d")}
                       </p>
                       <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-zinc-400">
                         <Zap className="w-3 h-3" />
@@ -161,11 +163,11 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                         </span>
                         <span className="text-[11px] px-1.5 py-0.5 rounded bg-violet-500/10 text-violet-400 font-mono font-bold flex items-center gap-1">
                           <Sparkles className="w-2.5 h-2.5" />
-                          DIFUSIÓN
+                          {t("pr_mot_difusion")}
                         </span>
                       </div>
                       <p className="text-xs text-zinc-500 mt-1 leading-relaxed">
-                        Docking generativo por difusión (Corso et al. ICLR 2023).
+                        {t("pr_mot_difusion_d")}
                       </p>
                       <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-zinc-400">
                         <Sparkles className="w-3 h-3" />
@@ -191,9 +193,9 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                         ?
                       </span>
                       <div className="absolute bottom-full right-0 mb-2 px-3 py-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-xs text-zinc-600 dark:text-zinc-300 shadow-xl opacity-0 group-hover/tip:opacity-100 transition-opacity pointer-events-none z-50 w-64 text-left leading-relaxed">
-                        Se habilita al detectar un péptido (≥3 enlaces C(=O)N) o al seleccionar manualmente uno de estos motores.
+                        {t("pr_mot_peptido")}
                         <br />
-                        <span className="text-zinc-400 text-[11px]">Con Vina seleccionado, solo verás un aviso si la molécula parece un péptido.</span>
+                        <span className="text-zinc-400 text-[11px]">{t("pr_mot_aviso_vina")}</span>
                       </div>
                     </span>
                   )}
@@ -207,7 +209,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                     {
                       id: "esmfold",
                       label: "ESMFold",
-                      badge: "RÁPIDO",
+                      badge: t("pr_mot_rapido"),
                       badgeStyle: { bg: "rgba(14,165,233,0.12)", text: "#38bdf8" },
                       desc: "ESMFold operativo para plegamiento; la conversión a ligando acoplable aún no soportada, así que el acoplamiento no se evalúa.",
                       gpu: false,
@@ -296,13 +298,13 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                 </div>
               </div>
 
-              {/* ── Precisión GNN ────────────────────────────────── */}
+              {/* ── {t("op_precision_gnn")} ────────────────────────────────── */}
               {!isPeptide && (
                 <div className="space-y-3 pt-3 border-t border-zinc-200 dark:border-zinc-700/30">
                   <div className="flex items-center gap-2">
                     <Brain className="w-4 h-4 text-violet-400" />
                     <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
-                      Precisión GNN
+                      {t("op_precision_gnn")}
                     </h4>
                     {!gpuAvailable && (
                       <span className="text-[11px] text-zinc-500 ml-auto font-mono">Requiere GPU</span>
@@ -319,7 +321,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                       } disabled:opacity-30 disabled:cursor-not-allowed`}
                     >
                       <div className="font-mono mb-1">FP32</div>
-                      <div className="text-xs text-zinc-500 font-normal">Precisión completa</div>
+                      <div className="text-xs text-zinc-500 font-normal">{t("pr_mot_precision_completa")}</div>
                     </button>
                     <button
                       disabled={!gpuAvailable || !gpuCuda}
@@ -333,7 +335,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                       <div className="flex items-center gap-1 font-mono mb-1">
                         FP16 <Zap className="w-3 h-3 text-amber-400" />
                       </div>
-                      <div className="text-xs text-zinc-500 font-normal">Precisión media (CUDA)</div>
+                      <div className="text-xs text-zinc-500 font-normal">{t("pr_mot_precision_media")}</div>
                     </button>
                   </div>
                 </div>
