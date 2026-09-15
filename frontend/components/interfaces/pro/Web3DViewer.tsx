@@ -1,7 +1,6 @@
-
+"use client";
 import { useLanguage } from "@/context/LanguageContext";
 /* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V5 */
-"use client";
 
 // Visor Web3D ligero (react-three-fiber) — alternativa a MolStar.
 // - Átomos con InstancedMesh (1 draw call → sin lag, soporta 50k+ átomos)

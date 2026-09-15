@@ -1,7 +1,6 @@
-
+"use client";
 import { useLanguage } from "@/context/LanguageContext";
 /* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4 */
-"use client";
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { animateElements, cancelAnimations } from "@/lib/webAnimation";

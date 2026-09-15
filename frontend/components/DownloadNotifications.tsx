@@ -1,7 +1,6 @@
-
+"use client";
 import { useLanguage } from "@/context/LanguageContext";
 /* Hallmark · pre-emit critique: P4 H5 E4 S5 R5 V4 */
-"use client";
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
