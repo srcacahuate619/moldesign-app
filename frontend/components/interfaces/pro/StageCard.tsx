@@ -1,3 +1,5 @@
+
+import { useLanguage } from "@/context/LanguageContext";
 import React from "react";
 import { Check, Info, Settings, Play, CheckCircle2, Circle, AlertCircle, Loader2, ChevronUp, ChevronDown } from "lucide-react";
 
@@ -44,6 +46,7 @@ export function StageCard({
   isLast = false,
   showReorderControls = false
 }: StageCardProps) {
+  const { t } = useLanguage();
   return (
     <div className={`border ${status === 'running' ? 'border-indigo-500/50 bg-indigo-500/5' : status === 'error' ? 'border-red-500/50 bg-red-500/5' : 'border-zinc-800 bg-black'} rounded-xl p-3.5 transition-all duration-300 relative group/card`}>
       <div className="flex items-start justify-between gap-2">
@@ -106,7 +109,7 @@ export function StageCard({
               ? 'border-orange-500/30 text-orange-400 bg-orange-500/10' 
               : 'border-emerald-500/30 text-emerald-400 bg-emerald-500/10'
           }`}>
-            COSTO: {stage.cost_estimate}
+            {t("auto_88219203d937")} {stage.cost_estimate}
           </span>
           {status === 'running' && (
             <span className="flex items-center gap-1 text-xs font-mono text-indigo-400 font-bold animate-pulse">
@@ -131,7 +134,7 @@ export function StageCard({
         <div className="mt-3.5 pt-3.5 border-t border-zinc-900/60">
           <div className="flex items-center gap-1.5 mb-2.5">
             <Settings size={10} className="text-zinc-500" />
-            <span className="text-[11px] uppercase tracking-widest text-zinc-500 font-bold font-mono">Configuración de Parámetros</span>
+            <span className="text-[11px] uppercase tracking-widest text-zinc-500 font-bold font-mono">{t("z_config_parametros")}</span>
           </div>
           <div className="grid grid-cols-2 gap-3">
             {Object.entries(stage.params).map(([k, v]) => (

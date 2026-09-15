@@ -46,7 +46,7 @@ describe("frontera de error alrededor de los providers", () => {
 
     // Lo esencial: hay algo pintado.
     expect(document.body.textContent?.trim()).not.toBe("");
-    expect(screen.getByText(/Algo salio mal/i)).toBeInTheDocument();
+    expect(screen.getByText(/Algo sali[oó] mal/i)).toBeInTheDocument();
     // Y el mensaje real llega al usuario, no un texto genérico vacío.
     expect(screen.getByText(/el provider reventó al montar/)).toBeInTheDocument();
     // Con salida: un callejón sin salida obliga a matar el proceso.

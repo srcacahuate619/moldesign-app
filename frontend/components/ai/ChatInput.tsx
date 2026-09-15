@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Send, Square, Mic, MicOff } from "lucide-react";
 import { useSpeechRecognition } from "@/hooks/useSpeechRecognition";
@@ -21,6 +23,7 @@ type Props = {
 };
 
 export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
+  const { t } = useLanguage();
   const [input, setInput] = useState("");
   const [lang, setLang] = useState("es-ES");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -108,7 +111,7 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
           />
           Escuchando...{" "}
           <span style={{ color: "var(--text-dim)" }}>
-            (habla claramente)
+            {t("auto_98a41efc81b2")}
           </span>
         </div>
       )}
@@ -125,8 +128,8 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
           <button
             type="button"
             onClick={() => setLang(lang === "es-ES" ? "en-US" : "es-ES")}
-            title={lang === "es-ES" ? "Español" : "English"}
-            aria-label={lang === "es-ES" ? "Idioma de dictado: español" : "Idioma de dictado: inglés"}
+            title={lang === "es-ES" ? t("auto_2001ca082b2d") : t("auto_2001ca082b2d")}
+            aria-label={lang === "es-ES" ? t("auto_eeb11cc0b66e") : t("auto_dda6b46d3faf")}
             style={{
               background: "var(--bg)",
               border: "1px solid var(--border)",
@@ -143,7 +146,7 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
               flexShrink: 0,
             }}
           >
-            {lang === "es-ES" ? "ES" : "EN"}
+            {lang === "es-ES" ? t("auto_9debabbaa01a") : t("auto_9debabbaa01a")}
           </button>
         )}
 
@@ -156,7 +159,7 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
             isListening
               ? "Escuchando..."
               : isStreaming
-              ? "MolChat está respondiendo..."
+              ? t("auto_6be8b77110ff")
               : "Pregunta a MolChat..."
           }
           rows={1}
@@ -195,15 +198,15 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
             title={
               isSupported
                 ? isListening
-                  ? "Detener grabación"
-                  : "Dictar por voz con el modelo local"
-                : "Dictado no disponible: esta instalación no incluye reconocimiento de voz local"
+                  ? t("auto_b6ade7ce617a")
+                  : t("auto_1416d9865ffd")
+                : t("auto_e53d65c119b2")
             }
             aria-label={
               isSupported
                 ? isListening
-                  ? "Detener grabación"
-                  : "Dictar por voz con el modelo local"
+                  ? t("auto_b6ade7ce617a")
+                  : t("auto_1416d9865ffd")
                 : "Dictado no disponible"
             }
             aria-describedby={!isSupported ? "dictado-no-disponible" : undefined}
@@ -292,17 +295,17 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
           gap: 12,
         }}
       >
-        <span>Enter · enviar</span>
-        <span>Shift+Enter · nueva línea</span>
+        <span>{t("auto_8ddc10621717")}</span>
+        <span>{t("ia_shift_enter")}</span>
         {isSupported ? (
-          <span>Micrófono · dictado local</span>
+          <span>{t("ia_microfono")}</span>
         ) : (
           <span id="dictado-no-disponible" role="status">
-            Dictado no disponible: falta el reconocimiento de voz local. Puedes seguir escribiendo.
+            {t("ia_dictado_no_disponible")}
           </span>
         )}
         {micState === "error" && (
-          <span role="alert">El dictado local falló. Puedes seguir escribiendo.</span>
+          <span role="alert">{t("ia_dictado_fallo")}</span>
         )}
       </div>
     </div>

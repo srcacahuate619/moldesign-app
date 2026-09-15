@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React, { useEffect, useRef, useState } from "react";
 
 interface LiquidOrbProps {
@@ -26,6 +28,7 @@ interface LiquidOrbProps {
 }
 
 export function LiquidOrb({ value, absolute, label, source, unavailable = false, unavailableNote }: LiquidOrbProps) {
+  const { t } = useLanguage();
   const numRef = useRef<HTMLSpanElement>(null);
   const orbRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -173,7 +176,7 @@ export function LiquidOrb({ value, absolute, label, source, unavailable = false,
         </span>
         {unavailable ? (
           <span className="max-w-[16rem] text-center text-[10px] font-mono leading-relaxed text-slate-500">
-            {unavailableNote ?? "sin dato en esta corrida"}
+            {unavailableNote ?? t("auto_01f70610d0a7")}
           </span>
         ) : (
           source && <span className="text-[10px] font-mono text-slate-500">{source}</span>

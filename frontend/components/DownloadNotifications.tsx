@@ -1,3 +1,5 @@
+
+import { useLanguage } from "@/context/LanguageContext";
 /* Hallmark · pre-emit critique: P4 H5 E4 S5 R5 V4 */
 "use client";
 
@@ -32,6 +34,7 @@ function readStored(userId?: string): ActivityNotification[] {
 }
 
 export function DownloadNotifications() {
+  const { t } = useLanguage();
   const { manifest, models, progress } = useDownload();
   const { user } = useAuth();
   const userId = user?.user_id;
@@ -112,7 +115,7 @@ export function DownloadNotifications() {
       {open && (
         <div ref={panelRef} role="dialog" aria-label="Actividad y notificaciones" className="absolute right-0 top-[calc(100%+10px)] z-[220] w-[min(92vw,390px)] overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 shadow-2xl">
           <div className="flex items-center justify-between border-b border-zinc-800 px-4 py-3">
-            <div><p className="text-sm font-bold text-white">Actividad</p><p className="mt-0.5 text-xs text-zinc-400">Corridas, archivos, modelos y motores</p></div>
+            <div><p className="text-sm font-bold text-white">Actividad</p><p className="mt-0.5 text-xs text-zinc-400">{t("auto_30fa396b093a")}</p></div>
             <button type="button" aria-label="Cerrar actividad" onClick={() => setOpen(false)} className="min-h-11 min-w-11 rounded p-2 text-zinc-400 hover:bg-white/[0.05] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400 active:bg-white/[0.08]"><X size={15} aria-hidden="true" /></button>
           </div>
           <div className="max-h-[min(65dvh,460px)] overflow-y-auto p-2 custom-scrollbar">
@@ -154,7 +157,7 @@ export function DownloadNotifications() {
                   <div key={entry.id} className="rounded-lg border border-transparent px-3 py-2.5 hover:border-zinc-800 hover:bg-white/[0.025]">
                     <div className="flex items-start gap-2.5">
                       <Icon size={16} className={`mt-0.5 shrink-0 ${status === "ready" ? "text-emerald-400" : status === "error" ? "text-red-400" : status === "downloading" || status === "extracting" ? "animate-spin text-purple-300 motion-reduce:animate-none" : "text-zinc-500"}`} aria-hidden="true" />
-                      <div className="min-w-0 flex-1"><p className="truncate text-sm font-semibold text-zinc-200">{entry.name}</p><p className="mt-1 text-sm text-zinc-400">{statusLabel(status)}{status === "downloading" ? ` · ${percent}%` : ""}</p>{status === "downloading" && <div role="progressbar" aria-label={`Descarga de ${entry.name}`} aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100} className="mt-2 h-1 overflow-hidden rounded bg-zinc-800"><div className="h-full bg-purple-500" style={{ width: `${percent}%` }} /></div>}</div>
+                      <div className="min-w-0 flex-1"><p className="truncate text-sm font-semibold text-zinc-200">{entry.name}</p><p className="mt-1 text-sm text-zinc-400">{statusLabel(status)}{status === "downloading" ? ` · ${percent}%` : ""}</p>{status === "downloading" && <div role="progressbar" aria-label={t("z_descarga_de", { name: entry.name })} aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100} className="mt-2 h-1 overflow-hidden rounded bg-zinc-800"><div className="h-full bg-purple-500" style={{ width: `${percent}%` }} /></div>}</div>
                     </div>
                   </div>
                 );
@@ -162,7 +165,7 @@ export function DownloadNotifications() {
             </section>
           </div>
           <div className="grid grid-cols-2 border-t border-zinc-800">
-            <Link href="/evaluation" onClick={() => setOpen(false)} className="flex min-h-11 items-center justify-center gap-2 whitespace-nowrap text-xs font-bold text-zinc-300 hover:bg-white/[0.04] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-purple-400"><FlaskConical size={14} aria-hidden="true" /> Evaluación</Link>
+            <Link href="/evaluation" onClick={() => setOpen(false)} className="flex min-h-11 items-center justify-center gap-2 whitespace-nowrap text-xs font-bold text-zinc-300 hover:bg-white/[0.04] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-purple-400"><FlaskConical size={14} aria-hidden="true" /> {t("evaluation")}</Link>
             <Link href="/launcher" onClick={() => setOpen(false)} className="flex min-h-11 items-center justify-center gap-2 whitespace-nowrap border-l border-zinc-800 text-xs font-bold text-purple-300 hover:bg-purple-500/[0.06] hover:text-purple-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-purple-400"><PackageOpen size={14} aria-hidden="true" /> Descargas</Link>
           </div>
         </div>

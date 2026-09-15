@@ -256,8 +256,7 @@ export function PreparationPanel({
           )}
           {conformacionesEfectivas > 1 && (
             <p className="max-w-[34ch] text-right text-xs font-medium leading-5 text-amber-200">
-              ≈ {conformacionesEfectivas}× el tiempo de acoplamiento. Amplía la
-              cobertura geométrica; no mejora, por sí solo, la elección de la pose top-1.
+              ≈ {conformacionesEfectivas}{t("auto_1358197dcf7b")}
             </p>
           )}
 
@@ -268,7 +267,7 @@ export function PreparationPanel({
           className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md border border-brand-500/40 bg-brand-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {loading && <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />}
-          {loading ? "Comprobando…" : visible || persisted ? "Volver a comprobar" : "Comprobar preparación"}
+          {loading ? t("auto_338dc7ae83f6") : visible || persisted ? "Volver a comprobar" : t("auto_dbd6db566faf")}
         </button>
         </div>
       </div>
@@ -312,10 +311,10 @@ export function PreparationPanel({
             </div>
             {persisted.executionConfig && (
               <div className="min-w-0">
-                <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">Protocolo</dt>
+                <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">{t("se_gen_protocol")}</dt>
                 <dd className="truncate text-sm font-semibold text-zinc-100">
                   {persisted.executionConfig.dockingEngine} · ex {persisted.executionConfig.exhaustiveness} ·{" "}
-                  {persisted.executionConfig.numPoses} poses · semilla {persisted.executionConfig.seed}
+                  {persisted.executionConfig.numPoses} {t("auto_f3d3bbae83b6")} {persisted.executionConfig.seed}
                 </dd>
               </div>
             )}
@@ -328,7 +327,7 @@ export function PreparationPanel({
               {persisted.warnings.length} advertencia{persisted.warnings.length === 1 ? "" : "s"}
             </span>
             <span className="rounded border border-surface-700 px-1.5 py-0.5 font-mono text-[11px] font-bold uppercase tracking-wide text-zinc-300">
-              {persisted.notEvaluated.length} sin evaluar
+              {persisted.notEvaluated.length} {t("se_phys_count_skip")}
             </span>
             <span className="font-mono text-[11px] font-medium text-zinc-400">
               huella {persisted.fingerprint.replace("sha256:", "").slice(0, 12)}…
@@ -347,14 +346,14 @@ export function PreparationPanel({
             <div className="min-w-0">
               <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">Receptor</dt>
               <dd className="truncate text-sm font-semibold text-zinc-100">
-                {visible.receptor.pdb_id} · cadena {visible.receptor.chain}
+                {visible.receptor.pdb_id} {t("auto_da63fdf7d65b")} {visible.receptor.chain}
               </dd>
             </div>
             <div className="min-w-0">
-              <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">Protocolo</dt>
+              <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">{t("se_gen_protocol")}</dt>
               <dd className="truncate text-sm font-semibold text-zinc-100">
                 {visible.effective_config.docking_engine} · ex {visible.effective_config.exhaustiveness} ·{" "}
-                {visible.effective_config.num_poses} poses · semilla {visible.effective_config.seed}
+                {visible.effective_config.num_poses} {t("auto_f3d3bbae83b6")} {visible.effective_config.seed}
               </dd>
             </div>
             <div className="min-w-0">
@@ -362,7 +361,7 @@ export function PreparationPanel({
                 {t("pr_ligando_canonico")}
               </dt>
               <dd className="truncate text-sm font-semibold text-zinc-100" title={visible.ligand.canonical_smiles ?? undefined}>
-                {visible.ligand.canonical_smiles ?? "No definido"}
+                {visible.ligand.canonical_smiles ?? t("c_no_definido")}
               </dd>
             </div>
             <div className="min-w-0">
@@ -386,7 +385,7 @@ export function PreparationPanel({
               {warnings} advertencia{warnings === 1 ? "" : "s"}
             </span>
             <span className="whitespace-nowrap rounded border border-surface-700 px-1.5 py-0.5 font-mono text-[11px] font-bold uppercase tracking-wide text-zinc-300">
-              {notEvaluated} sin evaluar
+              {notEvaluated} {t("se_phys_count_skip")}
             </span>
             <span className="whitespace-nowrap font-mono text-[11px] font-medium text-zinc-400">
               huella {visible.input_fingerprint.replace("sha256:", "").slice(0, 12)}…
@@ -405,7 +404,7 @@ export function PreparationPanel({
               className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
               aria-hidden="true"
             />
-            {open ? "Ocultar detalle" : "Ver detalle"}
+            {open ? t("se_hide_detail") : t("se_show_detail")}
           </button>
 
           {open && (
@@ -436,11 +435,11 @@ export function PreparationPanel({
                         <tbody className="font-medium text-zinc-100">
                           {(
                             [
-                              ["Átomos de proteína", "atom_records"],
+                              [t("auto_808cfa7d641c"), "atom_records"],
                               ["Aguas", "waters"],
                               ["Metales", "metals"],
-                              ["Cofactores orgánicos", "organic_cofactors"],
-                              ["Otros heteroátomos", "other_hetatm"],
+                              [t("auto_efa071aa71dd"), "organic_cofactors"],
+                              [t("auto_f134454d6dec"), "other_hetatm"],
                             ] as const
                           ).map(([label, key]) => {
                             const source = visible.preparation_diff.source?.[key] ?? 0;
@@ -475,7 +474,7 @@ export function PreparationPanel({
                               <strong className="font-mono text-zinc-50">{species.residue_code}</strong>
                               <span className="text-zinc-400"> · {SPECIES_CATEGORY_LABEL[species.category]} · </span>
                               <span className="font-semibold text-zinc-100">
-                                {species.atom_count} {species.atom_count === 1 ? "átomo" : "átomos"}
+                                {species.atom_count} {species.atom_count === 1 ? t("auto_7613e1aefca5") : t("pn_atomos")}
                               </span>
                             </li>
                           ))}
@@ -509,15 +508,15 @@ export function PreparationPanel({
                     </dd>
                   </div>
                   <div className="flex flex-wrap gap-x-2">
-                    <dt className="font-semibold text-zinc-300">Aguas:</dt>
+                    <dt className="font-semibold text-zinc-300">{t("auto_7b6e6012ac40")}</dt>
                     <dd className="font-medium">{t("pr_aguas_eliminadas")}</dd>
                   </div>
                   <div className="flex flex-wrap gap-x-2">
-                    <dt className="font-semibold text-zinc-300">Metales:</dt>
+                    <dt className="font-semibold text-zinc-300">{t("auto_2e487d8b1546")}</dt>
                     <dd className="font-medium">
                       {visible.effective_config.heteroatom_policy.cofactors_whitelist_declared.length > 0
                         ? `Se conservan únicamente los declarados: ${visible.effective_config.heteroatom_policy.cofactors_whitelist_declared.join(", ")}`
-                        : "No hay metales declarados para conservar"}
+                        : t("auto_c922a83946da")}
                     </dd>
                   </div>
                   <div className="flex flex-wrap gap-x-2">

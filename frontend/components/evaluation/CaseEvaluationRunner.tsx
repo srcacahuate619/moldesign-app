@@ -1,5 +1,7 @@
 "use client";
 
+
+import { Translated, useLanguage } from "@/context/LanguageContext";
 // =====================================================================
 // CaseEvaluationRunner — la evaluacion actual, ahora dentro de un caso
 // =====================================================================
@@ -75,7 +77,7 @@ const ProEvaluation = dynamic(() => import("../interfaces/pro/ProEvaluation"), {
     <div className="flex h-full min-h-[24rem] items-center justify-center bg-surface-950 text-zinc-100 font-mono p-6">
       <div className="text-center">
         <div className="h-10 w-10 animate-spin rounded-full border-2 border-surface-700 border-t-transparent mx-auto mb-4" />
-        <span className="text-[10px] font-bold uppercase tracking-[0.2em] animate-pulse">Cargando evaluación pro...</span>
+        <span className="text-[10px] font-bold uppercase tracking-[0.2em] animate-pulse"><Translated id="z_cargando_pro" /></span>
       </div>
     </div>
   ),
@@ -211,6 +213,7 @@ export default function CaseEvaluationRunner({
   decisions,
   onDecision,
 }: CaseEvaluationRunnerProps) {
+  const { t } = useLanguage();
   const {
     isLoading: authLoading,
     logout,
@@ -807,7 +810,7 @@ export default function CaseEvaluationRunner({
             recoveryAttemptsRef.current.set(tid, attempts + 1);
             setResultRecovery({
               state: "recovering",
-              message: "El motor local est\u00e1 terminando de arrancar. Reintentando autom\u00e1ticamente\u2026",
+              message: t("auto_74f10d125232"),
             });
             if (recoveryRetryTimerRef.current) clearTimeout(recoveryRetryTimerRef.current);
             recoveryRetryTimerRef.current = window.setTimeout(() => {
@@ -823,7 +826,7 @@ export default function CaseEvaluationRunner({
               ? "El resultado está guardado, pero tu sesión caducó. Inicia sesión de nuevo para recuperarlo."
               : statusCode === 403
                 ? "El resultado está guardado, pero pertenece a otra sesión. Inicia sesión con la cuenta que ejecutó esta corrida."
-                : cause instanceof Error && cause.message.startsWith("Error de conexión")
+                : cause instanceof Error && cause.message.startsWith(t("mx_error_conexion"))
                   ? "El resultado sigue guardado, pero el motor local no está disponible. Comprueba el estado del motor y vuelve a intentarlo."
                   : `El resultado sigue referenciado por este caso, pero no se pudo recuperar: ${cause instanceof Error ? cause.message : String(cause)}`;
           setResultRecovery({ state: "blocked", message, requiresLogin });
@@ -893,15 +896,15 @@ export default function CaseEvaluationRunner({
         setStatus((prev) => (prev ? { ...prev, result: null } : prev));
         setError(
           live
-            ? "Tu sesión cambió. Los resultados anteriores se limpiaron para no mezclarlos con otra " +
-              "cuenta, pero la corrida sigue identificada: recupera la sesión y usa «Reintentar seguimiento»."
-            : "Tu sesión cambió. El resultado visible se limpió, pero la corrida terminada conserva " +
-              "su identificador para poder recuperarla con la sesión correcta.",
+            ? t("auto_b0a87dfd9e6e") +
+              t("auto_9d0f79ed0388")
+            : t("auto_7d5211dfd7ca") +
+              t("auto_e66cbf48ffa4"),
         );
       } else {
         setTaskId(null);
         setStatus(null);
-        setError("Tu sesión cambió. Los resultados anteriores se limpiaron para evitar guardar moléculas de otra cuenta.");
+        setError(t("auto_d63f7a54d93b"));
       }
     };
     window.addEventListener("auth_expired", handleAuthChange);
@@ -943,7 +946,7 @@ export default function CaseEvaluationRunner({
     const execution = preflight?.executionConfig;
     const inspectedFingerprint = preflight?.fingerprint;
     if (!execution || !inspectedFingerprint) {
-      setError("Vuelve a comprobar la preparación antes de ejecutar.");
+      setError(t("auto_dc96db7f7404"));
       return;
     }
 
@@ -962,7 +965,7 @@ export default function CaseEvaluationRunner({
       const inspectedTarget = structuralSystem?.receptor.pdbId ?? inputs?.receptor?.pdbId ?? target;
       const inspectedChain = structuralSystem?.receptor.chain ?? inputs?.receptor?.chain;
       if (!inspectedTarget || inspectedTarget.length < 4) {
-        setError("Por favor, selecciona un objetivo biológico (Target) del catálogo antes de iniciar la simulación.");
+        setError(t("auto_b612f6dc223e"));
         setBusy(false);
         setSubmitting(false);
         return;
@@ -1047,8 +1050,8 @@ export default function CaseEvaluationRunner({
         // El contenedor ya muestra el aviso con el identificador y el botón de
         // reintentar. Aquí no se oculta ni se sigue como si nada.
         setError(
-          "La corrida arrancó pero su identificador no se pudo guardar en el caso. " +
-            "No cierres el caso sin copiarlo o reintentar el guardado.",
+          t("auto_d03d4fc90d79") +
+            t("auto_f3beed6bd3c8"),
         );
       }
       startPolling(result.task_id);
@@ -1095,7 +1098,7 @@ export default function CaseEvaluationRunner({
           activeRun?.moleculeId,
         );
         setError(
-          "La tarea ya no estaba activa. Actualizamos su estado con el backend.",
+          t("auto_567d82bb53d9"),
         );
         return;
       }
@@ -1105,7 +1108,7 @@ export default function CaseEvaluationRunner({
       setPollingInterrupted(true);
       setError(
         `No se pudo confirmar la cancelación: ${(e as Error).message}. ` +
-          "El caso fue liberado; puedes reintentar el seguimiento más tarde.",
+          t("auto_9efee153557b"),
       );
       return;
     }
@@ -1115,7 +1118,7 @@ export default function CaseEvaluationRunner({
     isTerminalRef.current = true;
     setStatus((prev) =>
       prev
-        ? { ...prev, status: "FAILURE", error: "Cancelado por el usuario" }
+        ? { ...prev, status: "FAILURE", error: t("auto_aa7e38e37678") }
         : prev
     );
     // Cancelar termina el trabajo, pero conserva su identidad como parte del
@@ -1129,7 +1132,7 @@ export default function CaseEvaluationRunner({
         ? { inputFingerprint: runFingerprintRef.current }
         : {}),
       ...(typeof status?.progress === "number" ? { lastKnownProgress: status.progress } : {}),
-      lastError: "Cancelado por el usuario",
+      lastError: t("auto_aa7e38e37678"),
     });
     setBusy(false);
   };
@@ -1172,9 +1175,9 @@ export default function CaseEvaluationRunner({
         >
           <span className="min-w-0 flex-1">
             {isTerminal ? (
-              <>El resultado visible se limpió al cambiar de sesión. La corrida terminada conserva su identificador; vuelve a autenticarte para recuperarla.</>
+              <>{t("pn_resultado_limpiado")}</>
             ) : (
-              <>Se perdió la conexión con el servidor de evaluación. <strong>No se sabe cómo terminó la tarea</strong>: puede seguir corriendo. Su identificador se ha conservado.</>
+              <>{t("pn_conexion_perdida")} <strong>{t("pn_no_se_sabe_como_termino")}</strong>{t("pn_puede_seguir_corriendo")}</>
             )}
           </span>
           <button
@@ -1201,8 +1204,8 @@ export default function CaseEvaluationRunner({
       setTarget={(next) => {
         if (structuralSystem) {
           setError(
-            "El receptor está fijado por la primera corrida de este caso. " +
-              "Crea otro caso para evaluar un sistema estructural distinto.",
+            t("auto_8819735dd62d") +
+              t("auto_ce0ad0ebf48a"),
           );
           return;
         }
@@ -1296,7 +1299,7 @@ export default function CaseEvaluationRunner({
         // en lugar de fallar silenciosamente con un HTTP 401 crudo.
         const storedAuth = typeof window !== "undefined" ? localStorage.getItem("moldesign_auth") : null;
         if (!storedAuth) {
-          setError("Inicia sesión para guardar moléculas en tu MolDex. El guardado requiere una cuenta para asociar la molécula a tu perfil.");
+          setError(t("auto_3c658efb0bdc"));
           return;
         }
         try {
@@ -1317,13 +1320,13 @@ export default function CaseEvaluationRunner({
         } catch (e) {
           const msg = (e as Error).message;
           if (msg.includes("401") || msg.includes("403") || msg.includes("No autenticado") || msg.includes("token")) {
-            setError("Inicia sesión para guardar moléculas en tu MolDex. Tu sesión expiró o no está activa.");
+            setError(t("auto_f56a50a80039"));
           } else if (msg.includes("404") || msg.toLowerCase().includes("no encontrada") || msg.toLowerCase().includes("no encontrad")) {
             // La molécula existe pero pertenece a otra cuenta (el backend
             // devuelve 404 "Molécula no encontrada" para no revelar existencia),
             // o la sesión cambió (invitado ↔ cuenta personal) entre evaluación
             // y guardado. Mensaje claro y profesional en lugar del crudo.
-            setError("Esta molécula pertenece a otra cuenta. Inicia sesión con la cuenta con la que la evaluaste para guardarla en tu MolDex.");
+            setError(t("auto_57652532d30f"));
           } else {
             setError(msg);
           }

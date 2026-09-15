@@ -322,7 +322,7 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
 
               {/* ── 3. Directorio de Descarga PDF ──────────────────── */}
               <section className="border-t pt-5" style={{ borderColor: "var(--border)" }}>
-                <SectionLabel icon={Folder} label="Ruta de Descarga PDF / Reports" />
+                <SectionLabel icon={Folder} label={t("z_ruta_reportes")} />
                 <div className="ml-6 mt-3 space-y-2">
                   <div className="flex items-center gap-2">
                     <input
@@ -352,7 +352,7 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
                     </button>
                   </div>
                   <p className="font-mono text-[10px] text-zinc-400">
-                    Directorio local donde se guardarán los informes científicos y certificados PDF.
+                    {t("pn_ruta_pdf_detalle")}
                   </p>
                 </div>
               </section>
@@ -433,7 +433,7 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
 
               {/* ── 6. Módulos & Launcher ──────────────────────────── */}
               <section className="border-t pt-5" style={{ borderColor: "var(--border)" }}>
-                <SectionLabel icon={HardDrive} label={t("opt_modules") || "Módulos de IA y Física"} />
+                <SectionLabel icon={HardDrive} label={t("opt_modules") || t("auto_a4e3d3490896")} />
                 <div className="ml-6 mt-3 space-y-2">
                   {manifest.map((entry) => {
                     const status = models[entry.id] || "missing";
@@ -476,7 +476,7 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
                     }}
                   >
                     <HardDrive size={13} strokeWidth={1.5} />
-                    {t("opt_manage_modules") || "Gestionar módulos de simulación"}
+                    {t("opt_manage_modules") || t("auto_65299f4a07a8")}
                   </button>
                 </div>
               </section>
@@ -521,14 +521,14 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
                           className="px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider rounded transition-colors"
                           style={{ backgroundColor: "#ef4444", color: "#fff", border: "none", cursor: "pointer" }}
                         >
-                          {resetLoading ? "Limpiando..." : "Sí, borrar datos"}
+                          {resetLoading ? "Limpiando..." : t("auto_9340a078aa31")}
                         </button>
                         <button
                           onClick={() => setResetConfirm(false)}
                           className="px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider rounded transition-colors"
                           style={{ backgroundColor: "var(--bg)", color: "var(--text)", border: "1px solid var(--border)", cursor: "pointer" }}
                         >
-                          Cancelar
+                          {t("c_cancelar")}
                         </button>
                       </div>
                     </div>
@@ -536,7 +536,7 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
 
                   {resetDone && (
                     <div className="px-4 py-3 font-mono text-xs text-emerald-400 border border-emerald-500/30 bg-emerald-500/10 rounded-lg">
-                      ✓ Datos locales eliminados. Por favor reinicia la aplicación.
+                      {t("z_datos_eliminados")}
                     </div>
                   )}
                 </div>

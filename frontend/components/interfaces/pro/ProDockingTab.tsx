@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React, { useState } from "react";
 import { Boxes, Target, Crosshair } from "lucide-react";
 
@@ -32,6 +34,7 @@ export function ProDockingTab({
   onSelectPose,
   poseDetails,
 }: Props) {
+  const { t } = useLanguage();
   const [internalPose, setInternalPose] = useState<number | undefined>(undefined);
   const active = activePose ?? internalPose;
   const hitList = hotspots_hit ?? [];
@@ -48,7 +51,7 @@ export function ProDockingTab({
         <div className="flex items-center gap-2 font-mono">
           <Boxes size={18} className="text-purple-400" />
           <span className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-zinc-200">
-            Docking & Hotspots
+            {t("auto_0c93a3c8d352")}
           </span>
         </div>
         <span className="text-[10px] font-mono uppercase tracking-wider text-white/20 border border-white/10 rounded px-2 py-0.5">
@@ -63,7 +66,7 @@ export function ProDockingTab({
             <Target size={13} className="text-purple-400" /> Poses generados
           </span>
           <p className="mt-1 text-xs leading-5 text-zinc-500">
-            Selecciona una pose para revisar sus controles físicos individuales.
+            {t("pn_selecciona_pose")}
           </p>
         </div>
 
@@ -77,7 +80,7 @@ export function ProDockingTab({
                     type="button"
                     onClick={() => selectPose(p.rank)}
                     aria-pressed={isActive}
-                    aria-label={`Ver controles físicos de la pose #${p.rank}`}
+                    aria-label={t("z_ver_controles_pose", { rank: p.rank })}
                     className={`flex w-full items-center justify-between rounded-xl border px-3 py-3 text-left transition-[background-color,border-color,box-shadow] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 ${
                       isActive
                         ? "bg-purple-500/5 border-purple-500/30 shadow-[0_0_15px_rgba(139,92,246,0.08)]"
@@ -109,18 +112,18 @@ export function ProDockingTab({
           </div>
         ) : (
           <div className="rounded-xl border border-white/5 bg-black/20 py-6 text-center font-mono text-xs text-slate-500">
-            Sin poses disponibles todavía.
+            {t("pn_sin_poses_aun")}
           </div>
         )}
       </div>
 
       <div className="space-y-2 border-t border-white/10 pt-4">
         <span className="flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-[0.14em] text-zinc-300">
-          <Crosshair size={13} className="text-purple-400" /> Hotspots del sitio activo
+          <Crosshair size={13} className="text-purple-400" /> {t("pn_hotspots_sitio")}
         </span>
 
         <p className="font-sans text-xs leading-5 text-slate-500">
-          Residuos clave del bolsillo de unión. Los marcados en púrpura fueron contactados por el ligando (hotspot hit).
+          {t("pn_hotspots_explicacion")}
         </p>
 
         {(hotspots && hotspots.length > 0) ? (
@@ -153,7 +156,7 @@ export function ProDockingTab({
           </div>
         ) : (
           <div className="rounded-xl border border-white/5 bg-black/20 py-6 text-center font-mono text-xs text-slate-500">
-            Sin hotspots definidos para este target.
+            {t("pn_sin_hotspots")}
           </div>
         )}
       </div>

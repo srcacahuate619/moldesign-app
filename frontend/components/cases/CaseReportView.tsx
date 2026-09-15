@@ -126,7 +126,7 @@ export function CaseReportView({
 
         <div className="mt-3">
           <p className="mb-2 break-all font-mono text-[11px] text-zinc-500">
-            corrida {reportable.taskId.slice(0, 12)}… · molécula {reportable.moleculeId}
+            corrida {reportable.taskId.slice(0, 12)}{t("auto_28773cad15fa")} {reportable.moleculeId}
           </p>
           <div className="h-[70vh] min-h-[26rem]">
             <CaseDossierViewer

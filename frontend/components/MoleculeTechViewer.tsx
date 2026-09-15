@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useRef, useState } from "react";
 import { liberarVisor3D } from "../lib/visor3d";
 import { useTheme } from "../context/ThemeContext";
@@ -30,6 +32,7 @@ const PDB = [
 ].join("\n");
 
 export function MoleculeTechViewer() {
+  const { t } = useLanguage();
   const { theme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<any>(null);
@@ -148,7 +151,7 @@ export function MoleculeTechViewer() {
 
         {/* Molecule label */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[10px] font-mono uppercase tracking-widest text-zinc-600 pointer-events-none">
-          C₇H₆O · Benzaldehído · Pipeline Tecnológico
+          {t("z_benzaldehido")}
         </div>
 
         {!ready && (
@@ -189,7 +192,7 @@ export function MoleculeTechViewer() {
                 </div>
               </div>
               <div className="pl-2">
-                <p className="text-xs text-zinc-300 font-mono leading-relaxed uppercase bg-zinc-900/50 p-5 border border-zinc-800">{TECH[active].desc}</p>
+                <p className="text-xs text-zinc-300 font-mono leading-relaxed uppercase bg-zinc-900/50 p-5 border border-zinc-800">{t(TECH[active].desc)}</p>
               </div>
             </motion.div>
           </motion.div>

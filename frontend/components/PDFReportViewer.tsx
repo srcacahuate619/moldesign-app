@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React, { useEffect, useState, useRef } from "react";
 import { fetchCertificateBlobUrl, downloadCertificate } from "../lib/api";
 import { Download, Maximize, FileText, Loader2, ShieldCheck, AlertCircle } from "lucide-react";
@@ -14,6 +16,7 @@ interface PDFReportViewerProps {
 }
 
 export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifying = false }: PDFReportViewerProps) {
+  const { t } = useLanguage();
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -60,7 +63,7 @@ export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifyi
       } catch (err: any) {
         // Abortar es lo que pedimos, no un fallo que mostrar.
         if (err?.name === "AbortError" || !activo) return;
-        setError(err?.message || "Error al cargar el reporte");
+        setError(err?.message || t("auto_15eff5b3b975"));
         setIsLoading(false);
       }
     })();
@@ -80,7 +83,7 @@ export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifyi
     return (
       <div className="w-full h-full min-h-[400px] flex flex-col items-center justify-center bg-surface-900 border border-surface-800 rounded-lg">
         <Loader2 className="w-8 h-8 text-brand-500 animate-spin mb-4" />
-        <div className="text-surface-400 font-mono text-xs uppercase tracking-wider">Generando vista previa…</div>
+        <div className="text-surface-400 font-mono text-xs uppercase tracking-wider">{t("auto_48b7ee848f6b")}</div>
       </div>
     );
   }
@@ -89,7 +92,7 @@ export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifyi
     return (
       <div className="w-full h-full min-h-[400px] flex flex-col items-center justify-center bg-red-500/5 border border-red-500/20 rounded-lg p-6 text-center">
         <AlertCircle className="w-10 h-10 text-red-400 mb-4" />
-        <div className="text-red-400 font-bold mb-2">No se pudo cargar el dossier</div>
+        <div className="text-red-400 font-bold mb-2">{t("pn_dossier_no_cargo")}</div>
         <div className="text-surface-400 text-sm max-w-md">{error}</div>
       </div>
     );
@@ -140,7 +143,7 @@ export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifyi
             <div className="absolute top-0 inset-x-0 z-20 bg-amber-500/10 border-b border-amber-500/20 px-4 py-2 flex items-center justify-between backdrop-blur-md">
               <div className="flex items-center gap-2 text-amber-500 text-sm font-medium">
                 <AlertCircle className="w-4 h-4" />
-                <span>La integridad de este dossier aún no está registrada</span>
+                <span>{t("pn_dossier_sin_registro")}</span>
               </div>
               {onCertify && (
                 <button
@@ -160,7 +163,7 @@ export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifyi
               <iframe 
                 src={`${blobUrl}#toolbar=0`} 
                 className="w-full h-full border-none bg-transparent"
-                title="Vista previa del dossier PDF"
+                title={t("pn_dossier_vista_previa")}
               />
             )}
           </div>

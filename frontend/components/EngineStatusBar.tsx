@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 // =====================================================================
 // EngineStatusBar — el motor dice qué le pasa, y se puede reintentar
 // =====================================================================
@@ -36,6 +38,7 @@ const ENGINE_EXPLANATION: Partial<Record<EngineState, string>> = {
 };
 
 export function EngineStatusBar() {
+  const { t } = useLanguage();
   const { engine, retryEngine } = useDownload();
   const [retrying, setRetrying] = useState(false);
 
@@ -62,7 +65,7 @@ export function EngineStatusBar() {
       <span className="min-w-0 flex-1">
         <strong className="font-medium">{ENGINE_LABELS[engine.state]}.</strong>{" "}
         {ENGINE_EXPLANATION[engine.state] ??
-          "El motor está preparándose. La evaluación estará disponible en cuanto responda."}
+          t("auto_b0407faa7b48")}
         {/* La razón EXACTA que dio Rust. Es lo que convierte «no arranca» en algo
             accionable, y es también lo que se pega en un informe de fallo. */}
         {engine.detail && (
@@ -90,7 +93,7 @@ export function EngineStatusBar() {
             className={`h-3 w-3 ${retrying ? "animate-spin" : ""}`}
             aria-hidden="true"
           />
-          {retrying ? "Reintentando…" : "Reintentar"}
+          {retrying ? t("auto_105722581b2f") : t("c_reintentar")}
         </button>
       )}
     </div>

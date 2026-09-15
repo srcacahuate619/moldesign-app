@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 /**
  * Registro cientifico — vista de contraste.
  *
@@ -215,6 +217,7 @@ function VistaExperimento({
   volver: () => void;
   abrir: (id: string) => void;
 }) {
+  const { t } = useLanguage();
   const [paper, setPaper] = useState<Paper | null>(null);
   const [cargando, setCargando] = useState(e.tiene_paper);
 
@@ -253,7 +256,7 @@ function VistaExperimento({
           padding: "24px 0",
         }}
       >
-        ← Volver al registro
+        {t("auto_14fb488bd307")}
       </button>
 
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
@@ -328,8 +331,7 @@ function VistaExperimento({
             color: "var(--text-secondary)",
           }}
         >
-          <strong style={{ color: "#fbbf24" }}>Cifras reemplazadas.</strong> Un defecto
-          detectado <em>después</em> de sellar invalidó las cifras de este registro.{" "}
+          <strong style={{ color: "#fbbf24" }}>Cifras reemplazadas.</strong> {t("pr_reg_defecto_detectado")} <em>{t("pr_reg_despues")}</em> {t("auto_c1b398a5da7e")}{" "}
           <button
             type="button"
             onClick={() => abrir(e.reemplazado_por as string)}
@@ -346,13 +348,12 @@ function VistaExperimento({
           >
             {e.reemplazado_por}
           </button>{" "}
-          las mide de nuevo y las sustituye. Este artefacto no se reescribe ni se
-          re-sella: se conserva tal como quedó, para que la corrección sea auditable.
+          {t("auto_db0393069f56")}
         </div>
       )}
 
       {cargando && (
-        <p style={{ color: "var(--text-dim)", fontSize: 13 }}>Cargando el paper…</p>
+        <p style={{ color: "var(--text-dim)", fontSize: 13 }}>{t("pr_reg_cargando_paper")}</p>
       )}
 
       {paper && (
@@ -373,17 +374,15 @@ function VistaExperimento({
             color: "var(--text-muted)",
           }}
         >
-          El paper de este registro todavía no está redactado. Abajo está la ficha
-          completa, generada del manifest sellado — que es la fuente de verdad de todos
-          los números de esta página.
+          {t("pr_reg_sin_paper")}
         </div>
       )}
 
-      <Seccion titulo="Ficha del registro sellado">
+      <Seccion titulo={t("auto_a2b452f155f4")}>
         <div style={{ fontSize: 14, lineHeight: 1.7, color: "var(--text-secondary)" }}>
           {e.hipotesis && (
             <p style={{ marginBottom: 16 }}>
-              <strong style={{ color: "var(--text)" }}>Hipótesis. </strong>
+              <strong style={{ color: "var(--text)" }}>{t("pr_reg_hipotesis")} </strong>
               {e.hipotesis}
             </p>
           )}
@@ -419,7 +418,7 @@ function VistaExperimento({
                   marginBottom: 8,
                 }}
               >
-                Razón de la decisión
+                {t("pr_reg_razon_decision")}
               </div>
               <div style={{ fontSize: 14, lineHeight: 1.7 }}>{e.razonamiento}</div>
             </div>
@@ -469,6 +468,7 @@ function VistaExperimento({
 // ────────────────────────────────────────────────────────────────── contraste
 
 export function RegistroCientifico() {
+  const { t } = useLanguage();
   const [idx, setIdx] = useState<IndiceRegistro | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [abierto, setAbierto] = useState<string | null>(null);
@@ -506,10 +506,10 @@ export function RegistroCientifico() {
   if (error)
     return (
       <div style={{ padding: 80, textAlign: "center", color: "var(--text-muted)" }}>
-        <p>No se pudo cargar el registro científico.</p>
+        <p>{t("pr_reg_no_cargado")}</p>
         <p style={{ fontSize: 12, fontFamily: "var(--font-mono)", marginTop: 8 }}>{error}</p>
         <p style={{ fontSize: 12, marginTop: 16 }}>
-          Genera los datos con{" "}
+          {t("auto_e1592998873b")}{" "}
           <code>python scripts/build_registro_cientifico.py</code>
         </p>
       </div>
@@ -518,7 +518,7 @@ export function RegistroCientifico() {
   if (!idx)
     return (
       <div style={{ padding: 80, textAlign: "center", color: "var(--text-dim)", fontSize: 13 }}>
-        Cargando el registro…
+        {t("pr_reg_cargando")}
       </div>
     );
 
@@ -546,7 +546,7 @@ export function RegistroCientifico() {
             marginBottom: 16,
           }}
         >
-          Registro experimental · {idx.total} artefactos sellados
+          {t("auto_b76b2b4f5246")} {idx.total} artefactos sellados
         </div>
         <h1
           style={{
@@ -560,7 +560,7 @@ export function RegistroCientifico() {
             maxWidth: 900,
           }}
         >
-          Lo que se sostuvo, y lo que se cayó
+          {t("pr_reg_lo_que_se_sostuvo")}
         </h1>
         <p
           style={{
@@ -571,10 +571,7 @@ export function RegistroCientifico() {
             marginBottom: 20,
           }}
         >
-          Cada experimento de MolDesign se registró antes de ejecutarse, con su hipótesis
-          y su criterio de decisión escritos por adelantado, y se selló con el commit, la
-          semilla, el entorno y los hashes de todo lo que tocó. Esta página los abre
-          todos: los que funcionaron y los que no.
+          {t("pr_reg_preregistro")}
         </p>
         <div
           style={{
@@ -654,7 +651,7 @@ export function RegistroCientifico() {
               marginTop: 6,
             }}
           >
-            hipótesis derribadas
+            {t("pr_reg_hipotesis_derribadas")}
           </div>
         </div>
       </div>
@@ -670,14 +667,14 @@ export function RegistroCientifico() {
       >
         <Columna
           titulo="Hallazgos"
-          bajada="Preguntas con criterio de aceptación declarado antes, que lo superaron."
+          bajada={t("auto_df93272641f2")}
           cat="hallazgo"
           items={hallazgos}
           abrir={abrir}
         />
         <Columna
           titulo="Refutaciones"
-          bajada="Hipótesis propias puestas a prueba y derribadas. De aquí salió casi todo lo aprendido."
+          bajada={t("auto_cb3645865abe")}
           cat="refutacion"
           items={refutaciones}
           abrir={abrir}
@@ -696,7 +693,7 @@ export function RegistroCientifico() {
             marginBottom: 14,
           }}
         >
-          Las otras poblaciones del registro
+          {t("pr_reg_otras_poblaciones")}
         </h2>
         <p
           style={{
@@ -707,8 +704,7 @@ export function RegistroCientifico() {
             marginBottom: 20,
           }}
         >
-          Estas no son ni éxitos ni fracasos, y por eso no entran en el marcador. Están
-          aquí porque son la mitad del trabajo.
+          {t("pr_reg_ni_exitos_ni_fracasos")}
         </p>
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 24 }}>
           {contexto.map((c) => {
@@ -752,7 +748,7 @@ export function RegistroCientifico() {
 
         {capas.length === 0 && (
           <p style={{ fontSize: 13, color: "var(--text-dim)", fontStyle: "italic" }}>
-            Activa una capa para ver esos registros.
+            {t("pr_reg_activa_capa")}
           </p>
         )}
 
@@ -788,14 +784,11 @@ export function RegistroCientifico() {
         }}
       >
         <div>
-          {idx.con_paper} de {idx.total} registros tienen paper redactado.
+          {idx.con_paper} {t("auto_600ccd1b7156")} {idx.total} registros tienen paper redactado.
         </div>
         <div>
-          Generado desde los manifests sellados por <code>{idx.generador}</code>
-          {fechaLegible(idx.generado_en) ? ` el ${fechaLegible(idx.generado_en)}` : ""}. Los
-          números de cada ficha se leen del manifest en cada build: la prosa no puede
-          desviarse de ellos sin que se note. Un experimento sellado después de esa fecha
-          todavía no está aquí.
+          {t("pr_reg_generado_desde")} <code>{idx.generador}</code>
+          {fechaLegible(idx.generado_en) ? ` el ${fechaLegible(idx.generado_en)}` : ""}{t("auto_a0c51a5fc4c9")}
         </div>
       </footer>
     </div>

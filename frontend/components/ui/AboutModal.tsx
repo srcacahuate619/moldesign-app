@@ -1,3 +1,5 @@
+
+import { useLanguage } from "@/context/LanguageContext";
 /* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4 */
 "use client";
 
@@ -31,6 +33,7 @@ const AVAILABILITY_STYLES: Record<SoftwareCard["availability"], string> = {
 };
 
 function SoftwareCardView({ card }: { card: SoftwareCard }) {
+  const { t } = useLanguage();
   return (
     <article className="flex min-w-0 flex-col gap-2 rounded-xl border border-white/[0.08] bg-white/[0.025] p-4 transition-colors hover:border-white/[0.16]">
       <div className="flex min-w-0 items-start justify-between gap-3">
@@ -45,13 +48,14 @@ function SoftwareCardView({ card }: { card: SoftwareCard }) {
       <p className="flex-1 text-[12px] leading-relaxed text-white/65">{card.description}</p>
       <div className="mt-auto border-t border-white/[0.06] pt-2">
         <p className="text-[10px] font-medium text-white/50">{card.kind}</p>
-        <p className="mt-0.5 text-[10px] leading-relaxed text-white/40">Crédito: {card.credit}</p>
+        <p className="mt-0.5 text-[10px] leading-relaxed text-white/40">{t("auto_9546d6dbdeab")} {card.credit}</p>
       </div>
     </article>
   );
 }
 
 export function AboutModal({ isOpen, onClose, onRequestLegal }: AboutModalProps) {
+  const { t } = useLanguage();
   useScrollLock(isOpen);
   const backdropRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -127,19 +131,19 @@ export function AboutModal({ isOpen, onClose, onRequestLegal }: AboutModalProps)
               <Info size={15} strokeWidth={1.5} className="text-purple-300" aria-hidden="true" />
             </div>
             <div className="min-w-0">
-              <h2 id="about-title" className="truncate text-sm font-bold text-white/90">Acerca de {PRODUCT.name}</h2>
+              <h2 id="about-title" className="truncate text-sm font-bold text-white/90">{t("opt_legal_about")} {PRODUCT.name}</h2>
               <p className="mt-0.5 font-mono text-[10px] text-white/45">{PRODUCT.edition} · v{PRODUCT.version}</p>
             </div>
           </div>
-          <button ref={closeButtonRef} type="button" onClick={handleClose} aria-label="Cerrar Acerca de MolDesign" className="rounded-lg border border-white/[0.08] bg-white/[0.02] p-2 text-white/55 transition-colors hover:border-white/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400">
+          <button ref={closeButtonRef} type="button" onClick={handleClose} aria-label={t("pn_cerrar_acerca")} className="rounded-lg border border-white/[0.08] bg-white/[0.02] p-2 text-white/55 transition-colors hover:border-white/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400">
             <X size={15} strokeWidth={1.5} aria-hidden="true" />
           </button>
         </header>
 
         <div className="flex min-h-0 flex-1 flex-col md:flex-row">
           <aside className="shrink-0 border-b border-white/[0.07] bg-[#0a0b0f] p-2 md:w-[220px] md:border-b-0 md:border-r md:p-3">
-            <p className="px-2 pb-2 pt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-white/50">Cómo está construido</p>
-            <nav aria-label="Áreas del stack" className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-1">
+            <p className="px-2 pb-2 pt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-white/50">{t("pn_como_construido")}</p>
+            <nav aria-label={t("pn_areas_stack")} className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-1">
               {SOFTWARE_SECTIONS.map((section) => {
                 const isActive = section.id === activeId;
                 return (
@@ -152,7 +156,7 @@ export function AboutModal({ isOpen, onClose, onRequestLegal }: AboutModalProps)
             </nav>
             <div className="mt-3 hidden rounded-xl border border-white/[0.07] bg-white/[0.025] p-3 md:block">
               <div className="flex items-center gap-2 text-[11px] font-semibold text-white/75"><Sparkles size={13} className="text-purple-300" aria-hidden="true" /> Transparencia</div>
-              <p className="mt-1.5 text-[10px] leading-relaxed text-white/50">Aquí se explican funciones y créditos. Las condiciones jurídicas completas viven en Licencias.</p>
+              <p className="mt-1.5 text-[10px] leading-relaxed text-white/50">{t("pn_acerca_intro")}</p>
             </div>
           </aside>
 
@@ -160,7 +164,7 @@ export function AboutModal({ isOpen, onClose, onRequestLegal }: AboutModalProps)
             <div className="flex shrink-0 items-center justify-between gap-3 border-b border-white/[0.06] px-4 py-3 sm:px-5">
               <div className="min-w-0">
                 <p className="truncate text-[12px] font-bold text-purple-200">{active.label}</p>
-                <p className="mt-0.5 text-[10px] text-white/45">Capacidades reales de la edición Desktop y su procedencia.</p>
+                <p className="mt-0.5 text-[10px] text-white/45">{t("pn_capacidades_desktop")}</p>
               </div>
               <span className="shrink-0 font-mono text-[10px] text-white/40">{active.cards.length} entradas</span>
             </div>
@@ -173,10 +177,10 @@ export function AboutModal({ isOpen, onClose, onRequestLegal }: AboutModalProps)
         </div>
 
         <footer className="flex shrink-0 flex-col gap-2 border-t border-white/[0.06] bg-[#0a0b0f] px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
-          <div className="flex items-center gap-2 text-[10px] text-white/50"><BadgeInfo size={12} aria-hidden="true" /><span>{PRODUCT.license} · uso comercial con licencia separada</span></div>
+          <div className="flex items-center gap-2 text-[10px] text-white/50"><BadgeInfo size={12} aria-hidden="true" /><span>{PRODUCT.license} {t("auto_d524488efd51")}</span></div>
           <div className="flex items-center gap-3">
             {onRequestLegal && <button type="button" onClick={onRequestLegal} className="flex items-center gap-1.5 whitespace-nowrap text-[10px] font-semibold text-purple-300 transition-colors hover:text-purple-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"><Scale size={12} aria-hidden="true" /> Licencias y avisos</button>}
-            <ExternalLink href={PRODUCT.sourceUrl} className="flex items-center gap-1 whitespace-nowrap text-[10px] text-white/55 transition-colors hover:text-white/85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400">Código fuente <IconoEnlaceExterno size={10} aria-hidden="true" /></ExternalLink>
+            <ExternalLink href={PRODUCT.sourceUrl} className="flex items-center gap-1 whitespace-nowrap text-[10px] text-white/55 transition-colors hover:text-white/85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400">{t("pn_codigo_fuente")} <IconoEnlaceExterno size={10} aria-hidden="true" /></ExternalLink>
           </div>
         </footer>
       </section>

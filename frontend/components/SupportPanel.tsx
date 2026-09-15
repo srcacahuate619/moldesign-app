@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, LifeBuoy, Mail, ChevronDown, Heart, ExternalLink as ExternalLinkIcon, Copy, Check } from "lucide-react";
@@ -47,6 +49,7 @@ const SOLANA_ADDRESS = "7vBDmFjNEDkSHhEYeFcJXKGU6UvqVBvKk0tKnPL8dE1s";
  * cualquier consumidor que todavía necesite abrir Soporte directamente.
  */
 export function SupportContent() {
+  const { t } = useLanguage();
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
 
@@ -75,7 +78,7 @@ export function SupportContent() {
           <ExternalLinkIcon size={14} className="shrink-0 text-[var(--text-dim)]" aria-hidden="true" />
         </ExternalLink>
         <p className="mt-2 text-xs leading-5 text-[var(--text-dim)]">
-          ¿Encontraste un error o tienes una propuesta? Escríbenos e incluye los pasos para reproducirlo.
+          {t("pn_soporte_error")}
         </p>
       </section>
 
@@ -96,7 +99,7 @@ export function SupportContent() {
                   onClick={() => setExpandedFaq(expanded ? null : index)}
                   className="flex min-h-11 w-full items-center justify-between bg-[var(--bg)] px-3.5 py-2.5 text-left text-sm text-[var(--text)] transition-colors hover:bg-[var(--bg-alt)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--accent-strong)] active:bg-[var(--bg-secondary)]"
                 >
-                  <span className="min-w-0 flex-1 pr-2">{item.q}</span>
+                  <span className="min-w-0 flex-1 pr-2">{t(item.q)}</span>
                   <ChevronDown
                     size={14}
                     className={`shrink-0 text-[var(--text-dim)] transition-transform ${expanded ? "rotate-180" : ""}`}
@@ -114,7 +117,7 @@ export function SupportContent() {
                       className="border-t border-[var(--border)] bg-[var(--bg-secondary)]"
                     >
                       <p className="px-3.5 py-3 text-xs leading-5 text-[var(--text-secondary)]">
-                        {item.a}
+                        {t(item.a)}
                       </p>
                     </motion.div>
                   )}
@@ -128,10 +131,10 @@ export function SupportContent() {
       <section>
         <h3 className="mb-2.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--text-dim)]">
           <Heart size={13} className="text-red-400" aria-hidden="true" />
-          Apoyar el proyecto
+          {t("pn_apoyar")}
         </h3>
         <p className="mb-3 text-xs leading-5 text-[var(--text-secondary)]">
-          MolDesign es software libre. Si te resulta útil, puedes apoyar su mantenimiento con una donación en SOL.
+          {t("pn_apoyar_detalle")}
         </p>
         <div className="flex items-center gap-2 rounded-[10px] border border-[var(--border)] bg-[var(--bg)] px-3.5 py-2.5">
           <span className="min-w-0 flex-1 truncate font-mono text-[11px] text-[var(--text-dim)]">
@@ -141,13 +144,13 @@ export function SupportContent() {
             type="button"
             onClick={handleCopyAddress}
             className={`relative grid h-8 w-8 shrink-0 place-items-center rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)] active:bg-[var(--bg-secondary)] ${copied ? "text-emerald-400" : "text-[var(--text-dim)] hover:bg-[var(--bg-alt)] hover:text-[var(--text)]"}`}
-            aria-label={copied ? "Dirección copiada" : "Copiar dirección de Solana"}
+            aria-label={copied ? t("auto_c4cc601ffb8c") : t("auto_f1037aec2a80")}
           >
             {copied ? <Check size={16} aria-hidden="true" /> : <Copy size={16} aria-hidden="true" />}
           </button>
         </div>
         <p className="mt-1.5 text-[11px] leading-4 text-[var(--text-dim)]">
-          Red Solana. La certificación y las donaciones son funciones opcionales.
+          {t("pn_solana_opcional")}
         </p>
       </section>
     </div>
@@ -155,6 +158,7 @@ export function SupportContent() {
 }
 
 export function SupportPanel({ open, onClose }: Props) {
+  const { t } = useLanguage();
   return (
     <AnimatePresence>
       {open && (
@@ -194,7 +198,7 @@ export function SupportPanel({ open, onClose }: Props) {
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <LifeBuoy size={20} style={{ color: "var(--accent)" }} />
                 <h2 style={{ margin: 0, fontSize: "1em", fontWeight: 600, color: "var(--text)" }}>
-                  Soporte
+                  {t("support")}
                 </h2>
               </div>
               <button onClick={onClose} style={{

@@ -1,5 +1,7 @@
 "use client";
 
+
+import { Translated, useLanguage } from "@/context/LanguageContext";
 import { memo, useEffect, useRef, useState } from "react";
 import { liberarVisor3D } from "../lib/visor3d";
 import { comprobarWebGL, type EstadoWebGL } from "../lib/webgl";
@@ -18,6 +20,7 @@ type ViewMode = "standard" | "surface" | "charges";
 
 export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, proteinData, height = 450, hotspots = [], hotspotsHit = [], hideLegend = false, mobileTopOffset = false }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
   const viewerRef    = useRef<any>(null);
 
   const [viewMode, setViewMode] = useState<ViewMode>("standard");
@@ -287,14 +290,13 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
           >
             <span className="text-2xl opacity-50 grayscale">🧊</span>
             <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
-              La vista 3D no se puede dibujar en este equipo
+              <Translated id="z_3d_no_dibuja" />
             </p>
             <p className="max-w-sm text-[11px] leading-relaxed text-zinc-500 dark:text-zinc-400">
-              Es porque {estadoWebGL?.motivo}
+              <Translated id="auto_6982bfeae501" /> {estadoWebGL?.motivo}
             </p>
             <p className="max-w-sm text-[11px] leading-relaxed text-zinc-500 dark:text-zinc-400">
-              Los datos de esta pose y sus descargas no dependen del visor: siguen
-              disponibles, y el archivo descargado se abre en cualquier visor externo.
+              <Translated id="z_3d_datos" />
             </p>
           </div>
         )}
@@ -303,13 +305,13 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
           <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-sm gap-2 p-4 transition-all duration-300">
             <span className="text-2xl animate-bounce">🖐️</span>
             <p className="text-[11px] text-zinc-600 dark:text-zinc-400 text-center font-medium px-4">
-              Camera locked for scrolling
+              {t("z_camera_locked")}
             </p>
             <button
               onClick={() => setIsInteractive(true)}
               className="mt-2 px-4 py-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg text-xs font-semibold hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors"
             >
-              Unlock 3D View
+              {t("z_unlock_3d")}
             </button>
           </div>
         )}
@@ -323,7 +325,7 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
         {!sinWebGL && !hasData && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-zinc-400 dark:text-zinc-600 bg-white dark:bg-[#0a0a0a]">
             <span className="text-2xl grayscale opacity-50">🔬</span>
-            <p className="text-xs font-medium">La vista 3D aparece cuando termina el acoplamiento</p>
+            <p className="text-xs font-medium"><Translated id="z_3d_al_terminar" /></p>
           </div>
         )}
 
@@ -357,7 +359,7 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
                 onClick={() => setIsInteractive(false)}
                 className="absolute bottom-4 right-4 z-30 px-3 py-2 bg-white/90 dark:bg-zinc-900/90 text-zinc-600 dark:text-zinc-400 rounded-lg text-[10px] font-bold uppercase tracking-widest border border-zinc-200 dark:border-zinc-800 hover:text-zinc-900 dark:hover:text-white transition-colors backdrop-blur-md shadow-sm"
               >
-                Lock Camera
+                {t("z_lock_3d")}
               </button>
             )}
           </>
@@ -368,35 +370,35 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
         <div className="mt-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 px-4 py-3 bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800">
           <button 
             onClick={() => setSelectedEduLegend({
-              title: "Critical Hit",
-              desc: "Strong hydrogen or ionic bond under 3.5 Å."
+              title: t("z_critical_hit"),
+              desc: t("z_critical_hit_desc")
             })}
             className="flex items-center gap-2 group"
           >
             <div className="h-2.5 w-2.5 rounded-full bg-zinc-900 dark:bg-white" />
-            <span className="text-[10px] font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-widest group-hover:text-zinc-900 dark:group-hover:text-white transition-colors">Hit (&lt; 3.5Å)</span>
+            <span className="text-[10px] font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-widest group-hover:text-zinc-900 dark:group-hover:text-white transition-colors">{t("z_hit")}</span>
           </button>
           
           <button 
             onClick={() => setSelectedEduLegend({
-              title: "Proximity Contact",
-              desc: "Close proximity under 5.0 Å. Contributes via Van der Waals forces."
+              title: t("z_proximity_contact"),
+              desc: t("z_proximity_contact_desc")
             })}
             className="flex items-center gap-2 group"
           >
             <div className="h-2.5 w-2.5 rounded-full bg-zinc-400 dark:bg-zinc-600" />
-            <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors">Proximity (&lt; 5.0Å)</span>
+            <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors">{t("z_proximity")}</span>
           </button>
           
           <button 
             onClick={() => setSelectedEduLegend({
-              title: "Miss",
-              desc: "Far away from hotspot (> 5.0 Å). Little to no interaction."
+              title: t("z_miss"),
+              desc: t("z_miss_desc")
             })}
             className="flex items-center gap-2 group"
           >
             <div className="h-2.5 w-2.5 rounded-full border-2 border-zinc-300 dark:border-zinc-700 bg-transparent" />
-            <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors">Miss (&gt; 5.0Å)</span>
+            <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors">{t("z_miss")}</span>
           </button>
         </div>
       )}

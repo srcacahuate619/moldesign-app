@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React, { useEffect, useRef } from "react";
 
 export type StageState = "pending" | "running" | "done" | "error" | "skipped";
@@ -83,6 +85,7 @@ export function PipelineTimeline({
   failed = false,
   statusLabel,
 }: Props) {
+  const { t } = useLanguage();
   const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
   const barRef = useRef<HTMLDivElement>(null);
   const angleRef = useRef(0);
@@ -222,7 +225,7 @@ export function PipelineTimeline({
                   color: isDoneNode ? "#6ee7b7" : isError ? "#f87171" : isSkipped ? "#64748b" : isRunning ? s.color : `${s.color}`,
                 }}
               >
-                {isRunning ? "calculando…" : s.label}
+                {isRunning ? t("auto_bbaf37d0b894") : t(s.label)}
               </span>
 
               {/* Mensaje de error / razón de skip */}
@@ -231,7 +234,7 @@ export function PipelineTimeline({
                   className="text-[10px] font-mono leading-tight max-w-[140px] text-center"
                   style={{ color: isError ? "#f87171" : "#94a3b8" }}
                 >
-                  {isSkipped && !message.toLowerCase().includes("no se calculó") ? `no se calculó por ${message.toLowerCase()}` : message}
+                  {isSkipped && !message.toLowerCase().includes(t("auto_47083d99db42")) ? `no se calculó por ${message.toLowerCase()}` : message}
                 </span>
               )}
             </div>
@@ -253,7 +256,7 @@ export function PipelineTimeline({
           className={`w-1.5 h-1.5 rounded-full ${!isDone && !failed ? "bg-purple-400 animate-pulse" : failed ? "bg-rose-400" : "bg-emerald-400"}`}
         />
         <span className={`text-[10px] font-mono uppercase tracking-widest ${failed ? "text-rose-300/80" : isDone ? "text-emerald-300/80" : "text-purple-300/80"}`}>
-          {statusLabel ?? (failed ? "Pipeline falló" : isDone ? "Pipeline completado" : "Pipeline ejecutándose")}
+          {statusLabel ?? (failed ? t("auto_68203f940913") : isDone ? "Pipeline completado" : t("auto_7f1be5e1eb6d"))}
         </span>
         {!isDone && !failed && finishedCount > 0 && (
           <span className="text-[9px] font-mono text-white/25">

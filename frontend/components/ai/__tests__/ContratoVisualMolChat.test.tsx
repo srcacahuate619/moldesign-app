@@ -17,21 +17,21 @@ describe("contrato visible de MolChat", () => {
 
   it("sólo afirma adjuntar molécula cuando existe moleculeContext", () => {
     expect(panel).toContain("state.moleculeContext");
-    expect(panel).toContain("No hay contexto molecular adjunto");
+    expect(panel).toContain('t("auto_0e26df2c1c3d")');
     expect(panel).not.toContain("contexto de caso y molécula");
   });
 
   it("mantiene tokens internos y traduce los modos visibles", () => {
     expect(panel).toContain('mode: "speed"');
     expect(panel).toContain('mode: "reasoning"');
-    expect(panel).toContain("Rápido");
-    expect(panel).toContain("Razonamiento");
+    expect(panel).toContain('t("ia_rapido")');
+    expect(panel).toContain('t("ia_razonamiento")');
     expect(panel).not.toContain("Faster");
     expect(panel).not.toContain("Deep");
   });
 
   it("no cuantifica una latencia web que la interfaz no mide", () => {
-    expect(panel).toContain("puede tardar más");
+    expect(panel).toContain('t("auto_a3fa6f75da44")');
     expect(panel).not.toMatch(/puede tardar \d/);
   });
 

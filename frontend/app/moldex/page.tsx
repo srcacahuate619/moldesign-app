@@ -516,7 +516,7 @@ export default function MoldexPage() {
             {([
               { id: 'LIST', label: 'Ver bioteca', icon: <Database size={14} /> },
               { id: '3D', label: 'Ver estructura 3D', icon: <Box size={14} /> },
-              { id: 'INFO', label: 'Ver información', icon: <Info size={14} /> }
+              { id: 'INFO', label: t("auto_26f227a3a058"), icon: <Info size={14} /> }
             ] as const).map((btn) => (
               <button
                 key={btn.id}
@@ -760,7 +760,7 @@ export default function MoldexPage() {
                   <div className="flex items-center justify-between border-t border-[var(--border)] pt-2 dark:border-white/5">
                     <div>
                       <p className="text-xs font-bold uppercase tracking-widest text-muted">{t("mx_correlacion_benchmark")}</p>
-                      <p className="font-mono text-xs text-emerald-700 dark:text-emerald-400">Spearman ρ = {selectedMolecule?.target?.spearman_rho?.toFixed(3) ?? "N/A"}</p>
+                      <p className="font-mono text-xs text-emerald-700 dark:text-emerald-400">{t("auto_c2ed1380a98a")} {selectedMolecule?.target?.spearman_rho?.toFixed(3) ?? "N/A"}</p>
                     </div>
                     <div className="h-10 w-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
                       <ShieldCheck size={18} className="text-emerald-500" />
@@ -811,7 +811,7 @@ export default function MoldexPage() {
                     { label: t("mx_masa"),       value: selectedMolecule?.metrics?.mw?.toFixed(0) ?? "—",                             unit: "Da" },
                     { label: t("mx_polaridad"),  value: selectedMolecule?.metrics?.tpsa?.toFixed(1) ?? "—",                            unit: "Å²" },
                     { label: t("mx_hotspots"),   value: `${Array.isArray(selectedMolecule?.hotspots_hit) ? selectedMolecule.hotspots_hit.length : 0}/${Array.isArray(selectedMolecule?.target?.hotspots) ? selectedMolecule.target.hotspots.length : 0}`, unit: "HITS" },
-                    { label: t("mx_senal_gnn"),     value: selectedMolecule?.metrics?.gnn_score !== null && selectedMolecule?.metrics?.gnn_score !== undefined ? selectedMolecule.metrics.gnn_score.toFixed(1) : "N/A", unit: "señal" },
+                    { label: t("mx_senal_gnn"),     value: selectedMolecule?.metrics?.gnn_score !== null && selectedMolecule?.metrics?.gnn_score !== undefined ? selectedMolecule.metrics.gnn_score.toFixed(1) : "N/A", unit: t("auto_b75d71d7c486") },
                     { label: "Lipinski",   value: selectedMolecule?.metrics?.lipinski_pass === null ? "—" : selectedMolecule?.metrics?.lipinski_pass ? t("mx_cumple") : t("mx_no_cumple"),        unit: "regla" },
                   ].map(stat => (
                     <div key={stat.label} className="group rounded-2xl border border-[var(--border)] bg-[var(--bg-secondary)] p-4 transition-all hover:border-indigo-500/30 dark:border-white/5 dark:bg-black/40">
@@ -833,7 +833,7 @@ export default function MoldexPage() {
                   </p>
                   {selectedMolecule?.blockchain?.tx_signature && (
                     <p className="mb-4 text-xs font-bold uppercase tracking-widest text-muted">
-                      Red: {redDelSello ?? "comprobando…"}
+                      {t("auto_342a5736290d")} {redDelSello ?? t("auto_ee1fa5bbd7ed")}
                       {esRedDePruebas(redDelSello) && (
                         <span className="ml-2 rounded border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-amber-400">
                           {t("pg_mx_red_pruebas")}
@@ -859,10 +859,9 @@ export default function MoldexPage() {
                             Sello desfasado
                           </p>
                           <p>
-                            La molécula se reevaluó después de registrar su recibo. La cadena
-                            conserva un índice histórico de{" "}
+                            {t("auto_d789b996261e")}{" "}
                             <b>{selectedMolecule.blockchain.certified_total_score?.toFixed(1) ?? "—"}</b>{" "}
-                            y esta ficha muestra{" "}
+                            {t("auto_faf5a356627c")}{" "}
                             <b>{selectedMolecule.metrics?.score?.toFixed(1) ?? "—"}</b>{t("pg_mx_recibo_otra_corrida")}
                           </p>
                         </div>
@@ -917,7 +916,7 @@ export default function MoldexPage() {
                       onClick={() => descargar("pdf")}
                       className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-[var(--bg-secondary)] py-3 text-xs font-black uppercase tracking-widest text-muted transition-all hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800/50 dark:text-slate-400 dark:hover:bg-slate-800"
                     >
-                      {descargando === "pdf" ? "DESCARGANDO…" : "DESCARGAR RECIBO PDF"}
+                      {descargando === "pdf" ? t("auto_bdd6a9ac7cec") : "DESCARGAR RECIBO PDF"}
                     </button>
                   </div>
 
@@ -928,7 +927,7 @@ export default function MoldexPage() {
                     className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-[var(--bg-secondary)] py-3 text-xs font-black uppercase tracking-widest text-muted transition-all hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800/50 dark:text-slate-400 dark:hover:bg-slate-800"
                   >
                     <Box size={14} />
-                    {descargando === "complejo" ? "DESCARGANDO…" : "DESCARGAR COMPLEJO 3D (PDB)"}
+                    {descargando === "complejo" ? t("auto_bdd6a9ac7cec") : "DESCARGAR COMPLEJO 3D (PDB)"}
                   </button>
                 </div>
               </section>

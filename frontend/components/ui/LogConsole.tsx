@@ -1,5 +1,7 @@
 "use client";
 
+
+import { Translated, useLanguage } from "@/context/LanguageContext";
 import { forwardRef, useEffect, useRef } from "react";
 import { animateElements } from "@/lib/webAnimation";
 interface LogConsoleProps {
@@ -70,7 +72,7 @@ export const LogConsole = forwardRef<HTMLDivElement, LogConsoleProps>(
         className="mt-4 border border-white/5 bg-black/60 rounded-xl p-3 h-[140px] overflow-y-auto font-mono text-[11px] custom-scrollbar"
       >
         <div className="flex items-center justify-between border-b border-white/5 pb-1.5 mb-2 text-white/30 text-[9px] uppercase tracking-wider font-sans font-bold">
-          <span>Registro de Telemetría</span>
+          <span><Translated id="z_registro_telemetria" /></span>
           <span className="flex items-center gap-1.5">
             <span className={`h-1.5 w-1.5 rounded-full ${
               isIdle ? "bg-white/20" :
@@ -86,7 +88,7 @@ export const LogConsole = forwardRef<HTMLDivElement, LogConsoleProps>(
         </div>
         {logs.length === 0 ? (
           <div className="text-white/15 text-center py-6 italic">
-            Esperando datos del pipeline...
+            <Translated id="z_esperando_pipeline" />
           </div>
         ) : (
           logs.map((log, idx) => {

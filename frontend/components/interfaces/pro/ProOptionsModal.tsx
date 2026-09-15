@@ -597,9 +597,9 @@ export default function ProOptionsModal({
                   onClick={() => setEngine({ ...engine, engine: "vina" })}
                   disabled={!estadoMotor("vina").disponible}
                   label="AutoDock Vina 1.2.7"
-                  badge="CLÁSICO"
+                  badge={t("pr_mot_clasico")}
                   badgeStyle={{ bg: "rgba(168,85,247,0.15)", text: "#a78bfa" }}
-                  desc={estadoMotor("vina").motivo ?? "Motor de docking estándar. Exhaustiveness=8. ~20s por ligando."}
+                  desc={estadoMotor("vina").motivo ?? t("auto_2e24a6f6267b")}
                   meta={{ icon: Cpu, text: "~20s" }}
                 />
 
@@ -608,9 +608,9 @@ export default function ProOptionsModal({
                   onClick={() => setEngine({ ...engine, engine: "qvina2" })}
                   disabled={!estadoMotor("qvina2").disponible}
                   label="QuickVina 2"
-                  badge={badgeDe("qvina2", "RÁPIDO")}
+                  badge={badgeDe("qvina2", t("pr_mot_rapido"))}
                   badgeStyle={{ bg: "rgba(251,191,36,0.15)", text: "#fbbf24" }}
-                  desc={descDe("qvina2", "QuickVina 2", "Smart sampling, 2-3× más rápido que Vina. Misma precisión.")}
+                  desc={descDe("qvina2", "QuickVina 2", t("auto_09e250071934"))}
                   meta={{ icon: Zap, text: "~8s" }}
                 />
 
@@ -619,9 +619,9 @@ export default function ProOptionsModal({
                   onClick={() => setEngine({ ...engine, engine: "diffdock" })}
                   disabled={!estadoMotor("diffdock").disponible}
                   label="DiffDock"
-                  badge={badgeDe("diffdock", "DIFUSIÓN")}
+                  badge={badgeDe("diffdock", t("pr_mot_difusion"))}
                   badgeStyle={{ bg: "rgba(139,92,246,0.15)", text: "#8b5cf6" }}
-                  desc={descDe("diffdock", "DiffDock", "Docking generativo por difusión (Corso et al. ICLR 2023).")}
+                  desc={descDe("diffdock", "DiffDock", t("pr_mot_difusion_d"))}
                   meta={{ icon: Sparkles, text: "~1-5 min" }}
                 />
               </div>
@@ -629,16 +629,16 @@ export default function ProOptionsModal({
               {/* Péptidos */}
               <div className="space-y-2 pt-3 border-t border-zinc-800/60">
                 <p className="text-sm font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-                  <Brain size={12} /> Péptidos
-                  {!isPeptide && <span className="text-sm text-zinc-500 ml-1 font-mono normal-case font-normal">(auto-detecta)</span>}
+                  <Brain size={12} /> {t("auto_7987f4801c2c")}
+                  {!isPeptide && <span className="text-sm text-zinc-500 ml-1 font-mono normal-case font-normal">{t("auto_a7ff1c2aeb72")}</span>}
                 </p>
 
                 {(["esmfold", "esmfold-pro", "colabfold", "esmfold-experimental"] as const).map((pe) => {
                   const labels: Record<string, { label: string; badge: string; desc: string }> = {
-                    esmfold: { label: "ESMFold", badge: "PLEGADO", desc: "ESMFold operativo para plegamiento; la conversión a ligando acoplable aún no soportada, así que el acoplamiento no se evalúa." },
+                    esmfold: { label: "ESMFold", badge: "PLEGADO", desc: t("auto_14578be07d4d") },
                     "esmfold-pro": { label: "ESMFold Pro", badge: "PRECISO", desc: "Plegamiento + refinamiento OpenMM." },
-                    colabfold: { label: "ColabFold", badge: "PREDICTIVO", desc: "AlphaFold-Multimer para complejos proteína-péptido." },
-                    "esmfold-experimental": { label: "RFdiffusion", badge: "EXPERIMENTAL", desc: "Difusión SE(3)-equivariante (Baker Lab). GPU requerida." },
+                    colabfold: { label: "ColabFold", badge: "PREDICTIVO", desc: t("auto_0ec637ca2747") },
+                    "esmfold-experimental": { label: "RFdiffusion", badge: "EXPERIMENTAL", desc: t("auto_9331807fc431") },
                   };
                   const info = labels[pe];
                   const gpuNeeded = pe === "esmfold-experimental";
@@ -692,7 +692,7 @@ export default function ProOptionsModal({
                           disabled={encendiendo === pe}
                           className="rounded border border-purple-500/40 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-purple-300 transition-colors hover:bg-purple-950/40 disabled:opacity-50"
                         >
-                          {encendiendo === pe ? "Encendiendo…" : "Encender"}
+                          {encendiendo === pe ? t("auto_43584ce3b53d") : "Encender"}
                         </button>
                       ) : (
                         <a
@@ -818,7 +818,7 @@ export default function ProOptionsModal({
                             className="bg-black border border-zinc-700 rounded-lg py-1.5 px-2 font-mono text-sm text-white outline-none focus:border-purple-500/40 transition-colors cursor-pointer"
                           >
                             {[1, 2, 4, 8, 16, 24, 32].map((n) => (
-                              <option key={n} value={n}>{n} {n <= 8 ? "(rápido)" : n >= 24 ? "(exhaustivo)" : ""}</option>
+                              <option key={n} value={n}>{n} {n <= 8 ? t("auto_78940da1bb6a") : n >= 24 ? t("auto_9af5776f1fea") : ""}</option>
                             ))}
                           </select>
                         </div>
@@ -965,8 +965,7 @@ export default function ProOptionsModal({
                   </p>
                   {advanced.protonationPh !== DEFAULT_ADVANCED.protonationPh && (
                     <p className="mt-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 text-sm leading-relaxed text-amber-300">
-                      {t("op_ph_fuera_fisiologico")} El pH
-                      usado queda escrito en el expediente.
+                      {t("op_ph_fuera_fisiologico")} {t("auto_f0d9b3df714d")}
                     </p>
                   )}
                 </div>
@@ -982,7 +981,7 @@ export default function ProOptionsModal({
                   {
                     key: "enableSelectivity" as const,
                     label: "Selectividad Anti-Target",
-                    desc: "Evalúa contra 5 receptores de seguridad (hERG, CYP3A4, 5-HT2B, PDE3A, NaV1.5)",
+                    desc: t("auto_bf0382f209fa"),
                     icon: ShieldCheck,
                     badge: undefined as string | undefined,
                     note: undefined as string | undefined,
@@ -990,7 +989,7 @@ export default function ProOptionsModal({
                   {
                     key: "enableMMGBSA" as const,
                     label: "Refinamiento MM-GBSA",
-                    desc: "Estimación post-hoc de ΔG con MM-GBSA y solvente implícito (OpenMM OBC2)",
+                    desc: t("auto_dc39d5d9367f"),
                     icon: Atom,
                     badge: undefined as string | undefined,
                     note: undefined as string | undefined,
@@ -998,19 +997,13 @@ export default function ProOptionsModal({
                   {
                     key: "enableADMET" as const,
                     label: "Perfil ADMET",
-                    desc: "Predicción de solubilidad, absorción intestinal, BBB, unión a proteínas plasmáticas",
+                    desc: t("auto_38997db9a692"),
                     icon: Gauge,
                     // Lo que el usuario necesita saber ANTES de encenderlo, no
                     // después de esperar. Cada frase corresponde a un hecho
                     // comprobado del runtime, no a una advertencia genérica.
-                    badge: "Experimental · opt-in",
-                    note:
-                      "Módulo experimental. Se ejecuta EN LOCAL, en esta máquina: la primera " +
-                      "carga del modelo puede tardar varios minutos —especialmente en una " +
-                      "máquina virtual o sin GPU— y bloquea el avance de la corrida mientras " +
-                      "ocurre. NO es necesario para el docking: apagado, el acoplamiento y " +
-                      "sus puntuaciones se calculan igual, y el panel de Parámetros queda sin " +
-                      "predicción farmacocinética en vez de mostrar una inventada.",
+                    badge: t("auto_e422c24500d4"),
+                    note: t("z_admet_note"),
                   },
                 ].map((mod) => (
                   <div
@@ -1069,7 +1062,7 @@ export default function ProOptionsModal({
             onClick={onClose}
             className="px-5 py-2 rounded-xl font-mono text-sm font-bold uppercase tracking-wider bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors cursor-pointer"
           >
-            Cancelar
+            {t("c_cancelar")}
           </button>
           <button
             onClick={handleApply}

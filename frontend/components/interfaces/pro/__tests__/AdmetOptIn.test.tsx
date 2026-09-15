@@ -143,7 +143,7 @@ describe("lo que Opciones dice antes de encender ADMET", () => {
     expect(aviso).toHaveTextContent(/docking/i);
 
     // Y la etiqueta lo marca como experimental sin tener que leer el párrafo.
-    expect(screen.getByText(/Experimental · opt-in/)).toBeInTheDocument();
+    expect(screen.getByText(/Experimental · activación manual/)).toBeInTheDocument();
   });
 });
 

@@ -136,6 +136,7 @@ const PREFLIGHT: PreflightSummary = {
 
 describe("puerta de ejecución", () => {
   beforeEach(() => {
+    vi.spyOn(window.navigator, "language", "get").mockReturnValue("es-ES");
     // El catálogo se cachea entre montajes: cada prueba parte sin nada.
     invalidarCatalogo();
     getJobStatus.mockReset();
@@ -169,7 +170,7 @@ describe("puerta de ejecución", () => {
     // Mismo motivo que en `PreparationPanel.test.tsx`: el texto vive en el módulo
     // de traducción y jsdom resuelve `en-US`.
     const { pro } = await import("../../../context/traducciones/pro");
-    expect(screen.getByText(pro.en.pr_resumen_guardado)).toBeInTheDocument();
+    expect(screen.getByText(pro.es.pr_resumen_guardado)).toBeInTheDocument();
     expect(screen.getByText(/vina · ex 8 · 9 poses/i)).toBeInTheDocument();
   });
 

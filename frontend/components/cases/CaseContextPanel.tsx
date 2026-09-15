@@ -121,16 +121,16 @@ function ContextField({
     <div className="border-b border-surface-800 py-4 last:border-b-0">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <label htmlFor={fieldId} className="text-sm font-medium text-zinc-200">
-          {question}
+          {t(question)}
         </label>
         <span
           className={`shrink-0 whitespace-nowrap rounded border px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider ${SEVERITY_CLASS[severity]}`}
         >
-          {SEVERITY_LABEL[severity]}
+          {t(SEVERITY_LABEL[severity])}
         </span>
       </div>
 
-      <p className="mt-1 text-xs leading-relaxed text-zinc-500">{hint}</p>
+      <p className="mt-1 text-xs leading-relaxed text-zinc-500">{t(hint)}</p>
 
       <textarea
         id={fieldId}
@@ -172,7 +172,7 @@ export function CaseContextPanel({
 
   return (
     <section
-      {...(embedded ? { "aria-label": "Contexto científico" } : { "aria-labelledby": "case-context-heading" })}
+      {...(embedded ? { "aria-label": t("auto_b6f6b518bbb5") } : { "aria-labelledby": "case-context-heading" })}
       className="mx-auto w-full max-w-3xl px-4 py-6 sm:px-6"
     >
       <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -189,7 +189,7 @@ export function CaseContextPanel({
               onClick={() => void onRetry()}
               className="rounded border border-red-500/40 px-2 py-0.5 text-[11px] text-red-300 hover:text-red-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
             >
-              Reintentar
+              {t("c_reintentar")}
             </button>
           )}
         </span>
@@ -201,17 +201,17 @@ export function CaseContextPanel({
 
       <dl className="mt-4 flex flex-wrap gap-x-6 gap-y-1 border-y border-surface-800 py-2 font-mono text-[11px] text-zinc-500">
         <div className="flex gap-1.5">
-          <dt>Tipo:</dt>
+          <dt>{t("auto_99c7d26beaff")}</dt>
           <dd className="text-zinc-400">
-            {context.studyKind ? CASE_STUDY_KIND_LABELS[context.studyKind] : t("c_no_definido")}
+            {context.studyKind ? t(CASE_STUDY_KIND_LABELS[context.studyKind]) : t("c_no_definido")}
           </dd>
         </div>
         <div className="flex gap-1.5">
-          <dt>Pendientes:</dt>
+          <dt>{t("auto_711741f4bb14")}</dt>
           <dd className="text-zinc-400">
             {pending.total === 0
               ? "ninguna"
-              : `${pending.warnings} advertencia${pending.warnings === 1 ? "" : "s"}, ${pending.info} opcional${pending.info === 1 ? "" : "es"}`}
+              : `${pending.warnings} advertencia${pending.warnings === 1 ? "" : "s"}, ${pending.info} opcional${pending.info === 1 ? "" : t("auto_09cd68a2a77b")}`}
           </dd>
         </div>
       </dl>

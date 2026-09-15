@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 // =====================================================================
 // Ayuda — el "?" que desactiva una lectura equivocada
 // =====================================================================
@@ -38,6 +40,7 @@ export interface AyudaProps {
 }
 
 export function Ayuda({ titulo, children, etiqueta, className = "" }: AyudaProps) {
+  const { t } = useLanguage();
   const [abierto, setAbierto] = useState(false);
   const panelId = useId();
   const botonRef = useRef<HTMLButtonElement>(null);
@@ -100,7 +103,7 @@ export function Ayuda({ titulo, children, etiqueta, className = "" }: AyudaProps
                 setAbierto(false);
                 botonRef.current?.focus();
               }}
-              aria-label="Cerrar la ayuda"
+              aria-label={t("z_cerrar_ayuda")}
               className="shrink-0 rounded text-zinc-500 transition-colors hover:text-zinc-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
             >
               <X className="h-3.5 w-3.5" aria-hidden="true" />

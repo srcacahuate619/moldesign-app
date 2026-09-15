@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 /**
  * El ofrecimiento de traspaso, que era la pieza que faltaba.
  *
@@ -38,6 +40,7 @@ import {
 type Fase = "oculto" | "ofreciendo" | "moviendo" | "hecho" | "error";
 
 export function TraspasoInvitado() {
+  const { t } = useLanguage();
   const { user } = useAuth();
   const [invitado, setInvitado] = useState<IdentidadInvitada | null>(null);
   const [inventario, setInventario] = useState<InventarioInvitado | null>(null);
@@ -117,14 +120,14 @@ export function TraspasoInvitado() {
   return (
     <div
       role="region"
-      aria-label="Trabajo hecho como invitado"
+      aria-label={t("pn_traspaso_titulo")}
       className="mx-auto my-4 max-w-4xl rounded-xl border border-brand-500/40 bg-brand-500/5 px-5 py-4"
     >
       {fase === "hecho" && resultado ? (
         <div className="text-sm text-surface-200">
           <p className="font-semibold">Trabajo traspasado a tu cuenta.</p>
           <p className="mt-1 text-surface-400">
-            {resultado.moleculasTraspasadas} molécula
+            {resultado.moleculasTraspasadas} {t("auto_384a1af1c5dc")}
             {resultado.moleculasTraspasadas === 1 ? "" : "s"} y {resultado.casosMovidos} caso
             {resultado.casosMovidos === 1 ? "" : "s"}.
             {resultado.casosNoMovidos.length > 0 && (
@@ -132,8 +135,7 @@ export function TraspasoInvitado() {
                 {" "}
                 <span className="text-yellow-400">
                   {resultado.casosNoMovidos.length} caso
-                  {resultado.casosNoMovidos.length === 1 ? "" : "s"} no se pudo mover y sigue
-                  en la cuenta invitada; sus resultados ya son tuyos.
+                  {resultado.casosNoMovidos.length === 1 ? "" : "s"} {t("auto_b2869e46ca45")}
                 </span>
               </>
             )}
@@ -142,15 +144,14 @@ export function TraspasoInvitado() {
       ) : (
         <>
           <p className="text-sm font-semibold text-surface-100">
-            Tienes trabajo hecho como invitado en este equipo
+            {t("pn_traspaso_tienes")}
           </p>
           <p className="mt-1 text-sm text-surface-400">
             {inventario.casos.length} caso{inventario.casos.length === 1 ? "" : "s"}
             {conResultado > 0
               ? `, ${conResultado} con resultado guardado`
-              : ", ninguno con resultado guardado todavía"}
-            . Puedes llevarlo a tu cuenta ahora. Se mueve, no se copia: dejará de estar en la
-            cuenta invitada.
+              : t("auto_8ff2cb920103")}
+            {t("auto_ea64cf436cb0")}
           </p>
           {inventario.casos.length > 0 && (
             <ul className="mt-2 space-y-0.5 text-xs text-surface-500">
@@ -158,13 +159,13 @@ export function TraspasoInvitado() {
                 <li key={c.id}>· {c.name}</li>
               ))}
               {inventario.casos.length > 5 && (
-                <li>· y {inventario.casos.length - 5} más</li>
+                <li>· y {inventario.casos.length - 5} {t("auto_917ac7093911")}</li>
               )}
             </ul>
           )}
           {fase === "error" && error && (
             <p className="mt-2 rounded-lg border border-red-900/50 bg-red-950/30 px-3 py-2 text-xs text-red-300">
-              No se pudo traspasar: {error}. No se movió nada; puedes reintentarlo.
+              {t("auto_f56cc2a1ae4e")} {error}{t("auto_3cbb86a7ea90")}
             </p>
           )}
           <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -173,17 +174,17 @@ export function TraspasoInvitado() {
               disabled={fase === "moviendo"}
               className="rounded-lg bg-brand-600 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-500 disabled:opacity-50"
             >
-              {fase === "moviendo" ? "Moviendo…" : "Llevarlo a mi cuenta"}
+              {fase === "moviendo" ? t("auto_fa66f6444d99") : "Llevarlo a mi cuenta"}
             </button>
             <button
               onClick={descartar}
               disabled={fase === "moviendo"}
               className="rounded-lg border border-surface-700 px-3 py-1.5 text-xs text-surface-300 transition-colors hover:bg-surface-800 disabled:opacity-50"
             >
-              Ahora no
+              {t("pn_traspaso_ahora_no")}
             </button>
             <span className="text-xs text-surface-600">
-              Los cribados de Batch no entran aquí todavía.
+              {t("pn_traspaso_sin_batch")}
             </span>
           </div>
         </>

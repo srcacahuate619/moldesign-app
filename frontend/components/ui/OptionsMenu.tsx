@@ -66,7 +66,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
   const [activeView, setActiveView] = useState<PanelView>("options");
 
   const { theme, toggleTheme } = useTheme();
-  const { locale, setLocale, currentLanguage } = useLanguage();
+  const { t, locale, setLocale, currentLanguage } = useLanguage();
   const [soundsMuted, setSoundsMuted] = useState(true);
   const [soundsVolume, setSoundsVolume] = useState(0.5);
   const [showLangPicker, setShowLangPicker] = useState(false);
@@ -229,7 +229,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                   <Settings size={20} className="shrink-0 text-[var(--accent)]" aria-hidden="true" />
                 )}
                 <h2 id="options-panel-title" className="truncate text-base font-semibold text-[var(--text)]">
-                  {activeView === "support" ? "Soporte" : "Opciones"}
+                  {activeView === "support" ? t("support") : t("ev_opciones")}
                 </h2>
               </div>
               <button
@@ -248,7 +248,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
               ) : (
                 <div className="space-y-1 p-4">
                   <section>
-                    <h3 className={sectionLabelClass}>Apariencia</h3>
+                    <h3 className={sectionLabelClass}>{t("opt_appearance")}</h3>
                     <button ref={firstControlRef} type="button" onClick={toggleTheme} className={optionButtonClass}>
                       <span className="flex items-center gap-3">
                         {theme === "dark" ? (
@@ -256,7 +256,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                         ) : (
                           <Sun size={16} className="text-amber-400" aria-hidden="true" />
                         )}
-                        <span className={optionTextClass}>Tema {theme === "dark" ? "oscuro" : "claro"}</span>
+                        <span className={optionTextClass}>{t("opt_theme")} {theme === "dark" ? "oscuro" : "claro"}</span>
                       </span>
                       <span
                         aria-hidden="true"
@@ -326,7 +326,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                           ) : (
                             <Volume2 size={16} className="text-[var(--accent)]" aria-hidden="true" />
                           )}
-                          <span className={optionTextClass}>Sonidos de interfaz</span>
+                          <span className={optionTextClass}>{t("pn_sonidos")}</span>
                         </span>
                         <span
                           aria-hidden="true"
@@ -344,7 +344,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                           <span className="w-8 text-right font-mono text-[11px] text-[var(--text-dim)]">
                             {Math.round(soundsVolume * 100)}%
                           </span>
-                          <span className="sr-only">Volumen de los sonidos de interfaz</span>
+                          <span className="sr-only">{t("pn_volumen_sonidos")}</span>
                           <input
                             type="range"
                             min="0"
@@ -361,19 +361,19 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                   </section>
 
                   <section>
-                    <h3 className={sectionLabelClass}>Intérprete IA</h3>
+                    <h3 className={sectionLabelClass}>{t("ia_interprete")}</h3>
                     <div className="space-y-1">
                       <button type="button" onClick={() => setLocalAIOpen(true)} className={optionButtonClass}>
                         <span className="flex items-center gap-3">
                           <Brain size={16} className="text-emerald-400" aria-hidden="true" />
-                          <span className={optionTextClass}>Intérprete IA local</span>
+                          <span className={optionTextClass}>{t("ia_interprete_local")}</span>
                         </span>
                         <span className="text-[11px] text-[var(--text-dim)]">Configurar</span>
                       </button>
                       <button type="button" onClick={() => setCloudAIOpen(true)} className={optionButtonClass}>
                         <span className="flex items-center gap-3">
                           <Database size={16} className="text-sky-400" aria-hidden="true" />
-                          <span className={optionTextClass}>Intérprete IA online</span>
+                          <span className={optionTextClass}>{t("ia_interprete_online")}</span>
                         </span>
                         <span className="text-[11px] text-[var(--text-dim)]">Cloud / API</span>
                       </button>
@@ -404,14 +404,14 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                       <button type="button" onClick={() => exportData("json")} className={optionButtonClass}>
                         <span className="flex items-center gap-3">
                           <FileJson size={16} className="text-[var(--accent)]" aria-hidden="true" />
-                          <span className={optionTextClass}>Exportar bioteca como JSON</span>
+                          <span className={optionTextClass}>{t("pn_exportar_json")}</span>
                         </span>
                         <Download size={13} className="text-[var(--text-dim)]" aria-hidden="true" />
                       </button>
                       <button type="button" onClick={() => exportData("csv")} className={optionButtonClass}>
                         <span className="flex items-center gap-3">
                           <FileText size={16} className="text-[var(--accent)]" aria-hidden="true" />
-                          <span className={optionTextClass}>Exportar bioteca como CSV</span>
+                          <span className={optionTextClass}>{t("pn_exportar_csv")}</span>
                         </span>
                         <Download size={13} className="text-[var(--text-dim)]" aria-hidden="true" />
                       </button>
@@ -425,18 +425,18 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                   </section>
 
                   <section>
-                    <h3 className={sectionLabelClass}>Legal e información</h3>
+                    <h3 className={sectionLabelClass}>{t("pn_legal_info")}</h3>
                     <div className="space-y-1">
                       <button type="button" onClick={() => setLegalOpen(true)} className={optionButtonClass}>
                         <span className="flex items-center gap-3">
                           <Shield size={16} className="text-[var(--accent)]" aria-hidden="true" />
-                          <span className={optionTextClass}>Legal, privacidad y licencias</span>
+                          <span className={optionTextClass}>{t("auto_145bc56a348e")}</span>
                         </span>
                       </button>
                       <button type="button" onClick={() => setAboutOpen(true)} className={optionButtonClass}>
                         <span className="flex items-center gap-3">
                           <Info size={16} className="text-[var(--accent)]" aria-hidden="true" />
-                          <span className={optionTextClass}>Acerca de MolDesign</span>
+                          <span className={optionTextClass}>{t("pn_acerca_de")}</span>
                         </span>
                         <span className="font-mono text-[11px] text-[var(--text-dim)]">v{PRODUCT.version}</span>
                       </button>

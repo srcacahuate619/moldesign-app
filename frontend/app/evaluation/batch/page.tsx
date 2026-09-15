@@ -530,7 +530,7 @@ export default function CohortesPage() {
           <div className="min-w-0 space-y-5">
             {/* ── 1 · Definir ───────────────────────────────────── */}
             <section className={`${CAJA} p-4`} aria-labelledby="def">
-              <h2 id="def" className="text-sm font-semibold">1 · Nueva cohorte</h2>
+              <h2 id="def" className="text-sm font-semibold">{t("auto_568830f9f57b")}</h2>
               <p className="mt-1 text-sm text-zinc-600 dark:text-white/60">
                 {t("pg_lote_receptor_comun")}
               </p>
@@ -556,10 +556,10 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                   <details className="mt-3 text-sm text-zinc-700 dark:text-white/70">
                     <summary className="cursor-pointer rounded-sm font-semibold text-zinc-900 outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white">{t("lo_ver_formatos")}</summary>
                     <div className="mt-3 space-y-3 border-t border-zinc-200 pt-3 dark:border-white/10">
-                      <p><strong>CSV y XLSX:</strong> {t("lo_formatos_csv_xlsx")} <code className="font-mono">smiles</code>{t("lo_tambien_se_aceptan")} <code className="font-mono">canonical_smiles</code> o <code className="font-mono">structure</code>{t("lo_formatos_opcionales")} <code className="font-mono">name</code>, <code className="font-mono">active</code> y <code className="font-mono">control_role</code>{t("lo_formatos_xlsx_hoja")}</p>
-                      <p><strong>SMI y TXT:</strong> {t("lo_formatos_smi")} <code className="font-mono">SMILES nombre active control_role</code>{t("lo_formatos_smi_separador")} <code className="font-mono">#</code> {t("lo_formatos_smi_comentarios")}</p>
+                      <p><strong>{t("auto_460799387e92")}</strong> {t("lo_formatos_csv_xlsx")} <code className="font-mono">smiles</code>{t("lo_tambien_se_aceptan")} <code className="font-mono">canonical_smiles</code> {t("lo_o")} <code className="font-mono">structure</code>{t("lo_formatos_opcionales")} <code className="font-mono">name</code>, <code className="font-mono">active</code> y <code className="font-mono">control_role</code>{t("lo_formatos_xlsx_hoja")}</p>
+                      <p><strong>{t("auto_e3d883a02cc8")}</strong> {t("lo_formatos_smi")} <code className="font-mono">SMILES nombre active control_role</code>{t("lo_formatos_smi_separador")} <code className="font-mono">#</code> {t("lo_formatos_smi_comentarios")}</p>
                       <p><strong>SDF:</strong> {t("lo_formatos_sdf")} <code className="font-mono">_Name</code>{t("lo_formatos_sdf_propiedades")} <code className="font-mono">active</code> y <code className="font-mono">control_role</code> {t("lo_formatos_sdf_opcionales")}</p>
-                      <p>Para <code className="font-mono">active</code>, usa <code className="font-mono">1</code> {t("lo_formatos_activa")} <code className="font-mono">0</code> {t("lo_formatos_inactiva")} <code className="font-mono">control_role</code>, usa <code className="font-mono">reference</code>, <code className="font-mono">positive</code>, <code className="font-mono">negative</code> o <code className="font-mono">none</code>.</p>
+                      <p>{t("lo_formatos_para")} <code className="font-mono">active</code>, {t("lo_formatos_usa")} <code className="font-mono">1</code> {t("lo_formatos_activa")} <code className="font-mono">0</code> {t("lo_formatos_inactiva")} <code className="font-mono">control_role</code>, {t("lo_formatos_usa")} <code className="font-mono">reference</code>, <code className="font-mono">positive</code>, <code className="font-mono">negative</code> {t("lo_o")} <code className="font-mono">none</code>.</p>
                     </div>
                   </details>
                 </section>
@@ -580,16 +580,16 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                       type="button"
                       className={`${SECUNDARIO} shrink-0`}
                       disabled={loadingTargets}
-                      aria-label={targetsError ? "Reintentar catálogo de receptores" : "Abrir catálogo de receptores"}
+                      aria-label={targetsError ? t("lo_reintentar_catalogo") : t("lo_abrir_catalogo")}
                       onClick={() => targetsError ? void cargarTargets() : setShowTargetModal(true)}
                     >
                       {loadingTargets ? <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" /> : <Search className="h-3.5 w-3.5" aria-hidden="true" />}
-                      {loadingTargets ? "Cargando" : targetsError ? "Reintentar" : t("lo_catalogo_con_cuenta", { n: targets.length })}
+                      {loadingTargets ? "Cargando" : targetsError ? t("c_reintentar") : t("lo_catalogo_con_cuenta", { n: targets.length })}
                     </button>
                   </div>
                   {targetsError && (
                     <p role="status" className="mt-1.5 text-xs leading-relaxed text-amber-800 dark:text-amber-300/80">
-                      {targetsError} Puedes introducir el PDB ID manualmente.
+                      {targetsError} {t("auto_03d50be324c8")}
                     </p>
                   )}
                 </div>
@@ -631,9 +631,9 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                       aria-label="Poses" onChange={(e) => setPoses(Number(e.target.value))} />
                   </label>
                   <label className="block">
-                    <span className={ETIQUETA}>Semilla</span>
+                    <span className={ETIQUETA}>{t("se_gen_seed")}</span>
                     <input className={`${INPUT} mt-1`} value={semilla} placeholder="—"
-                      aria-label="Semilla" onChange={(e) => setSemilla(e.target.value)} />
+                      aria-label={t("se_gen_seed")} onChange={(e) => setSemilla(e.target.value)} />
                   </label>
                 </div>
               </div>
@@ -663,8 +663,8 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     [t("lo_filas"), resumen!.total_rows],
                     [t("lo_elegibles"), resumen!.eligible_rows],
                     [t("lo_invalidas"), resumen!.invalid_rows],
-                    ["Duplicados", resumen!.duplicate_rows],
-                    ["Moléculas únicas", resumen!.unique_canonical_ligands],
+                    [t("lo_filtro_duplicados"), resumen!.duplicate_rows],
+                    [t("lo_moleculas_unicas"), resumen!.unique_canonical_ligands],
                     ["Referencia", resumen!.explicit_reference_controls],
                     ["Positivos", resumen!.explicit_positive_controls],
                     ["Negativos", resumen!.explicit_negative_controls],
@@ -677,9 +677,9 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                 </dl>
 
                 <p className="mt-3 text-sm text-zinc-600 dark:text-white/50" data-testid="cobertura-preflight">
-                  Cobertura de entrada:{" "}
+                  {t("auto_416ef02a1420")}{" "}
                   {resumen!.input_coverage === null
-                    ? "no medible (sin filas)"
+                    ? t("lo_cobertura_no_medible")
                     : `${(resumen!.input_coverage * 100).toFixed(1)} % · ${resumen!.eligible_rows} de ${resumen!.input_coverage_denominator}`}
                 </p>
 
@@ -715,7 +715,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                   <button type="button" className={PRIMARIO} onClick={guardar}
                     disabled={bloqueada || Boolean(cohorte) || ocupado === "guardar"}>
                     {ocupado === "guardar" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
-                    3 · Guardar cohorte
+                    {t("auto_bedef67ee5db")}
                   </button>
                   <span className="break-all font-mono text-xs font-medium text-zinc-600 dark:text-white/55">
                     {preflight.cohort_fingerprint}
@@ -734,7 +734,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
 
                 <div className="mt-3 flex flex-wrap items-center gap-2">
                   <label className="flex items-center gap-2 text-xs font-medium text-zinc-600 dark:text-white/65">
-                    Paralelismo
+                    {t("lo_paralelismo")}
                     <input type="number" min={1} max={4} value={workers} aria-label={t("lo_paralelismo")}
                       onChange={(e) => setWorkers(Number(e.target.value))}
                       className="w-14 rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-900 outline-none focus-visible:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500/30 dark:border-white/10 dark:bg-black/30 dark:text-white/80" />
@@ -771,7 +771,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <span className="text-xs font-medium">
                         {RUN_STATUS_LABELS[corrida.status]}
-                        {corrida.cancel_requested && corrida.status !== "cancelled" && " · cancelación pedida"}
+                        {corrida.cancel_requested && corrida.status !== "cancelled" && t("lo_cancelacion_pedida")}
                       </span>
                       <span className="break-all font-mono text-xs font-medium text-zinc-600 dark:text-white/55">
                         corrida {corrida.id}
@@ -781,11 +781,11 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     <dl className="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-6">
                       {[
                         ["Archivo", corrida.progress.total_rows],
-                        ["Elegibles", corrida.progress.eligible_rows],
-                        ["Completadas", corrida.progress.completed_rows],
-                        ["Duplicados", corrida.progress.duplicate_reused_rows],
-                        ["Fallidas", corrida.progress.failed_rows],
-                        ["No evaluadas", corrida.progress.not_evaluated_rows],
+                        [t("lo_elegibles"), corrida.progress.eligible_rows],
+                        [t("lo_filtro_completadas"), corrida.progress.completed_rows],
+                        [t("lo_filtro_duplicados"), corrida.progress.duplicate_reused_rows],
+                        [t("lo_filtro_fallidas"), corrida.progress.failed_rows],
+                        [t("lo_filtro_no_evaluadas"), corrida.progress.not_evaluated_rows],
                       ].map(([etiqueta, valor]) => (
                         <div key={String(etiqueta)} className="border-l border-zinc-300 py-1 pl-3 dark:border-white/15">
                           <dt className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-white/60">{etiqueta}</dt>
@@ -803,7 +803,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     <div className="mt-3 flex flex-wrap gap-2">
                       <button type="button" className={SECUNDARIO} onClick={cancelar}
                         disabled={!isRunActive(corrida.status) || ocupado === "cancelar"}>
-                        <XCircle className="h-3.5 w-3.5" /> Cancelar
+                        <XCircle className="h-3.5 w-3.5" /> {t("c_cancelar")}
                       </button>
                       <button type="button" className={SECUNDARIO} onClick={reanudar}
                         aria-describedby={motorHistoricoQuickVina ? "motor-historico-bloqueado" : undefined}
@@ -816,7 +816,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                       </button>
                       <button type="button" className={PRIMARIO} onClick={verEvidencia}
                         disabled={isRunActive(corrida.status) || ocupado === "evidencia"}>
-                        <FileSpreadsheet className="h-3.5 w-3.5" /> 5 · Ver evidencia
+                        <FileSpreadsheet className="h-3.5 w-3.5" /> {t("auto_8796008ea42e")}
                       </button>
                     </div>
                   </div>
@@ -827,21 +827,21 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
             {/* ── 5 · Evidencia ─────────────────────────────────── */}
             {evidencia && (
               <section className={`${CAJA} p-4`} aria-labelledby="ev" data-testid="evidencia">
-                <h2 id="ev" className="text-sm font-semibold">5 · Evidencia</h2>
+                <h2 id="ev" className="text-sm font-semibold">{t("auto_cc09f4f40c71")}</h2>
                 <p className="mt-1 text-sm text-zinc-600 dark:text-white/60">
                   {t("pg_lote_orden_no_veredicto")}
                 </p>
 
                 <dl className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4" data-testid="cobertura-evidencia">
                   {[
-                    ["Filas del archivo", evidencia.coverage.source_rows],
-                    ["Elegibles", evidencia.coverage.eligible_rows],
-                    ["Moléculas únicas", evidencia.coverage.unique_molecules_executed],
-                    ["Completadas", evidencia.coverage.completed_rows],
-                    ["Duplicados", evidencia.coverage.duplicate_reused_rows],
-                    ["Fallidas", evidencia.coverage.failed_rows],
-                    ["No evaluadas", evidencia.coverage.not_evaluated_rows],
-                    ["No elegibles", evidencia.coverage.not_eligible_rows],
+                    [t("lo_filas_del_archivo"), evidencia.coverage.source_rows],
+                    [t("lo_elegibles"), evidencia.coverage.eligible_rows],
+                    [t("lo_moleculas_unicas"), evidencia.coverage.unique_molecules_executed],
+                    [t("lo_filtro_completadas"), evidencia.coverage.completed_rows],
+                    [t("lo_filtro_duplicados"), evidencia.coverage.duplicate_reused_rows],
+                    [t("lo_filtro_fallidas"), evidencia.coverage.failed_rows],
+                    [t("lo_filtro_no_evaluadas"), evidencia.coverage.not_evaluated_rows],
+                    [t("lo_no_elegibles"), evidencia.coverage.not_eligible_rows],
                   ].map(([etiqueta, valor]) => (
                     <div key={String(etiqueta)} className="border-l border-zinc-300 py-1 pl-3 dark:border-white/15">
                       <dt className={ETIQUETA}>{etiqueta}</dt>
@@ -862,8 +862,8 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                           .join(" · ")}
                       </p>
                       <p className="mt-1 text-xs text-zinc-600 dark:text-white/60">
-                        n={evidencia.labeled_metrics.n_total} ({evidencia.labeled_metrics.n_positive} activas,{" "}
-                        {evidencia.labeled_metrics.n_negative} inactivas) · cobertura{" "}
+                        n={evidencia.labeled_metrics.n_total} ({evidencia.labeled_metrics.n_positive} {t("auto_b12b25b7b597")}{" "}
+                        {evidencia.labeled_metrics.n_negative} {t("auto_22063fc5d2df")}{" "}
                         {evidencia.labeled_metrics.coverage}
                       </p>
                       <p className="mt-1 text-xs text-zinc-600 dark:text-white/60">
@@ -872,7 +872,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     </>
                   ) : (
                     <p className="mt-1 text-sm font-medium text-zinc-700 dark:text-white/70">
-                      Métricas no calculadas — {evidencia.labeled_metrics.reason}
+                      {t("auto_98a7a2997090")} {evidencia.labeled_metrics.reason}
                     </p>
                   )}
                 </div>
@@ -884,7 +884,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                       {evidencia.labeled_metrics.controls.map((c) => (
                         <li key={c.source_row_index} className="text-xs text-zinc-600 dark:text-white/60">
                           #{c.source_row_index} {c.source_name ?? "—"} · {CONTROL_ROLE_LABELS[c.control_role]} ·{" "}
-                          {c.observed_vina_affinity_kcal_mol?.toFixed(2) ?? "sin afinidad"}
+                          {c.observed_vina_affinity_kcal_mol?.toFixed(2) ?? t("lo_sin_afinidad")}
                         </li>
                       ))}
                     </ul>
@@ -961,7 +961,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
 
                 <button type="button" className={`${PRIMARIO} mt-4`} onClick={verInforme} disabled={ocupado === "informe"}>
                   {ocupado === "informe" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <FileText className="h-3.5 w-3.5" />}
-                  6 · Ver informe
+                  {t("auto_2f1a6f19a8c3")}
                 </button>
               </section>
             )}
@@ -969,10 +969,10 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
             {/* ── 6 · Informe ───────────────────────────────────── */}
             {paso === "informe" && (
               <section className={`${CAJA} p-4`} aria-labelledby="inf" data-testid="informe">
-                <h2 id="inf" className="text-sm font-semibold">6 · Informe</h2>
+                <h2 id="inf" className="text-sm font-semibold">{t("auto_304a0bfa0894")}</h2>
                 <div className="mt-3 flex flex-wrap gap-2">
                   <button type="button" className={SECUNDARIO} onClick={descargarPdf} disabled={!pdfBlob}>
-                    <Download className="h-3.5 w-3.5" /> Descargar PDF
+                    <Download className="h-3.5 w-3.5" /> {t("z_descargar_pdf")}
                   </button>
                   <button type="button" className={SECUNDARIO} onClick={exportarZip} disabled={ocupado === "zip"}>
                     {ocupado === "zip" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <FileArchive className="h-3.5 w-3.5" />}

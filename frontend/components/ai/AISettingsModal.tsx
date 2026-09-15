@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Check, Eye, EyeOff, RefreshCw, Zap, AlertTriangle, Monitor, Package, Wrench, Star, Download, CheckCircle2, XCircle, Globe, Server } from "lucide-react";
@@ -13,6 +15,7 @@ function mensajeDeError(error: unknown, fallback: string): string {
 }
 
 export function AISettingsModal() {
+  const { t } = useLanguage();
   const { state, dispatch, setActiveProvider, updateProviderConfig, loadProviders, detectStartup, setKeepLoaded } = useAI();
   const [selectedProvider, setSelectedProvider] = useState<AIProviderInfo | null>(null);
   const [apiKey, setApiKey] = useState("");
@@ -350,13 +353,13 @@ export function AISettingsModal() {
               }}
             >
               <h2 id="ai-settings-title" style={{ margin: 0, fontSize: "1.05em", fontWeight: 600, color: "var(--text)" }}>
-                Intérprete IA
+                {t("ia_interprete")}
               </h2>
               <button
                 ref={closeButtonRef}
                 type="button"
                 onClick={handleClose}
-                aria-label="Cerrar configuración de MolChat"
+                aria-label={t("ia_cerrar_configuracion")}
                 className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                 style={{
                   background: "none",
@@ -461,11 +464,11 @@ export function AISettingsModal() {
               {selectedProvider && selectedProvider.id === "ollama" && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                   <div style={{ padding: "8px 12px", borderRadius: 8, background: "rgba(245,158,11,0.06)", border: "1px solid rgba(245,158,11,0.15)", fontSize: "0.8em", color: "var(--text-secondary)", lineHeight: 1.5 }}>
-                    <span><Server size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> Ollama debe estar instalado y corriendo en {baseUrl || "http://localhost:11434"}. Sin API key.</span>
+                    <span><Server size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> Ollama debe estar instalado y corriendo en {baseUrl || "http://localhost:11434"}{t("auto_a6cdeb7c5844")}</span>
                   </div>
                   {selectedProvider.requires_base_url && (
                     <div>
-                      <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>URL del servidor</label>
+                      <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>{t("ia_url_servidor")}</label>
                       <input type="text" value={baseUrl} onChange={(e) => setBaseUrl(e.target.value)}
                         placeholder={selectedProvider.default_base_url}
                         style={{ width: "100%", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", color: "var(--text)", fontSize: "0.9em", outline: "none" }}
@@ -473,14 +476,14 @@ export function AISettingsModal() {
                     </div>
                   )}
                   <div>
-                    <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>Modelo</label>
+                    <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>{t("se_sel_model")}</label>
                     <input type="text" value={model} onChange={(e) => setModel(e.target.value)}
                       placeholder={selectedProvider.default_model}
                       style={{ width: "100%", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", color: "var(--text)", fontSize: "0.9em", outline: "none" }}
                     />
                   </div>
                   <div>
-                    <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>Temperatura: {temperature.toFixed(1)}</label>
+                    <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>{t("auto_301a6a824758")} {temperature.toFixed(1)}</label>
                     <input type="range" min="0" max="1" step="0.1" value={temperature} onChange={(e) => setTemperature(parseFloat(e.target.value))} style={{ width: "100%" }} />
                   </div>
                 </div>
@@ -540,14 +543,14 @@ export function AISettingsModal() {
                     </div>
                   )}
                   <div>
-                    <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>Modelo</label>
+                    <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>{t("se_sel_model")}</label>
                     <input type="text" value={model} onChange={(e) => setModel(e.target.value)}
                       placeholder={selectedProvider.default_model}
                       style={{ width: "100%", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", color: "var(--text)", fontSize: "0.9em", outline: "none" }}
                     />
                   </div>
                   <div>
-                    <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>Temperatura: {temperature.toFixed(1)}</label>
+                    <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>{t("auto_301a6a824758")} {temperature.toFixed(1)}</label>
                     <input type="range" min="0" max="1" step="0.1" value={temperature} onChange={(e) => setTemperature(parseFloat(e.target.value))} style={{ width: "100%" }} />
                   </div>
                 </div>
@@ -560,23 +563,23 @@ export function AISettingsModal() {
                   <div style={{ padding: "8px 12px", borderRadius: 8, background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.15)", fontSize: "0.8em", color: "var(--text-secondary)", lineHeight: 1.5 }}>
                     {state.resourceStatus?.gpu_name ? (
                       state.resourceStatus.using_gpu ? (
-                        <span><Zap size={14} className="inline-block mr-1 text-amber-400" style={{ verticalAlign: "middle" }} /> GPU: {state.resourceStatus.gpu_name} ({state.resourceStatus.gpu_vram_total_gb?.toFixed(1) ?? "?"}GB, {state.resourceStatus.vram_free_gb >= 0 ? state.resourceStatus.vram_free_gb.toFixed(1) + "GB libre" : "?"})</span>
+                        <span><Zap size={14} className="inline-block mr-1 text-amber-400" style={{ verticalAlign: "middle" }} /> GPU: {state.resourceStatus.gpu_name} ({state.resourceStatus.gpu_vram_total_gb?.toFixed(1) ?? t("auto_5bab61eb5317")}GB, {state.resourceStatus.vram_free_gb >= 0 ? state.resourceStatus.vram_free_gb.toFixed(1) + "GB libre" : t("auto_5bab61eb5317")})</span>
                       ) : state.resourceStatus.llm_state === "loaded" ? (
-                        <span style={{ color: "#F59E0B" }}><AlertTriangle size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> GPU ({state.resourceStatus.gpu_name}) no usada — llama-cpp-python sin CUDA</span>
+                        <span style={{ color: "#F59E0B" }}><AlertTriangle size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> GPU ({state.resourceStatus.gpu_name}{t("auto_0ce6ec21b144")}</span>
                       ) : (
-                        <span><Monitor size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> GPU: {state.resourceStatus.gpu_name} ({state.resourceStatus.gpu_vram_total_gb?.toFixed(1) ?? "?"}GB). Se usará al cargar.</span>
+                        <span><Monitor size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> GPU: {state.resourceStatus.gpu_name} ({state.resourceStatus.gpu_vram_total_gb?.toFixed(1) ?? t("auto_5bab61eb5317")}{t("auto_ce040e015442")}</span>
                       )
                     ) : state.resourceStatus?.vram_free_gb !== undefined && state.resourceStatus.vram_free_gb >= 0 && state.resourceStatus.vram_free_gb < 2 ? (
-                      <span>VRAM insuficiente ({state.resourceStatus.vram_free_gb.toFixed(1)}GB). CPU: {state.resourceStatus?.ram_free_gb?.toFixed(1) ?? "?"}GB RAM.</span>
+                      <span>VRAM insuficiente ({state.resourceStatus.vram_free_gb.toFixed(1)}GB). CPU: {state.resourceStatus?.ram_free_gb?.toFixed(1) ?? t("auto_5bab61eb5317")}GB RAM.</span>
                     ) : (
-                      <span><Monitor size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> Sin GPU — CPU: {state.resourceStatus?.ram_free_gb?.toFixed(1) ?? "?"}GB RAM libre.</span>
+                      <span><Monitor size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> {t("auto_94135ee04adb")} {state.resourceStatus?.ram_free_gb?.toFixed(1) ?? t("auto_5bab61eb5317")}GB RAM libre.</span>
                     )}
                   </div>
 
                   {/* Model selector */}
                   <div>
                     <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>
-                      <Package size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> Modelo
+                      <Package size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> {t("se_sel_model")}
                     </label>
                     {localModels.length > 0 ? (
                       <div style={{ display: "flex", flexDirection: "column", gap: 4, maxHeight: 160, overflow: "auto" }}>
@@ -601,7 +604,7 @@ export function AISettingsModal() {
                       </div>
                     ) : (
                       <div style={{ padding: "10px 12px", borderRadius: 6, border: "1px dashed var(--border)", fontSize: "0.78em", color: "var(--text-dim)", textAlign: "center" }}>
-                        Sin modelos descargados. Busca uno en HuggingFace abajo.
+                        {t("ia_sin_modelos")}
                       </div>
                     )}
                   </div>
@@ -609,7 +612,7 @@ export function AISettingsModal() {
                   {/* Recommended local models downloader */}
                   <div>
                     <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 10 }}>
-                      <Download size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> Modelos recomendados para descarga local
+                      <Download size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> {t("ia_modelos_recomendados")}
                     </label>
                     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                       {[
@@ -618,21 +621,21 @@ export function AISettingsModal() {
                           filename: "qwen2.5-1.5b-instruct-q4_k_m.gguf",
                           name: "Qwen2.5 1.5B (Recomendado)",
                           size: "1.1 GB",
-                          desc: "Excelente balance entre velocidad y razonamiento científico local.",
+                          desc: t("auto_7786e423c133"),
                         },
                         {
                           id: "Qwen/Qwen2.5-0.5B-Instruct-GGUF",
                           filename: "qwen2.5-0.5b-instruct-q4_k_m.gguf",
                           name: "Qwen2.5 0.5B (Ligero)",
                           size: "398 MB",
-                          desc: "Modelo ultraligero ideal para PCs sin GPU y recursos muy limitados.",
+                          desc: t("auto_3c11e2b8db88"),
                         },
                         {
                           id: "azure/Phi-3.5-mini-instruct-Q4_K_M",
                           filename: "Phi-3.5-mini-instruct-Q4_K_M.gguf",
                           name: "Phi-3.5 Mini 3.8B (Avanzado)",
                           size: "2.2 GB",
-                          desc: "Razonamiento científico más avanzado, requiere mejor procesador/RAM.",
+                          desc: t("auto_dabe6e993bad"),
                         }
                       ].map((m) => {
                         const isDownloaded = localModels.some((lm) => lm.filename === m.filename);
@@ -669,7 +672,7 @@ export function AISettingsModal() {
                                   onClick={() => handleDownload(m.id, m.filename)}
                                   style={{ padding: "4px 10px", borderRadius: 6, border: "none", background: "var(--accent)", color: "#fff", cursor: "pointer", fontSize: "0.78em", fontWeight: 600 }}
                                 >
-                                  Descargar
+                                  {t("c_descargar")}
                                 </button>
                               )}
                             </div>
@@ -717,7 +720,7 @@ export function AISettingsModal() {
                       }}
                     >
                       <Wrench size={14} />
-                      Abrir carpeta de modelos locales (Explorador)
+                      {t("ia_abrir_carpeta_modelos")}
                     </button>
                   </div>
 
@@ -725,7 +728,7 @@ export function AISettingsModal() {
                   {quantInfo && (
                     <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
                       <label style={{ fontSize: "0.82em", color: "var(--text-secondary)" }}>
-                        <Wrench size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> Cuantización
+                        <Wrench size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> {t("ia_cuantizacion")}
                       </label>
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                         {quantInfo.options?.map((opt: any) => {
@@ -813,7 +816,7 @@ export function AISettingsModal() {
                         cursor: "pointer",
                       }}
                     >
-                      Cancelar
+                      {t("c_cancelar")}
                     </button>
                     <button
                       onClick={() => handleSave(true)}
@@ -826,7 +829,7 @@ export function AISettingsModal() {
                         cursor: "pointer",
                       }}
                     >
-                      Cambiar el destino
+                      {t("ia_cambiar_destino")}
                     </button>
                   </div>
                 </div>
@@ -845,7 +848,7 @@ export function AISettingsModal() {
                   fontSize: "0.85em",
                 }}
               >
-                Cerrar
+                {t("c_cerrar")}
               </button>
               <button
                 onClick={() => handleSave()}
@@ -868,7 +871,7 @@ export function AISettingsModal() {
                     <Check size={14} /> Guardado
                   </>
                 ) : (
-                  "Guardar configuración"
+                  t("auto_ca034f0fac8f")
                 )}
               </button>
               </div>

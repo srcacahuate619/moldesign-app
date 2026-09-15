@@ -138,7 +138,7 @@ export function CaseDossierViewer({
         setError(
           failure instanceof DossierError
             ? failure.message
-            : (failure as Error)?.message || "El dossier no se pudo generar.",
+            : (failure as Error)?.message || t("auto_5e8ef3521b05"),
         );
         setState("error");
       });
@@ -262,7 +262,7 @@ export function CaseDossierViewer({
             className="flex h-11 items-center gap-2 whitespace-nowrap rounded bg-surface-800 px-3 font-mono text-xs font-bold text-surface-300 transition-colors hover:bg-brand-500 hover:text-surface-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Download className="h-3 w-3" aria-hidden="true" />
-            <span>Descargar PDF</span>
+            <span>{t("z_descargar_pdf")}</span>
           </button>
 
           <button
@@ -276,7 +276,7 @@ export function CaseDossierViewer({
             ) : (
               <FileArchive className="h-3 w-3" aria-hidden="true" />
             )}
-            <span>{packaging ? "Exportando…" : "Exportar paquete ZIP"}</span>
+            <span>{packaging ? t("auto_60b6d132c62d") : "Exportar paquete ZIP"}</span>
           </button>
         </div>
       </div>
@@ -297,7 +297,7 @@ export function CaseDossierViewer({
           role="alert"
           className="border-b border-red-500/20 bg-red-500/5 px-4 py-2 text-xs leading-relaxed text-red-300"
         >
-          No se pudo exportar el paquete: {packageError}
+          {t("auto_96129f3bbb7a")} {packageError}
         </p>
       )}
 
@@ -328,7 +328,7 @@ export function CaseDossierViewer({
               className="mt-1 flex h-11 items-center gap-2 rounded bg-surface-800 px-4 font-mono text-xs font-bold text-surface-200 transition-colors hover:bg-surface-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400"
             >
               <RefreshCw className="h-3 w-3" aria-hidden="true" />
-              Reintentar
+              {t("c_reintentar")}
             </button>
           </div>
         )}

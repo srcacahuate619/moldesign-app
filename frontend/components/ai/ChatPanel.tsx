@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React, { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -22,6 +24,7 @@ import { AvisoDeIAGenerativa } from "./AvisoDeIAGenerativa";
 import { useDownload } from "@/hooks/useDownload";
 
 export function ChatPanel() {
+  const { t } = useLanguage();
   const {
     state,
     dispatch,
@@ -152,8 +155,8 @@ export function ChatPanel() {
         ref={panelTriggerRef}
         type="button"
         onClick={handleTogglePanel}
-        title="MolChat - Intérprete IA"
-        aria-label={state.isPanelOpen ? "Cerrar MolChat" : "Abrir MolChat"}
+        title={t("z_molchat_interprete")}
+        aria-label={state.isPanelOpen ? t("opt_ai_chat_close") : t("opt_ai_chat_open")}
         aria-expanded={state.isPanelOpen}
         aria-controls="molchat-panel"
         className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
@@ -303,7 +306,7 @@ export function ChatPanel() {
                         cursor: "pointer",
                       }}
                     >
-                      Rápido
+                      {t("ia_rapido")}
                     </button>
                     <button
                       type="button"
@@ -331,7 +334,7 @@ export function ChatPanel() {
                         cursor: "pointer",
                       }}
                     >
-                      Razonamiento
+                      {t("ia_razonamiento")}
                     </button>
                   </div>
 
@@ -346,8 +349,8 @@ export function ChatPanel() {
                     }
                     title={
                       state.allowWeb
-                        ? "Modo web activo: enriquece con PubChem/ChEMBL y puede tardar más"
-                        : "Modo offline: activar modo web para enriquecer con PubChem/ChEMBL"
+                        ? t("auto_a3fa6f75da44")
+                        : t("auto_4e5f58ee4e09")
                     }
                     aria-label={state.allowWeb ? "Desactivar modo web" : "Activar modo web"}
                     aria-pressed={state.allowWeb}
@@ -381,8 +384,8 @@ export function ChatPanel() {
                     onClick={() =>
                       dispatch({ type: "SET_SETTINGS_OPEN", open: true })
                     }
-                    title="Configuración"
-                    aria-label="Abrir configuración de MolChat"
+                    title={t("ia_configuracion")}
+                    aria-label={t("ia_abrir_configuracion")}
                     className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                     style={{
                       background: "none",
@@ -398,8 +401,8 @@ export function ChatPanel() {
                     ref={closePanelRef}
                     type="button"
                     onClick={handleTogglePanel}
-                    title="Cerrar"
-                    aria-label="Cerrar MolChat"
+                    title={t("c_cerrar")}
+                    aria-label={t("opt_ai_chat_close")}
                     className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                     style={{
                       background: "none",
@@ -449,7 +452,7 @@ export function ChatPanel() {
                             textAlign: "center",
                           }}
                         >
-                          Sin conversaciones
+                          {t("ia_sin_conversaciones")}
                         </div>
                       ) : (
                         state.conversations.map((conv) => (
@@ -495,7 +498,7 @@ export function ChatPanel() {
                                 whiteSpace: "nowrap",
                               }}
                             >
-                              {conv.preview || "Nueva conversación"}
+                              {conv.preview || t("ia_nueva_conversacion")}
                             </div>
                             <div
                               style={{
@@ -547,7 +550,7 @@ export function ChatPanel() {
                 <button
                   type="button"
                   onClick={newConversation}
-                  title="Nueva conversación"
+                  title={t("ia_nueva_conversacion")}
                   style={{
                     background: "none",
                     border: "none",
@@ -584,12 +587,12 @@ export function ChatPanel() {
                 >
                   <ShieldAlert size={14} style={{ flexShrink: 0, marginTop: 2 }} />
                   <span>
-                    Lo que escribas saldrá de tu máquina hacia{" "}
+                    {t("auto_2e5a9badd398")}{" "}
                     <strong>{destinoActivo.host}</strong>.{" "}
                     {state.moleculeContext
-                      ? "También se adjunta el contexto molecular disponible. "
-                      : "No hay contexto molecular adjunto. "}
-                    Esta cuenta todavía no autorizó ese destino.
+                      ? t("auto_faa74cbc60a9")
+                      : t("auto_0e26df2c1c3d")}
+                    {t("auto_28590748cd34")}
                   </span>
                   <button
                     type="button"
@@ -631,7 +634,7 @@ export function ChatPanel() {
                 >
                   <ShieldAlert size={14} style={{ flexShrink: 0, marginTop: 2 }} />
                   <span style={{ flex: 1 }}>
-                    No pude responder: {state.turnoFallido.motivo}
+                    {t("auto_41ecb549049f")} {state.turnoFallido.motivo}
                   </span>
                   <button
                     type="button"
@@ -647,7 +650,7 @@ export function ChatPanel() {
                       flexShrink: 0,
                     }}
                   >
-                    Reintentar
+                    {t("c_reintentar")}
                   </button>
                   <button
                     type="button"
@@ -662,7 +665,7 @@ export function ChatPanel() {
                       flexShrink: 0,
                       padding: 2,
                     }}
-                    aria-label="Ocultar error del último turno"
+                    aria-label={t("ia_ocultar_error")}
                   >
                     <X size={12} aria-hidden="true" />
                   </button>
@@ -726,7 +729,7 @@ export function ChatPanel() {
                     color: "var(--text)",
                   }}
                 >
-                  <span>Modelo LLM no descargado</span>
+                  <span>{t("ia_modelo_no_descargado")}</span>
                   <button
                     type="button"
                     onClick={() => startDownload("llm-qwen15")}
@@ -742,13 +745,13 @@ export function ChatPanel() {
                       flexShrink: 0,
                     }}
                   >
-                    Descargar
+                    {t("c_descargar")}
                   </button>
                   <button
                     type="button"
                     onClick={() => setAvisoLlmCerrado(true)}
-                    title="Ocultar este aviso"
-                    aria-label="Ocultar aviso del modelo local"
+                    title={t("ia_ocultar_aviso")}
+                    aria-label={t("ia_ocultar_aviso_modelo")}
                     style={{
                       background: "transparent",
                       color: "#FF6B35",
@@ -808,13 +811,13 @@ export function ChatPanel() {
                     <Bot size={40} style={{ marginBottom: 16, opacity: 0.3 }} />
                     <p style={{ margin: 0, fontSize: "0.95em" }}>
                       {state.moleculeContext
-                        ? "Pregunta sobre la molécula adjunta"
-                        : "Pregunta sobre evidencia estructural"}
+                        ? t("auto_16f46113d69c")
+                        : t("auto_32a9d49fe4e0")}
                     </p>
                     <p style={{ margin: "8px 0 0", fontSize: "0.8125rem" }}>
                       {state.moleculeContext
-                        ? "El contexto molecular disponible se adjunta a cada turno."
-                        : "No hay una molécula adjunta. Puedes pegar datos en tu mensaje."}
+                        ? t("auto_4bf26aa090e9")
+                        : t("auto_ade812f7939a")}
                     </p>
                   </div>
                 ) : (

@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
@@ -34,6 +36,7 @@ export default function LoginPage() {
 }
 
 function DesktopLogin() {
+  const { t } = useLanguage();
   const router = useRouter();
   const { user, login, register, isLoading } = useAuth();
 
@@ -56,21 +59,21 @@ function DesktopLogin() {
     setError(null);
 
     if (!email || !password) {
-      setError("Email y contraseña son obligatorios.");
+      setError(t("auto_32983b1d7ac2"));
       return;
     }
 
     if (mode === "register") {
       if (!username) {
-        setError("El nombre de usuario es obligatorio.");
+        setError(t("auto_4b66d3c2fe33"));
         return;
       }
       if (password.length < 8) {
-        setError("La contraseña debe tener al menos 8 caracteres.");
+        setError(t("auto_0af4040d3c39"));
         return;
       }
       if (password !== confirmPassword) {
-        setError("Las contraseñas no coinciden.");
+        setError(t("auto_ebb21b20058c"));
         return;
       }
     }

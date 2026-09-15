@@ -543,8 +543,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
           className="rounded-xl border border-amber-500/40 bg-amber-950/25 px-3 py-2 font-mono text-[11px] text-amber-200"
         >
           <span className="font-bold uppercase tracking-wider">{t("pr_sel_sin_guardar")}</span>{" "}
-          Este panel se ejecutó pero no se pudo escribir en la evaluación: si cambias de
-          pestaña lo pierdes, y el informe dirá que no se registró ningún anti-target.
+          {t("auto_49e5b55bba06")}
           {errorAlGuardar ? <span className="text-amber-300/70"> ({errorAlGuardar})</span> : null}
         </div>
       )}
@@ -562,7 +561,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
           onClick={handleRunAll}
           disabled={!moleculeId || isRunning || activeTargetId !== null || bgWaiting}
           className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-[0_0_12px_rgba(168,85,247,0.25)] cursor-pointer"
-          title={bgWaiting ? "El pipeline está corriendo el panel en background; el resultado aparecerá solo." : undefined}
+          title={bgWaiting ? t("auto_225f4287b89f") : undefined}
         >
           {bgWaiting ? (
             <>
@@ -628,16 +627,15 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
                 columna de Ki. */}
             {deltaDeltaG !== null && (
               <p className="mt-1 font-mono text-[11px] leading-relaxed text-zinc-500">
-                Factor implicado: {formatearFactor(bandaDeFactor(deltaDeltaG).min)} –{" "}
-                {formatearFactor(bandaDeFactor(deltaDeltaG).max)} a favor de la diana principal,
-                por la dispersión de ±{INCERTIDUMBRE_VINA_KCAL} kcal/mol del score de Vina.
+                {t("auto_925e4ecea2df")} {formatearFactor(bandaDeFactor(deltaDeltaG).min)} –{" "}
+                {formatearFactor(bandaDeFactor(deltaDeltaG).max)} {t("auto_7167a3bad96d")}{INCERTIDUMBRE_VINA_KCAL} {t("auto_8c4ac216c830")}
               </p>
             )}
 
             <div className="flex flex-wrap items-center gap-3 mt-1.5 font-mono text-xs text-zinc-400">
-              <span>Progreso: <strong className="text-zinc-200">{completedCount}/5</strong> evaluados</span>
+              <span>{t("auto_d2bc749a0bc0")} <strong className="text-zinc-200">{completedCount}/5</strong> evaluados</span>
               {onTargetAffinity !== null && onTargetAffinity !== undefined && (
-                <span>• Diana principal: <strong className="text-purple-300">{onTargetAffinity.toFixed(1)} kcal/mol</strong></span>
+                <span>{t("auto_7b9af481625f")} <strong className="text-purple-300">{onTargetAffinity.toFixed(1)} kcal/mol</strong></span>
               )}
             </div>
 
@@ -651,9 +649,8 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
                 className="mt-2 rounded-lg border border-amber-500/25 bg-amber-500/[0.05] px-2.5 py-2 text-[11px] leading-relaxed text-amber-100/85 font-sans"
               >
                 <strong className="font-semibold">Cobertura incompleta.</strong>{" "}
-                {noEvaluadas.length === 1 ? "Una anti-diana no se evaluó" : `${noEvaluadas.length} anti-dianas no se evaluaron`}
-                {" "}({noEvaluadas.join(", ")}). El veredicto de arriba se calculó sin ellas,
-                así que puede ser optimista.
+                {noEvaluadas.length === 1 ? t("auto_fff211e08ae8") : `${noEvaluadas.length} anti-dianas no se evaluaron`}
+                {" "}({noEvaluadas.join(", ")}{t("auto_5c7c8c2f3b8e")}
               </p>
             )}
           </div>
@@ -673,7 +670,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
             {safetyFlags.length > 0 ? (
               <div className="rounded-xl border border-rose-500/30 bg-rose-950/40 p-3.5 space-y-1.5 font-mono text-xs">
                 <span className="font-bold text-rose-300 uppercase tracking-wider block mb-1 flex items-center gap-2">
-                  <AlertTriangle size={15} className="text-rose-400" /> {safetyFlags.length} Alerta(s) de Off-Target Rebasados
+                  <AlertTriangle size={15} className="text-rose-400" /> {safetyFlags.length} {t("auto_6b882e73c6d3")}
                 </span>
                 {safetyFlags.map((flag, idx) => (
                   <div key={idx} className="text-rose-200 leading-relaxed font-sans font-medium text-xs">
@@ -727,7 +724,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
                   </span>
                   {hasAffinity && (
                     <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase ${isDanger ? "bg-rose-500/20 text-rose-300 border border-rose-500/30" : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"}`}>
-                      {isDanger ? "ALERTA DE UMBRAL" : "SIN ALERTA"}
+                      {isDanger ? t("auto_5542e5a19746") : t("auto_1351ada0b9c9")}
                     </span>
                   )}
                 </div>
@@ -749,7 +746,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
               {/* Status & Single Run Button */}
               <div className="flex items-center gap-3 shrink-0 self-end sm:self-center font-mono">
                 <div className="text-right">
-                  <span className="text-xs text-zinc-400 block uppercase font-mono font-semibold">Afinidad Vina</span>
+                  <span className="text-xs text-zinc-400 block uppercase font-mono font-semibold">{t("se_cmp_affinity")}</span>
                   {isTargetRunning ? (
                     <span className="text-amber-400 font-bold animate-pulse text-xs flex items-center gap-1.5">
                       <RefreshCw size={13} className="animate-spin" /> Evaluando...
@@ -809,7 +806,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
             {/* Computed Status & Estimated Ki */}
             <div className="grid grid-cols-2 gap-3 font-mono text-xs">
               <div className="bg-black/50 p-3 rounded-xl border border-white/10 space-y-0.5">
-                <span className="text-zinc-400 block font-bold uppercase text-[10px]">Afinidad Calculada:</span>
+                <span className="text-zinc-400 block font-bold uppercase text-[10px]">{t("auto_a0e03dfc2c9a")}</span>
                 {selectedDetail.aff !== null && selectedDetail.aff !== undefined ? (
                   <span className={`text-sm font-black ${selectedDetail.isDanger ? "text-rose-400" : "text-emerald-400"}`}>
                     {selectedDetail.aff.toFixed(1)} kcal/mol
@@ -832,8 +829,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
                           {banda.inferior} – {banda.superior}
                         </span>
                         <span className="block text-[10px] leading-relaxed text-zinc-500">
-                          Intervalo de {banda.ordenes.toFixed(1)} órdenes de magnitud, derivado
-                          del score con ±{INCERTIDUMBRE_VINA_KCAL} kcal/mol.
+                          {t("auto_2033c07d6b2e")} {banda.ordenes.toFixed(1)} {t("auto_d1728e225254")}{INCERTIDUMBRE_VINA_KCAL} kcal/mol.
                         </span>
                       </>
                     );
@@ -848,12 +844,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
                 Separarla del dato es lo que permite leer el dato sin ella. */}
             <p className="rounded-xl border border-amber-500/25 bg-amber-500/[0.05] p-3 text-[11px] leading-relaxed text-amber-100/85 font-sans">
               <strong className="font-semibold">{t("pr_sel_no_es_ki")}</strong>{" "}
-              El score de Vina es una función empírica de puntuación, no una energía libre
-              medida, y su dispersión frente a afinidades experimentales es de unos
-              ±{INCERTIDUMBRE_VINA_KCAL} kcal/mol — que en escala exponencial son más de dos
-              órdenes de magnitud. El intervalo de arriba es lo máximo que este número
-              sostiene. Úsalo para ordenar anti-dianas entre sí, no para decidir si una
-              concentración es segura.
+              {t("auto_3a94369c8527")}{INCERTIDUMBRE_VINA_KCAL} {t("auto_e2dcdd634166")}
             </p>
 
             {/* Function & Pathophysiology */}

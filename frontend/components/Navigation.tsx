@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuth } from "../lib/auth";
@@ -10,6 +12,7 @@ import { OptionsMenu } from "./ui/OptionsMenu";
 import { DownloadNotifications } from "./DownloadNotifications";
 
 export function Navigation() {
+  const { t } = useLanguage();
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
@@ -72,7 +75,7 @@ export function Navigation() {
           {/* LOGO CIRCULAR (Centrado Matemático Absoluto) */}
           <Link
             href="/"
-            aria-label="MolDesign — ir al inicio"
+            aria-label={t("auto_69b7a67b0314")}
             className="absolute left-1/2 top-1/2 z-20 flex h-9 w-9 shrink-0 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--border-light)] bg-[var(--bg-alt)] p-1.5 shadow-[0_0_15px_rgba(127,127,127,0.12)] transition-all hover:scale-105 hover:border-purple-400"
           >
             <Image
@@ -92,7 +95,7 @@ export function Navigation() {
                 pathname === "/evaluation" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
               }`}
             >
-              EVALUACIÓN
+              {t("pn_evaluacion_mayus")}
             </Link>
 
             <Link
@@ -161,7 +164,7 @@ export function Navigation() {
 
             <div className="flex items-center justify-between border-b border-[var(--border)] bg-[var(--bg-alt)] px-6 py-4">
               <span className="font-mono text-xs font-bold uppercase tracking-widest text-purple-500 dark:text-purple-300">
-                Navegación
+                {t("pn_navegacion")}
               </span>
               <button onClick={() => setIsOpen(false)} className="text-muted transition-colors hover:text-theme">
                 <X size={18} />
@@ -186,7 +189,7 @@ export function Navigation() {
                 BATCH
               </Link>
               <Link href="/evaluation" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
-                EVALUACIÓN
+                {t("pn_evaluacion_mayus")}
               </Link>
               <Link href="/moldex" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
                 MOLDEX

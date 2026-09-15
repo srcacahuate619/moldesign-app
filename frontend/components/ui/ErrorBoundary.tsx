@@ -1,5 +1,7 @@
 "use client";
 
+
+import { Translated, useLanguage } from "@/context/LanguageContext";
 import React, { Component, type ReactNode } from "react";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 
@@ -43,9 +45,9 @@ export class ErrorBoundary extends Component<Props, State> {
             <AlertTriangle className="w-8 h-8 text-red-400" />
           </div>
           <div className="space-y-1">
-            <h3 className="text-lg font-semibold text-zinc-200">Algo salio mal</h3>
+            <h3 className="text-lg font-semibold text-zinc-200"><Translated id="z_algo_salio_mal" /></h3>
             <p className="text-sm text-zinc-400 max-w-md">
-              {this.state.error?.message || "Ocurrio un error inesperado en este componente."}
+              {this.state.error?.message || <Translated id="auto_e57566562d4e" />}
             </p>
           </div>
           <button
@@ -53,7 +55,7 @@ export class ErrorBoundary extends Component<Props, State> {
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-700 hover:bg-zinc-600 text-sm font-medium text-zinc-200 transition-colors"
           >
             <RefreshCw className="w-4 h-4" />
-            Reintentar
+            <Translated id="c_reintentar" />
           </button>
         </div>
       );

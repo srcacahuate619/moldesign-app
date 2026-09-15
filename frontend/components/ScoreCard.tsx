@@ -1,3 +1,5 @@
+
+import { useLanguage } from "@/context/LanguageContext";
 import { Save, ShieldCheck, FileText, Download, Eye } from "lucide-react";
 import { useState } from "react";
 
@@ -111,6 +113,7 @@ export function ScoreCard({
   saFactor,
   bloodFactor,
 }: ScoreCardProps) {
+  const { t } = useLanguage();
   const [isSavingPrompt, setIsSavingPrompt] = useState(false);
   const [customName, setCustomName] = useState("");
   const [selectedEducationalMetric, setSelectedEducationalMetric] = useState<{title: string, desc: React.ReactNode, icon?: string, math?: React.ReactNode} | null>(null);
@@ -151,7 +154,7 @@ export function ScoreCard({
       <div className="p-6 sm:p-8 flex-1 space-y-8">
         <header className="space-y-2 border-b border-zinc-100 dark:border-zinc-900 pb-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-white">Puntuación del compuesto</h3>
+            <h3 className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-white">{t("pn_puntuacion")}</h3>
             <span className={`text-4xl font-mono tracking-tighter tabular-nums ${scoreColor}`}>
               {totalDisplay}
             </span>
@@ -163,7 +166,7 @@ export function ScoreCard({
               </span>
             )}
             <p className="text-[11px] leading-relaxed text-zinc-500 max-w-[280px]">
-              Heurística compuesta prioritaria (0–100). No equivale a validación in vitro.
+              {t("pn_heuristica_compuesta")}
             </p>
           </div>
         </header>
@@ -175,10 +178,10 @@ export function ScoreCard({
             weight="45%" 
             color="#52525b" // zinc-600
             onClick={() => setSelectedEducationalMetric({
-              title: "Afinidad (score de docking)",
+              title: t("auto_73dfe1bf7b4c"),
               icon: "🧲",
-              desc: "El score de Vina ordena poses bajo el protocolo declarado. Sirve como señal empírica de afinidad relativa; no es una medición experimental de energía libre ni de actividad.",
-              math: "En condiciones ideales a 298 K, una diferencia de 8 kcal/mol implica una relación termodinámica aproximada de 10^5–10^6; Vina no mide directamente esa energía libre."
+              desc: t("auto_383ad4c4bf5b"),
+              math: t("auto_703e06c21c31")
             })}
           />
           
@@ -192,13 +195,13 @@ export function ScoreCard({
                   Ver `chem/blood_viability.py`. */}
               {bloodViabilityScore !== undefined && (
                 <ScoreBar 
-                  label="Perfil Sanguíneo (índice)" 
+                  label={t("z_perfil_sanguineo")}
                   value={bloodViabilityScore} 
                   color="#5f5f68" 
                   onClick={() => setSelectedEducationalMetric({
-                    title: "Perfil Sanguíneo — índice heurístico",
+                    title: t("auto_52fba8403909"),
                     icon: "🩸",
-                    desc: "Media geométrica de tres factores derivados de ADMET-AI: solubilidad, absorción intestinal y un término de toxicidad basado en la probabilidad de bloqueo de hERG. Las constantes que los combinan están elegidas a mano y no ajustadas contra datos clínicos. Sirve para priorizar dentro de una serie y para ver qué término penaliza a una molécula; no es un pronóstico de si sobrevive en sangre. En particular no incorpora el margen Cmax libre / IC50, que es lo que decide el riesgo real de hERG."
+                    desc: t("auto_2528775f013b")
                   })}
                 />
               )}
@@ -210,7 +213,7 @@ export function ScoreCard({
                 onClick={() => setSelectedEducationalMetric({
                   title: "Perfil ADME",
                   icon: "🩸",
-                  desc: "ADME reúne señales computacionales de absorción, distribución, metabolismo y excreción. Este índice sirve para comparar moléculas dentro del protocolo; no predice por sí solo cómo responderá una persona."
+                  desc: t("auto_29368dd6d018")
                 })}
               />
               <ScoreBar 
@@ -219,10 +222,10 @@ export function ScoreCard({
                 weight="25%" 
                 color="#a1a1aa" // zinc-400
                 onClick={() => setSelectedEducationalMetric({
-                  title: "Similitud a Fármaco (Drug-likeness)",
+                  title: t("auto_e9d629f451ad"),
                   icon: "💊",
-                  desc: "Evalúa si tu molécula cumple las reglas históricas para ser una buena pastilla oral.",
-                  math: "Penalizaciones comunes: Peso > 500 Da, LogP > 5, más de 10 rotaciones."
+                  desc: t("auto_15eb472d4323"),
+                  math: t("auto_b3db787af1a3")
                 })}
               />
               {specificity !== null && specificity !== undefined && (
@@ -231,9 +234,9 @@ export function ScoreCard({
                   value={specificity} 
                   color="#d4d4d8" // zinc-300
                   onClick={() => setSelectedEducationalMetric({
-                    title: "Especificidad de Diana",
+                    title: t("auto_4cce270ad33f"),
                     icon: "🎯",
-                    desc: "Mide qué tan enfocada está la molécula en los Hotspots de la proteína."
+                    desc: t("auto_29f1a0264265")
                   })}
                 />
               )}
@@ -242,7 +245,7 @@ export function ScoreCard({
             <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 p-4 text-center">
               <div className="text-xs font-bold text-zinc-900 dark:text-white uppercase tracking-widest mb-1.5">Control Mode</div>
               <p className="text-[11px] text-zinc-500 leading-relaxed max-w-xs mx-auto">
-                Penalizaciones ADME/Drug-likeness desactivadas. Puntaje basado 100% en afinidad.
+                {t("auto_c2644ddf403e")}
               </p>
             </div>
           )}
@@ -258,7 +261,7 @@ export function ScoreCard({
           )}
           {ligandEfficiency !== null && ligandEfficiency !== undefined && (
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Ef. de ligando</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">{t("pn_ef_ligando")}</span>
               <span className="text-sm font-mono text-zinc-900 dark:text-zinc-300">{ligandEfficiency.toFixed(3)}</span>
             </div>
           )}
@@ -283,7 +286,7 @@ export function ScoreCard({
           {saScore !== null && saScore !== undefined && (
             <div className="flex flex-col gap-1">
               <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Synth. Access</span>
-              <span className="text-sm font-mono text-zinc-900 dark:text-zinc-300">{saScore.toFixed(2)} {saScore > 6.0 ? "(Inviable)" : ""}</span>
+              <span className="text-sm font-mono text-zinc-900 dark:text-zinc-300">{saScore.toFixed(2)} {saScore > 6.0 ? t("auto_9ed23929f2df") : ""}</span>
             </div>
           )}
         </div>
@@ -334,7 +337,7 @@ export function ScoreCard({
                 onClick={() => setIsSavingPrompt(false)}
                 className="flex-1 rounded-xl py-3 text-xs font-semibold text-zinc-600 dark:text-zinc-400 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 hover:text-zinc-900 dark:hover:text-white transition-colors"
               >
-                Cancel
+                {t("c_cancelar")}
               </button>
               <button 
                 onClick={() => {
@@ -356,7 +359,7 @@ export function ScoreCard({
                 className="flex items-center justify-center rounded-lg border border-white/5 bg-black/40 hover:bg-slate-800/80 text-slate-300 h-9 text-[9px] font-bold uppercase tracking-wider font-mono transition-all duration-150 active:scale-[0.98]"
               >
                 <Eye size={12} className="mr-1.5" />
-                View Report
+                {t("z_ver_informe")}
               </button>
             )}
 
@@ -367,7 +370,7 @@ export function ScoreCard({
                 className="flex items-center justify-center rounded-lg border border-indigo-500/20 bg-[#090b14]/50 hover:bg-indigo-950/20 hover:border-indigo-500/40 text-indigo-300 h-9 text-[9px] font-bold uppercase tracking-wider font-mono transition-all duration-150 active:scale-[0.98]"
               >
                 <FileText size={12} className="mr-1.5" />
-                Download PDF
+                {t("z_descargar_pdf")}
               </button>
             )}
 
@@ -383,7 +386,7 @@ export function ScoreCard({
                 }`}
               >
                 <Save size={12} className="mr-1.5" />
-                {isSaved ? "Saved in Moldex" : "Save in Moldex"}
+                {isSaved ? t("z_guardado_moldex") : t("z_guardar_moldex")}
               </button>
             )}
 
@@ -394,7 +397,7 @@ export function ScoreCard({
                 className="flex items-center justify-center gap-1.5 rounded-lg border border-emerald-500/25 bg-emerald-950/20 hover:bg-emerald-900/25 text-emerald-400 h-9 text-[9px] font-bold uppercase tracking-wider font-mono transition-all duration-150"
               >
                 <ShieldCheck size={12} />
-                Solana Verified
+                {t("z_verificado_solana")}
               </ExternalLink>
             ) : onCertify ? (
               <button
@@ -402,7 +405,7 @@ export function ScoreCard({
                 className="flex items-center justify-center rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white h-9 text-[9px] font-bold uppercase tracking-wider font-mono border border-indigo-500/40 hover:border-indigo-400/60 shadow-[0_0_15px_rgba(99,102,241,0.25)] hover:shadow-[0_0_20px_rgba(99,102,241,0.35)] transition-all duration-150 active:scale-[0.98]"
               >
                 <ShieldCheck size={12} className="mr-1.5" />
-                Certify Blockchain
+                {t("z_registrar_blockchain")}
               </button>
             ) : null}
 
@@ -413,13 +416,13 @@ export function ScoreCard({
                 className="col-span-2 flex items-center justify-center rounded-lg border border-white/5 bg-black/55 hover:bg-slate-800/90 text-slate-400 hover:text-slate-200 h-9 text-[9px] font-bold uppercase tracking-wider font-mono transition-all duration-150 active:scale-[0.98]"
               >
                 <Download size={12} className="mr-1.5" />
-                Download PDB Complex
+                {t("z_descargar_complejo_pdb")}
               </button>
             )}
 
             {!onSave && !onCertify && !solanaSignature && (
               <p className="text-[11px] text-zinc-500 text-center mt-2">
-                <a href="/login" className="font-semibold text-zinc-900 dark:text-white hover:underline underline-offset-4">Inicia sesión</a> para guardar y certificar protocolos.
+                <a href="/login" className="font-semibold text-zinc-900 dark:text-white hover:underline underline-offset-4">{t("pn_inicia_sesion")}</a> {t("pn_para_guardar")}
               </p>
             )}
           </div>

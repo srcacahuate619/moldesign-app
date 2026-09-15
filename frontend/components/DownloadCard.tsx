@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import { useDownload } from "../hooks/useDownload";
 import type { ModuleEntry } from "../lib/types";
 
@@ -17,6 +19,7 @@ function formatSpeed(bytesPerSec: number): string {
 }
 
 export function DownloadCard({ entry }: { entry: ModuleEntry }) {
+  const { t } = useLanguage();
   const { models, progress, startDownload, cancelDownload } = useDownload();
   const status = models[entry.id] || "missing";
   const current = progress[entry.id];
@@ -33,8 +36,8 @@ export function DownloadCard({ entry }: { entry: ModuleEntry }) {
           </div>
           <p className="mt-2 text-sm font-medium leading-5 text-[var(--text-secondary)]">{entry.description || (entry.features || []).join(", ")}</p>
           <dl className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-[var(--text-dim)]">
-            <div><dt className="inline font-semibold text-[var(--text-secondary)]">Tamaño: </dt><dd className="inline">{entry.size_bytes ? formatBytes(entry.size_bytes) : "No informado"}</dd></div>
-            <div><dt className="inline font-semibold text-[var(--text-secondary)]">Licencia: </dt><dd className="inline">{entry.license || "Consultar avisos"}</dd></div>
+            <div><dt className="inline font-semibold text-[var(--text-secondary)]">{t("pn_tamano")} </dt><dd className="inline">{entry.size_bytes ? formatBytes(entry.size_bytes) : t("se_not_reported")}</dd></div>
+            <div><dt className="inline font-semibold text-[var(--text-secondary)]">{t("auto_6c04ad58f580")} </dt><dd className="inline">{entry.license || "Consultar avisos"}</dd></div>
           </dl>
           {(entry.source_url || entry.license_url) && (
             <div className="mt-2 flex flex-wrap gap-3 text-xs font-semibold">
@@ -50,7 +53,7 @@ export function DownloadCard({ entry }: { entry: ModuleEntry }) {
 
       {(status === "downloading" || status === "extracting") && current && (
         <div className="mt-4">
-          <div className="h-1 w-full overflow-hidden bg-[var(--bg-alt)]" role="progressbar" aria-label={`Descarga de ${entry.name}`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={percentage}>
+          <div className="h-1 w-full overflow-hidden bg-[var(--bg-alt)]" role="progressbar" aria-label={t("z_descarga_de", { name: entry.name })} aria-valuemin={0} aria-valuemax={100} aria-valuenow={percentage}>
             <div className="h-full bg-[var(--accent)] transition-[width] duration-300" style={{ width: `${percentage}%` }} />
           </div>
           <div className="mt-2 flex justify-between font-mono text-[11px] text-[var(--text-dim)]">
@@ -62,8 +65,8 @@ export function DownloadCard({ entry }: { entry: ModuleEntry }) {
 
       <div className="mt-4">
         {(status === "missing" || status === "error") && <button type="button" onClick={() => startDownload(entry.id)} className="min-h-11 w-full whitespace-nowrap border border-[var(--accent)] bg-[var(--accent)] px-4 text-xs font-bold uppercase tracking-wider text-white hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)]">{status === "error" ? "Reintentar descarga" : "Descargar y verificar"}</button>}
-        {status === "downloading" && <button type="button" onClick={() => cancelDownload(entry.id)} className="min-h-11 w-full whitespace-nowrap border border-[var(--border)] px-4 text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] hover:bg-[var(--bg-alt)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)]">Cancelar</button>}
-        {status === "extracting" && <p className="text-sm font-medium text-[var(--text-secondary)]">Descomprimiendo y verificando archivos…</p>}
+        {status === "downloading" && <button type="button" onClick={() => cancelDownload(entry.id)} className="min-h-11 w-full whitespace-nowrap border border-[var(--border)] px-4 text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] hover:bg-[var(--bg-alt)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)]">{t("c_cancelar")}</button>}
+        {status === "extracting" && <p className="text-sm font-medium text-[var(--text-secondary)]">{t("auto_86cc769fdd42")}</p>}
       </div>
     </article>
   );

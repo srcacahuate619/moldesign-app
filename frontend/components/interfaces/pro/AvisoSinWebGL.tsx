@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import { AlertTriangle, Cpu } from "lucide-react";
 
 import { comprobarWebGL } from "../../../lib/webgl";
@@ -17,6 +19,7 @@ import { comprobarWebGL } from "../../../lib/webgl";
  * ¿acabo de perder la corrida?
  */
 export function AvisoSinWebGL({ forzar = false }: { readonly forzar?: boolean }) {
+  const { t } = useLanguage();
   const estado = comprobarWebGL();
   if (estado.disponible && !forzar) return null;
 
@@ -36,22 +39,19 @@ export function AvisoSinWebGL({ forzar = false }: { readonly forzar?: boolean })
       <div className="text-[11px] leading-relaxed text-amber-200/90">
         <span className="font-semibold">
           {hayContexto
-            ? "El visor científico (Mol*) no pudo iniciarse en este equipo."
-            : "El visor 3D no está disponible en este equipo."}
+            ? t("auto_4356059ccdf0")
+            : t("auto_f772d2e3af48")}
         </span>{" "}
         {hayContexto
-          ? "Este equipo expone 3D, pero no con lo que Mol* necesita para dibujar."
+          ? t("auto_248db3e9f594")
           : estado.motivo}
         <div className="mt-1 text-amber-200/70">
-          <span className="font-semibold">Tu evaluación no se ve afectada.</span> El docking,
-          el rescoring, la validez física de las poses y el dossier se calculan en el
-          procesador y no dependen del visor. Lo único que no podrás hacer aquí es mirar
-          la estructura en 3D; las poses se descargan y se abren en cualquier visor externo.
+          <span className="font-semibold">{t("pn_evaluacion_no_afectada")}</span> {t("pn_sin_webgl")}
         </div>
         <div className="mt-1 text-amber-200/50">
           {hayContexto
-            ? "Prueba el visor ligero desde el botón del visor: necesita bastante menos del equipo."
-            : "En una máquina virtual, habilitar la GPU virtualizada del hipervisor puede resolverlo."}
+            ? t("auto_129ae70d08f8")
+            : t("auto_f459de5d43b3")}
         </div>
       </div>
     </div>
@@ -68,6 +68,7 @@ export function AvisoSinWebGL({ forzar = false }: { readonly forzar?: boolean })
  * lo sufre merece saber por qué antes de pensar que la aplicación está rota.
  */
 export function NotaRenderPorSoftware() {
+  const { t } = useLanguage();
   const estado = comprobarWebGL();
   if (!estado.disponible || estado.aceleracion !== "software") return null;
 
@@ -78,7 +79,7 @@ export function NotaRenderPorSoftware() {
       title={estado.renderer ?? undefined}
     >
       <Cpu size={11} className="flex-shrink-0" aria-hidden="true" />
-      <span>3D por software · girar la escena irá lento</span>
+      <span>{t("pn_3d_software")}</span>
     </div>
   );
 }

@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React from "react";
 import { AlertTriangle, FlaskConical } from "lucide-react";
 import type { EvaluationResult } from "../../../lib/types";
@@ -45,6 +47,7 @@ function etiquetaDeCarga(carga: number | null | undefined): {
 }
 
 export function EstadoDelLigando({ result }: { readonly result: EvaluationResult | null | undefined }) {
+  const { t } = useLanguage();
   const estado = result?.ligand_state;
   if (!estado) return null;
 
@@ -76,7 +79,7 @@ export function EstadoDelLigando({ result }: { readonly result: EvaluationResult
       <dl className="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-2">
         <div className="min-w-0">
           <dt className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-            Lo que escribiste
+            {t("pn_lo_que_escribiste")}
           </dt>
           <dd className="truncate font-mono text-xs text-zinc-400" title={estado.smiles_entrada ?? undefined}>
             {estado.smiles_entrada ?? "—"}
@@ -84,7 +87,7 @@ export function EstadoDelLigando({ result }: { readonly result: EvaluationResult
         </div>
         <div className="min-w-0">
           <dt className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-            Lo que se acopló{estado.formula_acoplada ? ` · ${estado.formula_acoplada}` : ""}
+            {t("auto_a10f57b88037")}{estado.formula_acoplada ? ` · ${estado.formula_acoplada}` : ""}
           </dt>
           <dd
             className={`truncate font-mono text-xs ${cambio ? "text-amber-200" : "text-zinc-400"}`}
@@ -103,30 +106,28 @@ export function EstadoDelLigando({ result }: { readonly result: EvaluationResult
           <AlertTriangle size={15} aria-hidden="true" className="mt-0.5 shrink-0 text-amber-300" />
           <div className="min-w-0 space-y-1 text-[11px] leading-relaxed text-amber-100/85">
             <p>
-              <strong className="font-semibold">La molécula acoplada no es la que escribiste.</strong>{" "}
+              <strong className="font-semibold">{t("pn_no_es_la_que_escribiste")}</strong>{" "}
               {taut?.aplicada && (
                 <>
-                  Se eligió el tautómero canónico de RDKit
+                  {t("auto_e930067de091")}
                   {taut.alternativas ? ` entre ${taut.alternativas} enumerados` : ""}.{" "}
                 </>
               )}
               {prot?.aplicada && (
                 <>
-                  Se protonó a pH {prot.ph} con {prot.motor}
+                  {t("auto_69c1421c8782")} {prot.ph} {t("auto_b1f6e510eb0f")} {prot.motor}
                   {prot.alternativas ? ` (${prot.alternativas} estados devueltos; se usó el primero)` : ""}.
                 </>
               )}
             </p>
             <p className="text-amber-100/70">
-              Las alternativas descartadas no se evaluaron. Los descriptores de abajo
-              (MW, LogP, TPSA) se calculan sobre la forma neutra que escribiste, no
-              sobre la especie acoplada.
+              {t("pn_alternativas_descartadas")}
             </p>
           </div>
         </div>
       ) : (
         <p className="mt-3 text-[11px] leading-relaxed text-zinc-500">
-          A pH 7.4 la especie no cambia respecto a lo que escribiste: se acopló tal cual.
+          {t("pn_ph_no_cambia")}
         </p>
       )}
 

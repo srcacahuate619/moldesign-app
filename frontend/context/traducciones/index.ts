@@ -10,6 +10,7 @@
 // UN MODULO POR SUPERFICIE. Es la unidad en la que se revisa: se abre Batch,
 // se lee su modulo entero y se comprueba que las dos columnas dicen lo mismo.
 // Repartido por orden alfabetico entre 860 claves, eso es imposible.
+import { generadas } from "./generadas";
 //
 // EL CONTRATO. Cada modulo exporta `{ es, en }` con EXACTAMENTE las mismas
 // claves. `idiomasCompletos.test.ts` lo comprueba sobre el diccionario ya
@@ -17,14 +18,19 @@
 
 import { casos } from "./casos";
 import { certificacion } from "./certificacion";
+import { cierre } from "./cierre";
 import { comun } from "./comun";
 import { evaluacion } from "./evaluacion";
+import { ia } from "./ia";
 import { legal } from "./legal";
 import { lote } from "./lote";
+import { remate } from "./remate";
 import { moldex } from "./moldex";
 import { opciones } from "./opciones";
 import { paginas } from "./paginas";
+import { paneles } from "./paneles";
 import { pro } from "./pro";
+import { registro } from "./registro";
 
 /** Las dos columnas de un modulo. Mismas claves, distinto idioma. */
 export interface ModuloDeTraduccion {
@@ -34,7 +40,7 @@ export interface ModuloDeTraduccion {
 
 const MODULOS: readonly ModuloDeTraduccion[] = [
   comun, evaluacion, lote, moldex, casos, legal, certificacion, opciones,
-  pro, paginas,
+  pro, paginas, ia, paneles, registro, cierre, generadas, remate,
 ];
 
 /**
@@ -57,6 +63,15 @@ function fundir(idioma: "es" | "en"): Record<string, string> {
       salida[clave] = valor;
     }
   }
+  // Las tablas estáticas conservan el texto español como identificador y lo
+  // resuelven al renderizar con t(valor). Esto evita hooks en nivel de módulo
+  // sin perder reactividad al cambiar de idioma.
+  for (const modulo of MODULOS) {
+    for (const [clave, valorEs] of Object.entries(modulo.es)) {
+      if (!(valorEs in salida)) salida[valorEs] = modulo[idioma][clave];
+    }
+  }
+
   return salida;
 }
 

@@ -1,4 +1,6 @@
 "use client";
+
+import { useLanguage } from "@/context/LanguageContext";
 import { useScrollLock } from "@/hooks/useScrollLock";
 
 import React, { useState, useMemo, useEffect, useRef } from "react";
@@ -48,6 +50,7 @@ export default function TargetSelectorModal({
   selectedTargetId,
   onTargetUploadSuccess
 }: TargetSelectorModalProps) {
+  const { t } = useLanguage();
   useScrollLock(isOpen);
   const [searchTerm, setSearchTerm] = useState("");
   const [showCustomModal, setShowCustomModal] = useState(false);
@@ -185,10 +188,10 @@ export default function TargetSelectorModal({
               </div>
               <div>
               <h2 id="target-selector-title" className="text-base font-bold font-mono text-white uppercase tracking-wider flex items-center gap-2">
-                  Catálogo de Receptores
+                  {t("z_catalogo_receptores")}
                 </h2>
                 <p className="text-xs text-zinc-400 font-mono mt-0.5">
-                  Selecciona una estructura biológica para la simulación de acoplamiento molecular
+                  {t("pn_catalogo_sub")}
                 </p>
               </div>
             </div>
@@ -196,7 +199,7 @@ export default function TargetSelectorModal({
             <button 
               type="button"
               onClick={onClose}
-              aria-label="Cerrar catálogo de receptores"
+              aria-label={t("pn_cerrar_catalogo")}
               className="p-2 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-purple-500/30 transition-colors cursor-pointer"
             >
               <X size={18} />
@@ -209,7 +212,7 @@ export default function TargetSelectorModal({
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500" size={15} />
               <input
                 type="text"
-                placeholder="Buscar por PDB ID, nombre de la proteína, o familia..."
+                placeholder={t("z_buscar_receptor")}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full bg-black border border-zinc-800 rounded-xl py-2.5 pl-10 pr-4 font-mono text-xs text-white placeholder-zinc-600 outline-none focus:border-purple-500/40 transition-colors duration-150"
@@ -236,7 +239,7 @@ export default function TargetSelectorModal({
                   : "border-transparent text-zinc-400 hover:text-white"
               }`}
             >
-              Familia Química
+              {t("z_familia_quimica")}
             </button>
             <button
               onClick={() => handleClassificationModeChange("terapeutica")}
@@ -246,7 +249,7 @@ export default function TargetSelectorModal({
                   : "border-transparent text-zinc-400 hover:text-white"
               }`}
             >
-              Familia Terapéutica
+              {t("z_familia_terapeutica")}
             </button>
           </div>
 
@@ -285,7 +288,7 @@ export default function TargetSelectorModal({
               }`}
             >
               <Sparkles size={13} />
-              Comunidad Científica
+              {t("z_comunidad_cientifica")}
             </button>
           </div>
 
@@ -315,7 +318,7 @@ export default function TargetSelectorModal({
             <div className="w-full h-full flex flex-col items-center justify-center text-zinc-500 space-y-3 py-16">
               <Crosshair size={40} className="opacity-20 text-purple-400" />
               <p className="text-xs font-mono font-semibold uppercase tracking-wider text-zinc-400">
-                No se encontraron receptores en esta sección
+                {t("pn_sin_receptores")}
               </p>
             </div>
           ) : (
@@ -410,20 +413,20 @@ export default function TargetSelectorModal({
                         <div className="mt-auto grid grid-cols-2 gap-2">
                           {/* Estado de calibración: lo que el usuario final entiende */}
                           <div className="flex items-center gap-1.5 p-2 rounded-lg bg-black border border-zinc-800"
-                               title={calibrationTooltip(targetObj.calibration_status, targetObj.hotspot_count ?? 0)}>
+                               title={t(calibrationTooltip(targetObj.calibration_status, targetObj.hotspot_count ?? 0))}>
                             <span className={`h-2 w-2 rounded-full shrink-0 ${
                               (targetObj.calibration_status ?? "sin_datos") === "listo" ? "bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]" :
                               (targetObj.calibration_status ?? "sin_datos") === "revisar" ? "bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.8)]" :
                               "bg-zinc-600"
                             }`} />
                             <div className="flex flex-col">
-                              <span className="text-[8px] font-mono text-zinc-500 uppercase font-bold">Calibración</span>
+                              <span className="text-[8px] font-mono text-zinc-500 uppercase font-bold">{t("pn_calibracion")}</span>
                               <span className={`text-[10px] font-mono font-bold ${
                                 (targetObj.calibration_status ?? "sin_datos") === "listo" ? "text-emerald-400" :
                                 (targetObj.calibration_status ?? "sin_datos") === "revisar" ? "text-amber-400" :
                                 "text-zinc-500"
                               }`}>
-                                {calibrationLabel(targetObj.calibration_status)}
+                                {t(calibrationLabel(targetObj.calibration_status))}
                               </span>
                             </div>
                           </div>
@@ -431,7 +434,7 @@ export default function TargetSelectorModal({
                           <div className="flex items-center gap-1.5 p-2 rounded-lg bg-black border border-zinc-800">
                             <Fingerprint size={12} className="text-purple-400/80" />
                             <div className="flex flex-col">
-                              <span className="text-[8px] font-mono text-zinc-500 uppercase font-bold">Resolución</span>
+                              <span className="text-[8px] font-mono text-zinc-500 uppercase font-bold">{t("pn_resolucion")}</span>
                               <span className="text-[10px] font-mono font-bold text-white">
                                 {targetObj.resolution ? `${targetObj.resolution.toFixed(2)} Å` : "N/A"}
                               </span>
@@ -471,7 +474,7 @@ export default function TargetSelectorModal({
                           </div>
                         ) : targetObj.creator_username ? (
                           <div className="mt-3 pt-2 border-t border-zinc-800 flex items-center justify-between text-[10px] font-mono text-zinc-500">
-                            <span>Colaborador:</span>
+                            <span>{t("auto_1623b4a2c03e")}</span>
                             <span className="text-purple-300">@{targetObj.creator_username}</span>
                           </div>
                         ) : null}

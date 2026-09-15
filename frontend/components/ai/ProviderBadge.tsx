@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React from "react";
 import { Wifi, WifiOff, Loader, Cpu, Zap, AlertTriangle, ShieldAlert, HardDrive } from "lucide-react";
 import type { AIProviderInfo, DestinoInfo, ResourceStatus } from "@/context/AIContext";
@@ -27,10 +29,11 @@ const PROVIDER_COLORS: Record<string, string> = {
 };
 
 export function ProviderBadge({ provider, isStreaming, resourceStatus, destino = null, onClick }: Props) {
+  const { t } = useLanguage();
   if (!provider) {
     return (
       <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "0.78em", color: "var(--text-secondary)" }}>
-        <WifiOff size={12} /> Sin proveedor
+        <WifiOff size={12} /> {t("ia_sin_proveedor")}
       </div>
     );
   }
@@ -70,12 +73,12 @@ export function ProviderBadge({ provider, isStreaming, resourceStatus, destino =
         if (using_gpu && gpu_name) {
           statusIcon = <Zap size={12} color="#22C55E" />;
           const freeDisplay = vram_free_gb >= 0
-            ? `${vram_free_gb.toFixed(1)}G/${gpu_vram_total_gb?.toFixed(0) ?? "?"}G`
-            : `${gpu_vram_total_gb?.toFixed(1) ?? "?"}G total`;
+            ? `${vram_free_gb.toFixed(1)}G/${gpu_vram_total_gb?.toFixed(0) ?? t("auto_5bab61eb5317")}G`
+            : `${gpu_vram_total_gb?.toFixed(1) ?? t("auto_5bab61eb5317")}G total`;
           statusText = `GPU · ${gpu_name} libre ${freeDisplay}`;
         } else {
           statusIcon = <Cpu size={12} color="#22C55E" />;
-          statusText = `CPU · ${ram_free_gb?.toFixed(1) ?? "?"}G libre / ${ram_total_gb?.toFixed(0) ?? "?"}G`;
+          statusText = `CPU · ${ram_free_gb?.toFixed(1) ?? t("auto_5bab61eb5317")}G libre / ${ram_total_gb?.toFixed(0) ?? t("auto_5bab61eb5317")}G`;
         }
         statusColor = "#22C55E";
         break;
@@ -88,7 +91,7 @@ export function ProviderBadge({ provider, isStreaming, resourceStatus, destino =
         if (pipeline_state === "busy") {
           if (gpu_name && !using_gpu) {
             statusIcon = <Loader size={12} style={{ animation: "spin 1s linear infinite" }} />;
-            statusText = `Evaluación · GPU libre ${vram_free_gb >= 0 ? vram_free_gb.toFixed(1) + "G" : "?"} · RAM ${ram_free_gb?.toFixed(1)}G`;
+            statusText = `Evaluación · GPU libre ${vram_free_gb >= 0 ? vram_free_gb.toFixed(1) + "G" : t("auto_5bab61eb5317")} · RAM ${ram_free_gb?.toFixed(1)}G`;
           } else {
             statusIcon = <Loader size={12} style={{ animation: "spin 1s linear infinite" }} />;
             statusText = `Evaluación en curso · ${ram_free_gb?.toFixed(1)}G RAM libre`;
@@ -100,7 +103,7 @@ export function ProviderBadge({ provider, isStreaming, resourceStatus, destino =
           statusColor = "var(--text-dim)";
         } else {
           statusIcon = <Cpu size={12} color="var(--text-dim)" />;
-          statusText = `RAM ${ram_free_gb?.toFixed(1)}G / ${ram_total_gb?.toFixed(0) ?? "?"}G · descargado`;
+          statusText = `RAM ${ram_free_gb?.toFixed(1)}G / ${ram_total_gb?.toFixed(0) ?? t("auto_5bab61eb5317")}G · descargado`;
           statusColor = "var(--text-dim)";
         }
         break;
@@ -141,10 +144,11 @@ export function ProviderBadge({ provider, isStreaming, resourceStatus, destino =
  * `base_url` y nadie se enteraba de que el chat había cambiado de destino.
  */
 function DestinoLinea({ destino }: { destino: DestinoInfo | null }) {
+  const { t } = useLanguage();
   if (!destino) {
     return (
       <div style={{ fontSize: "0.88em", opacity: 0.7 }} data-testid="destino-badge">
-        Destino sin comprobar
+        {t("ia_destino_sin_comprobar")}
       </div>
     );
   }
@@ -155,7 +159,7 @@ function DestinoLinea({ destino }: { destino: DestinoInfo | null }) {
         data-testid="destino-badge"
         style={{ display: "flex", alignItems: "center", gap: 4, fontSize: "0.88em", color: "#22C55E" }}
       >
-        <HardDrive size={10} /> En esta máquina
+        <HardDrive size={10} /> {t("ia_en_esta_maquina")}
       </div>
     );
   }
@@ -173,7 +177,7 @@ function DestinoLinea({ destino }: { destino: DestinoInfo | null }) {
     >
       {destino.consentido ? <Wifi size={10} /> : <ShieldAlert size={10} />}
       Sale a {destino.host}
-      {destino.consentido ? "" : " · sin autorizar"}
+      {destino.consentido ? "" : t("auto_73e38ad50e54")}
     </div>
   );
 }

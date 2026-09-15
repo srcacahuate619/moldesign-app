@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 // =====================================================================
 // /evaluation — anfitrión del espacio de trabajo de CASOS
 // =====================================================================
@@ -24,6 +26,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function EvaluationPage() {
+  const { t } = useLanguage();
   const { isLoading, user } = useAuth();
   const router = useRouter();
 
@@ -36,7 +39,7 @@ export default function EvaluationPage() {
   if (isLoading || !user) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center text-sm text-muted-foreground">
-        Cargando sesión…
+        {t("pn_cargando_sesion")}
       </div>
     );
   }

@@ -1,3 +1,5 @@
+
+import { Translated, useLanguage } from "@/context/LanguageContext";
 import React, { memo, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Microscope, Activity, ShieldCheck, ShieldAlert, Zap } from 'lucide-react';
@@ -13,6 +15,7 @@ interface MoldexCardProps {
 }
 
 const MoldexCard: React.FC<MoldexCardProps> = memo(function MoldexCard({ molecule, onClick, isSelected, onCompareToggle, isComparing }) {
+  const { t } = useLanguage();
   const [imgSrc, setImgSrc] = useState<string | undefined>(undefined);
   
   useEffect(() => {
@@ -81,7 +84,7 @@ const MoldexCard: React.FC<MoldexCardProps> = memo(function MoldexCard({ molecul
           ? "text-indigo-300 border-indigo-500/30 bg-indigo-500/10"
           : "text-slate-500 border-slate-700 bg-slate-800/60"
       }`}>
-        {score !== null ? "ÍNDICE HISTÓRICO" : "SIN ÍNDICE"}
+        {score !== null ? t("auto_62b3b773ed35") : t("auto_a9b0c58ab88e")}
       </div>
       {/* Badge de Target */}
       <div className="absolute top-3 right-3 flex items-center gap-1 rounded-full bg-slate-950/80 px-2 py-0.5 text-[10px] font-bold tracking-wider text-slate-400 border border-slate-700">
@@ -104,7 +107,7 @@ const MoldexCard: React.FC<MoldexCardProps> = memo(function MoldexCard({ molecul
             <span className="text-[8px] font-black uppercase tracking-wider text-slate-400">Generando 2D...</span>
           </div>
         ) : (
-          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Sin Vista Previa</div>
+          <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider"><Translated id="z_sin_vista_previa" /></div>
         )}
         
         <div className="absolute bottom-2 right-2 bg-slate-900/80 backdrop-blur-md px-2 py-1 rounded text-[9px] font-mono font-bold text-slate-300 border border-slate-700/50 shadow-sm">
@@ -143,12 +146,12 @@ const MoldexCard: React.FC<MoldexCardProps> = memo(function MoldexCard({ molecul
                 className="flex items-center gap-1 text-[10px] font-bold text-amber-400"
                 title={
                   esAnterior
-                    ? "La molécula se reevaluó después de certificarla: el sello atestigua una corrida anterior, no la que se muestra."
-                    : "Sello anterior al registro de procedencia: no consta qué corrida certificó."
+                    ? t("auto_57d409b275d3")
+                    : t("auto_5a961ba823b3")
                 }
               >
                 <ShieldAlert size={12} />
-                {esAnterior ? "SELLO DESFASADO" : "SELLO SIN CORRIDA"}
+                {esAnterior ? "SELLO DESFASADO" : t("auto_652200f9cc43")}
               </div>
             );
           })()}
@@ -162,7 +165,7 @@ const MoldexCard: React.FC<MoldexCardProps> = memo(function MoldexCard({ molecul
               : 'border-slate-800 text-slate-500 hover:border-slate-700 hover:text-slate-300'
           }`}
         >
-          {isComparing ? 'SELECCIONADO PARA COMPARAR' : 'COMPARAR'}
+          {isComparing ? t("auto_6f82b47554ca") : 'COMPARAR'}
         </button>
       </div>
 

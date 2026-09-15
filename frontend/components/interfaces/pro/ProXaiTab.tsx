@@ -158,7 +158,7 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                           {isPositive && (
                             <div className="flex items-center justify-end w-full pl-2">
                               <span className="text-xs uppercase font-mono font-bold text-slate-400 group-hover:text-indigo-300 transition-colors truncate pr-1 text-right">
-                                {getFeatureExplanation(feature).label}
+                                {t(getFeatureExplanation(feature).label)}
                               </span>
                               <Info size={10} className="text-slate-500 group-hover:text-indigo-400 transition-colors flex-shrink-0" />
                             </div>
@@ -182,7 +182,7 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                             <div className="flex items-center justify-start w-full pr-2">
                               <Info size={10} className="text-slate-500 group-hover:text-indigo-400 transition-colors flex-shrink-0 mr-1" />
                               <span className="text-xs uppercase font-mono font-bold text-slate-400 group-hover:text-indigo-300 transition-colors truncate text-left">
-                                {getFeatureExplanation(feature).label}
+                                {t(getFeatureExplanation(feature).label)}
                               </span>
                             </div>
                           )}
@@ -236,10 +236,10 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                         // payload → el radar dibujaba 0 en todos los ejes.
                         // Ver docs/36 UI-5 + UI-6.
                         const PHARM_KEYS: { key: string; label: string }[] = [
-                          { key: "Aromaticos / Pi-Stacking", label: "Arom\u00e1ticos" },
+                          { key: "Aromaticos / Pi-Stacking", label: t("auto_33238333294a") },
                           { key: "Donadores H-Bond", label: "Donadores H" },
                           { key: "Aceptores H-Bond", label: "Aceptores H" },
-                          { key: "Contactos Lipofilicos", label: "Alif\u00e1ticos" },
+                          { key: "Contactos Lipofilicos", label: t("auto_ca556f18c671") },
                         ];
                         const categories = PHARM_KEYS.map(pk => pk.label);
                         const cx = 100;
@@ -327,7 +327,7 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
           </span>
           {inApplicabilityDomain === true ? (
             <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border bg-emerald-500/15 text-emerald-300 border-emerald-500/25">
-              ✓ En dominio
+              {t("auto_21838be6b371")}
             </span>
           ) : inApplicabilityDomain === false ? (
             <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border bg-rose-500/15 text-rose-300 border-rose-500/25">
@@ -366,9 +366,9 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
               <div className="p-6">
                 <h3 className="text-sm font-black uppercase tracking-wider text-indigo-300 mb-3 flex items-center gap-2">
                   <Sliders size={16} className="text-indigo-400" />
-                  {explanation.label}
+                  {t(explanation.label)}
                 </h3>
-                <p className="text-sm text-slate-300 leading-relaxed mb-4">{explanation.desc}</p>
+                <p className="text-sm text-slate-300 leading-relaxed mb-4">{t(explanation.desc)}</p>
                 <div className="bg-black/30 rounded-xl border border-white/5 p-4 space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="text-xs uppercase font-mono text-slate-400">Valor SHAP</span>
@@ -379,7 +379,7 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                   <div className="flex justify-between items-center">
                     <span className="text-xs uppercase font-mono text-slate-400">Efecto</span>
                     <span className={`text-xs font-bold ${isPositive ? "text-emerald-400" : "text-rose-400"}`}>
-                      {isPositive ? "AUMENTA la afinidad predicha" : "REDUCE la afinidad predicha"}
+                      {isPositive ? t("auto_ba93a478fc9b") : t("auto_00cf99ca43b6")}
                     </span>
                   </div>
                 </div>
@@ -405,7 +405,7 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
             <div className="p-6">
               <h3 className="text-sm font-black uppercase tracking-wider text-emerald-300 mb-3 flex items-center gap-2">
                 <Activity size={16} className="text-emerald-400" />
-                {expandedGNN === "2d" ? "Topolog\u00eda 2D \u2014 Atenci\u00f3n GNN" : "Desglose de Farmac\u00f3foros"}
+                {expandedGNN === "2d" ? t("auto_2a2ce172626f") : t("auto_a2f32be1b030")}
               </h3>
               {expandedGNN === "2d" && effectiveSvg && (
                 <div className="bg-black/30 rounded-xl border border-white/5 p-6 flex justify-center">

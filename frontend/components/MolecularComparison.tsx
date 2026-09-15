@@ -1,4 +1,6 @@
 "use client";
+
+import { Translated, useLanguage } from "@/context/LanguageContext";
 import React, { memo, useEffect, useState } from 'react';
 import { getPoseFile, getProteinFile } from '../lib/api';
 import { MoleculeViewer3D } from './MoleculeViewer3D';
@@ -27,6 +29,7 @@ type Artefactos = {
 const INICIAL: Artefactos = { pose: null, prot: null, estado: "cargando" };
 
 const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularComparison({ molA, molB, onClose }) {
+  const { t } = useLanguage();
   const [dataA, setDataA] = useState<Artefactos>(INICIAL);
   const [dataB, setDataB] = useState<Artefactos>(INICIAL);
 
@@ -97,9 +100,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
           >
             <AlertTriangle size={20} className="text-amber-500" />
             <span>
-              No se pudieron cargar la pose y el receptor de esta molécula. El
-              archivo puede no estar disponible o no estar autorizado para tu
-              cuenta.
+              <Translated id="z_comparador_no_cargo" />
             </span>
           </div>
         ) : (
@@ -124,7 +125,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
             {/* Una afinidad ausente no es 0.00. */}
             {mol?.metrics?.affinity !== null && mol?.metrics?.affinity !== undefined
               ? `${mol.metrics.affinity.toFixed(2)} kcal/mol`
-              : "sin dato"}
+              : t("auto_185e750ee009")}
           </div>
           {!alineadoDerecha && (
             <div className="text-xs text-slate-500 font-bold uppercase">{mol?.target?.pdb_id || "TARGET"}</div>
@@ -150,7 +151,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
         </button>
 
         <h2 className="text-3xl font-black text-white mb-8 flex items-center gap-4">
-          <ArrowLeftRight className="text-indigo-500" /> COMPARADOR DE LIGANDOS
+          <ArrowLeftRight className="text-indigo-500" /> <Translated id="z_comparador_titulo" />
         </h2>
 
         <div className="grid grid-cols-2 gap-12">
@@ -167,7 +168,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
             className="mt-12 rounded-2xl border border-amber-500/30 bg-amber-500/10 p-6 text-[12px] leading-relaxed text-amber-200/90"
           >
             <p className="mb-3 flex items-center gap-2 font-black uppercase tracking-widest text-amber-400">
-              <AlertTriangle size={15} /> Estas moléculas no son comparables
+              <AlertTriangle size={15} /> <Translated id="z_no_comparables" />
             </p>
             <ul className="list-disc space-y-1.5 pl-5">
               {veredicto.motivos.map((motivo, i) => (
@@ -175,9 +176,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
               ))}
             </ul>
             <p className="mt-3 text-amber-200/60">
-              Las propiedades fisicoquímicas de cada molécula se muestran arriba y
-              siguen siendo válidas por separado. Lo que no puede calcularse es la
-              diferencia entre ellas.
+              <Translated id="z_no_comparables_detalle" />
             </p>
           </div>
         )}
@@ -186,7 +185,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
           <div className="mt-12 overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/50">
             <table className="w-full text-sm text-left">
               <caption className="sr-only">
-                Comparación de propiedades entre {nombreA.porTarget} y {nombreB.porTarget}
+                <Translated id="auto_9835328903b8" /> {nombreA.porTarget} y {nombreB.porTarget}
               </caption>
               <thead className="bg-slate-800/50 text-[10px] font-bold uppercase tracking-widest text-slate-500">
                 <tr>
@@ -210,7 +209,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
                               ? 'text-emerald-400'
                               : 'text-rose-400'
                         }
-                        title={fila.delta === null ? 'Falta el valor en al menos una de las dos moléculas' : undefined}
+                        title={fila.delta === null ? t("auto_7c3ae9bd54e6") : undefined}
                       >
                         {fila.textoDelta}
                       </span>

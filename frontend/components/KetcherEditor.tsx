@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import dynamic from "next/dynamic";
 import { useCallback, useState, useEffect } from "react";
 
@@ -25,6 +27,7 @@ type Props = {
 };
 
 export function KetcherEditor({ onSmilesChange, initialSmiles, height = 750, showSmilesInput = true }: Props) {
+  const { t } = useLanguage();
   const [textSmiles, setTextSmiles] = useState(initialSmiles || "");
   const [ketcherError, setKetcherError] = useState<string | null>(null);
   const [isFocused, setIsFocused] = useState(false);
@@ -61,7 +64,7 @@ export function KetcherEditor({ onSmilesChange, initialSmiles, height = 750, sho
             <div className="text-center">
               <div className="mb-3 text-4xl grayscale opacity-80">⚠️</div>
               <p className="text-sm font-semibold text-zinc-900 dark:text-white">
-                No se pudo cargar el editor
+                {t("pn_editor_no_cargo")}
               </p>
               <p className="mt-1 text-xs text-zinc-500">{ketcherError}</p>
             </div>
@@ -85,7 +88,7 @@ export function KetcherEditor({ onSmilesChange, initialSmiles, height = 750, sho
               onBlur={() => setIsFocused(false)}
               onChange={(e) => handleTextChange(e.target.value)}
               className="flex-1 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900 px-3 py-2 font-mono text-xs text-zinc-700 dark:text-zinc-300 focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-600 transition-colors"
-              placeholder="Edita o copia el SMILES aquí"
+              placeholder={t("pn_editor_smiles")}
             />
           </div>
         )}

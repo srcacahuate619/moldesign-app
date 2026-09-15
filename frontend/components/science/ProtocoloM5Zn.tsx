@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 /**
  * El resultado de M5-Zn tal como la corrida lo persistió. Sin recalcular nada.
  *
@@ -81,6 +83,7 @@ const EXPLICACION: Record<string, { titulo: string; detalle: string }> = {
 };
 
 export function ProtocoloM5Zn({ resultado }: { resultado: EvaluationResult }) {
+  const { t } = useLanguage();
   const estado = resultado.m5_scientific_status;
   // Sin estado no hay bloque: la corrida no ejecutó M5-Zn.
   if (!estado) return null;
@@ -101,7 +104,7 @@ export function ProtocoloM5Zn({ resultado }: { resultado: EvaluationResult }) {
     >
       <header className="flex flex-wrap items-baseline justify-between gap-2">
         <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-white/50">
-          Protocolo M5-Zn · metaloenzimas de zinc
+          {t("pn_m5zn_titulo")}
         </h3>
         {resultado.m5_protocol_id && (
           <span className="font-mono text-[11px] text-white/30">
@@ -123,23 +126,21 @@ export function ProtocoloM5Zn({ resultado }: { resultado: EvaluationResult }) {
 
       {resultado.m5_missing_components && resultado.m5_missing_components.length > 0 && (
         <p className="mt-2 font-mono text-[11px] text-amber-300/80">
-          Componentes ausentes: {resultado.m5_missing_components.join(", ")}
+          {t("auto_ae7a55091885")} {resultado.m5_missing_components.join(", ")}
         </p>
       )}
 
       {resultado.m5_score != null && (
         <div className="mt-3 rounded-lg border border-white/10 bg-black/20 p-3">
           <p className="font-mono text-[10px] uppercase tracking-wider text-white/30">
-            {habilitado ? "Score compuesto" : "Evidencia de auditoría"}
+            {habilitado ? "Score compuesto" : t("auto_0d93be49ed45")}
           </p>
           <p className="mt-1 font-mono text-lg text-white/80">
             {resultado.m5_score.toFixed(4)}
           </p>
           {!habilitado && (
             <p className="mt-1 text-[11px] leading-relaxed text-amber-300/70">
-              Este número no entra en el score total, ni en el ranking, ni en la
-              recomendación, ni en el veredicto. Se muestra para que pueda
-              auditarse.
+              {t("pn_m5zn_no_entra")}
             </p>
           )}
         </div>
@@ -147,11 +148,11 @@ export function ProtocoloM5Zn({ resultado }: { resultado: EvaluationResult }) {
 
       {resultado.ums_warhead != null && (
         <p className="mt-3 font-mono text-[11px] text-white/40">
-          Señal · warheads de zinc (UMS, SMARTS):{" "}
+          {t("auto_ff7cabb9c513")}{" "}
           <span className="text-white/70">
             {resultado.ums_warhead.toFixed(4)}
           </span>{" "}
-          — informativa, con peso 0 en el ranking
+          {t("auto_c8b9d71daaca")}
         </p>
       )}
     </section>

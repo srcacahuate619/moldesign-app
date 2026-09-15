@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -116,6 +118,7 @@ const drawHexagon = (r: number) => {
 // COMPONENT
 // --------------------------------------------------------
 export function PipelineFlowchart() {
+  const { t } = useLanguage();
   const [isPlaying, setIsPlaying] = useState(true);
   const [playSessionKey, setPlaySessionKey] = useState(0); 
   const [selectedNode, setSelectedNode] = useState<NodeDef | null>(null);
@@ -261,24 +264,24 @@ export function PipelineFlowchart() {
           <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
             <div className="text-center md:text-left">
               <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-                Acelerador de Partículas <span className="text-zinc-500 font-light">| {isFocused ? 'Enfoque Profundo' : 'Escalabilidad del Pipeline'}</span>
+                {t("z_acelerador")} <span className="text-zinc-500 font-light">| {isFocused ? 'Enfoque Profundo' : t("auto_a187157bca8f")}</span>
               </h2>
               <p className="text-zinc-400 text-sm mt-2 max-w-2xl font-mono">
                 {isFocused 
-                  ? 'Visualizando la topología secuencial completa.'
-                  : 'Onda radial matemáticamente sincronizada con la activación de los módulos.'}
+                  ? t("auto_fa699172d465")
+                  : t("auto_98c1ad5d0471")}
               </p>
             </div>
             <div className="flex items-center gap-4 bg-zinc-900/50 p-2 border border-zinc-800 rounded-full backdrop-blur-md">
-              <span className="text-[10px] uppercase font-mono tracking-widest text-zinc-500 font-bold px-2">Simulación Visual</span>
+              <span className="text-[10px] uppercase font-mono tracking-widest text-zinc-500 font-bold px-2">{t("z_simulacion_visual")}</span>
               <button 
                 onClick={togglePlay}
                 aria-label={
                   isFocused
-                    ? "Salir de la etapa"
+                    ? t("auto_73ce5e0c984a")
                     : isPlaying
-                      ? "Pausar la simulación"
-                      : "Reproducir la simulación"
+                      ? t("auto_c025cd216bcf")
+                      : t("auto_7b77d6194b7b")
                 }
                 className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${isFocused ? 'bg-red-900 hover:bg-red-800 text-white' : 'bg-zinc-800 hover:bg-zinc-700 text-white'}`}
               >
@@ -373,7 +376,7 @@ export function PipelineFlowchart() {
                       className={`${isRingActive ? "fill-zinc-300 drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" : "fill-zinc-600"} font-mono text-[28px] font-bold tracking-[0.3em] uppercase pointer-events-none select-none`}
                       style={textTransition}
                     >
-                      {getLevelName(i)}
+                      {t(getLevelName(i))}
                     </text>
                   </g>
                 )
@@ -486,7 +489,7 @@ export function PipelineFlowchart() {
                             className={`${labelColor} font-mono font-bold text-[22px] pointer-events-none select-none`}
                             style={nodeTransition}
                           >
-                            {node.label}
+                            {t(node.label)}
                           </text>
                           
                           <text 
@@ -579,16 +582,16 @@ export function PipelineFlowchart() {
                     
                     <div className="flex flex-col gap-1 mb-6 pl-2">
                       <span className={`text-[10px] font-mono ${selectedNode.type === 'error' ? 'text-red-500' : 'text-[#8c7a99]'} uppercase tracking-[0.2em]`}>
-                        {getLevelName(selectedNode.ring)} · {selectedNode.type}
+                        {t(getLevelName(selectedNode.ring))} · {selectedNode.type}
                       </span>
                       <span className="text-2xl font-black text-white uppercase tracking-tight drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
-                        {selectedNode.label} <span className="text-zinc-500 font-light text-xl">[{selectedNode.tag}]</span>
+                        {t(selectedNode.label)} <span className="text-zinc-500 font-light text-xl">[{selectedNode.tag}]</span>
                       </span>
                     </div>
                     
                     <div className="pl-2">
                       <p className={`text-xs sm:text-sm text-zinc-300 font-mono leading-relaxed uppercase p-5 border shadow-inner ${selectedNode.type === 'error' ? 'bg-red-950/20 border-red-900/30' : 'bg-[#8c7a99]/5 border-[#8c7a99]/10'}`}>
-                        {selectedNode.desc}
+                        {t(selectedNode.desc)}
                       </p>
                     </div>
                   </div>

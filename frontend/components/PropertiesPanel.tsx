@@ -1,3 +1,5 @@
+
+import { useLanguage } from "@/context/LanguageContext";
 import { useState } from "react";
 import type { EvaluationResult } from "../lib/types";
 import { etiquetaPPB } from "../lib/admetEtiquetas";
@@ -54,6 +56,7 @@ function Row({ label, value, unit, onClick }: { label: string; value: number | s
 }
 
 export function PropertiesPanel({ result }: Props) {
+  const { t } = useLanguage();
   const [selectedProperty, setSelectedProperty] = useState<{title: string, desc: string, icon: string} | null>(null);
 
   const hasProps =
@@ -65,9 +68,9 @@ export function PropertiesPanel({ result }: Props) {
 
   return (
     <section className="space-y-3 rounded-xl border border-surface-800 bg-surface-900 p-5">
-      <h3 className="font-bold text-white">Propiedades fisicoquímicas</h3>
+      <h3 className="font-bold text-white">{t("pn_propiedades")}</h3>
       <p className="text-xs text-surface-400">
-        Calculadas con RDKit. Valores reales, no estimaciones de IA. Toca una propiedad para aprender más.
+        {t("pn_propiedades_rdkit")}
       </p>
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-0.5">
@@ -78,16 +81,16 @@ export function PropertiesPanel({ result }: Props) {
           onClick={() => setSelectedProperty({
             title: "Peso Molecular",
             icon: "⚖️",
-            desc: "Masa de la molécula expresada en daltons. El umbral de 500 Da es una regla empírica de Lipinski para comparar series; no garantiza absorción ni exposición en una persona."
+            desc: t("auto_ec0377945f92")
           })}
         />
         <Row
           label="LogP"
           value={result.log_p}
           onClick={() => setSelectedProperty({
-            title: "Coeficiente de Partición (LogP)",
+            title: t("auto_f2422134496a"),
             icon: "🛢️",
-            desc: "LogP describe la distribución calculada entre fases acuosa y lipídica. Es un descriptor dependiente del método y del estado químico; no predice por sí solo permeabilidad, circulación ni eficacia."
+            desc: t("auto_8b8d19d6a005")
           })}
         />
         <Row
@@ -95,27 +98,27 @@ export function PropertiesPanel({ result }: Props) {
           value={result.tpsa}
           unit="Å²"
           onClick={() => setSelectedProperty({
-            title: "Área de Superficie Polar Topológica (TPSA)",
+            title: t("auto_98d8f5a99754"),
             icon: "🧲",
-            desc: "TPSA resume la superficie polar topológica. Los umbrales de Lipinski y Veber son orientativos y deben interpretarse junto con el resto del perfil; no determinan el paso celular o cerebral."
+            desc: t("auto_7cbf8c0d5ae1")
           })}
         />
         <Row
           label="HBD"
           value={result.hbd}
           onClick={() => setSelectedProperty({
-            title: "Donadores de Puentes de Hidrógeno (HBD)",
+            title: t("auto_411c9577cc23"),
             icon: "🤝",
-            desc: "Número de grupos capaces de donar hidrógeno según la representación química. HBD ≤ 5 es un criterio de Lipinski para comparar compuestos, no una garantía de absorción oral."
+            desc: t("auto_1e01fec6e93b")
           })}
         />
         <Row
           label="HBA"
           value={result.hba}
           onClick={() => setSelectedProperty({
-            title: "Aceptores de Puentes de Hidrógeno (HBA)",
+            title: t("auto_0d82ae16ddd4"),
             icon: "🤲",
-            desc: "Número de átomos aceptores según la representación química. HBA ≤ 10 es un criterio de Lipinski para comparar compuestos, no una garantía de absorción oral."
+            desc: t("auto_da60d4d5d247")
           })}
         />
         <Row
@@ -124,10 +127,10 @@ export function PropertiesPanel({ result }: Props) {
           onClick={() => setSelectedProperty({
             title: "Enlaces Rotables",
             icon: "🔄",
-            desc: "Número de enlaces rotables definido por el descriptor. Valores altos pueden asociarse con mayor flexibilidad conformacional, pero no prueban inestabilidad ni impiden el acoplamiento."
+            desc: t("auto_062fc71dfbbf")
           })}
         />
-        <Row label="Átomos pesados" value={result.heavy_atom_count} />
+        <Row label={t("pn_atomos_pesados")} value={result.heavy_atom_count} />
         <Row label="Anillos" value={result.ring_count} />
         <Row
           label="QED"
@@ -135,7 +138,7 @@ export function PropertiesPanel({ result }: Props) {
           onClick={() => setSelectedProperty({
             title: "Quantitative Estimate of Drug-likeness (QED)",
             icon: "🌟",
-            desc: "QED combina varios descriptores en una escala histórica de drug-likeness. Un valor alto indica cercanía a esa heurística, no aprobación, seguridad ni similitud causal con fármacos."
+            desc: t("auto_a0adb4d99412")
           })}
         />
         <Row
@@ -144,34 +147,34 @@ export function PropertiesPanel({ result }: Props) {
           onClick={() => setSelectedProperty({
             title: "Solubilidad Acuosa (LogS)",
             icon: "💧",
-            desc: "LogS es una estimación o medición expresada en escala logarítmica según el método usado. Los rangos orientativos no sustituyen un ensayo de solubilidad en condiciones experimentales."
+            desc: t("auto_0310df6f0be2")
           })}
         />
         <Row
           label="PPB"
           value={etiquetaPPB(result.blood_ppb_category)}
           onClick={() => setSelectedProperty({
-            title: "Unión a Proteínas Plasmáticas (PPB)",
+            title: t("auto_81f1389c8e3d"),
             icon: "🩸",
-            desc: "PPB es una categoría derivada de un modelo o descriptor. La fracción libre depende de concentración, matriz y condiciones; no basta para concluir distribución o actividad."
+            desc: t("auto_17a9283c624b")
           })}
         />
         <Row
-          label="Absorción Intestinal"
-          value={result.blood_hia_permeable != null ? (result.blood_hia_permeable ? "✓ Señal positiva" : "✗ Señal negativa") : null}
+          label={t("z_absorcion_intestinal")}
+          value={result.blood_hia_permeable != null ? (result.blood_hia_permeable ? t("auto_c4bcead81aba") : t("auto_3963e4218261")) : null}
           onClick={() => setSelectedProperty({
-            title: "Absorción Intestinal Humana (HIA)",
+            title: t("auto_b9132e69d608"),
             icon: "🫀",
-            desc: "Señal computacional de permeabilidad o absorción intestinal. Su resultado depende del modelo y de su dominio; no predice por sí solo exposición humana."
+            desc: t("auto_30f8b7d8b9a8")
           })}
         />
         <Row
           label="Llega al Cerebro"
-          value={result.blood_bbb_permeable != null ? (result.blood_bbb_permeable ? "✓ Señal positiva" : "✗ Señal negativa") : null}
+          value={result.blood_bbb_permeable != null ? (result.blood_bbb_permeable ? t("auto_c4bcead81aba") : t("auto_3963e4218261")) : null}
           onClick={() => setSelectedProperty({
-            title: "Barrera Hematoencefálica (BBB)",
+            title: t("auto_df4596705f22"),
             icon: "🧠",
-            desc: "Señal computacional de permeabilidad a BBB. No demuestra entrada al cerebro en vivo ni implica beneficio o riesgo terapéutico."
+            desc: t("auto_cf041ff07895")
           })}
         />
         <Row label="SA Score" value={result.sa_score} />
@@ -179,7 +182,7 @@ export function PropertiesPanel({ result }: Props) {
 
       {result.sa_reasons && result.sa_reasons.length > 0 && (
         <div className="mt-2 space-y-1 rounded-lg border border-yellow-900/30 bg-yellow-950/20 p-2.5">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-yellow-500/80">Alertas de Accesibilidad (SA)</p>
+          <p className="text-[10px] font-bold uppercase tracking-wider text-yellow-500/80">{t("z_alertas_sa")}</p>
           <ul className="list-inside list-disc space-y-0.5">
             {result.sa_reasons.map((reason, idx) => (
               <li key={idx} className="text-[11px] text-yellow-200/70">{reason}</li>
@@ -191,9 +194,9 @@ export function PropertiesPanel({ result }: Props) {
       <div className="flex flex-wrap gap-2 pt-1">
         <button
           onClick={() => setSelectedProperty({
-            title: "Regla de los 5 de Lipinski",
+            title: t("auto_4a70388e7d39"),
             icon: "📜",
-            desc: "Las cuatro reglas de Lipinski son filtros históricos para comparar compuestos orales. Incumplir una regla no descarta una molécula ni equivale a toxicidad o fracaso clínico."
+            desc: t("auto_35f6dace8ff1")
           })}
           className="hover:scale-105 transition-transform"
         >
@@ -201,9 +204,9 @@ export function PropertiesPanel({ result }: Props) {
         </button>
         <button
           onClick={() => setSelectedProperty({
-            title: "Reglas de Veber",
+            title: t("auto_3db8386c07e1"),
             icon: "📜",
-            desc: "Veber relaciona enlaces rotables y TPSA con biodisponibilidad oral en ciertos conjuntos. Es una heurística de priorización, no una predicción individual de biodisponibilidad."
+            desc: t("auto_b296de8883ee")
           })}
           className="hover:scale-105 transition-transform"
         >
@@ -232,14 +235,14 @@ export function PropertiesPanel({ result }: Props) {
               <h3 className="text-xl font-bold text-white leading-tight">{selectedProperty.title}</h3>
             </div>
             <p className="text-sm text-surface-300 leading-relaxed">
-              {selectedProperty.desc}
+              {t(selectedProperty.desc)}
             </p>
             <div className="mt-6 flex justify-end">
               <button
                 onClick={() => setSelectedProperty(null)}
                 className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold rounded-xl transition-colors shadow-lg shadow-indigo-500/20"
               >
-                Entendido
+                {t("legal_understood")}
               </button>
             </div>
           </div>

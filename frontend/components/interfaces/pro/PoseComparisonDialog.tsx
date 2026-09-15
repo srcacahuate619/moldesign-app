@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useState } from "react";
 import { useScrollLock } from "@/hooks/useScrollLock";
 import { AlertTriangle, ArrowLeftRight, Loader2, X } from "lucide-react";
@@ -34,6 +36,7 @@ export function PoseComparisonDialog({
   rightRank,
   onClose,
 }: PoseComparisonDialogProps) {
+  const { t } = useLanguage();
   // DOC 71, DEFECTO E4, SEGUNDA VUELTA. El bloqueo de la pagina de detras se
   // arreglo con este hook —el mismo que usan los otros seis modales— pero el
   // sintoma seguia: una barra de desplazamiento pegada al borde derecho de la
@@ -70,7 +73,7 @@ export function PoseComparisonDialog({
         if (!sdf || !protein) {
           setState({
             kind: "error",
-            message: "La corrida no devolvió un receptor o un archivo de poses utilizable para comparar.",
+            message: t("auto_990cc7b4b8ec"),
           });
           return;
         }
@@ -79,7 +82,7 @@ export function PoseComparisonDialog({
         if (!left || !right) {
           setState({
             kind: "error",
-            message: "El archivo de poses no contiene las dos poses seleccionadas. La corrida se conserva sin sustituir sus datos.",
+            message: t("auto_91d8ff3aff6a"),
           });
           return;
         }
@@ -129,14 +132,14 @@ export function PoseComparisonDialog({
               </h2>
             </div>
             <p className="mt-1.5 text-xs leading-5 text-zinc-500">
-              Mismo receptor y misma corrida; se muestran las coordenadas SDF reales de las poses #{leftRank} y #{rightRank}.
+              {t("auto_ed5c43cd041b")}{leftRank} y #{rightRank}.
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
             className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] text-zinc-400 transition-colors hover:border-white/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
-            aria-label="Cerrar comparador de poses"
+            aria-label={t("pn_cerrar_comparador")}
           >
             <X size={16} aria-hidden="true" />
           </button>
@@ -149,7 +152,7 @@ export function PoseComparisonDialog({
         {state.kind === "loading" && (
           <div className="flex min-h-72 flex-col items-center justify-center gap-3 px-5 text-zinc-400" role="status">
             <Loader2 className="h-6 w-6 animate-spin text-purple-300" aria-hidden="true" />
-            <p className="text-xs">Recuperando receptor y poses de la corrida…</p>
+            <p className="text-xs">{t("pn_recuperando_poses")}</p>
           </div>
         )}
 

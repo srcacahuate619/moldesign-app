@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React from "react";
 import { motion } from "framer-motion";
 import { User, Bot, Globe, X } from "lucide-react";
@@ -17,6 +19,7 @@ type Props = {
 const PENDING_MARKER_RE = /<!--__PENDING_WEB_ASK__\s+smiles=(\S+?)-->/;
 
 export function ChatMessage({ message, isStreaming }: Props) {
+  const { t } = useLanguage();
   const { sendMessage } = useAI();
   const isUser = message.role === "user";
 
@@ -77,7 +80,7 @@ export function ChatMessage({ message, isStreaming }: Props) {
             marginBottom: 4,
           }}
         >
-          {isUser ? "Tú" : "MolChat"}
+          {isUser ? t("auto_e0b8ada702a2") : "MolChat"}
         </div>
         <div
           style={{
@@ -144,7 +147,7 @@ export function ChatMessage({ message, isStreaming }: Props) {
                 }}
               >
                 <Globe size={14} />
-                Sí, consultar
+                {t("ia_si_consultar")}
               </button>
               <button
                 onClick={handleDecline}
@@ -162,7 +165,7 @@ export function ChatMessage({ message, isStreaming }: Props) {
                 }}
               >
                 <X size={14} />
-                No, gracias
+                {t("ia_no_gracias")}
               </button>
             </div>
           )}

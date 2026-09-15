@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 /**
  * Bloque del menu de inicio: el marcador del registro experimental.
  *
@@ -17,6 +19,7 @@ import {
 } from "@/lib/registro";
 
 export function ContrasteInicio() {
+  const { t } = useLanguage();
   const [idx, setIdx] = useState<IndiceRegistro | null>(null);
 
   useEffect(() => {
@@ -51,7 +54,7 @@ export function ContrasteInicio() {
             marginBottom: 18,
           }}
         >
-          Registro experimental · {idx.total} artefactos sellados
+          {t("auto_b76b2b4f5246")} {idx.total} artefactos sellados
         </div>
 
         <h2
@@ -66,7 +69,7 @@ export function ContrasteInicio() {
             fontFamily: "var(--font-display)",
           }}
         >
-          No estamos empaquetando el trabajo de otros
+          {t("rg_no_empaquetamos")}
         </h2>
 
         <p
@@ -79,10 +82,7 @@ export function ContrasteInicio() {
             fontFamily: "var(--font-sans)",
           }}
         >
-          Detrás de cada componente hay experimentos que se registraron antes de
-          ejecutarse, con la hipótesis y el criterio de decisión escritos por adelantado.
-          La mitad dijo que no. Están todos publicados, incluidos los que derribaron
-          nuestras propias ideas.
+          {t("rg_detras_de_cada")}
         </p>
 
         {/* marcador */}
@@ -100,21 +100,21 @@ export function ContrasteInicio() {
             n={h}
             color={ESTILO_CATEGORIA.hallazgo.color}
             titulo="Gates superados"
-            desc="Criterio de aceptación declarado antes, y cumplido."
+            desc={t("auto_8cd782f9aaaa")}
             ids={destH}
           />
           <Panel
             n={r}
             color={ESTILO_CATEGORIA.refutacion.color}
             titulo="Hipótesis derribadas"
-            desc="Ideas propias puestas a prueba y refutadas. De aquí salió casi todo lo aprendido."
+            desc={t("auto_fa14698a6e5a")}
             ids={destR}
           />
           <Panel
             n={contexto}
             color="var(--text-muted)"
             titulo="Mediciones y prerregistros"
-            desc="Ni éxitos ni fracasos: describen el terreno o declaran la apuesta antes de mirar."
+            desc={t("auto_d64c24cabf94")}
             ids={[]}
           />
         </div>
@@ -129,10 +129,7 @@ export function ContrasteInicio() {
             fontFamily: "var(--font-sans)",
           }}
         >
-          El cociente crudo de decisiones del manifest sería más halagador. No lo usamos:
-          mezcla prerregistros —que se sellan como positivos al declararse, no por superar
-          nada— con experimentos que sí tenían un umbral real. Separar las poblaciones es
-          la única forma de que el número signifique algo.
+          {t("rg_cociente_crudo")}
         </p>
 
         <Link
@@ -150,7 +147,7 @@ export function ContrasteInicio() {
             textDecoration: "none",
           }}
         >
-          Abrir el registro completo →
+          {t("rg_abrir_registro")}
         </Link>
       </div>
     </section>

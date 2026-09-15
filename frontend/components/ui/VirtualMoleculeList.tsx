@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
 import { useMoleculeCache, WINDOW_SIZE } from "./SlidingWindowCache";
@@ -48,6 +50,7 @@ export function VirtualMoleculeList({
   isComparing,
   emptyComponent,
 }: VirtualMoleculeListProps) {
+  const { t } = useLanguage();
   const cache = useMoleculeCache();
   const virtuosoRef = useRef<VirtuosoHandle>(null);
   const moleculeMapRef = useRef<Map<number, any>>(new Map());
@@ -162,7 +165,7 @@ export function VirtualMoleculeList({
   }
 
   if (cache.total === 0 && firstLoad) {
-    return <>{emptyComponent || <p className="text-center text-xs text-zinc-500 p-8">Bioteca vacía.</p>}</>;
+    return <>{emptyComponent || <p className="text-center text-xs text-zinc-500 p-8">{t("z_bioteca_vacia")}</p>}</>;
   }
 
   const moleculesArray = Array.from({ length: cache.total }, (_, i) =>

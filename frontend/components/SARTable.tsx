@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React, { useEffect, useState } from "react";
 import {
   TrendingUp, TrendingDown, Minus, Trophy, AlertTriangle,
@@ -41,6 +43,7 @@ interface Props {
 }
 
 export function SARTable({ moleculeId, compact }: Props) {
+  const { t } = useLanguage();
   const [data, setData] = useState<SARData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -77,7 +80,7 @@ export function SARTable({ moleculeId, compact }: Props) {
   if (error || !data || data.results.length === 0) {
     return (
       <div className="text-center py-8 text-sm text-zinc-500">
-        {error || "No hay analogos para comparar. Evalua mas moleculas contra este target."}
+        {error || t("auto_271fb52e9981")}
       </div>
     );
   }
@@ -94,15 +97,15 @@ export function SARTable({ moleculeId, compact }: Props) {
             SAR: {data.total_analogs} analogos contra {data.target_pdb_id}
           </h3>
           <p className="text-[11px] text-zinc-500">
-            {data.target_name} — Ranqueados por score
+            {data.target_name} {t("auto_988351833ce1")}
           </p>
         </div>
         <div className="flex items-center gap-2 text-[10px] text-zinc-500">
           <span className="flex items-center gap-1">
-            <Trophy className="w-3 h-3 text-amber-400" /> Best score: {(bestScore ?? 0).toFixed(0)}
+            <Trophy className="w-3 h-3 text-amber-400" /> {t("auto_57c0f9e92135")} {(bestScore ?? 0).toFixed(0)}
           </span>
           <span className="flex items-center gap-1">
-            <Zap className="w-3 h-3 text-cyan-400" /> Best aff: {(bestAffinity ?? 0).toFixed(1)}
+            <Zap className="w-3 h-3 text-cyan-400" /> {t("auto_468deba59306")} {(bestAffinity ?? 0).toFixed(1)}
           </span>
         </div>
       </div>

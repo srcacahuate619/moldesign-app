@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React from "react";
 
 /**
@@ -96,6 +98,7 @@ function colorDe(clase: string, verificada: boolean): string {
 }
 
 export function BloqueDeEvidencia({ evidencias }: { evidencias: Evidencia[] }) {
+  const { t } = useLanguage();
   if (evidencias.length === 0) return null;
 
   return (
@@ -108,7 +111,7 @@ export function BloqueDeEvidencia({ evidencias }: { evidencias: Evidencia[] }) {
           color: "var(--text-dim, #94A3B8)",
         }}
       >
-        Evidencia usada en esta respuesta
+        {t("ia_evidencia_usada")}
       </div>
       {evidencias.map((e, i) => (
         <div
@@ -126,7 +129,7 @@ export function BloqueDeEvidencia({ evidencias }: { evidencias: Evidencia[] }) {
           <div style={{ color: "var(--text)", marginBottom: 2 }}>
             {e.verificada
               ? `${e.clase} · ${e.fuente}`
-              : "sin clasificar — trátalo como no verificado"}
+              : t("auto_280145ccad5c")}
           </div>
           <div style={{ color: "var(--text-secondary)", marginBottom: 2 }}>
             {e.herramienta}

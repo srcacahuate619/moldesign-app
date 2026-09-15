@@ -1,4 +1,6 @@
 "use client";
+
+import { useLanguage } from "@/context/LanguageContext";
 import { useScrollLock } from "@/hooks/useScrollLock";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -35,6 +37,7 @@ const PROVIDERS: ProviderDef[] = [
 ];
 
 export function CloudAISettingsModal({ isOpen, onClose }: CloudAISettingsModalProps) {
+  const { t } = useLanguage();
   useScrollLock(isOpen);
   const backdropRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -144,7 +147,7 @@ export function CloudAISettingsModal({ isOpen, onClose }: CloudAISettingsModalPr
             <h2 className="text-sm font-bold text-sky-400 tracking-wider flex items-center gap-2" style={{ fontFamily: "'Space Grotesk', Inter, sans-serif" }}>
               <Globe size={16} /> IA ONLINE
             </h2>
-            <p className="text-[10px] text-white/40 mt-1 font-mono">Conexiones Cloud & Red</p>
+            <p className="text-[10px] text-white/40 mt-1 font-mono">{t("auto_427e24cadc1f")}</p>
           </div>
           <div className="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-1">
             {PROVIDERS.map(provider => (
@@ -178,7 +181,7 @@ export function CloudAISettingsModal({ isOpen, onClose }: CloudAISettingsModalPr
                 {currentProvider.name}
               </h3>
               <p className="text-xs text-white/50">
-                Configura los credenciales y endpoints para conectar MolChat con este proveedor.
+                {t("ia_nube_configura")}
               </p>
             </div>
 
@@ -196,7 +199,7 @@ export function CloudAISettingsModal({ isOpen, onClose }: CloudAISettingsModalPr
                     className="w-full bg-white/[0.02] border border-white/10 focus:border-sky-500/50 rounded-xl px-4 py-3 text-sm text-white/90 font-mono outline-none transition-all"
                   />
                   {currentProvider.id === "ollama" && (
-                    <p className="text-[10px] text-white/30 font-mono mt-1">Asegúrate de ejecutar `OLLAMA_ORIGINS=&quot;*&quot; ollama serve` para permitir CORS.</p>
+                    <p className="text-[10px] text-white/30 font-mono mt-1">{t("ia_nube_ollama_cors")}</p>
                   )}
                 </div>
               )}
@@ -234,7 +237,7 @@ export function CloudAISettingsModal({ isOpen, onClose }: CloudAISettingsModalPr
                   className="px-6 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-black font-bold text-xs uppercase tracking-wider transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   {healthStatus === "loading" ? <Loader2 size={14} className="animate-spin" /> : <ShieldCheck size={14} />}
-                  Verificar Conexión
+                  {t("auto_602f8b7e236d")}
                 </button>
                 
                 <div className="flex-1">
@@ -249,7 +252,7 @@ export function CloudAISettingsModal({ isOpen, onClose }: CloudAISettingsModalPr
             <div className="mt-6 flex items-start gap-2.5 p-3 rounded-lg bg-sky-500/5 border border-sky-500/10">
               <ShieldAlert size={14} className="text-sky-400 shrink-0 mt-0.5" />
               <p className="text-[10px] text-sky-200/60 font-mono leading-relaxed">
-                Tus credenciales y API Keys se almacenan <strong>localmente y encriptadas</strong> en tu dispositivo mediante LocalStorage. Nunca son transmitidas a nuestros servidores ni utilizadas para telemetría.
+                {t("ia_nube_credenciales_a")} <strong>localmente y encriptadas</strong> {t("ia_nube_credenciales_b")}
               </p>
             </div>
 

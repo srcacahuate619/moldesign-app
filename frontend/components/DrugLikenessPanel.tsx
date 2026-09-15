@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React from "react";
 import { ShieldCheck, ShieldAlert, AlertTriangle, Info } from "lucide-react";
 
@@ -33,6 +35,7 @@ export function DrugLikenessPanel({
   lipinski, veber, ghose, egan, muegge, mueggeScore,
   fsp3, qed, saScore, isPains, painsMatches, mode
 }: DrugLikenessProps) {
+  const { t } = useLanguage();
   const eduScore = [lipinski, veber, ghose, egan, muegge].filter(Boolean).length;
 
   if (mode === "edu") {
@@ -47,20 +50,20 @@ export function DrugLikenessPanel({
             }`}>{eduScore}/5</span>
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-zinc-200">Perfil de reglas de drug-likeness</h4>
+            <h4 className="text-sm font-semibold text-zinc-200">{t("pn_drug_likeness")}</h4>
             <p className="text-xs text-zinc-400">
-              {eduScore >= 4 ? "Alto — cumple la mayoría de estas reglas heurísticas" :
-               eduScore >= 2 ? "Intermedio — cumple parte de estas reglas heurísticas" :
-               "Bajo — varias reglas heurísticas no se cumplen"}
+              {eduScore >= 4 ? t("auto_f3837875dab4") :
+               eduScore >= 2 ? t("auto_ed428b8dc80c") :
+               t("auto_32e8785f56fe")}
             </p>
           </div>
         </div>
 
         <div className="grid grid-cols-2 gap-2 text-xs text-zinc-400">
-          <div>Peso molecular: se evalúa en Lipinski/Ghose</div>
-          <div>LogP: {lipinski ? "dentro de Lipinski" : "fuera de Lipinski"}</div>
-          <div>Flexibilidad: {veber ? "dentro de Veber" : "fuera de Veber"}</div>
-          <div>Ro5 de Lipinski: {lipinski ? "dentro del umbral" : "fuera del umbral"}</div>
+          <div>{t("pn_peso_molecular_lipinski")}</div>
+          <div>LogP: {lipinski ? t("auto_9a3561c18fde") : t("auto_b05b976cbc9e")}</div>
+          <div>{t("auto_2eeb74fb3700")} {veber ? t("auto_4696a2a82a01") : t("auto_715e0e63b8f6")}</div>
+          <div>{t("auto_ccc606b7ab22")} {lipinski ? t("auto_0e4b9698dddb") : t("auto_2ccc163e69dd")}</div>
         </div>
 
         {isPains && (
@@ -69,8 +72,7 @@ export function DrugLikenessPanel({
             <div>
               <p className="text-xs font-semibold text-red-400">Alerta PAINS</p>
               <p className="text-xs text-red-300/80">
-                Esta molécula contiene subestructuras que suelen dar falsos positivos en experimentos.
-                Se recomienda validación adicional antes de considerarla un hallazgo real.
+                {t("pn_pains_detectado")}
               </p>
             </div>
           </div>
@@ -82,7 +84,7 @@ export function DrugLikenessPanel({
   // ── PRO mode: full breakdown ──────────────────────────────────────
   return (
     <div className="space-y-3">
-      <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-400">Drug-Likeness & Filtros</h4>
+      <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-400">{t("auto_b328f2a763d4")}</h4>
 
       <div className="flex flex-wrap gap-2">
         <RuleBadge pass={lipinski} label="Lipinski Ro5" detail="MW<=500, LogP<=5, HBD<=5, HBA<=10" />
@@ -96,7 +98,7 @@ export function DrugLikenessPanel({
       {fsp3 !== null && fsp3 !== undefined && (
         <div className="space-y-1">
           <div className="flex justify-between text-xs">
-            <span className="text-zinc-400">Fsp³ (carbonos sp³)</span>
+            <span className="text-zinc-400">{t("auto_15ba7664a979")}</span>
             <span className="font-mono text-zinc-300">{fsp3.toFixed(3)}</span>
           </div>
           <div className="h-2 rounded-full bg-zinc-700 overflow-hidden">
@@ -108,9 +110,9 @@ export function DrugLikenessPanel({
             />
           </div>
           <p className="text-[10px] text-zinc-500">
-            {fsp3 > 0.45 ? "Mayor proporción sp³ — descriptor de complejidad" :
-             fsp3 > 0.35 ? "Proporción sp³ intermedia" :
-             "Menor proporción sp³ — descriptor; no predice promiscuidad"}
+            {fsp3 > 0.45 ? t("auto_a9b6fb847654") :
+             fsp3 > 0.35 ? t("auto_6a63c09b0f68") :
+             t("auto_60cb989d5e68")}
             {" "}(Lovering 2009)
           </p>
         </div>
@@ -153,7 +155,7 @@ export function DrugLikenessPanel({
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-red-400" />
             <span className="text-xs font-semibold text-red-400">
-              ALERTA PAINS — {painsMatches?.length || 0} patrones detectados
+              {t("auto_0f9586a7aac1")} {painsMatches?.length || 0} patrones detectados
             </span>
           </div>
           {painsMatches && painsMatches.length > 0 && (
@@ -166,14 +168,13 @@ export function DrugLikenessPanel({
             </div>
           )}
           <p className="text-[10px] text-red-400/60">
-            Los PAINS son falsos positivos frecuentes en ensayos biologicos (Baell & Holloway, 2010).
-            Se recomienda validación experimental exhaustiva antes de considerar esta molécula como hit.
+            {t("auto_cd20267c5ed3")}
           </p>
         </div>
       ) : (
         <div className="flex items-center gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
           <ShieldCheck className="w-4 h-4 text-emerald-400" />
-          <span className="text-xs text-emerald-400">Sin patrón PAINS detectado (no descarta actividad ni riesgo)</span>
+          <span className="text-xs text-emerald-400">{t("pn_sin_pains")}</span>
         </div>
       )}
     </div>

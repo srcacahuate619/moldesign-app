@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect } from "react";
 import { Globe, Users, Trophy, Download, Lock, RefreshCw, Wifi, WifiOff, Share2, User } from "lucide-react";
 import { getApiUrl } from "../lib/config";
@@ -13,6 +15,7 @@ interface LeaderboardEntry {
 }
 
 export function CommunityPanel() {
+  const { t } = useLanguage();
   const [enabled, setEnabled] = useState(false);
   const [communityTargets, setCommunityTargets] = useState<Target[]>([]);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
@@ -52,7 +55,7 @@ export function CommunityPanel() {
         setLeaderboard(Array.isArray(l) ? l.slice(0, 5) : []);
       }
     } catch {
-      setError("No se pudo conectar con la comunidad. Verifica tu conexión a internet.");
+      setError(t("auto_02aba466e282"));
       setConnected(false);
     } finally {
       setLoading(false);
@@ -99,7 +102,7 @@ export function CommunityPanel() {
           <div>
             <h3 className="text-sm font-semibold text-zinc-200">Comunidad Global</h3>
             <p className="text-[10px] text-zinc-500">
-              {connected ? `${communityTargets.length} targets` : "Conectate para ver targets compartidos"}
+              {connected ? `${communityTargets.length} targets` : t("auto_0229a5139372")}
             </p>
           </div>
         </div>
@@ -123,7 +126,7 @@ export function CommunityPanel() {
           <div className="flex gap-2">
             <input type="email" placeholder="Email" value={cloudEmail} onChange={e => setCloudEmail(e.target.value)} className="flex-1 px-3 py-1.5 rounded-lg bg-zinc-700 border border-zinc-600 text-xs text-zinc-200" />
             <input type="password" placeholder="Pass" value={cloudPassword} onChange={e => setCloudPassword(e.target.value)} className="w-28 px-3 py-1.5 rounded-lg bg-zinc-700 border border-zinc-600 text-xs text-zinc-200" />
-            <button onClick={handleLogin} className="px-3 py-1.5 rounded-lg bg-cyan-600 text-xs font-medium text-white hover:bg-cyan-500">Entrar</button>
+            <button onClick={handleLogin} className="px-3 py-1.5 rounded-lg bg-cyan-600 text-xs font-medium text-white hover:bg-cyan-500">{t("login")}</button>
           </div>
           {loginError && <p className="text-[10px] text-red-400 mt-1">{loginError}</p>}
         </div>
@@ -136,7 +139,7 @@ export function CommunityPanel() {
 
           {connected && communityTargets.length > 0 && (
             <div className="space-y-2">
-              <h4 className="text-[11px] font-bold uppercase tracking-wider text-zinc-500 flex items-center gap-1.5"><Users className="w-3 h-3" />Targets de la Comunidad</h4>
+              <h4 className="text-[11px] font-bold uppercase tracking-wider text-zinc-500 flex items-center gap-1.5"><Users className="w-3 h-3" />{t("z_targets_comunidad")}</h4>
               <div className="space-y-1 max-h-48 overflow-y-auto">
                 {communityTargets.slice(0, 10).map(t => (
                   <div key={t.pdb_id} className="flex items-center justify-between px-3 py-2 rounded-lg bg-zinc-700/20 text-xs hover:bg-zinc-700/30">
@@ -177,7 +180,7 @@ export function CommunityPanel() {
               <Share2 className="w-4 h-4 text-violet-400 shrink-0" />
               <div className="text-xs">
                 <p className="text-zinc-300 font-medium">Comparti tus descubrimientos</p>
-                <p className="text-zinc-500 mt-0.5">{cloudUser ? "Subí un target público para colaborar con la comunidad." : "Inicia sesión cloud para compartir con atribución."}</p>
+                <p className="text-zinc-500 mt-0.5">{cloudUser ? t("auto_f78181f943ab") : t("auto_c1b0533bca64")}</p>
               </div>
             </div>
           )}

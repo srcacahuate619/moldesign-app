@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 // =====================================================================
 // Visor de documentos legales EMPAQUETADOS — sin red, sin salir de la app
 // =====================================================================
@@ -42,6 +44,7 @@ function esRutaDeAssetLocal(path: string): boolean {
 }
 
 export function LocalDocViewer({ doc, onClose }: Props) {
+  const { t } = useLanguage();
   const [texto, setTexto] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const botonVolver = useRef<HTMLButtonElement>(null);
@@ -53,7 +56,7 @@ export function LocalDocViewer({ doc, onClose }: Props) {
     // La ruta debe ser un asset absoluto del frontend. Así el visor nunca
     // convierte un documento legal en una petición a un origen externo.
     if (!esRutaDeAssetLocal(doc.path)) {
-      setError("La ruta del documento legal no pertenece a los assets locales.");
+      setError(t("auto_aca79297777a"));
       return () => {
         vigente = false;
       };
@@ -123,7 +126,7 @@ export function LocalDocViewer({ doc, onClose }: Props) {
         ) : texto === null ? (
           <p className="flex items-center gap-2 text-[11px] text-white/50">
             <Loader2 size={12} className="animate-spin" aria-hidden="true" />
-            Cargando documento…
+            {t("auto_87e6ec9492a6")}
           </p>
         ) : (
           <pre className="whitespace-pre-wrap break-words font-mono text-[10.5px] leading-relaxed text-white/70">

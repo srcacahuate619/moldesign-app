@@ -201,7 +201,7 @@ function HeroSplit({ stats }: { stats: typeof EMPTY_STATS }) {
         >
           <Link
             href="/"
-            aria-label="MolDesign — ir al inicio"
+            aria-label={t("auto_69b7a67b0314")}
             className="block w-20 h-20 rounded-full border-2 flex items-center justify-center transition-colors group"
             style={{ borderColor: "var(--border-light)" }}
           >
@@ -305,7 +305,7 @@ function FutureVisionSection() {
 // ═══════════════════════════════════════════════════════════════
 
 function TechStackSection() {
-  const { locale } = useLanguage();
+  const { t, locale } = useLanguage();
 
   const getStackLabel = () => {
     return locale === "es" ? "Stack Tecnológico" : "Technology Stack";
@@ -347,7 +347,7 @@ function TechStackSection() {
 // ═══════════════════════════════════════════════════════════════
 
 function LeaderboardSection() {
-  const { locale } = useLanguage();
+  const { t, locale } = useLanguage();
   const [leaders, setLeaders] = useState<any[]>([]);
   const [ldError, setLdError] = useState(false);
 
@@ -359,13 +359,13 @@ function LeaderboardSection() {
 
   const getCommLabel = () => locale === "es" ? "Comunidad" : "Community";
   const getLeaderTitle = () => locale === "es" ? "Evaluaciones compartidas" : "Shared evaluations";
-  const getEmptyDesc = () => locale === "es" 
+  const getEmptyDesc = () => locale === "es"
     ? "La comunidad científica está creciendo. Sé el primero en compartir una evaluación."
     : "The scientific community is growing. Be the first to share an evaluation.";
   const getLeaderDesc = () => locale === "es"
     ? "Evaluaciones compartidas por la comunidad. El orden es por afinidad observada; no es un ranking de candidatos."
     : "Evaluations shared by the community, ordered by observed docking affinity. This is not a candidate ranking.";
-  const getMolCol = () => locale === "es" ? "Molécula" : "Molecule";
+  const getMolCol = () => locale === "es" ? t("mx_molecula") : t("mx_molecula");
 
   if (ldError) return null;
 
@@ -465,7 +465,7 @@ export default function HomePage() {
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
           {t("legal_local_first")}
         </div>
-        <div>{new Date().getFullYear()} Johan Amezcua · All Rights Reserved</div>
+        <div>{new Date().getFullYear()} {t("auto_2b5f94bbc9a7")}</div>
       </footer>
     </div>
   );

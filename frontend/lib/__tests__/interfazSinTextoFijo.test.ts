@@ -20,6 +20,7 @@
 // número nuevo. Subir un presupuesto para que pase la prueba es exactamente lo
 // que esta prueba existe para impedir: si hace falta, es que alguien añadió
 // texto sin traducir.
+import { execFileSync } from "node:child_process";
 
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
@@ -36,7 +37,7 @@ const CARPETAS = ["app", "components", "hooks"];
  * nombre de una cosa.
  */
 const MARCAS_ES =
-  /[áéíóúñü¿¡Á-Ú]|\b(el|la|los|las|un|una|de|del|que|para|con|por|sin|no|se|es|son|está|están|más|como|pero|este|esta|todo|hay|desde|cuando|puede|tiene|sobre|entre|ya|así|cada|otro|otra)\b/i;
+  /[áéíóúñü¿¡ÁÉÍÓÚÑÜ]|\b(el|la|los|las|un|una|de|del|que|para|con|por|sin|no|se|es|son|está|están|más|como|pero|este|esta|todo|hay|desde|cuando|puede|tiene|sobre|entre|ya|así|cada|otro|otra)\b/i;
 
 /**
  * Techo por fichero. Se baja al migrar; NUNCA se sube.
@@ -106,7 +107,7 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
 };
 
 /** Techo global. Es el que cuenta: el detalle por fichero sólo dice dónde. */
-const PRESUPUESTO_TOTAL = 221;
+const PRESUPUESTO_TOTAL = 0;
 
 function ficheros(dir: string, acc: string[] = []): string[] {
   let entradas: string[];
@@ -161,6 +162,7 @@ const medidos = ficheros(join(RAIZ, CARPETAS[0]))
   }))
   .filter((f) => f.cadenas.length > 0);
 
+console.log(JSON.stringify(medidos, null, 2));
 describe("la interfaz no puede tener más castellano fijo que ayer", () => {
   it("ningún fichero supera su presupuesto", () => {
     const excesos = medidos
@@ -184,6 +186,17 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
     ).toBeLessThanOrEqual(PRESUPUESTO_TOTAL);
   });
 
+
+  it("el barrido AST no encuentra literales visibles fuera del diccionario", () => {
+    const script = resolve(__dirname, "../../scripts/finish-i18n-frontend.cjs");
+    const output = execFileSync(process.execPath, [script], {
+      cwd: resolve(__dirname, "../.."),
+      encoding: "utf8",
+    });
+    expect(output).not.toContain("Castellano visible sin clave:");
+    expect(output).not.toContain("Ingles visible sin clave:");
+    expect(output).not.toContain("Texto visible sin clave:");
+  });
   it("una pantalla que ya se migró no puede volver atrás", () => {
     // Las superficies terminadas se listan aquí con cero. Es lo que convierte
     // el presupuesto en un trinquete y no en una foto.

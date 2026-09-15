@@ -410,7 +410,7 @@ export function CaseWorkspace() {
           Casos
         </button>
         <span className="min-w-0 truncate text-xs text-zinc-500">
-          {activeCase ? activeCase.name : "Sin caso"}
+          {activeCase ? activeCase.name : t("auto_17ecdaf55d49")}
         </span>
       </div>
 
@@ -460,7 +460,7 @@ export function CaseWorkspace() {
                 onClick={() => void retrySave()}
                 className="shrink-0 whitespace-nowrap rounded border border-amber-500/40 px-2 py-0.5 text-[11px] hover:text-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
               >
-                Reintentar
+                {t("c_reintentar")}
               </button>
             )}
             <button
@@ -482,8 +482,7 @@ export function CaseWorkspace() {
             className="flex flex-wrap items-center gap-2 border-b border-red-500/30 bg-red-500/10 px-4 py-2 text-xs leading-relaxed text-red-200"
           >
             <span className="min-w-0 flex-1">
-              {t("ca_corrida_arranco")} <strong>{t("ca_id_no_guardado")}</strong>. Sólo
-              existe en memoria:{" "}
+              {t("ca_corrida_arranco")} <strong>{t("ca_id_no_guardado")}</strong>{t("auto_d970f808cba3")}{" "}
               <code className="break-all font-mono">{unregisteredRun.taskId}</code>
             </span>
             <button
@@ -505,7 +504,7 @@ export function CaseWorkspace() {
 
         {activeCase?.activeRun && (
           <p className="border-b border-surface-800 bg-surface-900 px-4 py-1.5 font-mono text-[11px] text-zinc-400">
-            {activeRunPendingRegistration ? "Corrida pendiente de registro" : "Corrida registrada"}{" "}
+            {activeRunPendingRegistration ? t("auto_262949a66911") : "Corrida registrada"}{" "}
             {activeCase.activeRun.taskId.slice(0, 12)}… ·{" "}
             {{
               idle: "preparada",
@@ -526,9 +525,8 @@ export function CaseWorkspace() {
             className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-3 text-xs leading-relaxed text-amber-100"
           >
             <p>
-              <strong>{relocationConflict.name}</strong> ya está registrado en{" "}
-              <span className="break-all font-mono">{relocationConflict.registeredPath}</span>. La
-              carpeta que has elegido es{" "}
+              <strong>{relocationConflict.name}</strong> {t("auto_72ef951a4533")}{" "}
+              <span className="break-all font-mono">{relocationConflict.registeredPath}</span>{t("auto_cc3fb7ae5b1e")}{" "}
               <span className="break-all font-mono">{relocationConflict.displayPath}</span>{t("ca_nada_cambiado")}
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
@@ -550,7 +548,7 @@ export function CaseWorkspace() {
                 onClick={() => setRelocationConflict(null)}
                 className="rounded-md border border-surface-700 px-3 py-1 text-xs text-zinc-300 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
               >
-                Cancelar
+                {t("c_cancelar")}
               </button>
             </div>
           </div>
@@ -563,9 +561,9 @@ export function CaseWorkspace() {
             className="border-b border-surface-700 bg-surface-900 px-4 py-3 text-xs leading-relaxed text-zinc-300"
           >
             <p>
-              La carpeta{" "}
+              {t("auto_222f750aceb4")}{" "}
               <span className="break-all font-mono text-zinc-400">{pendingFolder.displayPath}</span>{" "}
-              no contiene un <code className="font-mono">case.json</code>{t("ca_no_se_importa_solo")}
+              {t("auto_1e6cb1e6dc11")} <code className="font-mono">case.json</code>{t("ca_no_se_importa_solo")}
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
               <button
@@ -586,7 +584,7 @@ export function CaseWorkspace() {
                 onClick={() => setPendingFolder(null)}
                 className="rounded-md border border-surface-700 px-3 py-1 text-xs text-zinc-300 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
               >
-                Cancelar
+                {t("c_cancelar")}
               </button>
             </div>
           </div>
@@ -635,7 +633,7 @@ export function CaseWorkspace() {
                       </dd>
                     </div>
                     <div className="flex gap-1.5">
-                      <dt>Actualizado:</dt>
+                      <dt>{t("auto_5dfeeb357031")}</dt>
                       <dd>{formatTimestamp(activeCase.updatedAt)}</dd>
                     </div>
                   </dl>
@@ -728,10 +726,10 @@ export function CaseWorkspace() {
                 <FileText className="h-3.5 w-3.5 shrink-0 text-brand-400" aria-hidden="true" />
                 <span className="min-w-0 flex-1">
                   {runRelation === "corresponde"
-                    ? "La corrida terminó y su evidencia se puede recuperar."
+                    ? t("auto_5dc69e1ba19b")
                     : runRelation === "corrida_anterior"
-                      ? "Hay evidencia recuperable de una corrida ANTERIOR: los inputs han cambiado desde que se ejecutó."
-                      : "El informe está disponible, pero este caso no conserva una huella verificable de los inputs ejecutados."}
+                      ? t("auto_7f0c5ddda6e9")
+                      : t("auto_b3945ccefff7")}
                 </span>
                 <button
                   type="button"
@@ -748,9 +746,8 @@ export function CaseWorkspace() {
                 role="status"
                 className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-2 text-xs leading-relaxed text-amber-200 sm:px-6"
               >
-                Este caso guarda una corrida completada, pero{" "}
-                <strong>{t("ca_resultado_no_recuperado")}</strong>, así que no hay informe que
-                abrir. El identificador sigue guardado:{" "}
+                {t("auto_265b259a1293")}{" "}
+                <strong>{t("ca_resultado_no_recuperado")}</strong>{t("auto_99b5f43f6422")}{" "}
                 <code className="break-all font-mono">{activeCase.activeRun?.taskId}</code>
               </p>
             )}

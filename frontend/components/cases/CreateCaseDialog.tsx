@@ -164,7 +164,7 @@ export function CreateCaseDialog({
         // No se creó. El diálogo SE QUEDA con lo escrito: cerrarlo aquí haría
         // pasar un fallo por un éxito.
         setError(
-          "No se pudo crear el caso. Revisa el aviso de arriba: puede haber un cambio sin guardar en el caso actual.",
+          t("auto_129fd24eafd6"),
         );
         setSubmitting(false);
         return;
@@ -213,7 +213,7 @@ export function CreateCaseDialog({
             type="button"
             onClick={onClose}
             disabled={submitting}
-            aria-label="Cerrar"
+            aria-label={t("c_cerrar")}
             className="rounded p-1 text-zinc-500 transition-colors hover:text-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 disabled:opacity-40"
           >
             <X className="h-4 w-4" aria-hidden="true" />
@@ -278,12 +278,12 @@ export function CreateCaseDialog({
                   className="inline-flex items-center gap-2 rounded-md border border-surface-700 px-3 py-1.5 text-xs text-zinc-300 transition-colors hover:border-surface-600 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
                 >
                   <FolderOpen className="h-3.5 w-3.5" aria-hidden="true" />
-                  Elegir carpeta…
+                  {t("auto_47126a480945")}
                 </button>
                 <p className="mt-2 break-all font-mono text-[11px] text-zinc-500">
                   {directory
                     ? `${directory.displayPath}${folderPreview ? ` › ${folderPreview}` : ""}`
-                    : "Sin carpeta elegida."}
+                    : t("auto_440fc8f92285")}
                 </p>
                 {folderPreview && folderPreview !== trimmed && (
                   <p className="mt-1 text-[11px] leading-relaxed text-zinc-500">
@@ -309,14 +309,14 @@ export function CreateCaseDialog({
               disabled={submitting}
               className="rounded-md px-3 py-1.5 text-sm text-zinc-400 transition-colors hover:text-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 disabled:opacity-40"
             >
-              Cancelar
+              {t("c_cancelar")}
             </button>
             <button
               type="submit"
               disabled={!canSubmit}
               className="rounded-md border border-brand-500/40 bg-brand-600 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 disabled:cursor-not-allowed disabled:opacity-40"
             >
-              {submitting ? "Creando…" : "Crear caso"}
+              {submitting ? t("auto_60e8763517ba") : "Crear caso"}
             </button>
           </div>
         </form>

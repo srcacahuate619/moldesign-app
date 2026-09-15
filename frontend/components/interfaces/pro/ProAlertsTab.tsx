@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React from "react";
 import { CheckCircle2, AlertTriangle, AlertCircle, Info, HelpCircle } from "lucide-react";
 import {
@@ -62,13 +64,14 @@ const ESTILO: Record<Severidad, EstiloDeAviso> = {
   heredada: {
     cardStyle: "bg-white/[0.03] border-white/10 text-zinc-300",
     icon: <HelpCircle size={18} className="text-zinc-500 shrink-0 mt-0.5" />,
-    badge: "SIN SEVERIDAD DECLARADA",
+    badge: "Sin severidad declarada",
     badgeStyle: "bg-white/[0.06] text-zinc-400 border-white/15",
     pie: "Corrida anterior a la etapa que declara la severidad de cada aviso. El texto es el que emitió el motor; su importancia no se dedujo de él.",
   },
 };
 
 export function ProAlertsTab({ warnings, inApplicabilityDomain, modelUsed }: Props) {
+  const { t } = useLanguage();
   // ── Alertas derivadas de los campos nuevos (F-21) ──────────────────────
   // NO duplican scientific_warnings: se derivan de la metadata del modelo
   // (in_applicability_domain / model_used) que no viaja en las warnings.
@@ -103,7 +106,7 @@ export function ProAlertsTab({ warnings, inApplicabilityDomain, modelUsed }: Pro
             <span
               className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider ${estilo.badgeStyle}`}
             >
-              {estilo.badge}
+              {t(estilo.badge)}
             </span>
             {/* El código va a la vista: es lo que permite reconocer el mismo
                 aviso entre versiones aunque cambie su redacción. */}
@@ -115,7 +118,7 @@ export function ProAlertsTab({ warnings, inApplicabilityDomain, modelUsed }: Pro
             {aviso.mensaje}
           </p>
           {estilo.pie && (
-            <p className="text-[11px] leading-relaxed text-zinc-500 font-sans">{estilo.pie}</p>
+            <p className="text-[11px] leading-relaxed text-zinc-500 font-sans">{t(estilo.pie)}</p>
           )}
         </div>
       </div>
@@ -128,7 +131,7 @@ export function ProAlertsTab({ warnings, inApplicabilityDomain, modelUsed }: Pro
         avisos.map(renderAviso)
       ) : (
         <div className="text-center text-slate-400 text-xs py-12 font-mono">
-          ✓ No se han registrado advertencias ni fallos para esta simulación.
+          {t("pn_sin_advertencias_simulacion")}
         </div>
       )}
     </div>

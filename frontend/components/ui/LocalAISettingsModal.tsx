@@ -1,4 +1,6 @@
 "use client";
+
+import { useLanguage } from "@/context/LanguageContext";
 import { useScrollLock } from "@/hooks/useScrollLock";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -16,6 +18,7 @@ interface LocalAISettingsModalProps {
 }
 
 export function LocalAISettingsModal({ isOpen, onClose }: LocalAISettingsModalProps) {
+  const { t } = useLanguage();
   useScrollLock(isOpen);
   const backdropRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -120,7 +123,7 @@ export function LocalAISettingsModal({ isOpen, onClose }: LocalAISettingsModalPr
             <h3 className="text-lg font-bold text-white/90" style={{ fontFamily: "'Space Grotesk', Inter, sans-serif" }}>
               Qwen2.5-1.5B-Instruct-Q4_K_M.gguf
             </h3>
-            <p className="text-xs text-white/40 mt-1 font-mono">1.04 GB · 28 Capas · Contexto 16K</p>
+            <p className="text-xs text-white/40 mt-1 font-mono">{t("auto_30ddbc98d7ae")}</p>
           </div>
           <div className="px-2.5 py-1 rounded border border-emerald-500/20 bg-emerald-500/10 flex items-center gap-1.5">
             <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -133,7 +136,7 @@ export function LocalAISettingsModal({ isOpen, onClose }: LocalAISettingsModalPr
         <div className="p-4 rounded-xl bg-[#0a0b0f] border border-white/5">
           <div className="flex items-center gap-2 mb-4">
             <Cpu size={14} className="text-purple-400" />
-            <span className="text-xs font-semibold text-white/70 uppercase tracking-widest">Asignación GPU (VRAM)</span>
+            <span className="text-xs font-semibold text-white/70 uppercase tracking-widest">{t("ia_asignacion_gpu")}</span>
           </div>
           <div className="space-y-4">
             <div>
@@ -209,7 +212,7 @@ export function LocalAISettingsModal({ isOpen, onClose }: LocalAISettingsModalPr
         <div className="p-4 rounded-xl bg-white/[0.01] border border-white/5 space-y-4">
           <div className="flex items-center gap-2 mb-2">
             <Zap size={14} className="text-amber-400" />
-            <span className="text-xs font-semibold text-white/70 uppercase tracking-widest">Motor & Contexto</span>
+            <span className="text-xs font-semibold text-white/70 uppercase tracking-widest">{t("auto_235c95e00aa7")}</span>
           </div>
           
           <div>
@@ -272,7 +275,7 @@ export function LocalAISettingsModal({ isOpen, onClose }: LocalAISettingsModalPr
               className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer"
               style={{ accentColor: "#f87171" }}
             />
-            <span className="text-[9px] text-white/30 mt-1 block">0 = Analítico (Química), 1 = Creativo</span>
+            <span className="text-[9px] text-white/30 mt-1 block">{t("z_temperatura")}</span>
           </div>
         </div>
       </div>
@@ -328,7 +331,7 @@ export function LocalAISettingsModal({ isOpen, onClose }: LocalAISettingsModalPr
         <Search size={15} className="text-white/30" />
         <input 
           type="text" 
-          placeholder="Buscar modelos en HuggingFace (ej. mistral, qwen, llama-3)..." 
+          placeholder={t("auto_b28f0997ebb4")}
           className="bg-transparent border-none outline-none text-xs text-white/90 w-full placeholder-white/30 font-sans"
         />
       </div>
@@ -336,7 +339,7 @@ export function LocalAISettingsModal({ isOpen, onClose }: LocalAISettingsModalPr
       <div className="grid grid-cols-2 gap-3 flex-1 overflow-y-auto custom-scrollbar pr-2 pb-2">
         {[
           { id: "Qwen/Qwen2.5-3B-Instruct-GGUF", tags: ["3B", "Chat", "Code"], size: "2.1 GB", rec: true },
-          { id: "microsoft/Phi-3-mini-4k-GGUF", tags: ["3.8B", "Fast", "Logic"], size: "2.3 GB", rec: true },
+          { id: "microsoft/Phi-3-mini-4k-GGUF", tags: ["3.8B", t("ia_rapido"), "Logic"], size: "2.3 GB", rec: true },
           { id: "MaziyarPanahi/Llama-3-8B-Instruct-GGUF", tags: ["8B", "General", "High VRAM"], size: "4.9 GB", rec: false },
           { id: "NousResearch/Hermes-2-Pro-Llama-3-8B-GGUF", tags: ["8B", "Roleplay", "Tool Use"], size: "4.9 GB", rec: false },
         ].map(model => (
@@ -392,7 +395,7 @@ export function LocalAISettingsModal({ isOpen, onClose }: LocalAISettingsModalPr
           <div className="flex items-center gap-1">
             <TabButton 
               id="dashboard" active={activeTab === "dashboard"} onClick={() => setActiveTab("dashboard")} 
-              icon={<Activity size={14} />} label="Estado & Recursos" 
+              icon={<Activity size={14} />} label={t("auto_7142f0b77fd3")}
             />
             <TabButton 
               id="library" active={activeTab === "library"} onClick={() => setActiveTab("library")} 

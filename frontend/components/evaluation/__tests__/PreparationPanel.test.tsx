@@ -120,6 +120,7 @@ const report: PreflightReport = {
 
 describe("legibilidad y lenguaje público del preflight", () => {
   it("eleva el contraste y no expone constantes ni rutas internas", async () => {
+    vi.spyOn(window.navigator, "language", "get").mockReturnValue("es-ES");
     montar(
       <PreparationPanel
         report={report}
@@ -140,7 +141,7 @@ describe("legibilidad y lenguaje público del preflight", () => {
     // el valor traducido en lugar de por una cadena castellana fija —que es
     // justamente lo que se quitó—.
     const { pro } = await import("../../../context/traducciones/pro");
-    expect(screen.getByText(pro.en.pr_preparacion_explicacion)).toHaveClass(
+    expect(screen.getByText(pro.es.pr_preparacion_explicacion)).toHaveClass(
       "text-zinc-300",
       "font-medium",
     );

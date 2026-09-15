@@ -22,7 +22,7 @@ describe("contrato de etiquetas de los visores", () => {
 
   it("reserva la esquina superior derecha de Web3D para Opciones", () => {
     expect(web3d).toContain('className="absolute right-3 top-3 z-10"');
-    expect(web3d).toContain("Opciones");
+    expect(web3d).toContain('t("ev_opciones")');
   });
 
   it("no monta el panel inferior izquierdo de MolStar cuando no hay información", () => {

@@ -98,6 +98,6 @@ describe("mapSarAnalog — adapter SAR (null-safe)", () => {
     );
     expect(source).not.toContain("MOCK_ANALOGS");
     expect(source).not.toContain("modo demo/mock");
-    expect(source).toContain("No se muestran ejemplos ni resultados simulados");
+    expect(source).toContain('t("auto_51a229f168ca")');
   });
 });

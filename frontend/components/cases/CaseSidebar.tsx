@@ -163,7 +163,7 @@ export function CaseSidebar({
             <span className="block truncate text-sm text-zinc-200">{entry.name}</span>
             <span className="mt-0.5 block truncate font-mono text-[10px] uppercase tracking-wider text-zinc-500">
               {CASE_STATUS_LABELS[entry.status]} · {formatEvaluationActivity(entry, now)}
-              {entry.recoveredFromBackup ? " · recuperado" : ""}
+              {entry.recoveredFromBackup ? t("auto_53678bc8e56b") : ""}
             </span>
           </button>
 
@@ -244,10 +244,10 @@ export function CaseSidebar({
 
       <div className="min-h-0 flex-1 overflow-y-auto px-2 py-2">
         {loading ? (
-          <p className="px-2 py-3 text-xs text-zinc-600">Cargando casos…</p>
+          <p className="px-2 py-3 text-xs text-zinc-600">{t("auto_c1e9de8900fc")}</p>
         ) : active.length === 0 && archived.length === 0 ? (
           <p className="px-2 py-3 text-xs leading-relaxed text-zinc-600">
-            {query ? "Ningún caso coincide con la búsqueda." : "Todavía no hay casos."}
+            {query ? t("auto_46c73e4fa1e0") : t("auto_da7c1fdae98a")}
           </p>
         ) : (
           <>

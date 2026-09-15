@@ -46,6 +46,7 @@ export function esFormatoOUnidad(valor: string): boolean {
   // Una unidad entera primero: `kcal/mol` lleva dentro un separador y trocearla
   // daría «kcal» y «mol», que por separado no son unidades de nada.
   if (UNIDADES.includes(valor.trim())) return true;
+  if (/^[a-z]{2}-[A-Z]{2}$/.test(valor.trim())) return true;
   const sinMarcadores = valor.replace(/\{\w+\}/g, " ");
   const restos = sinMarcadores
     .split(/[\s,:;·/()–—-]+/)

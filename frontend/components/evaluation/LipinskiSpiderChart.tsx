@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 export function LipinskiSpiderChart({
   mw,
   logP,
@@ -13,6 +15,7 @@ export function LipinskiSpiderChart({
   hba: number;
   rotb: number;
 }) {
+  const { t } = useLanguage();
   const mwNorm = Math.min(100, (mw / 500) * 50);
   const logPNorm = Math.min(100, (logP / 5.0) * 50);
   const hbdNorm = Math.min(100, (hbd / 5) * 50);
@@ -36,7 +39,7 @@ export function LipinskiSpiderChart({
 
   return (
     <div className="flex flex-col items-center justify-center space-y-4 p-4 lg:pl-6 lg:border-l lg:border-zinc-100 lg:dark:border-zinc-800">
-      <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-400">Red de Viabilidad (Lipinski)</h4>
+      <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-400">{t("z_red_viabilidad")}</h4>
       <div className="relative w-52 h-52">
         <svg viewBox="0 0 200 200" className="w-full h-full">
           <circle cx="100" cy="100" r="25" fill="none" className="stroke-zinc-100 dark:stroke-zinc-800/40" strokeWidth="1" />
@@ -101,7 +104,7 @@ export function LipinskiSpiderChart({
 
       <div className="text-[10px] text-zinc-400 text-center font-mono leading-relaxed pt-2">
         <span className="inline-block w-2 h-2 border border-dashed border-zinc-400 mr-1.5" />
-        Límite Ideal
+        {t("z_limite_ideal")}
         <span className="inline-block w-2 h-2 bg-zinc-900 dark:bg-white ml-3 mr-1.5" />
         Tu Compuesto
       </div>

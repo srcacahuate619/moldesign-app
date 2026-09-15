@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 // =====================================================================
 // El detalle abrible del sitio de unión — para quien acaba de llegar
 // =====================================================================
@@ -36,6 +38,7 @@ type Props = {
 };
 
 export function DetalleDelSitio({ target, abiertoPorDefecto = false }: Props) {
+  const { t } = useLanguage();
   const explicacion = explicarSitio(target);
   // Las secciones que advierten se cuentan para poder decirlo en el resumen:
   // quien no abra el detalle merece saber que hay algo dentro que le afecta.
@@ -60,7 +63,7 @@ export function DetalleDelSitio({ target, abiertoPorDefecto = false }: Props) {
           {explicacion.titular}
         </span>
         <span className="shrink-0 font-mono text-[10px] font-bold uppercase tracking-wider text-zinc-500">
-          Qué significa
+          {t("c_que_significa")}
         </span>
         <ChevronDown
           size={14}

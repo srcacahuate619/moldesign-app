@@ -22,6 +22,11 @@ vi.mock("../../../context/LanguageContext", () => ({
     locale: "es",
     setLocale: vi.fn(),
     currentLanguage: { code: "es", flag: "🇲🇽", name: "Español" },
+    t: (key: string) => ({
+      support: "Soporte",
+      ev_opciones: "Opciones",
+      pn_soporte_error: "Si una evaluación falla, adjunta el identificador.",
+    } as Record<string, string>)[key] ?? key,
   }),
 }));
 

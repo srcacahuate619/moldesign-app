@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React, { ReactNode } from "react";
 import { Info, HelpCircle } from "lucide-react";
 
@@ -122,6 +124,7 @@ interface InfoCalloutProps {
 }
 
 export function InfoCallout({ title, children, variant = "info", defaultOpen = false }: InfoCalloutProps) {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = React.useState(defaultOpen);
 
   const colors = {
@@ -141,7 +144,7 @@ export function InfoCallout({ title, children, variant = "info", defaultOpen = f
           {title}
         </span>
         <span className="text-[10px] font-mono uppercase opacity-70 underline">
-          {isOpen ? "Ocultar Explicación" : "Ver Explicación Didáctica"}
+          {isOpen ? t("auto_d8241c88dccc") : t("auto_4f8be5b5a78e")}
         </span>
       </button>
       {isOpen && (

@@ -831,12 +831,12 @@ export default function ProEvaluation({
                 ) : target ? (
                   `Receptor elegido: ${target}`
                 ) : (
-                  "Elige receptor"
+                  t("ev_elige_receptor")
                 )}
               </span>
             </div>
             <span className="shrink-0 font-mono text-xs font-semibold text-zinc-200 transition-colors group-hover:text-purple-200">
-              {structuralSystemLocked ? "Sistema fijado" : target ? "Cambiar ↵" : "Seleccionar ↵"}
+              {structuralSystemLocked ? t("ev_sistema_fijado_corto") : target ? t("auto_88e384ba325d") : t("auto_a857918b94ae")}
             </span>
           </button>
 
@@ -864,17 +864,17 @@ export default function ProEvaluation({
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-purple-200">
                 {structuralSystemProvisional
-                  ? "Sistema estructural provisional"
-                  : "Sistema estructural fijado"}
+                  ? t("ev_sistema_provisional")
+                  : t("ev_sistema_fijado")}
               </p>
               <span className="font-mono text-xs font-medium text-zinc-300">
-                desde la corrida {structuralSystem.sourceRunTaskId.slice(0, 8)}…
+                {t("auto_a8e7405da2c4")} {structuralSystem.sourceRunTaskId.slice(0, 8)}…
               </span>
             </div>
             <p className="mt-1.5 text-sm font-semibold leading-6 text-zinc-100">
               {structuralSystem.receptor.pdbId}
               {structuralSystem.receptor.chain ? ` · cadena ${structuralSystem.receptor.chain}` : ""}
-              {" · caja "}
+              {t("auto_a4b23b13a357")}
               {structuralSystem.grid.size.map((value) => value.toFixed(1)).join(" × ")} Å
               {" · "}{structuralSystem.dockingEngine}
             </p>
@@ -938,7 +938,7 @@ export default function ProEvaluation({
             className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:border-purple-500/30 hover:bg-zinc-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 cursor-pointer"
           >
             <Settings size={14} />
-            Opciones
+            {t("ev_opciones")}
           </button>
 
           {/* El libro de corridas del caso. Antes no había ninguna puerta: la
@@ -958,7 +958,7 @@ export default function ProEvaluation({
               className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:border-purple-500/30 hover:bg-zinc-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 cursor-pointer disabled:cursor-not-allowed disabled:opacity-45"
             >
               <History size={14} />
-              Evaluaciones anteriores
+              {t("ev_evaluaciones_anteriores")}
               {runCount > 0 && (
                 <span className="rounded-md bg-zinc-800 px-1.5 py-0.5 text-[10px] text-zinc-300">
                   {runCount}
@@ -1038,7 +1038,7 @@ export default function ProEvaluation({
               title={t("ev_cancelar_corrida")}
             >
               <X size={14} />
-              Cancelar
+              {t("c_cancelar")}
             </button>
           )}
         </div>
@@ -1087,7 +1087,7 @@ export default function ProEvaluation({
             {t("ev_fallo")}
           </p>
           <p className="text-xs font-mono text-white/40 max-w-lg leading-relaxed">
-            {status?.error ?? error ?? "Error desconocido durante el pipeline."}
+            {status?.error ?? error ?? t("ev_error_pipeline")}
           </p>
           <button
             onClick={() => handleReset?.()}
@@ -1115,10 +1115,10 @@ export default function ProEvaluation({
           <p className={`text-sm font-black uppercase tracking-widest font-mono ${resultRecovery.state === "blocked" ? "text-amber-300" : "text-brand-400"}`}>
             {resultRecovery.state === "recovering"
               ? "Recuperando resultados guardados"
-              : "No se pudo abrir el resultado guardado"}
+              : t("ev_no_se_abrio_resultado")}
           </p>
           <p className="text-xs font-mono text-white/45 max-w-xl leading-relaxed">
-            {resultRecovery.message ?? "Estamos consultando la evidencia persistida de la última corrida."}
+            {resultRecovery.message ?? t("ev_consultando_evidencia")}
           </p>
           {resultRecovery.state === "blocked" && onRetryResultRecovery && (
             <button
@@ -1126,7 +1126,7 @@ export default function ProEvaluation({
               onClick={onRetryResultRecovery}
               className="mt-2 min-h-11 whitespace-nowrap rounded-xl border border-amber-500/35 bg-amber-500/10 px-5 py-2 font-mono text-xs font-bold uppercase tracking-wider text-amber-200 transition-colors hover:bg-amber-500/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400"
             >
-              {resultRecovery.requiresLogin ? "Iniciar sesión" : "Reintentar recuperación"}
+              {resultRecovery.requiresLogin ? t("c_iniciar_sesion") : t("ev_reintentar_recuperacion")}
             </button>
           )}
         </div>
@@ -1184,7 +1184,7 @@ export default function ProEvaluation({
                 pertenece al mismo resultado que se está mirando. */}
             <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:items-center sm:justify-between">
               <p className="min-w-0 break-words font-mono text-xs text-white/30">
-                {displayResult.target_name ?? "—"} ({selectedTargetObj?.pdb_id ?? "—"}) · corrida {realResult.molecule_id?.slice(0, 8) ?? "sin ID"} · señales heredadas disponibles solo como traza técnica
+                {displayResult.target_name ?? "—"} ({selectedTargetObj?.pdb_id ?? "—"}{t("auto_c2afbe19da8c")} {realResult.molecule_id?.slice(0, 8) ?? t("auto_14009a618e8d")} {t("auto_655a8de817b6")}
               </p>
               <div className="flex flex-wrap gap-3">
               <button onClick={() => setShowResults(false)} className="min-h-11 whitespace-nowrap rounded-lg border border-white/10 bg-white/5 px-5 font-mono text-xs font-bold uppercase tracking-wider text-white/40 transition-colors hover:text-white/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400">
@@ -1228,7 +1228,7 @@ export default function ProEvaluation({
                 if (realResult.ums_warhead != null) {
                   realDot.ums = { value: realResult.ums_warhead.toFixed(2), sub: "SMARTS · informativa" };
                 } else if (realResult.ums_score != null) {
-                  realDot.ums = { value: realResult.ums_score.toFixed(2), sub: "UMS histórico" };
+                  realDot.ums = { value: realResult.ums_score.toFixed(2), sub: t("ev_ums_historico") };
                 }
                 if (realResult.mmgbsa_score != null) realDot.mmgbsa = { value: `${realResult.mmgbsa_score.toFixed(1)} kcal/mol` };
                 // MM-GBSA on-demand (modal): el endpoint NO persiste al ORM,
@@ -1299,13 +1299,13 @@ export default function ProEvaluation({
                 <section ref={dotRef} className="border-b border-white/5 pb-5">
                   <div className="flex items-baseline justify-between mb-4">
                     <p className="text-sm font-bold uppercase tracking-[0.15em] text-white/30 font-sans">
-                      Procedencia de las señales ·{" "}
+                      {t("auto_7f97a774bf43")}{" "}
                       <span className="text-purple-300/80">
                         {pipeline.label}
                       </span>
                     </p>
                     <span className="text-[10px] font-mono uppercase tracking-wider text-white/20 border border-white/10 rounded px-2 py-0.5">
-                      familia: {famLabel}
+                      {t("auto_e198b2927fa4")} {famLabel}
                     </span>
                   </div>
 
@@ -1325,13 +1325,9 @@ export default function ProEvaluation({
                       </p>
                       <p className="mt-1.5 max-w-[78ch] text-[11px] leading-relaxed text-amber-100/80">
                         {ausentes.map((etapa) => etapa.label).join(", ")}{" "}
-                        {ausentes.length === 1 ? "no produjo salida" : "no produjeron salida"} en
-                        este equipo, aunque «{pipeline.label}» {ausentes.length === 1 ? "le" : "les"}{" "}
-                        asigna peso por diseño
-                        {" "}({ausentes.map((etapa) => `${etapa.label} w=${etapa.pesoDeDiseno.toFixed(2)}`).join(" · ")}).
-                        El resultado lo sostienen las señales que sí opinaron, con los pesos
-                        renormalizados que aparecen en cada tarjeta. La descripción de la familia
-                        y su nota de abajo siguen describiendo el diseño, no lo que pasó aquí.
+                        {ausentes.length === 1 ? t("ev_no_produjo_salida") : t("ev_no_produjeron_salida")} {t("auto_1efcd5b46d53")}{pipeline.label}» {ausentes.length === 1 ? "le" : "les"}{" "}
+                        {t("auto_d0b584a74983")}
+                        {" "}({ausentes.map((etapa) => `${etapa.label} w=${etapa.pesoDeDiseno.toFixed(2)}`).join(" · ")}{t("auto_d45dcd15ff99")}
                       </p>
                     </div>
                   )}
@@ -1362,7 +1358,7 @@ export default function ProEvaluation({
                               color: mmgbsaClickable ? "#c4b5fd" : mmgbsaRunning ? "#6ee7b7" : mmgbsaDone ? "#34d399" : dimmed ? "#ffffff20" : "#ffffffb3",
                             }}
                           >
-                            {mmgbsaRunning ? "calculando…" : node.label}
+                            {mmgbsaRunning ? t("auto_bbaf37d0b894") : node.label}
                           </span>
                           <span
                             className="text-sm font-bold font-mono"
@@ -1378,7 +1374,7 @@ export default function ProEvaluation({
                           </span>
                           {mmgbsaDone && (
                             <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400/90 border border-emerald-500/20 rounded px-1 py-0.5">
-                              ✓ calculado
+                              {t("auto_1699d016aa59")}
                             </span>
                           )}
                           {node.post_hoc && (
@@ -1476,7 +1472,7 @@ export default function ProEvaluation({
                       una frase como «CL-GNN domina» se lee como la crónica de
                       esta corrida, y en 2BQV CL-GNN no llegó a correr. */}
                   <p className="text-[11px] font-mono text-white/20 mt-3 italic">
-                    Diseño de la familia: {pipeline.note}
+                    {t("auto_408d39d8cace")} {pipeline.note}
                   </p>
                   <p className="text-[10px] font-mono text-white/15 mt-1 text-right">
                     {t("ev_pesos_no_calibrados")}
@@ -1560,7 +1556,7 @@ export default function ProEvaluation({
                   : "border-white/10 bg-white/[0.02] text-white/50 hover:border-white/20 hover:text-white/80"
               }`}
             >
-              {isSaved ? "✓ Guardado en MolDex" : "Guardar en MolDex"}
+              {isSaved ? t("auto_6edd056bba4f") : "Guardar en MolDex"}
             </button>
             <button
               onClick={() => setShowCertificationModal(true)}
@@ -1573,7 +1569,7 @@ export default function ProEvaluation({
               title={t("ev_certificar_aviso")}
             >
               <ShieldCheck size={14} />
-              {realResult?.blockchain_tx_id ? "Integridad registrada" : "Registrar integridad en Solana"}
+              {realResult?.blockchain_tx_id ? t("stats_certified") : "Registrar integridad en Solana"}
             </button>
           </section>
 
@@ -1618,7 +1614,7 @@ export default function ProEvaluation({
                 onClick={() => setShowPdfPreview(false)}
                 aria-label={t("ev_cerrar_vista_previa")}
                 className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
-                title="Cerrar"
+                title={t("c_cerrar")}
               >
                 ✕
               </button>
@@ -1782,7 +1778,7 @@ export default function ProEvaluation({
                     className="w-full h-9 px-3 font-mono text-xs font-bold rounded-lg outline-none cursor-pointer disabled:opacity-40 bg-black border border-white/10 text-white"
                   >
                     {availablePoseRanks.map(r => (
-                      <option key={r} value={r}>Pose #{r} {r === 1 ? "(Mejor)" : ""}</option>
+                      <option key={r} value={r}>Pose #{r} {r === 1 ? t("auto_0489bdaf3ead") : ""}</option>
                     ))}
                   </select>
                 </div>
@@ -1796,7 +1792,7 @@ export default function ProEvaluation({
                   >
                     <option value={500}>{t("ev_mmgbsa_pasos_rapido")}</option>
                     <option value={1000}>{t("ev_mmgbsa_pasos_estandar")}</option>
-                    <option value={2500}>2,500 pasos (Preciso)</option>
+                    <option value={2500}>{t("auto_d922d95776df")}</option>
                     <option value={5000}>{t("ev_mmgbsa_pasos_maximo")}</option>
                   </select>
                 </div>
@@ -1814,7 +1810,7 @@ export default function ProEvaluation({
                 {mmgbsaState === "running" ? (
                   <>
                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-emerald-300 border-t-transparent inline-block" />
-                    Calculando con OpenMM... ({mmgbsaNumSteps.toLocaleString()} pasos)
+                    {t("auto_1da2cfab4f02")}{mmgbsaNumSteps.toLocaleString()} pasos)
                   </>
                 ) : (
                   <>
@@ -1845,7 +1841,7 @@ export default function ProEvaluation({
                   </div>
                   <div className="text-center space-y-1">
                     <p className="text-sm font-black text-emerald-400 uppercase tracking-widest animate-pulse">{t("ev_mmgbsa_en_curso")}</p>
-                    <p className="text-xs text-white/40 font-mono">{mmgbsaNumSteps.toLocaleString()} pasos · OpenMM</p>
+                    <p className="text-xs text-white/40 font-mono">{mmgbsaNumSteps.toLocaleString()} {t("auto_db10d518faf4")}</p>
                     <p className="text-[10px] text-white/30">{t("ev_mmgbsa_puede_tardar")}</p>
                   </div>
                 </div>
@@ -1868,10 +1864,10 @@ export default function ProEvaluation({
                 const totalKcal = r.delta_g_total_kcal;
 
                 const components = [
-                  { label: "Van der Waals", key: "vdw", value: r.delta_g_vdw, color: "#6366f1", desc: "Interacciones hidrofóbicas y de contacto estérico" },
-                  { label: "Electrostática", key: "elec", value: r.delta_g_electrostatic, color: "#f59e0b", desc: "Cargas iónicas y puentes de hidrógeno cargados" },
-                  { label: "Solvatación GB (polar)", key: "gb", value: r.delta_g_gb_polar, color: "#3b82f6", desc: "Costo de desolvatación polar (Generalized Born)" },
-                  { label: "Solvatación SASA (no polar)", key: "sasa", value: r.delta_g_nonpolar_sasa, color: "#14b8a6", desc: "Efecto hidrofóbico (Solvent Accessible Surface Area)" },
+                  { label: "Van der Waals", key: "vdw", value: r.delta_g_vdw, color: "#6366f1", desc: t("auto_898e5bcf715e") },
+                  { label: t("ev_mmgbsa_electrostatica"), key: "elec", value: r.delta_g_electrostatic, color: "#f59e0b", desc: t("auto_56307dd72ba4") },
+                  { label: t("ev_mmgbsa_solvatacion_gb"), key: "gb", value: r.delta_g_gb_polar, color: "#3b82f6", desc: t("auto_0ef026dc501a") },
+                  { label: t("ev_mmgbsa_solvatacion_sasa"), key: "sasa", value: r.delta_g_nonpolar_sasa, color: "#14b8a6", desc: t("auto_f1b31204597b") },
                 ];
                 // FIX MM-GBSA (2026-08-04): el endpoint /pro/mmgbsa ahora devuelve
                 // ΔG real (g_complex - g_protein - g_ligand) pero SIN descomposición
@@ -1893,7 +1889,7 @@ export default function ProEvaluation({
                         {t("ev_mmgbsa_post_hoc")}
                       </p>
                       <p className="text-[10px] text-white/30 mt-2 font-mono">
-                        Pose #{(r.pose_rank ?? mmgbsaPoseRank)} · Minimizado {r.minimized ? "✓" : "—"} · {r.platform ?? "OpenMM"} · {r.execution_time_s != null ? `${r.execution_time_s.toFixed(1)}s` : "—"}
+                        Pose #{(r.pose_rank ?? mmgbsaPoseRank)} {t("auto_b27be63607e8")} {r.minimized ? "✓" : "—"} · {r.platform ?? "OpenMM"} · {r.execution_time_s != null ? `${r.execution_time_s.toFixed(1)}s` : "—"}
                       </p>
                     </div>
 
@@ -1941,7 +1937,7 @@ export default function ProEvaluation({
                                   />
                                 </div>
                                 <p className="text-[10px] mt-1 font-mono" style={{ color: isFavorable ? "#6ee7b7" : "#fca5a5" }}>
-                                  {isFavorable ? "▼ Contribución negativa en este modelo" : "▲ Contribución positiva en este modelo"}
+                                  {isFavorable ? t("auto_2d325f1fbc1d") : t("auto_6dbd2d03ab5b")}
                                 </p>
                               </div>
                             );
@@ -1956,7 +1952,7 @@ export default function ProEvaluation({
 
                     {/* ΔG Bind */}
                     <div className="flex items-center justify-between p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
-                      <span className="text-xs font-bold font-mono text-white/70">ΔG Bind (calculado)</span>
+                      <span className="text-xs font-bold font-mono text-white/70">{t("auto_da25b074a86c")}</span>
                       <span className="text-sm font-black font-mono text-emerald-400">{(r.delta_g_bind ?? r.delta_g_total_kcal).toFixed(2)} kcal/mol</span>
                     </div>
                   </div>

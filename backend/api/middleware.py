@@ -17,6 +17,12 @@ from __future__ import annotations
 
 import time
 from uuid import uuid4
+from core.i18n import (
+    localize_json_response,
+    parse_accept_language,
+    reset_request_locale,
+    set_request_locale,
+)
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -43,6 +49,8 @@ def register_middleware(app: FastAPI) -> None:
     async def request_context_middleware(request: Request, call_next):
         request_id = request.headers.get("X-Request-ID") or str(uuid4())
         started = time.perf_counter()
+        locale = parse_accept_language(request.headers.get("accept-language"))
+        locale_token = set_request_locale(locale)
 
         bind_context(
             request_id=request_id,
@@ -54,15 +62,21 @@ def register_middleware(app: FastAPI) -> None:
         log.info("request iniciada")
         try:
             response = await call_next(request)
+            response = await localize_json_response(response)
         except Exception:
             log.exception("request falló con excepción no controlada")
             raise
         finally:
+            reset_request_locale(locale_token)
             clear_context()
 
         elapsed_ms = round((time.perf_counter() - started) * 1000, 2)
         response.headers["X-Request-ID"] = request_id
         response.headers["X-Process-Time"] = str(elapsed_ms)
+        response.headers.setdefault(
+            "Content-Language",
+            locale,
+        )
 
         bind_context(elapsed_ms=elapsed_ms)
         log.info(

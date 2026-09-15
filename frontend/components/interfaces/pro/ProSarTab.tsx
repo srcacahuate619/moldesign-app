@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { GitFork, ArrowUpRight, ArrowDownRight, Info, Loader2 } from "lucide-react";
@@ -40,6 +42,7 @@ export function mapSarAnalog(raw: any, index: number): SarAnalog {
 }
 
 export function ProSarTab({ moleculeId }: { moleculeId?: string | null }) {
+  const { t } = useLanguage();
   const [selected, setSelected] = useState<SarAnalog | null>(null);
   const [analogs, setAnalogs] = useState<SarAnalog[] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -77,11 +80,11 @@ export function ProSarTab({ moleculeId }: { moleculeId?: string | null }) {
         <div className="flex items-center gap-2 font-mono">
           <GitFork size={18} className="text-purple-400" />
           <span className="font-black uppercase tracking-wider text-zinc-200 text-xs sm:text-sm">
-            Análisis SAR — Estructura-Actividad
+            {t("z_analisis_sar")}
           </span>
         </div>
         <span className="text-[10px] font-mono uppercase tracking-wider text-white/20 border border-white/10 rounded px-2 py-0.5">
-          {loading ? "cargando…" : `${displayAnalogs.length} análogos`}
+          {loading ? t("auto_11febafc08d5") : `${displayAnalogs.length} análogos`}
         </span>
       </div>
 
@@ -89,26 +92,26 @@ export function ProSarTab({ moleculeId }: { moleculeId?: string | null }) {
       <div className="bg-black/40 p-4 rounded-xl border border-white/10 space-y-2 font-mono text-xs">
         <p className="text-slate-300 leading-relaxed font-sans">
           {moleculeId
-            ? "La tabla compara evaluaciones disponibles contra el mismo receptor. La similitud usa Tanimoto sobre el fingerprint topológico de RDKit; los deltas sólo aparecen cuando ambas corridas conservan la métrica correspondiente."
-            : "Selecciona una evaluación persistida para consultar moléculas comparables contra el mismo receptor. No se muestran ejemplos ni resultados simulados."}
+            ? t("auto_b5b351f33de7")
+            : t("auto_51a229f168ca")}
         </p>
       </div>
 
       {/* Analog table */}
       <div className="space-y-2">
         <span className="block text-xs font-mono font-bold uppercase tracking-widest text-zinc-300">
-          Moléculas estructuralmente comparables
+          {t("pn_sar_comparables")}
         </span>
 
         {loading ? (
           <div className="flex flex-col items-center justify-center py-14 gap-3 text-white/40">
             <Loader2 size={28} className="text-purple-400 animate-spin" />
-            <p className="text-xs font-mono uppercase tracking-widest">Consultando análogos estructurales...</p>
+            <p className="text-xs font-mono uppercase tracking-widest">{t("z_consultando_analogos")}</p>
           </div>
         ) : displayAnalogs.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-14 gap-2 text-white/30">
             <GitFork size={28} className="text-white/10" />
-            <p className="text-xs font-mono">Sin análogos disponibles aún — evaluá más moléculas contra el mismo receptor para poblar el SAR.</p>
+            <p className="text-xs font-mono">{t("z_sin_analogos")}</p>
           </div>
         ) : displayAnalogs.map((a, idx) => {
           const isBetter = a.delta_score != null && a.delta_score > 0;
@@ -159,7 +162,7 @@ export function ProSarTab({ moleculeId }: { moleculeId?: string | null }) {
                     </span>
                   </div>
                   <div className="text-right">
-                    <span className="text-[9px] text-zinc-500 block uppercase tracking-wider">ΔAfinidad</span>
+                    <span className="text-[9px] text-zinc-500 block uppercase tracking-wider">{t("auto_b918b224065b")}</span>
                     <span className={`font-bold ${a.delta_affinity == null ? "text-zinc-500" : a.delta_affinity < 0 ? "text-emerald-400" : "text-rose-400"}`}>
                       {a.delta_affinity == null ? "—" : `${a.delta_affinity > 0 ? "+" : ""}${a.delta_affinity.toFixed(1)}`}
                     </span>
@@ -198,7 +201,7 @@ export function ProSarTab({ moleculeId }: { moleculeId?: string | null }) {
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <h3 className="text-sm font-black uppercase tracking-wider text-purple-300 flex items-center gap-2">
                   <GitFork size={16} className="text-purple-400" />
-                  Análogo #{selected.id}
+                  {t("auto_6d710465e74b")}{selected.id}
                 </h3>
                 <span
                   className="text-xs font-mono font-bold px-2.5 py-1 rounded border"
@@ -208,7 +211,7 @@ export function ProSarTab({ moleculeId }: { moleculeId?: string | null }) {
                     backgroundColor: selected.delta_score == null ? "rgba(161,161,170,0.08)" : selected.delta_score > 0 ? "rgba(16,185,129,0.08)" : "rgba(244,63,94,0.08)",
                   }}
                 >
-                  {selected.delta_score == null ? "Sin comparación" : selected.delta_score > 0 ? "Puntuación mayor" : "Puntuación menor"}
+                  {selected.delta_score == null ? t("auto_85e292a64f4e") : selected.delta_score > 0 ? t("auto_61757f570214") : t("auto_dca3aacd35e5")}
                 </span>
               </div>
 
@@ -241,7 +244,7 @@ export function ProSarTab({ moleculeId }: { moleculeId?: string | null }) {
                   </span>
                 </div>
                 <div className="bg-black/40 p-3 rounded-xl border border-white/10 text-center">
-                  <span className="text-[9px] text-zinc-400 block uppercase tracking-wider mb-1">ΔAfinidad</span>
+                  <span className="text-[9px] text-zinc-400 block uppercase tracking-wider mb-1">{t("auto_b918b224065b")}</span>
                   <span className={`text-sm font-black ${selected.delta_affinity == null ? "text-zinc-500" : selected.delta_affinity < 0 ? "text-emerald-400" : "text-rose-400"}`}>
                     {selected.delta_affinity == null ? "—" : `${selected.delta_affinity > 0 ? "+" : ""}${selected.delta_affinity.toFixed(1)} kcal/mol`}
                   </span>
@@ -263,10 +266,10 @@ export function ProSarTab({ moleculeId }: { moleculeId?: string | null }) {
                 <Info size={14} />
                 <span className="font-bold">
                   {selected.lipinski === true
-                    ? "Lipinski pasado — cumple reglas de drug-likeness"
+                    ? t("auto_52e9ae29fb89")
                     : selected.lipinski === false
-                    ? "Lipinski fallado — molécula demasiado voluminosa o lipofílica"
-                    : "Lipinski no calculado para este análogo"}
+                    ? t("auto_6cb27c1bf686")
+                    : t("auto_5cc2fcbbbc9d")}
                 </span>
               </div>
             </div>

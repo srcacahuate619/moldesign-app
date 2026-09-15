@@ -30,12 +30,12 @@ export function CaseDispositionPanel({ disposition, runRelation, onSubmit }: Cas
 
   const submit = () => {
     if (!relationOk && kind !== "abstain") {
-      setError("La corrida no corresponde a los inputs actuales. Corrige la hipótesis o abstente.");
+      setError(t("auto_66c8de9b17f6"));
       return;
     }
     const ok = onSubmit(kind, rationale);
     if (ok) setError(null);
-    else setError("La disposición no se pudo guardar. Revisa la justificación.");
+    else setError(t("auto_471ce73812dc"));
   };
 
   return (
@@ -91,7 +91,7 @@ export function CaseDispositionPanel({ disposition, runRelation, onSubmit }: Cas
                 <textarea value={rationale} onChange={(event) => setRationale(event.target.value)} rows={2} maxLength={4000} placeholder={t("ca_justificacion_ejemplo")} className="mt-1 block w-full resize-y rounded-md border border-surface-700 bg-surface-900 px-3 py-2 text-xs leading-relaxed text-zinc-100 outline-none placeholder:text-zinc-600 focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20" />
               </label>
               <button type="button" onClick={submit} className="min-h-11 shrink-0 whitespace-nowrap rounded-md bg-brand-600 px-4 text-xs font-medium text-white transition-colors hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400">
-                {relationOk ? "Guardar disposición" : "Guardar abstención"}
+                {relationOk ? t("auto_b579df9fd203") : t("auto_fc11ec3c0679")}
               </button>
             </div>
             {error && <p role="alert" className="text-xs text-amber-300">{error}</p>}

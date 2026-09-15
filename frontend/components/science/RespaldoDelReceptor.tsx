@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React from "react";
 
 /**
@@ -81,6 +83,7 @@ export function RespaldoDelReceptor({
   mostrarAdvertencia = false,
   compacto = false,
 }: Props) {
+  const { t } = useLanguage();
   const color = colorDe(calibracion);
   const etiqueta = nivelLegible(calibracion?.nivel);
   const advierte = necesitaAdvertencia(calibracion);
@@ -145,9 +148,9 @@ export function RespaldoDelReceptor({
           }}
         >
           {calibracion?.advertencia ||
-            "No se pudo comprobar si el ranking del motor está respaldado para " +
-              "este receptor. Trata el resultado como una hipótesis: no cites " +
-              "el score como evidencia de afinidad."}
+            t("auto_ce72cf899871") +
+              t("auto_dbfb7d741250") +
+              t("auto_8a59609e15c0")}
         </p>
       )}
     </div>

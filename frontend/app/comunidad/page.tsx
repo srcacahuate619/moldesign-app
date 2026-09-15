@@ -48,7 +48,7 @@ export default function ComunidadPage() {
       setLeaderboard(Array.isArray(l) ? l : []);
       setConnected(true);
     } catch {
-      setError("No se pudo conectar con la comunidad. Verifica tu conexión a internet.");
+      setError(t("auto_02aba466e282"));
       setConnected(false);
     } finally {
       setLoading(false);
@@ -201,57 +201,57 @@ export default function ComunidadPage() {
                 <Target className="mb-3 h-8 w-8 text-dim" />
                 <p className="text-sm text-muted">
                   {searchQuery
-                    ? "Sin resultados para esta búsqueda"
+                    ? t("auto_1ce84036ee8b")
                     : error
-                      ? "Los receptores compartidos no están disponibles."
-                      : "No hay targets compartidos aún"}
+                      ? t("auto_e0d54255ddee")
+                      : t("auto_2159b50010ad")}
                 </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {filteredTargets.map(t => (
+                {filteredTargets.map(target => (
                   <div
-                    key={t.pdb_id}
+                    key={target.pdb_id}
                     className="group relative rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-4 transition-all hover:border-purple-500/20 hover:bg-[var(--bg-secondary)]"
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-sm font-black tracking-wide text-purple-600 dark:text-purple-400">{t.pdb_id}</span>
-                        {t.resolution && (
+                        <span className="font-mono text-sm font-black tracking-wide text-purple-600 dark:text-purple-400">{target.pdb_id}</span>
+                        {target.resolution && (
                           <span className="rounded bg-[var(--bg-secondary)] px-1.5 py-0.5 font-mono text-xs text-muted">
-                            {t.resolution}Å
+                            {target.resolution}Å
                           </span>
                         )}
                       </div>
                       <button
-                        onClick={() => handleDownload(t.pdb_id)}
-                        disabled={downloading === t.pdb_id}
+                        onClick={() => handleDownload(target.pdb_id)}
+                        disabled={downloading === target.pdb_id}
                         className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-[var(--border-light)] px-2.5 py-1.5 text-xs font-bold uppercase tracking-wider text-muted transition-all hover:border-purple-500/30 hover:bg-purple-500/[0.06] hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/60 disabled:opacity-40"
                       >
-                        {downloading === t.pdb_id ? (
+                        {downloading === target.pdb_id ? (
                           <RefreshCw className="w-3 h-3 animate-spin" />
                         ) : (
                           <Download className="w-3 h-3" />
                         )}
-                        {downloading === t.pdb_id ? "..." : "Descargar"}
+                        {downloading === target.pdb_id ? "..." : t("c_descargar")}
                       </button>
                     </div>
 
                     <p className="mb-3 line-clamp-2 text-xs leading-relaxed text-muted">
-                      {t.name || "Target sin nombre"}
+                      {target.name || t("auto_3e3117216cff")}
                     </p>
 
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        {t.structural_family && (
+                        {target.structural_family && (
                           <span className="rounded-full border border-[var(--border-light)] bg-[var(--bg-secondary)] px-2 py-0.5 font-mono text-xs uppercase tracking-wider text-muted">
-                            {t.structural_family}
+                            {target.structural_family}
                           </span>
                         )}
                       </div>
-                      {t.creator_username && (
+                      {target.creator_username && (
                         <span className="flex items-center gap-1 font-mono text-xs text-purple-700/80 dark:text-purple-400/70">
-                          <User className="w-3 h-3" />@{t.creator_username}
+                          <User className="w-3 h-3" />@{target.creator_username}
                         </span>
                       )}
                     </div>
@@ -296,7 +296,7 @@ export default function ComunidadPage() {
                       </div>
                       <div className="text-right">
                         <p className="font-mono text-sm font-bold text-muted">{entry.affinity_kcal?.toFixed(1)}</p>
-                        <p className="font-mono text-xs uppercase text-dim">Afinidad observada · kcal/mol</p>
+                        <p className="font-mono text-xs uppercase text-dim">{t("auto_61e81e34882d")}</p>
                       </div>
                     </div>
                   </div>

@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import { useRef, useState, useMemo, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls, Html, Line, Sphere } from "@react-three/drei";
@@ -230,6 +232,7 @@ function Scene({ setActiveTech, activeTech, controlsRef }: { setActiveTech: (t: 
 }
 
 export function TechNetwork3D() {
+  const { t } = useLanguage();
   const [activeTech, setActiveTech] = useState<any>(null);
   const controlsRef = useRef<any>(null);
 
@@ -273,7 +276,7 @@ export function TechNetwork3D() {
         
         {/* Overlay de instrucciones */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[9px] font-mono uppercase tracking-widest text-zinc-500 pointer-events-none">
-          Arrástrame para girar · Click derecho para mover · Doble click para detalles
+          {t("z_girar_3d")}
         </div>
       </div>
 
@@ -310,7 +313,7 @@ export function TechNetwork3D() {
               
               <div className="pl-2">
                 <p className="text-xs sm:text-sm text-zinc-300 font-mono leading-relaxed uppercase bg-[#8c7a99]/5 p-5 border border-[#8c7a99]/10 shadow-inner">
-                  {activeTech.desc}
+                  {t(activeTech.desc)}
                 </p>
               </div>
             </motion.div>

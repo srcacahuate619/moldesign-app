@@ -1,10 +1,13 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import { useState } from "react";
 import { useDownload } from "@/hooks/useDownload";
 import Link from "next/link";
 
 export function LauncherGate({ children }: { children: React.ReactNode }) {
+  const { t } = useLanguage();
   const { isLauncherMode, initialized } = useDownload();
   const [dismissed, setDismissed] = useState(false);
 
@@ -35,10 +38,10 @@ export function LauncherGate({ children }: { children: React.ReactNode }) {
           }}
         >
           <div style={{ fontWeight: 700, marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.05em" }}>
-            ⚠ Modelos pendientes
+            {t("auto_5db708f4985b")}
           </div>
           <div style={{ color: "var(--text-muted)", marginBottom: 12 }}>
-            Algunos modelos de IA aún no se han descargado. Algunas funciones pueden no estar disponibles.
+            {t("pn_modelos_sin_descargar")}
           </div>
           <div style={{ display: "flex", gap: 8 }}>
             <Link

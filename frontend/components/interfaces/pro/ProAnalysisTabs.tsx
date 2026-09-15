@@ -79,7 +79,7 @@ function PoseComparisonWorkspace({
   return (
     <div id="analysis-panel-compare" role="tabpanel" aria-labelledby="analysis-tab-compare" className="space-y-5">
       <header className="max-w-[78ch]">
-        <h3 className="font-display text-lg font-bold tracking-tight text-zinc-100">Comparar poses</h3>
+        <h3 className="font-display text-lg font-bold tracking-tight text-zinc-100">{t("se_cmp_title")}</h3>
         <p className="mt-1.5 text-xs leading-5 text-zinc-500">
           {t("pr_comparar_explicacion")}
         </p>
@@ -146,18 +146,18 @@ function PoseComparisonWorkspace({
               <thead>
                 <tr className="border-b border-white/[0.08] text-left font-mono text-[10px] uppercase tracking-wider text-zinc-500">
                   <th scope="col" className="px-3 py-2.5 font-normal">Pose</th>
-                  <th scope="col" className="px-3 py-2.5 font-normal">Afinidad Vina</th>
+                  <th scope="col" className="px-3 py-2.5 font-normal">{t("se_cmp_affinity")}</th>
                   <th scope="col" className="px-3 py-2.5 font-normal">Selector</th>
                   <th scope="col" className="px-3 py-2.5 font-normal">{t("pr_controles_fisicos")}</th>
-                  <th scope="col" className="px-3 py-2.5 font-normal">Papel</th>
+                  <th scope="col" className="px-3 py-2.5 font-normal">{t("se_cmp_role")}</th>
                 </tr>
               </thead>
               <tbody>
                 {rows.map((row) => {
                   const roles = [
                     row.isVinaTop1 ? "Vina top-1" : null,
-                    row.isSuggested ? "Sugerida" : null,
-                    row.isAlternative && !row.isSuggested ? "Alternativa" : null,
+                    row.isSuggested ? t("se_cmp_role_suggested") : null,
+                    row.isAlternative && !row.isSuggested ? t("se_cmp_role_alternative") : null,
                   ].filter(Boolean);
                   return (
                     <tr key={row.rank} className="border-b border-white/[0.06] last:border-b-0">
@@ -165,7 +165,7 @@ function PoseComparisonWorkspace({
                       <td className="px-3 py-2.5 font-mono text-zinc-400">{row.affinity?.toFixed(2) ?? "—"}</td>
                       <td className="px-3 py-2.5 font-mono text-zinc-400">{row.selectorScore?.toFixed(4) ?? "—"}</td>
                       <td className={`px-3 py-2.5 ${PHYSICAL_STATUS[row.physicalStatus].className}`}>
-                        {PHYSICAL_STATUS[row.physicalStatus].label}
+                        {t(PHYSICAL_STATUS[row.physicalStatus].label)}
                       </td>
                       <td className="px-3 py-2.5 text-zinc-400">{roles.join(" · ") || "—"}</td>
                     </tr>
@@ -318,12 +318,12 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
         warningsCount === 1 ? "1 aviso que atender" : `${warningsCount} avisos que atender`,
       badgeTono: "alerta",
     },
-    { id: "compare", icon: ArrowLeftRight, label: "Comparar poses" },
-    { id: "evidence", icon: ListChecks, label: "Evidencia estructural" },
+    { id: "compare", icon: ArrowLeftRight, label: t("se_cmp_title") },
+    { id: "evidence", icon: ListChecks, label: t("se_title") },
     {
       id: "advanced",
       icon: FlaskConical,
-      label: "Análisis avanzado",
+      label: t("auto_1e9cff730be6"),
       badge: avanzadoDisponibles || undefined,
       badgeDescripcion: `${avanzadoDisponibles} de ${advancedTabsTotal} paneles con resultado`,
       badgeTono: "disponible",
@@ -421,7 +421,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                       <ListChecks size={14} aria-hidden="true" />
                       {estadoDeLaPoseActiva.status === "failed"
                         ? `Ver los ${estadoDeLaPoseActiva.failedCount} controles que fallan`
-                        : "Ver por qué requiere revisión"}
+                        : t("auto_2e80694bf926")}
                     </button>
                   )}
               </div>
@@ -478,7 +478,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                   type="button"
                   role="tab"
                   aria-selected={active}
-                  aria-label={`${tab.label}: ${avanzadoConDatos[tab.id] ? "con resultado" : "sin resultado"}`}
+                  aria-label={`${tab.label}: ${avanzadoConDatos[tab.id] ? t("auto_f24ed0ca4042") : t("auto_310c64678aed")}`}
                   aria-controls={`advanced-panel-${tab.id}`}
                   onClick={() => setAdvancedTab(tab.id)}
                   tabIndex={active ? 0 : -1}
@@ -549,10 +549,9 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                       método sostiene —ordenar poses del mismo ligando— se dice
                       aquí, no en una nota que aparece después de calcular. */}
                   <p className="mt-2 text-xs leading-5 text-zinc-400">
-                    Reminimiza la pose real del acoplamiento con OpenMM y resta
-                    receptor y ligando aislados. Sirve para{" "}
+                    {t("auto_3363d78ec95f")}{" "}
                     <strong className="font-semibold text-zinc-300">{t("pr_ordenar_poses")}</strong>{" "}
-                    contra este mismo receptor.
+                    {t("auto_01a2c44be46f")}
                   </p>
                   <p className="mt-1.5 text-[11px] leading-5 text-amber-200/70">
                     {t("pr_mmgbsa_no_comparable")}
@@ -565,7 +564,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                   className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-emerald-400/30 bg-emerald-500/15 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-100 transition-colors hover:bg-emerald-500/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <FlaskConical size={14} aria-hidden="true" />
-                  {mmgbsaRunning ? "Calculando…" : mmgbsaDone ? "MM-GBSA disponible" : "Configurar MM-GBSA"}
+                  {mmgbsaRunning ? t("c_calculando") : mmgbsaDone ? "MM-GBSA disponible" : "Configurar MM-GBSA"}
                 </button>
               </div>
               {!moleculeId && (
@@ -596,7 +595,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                   </p>
                   {admetDone && !admetError && (
                     <p className="mt-2 text-[11px] leading-5 text-sky-200/80">
-                      El perfil está calculado y guardado con la corrida: aparece en{" "}
+                      {t("auto_1171a79e25ba")}{" "}
                       <strong className="font-semibold">Propiedades</strong> {t("pr_viaja_en_dossier")}
                     </p>
                   )}
@@ -613,7 +612,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                   className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-sky-400/30 bg-sky-500/15 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-wider text-sky-100 transition-colors hover:bg-sky-500/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <Gauge size={14} aria-hidden="true" />
-                  {admetRunning ? "Calculando…" : admetDone ? "ADMET disponible" : "Calcular ADMET"}
+                  {admetRunning ? t("c_calculando") : admetDone ? "ADMET disponible" : "Calcular ADMET"}
                 </button>
               </div>
               {!moleculeId && (

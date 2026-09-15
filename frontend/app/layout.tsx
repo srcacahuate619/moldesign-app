@@ -1,3 +1,5 @@
+
+import { useLanguage } from "@/context/LanguageContext";
 import "./globals.css";
 import type { ReactNode } from "react";
 import { headers } from "next/headers";
@@ -29,6 +31,7 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
+  const { t } = useLanguage();
   // La web lee el nonce inyectado por proxy vía x-nonce. En Tauri no
   // existe un servidor Next ni proxy por request: la CSP viene de
   // tauri.conf.prod.json y el layout debe poder exportarse como HTML estático.
@@ -38,41 +41,20 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const nonce = isDesktopBuild ? "" : ((await headers()).get("x-nonce") ?? "");
 
   return (
-    <html lang="es" className="dark" data-zoom="100" suppressHydrationWarning>
+    <html lang={t("auto_09cd68a2a77b")} className="dark" data-zoom="100" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
         <link rel="icon" href="/favicon.png" type="image/png" />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
-            __html: `
-              (function(){
-                try {
-                  var auth = JSON.parse(localStorage.getItem("moldesign_auth") || "null");
-                  var userId = auth && auth.user && auth.user.user_id;
-                  var saved = userId ? localStorage.getItem("moldesign_theme:user:" + userId) : null;
-                  if (saved === "light") {
-                    document.documentElement.classList.remove("dark");
-                    document.documentElement.classList.add("light");
-                  }
-                } catch(e) {}
-              })();
-            `,
+            __html: t("auto_7a133b421d46"),
           }}
         />
         <script
           nonce={nonce}
           dangerouslySetInnerHTML={{
-            __html: `
-              (function(){
-                var s = document.createElement('script');
-                s.src = '/3Dmol-min.js';
-                s.onerror = function(){
-                  console.warn('[MolDesign] 3Dmol-min.js no encontrado en /public/. Visualizador 3D no disponible. Reinstala la app o ejecuta npm run dev.');
-                };
-                document.head.appendChild(s);
-              })();
-            `,
+            __html: t("auto_4d382c8b0332"),
           }}
         />
         <script
@@ -85,7 +67,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
               "name": "MolDesign AI",
               "applicationCategory": "ScienceApplication",
               "operatingSystem": "Windows, Web",
-              "description": "Herramienta local con código fuente público para preparar, evaluar y documentar evidencia estructural reproducible y auditable.",
+              "description": t("auto_b8c87de15d58"),
               "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
             })
           }}

@@ -1,3 +1,5 @@
+import { useLanguage } from "@/context/LanguageContext";
+
 type Props = {
   progress: number;
   status: string;
@@ -13,6 +15,7 @@ const STATUS_LABELS: Record<string, string> = {
 };
 
 export function ProgressBar({ progress, status }: Props) {
+  const { t } = useLanguage();
   const isActive = status === "PENDING" || status === "STARTED" || status === "submitted" || status === "RETRY";
   const label = STATUS_LABELS[status] ?? status;
   const pct = Math.max(0, Math.min(100, progress));
@@ -22,7 +25,7 @@ export function ProgressBar({ progress, status }: Props) {
       <div className="mb-2 flex items-center justify-between text-sm">
         <span className={`font-medium ${isActive ? "pulse-glow text-brand-400" : "text-gray-300"}`}>
           {isActive && <span className="spinner mr-2 inline-block" />}
-          {label}
+          {t(label)}
         </span>
         <span className="tabular-nums text-surface-400">{progress}%</span>
       </div>

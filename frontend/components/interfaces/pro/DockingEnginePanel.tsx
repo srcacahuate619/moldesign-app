@@ -182,7 +182,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
               <div className="space-y-2 pt-3 border-t border-zinc-200 dark:border-zinc-700/30">
                 <h4 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5">
                   <Brain className="w-3.5 h-3.5" />
-                  Péptidos
+                  {t("auto_7987f4801c2c")}
                   {/* Auto-detect badge */}
                   <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 font-mono">
                     auto-detecta
@@ -190,7 +190,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                   {!isPeptide && (
                     <span className="relative group/tip ml-auto">
                       <span className="w-4 h-4 rounded-full bg-zinc-200 dark:bg-zinc-700 inline-flex items-center justify-center text-[9px] font-bold text-zinc-500 dark:text-zinc-400 cursor-help">
-                        ?
+                        {t("auto_5bab61eb5317")}
                       </span>
                       <div className="absolute bottom-full right-0 mb-2 px-3 py-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-xs text-zinc-600 dark:text-zinc-300 shadow-xl opacity-0 group-hover/tip:opacity-100 transition-opacity pointer-events-none z-50 w-64 text-left leading-relaxed">
                         {t("pr_mot_peptido")}
@@ -211,7 +211,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                       label: "ESMFold",
                       badge: t("pr_mot_rapido"),
                       badgeStyle: { bg: "rgba(14,165,233,0.12)", text: "#38bdf8" },
-                      desc: "ESMFold operativo para plegamiento; la conversión a ligando acoplable aún no soportada, así que el acoplamiento no se evalúa.",
+                      desc: t("auto_14578be07d4d"),
                       gpu: false,
                     },
                     {
@@ -227,7 +227,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                       label: "ColabFold",
                       badge: "PREDICTIVO",
                       badgeStyle: { bg: "rgba(52,211,153,0.12)", text: "#34d399" },
-                      desc: "AlphaFold-Multimer para complejos proteína-péptido.",
+                      desc: t("auto_0ec637ca2747"),
                       gpu: false,
                     },
                     {
@@ -235,7 +235,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                       label: "RFdiffusion",
                       badge: "EXPERIMENTAL",
                       badgeStyle: { bg: "rgba(251,191,36,0.12)", text: "#fbbf24" },
-                      desc: "Difusión SE(3)-equivariante (Baker Lab). GPU requerida.",
+                      desc: t("auto_9331807fc431"),
                       gpu: true,
                     },
                   ] as const).map((p) => {

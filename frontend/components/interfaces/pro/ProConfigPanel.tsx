@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import React, { useEffect, useState } from "react";
 import {
   Cpu, HardDrive, Monitor, Zap, Clock, Shield, Atom, ChevronDown,
@@ -51,6 +53,7 @@ interface ProConfigPanelProps {
 }
 
 export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }: ProConfigPanelProps) {
+  const { t } = useLanguage();
   const [hw, setHw] = useState<HardwareInfo | null>(null);
   const [estimate, setEstimate] = useState<TimeEstimate | null>(null);
   const [antiTargets, setAntiTargets] = useState<AntiTarget[]>([]);
@@ -175,7 +178,7 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
                 <div className="grid grid-cols-3 gap-2">
                   <HardwareChip
                     icon={<Cpu className="w-3 h-3" />}
-                    label={(hw.cpu?.cores_physical || "?") + "C/" + (hw.cpu?.cores_logical || "?") + "T"}
+                    label={(hw.cpu?.cores_physical || t("auto_5bab61eb5317")) + "C/" + (hw.cpu?.cores_logical || t("auto_5bab61eb5317")) + "T"}
                     color="blue"
                   />
                   <HardwareChip
@@ -218,9 +221,9 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
                     [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-violet-500"
                 />
                 <p className="text-[10px] text-zinc-500">
-                  {config.numWorkers <= 2 ? "Conservador — no sobrecarga la CPU" :
-                   config.numWorkers <= 4 ? "Balanceado — buen rendimiento sin ralentizar el equipo" :
-                   "Máximo — utiliza la mayor parte de tu CPU. Cierra otras aplicaciones pesadas"}
+                  {config.numWorkers <= 2 ? t("auto_fb21ded85274") :
+                   config.numWorkers <= 4 ? t("auto_324dd8981c4f") :
+                   t("auto_f63ac70bacae")}
                 </p>
               </div>
 
@@ -250,8 +253,8 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
                   <div className="flex items-center gap-2">
                     <Shield className="w-4 h-4 text-amber-400" />
                     <div>
-                      <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">Panel de Selectividad</span>
-                      <p className="text-[10px] text-zinc-500">Dockea contra el panel declarado de anti-targets</p>
+                      <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">{t("z_panel_selectividad")}</span>
+                      <p className="text-[10px] text-zinc-500">{t("z_dockea_antitargets")}</p>
                     </div>
                   </div>
                   <button
@@ -284,7 +287,7 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
                           <span className="text-[9px] px-1 py-0.5 rounded bg-violet-500/10 text-violet-400 font-mono">TUYO</span>
                         )}
                         {at.source === "default" && (
-                          <span className="text-[9px] px-1 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700/50 text-zinc-500 font-mono">CATÁLOGO</span>
+                          <span className="text-[9px] px-1 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700/50 text-zinc-500 font-mono">{t("pn_catalogo")}</span>
                         )}
                         <div className="relative group/tip">
                           <Info className="w-3 h-3 text-zinc-400 dark:text-zinc-600 group-hover/tip:text-zinc-800 dark:group-hover/tip:text-zinc-400" />
@@ -303,10 +306,10 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
                 <div className="flex items-center gap-2">
                   <Atom className="w-4 h-4 text-violet-400" />
                   <div>
-                    <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">Reevaluación MM-GBSA</span>
+                    <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">{t("pn_reevaluacion_mmgbsa")}</span>
                     <p className="text-[10px] text-zinc-500">
-                      Estima un ΔG MM-GBSA sobre la pose seleccionada
-                      {hw?.gpu?.available ? " — usa GPU" : " — CPU lento"}
+                      {t("auto_e68b364d222e")}
+                      {hw?.gpu?.available ? t("auto_e853b37ac881") : t("auto_3db55aa751bc")}
                     </p>
                   </div>
                 </div>
@@ -335,9 +338,7 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
                         pueden prometer cosas distintas. «~90s extra» era una
                         cifra de una máquina con el modelo ya cargado. */}
                     <p className="text-[10px] text-zinc-500">
-                      Experimental · opt-in. Produce señales ADMET (hERG, CYP, BBB) en local;
-                      la primera carga puede tardar varios minutos, sobre todo en una máquina
-                      virtual. No es necesaria para el docking.
+                      {t("pn_admet_optin")}
                     </p>
                   </div>
                 </div>

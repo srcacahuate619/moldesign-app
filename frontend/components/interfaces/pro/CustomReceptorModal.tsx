@@ -80,11 +80,11 @@ export function CustomReceptorModal({ onClose, onSuccess }: CustomReceptorModalP
       return;
     }
     if (!name.trim()) {
-      setError("Por favor, dale un nombre a tu receptor.");
+      setError(t("auto_4a460dbb24e9"));
       return;
     }
     if (mode === "manual" && (!gridX || !gridY || !gridZ)) {
-      setError("En modo manual debes proveer las coordenadas (X, Y, Z) del centro del sitio activo.");
+      setError(t("auto_324033e95c09"));
       return;
     }
 
@@ -118,7 +118,7 @@ export function CustomReceptorModal({ onClose, onSuccess }: CustomReceptorModalP
       await uploadCustomTarget(formData);
       onSuccess();
     } catch (err: any) {
-      setError(err.message || "Ocurrió un error inesperado al subir el receptor.");
+      setError(err.message || t("auto_67bfa12d71a2"));
     } finally {
       setLoading(false);
     }
@@ -200,7 +200,7 @@ export function CustomReceptorModal({ onClose, onSuccess }: CustomReceptorModalP
                 <ul className="list-disc pl-4 space-y-1">
                   <li>{t("pr_sube_archivo")} <b>.pdbqt</b> {t("pr_ya_preparado")}</li>
                   <li>{t("pr_no_modificaremos")}</li>
-                  <li>Es <b>obligatorio</b> {t("pr_indicar_coordenadas")}</li>
+                  <li>{t("auto_c4bbdea3891b")} <b>obligatorio</b> {t("pr_indicar_coordenadas")}</li>
                 </ul>
               )}
             </div>
@@ -254,7 +254,7 @@ export function CustomReceptorModal({ onClose, onSuccess }: CustomReceptorModalP
                     type="text" 
                     value={cofactors}
                     onChange={e => setCofactors(e.target.value)}
-                    placeholder="Ej. HEM, ZN, MG"
+                    placeholder={t("auto_4dfb289b81ba")}
                     className="w-full bg-black border border-zinc-800 rounded-xl px-3.5 py-2.5 text-white font-mono text-xs focus:outline-none focus:border-purple-500/40 transition-all"
                   />
                 </div>
@@ -335,7 +335,7 @@ export function CustomReceptorModal({ onClose, onSuccess }: CustomReceptorModalP
                 disabled={loading}
                 className="px-5 py-2 rounded-xl text-xs font-bold uppercase border border-zinc-800 text-zinc-400 hover:text-white transition-colors cursor-pointer"
               >
-                Cancelar
+                {t("c_cancelar")}
               </button>
               <button 
                 type="submit"

@@ -40,7 +40,7 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <html lang="es">
+    <html lang={t("auto_09cd68a2a77b")}>
       <body
         style={{
           margin: 0,
@@ -89,7 +89,7 @@ export default function GlobalError({
               fontFamily: "ui-monospace, SFMono-Regular, Consolas, monospace",
             }}
           >
-            {error?.message || "Error sin mensaje."}
+            {error?.message || t("auto_090a83af1bac")}
             {error?.digest ? `\ndigest: ${error.digest}` : ""}
           </pre>
 
@@ -107,7 +107,7 @@ export default function GlobalError({
                 cursor: "pointer",
               }}
             >
-              Reintentar
+              {t("c_reintentar")}
             </button>
             <button
               type="button"

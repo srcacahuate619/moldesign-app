@@ -207,8 +207,7 @@ export default function CaseRunHistoryModal({
               {runs.length === 1
                 ? "1 corrida registrada."
                 : `${runs.length} corridas registradas.`}{" "}
-              Abrir una muestra el resultado que produjo esa corrida; no reemplaza
-              la evaluación que tienes en pantalla ni vuelve a ejecutar nada.
+              {t("auto_4d2183484683")}
             </p>
           </div>
           <button
@@ -266,7 +265,7 @@ export default function CaseRunHistoryModal({
                           )}
                         </div>
                         <p className="mt-2 truncate font-mono text-xs text-zinc-200">
-                          {run.ligandSmiles ?? "Ligando no registrado en esta corrida"}
+                          {run.ligandSmiles ?? t("auto_6ed63fc9cfbb")}
                         </p>
                         <p className="mt-1 font-mono text-[11px] text-zinc-500">
                           {run.protocol
@@ -350,8 +349,7 @@ function RunDetail({
       <div className="mt-3 flex items-start gap-3 rounded-xl border border-amber-500/25 bg-amber-500/[0.05] p-4 text-amber-100" role="alert">
         <AlertTriangle size={16} className="mt-0.5 shrink-0 text-amber-300" aria-hidden="true" />
         <p className="text-xs leading-5">
-          {detail.message} El resultado puede seguir existiendo: esto dice que
-          ahora mismo no se ha podido leer, no que se haya perdido.
+          {detail.message} {t("auto_dae68ac9b41e")}
         </p>
       </div>
     );
@@ -363,20 +361,20 @@ function RunDetail({
   return (
     <div className="mt-3 rounded-xl border border-surface-800 bg-black/40 p-4">
       <dl className="grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-4">
-        <Field label="Afinidad Vina" value={numeroOGuion(result.affinity_kcal, 2, " kcal/mol")} />
+        <Field label={t("se_cmp_affinity")} value={numeroOGuion(result.affinity_kcal, 2, " kcal/mol")} />
         <Field label="Poses" value={String(result.docking_poses?.length ?? 0)} />
-        <Field label="Receptor" value={result.target_name ?? "No definido"} />
-        <Field label="Motor" value={result.vina_version ?? "No registrado"} />
+        <Field label="Receptor" value={result.target_name ?? t("c_no_definido")} />
+        <Field label="Motor" value={result.vina_version ?? t("c_no_registrado")} />
       </dl>
       {/* La regresión de ML NO se presenta junto a la afinidad como si fueran
           la misma cantidad: tienen distinto error y distinto dominio. */}
       {typeof result.ml_pki === "number" && (
         <p className="mt-3 font-mono text-[11px] leading-5 text-zinc-500">
-          Regresión ML: {numeroOGuion(result.ml_pki, 2, " pKi")}
+          {t("auto_62cbf7d98351")} {numeroOGuion(result.ml_pki, 2, " pKi")}
           {result.ml_pki_aplicada === false
-            ? " — fuera del dominio de aplicabilidad; se muestra como referencia, no como predicción."
+            ? t("auto_5bcd0dc46b99")
             : result.ml_pki_aplicada === null
-              ? " — la corrida no registró si cayó dentro del dominio de aplicabilidad."
+              ? t("auto_e3213d2976ba")
               : ""}
         </p>
       )}

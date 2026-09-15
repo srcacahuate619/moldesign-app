@@ -1,3 +1,5 @@
+
+import { useLanguage } from "@/context/LanguageContext";
 /* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V5 */
 "use client";
 
@@ -879,6 +881,7 @@ function CameraRig({ center, distance, externalCamera, onCameraChange, active }:
 // ── Componente principal ────────────────────────────────────────────────
 
 export default function Web3DViewer({ proteinData, poseData, interactions, hotspots = [], chain, gridInfo, onSwitchViewer, viewerLabel, onCameraChange, externalCamera, active = true }: Props) {
+  const { t } = useLanguage();
   // Modo foco: ocultar los átomos grises del receptor (solo sitio activo + grid)
   const [showAtoms, setShowAtoms] = useState(true);
   // Visibilidad de la molécula (ligando acoplado, SDF)
@@ -1023,7 +1026,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
   if (!proteinData || atoms.length === 0) {
     return (
       <div className="w-full h-full flex items-center justify-center text-slate-600 text-xs font-mono uppercase tracking-widest bg-[#05080f]">
-        Sin estructura para visualizar
+        {t("pn_sin_estructura")}
       </div>
     );
   }
@@ -1099,13 +1102,13 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
         {hudOpen && (
           <div className={`${VIEWER_LABEL_PANEL_CLASS} mt-2 flex max-w-[340px] flex-col gap-1.5 px-3 py-2.5`}>
             <span className="text-[12px] font-mono text-slate-300">
-              <span className="text-emerald-400 font-black">{visibleAtoms.length.toLocaleString()}</span> átomos
-              <span className="text-slate-500"> {showAtoms ? "(receptor completo)" : "(solo sitio activo)"}</span>
+              <span className="text-emerald-400 font-black">{visibleAtoms.length.toLocaleString()}</span> {t("pn_atomos")}
+              <span className="text-slate-500"> {showAtoms ? t("auto_1e853721429d") : t("auto_2cdce3bc9ced")}</span>
             </span>
             <span className="text-[12px] font-mono text-cyan-300">
-              <span className="font-black">{hotspotMarkers.length}</span> residuos del sitio activo
+              <span className="font-black">{hotspotMarkers.length}</span> {t("pn_residuos_sitio")}
             </span>
-            <span className="text-[11px] font-mono text-slate-400">Selecciona un residuo para ver su función química</span>
+            <span className="text-[11px] font-mono text-slate-400">{t("pn_selecciona_residuo")}</span>
           </div>
         )}
       </div>
@@ -1142,7 +1145,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
             onWheel={(e) => e.stopPropagation()}
             className={`${VIEWER_LABEL_PANEL_CLASS} pointer-events-auto absolute bottom-full left-0 mb-2 flex max-h-[55vh] max-w-[380px] flex-wrap items-center gap-x-3 gap-y-1.5 overflow-y-auto overscroll-contain px-3 py-2.5 text-[11px] font-semibold tracking-normal text-slate-300`}
           >
-            <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-[#22d3ee] inline-block" /> Caja de acoplamiento</span>
+            <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-[#22d3ee] inline-block" /> {t("pn_caja_acoplamiento")}</span>
             {hotspotMarkers.map((h) => {
               const clean = h.name.toUpperCase().split(":").pop() ?? "";
               const c = hotspotColors.get(clean) ?? "#7dd3fc";
@@ -1168,10 +1171,10 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
               <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-[#e6e6f2] inline-block" /> Ligando acoplado</span>
             )}
             {showInteractions && interactions && interactions.length > 0 && (
-              [...new Set(interactions.map((i) => i.type))].map((t) => (
-                <span key={t} className="flex items-center gap-1.5">
-                  <span className="h-2.5 w-2.5 rounded-sm inline-block" style={{ backgroundColor: INTERACTION_COLORS[t] ?? "#94a3b8" }} />
-                  {INTERACTION_LABELS[t] ?? t}
+              [...new Set(interactions.map((i) => i.type))].map((interactionType) => (
+                <span key={interactionType} className="flex items-center gap-1.5">
+                  <span className="h-2.5 w-2.5 rounded-sm inline-block" style={{ backgroundColor: INTERACTION_COLORS[interactionType] ?? "#94a3b8" }} />
+                  {INTERACTION_LABELS[interactionType] ? t(INTERACTION_LABELS[interactionType]) : interactionType}
                 </span>
               ))
             )}
@@ -1197,7 +1200,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
         >
           <span className="flex items-center gap-2 text-purple-300">
             <Settings size={12} />
-            Opciones
+            {t("ev_opciones")}
           </span>
           <span className="text-slate-500">{optionsOpen ? "▾" : "▸"}</span>
         </button>
@@ -1211,7 +1214,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
               <button
                 onClick={() => setShowAtoms((v) => !v)}
                 className="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left hover:bg-white/5 transition-colors cursor-pointer"
-                title={showAtoms ? "Ocultar el receptor (dejar solo sitio activo + grid)" : "Mostrar el receptor completo"}
+                title={showAtoms ? t("auto_7a2d6cf4994c") : t("auto_144067985189")}
               >
                 <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
                   <EyeOff size={12} className={showAtoms ? "text-amber-400" : "text-slate-500"} />
@@ -1227,10 +1230,10 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
                 className="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left hover:bg-white/5 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                 title={
                   ligand.atoms.length === 0
-                    ? "Sin molécula: ejecuta la evaluación para ver el ligando acoplado"
+                    ? t("auto_abcb7f140cae")
                     : showMolecule
-                    ? "Ocultar la molécula (ligando acoplado)"
-                    : "Ver la molécula (ligando acoplado)"
+                    ? t("auto_b0487918dd42")
+                    : t("auto_e5d668feb775")
                 }
               >
                 <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
@@ -1247,10 +1250,10 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
                 className="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left hover:bg-white/5 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                 title={
                   !interactions || interactions.length === 0
-                    ? "Sin interacciones: ejecuta la evaluación para analizar los contactos del ligando"
+                    ? t("auto_fe9905aee429")
                     : showInteractions
-                    ? "Ocultar las líneas de interacción (H-bonds, hidrofóbicos...)"
-                    : "Ver las líneas de interacción (H-bonds, hidrofóbicos...)"
+                    ? t("auto_eef39378ea52")
+                    : t("auto_1054995e158b")
                 }
               >
                 <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
@@ -1276,7 +1279,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
             <button
               onClick={() => setSelectedHotspot(null)}
               className="text-slate-500 hover:text-white transition-colors cursor-pointer"
-              title="Cerrar"
+              title={t("c_cerrar")}
             >
               ✕
             </button>
@@ -1292,7 +1295,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
               <span className="text-[10px] font-mono text-slate-400">{selectedInfo.name}</span>
             </div>
             <p className="text-[10px] font-mono text-slate-300 leading-relaxed">
-              {selectedInfo.desc}
+              {t(selectedInfo.desc)}
             </p>
             <div className="pt-1 border-t border-white/5 flex items-center justify-between text-[10px] font-mono">
               <span className="text-slate-500 uppercase tracking-wider">Importancia relativa</span>

@@ -48,7 +48,7 @@ describe("un turno que no sale deja motivo", () => {
   it("la pantalla enseña el motivo y ofrece repetirlo", () => {
     expect(panel).toContain("turnoFallido");
     expect(panel).toContain("retryLastTurn");
-    expect(panel).toContain("Reintentar");
+    expect(panel).toContain('t("c_reintentar")');
   });
 
   it("un error de red también deja motivo, no sólo un estado HTTP", () => {

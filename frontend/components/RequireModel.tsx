@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import { useDownload } from "@/hooks/useDownload";
 
 type Props = {
@@ -9,6 +11,7 @@ type Props = {
 };
 
 export function RequireModel({ modelId, children, fallback }: Props) {
+  const { t } = useLanguage();
   const { models, manifest, startDownload } = useDownload();
   const entry = manifest.find((m) => m.id === modelId);
   const status = models[modelId];
@@ -53,7 +56,7 @@ export function RequireModel({ modelId, children, fallback }: Props) {
           marginBottom: 16,
         }}
       >
-        No disponible
+        {t("c_no_disponible")}
       </p>
       <p
         style={{
@@ -64,11 +67,11 @@ export function RequireModel({ modelId, children, fallback }: Props) {
           marginBottom: 24,
         }}
       >
-        Esta función requiere {entry?.name || "un modelo"} que no está instalado localmente.
+        {t("auto_bf1431bba866")} {entry?.name || t("auto_c0f7ffa788c9")} {t("auto_842dd575a113")}
         {status === "downloading"
-          ? " Se está descargando..."
+          ? t("auto_4750b49f870b")
           : status === "error"
-            ? " Hubo un error en la descarga."
+            ? t("auto_6c6d4fcf3374")
             : ""}
       </p>
       {!status || status === "missing" || status === "error" ? (

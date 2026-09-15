@@ -276,7 +276,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
             type="button"
             onClick={onClose}
             disabled={isProcessing}
-            aria-label="Cerrar"
+            aria-label={t("c_cerrar")}
             className="grid h-11 w-11 shrink-0 place-items-center rounded-lg text-surface-400 transition-colors hover:bg-white/5 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 active:bg-white/10 disabled:cursor-not-allowed disabled:opacity-30"
           >
             <X size={18} />
@@ -459,7 +459,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
                 Ver en Solana Explorer <IconoEnlaceExterno size={14} />
               </ExternalLink>
               <button type="button" onClick={onClose} className="min-h-11 rounded-lg bg-brand-500 px-6 text-xs font-bold uppercase tracking-wider text-white hover:bg-brand-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:bg-brand-600">
-                Cerrar
+                {t("c_cerrar")}
               </button>
             </div>
           )}

@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useRef, useState } from "react";
 import { Box, Crosshair } from "lucide-react";
 import { AvisoSinWebGL, NotaRenderPorSoftware } from "./AvisoSinWebGL";
@@ -217,6 +219,7 @@ const NO_HOTSPOTS: string[] = [];
 const NO_ATTENTION: number[] = [];
 
 export default function AdvancedMolstarViewer({ poseData, proteinData, height = 500, hotspots = NO_HOTSPOTS, hotspotsHit = NO_HOTSPOTS, gnnAttention = NO_ATTENTION, onOpenTargetSelector, onSwitchViewer, viewerLabel, gridInfo, externalCamera, onCameraChange, isActive = true }: Props) {
+  const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<any>(null);
   const [loading, setLoading] = useState(false);
@@ -366,7 +369,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           if (/webgl|context|gpu/i.test(String(err))) {
             setSinContexto3D(true);
           } else {
-            setError("No se pudo cargar el visor 3D científico (Mol*).");
+            setError(t("auto_fafd22a23afe"));
           }
         }
       } finally {
@@ -452,7 +455,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
       } catch (err) {
         if (!cancelled) {
           console.error("Error al cargar estructuras en Molstar:", err);
-          setError("Error al cargar coordenadas en el visualizador.");
+          setError(t("auto_0a42461c773d"));
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -696,7 +699,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
               className={VIEWER_LABEL_BUTTON_CLASS}
             >
               <Crosshair size={12} className="text-indigo-400" />
-              <span>Identificar Mi Diseño</span>
+              <span>{t("z_identificar_diseno")}</span>
             </button>
           )}
         </div>
@@ -731,7 +734,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
       {loading && (
         <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#05080f]/70 backdrop-blur-sm gap-3">
           <div className="h-10 w-10 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent" />
-          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 animate-pulse">Cargando Mol* (WebGL2)...</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400 animate-pulse">{t("auto_a90fff31bba0")}</span>
         </div>
       )}
 

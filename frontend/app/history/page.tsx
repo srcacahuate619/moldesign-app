@@ -53,7 +53,7 @@ export default function HistoryPage() {
       <EmptyState
         orbState="processing"
         title={t("pg_hist_verificando")}
-        description="Tu identidad molecular se está validando en el servidor local."
+        description={t("auto_c224ef74ad87")}
         subline="autocomplete · validando token jwt · v 2.0"
         footerStatus="historial molecular · acceso autenticado"
       />
@@ -72,7 +72,7 @@ export default function HistoryPage() {
           </>
         }
         ritual={[
-          { n: "1", t: "Inicia",  d: "con tu cuenta local" },
+          { n: "1", t: "Inicia",  d: t("auto_121e3999ff64") },
           { n: "2", t: "Conecta", d: "wallet Solana opcional" },
           { n: "3", t: "Accede",  d: "a tu historial firmado" },
         ]}
@@ -97,8 +97,8 @@ export default function HistoryPage() {
       {stats && (
         <section className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
           <StatCard label="Total" value={stats.total_evaluations} />
-          <StatCard label="Completadas" value={stats.completed_evaluations} color="text-green-400" />
-          <StatCard label="Fallidas" value={stats.failed_evaluations} color="text-red-400" />
+          <StatCard label={t("lo_filtro_completadas")} value={stats.completed_evaluations} color="text-green-400" />
+          <StatCard label={t("lo_filtro_fallidas")} value={stats.failed_evaluations} color="text-red-400" />
           <StatCard
             label="Mejor score"
             value={stats.best_score != null ? stats.best_score.toFixed(1) : "—"}
@@ -163,9 +163,9 @@ export default function HistoryPage() {
                 </>
               }
               ritual={[
-                { n: "1", t: "Diseña", d: "con el Ketcher Editor" },
-                { n: "2", t: "Acopla",  d: "Vina + XGBoost + GNN" },
-                { n: "3", t: "Guarda", d: "conservar en tu historial" },
+                { n: "1", t: t("mx_paso_disena"), d: t("mx_paso_disena_d") },
+                { n: "2", t: t("mx_paso_acopla"),  d: "Vina + XGBoost + GNN" },
+                { n: "3", t: t("mx_paso_guarda"), d: "conservar en tu historial" },
               ]}
               ctaHref="/evaluation"
               ctaLabel="Lanzar Pipeline"
@@ -296,17 +296,17 @@ export default function HistoryPage() {
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 className="rounded-lg border border-surface-700 px-3 py-1.5 text-xs text-surface-300 transition-colors hover:bg-surface-800 disabled:opacity-40"
               >
-                ← Anterior
+                {t("auto_87b0f80933cd")}
               </button>
               <span className="text-xs text-surface-400">
-                Página {history.page} de {Math.ceil(history.total / history.page_size)}
+                {t("auto_b3a7f96a26dc")} {history.page} {t("auto_600ccd1b7156")} {Math.ceil(history.total / history.page_size)}
               </span>
               <button
                 disabled={!history.has_next}
                 onClick={() => setPage((p) => p + 1)}
                 className="rounded-lg border border-surface-700 px-3 py-1.5 text-xs text-surface-300 transition-colors hover:bg-surface-800 disabled:opacity-40"
               >
-                Siguiente →
+                {t("auto_c6e084bf5a4a")}
               </button>
             </div>
           )}

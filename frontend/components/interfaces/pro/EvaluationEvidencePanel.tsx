@@ -1,3 +1,5 @@
+
+import { useLanguage } from "@/context/LanguageContext";
 import {
   AlertTriangle,
   ArrowRight,
@@ -66,6 +68,7 @@ export function EvaluationReadinessPanel({
   target: Target | null;
   validation?: ValidationResult | null;
 }) {
+  const { t } = useLanguage();
   const readiness = deriveEvaluationReadiness(smiles, target, validation);
 
   return (
@@ -77,7 +80,7 @@ export function EvaluationReadinessPanel({
             {readiness.label}
           </div>
           <h2 id="evaluation-readiness-title" className="mt-3 font-display text-xl font-bold tracking-tight text-white">
-            Preparación de la corrida
+            {t("pr_preparacion_titulo")}
           </h2>
           <p className="mt-2 max-w-[58ch] text-sm leading-6 text-zinc-400">{readiness.summary}</p>
         </div>
@@ -110,6 +113,7 @@ export function EvaluationEvidencePanel({
   /** Lleva al detalle exacto que sustenta una reserva física. */
   onOpenPhysicalControls?: () => void;
 }) {
+  const { t } = useLanguage();
   const evidence = deriveEvaluationEvidence(result, target);
   const statusIcon: CheckStatus = evidence.status === "ready" ? "available" : evidence.status === "review" ? "review" : "missing";
   const physicalNeedsReview = evidence.physicalValidity.status !== "passed";
@@ -148,17 +152,17 @@ export function EvaluationEvidencePanel({
             {evidence.label}
           </div>
           <h2 id="evidence-summary-title" className="mt-4 font-display text-2xl font-bold tracking-tight text-white">
-            Expediente de la corrida
+            {t("pn_expediente")}
           </h2>
           <p className="mt-2 max-w-[52ch] text-sm leading-6 text-zinc-400">{evidence.summary}</p>
 
           <div className="mt-5 border-l-2 border-purple-400/50 pl-4">
-            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-purple-300/70">Pregunta del dossier</p>
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-purple-300/70">{t("pn_pregunta_dossier")}</p>
             <p className="mt-2 text-sm leading-6 text-zinc-200">
-              ¿Qué evidencia produjo esta corrida, qué controles superó, qué incertidumbres permanecen y qué es justificable hacer después?
+              {t("pn_pregunta_dossier_texto")}
             </p>
             <p className="mt-2 text-xs leading-5 text-zinc-500">
-              No califica si la molécula es un buen fármaco ni estima una probabilidad de éxito.
+              {t("pn_no_califica")}
             </p>
           </div>
 
@@ -175,7 +179,7 @@ export function EvaluationEvidencePanel({
                     onClick={onOpenPhysicalControls}
                     className="mt-3 inline-flex min-h-9 items-center rounded-lg border border-current/30 px-3 py-1.5 font-mono text-[11px] font-bold uppercase tracking-wider transition-colors hover:bg-white/[0.07] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
                   >
-                    Revisar controles físicos y poses
+                    {t("pn_revisar_controles")}
                   </button>
                 )}
               </div>
@@ -186,7 +190,7 @@ export function EvaluationEvidencePanel({
         <div className="min-w-0 border-t border-white/[0.07] pt-5 lg:border-t-0 lg:pt-0">
           <div className="flex items-center gap-2 border-b border-white/[0.07] pb-3">
             <ListChecks size={16} className="text-purple-300" aria-hidden="true" />
-            <h3 className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-zinc-300">Matriz de evidencia</h3>
+            <h3 className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-zinc-300">{t("pn_matriz_evidencia")}</h3>
           </div>
           <div>
             {evidence.dimensions.map((dimension) => (
@@ -214,7 +218,7 @@ export function EvaluationEvidencePanel({
           <h3 id="run-provenance-title" className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-zinc-300">
             Procedencia reproducible
           </h3>
-          <p className="text-[11px] leading-5 text-zinc-500">Identidad y protocolo sellados con esta corrida</p>
+          <p className="text-[11px] leading-5 text-zinc-500">{t("pn_identidad_sellada")}</p>
         </div>
 
         <div className="mt-4 grid gap-4 md:grid-cols-2">
@@ -230,12 +234,12 @@ export function EvaluationEvidencePanel({
                 </code>
               </details>
             ) : (
-              <p className="mt-2 text-xs leading-5 text-amber-200/75">No registrado en esta corrida.</p>
+              <p className="mt-2 text-xs leading-5 text-amber-200/75">{t("pn_no_registrado_corrida")}</p>
             )}
             <p className="mt-2 text-xs leading-5 text-zinc-500">
               {result.receptor_path
-                ? "Snapshot content-addressed conservado; la ruta local permanece privada."
-                : "No se registró un snapshot content-addressed para esta corrida."}
+                ? t("auto_396af15df54e")
+                : t("auto_7d87ae35f871")}
             </p>
           </div>
 
@@ -246,19 +250,19 @@ export function EvaluationEvidencePanel({
                 <p className="mt-2 text-sm font-bold text-zinc-200">
                   {hasConformerCounts
                     ? `${generatedConformers} de ${requestedConformers} conformaciones`
-                    : "Conteo de conformaciones no registrado"}
+                    : t("auto_c359f0cd7a14")}
                 </p>
                 <p className="mt-1 break-words text-xs leading-5 text-zinc-500">
-                  {protocolFacts.length > 0 ? protocolFacts.join(" · ") : "Parámetros del motor no registrados"}
+                  {protocolFacts.length > 0 ? protocolFacts.join(" · ") : t("auto_f2cfe47391ae")}
                 </p>
                 {(protocol.conformer_warnings?.length ?? 0) > 0 && (
                   <p className="mt-2 text-xs leading-5 text-amber-200/70">
-                    {protocol.conformer_warnings!.length} advertencia(s) de generación; consulta el dossier para el detalle.
+                    {protocol.conformer_warnings!.length} {t("auto_6cb48f8ad846")}
                   </p>
                 )}
               </>
             ) : (
-              <p className="mt-2 text-xs leading-5 text-amber-200/75">No registrado en esta corrida.</p>
+              <p className="mt-2 text-xs leading-5 text-amber-200/75">{t("pn_no_registrado_corrida")}</p>
             )}
           </div>
         </div>
@@ -271,19 +275,19 @@ export function EvaluationEvidencePanel({
         >
           <div className="flex flex-wrap items-baseline justify-between gap-2">
             <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-zinc-300">
-              Frontera ESMFold → ligando
+              {t("auto_26ab89fd58f1")}
             </p>
             <span className={`font-mono text-[10px] font-bold uppercase tracking-wider ${peptideTransfer.status === "completed" ? "text-emerald-300" : "text-amber-300"}`}>
-              {peptideTransfer.status === "completed" ? "COMPLETADA" : "ABSTENCIÓN"}
+              {peptideTransfer.status === "completed" ? "COMPLETADA" : t("auto_12653c32366a")}
             </span>
           </div>
           {peptideTransfer.status === "completed" ? (
             <p className="mt-2 text-xs leading-5 text-zinc-400">
-              Grafo del SMILES conservado; {peptideTransfer.coordinates_transferred ?? 0} átomo(s) con coordenadas de ESMFold y {peptideTransfer.coordinates_completed ?? 0} completado(s) con {peptideTransfer.completion_method ?? "método no registrado"}.
+              {t("auto_887c159b9e2f")} {peptideTransfer.coordinates_transferred ?? 0} {t("auto_7f2537d04d9e")} {peptideTransfer.coordinates_completed ?? 0} {t("auto_c0a10228aed3")} {peptideTransfer.completion_method ?? t("auto_a6c6215f575a")}.
             </p>
           ) : (
             <p className="mt-2 text-xs leading-5 text-amber-100/75">
-              No se generó un ligando acoplable{peptideTransfer.failure_code ? ` (${peptideTransfer.failure_code})` : ""}. La estructura plegada se conserva como evidencia, sin afinidad.
+              {t("auto_632d94f6b658")}{peptideTransfer.failure_code ? ` (${peptideTransfer.failure_code})` : ""}{t("auto_dc0b31771c0b")}
             </p>
           )}
         </div>
@@ -299,7 +303,7 @@ export function EvaluationEvidencePanel({
         </div>
         <div className="min-w-0">
           <p className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-amber-300/70">
-            <AlertTriangle size={14} aria-hidden="true" /> Incertidumbres abiertas
+            <AlertTriangle size={14} aria-hidden="true" /> {t("se_dec_uncertainties")}
           </p>
           <ul className="mt-3 space-y-2 text-xs leading-5 text-amber-100/65">
             {evidence.uncertainties.map((uncertainty) => (
@@ -307,7 +311,7 @@ export function EvaluationEvidencePanel({
             ))}
           </ul>
           {evidence.uncertainties.length === 0 && (
-            <p className="mt-3 text-xs leading-5 text-zinc-500">No se registraron incertidumbres adicionales a las limitaciones generales del protocolo.</p>
+            <p className="mt-3 text-xs leading-5 text-zinc-500">{t("pn_sin_incertidumbres")}</p>
           )}
         </div>
       </div>

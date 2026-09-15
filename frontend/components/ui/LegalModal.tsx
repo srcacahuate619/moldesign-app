@@ -167,7 +167,7 @@ function LicensesContent({ onAbrirDoc }: { onAbrirDoc: (doc: LocalDoc) => void }
         <p className="mt-1 text-[11px] leading-relaxed text-white/60">{t("lg_nota_licencia_propia")}</p>
       </div>
       <div className="rounded-lg border border-amber-500/25 bg-amber-500/[0.05] p-3">
-        <p className="text-[12px] font-semibold text-amber-200">Built with PriorLabs-TabPFN</p>
+        <p className="text-[12px] font-semibold text-amber-200">{t("z_creado_tabpfn")}</p>
         <p className="mt-1 text-[10px] leading-relaxed text-white/55">{t("lg_nota_tabpfn")}</p>
       </div>
       <section className="space-y-2" aria-labelledby="license-highlights-title">
@@ -175,7 +175,7 @@ function LicensesContent({ onAbrirDoc }: { onAbrirDoc: (doc: LocalDoc) => void }
         {LICENSE_HIGHLIGHTS.map((item) => <LicenseRow key={item.name} item={item} />)}
       </section>
       <div className="rounded-lg border border-emerald-500/25 bg-emerald-500/[0.05] p-3">
-        <div className="flex items-start gap-2"><BookOpen size={14} className="mt-0.5 shrink-0 text-emerald-300" aria-hidden="true" /><div><p className="text-[11px] font-semibold text-emerald-200">RTMScore · licencia MIT conservada</p><p className="mt-1 text-[10px] leading-relaxed text-white/55">{t("lg_nota_upstream")}</p></div></div>
+        <div className="flex items-start gap-2"><BookOpen size={14} className="mt-0.5 shrink-0 text-emerald-300" aria-hidden="true" /><div><p className="text-[11px] font-semibold text-emerald-200">{t("auto_febafe98186f")}</p><p className="mt-1 text-[10px] leading-relaxed text-white/55">{t("lg_nota_upstream")}</p></div></div>
       </div>
       {/* Botones, no enlaces: estos documentos NO salen de la aplicacion. Son
           assets empaquetados que deben leerse sin red, y mandarlos al navegador

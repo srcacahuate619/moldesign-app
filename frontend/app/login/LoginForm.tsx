@@ -250,7 +250,7 @@ export function LoginForm({
             <div className="relative flex items-center py-2">
               <div className="flex-grow border-t border-surface-700"></div>
               <span className="mx-4 flex-shrink-0 text-xs text-surface-500 uppercase tracking-widest font-mono">
-                {locale === "es" ? "O continúa con" : "Or continue with"}
+                {locale === "es" ? t("auto_519ddde05991") : t("auto_519ddde05991")}
               </span>
               <div className="flex-grow border-t border-surface-700"></div>
             </div>

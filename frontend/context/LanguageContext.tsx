@@ -726,6 +726,22 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     return interpolar(dict[key] || TRANSLATIONS.es[key] || key, valores);
   };
 
+  useEffect(() => {
+    const originalFetch = window.fetch;
+    document.documentElement.lang = locale;
+    document.title = TRANSLATIONS[locale].z_document_title;
+    const localizedFetch: typeof window.fetch = (input, init) => {
+      const headers = new Headers(input instanceof Request ? input.headers : undefined);
+      new Headers(init?.headers).forEach((value, key) => headers.set(key, value));
+      headers.set("Accept-Language", locale);
+      return originalFetch(input, { ...init, headers });
+    };
+    window.fetch = localizedFetch;
+    return () => {
+      if (window.fetch === localizedFetch) window.fetch = originalFetch;
+    };
+  }, [locale]);
+
   const currentLanguage = LANGUAGES.find((lang) => lang.code === locale) || LANGUAGES[0];
 
   if (!hydrated) {
@@ -776,3 +792,15 @@ const RESPALDO_SIN_PROVIDER: LanguageContextProps = {
     interpolar(TRANSLATIONS.es[key] ?? key, valores),
   currentLanguage: LANGUAGES[0],
 };
+/**
+ * Texto traducido para auxiliares JSX creados fuera del cuerpo del componente
+ * (por ejemplo, el fallback de una importaci?n din?mica). Mantiene el idioma
+ * reactivo sin invocar hooks en el nivel superior del m?dulo.
+ */
+export function Translated({
+  id,
+  values,
+}: Readonly<{ id: string; values?: ValoresDeTraduccion }>) {
+  const { t } = useLanguage();
+  return <>{t(id, values)}</>;
+}

@@ -1,5 +1,7 @@
 "use client";
 
+
+import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useMemo, useState } from "react";
 import { FlaskConical, Loader2, X } from "lucide-react";
 
@@ -19,6 +21,7 @@ function numericTriple(values: readonly string[]): [number, number, number] | nu
 }
 
 export function ReceptorVariantModal({ parent, onClose, onSuccess }: ReceptorVariantModalProps) {
+  const { t } = useLanguage();
   const defaultCenter = useMemo(() => [
     String(parent.grid_center_x ?? 0),
     String(parent.grid_center_y ?? 0),
@@ -58,11 +61,11 @@ export function ReceptorVariantModal({ parent, onClose, onSuccess }: ReceptorVar
     const gridCenter = numericTriple(center);
     const gridSize = numericTriple(size);
     if (!name.trim() || !chain.trim() || !gridCenter || !gridSize) {
-      setError("Completa el nombre, la cadena y las seis coordenadas.");
+      setError(t("auto_aa8a3c091711"));
       return;
     }
     if (gridSize.some((value) => value < 5 || value > 80)) {
-      setError("Cada dimensión de la caja debe estar entre 5 y 80 Å.");
+      setError(t("auto_1856b6561e91"));
       return;
     }
 
@@ -81,7 +84,7 @@ export function ReceptorVariantModal({ parent, onClose, onSuccess }: ReceptorVar
       });
       onSuccess(target);
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "No se pudo crear la variante.");
+      setError(caught instanceof Error ? caught.message : t("auto_34d105ded9d6"));
     } finally {
       setBusy(false);
     }
@@ -102,13 +105,13 @@ export function ReceptorVariantModal({ parent, onClose, onSuccess }: ReceptorVar
               <FlaskConical className="h-4 w-4" aria-hidden="true" />
             </span>
             <div>
-              <h2 id="variant-title" className="text-sm font-semibold text-white">Nueva variante de preparación</h2>
+              <h2 id="variant-title" className="text-sm font-semibold text-white">{t("pn_variante_titulo")}</h2>
               <p className="mt-1 text-xs text-zinc-400">
-                Parte de {parent.name} ({parent.pdb_id}) y crea un receptor privado nuevo. El original no cambia.
+                {t("auto_2def3ff0a99f")} {parent.name} ({parent.pdb_id}{t("auto_1765f4131521")}
               </p>
             </div>
           </div>
-          <button type="button" onClick={onClose} disabled={busy} aria-label="Cerrar" className="rounded-lg p-2 text-zinc-400 hover:bg-zinc-900 hover:text-white">
+          <button type="button" onClick={onClose} disabled={busy} aria-label={t("c_cerrar")} className="rounded-lg p-2 text-zinc-400 hover:bg-zinc-900 hover:text-white">
             <X className="h-4 w-4" />
           </button>
         </header>
@@ -116,7 +119,7 @@ export function ReceptorVariantModal({ parent, onClose, onSuccess }: ReceptorVar
         <div className="space-y-5 p-5">
           <div className="grid gap-4 sm:grid-cols-[1fr_7rem]">
             <label className="text-xs text-zinc-400">
-              <span className="mb-1.5 block font-medium text-zinc-300">Nombre de la variante</span>
+              <span className="mb-1.5 block font-medium text-zinc-300">{t("pn_variante_nombre")}</span>
               <input value={name} onChange={(event) => setName(event.target.value)} maxLength={200} className="w-full rounded-lg border border-zinc-800 bg-black px-3 py-2 text-zinc-100 outline-none focus:border-purple-500/50" />
             </label>
             <label className="text-xs text-zinc-400">
@@ -127,8 +130,8 @@ export function ReceptorVariantModal({ parent, onClose, onSuccess }: ReceptorVar
 
           <div className="grid gap-4 sm:grid-cols-2">
             {[
-              ["Centro de la caja (Å)", center, setCenter],
-              ["Tamaño de la caja (Å)", size, setSize],
+              [t("auto_1daed134ce8c"), center, setCenter],
+              [t("auto_a3f6d7df9f9f"), size, setSize],
             ].map(([label, values, setter]) => (
               <fieldset key={label as string} className="rounded-xl border border-zinc-800 p-3">
                 <legend className="px-1 text-xs font-medium text-zinc-300">{label as string}</legend>
@@ -145,10 +148,10 @@ export function ReceptorVariantModal({ parent, onClose, onSuccess }: ReceptorVar
           </div>
 
           <label className="block text-xs text-zinc-400">
-            <span className="mb-1.5 block font-medium text-zinc-300">Metales y cofactores que deben conservarse</span>
-            <input value={cofactors} onChange={(event) => setCofactors(event.target.value)} placeholder="Ej. ZN, HEM, FAD" className="w-full rounded-lg border border-zinc-800 bg-black px-3 py-2 text-zinc-100 outline-none focus:border-purple-500/50" />
+            <span className="mb-1.5 block font-medium text-zinc-300">{t("pn_variante_metales")}</span>
+            <input value={cofactors} onChange={(event) => setCofactors(event.target.value)} placeholder={t("auto_32224014a333")} className="w-full rounded-lg border border-zinc-800 bg-black px-3 py-2 text-zinc-100 outline-none focus:border-purple-500/50" />
             <span className="mt-1.5 block leading-relaxed text-zinc-500">
-              Separados por comas. Las aguas se eliminan en este MVP; la preparación real y sus hashes se registrarán al crear la variante.
+              {t("pn_variante_separados")}
             </span>
           </label>
 
@@ -156,10 +159,10 @@ export function ReceptorVariantModal({ parent, onClose, onSuccess }: ReceptorVar
         </div>
 
         <footer className="flex justify-end gap-2 border-t border-zinc-800 px-5 py-4">
-          <button type="button" onClick={onClose} disabled={busy} className="rounded-lg border border-zinc-800 px-4 py-2 text-xs text-zinc-300 hover:bg-zinc-900 disabled:opacity-50">Cancelar</button>
+          <button type="button" onClick={onClose} disabled={busy} className="rounded-lg border border-zinc-800 px-4 py-2 text-xs text-zinc-300 hover:bg-zinc-900 disabled:opacity-50">{t("c_cancelar")}</button>
           <button type="submit" disabled={busy} className="inline-flex items-center gap-2 rounded-lg border border-purple-500/40 bg-purple-600 px-4 py-2 text-xs font-medium text-white hover:bg-purple-500 disabled:opacity-50">
             {busy && <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />}
-            {busy ? "Preparando…" : "Crear variante"}
+            {busy ? t("auto_744d1b5d3397") : "Crear variante"}
           </button>
         </footer>
       </form>
