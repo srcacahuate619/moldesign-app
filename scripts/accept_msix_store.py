@@ -82,7 +82,7 @@ def _ps(script: str, timeout: float = 600) -> tuple[int, str, str]:
 
 
 def _ps_json(script: str, timeout: float = 600) -> Any:
-    rc, out, err = _ps(script + " | ConvertTo-Json -Depth 6 -Compress", timeout)
+    rc, out, err = _ps(script.rstrip() + " | ConvertTo-Json -Depth 6 -Compress", timeout)
     if rc != 0:
         raise AceptacionFallida(f"PowerShell fallo ({rc}): {err[:800]}")
     if not out:
@@ -116,6 +116,7 @@ def _version_tuple(value: Any) -> tuple[int, int, int, int]:
 def webview2_runtime() -> dict[str, Any]:
     """Lee las dos ubicaciones oficiales del runtime Evergreen instalado."""
     script = r"""
+& {
 $paths = @(
   ('HKLM:' + [char]92 + 'SOFTWARE' + [char]92 + 'WOW6432Node' + [char]92 + 'Microsoft' + [char]92 + 'EdgeUpdate' + [char]92 + 'Clients' + [char]92 + '{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}'),
   ('HKCU:' + [char]92 + 'Software' + [char]92 + 'Microsoft' + [char]92 + 'EdgeUpdate' + [char]92 + 'Clients' + [char]92 + '{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}')
@@ -128,6 +129,7 @@ foreach ($path in $paths) {
     }
   } catch {
   }
+}
 }
 """
     datos = _ps_json(script)
