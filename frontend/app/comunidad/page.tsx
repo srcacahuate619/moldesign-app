@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import { useLanguage } from "../../context/LanguageContext";
 import {
   Globe, Users, Download, RefreshCw, Wifi, WifiOff,
   Share2, User, Search, Activity, Target,
@@ -18,6 +19,7 @@ interface LeaderboardEntry {
 }
 
 export default function ComunidadPage() {
+  const { t } = useLanguage();
   const [communityTargets, setCommunityTargets] = useState<TargetType[]>([]);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(false);
@@ -98,7 +100,7 @@ export default function ComunidadPage() {
                     </span>
                   ) : (
                     <span className="flex items-center gap-1.5 rounded-full border border-[var(--border-light)] bg-[var(--bg-secondary)] px-2.5 py-1 text-xs font-bold uppercase tracking-widest text-muted">
-                      <WifiOff className="w-3 h-3" /> Sin Conexión
+                      <WifiOff className="w-3 h-3" /> {t("pg_com_sin_conexion")}
                     </span>
                   )}
                   {cloudUser && (
@@ -113,8 +115,7 @@ export default function ComunidadPage() {
                 Comunidad Global
               </h1>
               <p className="max-w-lg text-sm leading-relaxed text-muted">
-                Explora targets compartidos por la comunidad, descarga receptores curados y consulta
-                evaluaciones publicadas bajo sus condiciones declaradas.
+                {t("pg_com_intro")}
               </p>
             </div>
 
@@ -151,7 +152,7 @@ export default function ComunidadPage() {
           <div role="alert" className="mb-8 flex items-center gap-3 rounded-xl border border-red-500/15 bg-red-500/[0.06] p-4 text-sm text-red-700 dark:text-red-400">
             <WifiOff className="w-4 h-4 shrink-0" />
             <span>{error}</span>
-            <button onClick={fetchCommunity} aria-label="Reintentar carga de datos compartidos" className="ml-auto rounded text-red-500 transition-colors hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/60 dark:text-red-300">
+            <button onClick={fetchCommunity} aria-label={t("pg_com_reintentar")} className="ml-auto rounded text-red-500 transition-colors hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/60 dark:text-red-300">
               <RefreshCw className="w-4 h-4" />
             </button>
           </div>
@@ -181,7 +182,7 @@ export default function ComunidadPage() {
               <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-dim" />
               <input
                 type="text"
-                placeholder="Buscar por PDB ID, nombre o categoría..."
+                placeholder={t("pg_com_buscar")}
                 aria-label="Buscar receptores compartidos"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
@@ -193,7 +194,7 @@ export default function ComunidadPage() {
             {loading && !connected ? (
               <div className="flex items-center justify-center gap-3 py-16 text-muted">
                 <RefreshCw className="w-5 h-5 animate-spin" />
-                <span className="text-sm font-mono">Conectando con la comunidad...</span>
+                <span className="text-sm font-mono">{t("pg_com_conectando")}</span>
               </div>
             ) : filteredTargets.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -271,7 +272,7 @@ export default function ComunidadPage() {
               {leaderboard.length === 0 ? (
                 <div className="flex flex-col items-center justify-center rounded-xl border border-[var(--border)] bg-[var(--bg-card)] py-16 text-center">
                   <Activity className="mb-3 h-8 w-8 text-dim" />
-                  <p className="text-sm text-muted">No hay resultados compartidos disponibles.</p>
+                  <p className="text-sm text-muted">{t("pg_com_sin_resultados")}</p>
                 </div>
               ) : (
                 leaderboard.map((entry, i) => (
@@ -303,7 +304,7 @@ export default function ComunidadPage() {
               )}
             </div>
             <p className="text-xs leading-relaxed text-muted">
-              El orden refleja los datos compartidos por el servicio; no es un ranking de candidatos ni una predicción de actividad.
+              {t("pg_com_orden_no_ranking")}
             </p>
 
             {/* Sharing capability */}
@@ -313,7 +314,7 @@ export default function ComunidadPage() {
                 <h3 className="text-xs font-bold uppercase tracking-widest text-purple-600 dark:text-purple-300">Comparte tu evidencia</h3>
               </div>
               <p className="text-xs leading-relaxed text-muted">
-                Compartir receptores desde esta pantalla no está disponible en esta versión.
+                {t("pg_com_compartir_no_disponible")}
               </p>
             </div>
 
@@ -321,7 +322,7 @@ export default function ComunidadPage() {
             <div className="space-y-4 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5">
               <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Actividad reciente</h3>
               <p className="text-xs leading-relaxed text-muted">
-                No hay un feed de actividad disponible en esta versión.
+                {t("pg_com_sin_feed")}
               </p>
             </div>
           </div>

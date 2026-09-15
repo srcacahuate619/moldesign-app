@@ -334,7 +334,7 @@ export default function MoldexPage() {
             transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
             className="font-mono text-xs uppercase tracking-[0.4em] text-dim dark:text-white/60"
           >
-            cargando moléculas · modo molecular · v 2.0
+            {t("pg_mx_cargando")}
           </motion.p>
         </div>
       </div>
@@ -354,7 +354,7 @@ export default function MoldexPage() {
             onClick={() => { setError(null); loadMoldex(); }}
             className="w-full rounded-xl bg-red-600 py-3.5 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
           >
-            Reintentar conexión
+            {t("pg_mx_reintentar")}
           </button>
         </div>
       </div>
@@ -429,9 +429,7 @@ export default function MoldexPage() {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="mx-auto max-w-md text-sm leading-relaxed text-muted md:text-[15px]"
             >
-              Aún no hay evaluaciones guardadas en tu bioteca.
-              Cada entrada conserva una evaluación, sus resultados observados
-              y, cuando existe, un recibo de integridad.
+              {t("pg_mx_vacio")}
             </motion.p>
           </div>
 
@@ -479,7 +477,7 @@ export default function MoldexPage() {
         {/* Footer status mono */}
         <div className="absolute bottom-6 left-0 right-0 z-10 flex justify-center">
           <p className="font-mono text-xs uppercase tracking-[0.3em] text-dim">
-            0 moléculas guardadas · bioteca local · v 2.0
+            {t("pg_mx_cero_guardadas")}
           </p>
         </div>
       </div>
@@ -749,10 +747,10 @@ export default function MoldexPage() {
           <AnimatePresence mode="wait">
             <motion.div key={selectedId} initial={{ x: 30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="space-y-10 min-w-[320px]">
 
-              {/* MÓDULO 1: CONTEXTO DEL TARGET */}
+              {/* MÓDULO 1: {t("pg_mx_contexto_target")} */}
               <section className="rounded-3xl border border-indigo-500/20 bg-indigo-500/5 p-6">
                 <h2 className="mb-4 flex items-center gap-3 text-xs font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
-                  <Database size={14} /> CONTEXTO DEL TARGET
+                  <Database size={14} /> {t("pg_mx_contexto_target")}
                 </h2>
                 <div className="space-y-3">
                   <div>
@@ -771,10 +769,10 @@ export default function MoldexPage() {
                 </div>
               </section>
 
-              {/* MÓDULO 2: AUDITORÍA CIENTÍFICA */}
+              {/* MÓDULO 2: {t("pg_mx_auditoria")} */}
               <section>
                 <h2 className="mb-6 flex items-center gap-3 text-xs font-black uppercase tracking-[0.3em] text-muted">
-                  <AlertCircle size={16} className="text-amber-500" /> AUDITORÍA CIENTÍFICA
+                  <AlertCircle size={16} className="text-amber-500" /> {t("pg_mx_auditoria")}
                 </h2>
                 <div className="space-y-3">
                   {(selectedMolecule?.scientific_warnings?.length ?? 0) > 0 ? (
@@ -786,7 +784,7 @@ export default function MoldexPage() {
                     ))
                   ) : (
                     <div className="rounded-2xl border border-emerald-500/20 bg-emerald-50 p-4 text-center text-xs text-emerald-800 dark:border-emerald-500/10 dark:bg-emerald-500/5 dark:text-emerald-300">
-                      No hay advertencias registradas para esta corrida.
+                      {t("pg_mx_sin_advertencias")}
                     </div>
                   )}
                 </div>
@@ -838,7 +836,7 @@ export default function MoldexPage() {
                       Red: {redDelSello ?? "comprobando…"}
                       {esRedDePruebas(redDelSello) && (
                         <span className="ml-2 rounded border border-amber-500/40 bg-amber-500/10 px-2 py-0.5 text-amber-400">
-                          red de pruebas
+                          {t("pg_mx_red_pruebas")}
                         </span>
                       )}
                     </p>
@@ -865,9 +863,7 @@ export default function MoldexPage() {
                             conserva un índice histórico de{" "}
                             <b>{selectedMolecule.blockchain.certified_total_score?.toFixed(1) ?? "—"}</b>{" "}
                             y esta ficha muestra{" "}
-                            <b>{selectedMolecule.metrics?.score?.toFixed(1) ?? "—"}</b>.
-                            El recibo sigue correspondiendo a la corrida que selló,
-                            no para la que se ve aquí.
+                            <b>{selectedMolecule.metrics?.score?.toFixed(1) ?? "—"}</b>{t("pg_mx_recibo_otra_corrida")}
                           </p>
                         </div>
                       )}
@@ -877,12 +873,10 @@ export default function MoldexPage() {
                           className="mb-6 rounded-2xl border border-amber-500/30 bg-amber-50 p-4 text-left text-xs leading-relaxed text-amber-900 dark:bg-amber-500/10 dark:text-amber-200/90"
                         >
                           <p className="mb-2 font-black uppercase tracking-widest text-amber-800 dark:text-amber-400">
-                            Sello sin corrida registrada
+                            {t("pg_mx_sello_sin_corrida")}
                           </p>
                           <p>
-                            Este recibo es anterior al registro de procedencia: no
-                            consta qué corrida atestiguó, así que no puede afirmarse que
-                            corresponda a las cifras mostradas.
+                            {t("pg_mx_recibo_sin_procedencia")}
                           </p>
                         </div>
                       )}

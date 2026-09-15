@@ -23,6 +23,7 @@
 // estilos, un fallback que dependa de ella sería otra pantalla en blanco.
 
 import { useEffect } from "react";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function GlobalError({
   error,
@@ -31,6 +32,7 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const { t } = useLanguage();
   useEffect(() => {
     // Queda en la consola del WebView y en el log del plugin de Tauri, que es
     // lo que un usuario puede adjuntar en un reporte.
@@ -63,16 +65,13 @@ export default function GlobalError({
               fontFamily: "ui-monospace, SFMono-Regular, Consolas, monospace",
             }}
           >
-            MolDesign no pudo abrir la interfaz
+            {t("pg_err_titulo")}
           </p>
           <h1 style={{ margin: "0.75rem 0 0", fontSize: "1.4rem", fontWeight: 600 }}>
-            La ventana quedó sin pintar
+            {t("pg_err_subtitulo")}
           </h1>
           <p style={{ margin: "0.75rem 0 0", fontSize: "0.9rem", lineHeight: 1.6, color: "#a1a1aa" }}>
-            Es un fallo de la interfaz, no de tus datos: los casos, las
-            evaluaciones y los archivos guardados están intactos en su carpeta.
-            El motor de cálculo puede seguir en marcha aunque esta ventana no se
-            haya pintado.
+            {t("pg_err_datos_intactos")}
           </p>
 
           <pre
@@ -123,13 +122,12 @@ export default function GlobalError({
                 cursor: "pointer",
               }}
             >
-              Recargar la ventana
+              {t("pg_err_recargar")}
             </button>
           </div>
 
           <p style={{ margin: "1.25rem 0 0", fontSize: "0.75rem", lineHeight: 1.6, color: "#71717a" }}>
-            Si vuelve a ocurrir, el detalle queda en el registro de la
-            aplicación. Reiniciar MolDesign es seguro.
+            {t("pg_err_reiniciar_seguro")}
           </p>
         </main>
       </body>

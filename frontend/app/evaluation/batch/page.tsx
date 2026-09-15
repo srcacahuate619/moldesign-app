@@ -188,7 +188,7 @@ export default function CohortesPage() {
   const motorHistoricoQuickVina =
     cohorte?.preflight.normalized_study.config.docking_engine === "qvina2";
 
-  // Batch comparte el catálogo canónico con Evaluación. El campo manual sigue
+  // Batch comparte el catálogo canónico con {t("evaluation")}. El campo manual sigue
   // disponible porque no poder listar el catálogo no invalida un PDB conocido.
   const cargarTargets = useCallback(async () => {
     setLoadingTargets(true);
@@ -483,13 +483,12 @@ export default function CohortesPage() {
           <div className="flex items-center gap-3">
             <Link href="/evaluation" className={SECUNDARIO}>
               <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-              Evaluación
+              {t("evaluation")}
             </Link>
             <div>
               <h1 className="text-lg font-semibold tracking-tight">Cohortes</h1>
               <p className="text-sm text-zinc-600 dark:text-white/60">
-                Define una cohorte comparable, comprueba sus entradas, ejecútala bajo una
-                configuración común y entrega evidencia con su cobertura.
+                {t("pg_lote_intro")}
               </p>
             </div>
           </div>
@@ -533,8 +532,7 @@ export default function CohortesPage() {
             <section className={`${CAJA} p-4`} aria-labelledby="def">
               <h2 id="def" className="text-sm font-semibold">1 · Nueva cohorte</h2>
               <p className="mt-1 text-sm text-zinc-600 dark:text-white/60">
-                Un receptor y una configuración común para todas las moléculas. Es lo que
-                hace comparables las filas entre sí.
+                {t("pg_lote_receptor_comun")}
               </p>
 
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -548,7 +546,7 @@ export default function CohortesPage() {
                   <h3 id="guia-archivo" className="text-sm font-semibold">{t("lo_prepara_archivo")}</h3>
                   <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm leading-relaxed text-zinc-700 dark:text-white/70">
                     <li>{t("lo_limite_moleculas")}</li>
-                    <li>Para CSV, usa UTF-8, una primera fila de encabezado, comas como separador y la columna recomendada <code className="font-mono font-semibold text-zinc-900 dark:text-white">smiles</code>; también se aceptan <code className="font-mono">canonical_smiles</code> y <code className="font-mono">structure</code>.</li>
+                    <li>{t("lo_csv_recomendaciones")} <code className="font-mono font-semibold text-zinc-900 dark:text-white">smiles</code>{t("lo_tambien_se_aceptan")} <code className="font-mono">canonical_smiles</code> y <code className="font-mono">structure</code>.</li>
                     <li>{t("lo_mismo_receptor")}</li>
                   </ol>
                   <p className="mt-3 text-xs font-semibold text-zinc-700 dark:text-white/65">{t("lo_ejemplo_csv")}</p>
@@ -558,10 +556,10 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                   <details className="mt-3 text-sm text-zinc-700 dark:text-white/70">
                     <summary className="cursor-pointer rounded-sm font-semibold text-zinc-900 outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white">{t("lo_ver_formatos")}</summary>
                     <div className="mt-3 space-y-3 border-t border-zinc-200 pt-3 dark:border-white/10">
-                      <p><strong>CSV y XLSX:</strong> requieren una columna de estructura. Se recomienda <code className="font-mono">smiles</code>; también se aceptan <code className="font-mono">canonical_smiles</code> o <code className="font-mono">structure</code>. Las columnas opcionales son <code className="font-mono">name</code>, <code className="font-mono">active</code> y <code className="font-mono">control_role</code>. XLSX usa la hoja activa y su primera fila como encabezado.</p>
-                      <p><strong>SMI y TXT:</strong> una molécula por línea con el formato <code className="font-mono">SMILES nombre active control_role</code>, separado por espacios. Las líneas que comienzan con <code className="font-mono">#</code> son comentarios y el nombre no puede contener espacios.</p>
-                      <p><strong>SDF:</strong> se admite una molécula por registro. El nombre se lee de <code className="font-mono">_Name</code>; las propiedades <code className="font-mono">active</code> y <code className="font-mono">control_role</code> son opcionales.</p>
-                      <p>Para <code className="font-mono">active</code>, usa <code className="font-mono">1</code> para activa y <code className="font-mono">0</code> para inactiva. Para <code className="font-mono">control_role</code>, usa <code className="font-mono">reference</code>, <code className="font-mono">positive</code>, <code className="font-mono">negative</code> o <code className="font-mono">none</code>.</p>
+                      <p><strong>CSV y XLSX:</strong> {t("lo_formatos_csv_xlsx")} <code className="font-mono">smiles</code>{t("lo_tambien_se_aceptan")} <code className="font-mono">canonical_smiles</code> o <code className="font-mono">structure</code>{t("lo_formatos_opcionales")} <code className="font-mono">name</code>, <code className="font-mono">active</code> y <code className="font-mono">control_role</code>{t("lo_formatos_xlsx_hoja")}</p>
+                      <p><strong>SMI y TXT:</strong> {t("lo_formatos_smi")} <code className="font-mono">SMILES nombre active control_role</code>{t("lo_formatos_smi_separador")} <code className="font-mono">#</code> {t("lo_formatos_smi_comentarios")}</p>
+                      <p><strong>SDF:</strong> {t("lo_formatos_sdf")} <code className="font-mono">_Name</code>{t("lo_formatos_sdf_propiedades")} <code className="font-mono">active</code> y <code className="font-mono">control_role</code> {t("lo_formatos_sdf_opcionales")}</p>
+                      <p>Para <code className="font-mono">active</code>, usa <code className="font-mono">1</code> {t("lo_formatos_activa")} <code className="font-mono">0</code> {t("lo_formatos_inactiva")} <code className="font-mono">control_role</code>, usa <code className="font-mono">reference</code>, <code className="font-mono">positive</code>, <code className="font-mono">negative</code> o <code className="font-mono">none</code>.</p>
                     </div>
                   </details>
                 </section>
@@ -647,7 +645,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                   Comprobar cohorte
                 </button>
                 <span className="text-xs text-zinc-500 dark:text-white/60">
-                  Comprobar no ejecuta nada.
+                  {t("pg_lote_comprobar_no_ejecuta")}
                 </span>
               </div>
             </section>
@@ -657,8 +655,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
               <section className={`${CAJA} p-4`} aria-labelledby="pre" data-testid="resumen-preflight">
                 <h2 id="pre" className="text-sm font-semibold">{t("lo_titulo_comprobacion")}</h2>
                 <p className="mt-1 text-sm text-zinc-600 dark:text-white/60">
-                  Superarla no predice unión ni calidad farmacológica: todavía no se ha
-                  calculado nada.
+                  {t("pg_lote_superarla_no_predice")}
                 </p>
 
                 <dl className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -690,7 +687,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                   <div role="alert" data-testid="blockers" className="mt-3 rounded-md border border-red-300 bg-red-50 px-3 py-2 dark:border-red-500/25 dark:bg-red-500/10">
                     <p className="text-sm font-semibold text-red-800 dark:text-red-300">
                       <XCircle className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" />
-                      Bloqueada — no se puede guardar ni ejecutar
+                      {t("pg_lote_bloqueada")}
                     </p>
                     <ul className="mt-1 space-y-0.5">
                       {preflight.blockers.map((b) => (
@@ -704,7 +701,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                   <div data-testid="warnings" className="mt-3 rounded-md border border-amber-300 bg-amber-50 px-3 py-2 dark:border-amber-500/25 dark:bg-amber-500/10">
                     <p className="text-sm font-semibold text-amber-900 dark:text-amber-300">
                       <AlertTriangle className="mr-1 inline h-3.5 w-3.5" aria-hidden="true" />
-                      Avisos — no bloquean
+                      {t("pg_lote_avisos")}
                     </p>
                     <ul className="mt-1 space-y-0.5">
                       {preflight.warnings.map((w) => (
@@ -832,8 +829,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
               <section className={`${CAJA} p-4`} aria-labelledby="ev" data-testid="evidencia">
                 <h2 id="ev" className="text-sm font-semibold">5 · Evidencia</h2>
                 <p className="mt-1 text-sm text-zinc-600 dark:text-white/60">
-                  Ordenada por afinidad Vina observada. Es un orden, no un veredicto:
-                  completar un acoplamiento no demuestra actividad.
+                  {t("pg_lote_orden_no_veredicto")}
                 </p>
 
                 <dl className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4" data-testid="cobertura-evidencia">
@@ -943,7 +939,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                           </td>
                           <td className="px-2 py-1.5 font-mono">
                             {m.observed_vina_affinity_kcal_mol?.toFixed(2) ?? (
-                              <span className="text-zinc-500 dark:text-white/60">NO DISPONIBLE</span>
+                              <span className="text-zinc-500 dark:text-white/60">{t("lo_no_disponible")}</span>
                             )}
                           </td>
                           <td className="px-2 py-1.5">
@@ -955,7 +951,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                       {filasVisibles.length === 0 && (
                         <tr>
                           <td colSpan={6} className="border-t border-zinc-200 px-2 py-6 text-center text-zinc-600 dark:border-white/10 dark:text-white/60">
-                            No hay moléculas con este estado.
+                            {t("pg_lote_sin_estado")}
                           </td>
                         </tr>
                       )}
@@ -985,8 +981,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                 </div>
                 {zipGuardado && (
                   <p role="status" className="mt-2 text-xs text-zinc-600 dark:text-white/60">
-                    Paquete descargado como <span className="font-mono">{zipGuardado}</span>. Incluye su
-                    manifiesto con hashes; la verificación la hace quien lo reciba.
+                    {t("pg_lote_paquete_descargado")} <span className="font-mono">{zipGuardado}</span>{t("pg_lote_manifiesto")}
                   </p>
                 )}
                 <div className="mt-3 h-[70vh] min-h-[24rem] overflow-hidden rounded-md border border-zinc-200 bg-zinc-100 dark:border-white/10 dark:bg-black/40">
@@ -994,7 +989,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     <iframe src={`${pdfUrl}#toolbar=0`} title={t("lo_dossier_cohorte")} className="h-full w-full border-none" />
                   ) : (
                     <div className="flex h-full items-center justify-center text-xs text-zinc-500 dark:text-white/60">
-                      El dossier no está cargado.
+                      {t("pg_lote_dossier_no_cargado")}
                     </div>
                   )}
                 </div>
@@ -1028,17 +1023,14 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
               </ul>
             )}
             <p className="mt-3 border-t border-zinc-200 pt-2 text-xs font-medium leading-relaxed text-zinc-600 dark:border-white/10 dark:text-white/60">
-              Una cohorte guardada es inmutable: cambiar receptor, configuración o archivo
-              produce otra cohorte, no una edición.
+              {t("pg_lote_inmutable")}
             </p>
           </aside>
         </div>
 
         <p className="mt-6 text-sm font-medium leading-relaxed text-zinc-600 dark:text-white/55">
           <CheckCircle2 className="mr-1 inline h-3 w-3" aria-hidden="true" />
-          Esta pantalla no ordena moléculas por mérito farmacológico ni produce ninguna
-          puntuación agregada. La afinidad Vina observada es una señal de ranking dentro de
-          este protocolo, no una medida de energía libre ni una predicción de actividad.
+          {t("pg_lote_sin_merito")}
         </p>
       </div>
       <TargetSelectorModal

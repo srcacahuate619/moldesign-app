@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useLanguage } from "../../context/LanguageContext";
 import { useEffect, useState } from "react";
 import { Download } from "lucide-react";
 
@@ -11,6 +12,7 @@ import type { EvaluationSummary, HistoryResponse, UserStats } from "../../lib/ty
 import { EmptyState } from "../../components/ui/EmptyState";
 
 export default function HistoryPage() {
+  const { t } = useLanguage();
   const { user, isLoading: authLoading } = useAuth();
   // FIX (keep-alive): /history no se desmonta (KeepAliveLayout). Recargar al
   // volver a esta ruta para que las evaluaciones recién hechas aparezcan.
@@ -50,7 +52,7 @@ export default function HistoryPage() {
     return (
       <EmptyState
         orbState="processing"
-        title="Verificando sesión"
+        title={t("pg_hist_verificando")}
         description="Tu identidad molecular se está validando en el servidor local."
         subline="autocomplete · validando token jwt · v 2.0"
         footerStatus="historial molecular · acceso autenticado"
@@ -66,9 +68,7 @@ export default function HistoryPage() {
         title="Acceso Bloqueado"
         description={
           <>
-            El historial guarda huellas que solo tus ojos deben ver:
-            evaluaciones, resultados y recibos de integridad.
-            Identifícate para continuar.
+            {t("pg_hist_privado")}
           </>
         }
         ritual={[
@@ -87,10 +87,9 @@ export default function HistoryPage() {
     <main className="space-y-6 pb-12">
       {/* ── Header ── */}
       <section>
-        <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">Historial de evaluaciones</h1>
+        <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">{t("pg_hist_titulo")}</h1>
         <p className="mt-1 text-sm text-surface-400">
-          Todas las evaluaciones de tu cuenta, tal como están en la base de datos. Las que
-          además aparecen en Moldex llevan la marca <span className="font-medium">Moldex</span>.
+          {t("pg_hist_descripcion")} <span className="font-medium">Moldex</span>.
         </p>
       </section>
 
@@ -109,13 +108,13 @@ export default function HistoryPage() {
             label="Promedio"
             value={stats.avg_score != null ? stats.avg_score.toFixed(1) : "—"}
           />
-          <StatCard label="Targets únicos" value={stats.unique_targets} />
+          <StatCard label={t("pg_hist_targets_unicos")} value={stats.unique_targets} />
         </section>
       )}
 
       {/* ── Controls ── */}
       <section className="flex flex-wrap items-center gap-3">
-        <label className="text-xs text-surface-400">Ordenar por:</label>
+        <label className="text-xs text-surface-400">{t("pg_hist_ordenar")}</label>
         {[
           { key: "created_at", label: "Fecha" },
           { key: "total_score", label: "Score total" },
@@ -160,9 +159,7 @@ export default function HistoryPage() {
               title="Historial en espera"
               description={
                 <>
-                  Todavía no has guardado ninguna evaluación molecular.
-                  Una evaluación guardada conserva el docking, sus resultados,
-                  los hotspots observados y, cuando existe, su recibo de integridad.
+                  {t("pg_hist_vacio")}
                 </>
               }
               ritual={[
@@ -225,15 +222,15 @@ export default function HistoryPage() {
                           <button
                             onClick={() => navigator.clipboard?.writeText(item.task_id as string)}
                             className="rounded px-1.5 py-0.5 font-mono text-xs text-surface-400 transition-colors hover:bg-surface-800 hover:text-surface-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
-                            title={`Copiar identificador de corrida: ${item.task_id}`}
-                            aria-label={`Copiar identificador de corrida ${item.task_id}`}
+                            title={t("pg_hist_copiar_id", { taskId: item.task_id })}
+                            aria-label={t("pg_hist_copiar_id_corto", { taskId: item.task_id })}
                           >
                             {item.task_id.slice(0, 8)}…
                           </button>
                         ) : (
                           <span
                             className="font-mono text-xs text-surface-600"
-                            title="Corrida anterior al registro por task_id"
+                            title={t("pg_hist_anterior_task_id")}
                           >
                             —
                           </span>
@@ -267,14 +264,14 @@ export default function HistoryPage() {
                           <button
                             onClick={() => downloadCertificate(item.molecule_id)}
                             className="inline-flex items-center gap-1.5 rounded-md bg-brand-500/10 px-2 py-1 text-xs font-bold text-brand-400 transition-colors hover:bg-brand-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
-                            title="Descargar recibo de integridad PDF"
-                            aria-label="Descargar recibo de integridad PDF"
+                            title={t("pg_hist_descargar_recibo")}
+                            aria-label={t("pg_hist_descargar_recibo")}
                           >
                             <Download className="w-3.5 h-3.5" aria-hidden="true" />
                               PDF
                           </button>
                         ) : (
-                          <span className="text-xs text-surface-600">Sin recibo</span>
+                          <span className="text-xs text-surface-600">{t("pg_hist_sin_recibo")}</span>
                         )}
                       </td>
                       <td className="px-3 py-3 text-right text-surface-500">

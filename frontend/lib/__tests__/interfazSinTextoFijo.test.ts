@@ -44,15 +44,11 @@ const MARCAS_ES =
  * Los que faltan valen cero: una pantalla nueva nace traducida.
  */
 const PRESUPUESTO: Readonly<Record<string, number>> = {
-  "app/evaluation/batch/page.tsx": 29,
   "components/registro/RegistroCientifico.tsx": 15,
-  "app/history/page.tsx": 12,
-  "app/moldex/page.tsx": 11,
   "components/interfaces/pro/ProParametersTab.tsx": 11,
   "components/ai/ChatPanel.tsx": 10,
   "components/interfaces/pro/EvaluationEvidencePanel.tsx": 10,
   "components/interfaces/pro/TargetSelectorModal.tsx": 10,
-  "app/comunidad/page.tsx": 9,
   "components/ui/OptionsMenu.tsx": 9,
   "components/ai/AISettingsModal.tsx": 8,
   "components/MethodDisclaimer.tsx": 8,
@@ -60,7 +56,6 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
   "components/MoleculeViewer3D.tsx": 6,
   "components/ScoreCard.tsx": 6,
   "components/ui/AboutModal.tsx": 6,
-  "app/global-error.tsx": 5,
   "components/DrugLikenessPanel.tsx": 5,
   "components/evaluation/CaseEvaluationRunner.tsx": 5,
   "components/interfaces/pro/ProConfigPanel.tsx": 5,
@@ -93,6 +88,7 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
   "components/ScientificWarnings.tsx": 2,
   "components/ui/LocalAISettingsModal.tsx": 2,
   "components/ui/LogConsole.tsx": 2,
+  "app/evaluation/batch/page.tsx": 1,
   "app/evaluation/page.tsx": 1,
   "components/ai/BloqueDeEvidencia.tsx": 1,
   "components/CommunityPanel.tsx": 1,
@@ -110,7 +106,7 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
 };
 
 /** Techo global. Es el que cuenta: el detalle por fichero sólo dice dónde. */
-const PRESUPUESTO_TOTAL = 286;
+const PRESUPUESTO_TOTAL = 221;
 
 function ficheros(dir: string, acc: string[] = []): string[] {
   let entradas: string[];
@@ -192,6 +188,10 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
     // Las superficies terminadas se listan aquí con cero. Es lo que convierte
     // el presupuesto en un trinquete y no en una foto.
     const TERMINADAS: string[] = [
+      "app/comunidad/page.tsx",
+      "app/global-error.tsx",
+      "app/history/page.tsx",
+      "app/moldex/page.tsx",
       "components/CertificationModal.tsx",
       "components/cases/CaseContextPanel.tsx",
       "components/cases/CaseDetailsDrawer.tsx",
