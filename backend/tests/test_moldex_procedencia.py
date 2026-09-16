@@ -113,6 +113,42 @@ async def test_la_ficha_declara_la_corrida_que_la_produjo(monkeypatch):
 
 
 @pytest.mark.asyncio
+async def test_avisos_mixtos_cumplen_el_contrato_http(monkeypatch):
+    """El endpoint solo publica mensajes, incluso con corridas heredadas."""
+    fichas = await _catalogo(
+        monkeypatch,
+        [
+            _resultado(
+                scientific_warnings=[
+                    {
+                        "codigo": "SITIO_DESOLVATADO",
+                        "severidad": "info",
+                        "mensaje": "Se retiraron aguas cristalográficas.",
+                    },
+                    "Aviso heredado de una corrida anterior.",
+                ]
+            )
+        ],
+    )
+
+    respuesta = moldex.MoldexCatalogRead.model_validate(
+        {
+            "count": len(fichas),
+            "total": len(fichas),
+            "limit": None,
+            "offset": 0,
+            "has_next": False,
+            "results": fichas,
+        }
+    )
+
+    assert respuesta.results[0].scientific_warnings == [
+        "Se retiraron aguas cristalográficas.",
+        "Aviso heredado de una corrida anterior.",
+    ]
+
+
+@pytest.mark.asyncio
 async def test_la_ficha_declara_cuando_fue_evaluada(monkeypatch):
     """El orden «RECIENTES» del cliente leía `evaluated_at` y nunca llegaba."""
     (ficha,) = await _catalogo(monkeypatch, [_resultado()])

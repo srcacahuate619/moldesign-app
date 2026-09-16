@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from api.dependencies import get_db, get_current_user_optional
 from core.models import UserORM
 from db.repository import Repository
+from services.avisos import textos
 from utils.logger import get_logger
 
 log = get_logger(__name__)
@@ -226,7 +227,7 @@ async def get_moldex(
                 "lipinski_pass": res.lipinski_pass,
                 "veber_pass": res.veber_pass,
             },
-            "scientific_warnings": res.scientific_warnings or [],
+            "scientific_warnings": textos(res.scientific_warnings),
             "hotspots_hit": res.hotspots_hit or [],
             "blockchain": _estado_del_sello(res),
         })
