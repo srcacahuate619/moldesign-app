@@ -1,4 +1,4 @@
-# Open Babel — programa independiente distribuido con MolDesign AI
+# Open Babel — programa independiente distribuido con MolDesign
 
 Este directorio contiene **Open Babel 3.1.1**, un programa
 independiente cuyo copyright pertenece a sus autores y colaboradores. Se
@@ -9,16 +9,16 @@ Open Babel se entrega **SIN NINGUNA GARANTÍA**, ni siquiera la garantía
 implícita de comerciabilidad o idoneidad para un propósito determinado; véanse
 las secciones 11 y 12 de la GPLv2.
 
-## Relación con MolDesign AI
+## Relación con MolDesign
 
-MolDesign AI es una obra separada, bajo **PolyForm Noncommercial 1.0.0** (ver
+MolDesign es una obra separada, bajo **PolyForm Noncommercial 1.0.0** (ver
 `LICENSE` en la raíz del proyecto). **No enlaza con Open Babel ni importa sus
 bindings de Python.** Lo invoca como herramienta de línea de órdenes
 (`bin/obabel.exe`) mediante subproceso, pasando y recibiendo archivos
 moleculares. Viajar en el mismo instalador es agregación en un medio de
 distribución, no combinación en una sola obra.
 
-> **Corregido el 2026-09-12.** Este párrafo declaraba que MolDesign AI estaba
+> **Corregido el 2026-09-12.** Este párrafo declaraba que MolDesign estaba
 > bajo AGPL-3.0-only. Era falso y el fichero viaja dentro del paquete: un lector
 > podía concluir que tenía derechos AGPL sobre MolDesign. La licencia es y ha
 > sido PolyForm Noncommercial 1.0.0. El error no afecta al análisis de frontera

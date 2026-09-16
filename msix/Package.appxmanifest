@@ -16,7 +16,7 @@
     ProcessorArchitecture="x64" />
 
   <Properties>
-    <DisplayName>MolDesign AI</DisplayName>
+    <DisplayName>MolDesign</DisplayName>
     <PublisherDisplayName>amezcua-dev.com</PublisherDisplayName>
     <Logo>assets\StoreLogo.png</Logo>
   </Properties>
@@ -49,7 +49,7 @@
                  Executable="moldesign.exe"
                  EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements
-        DisplayName="MolDesign AI"
+        DisplayName="MolDesign"
         Description="Diseno molecular asistido con acoplamiento AutoDock Vina y reescalado reproducible."
         BackgroundColor="transparent"
         Square150x150Logo="assets\Square150x150Logo.png"

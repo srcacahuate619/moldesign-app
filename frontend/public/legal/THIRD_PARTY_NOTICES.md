@@ -1,14 +1,14 @@
-# MolDesign AI — avisos de software y modelos de terceros
+# MolDesign — avisos de software y modelos de terceros
 
 Versión del aviso: 1.0.1 (5 de septiembre de 2026). Cambio respecto a 1.0.0: se corrigió el identificador de licencia de Open Babel, que declaraba una variante «o posterior» que sus autores no concedieron, y se describe como programa independiente invocado por línea de órdenes, con su procedencia y su oferta de código fuente. El identificador correcto es `GPL-2.0-only`.
 
-MolDesign AI combina código propio con software libre, componentes científicos, datos públicos y modelos descargables. MolDesign no reclama autoría ni propiedad sobre esos componentes. Cada uno conserva sus avisos, autores y licencia original.
+MolDesign combina código propio con software libre, componentes científicos, datos públicos y modelos descargables. MolDesign no reclama autoría ni propiedad sobre esos componentes. Cada uno conserva sus avisos, autores y licencia original.
 
 Este documento es el índice humano de los avisos. El inventario completo de versiones del runtime se conserva en `docs/api/sbom.json`; los textos íntegros relevantes se instalan en `licenses/` y los metadatos de los paquetes Python permanecen en `python/Lib/site-packages/*dist-info`.
 
 ## Código de MolDesign
 
-El código y los artefactos propios identificados de MolDesign AI se distribuyen para uso no comercial bajo PolyForm Noncommercial 1.0.0. Cualquier uso comercial requiere un acuerdo separado. Ninguna licencia de MolDesign alcanza o relicencia componentes y pesos de terceros.
+El código y los artefactos propios identificados de MolDesign se distribuyen para uso no comercial bajo PolyForm Noncommercial 1.0.0. Cualquier uso comercial requiere un acuerdo separado. Ninguna licencia de MolDesign alcanza o relicencia componentes y pesos de terceros.
 
 ## La tipografía DarkGarden que ReportLab empaqueta
 
@@ -88,7 +88,7 @@ Full license texts for these bundles ship with the static export in
 
 ## Open Babel — programa independiente, GPL-2.0-only
 
-MolDesign AI distribuye **Open Babel 3.1.1.23** dentro del mismo instalador y lo
+MolDesign distribuye **Open Babel 3.1.1.23** dentro del mismo instalador y lo
 ejecuta como un **programa independiente**: lo invoca por subproceso
 (`tools/openbabel/bin/obabel.exe`) y se comunica con él mediante archivos
 moleculares. **MolDesign no enlaza con Open Babel ni importa sus bindings de

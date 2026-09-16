@@ -80,7 +80,7 @@ export function Navigation() {
           >
             <Image
               src="/logo.png"
-              alt="MolDesign AI Logo"
+              alt="MolDesign logo"
               width={24}
               height={24}
               className="object-contain"

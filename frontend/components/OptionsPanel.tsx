@@ -174,7 +174,7 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
       const backup = {
         version: "1.0.0",
         exported_at: new Date().toISOString(),
-        application: "MolDesign AI",
+        application: "MolDesign",
         data: {
           moldex: moldex.status === "fulfilled" ? moldex.value : null,
           history: history.status === "fulfilled" ? history.value : null,

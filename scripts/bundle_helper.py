@@ -748,7 +748,7 @@ def build_bundle(root: Path) -> Path:
     total = directory_stats(resources)
     manifest = {
         "schema_version": 1,
-        "product": "MolDesign AI",
+        "product": "MolDesign",
         "product_version": "1.0.0",
         "generated_at_utc": datetime.now(UTC).replace(microsecond=0).isoformat(),
         "profile": "desktop-mvp",

@@ -207,7 +207,7 @@ function HeroSplit({ stats }: { stats: typeof EMPTY_STATS }) {
           >
             <Image
               src="/logo.png"
-              alt="MolDesign AI"
+              alt="MolDesign"
               width={32}
               height={32}
               className="object-contain opacity-60 group-hover:opacity-100 transition-opacity"
@@ -458,7 +458,7 @@ export default function HomePage() {
 
       <footer className="px-8 lg:px-16 py-12 border-t border-theme flex flex-col md:flex-row justify-between items-center gap-6 font-mono text-xs uppercase tracking-widest" style={{ color: "var(--text-dim)" }}>
         <div className="flex flex-col gap-1">
-          <span className="text-sm font-bold" style={{ color: "var(--text-muted)" }}>MolDesign AI</span>
+          <span className="text-sm font-bold" style={{ color: "var(--text-muted)" }}>MolDesign</span>
           <span>v{PRODUCT.version} · PolyForm Noncommercial</span>
         </div>
         <div className="flex items-center gap-1.5">

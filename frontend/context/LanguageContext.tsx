@@ -106,7 +106,7 @@ export const TRANSLATIONS: Record<Locale, Record<string, string>> = {
     opt_legal_about: "Acerca de",
 
     // Legal / Terms Modal
-    legal_title: "Marco Legal — MolDesign AI",
+    legal_title: "Marco Legal — MolDesign",
     legal_tab_terms: "Términos de Uso",
     legal_tab_priv: "Privacidad",
     legal_tab_lic: "Licencia",
@@ -428,7 +428,7 @@ export const TRANSLATIONS: Record<Locale, Record<string, string>> = {
     opt_legal_terms: "Terms & Privacy",
     opt_legal_about: "About",
 
-    legal_title: "Legal Framework — MolDesign AI",
+    legal_title: "Legal Framework — MolDesign",
     legal_tab_terms: "Terms of Use",
     legal_tab_priv: "Privacy",
     legal_tab_lic: "License",

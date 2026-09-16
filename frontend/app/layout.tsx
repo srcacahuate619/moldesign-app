@@ -68,7 +68,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "SoftwareApplication",
-              "name": "MolDesign AI",
+              "name": "MolDesign",
               "applicationCategory": "ScienceApplication",
               "operatingSystem": "Windows, Web",
               "description": t("auto_b8c87de15d58"),

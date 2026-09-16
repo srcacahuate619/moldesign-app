@@ -1,6 +1,6 @@
-# MolDesign AI - Molecular Design & Discovery Platform
+# MolDesign - Molecular Design & Discovery Platform
 
-MolDesign AI is an industrial-grade molecular discovery platform featuring a 3-level scientific pipeline for end-to-end (E2E) evaluation of molecular structures. 
+MolDesign is an industrial-grade molecular discovery platform featuring a 3-level scientific pipeline for end-to-end (E2E) evaluation of molecular structures.
 
 ## Capabilities & Architecture
 - Level 1 (Screening): AutoDock Vina physical docking combined with XGBoost machine learning rescoring. Trained on PDBbind, correcting physical scoring bias.

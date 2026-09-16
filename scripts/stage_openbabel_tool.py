@@ -283,7 +283,7 @@ def recolectar(destino: Path, fuente_wheel: Path = FUENTE_WHEEL) -> dict[str, st
 
 def _texto_procedencia() -> str:
     p = PROCEDENCIA
-    return f"""# Open Babel — programa independiente distribuido con MolDesign AI
+    return f"""# Open Babel — programa independiente distribuido con MolDesign
 
 Este directorio contiene **Open Babel {p['upstream_version']}**, un programa
 independiente cuyo copyright pertenece a sus autores y colaboradores. Se
@@ -294,9 +294,9 @@ Open Babel se entrega **SIN NINGUNA GARANTÍA**, ni siquiera la garantía
 implícita de comerciabilidad o idoneidad para un propósito determinado; véanse
 las secciones 11 y 12 de la GPLv2.
 
-## Relación con MolDesign AI
+## Relación con MolDesign
 
-MolDesign AI es una obra separada, bajo PolyForm Noncommercial 1.0.0. **No enlaza con Open
+MolDesign es una obra separada, bajo PolyForm Noncommercial 1.0.0. **No enlaza con Open
 Babel ni importa sus bindings de Python.** Lo invoca como herramienta de línea
 de órdenes (`bin/obabel.exe`) mediante subproceso, pasando y recibiendo
 archivos moleculares. Viajar en el mismo instalador es agregación en un medio

@@ -127,7 +127,7 @@ class NumberedCanvas(canvas.Canvas):
         score_info = getattr(self, "score_info", "")
 
         # Left executive summary
-        summary_text = f"{target_info} | {affinity_info} | {score_info} | MolDesign AI"
+        summary_text = f"{target_info} | {affinity_info} | {score_info} | MolDesign"
         self.drawString(1.5*cm, 0.8*cm, summary_text)
 
         # Right page number
@@ -473,7 +473,7 @@ def generate_certificate_pdf(
         cert_date = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
 
     story.append(Paragraph("Evidencia, reproducibilidad, supuestos, controles e incertidumbres", subtitle_style))
-    story.append(Paragraph(f"Registro temporal de la evaluación: {cert_date} &nbsp;·&nbsp; MolDesign AI", meta_style))
+    story.append(Paragraph(f"Registro temporal de la evaluación: {cert_date} &nbsp;·&nbsp; MolDesign", meta_style))
 
     # EXECUTIVE EVIDENCE SUMMARY - first-page decision surface. El dossier
     # describe una corrida; no califica si la molécula es un "buen fármaco".

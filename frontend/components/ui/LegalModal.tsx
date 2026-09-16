@@ -163,7 +163,7 @@ function LicensesContent({ onAbrirDoc }: { onAbrirDoc: (doc: LocalDoc) => void }
         <p className="mt-1 text-[12px] leading-relaxed text-white/60">{t("lg_licencias_intro")}</p>
       </header>
       <div className="rounded-lg border border-purple-500/25 bg-purple-500/[0.06] p-3">
-        <p className="text-[12px] font-semibold text-purple-100">MolDesign AI · PolyForm Noncommercial 1.0.0</p>
+        <p className="text-[12px] font-semibold text-purple-100">{PRODUCT.name} · {PRODUCT.licenseDisplayName}</p>
         <p className="mt-1 text-[11px] leading-relaxed text-white/60">{t("lg_nota_licencia_propia")}</p>
       </div>
       <div className="rounded-lg border border-amber-500/25 bg-amber-500/[0.05] p-3">

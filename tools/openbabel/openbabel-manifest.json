@@ -379,8 +379,8 @@
       "origen": "código fuente correspondiente del binario distribuido; SHA-256 declarado en SOURCE-OFFER.json y verificado al copiarlo"
     },
     "README-PROCEDENCIA.md": {
-      "bytes": 3946,
-      "sha256": "192d4451958ee35c0b42d3275e885463aa630a92118cac1c274299104f1d2c6c",
+      "bytes": 3934,
+      "sha256": "717ab13d8b4e05ffb375b70e481ffa819f838a45220ae49ded0f75f602f6e85d",
       "origen": "árbol de MolDesign"
     },
     "SOURCE-OFFER.json": {

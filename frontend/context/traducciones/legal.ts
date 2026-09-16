@@ -48,7 +48,7 @@ export const legal: ModuloDeTraduccion = {
     // ── Términos ──────────────────────────────────────────────────
     lg_terminos_titulo: "Condiciones de uso científico",
     lg_terminos_intro:
-      "MolDesign AI es una herramienta de investigación computacional. Sus "
+      "MolDesign es una herramienta de investigación computacional. Sus "
       + "resultados son hipótesis in silico y requieren validación experimental.",
     lg_terminos_1_titulo: "1. Alcance y uso responsable",
     lg_terminos_1:
@@ -167,7 +167,7 @@ export const legal: ModuloDeTraduccion = {
 
     lg_terminos_titulo: "Conditions of scientific use",
     lg_terminos_intro:
-      "MolDesign AI is a computational research tool. Its results are in silico "
+      "MolDesign is a computational research tool. Its results are in silico "
       + "hypotheses and require experimental validation.",
     lg_terminos_1_titulo: "1. Scope and responsible use",
     lg_terminos_1:

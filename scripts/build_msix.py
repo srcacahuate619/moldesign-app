@@ -316,7 +316,7 @@ def fase_manifiesto(cfg: dict, version: str) -> Path:
         publisher_display_name=ident["package_properties_publisher_display_name"],
         arch=ident["processor_architecture"],
         version=version,
-        display_name=conf.get("productName", "MolDesign AI"),
+        display_name=conf.get("productName", "MolDesign"),
         description="Diseno molecular asistido con acoplamiento AutoDock Vina y "
                     "reescalado reproducible.",
         executable="moldesign.exe",

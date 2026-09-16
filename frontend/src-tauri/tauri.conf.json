@@ -1,6 +1,6 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "MolDesign AI",
+  "productName": "MolDesign",
   "version": "1.0.0",
   "identifier": "ai.moldesign.app",
   "build": {
@@ -13,7 +13,7 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "MolDesign AI",
+        "title": "MolDesign",
         "width": 1400,
         "height": 900,
         "minWidth": 1024,

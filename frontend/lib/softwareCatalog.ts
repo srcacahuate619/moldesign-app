@@ -1,8 +1,9 @@
 export const PRODUCT = {
-  name: "MolDesign AI",
+  name: "MolDesign",
   version: "1.0.0",
   edition: "Desktop Edition",
   license: "PolyForm-Noncommercial-1.0.0",
+  licenseDisplayName: "PolyForm Noncommercial 1.0.0",
   sourceUrl: "https://github.com/srcacahuate619/moldesign-app",
   noticesUrl: "/legal/THIRD_PARTY_NOTICES.md",
   sourceOfferUrl: "/legal/SOURCE_CODE_AND_RELINKING.md",
@@ -143,7 +144,7 @@ export const SOFTWARE_SECTIONS: SoftwareSection[] = [
         kind: "MolDesign",
         availability: "Incluido",
         description: "Modelos y calibraciones propios con manifiestos, hashes y licencia separados del código.",
-        credit: "MolDesign AI Research",
+        credit: "MolDesign Research",
       },
     ],
   },
@@ -315,7 +316,7 @@ export const SOFTWARE_SECTIONS: SoftwareSection[] = [
           + "hotspots, selección de cadena, familia estructural y estado. Esa capa "
           + "es cálculo propio, no una afirmación de RCSB ni de UniProt.",
         credit:
-          "Curación y cálculo: MolDesign AI · estructuras CC0 de RCSB PDB · "
+          "Curación y cálculo: MolDesign · estructuras CC0 de RCSB PDB · "
           + "descripciones CC BY 4.0 de UniProtKB · RCSB y UniProt no certifican "
           + "los resultados de MolDesign",
       },
