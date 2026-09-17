@@ -536,6 +536,17 @@ class EvaluationResultORM(Base):
     molecule = relationship("MoleculeORM", back_populates="evaluation_result")
 
 
+class BatchRunORM(Base):
+    """Estado operativo durable del batch legacy; no modifica scores."""
+
+    __tablename__ = "batch_runs"
+    batch_id = Column(String(36), primary_key=True)
+    owner_id = Column(String(200), nullable=False)
+    status = Column(String(20), nullable=False)
+    payload_json = Column(SQLiteJSON, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
 class EvaluationRequestORM(Base):
     """Solicitud operativa durable; no modifica el contrato científico."""
 

@@ -51,7 +51,7 @@ def get_settings():
 
 # ── Versión del esquema ───────────────────────────────────────────────────────
 
-SCHEMA_VERSION = 21  # tabla operativa evaluation_requests; esquema científico intacto
+SCHEMA_VERSION = 22  # tabla operativa batch_runs; esquema científico intacto
 """
 Versión del esquema SQLite. Es la plataforma de referencia (F-04): el ORM
 (core/models.py) ES la fuente de verdad del schema, y esta constante sella

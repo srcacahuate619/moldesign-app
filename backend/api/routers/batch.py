@@ -22,6 +22,7 @@ from core.config import get_settings
 from core.database import get_db
 from core.models import UserORM
 from api.dependencies import get_current_user_optional
+from services.batch_persistence import save_batch as _persist_batch, load_inactive_batch as _load_batch
 from services.targets.access import get_target_for_user, target_is_accessible
 from db.repository import Repository
 from utils.logger import get_logger
@@ -31,9 +32,37 @@ router = APIRouter(prefix="/evaluation", tags=["Batch Screening"])
 settings = get_settings()
 MAX_BATCH_FILE_BYTES = 20 * 1024 * 1024
 
-# ── Batch state (in-memory, se pierde al reiniciar) ────────────────────────
+# ── Active state in memory; durable checkpoints live in batch_runs ────────
 _batches: dict[str, dict[str, Any]] = {}
 _batch_lock = asyncio.Lock()
+_batch_tasks: set[asyncio.Task] = set()
+
+
+async def _get_batch(batch_id):
+    batch = _batches.get(batch_id)
+    if batch is None:
+        batch = await _load_batch(batch_id)
+    return batch
+
+
+async def _supervise_batch(*args):
+    batch_id = args[0]
+    try:
+        await _process_batch(*args)
+    except BaseException as exc:
+        async with _batch_lock:
+            batch = _batches.get(batch_id)
+            if batch is not None:
+                batch.update(status="interrupted" if isinstance(exc, asyncio.CancelledError) else "failed",
+                             error=f"{type(exc).__name__}: {str(exc)[:300]}",
+                             finished_at=datetime.now(UTC).isoformat())
+                try:
+                    await _persist_batch(batch)
+                except Exception as storage_error:
+                    log.error("batch_checkpoint_failed", batch_id=batch_id, error=str(storage_error))
+        log.error("batch_worker_failed", batch_id=batch_id, error=str(exc))
+        if isinstance(exc, (asyncio.CancelledError, KeyboardInterrupt, SystemExit)):
+            raise
 
 
 def _owner_of(current_user: UserORM | None) -> str:
@@ -297,13 +326,18 @@ async def submit_batch(
         "early_exit": False,
         "has_labels": has_labels,
         "ef_metrics": None,
+        "configuration": {"molecules": valid, "targets": targets, "num_workers": num_workers},
     }
 
+    # Acceptance is durable BEFORE any scientific work starts.
+    await _persist_batch(batch, create=True)
     async with _batch_lock:
         _batches[batch_id] = batch
 
     # ── Launch evaluation in background ────────────────────────────
-    asyncio.create_task(_process_batch(batch_id, valid, targets, num_workers, False, has_labels))
+    task = asyncio.create_task(_supervise_batch(batch_id, valid, targets, num_workers, False, has_labels))
+    _batch_tasks.add(task)
+    task.add_done_callback(_batch_tasks.discard)
 
     return {
         "batch_id": batch_id,
@@ -324,7 +358,7 @@ async def get_batch_status(
 ) -> dict[str, Any]:
     """Get batch evaluation status and partial results."""
     async with _batch_lock:
-        batch = _require_own_batch(_batches.get(batch_id), current_user)
+        batch = _require_own_batch(await _get_batch(batch_id), current_user)
 
     # Return sorted results (best first) if complete
     results = batch.get("results", [])
@@ -348,6 +382,7 @@ async def get_batch_status(
         "has_active_labels": batch.get("has_labels", False),
         "ef_metrics": batch.get("ef_metrics"),
         "results": results,
+        "error": batch.get("error"),
     }
 
 
@@ -358,7 +393,7 @@ async def export_batch_excel(
 ) -> StreamingResponse:
     """Export batch results as Excel file, ranked best to worst."""
     async with _batch_lock:
-        batch = _require_own_batch(_batches.get(batch_id), current_user)
+        batch = _require_own_batch(await _get_batch(batch_id), current_user)
 
     if batch["status"] != "completed":
         raise HTTPException(status_code=400, detail="Batch aun en progreso")
@@ -382,7 +417,6 @@ async def export_batch_excel(
         # Styles
         header_font = Font(name="Calibri", size=11, bold=True, color="FFFFFF")
         header_fill = PatternFill(start_color="1a1a2e", end_color="1a1a2e", fill_type="solid")
-        pass_fill = PatternFill(start_color="dcfce7", end_color="dcfce7", fill_type="solid")
         fail_fill = PatternFill(start_color="fee2e2", end_color="fee2e2", fill_type="solid")
         thin_border = Border(
             left=Side(style="thin", color="e2e8f0"),
@@ -483,7 +517,7 @@ async def export_batch_csv(
 ) -> StreamingResponse:
     """Export batch results as CSV file."""
     async with _batch_lock:
-        propio = _batches.get(batch_id)
+        propio = await _get_batch(batch_id)
         # El 400 histórico distingue «existe pero no ha terminado». Se conserva
         # SÓLO para el dueño: a una cuenta ajena no se le confirma nada.
         batch = _require_own_batch(propio, current_user)
@@ -601,13 +635,12 @@ async def _process_batch(
                         from uuid import UUID
                         from core.database import get_db_session
                         from db.repository import Repository
-                        from core.models import EvaluationResultRead
+                        from services.batch_persistence import read_run_result
 
                         async with get_db_session() as db:
                             repo = Repository(db)
-                            eval_data = await repo.get_evaluation_result(UUID(molecule_id))
-                            if eval_data and eval_data.task_id == task_id and not eval_data.error_message:
-                                r = EvaluationResultRead.model_validate(eval_data)
+                            r = await read_run_result(repo, UUID(molecule_id), task_id)
+                            if r is not None:
                                 pains_count = len(r.pains_matches) if r.pains_matches else 0
                                 result = {
                                     "molecule_id": str(r.molecule_id),
@@ -638,13 +671,16 @@ async def _process_batch(
                         batch["completed"] += 1
                         if result.get("status") == "failed":
                             batch["failed"] += 1
+                        result["task_id"] = task_id
                         batch["results"].append(result)
-                        if batch["completed"] >= batch["total"]:
-                            batch["status"] = "completed"
+                        await _persist_batch(batch)
 
     # ── EF/AUC si hay labels ──────────────────────────────────────
     async with _batch_lock:
         batch = _batches.get(batch_id)
+        if batch and batch["completed"] >= batch["total"]:
+            batch["status"] = "completed"
+            batch["finished_at"] = datetime.now(UTC).isoformat()
         if batch and has_labels and batch["status"] == "completed":
             try:
                 batch["ef_metrics"] = _compute_ef_metrics(
@@ -652,6 +688,8 @@ async def _process_batch(
                 )
             except Exception as e:
                 log.warning("ef_computation_failed", error=str(e))
+        if batch:
+            await _persist_batch(batch)
 
     log.info("batch_complete", batch_id=batch_id, targets=len(targets), total=batch["total"] if batch else 0)
 

@@ -339,3 +339,37 @@ cambió esa preparación automáticamente en esta fase.
 No se cerró 1.0.1 ni se creó un build. C01 sigue abierto y la sustitución de la
 parametrización espera autorización científica específica. Continúan abiertos
 los pendientes operativos y científicos descritos arriba.
+
+
+## Continuación con commits y autorización científica
+
+El usuario autorizó sustituir la parametrización MM-GBSA y descargar dependencias
+científicas/referencias en un entorno aislado. Solicitó usar E: por espacio.
+Esto sustituye el estado de autorización pendiente de la sección anterior;
+no equivale a declarar validado ni activar ya un protocolo nuevo.
+
+### H10 batch legacy: checkpoint durable y recuperación
+
+- Tabla operativa batch_runs (schema 22, aditivo), con propietario, configuración,
+  estado y resultados. Commit de aceptación antes de lanzar cualquier evaluación.
+- Checkpoint tras cada fila y al finalizar métricas; el supervisor registra fallos
+  y cancelaciones. Un fallo de persistencia no se disfraza de finalización correcta.
+- Al consultar un batch que ya no tiene worker en memoria, se recupera de SQLite;
+  si estaba running queda interrupted y conserva los resultados confirmados.
+  El bloqueo de workspace garantiza una sola instancia propietaria del almacén.
+  No hay repetición automática de cálculos tras un reinicio.
+- Cada fila conserva task_id. La lectura usa primero el snapshot de esa corrida,
+  por lo que una reevaluación posterior no cambia el resultado del batch.
+- Se conserva el aislamiento de propietarios después de reiniciar. La API declara
+  interrupted/failed y error; GET conserva resultados parciales. Export legacy
+  sigue requiriendo completed, como antes.
+
+Verificación: **41 passed**, SQLite temporal real y contratos API existentes;
+commit fallido no lanza cálculos, aceptación duplicada no sobrescribe evidencia,
+propietario incorrecto no actualiza, fallo del worker conserva evidencia parcial,
+reinicio recupera configuración y una proyección posterior no altera el snapshot.
+Log: hardening-batch-durable.log. Ruff F y git diff --check sin errores.
+
+Límite: los batches anteriores a este cambio que sólo existieron en memoria no
+pueden reconstruirse retroactivamente. La integración frontend de los estados
+terminales nuevos sigue pendiente y está fuera de esta tarea.

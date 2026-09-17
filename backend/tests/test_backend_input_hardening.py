@@ -88,3 +88,13 @@ async def test_all_targets_excludes_other_owners_receptors(monkeypatch):
     monkeypatch.setattr(repository, "Repository", lambda _: SimpleNamespace(get_all_targets=AsyncMock(return_value=targets)))
     assert await batch._get_default_targets(SimpleNamespace(id=owner)) == ["7E2Y", "USR_001"]
     assert await batch._get_default_targets() == ["7E2Y"]
+
+
+@pytest.fixture(autouse=True)
+def _isolated_batch_checkpoints(monkeypatch):
+    # These tests isolate API/scientific dispatch; real SQLite checkpoints are
+    # covered by test_batch_persistence_hardening with temporary databases.
+    from unittest.mock import AsyncMock
+    from api.routers import batch
+    monkeypatch.setattr(batch, "_persist_batch", AsyncMock())
+    monkeypatch.setattr(batch, "_load_batch", AsyncMock(return_value=None))

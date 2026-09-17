@@ -111,3 +111,13 @@ def test_la_respuesta_declara_que_el_prefiltro_no_se_aplica():
     ).read_text(encoding="utf-8")
 
     assert '"early_exit_enabled": False' in fuente
+
+
+@pytest.fixture(autouse=True)
+def _isolated_batch_checkpoints(monkeypatch):
+    # These tests isolate API/scientific dispatch; real SQLite checkpoints are
+    # covered by test_batch_persistence_hardening with temporary databases.
+    from unittest.mock import AsyncMock
+    from api.routers import batch
+    monkeypatch.setattr(batch, "_persist_batch", AsyncMock())
+    monkeypatch.setattr(batch, "_load_batch", AsyncMock(return_value=None))
