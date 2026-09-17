@@ -218,17 +218,26 @@ async def get_complex_file(
             detail="No se encontró el target asociado a esta evaluación.",
         )
 
+    from services.targets.access import is_rcsb_pdb_id, require_target_object_access
+    require_target_object_access(molecule.target, current_user)
     pdb_id = molecule.target.pdb_id
     raw_path = StoragePath.target_raw(pdb_id)
     try:
         if await exists(raw_path):
             protein_pdb = await read_text(raw_path)
         else:
+            if not is_rcsb_pdb_id(str(pdb_id).strip().upper()):
+                raise HTTPException(
+                    status_code=404,
+                    detail="No hay estructura local para este receptor privado.",
+                )
             protein_pdb = await download_pdb_from_rcsb(pdb_id)
             try:
                 await write_text(raw_path, protein_pdb)
             except Exception:
                 pass
+    except HTTPException:
+        raise
     except Exception as exc:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,

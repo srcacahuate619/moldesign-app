@@ -24,9 +24,10 @@ en discos de usuarios existentes.
 
 from __future__ import annotations
 
+import os
 import tempfile
 from contextlib import asynccontextmanager
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 from typing import AsyncGenerator
 
 from core.config import get_settings
@@ -46,7 +47,19 @@ def data_dir() -> Path:
 
 def path_for(object_name: str) -> Path:
     """Resuelve un nombre de objeto lógico a su ruta real en disco."""
-    return data_dir() / object_name
+    name = str(object_name)
+    windows = PureWindowsPath(name)
+    parts = name.replace(chr(92), "/").split("/")
+    if (not name or windows.drive or windows.root or Path(name).is_absolute()
+            or any(p in ("", ".", "..") or ":" in p or chr(0) in p
+                   or p != p.rstrip(" .") or PureWindowsPath(p).is_reserved()
+                   for p in parts)):
+        raise ValueError("Nombre de objeto local inválido")
+    root = data_dir().resolve()
+    path = root.joinpath(*parts).resolve()
+    if not path.is_relative_to(root):
+        raise ValueError("El objeto local está fuera del directorio de datos")
+    return path
 
 
 # ── Lectura ────────────────────────────────────────────────────────────────────
@@ -84,7 +97,18 @@ async def write_bytes(data: bytes, object_name: str) -> str:
     """
     path = path_for(object_name)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(data)
+    # Un lector ve la versión anterior o la nueva completa, nunca un truncado.
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(dir=path.parent, prefix=".writing-", delete=False) as tmp:
+            temporary = Path(tmp.name)
+            tmp.write(data)
+            tmp.flush()
+            os.fsync(tmp.fileno())
+        os.replace(temporary, path)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
     log.debug("archivo guardado en disco local", object_name=object_name, size=len(data))
     return object_name
 

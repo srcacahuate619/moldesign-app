@@ -68,6 +68,12 @@ class _RepositorioDoble:
             smiles_hash="0" * 64,
         )
 
+    async def get_evaluation_result(self, _molecule_id):
+        return None
+
+    async def upsert_evaluation_result(self, **kwargs):
+        return None
+
     async def set_molecule_status(self, _molecule_id: object, estado: object) -> None:
         self.estados.append(estado)
 

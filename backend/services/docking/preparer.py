@@ -14,6 +14,8 @@ disponible, falla con un error explícito para no introducir falsa ciencia.
 
 from __future__ import annotations
 
+from utils.procesos import BANDERAS_SIN_VENTANA, communicate_managed
+
 import asyncio
 import shutil
 import sys
@@ -962,9 +964,10 @@ async def prepare_target(
             *command,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
+            creationflags=BANDERAS_SIN_VENTANA,
             cwd=str(tmp_dir_path),
         )
-        stdout, stderr = await process.communicate()
+        stdout, stderr = await communicate_managed(process, timeout=600.0)
 
         # ── v1.8.1: Degradación por glicanos / residuos no-templated ────────
         # Glicoproteínas (5NN5: NAG/FUC/MAN/BMA; 6MEO, 7CM4) rompen Meeko con
@@ -1015,9 +1018,10 @@ async def prepare_target(
                         *retry_command,
                         stdout=asyncio.subprocess.PIPE,
                         stderr=asyncio.subprocess.PIPE,
+                        creationflags=BANDERAS_SIN_VENTANA,
                         cwd=str(tmp_dir_path),
                     )
-                    stdout2, stderr2 = await process2.communicate()
+                    stdout2, stderr2 = await communicate_managed(process2, timeout=600.0)
                 except Exception as retry_err:
                     log.error("mk_prepare_receptor_retry_spawn_failed", pdb_id=pdb_id, error=str(retry_err))
                     stdout2, stderr2 = b"", b""

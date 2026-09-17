@@ -403,169 +403,179 @@ def compute_mmgbsa_from_pose(
     # 1. Prepare protein
     with tempfile.NamedTemporaryFile(suffix=".pdb", delete=False) as f:
         prep_pdb = f.name
-    prepare_protein(protein_pdb, prep_pdb)
-
-    # 2. Ligand charges from MolChamb
-    mol = Chem.MolFromSmiles(ligand_smiles)
-    if mol is None:
-        raise ValueError(f"Invalid SMILES: {ligand_smiles}")
-
-    # ── FIX 2026-08-04 (NaN): si viene el SDF de la pose real, construir la
-    # topología DESDE el SDF (que tiene el conformador 3D de Vina), agregando
-    # H con coordenadas calculadas. Antes se hacía AddHs() SIN coordenadas y
-    # los H extra caían todos en la última posición del pose → colapso estérico
-    # → energía infinita → "Energy or force at minimization starting point is
-    # infinite or NaN".
-    mol_with_h = None
-    if ligand_sdf_path:
-        try:
-            from rdkit import Chem as _Chem
-            suppl = _Chem.SDMolSupplier(str(ligand_sdf_path), sanitize=False, removeHs=False)
-            pose_mol = next((m for m in suppl if m is not None), None)
-            if pose_mol is not None:
-                # Los H se agregan CON coordenadas calculadas (no a 0,0,0)
-                mol_with_h = _Chem.AddHs(pose_mol, addCoords=True)
-                log.info("mmgbsa_pose_sdf_used", n_atoms=mol_with_h.GetNumAtoms(),
-                         has_conf=mol_with_h.GetConformer() is not None)
-        except Exception as e:
-            log.warning("mmgbsa_pose_sdf_fallback", error=str(e)[:200])
-            mol_with_h = None
-
-    if mol_with_h is None:
-        # Fallback: reconstruir desde SMILES (conformador aislado + H sin coords
-        # — puede producir NaN si la pose es arbitraria, pero es degradación)
-        from rdkit.Chem import AllChem as _AllChem
-        mol_for_h = _Chem.AddHs(mol)
-        _AllChem.EmbedMolecule(mol_for_h, randomSeed=42)
-        _AllChem.MMFFOptimizeMolecule(mol_for_h)
-        mol_with_h = mol_for_h
-
-    # Cargas: desde SMILES original (independiente de la topología con H)
-    charges = None
     try:
-        xtb = compute_xtb_features(ligand_smiles)
-        charges = xtb.get("xtb_charges", None)
-    except Exception:
-        pass
-    if not charges:
-        from rdkit.Chem import AllChem
-        AllChem.ComputeGasteigerCharges(mol)
-        charges = [float(a.GetProp("_GasteigerCharge")) for a in mol.GetAtoms()]
-    has_molchamb = charges is not None
+        prepare_protein(protein_pdb, prep_pdb)
 
-    # 3. Build ligand topology (with pose coordinates from mol_with_h)
-    from openmm.app.topology import Topology
-    from openmm.app.element import Element
+        # 2. Ligand charges from MolChamb
+        mol = Chem.MolFromSmiles(ligand_smiles)
+        if mol is None:
+            raise ValueError(f"Invalid SMILES: {ligand_smiles}")
 
-    lig_top = Topology()
-    lig_chain = lig_top.addChain("L")
-    lig_res = lig_top.addResidue("LIG", lig_chain)
-    lig_atoms = []
-    lig_positions = []
+        # ── FIX 2026-08-04 (NaN): si viene el SDF de la pose real, construir la
+        # topología DESDE el SDF (que tiene el conformador 3D de Vina), agregando
+        # H con coordenadas calculadas. Antes se hacía AddHs() SIN coordenadas y
+        # los H extra caían todos en la última posición del pose → colapso estérico
+        # → energía infinita → "Energy or force at minimization starting point is
+        # infinite or NaN".
+        mol_with_h = None
+        if ligand_sdf_path:
+            try:
+                from rdkit import Chem as _Chem
+                suppl = _Chem.SDMolSupplier(str(ligand_sdf_path), sanitize=False, removeHs=False)
+                pose_mol = next(iter(suppl), None)
+                if pose_mol is not None and pose_mol.GetNumConformers() > 0:
+                    # Los H se agregan CON coordenadas calculadas (no a 0,0,0)
+                    mol_with_h = _Chem.AddHs(pose_mol, addCoords=True)
+                    log.info("mmgbsa_pose_sdf_used", n_atoms=mol_with_h.GetNumAtoms(),
+                             has_conf=mol_with_h.GetConformer() is not None)
+            except Exception as e:
+                log.warning("mmgbsa_pose_sdf_invalid", error=str(e)[:200])
+                mol_with_h = None
 
-    # Si tenemos el mol con H y conformador real → usar SUS posiciones.
-    # Si no → usar pose_coordinates (pero el conteo debe coincidir con mol_with_h).
-    conf = mol_with_h.GetConformer() if mol_with_h.GetNumConformers() > 0 else None
-    n_mol = mol_with_h.GetNumAtoms()
+        if mol_with_h is None:
+            # Sin la topología y coordenadas de la pose no se calcula desde SMILES.
+            try:
+                os.unlink(prep_pdb)
+            except OSError:
+                pass
+            return {
+                "mmgbsa": None, "status": "not_evaluated", "used_pose": False,
+                "error": "No se dispone de una pose acoplada válida; MM-GBSA no evaluado.",
+            }
 
-    if conf is not None:
-        for i in range(n_mol):
-            atom = mol_with_h.GetAtomWithIdx(i)
-            elem = Element.getBySymbol(atom.GetSymbol())
-            a = lig_top.addAtom(f"{atom.GetSymbol()}{i + 1}", elem, lig_res)
-            lig_atoms.append(a)
-            pos = conf.GetAtomPosition(i)
-            lig_positions.append(Vec3(pos.x, pos.y, pos.z) * unit.angstrom)
-    else:
-        n_pose = len(pose_coordinates)
-        for i in range(min(n_pose, n_mol)):
-            atom = mol_with_h.GetAtomWithIdx(i)
-            elem = Element.getBySymbol(atom.GetSymbol())
-            a = lig_top.addAtom(f"{atom.GetSymbol()}{i + 1}", elem, lig_res)
-            lig_atoms.append(a)
-            x, y, z = pose_coordinates[i]
-            lig_positions.append(Vec3(x, y, z) * unit.angstrom)
-        # Add remaining atoms at last pose position (degradación)
-        if n_mol > n_pose:
-            last = pose_coordinates[-1] if pose_coordinates else (0, 0, 0)
-            for i in range(n_pose, n_mol):
+        # Cargas: desde SMILES original (independiente de la topología con H)
+        charges = None
+        try:
+            xtb = compute_xtb_features(ligand_smiles)
+            charges = xtb.get("xtb_charges", None)
+        except Exception:
+            pass
+        if not charges:
+            from rdkit.Chem import AllChem
+            AllChem.ComputeGasteigerCharges(mol)
+            charges = [float(a.GetProp("_GasteigerCharge")) for a in mol.GetAtoms()]
+        has_molchamb = charges is not None
+
+        # 3. Build ligand topology (with pose coordinates from mol_with_h)
+        from openmm.app.topology import Topology
+        from openmm.app.element import Element
+
+        lig_top = Topology()
+        lig_chain = lig_top.addChain("L")
+        lig_res = lig_top.addResidue("LIG", lig_chain)
+        lig_atoms = []
+        lig_positions = []
+
+        # Si tenemos el mol con H y conformador real → usar SUS posiciones.
+        # Si no → usar pose_coordinates (pero el conteo debe coincidir con mol_with_h).
+        conf = mol_with_h.GetConformer() if mol_with_h.GetNumConformers() > 0 else None
+        n_mol = mol_with_h.GetNumAtoms()
+
+        if conf is not None:
+            for i in range(n_mol):
                 atom = mol_with_h.GetAtomWithIdx(i)
                 elem = Element.getBySymbol(atom.GetSymbol())
                 a = lig_top.addAtom(f"{atom.GetSymbol()}{i + 1}", elem, lig_res)
                 lig_atoms.append(a)
-                lig_positions.append(Vec3(last[0], last[1], last[2]) * unit.angstrom)
+                pos = conf.GetAtomPosition(i)
+                lig_positions.append(Vec3(pos.x, pos.y, pos.z) * unit.angstrom)
+        else:
+            n_pose = len(pose_coordinates)
+            for i in range(min(n_pose, n_mol)):
+                atom = mol_with_h.GetAtomWithIdx(i)
+                elem = Element.getBySymbol(atom.GetSymbol())
+                a = lig_top.addAtom(f"{atom.GetSymbol()}{i + 1}", elem, lig_res)
+                lig_atoms.append(a)
+                x, y, z = pose_coordinates[i]
+                lig_positions.append(Vec3(x, y, z) * unit.angstrom)
+            # Add remaining atoms at last pose position (degradación)
+            if n_mol > n_pose:
+                last = pose_coordinates[-1] if pose_coordinates else (0, 0, 0)
+                for i in range(n_pose, n_mol):
+                    atom = mol_with_h.GetAtomWithIdx(i)
+                    elem = Element.getBySymbol(atom.GetSymbol())
+                    a = lig_top.addAtom(f"{atom.GetSymbol()}{i + 1}", elem, lig_res)
+                    lig_atoms.append(a)
+                    lig_positions.append(Vec3(last[0], last[1], last[2]) * unit.angstrom)
 
-    for bond in mol_with_h.GetBonds():
-        i, j = bond.GetBeginAtomIdx(), bond.GetEndAtomIdx()
-        if i < len(lig_atoms) and j < len(lig_atoms):
-            lig_top.addBond(lig_atoms[i], lig_atoms[j])
+        for bond in mol_with_h.GetBonds():
+            i, j = bond.GetBeginAtomIdx(), bond.GetEndAtomIdx()
+            if i < len(lig_atoms) and j < len(lig_atoms):
+                lig_top.addBond(lig_atoms[i], lig_atoms[j])
 
-    # 4. Build complex
-    prot_pdb = PDBFile(prep_pdb)
-    modeller = Modeller(prot_pdb.topology, prot_pdb.positions)
-    modeller.add(lig_top, lig_positions)
+        # 4. Build complex
+        prot_pdb = PDBFile(prep_pdb)
+        modeller = Modeller(prot_pdb.topology, prot_pdb.positions)
+        modeller.add(lig_top, lig_positions)
 
-    # 5. OpenMM system with custom template (skip if unsupported atoms)
-    _SUPPORTED_ELEMENTS = {"C", "H", "O", "N", "S", "P"}
-    ligand_elements = {a.GetSymbol() for a in mol_with_h.GetAtoms()}
-    unsupported = ligand_elements - _SUPPORTED_ELEMENTS
-    if unsupported:
-        # Fallback: skip MM-GBSA for molecules with halogens/metals
+        # 5. OpenMM system with custom template (skip if unsupported atoms)
+        _SUPPORTED_ELEMENTS = {"C", "H", "O", "N", "S", "P"}
+        ligand_elements = {a.GetSymbol() for a in mol_with_h.GetAtoms()}
+        unsupported = ligand_elements - _SUPPORTED_ELEMENTS
+        if unsupported:
+            # Fallback: skip MM-GBSA for molecules with halogens/metals
+            try:
+                os.unlink(prep_pdb)
+            except OSError as e:
+                log.warning("cleanup_failed", stage="unsupported_elements", error=str(e))
+            return {
+                "g_complex": 0.0, "g_protein": 0.0, "g_ligand": 0.0,
+                "mmgbsa": None,
+                "time_sec": 0.0,
+                "has_molchamb": False,
+                "error": f"Unsupported elements: {unsupported}",
+            }
+
+        ff = ForceField("amber14-all.xml", "implicit/gbn2.xml")
+        _register_ligand_template(ff, mol_with_h, name="LIG")
+
+        system = ff.createSystem(
+            modeller.topology, nonbondedMethod=NoCutoff,
+            constraints=HBonds, hydrogenMass=1.5 * unit.amu,
+        )
+
+        # 6. Override ligand charges with MolChamb
+        lig_ids = _find_ligand_atoms(modeller.topology)
+        if lig_ids and charges:
+            atoms_list = list(modeller.topology.atoms())
+            heavy_ids = [i for i in lig_ids if atoms_list[i].element.symbol != "H"]
+            if len(charges) >= len(heavy_ids):
+                _override_charges(system, heavy_ids, charges[:len(heavy_ids)])
+
+        # 7. Minimize with best platform
+        integrator = LangevinMiddleIntegrator(300 * unit.kelvin, 1.0 / unit.picosecond, 0.002 * unit.picoseconds)
+        sim = Simulation(modeller.topology, system, integrator, platform)
+        sim.context.setPositions(modeller.positions)
+        sim.minimizeEnergy(maxIterations=max_iter)
+        state = sim.context.getState(getEnergy=True, getPositions=True)
+        g_complex = state.getPotentialEnergy().value_in_unit(unit.kilocalories_per_mole)
+        min_pos = state.getPositions()
+
+        # 8. Protein only + Ligand only
+        g_protein = _compute_isolated_fast(modeller, min_pos, ff, lig_ids, "protein", max_iter, platform)
+        g_ligand = _compute_isolated_fast(modeller, min_pos, ff, lig_ids, "ligand", max_iter, platform, charges)
+
+        # Cleanup
         try:
             os.unlink(prep_pdb)
         except OSError as e:
-            log.warning("cleanup_failed", stage="unsupported_elements", error=str(e))
+            log.warning("cleanup_failed", stage="compute_mmgbsa_from_pose", error=str(e))
+
         return {
-            "g_complex": 0.0, "g_protein": 0.0, "g_ligand": 0.0,
-            "mmgbsa": None,
-            "time_sec": 0.0,
-            "has_molchamb": False,
-            "error": f"Unsupported elements: {unsupported}",
+            "g_complex": round(g_complex, 3),
+            "g_protein": round(g_protein, 3),
+            "g_ligand": round(g_ligand, 3),
+            "mmgbsa": round(g_complex - g_protein - g_ligand, 3),
+            "time_sec": round(time.time() - t0, 2),
+            "has_molchamb": has_molchamb,
         }
-
-    ff = ForceField("amber14-all.xml", "implicit/gbn2.xml")
-    _register_ligand_template(ff, mol_with_h, name="LIG")
-
-    system = ff.createSystem(
-        modeller.topology, nonbondedMethod=NoCutoff,
-        constraints=HBonds, hydrogenMass=1.5 * unit.amu,
-    )
-
-    # 6. Override ligand charges with MolChamb
-    lig_ids = _find_ligand_atoms(modeller.topology)
-    if lig_ids and charges:
-        atoms_list = list(modeller.topology.atoms())
-        heavy_ids = [i for i in lig_ids if atoms_list[i].element.symbol != "H"]
-        if len(charges) >= len(heavy_ids):
-            _override_charges(system, heavy_ids, charges[:len(heavy_ids)])
-
-    # 7. Minimize with best platform
-    integrator = LangevinMiddleIntegrator(300 * unit.kelvin, 1.0 / unit.picosecond, 0.002 * unit.picoseconds)
-    sim = Simulation(modeller.topology, system, integrator, platform)
-    sim.context.setPositions(modeller.positions)
-    sim.minimizeEnergy(maxIterations=max_iter)
-    state = sim.context.getState(getEnergy=True, getPositions=True)
-    g_complex = state.getPotentialEnergy().value_in_unit(unit.kilocalories_per_mole)
-    min_pos = state.getPositions()
-
-    # 8. Protein only + Ligand only
-    g_protein = _compute_isolated_fast(modeller, min_pos, ff, lig_ids, "protein", max_iter, platform)
-    g_ligand = _compute_isolated_fast(modeller, min_pos, ff, lig_ids, "ligand", max_iter, platform, charges)
-
-    # Cleanup
-    try:
-        os.unlink(prep_pdb)
-    except OSError as e:
-        log.warning("cleanup_failed", stage="compute_mmgbsa_from_pose", error=str(e))
-
-    return {
-        "g_complex": round(g_complex, 3),
-        "g_protein": round(g_protein, 3),
-        "g_ligand": round(g_ligand, 3),
-        "mmgbsa": round(g_complex - g_protein - g_ligand, 3),
-        "time_sec": round(time.time() - t0, 2),
-        "has_molchamb": has_molchamb,
-    }
+    finally:
+        try:
+            os.unlink(prep_pdb)
+        except FileNotFoundError:
+            pass
+        except OSError as exc:
+            log.warning("cleanup_failed", stage="compute_mmgbsa_from_pose", error=str(exc))
 
 
 def _compute_isolated_fast(modeller, positions, ff, lig_ids, which, max_iter, platform, charges=None):
@@ -598,7 +608,7 @@ def _compute_isolated_fast(modeller, positions, ff, lig_ids, which, max_iter, pl
             sub_top, sub_pos = sub.topology, sub.positions
     except Exception as e:
         log.warning("isolated_modeller_delete_failed", which=which, error=str(e)[:200])
-        return 0.0
+        raise ValueError(f"MM-GBSA no evaluado: fallo del subsistema {which}: {e}") from e
 
     # Crear sistema sobre la topología reducida (templates AMBER intactos)
     try:
@@ -608,7 +618,7 @@ def _compute_isolated_fast(modeller, positions, ff, lig_ids, which, max_iter, pl
         )
     except Exception as e:
         log.warning("isolated_system_failed", which=which, error=str(e)[:200])
-        return 0.0
+        raise ValueError(f"MM-GBSA no evaluado: fallo del subsistema {which}: {e}") from e
 
     # Aplicar cargas MolChamb al ligando (solo átomos pesados)
     if which == "ligand" and charges:

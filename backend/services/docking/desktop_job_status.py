@@ -157,6 +157,16 @@ async def get_desktop_job_status(
                     log.info("job_status_run_snapshot_recovered", task_id=task_id)
                     return recovered
 
+                from core.models import EvaluationRequestORM
+                recorded = await db.get(EvaluationRequestORM, task_id)
+                if recorded is not None and recorded.status != "SUCCESS":
+                    if recorded.status != "FAILURE":
+                        recorded.status = "FAILURE"
+                        recorded.error_message = "La ejecución se interrumpió antes de persistir un resultado."
+                        await db.commit()
+                    return JobStatus(task_id=task_id, status="FAILURE", progress=100,
+                                     result=None, error=recorded.error_message)
+
                 # Compatibilidad con evaluaciones anteriores a schema v11: la
                 # proyección mutable sólo es válida si todavía conserva task_id.
                 stmt = (

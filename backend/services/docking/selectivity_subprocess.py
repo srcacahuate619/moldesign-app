@@ -21,6 +21,7 @@ Escribe el resultado como JSON en stdout (para logging del caller).
 from __future__ import annotations
 
 import json
+import math
 import os
 import sys
 
@@ -44,13 +45,18 @@ def main() -> int:
     target_pdb_id = sys.argv[4]
     try:
         on_affinity = float(sys.argv[5])
+        if not math.isfinite(on_affinity):
+            raise ValueError("afinidad no finita")
     except ValueError:
-        on_affinity = 0.0
+        print(json.dumps({"status": "not_evaluated", "error":
+                          "Selectividad no evaluada: falta afinidad principal finita."}))
+        return 2
     try:
         num_workers = int(sys.argv[6])
     except ValueError:
         num_workers = 2
     anti_targets_csv = sys.argv[7] if len(sys.argv) > 7 else ""
+    task_id = sys.argv[8] if len(sys.argv) > 8 else None
     anti_ids = [a.strip() for a in anti_targets_csv.split(",") if a.strip()] or None
 
     import asyncio
@@ -91,13 +97,18 @@ def main() -> int:
         # Persistir en DB con sesión propia (post-hoc, no bloquea el pipeline)
         async with get_db_session() as db:
             repo = Repository(db)
-            await repo.set_selectivity_results(
-                molecule_id=mol_uuid,
+            values = dict(
                 selectivity_ratio=result.selectivity_ratio,
                 selectivity_ran=True,
                 selectivity_verdict=payload["selectivity_verdict"],
-                anti_target_results=result.off_targets,
+                anti_target_results=result.off_targets or [],
             )
+            if task_id is not None:
+                updated = await repo.update_evaluation_for_task(mol_uuid, task_id, **values)
+                if not updated:
+                    payload["persistence_skipped"] = "projection_belongs_to_another_run"
+            else:
+                await repo.set_selectivity_results(molecule_id=mol_uuid, **values)
             await flush_with_retry(db)
             await db.commit()
 

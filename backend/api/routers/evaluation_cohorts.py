@@ -139,7 +139,7 @@ async def _leer_archivo(file: UploadFile) -> tuple[bytes, ParsedFile]:
     es. El tope de filas se comprueba sobre la lectura cruda para no pagar el
     trabajo de una cohorte que se va a rechazar igual.
     """
-    contenido = await file.read()
+    contenido = await file.read(MAX_COHORT_FILE_BYTES + 1)
     if len(contenido) > MAX_COHORT_FILE_BYTES:
         raise HTTPException(
             status.HTTP_422_UNPROCESSABLE_CONTENT,

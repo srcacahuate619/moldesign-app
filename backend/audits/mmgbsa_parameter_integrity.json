@@ -1,0 +1,240 @@
+[
+  {
+    "smiles": "CCO",
+    "openmm_version": "8.5.2",
+    "expected_angles": 13,
+    "actual_angles": 10,
+    "missing_angles": [
+      [
+        1,
+        2,
+        8
+      ],
+      [
+        2,
+        1,
+        6
+      ],
+      [
+        2,
+        1,
+        7
+      ]
+    ],
+    "diagnostic_nb_charge": 0.25,
+    "diagnostic_gb_charge": 0.0,
+    "unchanged_zero_14_pairs": [
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        3,
+        6
+      ],
+      [
+        4,
+        6
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        4,
+        7
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        6,
+        8
+      ],
+      [
+        7,
+        8
+      ]
+    ],
+    "integrity_ok": false
+  },
+  {
+    "smiles": "c1ccccc1",
+    "openmm_version": "8.5.2",
+    "expected_angles": 18,
+    "actual_angles": 6,
+    "missing_angles": [
+      [
+        0,
+        1,
+        7
+      ],
+      [
+        0,
+        5,
+        11
+      ],
+      [
+        1,
+        0,
+        6
+      ],
+      [
+        1,
+        2,
+        8
+      ],
+      [
+        2,
+        1,
+        7
+      ],
+      [
+        2,
+        3,
+        9
+      ],
+      [
+        3,
+        2,
+        8
+      ],
+      [
+        3,
+        4,
+        10
+      ],
+      [
+        4,
+        3,
+        9
+      ],
+      [
+        4,
+        5,
+        11
+      ],
+      [
+        5,
+        0,
+        6
+      ],
+      [
+        5,
+        4,
+        10
+      ]
+    ],
+    "diagnostic_nb_charge": 0.25,
+    "diagnostic_gb_charge": 0.0,
+    "unchanged_zero_14_pairs": [
+      [
+        0,
+        3
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        4,
+        6
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        0,
+        8
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        1,
+        9
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        0,
+        10
+      ],
+      [
+        2,
+        10
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        1,
+        11
+      ],
+      [
+        3,
+        11
+      ],
+      [
+        6,
+        11
+      ],
+      [
+        10,
+        11
+      ]
+    ],
+    "integrity_ok": false
+  },
+  {
+    "smiles": "CCOP(=O)(O)O",
+    "integrity_ok": false,
+    "error": "ValueError: No template found for residue 0 (LIG).  The set of atoms is similar to DC, but is missing 4 H atoms, 7 C atoms, 3 N atoms, and 2 O atoms.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#template"
+  }
+]

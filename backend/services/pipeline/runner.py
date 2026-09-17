@@ -67,9 +67,10 @@ from services.docking.vina_service import run_vina_docking
 from services.targets.resolution import resolve_execution_target
 from services.docking.rescoring_client import get_ml_rescore
 from scoring.engine import calculate_score_breakdown
+from services.docking.evaluation_lock import serialize_ligand_evaluation
 from utils.cache import cache
 from utils.logger import get_logger
-from utils.procesos import BANDERAS_SIN_VENTANA
+from utils.procesos import BANDERAS_SIN_VENTANA, communicate_managed
 from utils.scientific import audit_scientific_quality
 
 from .registry import (
@@ -178,6 +179,7 @@ async def _quick_upsert_evaluation_result(
         )
         if freeze_run and task_id is not None:
             snapshot = await repository.snapshot_evaluation_run(molecule_id, task_id)
+            await repository.set_molecule_status(molecule_id, MoleculeStatus.EVALUATED)
             return snapshot.id
         return None
     return await _run_mini_tx(_op)
@@ -214,6 +216,7 @@ async def _quick_get_or_create_molecule(
     return await _run_mini_tx(_op)
 
 
+@serialize_ligand_evaluation()
 async def run_pipeline(
     task_id: str,
     smiles: str,
@@ -287,9 +290,17 @@ async def run_pipeline(
             )
         )
 
+        from services.docking.queue_handler import register_job_molecule
+        register_job_molecule(task_id, molecule_id)
+
         # v1.7.4: Commit de la sesión de setup — libera cualquier write
         # residual (p.ej. target auto-ingestado por ingestion_manager).
         await commit_with_retry(db)
+
+        from services.docking.projection_lifecycle import begin_evaluation_projection
+        async def _begin_projection(_db, _repository):
+            await begin_evaluation_projection(_repository, molecule_id, task_id, is_control=is_control)
+        await _run_mini_tx(_begin_projection)
 
         if not user_id:
             ip_val = await cache.get(f"task_owner_ip:{task_id}")
@@ -754,7 +765,15 @@ async def run_pipeline(
                         )
                         continue
 
-                    on_affinity = context["docking"].best_affinity or 0.0
+                    import math
+                    on_affinity = context["docking"].best_affinity
+                    if (isinstance(on_affinity, bool)
+                            or not isinstance(on_affinity, (int, float))
+                            or not math.isfinite(on_affinity)):
+                        context["scientific_warnings"].append(
+                            "Selectividad no evaluada: falta afinidad principal finita"
+                        )
+                        continue
                     workers = pipeline_params.num_workers or params.get("num_workers", 2)
                     anti_ids = pipeline_params.selected_anti_targets or []
 
@@ -782,6 +801,7 @@ async def run_pipeline(
                             str(on_affinity),
                             str(workers),
                             ",".join(anti_ids),
+                            task_id,
                             stdout=_asyncio.subprocess.PIPE,
                             stderr=_asyncio.subprocess.DEVNULL,
                             creationflags=BANDERAS_SIN_VENTANA,
@@ -791,9 +811,7 @@ async def run_pipeline(
                         async def _watch_selectivity_proc(proc, mol_id):
                             """Espera al subprocess y loguea el resultado (no persiste)."""
                             try:
-                                _stdout_b, _ = await _asyncio.wait_for(
-                                    proc.communicate(), timeout=3600.0
-                                )
+                                _stdout_b, _ = await communicate_managed(proc, timeout=3600.0)
                             except _asyncio.TimeoutError:
                                 log.warning("selectivity_bg_timeout_kill",
                                             molecule_id=str(mol_id)[:8])
@@ -802,6 +820,7 @@ async def run_pipeline(
                                 except Exception:
                                     pass
                                 await proc.wait()
+                                return
                             finally:
                                 unregister_process(task_id, "selectivity", proc)
                             if proc.returncode == 0 and _stdout_b:
@@ -965,9 +984,10 @@ async def run_pipeline(
                     # posicion de `max_iter` y el wrapper moria con
                     # `ValueError: invalid literal for int()`. Ver el bloque de
                     # argumentos en `mmgbsa_subprocess.py`.
+                    from utils.local_storage import path_for as _pose_path_for
                     _mmgbsa_args = [context.get("_pdb_path", ""), pipeline_params.molecule_smiles]
                     if _poses_sdf:
-                        _mmgbsa_args += ["--poses", _poses_sdf]
+                        _mmgbsa_args += ["--poses", str(_pose_path_for(_poses_sdf))]
                     _proc = await _asyncio.create_subprocess_exec(
                         _embed_python, _wrapper, *_mmgbsa_args,
                         stdout=_asyncio.subprocess.PIPE,
@@ -975,9 +995,7 @@ async def run_pipeline(
                         creationflags=BANDERAS_SIN_VENTANA,
                     )
                     try:
-                        _stdout_b, _ = await _asyncio.wait_for(
-                            _proc.communicate(), timeout=60.0
-                        )
+                        _stdout_b, _ = await communicate_managed(_proc, timeout=60.0)
                     except _asyncio.TimeoutError:
                         try:
                             _proc.kill()
@@ -985,11 +1003,17 @@ async def run_pipeline(
                             pass
                         await _proc.wait()
                     else:
-                        if _proc.returncode == 0 and _stdout_b:
+                        if _stdout_b:
                             try:
                                 _mmgbsa_result = _json.loads(
                                     _stdout_b.decode("utf-8", "replace"))
-                                mmgbsa_score_value = _mmgbsa_result.get("mmgbsa")
+                                mmgbsa_score_value = _mmgbsa_result.get("mmgbsa") if _proc.returncode == 0 else None
+                                if mmgbsa_score_value is None:
+                                    docking.scientific_warnings.append(
+                                        "MM-GBSA no evaluado: " + _mmgbsa_result.get("error", "sin resultado")
+                                    )
+                                    log.warning("mmgbsa_not_evaluated", task_id=task_id,
+                                                error=_mmgbsa_result.get("error"))
                             except Exception as _mmgbsa_parse_err:
                                 # v1.7.5: loguear el fallo de parseo del subprocess MM-GBSA
                                 log.warning("mmgbsa_subprocess_parse_failed",
@@ -1168,7 +1192,6 @@ async def run_pipeline(
                 ),
                 freeze_run=True,
             )
-            await _quick_set_molecule_status(pipeline_params.molecule_id, MoleculeStatus.EVALUATED)
             await cache.set_job_progress(task_id, 100, "done")
             await cache.push_stage_event(task_id, {"type": "pipeline_done", "timestamp": datetime.now(UTC).isoformat()})
 

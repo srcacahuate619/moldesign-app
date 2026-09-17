@@ -36,6 +36,7 @@ SI SE REACTIVA ALGÚN DÍA (no recomendado para producción):
 """
 
 import asyncio
+from utils.procesos import BANDERAS_SIN_VENTANA, communicate_managed
 import tempfile
 from pathlib import Path
 
@@ -172,8 +173,9 @@ async def run_quantum_ad4_docking(
                     *command,
                     stdout=asyncio.subprocess.PIPE,
                     stderr=asyncio.subprocess.PIPE,
+                    creationflags=BANDERAS_SIN_VENTANA,
                 )
-                stdout_bytes, stderr_bytes = await process.communicate()
+                stdout_bytes, stderr_bytes = await communicate_managed(process, timeout=600.0)
                 execution_time = time.monotonic() - start_time
 
                 stdout = stdout_bytes.decode("utf-8", errors="replace")

@@ -66,6 +66,7 @@ def _evaluacion(*, indice=None, is_control=False):
         blood_systemic_reactivity=None,
         blood_tabpfn_estado=None,
         is_control=is_control,
+        task_id="admet-source",
     )
 
 
@@ -77,9 +78,9 @@ class _RepositorioFalso:
     async def get_evaluation_result(self, _molecule_id):
         return self._evaluacion
 
-    async def upsert_evaluation_result(self, **kwargs):
-        self._registro.append(kwargs)
-        return self._evaluacion
+    async def update_properties_for_task(self, molecule_id, task_id, properties):
+        self._registro.append({"molecule_id": molecule_id, "task_id": task_id, "properties": properties})
+        return task_id == self._evaluacion.task_id
 
 
 @pytest.fixture
@@ -150,7 +151,7 @@ def test_NO_convierte_un_control_en_molecula_normal(cliente):
 
     r = c.post(f"/pro/admet/{MOLECULE_ID}")
     assert r.status_code == 200, r.text
-    assert registro[0]["is_control"] is True, (
+    assert "is_control" not in registro[0] and estado["evaluacion"].is_control is True, (
         "calcular ADMET sobre un control lo marcó como molécula de trabajo"
     )
 

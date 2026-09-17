@@ -8,6 +8,8 @@ en una lista global: cancelar una tarea debe afectar solamente sus hijos.
 from __future__ import annotations
 
 import threading
+
+from utils.procesos import kill_process_tree
 from typing import Any
 
 _lock = threading.RLock()
@@ -50,7 +52,7 @@ def cancel_processes(task_id: str, kind: str) -> int:
     for process in processes:
         try:
             if process.returncode is None:
-                process.kill()
+                kill_process_tree(process)
                 killed += 1
         except Exception:
             # Best-effort: no impedir el cierre del job por un proceso que

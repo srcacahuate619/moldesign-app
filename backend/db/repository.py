@@ -16,8 +16,9 @@ import uuid
 import enum
 from datetime import UTC, datetime
 from typing import Any
+from types import SimpleNamespace
 
-from sqlalchemy import select, func
+from sqlalchemy import select, func, update, or_, JSON
 from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
@@ -41,6 +42,56 @@ from utils.logger import get_logger
 
 settings = get_settings()
 log = get_logger(__name__)
+
+
+def _property_values(properties: PhysicochemicalProperties) -> dict[str, Any]:
+    """Mapeo único para pipeline y ADMET post-hoc; mismas conversiones."""
+    result = SimpleNamespace()
+    # Cast all numerics to native Python types
+    # FIX (2026-08-04, UI-2 integration): los descriptores int pueden
+    # llegar como None si RDKit no pudo calcularlos (átomos exóticos,
+    # valencia rara, fallo silencioso). Antes, `int(None)` reventaba el
+    # pipeline completo con "int() argument must be ... not 'NoneType'"
+    # → evaluación FAILURE sin feedback útil. Guarda None consistente
+    # con el resto del método (líneas de drug-likeness/ADMET ya lo
+    # tenían). El frontend renderiza estos campos null-safe.
+    result.molecular_weight = float(properties.molecular_weight) if properties.molecular_weight is not None else None
+    result.log_p = float(properties.log_p) if properties.log_p is not None else None
+    result.tpsa = float(properties.tpsa) if properties.tpsa is not None else None
+    result.hbd = int(properties.hbd) if properties.hbd is not None else None
+    result.hba = int(properties.hba) if properties.hba is not None else None
+    result.rotatable_bonds = int(properties.rotatable_bonds) if properties.rotatable_bonds is not None else None
+    result.heavy_atom_count = int(properties.heavy_atom_count) if properties.heavy_atom_count is not None else None
+    result.ring_count = int(properties.ring_count) if properties.ring_count is not None else None
+    result.lipinski_pass = bool(properties.lipinski_pass) if properties.lipinski_pass is not None else None
+    result.veber_pass = bool(properties.veber_pass) if properties.veber_pass is not None else None
+    result.qed = float(properties.qed) if properties.qed is not None else None
+    result.sa_score = float(properties.sa_score) if properties.sa_score is not None else None
+    result.sa_reasons = list(properties.sa_reasons) if properties.sa_reasons is not None else []
+
+    # --- Persistir drug-likeness extendido (Ghose/Egan/Muegge/Fsp3/PAINS) ---
+    # Valores ya calculados en chem/properties.py (etapa "properties") —
+    # antes se descartaban silenciosamente en el save path.
+    result.ghose_pass = bool(properties.ghose_pass) if properties.ghose_pass is not None else None
+    result.egan_pass = bool(properties.egan_pass) if properties.egan_pass is not None else None
+    result.muegge_pass = bool(properties.muegge_pass) if properties.muegge_pass is not None else None
+    result.muegge_score = int(properties.muegge_score) if properties.muegge_score is not None else None
+    result.fsp3 = float(properties.fsp3) if properties.fsp3 is not None else None
+    result.is_pains = bool(properties.is_pains) if properties.is_pains is not None else None
+    result.pains_matches = list(properties.pains_matches) if properties.pains_matches is not None else []
+
+    # --- Persistir campos MPO / ADMET ---
+    result.blood_viability_score = float(properties.blood_viability_score) if properties.blood_viability_score is not None else None
+    result.blood_solubility_logs = float(properties.blood_solubility_logs) if properties.blood_solubility_logs is not None else None
+    result.blood_ppb_category = str(properties.blood_ppb_category) if properties.blood_ppb_category is not None else None
+    result.blood_bbb_permeable = bool(properties.blood_bbb_permeable) if properties.blood_bbb_permeable is not None else None
+    result.blood_bbb_motivo = properties.blood_bbb_motivo
+    result.blood_cns_mpo = float(properties.blood_cns_mpo) if properties.blood_cns_mpo is not None else None
+    result.blood_hia_permeable = bool(properties.blood_hia_permeable) if properties.blood_hia_permeable is not None else None
+    result.blood_systemic_reactivity = list(properties.blood_systemic_reactivity) if properties.blood_systemic_reactivity is not None else []
+    result.blood_tabpfn_estado = properties.blood_tabpfn_estado
+
+    return vars(result)
 
 
 class Repository:
@@ -740,6 +791,48 @@ class Repository:
         await self.db.flush()
         return True
 
+    async def update_evaluation_for_task(self, molecule_id, task_id, **values) -> bool:
+        """Actualiza sólo si la proyección todavía pertenece a la corrida."""
+        statement = update(EvaluationResultORM).where(
+            EvaluationResultORM.molecule_id == molecule_id,
+            EvaluationResultORM.task_id == task_id,
+        ).values(**values).execution_options(synchronize_session=False)
+        outcome = await self.db.execute(statement)
+        return outcome.rowcount == 1
+
+    async def update_properties_for_task(self, molecule_id, task_id, properties) -> bool:
+        return await self.update_evaluation_for_task(
+            molecule_id, task_id, **_property_values(properties))
+
+    async def merge_selectivity_for_task(self, molecule_id, task_id, entries, **values):
+        """Fusiona anti-dianas con CAS: ni otra corrida ni otro escritor se pierden.
+
+        Devuelve la lista guardada o None si cambió la corrida/agotó los intentos.
+        El caller confirma la transacción; un fallo no se declara persistido.
+        """
+        table = EvaluationResultORM
+        for _ in range(5):
+            row = (await self.db.execute(select(table.anti_target_results).where(
+                table.molecule_id == molecule_id, table.task_id == task_id,
+            ))).first()
+            if row is None:
+                return None
+            previous = row[0]
+            merged = {entry["pdb_id"]: entry for entry in (previous or [])
+                      if isinstance(entry, dict) and entry.get("pdb_id")}
+            for entry in entries:
+                if isinstance(entry, dict) and entry.get("pdb_id"):
+                    merged[entry["pdb_id"]] = entry
+            expected = (or_(table.anti_target_results.is_(None), table.anti_target_results == JSON.NULL)
+                        if previous is None else table.anti_target_results == previous)
+            result = await self.db.execute(update(table).where(
+                table.molecule_id == molecule_id, table.task_id == task_id, expected,
+            ).values(anti_target_results=list(merged.values()), **values)
+              .execution_options(synchronize_session=False))
+            if result.rowcount == 1:
+                return list(merged.values())
+        return None
+
     async def set_selectivity_results(
         self,
         molecule_id: uuid.UUID,
@@ -813,49 +906,8 @@ class Repository:
             result.ligand_state = ligand_state
 
         if properties is not None:
-            # Cast all numerics to native Python types
-            # FIX (2026-08-04, UI-2 integration): los descriptores int pueden
-            # llegar como None si RDKit no pudo calcularlos (átomos exóticos,
-            # valencia rara, fallo silencioso). Antes, `int(None)` reventaba el
-            # pipeline completo con "int() argument must be ... not 'NoneType'"
-            # → evaluación FAILURE sin feedback útil. Guarda None consistente
-            # con el resto del método (líneas de drug-likeness/ADMET ya lo
-            # tenían). El frontend renderiza estos campos null-safe.
-            result.molecular_weight = float(properties.molecular_weight) if properties.molecular_weight is not None else None
-            result.log_p = float(properties.log_p) if properties.log_p is not None else None
-            result.tpsa = float(properties.tpsa) if properties.tpsa is not None else None
-            result.hbd = int(properties.hbd) if properties.hbd is not None else None
-            result.hba = int(properties.hba) if properties.hba is not None else None
-            result.rotatable_bonds = int(properties.rotatable_bonds) if properties.rotatable_bonds is not None else None
-            result.heavy_atom_count = int(properties.heavy_atom_count) if properties.heavy_atom_count is not None else None
-            result.ring_count = int(properties.ring_count) if properties.ring_count is not None else None
-            result.lipinski_pass = bool(properties.lipinski_pass) if properties.lipinski_pass is not None else None
-            result.veber_pass = bool(properties.veber_pass) if properties.veber_pass is not None else None
-            result.qed = float(properties.qed) if properties.qed is not None else None
-            result.sa_score = float(properties.sa_score) if properties.sa_score is not None else None
-            result.sa_reasons = list(properties.sa_reasons) if properties.sa_reasons is not None else []
-
-            # --- Persistir drug-likeness extendido (Ghose/Egan/Muegge/Fsp3/PAINS) ---
-            # Valores ya calculados en chem/properties.py (etapa "properties") —
-            # antes se descartaban silenciosamente en el save path.
-            result.ghose_pass = bool(properties.ghose_pass) if properties.ghose_pass is not None else None
-            result.egan_pass = bool(properties.egan_pass) if properties.egan_pass is not None else None
-            result.muegge_pass = bool(properties.muegge_pass) if properties.muegge_pass is not None else None
-            result.muegge_score = int(properties.muegge_score) if properties.muegge_score is not None else None
-            result.fsp3 = float(properties.fsp3) if properties.fsp3 is not None else None
-            result.is_pains = bool(properties.is_pains) if properties.is_pains is not None else None
-            result.pains_matches = list(properties.pains_matches) if properties.pains_matches is not None else []
-
-            # --- Persistir campos MPO / ADMET ---
-            result.blood_viability_score = float(properties.blood_viability_score) if properties.blood_viability_score is not None else None
-            result.blood_solubility_logs = float(properties.blood_solubility_logs) if properties.blood_solubility_logs is not None else None
-            result.blood_ppb_category = str(properties.blood_ppb_category) if properties.blood_ppb_category is not None else None
-            result.blood_bbb_permeable = bool(properties.blood_bbb_permeable) if properties.blood_bbb_permeable is not None else None
-            result.blood_bbb_motivo = properties.blood_bbb_motivo
-            result.blood_cns_mpo = float(properties.blood_cns_mpo) if properties.blood_cns_mpo is not None else None
-            result.blood_hia_permeable = bool(properties.blood_hia_permeable) if properties.blood_hia_permeable is not None else None
-            result.blood_systemic_reactivity = list(properties.blood_systemic_reactivity) if properties.blood_systemic_reactivity is not None else []
-            result.blood_tabpfn_estado = properties.blood_tabpfn_estado
+            for name, value in _property_values(properties).items():
+                setattr(result, name, value)
 
         if docking is not None:
             # Ensure all numerics in DockingResult are native types

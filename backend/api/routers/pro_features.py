@@ -11,6 +11,7 @@ import functools
 from pathlib import Path
 from typing import Any
 
+from pydantic import BaseModel, Field
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -47,7 +48,6 @@ from scoring.mmgbsa import is_gpu_available
 from utils.file_handlers import StoragePath
 from utils.local_storage import exists, read_text
 from utils.logger import get_logger
-from core.database import get_db_session
 
 log = get_logger(__name__)
 router = APIRouter(prefix="/pro", tags=["PRO Features"])
@@ -101,6 +101,21 @@ async def list_anti_targets(
     return {"anti_targets": targets}
 
 
+async def _selectivity_reference(repository, evaluation) -> float:
+    """Recupera una medida de la MISMA corrida; nunca fabrica afinidades."""
+    import math
+    value = evaluation.affinity_kcal
+    if value is None and getattr(evaluation, "task_id", None):
+        run = await repository.get_evaluation_run(evaluation.task_id, evaluation.molecule_id)
+        if run is not None and run.status == "SUCCESS" and isinstance(run.snapshot_json, dict):
+            value = run.snapshot_json.get("affinity_kcal")
+            if value is not None:
+                log.info("selectivity_reference_recovered", task_id=evaluation.task_id)
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+        raise HTTPException(422, "Selectividad no evaluada: falta una afinidad medida de la corrida principal.")
+    return float(value)
+
+
 @router.post("/selectivity/{molecule_id}")
 async def run_selectivity(
     molecule_id: str,
@@ -145,7 +160,7 @@ async def run_selectivity(
         if evaluation.molecule.target else None
     )
     target_pdb = target.pdb_id if target else "7E2Y"
-    on_affinity = evaluation.affinity_kcal or 0.0
+    on_affinity = await _selectivity_reference(repository, evaluation)
 
     anti_ids = anti_targets.split(",") if anti_targets else None
     for target_id in anti_ids or []:
@@ -172,15 +187,15 @@ async def run_selectivity(
 
     persistido = False
     try:
-        evaluation.selectivity_ratio = result.selectivity_ratio
-        evaluation.selectivity_delta_delta_g = result.delta_delta_g_kcal
-        evaluation.selectivity_ran = True
-        # El veredicto sale de ΔΔG, no del cociente de energías libres. Ver
-        # `services/docking/selectividad_margen.py`.
-        evaluation.selectivity_verdict = veredicto_de_margen(result.delta_delta_g_kcal)
-        evaluation.anti_target_results = result.off_targets
+        persistido = await repository.update_evaluation_for_task(
+            mol_uuid, evaluation.task_id,
+            selectivity_ratio=result.selectivity_ratio,
+            selectivity_delta_delta_g=result.delta_delta_g_kcal,
+            selectivity_ran=True,
+            selectivity_verdict=veredicto_de_margen(result.delta_delta_g_kcal),
+            anti_target_results=result.off_targets,
+        )
         await commit_with_retry(db)
-        persistido = True
     except Exception as exc:  # noqa: BLE001 - se reporta, no se traga
         log.error(
             "selectividad_no_persistida",
@@ -190,6 +205,7 @@ async def run_selectivity(
 
     return {
         "molecule_id": molecule_id,
+        "task_id": evaluation.task_id,
         "persisted": persistido,
         "on_target": {
             "pdb_id": result.on_target_pdb,
@@ -249,12 +265,9 @@ async def run_selectivity_stream(
 
     smiles = evaluation.molecule.smiles
     smiles_hash = evaluation.molecule.smiles_hash
-    target = (
+    if evaluation.molecule.target:
         require_target_object_access(evaluation.molecule.target, current_user)
-        if evaluation.molecule.target else None
-    )
-    target_pdb = target.pdb_id if target else "7E2Y"
-    on_affinity = evaluation.affinity_kcal or 0.0
+    on_affinity = await _selectivity_reference(repository, evaluation)
 
     anti_ids = anti_targets.split(",") if anti_targets else None
     for target_id in anti_ids or []:
@@ -432,17 +445,14 @@ async def run_selectivity_stream(
             from core.database import commit_with_retry, get_db_session
             async with get_db_session() as db2:
                 repo2 = Repository(db2)
-                eval_to_update = await repo2.get_evaluation_result(mol_uuid)
-                if eval_to_update:
-                    eval_to_update.selectivity_ratio = selectivity_ratio
-                    eval_to_update.selectivity_delta_delta_g = delta_delta_g
-                    eval_to_update.selectivity_ran = True
-                    eval_to_update.selectivity_verdict = verdict_str
-                    eval_to_update.anti_target_results = off_target_results
-                    await commit_with_retry(db2)
-                    persistido = True
-                else:
-                    error_al_guardar = "la evaluacion ya no existe"
+                persistido = await repo2.update_evaluation_for_task(
+                    mol_uuid, evaluation.task_id, selectivity_ratio=selectivity_ratio,
+                    selectivity_delta_delta_g=delta_delta_g, selectivity_ran=True,
+                    selectivity_verdict=verdict_str, anti_target_results=off_target_results,
+                )
+                await commit_with_retry(db2)
+                if not persistido:
+                    error_al_guardar = "La proyección ya pertenece a otra corrida o no existe"
         except Exception as exc:  # noqa: BLE001 - se reporta, no se traga
             error_al_guardar = f"{type(exc).__name__}: {exc}"
             log.error(
@@ -454,6 +464,7 @@ async def run_selectivity_stream(
 
         final_data = {
             "type": "done",
+            "task_id": evaluation.task_id,
             "selectivity_ratio": selectivity_ratio,
             "selectivity_delta_delta_g": delta_delta_g,
             "peor_anti_diana": peor_anti_diana,
@@ -494,18 +505,12 @@ async def _persistir_anti_target(db, evaluation, resultado: dict) -> bool:
     if not isinstance(resultado, dict) or not resultado.get("pdb_id"):
         return False
 
-    previos = {
-        r.get("pdb_id"): r
-        for r in (evaluation.anti_target_results or [])
-        if isinstance(r, dict) and r.get("pdb_id")
-    }
-    previos[resultado["pdb_id"]] = resultado
-    evaluation.anti_target_results = list(previos.values())
-    evaluation.selectivity_ran = True
-
     try:
+        fusionados = await Repository(db).merge_selectivity_for_task(
+            evaluation.molecule_id, evaluation.task_id, [resultado], selectivity_ran=True,
+        )
         await commit_with_retry(db)
-        return True
+        return fusionados is not None
     except Exception as exc:  # noqa: BLE001 - se reporta, no se traga
         log.error(
             "anti_target_no_persistido",
@@ -640,14 +645,15 @@ async def dock_single_anti_target(
     # El trabajo ya esta hecho: se guarda aqui, no cuando al navegador le
     # parezca. Si esto falla, el cliente se entera por `persisted` y puede
     # reintentar; lo que no puede es creer que quedo guardado.
+    res["task_id"] = evaluation.task_id
     persistido = await _persistir_anti_target(db, evaluation, res)
     return {"target": res, "persisted": persistido}
 
 
-from pydantic import BaseModel, Field
 
 
 class SaveSelectivityRequest(BaseModel):
+    task_id: str | None = Field(default=None, min_length=1, max_length=200)
     off_targets: list[dict]
     selectivity_ratio: float | None = None
     selectivity_delta_delta_g: float | None = None
@@ -681,45 +687,18 @@ async def save_selectivity_results_endpoint(
     if evaluation is None:
         raise HTTPException(status_code=404, detail="Evaluation not found")
 
-    # ── El panel se guarda POR ANTI-TARGET, segun van saliendo ──────────────
-    #
-    # DOC 71, DEFECTO B2. El panel de selectividad se desmonta al cambiar de
-    # pestana, asi que su estado en memoria muere. La unica forma de que el
-    # resultado sobreviva es que cada anti-target este ya escrito cuando eso
-    # ocurre, y que al volver se lea de la base y no de la memoria.
-    #
-    # Por eso este endpoint FUSIONA en vez de reemplazar. El cliente manda la
-    # lista acumulada tras cada docking, pero dos guardados pueden llegar
-    # desordenados -o uno tardio traer menos objetivos que otro ya escrito- y
-    # reemplazar a ciegas perderia trabajo ya hecho. La clave de fusion es el
-    # `pdb_id`; gana el ultimo que llega para ese objetivo.
-    previos = {
-        r.get("pdb_id"): r
-        for r in (evaluation.anti_target_results or [])
-        if isinstance(r, dict) and r.get("pdb_id")
-    }
-    for r in payload.off_targets:
-        if isinstance(r, dict) and r.get("pdb_id"):
-            previos[r["pdb_id"]] = r
-    fusionados = list(previos.values())
-
-    evaluation.selectivity_ratio = payload.selectivity_ratio
-    evaluation.selectivity_delta_delta_g = payload.selectivity_delta_delta_g
-    evaluation.selectivity_ran = True
-    # Sin ΔΔG no se inventa un veredicto a partir del cociente: se declara que
-    # no hay datos suficientes. Derivarlo del cociente sería seguir usando la
-    # magnitud equivocada por la puerta de atrás.
-    evaluation.selectivity_verdict = (
-        payload.selectivity_verdict
-        or veredicto_de_margen(payload.selectivity_delta_delta_g)
-    )
-    evaluation.anti_target_results = fusionados
-
-    # `commit_with_retry` y no `commit`: es la misma contencion de SQLite que ya
-    # obligo al pipeline a usarlo. Un fallo aqui borraba el unico rastro del
-    # panel, y el dossier declaraba despues que nunca se corrio.
+    if not payload.task_id or payload.task_id != evaluation.task_id:
+        raise HTTPException(409, "El guardado requiere el task_id de la corrida vigente; recargue la evaluación.")
     from core.database import commit_with_retry
-
+    fusionados = await repository.merge_selectivity_for_task(
+        mol_uuid, payload.task_id, payload.off_targets,
+        selectivity_ratio=payload.selectivity_ratio,
+        selectivity_delta_delta_g=payload.selectivity_delta_delta_g,
+        selectivity_ran=True,
+        selectivity_verdict=payload.selectivity_verdict or veredicto_de_margen(payload.selectivity_delta_delta_g),
+    )
+    if fusionados is None:
+        raise HTTPException(409, "La corrida cambió durante el guardado; el resultado no se sobrescribió.")
     await commit_with_retry(db)
 
     log.info(
@@ -731,9 +710,41 @@ async def save_selectivity_results_endpoint(
     return {
         "success": True,
         "molecule_id": molecule_id,
+        "task_id": evaluation.task_id,
         # El cliente necesita saber cuantos hay GUARDADOS, no cuantos mando.
         "anti_targets_persistidos": len(fusionados),
     }
+
+
+async def _mmgbsa_docked_pose(repository, evaluation, pose_rank):
+    """Load exactly the selected SDF record belonging to this run."""
+    import math
+    from rdkit import Chem
+    pose_path = getattr(evaluation, "poses_file_path", None)
+    if not pose_path and getattr(evaluation, "task_id", None):
+        run = await repository.get_evaluation_run(evaluation.task_id, evaluation.molecule_id)
+        if run and run.status == "SUCCESS" and isinstance(run.snapshot_json, dict):
+            pose_path = run.snapshot_json.get("poses_file_path")
+    if not pose_path:
+        raise HTTPException(422, "MM-GBSA no evaluado: la corrida no conserva su pose acoplada.")
+    try:
+        content = await read_text(pose_path)
+        supplier = Chem.SDMolSupplier()
+        supplier.SetData(content)
+        # Filtering invalid records would silently change the requested rank.
+        mol = supplier[pose_rank - 1] if 1 <= pose_rank <= len(supplier) else None
+    except Exception as exc:
+        log.warning("mmgbsa_pose_read_failed", task_id=evaluation.task_id, error=str(exc))
+        raise HTTPException(422, "MM-GBSA no evaluado: no se puede leer la pose de esta corrida.") from exc
+    if mol is None or not mol.GetNumConformers() or not mol.GetNumAtoms():
+        raise HTTPException(422, "MM-GBSA no evaluado: pose solicitada ausente o inválida.")
+    conf = mol.GetConformer()
+    coordinates = conf.GetPositions()
+    if not all(math.isfinite(float(x)) for xyz in coordinates for x in xyz):
+        raise HTTPException(422, "MM-GBSA no evaluado: coordenadas no finitas.")
+    if not conf.Is3D() and not any(abs(float(xyz[2])) > 1e-6 for xyz in coordinates):
+        raise HTTPException(422, "MM-GBSA no evaluado: se requiere una pose tridimensional.")
+    return mol
 
 
 @router.post("/mmgbsa/{molecule_id}")
@@ -773,8 +784,6 @@ async def run_mmgbsa_endpoint(
         raise HTTPException(status_code=404, detail="Molecule or target missing")
 
     target = require_target_object_access(evaluation.molecule.target, current_user)
-    smiles_hash = evaluation.molecule.smiles_hash
-
     # ── ¿Se puede parametrizar este ligando? Se pregunta ANTES ───────────
     #
     # `molchamb_v2` ya rechazaba todo lo que no fuera C/H/O/N/S/P, pero lo hacía
@@ -819,8 +828,8 @@ async def run_mmgbsa_endpoint(
                 try:
                     protein_pdb = pfile.read_text(encoding="utf-8", errors="ignore")
                     break
-                except Exception:
-                    pass
+                except Exception as exc:
+                    log.warning("mmgbsa_receptor_read_failed", path=str(pfile), error=str(exc))
 
     if protein_pdb is None:
         # Fallback 2: search data/targets
@@ -828,44 +837,15 @@ async def run_mmgbsa_endpoint(
         if local_target.exists():
             try:
                 protein_pdb = local_target.read_text(encoding="utf-8", errors="ignore")
-            except Exception:
-                pass
+            except Exception as exc:
+                log.warning("mmgbsa_receptor_read_failed", path=str(local_target), error=str(exc))
 
     if protein_pdb is None:
         raise HTTPException(status_code=503, detail=f"Estructura PDB del receptor {target.pdb_id} no disponible")
 
-    # ── Get ligand SDF ───────────────────────────────────────────
-    sdf_content = None
-    try:
-        poses_path = StoragePath.docking_poses(smiles_hash, target.pdb_id)
-        if await exists(poses_path):
-            sdf_content = await read_text(poses_path)
-    except Exception:
-        pass
-
+    # Resolve the selected pose from this evaluation, never a regenerated conformer.
+    mol = await _mmgbsa_docked_pose(repository, evaluation, pose_rank)
     from rdkit import Chem
-    from rdkit.Chem import AllChem
-
-    mol = None
-    if sdf_content:
-        supplier = Chem.SDMolSupplier()
-        supplier.SetData(sdf_content)
-        mols = [m for m in supplier if m is not None]
-        if mols and pose_rank <= len(mols):
-            mol = mols[pose_rank - 1]
-
-    if mol is None:
-        # Generate on-the-fly 3D conformer SDF if docked pose SDF not in storage
-        m = Chem.MolFromSmiles(evaluation.molecule.smiles)
-        if m:
-            m = Chem.AddHs(m)
-            status_embed = AllChem.EmbedMolecule(m, AllChem.ETKDG())
-            if status_embed != -1:
-                AllChem.MMFFOptimizeMolecule(m)
-                mol = m
-
-    if mol is None:
-        raise HTTPException(status_code=503, detail="No se pudo generar ni obtener la pose 3D del ligando para MM-GBSA")
 
     # ── FIX MM-GBSA (2026-08-04, -11351 kcal/mol): usar la pose REAL y el
     # ΔG de unión correcto (g_complex - g_protein - g_ligand), NO run_mmgbsa
@@ -876,19 +856,6 @@ async def run_mmgbsa_endpoint(
     # Ver docs/36 UI-2 BUG-2 + SC-10.
     tmp_dir: Path | None = None
     try:
-        from services.chemistry.molchamb_v2 import compute_mmgbsa_from_pose
-
-        # Extraer coordenadas (x,y,z) de la pose seleccionada del SDF
-        conf = mol.GetConformer()
-        if conf is None:
-            raise ValueError("Conformer no disponible en la pose")
-        pose_coords = [
-            (float(conf.GetAtomPosition(i).x),
-             float(conf.GetAtomPosition(i).y),
-             float(conf.GetAtomPosition(i).z))
-            for i in range(mol.GetNumAtoms())
-        ]
-
         # Guardar el PDB de proteína en temp para compute_mmgbsa_from_pose
         import tempfile
         tmp_dir = Path(tempfile.mkdtemp())
@@ -901,40 +868,18 @@ async def run_mmgbsa_endpoint(
         # coordenadas (addCoords=True). Sin esto, los H sin coordenadas caían
         # todos en la última posición del pose → colapso → NaN.
         ligand_sdf_tmp = tmp_dir / "pose.sdf"
-        try:
-            writer = Chem.SDWriter(str(ligand_sdf_tmp))
+        with Chem.SDWriter(str(ligand_sdf_tmp)) as writer:
             writer.write(mol)
-            writer.close()
-        except Exception:
-            ligand_sdf_tmp = None
 
-        # ── FUERA DEL BUCLE DE EVENTOS ──────────────────────────────────────
-        #
-        # `compute_mmgbsa_from_pose` minimiza con OpenMM: entre decenas de
-        # segundos y varios minutos, todo dentro de una llamada síncrona. Este
-        # endpoint es `async def`, así que la llamada corría EN el bucle de
-        # eventos y lo dejaba parado todo ese tiempo: mientras el usuario
-        # esperaba su MM-GBSA, el backend no contestaba absolutamente nada más
-        # —ni el sondeo del trabajo cada 2 s, ni `/health`, ni el dossier—.
-        # La interfaz lo enseñaba como una aplicación colgada, y el fallo real
-        # quedaba tapado detrás de eso.
-        #
-        # `anyio.to_thread` es el mismo mecanismo que usa FastAPI para los
-        # endpoints `def`; aquí sólo se aplica a la parte cara.
-        from anyio.to_thread import run_sync
-
-        result = await run_sync(
-            functools.partial(
-                compute_mmgbsa_from_pose,
-                str(protein_path),
-                evaluation.molecule.smiles,
-                pose_coords,
+        from services.docking.mmgbsa_worker import run_mmgbsa_pose_subprocess
+        import asyncio
+        try:
+            result = await run_mmgbsa_pose_subprocess(
+                str(protein_path), evaluation.molecule.smiles, str(ligand_sdf_tmp),
                 max_iter=num_steps,
-                ligand_sdf_path=(
-                    str(ligand_sdf_tmp) if ligand_sdf_tmp and ligand_sdf_tmp.exists() else None
-                ),
-            ),
-        )
+            )
+        except asyncio.TimeoutError as exc:
+            raise HTTPException(status_code=504, detail="MM-GBSA excedió el tiempo límite; no evaluado.") from exc
 
         mmgbsa_total = result.get("mmgbsa")
         if mmgbsa_total is None:
@@ -960,9 +905,10 @@ async def run_mmgbsa_endpoint(
 
         persistido = False
         try:
-            evaluation.mmgbsa_score = round(mmgbsa_total, 3)
+            persistido = await repository.update_evaluation_for_task(
+                mol_uuid, evaluation.task_id, mmgbsa_score=round(mmgbsa_total, 3),
+            )
             await commit_with_retry(db)
-            persistido = True
         except Exception as exc:  # noqa: BLE001 - se reporta, no se traga
             log.error(
                 "mmgbsa_no_persistido",
@@ -976,6 +922,7 @@ async def run_mmgbsa_endpoint(
         # para que el frontend no invente descomposiciones falsas.
         return {
             "molecule_id": molecule_id,
+            "task_id": evaluation.task_id,
             "persisted": persistido,
             "pose_rank": pose_rank,
             "delta_g_total_kcal": round(mmgbsa_total, 3),
@@ -1139,6 +1086,7 @@ async def run_admet_endpoint(
     if not recalcular and evaluation.blood_viability_score is not None:
         return {
             "molecule_id": molecule_id,
+            "task_id": evaluation.task_id,
             "estado": "ya_calculado",
             "persistido": True,
             **_perfil(evaluation),
@@ -1187,15 +1135,12 @@ async def run_admet_endpoint(
         # El mapeo canonico, el mismo que usa el pipeline. `is_control` se
         # reenvia porque `upsert_evaluation_result` lo escribe SIEMPRE y su
         # valor por omision convertiria un control en molecula normal.
-        await repository.upsert_evaluation_result(
-            molecule_id=mol_uuid,
-            properties=props,
-            is_control=bool(evaluation.is_control),
+        persistido = await repository.update_properties_for_task(
+            mol_uuid, evaluation.task_id, props,
         )
         from core.database import commit_with_retry
 
         await commit_with_retry(db)
-        persistido = True
     except Exception as exc:  # noqa: BLE001 - se reporta, no se traga
         log.error(
             "admet_post_docking_no_persistido",
@@ -1206,6 +1151,7 @@ async def run_admet_endpoint(
     log.info("admet_post_docking", molecule_id=molecule_id, persistido=persistido)
     return {
         "molecule_id": molecule_id,
+        "task_id": evaluation.task_id,
         "estado": "calculado",
         # Se dice si quedo guardado. Un perfil que el usuario ve pero que el
         # dossier no leera es peor que uno que no se calculo.

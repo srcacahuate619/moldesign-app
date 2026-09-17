@@ -59,7 +59,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from utils.logger import get_logger
-from utils.procesos import BANDERAS_SIN_VENTANA
+from utils.procesos import BANDERAS_SIN_VENTANA, communicate_managed
 
 log = get_logger(__name__)
 
@@ -454,12 +454,8 @@ async def convertir_pdbqt_a_sdf(
             ) from exc
 
         try:
-            salida_b, error_b = await asyncio.wait_for(
-                proceso.communicate(), timeout=timeout_s
-            )
+            salida_b, error_b = await communicate_managed(proceso, timeout=timeout_s)
         except asyncio.TimeoutError as exc:
-            proceso.kill()
-            await proceso.wait()
             raise OpenBabelNoDisponible(
                 EstadoOpenBabel.EXECUTION_FAILED,
                 f"Open Babel excedió el timeout de {timeout_s:g} s convirtiendo PDBQT→SDF.",

@@ -33,6 +33,7 @@ os.environ.setdefault("TABPFN_DISABLE_TELEMETRY", "1")
 
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
@@ -211,6 +212,16 @@ async def _background_preload() -> None:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # La reconciliación sólo es válida si no hay otro backend vivo que siga
+    # ejecutando los trabajos del mismo almacén.
+    from utils.workspace_lock import WorkspaceLock
+    with WorkspaceLock(settings.local_data_dir):
+        async with _lifespan_owned(app):
+            yield
+
+
+@asynccontextmanager
+async def _lifespan_owned(app: FastAPI):
     setup_logging()
     log.info("iniciando aplicacion MolDesign", environment=settings.environment)
     log.info(
@@ -441,6 +452,25 @@ async def rescore_inline(request: Request):
             "fallback": True, "error": str(e)[:100],
             "score_a": 0.0, "gnn_score": None, "warnings": [],
         }
+
+
+@app.exception_handler(RequestValidationError)
+async def handle_invalid_request(request: Request, exc) -> JSONResponse:
+    # Un NaN/Infinity rechazado por Pydantic tampoco es JSON de respuesta válido.
+    # Sanitizar sólo la representación del error, nunca los datos científicos.
+    import math
+    from fastapi.encoders import jsonable_encoder
+
+    def safe(value):
+        if isinstance(value, float) and not math.isfinite(value):
+            return str(value)
+        if isinstance(value, dict):
+            return {key: safe(item) for key, item in value.items()}
+        if isinstance(value, list):
+            return [safe(item) for item in value]
+        return value
+
+    return JSONResponse(status_code=422, content={"detail": safe(jsonable_encoder(exc.errors()))})
 
 
 @app.exception_handler(MolDesignError)

@@ -23,6 +23,7 @@ import shutil
 import sys
 import tempfile
 import time
+import uuid
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -59,7 +60,7 @@ from services.chemistry.censo_de_aguas import (
     describir_censo,
     guardar_censo,
 )
-from utils.procesos import BANDERAS_SIN_VENTANA
+from utils.procesos import BANDERAS_SIN_VENTANA, communicate_managed
 from utils.logger import get_logger
 
 settings = get_settings()
@@ -345,7 +346,7 @@ async def _prepare_ligand_pdbqt(
                 stderr=asyncio.subprocess.PIPE,
                 creationflags=BANDERAS_SIN_VENTANA,
             )
-            stdout, stderr = await process.communicate()
+            stdout, stderr = await communicate_managed(process, timeout=600.0)
 
             if process.returncode != 0:
                 salida = (stderr.decode("utf-8", errors="replace")
@@ -441,12 +442,8 @@ async def _run_vina_subprocess(
     arranque = time.monotonic()
     try:
         # Timeout de 10 minutos para soportar ex=32 en GPCRs
-        stdout_bytes, stderr_bytes = await asyncio.wait_for(
-            process.communicate(), timeout=600.0
-        )
+        stdout_bytes, stderr_bytes = await communicate_managed(process, timeout=600.0)
     except asyncio.TimeoutError:
-        process.kill()
-        await process.communicate()  # clean up
         raise DockingFailed(
             molecule_id=molecule_id,
             target_pdb_id=target_pdb_id,
@@ -461,8 +458,8 @@ async def _run_vina_subprocess(
         f"# target={target_pdb_id}\n"
         f"# receptor={receptor_path}\n"
         f"# ligand={ligand_path}\n"
-        f"# exhaustiveness={settings.vina_exhaustiveness}\n"
-        f"# num_modes={settings.vina_num_poses}\n\n"
+        f"# exhaustiveness={exh}\n"
+        f"# num_modes={modes}\n# seed={sd}\n\n"
         f"STDOUT:\n{stdout}\n\nSTDERR:\n{stderr}\n"
     )
     log_path.write_text(log_content, encoding="utf-8")
@@ -650,14 +647,11 @@ async def run_vina_docking(
 
         @asynccontextmanager
         async def receptor_file():
-            if prepared_receptor_bytes is not None:
-                snapshot_path = job_temp_dir / "receptor_snapshot.pdbqt"
-                snapshot_path.write_bytes(receptor_content)
-                yield snapshot_path
-            else:
-                assert receptor_object_path is not None
-                async with temp_file(receptor_object_path, suffix=".pdbqt") as local:
-                    yield local
+            # Exactamente los bytes cuyo hash se registró, aunque otra corrida
+            # reprepare el objeto mutable del catálogo antes de lanzar Vina.
+            snapshot_path = job_temp_dir / "receptor_snapshot.pdbqt"
+            snapshot_path.write_bytes(receptor_content)
+            yield snapshot_path
 
         async with receptor_file() as receptor_local:
             async with temp_file(ligand_object_path, suffix=".pdbqt") as ligand_local:
@@ -752,12 +746,8 @@ async def run_vina_docking(
                     creationflags=BANDERAS_SIN_VENTANA,
                 )
                 try:
-                    export_stdout, export_stderr = await asyncio.wait_for(
-                        export_process.communicate(), timeout=60.0
-                    )
+                    export_stdout, export_stderr = await communicate_managed(export_process, timeout=60.0)
                 except asyncio.TimeoutError:
-                    export_process.kill()
-                    await export_process.communicate()  # cleanup
                     raise DockingFailed(
                         molecule_id=smiles_hash,
                         target_pdb_id=target_pdb_id,
@@ -1025,11 +1015,14 @@ async def run_vina_docking(
                         "revisar reproducibilidad del entorno.",
                     ))
 
+                # La configuración identifica el cache, no una ejecución.
+                # force_redock nunca debe sobrescribir evidencia ya archivada.
+                artifact_id = f"{cache_fingerprint}/{uuid.uuid4().hex}"
                 poses_path = StoragePath.docking_poses_run(
-                    smiles_hash, target_pdb_id, cache_fingerprint
+                    smiles_hash, target_pdb_id, artifact_id
                 )
                 log_path = StoragePath.docking_log_run(
-                    smiles_hash, target_pdb_id, cache_fingerprint
+                    smiles_hash, target_pdb_id, artifact_id
                 )
 
                 # ── EL ARCHIVO ENTREGADO ES AQUEL DEL QUE SALIERON LAS POSES ─

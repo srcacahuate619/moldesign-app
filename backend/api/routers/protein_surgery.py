@@ -16,7 +16,7 @@ from __future__ import annotations
 import tempfile
 from pathlib import Path
 
-from fastapi import APIRouter, status
+from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, Field
 
 from utils.logger import get_logger
@@ -211,11 +211,13 @@ async def dynamic_box_endpoint(request: DynamicBoxRequest) -> DynamicBoxResponse
         import numpy as np
 
         mol = Chem.MolFromPDBBlock(request.ligand_pdb_content) or Chem.MolFromMolBlock(request.ligand_pdb_content)
-        if mol is None:
-            return DynamicBoxResponse(center_x=0, center_y=0, center_z=0, size=22.0, ligand_span_x=0, ligand_span_y=0, ligand_span_z=0)
+        if mol is None or mol.GetNumAtoms() == 0 or mol.GetNumConformers() == 0:
+            raise HTTPException(422, "No hay coordenadas válidas de ligando para calcular la caja")
 
         conf = mol.GetConformer()
         coords = np.array([(conf.GetAtomPosition(i).x, conf.GetAtomPosition(i).y, conf.GetAtomPosition(i).z) for i in range(mol.GetNumAtoms())])
+        if not np.isfinite(coords).all():
+            raise HTTPException(422, "Las coordenadas del ligando deben ser finitas")
         cx, cy, cz = float(np.mean(coords[:, 0])), float(np.mean(coords[:, 1])), float(np.mean(coords[:, 2]))
         span_x = float(np.max(coords[:, 0]) - np.min(coords[:, 0]))
         span_y = float(np.max(coords[:, 1]) - np.min(coords[:, 1]))
@@ -224,12 +226,13 @@ async def dynamic_box_endpoint(request: DynamicBoxRequest) -> DynamicBoxResponse
         box_size = max(12.0, min(22.0, max(span_x, span_y, span_z) + padding))
 
         return DynamicBoxResponse(center_x=cx, center_y=cy, center_z=cz, size=round(box_size, 1), ligand_span_x=round(span_x, 2), ligand_span_y=round(span_y, 2), ligand_span_z=round(span_z, 2))
+    except HTTPException:
+        raise
+    except ImportError as e:
+        raise HTTPException(503, "El componente de análisis estructural no está disponible") from e
     except Exception as e:
         log.warning("dynamic_box_failed", error=str(e))
-        return DynamicBoxResponse(
-            center_x=0, center_y=0, center_z=0,
-            size=22.0, ligand_span_x=0, ligand_span_y=0, ligand_span_z=0,
-        )
+        raise HTTPException(500, "No se pudo calcular la caja del ligando") from e
 
 
 @router.post(

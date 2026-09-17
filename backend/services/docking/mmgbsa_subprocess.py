@@ -13,18 +13,17 @@ de verdad y no queda nada corriendo. Escribe el resultado como JSON en stdout.
 Uso:
     python mmgbsa_subprocess.py <protein_pdb> <smiles> [max_iter] [poses_sdf]
 
-FIX v2.1 (2026-08-04, MM-GBSA -27983 kcal/mol): antes el cálculo usaba
-`compute_mmgbsa(smiles)` que genera la conformación del ligando con RDKit
-EmbedMolecule y la coloca ARBITRARIAMENTE en el complejo → overlap estérico
-→ términos Lennard-Jones explotan → valores absurdos (-27983 kcal/mol) y
-físicamente sin sentido (no es la pose de docking). Ahora, si el caller pasa
-`poses_sdf` (el archivo .sdf con las poses reales de Vina), extraemos las
-coordenadas de la pose #1 y usamos `compute_mmgbsa_from_pose` — el ligando
-queda en el bolsillo real y el ΔG es el de la pose dockeada.
+La pose acoplada es obligatoria. Si falta o no se puede leer, se devuelve
+status=not_evaluated y mmgbsa=null, sin generar un conformador desde SMILES.
+Las fórmulas y parámetros del cálculo sobre una pose válida no cambian.
 """
 from __future__ import annotations
 
+# ruff: noqa: T201 -- stdout es el protocolo JSON del proceso hijo
+
 import json
+import math
+from contextlib import redirect_stdout
 import pathlib
 import sys
 
@@ -33,12 +32,13 @@ def _extract_first_pose_coords(poses_sdf: str) -> list[tuple[float, float, float
     """Extrae las coordenadas (x, y, z) de la primera pose de un SDF de Vina.
 
     Devuelve None si el archivo no se puede leer o no contiene una pose con
-    coordenadas 3D (degradación: el caller caerá al fallback SMILES-only).
+    coordenadas 3D. El caller se abstiene; nunca reconstruye desde SMILES.
 
     Nota (2026-08-04): NO usamos `conf.Is3D()` como gate porque RDKit puede
     reportar False si el flag de dimensión del header V2000 está mal aunque
     las coordenadas Z sean reales (algunos SDF de Vina salen así). La
-    heurística robusta es: hay conformer Y al menos un átomo con Z != 0.
+    Se acepta un conformador marcado 3D (también si es plano), o con Z no
+    nula aunque el header esté mal. Todas las coordenadas deben ser finitas.
     """
     try:
         from rdkit import Chem
@@ -54,10 +54,13 @@ def _extract_first_pose_coords(poses_sdf: str) -> list[tuple[float, float, float
         if n_atoms == 0:
             return None
         positions = []
-        has_3d = False
+        has_3d = conf.Is3D()
         for i in range(n_atoms):
             pos = conf.GetAtomPosition(i)
-            positions.append((float(pos.x), float(pos.y), float(pos.z)))
+            coords = (float(pos.x), float(pos.y), float(pos.z))
+            if not all(math.isfinite(value) for value in coords):
+                return None
+            positions.append(coords)
             if abs(pos.z) > 1e-6:
                 has_3d = True
         if not has_3d:
@@ -149,23 +152,31 @@ def main() -> int:
         sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2]))
 
         pose_coords = _extract_first_pose_coords(poses_sdf) if poses_sdf else None
-        if pose_coords:
+        if not pose_coords:
+            print(json.dumps({
+                "mmgbsa": None, "used_pose": False, "status": "not_evaluated",
+                "error": "No se dispone de una pose acoplada válida; MM-GBSA no evaluado.",
+            }))
+            return 0
+        with redirect_stdout(sys.stderr):
             from services.chemistry.molchamb_v2 import compute_mmgbsa_from_pose
             result = compute_mmgbsa_from_pose(
                 protein_pdb, smiles, pose_coords, max_iter=max_iter,
-                ligand_sdf_path=poses_sdf,  # FIX NaN: usar SDF como topología con H coords
+                ligand_sdf_path=poses_sdf,
             )
-            # Marcar que el cálculo usó la pose real (para depuración).
-            result["used_pose"] = True
+        result.setdefault("used_pose", True)
+        score = result.get("mmgbsa")
+        if score is None or not math.isfinite(score):
+            result["mmgbsa"] = None
+            result["status"] = "not_evaluated"
+            result.setdefault("error", "MM-GBSA no produjo una energía finita.")
         else:
-            from services.chemistry.molchamb_v2 import compute_mmgbsa
-            result = compute_mmgbsa(protein_pdb, smiles, max_iter=max_iter)
-            result["used_pose"] = False
+            result["status"] = "evaluated"
 
         print(json.dumps(result))
         return 0
     except Exception as exc:
-        print(json.dumps({"error": str(exc)[:500]}))
+        print(json.dumps({"mmgbsa": None, "status": "not_evaluated", "error": str(exc)[:500]}))
         return 1
 
 

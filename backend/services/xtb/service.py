@@ -29,6 +29,8 @@ de XTBHOME/share y deja UNA sola forma de invocar xtb.exe.
 
 from __future__ import annotations
 
+from utils.procesos import BANDERAS_SIN_VENTANA, communicate_managed
+
 import asyncio
 import os
 import shutil
@@ -153,9 +155,10 @@ class XTBService:
                 cwd=str(tmp_path),
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
+                creationflags=BANDERAS_SIN_VENTANA,
                 env=env,
             )
-            stdout, stderr = await process.communicate()
+            stdout, stderr = await communicate_managed(process, timeout=600.0)
 
             if process.returncode != 0:
                 log.warning("Fallo en xtb", error=stderr.decode() or stdout.decode())

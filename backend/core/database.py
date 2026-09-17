@@ -34,7 +34,7 @@ from sqlalchemy.ext.asyncio import (
 )
 
 import core.config as core_config
-from core.exceptions import DatabaseConnectionError, DatabaseQueryError
+from core.exceptions import DatabaseConnectionError
 from core.models import Base
 from utils.logger import get_logger
 
@@ -51,7 +51,7 @@ def get_settings():
 
 # ── Versión del esquema ───────────────────────────────────────────────────────
 
-SCHEMA_VERSION = 20
+SCHEMA_VERSION = 21  # tabla operativa evaluation_requests; esquema científico intacto
 """
 Versión del esquema SQLite. Es la plataforma de referencia (F-04): el ORM
 (core/models.py) ES la fuente de verdad del schema, y esta constante sella
@@ -394,44 +394,8 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
     async with get_session_factory()() as session:
         try:
             yield session
-            # Commit con retry para SQLite "database is locked" (mismo patrón
-            # que get_db_session): en modo DESKTOP dos procesos pueden escribir
-            # a la misma DB (app + scripts de validación), y WAL permite 1
-            # escritor a la vez. El PRAGMA busy_timeout espera; si el lock
-            # persiste, reintentamos el commit en vez de fallar el request.
-            import asyncio as _asyncio
-
-            max_retries = 3
-            retry_delay = 2.0
-            last_commit_error: SQLAlchemyError | None = None
-            for attempt in range(max_retries):
-                try:
-                    await session.commit()
-                    last_commit_error = None
-                    break
-                except SQLAlchemyError as e:
-                    await session.rollback()
-                    error_str = str(e)
-                    if "database is locked" in error_str and attempt < max_retries - 1:
-                        log.warning(
-                            "db_locked_retry_request",
-                            attempt=attempt + 1,
-                            max_retries=max_retries,
-                        )
-                        await _asyncio.sleep(retry_delay * (attempt + 1))
-                        last_commit_error = e
-                        continue
-                    log.error(
-                        "error de base de datos en request",
-                        error=error_str,
-                        error_type=type(e).__name__,
-                    )
-                    raise DatabaseQueryError(
-                        f"Error ejecutando operación en la base de datos: {type(e).__name__}"
-                    ) from e
-            if last_commit_error is not None:
-                raise DatabaseQueryError("DB sigue bloqueada tras reintentos") from last_commit_error
-        except Exception:
+            await commit_with_retry(session)
+        except BaseException:
             await session.rollback()
             raise
         finally:
@@ -446,55 +410,15 @@ async def get_db_session() -> AsyncGenerator[AsyncSession, None]:
     Context manager para obtener una sesión de DB fuera del contexto
     de un endpoint de FastAPI (scripts, subprocesos, tests).
 
-    NOTA: La lógica de retry para "database is locked" se aplica SOLO al
-    COMMIT (después del yield), nunca al yield mismo. Hacer `continue` después
-    de un `yield` en un @asynccontextmanager causa
-    "generator didn't stop after athrow()" — Python prohíbe que un
-    @asynccontextmanager yielde más de una vez durante un __aexit__ de excepción.
+    Un fallo de escritura revierte la transacción y se propaga. Sólo una
+    operación completa e idempotente puede reintentarse en una sesión nueva;
+    repetir commit después de rollback perdería silenciosamente los cambios.
     """
-    import asyncio as _asyncio
-
-    max_retries = 3
-    retry_delay = 2.0  # segundos entre reintentos de commit
-
     async with get_session_factory()() as session:
         try:
             yield session
-
-            # ── Commit con retry para SQLite "database is locked" ─────────────
-            last_commit_error: SQLAlchemyError | None = None
-            for attempt in range(max_retries):
-                try:
-                    await session.commit()
-                    last_commit_error = None
-                    break  # commit exitoso
-                except SQLAlchemyError as e:
-                    await session.rollback()
-                    error_str = str(e)
-                    if "database is locked" in error_str and attempt < max_retries - 1:
-                        log.warning(
-                            "db_locked_retry",
-                            attempt=attempt + 1,
-                            max_retries=max_retries,
-                        )
-                        await _asyncio.sleep(retry_delay * (attempt + 1))
-                        last_commit_error = e
-                        continue
-                    log.error(
-                        "error de base de datos en sesión manual",
-                        error=error_str,
-                        error_type=type(e).__name__,
-                    )
-                    raise DatabaseQueryError(
-                        f"Error en sesión de base de datos: {type(e).__name__}"
-                    ) from e
-            if last_commit_error is not None:
-                raise DatabaseQueryError(
-                    "DB sigue bloqueada tras reintentos"
-                ) from last_commit_error
-            # ─────────────────────────────────────────────────────────────────
-
-        except Exception:
+            await commit_with_retry(session)
+        except BaseException:
             await session.rollback()
             raise
         finally:
@@ -803,91 +727,27 @@ async def close_engine() -> None:
         log.info("pool de conexiones cerrado limpiamente")
 
 
-# ── Retry de operaciones de escritura (SQLite "database is locked") ──────────
-#
-# El retry que envuelve el commit de get_db/get_db_session NO cubre el flush()
-# intermedio que ocurre DENTRO del pipeline (INSERT ... RETURNING, UPDATE de
-# estado, etc.). En modo DESKTOP, SQLite (WAL) permite 1 escritor a la vez;
-# si otro request/script escribe en el mismo instante, el flush falla con
-# "database is locked" y se propaga como 500 sin reintentar.
-#
-# Estos helpers permiten reintentar CUALQUIER operación de escritura crítica:
-#     await flush_with_retry(session)
-#     await commit_with_retry(session)
-# Reintenta con backoff creciente (2s, 4s) hasta MAX_DB_WRITE_RETRIES. Si el
-# lock persiste, re-lanza la excepción original para que el caller decida.
-#
-# NOTA: después de un flush fallido, SQLAlchemy deja la transacción en estado
-# inválido; se hace rollback antes de reintentar. El caller debe asegurarse de
-# que re-flushear tras un rollback es seguro (los objetos del identity map
-# siguen pendientes de insertar y se re-emiten en el siguiente flush).
-
+# La espera por el escritor SQLite ocurre en busy_timeout. Tras un error de
+# flush/commit NO se puede repetir sólo esa llamada: rollback descarta cambios
+# y SQLAlchemy puede dejar la sesión inactiva. El retry válido repite la unidad
+# de trabajo completa en otra sesión (services.pipeline.runner._run_mini_tx).
 MAX_DB_WRITE_RETRIES = 3
 DB_WRITE_RETRY_DELAY = 2.0
 
 
 async def flush_with_retry(session: AsyncSession) -> None:
-    """`await session.flush()` con retry para SQLite "database is locked".
-
-    IMPORTANTE (v1.7.2): NO se hace `session.rollback()` en los reintentos
-    intermedios. El rollback de SQLAlchemy EXPIRA todos los objetos del
-    identity map (target, molecule, ...) aunque `expire_on_commit=False`;
-    después, acceder a un atributo de esos objetos dispara un refresh que
-    falla con "Instance is not bound to a Session" si la sesión se cerró o
-    si el objeto se usó fuera de contexto (bug reportado por el usuario en
-    el pipeline PRO). En SQLite/WAL, tras un breve sleep el lock suele
-    liberarse y el flush se puede re-emitir sin rollback. El rollback SOLO
-    se hace como último recurso cuando ya no quedan reintentos.
-    """
-    import asyncio as _asyncio
-
-    last_error: SQLAlchemyError | None = None
-    for attempt in range(MAX_DB_WRITE_RETRIES):
-        try:
-            await session.flush()
-            return
-        except SQLAlchemyError as e:
-            error_str = str(e)
-            if "database is locked" in error_str and attempt < MAX_DB_WRITE_RETRIES - 1:
-                log.warning("db_locked_retry_flush", attempt=attempt + 1,
-                            max_retries=MAX_DB_WRITE_RETRIES)
-                await _asyncio.sleep(DB_WRITE_RETRY_DELAY * (attempt + 1))
-                last_error = e
-                continue
-            raise
-    # Último recurso: rollback para desbloquear la transacción inválida.
+    """Nombre conservado por compatibilidad; nunca anuncia un flush vacío como éxito."""
     try:
+        await session.flush()
+    except SQLAlchemyError:
         await session.rollback()
-    except Exception:
-        pass
-    raise last_error  # type: ignore[misc]
+        raise
 
 
 async def commit_with_retry(session: AsyncSession) -> None:
-    """`await session.commit()` con retry para SQLite "database is locked".
-
-    Misma política que `flush_with_retry`: los reintentos intermedios NO
-    hacen rollback (evita expirar/detachar objetos del identity map que el
-    caller sigue usando). El rollback solo como último recurso.
-    """
-    import asyncio as _asyncio
-
-    last_error: SQLAlchemyError | None = None
-    for attempt in range(MAX_DB_WRITE_RETRIES):
-        try:
-            await session.commit()
-            return
-        except SQLAlchemyError as e:
-            error_str = str(e)
-            if "database is locked" in error_str and attempt < MAX_DB_WRITE_RETRIES - 1:
-                log.warning("db_locked_retry_commit", attempt=attempt + 1,
-                            max_retries=MAX_DB_WRITE_RETRIES)
-                await _asyncio.sleep(DB_WRITE_RETRY_DELAY * (attempt + 1))
-                last_error = e
-                continue
-            raise
+    """Confirma una vez; el llamador debe repetir la operación entera si falla."""
     try:
+        await session.commit()
+    except SQLAlchemyError:
         await session.rollback()
-    except Exception:
-        pass
-    raise last_error  # type: ignore[misc]
+        raise

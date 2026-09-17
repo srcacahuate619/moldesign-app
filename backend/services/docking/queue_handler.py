@@ -42,9 +42,10 @@ from services.pipeline.registry import admet_requested
 # No es un import muerto aunque no se llame por nombre dentro de este módulo.
 from services.docking.peptide_docking import run_peptide_docking_helper  # noqa: F401
 from services.docking.rescoring_client import get_ml_rescore
+from services.docking.evaluation_lock import serialize_ligand_evaluation
 from utils.cache import cache
 from services.avisos import Severidad, aviso
-from utils.procesos import BANDERAS_SIN_VENTANA
+from utils.procesos import BANDERAS_SIN_VENTANA, communicate_managed
 from utils.logger import get_logger
 from utils.scientific import audit_scientific_quality
 
@@ -54,30 +55,17 @@ settings = get_settings()
 # ── DESKTOP mode state ──────────────────────────────────────────────────────────
 _desktop_executor: ThreadPoolExecutor | None = None
 _desktop_jobs: dict[str, dict[str, Any]] = {}
+_molecule_job_owners: dict[str, str] = {}
 _desktop_lock = threading.Lock()
 _DESKTOP_JOB_MAX_AGE_HOURS = 24
 
-# ── Estabilidad DESKTOP: serialización + watchdog ───────────────────────────────
-#
-# PROBLEMA (v1.7): en modo DESKTOP cada evaluación se lanza como
-# `asyncio.create_task` SIN límite de concurrencia. Con SQLite (WAL) solo hay
-# UN escritor a la vez; N evaluaciones concurrentes → "database is locked" →
-# moléculas quedan en 'pending' para siempre y el uvicorn entra en espiral de
-# CPU. Calidad/estabilidad > velocidad: procesamos UNA evaluación a la vez.
-#
-# Solución:
-#   1. Semáforo asyncio global: máx. 1 evaluación DESKTOP en ejecución.
-#      Las demás esperan en cola (FIFO por llegada) — sin contención de DB.
-#   2. Watchdog: si una evaluación no actualiza su heartbeat (progress) en
-#      EVAL_WATCHDOG_TIMEOUT_S, se marca FAILURE, se libera el semáforo y se
-#      cancela la tarea (si es posible). Evita el 'pending' eterno y el
-#      uvicorn quemando CPU en un job trabado.
-#   3. Limpieza al arranque: las molecules 'pending' huérfanas de ejecuciones
-#      anteriores (proceso matado, crash) se marcan 'failed'.
-
+# Cuatro evaluaciones simultáneas como máximo. El semáforo es cross-loop;
+# adquirirlo se sondea sin bloquear un hilo. El watchdog conserva el límite
+# histórico de 20 minutos TOTALES, cancela y espera la limpieza del pipeline.
+# Los cálculos nativos en hilos requieren aislamiento adicional para poder
+# detenerlos físicamente; cancelar asyncio por sí solo no los termina.
 DESKTOP_MAX_CONCURRENCY = 4          # v1.8.1: 1→4 — screenings masivos (387 targets) sin espera serial
-EVAL_WATCHDOG_TIMEOUT_S = 20 * 60    # 20 min sin heartbeat = job trabado
-EVAL_HEARTBEAT_STEP_S = 30           # frecuencia de heartbeat (progreso)
+EVAL_WATCHDOG_TIMEOUT_S = 20 * 60    # límite total de ejecución
 # Timeout de espera en cola: si no se adquiere el semáforo en este tiempo
 # (otra evaluación atascada que nunca libera), la evaluación falla con un
 # error claro en vez de quedar PENDING para siempre (carga infinita).
@@ -92,7 +80,7 @@ EVAL_QUEUE_WAIT_TIMEOUT_S = 45   # 45s esperando el semáforo (antes 3 min — f
 # v1.8.1: threading.Semaphore(DESKTOP_MAX_CONCURRENCY) es thread-safe en
 # cualquier thread/loop (misma garantía que el Lock del fix anterior) y permite
 # N evaluaciones concurrentes (4) para screenings masivos sin contención SQLite
-# (WAL soporta múltiples lectores + 1 escritor; busy_timeout=5000ms).
+# (WAL soporta múltiples lectores + 1 escritor; busy_timeout=60000ms).
 _desktop_eval_semaphore = threading.Semaphore(DESKTOP_MAX_CONCURRENCY)
 
 def cancel_active_mmgbsa(task_id: str) -> int:
@@ -121,7 +109,19 @@ def request_desktop_job_cancellation(task_id: str) -> bool:
         job["status"] = "FAILURE"
         job["error"] = "Cancelado por el usuario"
         job["finished_at"] = datetime.now(UTC).isoformat()
-        return True
+        running = job.get("async_task")
+    if running is not None and not running.done():
+        running.get_loop().call_soon_threadsafe(running.cancel)
+    return True
+
+
+def register_job_molecule(task_id: str, molecule_id) -> None:
+    """Asocia el job con su fila antes de comenzar las etapas costosas."""
+    with _desktop_lock:
+        job = _desktop_jobs.get(task_id)
+        if job is not None:
+            job["molecule_id"] = str(molecule_id)
+            _molecule_job_owners[str(molecule_id)] = task_id
 
 
 def _is_desktop_job_cancelled(task_id: str) -> bool:
@@ -149,13 +149,29 @@ async def _persist_molecule_failed(
             repo = Repository(db)
             molecule = await repo.get_molecule(_UUID(molecule_id))
             if not molecule or (
-                molecule.status != MoleculeStatus.PENDING
-                and not overwrite_terminal_status
+                molecule.status not in (
+                    MoleculeStatus.PENDING, MoleculeStatus.VALIDATED, MoleculeStatus.DOCKING
+                ) and not overwrite_terminal_status
             ):
                 return False
-            molecule.status = MoleculeStatus.FAILED
             if task_id is not None:
                 await repo.mark_evaluation_run_failed(task_id, reason)
+                result = await repo.get_evaluation_result(molecule.id)
+                # Un auxiliar tardío nunca debe cambiar la proyección de otra corrida.
+                with _desktop_lock:
+                    active_owner = _molecule_job_owners.get(str(molecule.id))
+                # Al comenzar una reevaluación aún puede existir la proyección
+                # ANTERIOR. Su task_id no impide cerrar el fallo del nuevo dueño.
+                if (active_owner not in (None, task_id) or (
+                    active_owner is None and result is not None
+                    and result.task_id not in (None, task_id)
+                )):
+                    await db.commit()
+                    return False
+                await repo.upsert_evaluation_result(
+                    molecule_id=molecule.id, error_message=reason, task_id=task_id
+                )
+            molecule.status = MoleculeStatus.FAILED
             await flush_with_retry(db)
             await db.commit()
             log.warning(
@@ -174,22 +190,6 @@ async def _persist_molecule_failed(
         return False
 
 
-def _mark_molecule_failed(molecule_id: str | None, reason: str) -> None:
-    """Agenda la persistencia best-effort de fallos previos al resultado."""
-    if not molecule_id:
-        return
-    try:
-        import asyncio as _asyncio
-
-        try:
-            _asyncio.get_running_loop()
-            _asyncio.ensure_future(_persist_molecule_failed(molecule_id, reason))
-        except RuntimeError:
-            _asyncio.run(_persist_molecule_failed(molecule_id, reason))
-    except Exception:
-        pass
-
-
 def _clean_old_desktop_jobs() -> int:
     cutoff = datetime.now(UTC).timestamp() - (_DESKTOP_JOB_MAX_AGE_HOURS * 3600)
     expired = []
@@ -204,7 +204,10 @@ def _clean_old_desktop_jobs() -> int:
                 except (ValueError, TypeError):
                     expired.append(task_id)
         for task_id in expired:
-            del _desktop_jobs[task_id]
+            job = _desktop_jobs.pop(task_id)
+            molecule_id = job.get("molecule_id")
+            if _molecule_job_owners.get(molecule_id) == task_id:
+                _molecule_job_owners.pop(molecule_id, None)
     return len(expired)
 
 
@@ -237,6 +240,7 @@ class _DesktopTask:
         self.id = task_id
 
 
+@serialize_ligand_evaluation(delegate_pro=True)
 async def _run_full_evaluation_async(
     task_id: str,
     smiles: str,
@@ -299,6 +303,9 @@ async def _run_full_evaluation_async(
             user_id=UUID(user_id) if user_id else None,
         )
 
+        from services.docking.projection_lifecycle import begin_evaluation_projection
+        await begin_evaluation_projection(repository, molecule.id, task_id, is_control=is_control)
+
         # SEC-H03: Asociar la IP del creador anónimo con la molécula creada
         if not user_id:
             ip_val = await cache.get(f"task_owner_ip:{task_id}")
@@ -312,6 +319,7 @@ async def _run_full_evaluation_async(
         # selectivity) recibían "database is locked". expire_on_commit=False
         # garantiza que los objetos ORM sigan accesibles tras el commit.
         await commit_with_retry(db)
+        register_job_molecule(task_id, molecule.id)
 
         # ── v1.7.3: PipelineParams snapshot ────────────────────────────────────
         # CAPTURAMOS todos los valores del ORM a data pura INMEDIATAMENTE,
@@ -1031,9 +1039,10 @@ async def _run_full_evaluation_async(
                         # `ValueError: invalid literal for int()`, asi que
                         # MM-GBSA no corrio nunca en este camino. Ver el bloque
                         # de argumentos en `mmgbsa_subprocess.py`.
+                        from utils.local_storage import path_for as _pose_path_for
                         _args = [tgt_pdb, smiles_str]
                         if poses_sdf:
-                            _args += ["--poses", poses_sdf]
+                            _args += ["--poses", str(_pose_path_for(poses_sdf))]
                         _proc = await _asyncio.create_subprocess_exec(
                             _embed_python, _wrapper, *_args,
                             stdout=_asyncio.subprocess.PIPE,
@@ -1042,9 +1051,7 @@ async def _run_full_evaluation_async(
                         )
                         register_process(task_id, "mmgbsa", _proc)
                         try:
-                            _stdout_b, _ = await _asyncio.wait_for(
-                                _proc.communicate(), timeout=300.0
-                            )
+                            _stdout_b, _ = await communicate_managed(_proc, timeout=300.0)
                         except _asyncio.TimeoutError:
                             log.warning("mmgbsa_bg_timeout_kill",
                                         molecule_id=str(mol_id)[:8])
@@ -1059,11 +1066,14 @@ async def _run_full_evaluation_async(
                                 unregister_process(task_id, "mmgbsa", _proc)
                             except Exception:
                                 pass
-                        if _proc.returncode == 0 and _stdout_b:
+                        if _stdout_b:
                             try:
                                 _mmgbsa_result = json.loads(
                                     _stdout_b.decode("utf-8", "replace"))
-                                _score = _mmgbsa_result.get("mmgbsa")
+                                _score = _mmgbsa_result.get("mmgbsa") if _proc.returncode == 0 else None
+                                if _score is None:
+                                    log.warning("mmgbsa_not_evaluated", task_id=task_id,
+                                                error=_mmgbsa_result.get("error"))
                                 log.info("mmgbsa_bg_computed",
                                          molecule_id=str(mol_id)[:8],
                                          mmgbsa=round(_score, 2) if _score else None,
@@ -1072,12 +1082,10 @@ async def _run_full_evaluation_async(
                                 try:
                                     async with get_db_session() as _db:
                                         _repo = Repository(_db)
-                                        _mol = await _repo.get_molecule(mol_id)
-                                        if _mol and _mol.evaluation_result:
-                                            _ev = _mol.evaluation_result
-                                            _ev.mmgbsa_score = _score
-                                            from core.database import flush_with_retry
-                                            await flush_with_retry(_db)
+                                        if not _is_desktop_job_cancelled(task_id):
+                                            await _repo.update_evaluation_for_task(
+                                                mol_id, task_id, mmgbsa_score=_score,
+                                            )
                                             await _db.commit()
                                 except Exception as _db_err:
                                     log.debug("mmgbsa_bg_db_update_failed",
@@ -1100,10 +1108,15 @@ async def _run_full_evaluation_async(
                     _poses_sdf_qh = None
                     if docking is not None and getattr(docking, "poses_file_path", None):
                         _poses_sdf_qh = docking.poses_file_path
-                    _asyncio.ensure_future(_launch_mmgbsa_background(
+                    _mmgbsa_job = _asyncio.ensure_future(_launch_mmgbsa_background(
                         _mol_uuid, _target_pdb, pipeline_params.molecule_smiles,
                         _poses_sdf_qh,
                     ))
+                    def _report_mmgbsa_failure(completed):
+                        if not completed.cancelled() and completed.exception() is not None:
+                            log.error("mmgbsa_background_failed", task_id=task_id,
+                                      error=str(completed.exception()))
+                    _mmgbsa_job.add_done_callback(_report_mmgbsa_failure)
                     log.info("mmgbsa_bg_launched", molecule_id=str(pipeline_params.molecule_id)[:8])
                 except Exception as mmgbsa_err:
                     log.debug("mmgbsa_bg_launch_failed", error=str(mmgbsa_err)[:200])
@@ -1331,6 +1344,40 @@ async def _run_full_evaluation_async(
             raise exc
 
 
+async def submit_recorded_evaluation(*, db, client_ip=None, **configuration):
+    """Persiste configuración y propietario ANTES de aceptar/enqueue."""
+    from core.models import EvaluationRequestORM
+    task_id = str(_uuid_mod.uuid4())
+    record = EvaluationRequestORM(
+        task_id=task_id, owner_id=configuration.get("user_id") or "demo",
+        client_ip=client_ip, configuration_json=configuration, status="PENDING",
+    )
+    db.add(record)
+    await commit_with_retry(db)
+    try:
+        return _submit_evaluation_desktop(task_id=task_id, **configuration)
+    except Exception as exc:
+        record.status = "FAILURE"
+        record.error_message = f"No se pudo encolar: {exc}"
+        record.finished_at = datetime.now(UTC)
+        await commit_with_retry(db)
+        raise
+
+
+async def _record_job_terminal(task_id, status, error=None):
+    from sqlalchemy import update
+    from core.models import EvaluationRequestORM
+    try:
+        async with get_db_session() as db:
+            statement = update(EvaluationRequestORM).where(EvaluationRequestORM.task_id == task_id)
+            if status == "SUCCESS":
+                statement = statement.where(EvaluationRequestORM.status != "FAILURE")
+            await db.execute(statement.values(status=status, error_message=error, finished_at=datetime.now(UTC)))
+            await commit_with_retry(db)
+    except Exception as exc:
+        log.error("evaluation_request_terminal_failed", task_id=task_id, error=str(exc))
+
+
 def submit_evaluation_job(
     smiles: str,
     target_pdb_id: str,
@@ -1374,8 +1421,9 @@ def _submit_evaluation_desktop(
     custom_hotspots: list[str] | None = None,
     peptide_docking_engine: str | None = None,
     pipeline_config: dict | None = None,
+    task_id: str | None = None,
 ) -> _DesktopTask:
-    task_id = str(_uuid_mod.uuid4())
+    task_id = task_id or str(_uuid_mod.uuid4())
     task = _DesktopTask(task_id)
 
     # Clean old jobs (24h TTL)
@@ -1435,140 +1483,103 @@ def _submit_evaluation_desktop(
     # Las demás esperan en cola — evita "database is locked" por escritores
     # concurrentes (SQLite WAL: 1 escritor a la vez).
     async def _run_serialized_wrapper():
-        import asyncio as _aw
+        import time
 
-        # ── Timeout de espera del semáforo ──────────────────────────────
-        # Si otra evaluación quedó atascada (nunca liberó el semáforo), las
-        # siguientes esperarían PENDING para siempre → pantalla de carga
-        # infinita. Con un timeout de espera, si no adquirimos el semáforo
-        # en EVAL_QUEUE_WAIT_TIMEOUT_S, marcamos FAILURE y seguimos.
-        # threading.Lock: acquire() es síncrono y BLOQUEA el thread; lo corremos
-        # en un executor (asyncio.to_thread) para NO bloquear el event loop de
-        # FastAPI durante la espera. Devuelve True (lock tomado) o False (timeout).
-        lock_acquired = await _aw.to_thread(
-            _desktop_eval_semaphore.acquire,
-            True,  # blocking
-            EVAL_QUEUE_WAIT_TIMEOUT_S,
-        )
-        if not lock_acquired:
-            log.error("evaluacion_queue_timeout", task_id=task_id,
-                      timeout_s=EVAL_QUEUE_WAIT_TIMEOUT_S)
-            if _is_desktop_job_cancelled(task_id):
-                return
-            _mark_molecule_failed(None, "queue_timeout")
+        acquired = False
+        with _desktop_lock:
+            job = _desktop_jobs.get(task_id)
+            if job is not None:
+                job["async_task"] = asyncio.current_task()
+
+        async def fail(reason):
             with _desktop_lock:
-                _desktop_jobs[task_id]["status"] = "FAILURE"
-                _desktop_jobs[task_id]["error"] = (
-                    f"Cola de evaluaciones saturada: no se pudo iniciar en "
-                    f"{EVAL_QUEUE_WAIT_TIMEOUT_S}s (hay una evaluación atascada)."
-                )
-                _desktop_jobs[task_id]["finished_at"] = datetime.now(UTC).isoformat()
-            return
+                job = _desktop_jobs.get(task_id)
+                if job is None:
+                    return
+                if job.get("cancel_requested"):
+                    reason = job.get("error") or reason
+                job.update(status="FAILURE", error=reason,
+                           finished_at=datetime.now(UTC).isoformat())
+                molecule_id = job.get("molecule_id")
+            await _record_job_terminal(task_id, "FAILURE", reason)
+            cancel_active_mmgbsa(task_id)
+            cancel_active_selectivity(task_id)
+            await _persist_molecule_failed(
+                molecule_id, reason, task_id=task_id, overwrite_terminal_status=True
+            )
+            await cache.push_stage_event(task_id, {
+                "type": "pipeline_error", "error": reason,
+                "timestamp": datetime.now(UTC).isoformat(),
+            })
 
         try:
-            try:
+            # No dejar un acquire bloqueado en un hilo: cancelar to_thread no
+            # cancela ese hilo y podía robar un permiso después de terminar el job.
+            deadline = time.monotonic() + EVAL_QUEUE_WAIT_TIMEOUT_S
+            while not acquired:
                 if _is_desktop_job_cancelled(task_id):
-                    log.info("desktop_job_cancelled_before_start", task_id=task_id)
+                    await fail("Cancelado por el usuario")
                     return
-                # Watchdog: monitoriza heartbeat; si no hay progreso en
-                # EVAL_WATCHDOG_TIMEOUT_S, marca FAILURE y cancela.
-                async def _heartbeat_watchdog():
-                    waited = 0.0
-                    while waited < EVAL_WATCHDOG_TIMEOUT_S:
-                        await _aw.sleep(EVAL_HEARTBEAT_STEP_S)
-                        waited += EVAL_HEARTBEAT_STEP_S
-                        with _desktop_lock:
-                            job = _desktop_jobs.get(task_id)
-                            if job is None or job.get("status") not in ("PENDING", "STARTED"):
-                                return  # terminó o falló → no hay nada que vigilar
-                        # Si la tarea principal murió, el job sigue PENDING
-                        # sin avanzar → watchdog lo declara trabado.
-                    log.error("evaluacion_timeout_watchdog", task_id=task_id,
-                              timeout_s=EVAL_WATCHDOG_TIMEOUT_S)
-                    _mark_molecule_failed(None, "watchdog_timeout")
-                    with _desktop_lock:
-                        _desktop_jobs[task_id]["status"] = "FAILURE"
-                        _desktop_jobs[task_id]["error"] = (
-                            f"Timeout: evaluación no avanzó en {EVAL_WATCHDOG_TIMEOUT_S}s"
-                        )
-                        _desktop_jobs[task_id]["finished_at"] = datetime.now(UTC).isoformat()
+                acquired = _desktop_eval_semaphore.acquire(blocking=False)
+                if not acquired:
+                    if time.monotonic() >= deadline:
+                        await fail(f"Cola de evaluaciones saturada: no se pudo iniciar en {EVAL_QUEUE_WAIT_TIMEOUT_S}s.")
+                        return
+                    await asyncio.sleep(0.05)
 
-                wd = _aw.create_task(_heartbeat_watchdog())
-                try:
-                    _enable_mmgbsa = bool(
-                        (pipeline_config or {}).get("pro_mmgbsa", False)
-                    ) if pipeline_config else False
-                    result = await _run_full_evaluation_async(
-                        task_id=task_id,
-                        smiles=smiles,
-                        target_pdb_id=target_pdb_id,
-                        molecule_name=molecule_name,
-                        is_control=is_control,
-                        user_id=user_id,
-                        grid_center=grid_center,
-                        grid_size=grid_size,
-                        custom_hotspots=custom_hotspots,
-                        peptide_docking_engine=peptide_docking_engine,
-                        pipeline_config=pipeline_config,
-                        run_admet_ai=run_admet_ai,
-                        enable_mmgbsa=_enable_mmgbsa,
-                    )
-                finally:
-                    wd.cancel()
-            except Exception as exc:
-                log.exception("Error en tarea DESKTOP", task_id=task_id)
-                if _is_desktop_job_cancelled(task_id):
-                    return
-                _mark_molecule_failed(None, "desktop_task_error")
-                with _desktop_lock:
-                    _desktop_jobs[task_id]["status"] = "FAILURE"
-                    _desktop_jobs[task_id]["error"] = str(exc)
-                    _desktop_jobs[task_id]["finished_at"] = datetime.now(UTC).isoformat()
+            # El watchdog anterior ya medía tiempo total (no heartbeat). Se
+            # conserva su límite, pero ahora cancela y espera la limpieza del hijo.
+            result = await asyncio.wait_for(
+                _run_full_evaluation_async(
+                    task_id=task_id, smiles=smiles, target_pdb_id=target_pdb_id,
+                    molecule_name=molecule_name, is_control=is_control,
+                    user_id=user_id, grid_center=grid_center, grid_size=grid_size,
+                    custom_hotspots=custom_hotspots,
+                    peptide_docking_engine=peptide_docking_engine,
+                    pipeline_config=pipeline_config, run_admet_ai=run_admet_ai,
+                    enable_mmgbsa=bool((pipeline_config or {}).get("pro_mmgbsa", False)),
+                ),
+                timeout=EVAL_WATCHDOG_TIMEOUT_S,
+            )
+            if result.get("error"):
+                await fail(str(result["error"]))
                 return
             with _desktop_lock:
                 job = _desktop_jobs.get(task_id)
-                terminal_failure = bool(job and job.get("status") == "FAILURE")
-                failure_reason = job.get("error") if job else None
-                if not terminal_failure and job is not None:
-                    job["status"] = "SUCCESS"
-                    job["progress"] = 100
-                    job["result"] = result
-                    job["finished_at"] = datetime.now(UTC).isoformat()
-            if terminal_failure:
-                # El pipeline puede haber terminado justo después de cancelar o
-                # expirar el watchdog. Conservamos sus artefactos para soporte,
-                # pero SQLite debe recuperar el mismo estado terminal.
-                await _persist_molecule_failed(
-                    result.get("molecule_id"),
-                    failure_reason or "desktop_terminal_failure",
-                    task_id=task_id,
-                    overwrite_terminal_status=True,
-                )
-                log.info(
-                    "desktop_job_terminal_state_preserved",
-                    task_id=task_id,
-                    reason=failure_reason,
-                )
+                failed = bool(job and job.get("status") == "FAILURE")
+                if job is not None and not failed:
+                    job.update(status="SUCCESS", progress=100, result=result,
+                               finished_at=datetime.now(UTC).isoformat())
+            if failed:
+                await fail("Evaluación cancelada o interrumpida")
                 return
+            await _record_job_terminal(task_id, "SUCCESS")
             try:
                 from services.ai.memory_store import store_evaluation
                 store_evaluation(
-                    molecule_id=task_id,
-                    smiles=smiles,
-                    target_pdb=target_pdb_id,
-                    affinity=result.get("affinity_kcal"),
-                    score=result.get("total_score"),
-                    result_json=None,
-                    # La memoria de MolChat es de quien evaluó. Sin esto el
-                    # catálogo que el LLM ve en cada turno era el de todas las
-                    # cuentas de la máquina.
-                    user_id=user_id,
+                    molecule_id=task_id, smiles=smiles, target_pdb=target_pdb_id,
+                    affinity=result.get("best_affinity"), score=result.get("total_score"),
+                    result_json=None, user_id=user_id,
                 )
-            except ImportError:
-                pass
+            except Exception as exc:
+                # La memoria auxiliar no invalida un resultado ya persistido.
+                log.warning("evaluation_memory_failed", task_id=task_id, error=str(exc))
+        except asyncio.CancelledError:
+            await fail("Evaluación interrumpida o cancelada")
+            raise
+        except TimeoutError:
+            await fail(f"Timeout: evaluación excedió {EVAL_WATCHDOG_TIMEOUT_S}s de ejecución.")
+        except Exception as exc:
+            log.exception("Error en tarea DESKTOP", task_id=task_id)
+            await fail(f"{type(exc).__name__}: {exc}")
         finally:
-            # SIEMPRE liberar el semáforo, incluso si algo falló
-            _desktop_eval_semaphore.release()
+            if acquired:
+                _desktop_eval_semaphore.release()
+            with _desktop_lock:
+                job = _desktop_jobs.get(task_id)
+                if job is not None:
+                    job.pop("async_task", None)
+
 
     import asyncio as _asyncio
     try:

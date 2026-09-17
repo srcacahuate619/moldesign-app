@@ -36,6 +36,8 @@ log = get_logger(__name__)
 
 def register_middleware(app: FastAPI) -> None:
     """Registra middleware HTTP base para el MVP."""
+    from api.body_limit import BodyLimitMiddleware
+    app.add_middleware(BodyLimitMiddleware)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,

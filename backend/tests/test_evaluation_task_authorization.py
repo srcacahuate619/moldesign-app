@@ -35,6 +35,10 @@ class _Database:
         self.molecule = molecule
         self.execute_calls = 0
 
+    async def get(self, _model, _key):
+        # Estas pruebas ejercitan el fallback legacy sin solicitud durable.
+        return None
+
     async def execute(self, _statement):
         self.execute_calls += 1
         return _Result(self.molecule)

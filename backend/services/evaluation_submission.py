@@ -97,9 +97,10 @@ async def registrar_corrida(
     )
 
     try:
-        from services.docking.queue_handler import submit_evaluation_job
+        from services.docking.queue_handler import submit_recorded_evaluation
 
-        task = submit_evaluation_job(
+        task = await submit_recorded_evaluation(
+            db=db, client_ip=client_ip,
             smiles=validation.canonical_smiles,
             target_pdb_id=data.target_pdb_id,
             molecule_name=data.molecule_name,

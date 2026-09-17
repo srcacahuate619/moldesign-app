@@ -22,13 +22,14 @@ from core.config import get_settings
 from core.database import get_db
 from core.models import UserORM
 from api.dependencies import get_current_user_optional
-from services.targets.access import get_target_for_user
+from services.targets.access import get_target_for_user, target_is_accessible
 from db.repository import Repository
 from utils.logger import get_logger
 
 log = get_logger(__name__)
 router = APIRouter(prefix="/evaluation", tags=["Batch Screening"])
 settings = get_settings()
+MAX_BATCH_FILE_BYTES = 20 * 1024 * 1024
 
 # ── Batch state (in-memory, se pierde al reiniciar) ────────────────────────
 _batches: dict[str, dict[str, Any]] = {}
@@ -59,16 +60,20 @@ def _extract_from_csv(content: str) -> tuple[list[dict[str, str]], dict[str, boo
     reader = csv.DictReader(io.StringIO(content))
     molecules = []
     labels = {}
-    for row in reader:
+    for row_number, row in enumerate(reader, 1):
+        if row_number > 10000:
+            raise HTTPException(413, "El batch supera 10000 filas de entrada")
         smiles = None
         name = None
         is_active = None
         for key in row:
+            if key is None:
+                raise HTTPException(400, "CSV malformado: columnas extra sin encabezado")
             kl = key.lower().strip()
             if kl in ("smiles", "canonical_smiles", "structure"):
-                smiles = row[key].strip()
+                smiles = (row[key] or "").strip()
             if kl in ("name", "id", "identifier", "molecule_name"):
-                name = row[key].strip()
+                name = (row[key] or "").strip()
             if kl == "active":
                 try:
                     is_active = bool(int(row[key].strip()))
@@ -84,34 +89,58 @@ def _extract_from_csv(content: str) -> tuple[list[dict[str, str]], dict[str, boo
 def _extract_from_excel(content: bytes) -> tuple[list[dict[str, str]], dict[str, bool]]:
     """Extrae SMILES + nombres + labels active/inactive desde Excel."""
     import openpyxl
-    wb = openpyxl.load_workbook(io.BytesIO(content), read_only=True)
-    ws = wb.active
-    rows = list(ws.iter_rows(values_only=True))
-    if not rows:
-        return [], {}
+    import zipfile
+    try:
+        with zipfile.ZipFile(io.BytesIO(content)) as archive:
+            entries = archive.infolist()
+            if len(entries) > 2000 or sum(item.file_size for item in entries) > 80 * 1024 * 1024:
+                raise HTTPException(413, "Excel supera el límite de expansión de 80 MB o 2000 entradas")
+        wb = openpyxl.load_workbook(io.BytesIO(content), read_only=True)
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise HTTPException(400, "Archivo Excel inválido; se requiere .xlsx") from exc
+    try:
+        ws = wb.active
+        if ws is None:
+            return [], {}
+        if (ws.max_column or 0) > 256 or (ws.max_row or 0) > 10001:
+            raise HTTPException(413, "Excel supera 256 columnas o 10000 filas de datos")
+        rows = iter(ws.iter_rows(values_only=True))
+        header = next(rows, None)
+        if header is None:
+            return [], {}
+        headers = [str(h).lower().strip() if h else "" for h in header]
+        smiles_col = next((i for i, h in enumerate(headers) if h in ("smiles", "canonical_smiles", "structure")), None)
+        name_col = next((i for i, h in enumerate(headers) if h in ("name", "id", "identifier", "molecule_name")), None)
+        active_col = next((i for i, h in enumerate(headers) if h == "active"), None)
+        molecules, labels = [], {}
+        for number, row in enumerate(rows, 1):
+            if number > 10000 or len(row) > 256:
+                raise HTTPException(413, "Excel supera el límite de filas o columnas")
+            def value(index):
+                return row[index] if index is not None and index < len(row) else None
+            smiles = str(value(smiles_col)).strip() if value(smiles_col) else None
+            name = str(value(name_col)).strip() if value(name_col) else None
+            if smiles and len(smiles) > 1:
+                molecules.append({"smiles": smiles, "name": name or smiles[:20]})
+                if len(molecules) > 500:
+                    raise HTTPException(400, "Máximo 500 moléculas por batch")
+                if name and active_col is not None:
+                    try:
+                        labels[name] = bool(int(value(active_col)))
+                    except (ValueError, TypeError):
+                        pass
+        return molecules, labels
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise HTTPException(400, "Contenido Excel malformado") from exc
+    finally:
+        wb.close()
 
-    headers = [str(h).lower().strip() if h else "" for h in rows[0]]
-    smiles_col = next((i for i, h in enumerate(headers) if h in ("smiles", "canonical_smiles", "structure")), None)
-    name_col = next((i for i, h in enumerate(headers) if h in ("name", "id", "identifier", "molecule_name")), None)
-    active_col = next((i for i, h in enumerate(headers) if h == "active"), None)
 
-    molecules = []
-    labels = {}
-    for row in rows[1:]:
-        smiles = str(row[smiles_col]).strip() if smiles_col is not None and row[smiles_col] else None
-        name = str(row[name_col]).strip() if name_col is not None and row[name_col] else None
-        if smiles and len(smiles) > 1:
-            molecules.append({"smiles": smiles, "name": name or smiles[:20]})
-            if name and active_col is not None:
-                try:
-                    labels[name] = bool(int(row[active_col]))
-                except (ValueError, TypeError, IndexError):
-                    pass
-    wb.close()
-    return molecules, labels
-
-
-async def _get_default_targets() -> list[str]:
+async def _get_default_targets(current_user: UserORM | None = None) -> list[str]:
     """Todos los targets registrados en la DB (v1.5: 19 targets offline-first)."""
     try:
         from core.database import get_db_session
@@ -119,7 +148,7 @@ async def _get_default_targets() -> list[str]:
         async with get_db_session() as db:
             repo = Repository(db)
             all_targets = await repo.get_all_targets()
-            return [t.pdb_id for t in all_targets if t.is_prepared and t.pdb_id]
+            return [t.pdb_id for t in all_targets if t.is_prepared and t.pdb_id and target_is_accessible(t, current_user)]
     except Exception:
         return ["7E2Y", "3PP0", "1HSG", "3ERT", "1GPK", "1F0R", "1BN1", "1XP0"]
 
@@ -177,7 +206,9 @@ async def submit_batch(
         )
 
     # ── Parse file ─────────────────────────────────────────────────
-    content = await file.read()
+    content = await file.read(MAX_BATCH_FILE_BYTES + 1)
+    if len(content) > MAX_BATCH_FILE_BYTES:
+        raise HTTPException(status_code=413, detail="El archivo batch supera el límite de 20 MB")
     filename = (file.filename or "batch").lower()
 
     molecules = []
@@ -198,7 +229,10 @@ async def submit_batch(
                 parts = line.split()
                 smiles = parts[0]
                 name = parts[1] if len(parts) > 1 else smiles[:20]
-                label = int(parts[2]) if len(parts) > 2 else None
+                try:
+                    label = int(parts[2]) if len(parts) > 2 else None
+                except ValueError as exc:
+                    raise HTTPException(400, "Etiqueta active inválida en archivo SMILES") from exc
                 molecules.append({"smiles": smiles, "name": name})
                 if label is not None:
                     active_labels[name] = bool(label)
@@ -216,7 +250,9 @@ async def submit_batch(
 
     # ── Resolve targets ───────────────────────────────────────────
     if target_pdb_id == "ALL":
-        targets = await _get_default_targets()
+        targets = await _get_default_targets(current_user)
+        if not targets:
+            raise HTTPException(422, "No hay receptores preparados accesibles")
     else:
         targets = [target_pdb_id]
 
@@ -545,12 +581,17 @@ async def _process_batch(
                     from services.docking.queue_handler import _run_full_evaluation_async
 
                     task_id = str(_uuid_mod.uuid4())
-                    pipeline_result = await _run_full_evaluation_async(
+                    owner = _batches.get(batch_id, {}).get("owner_id", "demo")
+                    from services.docking.queue_handler import EVAL_WATCHDOG_TIMEOUT_S
+                    pipeline_result = await _asyncio.wait_for(_run_full_evaluation_async(
                         task_id=task_id,
                         smiles=smiles,
                         target_pdb_id=target_pdb_id,
                         molecule_name=name,
-                    )
+                        user_id=None if owner == "demo" else owner,
+                    ), timeout=EVAL_WATCHDOG_TIMEOUT_S)
+                    if pipeline_result.get("error"):
+                        raise RuntimeError(pipeline_result["error"])
 
                     molecule_id = pipeline_result.get("molecule_id")
                     if not molecule_id:
@@ -565,7 +606,7 @@ async def _process_batch(
                         async with get_db_session() as db:
                             repo = Repository(db)
                             eval_data = await repo.get_evaluation_result(UUID(molecule_id))
-                            if eval_data:
+                            if eval_data and eval_data.task_id == task_id and not eval_data.error_message:
                                 r = EvaluationResultRead.model_validate(eval_data)
                                 pains_count = len(r.pains_matches) if r.pains_matches else 0
                                 result = {

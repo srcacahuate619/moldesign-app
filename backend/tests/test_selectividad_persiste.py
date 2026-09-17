@@ -174,7 +174,7 @@ def test_el_helper_fusiona_y_no_pisa():
 
     fuente = inspect.getsource(pro_features._persistir_anti_target)
     assert "commit_with_retry" in fuente
-    assert "previos[resultado[" in fuente
+    assert "merge_selectivity_for_task" in fuente
     # Sin `pdb_id` no hay clave de fusion: se rechaza en vez de acumular basura.
     assert 'resultado.get("pdb_id")' in fuente
 
@@ -233,7 +233,7 @@ def test_el_mmgbsa_bajo_demanda_se_guarda():
     from api.routers import pro_features
 
     fuente = inspect.getsource(pro_features.run_mmgbsa_endpoint)
-    assert "evaluation.mmgbsa_score" in fuente, (
+    assert "update_evaluation_for_task" in fuente and "mmgbsa_score=" in fuente, (
         "el MM-GBSA bajo demanda vuelve a no persistirse"
     )
     assert "commit_with_retry" in fuente

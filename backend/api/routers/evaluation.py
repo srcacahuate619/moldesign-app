@@ -8,7 +8,7 @@ import uuid
 
 from typing import Literal
 from fastapi import APIRouter, Depends, HTTPException, Request, status
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
@@ -248,7 +248,20 @@ class PipelineConfigRequest(BaseModel):
     gnn_precision: str | None = Field(default=None)
     peptide_docking_engine: str | None = Field(default=None)
 
-class EvaluationSubmitRequest(BaseModel):
+class EvaluationGeometry(BaseModel):
+    @field_validator("grid_center", "grid_size", check_fields=False)
+    @classmethod
+    def valid_geometry(cls, value, info):
+        import math
+        if value is not None:
+            if not all(math.isfinite(v) for v in value):
+                raise ValueError("La caja debe contener sólo números finitos")
+            if info.field_name == "grid_size" and any(v <= 0 for v in value):
+                raise ValueError("Las dimensiones de la caja deben ser positivas")
+        return value
+
+
+class EvaluationSubmitRequest(EvaluationGeometry):
     smiles: str = Field(..., min_length=1, max_length=2000)
     target_pdb_id: str = Field(default="7E2Y", min_length=4, max_length=10)
     chain: str | None = Field(
@@ -485,6 +498,14 @@ async def _autorizar_corrida(
         return
     if db is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="La evaluación ya no está disponible.")
+    from core.models import EvaluationRequestORM
+    recorded = await db.get(EvaluationRequestORM, task_id)
+    if recorded is not None:
+        if recorded.owner_id != expected_owner or (
+            expected_owner == "demo" and recorded.client_ip and recorded.client_ip != client_ip
+        ):
+            raise HTTPException(status_code=403, detail="No tienes permiso para operar esta evaluación.")
+        return
     from core.models import EvaluationResultORM, EvaluationRunORM, MoleculeORM
     repository = Repository(db)
     stmt = (
@@ -917,7 +938,7 @@ async def get_gnn_attention(
 # lugar de darse por bueno.
 
 
-class PreflightRequest(BaseModel):
+class PreflightRequest(EvaluationGeometry):
     smiles: str = Field(..., min_length=1, max_length=2000)
     target_pdb_id: str = Field(..., min_length=4, max_length=10)
     chain: str | None = Field(

@@ -536,6 +536,20 @@ class EvaluationResultORM(Base):
     molecule = relationship("MoleculeORM", back_populates="evaluation_result")
 
 
+class EvaluationRequestORM(Base):
+    """Solicitud operativa durable; no modifica el contrato científico."""
+
+    __tablename__ = "evaluation_requests"
+    task_id = Column(String(200), primary_key=True)
+    owner_id = Column(String(200), nullable=False)
+    client_ip = Column(String(200), nullable=True)
+    configuration_json = Column(SQLiteJSON, nullable=False)
+    status = Column(String(16), nullable=False, default="PENDING")
+    error_message = Column(Text, nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    finished_at = Column(DateTime(timezone=True), nullable=True)
+
+
 class EvaluationRunORM(Base):
     """Snapshot inmutable de una corrida terminada.
 
