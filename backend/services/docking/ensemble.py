@@ -143,6 +143,27 @@ async def run_ensemble_docking(
             avisos.append(f"La conformación {indice} no produjo poses.")
             await _informar(on_progress, hechas, total)
             continue
+        # A single pooled provenance is valid only for a homogeneous protocol.
+        # Keep this outside the recoverable docking exception: a mismatch is an
+        # integrity failure, not reduced conformational coverage. Missing data
+        # must not inherit another run's known provenance either.
+        if resultados:
+            referencia = resultados[0][1]
+            campos = (
+                "receptor_sha256", "vina_version", "vina_random_seed",
+                "engine_efectivo", "exhaustiveness_efectiva", "num_poses_solicitadas",
+            )
+            incompatibles = [
+                campo for campo in campos
+                if getattr(referencia, campo, None) != getattr(parcial, campo, None)
+            ]
+            if incompatibles:
+                log.error("ensemble_procedencia_incompatible", indice=indice,
+                          campos=incompatibles)
+                raise RuntimeError(
+                    f"Ensemble: procedencia incompatible en conformacion {indice}: "
+                    + ", ".join(incompatibles)
+                )
         resultados.append((indice, parcial))
         tiempo_total += float(getattr(parcial, "execution_time_s", 0.0) or 0.0)
         fuente = parcial.parsing_source
@@ -192,6 +213,9 @@ async def run_ensemble_docking(
         # Los bloques PDBQT por pose sí sobreviven y son la fuente exacta.
         poses_file_path=None,
         parsing_source=fuente,
+        engine_efectivo=primera.engine_efectivo,
+        exhaustiveness_efectiva=primera.exhaustiveness_efectiva,
+        num_poses_solicitadas=primera.num_poses_solicitadas,
         vina_version=getattr(primera, "vina_version", None),
         vina_random_seed=getattr(primera, "vina_random_seed", None),
         receptor_sha256=getattr(primera, "receptor_sha256", None),

@@ -360,3 +360,79 @@ def test_el_preflight_publica_el_protocolo_en_la_configuracion_efectiva():
     assert '"conformers"' in fuente
     # Y junto a los demás parámetros de protocolo, no en otra sección.
     assert fuente.index('"num_poses"') < fuente.index('"conformers"')
+
+
+# The pooled result must describe the protocol actually executed by every run.
+@pytest.mark.asyncio
+async def test_ensemble_preserves_executed_protocol():
+    async def dock(**kwargs):
+        return _resultado(
+            [-8.0], engine_efectivo="vina", exhaustiveness_efectiva=4,
+            num_poses_solicitadas=9,
+        )
+
+    result = await run_ensemble_docking(
+        smiles="CCO", conformeros=[{"indice": i, "smiles_hash": str(i)} for i in range(2)],
+        num_poses=1, dock_una=dock,
+    )
+    assert result.engine_efectivo == "vina"
+    assert result.exhaustiveness_efectiva == 4
+    # Per-run requested count is distinct from the pooled output limit.
+    assert result.num_poses_solicitadas == 9
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("field,original,changed", [
+    ("receptor_sha256", "a" * 64, "b" * 64),
+    ("receptor_sha256", "a" * 64, None),
+    ("receptor_sha256", None, "b" * 64),
+    ("vina_version", "1.2.7", "1.2.5"),
+    ("vina_random_seed", 42, 43),
+    ("engine_efectivo", "vina", "qvina2"),
+    ("exhaustiveness_efectiva", 32, 4),
+    ("num_poses_solicitadas", 9, 1),
+])
+async def test_ensemble_rejects_incompatible_provenance(field, original, changed):
+    calls = []
+
+    async def dock(smiles_hash, **kwargs):
+        calls.append(smiles_hash)
+        return _resultado([-8.0], **{field: original if smiles_hash == "0" else changed})
+
+    with pytest.raises(RuntimeError, match=field):
+        await run_ensemble_docking(
+            smiles="CCO",
+            conformeros=[{"indice": i, "smiles_hash": str(i)} for i in range(3)],
+            num_poses=2, dock_una=dock,
+        )
+    assert calls == ["0", "1"]  # Do not swallow the integrity error as a failed conformer.
+
+
+@pytest.mark.asyncio
+async def test_ensemble_same_receptor_bytes_can_have_different_paths():
+    async def dock(smiles_hash, **kwargs):
+        return _resultado([-8.0], receptor_sha256="a" * 64,
+                          receptor_path=f"runs/{smiles_hash}/receptor.pdbqt")
+
+    result = await run_ensemble_docking(
+        smiles="CCO", conformeros=[{"indice": i, "smiles_hash": str(i)} for i in range(2)],
+        num_poses=2, dock_una=dock,
+    )
+    assert len(result.poses) == 2
+    assert result.receptor_sha256 == "a" * 64
+
+
+@pytest.mark.asyncio
+async def test_ensemble_cancellation_is_not_degraded_to_partial_success():
+    import asyncio
+
+    async def dock(smiles_hash, **kwargs):
+        if smiles_hash == "1":
+            raise asyncio.CancelledError()
+        return _resultado([-8.0])
+
+    with pytest.raises(asyncio.CancelledError):
+        await run_ensemble_docking(
+            smiles="CCO", conformeros=[{"indice": i, "smiles_hash": str(i)} for i in range(2)],
+            num_poses=2, dock_una=dock,
+        )

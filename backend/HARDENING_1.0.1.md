@@ -404,3 +404,25 @@ Commits operativos de esta continuación: f474c19 (hardening acumulado) y
 592975d (checkpoints batch). El bloque científico se registra por separado.
 El entorno de referencia WSL quedó apagado, con sus archivos intactos en E:.
 No hay build ni publicación; la 1.0.1 sigue abierta.
+
+
+## Continuacion: ensamble y procedencia (2026-09-17)
+
+Revision acotada documentada en `audits/ENSEMBLE_REVIEW.md`, con fuentes
+experimentales, limites, pendientes y borrador ENS-PROD-01. La cobertura del
+oraculo no se presenta como precision de recomendaciones biologicas.
+
+ENS-01/ENS-02 (ALTOS): se impide agrupar receptores/protocolos incompatibles
+y se preservan motor, exhaustiveness y numero de poses realmente ejecutados.
+Antes, nueve pruebas reproducian perdida o mezcla de procedencia. No cambian
+energias, pesos, conformaciones ni ranking de ejecuciones coherentes.
+
+Verificacion: 113 passed, 1 skipped focalizados; suite completa con Python
+embebido: **2427 passed, 10 skipped, 1 failed**, 14 warnings, 243.06 s.
+Unico fallo: H15 preexistente,
+`test_peptido_abstencion_negativa.py::test_la_interfaz_dice_lo_que_si_hace`.
+Log local: `hardening-ensemble-full.log`. Ruff F (Python de desarrollo),
+compileall focalizado y git diff --check correctos. No se instalo Ruff en el
+runtime distribuido. No se repitieron benchmarks cientificos en este bloque.
+
+Sin build, frontend ni activacion de MM-GBSA. La 1.0.1 sigue abierta.
