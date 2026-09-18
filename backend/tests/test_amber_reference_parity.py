@@ -21,6 +21,7 @@ CASES = [(case, condition) for case in REPORT["results"] for condition in case["
 def test_reference_files_match_manifest():
     manifest = json.loads((ROOT / "manifest.json").read_text())
     for name, expected in manifest["artifacts"].items():
+        assert "\\" not in name, "Manifest paths must also resolve on Linux"
         assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest() == expected
     assert manifest["protocol_status"] == "EXPERIMENTAL_NOT_ENABLED"
 

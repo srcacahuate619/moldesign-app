@@ -141,3 +141,10 @@ Regresión completa posterior a la guardia y referencias: **2416 passed,
 de texto frontend, fuera del alcance. Log: hardening-science-verified-full.log.
 Esto verifica regresiones de software; no convierte las 23/24 comparaciones
 numéricas en validación de actividad biológica ni de energía libre de unión.
+
+
+Protección de transporte Git: las referencias usan `.gitattributes` con `-text`
+para conservar bytes exactos; las rutas del manifiesto usan `/` en ambos sistemas.
+Se verificaron los SHA-256 de los **30 artefactos directamente desde el índice de
+Git**, no sólo del working tree. Regresión posterior: 25 passed (referencias y
+bloqueo de cloro); log hardening-reference-git.log. No cambió ningún parámetro.

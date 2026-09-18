@@ -1,0 +1,2 @@
+# Scientific fixtures preserve original bytes, including existing CRLF.
+* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
