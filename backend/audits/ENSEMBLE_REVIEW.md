@@ -120,3 +120,53 @@ Orden sugerido de continuacion: resolver procedencia mixta/pose exacta,
 congelar ENS-PROD-01 y ejecutar piloto tecnico fuera del holdout; despues ensayo
 final. Continuar MM-GBSA en paralelo solo como candidato experimental, con sus
 gates de parametrizacion, complejos completos y utilidad aun abiertos.
+
+
+## Continuacion: identidad de registros y conversiones (2026-09-17)
+
+ENS-03 queda corregido para NUEVOS ensembles: cada pose conserva
+`source_provenance` con rank original, ruta SDF de su corrida, parsing_source
+y metadata del conversor. La renumeracion de la piscina no altera esos datos.
+Un agrupado con distintos parsers declara `mixed`; el conversor global solo
+se conserva cuando todas las corridas coinciden. No se recupera metadata de
+corridas historicas que nunca la guardaron.
+
+Justificacion del contrato aditivo: `DockingPose.source_provenance` es metadata
+opcional, persistida dentro del JSON existente, sin migracion SQL. Los registros
+historicos cargan con None. `DockingResult.parsing_source` admite `mixed` para
+no atribuir toda la piscina al ultimo parser. No cambian scores, algoritmos,
+parametros cientificos ni coordenadas. La UI no se modifico; el backend expone
+los nuevos datos para su futura presentacion.
+
+ENS-06 (ALTO, corregido): el parser SDF omitía registros sin afinidad y
+renumeraba los siguientes. Vina asocia la lista resultante por posicion con los
+bloques PDBQT: un primer registro sin afinidad podia asignar la energia del
+segundo a la geometria del primero. La correccion rechaza el conjunto parcial
+de scores SDF y permite seguir los respaldos existentes hacia conversion o
+PDBQT. Un archivo completo conserva exactamente sus valores y orden. No se
+reconstruye una afinidad ausente ni se cambia una formula.
+
+ENS-04 sigue abierto: source_provenance NO certifica por si sola correspondencia
+atomica ni integridad de bytes. Todavia no se utiliza para activar MM-GBSA.
+Antes de recuperar SDF por rank de origen se exige comprobar hash del artefacto,
+identidad quimica y correspondencia geometrica con el bloque PDBQT entregado,
+sin conversion desde SMILES ni herencia de la pose de otra conformacion.
+No se ha cerrado tampoco la validacion externa ENS-PROD-01: sigue como borrador.
+
+Pruebas: seis fallos reproducidos antes del cambio y una prueba positiva; luego
+129 passed, 1 skipped en ocho suites, incluidos SQLite real, contratos de
+respuesta/PDF, Open Babel y MM-GBSA. Se cubren huecos de metadata al principio,
+en medio y al final, y propiedades truncadas sin valor; parsers mixtos/homogeneos; rank original tras ordenar y
+compatibilidad de registros antiguos. Resultado global en HARDENING_1.0.1.md.
+Ruff F detecto un F841 preexistente en test_sqlite_roundtrip.py:194, fuera del
+cambio (variable mol). No se corrigio ni se oculto en esta revision.
+
+El separador $$$$ se procesa antes de cualquier propiedad pendiente: un valor
+ausente no puede absorber el fin del registro ni mezclar metadata entre poses.
+Dos pruebas adicionales reprodujeron esa variante antes de corregirla.
+
+Verificacion global de esta continuacion: 2434 passed, 10 skipped, 1 failed
+(H15 frontend preexistente), 14 warnings, 239.96 s. Esa corrida comenzo antes
+del ultimo ajuste de delimitadores; despues de ese ajuste se verificaron las
+129 pruebas focalizadas indicadas arriba. No se afirma una suite global nueva
+sobre ese ultimo ajuste. Detalle en HARDENING_1.0.1.md.

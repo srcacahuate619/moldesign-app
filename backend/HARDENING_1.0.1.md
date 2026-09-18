@@ -426,3 +426,35 @@ compileall focalizado y git diff --check correctos. No se instalo Ruff en el
 runtime distribuido. No se repitieron benchmarks cientificos en este bloque.
 
 Sin build, frontend ni activacion de MM-GBSA. La 1.0.1 sigue abierta.
+
+
+## Continuacion: conversiones y correspondencia SDF (2026-09-17)
+
+ENS-03 (MEDIO): las nuevas poses agrupadas conservan source_provenance con
+rank original, archivo de origen, parser y conversor. El conjunto declara
+mixed cuando hubo distintos parsers; no se atribuye al ultimo conversor.
+Contrato aditivo de metadata opcional dentro del JSON existente, sin migracion
+SQL ni cambio de formulas, pesos o coordenadas. Historicos conservan None.
+
+ENS-06 (ALTO): SDF con registros sin afinidad se filtraba y renumeraba; la
+asociacion posicional de Vina podia unir score y geometria de poses distintas.
+Ahora se rechaza ese conjunto parcial de scores y se permite el respaldo
+existente al PDBQT. El separador de registro tiene prioridad sobre campos sin
+valor para no absorberlo ni desplazar la correspondencia. La ruta de datos
+completos conserva valores y orden. No se activa recuperacion MM-GBSA basada
+solo en rank/archivo: falta certificar hashes y correspondencia atomica.
+
+Validacion: seis fallos iniciales reproducidos; 127 passed y 1 skipped tras
+la primera correccion. Dos pruebas adicionales reprodujeron el caso de campos
+truncados. Tras su correccion final: **129 passed, 1 skipped** en ocho suites
+que cubren parser/conversion, ensemble, hardening, MM-GBSA, SQLite y reportes.
+La regresion global iniciada antes de ese ultimo ajuste termino con
+**2434 passed, 10 skipped, 1 failed**, 14 warnings, 239.96 s. Unico fallo H15
+preexistente de texto frontend; log hardening-ensemble-provenance-full.log.
+No se presenta esa corrida global como realizada despues del ultimo ajuste:
+la version final del parser se verifico con las 129 pruebas focalizadas.
+Ruff F sin errores en produccion y nuevas pruebas; aviso F841 preexistente en
+test_sqlite_roundtrip.py:194 documentado en ENSEMBLE_REVIEW.md. Compileall y
+git diff --check correctos. No se repitieron experimentos cientificos.
+
+Sin build ni cambios frontend. MM-GBSA experimental no activado; 1.0.1 abierta.

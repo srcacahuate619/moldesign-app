@@ -392,9 +392,26 @@ def parse_vina_output_sdf(sdf_content: str) -> list[dict]:
     current_props: dict = {}
     reading_field: str | None = None
     rank = 0
+    records = 0
 
     for line in sdf_content.splitlines():
         stripped = line.strip()
+
+        # Record boundaries take priority over missing or malformed field values.
+        if stripped == "$$$$":
+            records += 1
+            if "affinity" in current_props:
+                rank += 1
+                poses.append({
+                    "rank":     rank,
+                    "affinity": current_props["affinity"],
+                    "rmsd_lb":  current_props.get("rmsd_lb", 0.0),
+                    "rmsd_ub":  current_props.get("rmsd_ub", 0.0),
+                })
+            current_props = {}
+            reading_field = None
+            continue
+
 
         # SDF writers vary between ``> <field>`` and ``>  <field>``.
         # Normalize the whitespace around the field name so Open Babel's
@@ -471,18 +488,13 @@ def parse_vina_output_sdf(sdf_content: str) -> list[dict]:
             reading_field = None
             continue
 
-        # ── Fin de mol block ──────────────────────────────────────────────
-        if stripped == "$$$$":
-            if "affinity" in current_props:
-                rank += 1
-                poses.append({
-                    "rank":     rank,
-                    "affinity": current_props["affinity"],
-                    "rmsd_lb":  current_props.get("rmsd_lb", 0.0),
-                    "rmsd_ub":  current_props.get("rmsd_ub", 0.0),
-                })
-            current_props = {}
-            reading_field = None
+
+    if poses and len(poses) != records:
+        # Callers pair this list positionally with original PDBQT models.
+        # Skipping unannotated records shifts scores onto another geometry.
+        # Return no SDF scores so Vina can recover from its PDBQT/stdout path.
+        log.warning("sdf_partial_affinity_metadata", records=records, poses=len(poses))
+        return []
 
     if not poses:
         # A Meeko SDF can legitimately lack numeric metadata; the caller then

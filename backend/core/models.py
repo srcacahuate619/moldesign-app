@@ -881,6 +881,9 @@ class DockingPose(BaseModel):
     rmsd_lb:  float = Field(..., ge=0, description="RMSD lower bound vs pose 1")
     rmsd_ub:  float = Field(..., ge=0, description="RMSD upper bound vs pose 1")
     pdbqt_block: str | None = Field(None, description="Bloque PDBQT de la pose para rescoring.")
+    # Optional metadata only: original rank/file/parser before ensemble sorting.
+    # Historical rows remain unknown; no coordinates or scores are inferred.
+    source_provenance: dict[str, Any] | None = None
     #: De qué conformación de entrada salió esta pose.
     #:
     #: `None` con confórmero único —el protocolo por defecto—, que es la mayoría
@@ -913,7 +916,7 @@ class DockingResult(BaseModel):
     #: línea de órdenes (`openbabel_cli`), no como biblioteca enlazada. Esa
     #: distinción es la frontera de licencia descrita en
     #: `docs/79_ADR_FRONTERA_OPEN_BABEL.md`, y por eso viaja en la procedencia.
-    parsing_source: Literal["sdf", "pdbqt", "vina_stdout", "sdf_openbabel_cli"] = "sdf"
+    parsing_source: Literal["sdf", "pdbqt", "vina_stdout", "sdf_openbabel_cli", "mixed"] = "sdf"
     #: Qué programa externo produjo el archivo de poses, cuando no fue Meeko.
     #:
     #: `None` en todas las corridas normales y en todas las anteriores a esta

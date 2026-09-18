@@ -140,7 +140,7 @@ class TestEvaluationResultReadContract:
             # `conformer_index` es aditivo: None con confórmero único, que es
             # el protocolo por defecto. Con ensemble dice de qué conformación
             # salió cada pose.
-            {**p, "pdbqt_block": None, "conformer_index": None}
+            {**p, "pdbqt_block": None, "conformer_index": None, "source_provenance": None}
             for p in payload["docking_poses"]
         ]
 
@@ -211,7 +211,7 @@ class TestEvaluationResultReadContract:
 
         assert dumped["docking_poses"] == [
             {"rank": 1, "affinity": -9.5, "rmsd_lb": 0.0, "rmsd_ub": 0.0,
-             "pdbqt_block": None, "conformer_index": None}
+             "pdbqt_block": None, "conformer_index": None, "source_provenance": None}
         ]
         assert dumped["hotspots_hit"] == ["ASP116"]
         assert dumped["target_hotspots"] == [{"name": "ASP116", "importance": 1.0}]
@@ -227,6 +227,7 @@ class TestEvaluationResultReadContract:
             "rmsd_ub": 0.0,
             "pdbqt_block": None,
             "conformer_index": None,
+            "source_provenance": None,
         }
         # types.ts usa la key "affinity" (no "best_affinity") en las poses.
         assert "affinity" in pose.model_dump()

@@ -36,6 +36,7 @@ no acopló sería un precio absurdo.
 
 from __future__ import annotations
 
+from copy import deepcopy
 from typing import Any
 
 from core.models import DockingPose, DockingResult
@@ -80,7 +81,14 @@ def agrupar_poses(
     piscina: list[DockingPose] = []
     for indice, resultado in resultados:
         for pose in resultado.poses or []:
-            piscina.append(_con_procedencia(pose, indice))
+            copia = _con_procedencia(pose, indice)
+            copia.source_provenance = deepcopy({
+                "rank": pose.rank,
+                "poses_file_path": resultado.poses_file_path,
+                "parsing_source": resultado.parsing_source,
+                "conversor_estructural": resultado.conversor_estructural,
+            })
+            piscina.append(copia)
 
     # Empate resuelto por conformación y rank original: dos poses con la misma
     # afinidad tienen que salir siempre en el mismo orden, o el paquete
@@ -121,7 +129,7 @@ async def run_ensemble_docking(
     resultados: list[tuple[int, DockingResult]] = []
     avisos: list[str] = []
     tiempo_total = 0.0
-    fuente = "sdf"
+    fuentes: set[str] = set()
 
     total = len(conformeros)
     for hechas, conformero in enumerate(conformeros, start=1):
@@ -166,7 +174,7 @@ async def run_ensemble_docking(
                 )
         resultados.append((indice, parcial))
         tiempo_total += float(getattr(parcial, "execution_time_s", 0.0) or 0.0)
-        fuente = parcial.parsing_source
+        fuentes.add(parcial.parsing_source)
         # Se normalizan al fusionar: un ensemble puede mezclar corridas nuevas
         # (con severidad) y heredadas (cadenas sueltas) en la misma lista.
         avisos.extend(normalizar_avisos(getattr(parcial, "scientific_warnings", None)))
@@ -212,7 +220,12 @@ async def run_ensemble_docking(
         # primera presentaría coordenadas distintas de las poses entregadas.
         # Los bloques PDBQT por pose sí sobreviven y son la fuente exacta.
         poses_file_path=None,
-        parsing_source=fuente,
+        parsing_source=next(iter(fuentes)) if len(fuentes) == 1 else "mixed",
+        conversor_estructural=(
+            deepcopy(primera.conversor_estructural)
+            if all(r.conversor_estructural == primera.conversor_estructural
+                   for _, r in resultados) else None
+        ),
         engine_efectivo=primera.engine_efectivo,
         exhaustiveness_efectiva=primera.exhaustiveness_efectiva,
         num_poses_solicitadas=primera.num_poses_solicitadas,

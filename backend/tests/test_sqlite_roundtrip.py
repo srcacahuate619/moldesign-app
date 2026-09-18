@@ -241,6 +241,9 @@ class TestJsonRoundtrip:
     @pytest.mark.asyncio
     async def test_evaluation_result_full_roundtrip(self, session_factory):
         """Fila completa de EvaluationResultORM (scores, XAI, ML) sobrevive."""
+        provenance = {"rank": 3, "poses_file_path": "runs/source/poses.sdf",
+                      "parsing_source": "sdf_openbabel_cli",
+                      "conversor_estructural": {"sha256": "a" * 64}}
         shap_values = {"LogP": -0.2, "MW": 0.5}
         gnn_attention = [0.1, 0.8, 0.2]
         anti_target_results = [{"pdb_id": "3ERT", "affinity": -6.0}]
@@ -251,7 +254,7 @@ class TestJsonRoundtrip:
                 molecule_id=molecule.id,
                 affinity_kcal=-9.5,
                 affinity_score=87.3,
-                docking_poses=[{"rank": 1, "affinity": -9.5, "rmsd_lb": 0.0, "rmsd_ub": 0.0}],
+                docking_poses=[{"rank": 1, "affinity": -9.5, "rmsd_lb": 0.0, "rmsd_ub": 0.0, "source_provenance": provenance}],
                 poses_file_path="docking-poses/abc.sdf",
                 parsing_source="sdf",
                 vina_version="1.2.5",
@@ -312,6 +315,9 @@ class TestJsonRoundtrip:
         async with session_factory() as s:
             ev = await s.get(EvaluationResultORM, evaluation_id)
 
+        from core.models import DockingPose
+        pose = DockingPose.model_validate(ev.docking_poses[0])
+        assert pose.source_provenance == provenance
         assert ev.affinity_kcal == -9.5
         assert ev.total_score == 81.5
         assert ev.molecular_weight == 180.16
