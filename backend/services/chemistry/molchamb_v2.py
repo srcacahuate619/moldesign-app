@@ -309,6 +309,16 @@ def compute_mmgbsa(protein_pdb: str, ligand_smiles: str, max_iter: int = 500) ->
             _override_charges(system, heavy_ids, charges[:len(heavy_ids)])
             has_molchamb = True
 
+    from services.chemistry.mmgbsa_integrity import validate_ligand_system
+    try:
+        validate_ligand_system(system, modeller.topology, lig_ids)
+    except ValueError:
+        try:
+            os.unlink(prep_pdb)
+        except OSError as exc:
+            log.warning("cleanup_failed", stage="mmgbsa_integrity", error=str(exc))
+        raise
+
     # 5. Minimize con verificación de convergencia
     integrator = LangevinMiddleIntegrator(300 * unit.kelvin, 1.0 / unit.picosecond, 0.002 * unit.picoseconds)
     sim = Simulation(modeller.topology, system, integrator, Platform.getPlatformByName("CPU"))
@@ -541,6 +551,9 @@ def compute_mmgbsa_from_pose(
             heavy_ids = [i for i in lig_ids if atoms_list[i].element.symbol != "H"]
             if len(charges) >= len(heavy_ids):
                 _override_charges(system, heavy_ids, charges[:len(heavy_ids)])
+
+        from services.chemistry.mmgbsa_integrity import validate_ligand_system
+        validate_ligand_system(system, modeller.topology, lig_ids)
 
         # 7. Minimize with best platform
         integrator = LangevinMiddleIntegrator(300 * unit.kelvin, 1.0 / unit.picosecond, 0.002 * unit.picoseconds)

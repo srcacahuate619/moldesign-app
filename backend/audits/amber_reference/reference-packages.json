@@ -1,0 +1,58 @@
+[
+  {
+    "name": "python",
+    "version": "3.11.16",
+    "build": "h5f976f7_2_cpython",
+    "license": "Python-2.0",
+    "url": "https://conda.anaconda.org/conda-forge/linux-64/python-3.11.16-h5f976f7_2_cpython.conda",
+    "sha256": "35375a255970809e8b0a1c744d56533f4da5339769ef5f5a24fe165ca321fcf3"
+  },
+  {
+    "name": "parmed",
+    "version": "4.3.1",
+    "build": "py311h74232ed_1",
+    "license": "LGPL-2.1-or-later",
+    "url": "https://conda.anaconda.org/conda-forge/linux-64/parmed-4.3.1-py311h74232ed_1.conda",
+    "sha256": "63674546498c9f6a19137af9da07f402f5e1f177d4adf5c52a2c030757dc1702"
+  },
+  {
+    "name": "openmmforcefields",
+    "version": "0.16.0",
+    "build": "pyhc364b38_1",
+    "license": "MIT",
+    "url": "https://conda.anaconda.org/conda-forge/noarch/openmmforcefields-0.16.0-pyhc364b38_1.conda",
+    "sha256": "d209cce1ee25188b831c1517529f592d7b270fe1d5a54bf31fee5141447ccaa3"
+  },
+  {
+    "name": "ambertools",
+    "version": "24.8",
+    "build": "cuda_None_nompi_py311hb98b808_104",
+    "license": "GPL-3.0-or-later AND LGPL-3.0-or-later AND BSD-3-Clause AND MIT",
+    "url": "https://conda.anaconda.org/conda-forge/linux-64/ambertools-24.8-cuda_None_nompi_py311hb98b808_104.conda",
+    "sha256": "13cda6fbd095eeeaf5ef9704d2acccb6e98d035ed8fe4cf3fe0a9d55441e60c6"
+  },
+  {
+    "name": "openmm",
+    "version": "8.5.2",
+    "build": "py311h38e3cd7_0",
+    "license": "LGPL-3.0-or-later",
+    "url": "https://conda.anaconda.org/conda-forge/linux-64/openmm-8.5.2-py311h38e3cd7_0.conda",
+    "sha256": "5ecf60c500ae24477c1349810c398cf6c832e1be82fc75a3ba8d2aafe95d71fa"
+  },
+  {
+    "name": "openff-toolkit",
+    "version": "0.18.0",
+    "build": "pyhd8ed1ab_6",
+    "license": "MIT",
+    "url": "https://conda.anaconda.org/conda-forge/noarch/openff-toolkit-0.18.0-pyhd8ed1ab_6.conda",
+    "sha256": "224300e5a1f81528cbe8dbddb3cb7fbbd29c582cae69fe4a2002f0204426c190"
+  },
+  {
+    "name": "rdkit",
+    "version": "2026.03.1",
+    "build": "py311h34e1bb8_0",
+    "license": "BSD-3-Clause",
+    "url": "https://conda.anaconda.org/conda-forge/linux-64/rdkit-2026.03.1-py311h34e1bb8_0.conda",
+    "sha256": "682a316699f954aa3584a80631d5a6f74ec0e6472553e52d74d0d45312a294d7"
+  }
+]

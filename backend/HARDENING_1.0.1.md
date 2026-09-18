@@ -373,3 +373,34 @@ Log: hardening-batch-durable.log. Ruff F y git diff --check sin errores.
 Límite: los batches anteriores a este cambio que sólo existieron en memoria no
 pueden reconstruirse retroactivamente. La integración frontend de los estados
 terminales nuevos sigue pendiente y está fuera de esta tarea.
+
+
+### C01: contención y candidato científico medido
+
+Ver [validación MM-GBSA](audits/MMGBSA_VALIDATION.md). La guardia de integridad
+rechaza sistemas legacy incompletos antes de minimizar. Esto evita nuevos
+números inválidos, pero puede reducir temporalmente la disponibilidad de MM-GBSA.
+El reemplazo aún no está activado. C01 queda **contenido, no cerrado**.
+
+El candidato GAFF2/AM1-BCC pasó 23/24 comparaciones con AmberTools en ocho
+ligandos, incluyendo fuerzas y solvatación GBn2/LCPO. Se corrigieron discrepancias
+reales de fósforo y tipado LCPO; el cloro sigue abierto. Las referencias se
+reproducen offline en Windows. No se validaron todavía afinidades de unión ni
+complejos completos. Se retiró una promesa no demostrada de ordenar poses.
+
+Regresión global tras persistencia batch y contrato: 2381 passed, 10 skipped,
+1 failed (H15 frontend), 285.67 s; log hardening-batch-science-full.log.
+Pruebas focalizadas tras guardia y referencias científicas: 64 passed,
+6 warnings GB documentados. No se suman los conteos solapados.
+
+
+Verificación global final de este bloque: **2416 passed, 10 skipped, 1 failed**,
+14 warnings, 337.09 s. Único fallo H15 (texto frontend preexistente). Log:
+hardening-science-verified-full.log. No se modificó ni se omitió ese guardián.
+Los avisos nuevos de radios GB se conservan y explican en el informe científico.
+Ruff F, compileall focalizado y git diff --check sin errores.
+
+Commits operativos de esta continuación: f474c19 (hardening acumulado) y
+592975d (checkpoints batch). El bloque científico se registra por separado.
+El entorno de referencia WSL quedó apagado, con sus archivos intactos en E:.
+No hay build ni publicación; la 1.0.1 sigue abierta.

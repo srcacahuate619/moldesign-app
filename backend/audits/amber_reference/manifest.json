@@ -1,0 +1,42 @@
+{
+  "environment_root": "E:/MolDesign-science/2026-09-17",
+  "protocol_status": "EXPERIMENTAL_NOT_ENABLED",
+  "evidence_scope": "8 ligands; 23/24 vacuum, GBn2 and GBn2+LCPO energy/force comparisons pass; chlorine LCPO reference mismatch remains open",
+  "sources": [
+    "https://github.com/Amber-MD/AmberClassic/blob/main/src/msander/mdread.F90",
+    "https://github.com/openmm/openmm/blob/8.5.2/wrappers/python/openmm/app/internal/customgbforces.py",
+    "https://github.com/openforcefield/openff-toolkit/blob/main/openff/toolkit/utils/ambertools_wrapper.py"
+  ],
+  "artifacts": {
+    "consulted-source-hashes.json": "cfb0243018914e464106ba448d02b57c318a4131e7c7936be0d8fd928b157b78",
+    "micromamba-source.json": "8cd4ba46613e7f87cbe7c9decf876a7a9efed58ea5506bc1501c5198ec589053",
+    "reference-linux-64.lock": "f25c1fe1997f65f024021958ac2d65ad795d32b104cb7fbf1a87582e07a5d619",
+    "reference-packages.json": "9eb2f0e52689b91cd88c85d22a6b75c85d0ad107f6069324155eee3cf25794b1",
+    "report.json": "c0472ac89421a98f1ffd133f389b872687584c381c8719ef9db0617efddb9c80",
+    "ubuntu-source.json": "b74489ce5572d5a14180079fbd6dab9354818e117e2583b572675f6f433ad522",
+    "acetate\\input.sdf": "7918768a5b60fc047b9ad4cb74f8e2c4cf99be7a4698fc6f9887ac769ca3e8ef",
+    "acetate\\ligand.inpcrd": "c790927e5bd0a6f2142d1bb7ac86f870b86bb47e6a564ad881b7bce8f2ddc9b7",
+    "acetate\\ligand.prmtop": "62ec8bc2dd41941ff540969bc52a22016f607c10b248a0c7c7a1a8b7d81d0a0a",
+    "aspirin\\input.sdf": "187eee8ffaf76c2e773d7781c7517e6d03942702aecd4f3db3bb5fbd9c9909d6",
+    "aspirin\\ligand.inpcrd": "92bb9589c3c284192f1260cedb9d9951af9779831dabb0b892e34d5ad3294103",
+    "aspirin\\ligand.prmtop": "64d26eff6de70019132fd5bf60ad24c7cb0d8e2d7a1478fefa2727ea63c9aa55",
+    "benzene\\input.sdf": "f468de9f0477eeebdf9c2e516e868d2c4f84763047ae2737730474b77c7b118d",
+    "benzene\\ligand.inpcrd": "c5940c0614a7b4f6894f9e4c5ba0e37e728871d0a1b97307d2e52d0fa88d0bce",
+    "benzene\\ligand.prmtop": "705c2ad56abf1acc664e40c7a5db782294ffc2eb8e7d377b34f98d31bb4ff44c",
+    "chlorobenzene\\input.sdf": "b4a4fe8ad64e61e3c7d3cbf86734dffd2d77d5d0e8e387ec1a2cc79a0315d5ce",
+    "chlorobenzene\\ligand.inpcrd": "56f8cf5df5c61526615e74b163ea86f21fbfd96eb7380dc7585ac50a3c24487c",
+    "chlorobenzene\\ligand.prmtop": "70c4391dd9536c630c8b1e45e1b16bb9e94fa342afe4e834ab00ae5faff1296d",
+    "dimethylphosphate\\input.sdf": "4100c485f4109f23f04c905997e9a3cd20cc2c01a3f7c16a416cf74002bd5e3e",
+    "dimethylphosphate\\ligand.inpcrd": "0bfc4831fc5c1ecf88f5b46db671c7522c3646b404f0f2679807c74cf93e3d6a",
+    "dimethylphosphate\\ligand.prmtop": "9c5cffa1cfdde1bd0dc0d5890d996a3ec23edc9f4cf866f2714df75d00fd44ff",
+    "ethanol\\input.sdf": "3457f4327aa7ff74a8c4bdf7dfcd46d16fd0ad1fd93d934869d75c77c5570521",
+    "ethanol\\ligand.inpcrd": "bbbba3f457f7cf16f1c09a1dbd3da2daf8533a2b77a086dd17ba0766cfe5889b",
+    "ethanol\\ligand.prmtop": "8cb849f44df56e2a4112bc374476319c8c1cda4bc5bd4549528f7ad1a7926e64",
+    "imidazole\\input.sdf": "37c5e05904fc5de7c7ca20d6444a13d9781094e8210fde432e2c672421d70e2c",
+    "imidazole\\ligand.inpcrd": "fac338160054342c2198def0878886288731aef36fc56d9ed23f7bf581ab81fd",
+    "imidazole\\ligand.prmtop": "32f5544b132733ce865b2a733c395243ac5da36996e03f4b2ad4eb73a7011c07",
+    "methylammonium\\input.sdf": "b740bea7913f96ffb44bd42110eae1f66fe7f044129030120d0a196f7ccd066f",
+    "methylammonium\\ligand.inpcrd": "67c6075ecd439b6e8e35dfe77cc7db5602feb1a3ed43023b0dbdaee403af8811",
+    "methylammonium\\ligand.prmtop": "a31d1047e746f347c5c09ecdbaa0a09497083f4415f87569d6e3116ede61d3ed"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "release": "2.9.0-0",
+  "url": "https://github.com/mamba-org/micromamba-releases/releases/download/2.9.0-0/micromamba-linux-64",
+  "sha256": "366cd9cd8be14df1ab8ed50352a82111082a36686b2d389fdb79a92c3fafb3e3",
+  "publisher_digest": "sha256:366cd9cd8be14df1ab8ed50352a82111082a36686b2d389fdb79a92c3fafb3e3"
+}

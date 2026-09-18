@@ -63,9 +63,9 @@ def test_los_elementos_soportados_son_los_que_tienen_tipo_de_proteina():
 
 
 def test_la_condicion_dice_para_que_sirve_y_para_que_no():
-    # Lo que el método sostiene…
-    assert "ORDENAR poses del mismo ligando" in MMGBSA_CONDICION
-    # …y lo que no.
+    # No atribuir utilidad para ordenar poses sin una validación experimental.
+    assert "no validado científicamente" in MMGBSA_CONDICION
+    assert "No se ha demostrado" in MMGBSA_CONDICION
     assert "No es comparable entre" in MMGBSA_CONDICION
     assert "experimental" in MMGBSA_CONDICION
     # La causa, nombrada: el tipado con biblioteca de proteína.
