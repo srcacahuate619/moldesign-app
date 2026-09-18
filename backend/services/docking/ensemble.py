@@ -36,11 +36,13 @@ no acopló sería un precio absurdo.
 
 from __future__ import annotations
 
+import hashlib
 from copy import deepcopy
 from typing import Any
 
 from core.models import DockingPose, DockingResult
 from services.avisos import normalizar_avisos
+from utils.local_storage import read_bytes
 from utils.logger import get_logger
 
 log = get_logger(__name__)
@@ -66,9 +68,48 @@ def _con_procedencia(pose: DockingPose, indice: int) -> DockingPose:
     return pose.model_copy(update={"conformer_index": indice})
 
 
+def _entrada_de(conformero: dict[str, Any]) -> dict[str, Any]:
+    """La identidad de la geometría que entró a Vina en esa corrida.
+
+    Sin esto, `conformer_index` es una etiqueta y nada más: dice de qué
+    conformación se DICE que salió la pose, no qué archivo se acopló. Es la
+    diferencia que hizo invisible el defecto ENS-05 durante toda su vida, cuando
+    las K corridas recibían la geometría de la conformación 0 y cada pose
+    declaraba una procedencia distinta.
+    """
+    datos = {
+        "conformer_path": conformero.get("conformer_path"),
+        "conformer_sha256": conformero.get("conformer_sha256"),
+        "semilla_conformacional": conformero.get("semilla"),
+    }
+    # Un diccionario de Nones aparenta un registro que no existe. Si no se sabe
+    # nada de la entrada, se dice que no se sabe nada.
+    return datos if any(valor is not None for valor in datos.values()) else None
+
+
+async def _huella_de_archivo(object_name: str | None) -> str | None:
+    """SHA-256 del artefacto de poses de una corrida, si se puede leer.
+
+    Es lo que convierte «el registro 3 de este archivo» en una afirmación
+    comprobable: sin el hash, recuperar una pose por rank confía en que el
+    archivo no haya cambiado, que es justo lo que ENS-04 no aceptó dar por
+    supuesto. None significa «no se pudo leer», y quien lo reciba se abstiene.
+    """
+    if not object_name:
+        return None
+    try:
+        return hashlib.sha256(await read_bytes(object_name)).hexdigest()
+    except Exception as exc:                                       # noqa: BLE001
+        log.warning("ensemble_artefacto_sin_huella",
+                    archivo=object_name, error=str(exc)[:120])
+        return None
+
+
 def agrupar_poses(
     resultados: list[tuple[int, DockingResult]],
     num_poses: int,
+    entradas: dict[int, dict[str, Any]] | None = None,
+    huellas: dict[int, str | None] | None = None,
 ) -> list[DockingPose]:
     """
     La piscina: junta, reordena por afinidad y renumera.
@@ -77,6 +118,13 @@ def agrupar_poses(
     posición dentro de SU corrida de Vina: sin renumerar habría nueve poses con
     rank 1. El orden es por afinidad observada, que es el único criterio que
     Vina ofrece y el mismo que usa el camino de una sola conformación.
+
+    `entradas` asocia cada índice de conformación con la identidad del `.sdf`
+    que se acopló, y `huellas` con el SHA-256 del artefacto de poses de esa
+    corrida. Ambos son opcionales para no romper a los llamantes existentes: lo
+    que no se recibe se declara ausente, nunca se rellena con el de otra
+    corrida. Juntos son lo que permite recuperar después el registro exacto de
+    una pose y DEMOSTRAR que es esa (ver `services/docking/pose_recovery.py`).
     """
     piscina: list[DockingPose] = []
     for indice, resultado in resultados:
@@ -85,8 +133,10 @@ def agrupar_poses(
             copia.source_provenance = deepcopy({
                 "rank": pose.rank,
                 "poses_file_path": resultado.poses_file_path,
+                "poses_file_sha256": (huellas or {}).get(indice),
                 "parsing_source": resultado.parsing_source,
                 "conversor_estructural": resultado.conversor_estructural,
+                "ligand_input": (entradas or {}).get(indice),
             })
             piscina.append(copia)
 
@@ -127,6 +177,8 @@ async def run_ensemble_docking(
     es una molécula con cobertura reducida, es una evaluación sin docking.
     """
     resultados: list[tuple[int, DockingResult]] = []
+    entradas: dict[int, dict[str, Any]] = {}
+    huellas: dict[int, str | None] = {}
     avisos: list[str] = []
     tiempo_total = 0.0
     fuentes: set[str] = set()
@@ -173,6 +225,8 @@ async def run_ensemble_docking(
                     + ", ".join(incompatibles)
                 )
         resultados.append((indice, parcial))
+        entradas[indice] = _entrada_de(conformero)
+        huellas[indice] = await _huella_de_archivo(parcial.poses_file_path)
         tiempo_total += float(getattr(parcial, "execution_time_s", 0.0) or 0.0)
         fuentes.add(parcial.parsing_source)
         # Se normalizan al fusionar: un ensemble puede mezclar corridas nuevas
@@ -186,7 +240,7 @@ async def run_ensemble_docking(
             "que documentar."
         )
 
-    entregadas = agrupar_poses(resultados, num_poses)
+    entregadas = agrupar_poses(resultados, num_poses, entradas, huellas)
     conformaciones_con_poses = len({indice for indice, _ in resultados})
     representadas = len({p.conformer_index for p in entregadas})
 

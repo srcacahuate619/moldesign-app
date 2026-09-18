@@ -716,6 +716,54 @@ async def save_selectivity_results_endpoint(
     }
 
 
+async def _pose_de_piscina(evaluation, pose_rank: int):
+    """Recupera la pose `pose_rank` de una piscina de ensemble, DEMOSTRADA.
+
+    Levanta 422 con el motivo exacto si no se puede demostrar. No hay ruta que
+    genere coordenadas desde el SMILES ni que herede la pose de otra
+    conformación: ésas son las dos cosas que ENS-04 prohíbe expresamente.
+    """
+    from core.models import DockingPose
+    from services.docking.pose_recovery import (
+        PoseNoRecuperable,
+        recuperar_pose_agrupada,
+    )
+
+    guardadas = getattr(evaluation, "docking_poses", None) or []
+    candidata = next(
+        (p for p in guardadas if isinstance(p, dict) and p.get("rank") == pose_rank),
+        None,
+    )
+    # Sin procedencia no hay nada que recuperar, y el motivo no es el de la
+    # recuperación: es que esta corrida -de una sola conformación, o anterior al
+    # contrato de procedencia- no conserva su pose. Se dice eso y no otra cosa.
+    if candidata is None or not isinstance(candidata.get("source_provenance"), dict):
+        raise HTTPException(
+            422, "MM-GBSA no evaluado: la corrida no conserva su pose acoplada."
+        )
+    try:
+        recuperada = await recuperar_pose_agrupada(
+            DockingPose.model_validate(candidata)
+        )
+    except PoseNoRecuperable as exc:
+        log.warning(
+            "mmgbsa_pose_agrupada_no_recuperable",
+            task_id=getattr(evaluation, "task_id", None),
+            motivo=str(exc)[:200],
+        )
+        raise HTTPException(
+            422, f"MM-GBSA no evaluado: no se puede demostrar la pose. {exc}"
+        ) from exc
+    log.info(
+        "mmgbsa_pose_agrupada_verificada",
+        archivo=recuperada.poses_file_path,
+        rank_original=recuperada.rank_original,
+        conformer_index=recuperada.conformer_index,
+        atomos=recuperada.atomos_verificados,
+    )
+    return recuperada
+
+
 async def _mmgbsa_docked_pose(repository, evaluation, pose_rank):
     """Load exactly the selected SDF record belonging to this run."""
     import math
@@ -725,14 +773,42 @@ async def _mmgbsa_docked_pose(repository, evaluation, pose_rank):
         run = await repository.get_evaluation_run(evaluation.task_id, evaluation.molecule_id)
         if run and run.status == "SUCCESS" and isinstance(run.snapshot_json, dict):
             pose_path = run.snapshot_json.get("poses_file_path")
+    # ── Una piscina de ensemble no tiene UN archivo ───────────────────
+    #
+    # `poses_file_path` es None a propósito en un resultado agrupado: apuntar al
+    # SDF de la primera corrida presentaría coordenadas distintas de las poses
+    # entregadas. Hasta aquí eso dejaba la pose irrecuperable y el endpoint se
+    # abstenía, que era correcto pero definitivo.
+    #
+    # Ahora se recupera de SU corrida, y sólo si las seis puertas de
+    # `pose_recovery` demuestran que el registro es esa pose: hash del artefacto,
+    # hash de la conformación de entrada, rank dentro del archivo, mismos átomos
+    # pesados y correspondencia coordenada a coordenada con el bloque PDBQT que
+    # el dossier ya citó. Si alguna falla, se sigue absteniendo, con el motivo.
+    indice_en_contenido = pose_rank - 1
     if not pose_path:
-        raise HTTPException(422, "MM-GBSA no evaluado: la corrida no conserva su pose acoplada.")
+        # El registro recuperado es UN solo registro, así que su índice es 0: el
+        # rank de origen ya lo consumió la recuperación y volver a aplicarlo aquí
+        # devolvería otra pose. De qué archivo y rank salió queda en el log de
+        # `_pose_de_piscina`.
+        content = (await _pose_de_piscina(evaluation, pose_rank)).sdf_record
+        indice_en_contenido = 0
+    else:
+        try:
+            content = await read_text(pose_path)
+        except Exception as exc:
+            log.warning("mmgbsa_pose_read_failed", task_id=evaluation.task_id, error=str(exc))
+            raise HTTPException(
+                422, "MM-GBSA no evaluado: no se puede leer la pose de esta corrida."
+            ) from exc
     try:
-        content = await read_text(pose_path)
         supplier = Chem.SDMolSupplier()
         supplier.SetData(content)
         # Filtering invalid records would silently change the requested rank.
-        mol = supplier[pose_rank - 1] if 1 <= pose_rank <= len(supplier) else None
+        mol = (
+            supplier[indice_en_contenido]
+            if 0 <= indice_en_contenido < len(supplier) else None
+        )
     except Exception as exc:
         log.warning("mmgbsa_pose_read_failed", task_id=evaluation.task_id, error=str(exc))
         raise HTTPException(422, "MM-GBSA no evaluado: no se puede leer la pose de esta corrida.") from exc

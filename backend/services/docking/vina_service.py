@@ -27,6 +27,7 @@ import uuid
 from contextlib import asynccontextmanager
 from pathlib import Path
 
+from chem.conformer_ensemble import es_hash_derivado
 from core.config import get_settings
 from core.exceptions import DockingFailed, VinaExecutableNotFound
 from core.models import DockingPose, DockingResult
@@ -67,6 +68,64 @@ settings = get_settings()
 log = get_logger(__name__)
 
 
+async def _sha256_del_objeto(object_name: str) -> str | None:
+    """SHA-256 de un objeto del almacén, o None si no se puede leer.
+
+    Devuelve None en vez de lanzar porque la ausencia es un estado legítimo en
+    varias rutas -conformero todavía no escrito, caché heredada-. Lo que NO es
+    legítimo es sustituir el dato ausente por otro: quien recibe None tiene que
+    declararlo, no rellenarlo.
+    """
+    try:
+        return hashlib.sha256(await read_bytes(object_name)).hexdigest()
+    except Exception:                                              # noqa: BLE001
+        return None
+
+
+async def _huella_del_conformero(smiles_hash: str) -> str | None:
+    """Identidad de la geometría de entrada de ese hash, si está en disco."""
+    return await _sha256_del_objeto(StoragePath.ligand_conformer(smiles_hash))
+
+
+async def _pdbqt_declara_su_origen(
+    smiles_hash: str,
+    conformer_path: str,
+    conformer_sha256: str | None,
+) -> bool:
+    """¿Se puede demostrar que ese `.pdbqt` salió de ESTE conformero?
+
+    Exige las tres cosas: registro presente, geometría de origen idéntica y
+    bytes del PDBQT intactos. Un registro que no cubra el archivo actual no
+    certifica nada; uno que no cubra la geometría certifica la molécula
+    equivocada.
+    """
+    if conformer_sha256 is None:
+        return False
+    try:
+        registro = json.loads(
+            await read_text(
+                StoragePath.ligand_vina_input_provenance(smiles_hash)
+            )
+        )
+    except Exception:                                              # noqa: BLE001
+        return False
+    if not isinstance(registro, dict):
+        return False
+    if registro.get("conformer_object") != conformer_path:
+        return False
+    if registro.get("conformer_sha256") != conformer_sha256:
+        return False
+    # Un PDBQT preparado por otro protocolo no es el PDBQT de este protocolo,
+    # aunque viva en la misma ruta. `quantum_ad4_service` escribe ese mismo
+    # objeto con cargas GFN2-xTB en lugar de las de Meeko: hoy no tiene llamante
+    # vivo, y si lo recupera no debe heredar esta caché sin decirlo.
+    if registro.get("prepared_by") != "meeko.cli.mk_prepare_ligand":
+        return False
+    return registro.get("pdbqt_sha256") == await _sha256_del_objeto(
+        StoragePath.ligand_vina_input(smiles_hash)
+    )
+
+
 def _docking_cache_fingerprint(
     *,
     receptor_sha256: str,
@@ -78,14 +137,22 @@ def _docking_cache_fingerprint(
     exhaustiveness: int,
     num_poses: int,
     seed: int,
+    ligand_input_sha256: str | None = None,
 ) -> str:
     """Identifica el protocolo real, no sólo la pareja ligando/PDB.
 
     El caché histórico ignoraba cadena, caja, receptor preparado y parámetros
     de Vina. Dos hipótesis distintas podían por ello compartir un resultado.
+
+    `ligand_input_sha256` cierra el mismo hueco por el lado del ligando: la
+    clave del caché es el `smiles_hash`, y en el ensemble eso identifica la
+    conformación, no la geometría. Si la geometría de una conformación cambia,
+    el resultado anterior deja de describirla. Se declara None cuando el SDF no
+    está en disco al consultar; None es «no se pudo leer», no «da igual».
     """
 
     document = {
+        "ligand_input_sha256": ligand_input_sha256,
         "receptor_sha256": receptor_sha256,
         "target_chain": target_chain,
         "center": [round(float(value), 3) for value in center],
@@ -263,11 +330,26 @@ async def _prepare_ligand_pdbqt(
         )
 
     object_name = StoragePath.ligand_vina_input(smiles_hash)
-    if await exists(object_name):
-        return object_name
-
     conformer_path = StoragePath.ligand_conformer(smiles_hash)
-    if smiles:
+    derivado = es_hash_derivado(smiles_hash)
+
+    # ── La conformación pedida es la que manda ────────────────────────
+    #
+    # EL FALLO QUE ARREGLA (ENS-05, medido el 2026-09-17). Esta búsqueda por
+    # SMILES existe para un desajuste real: el llamante pide un hash y el
+    # conformero quedó escrito bajo otro, porque el hash se recalcula después de
+    # la protonación. Pero se aplicaba SIEMPRE, incluso cuando el hash pedido
+    # tenía su propio SDF, y el ensemble le pasa hashes derivados -`<hash>__c07`-
+    # cuyo canónico es la conformación 0 y existe siempre. Resultado medido con
+    # tres conformaciones de benceno: las tres corridas de Vina recibieron la
+    # geometría de la conformación 0, y cada pose de la piscina declaraba venir
+    # de una conformación distinta. El `conformer_index` era falso y el ensemble
+    # acoplaba K veces el mismo punto de partida.
+    #
+    # Ahora el rescate sólo actúa cuando el hash pedido NO tiene geometría, y
+    # nunca para un hash derivado: para una conformación del ensemble, el único
+    # SDF que la representa es el suyo.
+    if not await exists(conformer_path) and not derivado and smiles:
         try:
             from chem.validator import validate_smiles_or_raise
             v = validate_smiles_or_raise(smiles)
@@ -276,6 +358,22 @@ async def _prepare_ligand_pdbqt(
                 conformer_path = cand_path
         except Exception:
             pass
+
+    if derivado and not await exists(conformer_path):
+        # Regenerar desde el SMILES daría la conformación 0 otra vez -misma
+        # semilla, mismo ETKDG- escrita en la ruta de otra. Abstenerse es la
+        # única salida que no fabrica procedencia.
+        raise DockingFailed(
+            molecule_id=smiles_hash,
+            target_pdb_id=target_pdb_id or DESCONOCIDO,
+            detail=(
+                "PREPARACIÓN DEL LIGANDO, antes de ejecutar Vina: falta la "
+                f"geometría de la conformación del ensemble ({smiles_hash}). No "
+                "se sustituye por otra conformación ni se regenera desde el "
+                "SMILES: la pose resultante se atribuiría a un punto de partida "
+                "que no entró a Vina."
+            ),
+        )
 
     if not await exists(conformer_path):
         # Fallback: generate conformer on-the-fly if smiles is known or can be fetched
@@ -304,6 +402,32 @@ async def _prepare_ligand_pdbqt(
                         conformer_path = StoragePath.ligand_conformer(conf_res["smiles_hash"])
             except Exception as e:
                 log.warning("conformer_generation_fallback_failed", error=str(e))
+
+    # ── La caché del PDBQT vale si puede demostrar de dónde salió ─────
+    #
+    # Antes bastaba con que el archivo existiera. Eso deja el arreglo de arriba
+    # sin efecto en cualquier instalación donde ya haya un `vina_input.pdbqt`
+    # construido desde la conformación equivocada: es indistinguible de uno
+    # correcto, así que se habría devuelto igual. La única salida honesta es
+    # volver a prepararlo cuando su procedencia no se puede establecer.
+    huella_conformero = await _sha256_del_objeto(conformer_path)
+    if await exists(object_name):
+        if await _pdbqt_declara_su_origen(smiles_hash, conformer_path, huella_conformero):
+            return object_name
+        if huella_conformero is None:
+            # Sin geometría en disco no hay nada con lo que contrastar y tampoco
+            # nada mejor que ofrecer. Se reutiliza, y se dice que no se verificó.
+            log.warning(
+                "ligando_pdbqt_sin_procedencia_verificable",
+                smiles_hash=smiles_hash[:16],
+                conformer=conformer_path,
+            )
+            return object_name
+        log.info(
+            "ligando_pdbqt_se_reprepara_por_procedencia",
+            smiles_hash=smiles_hash[:16],
+            conformer=conformer_path,
+        )
 
     async with temp_file(conformer_path, suffix=".sdf") as local_sdf:
         Path(settings.vina_temp_dir).mkdir(parents=True, exist_ok=True)
@@ -376,6 +500,27 @@ async def _prepare_ligand_pdbqt(
                 )
 
             await write_file(output_pdbqt, object_name)
+            # El registro se escribe DESPUÉS del PDBQT: si el proceso muere
+            # entre ambos, la próxima corrida encuentra un PDBQT sin
+            # procedencia y lo vuelve a preparar. Al revés, un registro sin su
+            # archivo certificaría algo que no existe.
+            await write_text(
+                StoragePath.ligand_vina_input_provenance(smiles_hash),
+                json.dumps(
+                    {
+                        "conformer_object": conformer_path,
+                        "conformer_sha256": huella_conformero,
+                        # Los bytes guardados, no el texto releído con
+                        # `errors="replace"`: un byte no decodificable haría que
+                        # el registro no correspondiera al archivo.
+                        "pdbqt_sha256": hashlib.sha256(
+                            output_pdbqt.read_bytes()
+                        ).hexdigest(),
+                        "prepared_by": "meeko.cli.mk_prepare_ligand",
+                    },
+                    sort_keys=True,
+                ),
+            )
 
     return object_name
 
@@ -596,6 +741,9 @@ async def run_vina_docking(
     if docking_engine == "qvina2" and not _resolve_executable(settings.qvina2_executable_path):
         effective_engine_identity = "vina_fallback_from_qvina2"
     cache_fingerprint = _docking_cache_fingerprint(
+        # Se lee ANTES de preparar el ligando: es un archivo, no un subproceso,
+        # así que la huella no cuesta una corrida de Meeko en cada acierto.
+        ligand_input_sha256=await _huella_del_conformero(smiles_hash),
         receptor_sha256=receptor_sha256,
         target_chain=target_chain,
         center=effective_center,

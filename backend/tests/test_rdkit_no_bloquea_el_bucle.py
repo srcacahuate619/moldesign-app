@@ -169,3 +169,46 @@ async def test_calcular_propiedades_deja_respirar_al_bucle():
         "medidas. El endpoint /chem/properties tiene que envolverla en "
         "run_in_threadpool."
     )
+
+
+@pytest.mark.asyncio
+async def test_el_ensemble_conformacional_deja_respirar_al_bucle(monkeypatch, tmp_path):
+    """
+    El caso que la auditoría del ensemble dejó abierto (ENS-05), medido.
+
+    `generate_conformer_ensemble` delegaba en `generate_conformer` para la
+    conformación 0 —que sí cede— y embebía las K-1 restantes DENTRO de la
+    corrutina. El resultado: los únicos latidos de toda la etapa eran los de la
+    conformación 0, y el resto del ensemble dejaba el bucle muerto. Medido con
+    un dipéptido, tres corridas por celda:
+
+        K    duración    antes        después
+        8     ~452 ms    5 / 44-45    29-30 / 45
+       16     ~870 ms    4 / 85-86    56-58 / 86-88
+
+    El umbral es holgado a propósito: comprueba «vivo» frente a «muerto». Con
+    K=8, «antes» daba exactamente los mismos 5 latidos que K=1, que es la firma
+    del defecto —añadir siete conformaciones no añadía un solo punto de
+    suspensión—.
+    """
+    import utils.local_storage as ls
+    from chem.conformer_ensemble import generate_conformer_ensemble
+
+    monkeypatch.setattr(ls.settings, "local_data_dir", str(tmp_path / "data"))
+
+    smiles = "CC(C)C[C@H](NC(=O)[C@@H](N)Cc1ccccc1)C(O)=O"
+    # Fuera de la medición: la primera importación de RDKit y el arranque del
+    # pool de hilos, que ocurren una vez.
+    await generate_conformer_ensemble(smiles, 1)
+
+    resultado, latidos = await _latidos_durante(
+        generate_conformer_ensemble(smiles, 8)
+    )
+
+    assert resultado["conformers_generated"] > 1, "el ensemble dejó de generarse"
+    assert latidos >= 2 * LATIDOS_MINIMOS, (
+        f"El bucle latió {latidos} veces generando ocho conformaciones, cuando "
+        "antes del arreglo eran 5 —los mismos que con K=1— y con el pool de "
+        "hilos fueron 29-30 de 45 posibles. El embebido de RDKit volvió al hilo "
+        "del bucle: usa run_in_threadpool en cada conformación."
+    )

@@ -58,6 +58,13 @@ async def test_conversion_provenance_survives_pooling_and_json_roundtrip(mixed):
     assert reloaded.poses[0].source_provenance == {
         "rank": 1, "poses_file_path": "runs/1/poses.sdf",
         "parsing_source": "sdf_openbabel_cli", "conversor_estructural": converter,
+        # These conformers carry no input identity, so it is declared absent
+        # rather than filled with another run's data or a dict of Nones.
+        "ligand_input": None,
+        # The pose files of this double do not exist on disk, so their hash is
+        # declared absent too. Pose recovery then refuses instead of trusting
+        # the rank alone.
+        "poses_file_sha256": None,
     }
     assert reloaded.poses[1].source_provenance["rank"] == 1
     assert reloaded.poses[1].source_provenance["poses_file_path"] == "runs/0/poses.sdf"

@@ -51,9 +51,10 @@ No se audito exhaustivamente aqui el solapamiento con entrenamiento de XGB/GNN.
 |---|---|---|---|
 | ENS-01 | ALTO | El agrupador atribuia a todas las poses la procedencia de la primera corrida sin verificar receptor, version, semilla ni protocolo de las restantes. | Corregido: desacuerdos abortan con campo e indice identificados; no se silencian como fallo parcial. |
 | ENS-02 | ALTO | Se perdian engine_efectivo, exhaustiveness_efectiva y num_poses_solicitadas al agrupar. El dossier podia recuperar lo pedido y ocultar una diferencia con lo ejecutado. | Corregido: se preservan tras comprobar homogeneidad. |
-| ENS-03 | MEDIO | parsing_source queda con el valor de la ultima corrida y no se conserva conversor_estructural en el resultado agrupado. Puede ocultar conversiones mixtas. | Pendiente: procedencia por corrida/pose con contrato compatible, sin fingir una fuente unica. |
-| ENS-04 | MEDIO | El agrupado no tiene SDF colectivo: poses_file_path=None es deliberado para no apuntar a coordenadas de una sola corrida. | Limitacion: comprobar recuperacion exacta de la pose para MM-GBSA; nunca generar desde SMILES como sustituto. |
-| ENS-05 | ALTO, riesgo por verificar | Generacion RDKit adicional dentro de async, almacenamiento por hash/indice y dependencia de metadata sin identidad completa por corrida. | Pendiente prueba de bloqueo/concurrencia y trazabilidad de entradas; esta revision NO demuestra una colision en produccion. |
+| ENS-03 | MEDIO | parsing_source queda con el valor de la ultima corrida y no se conserva conversor_estructural en el resultado agrupado. Puede ocultar conversiones mixtas. | Corregido para nuevos ensembles: procedencia por pose, `mixed` declarado, historicos con None. Ver «Continuacion: identidad de registros y conversiones». |
+| ENS-04 | MEDIO | El agrupado no tiene SDF colectivo: poses_file_path=None es deliberado para no apuntar a coordenadas de una sola corrida. | Cerrado: recuperacion verificada con seis puertas, ninguna basada en el rank a secas. Ver «ENS-04 cerrado». |
+| ENS-05 | ALTO, **confirmado y corregido** | Generacion RDKit adicional dentro de async, almacenamiento por hash/indice y dependencia de metadata sin identidad completa por corrida. | Corregido: el riesgo era real y el mecanismo era PEOR que la hipotesis. Ver seccion «El ensemble acoplaba la misma geometria K veces». |
+| ENS-07 | ALTO, corregido | `source_provenance` no cruzaba la persistencia: `Repository.cast_pose` enumeraba campos a mano y no lo incluia. | Corregido: se persiste dentro del JSON existente; sin esto, ENS-03 y ENS-04 eran contratos que no existian fuera del proceso. |
 
 ENS-01 era reproducible inyectando dos DockingResult con receptores o protocolos
 distintos. La ruta normal intenta compartir parametros; la guardia protege el
@@ -170,3 +171,143 @@ Verificacion global de esta continuacion: 2434 passed, 10 skipped, 1 failed
 del ultimo ajuste de delimitadores; despues de ese ajuste se verificaron las
 129 pruebas focalizadas indicadas arriba. No se afirma una suite global nueva
 sobre ese ultimo ajuste. Detalle en HARDENING_1.0.1.md.
+
+
+## El ensemble acoplaba la misma geometria K veces (2026-09-17, tarde)
+
+ENS-05 estaba anotado como «ALTO, riesgo por verificar» con una hipotesis:
+concurrencia, colisiones de hash, metadata sin identidad. Se midio. El riesgo
+era real y el mecanismo era otro, peor y deterministico.
+
+`vina_service._prepare_ligand_pdbqt` recibia el hash derivado de cada
+conformacion (`<hash>__c07`) y, antes de buscar su `.sdf`, revalidaba el SMILES
+y sustituia la ruta por la del conformero del hash canonico si existia. En una
+corrida de ensemble ese archivo existe SIEMPRE: es la conformacion 0, que el
+generador escribe primero. Las K corridas de Vina recibian la misma geometria.
+
+Lo que esto significa, dicho con cuidado para no afirmar mas de lo medido: **las
+K corridas partian de la misma geometria**. La diversidad conformacional que el
+ensemble existe para aportar no estaba, y cada pose de la piscina declaraba una
+conformacion de origen distinta, asi que **`conformer_index` era falso**. La
+lectura que justifica el ensemble entero -distinguir «la misma solucion
+encontrada desde puntos de partida distintos» de «dos soluciones distintas»- era
+imposible, porque el punto de partida era uno solo. El usuario pagaba K corridas
+de Vina y recibia la cobertura geometrica de un unico punto de partida.
+
+Lo que NO se midio: si las K salidas eran identicas entre si. Con la misma
+entrada, semilla y caja cabria esperarlo, pero `vina_cpu` vale 0 por defecto
+-auto-deteccion de nucleos- y la busqueda paralela de Vina no garantiza
+reproducibilidad bit a bit. No se comprobo, y por tanto no se afirma.
+
+Reproducido con un ensemble real de tres conformaciones de benceno y Meeko
+instrumentado para anotar que archivo recibia:
+
+    SDF de cada conformacion    d18bd2789cc3  79e5e727d44e  14609fa750c7
+    SDF que recibio Meeko       d18bd2789cc3  d18bd2789cc3  d18bd2789cc3
+
+Solo ocurria cuando el hash post-protonacion coincide con el del validador -el
+caso de cualquier ligando neutro-, asi que colapsaba el ensemble en silencio
+para unas moleculas y no para otras. Las pruebas del agrupador estaban verdes:
+probaban la semantica de la piscina, no que las entradas fueran distintas.
+
+Alcance de la correccion, en tres piezas que no sirven por separado:
+
+1. La busqueda por SMILES solo actua si el hash pedido NO tiene geometria, y
+   nunca para un hash derivado. Para una conformacion del ensemble, el unico
+   SDF que la representa es el suyo; si falta, se aborta. Regenerar desde el
+   SMILES daria otra vez la conformacion 0 escrita en la ruta de otra.
+2. El `.pdbqt` preparado deja un registro con el objeto y el SHA-256 del
+   conformero de origen, el SHA-256 del propio PDBQT y quien lo preparo, y ese
+   registro se comprueba antes de reutilizar la cache. Sin esto la correccion no
+   habria llegado a ninguna instalacion donde ya exista un `vina_input.pdbqt`
+   construido desde la conformacion equivocada: es indistinguible de uno
+   correcto, asi que la cache lo habria devuelto igual.
+3. La huella del cache de docking incluye la identidad del SDF de entrada. El
+   cache vive en memoria con TTL, asi que no hay migracion; lo que evita es que
+   dos geometrias bajo el mismo hash compartan resultado dentro de un proceso.
+
+El registro comprueba tambien `prepared_by`. `quantum_ad4_service` escribe ese
+mismo objeto con cargas GFN2-xTB en lugar de las de Meeko; hoy no tiene llamante
+vivo, y si se recupera no debe heredar esta cache sin declararlo. Queda anotado
+como colision latente, no corregida: cambiar rutas de codigo sin llamante ni
+cobertura no entra en este alcance.
+
+### El bucle de eventos, medido
+
+La segunda mitad de ENS-05. `generate_conformer` delegaba en un hilo desde el
+2026-09-04; el ensemble embebia las K-1 conformaciones restantes DENTRO de la
+corrutina. Latidos de una tarea que despierta cada 10 ms, dipeptido, tres
+corridas por celda:
+
+    K    duracion    antes        despues
+    1      ~78 ms    5 / 7        5 / 7      <- ya estaba bien
+    8     ~452 ms    5 / 44-45    29-30 / 45
+   16     ~870 ms    4 / 85-86    56-58 / 86-88
+
+Los cuatro o cinco latidos de «antes» son los del conformero 0: anadir siete
+conformaciones no anadia un solo punto de suspension. Con K=64 son segundos de
+ventana congelada mientras la interfaz sondea el progreso. No recupera los 86
+posibles -ETKDG y MMFF sueltan el GIL parte del tiempo, no todo- y la duracion
+total no cambia. Lo que cambia es «bucle vivo» frente a «bucle muerto».
+
+### Trazabilidad de entradas
+
+Cada conformacion generada declara ahora el SHA-256 del molblock que se escribio,
+y la piscina lo conserva por pose en `source_provenance.ligand_input` junto con
+la semilla conformacional. Un indice es una etiqueta; el hash es comprobable. Es
+la diferencia que hizo invisible este defecto durante toda su vida.
+
+## ENS-07: la procedencia no cruzaba la persistencia
+
+Encontrado al intentar usar `source_provenance` desde un resultado guardado.
+`Repository.cast_pose` enumera a mano los campos de cada pose y
+`source_provenance` no estaba en la lista: el dato existia durante la corrida y
+se perdia al guardar. La API devolvia None, el snapshot congelado tambien, y
+recuperar la pose exacta de una piscina era imposible cinco minutos despues de
+calcularla.
+
+Es el mismo patron que ENS-02 -preservar un campo al agrupar y tirarlo en el
+salto siguiente- y solo se ve probando el salto completo: agrupar, guardar,
+volver a leer. La correccion es aditiva dentro del JSON existente, sin migracion.
+Las corridas anteriores siguen cargando con None y no se reconstruyen.
+
+Esto tambien matiza una frase de la seccion anterior de este documento: donde
+decia «el backend expone los nuevos datos para su futura presentacion», la
+verdad es que no los exponia. Queda corregido aqui en vez de reescrito arriba.
+
+## ENS-04 cerrado: recuperacion verificada, con seis puertas
+
+`services/docking/pose_recovery.py` recupera el registro SDF exacto de una pose
+agrupada, o se abstiene diciendo que falta. Las puertas son las que este
+documento exigia, mas la integridad de la entrada:
+
+    G1  procedencia completa       sin ruta, rank y hashes no se busca nada
+    G2  integridad del artefacto   el SDF de hoy es el SDF de la corrida
+    G3  integridad de la entrada   la conformacion acoplada es la declarada
+    G4  el registro existe         el rank cae dentro del archivo
+    G5  identidad quimica          mismos atomos pesados que la entrada
+    G6  correspondencia geometrica cada coordenada entregada esta en el registro
+
+G6 es la que cierra el asunto. El `pdbqt_block` de la pose son las coordenadas
+que Vina produjo y que el dossier ya cito; si cada una aparece en el registro
+recuperado, el registro ES esa pose, sin depender de que el rank estuviera bien
+ni de que nadie hubiera reordenado el archivo. La tolerancia es 0.002 A y es la
+precision de los formatos -tres decimales el PDBQT, cuatro el SDF-, no un margen
+de ajuste; una prueba fija que 0.05 A se rechaza.
+
+La identidad quimica se comprueba contra la conformacion de entrada, no contra
+un SMILES: reconstruir la molecula desde texto es precisamente la conversion que
+este documento prohibia. Del PDBQT se leen numeros de las columnas 31-54 y nada
+mas; el tipo AutoDock de las columnas 77-78 no se interpreta como elemento, por
+el defecto documentado en `pose_physical_validity.py`.
+
+Lo que NO cambia: MM-GBSA sigue EXPERIMENTAL_NOT_ENABLED y su guardia de
+integridad sigue rechazando sistemas incompletos. Lo que cambia es que una
+corrida de ensemble deja de ser irrecuperable por construccion: el endpoint
+recupera la pose cuando las seis puertas pasan y se abstiene con el motivo
+exacto cuando no. Las poses anteriores a este contrato no se pueden recuperar y
+lo dicen.
+
+Cada puerta se verifico desactivandola: con G6 anulada caen 4 pruebas, con G1
+caen 5, con G2 dos, y G3, G4 y G5 una cada una. Una puerta que nunca rechaza no
+es una puerta.

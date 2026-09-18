@@ -921,6 +921,17 @@ class Repository:
                     "rmsd_ub": float(p.rmsd_ub),
                     "pdbqt_block": getattr(p, "pdbqt_block", None),
                     "conformer_index": getattr(p, "conformer_index", None),
+                    # EL FALLO QUE ARREGLA (ENS-07). Esta lista enumera los
+                    # campos a mano, y `source_provenance` no estaba en ella: la
+                    # procedencia por pose que el agrupador del ensemble
+                    # construye -ruta y rank de SU corrida, parser, conversor e
+                    # identidad de la geometría de entrada- se perdía al
+                    # guardar. La API devolvía None, el snapshot congelado
+                    # también, y recuperar la pose exacta de una piscina era
+                    # imposible cinco minutos después de calcularla. Es el mismo
+                    # patrón que ENS-02: preservar un campo al agrupar y tirarlo
+                    # en el salto siguiente.
+                    "source_provenance": getattr(p, "source_provenance", None),
                 }
             result.docking_poses = [cast_pose(pose) for pose in docking.poses]
             # Only allow output SDF from docking as poses_file_path

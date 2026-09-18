@@ -71,6 +71,17 @@ class StoragePath:
         return f"ligands/{smiles_hash}/vina_input.pdbqt"
 
     @staticmethod
+    def ligand_vina_input_provenance(smiles_hash: str) -> str:
+        """De qué conformero salió ese `.pdbqt`, para poder reutilizarlo.
+
+        Sin este registro, un `vina_input.pdbqt` en caché es indistinguible de
+        uno construido desde OTRA conformación: es exactamente lo que ocurrió
+        con los hashes derivados del ensemble (ENS-05). Un archivo que no puede
+        demostrar de dónde salió se vuelve a preparar.
+        """
+        return f"ligands/{smiles_hash}/vina_input.source.json"
+
+    @staticmethod
     def docking_poses(smiles_hash: str, target_pdb_id: str) -> str:
         """Poses de docking retornadas por Vina (.sdf)."""
         return f"poses/{smiles_hash}/{target_pdb_id.upper()}/poses.sdf"

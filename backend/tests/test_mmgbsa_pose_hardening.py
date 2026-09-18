@@ -182,6 +182,127 @@ async def test_http_pose_does_not_shift_rank_past_invalid_record(tmp_path, monke
     assert exc.value.status_code == 422
 
 
+def _repositorio_de_piscina():
+    """El snapshot congelado de una corrida de ensemble tampoco cita un archivo.
+
+    No es un atajo del doble: `poses_file_path` es None en la columna, así que
+    es None en el snapshot. Es el camino que de verdad recorre el endpoint antes
+    de intentar la recuperacion por procedencia.
+    """
+    from types import SimpleNamespace
+    from unittest.mock import AsyncMock
+    return SimpleNamespace(get_evaluation_run=AsyncMock(return_value=SimpleNamespace(
+        status="SUCCESS", snapshot_json={"poses_file_path": None})))
+
+
+async def _piscina_en_disco(almacen, *, romper=None):
+    """Una evaluación de ensemble: sin archivo único, con procedencia por pose.
+
+    `romper` permite invalidar una puerta concreta para comprobar que el
+    endpoint se abstiene en vez de devolver la pose de otra corrida.
+    """
+    import hashlib
+    from types import SimpleNamespace
+
+    def sdf(z, nombre):
+        return (
+            f"{nombre}\n     RDKit          3D\n\n"
+            "  3  0  0  0  0  0  0  0  0  0999 V2000\n"
+            "    1.0000    2.0000    3.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n"
+            "    2.0000    2.0000    3.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n"
+            f"    3.0000    2.0000{z:10.4f} O   0  0  0  0  0  0  0  0  0  0  0  0\n"
+            "M  END\n$$$$\n"
+        )
+
+    archivo = "runs/docking/h__c02/7E2Y/f/poses.sdf"
+    conformero = "ligands/h__c02/conformer.sdf"
+    contenido = sdf(9.0, "descartada") + sdf(3.0, "entregada")
+    entrada = sdf(5.0, "conformero")
+    await almacen.write_text(archivo, contenido)
+    await almacen.write_text(conformero, entrada)
+    bloque = (
+        "ROOT\n"
+        "ATOM      1  C   UNL     1       1.000   2.000   3.000  0.00  0.00    +0.000 C \n"
+        "ATOM      2  C   UNL     1       2.000   2.000   3.000  0.00  0.00    +0.000 C \n"
+        "ATOM      3  O   UNL     1       3.000   2.000   3.000  0.00  0.00    +0.000 OA\n"
+        "ENDROOT\n"
+    )
+    procedencia = {
+        "rank": 1 if romper == "rank" else 2,
+        "poses_file_path": archivo,
+        "poses_file_sha256": (
+            "0" * 64 if romper == "hash"
+            else hashlib.sha256(contenido.encode("utf-8")).hexdigest()
+        ),
+        "parsing_source": "sdf",
+        "conversor_estructural": None,
+        "ligand_input": {
+            "conformer_path": conformero,
+            "conformer_sha256": hashlib.sha256(entrada.encode("utf-8")).hexdigest(),
+            "semilla_conformacional": 316,
+        },
+    }
+    if romper == "procedencia":
+        procedencia = None
+    return SimpleNamespace(
+        poses_file_path=None, task_id="corrida", molecule_id="molecula",
+        docking_poses=[{
+            "rank": 1, "affinity": -9.0, "rmsd_lb": 0.0, "rmsd_ub": 0.0,
+            "pdbqt_block": bloque, "conformer_index": 2,
+            "source_provenance": procedencia,
+        }],
+    )
+
+
+@pytest.mark.asyncio
+async def test_http_pose_de_piscina_se_recupera_verificada(tmp_path, monkeypatch):
+    """
+    Una corrida de ensemble deja de ser irrecuperable, sin dejar de ser honesta.
+
+    `poses_file_path` es None —la piscina mezcla K archivos— y la pose se
+    recupera del artefacto de SU corrida, en el rank original 2, después de
+    comprobar hashes, átomos pesados y cada coordenada del bloque entregado.
+    """
+    import utils.local_storage as ls
+    from api.routers import pro_features as api
+
+    monkeypatch.setattr(ls.settings, "local_data_dir", str(tmp_path / "data"))
+    evaluacion = await _piscina_en_disco(ls)
+
+    mol = await api._mmgbsa_docked_pose(_repositorio_de_piscina(), evaluacion, 1)
+
+    from rdkit import Chem
+    assert mol.GetProp("_Name") == "entregada", (
+        "se devolvió otro registro del archivo: la recuperación no está usando "
+        "el rank de origen ni comprobando la geometría"
+    )
+    assert tuple(mol.GetConformer().GetAtomPosition(2)) == (3.0, 2.0, 3.0)
+    assert Chem.MolToSmiles(mol)
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("romper,motivo", [
+    ("hash", "SHA-256"),
+    ("rank", "no aparece en el registro"),
+    ("procedencia", "no conserva su pose acoplada"),
+])
+async def test_http_pose_de_piscina_se_abstiene_con_el_motivo(tmp_path, monkeypatch,
+                                                              romper, motivo):
+    """Cualquier puerta que no pase devuelve 422 diciendo cuál, no una pose."""
+    from fastapi import HTTPException
+
+    import utils.local_storage as ls
+    from api.routers import pro_features as api
+
+    monkeypatch.setattr(ls.settings, "local_data_dir", str(tmp_path / "data"))
+    evaluacion = await _piscina_en_disco(ls, romper=romper)
+
+    with pytest.raises(HTTPException) as fallo:
+        await api._mmgbsa_docked_pose(_repositorio_de_piscina(), evaluacion, 1)
+    assert fallo.value.status_code == 422
+    assert motivo in fallo.value.detail
+
+
 @pytest.mark.asyncio
 async def test_http_missing_pose_abstains_without_generating_coordinates():
     from types import SimpleNamespace
