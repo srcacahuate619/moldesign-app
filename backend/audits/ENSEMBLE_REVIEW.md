@@ -311,3 +311,71 @@ lo dicen.
 Cada puerta se verifico desactivandola: con G6 anulada caen 4 pruebas, con G1
 caen 5, con G2 dos, y G3, G4 y G5 una cada una. Una puerta que nunca rechaza no
 es una puerta.
+
+## ENS-PROD-01: el dimensionado, cerrado; la cohorte, no
+
+`audits/ens_prod_01_potencia.py` calcula potencia exacta de McNemar sobre la
+estructura de discordancia sellada en MF-33-B-RET-R2, sin mirar ningun dato
+nuevo. Resultado para el contraste primario propuesto (TODOS, top-1: b=7, c=3,
+n=48), alfa=0.05 a dos colas:
+
+    potencia alcanzada con n=48        0.150
+    n para 80% de potencia              248
+    n para 90% de potencia              324
+
+**R2 no «no demostro» mejora en top-1: no podia demostrarla.** Con 15% de
+potencia el resultado mas probable era justamente el que salio. Es una lectura
+distinta del mismo artefacto sellado y no requiere volver a correr nada. Los
+contrastes que si alcanzaron significacion estaban bien dimensionados (top-5,
+0.908; oraculo, 0.999), asi que el problema no era el tamano de R2 en general
+sino para su primario.
+
+El precio de cada umbral de relevancia practica, con la discordancia observada:
+
+    diferencia asumida    n para 80%    n para 90%
+        5 pp                  684           902
+        8 pp                  269           353
+       10 pp                  175           224
+       15 pp                   75            95
+       20 pp                   40            47
+
+El umbral sigue siendo una decision de dominio y no se toma aqui; lo que se
+entrega es su coste en complejos. Dos advertencias van en el propio informe:
+dimensionar con el efecto observado en la corrida que motivo el ensayo sesga a
+la baja -estas cifras son cotas inferiores bajo un supuesto optimista-, y
+McNemar supone pares independientes mientras una cohorte con series congenericas
+tiene n efectivo menor que su n nominal.
+
+La aritmetica se comprobo contra una simulacion independiente: 0.1501 analitica
+frente a 0.1494 simulada con 20 000 repeticiones, y bajo la nula 0.0221 en
+ambas, por debajo de alfa como corresponde a una prueba exacta conservadora.
+
+Sigue abierto de ENS-PROD-01: la cohorte, el presupuesto y el umbral. El
+experimento no se ha ejecutado y su estado sigue siendo BORRADOR.
+
+### Verificacion de esta continuacion
+
+- Pruebas escritas ANTES del arreglo, reproduciendo cada defecto: 7 fallos para
+  ENS-05 (incluido el de punta a punta con tres conformaciones reales de benceno)
+  y 3 para ENS-07. Las dos que pasaban desde el principio -el camino de K=1 y el
+  rescate de hash que justificaba la busqueda por SMILES- fijan lo que NO debia
+  cambiar.
+- Focalizadas despues: 20 de recuperacion de pose, 10 de identidad de
+  conformacion, 3 de persistencia de procedencia, 19 de potencia, 21 de pose
+  MM-GBSA y 27 de paridad Amber.
+- Subconjunto amplio (ensemble, pose, docking, procedencia, conformer, mmgbsa,
+  sqlite, dossier): 531 passed, 2 skipped.
+- Suite completa con el Python embebido, sobre el codigo final: **2495 passed,
+  10 skipped, 1 failed**, 14 warnings, 336.21 s, de 2505 recolectadas. Unico
+  fallo: H15 preexistente, `test_peptido_abstencion_negativa.py::
+  test_la_interfaz_dice_lo_que_si_hace`, guardian de texto del frontend, fuera
+  de este alcance y sin tocar. Log: `hardening-ensemble-identidad-full.log`.
+- Cada puerta de la recuperacion se verifico desactivandola una a una; ninguna
+  quedo sin demostrar que rechaza.
+- Ruff F limpio en los modulos tocados y en las pruebas nuevas; compileall
+  focalizado y `git diff --check` correctos. Ruff no se instala en el runtime
+  distribuido; se uso el Python de desarrollo.
+- No se repitieron los benchmarks cientificos ni se toco un solo archivo de
+  `scripts/artifacts_science/`: el informe de potencia LEE el metrics.json
+  sellado y no lo modifica.
+

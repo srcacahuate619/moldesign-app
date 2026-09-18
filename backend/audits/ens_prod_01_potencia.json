@@ -1,0 +1,146 @@
+{
+  "experimento": "ENS-PROD-01",
+  "estado": "BORRADOR: dimensionado cerrado, cohorte y umbral abiertos",
+  "fuente": {
+    "artefacto": "scripts/artifacts_science/MF-33-B-RET-R2/metrics.json",
+    "experiment_id": "MF-33-B-RET-R2",
+    "no_es_ciego": "Al diagnosticar el fallo de R1 se vieron sus bloques cientificos. Este R2 NO es confirmacion ciega. La REGLA DE DECISION sigue siendo la sellada en MF-33-B-RET-PRE y MF-33-B-RET-R1-PRE, y no se ha movido.",
+    "config": {
+      "exhaustiveness": 8,
+      "num_modes": 9,
+      "seed": 42,
+      "box_A": 25.0,
+      "cpu": 1,
+      "threshold_A": 2.0
+    }
+  },
+  "alfa": 0.05,
+  "prueba": "McNemar exacta, dos colas, pares independientes",
+  "advertencias": [
+    "El efecto observado en la corrida que motiva el ensayo sesga el dimensionado a la baja: estos n son cotas inferiores bajo un supuesto optimista, no n suficientes.",
+    "McNemar supone pares independientes. Una cohorte con series congenericas o varias estructuras por diana tiene n efectivo menor; ninguna cifra de aqui lo corrige.",
+    "No fija el umbral de relevancia practica ni la cohorte. Esas dos decisiones siguen abiertas y se toman sin mirar el conjunto final."
+  ],
+  "estratos": {
+    "TODOS": {
+      "top1": {
+        "b_gana_ensemble": 7,
+        "c_gana_single": 3,
+        "n": 48,
+        "p_discordancia": 0.20833333333333334,
+        "psi_condicional": 0.7,
+        "delta_pp": 8.333333333333334,
+        "p_exacta_recalculada": 0.34375,
+        "potencia_alcanzada_en_r2": 0.15014293531996778,
+        "n_necesario": {
+          "0.80": 248,
+          "0.90": 324
+        }
+      },
+      "top5": {
+        "b_gana_ensemble": 9,
+        "c_gana_single": 0,
+        "n": 48,
+        "p_discordancia": 0.1875,
+        "psi_condicional": 1.0,
+        "delta_pp": 18.75,
+        "p_exacta_recalculada": 0.00390625,
+        "potencia_alcanzada_en_r2": 0.9081338472902559,
+        "n_necesario": {
+          "0.80": 41,
+          "0.90": 48
+        }
+      },
+      "oraculo": {
+        "b_gana_ensemble": 15,
+        "c_gana_single": 0,
+        "n": 48,
+        "p_discordancia": 0.3125,
+        "psi_condicional": 1.0,
+        "delta_pp": 31.25,
+        "p_exacta_recalculada": 6.103515625e-05,
+        "potencia_alcanzada_en_r2": 0.9993290400945896,
+        "n_necesario": {
+          "0.80": 24,
+          "0.90": 28
+        }
+      }
+    },
+    "COLOCACION": {
+      "top1": {
+        "b_gana_ensemble": 7,
+        "c_gana_single": 2,
+        "n": 33,
+        "p_discordancia": 0.2727272727272727,
+        "psi_condicional": 0.7777777777777778,
+        "delta_pp": 15.151515151515152,
+        "p_exacta_recalculada": 0.1796875,
+        "potencia_alcanzada_en_r2": 0.263578230260263,
+        "n_necesario": {
+          "0.80": 100,
+          "0.90": 128
+        }
+      },
+      "top5": {
+        "b_gana_ensemble": 9,
+        "c_gana_single": 0,
+        "n": 33,
+        "p_discordancia": 0.2727272727272727,
+        "psi_condicional": 1.0,
+        "delta_pp": 27.272727272727273,
+        "p_exacta_recalculada": 0.00390625,
+        "potencia_alcanzada_en_r2": 0.9196409758717466,
+        "n_necesario": {
+          "0.80": 28,
+          "0.90": 32
+        }
+      },
+      "oraculo": {
+        "b_gana_ensemble": 14,
+        "c_gana_single": 0,
+        "n": 33,
+        "p_discordancia": 0.42424242424242425,
+        "psi_condicional": 1.0,
+        "delta_pp": 42.42424242424242,
+        "p_exacta_recalculada": 0.0001220703125,
+        "potencia_alcanzada_en_r2": 0.99919060142042,
+        "n_necesario": {
+          "0.80": 18,
+          "0.90": 20
+        }
+      }
+    }
+  },
+  "curva_de_precio": [
+    {
+      "delta_pp": 5.0,
+      "psi_implicado": 0.62,
+      "n_080": 684,
+      "n_090": 902
+    },
+    {
+      "delta_pp": 8.0,
+      "psi_implicado": 0.692,
+      "n_080": 269,
+      "n_090": 353
+    },
+    {
+      "delta_pp": 10.0,
+      "psi_implicado": 0.74,
+      "n_080": 175,
+      "n_090": 224
+    },
+    {
+      "delta_pp": 15.0,
+      "psi_implicado": 0.86,
+      "n_080": 75,
+      "n_090": 95
+    },
+    {
+      "delta_pp": 20.0,
+      "psi_implicado": 0.98,
+      "n_080": 40,
+      "n_090": 47
+    }
+  ]
+}

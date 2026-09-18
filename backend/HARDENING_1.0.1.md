@@ -458,3 +458,122 @@ test_sqlite_roundtrip.py:194 documentado en ENSEMBLE_REVIEW.md. Compileall y
 git diff --check correctos. No se repitieron experimentos cientificos.
 
 Sin build ni cambios frontend. MM-GBSA experimental no activado; 1.0.1 abierta.
+
+
+## Continuacion: el ensemble acoplaba la misma geometria (2026-09-17, tarde)
+
+Cierre de las auditorias abiertas de `audits/ENSEMBLE_REVIEW.md` y de la puerta 1
+de `audits/MMGBSA_VALIDATION.md`. Sin build, sin frontend, sin activar MM-GBSA.
+
+### ENS-05 (ALTO): confirmado, y el mecanismo era otro
+
+Estaba anotado como «riesgo por verificar» con una hipotesis de concurrencia. Se
+midio y el defecto era deterministico: `_prepare_ligand_pdbqt` sustituia el
+conformero del hash derivado del ensemble (`<hash>__c07`) por el del hash
+canonico, que es la conformacion 0 y existe siempre. **Las K corridas de Vina
+partian de la misma geometria** y cada pose de la piscina declaraba una
+conformacion de origen distinta: `conformer_index` era falso.
+
+Reproducido en la suite con tres conformaciones reales de benceno y Meeko
+instrumentado: los tres SDF pedidos eran distintos y los tres recibidos eran el
+de la conformacion 0. Solo ocurria cuando el hash post-protonacion coincide con
+el del validador -cualquier ligando neutro-, asi que colapsaba en silencio para
+unas moleculas y no para otras.
+
+Tres piezas, ninguna suficiente por si sola:
+
+1. El rescate por SMILES solo actua si el hash pedido NO tiene geometria, y nunca
+   para un hash derivado; si falta, se aborta en vez de sustituir o regenerar.
+2. El `.pdbqt` preparado deja `vina_input.source.json` con el objeto y SHA-256
+   del conformero de origen, el SHA-256 del propio PDBQT y quien lo preparo, y se
+   comprueba antes de reutilizar la cache. Sin esto, las instalaciones que ya
+   tengan un PDBQT construido desde la conformacion equivocada seguirian usandolo:
+   es indistinguible de uno correcto.
+3. La huella del cache de docking incluye la identidad del SDF de entrada. El
+   cache es en memoria con TTL, asi que no hay migracion.
+
+El registro comprueba tambien `prepared_by`: `quantum_ad4_service` escribe ese
+mismo objeto con cargas GFN2-xTB y hoy no tiene llamante vivo. Colision latente
+anotada en la auditoria, no corregida.
+
+### ENS-05, segunda mitad: el bucle de eventos
+
+El embebido de las K-1 conformaciones corria dentro de la corrutina. Latidos cada
+10 ms, dipeptido, tres corridas por celda: K=8 paso de 5/44-45 a 29-30/45 y K=16
+de 4/85-86 a 56-58/86-88, con la duracion total sin cambios (~452 y ~870 ms). Los
+cuatro o cinco latidos de antes eran los del conformero 0: anadir conformaciones
+no anadia un solo punto de suspension.
+
+### ENS-07 (ALTO): la procedencia no cruzaba la persistencia
+
+`Repository.cast_pose` enumera los campos a mano y `source_provenance` no estaba
+en la lista. El contrato anadido para ENS-03 existia en memoria y se perdia al
+guardar: la API devolvia None, el snapshot congelado tambien, y la recuperacion
+de pose era imposible. Corregido de forma aditiva dentro del JSON existente, sin
+migracion. Historicos siguen con None.
+
+### ENS-04: cerrado con seis puertas
+
+`services/docking/pose_recovery.py` recupera el registro SDF exacto de una pose
+agrupada tras comprobar procedencia completa, hash del artefacto, hash de la
+conformacion de entrada, existencia del rank, identidad quimica contra la entrada
+y correspondencia coordenada a coordenada con el bloque PDBQT entregado. Se
+abstiene con el motivo cuando algo falla. Nunca convierte desde SMILES.
+
+Tolerancia 0.002 A, que es la precision de los formatos y no un margen de ajuste;
+una prueba fija que 0.05 A se rechaza. Los pseudo-atomos de pegado de macrociclo
+se descartan por su tipo AutoDock -la unica cosa que se lee de las columnas
+77-78- para no declarar irrecuperable toda pose macrociclica.
+
+El endpoint de MM-GBSA usa la recuperacion cuando no hay archivo unico de poses.
+Eso NO activa nada: el protocolo sigue `EXPERIMENTAL_NOT_ENABLED` y la guardia de
+integridad sigue rechazando sistemas incompletos.
+
+Cada puerta se verifico desactivandola: G6 anulada tumba 4 pruebas, G1 cinco, G2
+dos, y G3, G4 y G5 una cada una.
+
+### MM-GBSA puerta 1: el cloro, completamente atribuido
+
+Los 0.162782 kcal/mol del clorobenceno son exactamente la entrada LCPO `C_sp2_2`
+-radio 1.7 A incluido- que Amber usa como respaldo de carbono para CL. Con ella,
+energia y fuerzas concuerdan con sander en 1.3e-08 kcal/mol y 6.5e-05
+kcal/mol/A. Ninguna otra entrada de la tabla lo consigue; la atribucion se
+verifico por unicidad.
+
+**El bloqueo se mantiene.** Copiar el respaldo daria paridad perfecta y eso es
+razon para no hacerlo sin decision de dominio: seria elegir el parametro por el
+resultado. Una prueba nueva falla si el adaptador empieza a manipular la tabla
+LCPO. 23/24 sigue siendo 23/24.
+
+### ENS-PROD-01: dimensionado cerrado, cohorte abierta
+
+`audits/ens_prod_01_potencia.py` calcula potencia exacta de McNemar sobre la
+discordancia sellada de MF-33-B-RET-R2. Contraste primario (top-1, TODOS):
+potencia 0.150 con n=48, y hacen falta 248 complejos para 80% y 324 para 90%.
+**R2 no podia demostrar mejora en top-1**, con 15% de potencia. Los contrastes
+que si alcanzaron significacion estaban bien dimensionados (0.908 y 0.999).
+
+La aritmetica se comprobo contra simulacion independiente (0.1501 frente a
+0.1494; bajo la nula 0.0221 en ambas). El informe declara sus dos sesgos: cotas
+inferiores por dimensionar con el efecto observado, y dependencia entre complejos
+relacionados que McNemar no contempla. Cohorte, presupuesto y umbral siguen
+abiertos; el experimento no se ha ejecutado.
+
+### Verificacion
+
+- Pruebas nuevas y reproducciones: 7 fallos reproducidos antes del arreglo de
+  ENS-05 y 3 antes del de ENS-07, en pruebas escritas primero.
+- Focalizadas tras los cambios: 20 de recuperacion de pose, 10 de identidad de
+  conformacion, 3 de persistencia de procedencia, 19 de potencia, mas las suites
+  de ensemble, procedencia, MM-GBSA, paridad Amber, SQLite y dossier.
+- Subconjunto amplio (ensemble, pose, docking, procedencia, conformer, mmgbsa,
+  sqlite, dossier): 531 passed, 2 skipped.
+- Suite completa con el Python embebido, sobre el codigo final: **2495 passed,
+  10 skipped, 1 failed**, 14 warnings, 336.21 s, de 2505 recolectadas. Unico
+  fallo: H15 preexistente (texto de frontend), fuera de alcance y sin tocar.
+  Log: `hardening-ensemble-identidad-full.log`.
+- Ruff F limpio en los modulos tocados y en las pruebas nuevas; compileall
+  focalizado y `git diff --check` correctos.
+
+Sin build, sin cambios de frontend, sin activar MM-GBSA. La 1.0.1 sigue abierta.
+Los pesos, energias, formulas y parametros cientificos no se han tocado.
