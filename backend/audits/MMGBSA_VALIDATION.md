@@ -148,3 +148,101 @@ para conservar bytes exactos; las rutas del manifiesto usan `/` en ambos sistema
 Se verificaron los SHA-256 de los **30 artefactos directamente desde el índice de
 Git**, no sólo del working tree. Regresión posterior: 25 passed (referencias y
 bloqueo de cloro); log hardening-reference-git.log. No cambió ningún parámetro.
+
+
+## El desacuerdo del cloro, atribuido por completo (2026-09-17, tarde)
+
+La puerta 1 decía: «Resolver la referencia LCPO para halógenos». Faltaba un paso
+previo que sí se podía dar sin referencia nueva y sin AmberTools: averiguar **qué**
+exactamente produce los 0.162782 kcal/mol, para poder afirmar que detrás de ellos
+no hay un segundo error de implementación escondido.
+
+Amber avisa `Using carbon SA parms for atom type CL` y no dice cuáles. Se midió:
+sustituyendo sólo los cinco valores LCPO del cloro por cada entrada de carbono de
+la tabla, con la geometría y el prmtop de referencia, y comparando contra sander.
+
+| parámetros aplicados al Cl | residual (kcal/mol) | fuerza máx. (kcal/mol/Å) |
+|---|---:|---:|
+| **`C_sp2_2` completa (radio 1.7 Å)** | **1.3e-08** | **6.5e-05** |
+| `C_sp3_2` con radio 1.7 | 0.0131 | 0.0043 |
+| `C_sp2_2` con radio 1.8 | 0.0130 | 0.0010 |
+| `C_sp3_1` con radio 1.7 | 0.0906 | 0.0204 |
+| `C_sp3_3` con radio 1.7 | −0.1089 | 0.0191 |
+| Cl publicado (Weiser, radio 1.8) | 0.162782 | 0.045100 |
+| `C_sp2_3` con radio 1.7 | −0.1714 | 0.0303 |
+
+Hay una única coincidencia, y es exacta: la entrada `C_sp2_2` completa, radio
+incluido. Con ella el clorobenceno GBn2+LCPO concuerda con sander en 1.3e-08
+kcal/mol de energía y 6.5e-05 kcal/mol/Å de fuerza, **dentro de los criterios ya
+declarados, que no se han tocado**. El caso sin término no polar ya concordaba
+con residual 7.1e-09, así que la divergencia está confinada al término de
+superficie y no a la parametrización ni al GB.
+
+Conclusión, con su límite: el residual **está completamente atribuido** a una
+divergencia de parámetros conocida y ahora identificada numéricamente. No queda
+error sin explicar. Lo que sigue abierto es distinto y más pequeño: **cuál de los
+dos conjuntos es el correcto**, que es una decisión de dominio.
+
+Y por eso el bloqueo se mantiene. Adoptar el respaldo de carbono daría paridad
+perfecta, y eso es precisamente una razón para no hacerlo sin una decisión
+explícita: sería elegir el parámetro por el resultado de la comparación. Además,
+la evidencia disponible apunta a que el candidato es el que usa los valores
+publicados: OpenMM 8.5.2 lo documenta en su propio código —«Cl is the only
+element in the LCPO paper not implemented in Amber»— y los parámetros Cl de la
+tabla son los del artículo de Weiser, Shenkin y Still (1999). Es decir, la
+referencia sería aquí la que aproxima, no el candidato. Afirmar eso como cierto
+exige una referencia independiente para el área superficial de halógenos, que es
+lo que la puerta 1 sigue pidiendo.
+
+Dos pruebas nuevas lo sostienen, sin AmberTools y sin red:
+
+- `test_el_desacuerdo_del_cloro_esta_completamente_atribuido` reproduce la
+  atribución sobre el artefacto de referencia y comprueba que toda la diferencia
+  entre las dos lecturas ES el residual publicado.
+- `test_produccion_no_copia_el_respaldo_de_carbono_para_el_cloro` falla si el
+  adaptador empieza a manipular la tabla LCPO. Sin ella, alguien podría hacer
+  pasar la comparación sustituyendo el cloro y el bloqueo científico desaparecería
+  sin que nadie lo hubiera decidido.
+
+La atribución se verificó por unicidad: cambiar la entrada de carbono asumida a
+`C_sp3_1`, `C_sp3_2` o al propio Cl publicado hace caer la prueba. Ninguna otra
+combinación de la tabla reproduce a sander.
+
+**Lo que esto NO cierra.** La puerta 1 sigue abierta en su parte de dominio y en
+la ampliación a más halógenos y estados de carga; sólo hay un caso con cloro y
+ninguno con flúor, bromo o yodo. Las puertas 2 a 6 no se han tocado. El estado
+del protocolo sigue siendo `EXPERIMENTAL_NOT_ENABLED` y 23/24 sigue siendo 23/24:
+esta sección no convierte el caso fallido en aprobado, porque para eso habría que
+cambiar los parámetros de producción.
+
+## Un prerrequisito de la puerta 2, resuelto aparte
+
+La puerta 2 pide comprobar «estereoquímica, orden de enlace y correspondencia
+atómica en poses reales». Antes de eso hacía falta algo más básico que no estaba
+garantizado: **que la pose que llega al motor sea la pose acoplada**. Un resultado
+de ensemble no conserva un archivo único de poses, y el endpoint sólo podía
+abstenerse.
+
+`services/docking/pose_recovery.py` cierra esa mitad —ver ENS-04 en
+[la revisión del ensamble](ENSEMBLE_REVIEW.md)—: recupera el registro exacto tras
+comprobar el hash del artefacto, el hash de la conformación de entrada, la
+correspondencia de átomos pesados y cada coordenada del bloque PDBQT entregado,
+y se abstiene con el motivo cuando algo no cuadra. Nunca reconstruye desde SMILES.
+
+Eso es identidad de la entrada, no la puerta 2: sigue faltando comprobar
+estereoquímica, órdenes de enlace, permutaciones y estados de tautomería y
+protonación del sistema parametrizado. Y no activa nada: la guardia
+`validate_ligand_system` sigue rechazando sistemas incompletos antes de minimizar.
+
+## Verificación de esta continuación
+
+27 pruebas de paridad Amber, incluidas las dos nuevas del cloro, sin AmberTools y
+sin red. Suite completa con el Python embebido sobre el código final: **2495
+passed, 10 skipped, 1 failed**, 14 warnings, 336.21 s, de 2505 recolectadas; el
+fallo es el guardián preexistente de texto del frontend, fuera de alcance. Log:
+`hardening-ensemble-identidad-full.log`. Los seis avisos `Non-optimal GB
+parameters` se conservan.
+
+No se cambió ningún parámetro de producción, ningún criterio de tolerancia y
+ningún archivo de `amber_reference/`. Esto verifica software; no convierte
+23/24 en 24/24 ni las comparaciones numéricas en validación de energía libre.
