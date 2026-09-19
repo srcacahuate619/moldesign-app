@@ -245,7 +245,7 @@ docs/             programa experimental, gates de release, auditorías
 
 ```bash
 cd frontend
-npm run test:run      # 889 pruebas
+npm run test:run      # 1056 pruebas
 npm run tauri:build   # instalador completo
 ```
 
@@ -398,9 +398,15 @@ SBOM los lista ahora en `sin_licencia_declarada`. Ver
 
 ## Estado y honestidad
 
-- Backend: **2117** pruebas recolectadas. Frontend: **889**. `tsc` limpio.
+- Backend: **2518** pruebas recolectadas con el intérprete que se distribuye
+  (`python-embed`, 3.11.9). Con el intérprete de desarrollo (3.14) son 36 más:
+  la diferencia son `importorskip` cuya dependencia no viaja en el bundle, y por
+  eso el número que vale es el del runtime embebido. Frontend: **1056** en 117
+  archivos. `tsc` limpio.
   El conteo del backend lo mantiene `scripts/report_test_counts.py`, que
   escribe `docs/api/test-counts.json`: esa es la fuente, no este párrafo.
+  Este párrafo ya envejeció una vez —decía 2117 y 889— mientras el registro
+  estaba al día; si vuelven a discrepar, manda el registro.
 - Smoke de producción: **12/12**.
 - Arranque medido en entorno de producción: **~6 s**.
 - **Cero usuarios externos** todavía. El propio roadmap identifica esto como el

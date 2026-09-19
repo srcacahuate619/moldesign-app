@@ -104,6 +104,7 @@
         "tests/test_known_molecules.py": 92,
         "tests/test_la_advertencia_de_calibracion_no_se_pierde.py": 15,
         "tests/test_las_pruebas_no_tocan_los_datos_reales.py": 8,
+        "tests/test_lcpo_aproxima_la_sasa_exacta.py": 12,
         "tests/test_lector_pose_pdbqt.py": 18,
         "tests/test_llama_server.py": 5,
         "tests/test_lo_que_la_interfaz_promete.py": 14,
@@ -136,7 +137,7 @@
         "tests/test_pdf_extraible.py": 5,
         "tests/test_peptide_docking.py": 4,
         "tests/test_peptide_transfer.py": 5,
-        "tests/test_peptido_abstencion_negativa.py": 20,
+        "tests/test_peptido_abstencion_negativa.py": 21,
         "tests/test_persistencia_de_conversacion.py": 9,
         "tests/test_ph_de_protonacion.py": 23,
         "tests/test_ph_en_el_dossier.py": 6,
@@ -201,7 +202,7 @@
         "tests/test_windows_maquina_limpia.py": 6,
         "tests/test_workspace_lock.py": 2
       },
-      "total": 2505
+      "total": 2518
     }
   }
 }
