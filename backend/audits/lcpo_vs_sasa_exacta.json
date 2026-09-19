@@ -1,0 +1,811 @@
+{
+  "experimento": "MMGBSA-LCPO-SASA-01",
+  "pregunta": "¿Cuál de las dos parametrizaciones LCPO del cloro aproxima mejor la SASA numéricamente exacta?",
+  "generado_utc": "2026-09-19T16:27:35.349375+00:00",
+  "tension_superficial_kcal_mol_A2": 0.005,
+  "radio_sonda_A": 1.4,
+  "puntos_shrake_rupley": 200000,
+  "ligandos": {
+    "acetate": {
+      "n_atomos": 7,
+      "n_atomos_con_superficie": 4,
+      "sasa_exacta_total_A2": 188.1592,
+      "sasa_lcpo_total_A2": 185.8225,
+      "area_openmm_total_A2": 185.8225,
+      "desvio_contra_openmm_A2": 5.684e-14,
+      "convergencia": {
+        "2000": {
+          "total_malla_a_A2": 187.8792,
+          "total_malla_b_A2": 188.4303,
+          "diferencia_entre_mallas_A2": 0.5511
+        },
+        "10000": {
+          "total_malla_a_A2": 188.2227,
+          "total_malla_b_A2": 188.1798,
+          "diferencia_entre_mallas_A2": 0.0429
+        },
+        "50000": {
+          "total_malla_a_A2": 188.1499,
+          "total_malla_b_A2": 188.1279,
+          "diferencia_entre_mallas_A2": 0.022
+        },
+        "200000": {
+          "total_malla_a_A2": 188.1592,
+          "total_malla_b_A2": 188.1671,
+          "diferencia_entre_mallas_A2": 0.0078
+        }
+      },
+      "por_atomo": [
+        {
+          "indice": 0,
+          "elemento": "C",
+          "tipo_amber": "C3",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 67.1749,
+          "sasa_lcpo_A2": 65.3058,
+          "error_lcpo_A2": -1.8691,
+          "incertidumbre_malla_A2": 0.0133
+        },
+        {
+          "indice": 1,
+          "elemento": "C",
+          "tipo_amber": "C",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 7.5658,
+          "sasa_lcpo_A2": 6.133,
+          "error_lcpo_A2": -1.4328,
+          "incertidumbre_malla_A2": 0.0054
+        },
+        {
+          "indice": 2,
+          "elemento": "O",
+          "tipo_amber": "O",
+          "radio_sin_sonda_A": 1.6,
+          "sasa_exacta_A2": 55.6852,
+          "sasa_lcpo_A2": 56.9395,
+          "error_lcpo_A2": 1.2543,
+          "incertidumbre_malla_A2": 0.0006
+        },
+        {
+          "indice": 3,
+          "elemento": "O",
+          "tipo_amber": "O",
+          "radio_sin_sonda_A": 1.6,
+          "sasa_exacta_A2": 57.7334,
+          "sasa_lcpo_A2": 57.4442,
+          "error_lcpo_A2": -0.2891,
+          "incertidumbre_malla_A2": 0.0006
+        }
+      ]
+    },
+    "aspirin": {
+      "n_atomos": 21,
+      "n_atomos_con_superficie": 13,
+      "sasa_exacta_total_A2": 334.8134,
+      "sasa_lcpo_total_A2": 302.5286,
+      "area_openmm_total_A2": 302.5286,
+      "desvio_contra_openmm_A2": 0.0,
+      "convergencia": {
+        "2000": {
+          "total_malla_a_A2": 334.7454,
+          "total_malla_b_A2": 334.572,
+          "diferencia_entre_mallas_A2": 0.1735
+        },
+        "10000": {
+          "total_malla_a_A2": 334.7709,
+          "total_malla_b_A2": 334.8403,
+          "diferencia_entre_mallas_A2": 0.0694
+        },
+        "50000": {
+          "total_malla_a_A2": 334.7313,
+          "total_malla_b_A2": 334.7865,
+          "diferencia_entre_mallas_A2": 0.0552
+        },
+        "200000": {
+          "total_malla_a_A2": 334.8134,
+          "total_malla_b_A2": 334.7836,
+          "diferencia_entre_mallas_A2": 0.0299
+        }
+      },
+      "por_atomo": [
+        {
+          "indice": 0,
+          "elemento": "C",
+          "tipo_amber": "C3",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 61.5383,
+          "sasa_lcpo_A2": 54.0198,
+          "error_lcpo_A2": -7.5185,
+          "incertidumbre_malla_A2": 0.0048
+        },
+        {
+          "indice": 1,
+          "elemento": "C",
+          "tipo_amber": "C",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 2.8035,
+          "sasa_lcpo_A2": 3.6683,
+          "error_lcpo_A2": 0.8648,
+          "incertidumbre_malla_A2": 0.0072
+        },
+        {
+          "indice": 2,
+          "elemento": "O",
+          "tipo_amber": "O",
+          "radio_sin_sonda_A": 1.6,
+          "sasa_exacta_A2": 42.2255,
+          "sasa_lcpo_A2": 38.5984,
+          "error_lcpo_A2": -3.6271,
+          "incertidumbre_malla_A2": 0.0045
+        },
+        {
+          "indice": 3,
+          "elemento": "O",
+          "tipo_amber": "OS",
+          "radio_sin_sonda_A": 1.6,
+          "sasa_exacta_A2": 12.1229,
+          "sasa_lcpo_A2": 12.4788,
+          "error_lcpo_A2": 0.3559,
+          "incertidumbre_malla_A2": 0.0
+        },
+        {
+          "indice": 4,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 3.1121,
+          "sasa_lcpo_A2": 2.476,
+          "error_lcpo_A2": -0.6361,
+          "incertidumbre_malla_A2": 0.0018
+        },
+        {
+          "indice": 5,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 26.8884,
+          "sasa_lcpo_A2": 22.2904,
+          "error_lcpo_A2": -4.5981,
+          "incertidumbre_malla_A2": 0.0054
+        },
+        {
+          "indice": 6,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 34.706,
+          "sasa_lcpo_A2": 29.0899,
+          "error_lcpo_A2": -5.6161,
+          "incertidumbre_malla_A2": 0.0103
+        },
+        {
+          "indice": 7,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 35.7343,
+          "sasa_lcpo_A2": 28.8705,
+          "error_lcpo_A2": -6.8639,
+          "incertidumbre_malla_A2": 0.0066
+        },
+        {
+          "indice": 8,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 24.6996,
+          "sasa_lcpo_A2": 23.3775,
+          "error_lcpo_A2": -1.3221,
+          "incertidumbre_malla_A2": 0.0078
+        },
+        {
+          "indice": 9,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 3.5963,
+          "sasa_lcpo_A2": 2.5682,
+          "error_lcpo_A2": -1.0281,
+          "incertidumbre_malla_A2": 0.0066
+        },
+        {
+          "indice": 10,
+          "elemento": "C",
+          "tipo_amber": "C",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 6.0508,
+          "sasa_lcpo_A2": 3.2824,
+          "error_lcpo_A2": -2.7684,
+          "incertidumbre_malla_A2": 0.0006
+        },
+        {
+          "indice": 11,
+          "elemento": "O",
+          "tipo_amber": "O",
+          "radio_sin_sonda_A": 1.6,
+          "sasa_exacta_A2": 29.472,
+          "sasa_lcpo_A2": 34.7811,
+          "error_lcpo_A2": 5.3091,
+          "incertidumbre_malla_A2": 0.0051
+        },
+        {
+          "indice": 12,
+          "elemento": "O",
+          "tipo_amber": "OH",
+          "radio_sin_sonda_A": 1.6,
+          "sasa_exacta_A2": 51.8636,
+          "sasa_lcpo_A2": 47.0273,
+          "error_lcpo_A2": -4.8363,
+          "incertidumbre_malla_A2": 0.0051
+        }
+      ]
+    },
+    "benzene": {
+      "n_atomos": 12,
+      "n_atomos_con_superficie": 6,
+      "sasa_exacta_total_A2": 211.7395,
+      "sasa_lcpo_total_A2": 209.1737,
+      "area_openmm_total_A2": 209.1737,
+      "desvio_contra_openmm_A2": 5.684e-14,
+      "convergencia": {
+        "2000": {
+          "total_malla_a_A2": 211.7576,
+          "total_malla_b_A2": 211.3349,
+          "diferencia_entre_mallas_A2": 0.4227
+        },
+        "10000": {
+          "total_malla_a_A2": 211.6368,
+          "total_malla_b_A2": 211.6489,
+          "diferencia_entre_mallas_A2": 0.0121
+        },
+        "50000": {
+          "total_malla_a_A2": 211.8083,
+          "total_malla_b_A2": 211.7407,
+          "diferencia_entre_mallas_A2": 0.0676
+        },
+        "200000": {
+          "total_malla_a_A2": 211.7395,
+          "total_malla_b_A2": 211.7419,
+          "diferencia_entre_mallas_A2": 0.0024
+        }
+      },
+      "por_atomo": [
+        {
+          "indice": 0,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 35.7917,
+          "sasa_lcpo_A2": 34.9158,
+          "error_lcpo_A2": -0.8759,
+          "incertidumbre_malla_A2": 0.0024
+        },
+        {
+          "indice": 1,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 35.2048,
+          "sasa_lcpo_A2": 34.8663,
+          "error_lcpo_A2": -0.3385,
+          "incertidumbre_malla_A2": 0.0054
+        },
+        {
+          "indice": 2,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 35.6782,
+          "sasa_lcpo_A2": 34.9177,
+          "error_lcpo_A2": -0.7605,
+          "incertidumbre_malla_A2": 0.0024
+        },
+        {
+          "indice": 3,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 34.6891,
+          "sasa_lcpo_A2": 34.7738,
+          "error_lcpo_A2": 0.0846,
+          "incertidumbre_malla_A2": 0.0085
+        },
+        {
+          "indice": 4,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 35.5592,
+          "sasa_lcpo_A2": 34.8854,
+          "error_lcpo_A2": -0.6738,
+          "incertidumbre_malla_A2": 0.0054
+        },
+        {
+          "indice": 5,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 34.8165,
+          "sasa_lcpo_A2": 34.8147,
+          "error_lcpo_A2": -0.0019,
+          "incertidumbre_malla_A2": 0.0
+        }
+      ]
+    },
+    "chlorobenzene": {
+      "n_atomos": 12,
+      "n_atomos_con_superficie": 7,
+      "sasa_exacta_total_A2": 246.1057,
+      "sasa_lcpo_total_A2": 238.9336,
+      "area_openmm_total_A2": 238.9336,
+      "desvio_contra_openmm_A2": 5.684e-14,
+      "convergencia": {
+        "2000": {
+          "total_malla_a_A2": 245.661,
+          "total_malla_b_A2": 245.2631,
+          "diferencia_entre_mallas_A2": 0.3979
+        },
+        "10000": {
+          "total_malla_a_A2": 246.2926,
+          "total_malla_b_A2": 246.0865,
+          "diferencia_entre_mallas_A2": 0.2061
+        },
+        "50000": {
+          "total_malla_a_A2": 246.0581,
+          "total_malla_b_A2": 246.055,
+          "diferencia_entre_mallas_A2": 0.003
+        },
+        "200000": {
+          "total_malla_a_A2": 246.1057,
+          "total_malla_b_A2": 246.1102,
+          "diferencia_entre_mallas_A2": 0.0045
+        }
+      },
+      "por_atomo": [
+        {
+          "indice": 0,
+          "elemento": "Cl",
+          "tipo_amber": "CL",
+          "radio_sin_sonda_A": 1.8,
+          "sasa_exacta_A2": 75.7891,
+          "sasa_lcpo_A2": 73.5012,
+          "error_lcpo_A2": -2.2878,
+          "incertidumbre_malla_A2": 0.0045
+        },
+        {
+          "indice": 1,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 5.1717,
+          "sasa_lcpo_A2": 4.4913,
+          "error_lcpo_A2": -0.6803,
+          "incertidumbre_malla_A2": 0.0048
+        },
+        {
+          "indice": 2,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 30.105,
+          "sasa_lcpo_A2": 30.9785,
+          "error_lcpo_A2": 0.8735,
+          "incertidumbre_malla_A2": 0.0036
+        },
+        {
+          "indice": 3,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 35.302,
+          "sasa_lcpo_A2": 32.8335,
+          "error_lcpo_A2": -2.4685,
+          "incertidumbre_malla_A2": 0.0024
+        },
+        {
+          "indice": 4,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 35.8279,
+          "sasa_lcpo_A2": 33.5754,
+          "error_lcpo_A2": -2.2525,
+          "incertidumbre_malla_A2": 0.0036
+        },
+        {
+          "indice": 5,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 34.3323,
+          "sasa_lcpo_A2": 32.6105,
+          "error_lcpo_A2": -1.7217,
+          "incertidumbre_malla_A2": 0.0012
+        },
+        {
+          "indice": 6,
+          "elemento": "C",
+          "tipo_amber": "CA",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 29.5778,
+          "sasa_lcpo_A2": 30.9431,
+          "error_lcpo_A2": 1.3652,
+          "incertidumbre_malla_A2": 0.0012
+        }
+      ]
+    },
+    "dimethylphosphate": {
+      "n_atomos": 13,
+      "n_atomos_con_superficie": 7,
+      "sasa_exacta_total_A2": 257.945,
+      "sasa_lcpo_total_A2": 261.495,
+      "area_openmm_total_A2": 261.495,
+      "desvio_contra_openmm_A2": 0.0,
+      "convergencia": {
+        "2000": {
+          "total_malla_a_A2": 257.6078,
+          "total_malla_b_A2": 257.6435,
+          "diferencia_entre_mallas_A2": 0.0356
+        },
+        "10000": {
+          "total_malla_a_A2": 257.7603,
+          "total_malla_b_A2": 258.1205,
+          "diferencia_entre_mallas_A2": 0.3602
+        },
+        "50000": {
+          "total_malla_a_A2": 257.9813,
+          "total_malla_b_A2": 257.9522,
+          "diferencia_entre_mallas_A2": 0.0292
+        },
+        "200000": {
+          "total_malla_a_A2": 257.945,
+          "total_malla_b_A2": 257.9311,
+          "diferencia_entre_mallas_A2": 0.0139
+        }
+      },
+      "por_atomo": [
+        {
+          "indice": 0,
+          "elemento": "C",
+          "tipo_amber": "C3",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 57.4384,
+          "sasa_lcpo_A2": 55.0249,
+          "error_lcpo_A2": -2.4136,
+          "incertidumbre_malla_A2": 0.0006
+        },
+        {
+          "indice": 1,
+          "elemento": "O",
+          "tipo_amber": "OS",
+          "radio_sin_sonda_A": 1.6,
+          "sasa_exacta_A2": 26.4065,
+          "sasa_lcpo_A2": 27.1638,
+          "error_lcpo_A2": 0.7573,
+          "incertidumbre_malla_A2": 0.004
+        },
+        {
+          "indice": 2,
+          "elemento": "P",
+          "tipo_amber": "P5",
+          "radio_sin_sonda_A": 1.9,
+          "sasa_exacta_A2": 1.025,
+          "sasa_lcpo_A2": 3.3446,
+          "error_lcpo_A2": 2.3196,
+          "incertidumbre_malla_A2": 0.0021
+        },
+        {
+          "indice": 3,
+          "elemento": "O",
+          "tipo_amber": "O",
+          "radio_sin_sonda_A": 1.6,
+          "sasa_exacta_A2": 49.3913,
+          "sasa_lcpo_A2": 47.0169,
+          "error_lcpo_A2": -2.3744,
+          "incertidumbre_malla_A2": 0.0079
+        },
+        {
+          "indice": 4,
+          "elemento": "O",
+          "tipo_amber": "O",
+          "radio_sin_sonda_A": 1.6,
+          "sasa_exacta_A2": 38.9535,
+          "sasa_lcpo_A2": 45.6926,
+          "error_lcpo_A2": 6.7391,
+          "incertidumbre_malla_A2": 0.0006
+        },
+        {
+          "indice": 5,
+          "elemento": "O",
+          "tipo_amber": "OS",
+          "radio_sin_sonda_A": 1.6,
+          "sasa_exacta_A2": 23.7058,
+          "sasa_lcpo_A2": 27.4025,
+          "error_lcpo_A2": 3.6967,
+          "incertidumbre_malla_A2": 0.0028
+        },
+        {
+          "indice": 6,
+          "elemento": "C",
+          "tipo_amber": "C3",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 61.0245,
+          "sasa_lcpo_A2": 55.8497,
+          "error_lcpo_A2": -5.1747,
+          "incertidumbre_malla_A2": 0.0012
+        }
+      ]
+    },
+    "ethanol": {
+      "n_atomos": 9,
+      "n_atomos_con_superficie": 3,
+      "sasa_exacta_total_A2": 170.4427,
+      "sasa_lcpo_total_A2": 192.376,
+      "area_openmm_total_A2": 192.376,
+      "desvio_contra_openmm_A2": 0.0,
+      "convergencia": {
+        "2000": {
+          "total_malla_a_A2": 170.4367,
+          "total_malla_b_A2": 170.6408,
+          "diferencia_entre_mallas_A2": 0.2041
+        },
+        "10000": {
+          "total_malla_a_A2": 170.4369,
+          "total_malla_b_A2": 170.3842,
+          "diferencia_entre_mallas_A2": 0.0527
+        },
+        "50000": {
+          "total_malla_a_A2": 170.4629,
+          "total_malla_b_A2": 170.4143,
+          "diferencia_entre_mallas_A2": 0.0486
+        },
+        "200000": {
+          "total_malla_a_A2": 170.4427,
+          "total_malla_b_A2": 170.4397,
+          "diferencia_entre_mallas_A2": 0.003
+        }
+      },
+      "por_atomo": [
+        {
+          "indice": 0,
+          "elemento": "C",
+          "tipo_amber": "C3",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 68.6929,
+          "sasa_lcpo_A2": 72.6804,
+          "error_lcpo_A2": 3.9875,
+          "incertidumbre_malla_A2": 0.0012
+        },
+        {
+          "indice": 1,
+          "elemento": "C",
+          "tipo_amber": "C3",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 42.9408,
+          "sasa_lcpo_A2": 51.6938,
+          "error_lcpo_A2": 8.753,
+          "incertidumbre_malla_A2": 0.0042
+        },
+        {
+          "indice": 2,
+          "elemento": "O",
+          "tipo_amber": "OH",
+          "radio_sin_sonda_A": 1.6,
+          "sasa_exacta_A2": 58.8089,
+          "sasa_lcpo_A2": 68.0017,
+          "error_lcpo_A2": 9.1928,
+          "incertidumbre_malla_A2": 0.0
+        }
+      ]
+    },
+    "imidazole": {
+      "n_atomos": 9,
+      "n_atomos_con_superficie": 5,
+      "sasa_exacta_total_A2": 191.4683,
+      "sasa_lcpo_total_A2": 174.3358,
+      "area_openmm_total_A2": 174.3358,
+      "desvio_contra_openmm_A2": 5.684e-14,
+      "convergencia": {
+        "2000": {
+          "total_malla_a_A2": 190.6465,
+          "total_malla_b_A2": 191.8464,
+          "diferencia_entre_mallas_A2": 1.1999
+        },
+        "10000": {
+          "total_malla_a_A2": 191.3863,
+          "total_malla_b_A2": 191.6185,
+          "diferencia_entre_mallas_A2": 0.2322
+        },
+        "50000": {
+          "total_malla_a_A2": 191.4549,
+          "total_malla_b_A2": 191.4648,
+          "diferencia_entre_mallas_A2": 0.0099
+        },
+        "200000": {
+          "total_malla_a_A2": 191.4683,
+          "total_malla_b_A2": 191.4782,
+          "diferencia_entre_mallas_A2": 0.0099
+        }
+      },
+      "por_atomo": [
+        {
+          "indice": 0,
+          "elemento": "C",
+          "tipo_amber": "CC",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 41.892,
+          "sasa_lcpo_A2": 38.5163,
+          "error_lcpo_A2": -3.3757,
+          "incertidumbre_malla_A2": 0.0006
+        },
+        {
+          "indice": 1,
+          "elemento": "N",
+          "tipo_amber": "ND",
+          "radio_sin_sonda_A": 1.65,
+          "sasa_exacta_A2": 34.5266,
+          "sasa_lcpo_A2": 29.5379,
+          "error_lcpo_A2": -4.9887,
+          "incertidumbre_malla_A2": 0.0123
+        },
+        {
+          "indice": 2,
+          "elemento": "C",
+          "tipo_amber": "CD",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 40.2883,
+          "sasa_lcpo_A2": 38.3777,
+          "error_lcpo_A2": -1.9106,
+          "incertidumbre_malla_A2": 0.0097
+        },
+        {
+          "indice": 3,
+          "elemento": "C",
+          "tipo_amber": "CC",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 40.3879,
+          "sasa_lcpo_A2": 38.3737,
+          "error_lcpo_A2": -2.0142,
+          "incertidumbre_malla_A2": 0.0103
+        },
+        {
+          "indice": 4,
+          "elemento": "N",
+          "tipo_amber": "NA",
+          "radio_sin_sonda_A": 1.65,
+          "sasa_exacta_A2": 34.3735,
+          "sasa_lcpo_A2": 29.5301,
+          "error_lcpo_A2": -4.8434,
+          "incertidumbre_malla_A2": 0.0012
+        }
+      ]
+    },
+    "methylammonium": {
+      "n_atomos": 8,
+      "n_atomos_con_superficie": 2,
+      "sasa_exacta_total_A2": 146.6324,
+      "sasa_lcpo_total_A2": 157.226,
+      "area_openmm_total_A2": 157.226,
+      "desvio_contra_openmm_A2": 0.0,
+      "convergencia": {
+        "2000": {
+          "total_malla_a_A2": 146.7009,
+          "total_malla_b_A2": 146.5782,
+          "diferencia_entre_mallas_A2": 0.1227
+        },
+        "10000": {
+          "total_malla_a_A2": 146.6054,
+          "total_malla_b_A2": 146.6409,
+          "diferencia_entre_mallas_A2": 0.0355
+        },
+        "50000": {
+          "total_malla_a_A2": 146.6269,
+          "total_malla_b_A2": 146.6675,
+          "diferencia_entre_mallas_A2": 0.0406
+        },
+        "200000": {
+          "total_malla_a_A2": 146.6324,
+          "total_malla_b_A2": 146.6335,
+          "diferencia_entre_mallas_A2": 0.0011
+        }
+      },
+      "por_atomo": [
+        {
+          "indice": 0,
+          "elemento": "C",
+          "tipo_amber": "C3",
+          "radio_sin_sonda_A": 1.7,
+          "sasa_exacta_A2": 76.464,
+          "sasa_lcpo_A2": 81.6267,
+          "error_lcpo_A2": 5.1627,
+          "incertidumbre_malla_A2": 0.0018
+        },
+        {
+          "indice": 1,
+          "elemento": "N",
+          "tipo_amber": "NZ",
+          "radio_sin_sonda_A": 1.65,
+          "sasa_exacta_A2": 70.1684,
+          "sasa_lcpo_A2": 75.5993,
+          "error_lcpo_A2": 5.4308,
+          "incertidumbre_malla_A2": 0.0029
+        }
+      ]
+    }
+  },
+  "calibracion_del_error_de_fondo": {
+    "n_atomos": 46,
+    "descripcion": "|LCPO − SASA exacta| por átomo en los tipos que Amber y OpenMM asignan de acuerdo. Es la regla con la que se lee el cloro.",
+    "mediana_A2": 2.286,
+    "media_A2": 2.9439,
+    "p90_A2": 6.1776,
+    "maximo_A2": 9.1928
+  },
+  "cloro": {
+    "Cl_publicado_Weiser_1999": {
+      "radio_sin_sonda_A": 1.8,
+      "coeficientes_P1_P4": [
+        0.98318,
+        -0.40437,
+        0.00011249,
+        0.00049901
+      ],
+      "sasa_exacta_del_cloro_A2": 75.7891,
+      "sasa_lcpo_del_cloro_A2": 73.5012,
+      "error_del_cloro_A2": -2.2878,
+      "error_absoluto_del_cloro_A2": 2.2878,
+      "incertidumbre_malla_A2": 0.0045,
+      "energia_del_cloro_kcal_mol": 0.367506,
+      "error_en_energia_kcal_mol": -0.011439,
+      "sasa_exacta_total_A2": 246.1057,
+      "sasa_lcpo_total_A2": 238.9336,
+      "error_total_A2": -7.1722,
+      "error_total_en_energia_kcal_mol": -0.035861
+    },
+    "respaldo_de_carbono_Amber_C_sp2_2": {
+      "radio_sin_sonda_A": 1.7,
+      "coeficientes_P1_P4": [
+        0.51245,
+        -0.15966,
+        -0.00019781,
+        0.00016392
+      ],
+      "sasa_exacta_del_cloro_A2": 69.22,
+      "sasa_lcpo_del_cloro_A2": 40.0975,
+      "error_del_cloro_A2": -29.1226,
+      "error_absoluto_del_cloro_A2": 29.1226,
+      "incertidumbre_malla_A2": 0.0054,
+      "energia_del_cloro_kcal_mol": 0.200487,
+      "error_en_energia_kcal_mol": -0.145613,
+      "sasa_exacta_total_A2": 242.3861,
+      "sasa_lcpo_total_A2": 206.3771,
+      "error_total_A2": -36.009,
+      "error_total_en_energia_kcal_mol": -0.180045
+    },
+    "diagnostico_carbono_terminal_C_sp3_1": {
+      "radio_sin_sonda_A": 1.7,
+      "coeficientes_P1_P4": [
+        0.77887,
+        -0.28063,
+        -0.0012968,
+        0.00039328
+      ],
+      "sasa_exacta_del_cloro_A2": 69.22,
+      "sasa_lcpo_del_cloro_A2": 58.2154,
+      "error_del_cloro_A2": -11.0047,
+      "error_absoluto_del_cloro_A2": 11.0047,
+      "incertidumbre_malla_A2": 0.0054,
+      "energia_del_cloro_kcal_mol": 0.291077,
+      "error_en_energia_kcal_mol": -0.055023,
+      "sasa_exacta_total_A2": 242.3861,
+      "sasa_lcpo_total_A2": 224.4951,
+      "error_total_A2": -17.891,
+      "error_total_en_energia_kcal_mol": -0.089455
+    }
+  },
+  "lectura": {
+    "aproxima_mejor": "Cl_publicado_Weiser_1999",
+    "ventaja_A2": 26.8348,
+    "no_demuestra": "Que MM-GBSA sea válido, ni que estos radios predigan afinidades. Un cloro en una geometría: F, Br e I siguen sin medir. La SASA numérica es la referencia geométrica, no una referencia experimental."
+  }
+}

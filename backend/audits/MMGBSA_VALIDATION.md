@@ -246,3 +246,112 @@ parameters` se conservan.
 No se cambió ningún parámetro de producción, ningún criterio de tolerancia y
 ningún archivo de `amber_reference/`. Esto verifica software; no convierte
 23/24 en 24/24 ni las comparaciones numéricas en validación de energía libre.
+
+## El cloro, adjudicado contra la geometría (2026-09-19)
+
+La puerta 1 pedía «resolver la referencia LCPO para halógenos». La entrada
+anterior dejó el residual **completamente atribuido** —es la entrada `C_sp2_2`
+que Amber usa como respaldo de carbono— y una pregunta abierta que se declaró
+como decisión de dominio: **cuál de los dos conjuntos es el correcto**. La única
+evidencia entonces era un comentario en el fuente de OpenMM.
+
+Esa pregunta sí tiene forma medible, y no hacía falta AmberTools, ni red, ni una
+referencia experimental nueva. LCPO **es una aproximación analítica de la SASA**:
+ése es todo su trabajo. Así que:
+
+> ¿Cuál de las dos parametrizaciones aproxima mejor la SASA numéricamente
+> exacta del mismo átomo, en la misma geometría, con su propio radio?
+
+No se compara contra Amber ni contra OpenMM. Se compara contra la geometría.
+
+### Antes de usar la regla, se calibra
+
+Una diferencia en Å² no dice nada sin saber cuánto se equivoca LCPO cuando **sí**
+está bien parametrizado. Sobre los 46 átomos con superficie de los
+ocho ligandos de referencia cuyo tipo Amber y OpenMM asignan de acuerdo,
+|LCPO − SASA exacta| por átomo vale:
+
+| mediana | media | p90 | máximo |
+|---:|---:|---:|---:|
+| 2.286 Å² | 2.9439 Å² | 6.1776 Å² | 9.1928 Å² |
+
+Ése es el error normal de LCPO. El cloro se lee contra él, no contra cero.
+
+### La medida
+
+| parámetros aplicados al Cl | radio | SASA exacta | LCPO | error | en energía |
+|---|---:|---:|---:|---:|---:|
+| **Cl publicado (Weiser 1999)** | 1.8 Å | 75.7891 Å² | 73.5012 Å² | **-2.2878 Å²** | -0.011439 kcal/mol |
+| Respaldo de carbono de Amber (`C_sp2_2`) | 1.7 Å | 69.22 Å² | 40.0975 Å² | **-29.1226 Å²** | -0.145613 kcal/mol |
+| *Diagnóstico*: carbono terminal (`C_sp3_1`) | 1.7 Å | 69.22 Å² | 58.2154 Å² | -11.0047 Å² | -0.055023 kcal/mol |
+
+El cloro publicado se equivoca en 2.2878 Å²: la mediana
+del error de fondo es 2.286 Å². El respaldo de carbono se equivoca en
+29.1226 Å², que es **3.2 veces el peor error de fondo**
+observado y 13 veces la mediana.
+
+La tercera fila no la propone nadie: separa dos causas que de otro modo se
+confundirían. `C_sp2_2` está fijado para un carbono sp2 con **dos** vecinos
+pesados, y este cloro tiene **uno**. Con la única entrada de carbono terminal de
+la tabla —mismo radio 1.7 Å— el error baja de 29.1226 a
+11.0047 Å²: la mayor parte del fallo del respaldo es la
+**clase de conectividad**, no el radio. Pero ni siquiera el mejor carbono llega
+al error normal: 11.0047 Å² sigue por encima del máximo
+de fondo (9.1928 Å²).
+
+### El ancla
+
+La diferencia entre las dos parametrizaciones es
+32.5565 Å² de superficie
+LCPO. Multiplicada por la tensión superficial de Amber (0.005 kcal/mol/Å²) da
+**0.162782 kcal/mol**: exactamente el residual que `report.json` declara para el
+clorobenceno con GBn2+LCPO. No es un experimento paralelo, es el mismo hecho
+medido por otra vía.
+
+### Lo que sostiene la medida
+
+Dos guardianes, porque un detector tiene que demostrar que ve:
+
+1. **La implementación propia de LCPO reproduce la de producción.** La suma de
+   las áreas por átomo, multiplicada por la tensión superficial, reproduce la
+   energía de `LCPOForce` construida por `add_gaff_lcpo_force` en los ocho
+   ligandos, con desvío ≤ 5.7e-14 Å². Un desglose por átomo que no suma el total
+   sería un desglose inventado.
+2. **La SASA numérica declara su convergencia.** Shrake-Rupley con dos mallas
+   independientes y cuatro densidades. Sobre el clorobenceno, a 200.000 puntos
+   por átomo las dos mallas concuerdan en 0.0045 Å²
+   para la molécula entera (a 2.000 puntos, 0.3979 Å²).
+   El efecto que se mide son ~27 Å²: cuatro órdenes de magnitud por encima del
+   ruido de discretización.
+
+Código: [`lcpo_vs_sasa_exacta.py`](lcpo_vs_sasa_exacta.py); datos:
+[`lcpo_vs_sasa_exacta.json`](lcpo_vs_sasa_exacta.json); pruebas:
+`backend/tests/test_lcpo_aproxima_la_sasa_exacta.py` (12, con el runtime
+embebido y sin red).
+
+### Qué cambia y qué no
+
+**Cambia** el estado epistémico de la puerta 1. Antes: «la evidencia disponible
+apunta a que el candidato usa los valores publicados, pero afirmarlo exige una
+referencia independiente». Ahora hay una referencia independiente —la geometría—
+y dice que **el candidato es el que aproxima bien la superficie y la referencia
+de Amber es la que aproxima mal**. En este caso concreto, la implementación de
+referencia es la aproximación, no el patrón.
+
+**No cambia** el estado del protocolo. Sigue `EXPERIMENTAL_NOT_ENABLED` y el
+guardián `test_produccion_no_copia_el_respaldo_de_carbono_para_el_cloro` sigue
+impidiendo que la paridad con Amber se consiga copiando el respaldo. Adoptar el
+respaldo daría 24/24 y sería elegir el parámetro por el resultado de la
+comparación.
+
+**No demuestra**, y conviene decirlo entero:
+
+- Un cloro, en una geometría. **F, Br e I siguen sin medir**, y la ampliación a
+  ~50 ligandos con halógenos, azufre, estados de carga y tautómeros sigue
+  pendiente: el cuello es curar el conjunto y generar los prmtop, que pide
+  AmberTools, no calcular.
+- La SASA numérica es una referencia **geométrica**, no experimental. Que LCPO
+  reproduzca el área no dice que el área sea el término no polar correcto, ni
+  que estos radios predigan afinidades.
+- Las comparaciones siguen siendo de energía potencial entre dos
+  implementaciones. Nada de esto es ΔG experimental.
