@@ -40,6 +40,8 @@ cualquier reaparición de esa aritmética.
 from __future__ import annotations
 
 import json
+import re
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -202,26 +204,82 @@ def test_el_dossier_detecta_la_abstencion_por_los_hechos():
 
 
 # ── El producto no puede afirmar lo que no hace ──────────────────────────
+#
+# Estos dos guardianes leían el `.tsx` con `in`. Funcionó hasta que la interfaz
+# se tradujo: las frases dejaron de vivir en el componente y pasaron al
+# diccionario, detrás de `t("auto_14578be07d4d")`. El de abajo se puso rojo —que
+# es el fallo bueno— y el de arriba se quedó VERDE mirando un archivo donde ya
+# no puede haber ninguna afirmación, que es el fallo malo: un guardián que
+# recorre 167 archivos y anuncia «limpio» sobre un export sucio.
+#
+# Desde aquí los dos siguen la indirección: resuelven cada clave que el
+# componente usa, en TODOS los idiomas, y miran el texto que el usuario lee.
+
+_CLAVE_EN_USO = re.compile(r"""\bt\(\s*["']([A-Za-z_][A-Za-z0-9_.]*)["']""")
+_ENTRADA_TRADUCIDA = re.compile(
+    r"""^\s*(?:["']?)([A-Za-z_][A-Za-z0-9_.]*)(?:["']?)\s*:\s*["'](.*)["'],?\s*$"""
+)
+
+TRADUCCIONES = RAIZ / "frontend" / "context" / "traducciones"
+
+
+def _diccionario() -> dict[str, list[str]]:
+    """clave → todos los textos con los que se muestra, en todos los idiomas.
+
+    No se distingue el idioma a propósito: la exigencia es que NINGUNA variante
+    afirme de más. Si mañana entra un tercer idioma, entra también aquí sin
+    tocar nada.
+    """
+    resuelto: dict[str, list[str]] = {}
+    for archivo in sorted(TRADUCCIONES.glob("*.ts")):
+        for linea in archivo.read_text(encoding="utf-8").splitlines():
+            encontrado = _ENTRADA_TRADUCIDA.match(linea)
+            if encontrado:
+                clave, texto = encontrado.groups()
+                resuelto.setdefault(clave, []).append(texto)
+    return resuelto
+
+
+def _texto_que_ve_el_usuario(ruta: Path) -> str:
+    """Lo que el componente escribe literalmente MÁS lo que resuelven sus claves.
+
+    Fuera los comentarios: explican el cambio citando la frase vieja, y contarla
+    haría fallar al guardián por la razón contraria a la que existe.
+    """
+    fuente = ruta.read_text(encoding="utf-8")
+    visible = "\n".join(
+        l for l in fuente.splitlines() if not l.strip().startswith(("//", "#"))
+    )
+    if ruta.suffix not in (".tsx", ".ts"):
+        return visible
+    catalogo = _diccionario()
+    traducido = [
+        texto
+        for clave in _CLAVE_EN_USO.findall(visible)
+        for texto in catalogo.get(clave, [])
+    ]
+    return "\n".join([visible, *traducido])
+
+
+#: Las frases que el ADR 76 §8 prohíbe mientras no exista el golden positivo.
+AFIRMACIONES_PROHIBIDAS = (
+    "y acopla con Vina",
+    "acopla el resultado con AutoDock Vina",
+    "docking peptídico completado",
+)
+
+VISTAS_DEL_MOTOR = (
+    RAIZ / "frontend" / "components" / "interfaces" / "pro" / "DockingEnginePanel.tsx",
+    RAIZ / "frontend" / "components" / "interfaces" / "pro" / "ProOptionsModal.tsx",
+    RAIZ / "backend" / "services" / "motores" / "catalogo.py",
+)
+
 
 def test_la_interfaz_no_afirma_que_esmfold_completa_el_acoplamiento():
     """Condición de release del ADR 76 §8, mientras no haya golden positivo."""
-    vistas = (
-        RAIZ / "frontend" / "components" / "interfaces" / "pro" / "DockingEnginePanel.tsx",
-        RAIZ / "frontend" / "components" / "interfaces" / "pro" / "ProOptionsModal.tsx",
-        RAIZ / "backend" / "services" / "motores" / "catalogo.py",
-    )
-    for ruta in vistas:
-        texto = ruta.read_text(encoding="utf-8")
-        # Fuera comentarios: explican el cambio citando la frase vieja.
-        visible = "\n".join(
-            l for l in texto.splitlines()
-            if not l.strip().startswith(("//", "#"))
-        )
-        for afirmacion in (
-            "y acopla con Vina",
-            "acopla el resultado con AutoDock Vina",
-            "docking peptídico completado",
-        ):
+    for ruta in VISTAS_DEL_MOTOR:
+        visible = _texto_que_ve_el_usuario(ruta)
+        for afirmacion in AFIRMACIONES_PROHIBIDAS:
             assert afirmacion not in visible, (
                 f"{ruta.name} afirma «{afirmacion}». Mientras no exista el "
                 "golden positivo, la formulación correcta es que ESMFold está "
@@ -231,12 +289,79 @@ def test_la_interfaz_no_afirma_que_esmfold_completa_el_acoplamiento():
 
 
 def test_la_interfaz_dice_lo_que_si_hace():
-    """No basta con quitar la afirmación: hay que decir el estado real."""
+    """No basta con quitar la afirmación: hay que decir el estado real.
+
+    El texto vive hoy en `t("auto_14578be07d4d")` y se muestra en español e
+    inglés. Se exige en LOS DOS: una traducción que pierda la salvedad diría al
+    usuario inglés que el acoplamiento se evaluó.
+    """
     ruta = RAIZ / "frontend" / "components" / "interfaces" / "pro" / "DockingEnginePanel.tsx"
-    texto = ruta.read_text(encoding="utf-8")
-    assert "no soportada" in texto and "plegamiento" in texto, (
-        "se quitó la afirmación pero no se puso el estado real en su lugar"
+    fuente = ruta.read_text(encoding="utf-8")
+    catalogo = _diccionario()
+
+    claves = [c for c in _CLAVE_EN_USO.findall(fuente) if c in catalogo]
+    textos = [t for c in claves for t in catalogo[c]] + [fuente]
+
+    def dice_que_pliega(texto: str) -> bool:
+        return "plegamiento" in texto or "folding" in texto.lower()
+
+    def dice_que_no_acopla(texto: str) -> bool:
+        return "no soportada" in texto or "not yet supported" in texto.lower()
+
+    honestos = [t for t in textos if dice_que_pliega(t) and dice_que_no_acopla(t)]
+    assert len(honestos) >= 2, (
+        "se quitó la afirmación pero no se puso el estado real en su lugar, o "
+        "sólo se puso en un idioma: el panel tiene que decir que ESMFold pliega "
+        f"y que la conversión no está soportada. Encontrados: {len(honestos)}"
     )
+
+
+def test_el_guardian_de_la_interfaz_demuestra_que_ve():
+    """Un detector tiene que probar que detecta, y que no detecta de más.
+
+    El guardián anterior recorría un `.tsx` donde, tras la traducción, ya no
+    podía haber ninguna afirmación: habría anunciado «limpio» para siempre. Esta
+    prueba fija las dos mitades sobre muestras construidas.
+    """
+    catalogo = _diccionario()
+
+    # 1. Ve a través de la indirección: la clave del panel resuelve, y en más
+    #    de un idioma. Si el diccionario dejara de cargarse, esto cae.
+    assert len(catalogo.get("auto_14578be07d4d", [])) >= 2, (
+        "el diccionario dejó de resolver la clave del panel de motores: el "
+        "guardián estaría mirando un componente vacío de texto"
+    )
+
+    # 2. Detecta lo que tiene que detectar, aunque llegue por traducción.
+    with tempfile.TemporaryDirectory() as tmp:
+        señuelo = Path(tmp) / "Señuelo.tsx"
+        clave = next(
+            c for c, textos in catalogo.items()
+            if any(AFIRMACIONES_PROHIBIDAS[0] in t for t in textos)
+        ) if any(
+            AFIRMACIONES_PROHIBIDAS[0] in t
+            for textos in catalogo.values() for t in textos
+        ) else None
+        # No hay (ni debe haber) una clave prohibida en el catálogo real, así
+        # que la muestra positiva se construye con el texto literal.
+        assert clave is None, (
+            "el diccionario de traducciones contiene una afirmación prohibida"
+        )
+        señuelo.write_text(
+            'export const X = () => <p>ESMFold pliega y acopla con Vina</p>;',
+            encoding="utf-8",
+        )
+        visible = _texto_que_ve_el_usuario(señuelo)
+        assert AFIRMACIONES_PROHIBIDAS[0] in visible
+
+        # 3. Y NO detecta de más: un comentario que cita la frase vieja para
+        #    explicar por qué se quitó no puede volver a encender la alarma.
+        señuelo.write_text(
+            '// antes decía «y acopla con Vina»; se quitó por el ADR 76 §8\n'
+            'export const X = () => <p>ESMFold pliega</p>;',
+            encoding="utf-8",
+        )
+        assert AFIRMACIONES_PROHIBIDAS[0] not in _texto_que_ve_el_usuario(señuelo)
 
 
 # ── Ninguna pose puede salir sin declarar de dónde vino ──────────────────
