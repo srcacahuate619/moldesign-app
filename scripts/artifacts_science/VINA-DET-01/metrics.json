@@ -1,0 +1,109 @@
+{
+  "experimento": "VINA-DET-01",
+  "pregunta": "¿Produce Vina la misma salida con la misma entrada y semilla?",
+  "fin_utc": "2026-09-19T17:21:31.802438+00:00",
+  "entorno": {
+    "vina_binario": "D:\\moldesign-build\\tools\\vina\\vina.exe",
+    "vina_sha256": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5",
+    "vina_version": "AutoDock Vina v1.2.7",
+    "receptor_sha256": "eceefe6d18ff716ad30d30a6bb3b267133c2ccf9b10b92d8c0f196e79cc0665f",
+    "receptor_origen": "scripts/artifacts_science/REC-07/_work/5TUN_receptor.pdbqt",
+    "ligando_sha256": "e82cbe4e3b62dcdf81fd8c5a51541c9f3e2761f97628aadd130b64272b7805d1",
+    "ligando_origen": "scripts/artifacts_science/REC-07/_work/E6C.pdbqt",
+    "plataforma": "Windows-11-10.0.26200-SP0",
+    "procesador": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "nucleos_logicos": 12,
+    "semilla": 42,
+    "num_modes": 9,
+    "centro": [
+      11.104,
+      135.221,
+      21.288
+    ],
+    "tamano": [
+      19.0,
+      25.3,
+      25.9
+    ],
+    "inicio_utc": "2026-09-19T16:22:33.223890+00:00"
+  },
+  "celdas": {
+    "exh8_cpu0": {
+      "corridas": 10,
+      "corridas_validas": 10,
+      "hashes_distintos": 1,
+      "identico_byte_a_byte": true,
+      "vectores_de_afinidad_distintos": 1,
+      "afinidad_top1_min": -5.682,
+      "afinidad_top1_max": -5.682,
+      "rango_top1_kcal": 0.0,
+      "wall_s_mediana": 11.25,
+      "wall_s_total": 116.3
+    },
+    "exh8_cpu1": {
+      "corridas": 10,
+      "corridas_validas": 10,
+      "hashes_distintos": 1,
+      "identico_byte_a_byte": true,
+      "vectores_de_afinidad_distintos": 1,
+      "afinidad_top1_min": -5.682,
+      "afinidad_top1_max": -5.682,
+      "rango_top1_kcal": 0.0,
+      "wall_s_mediana": 57.3,
+      "wall_s_total": 586.7
+    },
+    "exh8_cpu12": {
+      "corridas": 10,
+      "corridas_validas": 10,
+      "hashes_distintos": 1,
+      "identico_byte_a_byte": true,
+      "vectores_de_afinidad_distintos": 1,
+      "afinidad_top1_min": -5.682,
+      "afinidad_top1_max": -5.682,
+      "rango_top1_kcal": 0.0,
+      "wall_s_mediana": 11.23,
+      "wall_s_total": 112.3
+    },
+    "exh32_cpu0": {
+      "corridas": 10,
+      "corridas_validas": 10,
+      "hashes_distintos": 1,
+      "identico_byte_a_byte": true,
+      "vectores_de_afinidad_distintos": 1,
+      "afinidad_top1_min": -5.682,
+      "afinidad_top1_max": -5.682,
+      "rango_top1_kcal": 0.0,
+      "wall_s_mediana": 33.54,
+      "wall_s_total": 335.2
+    },
+    "exh32_cpu1": {
+      "corridas": 10,
+      "corridas_validas": 10,
+      "hashes_distintos": 1,
+      "identico_byte_a_byte": true,
+      "vectores_de_afinidad_distintos": 1,
+      "afinidad_top1_min": -5.682,
+      "afinidad_top1_max": -5.682,
+      "rango_top1_kcal": 0.0,
+      "wall_s_mediana": 200.05,
+      "wall_s_total": 2031.4
+    },
+    "exh32_cpu12": {
+      "corridas": 10,
+      "corridas_validas": 10,
+      "hashes_distintos": 1,
+      "identico_byte_a_byte": true,
+      "vectores_de_afinidad_distintos": 1,
+      "afinidad_top1_min": -5.682,
+      "afinidad_top1_max": -5.682,
+      "rango_top1_kcal": 0.0,
+      "wall_s_mediana": 33.66,
+      "wall_s_total": 356.6
+    }
+  },
+  "lectura": {
+    "celda_del_producto": "exh32_cpu0",
+    "celda_de_la_evidencia_sellada": "exh8_cpu1",
+    "no_demuestra": "Que las poses sean correctas, ni que una condición sea mejor. Un ligando sobre un receptor: lo medido no se generaliza solo."
+  }
+}
