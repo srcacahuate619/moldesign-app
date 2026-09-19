@@ -775,6 +775,14 @@ async def run_vina_docking(
             return DockingResult(**cached)
 
     # Use a unique subdirectory for each job to avoid race conditions in parallel runs
+    #
+    # El directorio padre se crea aquí y no sólo en el arranque de la API
+    # (`_bootstrap_runtime_resources`). `preparer.py` y `quantum_ad4_service.py`
+    # ya lo hacían; este sitio era el único que daba por hecho que alguien lo
+    # había creado antes. Si %TEMP%\vina desaparece —un limpiador de temporales,
+    # un arnés que no levanta la API— el acoplamiento moría con un
+    # FileNotFoundError de `mkdtemp` en vez de con un error del dominio.
+    Path(settings.vina_temp_dir).mkdir(parents=True, exist_ok=True)
     job_temp_dir = Path(tempfile.mkdtemp(prefix=f"vina-{smiles_hash[:8]}-{target_pdb_id}-", dir=settings.vina_temp_dir))
 
     try:
