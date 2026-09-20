@@ -1,0 +1,55 @@
+{
+  "experimento": "ENS-PILOT-01",
+  "interprete": "python.exe 3.11.9",
+  "es_el_runtime_distribuido": true,
+  "vina": "D:\\moldesign-build\\tools\\vina\\vina.exe",
+  "vina_sha256": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5",
+  "vina_cpu": 0,
+  "receptor_sha256": "eceefe6d18ff716ad30d30a6bb3b267133c2ccf9b10b92d8c0f196e79cc0665f",
+  "receptor_origen": "scripts/artifacts_science/REC-07/_work/5TUN_receptor.pdbqt",
+  "k": 30,
+  "num_poses": 9,
+  "semilla": 42,
+  "exhaustividad": 32,
+  "centro": [
+    11.104,
+    135.221,
+    21.288
+  ],
+  "tamano": [
+    19.0,
+    25.3,
+    25.9
+  ],
+  "plataforma": "Windows-10-10.0.26200-SP0",
+  "inicio_utc": "2026-09-20T07:12:31.776881+00:00",
+  "ligandos_quemados": [
+    "aspirina",
+    "ibuprofeno",
+    "naproxeno",
+    "cafeina",
+    "paracetamol",
+    "warfarina",
+    "celecoxib",
+    "indometacina",
+    "muscona",
+    "exaltolida"
+  ],
+  "advertencia": "No es un redocking: los ligandos no son los nativos de 5TUN. Ninguna afinidad de aquí es interpretable.",
+  "fin_utc": "2026-09-20T08:01:28.828906+00:00",
+  "ligandos": 2,
+  "ligandos_sin_error": 2,
+  "todos_los_sha_de_entrada_distintos": true,
+  "poses_con_sha_que_coincide": 18,
+  "poses_entregadas": 18,
+  "poses_recuperadas": 18,
+  "conformaciones_representadas_mediana": 8,
+  "rmsd_intra_piscina_mediana_por_ligando": {
+    "muscona": 4.397,
+    "exaltolida": 2.037
+  },
+  "lectura": {
+    "demuestra": "Que cada conformación entra a Vina con SU geometría y que la pose entregada puede demostrar de cuál vino.",
+    "no_demuestra": "Ninguna ventaja del ensemble. Eso es ENS-PROD-01, con prerregistro, cohorte y 248 complejos."
+  }
+}
