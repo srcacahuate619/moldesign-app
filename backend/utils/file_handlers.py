@@ -372,9 +372,11 @@ def parse_vina_output_sdf(sdf_content: str) -> list[dict]:
     el PDBQT de AutoDock Vina.
 
     Meeko 0.5+ escribe los metadatos de cada pose dentro de una propiedad
-    JSON bajo la clave ``> <meeko>``::
+    JSON bajo la clave ``meeko``. Ésta es la cabecera REAL, copiada de una
+    salida de `mk_export` y no de la especificación —la diferencia importa y
+    se explica más abajo, en el `re.match` que la reconoce::
 
-        > <meeko>
+        >  <meeko>  (1)
         {"free_energy": -8.5, "intermolecular_energy": -9.1, ...}
 
         $$$$
@@ -388,8 +390,9 @@ def parse_vina_output_sdf(sdf_content: str) -> list[dict]:
 
     Nota: Meeko NO exporta RMSD lower/upper bound al SDF, pues esos
     valores solo existen en las líneas ``REMARK VINA RESULT:`` del PDBQT.
-    Si no se encuentran en el SDF, se dejan en 0.0 y se espera que el
-    pipeline los obtenga del parser PDBQT.
+    Aquí se dejan en 0.0; es `vina_service` quien los fusiona desde el PDBQT
+    emparejando por posición. Un 0.0 entregado al usuario no sería un dato
+    ausente: afirmaría que esa pose es idéntica a la pose 1.
 
     Retorna lista de dicts con rank, affinity, rmsd_lb, rmsd_ub.
     El orden en el SDF corresponde al rank (pose 1 = mejor afinidad).
@@ -424,10 +427,25 @@ def parse_vina_output_sdf(sdf_content: str) -> list[dict]:
             continue
 
 
-        # SDF writers vary between ``> <field>`` and ``>  <field>``.
-        # Normalize the whitespace around the field name so Open Babel's
-        # ``>  <REMARK>`` property is treated exactly like Meeko's fields.
-        field_match = re.match(r"^>\s+<([^>]+)>\s*$", stripped)
+        # SDF writers vary between ``> <field>`` and ``>  <field>``, y algunos
+        # añaden el índice del registro DESPUÉS del nombre.
+        #
+        # EL FALLO QUE ARREGLA. Este `re.match` terminaba en ``>\s*$``, es decir
+        # exigía que la línea acabara justo tras el ángulo de cierre. Meeko
+        # escribe ``>  <meeko>  (1) ``, así que NINGUNA de sus propiedades casaba
+        # y esta función devolvía `[]` para todo SDF de Meeko. Open Babel escribe
+        # ``>  <REMARK>`` sin sufijo y sí casaba: el ancla se ajustó al respaldo
+        # mientras el camino principal llevaba roto desde siempre, y el docstring
+        # ilustraba una cabecera escrita a mano que ningún programa emite.
+        #
+        # Medido el 2026-09-19 sobre ENS-PILOT-01: 172 acoplamientos, 171 al
+        # respaldo de Open Babel, CERO por Meeko. La regresión está en
+        # `test_lector_de_sdf_de_meeko.py`, que parsea archivos REALES de
+        # `mk_export` y no cabeceras inventadas.
+        #
+        # Lo que se exige es el nombre entre ángulos al principio de la línea.
+        # Lo que venga después es decisión del escritor, no parte del contrato.
+        field_match = re.match(r"^>\s+<([^>]+)>", stripped)
         field_name = field_match.group(1) if field_match else None
 
         # ── Meeko JSON format: > <meeko> ──────────────────────────────────
@@ -508,12 +526,71 @@ def parse_vina_output_sdf(sdf_content: str) -> list[dict]:
         return []
 
     if not poses:
-        # A Meeko SDF can legitimately lack numeric metadata; the caller then
-        # falls back to the original PDBQT.  Open Babel SDFs with a REMARK
-        # property are handled above and therefore do not take that fallback.
+        # Un SDF de `mk_export` sobre una salida de Vina SÍ trae la afinidad en
+        # su propiedad `meeko`; llegar aquí con uno significa que la corrida no
+        # la produjo —un SDF minimizado sin acoplar, por ejemplo—, no que el
+        # formato carezca de metadatos. Esa creencia, escrita aquí como si fuera
+        # normal, es lo que dejó pasar el ancla del `re.match` de más arriba.
+        # Los SDF de Open Babel con propiedad REMARK se resuelven antes y no
+        # llegan a este punto.
         log.debug("SDF de Vina no contiene metadatos de afinidad; se usará fallback PDBQT")
 
     return poses
+
+
+def fusionar_rmsd_desde_pdbqt(
+    poses_sdf: list[dict], pdbqt_content: str
+) -> tuple[list[dict], dict]:
+    """Completa `rmsd_lb`/`rmsd_ub` de las poses del SDF con los del PDBQT.
+
+    Meeko exporta la afinidad en su propiedad `meeko`, pero NO el RMSD contra la
+    pose 1: esos dos números viven únicamente en las líneas ``REMARK VINA
+    RESULT`` que escribe Vina. Entregarlos en 0.0 no sería un dato ausente:
+    afirmaría que todas las poses son idénticas a la primera, y el dossier lo
+    imprime como tal.
+
+    El emparejamiento es POSICIONAL —igual que el de los bloques PDBQT— y sólo
+    se hace si ambos recuentos coinciden. Desalinearlo pondría el RMSD de una
+    pose sobre la geometría de otra, que es justo lo que el invariante
+    todo-o-nada de `parse_vina_output_sdf` existe para impedir; ante la duda se
+    deja el 0.0 y se declara en el diagnóstico, en vez de inventar una pareja.
+
+    La afinidad NO se sobrescribe: viene del SDF, que es lo que
+    ``parsing_source="sdf"`` declara. Se contrasta contra la del PDBQT porque
+    ambas salen de la misma línea de Vina, así que una divergencia sería un
+    defecto de procedencia y no un redondeo.
+
+    Devuelve una lista NUEVA y un diagnóstico; no muta la entrada.
+    """
+    poses_pdbqt = parse_vina_output_pdbqt(pdbqt_content)
+    diagnostico: dict = {
+        "poses_en_sdf": len(poses_sdf),
+        "poses_en_pdbqt": len(poses_pdbqt),
+        "fusionado": False,
+        "afinidades_discrepantes": [],
+    }
+
+    if not poses_sdf or len(poses_pdbqt) != len(poses_sdf):
+        return [dict(p) for p in poses_sdf], diagnostico
+
+    fusionadas: list[dict] = []
+    # `strict=True` y no por estilo: aquí arriba ya se comprobó que los
+    # recuentos coinciden, así que un desajuste sería un fallo de lógica y debe
+    # reventar en vez de truncar en silencio la lista de poses.
+    for desde_sdf, desde_pdbqt in zip(poses_sdf, poses_pdbqt, strict=True):
+        pose = dict(desde_sdf)
+        pose["rmsd_lb"] = desde_pdbqt["rmsd_lb"]
+        pose["rmsd_ub"] = desde_pdbqt["rmsd_ub"]
+        if abs(float(pose["affinity"]) - float(desde_pdbqt["affinity"])) > 1e-3:
+            diagnostico["afinidades_discrepantes"].append({
+                "rank": pose["rank"],
+                "sdf": float(pose["affinity"]),
+                "pdbqt": float(desde_pdbqt["affinity"]),
+            })
+        fusionadas.append(pose)
+
+    diagnostico["fusionado"] = True
+    return fusionadas, diagnostico
 
 
 def parse_vina_output_pdbqt(pdbqt_content: str) -> list[dict]:

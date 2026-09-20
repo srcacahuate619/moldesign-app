@@ -105,6 +105,7 @@
         "tests/test_la_advertencia_de_calibracion_no_se_pierde.py": 15,
         "tests/test_las_pruebas_no_tocan_los_datos_reales.py": 8,
         "tests/test_lcpo_aproxima_la_sasa_exacta.py": 12,
+        "tests/test_lector_de_sdf_de_meeko.py": 24,
         "tests/test_lector_pose_pdbqt.py": 18,
         "tests/test_llama_server.py": 5,
         "tests/test_lo_que_la_interfaz_promete.py": 14,
@@ -202,7 +203,7 @@
         "tests/test_windows_maquina_limpia.py": 6,
         "tests/test_workspace_lock.py": 2
       },
-      "total": 2518
+      "total": 2542
     }
   }
 }

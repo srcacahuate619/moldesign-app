@@ -38,6 +38,7 @@ from utils.file_handlers import (
     StoragePath,
     parse_vina_output_sdf,
     parse_vina_output_pdbqt,
+    fusionar_rmsd_desde_pdbqt,
     extract_pdbqt_poses,
     validate_pdbqt_content,
 )
@@ -934,6 +935,24 @@ async def run_vina_docking(
                 pdbqt_pose_blocks = extract_pdbqt_poses(pdbqt_content)
 
                 parsed_poses = parse_vina_output_sdf(sdf_content) if _is_valid_sdf(sdf_content) else []
+
+                # El SDF de Meeko trae la afinidad pero no el RMSD contra la
+                # pose 1; eso sólo existe en el PDBQT. Ver
+                # `fusionar_rmsd_desde_pdbqt`, que explica por qué un 0.0
+                # entregado sería una afirmación falsa y no un hueco.
+                if parsed_poses:
+                    parsed_poses, diag_rmsd = fusionar_rmsd_desde_pdbqt(
+                        parsed_poses, pdbqt_content
+                    )
+                    if not diag_rmsd["fusionado"]:
+                        log.warning(
+                            "rmsd_no_fusionado_por_recuentos_distintos",
+                            poses_en_sdf=diag_rmsd["poses_en_sdf"],
+                            poses_en_pdbqt=diag_rmsd["poses_en_pdbqt"],
+                        )
+                    for discrepancia in diag_rmsd["afinidades_discrepantes"]:
+                        log.warning("afinidad_discrepante_entre_sdf_y_pdbqt", **discrepancia)
+
                 poses: list[DockingPose] = []
                 for i, pose_dict in enumerate(parsed_poses):
                     # Asignamos el bloque PDBQT correspondiente si existe
@@ -959,9 +978,16 @@ async def run_vina_docking(
                 # explícita: `sdf_a_persistir` es siempre aquel del que salieron
                 # las poses que se van a informar.
                 #: El SDF que produjo un conversor externo, cuando fue de ahí de
-                #: donde salieron las poses. `None` —el caso normal y el de
-                #: todas las corridas anteriores— significa que se entrega el
+                #: donde salieron las poses. `None` significa que se entrega el
                 #: archivo de Meeko tal cual.
+                #:
+                #: Esta línea decía «el caso normal y el de todas las corridas
+                #: anteriores». Era falso en TODAS: hasta el 2026-09-19 un ancla
+                #: en el `re.match` de `parse_vina_output_sdf` descartaba las
+                #: propiedades de Meeko, así que `poses` siempre llegaba vacío y
+                #: el respaldo se usaba en el 100% de los acoplamientos
+                #: (172 de 172 medidos en ENS-PILOT-01). Corregido el ancla,
+                #: `None` vuelve a ser de verdad el caso normal.
                 sdf_a_persistir: str | None = None
                 #: Qué programa externo produjo ese archivo, con su procedencia.
                 conversor_estructural: dict | None = None
@@ -1033,28 +1059,25 @@ async def run_vina_docking(
                                 "afinidades no cambian: salen del mismo parser.",
                             ))
                         else:
-                            # MEDIDO el 2026-09-05, y por eso esto no añade un
-                            # aviso al dossier: con un PDBQT de Vina éste es el
-                            # camino NORMAL, no una anomalía.
+                            # Llegar aquí es ahora una anomalía de verdad: Open
+                            # Babel produjo un SDF del que no salió ninguna pose.
                             #
-                            # Open Babel convierte bien y produce un SDF válido,
-                            # pero escribe los datos de Vina en una propiedad
-                            # `> <REMARK>`, y `parse_vina_output_sdf` sólo lee
-                            # `> <meeko>` y `> <minimizedAffinity>`. Resultado:
-                            # cero poses desde el SDF convertido, y las
-                            # afinidades acaban saliendo del parser de PDBQT
-                            # justo debajo — que las extrae de las mismas líneas
-                            # `REMARK VINA RESULT`, así que el número es idéntico.
+                            # Esta rama describía otra cosa. Decía, «MEDIDO el
+                            # 2026-09-05», que éste era «el camino NORMAL, no una
+                            # anomalía», y atribuía la causa a que Open Babel
+                            # escribe sus datos en `> <REMARK>`. La observación
+                            # era correcta y la causa estaba mal situada: lo que
+                            # hacía normal este camino era un defecto AGUAS
+                            # ARRIBA —el ancla del `re.match` que descartaba las
+                            # propiedades de Meeko y vaciaba `poses` siempre—,
+                            # no nada de Open Babel. Leer `<REMARK>` se arregló
+                            # después; el ancla, el 2026-09-19.
                             #
-                            # La consecuencia incómoda es que en este camino el
-                            # archivo entregado sigue siendo el SDF de Meeko,
-                            # que no contiene las poses del informe. Arreglarlo
-                            # exige enseñar al parser a leer el bloque
-                            # `<REMARK>`, y eso CAMBIA la procedencia y los
-                            # bytes persistidos de corridas existentes: es una
-                            # decisión con efecto sobre el estado científico y
-                            # no se toma de paso en un cambio de arquitectura.
-                            # Queda declarado en `docs/79_ADR_FRONTERA_OPEN_BABEL.md` §10.
+                            # La consecuencia que se declaraba incómoda ya no
+                            # existe: `sdf_a_persistir` decide explícitamente
+                            # qué archivo se entrega, y es siempre aquel del que
+                            # salieron las poses informadas.
+                            # Ver `docs/79_ADR_FRONTERA_OPEN_BABEL.md` §10.
                             log.info(
                                 "respaldo_open_babel_sin_metadatos_en_el_sdf",
                                 detalle=(
