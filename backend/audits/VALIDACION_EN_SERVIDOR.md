@@ -1,7 +1,12 @@
 # Usar el servidor para validar esto
 
-Plan de trabajo, no resultado. Anotado el 2026-09-17 al cerrar los tres commits
-de `c8b5d59`, `b2996b0` y `696c616`. Nada de este documento se ha ejecutado.
+Plan de trabajo. Anotado el 2026-09-17 al cerrar los tres commits de `c8b5d59`,
+`b2996b0` y `696c616`.
+
+**Estado al 2026-09-19.** Ejecutados los **bloques 1 y 2** y la mitad de dominio
+del **bloque 4**, los tres en la estación del mantenedor y ninguno en el
+servidor. Siguen sin ejecutarse los bloques 3, 5, 6 y 7. Cada bloque dice abajo
+en qué quedó.
 
 Existe porque hay un servidor casero disponible que puede quedar corriendo 24 h
 o más, y porque lo que queda abierto en [la revisión del ensamble](ENSEMBLE_REVIEW.md)
@@ -46,6 +51,28 @@ conformación. Falta demostrar que la piscina *contiene* diversidad.
 **Produce:** un informe con RMSD intra-piscina y la fracción de conformaciones
 representadas. **No demuestra** ninguna ventaja: es verificación de que el arreglo
 hace lo que dice.
+
+### HECHO el 2026-09-19 — `scripts/artifacts_science/ENS-PILOT-01/`
+
+10 ligandos, K=30, exhaustividad **32** (la del producto), 300 conformaciones y
+172 acoplamientos con Vina real. El arreglo hace lo que dice: **90/90 poses con
+SHA que coincide con su generador**, 30 hashes distintos por ligando, mediana de
+**9 conformaciones distintas** en el top-9. Control negativo limpio: cafeína,
+sin rotores, colapsa a 0.026 Å.
+
+Y encontró **dos defectos ajenos al ensemble** que el plan no anticipaba, porque
+exigía incluir macrociclos:
+
+1. `parse_vina_output_sdf` no leía la cabecera real de Meeko. **171 de 172
+   acoplamientos** salieron por el respaldo de Open Babel; cero por Meeko.
+2. Ese respaldo entrega los macrociclos con dos carbonos del anillo como
+   pseudo-átomos y el ciclo abierto. G5 de `pose_recovery` los rechazó:
+   **72/90** poses recuperables, con los 18 fallos concentrados en muscona y
+   exaltólida.
+
+Ambos viajaron en **1.0.0** y se corrigieron el mismo día para 1.0.1. Las seis
+puertas se verificaron sobre artefactos reales de Vina y Meeko, que era el
+requisito del bloque. Detalle en el README del artefacto.
 
 ## Bloque 2 — Determinismo de Vina con `vina_cpu=0` (30 min)
 
