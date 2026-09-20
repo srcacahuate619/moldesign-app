@@ -230,6 +230,13 @@ una salida real de Vina con seis poses:
 | ¿Qué lee `parse_vina_output_sdf`? | sólo `> <meeko>` y `> <minimizedAffinity>` |
 | Poses extraídas del SDF convertido | **cero** |
 
+> **Nota del 2026-09-19.** La tercera fila de esta tabla era optimista y nadie lo
+> comprobó: `parse_vina_output_sdf` tampoco leía `> <meeko>`. Su `re.match`
+> terminaba en `>\s*$` y Meeko escribe `>  <meeko>  (1) `, así que el camino
+> principal estaba tan vacío como el del respaldo. Se diagnosticó el respaldo
+> mirando el respaldo; el camino principal no se miró. Ver el punto 4 de
+> «Lo que sigue abierto».
+
 Es decir: **con entrada de Vina, la rama del respaldo nunca llega a producir
 poses**, así que `parsing_source = "openbabel"` nunca sobrevivía hasta construir
 el `DockingResult` y el `ValidationError` del defecto 1 era **inalcanzable**. Y
@@ -400,6 +407,31 @@ Este documento describe ingeniería verificada. **No es asesoría jurídica.**
    (`bundle_helper` sólo copia `vina`, `xtb`, `llama` y `openbabel`), pero si
    algún día viajara, le aplica este mismo ADR entero.
 4. **El SDF del camino de respaldo conserva ya sus poses y metadatos.** `parse_vina_output_sdf` lee las propiedades `REMARK VINA RESULT` que escribe Open Babel y `vina_service` persiste el mismo SDF convertido cuando ese camino se usa. Las afinidades y el orden de poses se conservan; el dossier identifica `parsing_source="sdf_openbabel_cli"`. La regresión está en [`test_fallback_open_babel.py`](../backend/tests/test_fallback_open_babel.py).
+
+   **Corregido el 2026-09-19: hasta esa fecha el respaldo no era un respaldo.**
+   Este punto daba el camino por resuelto sin decir con qué frecuencia se
+   tomaba. Medido sobre `ENS-PILOT-01`: **172 acoplamientos, 171 por Open Babel,
+   cero por Meeko.** La causa estaba aguas arriba de todo lo que discute este
+   ADR — un ancla `$` en el `re.match` de `parse_vina_output_sdf` descartaba las
+   propiedades de Meeko, cuya cabecera real es `>  <meeko>  (1) ` y no el
+   `> <meeko>` que documentaba el propio parser—, así que `poses` llegaba
+   siempre vacío y el respaldo se disparaba en el 100% de las corridas.
+
+   Importa para esta decisión por dos motivos. Uno: un programa GPL-2.0-only
+   estuvo en el camino crítico de **todos** los acoplamientos, no en una rama
+   excepcional; la frontera de programa independiente aguanta igual —subproceso,
+   hash verificado, sin importar sus bindings—, pero el análisis de riesgo de
+   este ADR se escribió suponiendo una rama rara. Dos: el archivo entregado
+   perdía los hidrógenos no polares y, en macrociclos, dos carbonos del anillo
+   salían como pseudo-átomos `*` con el ciclo abierto, porque Open Babel no
+   reconoce los tipos de pegado de Meeko.
+
+   Este defecto viajó en **1.0.0**; se verificó ejecutando el
+   `file_handlers.py` del paquete enviado contra un SDF real de `mk_export`.
+   Corregido en 1.0.1 junto con `fusionar_rmsd_desde_pdbqt`, porque Meeko no
+   exporta `rmsd_lb`/`rmsd_ub`. La regresión, con archivos producidos por los
+   programas y no escritos a mano, está en
+   [`test_lector_de_sdf_de_meeko.py`](../backend/tests/test_lector_de_sdf_de_meeko.py).
 5. **`prolif` sigue sin licencia declarada** en su metadata
    ([`LICENSING.md`](LICENSING.md) §5.4). No lo toca esta decisión.
 

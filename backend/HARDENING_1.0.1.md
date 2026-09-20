@@ -577,3 +577,102 @@ abiertos; el experimento no se ha ejecutado.
 
 Sin build, sin cambios de frontend, sin activar MM-GBSA. La 1.0.1 sigue abierta.
 Los pesos, energias, formulas y parametros cientificos no se han tocado.
+
+
+## Continuacion: el SDF de Meeko no se parseaba nunca (2026-09-19, noche)
+
+Defecto encontrado por `ENS-PILOT-01` al ejecutar el bloque 1 de
+`audits/VALIDACION_EN_SERVIDOR.md`. Sin build, sin cambios de frontend, sin
+activar MM-GBSA, sin tocar formulas, pesos, semillas ni parametros cientificos.
+
+### SDF-01 (ALTO): un ancla de regex mandaba el 100% de las corridas al respaldo
+
+`parse_vina_output_sdf` reconocia la cabecera de una propiedad con
+`re.match(r"^>\s+<([^>]+)>\s*$", stripped)`. El `$` exigia que la linea acabara
+justo tras el angulo de cierre. Meeko escribe `>  <meeko>  (1) `, con el indice
+del registro detras, asi que ninguna de sus propiedades casaba y la funcion
+devolvia `[]` para todo SDF de Meeko. `>  <REMARK>` de Open Babel no lleva
+sufijo y si casaba: el ancla se ajusto al camino de respaldo mientras el
+principal llevaba roto desde siempre, y el docstring ilustraba `> <meeko>`, una
+cabecera que ningun programa emite.
+
+Medido sobre ENS-PILOT-01: **172 acoplamientos lanzados, 171 por el respaldo de
+Open Babel, cero por Meeko** (el 172 estaba en vuelo). Meeko no estaba roto:
+`mk_export` devuelve rc=0 y un SDF de RDKit valido con su JSON `meeko` y
+`free_energy`.
+
+Consecuencias en el archivo entregado, mismo ligando y misma pose: Meeko 20
+atomos `C8 H9 N1 O2`; Open Babel 13 atomos `C8 H2 N1 O2` -solo sobreviven los
+hidrogenos polares del PDBQT-. En macrociclos, Open Babel no reconoce los tipos
+de pegado de Meeko: escribe dos carbonos reales del anillo como pseudo-atomos
+`*` y deja el ciclo abierto (exaltolida 17 atomos / 14 enlaces donde
+corresponden 17 y 17). Las afinidades no cambiaban: salen de las mismas lineas
+`REMARK VINA RESULT`.
+
+**Viajo en 1.0.0.** Verificado sobre el artefacto y no sobre el codigo: cargado
+`E:\rel\v1.0.0.0\layout\resources\backend\utils\file_handlers.py` y pasado un
+SDF real de `mk_export`, devuelve `[]`. Ademas `services/docking/pose_recovery.py`
+no existe en 1.0.0, asi que alli la puerta G5 no rechaza nada.
+
+### SDF-02 (ALTO): arreglar el regex a secas habria entregado un RMSD falso
+
+Meeko exporta la afinidad pero NO el RMSD contra la pose 1: esos dos numeros
+solo existen en `REMARK VINA RESULT`. Con `poses` ya no vacio, el respaldo al
+PDBQT de mas abajo no se ejecuta, asi que `rmsd_lb`/`rmsd_ub` quedaban en 0.0 y
+`pdf_generator` habria impreso `RMSD 0.00` en todas las poses del dossier. No es
+un dato ausente: afirma que todas son identicas a la pose 1.
+
+Se anade `fusionar_rmsd_desde_pdbqt` en `utils/file_handlers.py`: emparejamiento
+POSICIONAL, solo si ambos recuentos coinciden, y abstencion declarada si no
+-desalinear pondria el RMSD de una pose sobre otra geometria, que es lo que el
+invariante todo-o-nada de ENS-06 existe para impedir-. La afinidad no se
+sobrescribe; se contrasta contra la del PDBQT y una divergencia se registra.
+
+### Lo que NO cambia, comprobado antes de tocar nada
+
+- `check:goldens` no se ve afectado: `scripts/generate_goldens.py` no importa
+  nada de docking ni referencia `.sdf`/`.pdbqt`; alimenta diccionarios escritos
+  a mano a la composicion del dossier y a los perfiles M4/M5-Zn.
+- La validez fisica sellada no se invalida: `evaluar_pose_fisica` lee el PDBQT
+  -`leer_pose_pdbqt_canonica`- y reconstruye los hidrogenos con
+  `canonicalizar_hidrogenos`. El bloque PDBQT es identico. MF-33-H-COR y
+  PROD-PV-H-01 intactos.
+- La identidad MSIX no depende de esto: `msix/msix-config.json` declara el
+  triple Name/Publisher/Arch como inmutable y la version como monotona con
+  Revision 0. El codigo Python es contenido, no identidad.
+- Frontend sin cambios: trata `parsing_source` como cadena opaca y sus pruebas
+  ya usan `"sdf"`.
+- El respaldo de Open Babel sigue existiendo y sigue etiquetandose
+  `sdf_openbabel_cli`; pasa a ser un respaldo de verdad.
+
+### Lo que el arreglo repara en la ciencia
+
+Con las fixtures reales, la composicion del macrociclo vuelve identica a la de
+su conformero de entrada -45 atomos, 45 enlaces, `C15 H28 O2`, anillo cerrado- y
+las dos puertas de `pose_recovery` pasan: G5 3/3 y G6 3/3 con 17/17 coordenadas
+a 0.0000 A de desplazamiento, con los 2 pseudo-atomos filtrados. En paracetamol,
+G5 9/9 y G6 9/9. Los macrociclos pasan de irrecuperables a recuperables.
+
+### Validacion
+
+- Nuevo `tests/test_lector_de_sdf_de_meeko.py`: **24 pruebas**, con archivos
+  producidos por Vina y `mk_export` en `tests/fixtures/meeko_export/` y no
+  cabeceras escritas a mano -que es como el defecto sobrevivio a la bateria
+  entera-. Incluye autotest del guardian: el regex con el defecto no casa con
+  ninguna cabecera real de Meeko y si casa con las de Open Babel.
+- Seis suites de mayor riesgo: **105 passed**.
+- Suite completa SIN el archivo nuevo, con los cambios de codigo dentro:
+  **2509 passed, 10 skipped, 0 failed** -identico al punto de partida del dia,
+  es decir cero regresiones-.
+- Suite completa sobre el codigo final: **2533 passed, 10 skipped, 0 failed**,
+  16 warnings, 245.87 s. Recoleccion 2542 = 2518 + 24; `docs/api/test-counts.json`
+  regenerado.
+- `git diff --check` limpio, `compileall` correcto, sin saltos de linea mixtos.
+  Ruff no esta en `python-embed`; ese chequeo queda para el interprete de
+  desarrollo.
+
+Documentacion corregida donde afirmaba lo contrario: `docs/79_ADR_FRONTERA_OPEN_BABEL.md`
+punto 4 y la tabla del diagnostico, y dos comentarios de `vina_service.py` que
+llamaban al camino de Open Babel «el caso normal» sin haberlo medido.
+
+La 1.0.1 sigue abierta.
