@@ -573,10 +573,10 @@ def test_la_version_del_store_sale_de_la_version_del_producto():
     version, detalle = version_del_store(
         conf["version"], cfg["version_del_store"].get("store_build_override"))
 
-    assert version == "1.0.0.0", (
-        f"La version del Store es {version}. Se decidio 1.0.0.0 para el primer "
-        "envio oficial; cambiarlo es politica de publicacion y no admite "
-        "retroceso una vez publicado."
+    assert version == "1.0.1.0", (
+        f"La version del Store es {version}. Se decidio 1.0.1.0 para el segundo "
+        "envio; cambiarlo es politica de publicacion y no admite retroceso una "
+        "vez publicado."
     )
     assert detalle["revision_es_cero"] is True
     assert _json is not None

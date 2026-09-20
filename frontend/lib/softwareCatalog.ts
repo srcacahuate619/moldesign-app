@@ -1,6 +1,6 @@
 export const PRODUCT = {
   name: "MolDesign",
-  version: "1.0.0",
+  version: "1.0.1",
   edition: "Desktop Edition",
   license: "PolyForm-Noncommercial-1.0.0",
   licenseDisplayName: "PolyForm Noncommercial 1.0.0",

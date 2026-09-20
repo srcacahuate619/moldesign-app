@@ -74,7 +74,7 @@ log = get_logger(__name__)
 # backend por listo — evita conectar contra un proceso ajeno o una instancia
 # obsoleta que ocupe el puerto. Reusa la misma versión que ya exponen
 # FastAPI() y el endpoint raíz; no introduce un esquema nuevo.
-APP_VERSION = "1.0.0"
+APP_VERSION = "1.0.1"
 
 # ── Política 0-telemetría: NO hay crash reporting externo (Sentry eliminado,
 #    2026-08-13). Los errores los reporta el usuario; el launcher captura

@@ -1,6 +1,6 @@
 [package]
 name = "moldesign"
-version = "1.0.0"
+version = "1.0.1"
 description = "MolDesign — Evidencia estructural reproducible para investigación"
 authors = ["MolDesign"]
 license = "PolyForm-Noncommercial-1.0.0"
