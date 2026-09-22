@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "experiment_id": "FEP-01-PDBBIND",
+  "hypothesis": "En PDBBind completo (5332 complejos) la ambigüedad tautomérica sigue siendo el cuello de FEP-01, como en los 203 de molflex (164/203 ambiguos, ninguno declarado)",
+  "protocol": "scripts/analisis_fep_pdbbind.py 01 sobre el script sellado analisis_fep01_integridad.py sin modificar, universo data/pdbbind, en el contenedor moldesign-science (Linux, RDKit 2026.03.1) del servidor 192.168.1.64 con 3 procesos. Antes, réplica sobre los 203 con --comparar-con FEP-01/metrics.json; si no reproduce, no se interpreta la extensión. listo_para_fep exige el mapping de index_map.json, que no existe en PDBBind: se informa aparte resumen_sin_mapping (no estereo_indefinido y no tautomero_ambiguo)",
+  "created_at": "2026-09-22T22:21:11.469045+00:00",
+  "status": "created",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "52b3768704b39347684a9269b41d380691c72d1d",
+    "dirty": false
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medición sin gate: se informan las fracciones de tautómero ambiguo y estereoquímica indefinida; el criterio de mapping se declara no aplicable"
+  },
+  "decision": "PENDING"
+}

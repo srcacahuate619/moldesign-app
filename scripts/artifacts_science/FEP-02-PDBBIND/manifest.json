@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "experiment_id": "FEP-02-PDBBIND",
+  "hypothesis": "La integridad del receptor en PDBBind completo (huecos de cadena, sitio entre cadenas, metales, aguas) es comparable a la de los 203 de molflex (83/203 documentables para FEP)",
+  "protocol": "scripts/analisis_fep_pdbbind.py 02 sobre el script sellado analisis_fep02_receptor.py sin modificar, universo data/pdbbind, contenedor moldesign-science del servidor 192.168.1.64, 3 procesos; réplica previa sobre los 203 contra FEP-02/metrics.json",
+  "created_at": "2026-09-22T22:21:11.903445+00:00",
+  "status": "created",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "52b3768704b39347684a9269b41d380691c72d1d",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medición sin gate: se informa la fracción documentable para FEP con los criterios sellados"
+  },
+  "decision": "PENDING"
+}

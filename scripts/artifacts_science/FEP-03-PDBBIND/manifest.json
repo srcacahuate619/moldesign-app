@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "experiment_id": "FEP-03-PDBBIND",
+  "hypothesis": "PDBBind completo contiene dianas con series congenéricas suficientes para una cohorte FEP (pocas dianas con muchos análogos), a diferencia de los 203 de molflex (91 parejas aptas en 18 dianas, grupo mayor de 23)",
+  "protocol": "scripts/analisis_fep_pdbbind.py 03: fase 1 con _sec_job/_kmers y umbrales del sellado analisis_fep03_congenericas.py (k-meros 8, Jaccard sobre el menor >= 0.90); fase 2 MCS RDKit con los mismos parámetros (timeout 10 s, ringMatchesRingOnly, completeRingsOnly, RemoveAllHs) repartido en shards de 2000 parejas que no se reescriben; umbrales declarados antes: cobertura MCS >= 0.70 y perturbación <= 10. Prefiltro exacto declarado antes de mirar: |n_a - n_b| > 10 no se calcula porque no puede ser apta; las medianas se informan sobre las evaluadas. Contenedor moldesign-science del servidor 192.168.1.64, 3 procesos, compartido con la VM de QA. Réplica previa sobre los 203 contra FEP-03/metrics.json",
+  "created_at": "2026-09-22T22:21:12.290262+00:00",
+  "status": "created",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "52b3768704b39347684a9269b41d380691c72d1d",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medición: se informan parejas aptas y dianas con serie; la elección de la cohorte congenérica es una decisión aparte y posterior"
+  },
+  "decision": "PENDING"
+}
