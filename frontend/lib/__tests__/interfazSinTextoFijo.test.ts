@@ -185,19 +185,52 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
   });
 
 
-  it("el barrido AST no encuentra literales visibles fuera del diccionario", () => {
-    const script = resolve(__dirname, "../../scripts/finish-i18n-frontend.cjs");
-    const output = execFileSync(process.execPath, [script], {
+  // EL BARRIDO AST ESTUVO CIEGO. Hasta el 2026-09-22 esta prueba exigía que
+  // el barrido no imprimiera «Texto visible sin clave», y pasaba en verde: su
+  // regex de términos técnicos llevaba /i y se tragaba cualquier palabra sin
+  // tilde —Cohortes, OPCIONES, Guardar—, y la rama de castellano tenía las
+  // tildes convertidas en «?». Con el detector reparado, el barrido cuenta
+  // 619 literales pendientes en 76 ficheros. La capa de arriba (MARCAS_ES)
+  // tampoco los ve: exige una tilde o una palabra función, y un rótulo de una
+  // palabra no lleva ninguna de las dos.
+  const SCRIPT = resolve(__dirname, "../../scripts/finish-i18n-frontend.cjs");
+  const INVENTARIO = resolve(__dirname, "textoPendienteDeTraducir.json");
+
+  it("el barrido AST demuestra que ve antes de contar", () => {
+    // Si el autotest del script falla, sale con 1 y execFileSync lanza.
+    const salida = execFileSync(process.execPath, [SCRIPT, "--autotest"], {
       cwd: resolve(__dirname, "../.."),
       encoding: "utf8",
     });
-    expect(output).not.toContain("Castellano visible sin clave:");
-    expect(output).not.toContain("Ingles visible sin clave:");
-    expect(output).not.toContain("Texto visible sin clave:");
+    expect(salida).toContain("el guardian ve");
   });
+
+  it("el texto pendiente de traducir sólo puede bajar", () => {
+    const actual: string[] = JSON.parse(execFileSync(process.execPath, [SCRIPT, "--json"], {
+      cwd: resolve(__dirname, "../.."),
+      encoding: "utf8",
+    }));
+    const base = new Set<string>(JSON.parse(readFileSync(INVENTARIO, "utf8")));
+    const nuevas = actual.filter((e) => !base.has(e));
+    const resueltas = [...base].filter((e) => !actual.includes(e));
+    expect(
+      nuevas,
+      "Texto visible nuevo sin pasar por t(). Tradúcelo; no lo añadas al inventario:\n  "
+        + nuevas.join("\n  "),
+    ).toEqual([]);
+    expect(
+      resueltas,
+      "Estas cadenas ya no están pendientes. Quítalas de textoPendienteDeTraducir.json "
+        + "o el trinquete deja de vigilar (node scripts/finish-i18n-frontend.cjs --json):\n  "
+        + resueltas.join("\n  "),
+    ).toEqual([]);
+  });
+
   it("una pantalla que ya se migró no puede volver atrás", () => {
     // Las superficies terminadas se listan aquí con cero. Es lo que convierte
-    // el presupuesto en un trinquete y no en una foto.
+    // el presupuesto en un trinquete y no en una foto. OJO: «terminada» aquí
+    // significa sin MARCAS_ES, no sin texto fijo; el inventario del barrido AST
+    // todavía encuentra rótulos en varias (CaseWorkspace, CaseSidebar…).
     const TERMINADAS: string[] = [
       "app/comunidad/page.tsx",
       "app/global-error.tsx",

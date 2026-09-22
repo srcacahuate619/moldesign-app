@@ -106,21 +106,98 @@ function indentation(source, position) {
   const match = source.slice(start, position).match(/^\s*/);
   return match ? match[0] : "";
 }
-let fileCount = 0;
-let stringCount = 0;
-const unresolved = [];
-const remaining = new Set();
-const SPANISH = /[????????????????]|\b(el|la|los|las|un|una|de|del|que|para|con|por|sin|se|es|son|est?|est?n|m?s|como|pero|este|esta|todo|hay|desde|cuando|puede|tiene|sobre|entre|cada|otro|otra)\b/i;
-const remainingEnglish = new Set();
+// ── Clasificación de un literal visible ─────────────────────────────────
+//
+// Las letras acentuadas van con escapes \u y no escritas: el 2026-09-22 este
+// regex apareció con las tildes convertidas en «?» (0x3F) por alguna
+// herramienta que reescribió la codificación del archivo en d69c460, y la
+// rama de castellano pasó a casar sólo signos de interrogación. Con escapes,
+// el archivo es ASCII y no hay nada que corromper.
+const SPANISH = /[\u00c1\u00c9\u00cd\u00d3\u00da\u00d1\u00dc\u00e1\u00e9\u00ed\u00f3\u00fa\u00f1\u00fc\u00bf\u00a1]|\b(el|la|los|las|un|una|de|del|que|para|con|por|sin|se|es|son|como|pero|este|esta|todo|hay|desde|cuando|puede|tiene|sobre|entre|cada|otro|otra)\b/i;
 const ENGLISH = /\b(the|this|that|with|without|not|is|are|was|were|from|for|your|you|click|view|show|hide|loading|failed|available|select|close|open|download|upload|saved|verified|certify|register|built|camera|unlock)\b/i;
-const remainingUnknown = new Set();
-const TECHNICAL_ONLY = /^(?:[A-Z0-9][A-Z0-9 ._+/#()×-]*|[A-Za-z0-9_.+-]+@[A-Za-z0-9_.-]+|(?:kcal\/mol|log mol\/L|Å|Da|pH|Ki|IC50|SMILES|PDB|PDBQT|SDF|JSON|CSV|PDF|ZIP|GPU|CPU|RAM|Vina|AutoDock Vina|MolDesign|MolChat|Moldex|RDKit|Meeko|Open Babel|ESMFold|ESMFold Pro|ColabFold|DiffDock|RFdiffusion|TabPFN|Solana|Web3D|Mol\*|MolStar))$/i;
+const HAS_WORDS = /[A-Za-z\u00c0-\u00ff]{2}/;
+
+// Lo que NO es texto: clases de Tailwind, colores, URLs, rutas, CSS, la
+// cabecera de un CSV. Anclado: «Evaluación #123» o «Ver https://…» sí son
+// texto y antes se daban por técnicos porque el patrón casaba en cualquier
+// posición.
+const NO_ES_TEXTO = /^(?:text|bg|border)-|^rgba?\(|^#[0-9a-f]{3,8}$|^https?:\/\/\S+$|^(?:\/|~\/|\.\.?\/)|!important|^smiles,name,|^_/i;
+// Entidades HTML, identificadores camelCase, nombres de archivo, ids de
+// repositorio («Qwen/Qwen2.5-1.5B-Instruct-GGUF») y prefijos de parámetro
+// («imp=»). Sin /i: «Guardar» no es camelCase.
+const NO_ES_TEXTO_EXACTO = /^&[A-Za-z]+;$|^[a-z]+[A-Z][A-Za-z0-9]*$|^[\w.-]+\.(?:json|gguf|pdb|pdbqt|sdf|csv|cpp|txt|zip)$|^[\w.-]+\/[\w.-]+$|^\w+=$/;
+const EMAIL = /^[A-Za-z0-9_.+-]+@[A-Za-z0-9_.-]+$/;
+
+// Nombres de más de una palabra o con signos: se quitan enteros antes de
+// mirar las palabras sueltas, para que «Open Babel» no autorice «Open».
+const NOMBRES_PROPIOS = [
+  "AutoDock Vina", "Open Babel", "ESMFold Pro", "MolDesign AI", "PolyForm Noncommercial",
+  "ADMET-AI", "Mol*", "kcal/mol", "log mol/L", "QED Score", "SA Score", "\u0394Score",
+];
+
+// Siglas, unidades y nombres de producto que se escriben igual en los dos
+// idiomas. Sensible a mayúsculas A PROPÓSITO: la bandera /i de la versión
+// anterior convertía cualquier palabra sin tilde —Cohortes, OPCIONES,
+// Guardar— en «técnica», y el guardián anunciaba 0 sobre cientos de cadenas.
+// Una sigla nueva se añade aquí, con nombre, no con un patrón.
+const SIGLAS = new Set([
+  "\u00c5", "Da", "pH", "Ki", "IC50", "min", "SMILES", "PDB", "PDBQT", "SDF", "JSON", "CSV",
+  "PDF", "ZIP", "XLSX", "TXT", "GPU", "CPU", "RAM", "GB", "MB", "SAR", "LogP", "BBB", "QED",
+  "ID", "AI", "ADMET", "sha256", "Vina", "MolDesign", "MolChat", "Moldex", "RDKit", "Meeko",
+  "ESMFold", "ColabFold", "DiffDock", "RFdiffusion", "TabPFN", "Solana", "Web3D", "MolStar",
+  "Lovering", "SHA", "pKi", "Qwen", "Tanimoto", "GGUF",
+]);
 
 function isTechnicalOnly(value) {
-  return TECHNICAL_ONLY.test(value)
-    || /^(?:text|bg|border)-|rgba\(|#[0-9a-f]{3,}|https?:\/\/|^[/~.]|!important|smiles,name,|^[_ ,]/i.test(value)
-    || /^(?:SDF|PDBQT?|PDF|CSV|XLSX|TXT|JSON|SMILES|SAR|LogP|GPU|CPU|GB|BBB|QED Score|SA Score|ΔScore|sha256|imp=|poses)(?:\s|:|·|—|$)/i.test(value)
-    || /^(?:&Aring;|&times;|&Delta;|~?\d[\d,.–-]*\s*(?:min|pasos)|MolDesign AI · PolyForm.*|ADMET-AI & TabPFN|· PolyForm Noncommercial|· sha256|· ex|GB[,)]?(?:\. CPU:)?|\(Lovering 2009\)|✓ Permeable)$/i.test(value);
+  if (NO_ES_TEXTO.test(value) || NO_ES_TEXTO_EXACTO.test(value) || EMAIL.test(value)) return true;
+  let resto = value;
+  for (const nombre of NOMBRES_PROPIOS) resto = resto.split(nombre).join(" ");
+  const palabras = resto.match(/[A-Za-z\u00c0-\u00ff][A-Za-z\u00c0-\u00ff0-9]*/g) || [];
+  return palabras.every(function (palabra) { return palabra.length < 2 || SIGLAS.has(palabra); });
+}
+
+/**
+ * ¿Un literal visible sin clave cuenta como texto pendiente de traducir?
+ *
+ * No depende de adivinar el idioma: cualquier palabra que no sea una sigla o
+ * un nombre propio de la lista cuenta. Los detectores de castellano e inglés
+ * sólo ordenan el informe; usarlos aquí marcaba «Open Babel» por el «open».
+ */
+function esPendiente(value) {
+  return HAS_WORDS.test(value) && !isTechnicalOnly(value);
+}
+
+// ── Autotest: el guardián demuestra que ve antes de anunciar nada ────────
+//
+// Sin esto, el 2026-09-22 el barrido decía «Detectadas 0» sobre una interfaz
+// con la barra de navegación entera sin traducir. Las muestras positivas son
+// las que el detector anterior se tragaba.
+const DEBE_MARCAR = [
+  "Cohortes", "OPCIONES", "Guardar", "Receptor (PDB ID)", "Cohortes guardadas",
+  "A\u00f1adir ligando", "\u00bfContinuar?", "~3 pasos", "Open", "SDF descargado",
+  "Evaluaci\u00f3n #123", "Ver https://ejemplo.org",
+];
+const NO_DEBE_MARCAR = [
+  "SMILES", "PDB ID", "AutoDock Vina", "kcal/mol", "IC50", "Open Babel", "PDBQT",
+  "MolDesign AI \u00b7 PolyForm Noncommercial", "ADMET-AI & TabPFN", "(Lovering 2009)",
+  "bg-zinc-900", "https://ejemplo.org/ruta", "#a1b2c3", "12.5 \u00c5", "sha256",
+  "contacto@amezcua-dev.com", "~5 min", "&Delta;", "enableADMET", "case.json",
+  "Qwen/Qwen2.5-1.5B-Instruct-GGUF", "imp=", "SHA-256", "pKi",
+];
+
+function autotest() {
+  const ciegas = DEBE_MARCAR.filter(function (muestra) { return !esPendiente(muestra); });
+  const falsas = NO_DEBE_MARCAR.filter(function (muestra) { return esPendiente(muestra); });
+  if (!SPANISH.test("A\u00f1adir ligando") || !SPANISH.test("est\u00e1 listo") || SPANISH.test("SMILES")) {
+    ciegas.push("(la rama de castellano no distingue tildes)");
+  }
+  if (ciegas.length || falsas.length) {
+    console.error("GUARDIAN CIEGO: el autotest del barrido fallo.");
+    for (const muestra of ciegas) console.error("  no ve: " + JSON.stringify(muestra));
+    for (const muestra of falsas) console.error("  marca de mas: " + JSON.stringify(muestra));
+    process.exit(1);
+  }
+  return DEBE_MARCAR.length + NO_DEBE_MARCAR.length;
 }
 
 const VISIBLE_PROPERTIES = new Set([
@@ -151,6 +228,16 @@ function visibleLiteral(node, kind) {
 function lineOf(sf, node) {
   return sf.getLineAndCharacterOfPosition(node.getStart(sf)).line + 1;
 }
+function barrer() {
+let fileCount = 0;
+let stringCount = 0;
+const unresolved = [];
+const remaining = new Set();
+const remainingEnglish = new Set();
+const remainingUnknown = new Set();
+// «fichero: texto», sin número de línea: es lo que compara el trinquete de
+// interfazSinTextoFijo.test.ts, y una línea que se mueve no es texto nuevo.
+const pendientes = new Set();
 const roots = ["app", "components", "hooks"].map(function (p) { return path.join(ROOT, p); });
 for (const file of roots.flatMap(function (dir) { return walk(dir, function (p) { return p.endsWith(".tsx"); }); })) {
   let source = fs.readFileSync(file, "utf8");
@@ -169,12 +256,14 @@ for (const file of roots.flatMap(function (dir) { return walk(dir, function (p) 
         remaining.add(path.relative(ROOT, file) + ":" + lineOf(sf, node) + ": " + value.replace(/\s+/g, " "));
       }
       const technicalToken = kind !== "jsx" && /^[a-z][a-z0-9_-]*$/.test(value);
-      const hasWords = /[A-Za-zÁÉÍÓÚÑÜáéíóúñü]{2}/.test(value);
-      if (isVisible && hasWords && !technicalToken && !isTechnicalOnly(value)) {
+      if (isVisible && HAS_WORDS.test(value) && !technicalToken && !isTechnicalOnly(value)) {
         remainingUnknown.add(path.relative(ROOT, file) + ":" + lineOf(sf, node) + ": " + value.replace(/\s+/g, " "));
       }
       if (isVisible && !technicalToken && ENGLISH.test(value)) {
         remainingEnglish.add(path.relative(ROOT, file) + ":" + lineOf(sf, node) + ": " + value.replace(/\s+/g, " "));
+      }
+      if (isVisible && !technicalToken && esPendiente(value)) {
+        pendientes.add(path.relative(ROOT, file).replace(/\\/g, "/") + ": " + value.replace(/\s+/g, " "));
       }
       return;
     }
@@ -267,7 +356,28 @@ for (const file of roots.flatMap(function (dir) { return walk(dir, function (p) 
   fileCount += 1;
   stringCount += ordered.filter(function (edit) { return edit.content; }).length;
 }
+return {
+  fileCount: fileCount, stringCount: stringCount, unresolved: unresolved, remaining: remaining,
+  remainingEnglish: remainingEnglish, remainingUnknown: remainingUnknown,
+  pendientes: Array.from(pendientes).sort(),
+};
+}
+
+module.exports = { SPANISH: SPANISH, ENGLISH: ENGLISH, isTechnicalOnly: isTechnicalOnly, esPendiente: esPendiente, autotest: autotest };
+
+if (require.main === module) {
+const muestras = autotest();
+if (process.argv.includes("--autotest")) {
+  console.log("Autotest del barrido: " + muestras + " muestras, el guardian ve.");
+  process.exit(0);
+}
+const { fileCount, stringCount, unresolved, remaining, remainingEnglish, remainingUnknown, pendientes } = barrer();
+if (process.argv.includes("--json")) {
+  process.stdout.write(JSON.stringify(pendientes, null, 2) + "\n");
+  process.exit(0);
+}
 console.log((WRITE ? "Migradas " : "Detectadas ") + stringCount + " cadenas en " + fileCount + " ficheros.");
+console.log("Texto visible pendiente de traducir: " + pendientes.length);
 if (unresolved.length) {
   console.log("Pendientes de nivel superior:");
   for (const item of unresolved) console.log("  " + item);
@@ -291,4 +401,5 @@ if (process.argv.includes("--inventory")) {
   const output = path.join(ROOT, ".i18n-inventory.json");
   fs.writeFileSync(output, JSON.stringify(values, null, 2) + "\n", "utf8");
   console.log("Inventario escrito:", values.length, path.relative(ROOT, output));
+}
 }
