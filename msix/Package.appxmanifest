@@ -12,7 +12,7 @@
   <Identity
     Name="amezcua-dev.com.MolDesign"
     Publisher="CN=6441FBBA-B77A-4619-9CEB-ACEDE74573C0"
-    Version="1.0.0.0"
+    Version="1.0.1.0"
     ProcessorArchitecture="x64" />
 
   <Properties>
