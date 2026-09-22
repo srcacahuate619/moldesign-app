@@ -1,0 +1,709 @@
+[
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "predict_admet",
+    "description": "Predice ADMET: solubilidad (LogS), BBB, absorción intestinal (HIA), toxicidad hepática, unión a proteínas (PPB). Tarda ~3-5s.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "smiles": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": [
+      "smiles"
+     ]
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "generate_analogs",
+    "description": "Genera analogos por scaffold hopping o intercambio de sustituyentes.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "smiles": {
+       "type": "string",
+       "description": "SMILES de la molecula padre"
+      },
+      "n": {
+       "type": "integer",
+       "description": "Cantidad de analogos (default 20, max 50)"
+      },
+      "strategy": {
+       "type": "string",
+       "description": "all, scaffold_hop, substituent_swap, diversity"
+      }
+     },
+     "required": [
+      "smiles"
+     ]
+    }
+   }
+  },
+  "offline": true,
+  "category": "analog"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "explain_fragments",
+    "description": "Explica scaffold, fragmentacion BRICS y propiedades drug-likeness.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "smiles": {
+       "type": "string",
+       "description": "SMILES de la molecula a explicar"
+      }
+     },
+     "required": [
+      "smiles"
+     ]
+    }
+   }
+  },
+  "offline": true,
+  "category": "analog"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "run_docking",
+    "description": "Lanza una evaluación real (docking Vina) contra un target PDB. Corre en segundo plano y devuelve un task_id: NO trae el número todavía. Nunca inventes una afinidad; usá check_docking_status con ese task_id para leer el resultado cuando exista.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "smiles": {
+       "type": "string",
+       "description": ""
+      },
+      "target_pdb": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": [
+      "smiles"
+     ]
+    }
+   }
+  },
+  "offline": true,
+  "category": "docking"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "check_docking_status",
+    "description": "Consulta una evaluación lanzada con run_docking por su task_id y devuelve su estado o, si terminó, la afinidad y los scores persistidos con su procedencia. Si sigue en curso o falló, lo dice y no hay número que citar.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "task_id": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": [
+      "task_id"
+     ]
+    }
+   }
+  },
+  "offline": true,
+  "category": "docking"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "get_rescoring",
+    "description": "Predice afinidad de un SMILES usando XGBoost + GNN (rápido, ~1s).",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "smiles": {
+       "type": "string",
+       "description": ""
+      },
+      "target_pdb": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": [
+      "smiles"
+     ]
+    }
+   }
+  },
+  "offline": true,
+  "category": "docking"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "query_evaluation_details",
+    "description": "Consulta los datos REALES de una evaluación persistida del usuario: score total, afinidad, ADME score con subcomponentes (LogS, PPB, BBB, HIA, Lipinski, QED, SA), poses de docking con RMSD, versión y semilla de Vina, hotspots y timestamp. Usala para responder preguntas sobre 'la última evaluación', 'el score ADME', 'las poses', 'qué comando Vina se usó'. which='last' (default) | 'first' | 'target' | 'smiles'; target/smiles para filtrar.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "user_id": {
+       "type": "string",
+       "description": ""
+      },
+      "which": {
+       "type": "string",
+       "description": ""
+      },
+      "target": {
+       "type": "string",
+       "description": ""
+      },
+      "smiles": {
+       "type": "string",
+       "description": ""
+      },
+      "limit": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": []
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "query_molgraph",
+    "description": "Consulta el knowledge graph quimico de MolDesign. Usa query para busqueda por texto, target para buscar por target PDB, min_score/min_affinity para filtrar. Ej: 'moleculas contra 5-HT1A con score > 50'.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "query": {
+       "type": "string",
+       "description": ""
+      },
+      "target": {
+       "type": "string",
+       "description": ""
+      },
+      "min_score": {
+       "type": "string",
+       "description": ""
+      },
+      "min_affinity": {
+       "type": "string",
+       "description": ""
+      },
+      "limit": {
+       "type": "string",
+       "description": ""
+      },
+      "randomize": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": []
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "molgraph_neighbors",
+    "description": "Encuentra moleculas relacionadas (mismo target, similares).",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "smiles": {
+       "type": "string",
+       "description": ""
+      },
+      "limit": {
+       "type": "string",
+       "description": ""
+      },
+      "randomize": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": [
+      "smiles"
+     ]
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "molgraph_similar",
+    "description": "Encuentra moleculas quimicamente similares via fingerprints RDKit (Tanimoto).",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "smiles": {
+       "type": "string",
+       "description": ""
+      },
+      "threshold": {
+       "type": "string",
+       "description": ""
+      },
+      "limit": {
+       "type": "string",
+       "description": ""
+      },
+      "randomize": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": [
+      "smiles"
+     ]
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "molgraph_impact",
+    "description": "Analiza que modificaciones quimicas mejoraron/empeoraron la afinidad en evaluaciones pasadas.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "substructure": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": []
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "molgraph_scaffolds",
+    "description": "Agrupa moleculas en series quimicas por similitud (fingerprints).",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "threshold": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": []
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "molgraph_druglikeness",
+    "description": "Estadisticas de drug-likeness (Lipinski, Veber) sobre todas las evaluaciones.",
+    "parameters": {
+     "type": "object",
+     "properties": {},
+     "required": []
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "molgraph_admet",
+    "description": "Correlacion entre LogP y predicciones ADMET (BBB, HIA) en todas las evaluaciones.",
+    "parameters": {
+     "type": "object",
+     "properties": {},
+     "required": []
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "compute_properties",
+    "description": "Calcula MW, LogP, TPSA, HBD, HBA, rotatable bonds, rings de un SMILES.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "smiles": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": [
+      "smiles"
+     ]
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "validate_smiles",
+    "description": "Verifica si un SMILES es válido y devuelve su forma canónica.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "smiles": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": [
+      "smiles"
+     ]
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "check_druglikeness",
+    "description": "Evalúa Lipinski, Veber y alertas PAINS de un SMILES.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "smiles": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": [
+      "smiles"
+     ]
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "compare_molecules",
+    "description": "Compara propiedades de dos moléculas (MW, LogP, HBD, HBA, TPSA).",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "smiles_a": {
+       "type": "string",
+       "description": ""
+      },
+      "smiles_b": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": [
+      "smiles_a",
+      "smiles_b"
+     ]
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "rank_session_molecules",
+    "description": "Rankea las moléculas ya calculadas en ESTA conversación por una métrica: molecular_weight, log_p, tpsa, hbd, hba, affinity_kcal, total_score. Devuelve una tabla ordenada. Usala para responder 'cuál tiene menor/mayor peso molecular', 'cuál es la más lipofílica', etc. entre las moléculas que ya vimos en el chat.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "metric": {
+       "type": "string",
+       "description": ""
+      },
+      "order": {
+       "type": "string",
+       "description": ""
+      },
+      "limit": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": []
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "query_history",
+    "description": "Consulta el historial PERSISTIDO de evaluaciones del usuario. Todas las evaluaciones se guardan automáticamente. Filtros: target (receptor ej. 5HT1A), sort_by (total_score, affinity_kcal, molecular_weight, log_p, tpsa, qed), min/max_score, min_affinity, min/max_mw. Usala para 'qué evalué contra X', 'mejores scores', 'qué moleculas pasan Lipinski'.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "target": {
+       "type": "string",
+       "description": ""
+      },
+      "sort_by": {
+       "type": "string",
+       "description": ""
+      },
+      "order": {
+       "type": "string",
+       "description": ""
+      },
+      "min_score": {
+       "type": "string",
+       "description": ""
+      },
+      "max_score": {
+       "type": "string",
+       "description": ""
+      },
+      "min_affinity": {
+       "type": "string",
+       "description": ""
+      },
+      "min_mw": {
+       "type": "string",
+       "description": ""
+      },
+      "max_mw": {
+       "type": "string",
+       "description": ""
+      },
+      "limit": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": []
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "suggest_smiles",
+    "description": "Sugiere moléculas CRUZANDO con MolGraph (knowledge graph químico). mode='interesting' → SMILES aleatorio entre las evaluadas del grafo ('dame un smiles interesante'). mode='for_target' → SMILES aleatorio contra un receptor ('dame un smiles para el receptor de serotonina'; target puede ser nombre común o PDB ID). mode='variant' → variante de una molécula ('dame una variante de la aspirina'; busca primero en el grafo, si no hay genera con BRICS). Las selecciones son ALEATORIAS para nunca repetir el mismo SMILES.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "mode": {
+       "type": "string",
+       "description": "interesting | for_target | variant"
+      },
+      "target": {
+       "type": "string",
+       "description": "Receptor (nombre común o PDB ID) para mode='for_target'"
+      },
+      "smiles": {
+       "type": "string",
+       "description": "Molécula base para mode='variant'"
+      },
+      "limit": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": []
+    }
+   }
+  },
+  "offline": true,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "pubchem_lookup",
+    "description": "Propiedades FISICO-QUIMICAS VERIFICADAS de un compuesto en PubChem (NCBI NIH, 120M compuestos): MolecularWeight, XLogP, TPSA, HBD, HBA. USA ESTA TOOL en vez de inventar MW/LogP/TPSA de memoria. Cache offline. REQUIERE INTERNET la primera vez. Entrada: SMILES.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "smiles": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": [
+      "smiles"
+     ]
+    }
+   }
+  },
+  "offline": false,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "chembl_activity",
+    "description": "BIOACTIVIDAD y DIANAS verificadas de un farmaco. Fuente: ChEMBL (EBI, 2.4M compuestos, 15K targets, 19M bioactividades: IC50, Ki, Kd, EC50), con fases clinicas I-III y mechanism of action. Con failover a PubChem BioAssay si ChEMBL no responde. Cache offline. REQUIERE INTERNET. Entrada: nombre del compuesto (español o inglés).",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "molecule_name": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": [
+      "molecule_name"
+     ]
+    }
+   }
+  },
+  "offline": false,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "search_pdb",
+    "description": "Estructuras 3D de PROTEINAS en RCSB Protein Data Bank (257K entradas experimentales, estándar global): PDB ID, título, organismo fuente. Util para identificar targets de docking. Con fallback a ChEMBL target search si RCSB no responde. REQUIERE INTERNET. Entrada: texto libre (nombre del receptor, enzima o PDB ID).",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "query": {
+       "type": "string",
+       "description": ""
+      },
+      "limit": {
+       "type": "integer",
+       "description": ""
+      }
+     },
+     "required": [
+      "query"
+     ]
+    }
+   }
+  },
+  "offline": false,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "search_similar",
+    "description": "ANALOGOS QUIMICOS: busca moleculas similares por fingerprint Tanimoto. Primario: MolGraph local (offline, rapido). Fallback: ChEMBL similarity (online). NO usa PubChem similarity (requiere polling >30s). Util para explorar espacio quimico alrededor de un SMILES. Entrada: SMILES canonico.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "smiles": {
+       "type": "string",
+       "description": ""
+      },
+      "limit": {
+       "type": "integer",
+       "description": ""
+      }
+     },
+     "required": [
+      "smiles"
+     ]
+    }
+   }
+  },
+  "offline": false,
+  "category": "general"
+ },
+ {
+  "tool": {
+   "type": "function",
+   "function": {
+    "name": "pubchem_description",
+    "description": "DESCRIPCION COMPLETA de un compuesto: uso clinico, mecanismo de accion, indicaciones, sinónimos. Fuente primaria: PubChem (NCBI). Fallback: ChEMBL molecule schema. UTIL para contextualizar un farmaco SIN INVENTAR indicaciones ni mecanismos. Entrada: nombre del compuesto o CID numerico.",
+    "parameters": {
+     "type": "object",
+     "properties": {
+      "name_or_cid": {
+       "type": "string",
+       "description": ""
+      }
+     },
+     "required": [
+      "name_or_cid"
+     ]
+    }
+   }
+  },
+  "offline": false,
+  "category": "general"
+ }
+]

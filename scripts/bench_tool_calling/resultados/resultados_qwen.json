@@ -1,0 +1,1358 @@
+[
+ {
+  "arm": "qwen1.5b",
+  "caso": "props_smiles",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "propiedades de CC(=O)Oc1ccccc1C(=O)O",
+  "esperado": "compute_properties",
+  "obtenido": "compute_properties",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O"
+  },
+  "ms": 14688.3,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "props_nombre",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "propiedades de nicotina",
+  "esperado": "compute_properties",
+  "obtenido": "molgraph_druglikeness",
+  "acierto_tool": false,
+  "args": {},
+  "ms": 983.4,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "admet",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "predice la toxicidad y absorción de CCO",
+  "esperado": "predict_admet",
+  "obtenido": "predict_admet",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCO"
+  },
+  "ms": 877.3,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "docking",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "acopla CC(=O)Oc1ccccc1C(=O)O contra 1AJ6",
+  "esperado": "run_docking",
+  "obtenido": "suggest_smiles",
+  "acierto_tool": false,
+  "args": {
+   "mode": "for_target",
+   "target": "1AJ6"
+  },
+  "ms": 1130.3,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "docking_estado",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "cómo va la evaluación con id 4f2a1b",
+  "esperado": "check_docking_status",
+  "obtenido": "check_docking_status",
+  "acierto_tool": true,
+  "args": {
+   "task_id": "4f2a1b"
+  },
+  "ms": 1170.9,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "validar",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "es válido este SMILES C1=CC=CC=C1O",
+  "esperado": "validate_smiles",
+  "obtenido": "validate_smiles",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "C1=CC=CC=C1O"
+  },
+  "ms": 1177.8,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "druglike",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "cumple Lipinski la molécula CCN(CC)CC",
+  "esperado": "check_druglikeness",
+  "obtenido": "check_druglikeness",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCN(CC)CC"
+  },
+  "ms": 1088.3,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "comparar",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "compará la aspirina con el ibuprofeno",
+  "esperado": "compare_molecules",
+  "obtenido": "compare_molecules",
+  "acierto_tool": true,
+  "args": {
+   "smiles_a": "O=C1CC=CC=C1",
+   "smiles_b": "C1=CC=CC=C1"
+  },
+  "ms": 1503.1,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "analogos",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "generá análogos de CC(=O)Oc1ccccc1C(=O)O",
+  "esperado": "generate_analogs",
+  "obtenido": "generate_analogs",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O",
+   "n": 20,
+   "strategy": "all"
+  },
+  "ms": 1575.7,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "fragmentos",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "explicá el scaffold de CC(=O)Oc1ccccc1C(=O)O",
+  "esperado": "explain_fragments",
+  "obtenido": "explain_fragments",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O"
+  },
+  "ms": 1340.8,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "molgraph",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "qué moléculas hay contra 5-HT1A?",
+  "esperado": "query_molgraph",
+  "obtenido": "query_evaluation_details",
+  "acierto_tool": false,
+  "args": {
+   "user_id": "user123",
+   "which": "target",
+   "target": "5-HT1A"
+  },
+  "ms": 1278.2,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "historial",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "mejores scores del historial",
+  "esperado": "query_history",
+  "obtenido": "query_history",
+  "acierto_tool": true,
+  "args": {
+   "sort_by": "total_score",
+   "order": "desc",
+   "limit": "10"
+  },
+  "ms": 1310.2,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ranking",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "rankeá las moléculas de esta sesión por peso molecular",
+  "esperado": "rank_session_molecules",
+  "obtenido": "rank_session_molecules",
+  "acierto_tool": true,
+  "args": {
+   "metric": "molecular_weight",
+   "order": "asc",
+   "limit": "10"
+  },
+  "ms": 1306.8,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "similares",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "moléculas químicamente similares a CCO",
+  "esperado": "molgraph_similar",
+  "obtenido": "molgraph_similar",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCO",
+   "threshold": "0.8",
+   "limit": "10"
+  },
+  "ms": 1353.2,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "rescoring",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "predecí la afinidad de CCO contra 1AJ6 sin correr docking",
+  "esperado": "get_rescoring",
+  "obtenido": "get_rescoring",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCO",
+   "target_pdb": "1AJ6"
+  },
+  "ms": 1174.9,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_capital",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "cuál es la capital de Francia",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 368.9,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_saludo",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "hola, qué tal estás hoy",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 586.9,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_clima",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "va a llover mañana en Madrid",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 538.1,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_codigo",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "escribime una función en Python que ordene una lista",
+  "esperado": null,
+  "obtenido": "rank_session_molecules",
+  "acierto_tool": false,
+  "args": {
+   "metric": "molecular_weight",
+   "order": "asc",
+   "limit": "10"
+  },
+  "ms": 1297.5,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_receta",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "cómo se hace una tortilla de patatas",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 1237.1,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_opinion",
+  "idioma_q": "es",
+  "idioma_desc": "es",
+  "prompt": "qué opinás del futuro de la inteligencia artificial",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 1816.0,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "props_smiles",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "properties of CC(=O)Oc1ccccc1C(=O)O",
+  "esperado": "compute_properties",
+  "obtenido": "compute_properties",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O"
+  },
+  "ms": 1318.5,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "props_nombre",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "properties of nicotine",
+  "esperado": "compute_properties",
+  "obtenido": "predict_admet",
+  "acierto_tool": false,
+  "args": {
+   "smiles": "O=C(N)C(=O)N"
+  },
+  "ms": 1071.0,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "admet",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "predict the toxicity and absorption of CCO",
+  "esperado": "predict_admet",
+  "obtenido": "predict_admet",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCO"
+  },
+  "ms": 871.5,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "docking",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "dock CC(=O)Oc1ccccc1C(=O)O against 1AJ6",
+  "esperado": "run_docking",
+  "obtenido": "run_docking",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O",
+   "target_pdb": "1AJ6"
+  },
+  "ms": 1538.0,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "docking_estado",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "how is the evaluation with id 4f2a1b going",
+  "esperado": "check_docking_status",
+  "obtenido": "check_docking_status",
+  "acierto_tool": true,
+  "args": {
+   "task_id": "4f2a1b"
+  },
+  "ms": 1121.6,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "validar",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "is this SMILES valid C1=CC=CC=C1O",
+  "esperado": "validate_smiles",
+  "obtenido": "validate_smiles",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "C1=CC=CC=C1O"
+  },
+  "ms": 926.0,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "druglike",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "does the molecule CCN(CC)CC satisfy Lipinski",
+  "esperado": "check_druglikeness",
+  "obtenido": "check_druglikeness",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCN(CC)CC"
+  },
+  "ms": 991.3,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "comparar",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "compare aspirin with ibuprofen",
+  "esperado": "compare_molecules",
+  "obtenido": "compare_molecules",
+  "acierto_tool": true,
+  "args": {
+   "_raw": "{\n\"smiles_a\": \"O=C(NC(=O)NCCO)C(=O)N\",\n\"smiles_b\": \"C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C)C(C"
+  },
+  "ms": 10983.4,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "analogos",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "generate analogs of CC(=O)Oc1ccccc1C(=O)O",
+  "esperado": "generate_analogs",
+  "obtenido": "generate_analogs",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O",
+   "n": 20,
+   "strategy": "all"
+  },
+  "ms": 1406.7,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "fragmentos",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "explain the scaffold of CC(=O)Oc1ccccc1C(=O)O",
+  "esperado": "explain_fragments",
+  "obtenido": "explain_fragments",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O"
+  },
+  "ms": 1252.1,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "molgraph",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "what molecules are there against 5-HT1A?",
+  "esperado": "query_molgraph",
+  "obtenido": "query_evaluation_details",
+  "acierto_tool": false,
+  "args": {
+   "user_id": "user123",
+   "which": "target",
+   "target": "5-HT1A"
+  },
+  "ms": 1318.3,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "historial",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "best scores from the history",
+  "esperado": "query_history",
+  "obtenido": "query_history",
+  "acierto_tool": true,
+  "args": {
+   "sort_by": "affinity_kcal",
+   "order": "desc",
+   "limit": "10"
+  },
+  "ms": 914.8,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ranking",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "rank the molecules of this session by molecular weight",
+  "esperado": "rank_session_molecules",
+  "obtenido": "rank_session_molecules",
+  "acierto_tool": true,
+  "args": {
+   "metric": "molecular_weight",
+   "order": "desc",
+   "limit": "10"
+  },
+  "ms": 809.3,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "similares",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "molecules chemically similar to CCO",
+  "esperado": "molgraph_similar",
+  "obtenido": "molgraph_similar",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCCO",
+   "threshold": "0.8",
+   "limit": "10"
+  },
+  "ms": 1254.9,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "rescoring",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "predict the affinity of CCO against 1AJ6 without running docking",
+  "esperado": "get_rescoring",
+  "obtenido": "get_rescoring",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCO",
+   "target_pdb": "1AJ6"
+  },
+  "ms": 1167.6,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_capital",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "what is the capital of France",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 303.1,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_saludo",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "hello, how are you doing today",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 676.7,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_clima",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "is it going to rain tomorrow in Madrid",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 822.1,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_codigo",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "write me a Python function that sorts a list",
+  "esperado": null,
+  "obtenido": "suggest_smiles",
+  "acierto_tool": false,
+  "args": {
+   "mode": "interesting"
+  },
+  "ms": 973.9,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_receta",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "how do you make a Spanish omelette",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 426.9,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_opinion",
+  "idioma_q": "en",
+  "idioma_desc": "es",
+  "prompt": "what do you think about the future of artificial intelligence",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 1153.3,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "props_smiles",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "propiedades de CC(=O)Oc1ccccc1C(=O)O",
+  "esperado": "compute_properties",
+  "obtenido": "compute_properties",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O"
+  },
+  "ms": 11207.1,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "props_nombre",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "propiedades de nicotina",
+  "esperado": "compute_properties",
+  "obtenido": "compute_properties",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "O=C(N)C(=O)N"
+  },
+  "ms": 996.3,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "admet",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "predice la toxicidad y absorción de CCO",
+  "esperado": "predict_admet",
+  "obtenido": "predict_admet",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCO"
+  },
+  "ms": 933.4,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "docking",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "acopla CC(=O)Oc1ccccc1C(=O)O contra 1AJ6",
+  "esperado": "run_docking",
+  "obtenido": "run_docking",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O",
+   "target_pdb": "1AJ6"
+  },
+  "ms": 1560.8,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "docking_estado",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "cómo va la evaluación con id 4f2a1b",
+  "esperado": "check_docking_status",
+  "obtenido": "check_docking_status",
+  "acierto_tool": true,
+  "args": {
+   "task_id": "4f2a1b"
+  },
+  "ms": 1039.8,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "validar",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "es válido este SMILES C1=CC=CC=C1O",
+  "esperado": "validate_smiles",
+  "obtenido": "validate_smiles",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "C1=CC=CC=C1O"
+  },
+  "ms": 725.3,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "druglike",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "cumple Lipinski la molécula CCN(CC)CC",
+  "esperado": "check_druglikeness",
+  "obtenido": "check_druglikeness",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCN(CC)CC"
+  },
+  "ms": 931.7,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "comparar",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "compará la aspirina con el ibuprofeno",
+  "esperado": "compare_molecules",
+  "obtenido": "compare_molecules",
+  "acierto_tool": true,
+  "args": {
+   "smiles_a": "O=C(NC(=O)N)C",
+   "smiles_b": "C13H16N2O2"
+  },
+  "ms": 1498.2,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "analogos",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "generá análogos de CC(=O)Oc1ccccc1C(=O)O",
+  "esperado": "generate_analogs",
+  "obtenido": "generate_analogs",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O",
+   "n": 20,
+   "strategy": "all"
+  },
+  "ms": 1689.8,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "fragmentos",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "explicá el scaffold de CC(=O)Oc1ccccc1C(=O)O",
+  "esperado": "explain_fragments",
+  "obtenido": "explain_fragments",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O"
+  },
+  "ms": 1295.7,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "molgraph",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "qué moléculas hay contra 5-HT1A?",
+  "esperado": "query_molgraph",
+  "obtenido": null,
+  "acierto_tool": false,
+  "args": {},
+  "ms": 2805.9,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "historial",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "mejores scores del historial",
+  "esperado": "query_history",
+  "obtenido": "query_history",
+  "acierto_tool": true,
+  "args": {
+   "target": "",
+   "sort_by": "score",
+   "order": "desc",
+   "min_score": "",
+   "max_score": "",
+   "min_affinity": "",
+   "min_mw": "",
+   "max_mw": "",
+   "limit": ""
+  },
+  "ms": 1842.6,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ranking",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "rankeá las moléculas de esta sesión por peso molecular",
+  "esperado": "rank_session_molecules",
+  "obtenido": "rank_session_molecules",
+  "acierto_tool": true,
+  "args": {
+   "metric": "molecular_weight",
+   "order": "desc",
+   "limit": "10"
+  },
+  "ms": 1180.1,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "similares",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "moléculas químicamente similares a CCO",
+  "esperado": "molgraph_similar",
+  "obtenido": "molgraph_similar",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCO",
+   "threshold": "0.8",
+   "limit": "10"
+  },
+  "ms": 1076.1,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "rescoring",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "predecí la afinidad de CCO contra 1AJ6 sin correr docking",
+  "esperado": "get_rescoring",
+  "obtenido": "get_rescoring",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCO",
+   "target_pdb": "1AJ6"
+  },
+  "ms": 1119.8,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_capital",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "cuál es la capital de Francia",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 360.7,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_saludo",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "hola, qué tal estás hoy",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 564.6,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_clima",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "va a llover mañana en Madrid",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 708.8,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_codigo",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "escribime una función en Python que ordene una lista",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 1829.4,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_receta",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "cómo se hace una tortilla de patatas",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 887.8,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_opinion",
+  "idioma_q": "es",
+  "idioma_desc": "en",
+  "prompt": "qué opinás del futuro de la inteligencia artificial",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 1891.0,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "props_smiles",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "properties of CC(=O)Oc1ccccc1C(=O)O",
+  "esperado": "compute_properties",
+  "obtenido": "compute_properties",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O"
+  },
+  "ms": 1266.8,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "props_nombre",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "properties of nicotine",
+  "esperado": "compute_properties",
+  "obtenido": "compute_properties",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "O=C(N)C(=O)N"
+  },
+  "ms": 1006.5,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "admet",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "predict the toxicity and absorption of CCO",
+  "esperado": "predict_admet",
+  "obtenido": "predict_admet",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCO"
+  },
+  "ms": 932.0,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "docking",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "dock CC(=O)Oc1ccccc1C(=O)O against 1AJ6",
+  "esperado": "run_docking",
+  "obtenido": "run_docking",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O",
+   "target_pdb": "1AJ6"
+  },
+  "ms": 1037.4,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "docking_estado",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "how is the evaluation with id 4f2a1b going",
+  "esperado": "check_docking_status",
+  "obtenido": "check_docking_status",
+  "acierto_tool": true,
+  "args": {
+   "task_id": "4f2a1b"
+  },
+  "ms": 1004.7,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "validar",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "is this SMILES valid C1=CC=CC=C1O",
+  "esperado": "validate_smiles",
+  "obtenido": "validate_smiles",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "C1=CC=CC=C1O"
+  },
+  "ms": 1110.0,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "druglike",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "does the molecule CCN(CC)CC satisfy Lipinski",
+  "esperado": "check_druglikeness",
+  "obtenido": "check_druglikeness",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCN(CC)CC"
+  },
+  "ms": 1032.1,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "comparar",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "compare aspirin with ibuprofen",
+  "esperado": "compare_molecules",
+  "obtenido": "compare_molecules",
+  "acierto_tool": true,
+  "args": {
+   "_raw": "{\n\"smiles_a\": \"O=C(NC(=O)N3C(=O)N2C(=O)N1C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(=O)C(="
+  },
+  "ms": 10878.3,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "analogos",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "generate analogs of CC(=O)Oc1ccccc1C(=O)O",
+  "esperado": "generate_analogs",
+  "obtenido": "generate_analogs",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O",
+   "n": 20,
+   "strategy": "all"
+  },
+  "ms": 1688.0,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "fragmentos",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "explain the scaffold of CC(=O)Oc1ccccc1C(=O)O",
+  "esperado": "explain_fragments",
+  "obtenido": "explain_fragments",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O"
+  },
+  "ms": 1316.6,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "molgraph",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "what molecules are there against 5-HT1A?",
+  "esperado": "query_molgraph",
+  "obtenido": null,
+  "acierto_tool": false,
+  "args": {},
+  "ms": 1188.0,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "historial",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "best scores from the history",
+  "esperado": "query_history",
+  "obtenido": "query_history",
+  "acierto_tool": true,
+  "args": {
+   "target": "",
+   "sort_by": "",
+   "order": "",
+   "min_score": "",
+   "max_score": "",
+   "min_affinity": "",
+   "min_mw": "",
+   "max_mw": "",
+   "limit": ""
+  },
+  "ms": 1660.5,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ranking",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "rank the molecules of this session by molecular weight",
+  "esperado": "rank_session_molecules",
+  "obtenido": "rank_session_molecules",
+  "acierto_tool": true,
+  "args": {
+   "metric": "molecular_weight",
+   "order": "desc",
+   "limit": "10"
+  },
+  "ms": 1317.9,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "similares",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "molecules chemically similar to CCO",
+  "esperado": "molgraph_similar",
+  "obtenido": "molgraph_similar",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCO"
+  },
+  "ms": 923.9,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "rescoring",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "predict the affinity of CCO against 1AJ6 without running docking",
+  "esperado": "get_rescoring",
+  "obtenido": "get_rescoring",
+  "acierto_tool": true,
+  "args": {
+   "smiles": "CCO",
+   "target_pdb": "1AJ6"
+  },
+  "ms": 1098.2,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_capital",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "what is the capital of France",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 144.1,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_saludo",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "hello, how are you doing today",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 217.6,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_clima",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "is it going to rain tomorrow in Madrid",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 778.4,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_codigo",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "write me a Python function that sorts a list",
+  "esperado": null,
+  "obtenido": "rank_session_molecules",
+  "acierto_tool": false,
+  "args": {
+   "metric": "similarity",
+   "order": "desc",
+   "limit": "10"
+  },
+  "ms": 1182.5,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_receta",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "how do you make a Spanish omelette",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 432.5,
+  "confidence": null,
+  "error": null
+ },
+ {
+  "arm": "qwen1.5b",
+  "caso": "ooc_opinion",
+  "idioma_q": "en",
+  "idioma_desc": "en",
+  "prompt": "what do you think about the future of artificial intelligence",
+  "esperado": null,
+  "obtenido": null,
+  "acierto_tool": true,
+  "args": {},
+  "ms": 1232.0,
+  "confidence": null,
+  "error": null
+ }
+]
