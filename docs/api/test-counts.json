@@ -95,6 +95,7 @@
         "tests/test_fixtures_del_gate_no_divergen.py": 5,
         "tests/test_gate_molchat_adversarial.py": 18,
         "tests/test_guarda_frontera_open_babel.py": 23,
+        "tests/test_guarda_push_publico.py": 4,
         "tests/test_herg_y_desolvatacion.py": 9,
         "tests/test_higiene_del_turno.py": 17,
         "tests/test_historial_es_proyeccion_de_la_db.py": 8,
@@ -203,7 +204,7 @@
         "tests/test_windows_maquina_limpia.py": 6,
         "tests/test_workspace_lock.py": 2
       },
-      "total": 2542
+      "total": 2546
     }
   }
 }

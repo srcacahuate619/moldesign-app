@@ -249,30 +249,33 @@ npm run test:run      # 1056 pruebas
 npm run tauri:build   # instalador completo
 ```
 
-`tauri:build` encadena catorce puertas en `beforeBuildCommand`, más `cargo`/NSIS y
+`tauri:build` encadena quince puertas en `beforeBuildCommand`, más `cargo`/NSIS y
 el sellado. Todas bloquean el build si fallan. La lista sale de
-`frontend/src-tauri/tauri.conf.json`, no de la memoria de nadie:
+`frontend/src-tauri/tauri.conf.json`, no de la memoria de nadie (esta tabla
+decía catorce y le faltaba la primera; la auditoría externa 001 lo midió el
+2026-09-22):
 
 | # | Puerta | Qué comprueba |
 |---:|---|---|
-| 1 | `check:csp` | la CSP de producción trae lo que la app necesita |
-| 2 | `check:rescoring-manifest` | los pesos declarados son los que hay |
-| 3 | `check:m5-manifest` | el manifiesto de M5-Zn |
-| 4 | `check:goldens` | las ocho corridas doradas, byte a byte |
-| 5 | `check:pesos-stacking` | la interfaz y el backend resuelven los mismos pesos |
-| 6 | `check:openbabel-fuente` | `tools/openbabel/` coincide con su manifiesto y **convierte una molécula de verdad** |
-| 7 | `stage:desktop` | copia el runtime y precompila el bytecode del arranque |
-| 8 | `check:openbabel` | la frontera con Open Babel **sobre el bundle staged** (ver abajo) |
-| 9 | `verify:desktop-runtime` | imports, Vina, Open Babel y `/health` con el Python embebido |
-| 10 | `check:evaluation-runtime` | una evaluación real con Vina termina, persiste y reaparece desde el bundle |
-| 11 | `check:dossier-embebido` | el dossier del runtime embebido coincide con el de desarrollo |
-| 12 | `build:desktop` | export estático de Next |
-| 13 | `check:exported-api-url` | ningún puerto de backend horneado |
-| 14 | `check:no-remote-assets` | ningún recurso remoto |
+| 1 | `check:runtime-arbol` | el runtime que las demás dan por hecho existe (`python-embed/` y compañía), con el Python del sistema |
+| 2 | `check:csp` | la CSP de producción trae lo que la app necesita |
+| 3 | `check:rescoring-manifest` | los pesos declarados son los que hay |
+| 4 | `check:m5-manifest` | el manifiesto de M5-Zn |
+| 5 | `check:goldens` | las ocho corridas doradas, byte a byte |
+| 6 | `check:pesos-stacking` | la interfaz y el backend resuelven los mismos pesos |
+| 7 | `check:openbabel-fuente` | `tools/openbabel/` coincide con su manifiesto y **convierte una molécula de verdad** |
+| 8 | `stage:desktop` | copia el runtime y precompila el bytecode del arranque |
+| 9 | `check:openbabel` | la frontera con Open Babel **sobre el bundle staged** (ver abajo) |
+| 10 | `verify:desktop-runtime` | imports, Vina, Open Babel y `/health` con el Python embebido |
+| 11 | `check:evaluation-runtime` | una evaluación real con Vina termina, persiste y reaparece desde el bundle |
+| 12 | `check:dossier-embebido` | el dossier del runtime embebido coincide con el de desarrollo |
+| 13 | `build:desktop` | export estático de Next |
+| 14 | `check:exported-api-url` | ningún puerto de backend horneado |
+| 15 | `check:no-remote-assets` | ningún recurso remoto |
 | — | `cargo` + NSIS | el instalador |
 | — | `seal:installer` | SHA-256 y manifiesto de release |
 
-**El orden de 7 y 8 no es casual.** `check:openbabel` mira el ARTEFACTO —sin
+**El orden de 8 y 9 no es casual.** `check:openbabel` mira el ARTEFACTO —sin
 bindings de Open Babel en `site-packages`, sin resolución por `PATH`, hash y
 versión correctos, conversión PDBQT→SDF real— así que sólo puede correr después
 de `stage:desktop`. Comprobar el repositorio no habría detectado nada: las
@@ -326,6 +329,16 @@ Cada una viene de un fallo real que costó al menos un instalador.
    de sondeo que arrastraba torch, y un precalentamiento de modelos que
    bloqueaba la ventana. Antes de añadir algo al arranque, mide con
    `python -X importtime`.
+
+8. **La rama de desarrollo no se empuja al repositorio público.** Su historial
+   contiene manuscritos sin enviar, el deck y registros internos
+   (`scripts/retenidos_del_publico.txt`) y una contraseña del servidor que hay
+   que dar por comprometida. Se
+   publica replicando commits sobre la rama `publico` en un worktree. El
+   2026-09-21 alguien empujó `codex/release-hygiene` y el tag `v1.0.1` y las 56
+   rutas quedaron públicas; desde entonces `scripts/check_push_publico.py` es un
+   hook `pre-push` que rechaza cualquier ref cuyo historial las toque. Si el
+   hook no está, instálalo con `--instalar` antes de empujar nada.
 
 ---
 
@@ -398,15 +411,17 @@ SBOM los lista ahora en `sin_licencia_declarada`. Ver
 
 ## Estado y honestidad
 
-- Backend: **2518** pruebas recolectadas con el intérprete que se distribuye
-  (`python-embed`, 3.11.9). Con el intérprete de desarrollo (3.14) son 36 más:
+- Backend: **2546** pruebas recolectadas con el intérprete que se distribuye
+  (`python-embed`, 3.11.9), medidas el 2026-09-22. Con el intérprete de
+  desarrollo (3.14) son 36 más (2582):
   la diferencia son `importorskip` cuya dependencia no viaja en el bundle, y por
   eso el número que vale es el del runtime embebido. Frontend: **1056** en 117
   archivos. `tsc` limpio.
   El conteo del backend lo mantiene `scripts/report_test_counts.py`, que
   escribe `docs/api/test-counts.json`: esa es la fuente, no este párrafo.
-  Este párrafo ya envejeció una vez —decía 2117 y 889— mientras el registro
-  estaba al día; si vuelven a discrepar, manda el registro.
+  Este párrafo ya envejeció dos veces —decía 2117 y 889, y luego 2518 cuando
+  el registro ya daba 2542— mientras el registro estaba al día; si vuelven a
+  discrepar, manda el registro.
 - Smoke de producción: **12/12**.
 - Arranque medido en entorno de producción: **~6 s**.
 - **Cero usuarios externos** todavía. El propio roadmap identifica esto como el

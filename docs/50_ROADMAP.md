@@ -15,7 +15,8 @@ que es el registro de lo que ya se midió. Este documento es lo que falta por ha
 ## 0. La tesis, corregida por la evidencia
 
 La tesis original era que MolDesign aportaría **mejores modelos**. Ochenta y nueve
-experimentos sellados dicen que no, en cinco de seis componentes:
+experimentos sellados (los que había al escribir esto, el 2026-08-19; el
+2026-09-22 son 151) dicen que no, en cinco de seis componentes:
 
 | Componente | Veredicto |
 |---|---|
@@ -114,7 +115,7 @@ minutos y que desmonta esa afirmación. Son baratos. No hay excusa.
 | 3 | **Adoptar el CLA** | Único elemento con fecha de caducidad: el primer PR externo sin CLA congela la licencia para siempre. El archivo ya está escrito |
 | 4 | ~~**Licencia de `rescoring/RTMScore/`**~~ — **HECHO 2026-09-01** | MIT upstream incorporada con atribución y gate de empaquetado |
 | 5 | **Los 48 papers restantes del registro** | 46 de 94 escritos. Las dos columnas protagonistas están completas; falta `MF-33-A2` y las capas de contexto |
-| 6 | **Sacar las credenciales del servidor del código** | Usuario y contraseña en claro en `scripts/remote_docker_runner.py` y varios de `scratch/`, commiteados |
+| 6 | **Sacar las credenciales del servidor del código** — **en el código, HECHO; en el historial, NO** (revisado el 2026-09-22) | Usuario y contraseña en claro en `scripts/remote_docker_runner.py`, commiteados. La punta ya no los tiene (`3bb3093` quitó la contraseña por defecto y `376715b` el host y el usuario), y `scratch/` nunca llegó a versionarse. Pero la contraseña sigue en tres commits del historial (`0cf8ec5`, `1165cdd`, `3bb3093`), y ese historial llegó al repositorio público el 2026-09-21. Queda abierto hasta **rotarla** y poner `PasswordAuthentication no` en el servidor; quitarla del código nunca bastaba |
 
 **Qué lo cancela**: nada. Es deuda, no apuesta.
 
@@ -161,7 +162,8 @@ el paquete— eso no cancela la cartera, la convierte en la única prioridad.
 
 ## 4. H3 — El primer usuario externo
 
-**Por qué está al mismo nivel que la investigación:** 89 experimentos y **cero usuarios**.
+**Por qué está al mismo nivel que la investigación:** 151 experimentos sellados
+(2026-09-22) y **cero usuarios**.
 Ese es el riesgo de muerte real del proyecto, no el científico. Una herramienta sin
 usuarios muere aunque sea buena, y un usuario con nombre cambia de golpe toda solicitud
 de financiación.

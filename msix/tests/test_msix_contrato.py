@@ -533,21 +533,26 @@ def test_las_copias_enviadas_no_se_desincronizan_del_original():
 #   backend/api/main.py (APP_VERSION) -> lo que responde /health y lo que graba
 #                       la evidencia de aceptacion
 #   lib/softwareCatalog.ts (PRODUCT.version) -> lo que el usuario ve en «Acerca de»
+#   package-lock.json (raiz) -> lo que npm reescribe si alguien no la sube
+#   CITATION.cff     -> lo que cita quien publica con MolDesign
 #
 # Estaban desalineados: cuatro decian 1.0.0-alpha.2 y la pantalla «Acerca de»
 # decia 1.0.0. Un envio a Store donde el paquete y la propia app declaran
 # versiones distintas es exactamente el detalle que delata un producto sin
-# terminar.
+# terminar. Los dos ultimos entraron el 2026-09-22: con 1.0.1 publicado, el
+# lockfile seguia en 1.0.0 y CITATION.cff en 1.0.0-alpha.2, y nada lo vigilaba.
 FUENTES_DE_VERSION = {
     "frontend/src-tauri/tauri.conf.json": r'"version"\s*:\s*"([^"]+)"',
     "frontend/src-tauri/Cargo.toml": r'^version\s*=\s*"([^"]+)"',
     "frontend/package.json": r'"version"\s*:\s*"([^"]+)"',
     "backend/api/main.py": r'^APP_VERSION\s*=\s*"([^"]+)"',
     "frontend/lib/softwareCatalog.ts": r'version:\s*"([^"]+)"',
+    "frontend/package-lock.json": r'"version"\s*:\s*"([^"]+)"',
+    "CITATION.cff": r'^version:\s*"([^"]+)"',
 }
 
 
-def test_los_cinco_sitios_declaran_la_misma_version():
+def test_los_sitios_que_declaran_la_version_coinciden():
     import re as _re
 
     encontradas = {}
