@@ -16,6 +16,20 @@ cd /work
 W="${WORKERS:-3}"
 log() { echo "[$(date -u +%FT%TZ)] $*"; }
 
+# La RDKit de los sellos, no la de la imagen. El 2026-09-22 la réplica de FEP-01
+# con la 2026.03.1 del contenedor cambió el número de tautómeros de 7 de los
+# 203 complejos (ninguno cruzó la frontera ambiguo/no ambiguo): la distribución
+# depende de la versión. Se instala aparte, sin tocar la imagen:
+#   pip install --no-deps --target /work/.rdkit-2025.09.6 rdkit==2025.9.6
+RDKIT_ESPERADO=2025.09.6
+export PYTHONPATH="/work/.rdkit-$RDKIT_ESPERADO${PYTHONPATH:+:$PYTHONPATH}"
+RDKIT_VISTO=$(python -c "import rdkit; print(rdkit.__version__)")
+if [ "$RDKIT_VISTO" != "$RDKIT_ESPERADO" ]; then
+  echo "✗ RDKit $RDKIT_VISTO; los sellos se hicieron con $RDKIT_ESPERADO" >&2
+  exit 1
+fi
+log "RDKit $RDKIT_VISTO (la de los sellos)"
+
 case "${1:-}" in
   replicas)
     for n in 1 2 3; do
