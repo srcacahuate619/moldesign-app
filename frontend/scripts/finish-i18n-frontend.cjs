@@ -145,7 +145,7 @@ const SIGLAS = new Set([
   "PDF", "ZIP", "XLSX", "TXT", "GPU", "CPU", "RAM", "GB", "MB", "SAR", "LogP", "BBB", "QED",
   "ID", "AI", "ADMET", "sha256", "Vina", "MolDesign", "MolChat", "Moldex", "RDKit", "Meeko",
   "ESMFold", "ColabFold", "DiffDock", "RFdiffusion", "TabPFN", "Solana", "Web3D", "MolStar",
-  "Lovering", "SHA", "pKi", "Qwen", "Tanimoto", "GGUF",
+  "Lovering", "SHA", "pKi", "Qwen", "Tanimoto", "GGUF", "Lipinski", "Veber", "XGBoost", "GNN",
 ]);
 
 function isTechnicalOnly(value) {
@@ -175,14 +175,15 @@ function esPendiente(value) {
 const DEBE_MARCAR = [
   "Cohortes", "OPCIONES", "Guardar", "Receptor (PDB ID)", "Cohortes guardadas",
   "A\u00f1adir ligando", "\u00bfContinuar?", "~3 pasos", "Open", "SDF descargado",
-  "Evaluaci\u00f3n #123", "Ver https://ejemplo.org",
+  "Evaluaci\u00f3n #123", "Ver https://ejemplo.org", "Regla de Lipinski",
 ];
 const NO_DEBE_MARCAR = [
   "SMILES", "PDB ID", "AutoDock Vina", "kcal/mol", "IC50", "Open Babel", "PDBQT",
   "MolDesign AI \u00b7 PolyForm Noncommercial", "ADMET-AI & TabPFN", "(Lovering 2009)",
   "bg-zinc-900", "https://ejemplo.org/ruta", "#a1b2c3", "12.5 \u00c5", "sha256",
   "contacto@amezcua-dev.com", "~5 min", "&Delta;", "enableADMET", "case.json",
-  "Qwen/Qwen2.5-1.5B-Instruct-GGUF", "imp=", "SHA-256", "pKi",
+  "Qwen/Qwen2.5-1.5B-Instruct-GGUF", "imp=", "SHA-256", "pKi", "Lipinski", "Veber",
+  "Vina + XGBoost + GNN",
 ];
 
 function autotest() {
