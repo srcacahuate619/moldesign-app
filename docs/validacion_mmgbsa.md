@@ -1,10 +1,13 @@
 # Validación de MM-GBSA para bromo y yodo: hipótesis
 
-**Estado: BORRADOR PARA INVESTIGAR.** Escrito el 2026-09-23. El propietario
-investiga cada hipótesis, completa su apartado «Notas» y decide el orden. Sólo
-entonces se prerregistra cada una (`scripts/experiment_manifest.py init`) y se
-lanza en el servidor. **Nada de lo que hay aquí está medido salvo lo que dice
-«medido»**; lo demás son conjeturas con su forma de refutarlas.
+**Estado: EN MARCHA.** Escrito el 2026-09-23. El propietario investigó las
+hipótesis (informe de búsqueda profunda del 2026-09-23, «Viabilidad científica
+de MolDesign 1.0.2», fuera del repositorio) y sus conclusiones están en cada
+apartado «Notas del propietario». Cada hipótesis se prerregistra
+(`scripts/experiment_manifest.py init`) antes de lanzarla. **Nada de lo que
+hay aquí está medido salvo lo que dice «medido»**; lo demás son conjeturas con
+su forma de refutarlas. Las cifras que el informe cita de fuentes externas
+(licencia de FreeSolv, número de moléculas) se verifican antes de usarlas.
 
 Objetivo: que MolDesign pueda puntuar con MM-GBSA ligandos con Br e I usando
 **parámetros propios validados**, no rechazarlos ni copiar un respaldo que ya
@@ -55,7 +58,8 @@ El respaldo de Amber falla sobre todo por la **clase de conectividad**:
 | Br | 89 | 114 | 64 | 23 | 109 de 114 |
 | I | 33 | 40 | 19 | 12 | 39 de 40 |
 
-Ya hay 22 topologías de Br/I en el servidor (`~/moldesign-fep/halogenos_trabajo/`).
+Ya hay 24 topologías de Br/I en el servidor (`~/moldesign-fep/halogenos_trabajo/`),
+de las 55 de la medida LCPO.
 Las afinidades válidas son sólo las de Fase A: lo que el índice local añadió
 desde BindingDB está emparejado por diana, no por ligando (FEP-03-PDBBIND).
 
@@ -65,9 +69,15 @@ desde BindingDB está emparejado por diana, no por ligando (FEP-03-PDBBIND).
 
 Se fija antes de ajustar nada:
 
-1. **Particiones por diana**, nunca por ligando: entrenamiento, validación y
-   prueba sin ninguna diana compartida. La prueba no se mira hasta fijar los
-   parámetros.
+1. **Particiones sin fuga, según el problema** (corregido con las notas del
+   propietario: «por diana» no es una regla universal):
+   - problemas **del ligando** (LCPO, solvatación, H1-H4, H6, H10): grupos por
+     **scaffold de Bemis-Murcko + entorno químico del halógeno** (arilo /
+     alifático). En FreeSolv no hay diana.
+   - problemas **de unión** (H7-H9): por **diana o serie congenérica**.
+   - 60 % entrenamiento, 20 % validación, 20 % prueba sellada. La prueba no se
+     mira hasta fijar los parámetros. La semilla y la asignación se sellan una
+     vez y se reutilizan en todas las hipótesis.
 2. **Tres referencias distintas, cada una para lo suyo:**
    - geométrica: la SASA exacta, para LCPO;
    - termodinámica: energías libres de hidratación experimentales, para la
@@ -78,7 +88,17 @@ Se fija antes de ajustar nada:
 4. **No se degrada lo que ya funciona:** los errores de C, N, O, S, F y Cl no
    pueden empeorar.
 5. Se registran la versión de OpenMM, AmberTools y RDKit, y los hashes de las
-   topologías.
+   topologías. **Entorno congelado durante la campaña:** OpenMM 8.5.2 (el que
+   viaja), RDKit 2025.09.6 (la de los sellos FEP), la build de AmberTools del
+   contenedor `moldesign-science` como referencia; AmberTools26 sólo como
+   reproducción posterior e independiente.
+6. **Tres resultados, no dos:** PASA, FALLA e INDETERMINADO. Un dato que falta,
+   un cálculo que expira o un dominio sin validar es INDETERMINADO, nunca un
+   resultado químico.
+7. **Por capas y en orden:** implementación (H5) → superficie (H1/H2) → polar
+   (H3/H4) → dominio (H6) → unión (H7-H9). Un parámetro no se ajusta contra
+   afinidades mientras una capa anterior esté abierta: es la vía por la que un
+   radio compensa el error de otro término.
 
 ---
 
@@ -106,7 +126,12 @@ con el radio.
 
 **Coste.** Unos minutos: la herramienta ya existe.
 
-**Notas del propietario:** _pendiente_
+**Notas del propietario (informe 2026-09-23):** «prometedora», la más
+prometedora de 1.0.2. Se prueba **sin ajuste**. Que Bondi publicara esos radios
+como radios de van der Waals no dice que sirvan para LCPO: eso es justo lo que
+se falsa. Criterios añadidos: Br e I pasan **por separado**; el sesgo con signo
+tiene un IC bootstrap al 95 % compatible con cero; partición por scaffold y
+entorno; y ningún elemento que ya pasaba (C, N, O, S, F, Cl) empeora.
 
 ### H2 — LCPO: si H1 falla, basta con reajustar P1–P4 por elemento
 
@@ -127,7 +152,10 @@ de variación < 20% entre remuestreos.
 
 **Coste.** Horas: la SASA exacta con 50 000 puntos es lo caro.
 
-**Notas del propietario:** _pendiente_
+**Notas del propietario (informe 2026-09-23):** viable para Br, más arriesgada
+para I por el tamaño de muestra. Bootstrap de 100 a 1000 remuestreos **por
+scaffold**, no por átomo; los parámetros se congelan antes de abrir la prueba,
+y la mejora en prueba tiene que ser coherente con la de validación.
 
 ### H3 — GB: el radio de 1,5 Å sobreestima la desolvatación de Br e I
 
@@ -154,7 +182,34 @@ representar el agujero σ del halógeno.
 
 **Coste.** Bajo en cálculo; el trabajo es curar el conjunto experimental.
 
-**Notas del propietario:** _pendiente_
+**Notas del propietario (informe 2026-09-23):** «plausible, no demostrada».
+**Un radio de van der Waals y un radio efectivo de Born no son lo mismo**:
+Bondi es un candidato físico, no un valor correcto a priori. Cambios al plan:
+
+- **Dos niveles de referencia.** Primero GBn2 contra una referencia de
+  continuo —PBSA de AmberTools sobre exactamente las mismas geometrías— para
+  aislar el radio de la conformación; después FreeSolv como prueba
+  termodinámica externa. No se convierte una sola energía estática GB+SA en
+  «ΔG de hidratación» sin controlar conformaciones.
+- **Brazos, fijados antes de medir:** A = respaldo actual (1,5 Å); B = Bondi
+  (Br 1,85, I 1,98); C = malla alrededor de B, sólo en entrenamiento; D = C +
+  apantallamiento; E = D + α, β, γ, sólo si D aporta una mejora robusta.
+- **Criterios:** el MAE de Br/I baja ≥ 20 % frente al respaldo en validación;
+  el IC bootstrap al 95 % de MAE_nuevo − MAE_respaldo queda por debajo de cero;
+  los controles (F, Cl y no halogenados de propiedades parecidas) empeoran
+  ≤ 0,2 kcal/mol; y se confirma en la prueba sellada. Son márgenes propuestos
+  para MolDesign, no límites de GBn2.
+- **FreeSolv:** filtrar Z = 35 y 53 con RDKit y congelar la versión. El
+  informe dice que los datos son CC-BY 4.0 «en la medida en que los autores
+  pueden otorgarla» y que hay 642 moléculas: **verificar en el repositorio de
+  FreeSolv antes de descargar nada**.
+
+**Límite de la malla, leído en el código el 2026-09-23 (no en el informe):**
+GBn y GBn2 interpolan la integral del cuello en una tabla de radios de 1,0 a
+2,0 Å, y OpenMM rechaza cualquier radio fuera de ese intervalo («Radii must be
+between 1 and 2 Angstroms for neck lookup»; `customgbforces.py`). El Bondi del
+yodo (1,98 Å) está en el borde: **la malla C no puede pasar de 2,0 Å** sin
+cambiar de modelo GB.
 
 ### H4 — GB: una vez corregido el radio, los α, β, γ y el apantallamiento por defecto bastan
 
@@ -177,7 +232,9 @@ declararlo.
 
 **Coste.** Horas.
 
-**Notas del propietario:** _pendiente_
+**Notas del propietario (informe 2026-09-23):** «excelente hipótesis nula:
+limita grados de libertad y sobreajuste». Es la comparación D/E frente a B/C
+de H3.
 
 ### H5 — Implementación: OpenMM y sander coinciden para Br e I en GBn2
 
@@ -189,16 +246,42 @@ declararlo.
 implementación de uno de física. Para el Cl ya coincidía.
 
 **Cómo se mide.** El procedimiento de `backend/audits/amber_openmm_reference.py`
-sobre las 22 topologías de Br e I que ya existen, con `vacuum` y `GBn2_no_SA`.
+sobre las topologías de Br e I que ya existen, con `vacuum` y `GBn2_no_SA`.
+Herramienta: `backend/audits/gbn2_paridad_halogenos.py`. Son **24**, no 22: el
+22 contaba sólo los ligandos con un único tipo de halógeno (2ax9 y 5aol llevan
+Br y F). Las 31 de F y Cl se miden como control.
 
-**Criterio.** 22/22 dentro de tolerancia.
+**Criterio.** 24/24 dentro de tolerancia.
 
 **La refuta.** Cualquier caso fuera de tolerancia se atribuye antes de seguir,
 como se hizo con el cloro.
 
 **Coste.** Minutos. **Es la primera que conviene lanzar.**
 
-**Notas del propietario:** _pendiente_
+**Notas del propietario (informe 2026-09-23):** «muy viable y debe ser
+primero»: separa errores de implementación de errores de física. Misma prmtop,
+mismas coordenadas, sin minimizar, sin término de superficie, OpenMM en
+`Reference`. Si falla uno, no se pasa a parametrizar.
+
+**Piloto (3 ligandos, 2026-09-23, antes del prerregistro) y cambio de
+criterio declarado antes de la corrida completa.** 1e4h (5 Br) y 2ax9 (Br + F)
+pasan con residuos de 4e-8 y 2e-6 kcal/mol. **1c5n (I) no pasa en GBn2**
+(9,9e-3 kcal/mol; el vacío sí pasa), pero los átomos con más error de fuerza
+son el **S** y sus vecinos, no el I. En la tabla GBn2 de OpenMM el azufre es
+el único elemento con apantallamiento negativo (−0,703469; que Amber use el
+mismo valor no está leído en su fuente, sólo es coherente con lo que sigue).
+Prueba decisiva: el mismo prmtop con el número atómico del S cambiado a 34 (sin
+parámetros GBn2 propios en ningún programa) recupera la paridad en ambos a la
+vez (8,3e-7 kcal/mol). Por eso el gate queda así, fijado antes de ver las 55:
+una topología de Br/I pasa si pasa en las dos condiciones **o** si lleva S, el
+vacío pasa y el desacuerdo desaparece con el S genérico. Un fallo que no se
+atribuya así es un NO GO. El OpenMM de esta máquina (el Python que se entrega)
+reproduce al de Linux en 3,6e-15 kcal/mol sobre las mismas topologías; se
+exige < 1e-6.
+
+**Lo que el piloto abre y no es de halógenos:** si el S discrepa, lo hace
+también en las metioninas y cisteínas de cualquier receptor. Es un pendiente de
+la puerta 3 de `MMGBSA_VALIDATION.md`, no de este documento.
 
 ### H6 — Dominio: un solo juego de parámetros por elemento para Br e I en arilo; el alifático queda fuera
 
@@ -218,7 +301,16 @@ mismo juego, se amplía el dominio. Si no, abstención declarada en
 
 **Coste.** Bajo.
 
-**Notas del propietario:** _pendiente_
+**Notas del propietario (informe 2026-09-23):** «muy razonable». Publicar
+primero «Br/I aromático, validado dentro del dominio» y **rechazar
+explícitamente** los alifáticos es más defendible que fingir universalidad. El
+backend no debe preguntar sólo «¿puedo calcularlo?» sino «¿está dentro del
+dominio validado?»: un conjunto de parámetros versionado
+(`moldesign-mmgbsa-halogen-v1`, con dominio, fuente del LCPO y fuente del radio
+GB por elemento), cada átomo de Br/I declara qué parámetro recibió y por qué, y
+**ningún respaldo silencioso**. Los códigos de error propuestos
+(`MMGBSA_HALOGEN_OUT_OF_DOMAIN`, `MMGBSA_PARAMETER_SET_MISSING`) se conservan en
+informe y registro; el usuario lee la explicación en su idioma.
 
 ### H7 — Poses: lo validado en cristales vale en poses acopladas
 
@@ -236,7 +328,11 @@ que PoseBusters acepta.
 
 **Coste.** Horas a un día de Vina en el servidor, según exhaustividad.
 
-**Notas del propietario:** _pendiente_
+**Notas del propietario (informe 2026-09-23):** necesaria, porque es el uso
+real del producto. Vina con semilla, exhaustividad, caja y versión
+registradas; la medida se repite en las poses top-1 estructuralmente
+aceptables. Recordatorio propio: la evidencia sellada del ensemble es exh=8 y
+el producto corre 32; aquí se usa la del producto.
 
 ### H8 — Orden de magnitud: el radio GB pesa más que LCPO
 
@@ -254,7 +350,8 @@ partición de prueba en los tres subsistemas, con cada corrección por separado.
 
 **Coste.** Horas: sistemas completos receptor-ligando, puerta 3 de MM-GBSA.
 
-**Notas del propietario:** _pendiente_
+**Notas del propietario (informe 2026-09-23):** «plausible, pero debe medirse
+y no asumirse».
 
 ### H9 — Unión: con parámetros validados, Br e I no ordenan peor que Cl y F
 
@@ -277,25 +374,83 @@ que ni GB ni LCPO representan.
 
 **Coste.** Depende de H7 y H8.
 
-**Notas del propietario:** _pendiente_
+**Notas del propietario (informe 2026-09-23):** correcta como pregunta y
+«probablemente subpotenciada». La métrica es ordenación **dentro** de series,
+nunca correlación global mezclando dianas; si no hay suficientes
+comparaciones Br/I frente a F/Cl, H9 queda INDETERMINADA. Eso es mejor ciencia
+que una conclusión sacada de 12 yodados.
+
+### H10 — Generalización química: lo que vale entre scaffolds vale fuera de ellos
+
+**Enunciado.** Un parámetro ajustado en H2 o H3 que generaliza por scaffold
+(entrenamiento y prueba sin scaffolds compartidos) no pierde más que el
+margen de H1 frente a su error dentro de los scaffolds de entrenamiento.
+
+**Por qué.** Propuesta del informe: evita la fuga química en H2 y H3. Un
+parámetro que sólo funciona en los scaffolds que vio es un parámetro de esos
+scaffolds.
+
+**Cómo se mide.** Error de validación con partición por scaffold frente a una
+partición aleatoria por molécula, con los mismos datos.
+
+**La refuta.** Un error por scaffold claramente mayor que el aleatorio: los
+parámetros han memorizado familias químicas.
+
+**Coste.** Nulo aparte: es la misma corrida de H2/H3 con dos particiones.
+
+### H11 — El agujero σ no se arregla con radios
+
+**Enunciado.** Si, con H1-H5 superadas, queda un error de Br/I concentrado en
+geometrías de enlace de halógeno (C–X···aceptor casi lineal), su origen es
+electrostático —el agujero σ, que las cargas puntuales no representan— y **no
+debe corregirse moviendo radios** GB ni coeficientes LCPO.
+
+**Por qué.** Propuesta del informe. Los halógenos pesados tienen una
+distribución de carga anisótropa; hay campos de fuerza que la modelan con un
+punto de carga extra. Ajustar un radio hasta que la afinidad «salga bien»
+escondería esa carencia detrás de un parámetro compensatorio.
+
+**Cómo se mide.** Dos conjuntos de estrés que **no se usan para ajustar**:
+complejos bromados de CK2 (los del estudio con σ-hole explícito) y la lisozima
+T4 con iodobenceno e iodopentafluorobenceno. Error residual frente al ángulo
+C–X···aceptor.
+
+**Criterio.** Sin correlación con la geometría de enlace de halógeno → no hay
+evidencia de un problema de σ-hole con estos datos. Con correlación → se
+declara como límite del dominio y se abre para 1.0.3 o después; **no** se
+implementa un punto extra en 1.0.2.
+
+**Coste.** Bajo en cálculo; el trabajo es identificar las estructuras (las
+referencias concretas del informe están por localizar).
 
 ---
 
 ## 3. Orden propuesto
 
 1. **H5** (minutos): si la implementación no coincide, nada más tiene sentido.
-2. **H1** (minutos) y, sólo si falla, **H2** (horas).
-3. **H3 y H4** (el trabajo es curar el conjunto de hidratación): probablemente
-   lo que más importa, según H8.
+   **En marcha** como `MMGBSA-H5-GBN2-PARIDAD`.
+2. **H1** (minutos) y, sólo si falla, **H2** (horas), con **H10** en la misma
+   corrida.
+3. **H3 y H4**: primero contra PBSA en las mismas geometrías, después FreeSolv.
 4. **H6**: declarar el dominio.
-5. **H7, H8 y H9**: sistemas completos y poses, en la semana de servidor.
+5. **H7, H8, H9 y H11**: sistemas completos y poses, en la semana de servidor.
 
-## 4. Lo que el propietario debe decidir antes de lanzar
+## 4. Decisiones
 
-- La fuente de energías de hidratación experimentales y su licencia (H3).
-- Las particiones por diana y la semilla (se fijan una vez y se sellan).
-- Si el alifático queda fuera (H6) o se busca más dato.
-- Qué hacer si H9 no es medible con los datos disponibles.
+Tomadas por el propietario (informe 2026-09-23):
+
+- Particiones por scaffold + entorno para el ligando y por diana/serie para la
+  unión; 60/20/20.
+- Referencia polar en dos niveles: PBSA, después FreeSolv (licencia por
+  verificar).
+- El alifático queda fuera hasta que datos externos lo validen (H6).
+- Si H9 no es medible, queda INDETERMINADA; no se fuerza una conclusión.
+- Si Br/I no pasa, sigue desactivado **sin bloquear 1.0.2**.
+
+Pendientes:
+
+- Fijar y sellar la semilla y la asignación de particiones (antes de H1).
+- Localizar las estructuras de los conjuntos de estrés de H11.
 
 ## 5. Referencias a revisar
 
@@ -312,3 +467,8 @@ que ni GB ni LCPO representan.
 ## 6. Registro de cambios de este documento
 
 - 2026-09-23 — primera versión: punto de partida medido y nueve hipótesis.
+- 2026-09-23 — notas del propietario (informe de búsqueda profunda) en cada
+  hipótesis; particiones por scaffold para el ligando; PBSA antes de FreeSolv;
+  brazos y criterios de H3; límite de 1-2 Å de la tabla del cuello de GBn2;
+  H10 y H11 nuevas; H5 son 24 topologías, con su piloto y el gate declarado
+  antes de la corrida completa.
