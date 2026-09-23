@@ -4,7 +4,7 @@
   "hypothesis": "Declarar el tautomero con tres estados (RESUELTO_UNICO, MULTIESTADO_REQUERIDO, NO_RESUELTO; backend/chem/declaracion_tautomeros.py) sube la fraccion de ligandos listos de FEP-01 sobre los 203 complejos de molflex por encima del 80%, como predicen docs/50_ROADMAP.md (seccion 3) y AGENTS.md (de 19% a mas del 80%), si el criterio de tautomero pasa de 'un solo tautomero enumerable' a 'tautomero declarado' (estado distinto de NO_RESUELTO).",
   "protocol": "scripts/analisis_fep01_declaracion.py. Para cada complejo de los per_complex sellados de FEP-01 (203) y FEP-01-PDBBIND (5325) se lee data/pdbbind/<pid>/<pid>_ligand.sdf con Chem.MolFromMolFile (la misma lectura que FEP-01) y se declara con declarar_tautomeros (RDKit, tautomerRemoveSp3Stereo=False, tope 32 como FEP-01). Estereoquimica y atom mapping se toman tal cual de los sellos, sin volver a medir. Listo = sin estereo indefinido, mapping biyectivo que cubre los pesados, y tautomero declarado. Se informa aparte cuantos listos lo son solo por MULTIESTADO_REQUERIDO (declarado no es resuelto) y, para PDBBind, la variante sin mapping (no hay index_map). Prueba tecnica previa con --limite 5, que por contrato no lee el gate. Maquina local, Python del sistema con RDKit 2025.09.6.",
   "created_at": "2026-09-23T23:33:10.497030+00:00",
-  "status": "created",
+  "status": "finished",
   "git_state": {
     "branch": "codex/release-hygiene",
     "commit": "60437c04a7cc64e0685ceac221b5ce4113bb22a9",
@@ -25,5 +25,20 @@
   "gate": {
     "description": "GO si en los 203 de FEP-01 la fraccion de listos con el criterio 'tautomero declarado' (con mapping) es >= 0.80. NO_GO si es menor. PDBBind se informa sin gate. La fraccion de listos solo por tautomero unico y la de listos solo por multiestado declarado se informan siempre, junto a la decision."
   },
-  "decision": "PENDING"
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_fep01_declaracion.py": "3dddc2f928508e5dc5c15f30d53fc0fdb630ce3e8c39e06b9fade299ad755b89",
+    "scripts/artifacts_science/FEP-01-DECL/instrumento/declaracion_tautomeros.py": "a2d467c06c7a3da8b0f446f9863c4548c9518bb8696b8abf704777f7ce2c598b",
+    "scripts/artifacts_science/FEP-01-DECL/metrics.json": "db87fd253792581c191340d42145311d8955606f76a175c4a39510750072b84d",
+    "scripts/artifacts_science/FEP-01-DECL/per_complex.jsonl": "378d6a302cd9b4c5115fad6e0dad09c1bff96cbb31377b1e1c1f5100e901ba5a",
+    "scripts/artifacts_science/FEP-01-DECL/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/FEP-01-DECL/logs/correr.log": "8e57687a21b757b4f00bb7ced7b2ef975c38dfd539011c0f66e461474b57be0a",
+    "scripts/artifacts_science/FEP-01/per_complex.jsonl": "5ffd2588a797fc66bbf63afd7bc63eb06f219588278c27b8af4437f3480644d1",
+    "scripts/artifacts_science/FEP-01-PDBBIND/per_complex.jsonl": "e9a60d039ef8ba344126f7e21f8b42b259956c971a47052748e5ec98bde86717"
+  },
+  "sealed": true,
+  "sealed_at": "2026-09-23T23:39:52.203584+00:00",
+  "decision_rationale": "GO por la letra del gate: en los 203 de FEP-01, 180 (88.7%) quedan listos con el criterio 'tautomero declarado' (umbral 80%), como predecia el roadmap. La lectura que importa es la descomposicion: solo 39 (19.2%, los mismos 39 del sello) tienen un unico tautomero; 141 estan listos SOLO porque su multiestado quedo declarado (varios candidatos, ninguno descartado con evidencia), y 22 siguen NO_RESUELTO porque la enumeracion llega al tope de 32 (los 164 ambiguos del sello son 142 multiestado + 22 no resueltos). La estereoquimica bloquea 1. Declarado no es resuelto: un paquete con varios tautomeros exige a quien calcula tratarlos todos, o elegir uno con evidencia que hoy no hay (sin modelo de poblaciones validado). Los multiestado tienen mediana de 4 candidatos (2 a 31). PDBBind, sin gate, sobre las 4641 entradas legibles del sello: 1003 unico, 3187 multiestado, 451 no resuelto; sin el criterio de mapping (no hay index_map) 4143 listos (89.3%), de ellos 985 por tautomero unico (21.2%) frente a 989 del sello: 4 cambian porque el sello uso el enumerador por defecto y aqui se conserva la estereoquimica sp3 (tautomerRemoveSp3Stereo=False); en los 203 coinciden 39/39. 0 fallos. Siguiente: un modelo energetico validado para descartar candidatos fuera de 2-3 kcal/mol, y que el paquete FEP-05 lleve todos los candidatos con su id.",
+  "finished_at": "2026-09-23T23:40:05.740910+00:00",
+  "duration_seconds": 24.8
 }

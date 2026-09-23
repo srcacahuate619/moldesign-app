@@ -1,0 +1,303 @@
+{
+ "id": "FEP-01-DECL",
+ "meta": {
+  "titulo": "Declarar tautómeros sube FEP-01 al 89 %, pero sólo resuelve el 19 %",
+  "entradilla": "El roadmap predijo que declarar el tautómero llevaría la preparación para FEP de 19 % a más del 80 %. Se cumple: 180 de 203. Y la descomposición enseña por qué esa cifra no puede citarse sola."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "FEP-01",
+     "m": "codigo"
+    },
+    {
+     "t": " midió que 164 de 203 ligandos tienen más de un tautómero enumerable y que el pipeline no declaraba cuál acoplaba. El tautómero decide qué átomos donan y cuáles aceptan puentes de hidrógeno; para un cálculo de energía libre, elegir uno en silencio es elegir la molécula.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El roadmap escribió una predicción concreta: declarar los tautómeros subiría FEP-01 ",
+     "m": null
+    },
+    {
+     "t": "de 19 % a más del 80 % de un golpe",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Este experimento la pone a prueba con la declaración que ya produce el conformador.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué es «declarar»",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "RDKit enumera los candidatos; no decide cuál domina en disolución, y su tautómero canónico es una representación reproducible, no una predicción. Así que la declaración tiene tres estados:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "un solo tautómero",
+      "m": "fuerte"
+     },
+     {
+      "t": " enumerable;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "varios candidatos",
+      "m": "fuerte"
+     },
+     {
+      "t": ", la lista completa y ninguno descartado, porque no hay",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "un modelo de poblaciones validado;",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "no resuelto",
+      "m": "fuerte"
+     },
+     {
+      "t": ": la enumeración falló o pasó del tope de 32.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El criterio de FEP-01 pasa de «un solo tautómero» a «tautómero declarado» (cualquiera de los dos primeros). Estereoquímica y atom mapping se toman tal cual de los sellos anteriores.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO: 180 de 203 (88,7 %).",
+     "m": "fuerte"
+    },
+    {
+     "t": " La predicción se cumple. Pero:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "ligandos",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Un solo tautómero",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "39",
+       "m": "fuerte"
+      },
+      {
+       "t": " (19,2 %)",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Listos ",
+       "m": null
+      },
+      {
+       "t": "sólo",
+       "m": "fuerte"
+      },
+      {
+       "t": " porque su multiestado quedó declarado",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "141",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "No resueltos (más de 32 tautómeros)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "22",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Bloqueados por estereoquímica",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los 39 únicos son exactamente los 39 del sello: declarar no resolvió ni uno más. Lo que hizo es convertir 141 ambigüedades silenciosas en ambigüedades escritas, con sus candidatos (mediana 4, entre 2 y 31) y los átomos que cambian.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En PDBBind completo, sin gate, sobre 4641 ligandos legibles: 1003 con un solo tautómero, 3187 con varios y 451 no resueltos. El reparto es el mismo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué el 89 % no puede citarse solo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un paquete con varios tautómeros no está resuelto: exige a quien calcula tratarlos todos o elegir uno con evidencia. Un tautómero que en disolución sólo tiene el 1 % de la población, tratado como si costara cero, ya introduce unas 2,7 kcal/mol, más que la precisión que se espera de un cálculo relativo. Por eso el producto no cuenta como resuelto lo que sólo está declarado, y la cifra que describe el estado real es la del 19 %.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que sigue",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un modelo energético validado que permita descartar los candidatos fuera de una ventana de 2-3 kcal/mol, y que el paquete de exportación lleve todos los que queden, cada uno con su identificador.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La limitación, declarada",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En PDBBind, 4 ligandos cambian de «único» a «varios» respecto del sello porque aquí se conserva la estereoquímica sp3 al enumerar y el sello usaba el enumerador por defecto. En los 203 coinciden los 39.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FEP-01-DECL.md"
+}

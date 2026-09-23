@@ -28,8 +28,12 @@ GO si en los 203 de FEP-01 la fraccion de listos con el criterio 'tautomero decl
 ## Estado
 
 - Creado: 2026-09-23T23:33:10.497030+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: GO
+- Sellado: sí (2026-09-23T23:39:52.203584+00:00)
+- Finalizado: 2026-09-23T23:40:05.740910+00:00
+- Razón de la decisión: GO por la letra del gate: en los 203 de FEP-01, 180 (88.7%) quedan listos con el criterio 'tautomero declarado' (umbral 80%), como predecia el roadmap. La lectura que importa es la descomposicion: solo 39 (19.2%, los mismos 39 del sello) tienen un unico tautomero; 141 estan listos SOLO porque su multiestado quedo declarado (varios candidatos, ninguno descartado con evidencia), y 22 siguen NO_RESUELTO porque la enumeracion llega al tope de 32 (los 164 ambiguos del sello son 142 multiestado + 22 no resueltos). La estereoquimica bloquea 1. Declarado no es resuelto: un paquete con varios tautomeros exige a quien calcula tratarlos todos, o elegir uno con evidencia que hoy no hay (sin modelo de poblaciones validado). Los multiestado tienen mediana de 4 candidatos (2 a 31). PDBBind, sin gate, sobre las 4641 entradas legibles del sello: 1003 unico, 3187 multiestado, 451 no resuelto; sin el criterio de mapping (no hay index_map) 4143 listos (89.3%), de ellos 985 por tautomero unico (21.2%) frente a 989 del sello: 4 cambian porque el sello uso el enumerador por defecto y aqui se conserva la estereoquimica sp3 (tautomerRemoveSp3Stereo=False); en los 203 coinciden 39/39. 0 fallos. Siguiente: un modelo energetico validado para descartar candidatos fuera de 2-3 kcal/mol, y que el paquete FEP-05 lleve todos los candidatos con su id.
+- Hashes de assets: 8 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 

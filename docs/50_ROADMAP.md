@@ -138,9 +138,13 @@ Estado hoy, medido:
 
 Orden de ejecución:
 
-1. **Declarar tautómeros.** Sube `FEP-01` de 19% a >80% de un golpe. Para docking con
+1. **Declarar tautómeros.** ~~Sube `FEP-01` de 19% a >80% de un golpe.~~ **Hecho y medido
+   (2026-09-23, `FEP-01-DECL`, GO):** 180/203 (88,7%) *declarados*, pero sólo 39 (19%)
+   *resueltos*; 141 quedan en multiestado (mediana de 4 candidatos) y 22 pasan de 32. La
+   predicción se cumplía por la letra y era engañosa en la sustancia. Para docking con
    Vina apenas importa; para FEP+ es determinante, porque el tautómero define qué átomos
-   donan y cuáles aceptan puentes de hidrógeno.
+   donan y cuáles aceptan puentes de hidrógeno. Siguiente: un modelo energético validado
+   que descarte candidatos fuera de 2-3 kcal/mol (−RT ln p).
 2. **Documentar receptores**: huecos de cadena, cadenas múltiples, metales, aguas
    estructurales frente a desplazables.
 3. **Reconstruir la cohorte congenérica desde PDBBind**: pocas dianas con muchos análogos.

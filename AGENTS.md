@@ -163,9 +163,13 @@ Estado auditado hoy, sobre 203 complejos:
 
 Orden de trabajo declarado (`docs/50_ROADMAP.md` §3):
 
-1. **Declarar tautómeros** — sube `FEP-01` de 19% a >80%. Para docking con Vina
-   apenas importa; para FEP+ es determinante, porque el tautómero define qué
-   átomos donan y cuáles aceptan puentes de hidrógeno.
+1. **Declarar tautómeros** — **hecho** (`56e8733`, tres estados) y medido en
+   `FEP-01-DECL` (GO): 180/203 (88,7%) quedan *declarados*, pero sólo **39 (19%)
+   resueltos**; 141 necesitan multiestado y 22 superan el tope de 32. Declarado
+   no es resuelto: la cifra que describe el estado real es la del 19%. Para
+   docking con Vina apenas importa; para FEP+ es determinante, porque el
+   tautómero define qué átomos donan y cuáles aceptan puentes de hidrógeno.
+   Siguiente: un modelo energético validado para descartar candidatos.
 2. **Documentar receptores** — huecos, cadenas múltiples, metales, aguas
    estructurales frente a desplazables.
 3. **Reconstruir la cohorte congenérica** desde PDBBind: pocas dianas con muchos

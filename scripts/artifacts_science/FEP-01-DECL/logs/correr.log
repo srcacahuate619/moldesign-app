@@ -1,0 +1,5 @@
+molflex_203: n 203  estados {'NO_RESUELTO': 22, 'RESUELTO_UNICO': 39, 'MULTIESTADO_REQUERIDO': 142}
+   listos (declarado) 180 = 88.7%   (sólo único 39; sello 39; por multiestado 141)
+pdbbind: n 4641  estados {'NO_RESUELTO': 451, 'RESUELTO_UNICO': 1003, 'MULTIESTADO_REQUERIDO': 3187}
+   listos (declarado) 0 = 0.0%   (sólo único 0; sello 0; por multiestado 0)
+decisión por el gate: GO  (24.8 s)

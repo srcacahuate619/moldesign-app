@@ -1,1 +1,79 @@
-{}
+{
+ "experimento": "FEP-01-DECL",
+ "generado_utc": "2026-09-23T23:39:22.452050+00:00",
+ "duracion_s": 24.8,
+ "rdkit": "2025.09.6",
+ "modulo_declaracion_sha256": "a2d467c06c7a3da8b0f446f9863c4548c9518bb8696b8abf704777f7ce2c598b",
+ "sellos_de_entrada": {
+  "molflex_203": {
+   "ruta": "scripts\\artifacts_science\\FEP-01\\per_complex.jsonl",
+   "sha256": "5ffd2588a797fc66bbf63afd7bc63eb06f219588278c27b8af4437f3480644d1"
+  },
+  "pdbbind": {
+   "ruta": "scripts\\artifacts_science\\FEP-01-PDBBIND\\per_complex.jsonl",
+   "sha256": "e9a60d039ef8ba344126f7e21f8b42b259956c971a47052748e5ec98bde86717"
+  }
+ },
+ "prediccion_puesta_a_prueba": "docs/50_ROADMAP.md §3: declarar tautómeros sube FEP-01 de 19% a >80%",
+ "umbral_go": 0.8,
+ "resultados": {
+  "molflex_203": {
+   "n": 203,
+   "estados": {
+    "NO_RESUELTO": 22,
+    "RESUELTO_UNICO": 39,
+    "MULTIESTADO_REQUERIDO": 142
+   },
+   "con_mapping": {
+    "listos_criterio_declarado": 180,
+    "fraccion_declarado": 0.8866995073891626,
+    "listos_solo_resuelto_unico": 39,
+    "fraccion_unico": 0.1921182266009852,
+    "listos_criterio_del_sello": 39,
+    "listos_solo_por_multiestado_declarado": 141,
+    "bloquea_la_estereoquimica": 1,
+    "bloquea_el_tautomero_no_resuelto": 22
+   },
+   "sin_mapping": {
+    "listos_criterio_declarado": 180,
+    "fraccion_declarado": 0.8866995073891626,
+    "listos_solo_resuelto_unico": 39,
+    "fraccion_unico": 0.1921182266009852,
+    "listos_criterio_del_sello": 39,
+    "listos_solo_por_multiestado_declarado": 141,
+    "bloquea_la_estereoquimica": 1,
+    "bloquea_el_tautomero_no_resuelto": 22
+   }
+  },
+  "pdbbind": {
+   "n": 4641,
+   "estados": {
+    "NO_RESUELTO": 451,
+    "RESUELTO_UNICO": 1003,
+    "MULTIESTADO_REQUERIDO": 3187
+   },
+   "con_mapping": {
+    "listos_criterio_declarado": 0,
+    "fraccion_declarado": 0.0,
+    "listos_solo_resuelto_unico": 0,
+    "fraccion_unico": 0.0,
+    "listos_criterio_del_sello": 0,
+    "listos_solo_por_multiestado_declarado": 0,
+    "bloquea_la_estereoquimica": 48,
+    "bloquea_el_tautomero_no_resuelto": 451
+   },
+   "sin_mapping": {
+    "listos_criterio_declarado": 4143,
+    "fraccion_declarado": 0.8926955397543633,
+    "listos_solo_resuelto_unico": 985,
+    "fraccion_unico": 0.21223874165050635,
+    "listos_criterio_del_sello": 989,
+    "listos_solo_por_multiestado_declarado": 3158,
+    "bloquea_la_estereoquimica": 48,
+    "bloquea_el_tautomero_no_resuelto": 451
+   }
+  }
+ },
+ "decision_por_el_gate": "GO",
+ "no_demuestra": "Que el tautómero acoplado sea el correcto. «Declarado» incluye MULTIESTADO_REQUERIDO: varios candidatos sin descartar, que quien calcule tiene que tratar."
+}

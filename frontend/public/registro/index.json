@@ -1,5 +1,5 @@
 {
- "generado_en": "2026-09-23T23:24:43.331318+00:00",
+ "generado_en": "2026-09-23T23:40:45.017091+00:00",
  "generador": "scripts/build_registro_cientifico.py",
  "advertencia": "El cociente GO/NO_GO del manifest NO es una tasa de aciertos: mezcla prerregistros -sellados GO al declararse-, mediciones sin gate y experimentos con gate real. Esta vista separa las tres poblaciones.",
  "categorias": {
@@ -13,13 +13,13 @@
  "conteo": {
   "hallazgo": 26,
   "refutacion": 26,
-  "medicion": 46,
+  "medicion": 47,
   "prerregistro": 42,
   "corrigendum": 12,
   "inconcluso": 13
  },
- "total": 165,
- "con_paper": 71,
+ "total": 166,
+ "con_paper": 72,
  "destacados": {
   "hallazgo": [
    "FEP-04",
@@ -396,6 +396,50 @@
    "tiene_paper": true,
    "titulo": "El cuello es el tautómero, y nadie lo había contado",
    "entradilla": "Sólo 39 de 203 complejos pasan la auditoría química. Pero el estéreo está impecable —0 sin asignar— y el cuello real es que 164 ligandos tienen tautómero ambiguo y el pipeline no declara cuál usa."
+  },
+  {
+   "id": "FEP-01-DECL",
+   "categoria": "medicion",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "Declarar el tautomero con tres estados (RESUELTO_UNICO, MULTIESTADO_REQUERIDO, NO_RESUELTO; backend/chem/declaracion_tautomeros.py) sube la fraccion de ligandos listos de FEP-01 sobre los 203 complejos de molflex por encima del 80%, como predicen docs/50_ROADMAP.md (seccion 3) y AGENTS.md (de 19% a mas del 80%), si el criterio de tautomero pasa de 'un solo tautomero enumerable' a 'tautomero declarado' (estado distinto de NO_RESUELTO).",
+   "protocolo": "scripts/analisis_fep01_declaracion.py. Para cada complejo de los per_complex sellados de FEP-01 (203) y FEP-01-PDBBIND (5325) se lee data/pdbbind/<pid>/<pid>_ligand.sdf con Chem.MolFromMolFile (la misma lectura que FEP-01) y se declara con declarar_tautomeros (RDKit, tautomerRemoveSp3Stereo=False, tope 32 como FEP-01). Estereoquimica y atom mapping se toman tal cual de los sellos, sin volver a medir. Listo = sin estereo indefinido, mapping biyectivo que cubre los pesados, y tautomero declarado. Se informa aparte cuantos listos lo son solo por MULTIESTADO_REQUERIDO (declarado no es resuelto) y, para PDBBind, la variante sin mapping (no hay index_map). Prueba tecnica previa con --limite 5, que por contrato no lee el gate. Maquina local, Python del sistema con RDKit 2025.09.6.",
+   "gate": "GO si en los 203 de FEP-01 la fraccion de listos con el criterio 'tautomero declarado' (con mapping) es >= 0.80. NO_GO si es menor. PDBBind se informa sin gate. La fraccion de listos solo por tautomero unico y la de listos solo por multiestado declarado se informan siempre, junto a la decision.",
+   "razonamiento": "GO por la letra del gate: en los 203 de FEP-01, 180 (88.7%) quedan listos con el criterio 'tautomero declarado' (umbral 80%), como predecia el roadmap. La lectura que importa es la descomposicion: solo 39 (19.2%, los mismos 39 del sello) tienen un unico tautomero; 141 estan listos SOLO porque su multiestado quedo declarado (varios candidatos, ninguno descartado con evidencia), y 22 siguen NO_RESUELTO porque la enumeracion llega al tope de 32 (los 164 ambiguos del sello son 142 multiestado + 22 no resueltos). La estereoquimica bloquea 1. Declarado no es resuelto: un paquete con varios tautomeros exige a quien calcula tratarlos todos, o elegir uno con evidencia que hoy no hay (sin modelo de poblaciones validado). Los multiestado tienen mediana de 4 candidatos (2 a 31). PDBBind, sin gate, sobre las 4641 entradas legibles del sello: 1003 unico, 3187 multiestado, 451 no resuelto; sin el criterio de mapping (no hay index_map) 4143 listos (89.3%), de ellos 985 por tautomero unico (21.2%) frente a 989 del sello: 4 cambian porque el sello uso el enumerador por defecto y aqui se conserva la estereoquimica sp3 (tautomerRemoveSp3Stereo=False); en los 203 coinciden 39/39. 0 fallos. Siguiente: un modelo energetico validado para descartar candidatos fuera de 2-3 kcal/mol, y que el paquete FEP-05 lleve todos los candidatos con su id.",
+   "sellado_en": "2026-09-23T23:39:52.203584+00:00",
+   "creado_en": "2026-09-23T23:33:10.497030+00:00",
+   "duracion_s": 24.8,
+   "semillas": 0,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "60437c04a7",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 8,
+   "n_complejos": 4641,
+   "n_fallos": 0,
+   "metricas": {
+    "experimento": "FEP-01-DECL",
+    "generado_utc": "2026-09-23T23:39:22.452050+00:00",
+    "duracion_s": 24.8,
+    "rdkit": "2025.09.6",
+    "modulo_declaracion_sha256": "a2d467c06c7a3da8b0f446f9863c4548c9518bb8696b8abf704777f7ce2c598b",
+    "prediccion_puesta_a_prueba": "docs/50_ROADMAP.md §3: declarar tautómeros sube FEP-01 de 19% a >80%",
+    "umbral_go": 0.8,
+    "decision_por_el_gate": "GO",
+    "no_demuestra": "Que el tautómero acoplado sea el correcto. «Declarado» incluye MULTIESTADO_REQUERIDO: varios candidatos sin descartar, que quien calcule tiene que tratar."
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "Declarar tautómeros sube FEP-01 al 89 %, pero sólo resuelve el 19 %",
+   "entradilla": "El roadmap predijo que declarar el tautómero llevaría la preparación para FEP de 19 % a más del 80 %. Se cumple: 180 de 203. Y la descomposición enseña por qué esa cifra no puede citarse sola."
   },
   {
    "id": "FEP-01-EXT",
