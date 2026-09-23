@@ -40,6 +40,7 @@ backend/audits/freesolv_h3.py                -text
 backend/audits/freesolv_h3/**               -text
 backend/audits/freesolv_h3_caracterizar.py  -text
 scripts/analisis_fep01_declaracion.py        -text
+scripts/analisis_fep08_control_positivo.py   -text
 backend/audits/freesasa_h12.py               -text
 backend/services/chemistry/amber_compatibility.py  -text
 backend/audits/lcpo_halogenos.py             -text
