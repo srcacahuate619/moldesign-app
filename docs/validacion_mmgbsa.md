@@ -296,6 +296,27 @@ between 1 and 2 Angstroms for neck lookup»; `customgbforces.py`). El Bondi del
 yodo (1,98 Å) está en el borde: **la malla C no puede pasar de 2,0 Å** sin
 cambiar de modelo GB.
 
+**Segunda ronda de notas del propietario (2026-09-23).** Bondi (1964) confirma
+Br 1,85 e I 1,98 Å; Rowland-Taylor y Mantina no dan alternativas independientes
+para Br/I. Los radios PB optimizados con punto extra para el agujero σ
+(Fortuna y Costa 2021, DOI 10.1021/acs.jcim.1c00177: Br 2,3-2,8 Å, I 2,5-3,1 Å)
+son parámetros de cavidad de otro modelo electrostático y **no caben en GBn2**,
+cuya tabla del cuello sólo admite 1-2 Å; HCT/OBC no tienen esa tabla, pero
+habría que recalibrarlos. FreeSolv v0.52 (DOI 10.5281/zenodo.1161245): datos
+CC BY 4.0 y código MIT (verificado en el repositorio), 25 moléculas con Br (21
+sólo Br) y 12 con I, incertidumbre mediana 0,6 kcal/mol. MNSol tiene licencia
+comercial de pago y no se usa. Una guía que acompañaba al informe decía que
+FreeSolv es MIT o CC0 y que ejecutar sander viola la GPL: las dos cosas son
+falsas (ejecutar no es distribuir), y se descartó como fuente.
+
+**Prerregistrada el 2026-09-23 como `MMGBSA-H3-FREESOLV-RADIOS`**
+(`backend/audits/freesolv_h3.py`), con el diseño del informe y una salvaguarda
+contra la compensación: el término no polar (γ·SASA + b, FreeSASA) se ajusta
+**sólo con las moléculas sin halógeno**, y los brazos A (1,5 Å) y B (Bondi) no
+ajustan nada en Br ni en I. Curación declarada: FreeSolv escribe los 37 nitro de
+sus SDF como `N(–O⁻)(–O⁻)`; se corrigen a `[N+](=O)[O-]` y los 37 recuperan el
+InChIKey del SMILES.
+
 ### H4 — GB: una vez corregido el radio, los α, β, γ y el apantallamiento por defecto bastan
 
 **Enunciado.** El error de H3 no mejora de forma significativa ajustando
