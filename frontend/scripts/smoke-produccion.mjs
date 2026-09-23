@@ -102,10 +102,12 @@ async function arrancarBackend() {
   // quien ejecuta la prueba (medido el 2026-09-23). La carpeta temporal simula
   // además lo que de verdad ve una instalación nueva: una base vacía.
   // SECRET_KEY por lo mismo: sin ella el backend lee o CREA
-  // `~\.moldesign\secret_key`. Lo que NO aísla esto: el backend todavía escribe
-  // en `~\MolDesign\data` por rutas fijas que ignoran LOCAL_DATA_DIR (la
-  // siembra de `molgraph.db` si falta, `limbic.json`, las cachés de las
-  // herramientas de IA). Es del backend; está en el canal entre sesiones.
+  // `~\.moldesign\secret_key`. Hasta `f2b6479` varios almacenes (la siembra de
+  // `molgraph.db`, `limbic.json`, las cachés de IA) ignoraban LOCAL_DATA_DIR y
+  // escribían en `~\MolDesign\data` igual. Desde ahí salen de
+  // `core.config.directorio_de_datos()`. Pero ojo: este smoke ejecuta el
+  // backend EMPAQUETADO, así que el arreglo sólo cuenta aquí cuando
+  // `stage:desktop` haya vuelto a copiar el backend.
   const datos = await mkdtemp(path.join(os.tmpdir(), "moldesign-smoke-"));
   // El entorno tiene que ser EL MISMO que prepara Rust en
   // `src-tauri/src/backend.rs`. Si no, esto no simula la aplicacion: simula
