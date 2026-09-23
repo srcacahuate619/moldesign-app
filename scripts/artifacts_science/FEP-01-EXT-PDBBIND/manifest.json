@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "experiment_id": "FEP-01-EXT-PDBBIND",
+  "hypothesis": "En PDBBind, como en los 203 (164 ambiguos -> 54 con el proton moviendose), la mayoria de la ambiguedad tautomerica de FEP-01 no mueve protones y el bloqueo real por tautomero es una minoria",
+  "protocol": "scripts/analisis_fep01ext_tautomeros.py sellado, sin modificar (sha a40a09d2e5b0), con --workspace apuntando a un espacio cuyo FEP-01/per_complex.jsonl es el de FEP-01-PDBBIND; contenedor moldesign-science del servidor, RDKit 2025.09.6. Replica previa sobre los 203 identica por registro al sello.",
+  "created_at": "2026-09-23T06:46:20.538651+00:00",
+  "status": "created",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "ca68d06a5d207f9a86fbb73b951ec2455ae9c5be",
+    "dirty": false
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gate: fraccion de ambiguos en los que el proton se mueve"
+  },
+  "decision": "PENDING"
+}
