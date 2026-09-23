@@ -403,6 +403,63 @@ def fep03_pdbbind(salida: Path, workers: int, tam_shard: int, solo_grupos: bool,
     return 0
 
 
+def reintentar_cancelados(salida: Path, workers: int, segundos: float) -> int:
+    """Sensibilidad al timeout: repite sólo las parejas cuyo MCS se cortó.
+
+    Un MCS cancelado devuelve una subestructura parcial, más pequeña que la
+    real: la cobertura baja, la perturbación sube, y una pareja apta puede
+    quedar fuera. Es el sesgo contrario a la «cota superior» de FEP-03. Se
+    mide cuántas cambian con más tiempo. Los shards no se tocan: el resultado
+    va a un archivo con el timeout en el nombre, que no se reescribe.
+    """
+    modulo = _cargar("03", "pdbbind", salida, None)
+    destino = salida / f"reintento_timeout_{int(segundos)}s.jsonl"
+    resumen_ruta = destino.with_suffix(".json")
+    if destino.exists() or resumen_ruta.exists():
+        raise SystemExit(f"✗ {destino.name} ya existe; no se reescribe")
+    originales: dict[tuple[str, str], dict[str, Any]] = {}
+    for shard in sorted((salida / "pares").glob("shard_*.jsonl")):
+        with open(shard, encoding="utf-8") as fh:
+            for linea in fh:
+                r = json.loads(linea)
+                if r.get("mcs_cancelado"):
+                    originales[(r["pid_a"], r["pid_b"])] = r
+    print(f"[FEP-03-PDBBIND] reintento: {len(originales)} MCS cancelados, timeout {segundos} s, "
+          f"{workers} procesos", flush=True)
+    t0 = time.time()
+    nuevos: list[dict[str, Any]] = []
+    with ProcessPoolExecutor(max_workers=workers) as ex:
+        futuros = [ex.submit(_shard, (i, [pareja], str(modulo.PDBBIND), segundos,
+                                      modulo.PERTURBACION_MAX, modulo.COBERTURA_MCS))
+                   for i, pareja in enumerate(originales)]
+        for hechos, futuro in enumerate(as_completed(futuros), 1):
+            nuevos.extend(futuro.result()[1])
+            if hechos % 10 == 0 or hechos == len(futuros):
+                print(f"  {hechos}/{len(futuros)} | {round((time.time() - t0) / 60, 1)} min", flush=True)
+    nuevos.sort(key=lambda r: (r["pid_a"], r["pid_b"]))
+    with open(destino, "w", encoding="utf-8", newline="\n") as fh:
+        fh.writelines(json.dumps(r, ensure_ascii=False) + "\n" for r in nuevos)
+    antes = {k: v["apta_fep"] for k, v in originales.items()}
+    despues = {(r["pid_a"], r["pid_b"]): r for r in nuevos}
+    resumen = {
+        "timeout_original_s": modulo.MCS_TIMEOUT,
+        "timeout_reintento_s": segundos,
+        "n_cancelados": len(originales),
+        "siguen_cancelados": sum(1 for r in nuevos if r.get("mcs_cancelado")),
+        "mcs_crece": sum(1 for k, r in despues.items() if r.get("mcs", 0) > originales[k].get("mcs", 0)),
+        "aptas_antes": sum(antes.values()),
+        "aptas_despues": sum(1 for r in nuevos if r["apta_fep"]),
+        "pasan_a_aptas": sorted(f"{a}-{b}" for (a, b), r in despues.items() if r["apta_fep"] and not antes[(a, b)]),
+        "dejan_de_ser_aptas": sorted(f"{a}-{b}" for (a, b), r in despues.items() if antes[(a, b)] and not r["apta_fep"]),
+        "duracion_s": round(time.time() - t0, 1),
+        "timestamp": _ahora(),
+    }
+    resumen_ruta.write_text(json.dumps(resumen, ensure_ascii=False, indent=1) + "\n",
+                            encoding="utf-8", newline="\n")
+    print(json.dumps(resumen, ensure_ascii=False, indent=1), flush=True)
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("auditoria", choices=sorted(MODULOS))
@@ -414,6 +471,8 @@ def main() -> int:
     ap.add_argument("--tam-shard", type=int, default=2000, help="parejas por shard (sólo 03 pdbbind)")
     ap.add_argument("--solo-grupos", action="store_true", help="03 pdbbind: para tras la fase 1")
     ap.add_argument("--reanudar", action="store_true", help="03 pdbbind: salta los shards escritos")
+    ap.add_argument("--reintentar-cancelados", type=float, metavar="SEG",
+                    help="03 pdbbind terminado: repite con SEG de timeout los MCS que se cortaron")
     args = ap.parse_args()
 
     if os.name == "nt":
@@ -426,6 +485,11 @@ def main() -> int:
     # hijos reimportarían el módulo sellado y medirían su universo original.
     import multiprocessing
     multiprocessing.set_start_method("fork", force=True)
+
+    if args.reintentar_cancelados:
+        if args.auditoria != "03" or args.universo != "pdbbind":
+            raise SystemExit("✗ --reintentar-cancelados sólo aplica a 03 --universo pdbbind")
+        return reintentar_cancelados(args.salida, args.workers, args.reintentar_cancelados)
 
     _salida_nueva(args.salida, args.reanudar and args.auditoria == "03")
     if args.auditoria == "03" and args.universo == "pdbbind":

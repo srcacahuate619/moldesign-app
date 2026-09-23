@@ -9,6 +9,7 @@
 #   sh lanzar.sh extension    # FEP-01 y FEP-02 sobre PDBBind (medido: 33 s y 4,6 min)
 #   sh lanzar.sh grupos       # FEP-03 fase 1: cuántas parejas hay (minutos)
 #   sh lanzar.sh mcs          # FEP-03 fases 2 y 3 (medido: 25 min con 3 procesos; reanudable)
+#   sh lanzar.sh timeout      # FEP-03: repite con 300 s los MCS cortados a 10 s (<= 4,5 h)
 #
 # Se ejecuta DENTRO del contenedor moldesign-science, con /work = ~/moldesign-fep.
 set -eu
@@ -52,8 +53,11 @@ case "${1:-}" in
     log "FEP-03-PDBBIND fases 2 y 3"
     python scripts/analisis_fep_pdbbind.py 03 --universo pdbbind \
       --salida resultados/FEP-03-PDBBIND --workers "$W" --reanudar ;;
+  timeout)
+    log "FEP-03-PDBBIND sensibilidad al timeout del MCS (300 s)"
+    python scripts/analisis_fep_pdbbind.py 03 --universo pdbbind       --salida resultados/FEP-03-PDBBIND --workers "$W" --reintentar-cancelados 300 ;;
   *)
-    echo "uso: sh lanzar.sh {replicas|extension|grupos|mcs}" >&2
+    echo "uso: sh lanzar.sh {replicas|extension|grupos|mcs|timeout}" >&2
     exit 2 ;;
 esac
 log "FIN $1"
