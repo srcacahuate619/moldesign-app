@@ -1,0 +1,9 @@
+{
+ "protocol_status": "EXPERIMENTAL_NOT_ENABLED",
+ "artifacts": {
+  "pep_met_cys/leap.in": "9ca6790dfe7b5e4ce901e3d725cea68ad7f2a4d223cbea1eb9ef8571de7aec2c",
+  "pep_met_cys/ligand.inpcrd": "bd3cbf8339519f1b83be72756143fe0bc52b40d22398f0f89b7ff9a51427a8a5",
+  "pep_met_cys/ligand.prmtop": "3689d51722d619e69fcd583ae3f457089205e3d375f211933ceaf4314915aabb",
+  "pep_met_cys/sander_gbn2.json": "a2d0d560d364e60d09fc0cc83f8c0ad495000083d96d7cb2951ed6c8e3f54d20"
+ }
+}

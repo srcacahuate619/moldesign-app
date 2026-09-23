@@ -583,6 +583,21 @@ sander **0,92 kcal/mol**; con las ramas de Amber, 1,6e-6. 2weg: 11,2 → 1,6e-6.
 Sin S (1e4h) no cambia (4e-8). Sin rgbmax, el péptido largo deja 4,1e-3: hacen
 falta las dos piezas.
 
+**Resultado, medido el 2026-09-23 (`MMGBSA-H13-AZUFRE-AMBER`, sellado): GO.**
+
+| | casos | pasan sin la corrección | pasan con ella | residuo máximo antes → después |
+|---|---:|---:|---:|---|
+| con S | 14 | 0 | 14 | 11,24 → 1,3e-5 kcal/mol |
+| sin S, geometría posible | 41 | 41 | 41 | 2,0e-5 → 2,0e-5 |
+| péptidos ff14SB con Met y Cys | 2 | 0 | 2 | 0,92 → 1,6e-6 |
+
+El OpenMM de Windows reproduce al de Linux en 57/57 (7e-14). **Consecuencia:**
+el MM-GBSA candidato sobre OpenMM no calculaba el GBn2 parametrizado en
+cuanto había una metionina o una cisteína —es decir, en casi cualquier
+receptor—; con `apply_amber_gbn2_descreening` sí. Queda como prueba de
+regresión con el runtime embebido (`backend/tests/test_gbn2_azufre_como_amber.py`,
+referencia en `backend/audits/amber_reference_azufre/`). No conecta nada a producción.
+
 ### H11 — El agujero σ no se arregla con radios
 
 **Enunciado.** Si, con H1-H5 superadas, queda un error de Br/I concentrado en
@@ -667,3 +682,5 @@ Pendientes:
   11,24 kcal/mol.
 - 2026-09-23 — particiones selladas y H1 sellada: NO_GO.
 - 2026-09-23 — H2 sellada (NO_GO), diagnóstico exploratorio de la cola del Br y H12 nueva.
+- 2026-09-23 — segunda ronda de notas del propietario (radios, FreeSolv, término no
+  polar, azufre, H11); H13 nueva y sellada: GO.

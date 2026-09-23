@@ -4,7 +4,7 @@
   "hypothesis": "Reescribir las expresiones GBn2 de OpenMM 8.5.2 con las ramas de Amber egb.F90 (corte y cola de rgbmax=25 A, serie de Taylor para dij>4*sj -siempre para el S, cuyo radio apantallado es negativo-, integral cerrada en el resto y tope de 1/30 A^-1 del radio inverso) hace que OpenMM reproduzca a sander en GBn2 sin superficie, tambien con azufre, sin romper lo que ya coincidia.",
   "protocol": "backend/audits/gbn2_azufre_amber_h13.py con apply_amber_gbn2_descreening de backend/services/chemistry/amber_compatibility.py, sobre las 55 topologias de lcpo_halogenos.py (12 con S) y dos peptidos ff14SB con Met y Cys construidos con tleap (ACE MET CYS NME; y uno de 17 residuos de 56 A de extension, que ejercita rgbmax). Servidor: OpenMM y sander (contenedor moldesign-science); esta maquina: OpenMM del runtime que se entrega sobre copias con el mismo SHA-256. Fuente de las ramas: AmberClassic src/msander/egb.F90 leido el 2026-09-23. Piloto previo de 5 casos (1c5n, 1e4h, 2weg y los dos peptidos) declarado: con la correccion pasan los 5; el brazo diagnostico sin rgbmax deja 4.1e-3 kcal/mol en el peptido largo.",
   "created_at": "2026-09-23T19:15:27.002838+00:00",
-  "status": "created",
+  "status": "finished",
   "git_state": {
     "branch": "codex/release-hygiene",
     "commit": "6ea4cecaaed8354637c045d85734b1e59cc7e4fb",
@@ -25,5 +25,33 @@
   "gate": {
     "description": "GO si, con la correccion y rgbmax=25 A, todas las topologias de geometria posible (regla de MMGBSA-H5-R1) y los dos peptidos pasan en GBn2_no_SA frente a sander (residuo tras la conversion de constantes < 0.001 kcal/mol y fuerza convertida < 0.001 kcal/mol/A), no hay fallos de ejecucion, uno de los peptidos supera 25 A de extension, y OpenMM de Windows reproduce al de Linux con la correccion (< 1e-6) en todas las comparaciones con las mismas entradas. El brazo sin rgbmax es diagnostico y no entra en el gate. Cualquier otro fallo: NO_GO."
   },
-  "decision": "PENDING"
+  "decision": "GO",
+  "assets_hashes": {
+    "backend/audits/gbn2_azufre_amber_h13.py": "636bc0ced8857a11bb34498a9d4f896c3e839ed74750c1d4340bd0c2cc44e64e",
+    "backend/services/chemistry/amber_compatibility.py": "5638bc6604d42c83b58685e1c24c14ae16c661988cf3fee486c39fbb100f6d67",
+    "backend/audits/gbn2_paridad_halogenos.py": "cb65f8c701da96fa7ccc698b6ee96b87ddf453b310f085dc2ea065f531b5c76a",
+    "backend/audits/gbn2_paridad_halogenos_r1.py": "ca7283d9c82745c2c3c5715bf4f52e03d4fac97bce8fa709a0914660205040fd",
+    "scripts/artifacts_science/MMGBSA-H13-AZUFRE-AMBER/metrics.json": "17cc14d1eebc7f46a22c21fc36ca060ad956141a5fe613e0167fc1e0b57ec561",
+    "scripts/artifacts_science/MMGBSA-H13-AZUFRE-AMBER/per_complex.jsonl": "dcbda614dd97db9f81301fa0fed830cf87021f4dcff5f6971793a97a88cb81b0",
+    "scripts/artifacts_science/MMGBSA-H13-AZUFRE-AMBER/failures.jsonl": "350bb61fa02ac0adeef5f3bb5578d8def11c7669b18daa1e6fe72878373ba147",
+    "scripts/artifacts_science/MMGBSA-H13-AZUFRE-AMBER/logs/comparar.log": "5c60e0612be91a0d2ae109d6d50ff539962841f8bb3e071be36c07d10573e584",
+    "scripts/artifacts_science/MMGBSA-H13-AZUFRE-AMBER/logs/medir_linux.log": "efcbc2b4d70d3e82a7c461d23aa50ffbc3a7f25b1e60d48a025a8ac3fb6b3d68",
+    "scripts/artifacts_science/MMGBSA-H13-AZUFRE-AMBER/logs/medir_windows.log": "4aed9019c683b2c2bcfe078a6f74ea78ba66cd38ef452a96f5ed99cdcdc17fb6",
+    "scripts/artifacts_science/MMGBSA-H13-AZUFRE-AMBER/logs/peptidos.log": "40c9605c7d1de53c4c1bbca14810c1b84b5d8b53d2f0306657bef02eef372286"
+  },
+  "sealed": true,
+  "sealed_at": "2026-09-23T19:16:28.833768+00:00",
+  "decision_rationale": "La hipotesis se sostiene. Con las ramas de egb.F90 (rgbmax 25 A, serie para dij>4*sj, integral cerrada, tope de 1/30) OpenMM 8.5.2 reproduce a sander en GBn2 sin superficie en las 14 topologias con azufre (sin la correccion pasaban 0; residuo maximo 11.24 -> 1.3e-5 kcal/mol), en las 41 sin azufre de geometria posible (sin cambio: 2.0e-5) y en los dos peptidos ff14SB con Met y Cys (0.92 -> 1.6e-6 kcal/mol; el de 56 A ejercita rgbmax). 5mlj y 6gnp INDETERMINADAS por la regla geometrica de MMGBSA-H5-R1 (6gnp pasa igualmente). El OpenMM del runtime de Windows reproduce al de Linux en 57/57 comparaciones (7.1e-14 kcal/mol, 2.3e-13 kcal/mol/A). Diagnostico fuera del gate: sin rgbmax el peptido largo deja 4.1e-3 kcal/mol; hacen falta la serie del S y el corte. Consecuencia: el MM-GBSA candidato sobre OpenMM no calculaba el GBn2 parametrizado en cuanto habia una Met o una Cys; con apply_amber_gbn2_descreening si. No conecta nada a produccion.",
+  "finished_at": "2026-09-23T19:16:29.489020+00:00",
+  "duration_seconds": 5.0,
+  "seal_maintenance": [
+    {
+      "date": "2026-09-23T19:17:21.973916+00:00",
+      "reason": "Normalizacion de fin de linea: el sello registro la copia de trabajo con CRLF (d9c4746a...) y el repositorio la guarda en LF (5638bc66...), que es lo que un checkout con -text escribe. Contenido identico: el mismo del commit a7a94ca con los saltos de linea cambiados; el servidor ejecuto la copia CRLF, que Python lee igual.",
+      "path": "backend/services/chemistry/amber_compatibility.py",
+      "previous_hash": "d9c4746a644c42716eb617288b6310d8eb8c5642b6e6983fbf17f5be388460a3",
+      "new_hash": "5638bc6604d42c83b58685e1c24c14ae16c661988cf3fee486c39fbb100f6d67",
+      "content_commit": "31ead9f"
+    }
+  ]
 }

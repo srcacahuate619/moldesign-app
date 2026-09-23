@@ -28,8 +28,16 @@ GO si, con la correccion y rgbmax=25 A, todas las topologias de geometria posibl
 ## Estado
 
 - Creado: 2026-09-23T19:15:27.002838+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: GO
+- Sellado: sí (2026-09-23T19:16:28.833768+00:00)
+- Finalizado: 2026-09-23T19:16:29.489020+00:00
+- Razón de la decisión: La hipotesis se sostiene. Con las ramas de egb.F90 (rgbmax 25 A, serie para dij>4*sj, integral cerrada, tope de 1/30) OpenMM 8.5.2 reproduce a sander en GBn2 sin superficie en las 14 topologias con azufre (sin la correccion pasaban 0; residuo maximo 11.24 -> 1.3e-5 kcal/mol), en las 41 sin azufre de geometria posible (sin cambio: 2.0e-5) y en los dos peptidos ff14SB con Met y Cys (0.92 -> 1.6e-6 kcal/mol; el de 56 A ejercita rgbmax). 5mlj y 6gnp INDETERMINADAS por la regla geometrica de MMGBSA-H5-R1 (6gnp pasa igualmente). El OpenMM del runtime de Windows reproduce al de Linux en 57/57 comparaciones (7.1e-14 kcal/mol, 2.3e-13 kcal/mol/A). Diagnostico fuera del gate: sin rgbmax el peptido largo deja 4.1e-3 kcal/mol; hacen falta la serie del S y el corte. Consecuencia: el MM-GBSA candidato sobre OpenMM no calculaba el GBn2 parametrizado en cuanto habia una Met o una Cys; con apply_amber_gbn2_descreening si. No conecta nada a produccion.
+- Hashes de assets: 11 archivo(s) con SHA-256
+
+## Mantenimiento del sello
+
+- 2026-09-23T19:17:21.973916+00:00: `backend/services/chemistry/amber_compatibility.py` `d9c4746a→5638bc66` — Normalizacion de fin de linea: el sello registro la copia de trabajo con CRLF (d9c4746a...) y el repositorio la guarda en LF (5638bc66...), que es lo que un checkout con -text escribe. Contenido identico: el mismo del commit a7a94ca con los saltos de linea cambiados; el servidor ejecuto la copia CRLF, que Python lee igual. (commit 31ead9f)
 
 ## Flujo de trabajo
 

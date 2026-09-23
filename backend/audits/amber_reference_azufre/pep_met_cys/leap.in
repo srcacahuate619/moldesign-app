@@ -1,0 +1,5 @@
+source leaprc.protein.ff14SB
+set default PBRadii mbondi3
+p = sequence { ACE MET CYS NME }
+saveamberparm p ligand.prmtop ligand.inpcrd
+quit

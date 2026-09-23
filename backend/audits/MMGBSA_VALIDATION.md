@@ -481,3 +481,13 @@ la de GBn2 (el modelo se parametrizó en Amber), un ΔG de unión MM-GBSA con
 OpenMM no es comparable con uno de sander cuando hay azufre cerca del sitio.
 Es un pendiente nuevo de la **puerta 3**. Nada de esto cambia producción: el
 protocolo sigue `EXPERIMENTAL_NOT_ENABLED`.
+
+**Atribuido y corregido el mismo día (`MMGBSA-H13-AZUFRE-AMBER`, GO).** La fuente
+de Amber (AmberClassic `src/msander/egb.F90`) confirma la conjetura: `sj = fs(j)`
+lleva el signo del apantallamiento, `dij > four*sj` se cumple siempre para el S y
+Amber usa su serie de Taylor; además corta en `rgbmax` = 25 Å. `apply_amber_gbn2_descreening`
+reescribe las expresiones de OpenMM con esas ramas: 14/14 topologías con S y dos
+péptidos ff14SB con Met y Cys coinciden con sander (≤ 1,3e-5 kcal/mol; el
+dipéptido ACE-Met-Cys-NME se separaba 0,92 kcal/mol), y nada cambia sin S.
+Queda la otra mitad de la puerta 3: comprobar lo mismo en complejos
+receptor-ligando reales, donde el corte de rgbmax pesará más.

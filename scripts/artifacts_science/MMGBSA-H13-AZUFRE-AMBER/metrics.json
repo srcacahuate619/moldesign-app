@@ -1,1 +1,46 @@
-{}
+{
+ "experimento": "MMGBSA-H13-AZUFRE-AMBER",
+ "generado_utc": "2026-09-23T19:16:02.617353+00:00",
+ "rgbmax_A": 25.0,
+ "tolerancias": {
+  "energia": 0.001,
+  "fuerza": 0.001,
+  "entre_maquinas": 1e-06
+ },
+ "con_azufre": {
+  "n": 14,
+  "PASA": 14,
+  "FALLA": 0,
+  "INDETERMINADO": 0,
+  "pasan_sin_parche": 0,
+  "max_residuo_con_parche_kcal_mol": 1.2645364854589668e-05,
+  "max_residuo_sin_parche_kcal_mol": 11.243654921832897
+ },
+ "sin_azufre": {
+  "n": 43,
+  "PASA": 41,
+  "FALLA": 0,
+  "INDETERMINADO": 2,
+  "pasan_sin_parche": 42,
+  "max_residuo_con_parche_kcal_mol": 1.9600123176277055e-05,
+  "max_residuo_sin_parche_kcal_mol": 1.9602805666951088e-05
+ },
+ "peptidos": {
+  "n": 2,
+  "PASA": 2,
+  "FALLA": 0,
+  "INDETERMINADO": 0,
+  "pasan_sin_parche": 0,
+  "max_residuo_con_parche_kcal_mol": 1.5579088191645767e-06,
+  "max_residuo_sin_parche_kcal_mol": 0.9240675065093719
+ },
+ "fallos": [],
+ "windows": {
+  "comparaciones": 57,
+  "esperadas": 57,
+  "mismas_entradas": 57,
+  "max_diferencia_energia_kcal_mol": 7.105427357601002e-14,
+  "max_diferencia_fuerza_kcal_mol_A": 2.2737367544323206e-13
+ },
+ "pasa_gate": true
+}
