@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MMGBSA-H5-R1",
+  "hypothesis": "Replica de MMGBSA-H5-GBN2-PARIDAD con un filtro de validez geometrica: entre las topologias con Br o I de geometria posible, OpenMM 8.5.2 (Reference) reproduce a sander en vacuum y GBn2 sin superficie (residuo < 0.001 kcal/mol, fuerza convertida < 0.001 kcal/mol/A), con la misma excepcion del azufre que H5; y el OpenMM del runtime de Windows reproduce al de Linux.",
+  "protocol": "backend/audits/gbn2_paridad_halogenos_r1.py, que importa sin modificar el script sellado de H5, sobre las mismas 55 topologias; corridas nuevas en directorios nuevos (servidor con sander; esta maquina con frontend/src-tauri/resources/python). Filtro declarado antes de medir: geometria imposible si dos atomos estan a < 0.5 A o un angulo de valencia mide < 30 grados. Se diseno despues de ver 5mlj en H5 y se comprobo solo sobre geometrias (sin energias) antes de este prerregistro: marca 5mlj (Br) y 6gnp (Cl, control); en los dos el SDF de PDBBind anade un H a un carbono sp2 halogenado. Diagnostico fuera del gate: recolocar ese H (perpendicular al plano si el centro es plano) y medir la paridad.",
+  "created_at": "2026-09-23T17:59:05.333933+00:00",
+  "status": "created",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "ddb5304aedd27e913ec54a1f25d5218563fc8a95",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "GO si entre las topologias con Br o I de geometria posible hay al menos 20 y todas pasan en vacuum y GBn2_no_SA, o -solo si llevan S- el vacio pasa y el desacuerdo desaparece con el S como elemento generico; las de geometria imposible cuentan como INDETERMINADO; y OpenMM de Windows reproduce al de Linux (< 1e-6 kcal/mol y kcal/mol/A) en todas las comparaciones con las mismas entradas. Cualquier otro fallo: NO_GO."
+  },
+  "decision": "PENDING"
+}
