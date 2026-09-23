@@ -22,7 +22,7 @@
 // texto sin traducir.
 import { execFileSync } from "node:child_process";
 
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -203,6 +203,31 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
       encoding: "utf8",
     });
     expect(salida).toContain("el guardian ve");
+  });
+
+  it("el barrido ve un literal nuevo, con clave o sin ella, en un componente real", () => {
+    // La mutación que el autotest del script no cubre: un fichero de verdad en
+    // components/. «Definir» TIENE clave (lo_paso_definir) y aun así se pinta
+    // sin t(); el 2026-09-23 ese caso era invisible y un lote de migración
+    // escondió así cuatro literales de otros ficheros.
+    const raiz = resolve(__dirname, "../..");
+    const mutante = join(raiz, "components", "MutanteDelGuardian.tsx");
+    writeFileSync(mutante, [
+      "export function MutanteDelGuardian() {",
+      "  return (<div><span>Rótulo de mutación sin clave</span><span>Definir</span></div>);",
+      "}",
+      "",
+    ].join("\n"), "utf8");
+    try {
+      const actual: string[] = JSON.parse(execFileSync(process.execPath, [SCRIPT, "--json"], {
+        cwd: raiz,
+        encoding: "utf8",
+      }));
+      expect(actual).toContain("components/MutanteDelGuardian.tsx: Rótulo de mutación sin clave");
+      expect(actual).toContain("components/MutanteDelGuardian.tsx: Definir");
+    } finally {
+      rmSync(mutante, { force: true });
+    }
   });
 
   it("el texto pendiente de traducir sólo puede bajar", () => {

@@ -267,9 +267,23 @@ for (const file of roots.flatMap(function (dir) { return walk(dir, function (p) 
       }
       return;
     }
+    // Tener clave no es estar traducido: el texto sigue en castellano fijo
+    // hasta que pasa por t(). El 2026-09-23 un lote de migración añadió
+    // «Email», «Actividad reciente» y «Modelos y motores» a un módulo, y el
+    // barrido dejó de contar esos mismos literales en OTROS ficheros que los
+    // seguían pintando sin traducir. Cuentan como pendientes mientras --write
+    // tendría que reescribirlos; los de nivel superior no, porque las tablas
+    // estáticas se resuelven con t(valor) al renderizar (ver traducciones/index.ts).
+    function pendienteConClave() {
+      const technicalToken = kind !== "jsx" && /^[a-z][a-z0-9_-]*$/.test(value);
+      if (visibleLiteral(node, kind) && !technicalToken && esPendiente(value)) {
+        pendientes.add(path.relative(ROOT, file).replace(/\\/g, "/") + ": " + value.replace(/\s+/g, " "));
+      }
+    }
     const component = componentFor(node);
     if (!component || !component.body || !ts.isBlock(component.body)) {
       if (kind === "jsx") {
+        pendienteConClave();
         const raw = source.slice(node.pos, node.end);
         const trimmed = raw.trim();
         const start = node.pos + raw.indexOf(trimmed);
@@ -284,6 +298,7 @@ for (const file of roots.flatMap(function (dir) { return walk(dir, function (p) 
       unresolved.push(path.relative(ROOT, file) + ": nivel superior: " + key);
       return;
     }
+    pendienteConClave();
     let start = node.getStart(sf);
     let end = node.getEnd();
     let replacement = "t(" + JSON.stringify(key) + ")";
