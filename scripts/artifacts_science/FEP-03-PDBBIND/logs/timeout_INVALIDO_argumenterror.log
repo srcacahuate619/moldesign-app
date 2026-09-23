@@ -1,0 +1,58 @@
+[2026-09-23T02:19:38Z] RDKit 2025.09.6 (la de los sellos)
+[2026-09-23T02:19:38Z] FEP-03-PDBBIND sensibilidad al timeout del MCS (300 s)
+[FEP-03-PDBBIND] reintento: 163 MCS cancelados, timeout 300.0 s, 3 procesos
+  10/163 | 0.0 min
+  20/163 | 0.0 min
+  30/163 | 0.0 min
+  40/163 | 0.0 min
+  50/163 | 0.0 min
+  60/163 | 0.0 min
+  70/163 | 0.0 min
+  80/163 | 0.0 min
+  90/163 | 0.0 min
+  100/163 | 0.0 min
+  110/163 | 0.0 min
+  120/163 | 0.0 min
+  130/163 | 0.0 min
+  140/163 | 0.0 min
+  150/163 | 0.0 min
+  160/163 | 0.0 min
+  163/163 | 0.0 min
+{
+ "timeout_original_s": 10,
+ "timeout_reintento_s": 300.0,
+ "n_cancelados": 163,
+ "siguen_cancelados": 0,
+ "mcs_crece": 0,
+ "aptas_antes": 23,
+ "aptas_despues": 0,
+ "pasan_a_aptas": [],
+ "dejan_de_ser_aptas": [
+  "1ec0-1w5v",
+  "1w5v-1w5w",
+  "1w5w-1w5x",
+  "1w5w-1w5y",
+  "1w5x-1w5y",
+  "2i0a-3mxd",
+  "2i4u-4i8z",
+  "2pwc-2pwr",
+  "2pwc-2qnp",
+  "2pwc-2qnq",
+  "2pwc-2r38",
+  "2pwc-2r3t",
+  "2pwr-2r3w",
+  "2pwr-2r43",
+  "2r38-2r3w",
+  "2r38-2r43",
+  "2r3t-2r3w",
+  "2r3t-2r43",
+  "3dk1-3st5",
+  "4a6b-4a6c",
+  "4cps-4cpt",
+  "4cws-4cwt",
+  "6udi-6udt"
+ ],
+ "duracion_s": 0.7,
+ "timestamp": "2026-09-23T02:19:38.974853+00:00"
+}
+[2026-09-23T02:19:38Z] FIN timeout

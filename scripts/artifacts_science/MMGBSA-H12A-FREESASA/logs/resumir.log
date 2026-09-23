@@ -1,0 +1,11 @@
+  todos  n  3088  mediana 0.1440  p95 0.5527  máx 1.2209
+  Br     n   113  mediana 0.2609  p95 0.6427  máx 1.1773
+  C      n  2079  mediana 0.1367  p95 0.5656  máx 1.2209
+  Cl     n    11  mediana 0.1777  p95 0.4055  máx 0.4106
+  F      n    17  mediana 0.1750  p95 0.4654  máx 0.4905
+  I      n    40  mediana 0.1627  p95 0.5469  máx 0.6635
+  N      n   300  mediana 0.1273  p95 0.4480  máx 0.6864
+  O      n   466  mediana 0.1681  p95 0.4909  máx 0.9260
+  P      n    14  mediana 0.0329  p95 0.3760  máx 0.4595
+  S      n    48  mediana 0.1278  p95 0.4785  máx 0.6300
+ms por ligando (mediana) 0.55; gate NO PASA

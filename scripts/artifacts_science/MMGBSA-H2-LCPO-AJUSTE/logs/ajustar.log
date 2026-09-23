@@ -1,0 +1,26 @@
+
+== Br: átomos {'entrenamiento': 64, 'validacion': 20, 'prueba': 27}; elegido en validación: reducido
+   completo  P [0.970563, -0.403883, -0.001887, 0.000617]  CV [0.045, 0.168, 0.937, 0.327]  DE pred. val. 0.861
+      entrenamiento n  64  mediana  2.059  p90  7.945  media -0.000  IC95 [-1.5663, 1.3151]
+      validacion    n  20  mediana  0.907  p90  5.992  media -1.398  IC95 [-2.9107, -0.42]
+      prueba        n  27  mediana  2.832  p90  9.826  media +1.572  IC95 [-1.8876, 4.0645]
+   reducido  P [0.961656, -0.390939, 0.000112, 0.000499]  CV [0.019, 0.03, 0.0, 0.0]  DE pred. val. 0.637
+      entrenamiento n  64  mediana  2.250  p90  7.611  media -0.000  IC95 [-1.4974, 1.206]
+      validacion    n  20  mediana  0.940  p90  4.852  media -1.331  IC95 [-2.5675, -0.4604]
+      prueba        n  27  mediana  2.957  p90  9.702  media +1.547  IC95 [-1.6037, 3.9777]
+   gate: {"validacion": {"resultado": "PASA", "comprobaciones": {"mediana": true, "p90": true, "sesgo": true, "cv_P1": true, "de_prediccion": true}}, "prueba": {"resultado": "FALLA", "comprobaciones": {"mediana": false, "p90": false, "sesgo": false, "cv_P1": true, "de_prediccion": true}}}
+   H10: {'mediana_validacion_scaffold_A2': 0.9404, 'mediana_validacion_aleatoria_A2': 1.7043, 'n_validacion_aleatoria': 26, 'P_aleatoria': [0.9507129537717253, -0.384082995120085, 0.00011249, 0.00049901], 'resultado': 'PASA'}
+
+== I: átomos {'entrenamiento': 19, 'validacion': 6, 'prueba': 13}; elegido en validación: completo
+   completo  P [0.949566, -0.352468, -0.003553, 0.000589]  CV [0.152, 0.795, 14.019, 2.608]  DE pred. val. 0.737
+      entrenamiento n  19  mediana  0.317  p90  1.383  media -0.000  IC95 [-0.4133, 0.2545]
+      validacion    n   6  mediana  2.592  p90  3.544  media -1.935  IC95 [-3.0677, 0.6647]
+      prueba        n  13  mediana  1.830  p90  4.041  media -1.016  IC95 [-2.6847, 0.5286]
+   reducido  P [1.038902, -0.443117, 0.000112, 0.000499]  CV [0.033, 0.06, 0.0, 0.0]  DE pred. val. 1.356
+      entrenamiento n  19  mediana  1.506  p90  2.677  media -0.000  IC95 [-1.1153, 1.0113]
+      validacion    n   6  mediana  5.908  p90  8.050  media -4.526  IC95 [-6.9792, 0.3809]
+      prueba        n  13  mediana  8.357  p90 10.900  media -6.106  IC95 [-9.0404, -0.2884]
+   gate: {"validacion": {"resultado": "FALLA", "comprobaciones": {"mediana": true, "p90": true, "sesgo": false, "cv_P1": true, "de_prediccion": true}}, "prueba": {"resultado": "PASA", "comprobaciones": {"mediana": true, "p90": true, "sesgo": true, "cv_P1": true, "de_prediccion": true}}}
+   H10: {'mediana_validacion_scaffold_A2': 2.5917, 'mediana_validacion_aleatoria_A2': 1.5404, 'n_validacion_aleatoria': 8, 'P_aleatoria': [0.7963070536216, -0.08305008603866103, 0.0019596126726831318, -0.00021473660223378377], 'resultado': 'FALLA'}
+
+decisión H2 por el gate: NO_GO; H10: FALLA

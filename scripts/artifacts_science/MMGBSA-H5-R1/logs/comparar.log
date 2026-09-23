@@ -1,0 +1,17 @@
+br_i: pasan 19/24 (gate 23/24); sin S 19/20; con S 0/4, paridad con S genérico 4/4
+control_f_cl: pasan 23/31 (gate 31/31); sin S 23/23; con S 0/8, paridad con S genérico 8/8
+fallos de ejecución: 0
+Windows contra Linux: {'tolerancia': 1e-06, 'comparaciones': 110, 'esperadas': 110, 'mismas_entradas': 55, 'max_diferencia_energia_kcal_mol': 8.526512829121202e-14, 'max_diferencia_fuerza_kcal_mol_A': 1.6342482922482304e-13}
+  br_i          vacuum      pasan 23  residuo máx 3.88e+00  fuerza máx 7.12e+01 (bruta 7.12e+01)  | Windows pasan 23
+  br_i          GBn2_no_SA  pasan 19  residuo máx 4.87e+00  fuerza máx 7.11e+01 (bruta 7.11e+01)  | Windows pasan 19
+  control_f_cl  vacuum      pasan 31  residuo máx 1.96e-05  fuerza máx 9.93e-05 (bruta 2.28e-04)  | Windows pasan 31
+  control_f_cl  GBn2_no_SA  pasan 23  residuo máx 1.12e+01  fuerza máx 4.05e+01 (bruta 4.05e+01)  | Windows pasan 23
+  Br br  radio 1.5 screen 0.8  OpenMM {'or': 1.304859, 'sr': 0.6524295, 'alpha': 1.0, 'beta': 0.8, 'gamma': 4.851}  (19 átomos)
+  Cl cl  radio 1.7 screen 0.8  OpenMM {'or': 1.5048589999999997, 'sr': 0.7524294999999999, 'alpha': 1.0, 'beta': 0.8, 'gamma': 4.851}  (18 átomos)
+  F  f   radio 1.5 screen 0.88  OpenMM {'or': 1.304859, 'sr': 0.6524295, 'alpha': 1.0, 'beta': 0.8, 'gamma': 4.851}  (41 átomos)
+  I  i   radio 1.5 screen 0.8  OpenMM {'or': 1.304859, 'sr': 0.6524295, 'alpha': 1.0, 'beta': 0.8, 'gamma': 4.851}  (16 átomos)
+gate: NO PASA; Windows: PASA
+R1 Br/I: {'PASA': 23, 'FALLA': 0, 'INDETERMINADO': 1}; control F/Cl: {'PASA': 30, 'FALLA': 0, 'INDETERMINADO': 1}
+  imposible 5mlj {'Br': 1}: [{'tipo': 'distancia', 'atomos': ['C13', 'H22'], 'indices': [14, 44], 'valor': 0.2586}, {'tipo': 'angulo', 'atomos': ['H22', 'C17', 'C13'], 'indices': [44, 21, 14], 'valor': 1.206}]; recolocados [{'hidrogeno': 'H22', 'padre': 'C17', 'criterio': 'perpendicular al plano de los vecinos', 'desplazamiento_A': 1.5502}]; paridad tras recolocar {'vacuum': {'residuo_kcal_mol': 6.024459353399158e-06, 'max_error_fuerza_kcal_mol_A': 0.0001006223292101538, 'pasa': True}, 'GBn2_no_SA': {'residuo_kcal_mol': 5.826533118239883e-06, 'max_error_fuerza_kcal_mol_A': 0.00010063269069782166, 'pasa': True}}
+  imposible 6gnp {'Cl': 3}: [{'tipo': 'angulo', 'atomos': ['H2', 'C5', 'Cl1'], 'indices': [11, 6, 7], 'valor': 24.618}]; recolocados [{'hidrogeno': 'H2', 'padre': 'C5', 'criterio': 'perpendicular al plano de los vecinos', 'desplazamiento_A': 1.5384}]; paridad tras recolocar {'vacuum': {'residuo_kcal_mol': 6.253001366736811e-09, 'max_error_fuerza_kcal_mol_A': 8.072223897626074e-05, 'pasa': True}, 'GBn2_no_SA': {'residuo_kcal_mol': 3.0521007804429345e-09, 'max_error_fuerza_kcal_mol_A': 8.072193352282042e-05, 'pasa': True}}
+gate R1: PASA; Windows: PASA

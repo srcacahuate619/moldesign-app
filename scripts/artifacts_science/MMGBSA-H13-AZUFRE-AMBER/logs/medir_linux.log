@@ -1,0 +1,64 @@
+  [1/57] 1c5n: openmm_8.5.2: NO PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [2/57] 1c5x: openmm_8.5.2: NO PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [3/57] 1gyy: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [4/57] 1e4h: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [5/57] 1hk4: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [6/57] 1igb: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [7/57] 1lgw: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [8/57] 1mfi: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [9/57] 1my4: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [10/57] 1tnh: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [11/57] 1q54: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [12/57] 1upf: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [13/57] 2h6b: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [14/57] 2ax9: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [15/57] 2hb1: openmm_8.5.2: NO PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [16/57] 2i80: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [17/57] 2oxd: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [18/57] 2pu1: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [19/57] 2p7a: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [20/57] 2weg: openmm_8.5.2: NO PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [21/57] 2q7q: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [22/57] 2wk6: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [23/57] 3ao2: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [24/57] 3ao5: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [25/57] 3i4y: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [26/57] 3f78: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [27/57] 3pcf: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [28/57] 3juo: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [29/57] 3tz0: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [30/57] 4agl: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [31/57] 4aje: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [32/57] 4kwg: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [33/57] 4bc5: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [34/57] 4rpo: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [35/57] 4qp2: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [36/57] 4whs: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [37/57] 5aol: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [38/57] 5eij: openmm_8.5.2: NO PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [39/57] 5mge: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [40/57] 5mgj: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [41/57] 5o1f: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [42/57] 5mro: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [43/57] 5mlj: openmm_8.5.2: NO PASA / con_ramas_de_amber: NO PASA / diagnostico_ramas_sin_rgbmax: NO PASA 
+  [44/57] 5yas: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [45/57] 6g34: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [46/57] 6g39: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [47/57] 6g3a: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [48/57] 6gnp: openmm_8.5.2: PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [49/57] 6qlo: openmm_8.5.2: NO PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [50/57] 6qln: openmm_8.5.2: NO PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [51/57] 6qlq: openmm_8.5.2: NO PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [52/57] 6qlp: openmm_8.5.2: NO PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [53/57] 6qlr: openmm_8.5.2: NO PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [54/57] 6qlt: openmm_8.5.2: NO PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [55/57] pep_met_cys: openmm_8.5.2: NO PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [56/57] 6qlu: openmm_8.5.2: NO PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: PASA 
+  [57/57] pep_largo_met_cys: openmm_8.5.2: NO PASA / con_ramas_de_amber: PASA / diagnostico_ramas_sin_rgbmax: NO PASA 
+escrito resultados/MMGBSA-H13-AZUFRE-AMBER/crudo_linux.json

@@ -1,0 +1,69 @@
+[2026-09-23T01:42:49Z] RDKit 2025.09.6 (la de los sellos)
+[2026-09-23T01:42:49Z] FEP-03-PDBBIND fases 2 y 3
+[FEP-03-PDBBIND] fase 1: agrupación por secuencia (3 procesos)
+{
+ "n_pdbbind": 5325,
+ "n_complejos": 3887,
+ "n_dianas_distintas": 1228,
+ "dianas_con_2_o_mas": 547,
+ "tamano_grupo_max": 201,
+ "n_parejas": 40969,
+ "n_parejas_prefiltradas": 10869,
+ "n_parejas_con_mcs": 30100,
+ "n_shards": 21,
+ "grupos_mayores": [
+  201,
+  99,
+  95,
+  66,
+  64,
+  62,
+  60,
+  46,
+  41,
+  36,
+  32,
+  29,
+  28,
+  26,
+  26
+ ]
+}
+[FEP-03-PDBBIND] fase 2: 21 de 21 shards pendientes
+  shard 00001 listo | 1/21 | 0.0 min | ETA 0.01 h
+  shard 00002 listo | 2/21 | 0.0 min | ETA 0.01 h
+  shard 00003 listo | 3/21 | 0.1 min | ETA 0.01 h
+  shard 00004 listo | 4/21 | 0.1 min | ETA 0.0 h
+  shard 00005 listo | 5/21 | 0.1 min | ETA 0.0 h
+  shard 00006 listo | 6/21 | 0.1 min | ETA 0.0 h
+  shard 00008 listo | 7/21 | 0.1 min | ETA 0.0 h
+  shard 00007 listo | 8/21 | 0.1 min | ETA 0.0 h
+  shard 00009 listo | 9/21 | 0.2 min | ETA 0.0 h
+  shard 00000 listo | 10/21 | 0.3 min | ETA 0.0 h
+  shard 00010 listo | 11/21 | 2.5 min | ETA 0.04 h
+  shard 00013 listo | 12/21 | 4.2 min | ETA 0.05 h
+  shard 00011 listo | 13/21 | 4.2 min | ETA 0.04 h
+  shard 00012 listo | 14/21 | 5.0 min | ETA 0.04 h
+  shard 00014 listo | 15/21 | 5.5 min | ETA 0.04 h
+  shard 00017 listo | 16/21 | 6.4 min | ETA 0.03 h
+  shard 00016 listo | 17/21 | 8.3 min | ETA 0.03 h
+  shard 00018 listo | 18/21 | 10.7 min | ETA 0.03 h
+  shard 00020 listo | 19/21 | 12.4 min | ETA 0.02 h
+  shard 00019 listo | 20/21 | 15.9 min | ETA 0.01 h
+  shard 00015 listo | 21/21 | 24.7 min | ETA 0.0 h
+[FEP-03-PDBBIND] fase 3: agregado
+{
+ "n_complejos": 3887,
+ "n_dianas_distintas": 1228,
+ "dianas_con_2_o_mas": 547,
+ "tamano_grupo_max": 201,
+ "complejos_en_dianas_multiples": 3206,
+ "n_parejas_evaluadas": 30100,
+ "n_parejas_prefiltradas": 10869,
+ "n_parejas_aptas_fep": 3299,
+ "dianas_con_serie_congenerica": 313,
+ "cobertura_mcs_mediana_evaluadas": 0.364,
+ "perturbacion_mediana_evaluadas": 28,
+ "n_mcs_cancelados_por_timeout": 163
+}
+[2026-09-23T02:07:33Z] FIN mcs

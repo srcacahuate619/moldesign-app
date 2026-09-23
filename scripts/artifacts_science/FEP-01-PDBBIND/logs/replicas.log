@@ -1,0 +1,119 @@
+[2026-09-23T01:31:45Z] RDKit 2025.09.6 (la de los sellos)
+[2026-09-23T01:31:45Z] réplica FEP-01 sobre los 203
+[FEP-01] 203 complejos, 3 procesos
+  [40/203] (0s)
+  [80/203] (1s)
+  [120/203] (1s)
+  [160/203] (1s)
+  [200/203] (2s)
+
+{
+ "n_complejos": 203,
+ "n_ok": 203,
+ "estereo": {
+  "con_centros_quirales": 138,
+  "con_centros_SIN_ASIGNAR": 0,
+  "con_dobles_sin_estereo": 1,
+  "estereo_indefinido_total": 1
+ },
+ "tautomeros": {
+  "ambiguos": 164,
+  "distribucion": {
+   "2": 49,
+   "10": 48,
+   "1": 39,
+   "3": 23,
+   "6": 17,
+   "4": 11,
+   "9": 8,
+   "8": 5,
+   "7": 2,
+   "5": 1
+  }
+ },
+ "mapping": {
+  "biyectivo": 203,
+  "cubre_pesados": 203,
+  "sin_index_map": 0
+ },
+ "listos_para_fep": 39
+}
+
+✓ réplica idéntica al resumen sellado de scripts/artifacts_science/FEP-01/metrics.json
+[2026-09-23T01:31:46Z] réplica FEP-02 sobre los 203
+[FEP-02] 203 complejos, 3 procesos
+  [40/203] (2s)
+  [80/203] (4s)
+  [120/203] (6s)
+  [160/203] (9s)
+  [200/203] (12s)
+
+{
+ "n_complejos": 203,
+ "n_ok": 203,
+ "cadenas": {
+  "mediana": 1,
+  "multi_cadena": 87
+ },
+ "huecos_de_cadena": {
+  "complejos_con_huecos": 86,
+  "fraccion": 0.4236,
+  "huecos_mediana_cuando_hay": 2
+ },
+ "sitio": {
+  "entre_cadenas": 43,
+  "con_metales": 52,
+  "con_cofactores": 0,
+  "aguas_mediana": 10
+ },
+ "disulfuros": {
+  "con_al_menos_uno": 87
+ },
+ "documentados_para_fep": 83
+}
+
+VERIFICACION del diagnostico de MF-10 (9 complejos con error de plantilla):
+  1b38: huecos=  1  cadenas=1
+  1c4u: huecos=  2  cadenas=2
+  1d3p: huecos=  1  cadenas=2
+  1d9i: huecos=  3  cadenas=1
+  1dgm: huecos=  1  cadenas=1
+  1mu8: huecos=  2  cadenas=2
+  1nm6: huecos=  3  cadenas=1
+  1nw5: huecos=  1  cadenas=1
+  1flr: huecos=  1  cadenas=2
+  -> 9 de 9 tienen huecos | tasa base en la cohorte: 42.4%
+
+✓ réplica idéntica al resumen sellado de scripts/artifacts_science/FEP-02/metrics.json
+[2026-09-23T01:31:58Z] réplica FEP-03 sobre los 203
+[FEP-03] 203 complejos | agrupando por secuencia
+  203 con secuencia utilizable (0s)
+  104 dianas distintas | 32 con >=2 complejos (131 complejos)
+
+{
+ "n_complejos": 203,
+ "n_dianas_distintas": 104,
+ "dianas_con_2_o_mas": 32,
+ "complejos_en_dianas_multiples": 131,
+ "tamano_grupo_max": 23,
+ "n_parejas_evaluadas": 487,
+ "n_parejas_aptas_fep": 91,
+ "dianas_con_serie_congenerica": 18,
+ "cobertura_mcs_mediana": 0.5,
+ "perturbacion_mediana": 27
+}
+
+mejores parejas congenericas:
+  1g1d <-> 1g45  MCS=21/21 cobertura=1.00 perturbacion=0
+  1g46 <-> 1g52  MCS=22/22 cobertura=1.00 perturbacion=0
+  1g48 <-> 1g53  MCS=22/22 cobertura=1.00 perturbacion=0
+  1if7 <-> 1if8  MCS=26/26 cobertura=1.00 perturbacion=0
+  1bty <-> 1c5p  MCS=9/9 cobertura=1.00 perturbacion=0
+  1fkg <-> 1fkh  MCS=33/33 cobertura=1.00 perturbacion=0
+  1hmr <-> 1hmt  MCS=20/20 cobertura=1.00 perturbacion=0
+  1dhi <-> 1dhj  MCS=33/33 cobertura=1.00 perturbacion=0
+  1e2k <-> 1e2l  MCS=18/18 cobertura=1.00 perturbacion=0
+  1g1d <-> 1g46  MCS=21/21 cobertura=1.00 perturbacion=1
+
+✓ réplica idéntica al resumen sellado de scripts/artifacts_science/FEP-03/metrics.json
+[2026-09-23T01:32:13Z] FIN replicas

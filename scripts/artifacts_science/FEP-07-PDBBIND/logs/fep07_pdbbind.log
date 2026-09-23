@@ -1,0 +1,7 @@
+[FEP-07] 3299 parejas aptas de FEP-03, cruzadas en 0.311s
+  EJECUTABLE_HOY             2243
+  BLOQUEADA_POR_TAUTOMERO    656
+  BLOQUEADA_POR_RECEPTOR     400
+  -> ejecutables hoy: 2243 parejas sobre 1114 complejos
+  -> tras declarar tautomeros: 2899
+  (criterio COMPLETO de FEP-02 en ambos extremos: 875 parejas)

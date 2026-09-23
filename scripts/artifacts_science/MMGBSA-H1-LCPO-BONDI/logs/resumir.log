@@ -1,0 +1,48 @@
+
+== H1_Cl_publicado_radio_Bondi
+   entrenamiento Br                 n   64  mediana   2.234  p90   7.129  media  -0.374  IC95 [-1.979, 0.85]
+   entrenamiento I                  n   19  mediana   1.427  p90   3.896  media  -0.127  IC95 [-1.3613, 1.6936]
+   entrenamiento fondo_solapan_BrI  n  749  mediana   2.323  p90   6.539  media  -1.437  IC95 [-1.897, -0.9114]
+   validacion    Br                 n   20  mediana   0.701  p90   6.899  media  -1.549  IC95 [-3.1384, -0.4028]
+   validacion    I                  n    6  mediana   4.709  p90   6.488  media  -4.174  IC95 [-5.8233, -1.3236]
+   validacion    fondo_solapan_BrI  n  261  mediana   1.872  p90   6.038  media  -1.632  IC95 [-2.2942, -0.9754]
+   prueba        Br                 n   27  mediana   3.400  p90   9.435  media  +0.772  IC95 [-3.0326, 3.3516]
+   prueba        I                  n   13  mediana   4.565  p90   5.363  media  -3.655  IC95 [-4.8057, -1.3263]
+   prueba        fondo_solapan_BrI  n  349  mediana   2.231  p90   6.321  media  -1.274  IC95 [-1.8707, -0.6016]
+   todas         Br                 n  111  mediana   1.966  p90   8.925  media  -0.307  IC95 [-1.3515, 0.7359]
+   todas         I                  n   38  mediana   1.910  p90   5.440  media  -1.973  IC95 [-3.4271, -0.315]
+   todas         fondo_solapan_BrI  n 1359  mediana   2.215  p90   6.404  media  -1.432  IC95 [-1.7494, -1.0535]
+
+== diagnostico_Cl_publicado_r1_8
+   entrenamiento Br                 n   64  mediana   1.774  p90   6.441  media  -0.526  IC95 [-1.92, 0.5626]
+   entrenamiento I                  n   19  mediana   0.705  p90   1.799  media  -0.057  IC95 [-0.6321, 0.5983]
+   entrenamiento fondo_solapan_BrI  n  724  mediana   2.559  p90   6.520  media  -1.595  IC95 [-2.0656, -0.9699]
+   validacion    Br                 n   20  mediana   0.362  p90   6.332  media  -1.308  IC95 [-2.7909, -0.27]
+   validacion    I                  n    6  mediana   2.775  p90   4.941  media  -3.102  IC95 [-4.7687, -1.5889]
+   validacion    fondo_solapan_BrI  n  257  mediana   2.117  p90   5.987  media  -1.849  IC95 [-2.4907, -1.1879]
+   prueba        Br                 n   27  mediana   2.203  p90   8.678  media  +0.537  IC95 [-2.6135, 2.7986]
+   prueba        I                  n   13  mediana   3.620  p90   4.617  media  -2.945  IC95 [-4.0596, -1.6776]
+   prueba        fondo_solapan_BrI  n  343  mediana   2.463  p90   6.121  media  -1.468  IC95 [-2.0691, -0.8972]
+   todas         Br                 n  111  mediana   1.503  p90   8.092  media  -0.408  IC95 [-1.5103, 0.5994]
+   todas         I                  n   38  mediana   1.557  p90   4.601  media  -1.526  IC95 [-2.6553, -0.4851]
+   todas         fondo_solapan_BrI  n 1324  mediana   2.487  p90   6.253  media  -1.611  IC95 [-1.9404, -1.2542]
+
+== respaldo_Amber_C_sp2_2
+   entrenamiento Br                 n   64  mediana  28.016  p90  30.638  media -26.340  IC95 [-28.2781, -24.6943]
+   entrenamiento I                  n   19  mediana  30.061  p90  33.196  media -30.466  IC95 [-31.543, -29.2565]
+   entrenamiento fondo_solapan_BrI  n  705  mediana   2.711  p90   6.474  media  -1.829  IC95 [-2.3747, -1.2354]
+   validacion    Br                 n   20  mediana  29.607  p90  30.705  media -28.172  IC95 [-29.5302, -26.5659]
+   validacion    I                  n    6  mediana  30.666  p90  32.289  media -31.065  IC95 [-32.2888, -30.4535]
+   validacion    fondo_solapan_BrI  n  247  mediana   2.372  p90   5.991  media  -2.133  IC95 [-2.7791, -1.4773]
+   prueba        Br                 n   27  mediana  24.357  p90  30.238  media -23.979  IC95 [-26.3356, -22.4651]
+   prueba        I                  n   13  mediana  28.702  p90  32.093  media -28.315  IC95 [-31.5971, -26.6221]
+   prueba        fondo_solapan_BrI  n  336  mediana   2.594  p90   6.336  media  -1.734  IC95 [-2.3252, -1.1693]
+   todas         Br                 n  111  mediana  27.355  p90  30.628  media -26.096  IC95 [-27.4107, -24.9262]
+   todas         I                  n   38  mediana  30.091  p90  32.853  media -29.825  IC95 [-31.1253, -28.4906]
+   todas         fondo_solapan_BrI  n 1288  mediana   2.635  p90   6.399  media  -1.863  IC95 [-2.203, -1.4741]
+   vecinos pareados entrenamiento n  749  media |H1|-|respaldo|  -0.227  IC95 [-0.2899, -0.1607]
+   vecinos pareados validacion    n  261  media |H1|-|respaldo|  -0.222  IC95 [-0.3347, -0.1409]
+   vecinos pareados prueba        n  349  media |H1|-|respaldo|  -0.201  IC95 [-0.345, -0.1132]
+
+gate: {"validacion": {"Br": {"resultado": "FALLA", "comprobaciones": {"mediana": true, "p90": true, "sesgo": false, "no_empeora_vecinos": true}}, "I": {"resultado": "FALLA", "comprobaciones": {"mediana": false, "p90": true, "sesgo": false, "no_empeora_vecinos": true}}}, "prueba": {"Br": {"resultado": "FALLA", "comprobaciones": {"mediana": false, "p90": false, "sesgo": false, "no_empeora_vecinos": true}}, "I": {"resultado": "FALLA", "comprobaciones": {"mediana": false, "p90": true, "sesgo": false, "no_empeora_vecinos": true}}}}
+decisión por el gate: NO_GO

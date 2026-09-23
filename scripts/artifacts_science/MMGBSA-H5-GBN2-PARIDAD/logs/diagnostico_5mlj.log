@@ -1,0 +1,11 @@
+HarmonicBondForce 14.84568
+HarmonicAngleForce 177.0645
+PeriodicTorsionForce 10.18852
+NonbondedForce 404.37457
+ángulos casi lineales o casi nulos:
+   C13 C17 H22 1.206
+torsiones con un ángulo interno > 175 o < 5 grados:
+   N2 C13 C17 H22 per 3 k 0.0 kJ/mol ángulos 123.611 1.206
+   C14 C13 C17 H22 per 3 k 1.0878400000000001 kJ/mol ángulos 115.95 1.206
+átomos 44, 14, 21: H22 C13 C17
+par más cercano: C13 H22 0.259 Å

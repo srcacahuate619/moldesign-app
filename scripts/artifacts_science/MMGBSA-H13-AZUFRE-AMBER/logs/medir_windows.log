@@ -1,0 +1,72 @@
+D:\moldesign-build\frontend\src-tauri\resources\python\Lib\site-packages\openmm\app\internal\amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+D:\moldesign-build\frontend\src-tauri\resources\python\Lib\site-packages\openmm\app\internal\amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+D:\moldesign-build\frontend\src-tauri\resources\python\Lib\site-packages\openmm\app\internal\amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [1/57] 1c5n: ok 
+  [2/57] 1c5x: ok 
+D:\moldesign-build\frontend\src-tauri\resources\python\Lib\site-packages\openmm\app\internal\amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [3/57] 1gyy: ok 
+  [4/57] 1mfi: ok 
+  [5/57] 1igb: ok 
+  [6/57] 1hk4: ok 
+  [7/57] 1my4: ok 
+  [8/57] 1q54: ok 
+  [9/57] 1e4h: ok 
+  [10/57] 1upf: ok 
+  [11/57] 1lgw: ok 
+  [12/57] 1tnh: ok 
+  [13/57] 2h6b: ok 
+  [14/57] 2ax9: ok 
+  [15/57] 2hb1: ok 
+  [16/57] 2i80: ok 
+  [17/57] 2oxd: ok 
+  [18/57] 2p7a: ok 
+  [19/57] 2pu1: ok 
+D:\moldesign-build\frontend\src-tauri\resources\python\Lib\site-packages\openmm\app\internal\amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [20/57] 2q7q: ok 
+  [21/57] 2wk6: ok 
+D:\moldesign-build\frontend\src-tauri\resources\python\Lib\site-packages\openmm\app\internal\amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [22/57] 2weg: ok 
+  [23/57] 3ao2: ok 
+  [24/57] 3ao5: ok 
+  [25/57] 3f78: ok 
+  [26/57] 3i4y: ok 
+  [27/57] 3pcf: ok 
+  [28/57] 3juo: ok 
+  [29/57] 3tz0: ok 
+  [30/57] 4agl: ok 
+  [31/57] 4aje: ok 
+  [32/57] 4bc5: ok 
+D:\moldesign-build\frontend\src-tauri\resources\python\Lib\site-packages\openmm\app\internal\amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [33/57] 4kwg: ok 
+  [34/57] 4qp2: ok 
+  [35/57] 4rpo: ok 
+  [36/57] 4whs: ok 
+  [37/57] 5aol: ok 
+  [38/57] 5eij: ok 
+  [39/57] 5mge: ok 
+  [40/57] 5mgj: ok 
+  [41/57] 5mro: ok 
+  [42/57] 5mlj: ok 
+  [43/57] 5yas: ok 
+  [44/57] 5o1f: ok 
+  [45/57] 6g34: ok 
+  [46/57] 6g39: ok 
+  [47/57] 6gnp: ok 
+  [48/57] 6g3a: ok 
+  [49/57] 6qln: ok 
+  [50/57] 6qlp: ok 
+  [51/57] 6qlo: ok 
+  [52/57] 6qlq: ok 
+  [53/57] 6qlr: ok 
+  [54/57] 6qlt: ok 
+  [55/57] 6qlu: ok 
+  [56/57] pep_met_cys: ok 
+  [57/57] pep_largo_met_cys: ok 
+escrito E:\MolDesign-science\2026-09-23\MMGBSA-H13\crudo_windows.json

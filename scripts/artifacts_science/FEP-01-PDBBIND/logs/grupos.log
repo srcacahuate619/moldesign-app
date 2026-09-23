@@ -1,0 +1,33 @@
+[2026-09-23T01:37:59Z] RDKit 2025.09.6 (la de los sellos)
+[2026-09-23T01:37:59Z] FEP-03-PDBBIND fase 1
+[FEP-03-PDBBIND] fase 1: agrupación por secuencia (3 procesos)
+  3887 de 5325 con secuencia utilizable (8 s)
+{
+ "n_pdbbind": 5325,
+ "n_complejos": 3887,
+ "n_dianas_distintas": 1228,
+ "dianas_con_2_o_mas": 547,
+ "tamano_grupo_max": 201,
+ "n_parejas": 40969,
+ "n_parejas_prefiltradas": 10869,
+ "n_parejas_con_mcs": 30100,
+ "n_shards": 21,
+ "grupos_mayores": [
+  201,
+  99,
+  95,
+  66,
+  64,
+  62,
+  60,
+  46,
+  41,
+  36,
+  32,
+  29,
+  28,
+  26,
+  26
+ ]
+}
+[2026-09-23T01:38:58Z] FIN grupos

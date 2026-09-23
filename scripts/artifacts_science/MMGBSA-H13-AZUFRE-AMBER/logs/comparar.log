@@ -1,0 +1,7 @@
+con_azufre {'n': 14, 'PASA': 14, 'FALLA': 0, 'INDETERMINADO': 0, 'pasan_sin_parche': 0, 'max_residuo_con_parche_kcal_mol': 1.2645364854589668e-05, 'max_residuo_sin_parche_kcal_mol': 11.243654921832897}
+sin_azufre {'n': 43, 'PASA': 41, 'FALLA': 0, 'INDETERMINADO': 2, 'pasan_sin_parche': 42, 'max_residuo_con_parche_kcal_mol': 1.9600123176277055e-05, 'max_residuo_sin_parche_kcal_mol': 1.9602805666951088e-05}
+peptidos {'n': 2, 'PASA': 2, 'FALLA': 0, 'INDETERMINADO': 0, 'pasan_sin_parche': 0, 'max_residuo_con_parche_kcal_mol': 1.5579088191645767e-06, 'max_residuo_sin_parche_kcal_mol': 0.9240675065093719}
+windows {'comparaciones': 57, 'esperadas': 57, 'mismas_entradas': 57, 'max_diferencia_energia_kcal_mol': 7.105427357601002e-14, 'max_diferencia_fuerza_kcal_mol_A': 2.2737367544323206e-13}
+  pep_largo_met_cys: extensión 56.154 Å, S 2, sin parche residuo 8.844e-01, con parche 1.238e-06
+  pep_met_cys: extensión 12.474 Å, S 2, sin parche residuo 9.241e-01, con parche 1.558e-06
+gate: PASA

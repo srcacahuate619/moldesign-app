@@ -1,0 +1,36 @@
+[2026-09-23T02:22:31Z] RDKit 2025.09.6 (la de los sellos)
+[2026-09-23T02:22:31Z] FEP-03-PDBBIND sensibilidad al timeout del MCS (300 s)
+[FEP-03-PDBBIND] reintento: 163 MCS cancelados, timeout 300 s, 3 procesos
+  10/163 | 6.0 min
+  20/163 | 8.2 min
+  30/163 | 10.7 min
+  40/163 | 12.1 min
+  50/163 | 12.8 min
+  60/163 | 16.1 min
+  70/163 | 43.1 min
+  80/163 | 49.8 min
+  90/163 | 51.4 min
+  100/163 | 58.0 min
+  110/163 | 62.9 min
+  120/163 | 71.7 min
+  130/163 | 90.6 min
+  140/163 | 106.6 min
+  150/163 | 140.0 min
+  160/163 | 149.8 min
+  163/163 | 170.7 min
+{
+ "timeout_original_s": 10,
+ "timeout_reintento_s": 300,
+ "n_cancelados": 163,
+ "siguen_cancelados": 32,
+ "mcs_crece": 47,
+ "aptas_antes": 23,
+ "aptas_despues": 23,
+ "pasan_a_aptas": [],
+ "dejan_de_ser_aptas": [],
+ "duracion_s": 10246.0,
+ "timestamp": "2026-09-23T05:13:17.456714+00:00",
+ "errores_mcs": 0,
+ "procedimiento_valido": true
+}
+[2026-09-23T05:13:18Z] FIN timeout
