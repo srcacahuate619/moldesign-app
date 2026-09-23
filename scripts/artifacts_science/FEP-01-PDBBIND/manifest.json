@@ -4,7 +4,7 @@
   "hypothesis": "En PDBBind completo (5332 complejos) la ambigüedad tautomérica sigue siendo el cuello de FEP-01, como en los 203 de molflex (164/203 ambiguos, ninguno declarado)",
   "protocol": "scripts/analisis_fep_pdbbind.py 01 sobre el script sellado analisis_fep01_integridad.py sin modificar, universo data/pdbbind, en el contenedor moldesign-science (Linux, RDKit 2026.03.1) del servidor 192.168.1.64 con 3 procesos. Antes, réplica sobre los 203 con --comparar-con FEP-01/metrics.json; si no reproduce, no se interpreta la extensión. listo_para_fep exige el mapping de index_map.json, que no existe en PDBBind: se informa aparte resumen_sin_mapping (no estereo_indefinido y no tautomero_ambiguo)",
   "created_at": "2026-09-22T22:21:11.469045+00:00",
-  "status": "created",
+  "status": "finished",
   "git_state": {
     "branch": "codex/release-hygiene",
     "commit": "52b3768704b39347684a9269b41d380691c72d1d",
@@ -25,5 +25,25 @@
   "gate": {
     "description": "medición sin gate: se informan las fracciones de tautómero ambiguo y estereoquímica indefinida; el criterio de mapping se declara no aplicable"
   },
-  "decision": "PENDING"
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_fep01_integridad.py": "2ea7996a1ad3aed5e1bb79a82cee8a323dc8b33eef195ff53a7110dcce724519",
+    "scripts/lanzar_fep_pdbbind.sh": "d9d122dfd196ff3734acd7ef44ea983f9f0f3bd5f2625440f74e889b87481513",
+    "scripts/artifacts_science/FEP-01-PDBBIND/metrics.json": "f15cffcdf2ad5bae64c2746cc8b5f8396a6529d8684a9e17aa3091f9b0a82d71",
+    "scripts/artifacts_science/FEP-01-PDBBIND/per_complex.jsonl": "e9a60d039ef8ba344126f7e21f8b42b259956c971a47052748e5ec98bde86717",
+    "scripts/artifacts_science/FEP-01-PDBBIND/ejecucion.json": "787a2095b04e579bf9f8b00c693ce3bcf66b15665957172787baaf155b6873b9",
+    "scripts/artifacts_science/FEP-01-PDBBIND/replica_203/metrics.json": "297d4aa6716550a931fd965e86d724a2900754bcb20b3b167e2d2c75d68bd712",
+    "scripts/artifacts_science/FEP-01-PDBBIND/replica_203/per_complex.jsonl": "5ffd2588a797fc66bbf63afd7bc63eb06f219588278c27b8af4437f3480644d1",
+    "scripts/artifacts_science/FEP-01-PDBBIND/replica_203_rdkit2026.03.1/metrics.json": "6b76d45bbd84dd5443d884680fb86ca75b464caeda121fd56c5183128924539a",
+    "scripts/artifacts_science/FEP-01-PDBBIND/replica_203_rdkit2026.03.1/per_complex.jsonl": "98f986dd27e5a6a55c8e425430993ff41d1fa4e161a01dcde2f3000276a26d3a",
+    "scripts/artifacts_science/FEP-01-PDBBIND/logs/extension.log": "68b0dae480851bc8874eb39718aa7125cdc699d2ed267b5399cae173e2e9e539",
+    "scripts/artifacts_science/FEP-01-PDBBIND/logs/grupos.log": "7bb8fca56a48d75b1cf5b457e3a1ede57d83d6b4c5ec892092ef1a79f55462bd",
+    "scripts/artifacts_science/FEP-01-PDBBIND/logs/replicas-rdkit2026.03.1.log": "2b2193752fe953223164290275c198976adfc5ad5f62018917e045fe657543d0",
+    "scripts/artifacts_science/FEP-01-PDBBIND/logs/replicas.log": "1592c0e1d60ed13e887f500e9202859caba01ad6f28dfaa21581ac17393523a7"
+  },
+  "sealed": true,
+  "sealed_at": "2026-09-23T02:55:30.445204+00:00",
+  "decision_rationale": "La hipotesis se sostiene a escala: 3634 de 4641 ligandos legibles de PDBBind (78.3%) tienen tautomero ambiguo, frente a 164/203 (80.8%) en molflex; la ambiguedad tautomerica sigue siendo el cuello de FEP-01. Con los dos criterios que aplican a PDBBind (estereo definido y tautomero no ambiguo) hay 989/4641 listos (21.3%, frente a 19.2%). Replica previa en el servidor identica al sello complejo por complejo (203/203) con RDKit 2025.09.6, la de los sellos; con la 2026.03.1 de la imagen cambia n_tautomeros en 7 complejos (1ai4, 1g3d, 1g3e, 1gpn, 1h22, 1m0n, 1m0q) sin que ninguno cruce ambiguo/no ambiguo: la distribucion del numero de tautomeros se cita siempre con su version de RDKit. Limitaciones: 675 SDF de PDBBind ilegibles para RDKit (12.7%) y 9 entradas que no son complejos quedan fuera; listo_para_fep original da 0 por construccion porque exige el index_map de nuestra preparacion, que PDBBind no tiene. Envoltorio scripts/analisis_fep_pdbbind.py (blob e906372d, commit 52b3768) sobre el script sellado sin modificar; contenedor moldesign-science del servidor, 3 procesos.",
+  "finished_at": "2026-09-23T02:55:30.617004+00:00",
+  "duration_seconds": 32.83
 }

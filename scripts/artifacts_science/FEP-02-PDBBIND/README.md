@@ -28,8 +28,12 @@ medición sin gate: se informa la fracción documentable para FEP con los criter
 ## Estado
 
 - Creado: 2026-09-22T22:21:11.903445+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: GO
+- Sellado: sí (2026-09-23T02:55:46.932112+00:00)
+- Finalizado: 2026-09-23T02:55:47.122305+00:00
+- Razón de la decisión: La hipotesis se sostiene: la integridad del receptor en PDBBind es comparable a la de los 203 de molflex. Documentables para FEP 1543/3887 (39.7%) frente a 83/203 (40.9%); con huecos de cadena 43.1% frente a 42.4%; sitio entre cadenas 938/3887 (24.1%) frente a 43/203 (21.2%); con metales 819/3887 (21.1%) frente a 52/203 (25.6%); aguas en el sitio, mediana 11 frente a 10. Es decir: ampliar el universo no mejora la preparacion del receptor; seis de cada diez sistemas necesitan una decision declarada sobre huecos, cadenas, metales o aguas antes de un calculo FEP. Replica previa identica al sello complejo por complejo (203/203). Limitacion principal: 1438 de las 5325 entradas (27%) de la copia local de PDBBind no traen _protein.pdb; el universo efectivo es 3887 y no se ha comprobado que los ausentes sean aleatorios. Solo 2 complejos con cofactores: PDBBind limpia los heteroatomos del receptor (lo documento REC-12), asi que un cofactor ausente es invisible aqui.
+- Hashes de assets: 7 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 

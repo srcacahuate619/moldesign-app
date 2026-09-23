@@ -4,7 +4,7 @@
   "hypothesis": "La integridad del receptor en PDBBind completo (huecos de cadena, sitio entre cadenas, metales, aguas) es comparable a la de los 203 de molflex (83/203 documentables para FEP)",
   "protocol": "scripts/analisis_fep_pdbbind.py 02 sobre el script sellado analisis_fep02_receptor.py sin modificar, universo data/pdbbind, contenedor moldesign-science del servidor 192.168.1.64, 3 procesos; réplica previa sobre los 203 contra FEP-02/metrics.json",
   "created_at": "2026-09-22T22:21:11.903445+00:00",
-  "status": "created",
+  "status": "finished",
   "git_state": {
     "branch": "codex/release-hygiene",
     "commit": "52b3768704b39347684a9269b41d380691c72d1d",
@@ -25,5 +25,19 @@
   "gate": {
     "description": "medición sin gate: se informa la fracción documentable para FEP con los criterios sellados"
   },
-  "decision": "PENDING"
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_fep02_receptor.py": "b143dadf5dfd0fb424acdf663c80ac42bf483de470a9d4025062a78b71bec5e4",
+    "scripts/lanzar_fep_pdbbind.sh": "d9d122dfd196ff3734acd7ef44ea983f9f0f3bd5f2625440f74e889b87481513",
+    "scripts/artifacts_science/FEP-02-PDBBIND/metrics.json": "8a05b8c7f2b18fa2a9d2de83f2e5ea276b120df8ed53a39fdddaf4a523b633a9",
+    "scripts/artifacts_science/FEP-02-PDBBIND/per_complex.jsonl": "c30c4d90c87a73cc09f9854695fb8d94045b038ed65d94a59f5e017ec0dc8395",
+    "scripts/artifacts_science/FEP-02-PDBBIND/ejecucion.json": "2e3ad0589ffb7336d3e4a3e475c3ff6cc65feaf42c435ee75f7bc760da225af4",
+    "scripts/artifacts_science/FEP-02-PDBBIND/replica_203/metrics.json": "caf5de5c6bcf69f1828690436b8a30afaaeb74082b2c601a5ae41e5abca4a6ab",
+    "scripts/artifacts_science/FEP-02-PDBBIND/replica_203/per_complex.jsonl": "29f3b17c223f51521be35b392bc648751c94863e6729ef090657f4db2c05910d"
+  },
+  "sealed": true,
+  "sealed_at": "2026-09-23T02:55:46.932112+00:00",
+  "decision_rationale": "La hipotesis se sostiene: la integridad del receptor en PDBBind es comparable a la de los 203 de molflex. Documentables para FEP 1543/3887 (39.7%) frente a 83/203 (40.9%); con huecos de cadena 43.1% frente a 42.4%; sitio entre cadenas 938/3887 (24.1%) frente a 43/203 (21.2%); con metales 819/3887 (21.1%) frente a 52/203 (25.6%); aguas en el sitio, mediana 11 frente a 10. Es decir: ampliar el universo no mejora la preparacion del receptor; seis de cada diez sistemas necesitan una decision declarada sobre huecos, cadenas, metales o aguas antes de un calculo FEP. Replica previa identica al sello complejo por complejo (203/203). Limitacion principal: 1438 de las 5325 entradas (27%) de la copia local de PDBBind no traen _protein.pdb; el universo efectivo es 3887 y no se ha comprobado que los ausentes sean aleatorios. Solo 2 complejos con cofactores: PDBBind limpia los heteroatomos del receptor (lo documento REC-12), asi que un cofactor ausente es invisible aqui.",
+  "finished_at": "2026-09-23T02:55:47.122305+00:00",
+  "duration_seconds": 277.45
 }

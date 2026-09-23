@@ -28,8 +28,12 @@ medición sin gate: se informan las fracciones de tautómero ambiguo y estereoqu
 ## Estado
 
 - Creado: 2026-09-22T22:21:11.469045+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: GO
+- Sellado: sí (2026-09-23T02:55:30.445204+00:00)
+- Finalizado: 2026-09-23T02:55:30.617004+00:00
+- Razón de la decisión: La hipotesis se sostiene a escala: 3634 de 4641 ligandos legibles de PDBBind (78.3%) tienen tautomero ambiguo, frente a 164/203 (80.8%) en molflex; la ambiguedad tautomerica sigue siendo el cuello de FEP-01. Con los dos criterios que aplican a PDBBind (estereo definido y tautomero no ambiguo) hay 989/4641 listos (21.3%, frente a 19.2%). Replica previa en el servidor identica al sello complejo por complejo (203/203) con RDKit 2025.09.6, la de los sellos; con la 2026.03.1 de la imagen cambia n_tautomeros en 7 complejos (1ai4, 1g3d, 1g3e, 1gpn, 1h22, 1m0n, 1m0q) sin que ninguno cruce ambiguo/no ambiguo: la distribucion del numero de tautomeros se cita siempre con su version de RDKit. Limitaciones: 675 SDF de PDBBind ilegibles para RDKit (12.7%) y 9 entradas que no son complejos quedan fuera; listo_para_fep original da 0 por construccion porque exige el index_map de nuestra preparacion, que PDBBind no tiene. Envoltorio scripts/analisis_fep_pdbbind.py (blob e906372d, commit 52b3768) sobre el script sellado sin modificar; contenedor moldesign-science del servidor, 3 procesos.
+- Hashes de assets: 13 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 
