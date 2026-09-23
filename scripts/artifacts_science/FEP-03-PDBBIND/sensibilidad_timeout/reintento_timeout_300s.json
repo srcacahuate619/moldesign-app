@@ -1,0 +1,15 @@
+{
+ "timeout_original_s": 10,
+ "timeout_reintento_s": 300,
+ "n_cancelados": 163,
+ "siguen_cancelados": 32,
+ "mcs_crece": 47,
+ "aptas_antes": 23,
+ "aptas_despues": 23,
+ "pasan_a_aptas": [],
+ "dejan_de_ser_aptas": [],
+ "duracion_s": 10246.0,
+ "timestamp": "2026-09-23T05:13:17.456714+00:00",
+ "errores_mcs": 0,
+ "procedimiento_valido": true
+}

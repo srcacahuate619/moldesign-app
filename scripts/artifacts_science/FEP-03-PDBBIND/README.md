@@ -28,8 +28,12 @@ medición: se informan parejas aptas y dianas con serie; la elección de la coho
 ## Estado
 
 - Creado: 2026-09-22T22:21:12.290262+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: GO
+- Sellado: sí (2026-09-23T06:31:56.074075+00:00)
+- Finalizado: 2026-09-23T06:31:56.245393+00:00
+- Razón de la decisión: La hipotesis se sostiene: PDBBind contiene series congenericas utilizables para FEP, a diferencia de los 203 de molflex. 3299 parejas aptas (cobertura MCS >= 0.70 y perturbacion <= 10, umbrales del sello) en 313 dianas, frente a 91 en 18; 28 dianas con 10 o mas ligandos conectados por parejas aptas y 12 con 20 o mas. Replica previa sobre los 203: resumen identico al sello y 486/487 parejas identicas; la que cambia (1ezq-1ksn, MCS 1 -> 27 atomos, ninguna apta) muestra que el MCS con timeout depende de la carga de la maquina. Sensibilidad declarada antes de correr: los 163 MCS cortados a 10 s se repitieron con 300 s; el MCS crecio en 47, 32 siguen cortados, 0 errores, y NINGUNA pareja cambio de veredicto (23 aptas antes y despues): el recuento no depende del timeout. Un primer intento de la sensibilidad fue invalido (timeout float, ArgumentError en las 163) y se conserva como evidencia. Limitaciones: cota superior por la agrupacion por k-meros (no distingue mutantes puntuales); universo efectivo 3887 de 5325 porque la copia local de PDBBind no trae _protein.pdb en 1438 entradas. Para elegir cohorte, las afinidades anadidas desde BindingDB al INDEX local estan emparejadas por diana y no sirven; con las de Fase A, la cohorte recomendada es galectina-3 (6qln-6qlu, 7 ligandos de un solo articulo, ChemMedChem 2019).
+- Hashes de assets: 40 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 
