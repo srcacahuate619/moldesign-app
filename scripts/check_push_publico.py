@@ -17,7 +17,9 @@ Dos comprobaciones por cada ref que se empuja:
     P1  el HISTORIAL del commit no toca ninguna ruta de retenidos_del_publico.txt
         (no basta con la punta: `git rm` no borra del historial)
     P2  los commits que el remoto todavía no tiene no AÑADEN una credencial
-        literal (valor por defecto de environ.get, clave privada, token)
+        literal (valor por defecto de environ.get, clave privada, token).
+        Las muestras falsas de las pruebas se declaran por su SHA-256 en
+        credenciales_de_prueba.txt; nunca por su valor.
 
 Borrar una ref remota siempre se permite: es la vía de reparación.
 
@@ -133,8 +135,31 @@ def p1_historial_con_retenidos(sha: str, rutas: list[str], cwd: Path) -> list[st
 
 # ── P2: los commits nuevos no añaden credenciales ────────────────────────
 
-def credenciales_en(texto: str) -> list[str]:
-    return [nombre for nombre, patron in CREDENCIALES if patron.search(texto)]
+MUESTRAS_FALSAS = Path(__file__).resolve().parent / "credenciales_de_prueba.txt"
+
+
+def leer_muestras_falsas(lista: Path = MUESTRAS_FALSAS) -> frozenset[str]:
+    """SHA-256 de las muestras falsas declaradas. Sin archivo, ninguna excepción."""
+    if not lista.is_file():
+        return frozenset()
+    hashes = set()
+    for linea in lista.read_text(encoding="utf-8").splitlines():
+        campo = linea.split("#", 1)[0].split()
+        if campo:
+            if not re.fullmatch(r"[0-9a-f]{64}", campo[0]):
+                raise GuardaCiega(f"✗ {lista.name}: «{campo[0][:20]}…» no es un SHA-256")
+            hashes.add(campo[0])
+    return frozenset(hashes)
+
+
+def credenciales_en(texto: str, ignorar: frozenset[str] = frozenset()) -> list[str]:
+    """Detectores que casan en `texto`, salvo coincidencias cuyo SHA-256 esté en `ignorar`."""
+    import hashlib
+    return [
+        nombre for nombre, patron in CREDENCIALES
+        if any(hashlib.sha256(m.group(0).encode("utf-8")).hexdigest() not in ignorar
+               for m in patron.finditer(texto))
+    ]
 
 
 def p2_credenciales_nuevas(sha: str, cwd: Path, remoto: str | None) -> list[str]:
@@ -149,13 +174,14 @@ def p2_credenciales_nuevas(sha: str, cwd: Path, remoto: str | None) -> list[str]
     )
     hallazgos: list[str] = []
     commit = archivo = None
+    falsas = leer_muestras_falsas()
     for linea in salida.splitlines():
         if linea.startswith("COMMIT "):
             commit = linea[len("COMMIT "):]
         elif linea.startswith("+++ "):
             archivo = linea[len("+++ b/"):] if linea.startswith("+++ b/") else linea[4:]
         elif linea.startswith("+"):
-            for nombre in credenciales_en(linea[1:]):
+            for nombre in credenciales_en(linea[1:], falsas):
                 hallazgos.append(f"{commit} {archivo}: {nombre}")
     return hallazgos
 
@@ -209,6 +235,19 @@ def _autotest_detectores() -> None:
     for muestra in no_debe_marcar:
         if credenciales_en(muestra):
             raise GuardaCiega(f"✗ autotest: falso positivo sobre {muestra!r}")
+
+    # Una muestra falsa declarada por su hash pasa; la misma forma sin declarar
+    # sigue cayendo. Si la excepción tapara todo lo que se parece, no serviría.
+    import hashlib
+    declarada = "sk-" + "Zq8" * 12
+    otra = "sk-" + "Wm4" * 12
+    ignorar = frozenset({hashlib.sha256(declarada.encode("utf-8")).hexdigest()})
+    if credenciales_en(f"clave {declarada} en un test", ignorar):
+        raise GuardaCiega("✗ autotest: una muestra falsa declarada sigue bloqueando")
+    if not credenciales_en(f"clave {otra} en un test", ignorar):
+        raise GuardaCiega("✗ autotest: la excepción deja pasar una cadena no declarada")
+    if not credenciales_en(f"{declarada} y {otra}", ignorar):
+        raise GuardaCiega("✗ autotest: una declarada en la misma línea tapa a otra que no lo está")
 
 
 def _autotest_git(rutas: list[str]) -> None:

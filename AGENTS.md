@@ -332,13 +332,15 @@ Cada una viene de un fallo real que costó al menos un instalador.
 
 8. **La rama de desarrollo no se empuja al repositorio público.** Su historial
    contiene manuscritos sin enviar, el deck y registros internos
-   (`scripts/retenidos_del_publico.txt`) y una contraseña del servidor que hay
-   que dar por comprometida. Se
-   publica replicando commits sobre la rama `publico` en un worktree. El
+   (`scripts/retenidos_del_publico.txt`) y una contraseña antigua del servidor.
+   Se publica replicando commits sobre la rama `publico` en un worktree. El
    2026-09-21 alguien empujó `codex/release-hygiene` y el tag `v1.0.1` y las 56
-   rutas quedaron públicas; desde entonces `scripts/check_push_publico.py` es un
-   hook `pre-push` que rechaza cualquier ref cuyo historial las toque. Si el
-   hook no está, instálalo con `--instalar` antes de empujar nada.
+   rutas quedaron públicas; el 2026-09-22 se borró el repositorio y se recreó
+   desde `publico`, porque borrar la rama no quitaba los commits de la caché
+   de GitHub (seguían descargándose por SHA). Desde entonces
+   `scripts/check_push_publico.py` es un hook `pre-push` que rechaza cualquier
+   ref cuyo historial las toque o que añada una credencial. Si el hook no
+   está, instálalo con `--instalar` antes de empujar nada.
 
 ---
 

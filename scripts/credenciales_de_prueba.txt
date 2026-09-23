@@ -1,0 +1,10 @@
+# Cadenas con forma de credencial que son MUESTRAS FALSAS de las pruebas.
+#
+# Las lee scripts/check_push_publico.py (P2): una coincidencia cuyo SHA-256
+# esté aquí no bloquea el push. Se guarda el hash, nunca el valor, para que
+# este archivo no sea una lista de claves. Cada línea dice dónde vive la
+# muestra y por qué es falsa. Una clave real no se añade aquí: se rota.
+#
+# Formato: <sha256 de la cadena>  <ruta>  <motivo>
+
+1aba053ddc377f9d88e1ef669bba79133c85105509c9986c958e991f908dd749  backend/tests/test_higiene_del_turno.py  muestra de test_una_clave_suelta_con_prefijo_conocido_no_sale para redactar_secretos(); 37 caracteres, ningún formato real de clave sk- mide eso
