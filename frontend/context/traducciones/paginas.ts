@@ -115,6 +115,15 @@ export const paginas: ModuloDeTraduccion = {
       "No hay un feed de actividad disponible en esta versión.",
     pg_com_reintentar: "Reintentar carga de datos compartidos",
     pg_com_buscar: "Buscar por PDB ID, nombre o categoría…",
+    pg_com_conectado: "Conectado",
+    pg_com_global: "Comunidad Global",
+    pg_com_actualizar: "Actualizar",
+    pg_com_targets_compartidos: "Targets Compartidos",
+    pg_com_resultados_compartidos: "Resultados compartidos",
+    pg_com_buscar_receptores: "Buscar receptores compartidos",
+    pg_com_resultado_compartido: "Resultado compartido",
+    pg_com_comparte_evidencia: "Comparte tu evidencia",
+    pg_com_actividad_reciente: "Actividad reciente",
 
     // ── Navegación ────────────────────────────────────────────────
     pg_nav_opciones: "OPCIONES",
@@ -230,6 +239,15 @@ export const paginas: ModuloDeTraduccion = {
       "No activity feed is available in this version.",
     pg_com_reintentar: "Retry loading the shared data",
     pg_com_buscar: "Search by PDB ID, name or category…",
+    pg_com_conectado: "Connected",
+    pg_com_global: "Global Community",
+    pg_com_actualizar: "Refresh",
+    pg_com_targets_compartidos: "Shared Targets",
+    pg_com_resultados_compartidos: "Shared results",
+    pg_com_buscar_receptores: "Search shared receptors",
+    pg_com_resultado_compartido: "Shared result",
+    pg_com_comparte_evidencia: "Share your evidence",
+    pg_com_actividad_reciente: "Recent activity",
 
     // ── Navegación ────────────────────────────────────────────────
     pg_nav_opciones: "OPTIONS",

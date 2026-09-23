@@ -96,7 +96,7 @@ export default function ComunidadPage() {
                 <div className="flex items-center gap-2">
                   {connected ? (
                     <span className="flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 text-xs font-bold uppercase tracking-widest text-emerald-700 dark:text-emerald-400">
-                      <Wifi className="w-3 h-3" /> Conectado
+                      <Wifi className="w-3 h-3" /> {t("pg_com_conectado")}
                     </span>
                   ) : (
                     <span className="flex items-center gap-1.5 rounded-full border border-[var(--border-light)] bg-[var(--bg-secondary)] px-2.5 py-1 text-xs font-bold uppercase tracking-widest text-muted">
@@ -112,7 +112,7 @@ export default function ComunidadPage() {
               </div>
               
               <h1 className="mb-3 text-3xl font-black uppercase tracking-tight text-theme lg:text-4xl">
-                Comunidad Global
+                {t("pg_com_global")}
               </h1>
               <p className="max-w-lg text-sm leading-relaxed text-muted">
                 {t("pg_com_intro")}
@@ -125,15 +125,15 @@ export default function ComunidadPage() {
               className="hidden cursor-pointer items-center gap-2 rounded-lg border border-[var(--border-light)] bg-[var(--bg-card)] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-muted transition-all hover:border-purple-500/40 hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/60 disabled:opacity-50 lg:flex"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />
-              Actualizar
+              {t("pg_com_actualizar")}
             </button>
           </div>
 
           {/* Stats Row */}
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {[
-              { label: "Targets Compartidos", value: connected ? communityTargets.length : "—", icon: Target, color: "text-purple-600 dark:text-purple-400" },
-              { label: "Resultados compartidos", value: connected ? leaderboard.length : "—", icon: Users, color: "text-blue-600 dark:text-blue-400" },
+              { label: t("pg_com_targets_compartidos"), value: connected ? communityTargets.length : "—", icon: Target, color: "text-purple-600 dark:text-purple-400" },
+              { label: t("pg_com_resultados_compartidos"), value: connected ? leaderboard.length : "—", icon: Users, color: "text-blue-600 dark:text-blue-400" },
             ].map((stat, i) => (
               <div key={i} className="group relative overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--bg-card)] px-5 py-4">
                 <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-purple-500/[0.03] to-transparent rounded-bl-full" />
@@ -170,7 +170,7 @@ export default function ComunidadPage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Users className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                <h2 className="text-sm font-bold uppercase tracking-widest text-theme">Targets Compartidos</h2>
+                <h2 className="text-sm font-bold uppercase tracking-widest text-theme">{t("pg_com_targets_compartidos")}</h2>
                 <span className="rounded-full border border-[var(--border)] bg-[var(--bg-card)] px-2 py-0.5 font-mono text-xs text-dim">
                   {filteredTargets.length}
                 </span>
@@ -183,7 +183,7 @@ export default function ComunidadPage() {
               <input
                 type="text"
                 placeholder={t("pg_com_buscar")}
-                aria-label="Buscar receptores compartidos"
+                aria-label={t("pg_com_buscar_receptores")}
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 className="w-full rounded-xl border border-[var(--border)] bg-[var(--bg-card)] py-3 pr-4 pl-11 font-mono text-sm text-theme transition-all placeholder:text-dim focus:border-purple-500/30 focus:ring-1 focus:ring-purple-500/20 focus:outline-none"
@@ -265,7 +265,7 @@ export default function ComunidadPage() {
           <div className="lg:col-span-2 space-y-6">
             <div className="flex items-center gap-3">
               <Activity className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-              <h2 className="text-sm font-bold uppercase tracking-widest text-theme">Resultados compartidos</h2>
+              <h2 className="text-sm font-bold uppercase tracking-widest text-theme">{t("pg_com_resultados_compartidos")}</h2>
             </div>
 
             <div className="space-y-2">
@@ -292,7 +292,7 @@ export default function ComunidadPage() {
                     <div className="flex items-center gap-4">
                       <div className="text-right">
                         <p className="font-mono text-sm font-black text-theme">{entry.total_score?.toFixed(0) ?? "—"}</p>
-                        <p className="font-mono text-xs uppercase text-dim">Resultado compartido</p>
+                        <p className="font-mono text-xs uppercase text-dim">{t("pg_com_resultado_compartido")}</p>
                       </div>
                       <div className="text-right">
                         <p className="font-mono text-sm font-bold text-muted">{entry.affinity_kcal?.toFixed(1)}</p>
@@ -311,7 +311,7 @@ export default function ComunidadPage() {
             <div className="rounded-xl border border-purple-500/15 bg-gradient-to-br from-purple-500/[0.04] to-transparent p-5 space-y-3">
               <div className="flex items-center gap-2">
                 <Share2 className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                <h3 className="text-xs font-bold uppercase tracking-widest text-purple-600 dark:text-purple-300">Comparte tu evidencia</h3>
+                <h3 className="text-xs font-bold uppercase tracking-widest text-purple-600 dark:text-purple-300">{t("pg_com_comparte_evidencia")}</h3>
               </div>
               <p className="text-xs leading-relaxed text-muted">
                 {t("pg_com_compartir_no_disponible")}
@@ -320,7 +320,7 @@ export default function ComunidadPage() {
 
             {/* Quick Stats */}
             <div className="space-y-4 rounded-xl border border-[var(--border)] bg-[var(--bg-card)] p-5">
-              <h3 className="text-xs font-bold uppercase tracking-widest text-muted">Actividad reciente</h3>
+              <h3 className="text-xs font-bold uppercase tracking-widest text-muted">{t("pg_com_actividad_reciente")}</h3>
               <p className="text-xs leading-relaxed text-muted">
                 {t("pg_com_sin_feed")}
               </p>
