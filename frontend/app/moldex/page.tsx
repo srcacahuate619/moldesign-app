@@ -18,7 +18,6 @@ import {
   urlDelExplorador,
   esRedDePruebas,
   ALCANCE_DEL_SELLO,
-  presentarClgnn,
   type MoldexMolecule,
 } from "../../lib/moldex";
 import { useApiUrl } from "../../hooks/useApiUrl";
@@ -55,6 +54,14 @@ type MoldexError = {
   message: string;
 };
 
+type MoldexActiveView = "list" | "3d" | "info";
+
+const MOBILE_TABS = [
+  { id: "list" as const, clave: "mx_tab_bioteca", icon: Database },
+  { id: "3d" as const, clave: "mx_tab_estructura_3d", icon: Box },
+  { id: "info" as const, clave: "auto_26f227a3a058", icon: Info },
+] as const;
+
 function isTransportError(message: string): boolean {
   return /no se pudo establecer contacto|failed to fetch|networkerror|econnrefused|econnreset|timeout/i.test(message);
 }
@@ -80,6 +87,12 @@ export default function MoldexPage() {
   const [targetFilter, setTargetFilter] = useState("ALL");
   const [sortMode, setSortMode] = useState<"DATE_DESC" | "SCORE_DESC" | "SCORE_ASC">("DATE_DESC");
 
+  const sortModeLabel = useMemo(() => {
+    if (sortMode === "DATE_DESC") return t("mx_orden_recientes");
+    if (sortMode === "SCORE_DESC") return t("mx_orden_indice_mayor");
+    return t("mx_orden_indice_menor");
+  }, [sortMode, t]);
+
   // Panel States (colapsables)
   const [showLeftPanel, setShowLeftPanel] = useState(true);
   const [showRightPanel, setShowRightPanel] = useState(true);
@@ -92,7 +105,7 @@ export default function MoldexPage() {
   const [proteinData, setProteinData] = useState<string | null>(null);
   const [poseData, setPoseData] = useState<string | null>(null);
   const [loading3D, setLoading3D] = useState(false);
-  const [activeView, setActiveView] = useState<'LIST' | '3D' | 'INFO'>('LIST');
+  const [activeView, setActiveView] = useState<MoldexActiveView>("list");
   const [windowHeight, setWindowHeight] = useState(1000);
   const [showCertificationModal, setShowCertificationModal] = useState(false);
   const [showPdfViewer, setShowPdfViewer] = useState(false);
@@ -287,7 +300,7 @@ export default function MoldexPage() {
   // Callbacks estables para el Virtuoso/MoldexCard memoizado.
   const handleSelectMolecule = useCallback((id: string) => {
     setSelectedId(id);
-    if (typeof window !== "undefined" && window.innerWidth < 768) setActiveView('3D');
+    if (typeof window !== "undefined" && window.innerWidth < 768) setActiveView("3d");
   }, []);
   const handleToggleCompare = useCallback((id: string) => {
     setSelectionForCompare(prev => {
@@ -364,7 +377,7 @@ export default function MoldexPage() {
       <div className="flex h-screen items-center justify-center bg-[var(--bg)] font-sans text-muted dark:bg-[#05080f] dark:text-slate-300">
         <div className="flex flex-col items-center gap-8">
           {/* ThinkingOrb: 12 puntos orbitando en canvas 2D, color purple-400 en processing */}
-          <ThinkingOrb state="processing" size="lg" label="SINCRONIZANDO BIOTECA" />
+          <ThinkingOrb state="processing" size="lg" label={t("mx_sincronizando_bioteca")} />
 
           {/* Sub-line decorativo, mono uppercase, visible sobre dark */}
           <motion.p
@@ -477,7 +490,7 @@ export default function MoldexPage() {
                 transition={{ delay: 0.15, duration: 0.5 }}
                 className="text-3xl font-black uppercase tracking-tight text-theme md:text-4xl"
               >
-                Bioteca en espera
+                {t("mx_bioteca_en_espera")}
               </motion.h1>
               <span className="font-mono text-xs uppercase tracking-[0.5em]">✦</span>
             </div>
@@ -500,7 +513,7 @@ export default function MoldexPage() {
           >
             {[
               { n: "1", t: t("mx_paso_disena"), d: t("mx_paso_disena_d") },
-              { n: "2", t: t("mx_paso_acopla"), d: "Vina + XGBoost + GNN" },
+              { n: "2", t: t("mx_paso_acopla"), d: t("mx_paso_acopla_d") },
               { n: "3", t: t("mx_paso_guarda"), d: t("mx_paso_guarda_d") },
             ].map(s => (
               <div
@@ -527,7 +540,7 @@ export default function MoldexPage() {
             className="group relative inline-flex items-center gap-3 rounded-xl border border-purple-400/30 bg-purple-600 px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.2em] text-white shadow-lg shadow-purple-950/50 transition-all hover:bg-purple-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
           >
             <Play size={14} className="fill-white" />
-            Lanzar Pipeline
+            {t("mx_lanzar_pipeline")}
             <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </motion.a>
         </div>
@@ -568,28 +581,27 @@ export default function MoldexPage() {
         <div className="pointer-events-auto z-50 flex h-[60px] w-full items-center justify-between border-b border-[var(--border)] bg-[var(--bg-card)] px-6 md:hidden dark:border-slate-800/50 dark:bg-[#0a0f1d]">
           <h1 className="flex items-center gap-2 text-sm font-black tracking-tighter text-theme">
             <FlaskConical size={16} className="text-indigo-500" />
-            MOLDEX <span className="rounded-full border border-indigo-500/35 bg-indigo-500/15 px-1.5 py-0.5 text-xs font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Bioteca</span>
+            <span className="uppercase">{t("mx_marca_moldex")}</span> <span className="rounded-full border border-indigo-500/35 bg-indigo-500/15 px-1.5 py-0.5 text-xs font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{t("mx_subtitulo_bioteca")}</span>
           </h1>
           <div className="flex gap-1">
-            {([
-              { id: 'LIST', label: 'Ver bioteca', icon: <Database size={14} /> },
-              { id: '3D', label: 'Ver estructura 3D', icon: <Box size={14} /> },
-              { id: 'INFO', label: t("auto_26f227a3a058"), icon: <Info size={14} /> }
-            ] as const).map((btn) => (
-              <button
-                key={btn.id}
-                onClick={() => setActiveView(btn.id)}
-                aria-label={btn.label}
-                aria-pressed={activeView === btn.id}
-                className={`p-2 rounded-lg transition-all ${
-                  activeView === btn.id
-                    ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/20'
-                    : 'bg-[var(--bg-secondary)] text-muted dark:bg-slate-900 dark:text-slate-500'
-                } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/70`}
-              >
-                {btn.icon}
-              </button>
-            ))}
+            {MOBILE_TABS.map((btn) => {
+              const Icon = btn.icon;
+              return (
+                <button
+                  key={btn.id}
+                  onClick={() => setActiveView(btn.id)}
+                  aria-label={t(btn.clave)}
+                  aria-pressed={activeView === btn.id}
+                  className={`p-2 rounded-lg transition-all ${
+                    activeView === btn.id
+                      ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/20"
+                      : "bg-[var(--bg-secondary)] text-muted dark:bg-slate-900 dark:text-slate-500"
+                  } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/70`}
+                >
+                  <Icon size={14} />
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -597,9 +609,9 @@ export default function MoldexPage() {
         <motion.aside
           initial={false}
           animate={isMobile ? {
-            width: activeView === 'LIST' ? "100%" : 0,
-            opacity: activeView === 'LIST' ? 1 : 0,
-            x: activeView === 'LIST' ? 0 : -800
+            width: activeView === "list" ? "100%" : 0,
+            opacity: activeView === "list" ? 1 : 0,
+            x: activeView === "list" ? 0 : -800
           } : {
             width: showLeftPanel ? 320 : 0,
             opacity: showLeftPanel ? 1 : 0,
@@ -609,12 +621,12 @@ export default function MoldexPage() {
           className={`pointer-events-auto flex flex-col border-r border-[var(--border)] bg-[var(--bg-card)] backdrop-blur-xl dark:border-white/5 dark:bg-[#0a0f1d]/95 md:dark:bg-[#0a0f1d]/40 ${
             isMobile ? 'absolute inset-x-0 bottom-0 top-[60px] z-40 overflow-y-auto'
                      : 'h-full md:overflow-hidden'
-          } ${isMobile && activeView !== 'LIST' ? 'pointer-events-none' : ''}`}
+          } ${isMobile && activeView !== "list" ? 'pointer-events-none' : ''}`}
         >
           <div className="min-w-[320px] shrink-0 border-b border-[var(--border)] p-8 dark:border-white/5">
             <h1 className="mb-8 flex items-center gap-2 text-xl font-black tracking-tighter text-theme">
               <FlaskConical size={24} className="text-indigo-500" />
-              MOLDEX <span className="rounded-full border border-indigo-500/35 bg-indigo-500/15 px-2 py-0.5 text-xs font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">Bioteca</span>
+              <span className="uppercase">{t("mx_marca_moldex")}</span> <span className="rounded-full border border-indigo-500/35 bg-indigo-500/15 px-2 py-0.5 text-xs font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{t("mx_subtitulo_bioteca")}</span>
             </h1>
 
             <div className="space-y-4">
@@ -663,9 +675,7 @@ export default function MoldexPage() {
                   }}
                   className="ml-auto flex flex-shrink-0 items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--bg-secondary)] px-4 py-2 text-xs font-black uppercase tracking-widest text-muted transition-all hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 dark:border-white/5 dark:bg-black/40 dark:text-slate-400 dark:hover:text-slate-200"
                 >
-                  {sortMode === "DATE_DESC" ? t("mx_orden_recientes")
-                   : sortMode === "SCORE_DESC" ? t("mx_orden_indice_mayor")
-                   : t("mx_orden_indice_menor")}
+                  {sortModeLabel}
                 </button>
               </div>
             </div>
@@ -706,7 +716,7 @@ export default function MoldexPage() {
           <button
             onClick={() => setShowLeftPanel(!showLeftPanel)}
             className="flex h-16 w-6 items-center justify-center rounded-r-xl border border-indigo-500/30 bg-indigo-600/20 text-indigo-700 shadow-lg backdrop-blur-md transition-colors hover:text-indigo-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/70 dark:text-indigo-400 dark:hover:text-white"
-            aria-label={showLeftPanel ? "Ocultar biblioteca" : "Mostrar biblioteca"}
+            aria-label={showLeftPanel ? t("mx_ocultar_biblioteca") : t("mx_mostrar_biblioteca")}
           >
             <ChevronRight size={14} className={`transition-transform ${showLeftPanel ? 'rotate-180' : ''}`} />
           </button>
@@ -722,8 +732,8 @@ export default function MoldexPage() {
                   <Box className="text-indigo-500" size={24} />
                 </div>
                 <div>
-                  <p className="mb-1 text-xs font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-500">ESTRUCTURA 3D</p>
-                  <h2 className="text-2xl font-black tracking-tighter text-theme">VISTA ESTRUCTURAL</h2>
+                  <p className="mb-1 text-xs font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-500">{t("mx_hud_estructura_3d")}</p>
+                  <h2 className="text-2xl font-black uppercase tracking-tighter text-theme">{t("mx_hud_vista_estructural")}</h2>
                 </div>
               </motion.div>
             </div>
@@ -731,7 +741,7 @@ export default function MoldexPage() {
 
           {/* HUD Inferior (Info de Molécula activa) */}
           <AnimatePresence mode="wait">
-            {((!isMobile && selectedId) || (isMobile && activeView === '3D' && selectedId)) && (
+            {((!isMobile && selectedId) || (isMobile && activeView === "3d" && selectedId)) && (
               <motion.div
                 key={selectedId}
                 initial={{ y: 50, opacity: 0 }}
@@ -753,7 +763,7 @@ export default function MoldexPage() {
                   </div>
                   <div className="flex w-full items-center justify-between gap-8 border-t border-[var(--border)] pt-3 dark:border-white/10 md:w-auto md:justify-end md:gap-12 md:border-l md:border-t-0 md:pl-12 md:pt-0">
                     <div className="text-left md:text-right">
-                      <p className="mb-0.5 text-xs font-black uppercase tracking-widest text-muted md:mb-1">AFINIDAD OBSERVADA</p>
+                      <p className="mb-0.5 text-xs font-black uppercase tracking-widest text-muted md:mb-1">{t("mx_afinidad_observada")}</p>
                       <div className="text-2xl font-black tabular-nums text-indigo-700 dark:text-indigo-400 md:text-4xl">
                         {selectedMolecule?.metrics?.affinity !== null && selectedMolecule?.metrics?.affinity !== undefined
                           ? selectedMolecule.metrics.affinity.toFixed(1)
@@ -778,7 +788,7 @@ export default function MoldexPage() {
           <button
             onClick={() => setShowRightPanel(!showRightPanel)}
             className="flex h-16 w-6 items-center justify-center rounded-l-xl border border-indigo-500/30 bg-indigo-600/20 text-indigo-700 shadow-lg backdrop-blur-md transition-colors hover:text-indigo-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/70 dark:text-indigo-400 dark:hover:text-white"
-            aria-label={showRightPanel ? "Ocultar perfil" : "Mostrar perfil"}
+            aria-label={showRightPanel ? t("mx_ocultar_perfil") : t("mx_mostrar_perfil")}
           >
             <ChevronRight size={14} className={`transition-transform ${showRightPanel ? '' : 'rotate-180'}`} />
           </button>
@@ -788,9 +798,9 @@ export default function MoldexPage() {
         <motion.aside
           initial={false}
           animate={isMobile ? {
-            width: activeView === 'INFO' ? "100%" : 0,
-            opacity: activeView === 'INFO' ? 1 : 0,
-            x: activeView === 'INFO' ? 0 : 1000
+            width: activeView === "info" ? "100%" : 0,
+            opacity: activeView === "info" ? 1 : 0,
+            x: activeView === "info" ? 0 : 1000
           } : {
             width: showRightPanel ? 400 : 0,
             opacity: showRightPanel ? 1 : 0,
@@ -800,7 +810,7 @@ export default function MoldexPage() {
           className={`custom-scrollbar pointer-events-auto flex flex-col overflow-y-auto border-l border-[var(--border)] bg-[var(--bg-card)] p-6 backdrop-blur-xl dark:border-white/5 dark:bg-[#0a0f1d]/95 md:p-10 md:dark:bg-[#0a0f1d]/60 ${
             isMobile ? 'absolute inset-x-0 bottom-0 top-[60px] z-40'
                      : 'h-full'
-          } ${isMobile && activeView !== 'INFO' ? 'pointer-events-none' : ''}`}
+          } ${isMobile && activeView !== "info" ? 'pointer-events-none' : ''}`}
         >
           <AnimatePresence mode="wait">
             <motion.div key={selectedId} initial={{ x: 30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="space-y-10 min-w-[320px]">
@@ -852,14 +862,14 @@ export default function MoldexPage() {
               <section>
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.3em] text-muted">
-                    <Activity size={16} className="text-indigo-500" /> DESCRIPTORES Y REGLAS
+                    <Activity size={16} className="text-indigo-500" /> <span className="uppercase">{t("mx_descriptores_reglas")}</span>
                   </h2>
                   <div className="flex gap-1">
                     {selectedMolecule?.metrics?.lipinski_pass && (
-                      <span className="rounded border border-emerald-500/30 bg-emerald-500/20 px-1.5 py-0.5 text-xs font-black text-emerald-700 dark:text-emerald-400">LIPINSKI</span>
+                      <span className="rounded border border-emerald-500/30 bg-emerald-500/20 px-1.5 py-0.5 text-xs font-black uppercase text-emerald-700 dark:text-emerald-400">{t("mx_filtro_lipinski")}</span>
                     )}
                     {selectedMolecule?.metrics?.veber_pass && (
-                      <span className="rounded border border-blue-500/30 bg-blue-500/20 px-1.5 py-0.5 text-xs font-black text-blue-700 dark:text-blue-400">VEBER</span>
+                      <span className="rounded border border-blue-500/30 bg-blue-500/20 px-1.5 py-0.5 text-xs font-black uppercase text-blue-700 dark:text-blue-400">{t("mx_filtro_veber")}</span>
                     )}
                   </div>
                 </div>
@@ -868,11 +878,9 @@ export default function MoldexPage() {
                     { label: t("mx_lipofilia"),  value: selectedMolecule?.metrics?.log_p?.toFixed(2) ?? "—",                         unit: "LogP" },
                     { label: t("mx_masa"),       value: selectedMolecule?.metrics?.mw?.toFixed(0) ?? "—",                             unit: "Da" },
                     { label: t("mx_polaridad"),  value: selectedMolecule?.metrics?.tpsa?.toFixed(1) ?? "—",                            unit: "Å²" },
-                    { label: t("mx_hotspots"),   value: `${Array.isArray(selectedMolecule?.hotspots_hit) ? selectedMolecule.hotspots_hit.length : 0}/${Array.isArray(selectedMolecule?.target?.hotspots) ? selectedMolecule.target.hotspots.length : 0}`, unit: "HITS" },
-                    // CL-GNN, no `gnn_score` (RTMScore, que la app instalada nunca produce).
-                    // Cómo se enseña y por qué: `presentarClgnn` en lib/moldex.ts.
-                    { label: t("mx_senal_clgnn"), value: presentarClgnn(selectedMolecule?.metrics?.clgnn_score).valor, unit: t(presentarClgnn(selectedMolecule?.metrics?.clgnn_score).condicion) },
-                    { label: "Lipinski",   value: selectedMolecule?.metrics?.lipinski_pass === null ? "—" : selectedMolecule?.metrics?.lipinski_pass ? t("mx_cumple") : t("mx_no_cumple"),        unit: "regla" },
+                    { label: t("mx_hotspots"),   value: `${Array.isArray(selectedMolecule?.hotspots_hit) ? selectedMolecule.hotspots_hit.length : 0}/${Array.isArray(selectedMolecule?.target?.hotspots) ? selectedMolecule.target.hotspots.length : 0}`, unit: t("mx_hits_unidad") },
+                    { label: t("mx_senal_gnn"),     value: selectedMolecule?.metrics?.gnn_score !== null && selectedMolecule?.metrics?.gnn_score !== undefined ? selectedMolecule.metrics.gnn_score.toFixed(1) : "N/A", unit: t("auto_b75d71d7c486") },
+                    { label: t("mx_regla_lipinski"),   value: selectedMolecule?.metrics?.lipinski_pass === null ? "—" : selectedMolecule?.metrics?.lipinski_pass ? t("mx_cumple") : t("mx_no_cumple"),        unit: t("mx_unidad_regla") },
                   ].map(stat => (
                     <div key={stat.label} className="group rounded-2xl border border-[var(--border)] bg-[var(--bg-secondary)] p-4 transition-all hover:border-indigo-500/30 dark:border-white/5 dark:bg-black/40">
                       <p className="mb-1 text-xs font-black uppercase tracking-widest text-muted">{stat.label}</p>
@@ -916,7 +924,7 @@ export default function MoldexPage() {
                           className="mb-6 rounded-2xl border border-amber-500/30 bg-amber-50 p-4 text-left text-xs leading-relaxed text-amber-900 dark:bg-amber-500/10 dark:text-amber-200/90"
                         >
                           <p className="mb-2 font-black uppercase tracking-widest text-amber-800 dark:text-amber-400">
-                            Sello desfasado
+                            {t("mx_sello_desfasado")}
                           </p>
                           <p>
                             {t("auto_d789b996261e")}{" "}
@@ -943,19 +951,19 @@ export default function MoldexPage() {
                         href={urlDelExplorador(selectedMolecule.blockchain.tx_signature, redDelSello)}
                         className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-indigo-600 py-4 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-indigo-500/20 transition-all hover:bg-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-card)]"
                       >
-                        <FlaskConical size={14} /> VERIFICAR EN SOLANA
+                        <FlaskConical size={14} /> <span className="uppercase">{t("mx_verificar_solana")}</span>
                       </ExternalLink>
                     </>
                   ) : (
                     <>
                       <div className="mb-6 break-all rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] p-3 font-mono text-xs leading-tight text-muted dark:border-white/5 dark:bg-black/60">
-                        SYSTEM_AUTHENTICATED_LOCAL
+                        {t("mx_token_local")}
                       </div>
                       <button
                         onClick={() => setShowCertificationModal(true)}
                         className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-purple-500/40 bg-purple-600 py-4 text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-500 active:bg-purple-700"
                       >
-                        <Database size={14} /> REGISTRAR EN SOLANA
+                        <Database size={14} /> <span className="uppercase">{t("mx_registrar_solana")}</span>
                       </button>
                     </>
                   )}
@@ -965,7 +973,7 @@ export default function MoldexPage() {
                       onClick={() => setShowPdfViewer(true)}
                       className="flex flex-1 items-center justify-center gap-2 rounded-2xl border border-indigo-500/30 bg-indigo-500/20 py-3 text-xs font-black uppercase tracking-widest text-indigo-700 transition-all hover:bg-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 dark:text-indigo-300"
                     >
-                      <Eye size={14} /> VER REPORTE
+                      <Eye size={14} /> <span className="uppercase">{t("mx_ver_reporte")}</span>
                     </button>
                     {/* MOLDEX-INT-006: era un `<a href>` crudo. El Bearer vive
                         en el envoltorio de fetch y una navegación no lo lleva,
@@ -976,7 +984,7 @@ export default function MoldexPage() {
                       onClick={() => descargar("pdf")}
                       className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-[var(--bg-secondary)] py-3 text-xs font-black uppercase tracking-widest text-muted transition-all hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800/50 dark:text-slate-400 dark:hover:bg-slate-800"
                     >
-                      {descargando === "pdf" ? t("auto_bdd6a9ac7cec") : "DESCARGAR RECIBO PDF"}
+                      {descargando === "pdf" ? t("auto_bdd6a9ac7cec") : t("mx_descargar_recibo_pdf")}
                     </button>
                   </div>
 
@@ -987,7 +995,7 @@ export default function MoldexPage() {
                     className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-[var(--bg-secondary)] py-3 text-xs font-black uppercase tracking-widest text-muted transition-all hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800/50 dark:text-slate-400 dark:hover:bg-slate-800"
                   >
                     <Box size={14} />
-                    {descargando === "complejo" ? t("auto_bdd6a9ac7cec") : "DESCARGAR COMPLEJO 3D (PDB)"}
+                    {descargando === "complejo" ? t("auto_bdd6a9ac7cec") : t("mx_descargar_complejo_pdb")}
                   </button>
                 </div>
               </section>
