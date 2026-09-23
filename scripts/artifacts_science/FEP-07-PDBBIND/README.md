@@ -28,8 +28,12 @@ medicion sin gate: parejas ejecutables hoy, bloqueadas por tautomero y por recep
 ## Estado
 
 - Creado: 2026-09-23T06:46:21.324400+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: GO
+- Sellado: sí (2026-09-23T06:51:58.202476+00:00)
+- Finalizado: 2026-09-23T06:51:58.397061+00:00
+- Razón de la decisión: La hipotesis se sostiene: de las 3299 parejas aptas de FEP-03-PDBBIND, 2243 (68%) son ejecutables hoy sobre 1114 complejos, frente a 75 en los 203; declarar tautomeros desbloquea 656 mas (hasta 2899) y reparar receptores solo recuperaria 400. Confirma el orden del roadmap: declarar tautomeros primero. Las 21 parejas aptas de galectina-3 (6qln-6qlu), la cohorte recomendada, son las 21 ejecutables hoy. Replica previa identica al sello (91 parejas, 75 ejecutables). Limitacion declarada por el script: ejecutable hoy significa sin los dos bloqueos medidos, no listo para produccion; con el criterio completo de FEP-02 en ambos extremos quedan 875.
+- Hashes de assets: 6 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 

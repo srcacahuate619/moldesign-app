@@ -4,7 +4,7 @@
   "hypothesis": "PDBBind permite muchos mas calculos FEP ejecutables hoy que los 75 de los 203, y declarar tautomeros desbloquea una fraccion mayor que reparar receptores",
   "protocol": "scripts/analisis_fep_ejecutable_hoy.py sellado, sin modificar (sha d5c06e4c4936), ejecutado desde un espacio de trabajo cuyo FEP-03/parejas.jsonl son los 21 shards de FEP-03-PDBBIND y cuyos FEP-01-EXT/FEP-02-EXT son las extensiones a PDBBind; replica previa identica al sello (75 ejecutables hoy).",
   "created_at": "2026-09-23T06:46:21.324400+00:00",
-  "status": "created",
+  "status": "finished",
   "git_state": {
     "branch": "codex/release-hygiene",
     "commit": "ca68d06a5d207f9a86fbb73b951ec2455ae9c5be",
@@ -25,5 +25,18 @@
   "gate": {
     "description": "medicion sin gate: parejas ejecutables hoy, bloqueadas por tautomero y por receptor"
   },
-  "decision": "PENDING"
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_fep_ejecutable_hoy.py": "d5c06e4c49361d0e0c92dc123192d8a77e5506fb00a1183de886a1882fc91416",
+    "scripts/artifacts_science/FEP-07-PDBBIND/metrics.json": "7a02fe2aef927c4c5999621f6cc2f3afcaa3cd50286767b6cdaeb1d3dcd6a804",
+    "scripts/artifacts_science/FEP-07-PDBBIND/per_complex.jsonl": "2cdc7ba24ab445aa5c29f0689d0f54c8410ff229faad76b1296b456091a927da",
+    "scripts/artifacts_science/FEP-07-PDBBIND/logs/fep01ext_pdbbind.log": "aa0fb41104466171aa5b46c0c643a0bebefb419939abd23f71bc06c5841bfd11",
+    "scripts/artifacts_science/FEP-07-PDBBIND/logs/fep02ext_pdbbind.log": "e9bfc71596f4f0239ca6b9bbc35e49af940336f99de163dc118ba8ffb9343e73",
+    "scripts/artifacts_science/FEP-07-PDBBIND/logs/fep07_pdbbind.log": "a275290660c09d737d4687f3f24b0e57d2e800d7b49fd161058d395c906337ad"
+  },
+  "sealed": true,
+  "sealed_at": "2026-09-23T06:51:58.202476+00:00",
+  "decision_rationale": "La hipotesis se sostiene: de las 3299 parejas aptas de FEP-03-PDBBIND, 2243 (68%) son ejecutables hoy sobre 1114 complejos, frente a 75 en los 203; declarar tautomeros desbloquea 656 mas (hasta 2899) y reparar receptores solo recuperaria 400. Confirma el orden del roadmap: declarar tautomeros primero. Las 21 parejas aptas de galectina-3 (6qln-6qlu), la cohorte recomendada, son las 21 ejecutables hoy. Replica previa identica al sello (91 parejas, 75 ejecutables). Limitacion declarada por el script: ejecutable hoy significa sin los dos bloqueos medidos, no listo para produccion; con el criterio completo de FEP-02 en ambos extremos quedan 875.",
+  "finished_at": "2026-09-23T06:51:58.397061+00:00",
+  "duration_seconds": 0.311
 }

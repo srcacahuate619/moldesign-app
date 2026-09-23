@@ -1,1 +1,28 @@
-{}
+{
+ "experiment_id": "FEP-07",
+ "tipo": "cruce de artefactos sellados, sin computo nuevo",
+ "timestamp": "2026-09-23T06:51:12.122440+00:00",
+ "duration_seconds": 0.311,
+ "fuentes": {
+  "FEP-03/parejas.jsonl": "parejas congenericas aptas",
+  "FEP-01-EXT": "ligandos donde el proton se mueve (decision de tautomero pendiente)",
+  "FEP-02-EXT": "receptores con hueco EN EL SITIO (reparacion estructural)",
+  "FEP-02": "documentado_para_fep, criterio completo de receptor"
+ },
+ "n_parejas_aptas": 3299,
+ "estado": {
+  "EJECUTABLE_HOY": 2243,
+  "BLOQUEADA_POR_TAUTOMERO": 656,
+  "BLOQUEADA_POR_RECEPTOR": 400
+ },
+ "EJECUTABLE_HOY": {
+  "n": 2243,
+  "fraccion_de_aptas": 0.6799,
+  "n_complejos_implicados": 1114
+ },
+ "si_se_declaran_los_tautomeros": {
+  "n": 2899,
+  "coste": "declarar tautomero, no reparar estructura"
+ },
+ "limitacion_declarada": "Ejecutable HOY significa 'sin los dos bloqueos medidos', no 'lista para produccion'. FEP-02 exige ademas documentar cadenas, disulfuros, metales, cofactores y aguas, y ese criterio completo (documentado_para_fep) se reporta aparte sin usarse para clasificar, porque lo cumplen muy pocos y absorberia toda la senal. El numero es una COTA SUPERIOR de lo ejecutable."
+}

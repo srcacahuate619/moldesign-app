@@ -1,1 +1,25 @@
-{}
+{
+ "experiment_id": "FEP-02-EXT",
+ "tipo": "medicion de consecuencia, sin gates de decision",
+ "timestamp": "2026-09-23T06:51:11.718974+00:00",
+ "duration_seconds": 22.18,
+ "n_complejos": 5325,
+ "n_con_huecos_segun_FEP02": 1677,
+ "n_analizables": 1677,
+ "n_error": 0,
+ "errores": {},
+ "umbrales": {
+  "sitio_A": 8.0,
+  "periferia_A": 15.0,
+  "nota": "R_SITIO reusa el radio con que FEP-02 definio sitio"
+ },
+ "clasificacion_por_complejo": {
+  "EN_EL_SITIO": 468,
+  "LEJANO": 617,
+  "PERIFERICO": 592
+ },
+ "fraccion_en_el_sitio": 0.2791,
+ "huecos_totales": 4610,
+ "huecos_en_el_sitio": 633,
+ "limitacion_declarada": "Un hueco LEJANO no garantiza que la estructura sea utilizable: puede romper plegamiento o dinamica global. Se mide que fraccion tiene el defecto EN la region que decide la union, que es la que obliga a reparar antes de declarar el receptor. Un hueco lejano se declara; uno en el sitio se arregla."
+}

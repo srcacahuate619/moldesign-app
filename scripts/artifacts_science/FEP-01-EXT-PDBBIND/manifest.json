@@ -4,7 +4,7 @@
   "hypothesis": "En PDBBind, como en los 203 (164 ambiguos -> 54 con el proton moviendose), la mayoria de la ambiguedad tautomerica de FEP-01 no mueve protones y el bloqueo real por tautomero es una minoria",
   "protocol": "scripts/analisis_fep01ext_tautomeros.py sellado, sin modificar (sha a40a09d2e5b0), con --workspace apuntando a un espacio cuyo FEP-01/per_complex.jsonl es el de FEP-01-PDBBIND; contenedor moldesign-science del servidor, RDKit 2025.09.6. Replica previa sobre los 203 identica por registro al sello.",
   "created_at": "2026-09-23T06:46:20.538651+00:00",
-  "status": "created",
+  "status": "finished",
   "git_state": {
     "branch": "codex/release-hygiene",
     "commit": "ca68d06a5d207f9a86fbb73b951ec2455ae9c5be",
@@ -25,5 +25,15 @@
   "gate": {
     "description": "medicion sin gate: fraccion de ambiguos en los que el proton se mueve"
   },
-  "decision": "PENDING"
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_fep01ext_tautomeros.py": "a40a09d2e5b01a01c22e56260694d91e7fcc31051c834606ff7f1fe378753d3b",
+    "scripts/artifacts_science/FEP-01-EXT-PDBBIND/metrics.json": "2c32b81d6b92fdf527077359d96e15a8a6e53ed21142765525aed72de3fa193c",
+    "scripts/artifacts_science/FEP-01-EXT-PDBBIND/per_complex.jsonl": "0b78ff3f25dc4fa2104d04322ce3746c580b489d3cfd23648a5427f44b75c947"
+  },
+  "sealed": true,
+  "sealed_at": "2026-09-23T06:51:57.040333+00:00",
+  "decision_rationale": "La hipotesis se sostiene: de los 3634 ligandos de PDBBind con tautomero ambiguo segun FEP-01, el proton se mueve en 1098 (30.2%), frente a 54/164 (32.9%) en los 203; en el 70% restante la ambiguedad no cambia que atomos donan o aceptan y no bloquea un calculo FEP. Solo 2 no ambiguos mueven el proton. Replica previa en el servidor identica al sello registro por registro (203/203). Script sellado sin modificar (a40a09d2e5b0), RDKit 2025.09.6, contenedor moldesign-science. Limitacion: 684 ligandos no canonicalizables por RDKit (KekulizeException), los mismos que FEP-01-PDBBIND no pudo leer.",
+  "finished_at": "2026-09-23T06:51:57.231392+00:00",
+  "duration_seconds": 259.59
 }

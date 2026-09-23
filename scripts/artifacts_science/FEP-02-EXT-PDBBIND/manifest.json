@@ -4,7 +4,7 @@
   "hypothesis": "En PDBBind, como en los 203 (86 con huecos -> 41 con hueco en el sitio), menos de la mitad de los huecos de cadena caen en el sitio de union",
   "protocol": "scripts/analisis_fep02ext_huecos_sitio.py sellado, sin modificar (sha fbaaaf09c1e5), --workspace con FEP-02/per_complex.jsonl de FEP-02-PDBBIND; mismo contenedor; replica previa identica al sello.",
   "created_at": "2026-09-23T06:46:20.941428+00:00",
-  "status": "created",
+  "status": "finished",
   "git_state": {
     "branch": "codex/release-hygiene",
     "commit": "ca68d06a5d207f9a86fbb73b951ec2455ae9c5be",
@@ -25,5 +25,15 @@
   "gate": {
     "description": "medicion sin gate: fraccion de huecos en el sitio"
   },
-  "decision": "PENDING"
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_fep02ext_huecos_sitio.py": "fbaaaf09c1e570a63f0875ca4cfdc9df4b45ba8a1176604d92edabf066ca49cc",
+    "scripts/artifacts_science/FEP-02-EXT-PDBBIND/metrics.json": "9fa60abe2261590b440ef642e9c19424b2eaf48afe312af1734df1ac5182e845",
+    "scripts/artifacts_science/FEP-02-EXT-PDBBIND/per_complex.jsonl": "a481e13b88f7d23fbc8c8f74d4a7257852e9efe8e2096629abddabf15f79d886"
+  },
+  "sealed": true,
+  "sealed_at": "2026-09-23T06:51:57.566394+00:00",
+  "decision_rationale": "La hipotesis se sostiene: de los 1677 complejos de PDBBind con huecos de cadena, 468 (27.9%) los tienen en el sitio (8 A), 592 en la periferia y 617 lejos; 633 de 4610 huecos caen en el sitio. En los 203 era 47.7%: a escala, la mayoria de los huecos no obliga a reparar antes de declarar el receptor. Replica previa identica al sello (203/203). Script sellado sin modificar (fbaaaf09c1e5). Limitacion declarada por el propio script: un hueco lejano no garantiza que la estructura sirva para la dinamica global.",
+  "finished_at": "2026-09-23T06:51:57.777722+00:00",
+  "duration_seconds": 22.18
 }

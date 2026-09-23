@@ -28,8 +28,12 @@ medicion sin gate: fraccion de ambiguos en los que el proton se mueve
 ## Estado
 
 - Creado: 2026-09-23T06:46:20.538651+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: GO
+- Sellado: sí (2026-09-23T06:51:57.040333+00:00)
+- Finalizado: 2026-09-23T06:51:57.231392+00:00
+- Razón de la decisión: La hipotesis se sostiene: de los 3634 ligandos de PDBBind con tautomero ambiguo segun FEP-01, el proton se mueve en 1098 (30.2%), frente a 54/164 (32.9%) en los 203; en el 70% restante la ambiguedad no cambia que atomos donan o aceptan y no bloquea un calculo FEP. Solo 2 no ambiguos mueven el proton. Replica previa en el servidor identica al sello registro por registro (203/203). Script sellado sin modificar (a40a09d2e5b0), RDKit 2025.09.6, contenedor moldesign-science. Limitacion: 684 ligandos no canonicalizables por RDKit (KekulizeException), los mismos que FEP-01-PDBBIND no pudo leer.
+- Hashes de assets: 3 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 

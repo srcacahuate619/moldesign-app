@@ -28,8 +28,12 @@ medicion sin gate: fraccion de huecos en el sitio
 ## Estado
 
 - Creado: 2026-09-23T06:46:20.941428+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: GO
+- Sellado: sí (2026-09-23T06:51:57.566394+00:00)
+- Finalizado: 2026-09-23T06:51:57.777722+00:00
+- Razón de la decisión: La hipotesis se sostiene: de los 1677 complejos de PDBBind con huecos de cadena, 468 (27.9%) los tienen en el sitio (8 A), 592 en la periferia y 617 lejos; 633 de 4610 huecos caen en el sitio. En los 203 era 47.7%: a escala, la mayoria de los huecos no obliga a reparar antes de declarar el receptor. Replica previa identica al sello (203/203). Script sellado sin modificar (fbaaaf09c1e5). Limitacion declarada por el propio script: un hueco lejano no garantiza que la estructura sirva para la dinamica global.
+- Hashes de assets: 3 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 
