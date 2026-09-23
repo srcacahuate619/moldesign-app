@@ -124,6 +124,15 @@ export const paginas: ModuloDeTraduccion = {
     pg_com_resultado_compartido: "Resultado compartido",
     pg_com_comparte_evidencia: "Comparte tu evidencia",
     pg_com_actividad_reciente: "Actividad reciente",
+    pg_com_panel_global: "Comunidad Global",
+    pg_com_panel_login: "Iniciar sesión",
+    pg_com_panel_conectado: "Conectado",
+    pg_com_panel_conectar: "Conectar",
+    pg_com_panel_email: "Correo electrónico",
+    pg_com_panel_pass: "Contraseña",
+    pg_com_panel_conectando: "Conectando...",
+    pg_com_panel_top_descubrimientos: "Mejores descubrimientos",
+    pg_com_panel_compartir: "Comparte tus descubrimientos",
 
     // ── Navegación ────────────────────────────────────────────────
     pg_nav_opciones: "OPCIONES",
@@ -248,6 +257,15 @@ export const paginas: ModuloDeTraduccion = {
     pg_com_resultado_compartido: "Shared result",
     pg_com_comparte_evidencia: "Share your evidence",
     pg_com_actividad_reciente: "Recent activity",
+    pg_com_panel_global: "Global Community",
+    pg_com_panel_login: "Log in",
+    pg_com_panel_conectado: "Connected",
+    pg_com_panel_conectar: "Connect",
+    pg_com_panel_email: "Email",
+    pg_com_panel_pass: "Password",
+    pg_com_panel_conectando: "Connecting...",
+    pg_com_panel_top_descubrimientos: "Top discoveries",
+    pg_com_panel_compartir: "Share your discoveries",
 
     // ── Navegación ────────────────────────────────────────────────
     pg_nav_opciones: "OPTIONS",

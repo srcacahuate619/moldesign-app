@@ -100,7 +100,7 @@ export function CommunityPanel() {
         <div className="flex items-center gap-2">
           <Globe className={`w-4 h-4 ${connected ? "text-emerald-400" : "text-zinc-500"}`} />
           <div>
-            <h3 className="text-sm font-semibold text-zinc-200">Comunidad Global</h3>
+            <h3 className="text-sm font-semibold text-zinc-200">{t("pg_com_panel_global")}</h3>
             <p className="text-[10px] text-zinc-500">
               {connected ? `${communityTargets.length} targets` : t("auto_0229a5139372")}
             </p>
@@ -109,14 +109,14 @@ export function CommunityPanel() {
         <div className="flex items-center gap-2">
           {!cloudUser && connected && (
             <button onClick={() => setShowLogin(!showLogin)} className="flex items-center gap-1 px-2 py-1 rounded text-[10px] text-zinc-400 hover:text-zinc-200">
-              <User className="w-3 h-3" /> Login
+              <User className="w-3 h-3" /> {t("pg_com_panel_login")}
             </button>
           )}
           {cloudUser && <span className="text-[10px] text-cyan-400 font-mono">@{cloudUser}</span>}
           <button onClick={toggleCommunity} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium ${
             enabled ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" : "bg-zinc-700/50 text-zinc-400 border border-zinc-600/30 hover:border-zinc-500"
           }`}>
-            {enabled ? <><Wifi className="w-3 h-3" /> Conectado</> : <><WifiOff className="w-3 h-3" /> Conectar</>}
+            {enabled ? <><Wifi className="w-3 h-3" /> {t("pg_com_panel_conectado")}</> : <><WifiOff className="w-3 h-3" /> {t("pg_com_panel_conectar")}</>}
           </button>
         </div>
       </div>
@@ -124,8 +124,8 @@ export function CommunityPanel() {
       {showLogin && (
         <div className="p-4 border-b border-zinc-700/20 bg-zinc-800/30">
           <div className="flex gap-2">
-            <input type="email" placeholder="Email" value={cloudEmail} onChange={e => setCloudEmail(e.target.value)} className="flex-1 px-3 py-1.5 rounded-lg bg-zinc-700 border border-zinc-600 text-xs text-zinc-200" />
-            <input type="password" placeholder="Pass" value={cloudPassword} onChange={e => setCloudPassword(e.target.value)} className="w-28 px-3 py-1.5 rounded-lg bg-zinc-700 border border-zinc-600 text-xs text-zinc-200" />
+            <input type="email" placeholder={t("pg_com_panel_email")} value={cloudEmail} onChange={e => setCloudEmail(e.target.value)} className="flex-1 px-3 py-1.5 rounded-lg bg-zinc-700 border border-zinc-600 text-xs text-zinc-200" />
+            <input type="password" placeholder={t("pg_com_panel_pass")} value={cloudPassword} onChange={e => setCloudPassword(e.target.value)} className="w-28 px-3 py-1.5 rounded-lg bg-zinc-700 border border-zinc-600 text-xs text-zinc-200" />
             <button onClick={handleLogin} className="px-3 py-1.5 rounded-lg bg-cyan-600 text-xs font-medium text-white hover:bg-cyan-500">{t("login")}</button>
           </div>
           {loginError && <p className="text-[10px] text-red-400 mt-1">{loginError}</p>}
@@ -135,7 +135,7 @@ export function CommunityPanel() {
       {enabled && (
         <div className="p-4 space-y-4">
           {error && <div className="flex items-center gap-2 p-3 rounded-lg bg-red-500/5 border border-red-500/10 text-xs text-red-400"><Lock className="w-3.5 h-3.5" />{error}<button onClick={fetchCommunity} className="ml-auto"><RefreshCw className="w-3.5 h-3.5" /></button></div>}
-          {loading && <div className="flex items-center justify-center gap-2 py-4 text-xs text-zinc-500"><RefreshCw className="w-3.5 h-3.5 animate-spin" />Conectando...</div>}
+          {loading && <div className="flex items-center justify-center gap-2 py-4 text-xs text-zinc-500"><RefreshCw className="w-3.5 h-3.5 animate-spin" />{t("pg_com_panel_conectando")}</div>}
 
           {connected && communityTargets.length > 0 && (
             <div className="space-y-2">
@@ -159,7 +159,7 @@ export function CommunityPanel() {
 
           {connected && leaderboard.length > 0 && (
             <div className="space-y-2">
-              <h4 className="text-[11px] font-bold uppercase tracking-wider text-zinc-500 flex items-center gap-1.5"><Trophy className="w-3 h-3 text-amber-400" />Top Descubrimientos</h4>
+              <h4 className="text-[11px] font-bold uppercase tracking-wider text-zinc-500 flex items-center gap-1.5"><Trophy className="w-3 h-3 text-amber-400" />{t("pg_com_panel_top_descubrimientos")}</h4>
               {leaderboard.map((entry, i) => (
                 <div key={i} className="flex items-center justify-between px-3 py-2 rounded-lg bg-zinc-700/20 text-xs">
                   <div className="flex items-center gap-2">
@@ -179,7 +179,7 @@ export function CommunityPanel() {
             <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-violet-500/5 to-cyan-500/5 border border-violet-500/10">
               <Share2 className="w-4 h-4 text-violet-400 shrink-0" />
               <div className="text-xs">
-                <p className="text-zinc-300 font-medium">Comparti tus descubrimientos</p>
+                <p className="text-zinc-300 font-medium">{t("pg_com_panel_compartir")}</p>
                 <p className="text-zinc-500 mt-0.5">{cloudUser ? t("auto_f78181f943ab") : t("auto_c1b0533bca64")}</p>
               </div>
             </div>
