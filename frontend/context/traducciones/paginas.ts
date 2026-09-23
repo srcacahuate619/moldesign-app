@@ -116,6 +116,18 @@ export const paginas: ModuloDeTraduccion = {
     pg_com_reintentar: "Reintentar carga de datos compartidos",
     pg_com_buscar: "Buscar por PDB ID, nombre o categoría…",
 
+    // ── Navegación ────────────────────────────────────────────────
+    pg_nav_opciones: "OPCIONES",
+    pg_nav_comunidad: "COMUNIDAD",
+    pg_nav_ciencia: "CIENCIA",
+    pg_nav_batch: "Batch",
+    pg_nav_logo_alt: "Logo de MolDesign",
+    pg_nav_moldex: "Moldex",
+    pg_nav_historial: "HISTORIAL",
+    pg_nav_usuario_escritorio: "Usuario de escritorio",
+    pg_nav_salir: "SALIR",
+    pg_nav_entrar: "ENTRAR",
+
     // ── El error global ───────────────────────────────────────────
     pg_err_titulo: "MolDesign no pudo abrir la interfaz",
     pg_err_subtitulo: "La ventana quedó sin pintar",
@@ -213,6 +225,18 @@ export const paginas: ModuloDeTraduccion = {
       "No activity feed is available in this version.",
     pg_com_reintentar: "Retry loading the shared data",
     pg_com_buscar: "Search by PDB ID, name or category…",
+
+    // ── Navegación ────────────────────────────────────────────────
+    pg_nav_opciones: "OPTIONS",
+    pg_nav_comunidad: "COMMUNITY",
+    pg_nav_ciencia: "SCIENCE",
+    pg_nav_batch: "Batch",
+    pg_nav_logo_alt: "MolDesign logo",
+    pg_nav_moldex: "Moldex",
+    pg_nav_historial: "HISTORY",
+    pg_nav_usuario_escritorio: "Desktop User",
+    pg_nav_salir: "SIGN OUT",
+    pg_nav_entrar: "SIGN IN",
 
     pg_err_titulo: "MolDesign could not open the interface",
     pg_err_subtitulo: "The window was left unpainted",

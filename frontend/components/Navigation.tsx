@@ -38,7 +38,7 @@ export function Navigation() {
               className={`${linkBaseClass} flex cursor-pointer items-center gap-2 ${showOptions ? "text-purple-400 dark:text-purple-300" : "text-theme hover:text-purple-500 dark:hover:text-purple-300"}`}
             >
               <Settings size={14} className="shrink-0" aria-hidden="true" />
-              <span>OPCIONES</span>
+              <span>{t("pg_nav_opciones")}</span>
             </button>
           </div>
 
@@ -50,7 +50,7 @@ export function Navigation() {
                 pathname === "/comunidad" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
               }`}
             >
-              COMUNIDAD
+              {t("pg_nav_comunidad")}
             </Link>
 
             <Link
@@ -59,7 +59,7 @@ export function Navigation() {
                 pathname === "/ciencia" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
               }`}
             >
-              CIENCIA
+              {t("pg_nav_ciencia")}
             </Link>
 
             <Link
@@ -68,7 +68,7 @@ export function Navigation() {
                 pathname === "/evaluation/batch" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
               }`}
             >
-              BATCH
+              {t("pg_nav_batch")}
             </Link>
           </div>
 
@@ -80,7 +80,7 @@ export function Navigation() {
           >
             <Image
               src="/logo.png"
-              alt="MolDesign logo"
+              alt={t("pg_nav_logo_alt")}
               width={24}
               height={24}
               className="object-contain"
@@ -104,7 +104,7 @@ export function Navigation() {
                 pathname === "/moldex" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
               }`}
             >
-              MOLDEX
+              {t("pg_nav_moldex")}
             </Link>
 
             <Link
@@ -113,7 +113,7 @@ export function Navigation() {
                 pathname === "/history" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
               }`}
             >
-              HISTORIAL
+              {t("pg_nav_historial")}
             </Link>
           </div>
 
@@ -121,7 +121,7 @@ export function Navigation() {
           <div className="flex items-center gap-5 z-10">
             <DownloadNotifications />
             <span className={`${linkBaseClass} text-dim font-normal`}>
-              {user ? user.username : "Desktop User"}
+              {user ? user.username : t("pg_nav_usuario_escritorio")}
             </span>
 
             {user ? (
@@ -129,14 +129,14 @@ export function Navigation() {
                 onClick={logout}
                 className={`${linkBaseClass} cursor-pointer text-theme hover:text-purple-500 dark:hover:text-purple-300`}
               >
-                SALIR
+                {t("pg_nav_salir")}
               </button>
             ) : (
               <Link
                 href="/login"
                 className={`${linkBaseClass} text-theme hover:text-purple-500 dark:hover:text-purple-300`}
               >
-                ENTRAR
+                {t("pg_nav_entrar")}
               </Link>
             )}
 
@@ -177,35 +177,35 @@ export function Navigation() {
                 onClick={() => { setIsOpen(false); setShowOptions(true); }}
                 className="block w-full cursor-pointer py-2 text-left text-muted hover:text-theme"
               >
-                OPCIONES
+                {t("pg_nav_opciones")}
               </button>
               <Link href="/comunidad" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
-                COMUNIDAD
+                {t("pg_nav_comunidad")}
               </Link>
               <Link href="/ciencia" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
-                CIENCIA
+                {t("pg_nav_ciencia")}
               </Link>
               <Link href="/evaluation/batch" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
-                BATCH
+                {t("pg_nav_batch")}
               </Link>
               <Link href="/evaluation" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
                 {t("pn_evaluacion_mayus")}
               </Link>
               <Link href="/moldex" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
-                MOLDEX
+                {t("pg_nav_moldex")}
               </Link>
               <Link href="/history" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
-                HISTORIAL
+                {t("pg_nav_historial")}
               </Link>
               <div className="flex items-center justify-between border-t border-[var(--border)] pt-4">
-                <span className="text-dim">{user ? user.username : "Desktop User"}</span>
+                <span className="text-dim">{user ? user.username : t("pg_nav_usuario_escritorio")}</span>
                 {user ? (
                   <button onClick={() => { logout(); setIsOpen(false); }} className="text-theme hover:text-purple-500 dark:hover:text-purple-300">
-                    SALIR
+                    {t("pg_nav_salir")}
                   </button>
                 ) : (
                   <Link href="/login" onClick={() => setIsOpen(false)} className="text-theme hover:text-purple-500 dark:hover:text-purple-300">
-                    ENTRAR
+                    {t("pg_nav_entrar")}
                   </Link>
                 )}
               </div>
