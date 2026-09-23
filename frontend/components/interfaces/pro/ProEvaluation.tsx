@@ -750,7 +750,7 @@ export default function ProEvaluation({
               type="text"
               value={smiles}
               onChange={(e) => setSmiles(e.target.value)}
-              className="flex-1 bg-black border border-zinc-800 rounded-xl px-3 py-1.5 font-mono text-xs text-white placeholder-zinc-600 outline-none focus:border-purple-500/40 transition-colors h-9"
+              className="flex-1 bg-surface-950 border border-surface-700 rounded-xl px-3 py-1.5 font-mono text-xs text-zinc-100 placeholder:text-zinc-600 focus-visible:outline-none focus-visible:border-brand-500 focus-visible:ring-1 focus-visible:ring-brand-500 transition-colors h-9"
               placeholder="Estructura SMILES"
             />
           </div>
