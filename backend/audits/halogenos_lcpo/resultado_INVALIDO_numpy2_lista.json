@@ -1,0 +1,1179 @@
+{
+ "experimento": "MMGBSA-LCPO-HALOGENOS-01",
+ "pregunta": "¿Cuánto se equivoca cada parametrización LCPO de F, Cl, Br e I frente a la SASA exacta?",
+ "generado_utc": "2026-09-23T06:39:47.698111+00:00",
+ "puntos_shrake_rupley": 50000,
+ "tension_superficial": 0.005,
+ "radio_sonda_A": 1.4,
+ "n_medidos": 4,
+ "fallos": [
+  {
+   "pid": "1c5n",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1c5x",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1e4h",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1gyy",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1hk4",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1igb",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1lgw",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1mfi",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1my4",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1q54",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1tnh",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1upf",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2h6b",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2hb1",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2oxd",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2p7a",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2pu1",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2q7q",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2weg",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2wk6",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "3ao2",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "3ao5",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "3i4y",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "3juo",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "3pcf",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "3tz0",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "4agl",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "4aje",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "4bc5",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "4kwg",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "4qp2",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "4rpo",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "4whs",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "5eij",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "5mge",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "5mgj",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "5mlj",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "5mro",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "5o1f",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "5yas",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6g34",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6g39",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6g3a",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6gnp",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6qln",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6qlo",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6qlp",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6qlq",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6qlr",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6qlt",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6qlu",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  }
+ ],
+ "fondo": {
+  "n": 44,
+  "mediana_abs_A2": 2.5945,
+  "p90_abs_A2": 6.6909,
+  "max_abs_A2": 14.8641,
+  "media_con_signo_A2": -1.185
+ },
+ "por_halogeno": {
+  "F": {
+   "n_ligandos": 4,
+   "n_atomos": 14,
+   "atribucion_amber_por_sander": {
+    "n_ligandos": 0,
+    "coincidencias": {}
+   },
+   "brazos": {
+    "F_Amber_y_OpenMM": {
+     "n": 14,
+     "mediana_abs_A2": 1.084,
+     "p90_abs_A2": 4.1778,
+     "max_abs_A2": 5.2863,
+     "media_con_signo_A2": -0.422,
+     "dentro_del_fondo_p90": true
+    },
+    "diagnostico_C_sp3_1": {
+     "n": 14,
+     "mediana_abs_A2": 0.8877,
+     "p90_abs_A2": 2.8148,
+     "max_abs_A2": 4.7729,
+     "media_con_signo_A2": -0.3098,
+     "dentro_del_fondo_p90": true
+    }
+   },
+   "mejor_brazo": "diagnostico_C_sp3_1"
+  },
+  "Cl": {
+   "n_ligandos": 2,
+   "n_atomos": 2,
+   "atribucion_amber_por_sander": {
+    "n_ligandos": 0,
+    "coincidencias": {}
+   },
+   "brazos": {
+    "Cl_publicado_Weiser_1999": {
+     "n": 2,
+     "mediana_abs_A2": 3.4704,
+     "p90_abs_A2": 4.7674,
+     "max_abs_A2": 5.0917,
+     "media_con_signo_A2": -3.4704,
+     "dentro_del_fondo_p90": true
+    },
+    "diagnostico_C_sp3_1": {
+     "n": 2,
+     "mediana_abs_A2": 7.6092,
+     "p90_abs_A2": 8.9606,
+     "max_abs_A2": 9.2984,
+     "media_con_signo_A2": -7.6092,
+     "dentro_del_fondo_p90": false
+    },
+    "respaldo_Amber_C_sp2_2": {
+     "n": 2,
+     "mediana_abs_A2": 21.6666,
+     "p90_abs_A2": 22.6912,
+     "max_abs_A2": 22.9473,
+     "media_con_signo_A2": -21.6666,
+     "dentro_del_fondo_p90": false
+    }
+   },
+   "mejor_brazo": "Cl_publicado_Weiser_1999"
+  },
+  "Br": {
+   "n_ligandos": 2,
+   "n_atomos": 2,
+   "atribucion_amber_por_sander": {
+    "n_ligandos": 0,
+    "coincidencias": {}
+   },
+   "brazos": {
+    "diagnostico_C_sp3_1": {
+     "n": 2,
+     "mediana_abs_A2": 9.9426,
+     "p90_abs_A2": 10.3809,
+     "max_abs_A2": 10.4905,
+     "media_con_signo_A2": -9.9426,
+     "dentro_del_fondo_p90": false
+    },
+    "diagnostico_Cl_publicado": {
+     "n": 2,
+     "mediana_abs_A2": 2.1645,
+     "p90_abs_A2": 2.5289,
+     "max_abs_A2": 2.62,
+     "media_con_signo_A2": -2.1645,
+     "dentro_del_fondo_p90": true
+    },
+    "respaldo_C_sp2_2": {
+     "n": 2,
+     "mediana_abs_A2": 26.545,
+     "p90_abs_A2": 27.6781,
+     "max_abs_A2": 27.9613,
+     "media_con_signo_A2": -26.545,
+     "dentro_del_fondo_p90": false
+    }
+   },
+   "mejor_brazo": "diagnostico_Cl_publicado"
+  }
+ },
+ "convergencia_max_diferencia_mallas_A2": 1.032,
+ "no_demuestra": "Que MM-GBSA sea válido ni qué radio es el físico para Br o I. Mide cuánto se equivoca cada parametrización en aproximar la superficie de su propia esfera, en geometrías cristalográficas de PDBBind.",
+ "ligandos": [
+  {
+   "pid": "1c5n",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1c5x",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1e4h",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1gyy",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1hk4",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1igb",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1lgw",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1mfi",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1my4",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1q54",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1tnh",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "1upf",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2ax9",
+   "estado": "ok",
+   "n_atomos": 31,
+   "desvio_lcpo_contra_openmm_A2": 1.137e-13,
+   "convergencia_total_A2": {
+    "2000": 1.0243,
+    "10000": 0.0735,
+    "50000": 0.0
+   },
+   "fondo_error_A2": [
+    2.7616,
+    0.0,
+    2.7105,
+    -5.69,
+    0.9965,
+    1.5527,
+    5.4927,
+    -2.7283,
+    -1.3226,
+    -11.499,
+    -1.514,
+    -2.743,
+    -2.1848,
+    4.4998,
+    -6.6654,
+    -1.0218,
+    -0.0169
+   ],
+   "atribucion_amber": null,
+   "halogenos": [
+    {
+     "indice": 18,
+     "halogeno": "F",
+     "brazo": "F_Amber_y_OpenMM",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.47,
+     "sasa_exacta_A2": 33.2095,
+     "sasa_lcpo_A2": 32.0811,
+     "error_A2": -1.1283,
+     "incertidumbre_malla_A2": 0.0062
+    },
+    {
+     "indice": 19,
+     "halogeno": "F",
+     "brazo": "F_Amber_y_OpenMM",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.47,
+     "sasa_exacta_A2": 29.8993,
+     "sasa_lcpo_A2": 31.4926,
+     "error_A2": 1.5933,
+     "incertidumbre_malla_A2": 0.0145
+    },
+    {
+     "indice": 20,
+     "halogeno": "F",
+     "brazo": "F_Amber_y_OpenMM",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.47,
+     "sasa_exacta_A2": 33.1598,
+     "sasa_lcpo_A2": 32.1335,
+     "error_A2": -1.0263,
+     "incertidumbre_malla_A2": 0.0124
+    },
+    {
+     "indice": 18,
+     "halogeno": "F",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 39.8252,
+     "sasa_lcpo_A2": 39.2906,
+     "error_A2": -0.5345,
+     "incertidumbre_malla_A2": 0.0048
+    },
+    {
+     "indice": 19,
+     "halogeno": "F",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 36.0719,
+     "sasa_lcpo_A2": 38.1494,
+     "error_A2": 2.0775,
+     "incertidumbre_malla_A2": 0.029
+    },
+    {
+     "indice": 20,
+     "halogeno": "F",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 38.1562,
+     "sasa_lcpo_A2": 39.0748,
+     "error_A2": 0.9185,
+     "incertidumbre_malla_A2": 0.0048
+    },
+    {
+     "indice": 0,
+     "halogeno": "Br",
+     "brazo": "respaldo_C_sp2_2",
+     "tipo_amber": "br",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 59.6351,
+     "sasa_lcpo_A2": 34.5063,
+     "error_A2": -25.1288,
+     "incertidumbre_malla_A2": 0.0121
+    },
+    {
+     "indice": 0,
+     "halogeno": "Br",
+     "brazo": "diagnostico_Cl_publicado",
+     "tipo_amber": "br",
+     "radio_sin_sonda_A": 1.8,
+     "sasa_exacta_A2": 65.0192,
+     "sasa_lcpo_A2": 63.3103,
+     "error_A2": -1.709,
+     "incertidumbre_malla_A2": 0.0051
+    },
+    {
+     "indice": 0,
+     "halogeno": "Br",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "br",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 59.6351,
+     "sasa_lcpo_A2": 50.2404,
+     "error_A2": -9.3947,
+     "incertidumbre_malla_A2": 0.0121
+    }
+   ]
+  },
+  {
+   "pid": "2h6b",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2hb1",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2i80",
+   "estado": "ok",
+   "n_atomos": 31,
+   "desvio_lcpo_contra_openmm_A2": 5.684e-14,
+   "convergencia_total_A2": {
+    "2000": 1.032,
+    "10000": 0.1708,
+    "50000": 0.0466
+   },
+   "fondo_error_A2": [
+    -0.0097,
+    -0.021,
+    -5.2314,
+    -0.9705,
+    -3.8214,
+    -9.5769,
+    -3.2071,
+    -2.1594,
+    1.2608,
+    14.8641,
+    0.0,
+    -6.3127,
+    -5.6045,
+    3.3135
+   ],
+   "atribucion_amber": null,
+   "halogenos": [
+    {
+     "indice": 0,
+     "halogeno": "F",
+     "brazo": "F_Amber_y_OpenMM",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.47,
+     "sasa_exacta_A2": 36.4244,
+     "sasa_lcpo_A2": 36.6459,
+     "error_A2": 0.2214,
+     "incertidumbre_malla_A2": 0.0104
+    },
+    {
+     "indice": 2,
+     "halogeno": "F",
+     "brazo": "F_Amber_y_OpenMM",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.47,
+     "sasa_exacta_A2": 36.1512,
+     "sasa_lcpo_A2": 36.2294,
+     "error_A2": 0.0782,
+     "incertidumbre_malla_A2": 0.0021
+    },
+    {
+     "indice": 3,
+     "halogeno": "F",
+     "brazo": "F_Amber_y_OpenMM",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.47,
+     "sasa_exacta_A2": 42.2644,
+     "sasa_lcpo_A2": 37.7909,
+     "error_A2": -4.4735,
+     "incertidumbre_malla_A2": 0.0331
+    },
+    {
+     "indice": 0,
+     "halogeno": "F",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 42.8297,
+     "sasa_lcpo_A2": 43.02,
+     "error_A2": 0.1902,
+     "incertidumbre_malla_A2": 0.0097
+    },
+    {
+     "indice": 2,
+     "halogeno": "F",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 42.6921,
+     "sasa_lcpo_A2": 43.5489,
+     "error_A2": 0.8568,
+     "incertidumbre_malla_A2": 0.029
+    },
+    {
+     "indice": 3,
+     "halogeno": "F",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 49.4355,
+     "sasa_lcpo_A2": 44.6626,
+     "error_A2": -4.7729,
+     "incertidumbre_malla_A2": 0.0145
+    },
+    {
+     "indice": 17,
+     "halogeno": "Cl",
+     "brazo": "Cl_publicado_Weiser_1999",
+     "tipo_amber": "cl",
+     "radio_sin_sonda_A": 1.8,
+     "sasa_exacta_A2": 57.5044,
+     "sasa_lcpo_A2": 55.6553,
+     "error_A2": -1.849,
+     "incertidumbre_malla_A2": 0.0643
+    },
+    {
+     "indice": 17,
+     "halogeno": "Cl",
+     "brazo": "respaldo_Amber_C_sp2_2",
+     "tipo_amber": "cl",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 51.9401,
+     "sasa_lcpo_A2": 31.5541,
+     "error_A2": -20.386,
+     "incertidumbre_malla_A2": 0.0072
+    },
+    {
+     "indice": 17,
+     "halogeno": "Cl",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "cl",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 51.9401,
+     "sasa_lcpo_A2": 46.0201,
+     "error_A2": -5.92,
+     "incertidumbre_malla_A2": 0.0072
+    }
+   ]
+  },
+  {
+   "pid": "2oxd",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2p7a",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2pu1",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2q7q",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2weg",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "2wk6",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "3ao2",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "3ao5",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "3f78",
+   "estado": "ok",
+   "n_atomos": 12,
+   "desvio_lcpo_contra_openmm_A2": 5.684e-14,
+   "convergencia_total_A2": {
+    "2000": 0.621,
+    "10000": 0.0929,
+    "50000": 0.0531
+   },
+   "fondo_error_A2": [
+    -0.1087,
+    4.5002,
+    3.546,
+    -6.7019
+   ],
+   "atribucion_amber": null,
+   "halogenos": [
+    {
+     "indice": 0,
+     "halogeno": "F",
+     "brazo": "F_Amber_y_OpenMM",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.47,
+     "sasa_exacta_A2": 35.2465,
+     "sasa_lcpo_A2": 36.2863,
+     "error_A2": 1.0398,
+     "incertidumbre_malla_A2": 0.0248
+    },
+    {
+     "indice": 2,
+     "halogeno": "F",
+     "brazo": "F_Amber_y_OpenMM",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.47,
+     "sasa_exacta_A2": 35.5674,
+     "sasa_lcpo_A2": 35.4103,
+     "error_A2": -0.1571,
+     "incertidumbre_malla_A2": 0.0124
+    },
+    {
+     "indice": 3,
+     "halogeno": "F",
+     "brazo": "F_Amber_y_OpenMM",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.47,
+     "sasa_exacta_A2": 37.8073,
+     "sasa_lcpo_A2": 38.5089,
+     "error_A2": 0.7016,
+     "incertidumbre_malla_A2": 0.0104
+    },
+    {
+     "indice": 8,
+     "halogeno": "F",
+     "brazo": "F_Amber_y_OpenMM",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.47,
+     "sasa_exacta_A2": 33.7829,
+     "sasa_lcpo_A2": 39.0692,
+     "error_A2": 5.2863,
+     "incertidumbre_malla_A2": 0.0
+    },
+    {
+     "indice": 9,
+     "halogeno": "F",
+     "brazo": "F_Amber_y_OpenMM",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.47,
+     "sasa_exacta_A2": 41.2707,
+     "sasa_lcpo_A2": 40.0494,
+     "error_A2": -1.2213,
+     "incertidumbre_malla_A2": 0.0518
+    },
+    {
+     "indice": 0,
+     "halogeno": "F",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 41.6342,
+     "sasa_lcpo_A2": 41.808,
+     "error_A2": 0.1738,
+     "incertidumbre_malla_A2": 0.0169
+    },
+    {
+     "indice": 2,
+     "halogeno": "F",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 39.8638,
+     "sasa_lcpo_A2": 40.3323,
+     "error_A2": 0.4685,
+     "incertidumbre_malla_A2": 0.0217
+    },
+    {
+     "indice": 3,
+     "halogeno": "F",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 44.4431,
+     "sasa_lcpo_A2": 44.9704,
+     "error_A2": 0.5272,
+     "incertidumbre_malla_A2": 0.0
+    },
+    {
+     "indice": 8,
+     "halogeno": "F",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 43.2524,
+     "sasa_lcpo_A2": 46.0166,
+     "error_A2": 2.7641,
+     "incertidumbre_malla_A2": 0.0121
+    },
+    {
+     "indice": 9,
+     "halogeno": "F",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 50.0659,
+     "sasa_lcpo_A2": 47.2292,
+     "error_A2": -2.8366,
+     "incertidumbre_malla_A2": 0.0411
+    },
+    {
+     "indice": 5,
+     "halogeno": "Cl",
+     "brazo": "Cl_publicado_Weiser_1999",
+     "tipo_amber": "cl",
+     "radio_sin_sonda_A": 1.8,
+     "sasa_exacta_A2": 60.0471,
+     "sasa_lcpo_A2": 54.9554,
+     "error_A2": -5.0917,
+     "incertidumbre_malla_A2": 0.0103
+    },
+    {
+     "indice": 5,
+     "halogeno": "Cl",
+     "brazo": "respaldo_Amber_C_sp2_2",
+     "tipo_amber": "cl",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 54.9688,
+     "sasa_lcpo_A2": 32.0216,
+     "error_A2": -22.9473,
+     "incertidumbre_malla_A2": 0.0048
+    },
+    {
+     "indice": 5,
+     "halogeno": "Cl",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "cl",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 54.9688,
+     "sasa_lcpo_A2": 45.6704,
+     "error_A2": -9.2984,
+     "incertidumbre_malla_A2": 0.0048
+    }
+   ]
+  },
+  {
+   "pid": "3i4y",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "3juo",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "3pcf",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "3tz0",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "4agl",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "4aje",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "4bc5",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "4kwg",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "4qp2",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "4rpo",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "4whs",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "5aol",
+   "estado": "ok",
+   "n_atomos": 19,
+   "desvio_lcpo_contra_openmm_A2": 5.684e-14,
+   "convergencia_total_A2": {
+    "2000": 0.0402,
+    "10000": 0.3187,
+    "50000": 0.1021
+   },
+   "fondo_error_A2": [
+    -2.5687,
+    -1.221,
+    0.2158,
+    -1.2051,
+    -2.6204,
+    -2.5582,
+    -0.6077,
+    -7.861,
+    -0.099
+   ],
+   "atribucion_amber": null,
+   "halogenos": [
+    {
+     "indice": 10,
+     "halogeno": "F",
+     "brazo": "F_Amber_y_OpenMM",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.47,
+     "sasa_exacta_A2": 39.7139,
+     "sasa_lcpo_A2": 36.6218,
+     "error_A2": -3.0921,
+     "incertidumbre_malla_A2": 0.0124
+    },
+    {
+     "indice": 11,
+     "halogeno": "F",
+     "brazo": "F_Amber_y_OpenMM",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.47,
+     "sasa_exacta_A2": 36.6211,
+     "sasa_lcpo_A2": 36.379,
+     "error_A2": -0.2421,
+     "incertidumbre_malla_A2": 0.0
+    },
+    {
+     "indice": 12,
+     "halogeno": "F",
+     "brazo": "F_Amber_y_OpenMM",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.47,
+     "sasa_exacta_A2": 40.6289,
+     "sasa_lcpo_A2": 37.141,
+     "error_A2": -3.4879,
+     "incertidumbre_malla_A2": 0.0062
+    },
+    {
+     "indice": 10,
+     "halogeno": "F",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 46.6507,
+     "sasa_lcpo_A2": 44.2932,
+     "error_A2": -2.3575,
+     "incertidumbre_malla_A2": 0.0
+    },
+    {
+     "indice": 11,
+     "halogeno": "F",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 43.1196,
+     "sasa_lcpo_A2": 43.9177,
+     "error_A2": 0.7981,
+     "incertidumbre_malla_A2": 0.0048
+    },
+    {
+     "indice": 12,
+     "halogeno": "F",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "f",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 47.5975,
+     "sasa_lcpo_A2": 44.9872,
+     "error_A2": -2.6102,
+     "incertidumbre_malla_A2": 0.0
+    },
+    {
+     "indice": 8,
+     "halogeno": "Br",
+     "brazo": "respaldo_C_sp2_2",
+     "tipo_amber": "br",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 65.3858,
+     "sasa_lcpo_A2": 37.4245,
+     "error_A2": -27.9613,
+     "incertidumbre_malla_A2": 0.0217
+    },
+    {
+     "indice": 8,
+     "halogeno": "Br",
+     "brazo": "diagnostico_Cl_publicado",
+     "tipo_amber": "br",
+     "radio_sin_sonda_A": 1.8,
+     "sasa_exacta_A2": 71.497,
+     "sasa_lcpo_A2": 68.877,
+     "error_A2": -2.62,
+     "incertidumbre_malla_A2": 0.0
+    },
+    {
+     "indice": 8,
+     "halogeno": "Br",
+     "brazo": "diagnostico_C_sp3_1",
+     "tipo_amber": "br",
+     "radio_sin_sonda_A": 1.7,
+     "sasa_exacta_A2": 65.3858,
+     "sasa_lcpo_A2": 54.8953,
+     "error_A2": -10.4905,
+     "incertidumbre_malla_A2": 0.0217
+    }
+   ]
+  },
+  {
+   "pid": "5eij",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "5mge",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "5mgj",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "5mlj",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "5mro",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "5o1f",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "5yas",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6g34",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6g39",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6g3a",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6gnp",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6qln",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6qlo",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6qlp",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6qlq",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6qlr",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6qlt",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  },
+  {
+   "pid": "6qlu",
+   "estado": "fallo",
+   "motivo": "ValueError: Unable to avoid copy while creating an array as requested.\nIf using `np.array(obj, copy=False)` replace it with `np.asarray(obj)` to allow a copy when needed (no behavior change in NumPy 1.x).\nFor more details, see https://numpy.org/devdocs/numpy_2_0_migration_guide.html#adapting-to-changes-in-the-copy-keyword."
+  }
+ ]
+}

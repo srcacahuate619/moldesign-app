@@ -1,0 +1,562 @@
+{
+ "generado_utc": "2026-09-23T06:39:08.448494+00:00",
+ "n": 55,
+ "ok": 55,
+ "fallos": [],
+ "ligandos": [
+  {
+   "pid": "1c5n",
+   "estado": "ok",
+   "n_atomos": 20,
+   "desvio_coordenadas_A": 0.000670820393250492,
+   "tipos_halogeno": [
+    "i"
+   ],
+   "duracion_s": 0.8
+  },
+  {
+   "pid": "1c5x",
+   "estado": "ok",
+   "n_atomos": 20,
+   "desvio_coordenadas_A": 0.0005196152422703069,
+   "tipos_halogeno": [
+    "i"
+   ],
+   "duracion_s": 0.8
+  },
+  {
+   "pid": "1e4h",
+   "estado": "ok",
+   "n_atomos": 13,
+   "desvio_coordenadas_A": 0.00022360679774985503,
+   "tipos_halogeno": [
+    "br"
+   ],
+   "duracion_s": 0.6
+  },
+  {
+   "pid": "1gyy",
+   "estado": "ok",
+   "n_atomos": 20,
+   "desvio_coordenadas_A": 0.0005999999999991937,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.4
+  },
+  {
+   "pid": "1hk4",
+   "estado": "ok",
+   "n_atomos": 36,
+   "desvio_coordenadas_A": 0.0007549834435264919,
+   "tipos_halogeno": [
+    "i"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "1igb",
+   "estado": "ok",
+   "n_atomos": 26,
+   "desvio_coordenadas_A": 0.000655743852427893,
+   "tipos_halogeno": [
+    "i"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "1lgw",
+   "estado": "ok",
+   "n_atomos": 14,
+   "desvio_coordenadas_A": 0.0007071067811857788,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "1mfi",
+   "estado": "ok",
+   "n_atomos": 20,
+   "desvio_coordenadas_A": 0.0005916079783106096,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.3
+  },
+  {
+   "pid": "1my4",
+   "estado": "ok",
+   "n_atomos": 24,
+   "desvio_coordenadas_A": 0.0006480740698398238,
+   "tipos_halogeno": [
+    "i"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "1q54",
+   "estado": "ok",
+   "n_atomos": 29,
+   "desvio_coordenadas_A": 0.0007071067811861557,
+   "tipos_halogeno": [
+    "br"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "1tnh",
+   "estado": "ok",
+   "n_atomos": 18,
+   "desvio_coordenadas_A": 0.0006928203230269619,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "1upf",
+   "estado": "ok",
+   "n_atomos": 12,
+   "desvio_coordenadas_A": 0.0005656854249491757,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "2ax9",
+   "estado": "ok",
+   "n_atomos": 31,
+   "desvio_coordenadas_A": 0.0005830951894842374,
+   "tipos_halogeno": [
+    "br",
+    "f"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "2h6b",
+   "estado": "ok",
+   "n_atomos": 19,
+   "desvio_coordenadas_A": 0.0005916079783001755,
+   "tipos_halogeno": [
+    "cl"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "2hb1",
+   "estado": "ok",
+   "n_atomos": 19,
+   "desvio_coordenadas_A": 0.0007071067811871605,
+   "tipos_halogeno": [
+    "br"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "2i80",
+   "estado": "ok",
+   "n_atomos": 31,
+   "desvio_coordenadas_A": 0.0007071067811828898,
+   "tipos_halogeno": [
+    "cl",
+    "f"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "2oxd",
+   "estado": "ok",
+   "n_atomos": 16,
+   "desvio_coordenadas_A": 0.0003741657386769969,
+   "tipos_halogeno": [
+    "br"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "2p7a",
+   "estado": "ok",
+   "n_atomos": 16,
+   "desvio_coordenadas_A": 0.000616441400293732,
+   "tipos_halogeno": [
+    "cl"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "2pu1",
+   "estado": "ok",
+   "n_atomos": 15,
+   "desvio_coordenadas_A": 0.0006928203230279874,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "2q7q",
+   "estado": "ok",
+   "n_atomos": 18,
+   "desvio_coordenadas_A": 0.0006928203230259362,
+   "tipos_halogeno": [
+    "cl"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "2weg",
+   "estado": "ok",
+   "n_atomos": 17,
+   "desvio_coordenadas_A": 0.0007071067811854019,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "2wk6",
+   "estado": "ok",
+   "n_atomos": 12,
+   "desvio_coordenadas_A": 0.0006403124237417926,
+   "tipos_halogeno": [
+    "i"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "3ao2",
+   "estado": "ok",
+   "n_atomos": 27,
+   "desvio_coordenadas_A": 0.000574456264652464,
+   "tipos_halogeno": [
+    "br"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "3ao5",
+   "estado": "ok",
+   "n_atomos": 27,
+   "desvio_coordenadas_A": 0.0008124038404632333,
+   "tipos_halogeno": [
+    "br"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "3f78",
+   "estado": "ok",
+   "n_atomos": 12,
+   "desvio_coordenadas_A": 0.0005099019513586128,
+   "tipos_halogeno": [
+    "cl",
+    "f"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "3i4y",
+   "estado": "ok",
+   "n_atomos": 14,
+   "desvio_coordenadas_A": 0.0005916079783113696,
+   "tipos_halogeno": [
+    "cl"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "3juo",
+   "estado": "ok",
+   "n_atomos": 33,
+   "desvio_coordenadas_A": 0.0006403124237451215,
+   "tipos_halogeno": [
+    "br"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "3pcf",
+   "estado": "ok",
+   "n_atomos": 16,
+   "desvio_coordenadas_A": 0.0006480740698398239,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "3tz0",
+   "estado": "ok",
+   "n_atomos": 20,
+   "desvio_coordenadas_A": 0.0006708203932483735,
+   "tipos_halogeno": [
+    "cl"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "4agl",
+   "estado": "ok",
+   "n_atomos": 25,
+   "desvio_coordenadas_A": 0.0007071067811859044,
+   "tipos_halogeno": [
+    "i"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "4aje",
+   "estado": "ok",
+   "n_atomos": 22,
+   "desvio_coordenadas_A": 0.000640312423744012,
+   "tipos_halogeno": [
+    "br"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "4bc5",
+   "estado": "ok",
+   "n_atomos": 19,
+   "desvio_coordenadas_A": 0.0006928203230285001,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "4kwg",
+   "estado": "ok",
+   "n_atomos": 19,
+   "desvio_coordenadas_A": 0.000670820393248506,
+   "tipos_halogeno": [
+    "br"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "4qp2",
+   "estado": "ok",
+   "n_atomos": 16,
+   "desvio_coordenadas_A": 0.000538516480712855,
+   "tipos_halogeno": [
+    "cl"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "4rpo",
+   "estado": "ok",
+   "n_atomos": 13,
+   "desvio_coordenadas_A": 0.0008660254037824203,
+   "tipos_halogeno": [
+    "cl"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "4whs",
+   "estado": "ok",
+   "n_atomos": 14,
+   "desvio_coordenadas_A": 0.0005385164807194523,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "5aol",
+   "estado": "ok",
+   "n_atomos": 19,
+   "desvio_coordenadas_A": 0.0007549834435182569,
+   "tipos_halogeno": [
+    "br",
+    "f"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "5eij",
+   "estado": "ok",
+   "n_atomos": 35,
+   "desvio_coordenadas_A": 0.000655743852430331,
+   "tipos_halogeno": [
+    "i"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "5mge",
+   "estado": "ok",
+   "n_atomos": 26,
+   "desvio_coordenadas_A": 0.0006480740698401751,
+   "tipos_halogeno": [
+    "cl"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "5mgj",
+   "estado": "ok",
+   "n_atomos": 26,
+   "desvio_coordenadas_A": 0.000670820393250492,
+   "tipos_halogeno": [
+    "cl"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "5mlj",
+   "estado": "ok",
+   "n_atomos": 45,
+   "desvio_coordenadas_A": 0.0007071067811854019,
+   "tipos_halogeno": [
+    "br"
+   ],
+   "duracion_s": 0.5
+  },
+  {
+   "pid": "5mro",
+   "estado": "ok",
+   "n_atomos": 27,
+   "desvio_coordenadas_A": 0.0007071067811852764,
+   "tipos_halogeno": [
+    "cl"
+   ],
+   "duracion_s": 0.3
+  },
+  {
+   "pid": "5o1f",
+   "estado": "ok",
+   "n_atomos": 37,
+   "desvio_coordenadas_A": 0.0007549834435182569,
+   "tipos_halogeno": [
+    "i"
+   ],
+   "duracion_s": 0.3
+  },
+  {
+   "pid": "5yas",
+   "estado": "ok",
+   "n_atomos": 13,
+   "desvio_coordenadas_A": 0.0003741657386788959,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "6g34",
+   "estado": "ok",
+   "n_atomos": 33,
+   "desvio_coordenadas_A": 0.0007071067811865324,
+   "tipos_halogeno": [
+    "i"
+   ],
+   "duracion_s": 0.3
+  },
+  {
+   "pid": "6g39",
+   "estado": "ok",
+   "n_atomos": 33,
+   "desvio_coordenadas_A": 0.0006000000000080755,
+   "tipos_halogeno": [
+    "i"
+   ],
+   "duracion_s": 0.3
+  },
+  {
+   "pid": "6g3a",
+   "estado": "ok",
+   "n_atomos": 33,
+   "desvio_coordenadas_A": 0.0007071067811855276,
+   "tipos_halogeno": [
+    "i"
+   ],
+   "duracion_s": 0.3
+  },
+  {
+   "pid": "6gnp",
+   "estado": "ok",
+   "n_atomos": 12,
+   "desvio_coordenadas_A": 0.00044721359549971005,
+   "tipos_halogeno": [
+    "cl"
+   ],
+   "duracion_s": 0.2
+  },
+  {
+   "pid": "6qln",
+   "estado": "ok",
+   "n_atomos": 52,
+   "desvio_coordenadas_A": 0.0006403124237423474,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.3
+  },
+  {
+   "pid": "6qlo",
+   "estado": "ok",
+   "n_atomos": 52,
+   "desvio_coordenadas_A": 0.0007071067811860614,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.3
+  },
+  {
+   "pid": "6qlp",
+   "estado": "ok",
+   "n_atomos": 52,
+   "desvio_coordenadas_A": 0.0006928203230290131,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.3
+  },
+  {
+   "pid": "6qlq",
+   "estado": "ok",
+   "n_atomos": 52,
+   "desvio_coordenadas_A": 0.0007071067811872861,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.4
+  },
+  {
+   "pid": "6qlr",
+   "estado": "ok",
+   "n_atomos": 52,
+   "desvio_coordenadas_A": 0.0007549834435267272,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.3
+  },
+  {
+   "pid": "6qlt",
+   "estado": "ok",
+   "n_atomos": 52,
+   "desvio_coordenadas_A": 0.0007549834435267493,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.3
+  },
+  {
+   "pid": "6qlu",
+   "estado": "ok",
+   "n_atomos": 55,
+   "desvio_coordenadas_A": 0.0008660254037829332,
+   "tipos_halogeno": [
+    "f"
+   ],
+   "duracion_s": 0.3
+  }
+ ]
+}

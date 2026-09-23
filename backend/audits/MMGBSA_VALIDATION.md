@@ -122,6 +122,8 @@ operativos pasen. La regresión Windows no requiere AmberTools ni Internet.
 ## Puertas que siguen pendientes antes de activar el reemplazo
 
 1. Resolver la referencia LCPO para halógenos; ampliar elementos y estados de carga.
+   **Referencia contestada para F, Cl, Br e I el 2026-09-23** (ver la sección
+   final): queda decidir qué hacer con Br e I, que el candidato no soporta.
 2. Comprobar estereoquímica, orden de enlace y correspondencia atómica en poses
    reales, con permutaciones y tautomería/protonación explícitas.
 3. Validar sistemas receptor-ligando completos y sus tres subsistemas, retención
@@ -355,3 +357,91 @@ comparación.
   que estos radios predigan afinidades.
 - Las comparaciones siguen siendo de energía potencial entre dos
   implementaciones. Nada de esto es ΔG experimental.
+
+## F, Cl, Br e I en 55 ligandos cristalográficos (2026-09-23)
+
+La ampliación que la sección anterior dejaba pendiente, hecha con curación
+automática y en el servidor (contenedor `moldesign-science`, AmberTools y
+pysander, 3 procesos, límite de 6 GB). Mismo método y mismas funciones que la
+adjudicación del cloro; lo único nuevo es el universo.
+
+**Curación, declarada antes de medir** (commit `7b81bc9`): ligandos de PDBBind
+que RDKit lee, sólo H/C/N/O/S/P/F/Cl/Br/I, 8-35 átomos pesados, |carga| ≤ 1,
+un ligando por diana, estratos arilo/alifático; 12 por halógeno más los 7
+fluorados de galectina-3. 55 de 763 candidatos. Tipos GAFF2 y radios mbondi3;
+cargas Gasteiger, porque el área no depende de ellas. 55/55 parametrizados.
+
+### Qué hace Amber con cada halógeno, medido con sander
+
+Se sustituyeron los parámetros LCPO del halógeno por cada entrada de la tabla
+hasta reproducir el término de superficie de sander, como en la atribución del
+cloro. Una sola entrada coincide en cada ligando (residuo ~1e-8 kcal/mol; la
+segunda, a 1e-2 o más):
+
+| halógeno | ligandos | entrada que usa Amber |
+|---|---:|---|
+| F | 18 | `F` (la misma que OpenMM) |
+| Cl | 11 | `C_sp2_2` (control positivo: reproduce la atribución del 17/09) |
+| Br | 10 | `C_sp2_2` |
+| I | 12 | `C_sp2_2` |
+
+sander lo dice él mismo en su salida —`Using carbon SA parms for atom type BR`—
+pero no dice cuáles; ahora está medido.
+
+### Cuánto se equivoca cada uno frente a la SASA exacta
+
+Error de fondo, 784 átomos pesados no halógenos de los mismos ligandos:
+mediana |error| 2.81 Å², p90 7.25 Å². Incertidumbre de malla por átomo de
+halógeno: mediana 0.012 Å², máximo 0.064 Å². LCPO propio contra OpenMM:
+desvío máximo 9e-13 Å².
+
+| halógeno (átomos) | parametrización | mediana \|error\| Å² | p90 | lectura |
+|---|---|---:|---:|---|
+| F (41) | `F`, Amber y OpenMM | 1.82 | 5.29 | dentro del fondo |
+| Cl (18) | publicado, Weiser 1999 (el candidato) | 1.84 | 3.79 | dentro del fondo |
+| Cl (18) | respaldo de Amber `C_sp2_2` | 25.86 | 28.68 | **fuera** |
+| Br (19) | respaldo de Amber `C_sp2_2` | 24.64 | 30.68 | **fuera** |
+| Br (19) | diagnóstico: coeficientes del Cl publicado | 3.33 | 6.74 | dentro del fondo |
+| I (16) | respaldo de Amber `C_sp2_2` | 28.80 | 31.65 | **fuera** |
+| I (16) | diagnóstico: coeficientes del Cl publicado | 1.87 | 4.31 | dentro del fondo |
+
+El diagnóstico `C_sp3_1` (mismo radio 1.7 que el respaldo, pero carbono
+terminal) da 8-12 Å²: como con el cloro, la mayor parte del error del respaldo
+es la **clase de conectividad**, no el radio.
+
+### Lectura
+
+1. **F: resuelto.** La entrada que Amber y OpenMM comparten, que el artículo de
+   LCPO nunca publicó, aproxima la superficie tan bien como un átomo bien
+   parametrizado.
+2. **Cl: la adjudicación del 19/09 se sostiene** sobre 18 átomos en geometrías
+   reales: el candidato acierta y la referencia de Amber no.
+3. **Br e I: la referencia de Amber está mal, y el candidato no existe.** El
+   OpenMM 8.5.2 que viaja con el producto no tiene parámetros LCPO para Br ni
+   I y lanza excepción: el MM-GBSA candidato hoy no puede puntuar un ligando
+   bromado o yodado. Que los coeficientes del cloro caigan dentro del fondo con
+   radio 1.8 **no** autoriza a usarlos: dice que la forma funcional de un
+   halógeno terminal sirve, no qué radio es el físico para Br (≈1.85) o I
+   (≈1.98). Eso es una decisión de dominio.
+
+**Qué cambia en la puerta 1.** La parte de referencia queda contestada para los
+cuatro halógenos: para Cl, Br e I, la implementación de referencia es la que
+aproxima mal. Lo que queda abierto es una decisión: para Br e I, o se mantiene
+la abstención (rechazar el ligando con un mensaje que nombre la causa) o se
+define y valida una parametrización propia. **No se ha cambiado nada de
+producción**: el protocolo sigue `EXPERIMENTAL_NOT_ENABLED` y el guardián que
+impide copiar el respaldo sigue en pie.
+
+**No demuestra:** lo mismo que la sección anterior —la SASA numérica es una
+referencia geométrica, no experimental— y además que 12 ligandos por halógeno
+cubren su química: los yodados incluyen tres análogos (`6g34`, `6g39`, `6g3a`),
+porque las entradas de PDBBind sin proteína no tienen grupo de diana.
+
+Una primera medida falló en 51 de 55 ligandos por un defecto del script, no de
+la química (pysander con NumPy 2 exige un array, no una lista); se conserva
+como `resultado_INVALIDO_numpy2_lista.json`.
+
+Código: [`lcpo_halogenos.py`](lcpo_halogenos.py); datos:
+[`halogenos_lcpo/`](halogenos_lcpo/) (selección, parametrización, resultado y
+registros). Las topologías y coordenadas derivadas de PDBBind quedaron en el
+servidor, fuera del repositorio.

@@ -305,7 +305,9 @@ def _superficie_sander(prmtop: Path, coords: np.ndarray) -> float:
     opciones.gbsa = 1
     opciones.extdiel = 78.5
     opciones.intdiel = 1.0
-    with sander.setup(str(prmtop), coords.tolist(), None, opciones):
+    # Un array, no una lista: con NumPy 2 pysander hace np.array(copy=False) y una
+    # lista obliga a copiar (ValueError en los 51 ligandos de la primera medida).
+    with sander.setup(str(prmtop), np.ascontiguousarray(coords, dtype=np.float64), None, opciones):
         energias, _ = sander.energy_forces()
     return float(energias.surf)
 
