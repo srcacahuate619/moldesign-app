@@ -14,9 +14,11 @@ FreeSolv v0.52 (Mobley y Guthrie 2014; release DOI 10.5281/zenodo.1161245;
 datos CC BY 4.0, código MIT). 642 moléculas neutras: 25 con Br (21 sólo con
 Br; 2 también con Cl y 2 con F) y 12 con I. Se usan las coordenadas 3D de sus SDF, **un solo
 confórmero y sin minimizar**: es una estimación estática de solvatación
-implícita, no un cálculo de energía libre con muestreo. Los datos no se
-redistribuyen en el repositorio: sólo identificadores, valores calculados y la
-atribución.
+implícita, no un cálculo de energía libre con muestreo. Los SDF no se
+redistribuyen; `freesolv_h3/seleccion.json` sí lleva, por molécula, el SMILES,
+el valor experimental y el alquímico de FreeSolv, bajo CC BY 4.0 y con la
+atribución. (Hasta el 2026-09-23 este párrafo decía que no se redistribuía
+ningún dato; era falso.)
 
 # El modelo, capa por capa (declarado antes de medir)
 
@@ -327,11 +329,25 @@ PB_IN = """PB de un solo punto, radios del prmtop (radiopt=0), sin término no p
 """
 
 
+# pbsa (Fortran) corta cada nombre de archivo a 80 caracteres y abre lo que queda.
+# La primera medida de H3 perdió así las 37 moléculas con Br o I: la ruta absoluta
+# del prmtop del brazo B medía 81 o más. Se le pasan rutas relativas a su directorio
+# de trabajo, y una más larga que el límite es un error, no un truncado.
+PBSA_MAX_RUTA = 80
+
+
+def _ruta_pbsa(ruta: Path, carpeta: Path) -> str:
+    relativa = os.path.relpath(ruta.resolve(), carpeta.resolve())
+    if len(relativa) > PBSA_MAX_RUTA:
+        raise RuntimeError(f"ruta para pbsa de {len(relativa)} caracteres (> {PBSA_MAX_RUTA}): {relativa}")
+    return relativa
+
+
 def _pb(prmtop: Path, inpcrd: Path, carpeta: Path) -> float:
     carpeta.mkdir(parents=True, exist_ok=True)
     (carpeta / "pb.in").write_text(PB_IN)
-    r = subprocess.run(["pbsa", "-O", "-i", "pb.in", "-o", "pb.out", "-p", str(prmtop.resolve()),
-                        "-c", str(inpcrd.resolve())], cwd=carpeta, capture_output=True, text=True, timeout=900)
+    r = subprocess.run(["pbsa", "-O", "-i", "pb.in", "-o", "pb.out", "-p", _ruta_pbsa(prmtop, carpeta),
+                        "-c", _ruta_pbsa(inpcrd, carpeta)], cwd=carpeta, capture_output=True, text=True, timeout=900)
     salida = (carpeta / "pb.out").read_text(errors="replace") if (carpeta / "pb.out").is_file() else ""
     m = re.findall(r"EPB\s*=\s*(-?\d+\.\d+)", salida)
     if r.returncode or not m:

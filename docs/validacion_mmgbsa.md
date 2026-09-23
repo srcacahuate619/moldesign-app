@@ -317,6 +317,26 @@ ajustan nada en Br ni en I. Curación declarada: FreeSolv escribe los 37 nitro d
 sus SDF como `N(–O⁻)(–O⁻)`; se corrigen a `[N+](=O)[O-]` y los 37 recuperan el
 InChIKey del SMILES.
 
+**La primera medida no llegó al gate: fallo del script, declarado antes de
+repetirla (2026-09-23).** La parametrización terminó 642/642, pero la etapa
+`medir` marcó 37 fallos, y son **exactamente las 37 moléculas con Br o I**:
+`pbsa` (Fortran) corta cada nombre de archivo a 80 caracteres, y la ruta
+absoluta del prmtop del brazo B medía 81 o más (`Unit 8 Error on OPEN:
+.../brazo_B/ligand`). Como el fallo de la referencia PB descartaba la fila
+entera, el gate se quedó sin ninguna molécula. No es un resultado de la
+química. Corrección: `pbsa` recibe rutas relativas a su directorio y una ruta
+más larga que el límite es un error explícito (prueba
+`backend/tests/test_freesolv_h3_rutas_pbsa.py`). No cambia el gate, los
+brazos, la curación ni la parametrización: se repite **sólo `medir`**, sobre
+una copia de los mismos prmtop (sus SHA-256 quedan en cada fila), en un
+directorio de salida nuevo. La primera medida (`crudo.json` y `medir.log`,
+script `80d0b6aa…`) se conserva como evidencia del fallo. Dos comprobaciones
+hechas antes de repetir, sobre los 642 prmtop: tleap asignó 1,5 Å a los 30 Br
+y a los 13 I (el brazo A es el que declara el prerregistro), y el aviso de
+OpenMM «Non-optimal GB parameters» viene de 77 oxígenos con 1,5 Å en el prmtop
+frente al 1,4 Å estándar de OpenMM; OpenMM usa el del prmtop, igual que
+sander, y es el mismo en los dos brazos.
+
 ### H4 — GB: una vez corregido el radio, los α, β, γ y el apantallamiento por defecto bastan
 
 **Enunciado.** El error de H3 no mejora de forma significativa ajustando
