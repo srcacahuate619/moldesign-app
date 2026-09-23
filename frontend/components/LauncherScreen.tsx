@@ -21,16 +21,16 @@ export function LauncherScreen() {
       <div className="mx-auto w-full max-w-2xl">
         <header className="mb-10 border-b border-[var(--border)] pb-7">
           <p className="mb-2 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
-            Componentes locales
+            {t("pg_lanzador_componentes_locales")}
           </p>
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">Modelos y motores</h1>
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t("pg_lanzador_modelos_motores")}</h1>
           <p className="mt-3 max-w-xl text-sm font-medium leading-6 text-[var(--text-secondary)]">
             {t("auto_7194e52d2e3f")}
             {downloading > 0 && ` Hay ${downloading} descarga${downloading === 1 ? "" : "s"} en progreso.`}
           </p>
         </header>
 
-        <section aria-label="Componentes disponibles" className="space-y-4">
+        <section aria-label={t("pg_lanzador_componentes_disponibles")} className="space-y-4">
           {manifest.map((entry) => <DownloadCard key={entry.id} entry={entry} />)}
         </section>
 
@@ -41,7 +41,7 @@ export function LauncherScreen() {
             onClick={() => router.push("/")}
             className="min-h-12 whitespace-nowrap border border-[var(--accent)] bg-[var(--accent)] px-5 text-sm font-bold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)] disabled:cursor-not-allowed disabled:border-[var(--border)] disabled:bg-[var(--bg-alt)] disabled:text-[var(--text-dim)]"
           >
-            {requiredReady ? (allReady ? "Abrir MolDesign" : t("auto_1f88e3bba8e6")) : (downloading > 0 ? t("auto_8497fd8cc5e0") : "Instalar motor requerido")}
+            {requiredReady ? (allReady ? t("pg_lanzador_abrir") : t("auto_1f88e3bba8e6")) : (downloading > 0 ? t("auto_8497fd8cc5e0") : t("pg_lanzador_instalar_requerido"))}
           </button>
           <button
             type="button"

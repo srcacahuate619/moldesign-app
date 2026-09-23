@@ -151,6 +151,13 @@ export const paginas: ModuloDeTraduccion = {
     pg_inicio_pipeline: "Flujo de cálculo",
     pg_inicio_afinidad_kcal: "Afinidad (kcal/mol)",
 
+    // ── Lanzador ──────────────────────────────────────────────────
+    pg_lanzador_componentes_locales: "Componentes locales",
+    pg_lanzador_modelos_motores: "Modelos y motores",
+    pg_lanzador_componentes_disponibles: "Componentes disponibles",
+    pg_lanzador_abrir: "Abrir MolDesign",
+    pg_lanzador_instalar_requerido: "Instalar motor requerido",
+
     // ── El error global ───────────────────────────────────────────
     pg_err_titulo: "MolDesign no pudo abrir la interfaz",
     pg_err_subtitulo: "La ventana quedó sin pintar",
@@ -283,6 +290,13 @@ export const paginas: ModuloDeTraduccion = {
     pg_inicio_iniciando_red_3d: "Starting 3D Network...",
     pg_inicio_pipeline: "Pipeline",
     pg_inicio_afinidad_kcal: "Affinity (kcal/mol)",
+
+    // ── Lanzador ──────────────────────────────────────────────────
+    pg_lanzador_componentes_locales: "Local components",
+    pg_lanzador_modelos_motores: "Models and engines",
+    pg_lanzador_componentes_disponibles: "Available components",
+    pg_lanzador_abrir: "Open MolDesign",
+    pg_lanzador_instalar_requerido: "Install required engine",
 
     pg_err_titulo: "MolDesign could not open the interface",
     pg_err_subtitulo: "The window was left unpainted",
