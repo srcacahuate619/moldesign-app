@@ -28,8 +28,12 @@ GO si (a) la fraccion de receptores documentables de OpenFF es >= 0.597 (39.7% +
 ## Estado
 
 - Creado: 2026-09-23T23:44:07.679154+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: GO
+- Sellado: sí (2026-09-23T23:45:10.854881+00:00)
+- Finalizado: 2026-09-23T23:45:11.021407+00:00
+- Razón de la decisión: GO: las dos predicciones se cumplen. (a) Preparacion: 12 de 15 receptores del protein-ligand-benchmark de OpenFF son documentables para FEP-02 (80.0%) frente al 39.7% de PDBBind; los tres que no: cdk2 y thrombin por un hueco de numeracion y tnks2 por un sitio entre dos cadenas. (b) Quimica: 67 de 369 ligandos (18.2%) tienen un unico tautomero enumerable, frente al 21.6% de PDBBind: el numero de tautomeros depende de la molecula y no de quien la preparo, asi que contar tautomeros no mide preparacion. Estereo indefinido 0 de 369 (PDBBind 48 de 4641). Hallazgo aparte, con consecuencia para el producto: en 62 de 369 ligandos (16.8%) el tautomero elegido por los curadores NO es el canonico de RDKit que acopla el conformador, y se concentran en series enteras (cdk8 19, tnks2 18, syk 15, cdk2 10). Para un paquete FEP, la eleccion de una fuente curada es evidencia, y hoy el conformador la sustituye (lo avisa, pero la sustituye). Funciones selladas de FEP-01 y FEP-02 reutilizadas sin modificar, con sus SHA-256 en metrics.json. Datos: openforcefield/protein-ligand-benchmark, commit fd88824f, datos CC BY 4.0 (Hahn et al., LiveCoMS 2022); el artefacto guarda nombres y resultados, no estructuras. Limitacion: 15 dianas dan una resolucion de ~7 puntos en la fraccion de receptores.
+- Hashes de assets: 8 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 

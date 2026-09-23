@@ -4,7 +4,7 @@
   "hypothesis": "Control positivo del auditor de readiness: aplicadas sin modificar las funciones selladas de FEP-01 y FEP-02 al protein-ligand-benchmark de OpenFF (preparado por expertos para RBFE), (a) el receptor documentable de FEP-02 (sin huecos de numeracion y sitio en una sola cadena) es al menos 20 puntos mas frecuente que en PDBBind (39.7%, FEP-02-PDBBIND), porque depende de la preparacion; y (b) la fraccion de ligandos con un unico tautomero enumerable no se aleja mas de 15 puntos de la de PDBBind (21.6%, FEP-01-DECL), porque depende de la quimica y no de quien preparo la molecula.",
   "protocol": "scripts\\analisis_fep08_control_positivo.py sobre openforcefield\\protein-ligand-benchmark (clon del commit fd88824f9114244f95a14b485e6d6c96c1de716d, datos CC BY 4.0, codigo MIT) en E;C:\\Program Files\\Git\\MolDesign-science\\openff-plb. Las funciones _analizar de analisis_fep01_integridad.py y analisis_fep02_receptor.py se cargan sin modificar y se les sustituye el directorio de datos por una copia con el formato de PDBBind (receptor; 01_protein\\crd\\protein.pdb; sitio definido con el primer ligando de 02_ligands\\ligands.sdf; ligandos uno por uno). Declaracion de tautomeros con backend\\chem\\declaracion_tautomeros.py sobre la lectura de FEP-01 (MolFromMolFile). Sin atom mapping (no hay index_map). Prueba tecnica previa con --limite 1 (cdk2), que por contrato no lee el gate.",
   "created_at": "2026-09-23T23:44:07.679154+00:00",
-  "status": "created",
+  "status": "finished",
   "git_state": {
     "branch": "codex/release-hygiene",
     "commit": "0405b13edc1db9ccf240857eb4582579c14e75af",
@@ -25,5 +25,20 @@
   "gate": {
     "description": "GO si (a) la fraccion de receptores documentables de OpenFF es >= 0.597 (39.7% + 20 puntos) y (b) la fraccion de ligandos RESUELTO_UNICO esta en [0.066, 0.366] (21.6% +- 15 puntos). NO_GO si falla cualquiera de las dos. Se informan siempre huecos, sitio entre cadenas, estereo indefinido y si el tautomero de los curadores coincide con el canonico de RDKit."
   },
-  "decision": "PENDING"
+  "decision": "GO",
+  "assets_hashes": {
+    "scripts/analisis_fep08_control_positivo.py": "2ff90f4b097f25907fecdd1cd52bcda4b0cd5dd475339e955b12a5003bb1af8d",
+    "scripts/analisis_fep01_integridad.py": "2ea7996a1ad3aed5e1bb79a82cee8a323dc8b33eef195ff53a7110dcce724519",
+    "scripts/analisis_fep02_receptor.py": "b143dadf5dfd0fb424acdf663c80ac42bf483de470a9d4025062a78b71bec5e4",
+    "scripts/artifacts_science/FEP-01-DECL/instrumento/declaracion_tautomeros.py": "a2d467c06c7a3da8b0f446f9863c4548c9518bb8696b8abf704777f7ce2c598b",
+    "scripts/artifacts_science/FEP-08-CONTROL-POSITIVO/metrics.json": "df38ba4cb1d18f2b43f4f1be9f7a3e8bcfbb8abf31c8df04b890736fa6f1374b",
+    "scripts/artifacts_science/FEP-08-CONTROL-POSITIVO/per_complex.jsonl": "38a75acbc3d418f630d1e5ff90a6a65f6d931fa1bc06c9b651859db43301da96",
+    "scripts/artifacts_science/FEP-08-CONTROL-POSITIVO/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts/artifacts_science/FEP-08-CONTROL-POSITIVO/logs/correr.log": "9a70d071b9adf009bc3105ec185f38b2d488b67d1cdb22e712515b98cd01e326"
+  },
+  "sealed": true,
+  "sealed_at": "2026-09-23T23:45:10.854881+00:00",
+  "decision_rationale": "GO: las dos predicciones se cumplen. (a) Preparacion: 12 de 15 receptores del protein-ligand-benchmark de OpenFF son documentables para FEP-02 (80.0%) frente al 39.7% de PDBBind; los tres que no: cdk2 y thrombin por un hueco de numeracion y tnks2 por un sitio entre dos cadenas. (b) Quimica: 67 de 369 ligandos (18.2%) tienen un unico tautomero enumerable, frente al 21.6% de PDBBind: el numero de tautomeros depende de la molecula y no de quien la preparo, asi que contar tautomeros no mide preparacion. Estereo indefinido 0 de 369 (PDBBind 48 de 4641). Hallazgo aparte, con consecuencia para el producto: en 62 de 369 ligandos (16.8%) el tautomero elegido por los curadores NO es el canonico de RDKit que acopla el conformador, y se concentran en series enteras (cdk8 19, tnks2 18, syk 15, cdk2 10). Para un paquete FEP, la eleccion de una fuente curada es evidencia, y hoy el conformador la sustituye (lo avisa, pero la sustituye). Funciones selladas de FEP-01 y FEP-02 reutilizadas sin modificar, con sus SHA-256 en metrics.json. Datos: openforcefield/protein-ligand-benchmark, commit fd88824f, datos CC BY 4.0 (Hahn et al., LiveCoMS 2022); el artefacto guarda nombres y resultados, no estructuras. Limitacion: 15 dianas dan una resolucion de ~7 puntos en la fraccion de receptores.",
+  "finished_at": "2026-09-23T23:45:11.021407+00:00",
+  "duration_seconds": 13.9
 }

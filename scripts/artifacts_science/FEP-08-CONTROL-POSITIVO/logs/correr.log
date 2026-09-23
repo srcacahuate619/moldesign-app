@@ -1,0 +1,3 @@
+receptores: 12/15 documentables (80.0 %; PDBBind 39.7 %); con huecos 2, sitio entre cadenas 1
+ligandos: 369 (0 fallos); tautómeros {'MULTIESTADO_REQUERIDO': 302, 'RESUELTO_UNICO': 67}; único 18.2 % (PDBBind 21.6 %); estéreo indefinido 0; entrada = canónico 307
+predicción a True, b True; decisión por el gate: GO (13.9 s)

@@ -1,1 +1,59 @@
-{}
+{
+ "experimento": "FEP-08-CONTROL-POSITIVO",
+ "generado_utc": "2026-09-23T23:44:29.528552+00:00",
+ "duracion_s": 13.9,
+ "rdkit": "2025.09.6",
+ "fuente": {
+  "repo": "openforcefield/protein-ligand-benchmark",
+  "commit": "fd88824f9114244f95a14b485e6d6c96c1de716d",
+  "licencia_datos": "CC BY 4.0 (LICENSE_DATA)",
+  "licencia_codigo": "MIT"
+ },
+ "funciones_selladas_reutilizadas": {
+  "FEP-01": {
+   "ruta": "scripts\\analisis_fep01_integridad.py",
+   "sha256": "2ea7996a1ad3aed5e1bb79a82cee8a323dc8b33eef195ff53a7110dcce724519"
+  },
+  "FEP-02": {
+   "ruta": "scripts\\analisis_fep02_receptor.py",
+   "sha256": "b143dadf5dfd0fb424acdf663c80ac42bf483de470a9d4025062a78b71bec5e4"
+  }
+ },
+ "declaracion_sha256": "a2d467c06c7a3da8b0f446f9863c4548c9518bb8696b8abf704777f7ce2c598b",
+ "receptores": {
+  "n": 15,
+  "documentados_para_fep": 12,
+  "fraccion": 0.8,
+  "con_huecos": 2,
+  "sitio_entre_cadenas": 1,
+  "referencia_pdbbind": 0.39696423977360434
+ },
+ "ligandos": {
+  "n": 369,
+  "fallos": 0,
+  "estados_tautomero": {
+   "MULTIESTADO_REQUERIDO": 302,
+   "RESUELTO_UNICO": 67
+  },
+  "fraccion_unico": 0.18157181571815717,
+  "referencia_pdbbind": 0.21611721611721613,
+  "estereo_indefinido": 0,
+  "entrada_igual_al_canonico_de_rdkit": 307,
+  "carga_formal_no_nula": 124
+ },
+ "predicciones": {
+  "a_preparacion_receptor": {
+   "umbral": 0.5969642397736044,
+   "cumple": true
+  },
+  "b_quimica_tautomeros": {
+   "intervalo": [
+    0.06611721611721613,
+    0.36611721611721615
+   ],
+   "cumple": true
+  }
+ },
+ "decision_por_el_gate": "GO",
+ "no_demuestra": "Con 15 dianas, la fracción de receptores tiene una resolución de ~7 puntos. Tampoco dice que las elecciones de los curadores sean correctas: sólo si el auditor las distingue."
+}
