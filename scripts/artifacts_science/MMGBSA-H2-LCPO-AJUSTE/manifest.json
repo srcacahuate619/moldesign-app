@@ -4,7 +4,7 @@
   "hypothesis": "Con el radio de Bondi fijo (Br 1.85, I 1.98 A), reajustar por minimos cuadrados los coeficientes LCPO por elemento, solo con los atomos de entrenamiento de MMGBSA-PARTICIONES-BRI-V1, aproxima la SASA exacta de Br y de I dentro del error de fondo en validacion y en prueba, con prediccion estable entre remuestreos (H2); y lo que se aprende no depende de haber visto los mismos scaffolds (H10).",
   "protocol": "backend/audits/lcpo_bri_h2.py: etapa bases (terminos LCPO por atomo con P unitarios sobre las topologias de MMGBSA-H1, SASA exacta a 50000 puntos; guardian: con los P del Cl publicado reconstruye el area de H1 a 5e-5 A2) y etapa ajustar. Dos brazos: completo (P1-P4) y reducido (P1, P2; P3 y P4 del Cl publicado); por elemento se elige en validacion el reducido salvo que el completo baje la mediana de validacion mas de 0.5 A2; la prueba solo confirma. Cambio declarado respecto del documento: el criterio CV<20% en cada coeficiente se sustituye por CV(P1)<20% y DE bootstrap del area predicha <=1 A2, porque en un piloto SOLO de entrenamiento los terminos estan casi alineados (numero de condicion ~1e4; CV de P3 94% en Br y 997% en I) y con un objetivo sintetico sin ruido el CV de P3 del I sigue en 303%.",
   "created_at": "2026-09-23T18:31:10.510228+00:00",
-  "status": "created",
+  "status": "finished",
   "git_state": {
     "branch": "codex/release-hygiene",
     "commit": "30df834bc9fe85e8978be5159452220335627019",
@@ -25,5 +25,22 @@
   "gate": {
     "description": "Por elemento (Br, I), para el brazo elegido en validacion, en validacion y en prueba: mediana |error| <= 2.81 A2, p90 <= 7.25 A2, IC95 bootstrap por scaffold del error medio con signo dentro de +-2.81 A2, CV bootstrap de P1 < 20% (1000 remuestreos de grupos de entrenamiento) y mediana de la DE bootstrap del area predicha en validacion <= 1.0 A2. Menos de 5 atomos: INDETERMINADO. GO si los cuatro casos pasan; NO_GO si alguno falla; INCONCLUSIVE si alguno es indeterminado sin fallos. H10, veredicto aparte: mediana de validacion por scaffold <= la de una particion aleatoria por molecula (semilla sellada, 60/20/20) + 1.0 A2."
   },
-  "decision": "PENDING"
+  "decision": "NO_GO",
+  "assets_hashes": {
+    "backend/audits/lcpo_bri_h2.py": "2dfdf1a227ddeae7ee4ba3ec229b017edc49fd6cf387f3974e04093153bbb22f",
+    "backend/audits/lcpo_bri_h1.py": "bc22f9f0490d24ac1356f04706fe3a94c4e4cc4699878c22ece1a772a5c816cc",
+    "backend/audits/lcpo_vs_sasa_exacta.py": "487c06aadadb832b80d519cc0f9f13cc387b87b8d381712e6c0829ca35b4f1f8",
+    "backend/audits/bri_h1/particiones.json": "dc9d0162c3381ba8c517712ec1791a2e0f51ae8a1d6f80c834896c0245332c65",
+    "backend/audits/bri_h1/seleccion.json": "60701402692c0bebe3686d29dd11ebe88d226d1c5d05c5f333590b481781675c",
+    "scripts/artifacts_science/MMGBSA-H2-LCPO-AJUSTE/metrics.json": "3e8fef0316ca8898425d0209705562412423b615e527ea2a21e77a45e55c98d6",
+    "scripts/artifacts_science/MMGBSA-H2-LCPO-AJUSTE/per_complex.jsonl": "6c94a7f1f49703364a88e02cdc206e7ac731a122a699b556c867e0a07acefa39",
+    "scripts/artifacts_science/MMGBSA-H2-LCPO-AJUSTE/failures.jsonl": "28c508f2248b6e61dde5cdebe56f22e090a087de31286f226232277b55ac5230",
+    "scripts/artifacts_science/MMGBSA-H2-LCPO-AJUSTE/logs/ajustar.log": "5d0b3d4c6aaf9db1b8804f77583b9b7d56267309fbc0a743c88afb11a2b8fbe8",
+    "scripts/artifacts_science/MMGBSA-H2-LCPO-AJUSTE/logs/bases.log": "2ca37738ffa5fd9f236660d5e3fddd10c561ec50086d085ca1f76169f0a49edd"
+  },
+  "sealed": true,
+  "sealed_at": "2026-09-23T18:32:51.181913+00:00",
+  "decision_rationale": "NO_GO: 2 de 4 casos fallan. Br (brazo reducido elegido en validacion; P1 0.962, P2 -0.391, casi los del Cl publicado): validacion PASA (mediana 0.94, p90 4.85, IC95 del sesgo [-2.57,-0.46], CV P1 1.9%, DE de prediccion 0.64 A2) y prueba FALLA (mediana 2.96, p90 9.70, IC95 [-1.60,3.98]); la cola de prueba aparece con cualquier juego de coeficientes (H1: p90 9.44; completo: 9.83), asi que no la resuelve reajustar P1-P4. I (brazo completo elegido: el reducido daba mediana de validacion 5.91): prueba PASA (mediana 1.83, p90 4.04, IC95 [-2.68,0.53]) y validacion FALLA solo por el sesgo (IC95 [-3.07,0.66], 6 atomos). H10: Br PASA (validacion por scaffold 0.94 frente a 1.70 aleatoria); I FALLA por 0.05 A2 sobre el margen (2.59 frente a 1.54, 8 atomos). Los coeficientes sueltos no estan identificados (CV de P3 del I 1402%), la prediccion si (DE <= 0.74 A2). Siguiente: diagnostico exploratorio de la cola del Br, sin reusar la prueba para elegir nada.",
+  "finished_at": "2026-09-23T18:32:51.350946+00:00",
+  "duration_seconds": 40.0
 }

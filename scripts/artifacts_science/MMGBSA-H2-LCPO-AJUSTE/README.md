@@ -28,8 +28,12 @@ Por elemento (Br, I), para el brazo elegido en validacion, en validacion y en pr
 ## Estado
 
 - Creado: 2026-09-23T18:31:10.510228+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: NO_GO
+- Sellado: sí (2026-09-23T18:32:51.181913+00:00)
+- Finalizado: 2026-09-23T18:32:51.350946+00:00
+- Razón de la decisión: NO_GO: 2 de 4 casos fallan. Br (brazo reducido elegido en validacion; P1 0.962, P2 -0.391, casi los del Cl publicado): validacion PASA (mediana 0.94, p90 4.85, IC95 del sesgo [-2.57,-0.46], CV P1 1.9%, DE de prediccion 0.64 A2) y prueba FALLA (mediana 2.96, p90 9.70, IC95 [-1.60,3.98]); la cola de prueba aparece con cualquier juego de coeficientes (H1: p90 9.44; completo: 9.83), asi que no la resuelve reajustar P1-P4. I (brazo completo elegido: el reducido daba mediana de validacion 5.91): prueba PASA (mediana 1.83, p90 4.04, IC95 [-2.68,0.53]) y validacion FALLA solo por el sesgo (IC95 [-3.07,0.66], 6 atomos). H10: Br PASA (validacion por scaffold 0.94 frente a 1.70 aleatoria); I FALLA por 0.05 A2 sobre el margen (2.59 frente a 1.54, 8 atomos). Los coeficientes sueltos no estan identificados (CV de P3 del I 1402%), la prediccion si (DE <= 0.74 A2). Siguiente: diagnostico exploratorio de la cola del Br, sin reusar la prueba para elegir nada.
+- Hashes de assets: 10 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 

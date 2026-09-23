@@ -1,1 +1,360 @@
-{}
+{
+ "experimento": "MMGBSA-H2-LCPO-AJUSTE",
+ "generado_utc": "2026-09-23T18:32:03.163441+00:00",
+ "crudo": {
+  "archivo": "crudo_bases_2.json",
+  "sha256": "2631a86f8c7c0ae576816ab50448791eebf3b26a600aff8991feedb8e7bd073e",
+  "openmm": "8.5.2",
+  "puntos_shrake_rupley": 50000
+ },
+ "particiones_sha256": "dc9d0162c3381ba8c517712ec1791a2e0f51ae8a1d6f80c834896c0245332c65",
+ "radios_A": {
+  "Br": 1.85,
+  "I": 1.98
+ },
+ "P_cl_publicado": [
+  0.98318,
+  -0.40437,
+  0.00011249,
+  0.00049901
+ ],
+ "umbrales": {
+  "fondo_mediana_A2": 2.81,
+  "fondo_p90_A2": 7.25,
+  "tope_cv_P1": 0.2,
+  "tope_de_prediccion_A2": 1.0,
+  "margen_parsimonia_A2": 0.5,
+  "margen_h10_A2": 1.0,
+  "remuestreos": 1000,
+  "semilla": 20260923
+ },
+ "fallos": [
+  {
+   "pid": "3iww",
+   "motivo": "ValueError: No LCPO parameters found for element with atomic number 6, 3 bonds, and 1 bonds excluding H"
+  },
+  {
+   "pid": "3p8n",
+   "motivo": "ValueError: No LCPO parameters found for element with atomic number 6, 3 bonds, and 1 bonds excluding H"
+  },
+  {
+   "pid": "3zps",
+   "motivo": "ValueError: No LCPO parameters found for element with atomic number 6, 3 bonds, and 1 bonds excluding H"
+  },
+  {
+   "pid": "4oc2",
+   "motivo": "ValueError: No LCPO parameters found for element with atomic number 6, 1 bonds, and 1 bonds excluding H"
+  }
+ ],
+ "por_elemento": {
+  "Br": {
+   "n_atomos": {
+    "entrenamiento": 64,
+    "validacion": 20,
+    "prueba": 27
+   },
+   "brazos": {
+    "completo": {
+     "P": [
+      0.9705626108327235,
+      -0.4038832759274629,
+      -0.0018872218859878435,
+      0.0006172213760954892
+     ],
+     "cv_bootstrap": [
+      0.044834797206806616,
+      0.16818387066782714,
+      0.93658251232679,
+      0.32668088685012003
+     ],
+     "de_prediccion_validacion_mediana_A2": 0.8613549164387524,
+     "numero_de_condicion_entrenamiento": 10337.92458100314,
+     "por_particion": {
+      "entrenamiento": {
+       "n": 64,
+       "mediana_abs_A2": 2.0588,
+       "p90_abs_A2": 7.9454,
+       "max_abs_A2": 11.3201,
+       "media_con_signo_A2": -0.0,
+       "ic95_media_con_signo_A2": [
+        -1.5663,
+        1.3151
+       ],
+       "n_grupos": 36
+      },
+      "validacion": {
+       "n": 20,
+       "mediana_abs_A2": 0.9067,
+       "p90_abs_A2": 5.9916,
+       "max_abs_A2": 8.7585,
+       "media_con_signo_A2": -1.3981,
+       "ic95_media_con_signo_A2": [
+        -2.9107,
+        -0.42
+       ],
+       "n_grupos": 15
+      },
+      "prueba": {
+       "n": 27,
+       "mediana_abs_A2": 2.8321,
+       "p90_abs_A2": 9.8263,
+       "max_abs_A2": 11.8119,
+       "media_con_signo_A2": 1.5718,
+       "ic95_media_con_signo_A2": [
+        -1.8876,
+        4.0645
+       ],
+       "n_grupos": 14
+      }
+     }
+    },
+    "reducido": {
+     "P": [
+      0.9616562275128797,
+      -0.3909393010983876,
+      0.00011249,
+      0.00049901
+     ],
+     "cv_bootstrap": [
+      0.01854438592373858,
+      0.029613620631340563,
+      2.5782210075550267e-14,
+      1.7816191688304797e-14
+     ],
+     "de_prediccion_validacion_mediana_A2": 0.6367828318366127,
+     "numero_de_condicion_entrenamiento": 10337.92458100314,
+     "por_particion": {
+      "entrenamiento": {
+       "n": 64,
+       "mediana_abs_A2": 2.2497,
+       "p90_abs_A2": 7.6111,
+       "max_abs_A2": 11.9795,
+       "media_con_signo_A2": -0.0,
+       "ic95_media_con_signo_A2": [
+        -1.4974,
+        1.206
+       ],
+       "n_grupos": 36
+      },
+      "validacion": {
+       "n": 20,
+       "mediana_abs_A2": 0.9404,
+       "p90_abs_A2": 4.8516,
+       "max_abs_A2": 7.3854,
+       "media_con_signo_A2": -1.3308,
+       "ic95_media_con_signo_A2": [
+        -2.5675,
+        -0.4604
+       ],
+       "n_grupos": 15
+      },
+      "prueba": {
+       "n": 27,
+       "mediana_abs_A2": 2.9573,
+       "p90_abs_A2": 9.702,
+       "max_abs_A2": 12.3192,
+       "media_con_signo_A2": 1.5474,
+       "ic95_media_con_signo_A2": [
+        -1.6037,
+        3.9777
+       ],
+       "n_grupos": 14
+      }
+     }
+    }
+   },
+   "elegido": "reducido",
+   "regla_de_eleccion": "reducido salvo que completo baje la mediana de validación > 0.5 Å²",
+   "gate": {
+    "validacion": {
+     "resultado": "PASA",
+     "comprobaciones": {
+      "mediana": true,
+      "p90": true,
+      "sesgo": true,
+      "cv_P1": true,
+      "de_prediccion": true
+     }
+    },
+    "prueba": {
+     "resultado": "FALLA",
+     "comprobaciones": {
+      "mediana": false,
+      "p90": false,
+      "sesgo": false,
+      "cv_P1": true,
+      "de_prediccion": true
+     }
+    }
+   },
+   "h10": {
+    "mediana_validacion_scaffold_A2": 0.9404,
+    "mediana_validacion_aleatoria_A2": 1.7043,
+    "n_validacion_aleatoria": 26,
+    "P_aleatoria": [
+     0.9507129537717253,
+     -0.384082995120085,
+     0.00011249,
+     0.00049901
+    ],
+    "resultado": "PASA"
+   }
+  },
+  "I": {
+   "n_atomos": {
+    "entrenamiento": 19,
+    "validacion": 6,
+    "prueba": 13
+   },
+   "brazos": {
+    "completo": {
+     "P": [
+      0.9495659008109171,
+      -0.352467726124361,
+      -0.0035534747582879507,
+      0.0005886269377489706
+     ],
+     "cv_bootstrap": [
+      0.15172274002776195,
+      0.7949855430832536,
+      14.019404722485582,
+      2.6079945239439066
+     ],
+     "de_prediccion_validacion_mediana_A2": 0.7373492728340837,
+     "numero_de_condicion_entrenamiento": 33826.884273960815,
+     "por_particion": {
+      "entrenamiento": {
+       "n": 19,
+       "mediana_abs_A2": 0.3166,
+       "p90_abs_A2": 1.3835,
+       "max_abs_A2": 2.0516,
+       "media_con_signo_A2": -0.0,
+       "ic95_media_con_signo_A2": [
+        -0.4133,
+        0.2545
+       ],
+       "n_grupos": 9
+      },
+      "validacion": {
+       "n": 6,
+       "mediana_abs_A2": 2.5917,
+       "p90_abs_A2": 3.5438,
+       "max_abs_A2": 3.6555,
+       "media_con_signo_A2": -1.9346,
+       "ic95_media_con_signo_A2": [
+        -3.0677,
+        0.6647
+       ],
+       "n_grupos": 4
+      },
+      "prueba": {
+       "n": 13,
+       "mediana_abs_A2": 1.8298,
+       "p90_abs_A2": 4.0414,
+       "max_abs_A2": 5.4923,
+       "media_con_signo_A2": -1.0158,
+       "ic95_media_con_signo_A2": [
+        -2.6847,
+        0.5286
+       ],
+       "n_grupos": 5
+      }
+     }
+    },
+    "reducido": {
+     "P": [
+      1.0389019238526982,
+      -0.44311734773959,
+      0.00011249,
+      0.00049901
+     ],
+     "cv_bootstrap": [
+      0.03333340057313295,
+      0.0597776200853409,
+      2.5782210075550267e-14,
+      1.7816191688304797e-14
+     ],
+     "de_prediccion_validacion_mediana_A2": 1.3555524249076047,
+     "numero_de_condicion_entrenamiento": 33826.884273960815,
+     "por_particion": {
+      "entrenamiento": {
+       "n": 19,
+       "mediana_abs_A2": 1.5058,
+       "p90_abs_A2": 2.6768,
+       "max_abs_A2": 3.4615,
+       "media_con_signo_A2": -0.0,
+       "ic95_media_con_signo_A2": [
+        -1.1153,
+        1.0113
+       ],
+       "n_grupos": 9
+      },
+      "validacion": {
+       "n": 6,
+       "mediana_abs_A2": 5.9082,
+       "p90_abs_A2": 8.0501,
+       "max_abs_A2": 8.831,
+       "media_con_signo_A2": -4.5258,
+       "ic95_media_con_signo_A2": [
+        -6.9792,
+        0.3809
+       ],
+       "n_grupos": 4
+      },
+      "prueba": {
+       "n": 13,
+       "mediana_abs_A2": 8.3571,
+       "p90_abs_A2": 10.9,
+       "max_abs_A2": 12.2544,
+       "media_con_signo_A2": -6.1057,
+       "ic95_media_con_signo_A2": [
+        -9.0404,
+        -0.2884
+       ],
+       "n_grupos": 5
+      }
+     }
+    }
+   },
+   "elegido": "completo",
+   "regla_de_eleccion": "reducido salvo que completo baje la mediana de validación > 0.5 Å²",
+   "gate": {
+    "validacion": {
+     "resultado": "FALLA",
+     "comprobaciones": {
+      "mediana": true,
+      "p90": true,
+      "sesgo": false,
+      "cv_P1": true,
+      "de_prediccion": true
+     }
+    },
+    "prueba": {
+     "resultado": "PASA",
+     "comprobaciones": {
+      "mediana": true,
+      "p90": true,
+      "sesgo": true,
+      "cv_P1": true,
+      "de_prediccion": true
+     }
+    }
+   },
+   "h10": {
+    "mediana_validacion_scaffold_A2": 2.5917,
+    "mediana_validacion_aleatoria_A2": 1.5404,
+    "n_validacion_aleatoria": 8,
+    "P_aleatoria": [
+     0.7963070536216,
+     -0.08305008603866103,
+     0.0019596126726831318,
+     -0.00021473660223378377
+    ],
+    "resultado": "FALLA"
+   }
+  }
+ },
+ "decision_h2_por_el_gate": "NO_GO",
+ "h10": "FALLA",
+ "no_demuestra": "Que el área LCPO sea el término no polar correcto: la SASA numérica es una referencia geométrica. Tampoco valida el término polar (H3)."
+}

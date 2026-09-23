@@ -206,6 +206,37 @@ P1 < 20 % y desviación del área predicha ≤ 1 Å². Y se añaden dos brazos
 validación con una regla de parsimonia fijada antes (el reducido salvo que el
 completo mejore la mediana más de 0,5 Å²); la prueba sólo confirma.
 
+**Resultado, medido el 2026-09-23 (sellado): NO_GO, 2 de 4 casos fallan.**
+
+| | brazo elegido en validación | validación | prueba |
+|---|---|---|---|
+| Br | reducido: P1 0,962, P2 −0,391 (casi los del Cl) | **pasa** (mediana 0,94, p90 4,85) | falla (mediana 2,96, p90 9,70, IC del sesgo [−1,6, +4,0]) |
+| I | completo (el reducido daba 5,9 en validación) | falla sólo el sesgo (IC [−3,07, +0,66], 6 átomos) | **pasa** (mediana 1,83, p90 4,04) |
+
+H10: el Br generaliza entre scaffolds (0,94 frente a 1,70 en una partición
+aleatoria); el I falla por 0,05 Å² sobre el margen, con 8 átomos.
+
+**Diagnóstico exploratorio, después del sello (no elige nada):** la cola del Br
+en prueba aparece con cualquier juego de coeficientes (H1: p90 9,44; completo:
+9,83), así que no la arregla ajustar P1-P4. Sus errores positivos grandes son
+**anillos polibromados** —4 o 5 Br en el mismo anillo: 1zoh, 2oxd, 2oxx,
+5owl, 5cqu, 1e4h, la familia de inhibidores de CK2 tipo TBB—, donde dos Br
+vecinos en orto se solapan más de lo que la aproximación por pares de LCPO
+representa. Los negativos grandes son Br únicos muy rodeados (2h4k, 2qbp). En
+conjunto, **el error crece con el enterramiento** (Spearman entre |error| y
+fracción expuesta −0,46, p = 4e-7). Dos consecuencias:
+
+1. Una regla de dominio («nada de Br/I vecinos en un anillo») sería razonable,
+   pero ya no se puede validar con la prueba de PDBBind, que se ha mirado. Para
+   validarla hace falta un conjunto nuevo; como LCPO es una aproximación
+   geométrica, sirven confórmeros generados de moléculas con Br/I que no estén
+   en PDBBind.
+2. En un complejo, el halógeno suele quedar **enterrado en el bolsillo**, justo
+   donde LCPO se equivoca más. Antes de seguir ajustando LCPO conviene medir la
+   alternativa: calcular el término no polar del MM-GBSA de reemplazo con una
+   SASA numérica al puntuar (el MM-GBSA del producto sigue siendo el legacy;
+   el término no polar del reemplazo aún no está decidido). Ver H12.
+
 **Notas del propietario (informe 2026-09-23):** viable para Br, más arriesgada
 para I por el tamaño de muestra. Bootstrap de 100 a 1000 remuestreos **por
 scaffold**, no por átomo; los parámetros se congelan antes de abrir la prueba,
@@ -495,6 +526,30 @@ parámetros han memorizado familias químicas.
 
 **Coste.** Nulo aparte: es la misma corrida de H2/H3 con dos particiones.
 
+### H12 — El término no polar del reemplazo se calcula con una SASA numérica, no con LCPO
+
+**Enunciado.** Para puntuar poses ya minimizadas, una SASA numérica
+(Shrake-Rupley o Lee-Richards) con radios de Bondi da el término no polar de
+Br e I —y del resto de elementos— sin parámetros por elemento, con un coste
+asumible para el producto, y elimina la clase de error que H1 y H2 midieron
+(solapes de esferas grandes y átomos enterrados).
+
+**Por qué.** Nueva, tras H2. LCPO existe para dar fuerzas analíticas durante
+una dinámica; el MM-GBSA de MolDesign puntúa estructuras fijas. Si la
+minimización se hace con GB y el término de superficie se añade al final, no
+hace falta derivar la superficie.
+
+**Cómo se mide.** (a) Coste: tiempo de una SASA numérica de receptor, ligando y
+complejo con la precisión necesaria (la malla que da < 0,1 Å² por átomo), en
+el Python que se entrega. (b) Qué cambia: ΔG_SA de unión con LCPO frente a SASA
+numérica en complejos de PDBBind con y sin Br/I. (c) Si la minimización sin
+término de superficie cambia la pose de forma apreciable.
+
+**Criterio.** Por fijar tras la investigación del propietario (métodos y
+bibliotecas disponibles, licencias).
+
+**Coste.** Bajo en cálculo; el trabajo es de diseño del protocolo.
+
 ### H11 — El agujero σ no se arregla con radios
 
 **Enunciado.** Si, con H1-H5 superadas, queda un error de Br/I concentrado en
@@ -528,7 +583,9 @@ referencias concretas del informe están por localizar).
    **Cerrada, GO** (`MMGBSA-H5-R1`, tras un NO_GO de H5 por una entrada
    imposible).
 2. **H1** (minutos): **cerrada, NO_GO** (el yodo, con sesgo que crece con el
-   radio). Por tanto **H2** (horas), con **H10** en la misma corrida.
+   radio). Por tanto **H2** (horas), con **H10** en la misma corrida:
+   **cerrada, NO_GO** (el Br falla en prueba por anillos polibromados; el I
+   falla por poco el sesgo en validación). Antes de otra ronda de LCPO, **H12**.
 3. **H3 y H4**: primero contra PBSA en las mismas geometrías, después FreeSolv.
 4. **H6**: declarar el dominio.
 5. **H7, H8, H9 y H11**: sistemas completos y poses, en la semana de servidor.
@@ -576,3 +633,4 @@ Pendientes:
   geométrico (GO 23/23 evaluables). El azufre discrepa en GBn2 hasta
   11,24 kcal/mol.
 - 2026-09-23 — particiones selladas y H1 sellada: NO_GO.
+- 2026-09-23 — H2 sellada (NO_GO), diagnóstico exploratorio de la cola del Br y H12 nueva.

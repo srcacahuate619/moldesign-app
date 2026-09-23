@@ -1,0 +1,4 @@
+{"pid": "3iww", "motivo": "ValueError: No LCPO parameters found for element with atomic number 6, 3 bonds, and 1 bonds excluding H", "cuenta_para_el_gate": false, "diagnostico": "el mismo de MMGBSA-H1-LCPO-BONDI"}
+{"pid": "3p8n", "motivo": "ValueError: No LCPO parameters found for element with atomic number 6, 3 bonds, and 1 bonds excluding H", "cuenta_para_el_gate": false, "diagnostico": "el mismo de MMGBSA-H1-LCPO-BONDI"}
+{"pid": "3zps", "motivo": "ValueError: No LCPO parameters found for element with atomic number 6, 3 bonds, and 1 bonds excluding H", "cuenta_para_el_gate": false, "diagnostico": "el mismo de MMGBSA-H1-LCPO-BONDI"}
+{"pid": "4oc2", "motivo": "ValueError: No LCPO parameters found for element with atomic number 6, 1 bonds, and 1 bonds excluding H", "cuenta_para_el_gate": false, "diagnostico": "el mismo de MMGBSA-H1-LCPO-BONDI"}
