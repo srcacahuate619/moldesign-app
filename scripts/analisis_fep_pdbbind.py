@@ -211,7 +211,9 @@ def _shard(args: tuple[int, list[tuple[str, str]], str, float, int, float]) -> t
         t0 = time.time()
         cancelado = False
         try:
-            r = rdFMCS.FindMCS([a, b], timeout=timeout,
+            # int(): FindMCS exige un entero. Con 300.0 lanzó ArgumentError en las
+            # 163 parejas del primer reintento y el except las dejó en MCS 0.
+            r = rdFMCS.FindMCS([a, b], timeout=int(timeout),
                                ringMatchesRingOnly=True, completeRingsOnly=True)
             ncomun, cancelado = r.numAtoms, bool(r.canceled)
         except Exception as exc:  # noqa: BLE001 - paridad con el sellado, pero sin silencio
@@ -454,9 +456,19 @@ def reintentar_cancelados(salida: Path, workers: int, segundos: float) -> int:
         "duracion_s": round(time.time() - t0, 1),
         "timestamp": _ahora(),
     }
+    # El invariante declarado antes de correr: con más tiempo el MCS sólo puede
+    # crecer, así que las aptas no bajan, y ninguna pareja puede fallar. El
+    # primer reintento violó las dos cosas (ArgumentError en las 163) y por eso
+    # se comprueba aquí en vez de leerlo a ojo.
+    resumen["errores_mcs"] = sum(1 for r in nuevos if r.get("error_mcs"))
+    resumen["procedimiento_valido"] = bool(
+        resumen["errores_mcs"] == 0 and resumen["aptas_despues"] >= resumen["aptas_antes"])
     resumen_ruta.write_text(json.dumps(resumen, ensure_ascii=False, indent=1) + "\n",
                             encoding="utf-8", newline="\n")
     print(json.dumps(resumen, ensure_ascii=False, indent=1), flush=True)
+    if not resumen["procedimiento_valido"]:
+        print("✗ PROCEDIMIENTO INVÁLIDO: hay errores de MCS o las aptas bajaron", flush=True)
+        return 1
     return 0
 
 
@@ -471,7 +483,7 @@ def main() -> int:
     ap.add_argument("--tam-shard", type=int, default=2000, help="parejas por shard (sólo 03 pdbbind)")
     ap.add_argument("--solo-grupos", action="store_true", help="03 pdbbind: para tras la fase 1")
     ap.add_argument("--reanudar", action="store_true", help="03 pdbbind: salta los shards escritos")
-    ap.add_argument("--reintentar-cancelados", type=float, metavar="SEG",
+    ap.add_argument("--reintentar-cancelados", type=int, metavar="SEG",
                     help="03 pdbbind terminado: repite con SEG de timeout los MCS que se cortaron")
     args = ap.parse_args()
 
