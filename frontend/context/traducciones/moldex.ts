@@ -8,8 +8,11 @@
 // dos palabras van juntas en los dos idiomas: «Historical composite index»
 // conserva la advertencia, y «Score» a secas la pierde.
 //
-// «Señal GNN (legacy)» se traduce conservando `legacy`: no es un adorno, marca
-// que esa señal viene de un modelo anterior y no se compara con las nuevas.
+// La tarjeta de la GNN enseña la CL-GNN, y su condición va pegada al número:
+// «experimental» y «no pesa en el ranking». Pesa 0 porque sus AUC no son de los
+// pesos que viajan. Sin esa condición, el número se leería como una predicción
+// validada. Antes decía «Señal GNN (legacy)» y leía `gnn_score` (RTMScore), que
+// la aplicación de escritorio nunca produce: la tarjeta salía siempre vacía.
 
 import type { ModuloDeTraduccion } from "./index";
 
@@ -55,7 +58,9 @@ export const moldex: ModuloDeTraduccion = {
     mx_masa: "Masa",
     mx_polaridad: "Polaridad",
     mx_hotspots: "Hotspots",
-    mx_senal_gnn: "Señal GNN (legacy)",
+    mx_senal_clgnn: "Señal CL-GNN (experimental)",
+    mx_clgnn_no_pesa: "no pesa en el ranking",
+    mx_clgnn_no_disponible: "no disponible en esta corrida",
     mx_cumple: "Cumple",
     mx_no_cumple: "No cumple",
     mx_comparador: "el comparador",
@@ -97,7 +102,9 @@ export const moldex: ModuloDeTraduccion = {
     mx_masa: "Mass",
     mx_polaridad: "Polarity",
     mx_hotspots: "Hotspots",
-    mx_senal_gnn: "GNN signal (legacy)",
+    mx_senal_clgnn: "CL-GNN signal (experimental)",
+    mx_clgnn_no_pesa: "not used for ranking",
+    mx_clgnn_no_disponible: "not available for this run",
     mx_cumple: "Passes",
     mx_no_cumple: "Does not pass",
     mx_comparador: "the comparator",

@@ -47,7 +47,14 @@ export type MoldexMetrics = {
   tpsa: number | null;
   /** Escala 0-100. */
   score: number | null;
+  /** RTMScore. Sólo en bases antiguas: la app de escritorio nunca lo produce. No se pinta. */
   gnn_score: number | null;
+  /**
+   * Salida sigmoide de la CL-GNN, en (0, 1), sin calibrar para los pesos que
+   * viajan y con peso 0 en el ranking. Nulo si no corrió o falló. Opcional
+   * porque un backend anterior a `bb788f5` no lo envía.
+   */
+  clgnn_score?: number | null;
   lipinski_pass: boolean | null;
   veber_pass: boolean | null;
 };
@@ -334,4 +341,25 @@ export function porScore(
 
     return direccion === "desc" ? sb - sa : sa - sb;
   };
+}
+
+/**
+ * Cómo se enseña la CL-GNN en la ficha de Moldex.
+ *
+ * Es la salida sigmoide de un modelo **sin calibrar** para los pesos que viajan,
+ * y pesa 0 en el ranking (canal entre sesiones, B→F-003). Por eso:
+ * - dos decimales y nunca como porcentaje: un «74 %» se leería como una
+ *   probabilidad calibrada, y no lo es;
+ * - la condición va pegada al número («no pesa en el ranking»);
+ * - un nulo es que no corrió o falló: se pinta «—» y se dice, nunca como cero.
+ *
+ * Devuelve la clave de la condición, no el texto: la traduce quien pinta.
+ */
+export function presentarClgnn(
+  valor: number | null | undefined,
+): { valor: string; condicion: "mx_clgnn_no_pesa" | "mx_clgnn_no_disponible" } {
+  if (valor == null || !Number.isFinite(valor)) {
+    return { valor: "—", condicion: "mx_clgnn_no_disponible" };
+  }
+  return { valor: valor.toFixed(2), condicion: "mx_clgnn_no_pesa" };
 }

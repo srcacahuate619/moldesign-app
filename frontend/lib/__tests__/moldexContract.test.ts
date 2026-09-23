@@ -15,6 +15,7 @@ import {
   marcaDeOrden,
   porEvaluacionReciente,
   porScore,
+  presentarClgnn,
   type MoldexMolecule,
   type MoldexSeal,
 } from "../moldex";
@@ -40,7 +41,9 @@ const FICHA: MoldexMolecule = {
     mw: 310.4,
     tpsa: 64.2,
     score: 88,
-    gnn_score: 71,
+    // RTMScore: nulo en toda corrida de escritorio (bb788f5). La CL-GNN, 4 decimales.
+    gnn_score: null,
+    clgnn_score: 0.7412,
     lipinski_pass: true,
     veber_pass: true,
   },
@@ -205,5 +208,34 @@ describe("orden por score", () => {
     expect(lista.sort(porScore("asc")).map((m) => m.metrics.score)).toEqual([
       0, 40, null,
     ]);
+  });
+});
+
+// La CL-GNN pesa 0 en el ranking y su salida no está calibrada para los pesos
+// que viajan (B→F-003). La ficha no puede presentarla como otra cosa.
+describe("la CL-GNN se enseña como señal experimental, no como probabilidad", () => {
+  it("con dos decimales y la condición de que no pesa", () => {
+    expect(presentarClgnn(FICHA.metrics.clgnn_score)).toEqual({
+      valor: "0.74",
+      condicion: "mx_clgnn_no_pesa",
+    });
+  });
+
+  it("nunca como porcentaje", () => {
+    for (const v of [0.0123, 0.5, 0.9999]) {
+      expect(presentarClgnn(v).valor).not.toMatch(/%/);
+      expect(Number(presentarClgnn(v).valor)).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it("un nulo es que no corrió: guion y se dice, no un cero", () => {
+    for (const v of [null, undefined, Number.NaN]) {
+      expect(presentarClgnn(v)).toEqual({ valor: "—", condicion: "mx_clgnn_no_disponible" });
+    }
+  });
+
+  it("y el cero medido sigue siendo un número", () => {
+    // El contraste que hace útil a la prueba de arriba.
+    expect(presentarClgnn(0).valor).toBe("0.00");
   });
 });

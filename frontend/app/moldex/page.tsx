@@ -18,6 +18,7 @@ import {
   urlDelExplorador,
   esRedDePruebas,
   ALCANCE_DEL_SELLO,
+  presentarClgnn,
   type MoldexMolecule,
 } from "../../lib/moldex";
 import { useApiUrl } from "../../hooks/useApiUrl";
@@ -868,7 +869,9 @@ export default function MoldexPage() {
                     { label: t("mx_masa"),       value: selectedMolecule?.metrics?.mw?.toFixed(0) ?? "—",                             unit: "Da" },
                     { label: t("mx_polaridad"),  value: selectedMolecule?.metrics?.tpsa?.toFixed(1) ?? "—",                            unit: "Å²" },
                     { label: t("mx_hotspots"),   value: `${Array.isArray(selectedMolecule?.hotspots_hit) ? selectedMolecule.hotspots_hit.length : 0}/${Array.isArray(selectedMolecule?.target?.hotspots) ? selectedMolecule.target.hotspots.length : 0}`, unit: "HITS" },
-                    { label: t("mx_senal_gnn"),     value: selectedMolecule?.metrics?.gnn_score !== null && selectedMolecule?.metrics?.gnn_score !== undefined ? selectedMolecule.metrics.gnn_score.toFixed(1) : "N/A", unit: t("auto_b75d71d7c486") },
+                    // CL-GNN, no `gnn_score` (RTMScore, que la app instalada nunca produce).
+                    // Cómo se enseña y por qué: `presentarClgnn` en lib/moldex.ts.
+                    { label: t("mx_senal_clgnn"), value: presentarClgnn(selectedMolecule?.metrics?.clgnn_score).valor, unit: t(presentarClgnn(selectedMolecule?.metrics?.clgnn_score).condicion) },
                     { label: "Lipinski",   value: selectedMolecule?.metrics?.lipinski_pass === null ? "—" : selectedMolecule?.metrics?.lipinski_pass ? t("mx_cumple") : t("mx_no_cumple"),        unit: "regla" },
                   ].map(stat => (
                     <div key={stat.label} className="group rounded-2xl border border-[var(--border)] bg-[var(--bg-secondary)] p-4 transition-all hover:border-indigo-500/30 dark:border-white/5 dark:bg-black/40">
