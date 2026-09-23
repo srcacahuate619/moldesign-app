@@ -337,6 +337,34 @@ OpenMM «Non-optimal GB parameters» viene de 77 oxígenos con 1,5 Å en el prmt
 frente al 1,4 Å estándar de OpenMM; OpenMM usa el del prmtop, igual que
 sander, y es el mismo en los dos brazos.
 
+**Sellada NO_GO (2026-09-23): H3 queda refutada.** Con las 37 Br/I medidas
+(642/642; las 605 que ya habían salido, idénticas bit a bit), el radio de
+Bondi **empeora** el acierto: MAE 1,93 → 2,05 kcal/mol, IC95 de la diferencia
+[−0,01; +0,25]. Br 1,67 → 1,80; I 1,13 → 1,27; B reduce el error en 8 de 37.
+Se cumple la cláusula de refutación: con 1,5 Å el Br ya sale infrasolvatado
+(sesgo +1,57) y un radio mayor lo empeora. **Para el producto: el radio GB de
+Br e I se queda en 1,5 Å (mbondi3).** H4, tal como está escrita («una vez
+corregido el radio»), se queda sin objeto.
+
+Caracterización posterior al gate, exploratoria
+(`backend/audits/freesolv_h3_caracterizar.py`; no cambia la decisión):
+
+- Con PB en vez de GB y el no polar reajustado igual, Bondi tampoco mejora
+  (Br/I 1,15 → 1,21): el NO_GO no es un artefacto de la aproximación GB.
+- **GBn2 sobresolvata los grupos polifluorados frente a PB con los mismos
+  radios:** con 1 o 2 F coinciden (+0,55 y +0,45 kcal/mol); con 3 F (casi
+  siempre un CF₃) la diferencia media es −2,34 (n 13); con 4 o más, −7,68
+  (n 5); en CF₃Br, −6,3. El CF₃ es frecuente en fármacos, así que para el
+  MM-GBSA candidato pesa más que el radio de Br/I.
+- **Las moléculas con 4 o más Cl quedan +5,94 kcal/mol por encima del
+  experimento** con GB, y PB no lo explica (GB − PB −0,40): apunta al término
+  no polar, un γ·SASA único que penaliza la superficie de átomos muy
+  polarizables sin la dispersión atractiva que ganan con el agua.
+
+Las dos son **candidatas a hipótesis nuevas, sin prerregistrar**: F en GBn2
+(apantallamiento o radio de F, contra PB y después contra FreeSolv) y un
+término no polar con dispersión para halógenos.
+
 ### H4 — GB: una vez corregido el radio, los α, β, γ y el apantallamiento por defecto bastan
 
 **Enunciado.** El error de H3 no mejora de forma significativa ajustando

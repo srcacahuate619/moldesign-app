@@ -1,0 +1,33 @@
+1. |GB-PB|/|PB| por brazo (mediana)
+   Br        n 21  A 0.300  B 0.243
+   I         n 12  A 0.210  B 0.165
+   Br_mixto  n  4  A 1.640  B 1.756
+
+2. El mismo modelo con PB (gamma 0.02152 kcal/mol/A2, b -2.640, ajustados en 467 sin halógeno; MAE de esas: PB 1.40, GB 2.07)
+   Br         n 21  A MAE 1.06 sesgo +0.82   B MAE 1.35 sesgo +1.24
+   I          n 12  A MAE 1.28 sesgo -0.51   B MAE 1.00 sesgo +0.56
+   Br_I_todas n 37  A MAE 1.15 sesgo +0.23   B MAE 1.21 sesgo +0.84
+   con GB, el brazo B reduce el error en 8 de 37 moléculas con Br o I
+
+3. GB-PB (brazo A) y error del modelo GB, por número de átomos del halógeno
+   F  1 : n   6  GB-PB  +0.55  error del modelo GB  +0.08
+   F  2 : n   2  GB-PB  +0.45  error del modelo GB  -2.24
+   F  3 : n  13  GB-PB  -2.34  error del modelo GB  -2.63
+   F  4+: n   5  GB-PB  -7.68  error del modelo GB -10.46
+   Cl 1 : n  39  GB-PB  -0.76  error del modelo GB  -0.44
+   Cl 2 : n  22  GB-PB  +0.05  error del modelo GB  +1.47
+   Cl 3 : n  14  GB-PB  -2.76  error del modelo GB  -0.73
+   Cl 4+: n  31  GB-PB  -0.40  error del modelo GB  +5.94
+   (el grupo F incluye moléculas con F y ningún otro halógeno; con Br o Cl además van en Br_mixto / otro_halogeno)
+
+   Br_mixto y otro_halogeno, una por una:
+   mobley_1838110   C(C(F)(Cl)Cl)(F)(F)Cl            exp   1.77  GB   -9.20  PB   -1.01
+   mobley_2023925   [C@@H](C(F)(F)F)(OC(F)F)Cl       exp   0.10  GB  -16.55  PB   -8.38
+   mobley_3425174   C(F)Cl                           exp  -0.77  GB   -4.91  PB   -3.93
+   mobley_4506634   [C@@H](C(F)(F)F)(Cl)Br           exp  -0.11  GB   -8.12  PB   -3.09
+   mobley_5347550   COC(C(Cl)Cl)(F)F                 exp  -1.12  GB   -7.97  PB   -4.68
+   mobley_7732703   C(F)(F)(F)Br                     exp   1.79  GB   -7.99  PB   -1.66
+   mobley_7768165   C(CBr)Cl                         exp  -1.95  GB   -2.67  PB   -3.12
+   mobley_8191186   C(C(F)(F)F)Cl                    exp   0.06  GB   -7.66  PB   -4.13
+   mobley_8311321   C(F)(F)Cl                        exp  -0.50  GB   -8.04  PB   -4.34
+   mobley_8685905   [C@@H](C(F)(F)F)(F)Br            exp   0.50  GB  -10.51  PB   -3.97

@@ -1,1 +1,137 @@
-{}
+{
+ "experimento": "MMGBSA-H3-FREESOLV-RADIOS",
+ "generado_utc": "2026-09-23T22:38:59.974523+00:00",
+ "atribucion": "FreeSolv v0.52 (Mobley y Guthrie, J. Comput.-Aided Mol. Des. 2014; release DOI 10.5281/zenodo.1161245), datos bajo CC BY 4.0. Los autores advierten que parte de los datos procede de fuentes con restricciones que podrían desconocer.",
+ "crudo": {
+  "archivo": "crudo.json",
+  "sha256": "6bed0455343f4d218e027897ff27095e81e62d85c5e27c4ddc9be881b6232820",
+  "openmm": "8.5.2"
+ },
+ "seleccion_sha256": "8bece40ad85a23ce6971ce345f6a9820a91763645c5738b68e6727719ea8f6ad",
+ "modelo": {
+  "polar": "GBn2 OpenMM 8.5.2 + fósforo + descreening de Amber (H13), eps 1/78.5",
+  "no_polar": "gamma*SASA + b; SASA FreeSASA Lee-Richards, radios de Bondi, sin H",
+  "no_polar_calibrado_en": "467 moléculas sin halógeno",
+  "gamma_kcal_mol_A2": 0.025370038848626875,
+  "b_kcal_mol": -3.4178728842893125,
+  "brazos_radio_gb": {
+   "A": "mbondi3 (Br, I 1.5 A)",
+   "B": "Bondi (Br 1.85, I 1.98 A)"
+  }
+ },
+ "n": {
+  "medidas": 642,
+  "fallos": []
+ },
+ "tabla": {
+  "Br": {
+   "n": 21,
+   "MAE_A": 1.6693648237449856,
+   "MAE_B": 1.7995822437457183,
+   "sesgo_A": 1.568775869460464,
+   "sesgo_B": 1.726035135677183,
+   "MAE_gaff_alquimico_freesolv": 1.096190476190476,
+   "GB_menos_PB_A_mediana_abs": 0.8092768843864868,
+   "GB_menos_PB_B_mediana_abs": 0.5546787582163806,
+   "PB_B_menos_PB_A_media": 0.4254000000000001,
+   "GB_B_menos_GB_A_media": 0.1572592662167184
+  },
+  "I": {
+   "n": 12,
+   "MAE_A": 1.1311627301071698,
+   "MAE_B": 1.273931180033821,
+   "sesgo_A": 0.061273731977725565,
+   "sesgo_B": 0.7607796647071886,
+   "MAE_gaff_alquimico_freesolv": 0.4908333333333334,
+   "GB_menos_PB_A_mediana_abs": 1.0166423677248775,
+   "GB_menos_PB_B_mediana_abs": 0.6019522259388557,
+   "PB_B_menos_PB_A_media": 1.0709083333333331,
+   "GB_B_menos_GB_A_media": 0.6995059327294629
+  },
+  "Br_mixto": {
+   "n": 4,
+   "MAE_A": 5.696986449397562,
+   "MAE_B": 5.723500882222882,
+   "sesgo_A": -4.9081973586033865,
+   "sesgo_B": -4.861925492946266,
+   "MAE_gaff_alquimico_freesolv": 0.4925,
+   "GB_menos_PB_A_mediana_abs": 5.6778274633126795,
+   "GB_menos_PB_B_mediana_abs": 5.886828743900779,
+   "PB_B_menos_PB_A_media": 0.25452499999999995,
+   "GB_B_menos_GB_A_media": 0.04627186565712038
+  },
+  "Cl": {
+   "n": 106,
+   "MAE_A": 3.6612337629133958,
+   "MAE_B": 3.6612337629133958,
+   "sesgo_A": 1.7849416039668087,
+   "sesgo_B": 1.7849416039668087,
+   "MAE_gaff_alquimico_freesolv": 1.4856603773584904,
+   "GB_menos_PB_A_mediana_abs": 0.6601085484519016,
+   "GB_menos_PB_B_mediana_abs": 0.6601085484519016,
+   "PB_B_menos_PB_A_media": 0.0,
+   "GB_B_menos_GB_A_media": 0.0
+  },
+  "F": {
+   "n": 26,
+   "MAE_A": 4.413983741805575,
+   "MAE_B": 4.413983741805575,
+   "sesgo_A": -3.478333743284886,
+   "sesgo_B": -3.478333743284886,
+   "MAE_gaff_alquimico_freesolv": 1.3134615384615387,
+   "GB_menos_PB_A_mediana_abs": 2.051963596781105,
+   "GB_menos_PB_B_mediana_abs": 2.051963596781105,
+   "PB_B_menos_PB_A_media": 0.0,
+   "GB_B_menos_GB_A_media": 0.0
+  },
+  "sin_halogeno": {
+   "n": 467,
+   "MAE_A": 2.074681429368248,
+   "MAE_B": 2.074681429368248,
+   "sesgo_A": -2.1491255123364914e-16,
+   "sesgo_B": -2.1491255123364914e-16,
+   "MAE_gaff_alquimico_freesolv": 1.04796573875803,
+   "GB_menos_PB_A_mediana_abs": 0.513864983642331,
+   "GB_menos_PB_B_mediana_abs": 0.513864983642331,
+   "PB_B_menos_PB_A_media": 0.0,
+   "GB_B_menos_GB_A_media": 0.0
+  },
+  "otro_halogeno": {
+   "n": 6,
+   "MAE_A": 6.413401096807085,
+   "MAE_B": 6.413401096807085,
+   "sesgo_A": -6.413401096807085,
+   "sesgo_B": -6.413401096807085,
+   "MAE_gaff_alquimico_freesolv": 0.49500000000000005,
+   "GB_menos_PB_A_mediana_abs": 3.6173108326886516,
+   "GB_menos_PB_B_mediana_abs": 3.6173108326886516,
+   "PB_B_menos_PB_A_media": 0.0,
+   "GB_B_menos_GB_A_media": 0.0
+  },
+  "Br_I_todas": {
+   "n": 37,
+   "MAE_A": 1.9302313475005672,
+   "MAE_B": 2.053308238052905,
+   "sesgo_A": 0.37964293535105165,
+   "sesgo_B": 0.7007673474032983,
+   "MAE_gaff_alquimico_freesolv": 0.8345945945945946,
+   "GB_menos_PB_A_mediana_abs": 0.936052102944479,
+   "GB_menos_PB_B_mediana_abs": 0.6019467637569547,
+   "PB_B_menos_PB_A_media": 0.6162810810810812,
+   "GB_B_menos_GB_A_media": 0.32112441205224657
+  }
+ },
+ "gate": {
+  "MAE_A": 1.9302313475005672,
+  "MAE_B": 2.053308238052905,
+  "reduccion_relativa": -0.06376276642264056,
+  "ic95_MAE_B_menos_MAE_A": [
+   -0.010099581222326758,
+   0.2461854089738239
+  ],
+  "reduccion_suficiente": false,
+  "ic_entero_bajo_cero": false
+ },
+ "decision_por_el_gate": "NO_GO",
+ "no_demuestra": "Energías libres de hidratación con muestreo: es una estimación estática de un solo confórmero. Tampoco dice nada del agujero sigma, que las cargas atómicas no representan."
+}

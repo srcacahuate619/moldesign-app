@@ -1,0 +1,929 @@
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [1/642] mobley_1034539: ok 
+  [2/642] mobley_1019269: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [3/642] mobley_1017962: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [4/642] mobley_1036761: ok 
+  [5/642] mobley_1046331: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [6/642] mobley_1075836: ok 
+  [7/642] mobley_1107178: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_1107178/brazo_B/ligand
+
+  [8/642] mobley_1079207: ok 
+  [9/642] mobley_1144156: ok 
+  [10/642] mobley_1139153: ok 
+  [11/642] mobley_1189457: ok 
+  [12/642] mobley_1160109: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [13/642] mobley_1178614: ok 
+  [14/642] mobley_1231151: ok 
+  [15/642] mobley_1235151: ok 
+  [16/642] mobley_1199854: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_1199854/brazo_B/ligand
+
+  [17/642] mobley_1244778: ok 
+  [18/642] mobley_1261349: ok 
+  [19/642] mobley_1278715: ok 
+  [20/642] mobley_1328465: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [21/642] mobley_129464: ok 
+  [22/642] mobley_1328936: ok 
+  [23/642] mobley_1323538: ok 
+  [24/642] mobley_1363784: ok 
+  [25/642] mobley_1396156: ok 
+  [26/642] mobley_1417007: ok 
+  [27/642] mobley_1352110: ok 
+  [28/642] mobley_1449384: ok 
+  [29/642] mobley_1424265: ok 
+  [30/642] mobley_1469079: ok 
+  [31/642] mobley_1520842: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [32/642] mobley_1502181: ok 
+  [33/642] mobley_1563176: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [34/642] mobley_1571523: ok 
+  [35/642] mobley_1527293: ok 
+  [36/642] mobley_1615431: ok 
+  [37/642] mobley_1636752: ok 
+  [38/642] mobley_1592519: ok 
+  [39/642] mobley_1650157: ok 
+  [40/642] mobley_1659169: ok 
+  [41/642] mobley_1662128: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [42/642] mobley_1708457: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [43/642] mobley_1674094: ok 
+  [44/642] mobley_1717215: ok 
+  [45/642] mobley_1723043: ok 
+  [46/642] mobley_1722522: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [47/642] mobley_1728386: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [48/642] mobley_172879: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [49/642] mobley_1733799: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_1733799/brazo_B/ligand
+
+  [50/642] mobley_1735893: ok 
+  [51/642] mobley_1755375: ok 
+  [52/642] mobley_1743409: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [53/642] mobley_1760914: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [54/642] mobley_1792062: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_1792062/brazo_B/ligand
+
+  [55/642] mobley_1781152: ok 
+  [56/642] mobley_1800170: ok 
+  [57/642] mobley_1770205: ok 
+  [58/642] mobley_1821184: ok 
+  [59/642] mobley_1803862: ok 
+  [60/642] mobley_1838110: ok 
+  [61/642] mobley_1827204: ok 
+  [62/642] mobley_1857976: ok 
+  [63/642] mobley_1858644: ok 
+  [64/642] mobley_1855337: ok 
+  [65/642] mobley_186894: ok 
+  [66/642] mobley_1875719: ok 
+  [67/642] mobley_1881249: ok 
+  [68/642] mobley_1873346: ok 
+  [69/642] mobley_1849020: ok 
+  [70/642] mobley_1893815: ok 
+  [71/642] mobley_1899443: ok 
+  [72/642] mobley_1893937: ok 
+  [73/642] mobley_1896013: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [74/642] mobley_1903702: ok 
+  [75/642] mobley_1923244: ok 
+  [76/642] mobley_1905088: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_1905088/brazo_B/ligand
+
+  [77/642] mobley_1922649: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [78/642] mobley_1929982: ok 
+  [79/642] mobley_1952272: ok 
+  [80/642] mobley_1963873: ok 
+  [81/642] mobley_194273: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_194273/brazo_B/ligand.
+
+  [82/642] mobley_1967551: ok 
+  [83/642] mobley_197466: ok 
+  [84/642] mobley_1944394: ok 
+  [85/642] mobley_1976156: ok 
+  [86/642] mobley_1977493: ok 
+  [87/642] mobley_1987439: ok 
+  [88/642] mobley_2008055: ok 
+  [89/642] mobley_2005792: ok 
+  [90/642] mobley_2023925: ok 
+  [91/642] mobley_2043882: ok 
+  [92/642] mobley_2049967: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [93/642] mobley_20524: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [94/642] mobley_2068538: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [95/642] mobley_2078467: ok 
+  [96/642] mobley_210639: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_210639/brazo_B/ligand.
+
+  [97/642] mobley_2099370: ok 
+  [98/642] mobley_2143011: ok 
+  [99/642] mobley_2123854: ok 
+  [100/642] mobley_2126135: ok 
+  [101/642] mobley_2146331: ok 
+  [102/642] mobley_2178600: ok 
+  [103/642] mobley_2183616: ok 
+  [104/642] mobley_2198613: ok 
+  [105/642] mobley_2197088: ok 
+  [106/642] mobley_2213823: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [107/642] mobley_2245668: ok 
+  [108/642] mobley_2261979: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [109/642] mobley_2294995: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [110/642] mobley_2295058: ok 
+  [111/642] mobley_2310185: ok 
+  [112/642] mobley_2279874: ok 
+  [113/642] mobley_2269032: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [114/642] mobley_2316618: ok 
+  [115/642] mobley_2341732: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [116/642] mobley_2354112: ok 
+  [117/642] mobley_2328633: ok 
+  [118/642] mobley_2371092: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [119/642] mobley_2364370: ok 
+  [120/642] mobley_2390199: ok 
+  [121/642] mobley_2410897: ok 
+  [122/642] mobley_2402487: ok 
+  [123/642] mobley_2422586: ok 
+  [124/642] mobley_2457863: ok 
+  [125/642] mobley_2451097: ok 
+  [126/642] mobley_242480: ok 
+  [127/642] mobley_2481002: ok 
+  [128/642] mobley_2487143: ok 
+  [129/642] mobley_2484519: ok 
+  [130/642] mobley_2492140: ok 
+  [131/642] mobley_2489709: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [132/642] mobley_2493732: ok 
+  [133/642] mobley_2501588: ok 
+  [134/642] mobley_2517158: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_2517158/brazo_B/ligand
+
+  [135/642] mobley_2523689: ok 
+  [136/642] mobley_2518989: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [137/642] mobley_252413: ok 
+  [138/642] mobley_2609604: ok 
+  [139/642] mobley_2577969: ok 
+  [140/642] mobley_2613240: ok 
+  [141/642] mobley_2607611: ok 
+  [142/642] mobley_2659552: ok 
+  [143/642] mobley_2681549: ok 
+  [144/642] mobley_2636578: ok 
+  [145/642] mobley_2689721: ok 
+  [146/642] mobley_2661134: ok 
+  [147/642] mobley_2693089: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [148/642] mobley_2725802: ok 
+  [149/642] mobley_2725215: ok 
+  [150/642] mobley_2727678: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_2727678/brazo_B/ligand
+
+  [151/642] mobley_2751110: ok 
+  [152/642] mobley_2763835: ok 
+  [153/642] mobley_2771569: ok 
+  [154/642] mobley_2782339: ok 
+  [155/642] mobley_2784376: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [156/642] mobley_2789243: ok 
+  [157/642] mobley_2802855: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_2802855/brazo_B/ligand
+
+  [158/642] mobley_2837389: ok 
+  [159/642] mobley_2792521: ok 
+  [160/642] mobley_282648: ok 
+  [161/642] mobley_2845466: ok 
+  [162/642] mobley_2850833: ok 
+  [163/642] mobley_2844990: ok 
+  [164/642] mobley_2881590: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [165/642] mobley_2859600: ok 
+  [166/642] mobley_2864987: ok 
+  [167/642] mobley_2913224: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [168/642] mobley_2929847: ok 
+  [169/642] mobley_2923700: ok 
+  [170/642] mobley_2925352: ok 
+  [171/642] mobley_2958326: ok 
+  [172/642] mobley_296847: ok 
+  [173/642] mobley_2960202: ok 
+  [174/642] mobley_2972906: ok 
+  [175/642] mobley_2972345: ok 
+  [176/642] mobley_2996632: ok 
+  [177/642] mobley_303222: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [178/642] mobley_299266: ok 
+  [179/642] mobley_3006808: ok 
+  [180/642] mobley_3034976: ok 
+  [181/642] mobley_3053621: ok 
+  [182/642] mobley_3040612: ok 
+  [183/642] mobley_3047364: ok 
+  [184/642] mobley_3083321: ok 
+  [185/642] mobley_3060426: ok 
+  [186/642] mobley_313406: ok 
+  [187/642] mobley_3144334: ok 
+  [188/642] mobley_3105103: ok 
+  [189/642] mobley_3169935: ok 
+  [190/642] mobley_3151666: ok 
+  [191/642] mobley_3167746: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [192/642] mobley_3183805: ok 
+  [193/642] mobley_3187514: ok 
+  [194/642] mobley_3210206: ok 
+  [195/642] mobley_3211679: ok 
+  [196/642] mobley_3201701: ok 
+  [197/642] mobley_3234716: ok 
+  [198/642] mobley_3259411: ok 
+  [199/642] mobley_3264884: ok 
+  [200/642] mobley_3266352: ok 
+  [201/642] mobley_3265457: ok 
+  [202/642] mobley_3269565: ok 
+  [203/642] mobley_3318135: ok 
+  [204/642] mobley_3323117: ok 
+  [205/642] mobley_3274817: ok 
+  [206/642] mobley_3325209: ok 
+  [207/642] mobley_3269819: ok 
+  [208/642] mobley_3370989: ok 
+  [209/642] mobley_3359593: ok 
+  [210/642] mobley_337666: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [211/642] mobley_3398536: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_3398536/brazo_B/ligand
+
+  [212/642] mobley_3378420: ok 
+  [213/642] mobley_3395921: ok 
+  [214/642] mobley_3425174: ok 
+  [215/642] mobley_3414356: ok 
+  [216/642] mobley_3452749: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [217/642] mobley_349850: ok 
+  [218/642] mobley_3515580: ok 
+  [219/642] mobley_352111: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [220/642] mobley_3525176: ok 
+  [221/642] mobley_3546460: ok 
+  [222/642] mobley_3572203: ok 
+  [223/642] mobley_3573480: ok 
+  [224/642] mobley_3589456: ok 
+  [225/642] mobley_3639400: ok 
+  [226/642] mobley_36119: ok 
+  [227/642] mobley_3663158: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [228/642] mobley_3682850: ok 
+  [229/642] mobley_3686115: ok 
+  [230/642] mobley_3690931: ok 
+  [231/642] mobley_3727287: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [232/642] mobley_3715043: ok 
+  [233/642] mobley_3709920: ok 
+  [234/642] mobley_3738859: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_3738859/brazo_B/ligand
+
+  [235/642] mobley_3761215: ok 
+  [236/642] mobley_3775790: ok 
+  [237/642] mobley_3746675: ok 
+  [238/642] mobley_3762186: ok 
+  [239/642] mobley_3777264: ok 
+  [240/642] mobley_3843583: ok 
+  [241/642] mobley_3867265: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [242/642] mobley_3802803: ok 
+  [243/642] mobley_3968043: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [244/642] mobley_3968739: ok 
+  [245/642] mobley_3969312: ok 
+  [246/642] mobley_397645: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [247/642] mobley_3980099: ok 
+  [248/642] mobley_3982371: ok 
+  [249/642] mobley_3976574: ok 
+  [250/642] mobley_3999471: ok 
+  [251/642] mobley_4013838: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [252/642] mobley_4043951: ok 
+  [253/642] mobley_4039055: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_4039055/brazo_B/ligand
+
+  [254/642] mobley_4035953: ok 
+  [255/642] mobley_4043987: ok 
+  [256/642] mobley_4059279: ok 
+  [257/642] mobley_4177472: ok 
+  [258/642] mobley_4149784: ok 
+  [259/642] mobley_4193752: ok 
+  [260/642] mobley_4188615: ok 
+  [261/642] mobley_4218209: ok 
+  [262/642] mobley_4219614: ok 
+  [263/642] mobley_4287564: ok 
+  [264/642] mobley_4252724: ok 
+  [265/642] mobley_4291494: ok 
+  [266/642] mobley_4305650: ok 
+  [267/642] mobley_430089: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [268/642] mobley_4338603: ok 
+  [269/642] mobley_4364398: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_4364398/brazo_B/ligand
+
+  [270/642] mobley_4371692: ok 
+  [271/642] mobley_4395315: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [272/642] mobley_4434915: ok 
+  [273/642] mobley_4375719: ok 
+  [274/642] mobley_4465023: ok 
+  [275/642] mobley_4479135: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [276/642] mobley_4463913: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [277/642] mobley_4494568: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_4494568/brazo_B/ligand
+
+  [278/642] mobley_4483973: ok 
+  [279/642] mobley_4506634: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_4506634/brazo_B/ligand
+
+  [280/642] mobley_4584540: ok 
+  [281/642] mobley_4553008: ok 
+  [282/642] mobley_4561957: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [283/642] mobley_4587267: ok 
+  [284/642] mobley_4603202: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [285/642] mobley_4620651: ok 
+  [286/642] mobley_4609460: ok 
+  [287/642] mobley_4613090: ok 
+  [288/642] mobley_4639255: ok 
+  [289/642] mobley_4630641: ok 
+  [290/642] mobley_4678740: ok 
+  [291/642] mobley_4683624: ok 
+  [292/642] mobley_4687447: ok 
+  [293/642] mobley_468867: ok 
+  [294/642] mobley_4694328: ok 
+  [295/642] mobley_4690963: ok 
+  [296/642] mobley_4699732: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [297/642] mobley_4715906: ok 
+  [298/642] mobley_4759887: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_4759887/brazo_B/ligand
+
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [299/642] mobley_4792268: ok 
+  [300/642] mobley_4762983: ok 
+  [301/642] mobley_4780078: ok 
+  [302/642] mobley_4845722: ok 
+  [303/642] mobley_4850657: ok 
+  [304/642] mobley_4883284: ok 
+  [305/642] mobley_486214: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [306/642] mobley_4893032: ok 
+  [307/642] mobley_4884177: ok 
+  [308/642] mobley_4924862: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [309/642] mobley_49274: ok 
+  [310/642] mobley_4934872: ok 
+  [311/642] mobley_4964807: ok 
+  [312/642] mobley_4936555: ok 
+  [313/642] mobley_4983965: ok 
+  [314/642] mobley_5003962: ok 
+  [315/642] mobley_5006685: ok 
+  [316/642] mobley_5026370: ok 
+  [317/642] mobley_5063386: ok 
+  [318/642] mobley_5072416: ok 
+  [319/642] mobley_5056289: ok 
+  [320/642] mobley_5052949: ok 
+  [321/642] mobley_5079234: ok 
+  [322/642] mobley_5110043: ok 
+  [323/642] mobley_5076071: ok 
+  [324/642] mobley_5094777: ok 
+  [325/642] mobley_511661: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [326/642] mobley_5200358: ok 
+  [327/642] mobley_5157661: ok 
+  [328/642] mobley_5123639: ok 
+  [329/642] mobley_5220185: ok 
+  [330/642] mobley_525934: ok 
+  [331/642] mobley_5282042: ok 
+  [332/642] mobley_5263791: ok 
+  [333/642] mobley_52782: ok 
+  [334/642] mobley_5286200: ok 
+  [335/642] mobley_5310099: ok 
+  [336/642] mobley_5311804: ok 
+  [337/642] mobley_5347550: ok 
+  [338/642] mobley_5326154: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [339/642] mobley_5371840: ok 
+  [340/642] mobley_5346580: ok 
+  [341/642] mobley_5445548: ok 
+  [342/642] mobley_5390332: ok 
+  [343/642] mobley_5456566: ok 
+  [344/642] mobley_5449201: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [345/642] mobley_5393242: ok 
+  [346/642] mobley_5467162: ok 
+  [347/642] mobley_5494918: ok 
+  [348/642] mobley_5499659: ok 
+  [349/642] mobley_5471704: ok 
+  [350/642] mobley_547634: ok 
+  [351/642] mobley_550662: ok 
+  [352/642] mobley_5518547: ok 
+  [353/642] mobley_5510474: ok 
+  [354/642] mobley_5520946: ok 
+  [355/642] mobley_5538249: ok 
+  [356/642] mobley_5571660: ok 
+  [357/642] mobley_5561855: ok 
+  [358/642] mobley_5600967: ok 
+  [359/642] mobley_5616693: ok 
+  [360/642] mobley_5631798: ok 
+  [361/642] mobley_5627459: ok 
+  [362/642] mobley_5692472: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [363/642] mobley_5690766: ok 
+  [364/642] mobley_5665561: ok 
+  [365/642] mobley_5732611: ok 
+  [366/642] mobley_5708811: ok 
+  [367/642] mobley_5747188: ok 
+  [368/642] mobley_5759258: ok 
+  [369/642] mobley_5760563: ok 
+  [370/642] mobley_5747981: ok 
+  [371/642] mobley_5852491: ok 
+  [372/642] mobley_5816127: ok 
+  [373/642] mobley_5880265: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [374/642] mobley_5857: ok 
+  [375/642] mobley_5890803: ok 
+  [376/642] mobley_5917842: ok 
+  [377/642] mobley_5935995: ok 
+  [378/642] mobley_590519: ok 
+  [379/642] mobley_588781: ok 
+  [380/642] mobley_5952846: ok 
+  [381/642] mobley_5948990: ok 
+  [382/642] mobley_5977084: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [383/642] mobley_5973402: ok 
+  [384/642] mobley_6006813: ok 
+  [385/642] mobley_6055410: ok 
+  [386/642] mobley_6082662: ok 
+  [387/642] mobley_6060301: ok 
+  [388/642] mobley_6091882: ok 
+  [389/642] mobley_6081058: ok 
+  [390/642] mobley_6102880: ok 
+  [391/642] mobley_6115639: ok 
+  [392/642] mobley_6190089: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [393/642] mobley_6175884: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [394/642] mobley_6195751: ok 
+  [395/642] mobley_6198745: ok 
+  [396/642] mobley_6232400: ok 
+  [397/642] mobley_6201330: ok 
+  [398/642] mobley_6235784: ok 
+  [399/642] mobley_6239320: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [400/642] mobley_6248915: ok 
+  [401/642] mobley_6266306: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [402/642] mobley_6257907: ok 
+  [403/642] mobley_6250025: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_6250025/brazo_B/ligand
+
+  [404/642] mobley_627267: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_627267/brazo_B/ligand.
+
+  [405/642] mobley_628086: ok 
+  [406/642] mobley_628951: ok 
+  [407/642] mobley_6309289: ok 
+  [408/642] mobley_6303022: ok 
+  [409/642] mobley_6334915: ok 
+  [410/642] mobley_632905: ok 
+  [411/642] mobley_6358463: ok 
+  [412/642] mobley_6359135: ok 
+  [413/642] mobley_6353617: ok 
+  [414/642] mobley_6359156: ok 
+  [415/642] mobley_6338073: ok 
+  [416/642] mobley_63712: ok 
+  [417/642] mobley_637522: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [418/642] mobley_6416775: ok 
+  [419/642] mobley_646007: ok 
+  [420/642] mobley_6474572: ok 
+  [421/642] mobley_6430250: ok 
+  [422/642] mobley_6456034: ok 
+  [423/642] mobley_6497672: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [424/642] mobley_6571751: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [425/642] mobley_6620221: ok 
+  [426/642] mobley_6619554: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [427/642] mobley_6632459: ok 
+  [428/642] mobley_664966: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_664966/brazo_B/ligand.
+
+  [429/642] mobley_6522117: ok 
+  [430/642] mobley_6714389: ok 
+  [431/642] mobley_667278: ok 
+  [432/642] mobley_6688723: ok 
+  [433/642] mobley_6727159: ok 
+  [434/642] mobley_6739648: ok 
+  [435/642] mobley_6743808: ok 
+  [436/642] mobley_676247: ok 
+  [437/642] mobley_6733657: ok 
+  [438/642] mobley_6812653: ok 
+  [439/642] mobley_6794076: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [440/642] mobley_6804509: ok 
+  [441/642] mobley_6843802: ok 
+  [442/642] mobley_6854178: ok 
+  [443/642] mobley_6861308: ok 
+  [444/642] mobley_6896128: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [445/642] mobley_6911232: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [446/642] mobley_6917738: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [447/642] mobley_6929123: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [448/642] mobley_6973347: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [449/642] mobley_6935906: ok 
+  [450/642] mobley_6981465: ok 
+  [451/642] mobley_6978427: ok 
+  [452/642] mobley_7010316: ok 
+  [453/642] mobley_7015518: ok 
+  [454/642] mobley_6988468: ok 
+  [455/642] mobley_7009711: ok 
+  [456/642] mobley_7017274: ok 
+  [457/642] mobley_7066554: ok 
+  [458/642] mobley_7039935: ok 
+  [459/642] mobley_7099614: ok 
+  [460/642] mobley_7047032: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [461/642] mobley_7142697: ok 
+  [462/642] mobley_7106722: ok 
+  [463/642] mobley_7150646: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_7150646/brazo_B/ligand
+
+  [464/642] mobley_7176290: ok 
+  [465/642] mobley_718988: ok 
+  [466/642] mobley_7157427: ok 
+  [467/642] mobley_7176248: ok 
+  [468/642] mobley_7200804: ok 
+  [469/642] mobley_7227357: ok 
+  [470/642] mobley_7203421: ok 
+  [471/642] mobley_7261305: ok 
+  [472/642] mobley_7239499: ok 
+  [473/642] mobley_7295828: ok 
+  [474/642] mobley_7298388: ok 
+  [475/642] mobley_7326982: ok 
+  [476/642] mobley_7326706: ok 
+  [477/642] mobley_7360181: ok 
+  [478/642] mobley_7364468: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [479/642] mobley_7375018: ok 
+  [480/642] mobley_7378987: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [481/642] mobley_7415647: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [482/642] mobley_7393673: ok 
+  [483/642] mobley_7455579: ok 
+  [484/642] mobley_7417968: ok 
+  [485/642] mobley_7463799: ok 
+  [486/642] mobley_7532833: ok 
+  [487/642] mobley_7542832: ok 
+  [488/642] mobley_7463408: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [489/642] mobley_7497999: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [490/642] mobley_755351: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [491/642] mobley_7578802: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_7578802/brazo_B/ligand
+
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [492/642] mobley_7599023: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_7599023/brazo_B/ligand
+
+  [493/642] mobley_7573149: ok 
+  [494/642] mobley_7608462: ok 
+  [495/642] mobley_766666: ok 
+  [496/642] mobley_7676709: ok 
+  [497/642] mobley_7610437: ok 
+  [498/642] mobley_7608435: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [499/642] mobley_7708038: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_7708038/brazo_B/ligand
+
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [500/642] mobley_7732703: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_7732703/brazo_B/ligand
+
+  [501/642] mobley_7690440: ok 
+  [502/642] mobley_7735340: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [503/642] mobley_7688753: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [504/642] mobley_7758918: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [505/642] mobley_7768165: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_7768165/brazo_B/ligand
+
+  [506/642] mobley_7769613: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_7769613/brazo_B/ligand
+
+  [507/642] mobley_7754849: ok 
+  [508/642] mobley_7774695: ok 
+  [509/642] mobley_778352: ok 
+  [510/642] mobley_7794077: ok 
+  [511/642] mobley_7814642: ok 
+  [512/642] mobley_7829570: ok 
+  [513/642] mobley_7859387: ok 
+  [514/642] mobley_7860938: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [515/642] mobley_7869158: ok 
+  [516/642] mobley_7893124: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [517/642] mobley_7913234: ok 
+  [518/642] mobley_7912193: ok 
+  [519/642] mobley_7943327: ok 
+  [520/642] mobley_7983227: ok 
+  [521/642] mobley_7977115: ok 
+  [522/642] mobley_8006582: ok 
+  [523/642] mobley_8011706: ok 
+  [524/642] mobley_7988076: ok 
+  [525/642] mobley_8048190: ok 
+  [526/642] mobley_8052240: ok 
+  [527/642] mobley_8118832: ok 
+  [528/642] mobley_8057732: ok 
+  [529/642] mobley_8124669: ok 
+  [530/642] mobley_8117218: ok 
+  [531/642] mobley_8127829: ok 
+  [532/642] mobley_819018: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [533/642] mobley_8191186: ok 
+  [534/642] mobley_820789: ok 
+  [535/642] mobley_8221999: ok 
+  [536/642] mobley_8260524: ok 
+  [537/642] mobley_8207196: ok 
+  [538/642] mobley_8311321: ok 
+  [539/642] mobley_8208692: ok 
+  [540/642] mobley_8311303: ok 
+  [541/642] mobley_8320545: ok 
+  [542/642] mobley_8337977: ok 
+  [543/642] mobley_8337722: ok 
+  [544/642] mobley_8426916: ok 
+  [545/642] mobley_8427539: ok 
+  [546/642] mobley_8436428: ok 
+  [547/642] mobley_8449031: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [548/642] mobley_8514745: ok 
+  [549/642] mobley_8467917: ok 
+  [550/642] mobley_8492526: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [551/642] mobley_8522124: ok 
+  [552/642] mobley_852937: ok 
+  [553/642] mobley_8525830: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_8525830/brazo_B/ligand
+
+  [554/642] mobley_8558116: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [555/642] mobley_8578590: ok 
+  [556/642] mobley_8573194: ok 
+  [557/642] mobley_859464: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [558/642] mobley_8614858: ok 
+  [559/642] mobley_8668219: ok 
+  [560/642] mobley_8685905: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_8685905/brazo_B/ligand
+
+  [561/642] mobley_8705848: ok 
+  [562/642] mobley_8691603: ok 
+  [563/642] mobley_8723116: ok 
+  [564/642] mobley_8746821: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [565/642] mobley_8754702: ok 
+  [566/642] mobley_8739734: ok 
+  [567/642] mobley_8764620: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [568/642] mobley_8713762: ok 
+  [569/642] mobley_8765203: ok 
+  [570/642] mobley_8772587: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_8772587/brazo_B/ligand
+
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [571/642] mobley_8789465: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_8789465/brazo_B/ligand
+
+  [572/642] mobley_8785107: ok 
+  [573/642] mobley_8798016: ok 
+  [574/642] mobley_8789864: ok 
+  [575/642] mobley_8809274: ok 
+  [576/642] mobley_8809190: ok 
+  [577/642] mobley_8861672: ok 
+  [578/642] mobley_8823527: ok 
+  [579/642] mobley_8882696: ok 
+  [580/642] mobley_8885088: ok 
+  [581/642] mobley_8899867: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [582/642] mobley_8827942: ok 
+  [583/642] mobley_8883511: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [584/642] mobley_8966374: ok 
+  [585/642] mobley_8983100: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_8983100/brazo_B/ligand
+
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [586/642] mobley_8916409: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [587/642] mobley_900088: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [588/642] mobley_9015240: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_9015240/brazo_B/ligand
+
+  [589/642] mobley_902954: ok 
+  [590/642] mobley_9028462: ok 
+  [591/642] mobley_9029594: ok 
+  [592/642] mobley_9007496: ok 
+  [593/642] mobley_9055303: ok 
+  [594/642] mobley_9073553: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [595/642] mobley_9114381: ok 
+  [596/642] mobley_9100956: ok 
+  [597/642] mobley_9121449: ok 
+  [598/642] mobley_9112978: ok 
+  [599/642] mobley_9185328: ok 
+  [600/642] mobley_9201263: ok 
+  [601/642] mobley_9139060: ok 
+  [602/642] mobley_9209581: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [603/642] mobley_9246351: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_9246351/brazo_B/ligand
+
+  [604/642] mobley_9197172: ok 
+  [605/642] mobley_9246215: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [606/642] mobley_9257453: ok 
+  [607/642] mobley_9407874: ok 
+  [608/642] mobley_929676: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_929676/brazo_B/ligand.
+
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [609/642] mobley_9281946: ok 
+  [610/642] mobley_9434451: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_9434451/brazo_B/ligand
+
+  [611/642] mobley_9414831: ok 
+  [612/642] mobley_9460824: ok 
+  [613/642] mobley_9478823: ok 
+  [614/642] mobley_9507933: ok 
+  [615/642] mobley_9510785: ok 
+  [616/642] mobley_9557440: ok 
+  [617/642] mobley_951560: ok 
+  [618/642] mobley_9534740: ok 
+  [619/642] mobley_9571888: ok 
+  [620/642] mobley_9565165: ok 
+  [621/642] mobley_9617923: ok 
+  [622/642] mobley_9624458: ok 
+  [623/642] mobley_9626434: ok 
+  [624/642] mobley_9653690: ok 
+  [625/642] mobley_967099: ok 
+  [626/642] mobley_9705941: ok 
+  [627/642] mobley_9671033: ok 
+  [628/642] mobley_9729792: ok 
+  [629/642] mobley_9717937: ok 
+  [630/642] mobley_9733743: ok 
+  [631/642] mobley_9794857: ok 
+  [632/642] mobley_9740891: ok 
+  [633/642] mobley_9741965: ok 
+  [634/642] mobley_9838013: ok 
+  [635/642] mobley_9821936: ok 
+  [636/642] mobley_9913368: ok 
+  [637/642] mobley_9883303: ok 
+/opt/conda/envs/science/lib/python3.11/site-packages/openmm/app/internal/amber_file_parser.py:1169: UserWarning: Non-optimal GB parameters detected for GB model GBn2
+  warnings.warn(
+  [638/642] mobley_9942801: ok 
+  [639/642] mobley_9974966: ok 
+  [640/642] mobley_994483: fallo RuntimeError: pbsa rc=1: 
+  Unit    8 Error on OPEN: /work/resultados/MMGBSA-H3-FREESOLV-RADIOS/trabajo/mobley_994483/brazo_B/ligand.
+
+  [641/642] mobley_9897248: ok 
+  [642/642] mobley_9979854: ok 
+escrito resultados/MMGBSA-H3-FREESOLV-RADIOS/crudo.json (94.9 s)

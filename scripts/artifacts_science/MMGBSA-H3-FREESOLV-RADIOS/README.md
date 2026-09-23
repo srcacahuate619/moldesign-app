@@ -28,8 +28,12 @@ Sin ajustar nada en Br ni en I, sobre las 37 moleculas con Br o I (21 Br, 4 Br m
 ## Estado
 
 - Creado: 2026-09-23T19:27:51.560147+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: NO_GO
+- Sellado: sí (2026-09-23T22:42:43.009619+00:00)
+- Finalizado: 2026-09-23T22:42:55.859786+00:00
+- Razón de la decisión: NO_GO por la letra del gate: sobre las 37 moleculas con Br o I, MAE_A (1.5 A, mbondi3) 1.930 y MAE_B (Bondi, Br 1.85 e I 1.98 A) 2.053 kcal/mol; reduccion relativa -6.4% (se exigia >= 20%) e IC95 bootstrap de MAE_B - MAE_A [-0.010, +0.246], que no queda entero bajo cero. Br (n 21): MAE 1.67 -> 1.80, sesgo +1.57 -> +1.73. I (n 12): MAE 1.13 -> 1.27, sesgo +0.06 -> +0.76. El brazo B reduce el error en 8 de 37 moleculas. Se cumple la clausula de refutacion de H3: el radio por defecto da menos error; con 1.5 A el Br ya queda infrasolvatado (sesgo positivo) y agrandar el radio lo empeora. No polar ajustado solo en 467 moleculas sin halogeno: gamma 0.02537 kcal/mol/A2, b -3.418 kcal/mol. La primera medida se perdio por un fallo del script, no de la quimica (pbsa corta los nombres de archivo a 80 caracteres; los 37 fallos son exactamente las 37 Br/I, registrados en failures.jsonl); corregido y declarado en f7871d8, se repitio solo la etapa medir sobre los mismos prmtop: 642/642, y las 605 moleculas que ya habian salido son identicas bit a bit. Caracterizacion exploratoria posterior al gate (freesolv_h3_caracterizar.py; no cambia la decision): con PB en lugar de GB y el no polar reajustado igual, Bondi tampoco mejora (Br/I MAE 1.15 -> 1.21; Br empeora, I mejora 1.28 -> 1.00), asi que el NO_GO no es un artefacto de la aproximacion GB. GBn2 sobresolvata frente a PB con los mismos radios las moleculas con 3 F (media -2.34 kcal/mol, n 13) y con 4 o mas F (-7.68, n 5), mientras con 1 o 2 F coincide (+0.55, +0.45); y el modelo deja un sesgo de +5.94 kcal/mol en las policloradas (4 o mas Cl, n 31) que PB no explica (GB-PB -0.40), atribuible al termino no polar. Son hipotesis nuevas, no resultados.
+- Hashes de assets: 13 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 

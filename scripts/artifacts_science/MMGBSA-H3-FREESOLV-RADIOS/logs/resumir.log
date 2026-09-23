@@ -1,0 +1,11 @@
+no polar: gamma 0.02537 kcal/mol/A2, b -3.418 kcal/mol (467 moléculas sin halógeno)
+  Br            n  21  MAE A 1.67  B 1.80  sesgo A +1.57 B +1.73  (GAFF alquímico de FreeSolv 1.10)  |GB-PB| A 0.81 B 0.55
+  I             n  12  MAE A 1.13  B 1.27  sesgo A +0.06 B +0.76  (GAFF alquímico de FreeSolv 0.49)  |GB-PB| A 1.02 B 0.60
+  Br_mixto      n   4  MAE A 5.70  B 5.72  sesgo A -4.91 B -4.86  (GAFF alquímico de FreeSolv 0.49)  |GB-PB| A 5.68 B 5.89
+  Cl            n 106  MAE A 3.66  B 3.66  sesgo A +1.78 B +1.78  (GAFF alquímico de FreeSolv 1.49)  |GB-PB| A 0.66 B 0.66
+  F             n  26  MAE A 4.41  B 4.41  sesgo A -3.48 B -3.48  (GAFF alquímico de FreeSolv 1.31)  |GB-PB| A 2.05 B 2.05
+  sin_halogeno  n 467  MAE A 2.07  B 2.07  sesgo A -0.00 B -0.00  (GAFF alquímico de FreeSolv 1.05)  |GB-PB| A 0.51 B 0.51
+  otro_halogeno n   6  MAE A 6.41  B 6.41  sesgo A -6.41 B -6.41  (GAFF alquímico de FreeSolv 0.50)  |GB-PB| A 3.62 B 3.62
+  Br_I_todas    n  37  MAE A 1.93  B 2.05  sesgo A +0.38 B +0.70  (GAFF alquímico de FreeSolv 0.83)  |GB-PB| A 0.94 B 0.60
+gate: {'MAE_A': 1.9302313475005672, 'MAE_B': 2.053308238052905, 'reduccion_relativa': -0.06376276642264056, 'ic95_MAE_B_menos_MAE_A': [-0.010099581222326758, 0.2461854089738239], 'reduccion_suficiente': False, 'ic_entero_bajo_cero': False}
+decisión por el gate: NO_GO
