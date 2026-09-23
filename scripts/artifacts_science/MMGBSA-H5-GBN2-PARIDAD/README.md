@@ -28,8 +28,12 @@ GO si las 24 topologias con Br o I pasan en vacuum y GBn2_no_SA, o -solo si llev
 ## Estado
 
 - Creado: 2026-09-23T17:50:30.367042+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: NO_GO
+- Sellado: sí (2026-09-23T17:54:03.459385+00:00)
+- Finalizado: 2026-09-23T17:54:03.627976+00:00
+- Razón de la decisión: NO_GO por la letra del gate: 23/24 topologias con Br o I lo cumplen y 5mlj no. 19/24 pasan directamente (residuo de energia <= 2e-6 kcal/mol, fuerza <= 1.1e-4 kcal/mol/A); las 4 que llevan azufre fallan solo en GBn2 y las 4 recuperan la paridad con el S como elemento generico en ambos programas (residuo <= 6.3e-6). 5mlj (Br alifatico, sin S) falla ya en vacio (3.88 kcal/mol, 71 kcal/mol/A) por una geometria de entrada imposible, no por el bromo: el H22 del SDF de PDBBind esta a 0.259 A de C13 (angulo C13-C17-H22 = 1.2 grados) y toda la diferencia esta en el termino de angulo; el gate no preveia esa excepcion y no se cambia despues de medir. Controles F/Cl: 23/23 sin S pasan y 8/8 con S se atribuyen igual. OpenMM de Windows (python del runtime que se entrega) reproduce al de Linux en 110/110 comparaciones con las mismas entradas: 8.5e-14 kcal/mol y 1.6e-13 kcal/mol/A. Hallazgo aparte: el desacuerdo del azufre en GBn2 llega a 11.24 kcal/mol (2weg) y 4.87 (5eij, 2 S); afecta a cualquier Met/Cys del receptor. Siguiente: MMGBSA-H5-R1 con un filtro de validez geometrica declarado antes de medir.
+- Hashes de assets: 9 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 

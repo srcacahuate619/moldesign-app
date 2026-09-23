@@ -283,6 +283,30 @@ exige < 1e-6.
 también en las metioninas y cisteínas de cualquier receptor. Es un pendiente de
 la puerta 3 de `MMGBSA_VALIDATION.md`, no de este documento.
 
+**Resultado, medido el 2026-09-23 (`MMGBSA-H5-GBN2-PARIDAD`, sellado): NO_GO
+por la letra del gate, 23/24.**
+
+| | topologías | pasan directas | con S, atribuidas al S | sin atribuir |
+|---|---:|---:|---:|---:|
+| Br o I | 24 | 19 | 4/4 | **1 (5mlj)** |
+| control F / Cl | 31 | 23 | 8/8 | 0 |
+
+- Las 19 directas: residuo ≤ 2e-6 kcal/mol, fuerza ≤ 1,1e-4 kcal/mol/Å. Br e
+  I reciben en los dos programas radio 1,5 Å, apantallamiento 0,5 y α, β, γ
+  por defecto, y calculan lo mismo con ellos.
+- **5mlj no es el bromo:** el SDF de PDBBind trae el H22 a 0,259 Å de C13
+  (ángulo C13–C17–H22 = 1,2°). Toda la diferencia de vacío (3,88 kcal/mol) está
+  en el término de ángulo. El gate no preveía una geometría imposible y no se
+  cambia después de medir: se repite como `MMGBSA-H5-R1` con un filtro de
+  validez geométrica declarado antes.
+- **El azufre en GBn2 discrepa hasta 11,24 kcal/mol** (2weg, una sulfonamida;
+  4,87 en 5eij, con dos S), y siempre desaparece con el S genérico. Con cargas
+  AM1-BCC, más polarizadas que las Gasteiger de estas topologías, puede ser
+  mayor. No bloquea Br/I; sí la puerta 3 (receptores con Met y Cys).
+- **Windows reproduce a Linux:** el OpenMM del Python que se entrega da lo
+  mismo que el del servidor en 110/110 comparaciones con las mismas entradas
+  (8,5e-14 kcal/mol, 1,6e-13 kcal/mol/Å).
+
 ### H6 — Dominio: un solo juego de parámetros por elemento para Br e I en arilo; el alifático queda fuera
 
 **Enunciado.** Br e I unidos a un aromático se describen con un juego por

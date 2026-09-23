@@ -1,1 +1,192 @@
-{}
+{
+ "experimento": "MMGBSA-H5-GBN2-PARIDAD",
+ "generado_utc": "2026-09-23T17:53:33.740025+00:00",
+ "tolerancias": {
+  "energia_kcal_mol": 0.001,
+  "fuerza_kcal_mol_A": 0.001
+ },
+ "constantes": {
+  "K_AMBER": 332.05221729000004,
+  "K_OPENMM_NB": 332.06371329919216,
+  "K_OPENMM_GB": 332.0637786806883
+ },
+ "n_topologias": 55,
+ "fallos": [],
+ "br_i": {
+  "n": 24,
+  "pasan": 19,
+  "pasan_gate": 23,
+  "con_azufre": {
+   "n": 4,
+   "pasan": 0,
+   "paridad_recuperada_con_S_generico": 4,
+   "max_residuo_con_S_generico_kcal_mol": 6.336101320542032e-06
+  },
+  "sin_azufre": {
+   "n": 20,
+   "pasan": 19
+  },
+  "vacuum": {
+   "pasan": 23,
+   "max_residuo_kcal_mol": 3.87914012994617,
+   "max_error_fuerza_kcal_mol_A": 71.21966125081138,
+   "max_error_fuerza_bruto_kcal_mol_A": 71.21966298067821,
+   "windows": {
+    "pasan": 23,
+    "max_residuo_contra_sander_kcal_mol": 3.87914012994617,
+    "max_diferencia_energia_contra_linux_kcal_mol": 2.842170943040401e-14,
+    "max_diferencia_fuerza_contra_linux_kcal_mol_A": 1.4210854715202004e-13
+   }
+  },
+  "GBn2_no_SA": {
+   "pasan": 19,
+   "max_residuo_kcal_mol": 4.872759533975286,
+   "max_error_fuerza_kcal_mol_A": 71.11942237836013,
+   "max_error_fuerza_bruto_kcal_mol_A": 71.1194143325958,
+   "windows": {
+    "pasan": 19,
+    "max_residuo_contra_sander_kcal_mol": 4.872759533975272,
+    "max_diferencia_energia_contra_linux_kcal_mol": 4.263256414560601e-14,
+    "max_diferencia_fuerza_contra_linux_kcal_mol_A": 1.4033219031261979e-13
+   }
+  },
+  "pasan_windows": 19
+ },
+ "control_f_cl": {
+  "n": 31,
+  "pasan": 23,
+  "pasan_gate": 31,
+  "con_azufre": {
+   "n": 8,
+   "pasan": 0,
+   "paridad_recuperada_con_S_generico": 8,
+   "max_residuo_con_S_generico_kcal_mol": 1.2588476084048875e-05
+  },
+  "sin_azufre": {
+   "n": 23,
+   "pasan": 23
+  },
+  "vacuum": {
+   "pasan": 31,
+   "max_residuo_kcal_mol": 1.9613305351320594e-05,
+   "max_error_fuerza_kcal_mol_A": 9.933040268350624e-05,
+   "max_error_fuerza_bruto_kcal_mol_A": 0.00022789211243434693,
+   "windows": {
+    "pasan": 31,
+    "max_residuo_contra_sander_kcal_mol": 1.961330535842602e-05,
+    "max_diferencia_energia_contra_linux_kcal_mol": 1.4210854715202004e-14,
+    "max_diferencia_fuerza_contra_linux_kcal_mol_A": 1.6342482922482304e-13
+   }
+  },
+  "GBn2_no_SA": {
+   "pasan": 23,
+   "max_residuo_kcal_mol": 11.243654921832897,
+   "max_error_fuerza_kcal_mol_A": 40.49131449875085,
+   "max_error_fuerza_bruto_kcal_mol_A": 40.49123645521157,
+   "windows": {
+    "pasan": 23,
+    "max_residuo_contra_sander_kcal_mol": 11.243654921832904,
+    "max_diferencia_energia_contra_linux_kcal_mol": 8.526512829121202e-14,
+    "max_diferencia_fuerza_contra_linux_kcal_mol_A": 1.6342482922482304e-13
+   }
+  },
+  "pasan_windows": 23
+ },
+ "parametros_gb_por_halogeno": [
+  {
+   "elemento": "Br",
+   "tipo_amber": "br",
+   "radio_prmtop_A": 1.5,
+   "screen_prmtop": 0.8,
+   "openmm": {
+    "or": 1.304859,
+    "sr": 0.6524295,
+    "alpha": 1.0,
+    "beta": 0.8,
+    "gamma": 4.851
+   },
+   "n_atomos": 19
+  },
+  {
+   "elemento": "Cl",
+   "tipo_amber": "cl",
+   "radio_prmtop_A": 1.7,
+   "screen_prmtop": 0.8,
+   "openmm": {
+    "or": 1.5048589999999997,
+    "sr": 0.7524294999999999,
+    "alpha": 1.0,
+    "beta": 0.8,
+    "gamma": 4.851
+   },
+   "n_atomos": 18
+  },
+  {
+   "elemento": "F",
+   "tipo_amber": "f",
+   "radio_prmtop_A": 1.5,
+   "screen_prmtop": 0.88,
+   "openmm": {
+    "or": 1.304859,
+    "sr": 0.6524295,
+    "alpha": 1.0,
+    "beta": 0.8,
+    "gamma": 4.851
+   },
+   "n_atomos": 41
+  },
+  {
+   "elemento": "I",
+   "tipo_amber": "i",
+   "radio_prmtop_A": 1.5,
+   "screen_prmtop": 0.8,
+   "openmm": {
+    "or": 1.304859,
+    "sr": 0.6524295,
+    "alpha": 1.0,
+    "beta": 0.8,
+    "gamma": 4.851
+   },
+   "n_atomos": 16
+  }
+ ],
+ "crudos": {
+  "linux": {
+   "archivo": "crudo_linux.json",
+   "sha256": "1ad99b1c3d963f0c49750b62d22a534b5223ab514248cffcc90086c840964422",
+   "entorno": {
+    "python": "3.11.15",
+    "ejecutable": "/opt/conda/envs/science/bin/python",
+    "plataforma": "Linux-6.8.0-139-generic-x86_64-with-glibc2.36",
+    "openmm": "8.5.2",
+    "numpy": "2.4.6",
+    "sander": "/opt/conda/envs/science/lib/python3.11/site-packages/sander/__init__.py",
+    "AMBERHOME": null
+   }
+  },
+  "windows": {
+   "archivo": "crudo_windows.json",
+   "sha256": "289e5d8e6d2271250df26017889f33f6a87c4005722257bc1bc8b0dc450df648",
+   "entorno": {
+    "python": "3.11.9",
+    "ejecutable": "D:\\moldesign-build\\frontend\\src-tauri\\resources\\python\\python.exe",
+    "plataforma": "Windows-10-10.0.26200-SP0",
+    "openmm": "8.5.2",
+    "numpy": "2.4.4",
+    "sander": null
+   }
+  }
+ },
+ "gate": "24/24 topologías con Br o I pasan en vacuum y GBn2_no_SA, o —sólo si llevan S— el vacío pasa y el desacuerdo de GBn2 desaparece con el S como elemento genérico en ambos programas; y OpenMM de Windows reproduce al de Linux (< 1e-6)",
+ "pasa_gate": false,
+ "no_demuestra": "Que GBn2 describa bien la solvatación de Br o I. Demuestra, si pasa, que OpenMM y sander calculan lo mismo con los mismos parámetros, y registra cuáles son.",
+ "windows_reproduce_linux": {
+  "tolerancia": 1e-06,
+  "comparaciones": 110,
+  "esperadas": 110,
+  "mismas_entradas": 55,
+  "max_diferencia_energia_kcal_mol": 8.526512829121202e-14,
+  "max_diferencia_fuerza_kcal_mol_A": 1.6342482922482304e-13
+ },
+ "pasa_gate_windows": true
+}
