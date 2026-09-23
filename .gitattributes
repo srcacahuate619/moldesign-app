@@ -35,5 +35,7 @@ backend/audits/gbn2_paridad_halogenos.py     -text
 backend/audits/gbn2_paridad_halogenos_r1.py  -text
 backend/audits/lcpo_bri_h1.py                -text
 backend/audits/lcpo_bri_h2.py                -text
+backend/audits/gbn2_azufre_amber_h13.py      -text
+backend/services/chemistry/amber_compatibility.py  -text
 backend/audits/lcpo_halogenos.py             -text
 backend/audits/lcpo_vs_sasa_exacta.py        -text
