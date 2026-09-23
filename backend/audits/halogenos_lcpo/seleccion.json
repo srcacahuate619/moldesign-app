@@ -1,0 +1,885 @@
+{
+ "generado_utc": "2026-09-23T06:38:32.568212+00:00",
+ "criterios": {
+  "universo": "ligandos de PDBBind legibles por RDKit (FEP-01-PDBBIND)",
+  "elementos": "H C N O S P F Cl Br I",
+  "pesados": [
+   8,
+   35
+  ],
+  "carga_formal_max": 1,
+  "un_ligando_por_diana": "grupos de FEP-03-PDBBIND",
+  "estratos": "6 arilo + 6 alifatico por halogeno, relleno hasta 12",
+  "orden": "(n_pesados, pid)",
+  "fijos": [
+   "6qln",
+   "6qlo",
+   "6qlp",
+   "6qlq",
+   "6qlr",
+   "6qlt",
+   "6qlu"
+  ]
+ },
+ "n_candidatos": 763,
+ "descartes": {
+  "tamano": 221,
+  "carga": 25,
+  "ilegible": 1
+ },
+ "por_halogeno": {
+  "F": [
+   "1lgw",
+   "1tnh",
+   "1upf",
+   "4whs",
+   "2weg",
+   "3pcf",
+   "2pu1",
+   "3f78",
+   "4bc5",
+   "5yas",
+   "1gyy",
+   "1mfi"
+  ],
+  "Cl": [
+   "2p7a",
+   "2q7q",
+   "3i4y",
+   "4rpo",
+   "4qp2",
+   "2h6b",
+   "3tz0",
+   "6gnp",
+   "5mge",
+   "5mgj",
+   "2i80",
+   "5mro"
+  ],
+  "Br": [
+   "1e4h",
+   "4kwg",
+   "5aol",
+   "2hb1",
+   "2oxd",
+   "4aje",
+   "1q54",
+   "2ax9",
+   "5mlj",
+   "3ao2",
+   "3ao5",
+   "3juo"
+  ],
+  "I": [
+   "1c5n",
+   "1c5x",
+   "4agl",
+   "1igb",
+   "1my4",
+   "6g34",
+   "2wk6",
+   "6g39",
+   "6g3a",
+   "5eij",
+   "5o1f",
+   "1hk4"
+  ]
+ },
+ "galectina_3_incluidos": [
+  "6qln",
+  "6qlo",
+  "6qlp",
+  "6qlq",
+  "6qlr",
+  "6qlt",
+  "6qlu"
+ ],
+ "ligandos": [
+  {
+   "pid": "1c5n",
+   "grupo": "1a4w",
+   "n_pesados": 13,
+   "carga_formal": 0,
+   "halogenos": {
+    "I": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "0b0fca4f8f42195c94a49861293066f584a2d1b8e5eb71ccdfadb82d63d3c136",
+   "estrato": "I/arilo"
+  },
+  {
+   "pid": "1c5x",
+   "grupo": "1c5x",
+   "n_pesados": 13,
+   "carga_formal": 0,
+   "halogenos": {
+    "I": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "6918cb57db500ae61ec7dfd27cec4a30f6a09451c05e54e32f4a78bd29bc6dfa",
+   "estrato": "I/arilo"
+  },
+  {
+   "pid": "1e4h",
+   "grupo": "1bm7",
+   "n_pesados": 12,
+   "carga_formal": 0,
+   "halogenos": {
+    "Br": {
+     "arilo": 5,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "5eb465c7a70d538438640372a5b4f43a66d454cceae15b0fe754497375ff59de",
+   "estrato": "Br/arilo"
+  },
+  {
+   "pid": "1gyy",
+   "grupo": "1gyx",
+   "n_pesados": 13,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 0,
+     "alifatico": 1
+    }
+   },
+   "sdf_sha256": "43139fefa53fa436a18beeca34cab4bcfb017eb35cceaef7099f65a4d4abe710",
+   "estrato": "F/alifatico"
+  },
+  {
+   "pid": "1hk4",
+   "grupo": "1hk4",
+   "n_pesados": 24,
+   "carga_formal": 1,
+   "halogenos": {
+    "I": {
+     "arilo": 4,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "76426cb8c2c3205dd670a578b86c3777c20c869c255798eb02fb886e6a9e734c",
+   "estrato": "I/relleno"
+  },
+  {
+   "pid": "1igb",
+   "grupo": "1ft7",
+   "n_pesados": 14,
+   "carga_formal": 1,
+   "halogenos": {
+    "I": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "af21f2ba5d51c1e9769c4b9f85ffce1c1d6801e78002b8d7d4d4396e9e312f7c",
+   "estrato": "I/arilo"
+  },
+  {
+   "pid": "1lgw",
+   "grupo": "1lgw",
+   "n_pesados": 8,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "b8428a66d4c8b71533a324f7c6f3c03c1a9f22d48302b7ff8e6e8a5a564e4a20",
+   "estrato": "F/arilo"
+  },
+  {
+   "pid": "1mfi",
+   "grupo": "1mfi",
+   "n_pesados": 13,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 0,
+     "alifatico": 1
+    }
+   },
+   "sdf_sha256": "514f6c692db5194dfa7b2ebdf20c45bb0eeb7729aa1d92eaee685b79630bd367",
+   "estrato": "F/alifatico"
+  },
+  {
+   "pid": "1my4",
+   "grupo": "1ftm",
+   "n_pesados": 15,
+   "carga_formal": 1,
+   "halogenos": {
+    "I": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "8cb6e5a4475bb68d464a5ef877cd60fc19eb3d71990e9068a2de3a5f4af545ea",
+   "estrato": "I/arilo"
+  },
+  {
+   "pid": "1q54",
+   "grupo": "1q54",
+   "n_pesados": 16,
+   "carga_formal": 0,
+   "halogenos": {
+    "Br": {
+     "arilo": 0,
+     "alifatico": 1
+    }
+   },
+   "sdf_sha256": "cf5309161b323c5615183099b5d2ebf119f25c265900aa9b29b4623679ba5938",
+   "estrato": "Br/alifatico"
+  },
+  {
+   "pid": "1tnh",
+   "grupo": "1bju",
+   "n_pesados": 9,
+   "carga_formal": 1,
+   "halogenos": {
+    "F": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "2e5f8cf933e4c7f5859e66cd7821c6748a3d86df217b35bb7514e32e70919541",
+   "estrato": "F/arilo"
+  },
+  {
+   "pid": "1upf",
+   "grupo": "1jlr",
+   "n_pesados": 9,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "5dbc2cb46abb756ea9bfe403dc712bd28ad3443a0edcad03773b607df29b2e21",
+   "estrato": "F/arilo"
+  },
+  {
+   "pid": "2ax9",
+   "grupo": "1e3g",
+   "n_pesados": 21,
+   "carga_formal": 0,
+   "halogenos": {
+    "Br": {
+     "arilo": 0,
+     "alifatico": 1
+    },
+    "F": {
+     "arilo": 0,
+     "alifatico": 3
+    }
+   },
+   "sdf_sha256": "6bf16cc2309ef12958a2f9fa05e47f6eb78b0422ddad605bef652947a36496a1",
+   "estrato": "Br/alifatico"
+  },
+  {
+   "pid": "2h6b",
+   "grupo": "2h6b",
+   "n_pesados": 12,
+   "carga_formal": 0,
+   "halogenos": {
+    "Cl": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "472d81a95bae9858905d1f2df367b137866e081c84bc02e54e4f24189675bff3",
+   "estrato": "Cl/arilo"
+  },
+  {
+   "pid": "2hb1",
+   "grupo": "1bzc",
+   "n_pesados": 14,
+   "carga_formal": 0,
+   "halogenos": {
+    "Br": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "4b1bc48661acce3318ca6f3707d00d5aadd211fc606148e66c07750e0fe0b7d6",
+   "estrato": "Br/arilo"
+  },
+  {
+   "pid": "2i80",
+   "grupo": "2i80",
+   "n_pesados": 18,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 0,
+     "alifatico": 3
+    },
+    "Cl": {
+     "arilo": 0,
+     "alifatico": 1
+    }
+   },
+   "sdf_sha256": "bb66f59be68e50b484548a81ba5e05f9e94b43c5609d8f83b30e0d63bee33196",
+   "estrato": "Cl/alifatico"
+  },
+  {
+   "pid": "2oxd",
+   "grupo": "1m2p",
+   "n_pesados": 14,
+   "carga_formal": 0,
+   "halogenos": {
+    "Br": {
+     "arilo": 4,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "9917f912c94420c43a0a67ddfb09ee1d8c46f6383d9db794aeccd55b4514aee8",
+   "estrato": "Br/arilo"
+  },
+  {
+   "pid": "2p7a",
+   "grupo": "2e2r",
+   "n_pesados": 9,
+   "carga_formal": 0,
+   "halogenos": {
+    "Cl": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "4338bf50c8c337ce66272a20243b2e2c992f8792ed47150ba795b2eb8b44b559",
+   "estrato": "Cl/arilo"
+  },
+  {
+   "pid": "2pu1",
+   "grupo": "2ptz",
+   "n_pesados": 10,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 0,
+     "alifatico": 1
+    }
+   },
+   "sdf_sha256": "1599419dae07e94005600a8e9d5216e3cfd3469eda6b4384e3da2c8e898acd8f",
+   "estrato": "F/alifatico"
+  },
+  {
+   "pid": "2q7q",
+   "grupo": "2hjb",
+   "n_pesados": 9,
+   "carga_formal": 1,
+   "halogenos": {
+    "Cl": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "f57034efb7cfaaddc80906deff811c4b6a05929d25965660738665b03f6548fe",
+   "estrato": "Cl/arilo"
+  },
+  {
+   "pid": "2weg",
+   "grupo": "1avn",
+   "n_pesados": 11,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "3f7fc918ee13536e4b807d139807e792f8af3f7d678b690da9adce9c78304465",
+   "estrato": "F/arilo"
+  },
+  {
+   "pid": "2wk6",
+   "grupo": "1uou",
+   "n_pesados": 9,
+   "carga_formal": 0,
+   "halogenos": {
+    "I": {
+     "arilo": 0,
+     "alifatico": 1
+    }
+   },
+   "sdf_sha256": "fc1c5b34c2a1273198a4dcf417d6286becb225f98057dd9051e73860d79ce473",
+   "estrato": "I/alifatico"
+  },
+  {
+   "pid": "3ao2",
+   "grupo": "3ao2",
+   "n_pesados": 17,
+   "carga_formal": 0,
+   "halogenos": {
+    "Br": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "ed15dc26754684c3e229e32086ffe43e32417deed2becc8fa3ccea92c0498d70",
+   "estrato": "Br/relleno"
+  },
+  {
+   "pid": "3ao5",
+   "grupo": "3ao4",
+   "n_pesados": 17,
+   "carga_formal": 0,
+   "halogenos": {
+    "Br": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "2e436016ac2e945f672c4e62572920b9fd9497912ecee250ec543bbe046c0ce2",
+   "estrato": "Br/relleno"
+  },
+  {
+   "pid": "3f78",
+   "grupo": "1rd4",
+   "n_pesados": 10,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 0,
+     "alifatico": 5
+    },
+    "Cl": {
+     "arilo": 0,
+     "alifatico": 1
+    }
+   },
+   "sdf_sha256": "e3711e1c5275556217e8eb581398c6bba5d43ab17cdbe396d05ab9e19b3dd874",
+   "estrato": "F/alifatico"
+  },
+  {
+   "pid": "3i4y",
+   "grupo": "3i4y",
+   "n_pesados": 10,
+   "carga_formal": 0,
+   "halogenos": {
+    "Cl": {
+     "arilo": 2,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "90ff448f9760b0d43c2974c9a7b34a05416aa3e30769006644dde06eee76d0b5",
+   "estrato": "Cl/arilo"
+  },
+  {
+   "pid": "3juo",
+   "grupo": "3b4p",
+   "n_pesados": 17,
+   "carga_formal": 1,
+   "halogenos": {
+    "Br": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "ec29f7cb4123543a2371b63ad13a4a7f98f74fa7646cc9b4f0d54d173efad378",
+   "estrato": "Br/relleno"
+  },
+  {
+   "pid": "3pcf",
+   "grupo": "3pce",
+   "n_pesados": 11,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "aafa96b04287411d4d046729900bafa08afb231adc3645ecf26f945458587a4e",
+   "estrato": "F/arilo"
+  },
+  {
+   "pid": "3tz0",
+   "grupo": "3tz0",
+   "n_pesados": 9,
+   "carga_formal": 0,
+   "halogenos": {
+    "Cl": {
+     "arilo": 0,
+     "alifatico": 1
+    }
+   },
+   "sdf_sha256": "d153f3ac685de7b24ebd51eec9674ab8394989fdb91eaa894007f655ff1038d2",
+   "estrato": "Cl/alifatico"
+  },
+  {
+   "pid": "4agl",
+   "grupo": "2vuk",
+   "n_pesados": 13,
+   "carga_formal": 1,
+   "halogenos": {
+    "I": {
+     "arilo": 2,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "a4ec142e0c0235319a62b05c6d419302bffc1701cb72c727afdf2f162a82dfd0",
+   "estrato": "I/arilo"
+  },
+  {
+   "pid": "4aje",
+   "grupo": "4aj4",
+   "n_pesados": 15,
+   "carga_formal": 0,
+   "halogenos": {
+    "Br": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "b481d5fdc15f39acbf6112f4c389580586a192f74731de28be356048cc78a114",
+   "estrato": "Br/arilo"
+  },
+  {
+   "pid": "4bc5",
+   "grupo": "4bc5",
+   "n_pesados": 10,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 0,
+     "alifatico": 1
+    }
+   },
+   "sdf_sha256": "5d2d847fb7ef28d0b72bf25a85afd955161a9d4e8a9982b79504f18f5d1217b0",
+   "estrato": "F/alifatico"
+  },
+  {
+   "pid": "4kwg",
+   "grupo": "4kwf",
+   "n_pesados": 13,
+   "carga_formal": 0,
+   "halogenos": {
+    "Br": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "ef445680b14fc485f2013aec583e7b987a36a20c52d5bb2b608c412abd2e64a4",
+   "estrato": "Br/arilo"
+  },
+  {
+   "pid": "4qp2",
+   "grupo": "2ojg",
+   "n_pesados": 11,
+   "carga_formal": 0,
+   "halogenos": {
+    "Cl": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "259cf6c60a5583debc610edbf1b64d1e2b7fbc35d8974535a7eacdb9791043fb",
+   "estrato": "Cl/arilo"
+  },
+  {
+   "pid": "4rpo",
+   "grupo": "4rpo",
+   "n_pesados": 10,
+   "carga_formal": 0,
+   "halogenos": {
+    "Cl": {
+     "arilo": 3,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "3bea3a4489f392fcfe05c08049d91652f8f21a803e87324d3fc5fc67d3d4b804",
+   "estrato": "Cl/arilo"
+  },
+  {
+   "pid": "4whs",
+   "grupo": "4whs",
+   "n_pesados": 9,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "b4d94d68b6559ace66439e6c4df55acb12b1095b78184e2a7ea770cdf1699fb5",
+   "estrato": "F/arilo"
+  },
+  {
+   "pid": "5aol",
+   "grupo": "5aol",
+   "n_pesados": 13,
+   "carga_formal": 0,
+   "halogenos": {
+    "Br": {
+     "arilo": 1,
+     "alifatico": 0
+    },
+    "F": {
+     "arilo": 0,
+     "alifatico": 3
+    }
+   },
+   "sdf_sha256": "a41800679b0414a3593f6cb7cb8c0c65ff367667a4f05917c8e5ff792f00b4e1",
+   "estrato": "Br/arilo"
+  },
+  {
+   "pid": "5eij",
+   "grupo": "5eij",
+   "n_pesados": 21,
+   "carga_formal": 0,
+   "halogenos": {
+    "I": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "b9499cf0c5872f73359c54803fa040c3feedbad963e2319dc8d5a69e44288da4",
+   "estrato": "I/relleno"
+  },
+  {
+   "pid": "5mge",
+   "grupo": "4nra",
+   "n_pesados": 14,
+   "carga_formal": 0,
+   "halogenos": {
+    "Cl": {
+     "arilo": 0,
+     "alifatico": 1
+    }
+   },
+   "sdf_sha256": "4759fac7fd779526a615a6ff8a6b34a12f945b53ad959dfbb0c54181fecb8a1b",
+   "estrato": "Cl/alifatico"
+  },
+  {
+   "pid": "5mgj",
+   "grupo": "5mgj",
+   "n_pesados": 14,
+   "carga_formal": 0,
+   "halogenos": {
+    "Cl": {
+     "arilo": 0,
+     "alifatico": 1
+    }
+   },
+   "sdf_sha256": "669901fe6f0be4b87b5c1120cdc316c90bb288230b4d727e299a0d46d4b49ccb",
+   "estrato": "Cl/alifatico"
+  },
+  {
+   "pid": "5mlj",
+   "grupo": "5mlj",
+   "n_pesados": 23,
+   "carga_formal": 1,
+   "halogenos": {
+    "Br": {
+     "arilo": 0,
+     "alifatico": 1
+    }
+   },
+   "sdf_sha256": "f006f1c635b55b4be262d0082fd07b2862722410802f4a9f11d1862b8858d132",
+   "estrato": "Br/alifatico"
+  },
+  {
+   "pid": "5mro",
+   "grupo": "5mro",
+   "n_pesados": 18,
+   "carga_formal": 0,
+   "halogenos": {
+    "Cl": {
+     "arilo": 0,
+     "alifatico": 1
+    }
+   },
+   "sdf_sha256": "b0ac1ae3cbfaa26f2019b9cb915aadaa962d5a6606e36bc573f4add6cf0e251c",
+   "estrato": "Cl/alifatico"
+  },
+  {
+   "pid": "5o1f",
+   "grupo": "5o1f",
+   "n_pesados": 21,
+   "carga_formal": 0,
+   "halogenos": {
+    "I": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "d1542ce9e923dba429974e315f3eb3edb3a455dabacac7f6686b68af92da11f0",
+   "estrato": "I/relleno"
+  },
+  {
+   "pid": "5yas",
+   "grupo": "5yas",
+   "n_pesados": 11,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 0,
+     "alifatico": 6
+    }
+   },
+   "sdf_sha256": "01831026fed90fce5bc62484774256eacfc9643add648d13f9e914da87d0517c",
+   "estrato": "F/alifatico"
+  },
+  {
+   "pid": "6g34",
+   "grupo": "6g34",
+   "n_pesados": 20,
+   "carga_formal": 0,
+   "halogenos": {
+    "I": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "bb6b0d2a8f5365e19a0dd1f5d0a8722d71e4561a3a54f2db9274c99c8474ec86",
+   "estrato": "I/arilo"
+  },
+  {
+   "pid": "6g39",
+   "grupo": "6g39",
+   "n_pesados": 20,
+   "carga_formal": 0,
+   "halogenos": {
+    "I": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "dfc8bc8e59ede5bd6b654a144ce6f5568d4ace4a791399bfe29a837895ca21fc",
+   "estrato": "I/relleno"
+  },
+  {
+   "pid": "6g3a",
+   "grupo": "6g3a",
+   "n_pesados": 20,
+   "carga_formal": 0,
+   "halogenos": {
+    "I": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "725b6c72122bee536d70c9cdde2ef27ad77199065cc7d8b88db598dd07a519d1",
+   "estrato": "I/relleno"
+  },
+  {
+   "pid": "6gnp",
+   "grupo": "6gnp",
+   "n_pesados": 10,
+   "carga_formal": 0,
+   "halogenos": {
+    "Cl": {
+     "arilo": 0,
+     "alifatico": 3
+    }
+   },
+   "sdf_sha256": "65384fc604ba529614c0ba715b4e51911a0fc4da4efd97b69a1ac732948c9faa",
+   "estrato": "Cl/alifatico"
+  },
+  {
+   "pid": "6qln",
+   "grupo": "1kjr",
+   "n_pesados": 30,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "08b61c2adca3bd55ba6ba57b19c441d0af01c225da819f7dd580972bb482a887",
+   "estrato": "F/galectina-3"
+  },
+  {
+   "pid": "6qlo",
+   "grupo": "1kjr",
+   "n_pesados": 31,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 2,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "cb2bfba842bf5d11d1b93c7e5be58672b0182932207883011a46dd7f4f53da29",
+   "estrato": "F/galectina-3"
+  },
+  {
+   "pid": "6qlp",
+   "grupo": "1kjr",
+   "n_pesados": 32,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 3,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "0a44472b393266b63207d642032c0a9530e60cacd76d4ed1e5de85934cba9331",
+   "estrato": "F/galectina-3"
+  },
+  {
+   "pid": "6qlq",
+   "grupo": "1kjr",
+   "n_pesados": 30,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "e09fe3936ffb41e3fb3e7a642e4bed27cfcc102302a33006d700acdb0c448678",
+   "estrato": "F/galectina-3"
+  },
+  {
+   "pid": "6qlr",
+   "grupo": "1kjr",
+   "n_pesados": 31,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 2,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "0ec1dd239e15aac64e5a1a61d93b9b6c72c7d09e1e137f0d7db5da1a27e82469",
+   "estrato": "F/galectina-3"
+  },
+  {
+   "pid": "6qlt",
+   "grupo": "1kjr",
+   "n_pesados": 30,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "833be17862e0ce3028041f271dca4397b592fa9dbc4a57d3ca15593743035d21",
+   "estrato": "F/galectina-3"
+  },
+  {
+   "pid": "6qlu",
+   "grupo": "1kjr",
+   "n_pesados": 31,
+   "carga_formal": 0,
+   "halogenos": {
+    "F": {
+     "arilo": 1,
+     "alifatico": 0
+    }
+   },
+   "sdf_sha256": "f5085545f0042dc5decd17ea00d422debf7bf38023ea874d95ca484624e3223b",
+   "estrato": "F/galectina-3"
+  }
+ ]
+}
