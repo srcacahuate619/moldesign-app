@@ -288,7 +288,7 @@ async def download_pdb_from_rcsb(pdb_id: str) -> str:
 
     # 1. Cache local (pre-bundled para modo offline / Steam)
     local_cache = Path(os.getenv("MOLDESIGN_PDB_CACHE", str(
-        Path.home() / "MolDesign" / "data" / "pdb_cache"
+        Path(get_settings().local_data_dir) / "pdb_cache"
     )))
     local_pdb = local_cache / f"{pdb_id}.pdb"
     if local_pdb.exists():

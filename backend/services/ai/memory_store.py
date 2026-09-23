@@ -22,10 +22,8 @@ Flujo:
 from __future__ import annotations
 
 import json
-import os
 import re
 import sqlite3
-import tempfile
 import time
 from contextlib import contextmanager, suppress
 from pathlib import Path
@@ -42,11 +40,11 @@ def _directorio_de_datos() -> Path:
 
     `ai_memory.db` guarda conversaciones, catálogo y el índice de búsqueda de
     quien use la máquina. Una prueba que olvide aislar la ruta escribiría encima
-    de todo eso.
+    de todo eso. Fuera de las pruebas, `settings.local_data_dir`.
     """
-    if os.environ.get("MOLDESIGN_TESTING") == "1":
-        return Path(tempfile.gettempdir()) / "moldesign-tests" / "ai"
-    return Path("~/MolDesign/data").expanduser()
+    from core.config import directorio_de_datos
+
+    return directorio_de_datos("ai")
 
 
 _DB_PATH = _directorio_de_datos() / "ai_memory.db"

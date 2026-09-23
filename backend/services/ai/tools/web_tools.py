@@ -24,9 +24,9 @@ import time
 import urllib.parse
 import urllib.request
 import urllib.error
-from pathlib import Path
 from typing import Callable, Awaitable
 
+from core.config import directorio_de_datos
 from services.ai.tool_registry import ToolDef, get_tool_registry
 from utils.logger import get_logger
 
@@ -36,8 +36,8 @@ log = get_logger(__name__)
 # Caches locales (offline-first)
 # ═══════════════════════════════════════════════════════════════════════
 
-_PUBCHEM_CACHE = Path.home() / "MolDesign" / "data" / "pubchem_cache.db"
-_CHEMBL_CACHE  = Path.home() / "MolDesign" / "data" / "chembl_cache.db"
+_PUBCHEM_CACHE = directorio_de_datos("cache") / "pubchem_cache.db"
+_CHEMBL_CACHE  = directorio_de_datos("cache") / "chembl_cache.db"
 
 # PubChem y otras APIs públicas rechazan User-Agents cortos/custom con HTTP 400.
 # Un UA tipo navegador es lo que esperan (verificado: "MolDesign/1.5" → 400,

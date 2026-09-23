@@ -325,3 +325,21 @@ class Settings(BaseSettings):
 def get_settings() -> Settings:
     """Singleton; installed builds receive secrets only through the environment."""
     return Settings()
+
+
+def directorio_de_datos(almacen: str) -> Path:
+    """Dónde escribe un almacén local (grafo, memoria, cachés). No crea nada.
+
+    Fuera de las pruebas es `settings.local_data_dir`, el mismo sitio que la
+    base SQLite: `LOCAL_DATA_DIR` si se fija y, si no, `~/MolDesign/data`. Hasta
+    el 2026-09-23 varios almacenes escribían en `~/MolDesign/data` a fuego y
+    `LOCAL_DATA_DIR` no los aislaba: el smoke de producción, lanzado con una
+    carpeta temporal, seguía creando `molgraph.db` en la del usuario.
+
+    Bajo `MOLDESIGN_TESTING=1` nunca son los datos del investigador: un
+    temporal por almacén (`moldesign-tests/<almacen>`), la guardia que ya tenían
+    `molgraph` y `memory_store`.
+    """
+    if os.environ.get("MOLDESIGN_TESTING") == "1":
+        return Path(tempfile.gettempdir()) / "moldesign-tests" / almacen
+    return Path(get_settings().local_data_dir)

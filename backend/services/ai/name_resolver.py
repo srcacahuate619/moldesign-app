@@ -126,7 +126,6 @@ except Exception:
 # Constants
 # ---------------------------------------------------------------------------
 
-_DEFAULT_MOLGRAPH_DB = Path.home() / "MolDesign" / "data" / "molgraph.db"
 
 _PUBCHEM_TTL_SECONDS = 86400 * 30  # ~30 days
 
@@ -555,7 +554,12 @@ async def resolve_molecule_name(
     if not normalized:
         return _fail(raw_input)
 
-    db_path = Path(molgraph_db_path) if molgraph_db_path else _DEFAULT_MOLGRAPH_DB
+    if molgraph_db_path:
+        db_path = Path(molgraph_db_path)
+    else:
+        from services.ai import molgraph  # el corpus que siembra el arranque
+
+        db_path = molgraph._PUBLIC_DB
 
     # ---- Candidate 0: full normalized input -----------------------------
     full_result = await _resolve_candidate(

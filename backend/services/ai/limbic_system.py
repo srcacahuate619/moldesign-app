@@ -21,10 +21,10 @@ from __future__ import annotations
 
 import json
 import time
-from pathlib import Path
 
+from core.config import directorio_de_datos
 
-_STATE_PATH = Path.home() / "MolDesign" / "data" / "limbic.json"
+_STATE_PATH = directorio_de_datos("limbic") / "limbic.json"
 
 _DEFAULT_STATE = {
     "xp": 0,

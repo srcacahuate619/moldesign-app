@@ -11,10 +11,8 @@ Arquitectura inspirada en CodeGraph, aplicada a quimica medicinal.
 from __future__ import annotations
 
 import json
-import os
 import pickle
 import sqlite3
-import tempfile
 import time
 import uuid
 from contextlib import contextmanager
@@ -43,10 +41,11 @@ def _directorio_de_datos() -> Path:
     guard que ya protege `core.database`, y aquí hacía falta por la misma razón:
     una prueba que olvide aislar la ruta escribiría —y migraría— sobre los datos
     reales de quien ejecuta la suite. Pasó una vez; que no dependa de acordarse.
+    Fuera de las pruebas, `settings.local_data_dir` (ver `directorio_de_datos`).
     """
-    if os.environ.get("MOLDESIGN_TESTING") == "1":
-        return Path(tempfile.gettempdir()) / "moldesign-tests" / "molgraph"
-    return Path.home() / "MolDesign" / "data"
+    from core.config import directorio_de_datos
+
+    return directorio_de_datos("molgraph")
 
 
 #: El corpus que el instalador copia en el primer arranque. Inmutable.

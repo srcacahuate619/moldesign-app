@@ -8,11 +8,11 @@ from __future__ import annotations
 
 import sqlite3
 import time
-from pathlib import Path
 
+from core.config import directorio_de_datos
 from services.ai.tool_registry import ToolDef, get_tool_registry
 
-_TOOL_CACHE = Path.home() / "MolDesign" / "data" / "tool_cache.db"
+_TOOL_CACHE = directorio_de_datos("cache") / "tool_cache.db"
 
 
 def _tool_cache_conn():

@@ -962,11 +962,15 @@ async def _auto_seed_molgraph_if_missing() -> None:
     """Copia el molgraph_seed.db a la carpeta local de MolDesign en el primer inicio."""
     import shutil
 
-    local_molgraph_path = Path.home() / "MolDesign" / "data" / "molgraph.db"
+    from services.ai import molgraph
+
+    # Las mismas rutas que lee el grafo: antes esta copia iba siempre a
+    # ~/MolDesign/data y no respetaba LOCAL_DATA_DIR ni la guardia de pruebas.
+    local_molgraph_path = molgraph._PUBLIC_DB
     if local_molgraph_path.exists():
         return  # Ya existe, no sobreescribir
 
-    seed_path = Path(__file__).resolve().parent.parent.parent / "data" / "molgraph_seed.db"
+    seed_path = molgraph._SEED_DB
     if not seed_path.exists():
         log.warning("auto_seed: molgraph_seed.db no encontrado en resources", path=str(seed_path))
         return
