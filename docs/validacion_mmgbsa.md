@@ -189,6 +189,23 @@ de variación < 20% entre remuestreos.
 
 **Coste.** Horas: la SASA exacta con 50 000 puntos es lo caro.
 
+**Prerregistrada el 2026-09-23 como `MMGBSA-H2-LCPO-AJUSTE`** (con H10), en
+`backend/audits/lcpo_bri_h2.py`. El radio queda en el de Bondi: define la esfera
+cuya SASA se aproxima, así que no tiene objetivo ajustarlo. El área LCPO de un
+átomo es lineal en sus propios P1-P4, de modo que el ajuste es un mínimo
+cuadrado exacto sobre los términos que calcula la implementación validada.
+
+**Cambio de criterio, declarado antes de ajustar con datos reales.** Un piloto
+**sólo de entrenamiento** mostró que los cuatro términos están casi alineados
+(número de condición ~1e4): CV de P3 94 % en Br y 997 % en I, mientras el área
+predicha varía < 1 Å² entre remuestreos. Con un objetivo sintético sin ruido
+(el área del Cl publicado) el CV de P3 del I sigue en 303 %. Un CV < 20 % en
+cada coeficiente no puede cumplirse y no mide el ajuste; se sustituye por CV de
+P1 < 20 % y desviación del área predicha ≤ 1 Å². Y se añaden dos brazos
+—completo (P1-P4) y reducido (P1, P2 con P3, P4 del Cl)—, elegidos en
+validación con una regla de parsimonia fijada antes (el reducido salvo que el
+completo mejore la mediana más de 0,5 Å²); la prueba sólo confirma.
+
 **Notas del propietario (informe 2026-09-23):** viable para Br, más arriesgada
 para I por el tamaño de muestra. Bootstrap de 100 a 1000 remuestreos **por
 scaffold**, no por átomo; los parámetros se congelan antes de abrir la prueba,
