@@ -445,3 +445,39 @@ Código: [`lcpo_halogenos.py`](lcpo_halogenos.py); datos:
 [`halogenos_lcpo/`](halogenos_lcpo/) (selección, parametrización, resultado y
 registros). Las topologías y coordenadas derivadas de PDBBind quedaron en el
 servidor, fuera del repositorio.
+
+## GBn2 con Br e I, y el azufre (2026-09-23)
+
+Hipótesis H5 de [`../../docs/validacion_mmgbsa.md`](../../docs/validacion_mmgbsa.md):
+con la misma topología y las mismas coordenadas, ¿calculan OpenMM y sander lo
+mismo en GBn2 para ligandos con Br o I? Sobre las 55 topologías de la sección
+anterior, en el servidor (sander) y con el Python que se entrega en Windows.
+Código: [`gbn2_paridad_halogenos.py`](gbn2_paridad_halogenos.py) y su réplica
+[`gbn2_paridad_halogenos_r1.py`](gbn2_paridad_halogenos_r1.py); sellos
+`MMGBSA-H5-GBN2-PARIDAD` (NO_GO 23/24) y `MMGBSA-H5-R1` (GO).
+
+**Br e I: sí.** Las 23 topologías de geometría posible coinciden (residuo
+≤ 2e-6 kcal/mol, fuerza ≤ 1,1e-4 kcal/mol/Å, tras la misma conversión de
+constantes que las ocho de referencia). Los dos programas dan a Br e I radio
+1,5 Å, apantallamiento 0,5 y α, β, γ por defecto. La 24ª, 5mlj, trae en el SDF
+de PDBBind un H añadido a un carbono sp2 con Br, a 0,259 Å de otro carbono;
+con ese H recolocado coincide en 6,0e-6. El OpenMM de Windows reproduce al de
+Linux en 110/110 comparaciones (8,5e-14 kcal/mol).
+
+**El azufre: no, y la diferencia es grande.** Las 12 topologías con S (4 con
+Br/I, 8 de control) discrepan sólo en el término GB, de 0,01 a **11,24
+kcal/mol** (2weg, una sulfonamida; 4,87 en 5eij, con dos S). En la tabla GBn2
+de OpenMM el S es el único elemento con apantallamiento negativo (−0,703469).
+Prueba decisiva: el mismo prmtop con el número atómico del S cambiado a 34
+(sin parámetros GBn2 propios en ninguno de los dos) recupera la paridad en las
+12 (residuo ≤ 1,3e-5). El desacuerdo es, por tanto, del tratamiento del S en
+GBn2. Conjetura sin leer la fuente de sander: con apantallamiento negativo,
+sander entra siempre en su desarrollo en serie de largo alcance y OpenMM
+evalúa la integral exacta.
+
+**Por qué importa más allá de los halógenos:** cualquier receptor tiene
+metioninas y cisteínas. Hasta atribuir cuál de las dos implementaciones es
+la de GBn2 (el modelo se parametrizó en Amber), un ΔG de unión MM-GBSA con
+OpenMM no es comparable con uno de sander cuando hay azufre cerca del sitio.
+Es un pendiente nuevo de la **puerta 3**. Nada de esto cambia producción: el
+protocolo sigue `EXPERIMENTAL_NOT_ENABLED`.

@@ -28,8 +28,12 @@ GO si entre las topologias con Br o I de geometria posible hay al menos 20 y tod
 ## Estado
 
 - Creado: 2026-09-23T17:59:05.333933+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: GO
+- Sellado: sí (2026-09-23T18:00:15.647247+00:00)
+- Finalizado: 2026-09-23T18:00:15.816937+00:00
+- Razón de la decisión: La hipotesis se sostiene. De las 24 topologias con Br o I, 23 tienen geometria posible y las 23 pasan: 19 directamente (residuo <= 2e-6 kcal/mol, fuerza <= 1.1e-4 kcal/mol/A) y 4 con azufre que recuperan la paridad con el S como elemento generico en ambos programas. 5mlj es INDETERMINADA por el filtro declarado antes de medir (H22 a 0.259 A de C13; el SDF de PDBBind anade un H a un carbono sp2 con Br); diagnostico fuera del gate: con ese H perpendicular al plano, OpenMM y sander coinciden en 6.0e-6 kcal/mol en vacuum y GBn2, asi que el fallo de H5 queda atribuido entero a la geometria. Control F/Cl: 30 pasan y 6gnp (mismo defecto, H sobre un carbono sp2 con Cl) es INDETERMINADA; con el H recolocado coincide en 6e-9. OpenMM del runtime de Windows reproduce al de Linux en 110/110 comparaciones (8.5e-14 kcal/mol, 1.6e-13 kcal/mol/A) y el filtro da lo mismo en las dos maquinas. Con los mismos parametros (radio 1.5 A, apantallamiento 0.5, alfa/beta/gamma por defecto) los dos programas calculan lo mismo para Br e I: H1-H4 pueden atribuir errores a la fisica y no a la implementacion. Lo que no demuestra: que esos parametros sean buenos. Abierto aparte: el azufre discrepa en GBn2 hasta 11.24 kcal/mol (2weg). Nota de lectura: logs/comparar.log imprime primero el gate de H5 (NO PASA) porque reutiliza su cruce sin modificarlo; el de R1 es la ultima linea.
+- Hashes de assets: 8 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 

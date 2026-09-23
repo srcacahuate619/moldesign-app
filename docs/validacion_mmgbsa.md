@@ -307,6 +307,25 @@ por la letra del gate, 23/24.**
   mismo que el del servidor en 110/110 comparaciones con las mismas entradas
   (8,5e-14 kcal/mol, 1,6e-13 kcal/mol/Å).
 
+**Réplica con filtro geométrico (`MMGBSA-H5-R1`, sellada): GO.** Filtro
+declarado antes de medir: dos átomos a < 0,5 Å o un ángulo de valencia < 30°
+hacen la topología INDETERMINADA. Marca dos de 55, y en las dos el SDF de
+PDBBind **añade un H a un carbono sp2 halogenado** (5mlj con Br, 6gnp con Cl).
+
+| | pasan | fallan | indeterminadas |
+|---|---:|---:|---:|
+| Br o I (24) | 23 | 0 | 1 (5mlj) |
+| control F / Cl (31) | 30 | 0 | 1 (6gnp) |
+
+Con el H sobrante recolocado (perpendicular al plano), 5mlj coincide en
+6,0e-6 kcal/mol y 6gnp en 6e-9: el fallo de H5 queda atribuido entero a la
+geometría. **Conclusión con su límite:** con los mismos parámetros (radio
+1,5 Å, apantallamiento 0,5, α, β, γ por defecto) OpenMM y sander calculan lo
+mismo para Br e I, así que H1-H4 pueden atribuir un error a la física y no a
+la implementación. No dice que esos parámetros sean buenos. Y deja dos cosas
+para el resto de la campaña: la curación de H1 aplica el mismo filtro, y el
+producto debería abstenerse ante un H sobre un carbono sp2 (pendiente).
+
 ### H6 — Dominio: un solo juego de parámetros por elemento para Br e I en arilo; el alifático queda fuera
 
 **Enunciado.** Br e I unidos a un aromático se describen con un juego por
@@ -452,7 +471,8 @@ referencias concretas del informe están por localizar).
 ## 3. Orden propuesto
 
 1. **H5** (minutos): si la implementación no coincide, nada más tiene sentido.
-   **En marcha** como `MMGBSA-H5-GBN2-PARIDAD`.
+   **Cerrada, GO** (`MMGBSA-H5-R1`, tras un NO_GO de H5 por una entrada
+   imposible).
 2. **H1** (minutos) y, sólo si falla, **H2** (horas), con **H10** en la misma
    corrida.
 3. **H3 y H4**: primero contra PBSA en las mismas geometrías, después FreeSolv.
@@ -496,3 +516,6 @@ Pendientes:
   brazos y criterios de H3; límite de 1-2 Å de la tabla del cuello de GBn2;
   H10 y H11 nuevas; H5 son 24 topologías, con su piloto y el gate declarado
   antes de la corrida completa.
+- 2026-09-23 — H5 sellada (NO_GO 23/24 por 5mlj) y su réplica R1 con filtro
+  geométrico (GO 23/23 evaluables). El azufre discrepa en GBn2 hasta
+  11,24 kcal/mol.

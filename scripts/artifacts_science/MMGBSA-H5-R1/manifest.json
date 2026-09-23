@@ -4,7 +4,7 @@
   "hypothesis": "Replica de MMGBSA-H5-GBN2-PARIDAD con un filtro de validez geometrica: entre las topologias con Br o I de geometria posible, OpenMM 8.5.2 (Reference) reproduce a sander en vacuum y GBn2 sin superficie (residuo < 0.001 kcal/mol, fuerza convertida < 0.001 kcal/mol/A), con la misma excepcion del azufre que H5; y el OpenMM del runtime de Windows reproduce al de Linux.",
   "protocol": "backend/audits/gbn2_paridad_halogenos_r1.py, que importa sin modificar el script sellado de H5, sobre las mismas 55 topologias; corridas nuevas en directorios nuevos (servidor con sander; esta maquina con frontend/src-tauri/resources/python). Filtro declarado antes de medir: geometria imposible si dos atomos estan a < 0.5 A o un angulo de valencia mide < 30 grados. Se diseno despues de ver 5mlj en H5 y se comprobo solo sobre geometrias (sin energias) antes de este prerregistro: marca 5mlj (Br) y 6gnp (Cl, control); en los dos el SDF de PDBBind anade un H a un carbono sp2 halogenado. Diagnostico fuera del gate: recolocar ese H (perpendicular al plano si el centro es plano) y medir la paridad.",
   "created_at": "2026-09-23T17:59:05.333933+00:00",
-  "status": "created",
+  "status": "finished",
   "git_state": {
     "branch": "codex/release-hygiene",
     "commit": "ddb5304aedd27e913ec54a1f25d5218563fc8a95",
@@ -25,5 +25,20 @@
   "gate": {
     "description": "GO si entre las topologias con Br o I de geometria posible hay al menos 20 y todas pasan en vacuum y GBn2_no_SA, o -solo si llevan S- el vacio pasa y el desacuerdo desaparece con el S como elemento generico; las de geometria imposible cuentan como INDETERMINADO; y OpenMM de Windows reproduce al de Linux (< 1e-6 kcal/mol y kcal/mol/A) en todas las comparaciones con las mismas entradas. Cualquier otro fallo: NO_GO."
   },
-  "decision": "PENDING"
+  "decision": "GO",
+  "assets_hashes": {
+    "backend/audits/gbn2_paridad_halogenos_r1.py": "ca7283d9c82745c2c3c5715bf4f52e03d4fac97bce8fa709a0914660205040fd",
+    "backend/audits/gbn2_paridad_halogenos.py": "cb65f8c701da96fa7ccc698b6ee96b87ddf453b310f085dc2ea065f531b5c76a",
+    "scripts/artifacts_science/MMGBSA-H5-R1/metrics.json": "bd9644dda74f29e4160a36ddd6bcb16cc841e267c59b9010c861a6541d9de8e3",
+    "scripts/artifacts_science/MMGBSA-H5-R1/per_complex.jsonl": "734fa15d96016f7d42fc5f846317719db93e5d1ca2f0f39cb850d082ed6bc3b0",
+    "scripts/artifacts_science/MMGBSA-H5-R1/failures.jsonl": "5a9a86b785e718c6934fb2ff4c9622f099123758d4468afbab9ef097fb72b4a0",
+    "scripts/artifacts_science/MMGBSA-H5-R1/logs/comparar.log": "c37eb4c64363a69297ff66ab83ed67d94e0440195e423bc0afd8977cae83b686",
+    "scripts/artifacts_science/MMGBSA-H5-R1/logs/medir_linux.log": "f0c2fda534cf6e7507cf43db7717b7f0a6590edd3f2cb4eea681f45bc1505afb",
+    "scripts/artifacts_science/MMGBSA-H5-R1/logs/medir_windows.log": "6499254331ff5639d2ba682fb46057400ab4d3c9734cd71e9963d8c12669ee78"
+  },
+  "sealed": true,
+  "sealed_at": "2026-09-23T18:00:15.647247+00:00",
+  "decision_rationale": "La hipotesis se sostiene. De las 24 topologias con Br o I, 23 tienen geometria posible y las 23 pasan: 19 directamente (residuo <= 2e-6 kcal/mol, fuerza <= 1.1e-4 kcal/mol/A) y 4 con azufre que recuperan la paridad con el S como elemento generico en ambos programas. 5mlj es INDETERMINADA por el filtro declarado antes de medir (H22 a 0.259 A de C13; el SDF de PDBBind anade un H a un carbono sp2 con Br); diagnostico fuera del gate: con ese H perpendicular al plano, OpenMM y sander coinciden en 6.0e-6 kcal/mol en vacuum y GBn2, asi que el fallo de H5 queda atribuido entero a la geometria. Control F/Cl: 30 pasan y 6gnp (mismo defecto, H sobre un carbono sp2 con Cl) es INDETERMINADA; con el H recolocado coincide en 6e-9. OpenMM del runtime de Windows reproduce al de Linux en 110/110 comparaciones (8.5e-14 kcal/mol, 1.6e-13 kcal/mol/A) y el filtro da lo mismo en las dos maquinas. Con los mismos parametros (radio 1.5 A, apantallamiento 0.5, alfa/beta/gamma por defecto) los dos programas calculan lo mismo para Br e I: H1-H4 pueden atribuir errores a la fisica y no a la implementacion. Lo que no demuestra: que esos parametros sean buenos. Abierto aparte: el azufre discrepa en GBn2 hasta 11.24 kcal/mol (2weg). Nota de lectura: logs/comparar.log imprime primero el gate de H5 (NO PASA) porque reutiliza su cruce sin modificarlo; el de R1 es la ultima linea.",
+  "finished_at": "2026-09-23T18:00:15.816937+00:00",
+  "duration_seconds": 3.2
 }
