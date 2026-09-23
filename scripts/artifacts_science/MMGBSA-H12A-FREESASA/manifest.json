@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MMGBSA-H12A-FREESASA",
+  "hypothesis": "FreeSASA (Lee-Richards) de la RDKit 2025.09.6 que viaja en el producto reproduce por atomo la SASA numericamente exacta (Shrake-Rupley, 50000 puntos) con los mismos radios (Bondi, sin H, sonda 1.4 A) en los 121 ligandos de PDBBind con Br o I, tambien en Br e I, con coste despreciable.",
+  "protocol": "backend/audits/freesasa_h12.py sobre las topologias de MMGBSA-H1-LCPO-BONDI, ejecutado con frontend/src-tauri/resources/python (el runtime que se entrega); referencia sasa_numerica de lcpo_vs_sasa_exacta.py sin modificar. Piloto previo declarado: un ligando (1zoh, 4 Br) dio <= 0.43 A2 por atomo y < 1 ms.",
+  "created_at": "2026-09-23T19:29:17.052107+00:00",
+  "status": "created",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "e9da28397188cee87fa599ec70836344a43ce269",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 20260923,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "GO si, por atomo pesado, el p95 de |FreeSASA - exacta| <= 0.5 A2 y el maximo <= 1.0 A2 en el conjunto y por separado en Br y en I, no hay fallos de ejecucion, y la mediana del tiempo de FreeSASA por ligando <= 50 ms. NO_GO en otro caso."
+  },
+  "decision": "PENDING"
+}
