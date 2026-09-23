@@ -1,0 +1,2754 @@
+{
+ "generado_utc": "2026-09-23T18:16:38.253808+00:00",
+ "rdkit": "2025.09.6",
+ "universo": "ligandos de PDBBind legibles por RDKit (FEP-01-PDBBIND) con Br o I",
+ "descartes": {
+  "ilegible": 1
+ },
+ "n": 122,
+ "n_geometria_imposible": 1,
+ "n_inchikey_distintos": 114,
+ "n_grupos": 83,
+ "ligandos": [
+  {
+   "pid": "1c4u",
+   "sdf_sha256": "459f0ee2d9288e7e8fd634bb8151fb6d904eaeab9b9f2dd313b663ec10ffefa7",
+   "inchikey": "CAGDDDRYEVLPOJ-BXWFABGCSA-N",
+   "n_pesados": 36,
+   "carga_formal": 0,
+   "scaffold": "O=C(NCC1CCCCC1)C1C=CCn2c(=O)n(CCS(=O)(=O)c3ccccc3)c(=O)n21",
+   "grupo": "O=C(NCC1CCCCC1)C1C=CCn2c(=O)n(CCS(=O)(=O)c3ccccc3)c(=O)n21",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 35,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "1c5n",
+   "sdf_sha256": "0b0fca4f8f42195c94a49861293066f584a2d1b8e5eb71ccdfadb82d63d3c136",
+   "inchikey": "YERQOXAYAFWFEJ-UHFFFAOYSA-N",
+   "n_pesados": 13,
+   "carga_formal": 0,
+   "scaffold": "c1ccc2sccc2c1",
+   "grupo": "c1ccc2sccc2c1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 12,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "1c5q",
+   "sdf_sha256": "6ff03e78d03dae4921a7df4c5d52a364d8b8c22737de7b3c4d5449b06a50fb23",
+   "inchikey": "YERQOXAYAFWFEJ-UHFFFAOYSA-N",
+   "n_pesados": 13,
+   "carga_formal": 0,
+   "scaffold": "c1ccc2sccc2c1",
+   "grupo": "c1ccc2sccc2c1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 12,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "1c5x",
+   "sdf_sha256": "6918cb57db500ae61ec7dfd27cec4a30f6a09451c05e54e32f4a78bd29bc6dfa",
+   "inchikey": "YERQOXAYAFWFEJ-UHFFFAOYSA-N",
+   "n_pesados": 13,
+   "carga_formal": 0,
+   "scaffold": "c1ccc2sccc2c1",
+   "grupo": "c1ccc2sccc2c1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 12,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "1d3d",
+   "sdf_sha256": "2ff6a87571009a5d9777da5b814af2e1d11f513fb5793fc0c862c2d1952cf5cb",
+   "inchikey": "QVDZMCVSIVITGR-UHFFFAOYSA-P",
+   "n_pesados": 38,
+   "carga_formal": 2,
+   "scaffold": "c1ccc2c(Cc3ccc(C[NH+]4CCCC4)cc3)c(-c3ccc(OCC[NH+]4CCCC4)cc3)sc2c1",
+   "grupo": "c1ccc2c(Cc3ccc(C[NH+]4CCCC4)cc3)c(-c3ccc(OCC[NH+]4CCCC4)cc3)sc2c1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 24,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "1e4h",
+   "sdf_sha256": "5eb465c7a70d538438640372a5b4f43a66d454cceae15b0fe754497375ff59de",
+   "inchikey": "SVHOVVJFOWGYJO-UHFFFAOYSA-N",
+   "n_pesados": 12,
+   "carga_formal": 0,
+   "scaffold": "c1ccccc1",
+   "grupo": "c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 7,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 8,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 9,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 10,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 11,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "1ecv",
+   "sdf_sha256": "a3ae929e8525bdc134043e1ae32eb6aaa9a5f6e919c33c35d0aae7c33424ed5f",
+   "inchikey": "SHSWHSQPJKMCPN-UHFFFAOYSA-N",
+   "n_pesados": 16,
+   "carga_formal": 0,
+   "scaffold": "c1ccccc1",
+   "grupo": "c1ccccc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 15,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "1hk4",
+   "sdf_sha256": "76426cb8c2c3205dd670a578b86c3777c20c869c255798eb02fb886e6a9e734c",
+   "inchikey": "XUIIKFGFIJCVMT-LBPRGKRZSA-O",
+   "n_pesados": 24,
+   "carga_formal": 1,
+   "scaffold": "c1ccc(Oc2ccccc2)cc1",
+   "grupo": "c1ccc(Oc2ccccc2)cc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 20,
+     "elemento": "I",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 21,
+     "elemento": "I",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 22,
+     "elemento": "I",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 23,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "1igb",
+   "sdf_sha256": "af21f2ba5d51c1e9769c4b9f85ffce1c1d6801e78002b8d7d4d4396e9e312f7c",
+   "inchikey": "AJEPKWPHKPETBM-MRVPVSSYSA-O",
+   "n_pesados": 14,
+   "carga_formal": 1,
+   "scaffold": "c1ccccc1",
+   "grupo": "c1ccccc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 4,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "1my4",
+   "sdf_sha256": "8cb6e5a4475bb68d464a5ef877cd60fc19eb3d71990e9068a2de3a5f4af545ea",
+   "inchikey": "AXXYLTBQIQBTES-BYPYZUCNSA-O",
+   "n_pesados": 15,
+   "carga_formal": 1,
+   "scaffold": "O=c1cc[nH]c(=O)[nH]1",
+   "grupo": "O=c1cc[nH]c(=O)[nH]1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 7,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "1q54",
+   "sdf_sha256": "cf5309161b323c5615183099b5d2ebf119f25c265900aa9b29b4623679ba5938",
+   "inchikey": "YKAYCWPQDPILSA-RXMQYKEDSA-N",
+   "n_pesados": 16,
+   "carga_formal": 0,
+   "scaffold": "",
+   "grupo": "aciclico:YKAYCWPQDPILSA-RXMQYKEDSA-N",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 15,
+     "elemento": "Br",
+     "entorno": "alifatico"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "1qin",
+   "sdf_sha256": "63d6ff1e1c3b2c276702a482476e13ff0b65f48483a2ac6dd641ff2912573552",
+   "inchikey": "OJPYMPVXRVDUCI-RYUDHWBXSA-O",
+   "n_pesados": 31,
+   "carga_formal": 1,
+   "scaffold": "c1ccccc1",
+   "grupo": "c1ccccc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 0,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "1xq0",
+   "sdf_sha256": "0df05e80647b86a3d100cc31c6b2117dc1024d3329a7925430791e4647a31fd6",
+   "inchikey": "GHDKYBCUDPSXGJ-UHFFFAOYSA-N",
+   "n_pesados": 27,
+   "carga_formal": 0,
+   "scaffold": "c1ccc(CN(c2ccccc2)n2cnnc2)cc1",
+   "grupo": "c1ccc(CN(c2ccccc2)n2cnnc2)cc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 26,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "1ydt",
+   "sdf_sha256": "feef40d000d14e9d757b2ab4f6e0b7eeaeed01bf21bd40c0f2d347aec4399c59",
+   "inchikey": "ZKZXNDJNWUTGDK-NSCUHMNNSA-O",
+   "n_pesados": 27,
+   "carga_formal": 1,
+   "scaffold": "O=S(=O)(NCC[NH2+]CC=Cc1ccccc1)c1cccc2cnccc12",
+   "grupo": "O=S(=O)(NCC[NH2+]CC=Cc1ccccc1)c1cccc2cnccc12",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 24,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "1zoh",
+   "sdf_sha256": "de33d77345161da8149833aed9928eb67467ad882d2f63ae526f411c75a78000",
+   "inchikey": "QHCZROILDUNGRT-UHFFFAOYSA-N",
+   "n_pesados": 17,
+   "carga_formal": 0,
+   "scaffold": "c1ccc2c(c1)nc1n2CCN1",
+   "grupo": "c1ccc2c(c1)nc1n2CCN1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 13,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 14,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 15,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 16,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2ax9",
+   "sdf_sha256": "6bf16cc2309ef12958a2f9fa05e47f6eb78b0422ddad605bef652947a36496a1",
+   "inchikey": "QDSWNDMHSBZXKX-JTQLQIEISA-N",
+   "n_pesados": 21,
+   "carga_formal": 0,
+   "scaffold": "c1ccccc1",
+   "grupo": "c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 0,
+     "elemento": "Br",
+     "entorno": "alifatico"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2cej",
+   "sdf_sha256": "c8115829fd849faa836df064190082d2564e87dbd1d4527f71f85660d3476622",
+   "inchikey": "JTIFBCHFPVQSEH-UNMGZEBXSA-O",
+   "n_pesados": 45,
+   "carga_formal": 1,
+   "scaffold": "O=C(NC1CCc2ccccc21)C(C[NH2+]Cc1ccccc1)Cc1ccccc1",
+   "grupo": "O=C(NC1CCc2ccccc21)C(C[NH2+]Cc1ccccc1)Cc1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 43,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2glp",
+   "sdf_sha256": "6eedcba2d544aa0151cf14f81e64540adda05c5eac99a81da120c459ae27e77a",
+   "inchikey": "PYVJEAZDEZTGIS-UBKPWBPPSA-N",
+   "n_pesados": 21,
+   "carga_formal": 0,
+   "scaffold": "O=C(NN=Cc1ccccc1)c1cccnc1",
+   "grupo": "O=C(NN=Cc1ccccc1)c1cccnc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 14,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 18,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2h4g",
+   "sdf_sha256": "74965ab821eada2965fe98d1812fabf0b47961013d976f77537659711ba6df67",
+   "inchikey": "QZWUMLLRAVGBHC-UHFFFAOYSA-N",
+   "n_pesados": 21,
+   "carga_formal": 0,
+   "scaffold": "c1ccc(-c2cccs2)cc1",
+   "grupo": "c1ccc(-c2cccs2)cc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 19,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2h4k",
+   "sdf_sha256": "421b3cc127755fe6960e9a5f5a890e35c65e2dcc5ded7b4b62ae8565fe2fa0f5",
+   "inchikey": "MVDWLRCTJUXCCB-UHFFFAOYSA-N",
+   "n_pesados": 20,
+   "carga_formal": 0,
+   "scaffold": "c1ccc(-c2cccs2)cc1",
+   "grupo": "c1ccc(-c2cccs2)cc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 19,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2hb1",
+   "sdf_sha256": "4b1bc48661acce3318ca6f3707d00d5aadd211fc606148e66c07750e0fe0b7d6",
+   "inchikey": "VDPVVSMGWNMCBP-UHFFFAOYSA-N",
+   "n_pesados": 14,
+   "carga_formal": 0,
+   "scaffold": "c1ccsc1",
+   "grupo": "c1ccsc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 13,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2oxd",
+   "sdf_sha256": "9917f912c94420c43a0a67ddfb09ee1d8c46f6383d9db794aeccd55b4514aee8",
+   "inchikey": "BMVNFJCUHHTZQU-UHFFFAOYSA-N",
+   "n_pesados": 14,
+   "carga_formal": 0,
+   "scaffold": "O=c1[nH]c2ccccc2[nH]1",
+   "grupo": "O=c1[nH]c2ccccc2[nH]1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 0,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 3,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 11,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 13,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2oxx",
+   "sdf_sha256": "819370c6090dc9cf143fb5e9c99fb1c792435b9e998d71a263d242723637eb3a",
+   "inchikey": "GYVCACUYQFXPLN-UHFFFAOYSA-N",
+   "n_pesados": 14,
+   "carga_formal": 0,
+   "scaffold": "S=c1[nH]c2ccccc2[nH]1",
+   "grupo": "S=c1[nH]c2ccccc2[nH]1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 0,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 3,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 11,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 13,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2qbp",
+   "sdf_sha256": "ff44d8336a27425d53d85bc992ba42309a2cd4c9ff3808366f782aeacc4d3d57",
+   "inchikey": "FEPAAIQAIYOLJA-UHFFFAOYSA-N",
+   "n_pesados": 37,
+   "carga_formal": 0,
+   "scaffold": "O=S(=O)(Cc1ccccc1)N1CCC(Nc2cccc(-c3cccs3)c2)CC1",
+   "grupo": "O=S(=O)(Cc1ccccc1)N1CCC(Nc2cccc(-c3cccs3)c2)CC1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 14,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2qbq",
+   "sdf_sha256": "7c4109774fe3b2e489a378e4af396b866e6d57f8dfc62e223e06b322171bc618",
+   "inchikey": "OSQARHVGUZHHGT-UHFFFAOYSA-N",
+   "n_pesados": 31,
+   "carga_formal": 0,
+   "scaffold": "c1cc(NC2CCCCC2)cc(-c2cccs2)c1",
+   "grupo": "c1cc(NC2CCCCC2)cc(-c2cccs2)c1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 14,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2qbr",
+   "sdf_sha256": "6bd8e4d912d1a3d01bab2fcbb14c8092fd1186e797741af05d394956d94669a5",
+   "inchikey": "XEQPGVUGYAUMSA-UHFFFAOYSA-N",
+   "n_pesados": 28,
+   "carga_formal": 0,
+   "scaffold": "c1ccc(CNc2cccc(-c3cccs3)c2)cc1",
+   "grupo": "c1ccc(CNc2cccc(-c3cccs3)c2)cc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 14,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2qbs",
+   "sdf_sha256": "ac996b5220a6e1a8ae95f183d7b7e2fb3d96cb89564a020616a8f157eb68ec9c",
+   "inchikey": "RXDVFLTWXCTCEX-UHFFFAOYSA-N",
+   "n_pesados": 27,
+   "carga_formal": 0,
+   "scaffold": "c1cc(NC2CCCCC2)cc(-c2cccs2)c1",
+   "grupo": "c1cc(NC2CCCCC2)cc(-c2cccs2)c1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 14,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2qnp",
+   "sdf_sha256": "76bc2f83a49b864e2acee56372063206e54aa978865ee3eb9923f51f06b502ff",
+   "inchikey": "ALNICVDMFYPVLU-KYJUHHDHSA-O",
+   "n_pesados": 41,
+   "carga_formal": 1,
+   "scaffold": "O=S(=O)(c1ccccc1)N(Cc1ccccc1)C1C[NH2+]CC1N(Cc1ccccc1)S(=O)(=O)c1ccccc1",
+   "grupo": "O=S(=O)(c1ccccc1)N(Cc1ccccc1)C1C[NH2+]CC1N(Cc1ccccc1)S(=O)(=O)c1ccccc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 13,
+     "elemento": "I",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 33,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2uxz",
+   "sdf_sha256": "a4b9cecd7ee515fbe9b27652436a75320fe7d1eadb171533c2b2ec79c2087107",
+   "inchikey": "BUXZHPPMFKNUOP-LCNNHFSHSA-O",
+   "n_pesados": 47,
+   "carga_formal": 1,
+   "scaffold": "O=C(NC1CCc2ccccc21)C(CCC[NH2+]Cc1ccccc1)Cc1ccccc1",
+   "grupo": "O=C(NC1CCc2ccccc21)C(CCC[NH2+]Cc1ccccc1)Cc1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 45,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2uy0",
+   "sdf_sha256": "961933244b3424e1739fe0cb402bab354547bd31c4da128ff31639abd89a8330",
+   "inchikey": "FPXYCCHKLAQWFU-AYZRFRAKSA-N",
+   "n_pesados": 48,
+   "carga_formal": 0,
+   "scaffold": "O=C(CCC(Cc1ccccc1)C(=O)NC1CCc2ccccc21)NCc1ccccc1",
+   "grupo": "O=C(CCC(Cc1ccccc1)C(=O)NC1CCc2ccccc21)NCc1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 23,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2v58",
+   "sdf_sha256": "263e724627583735e3a5c6120590aaa41292ee1d8269dfa9bbfc4bd361dac038",
+   "inchikey": "HGIPWJYTPOHUGK-UHFFFAOYSA-N",
+   "n_pesados": 20,
+   "carga_formal": 0,
+   "scaffold": "c1ccc(-c2cnc3ncncc3c2)cc1",
+   "grupo": "c1ccc(-c2cnc3ncncc3c2)cc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 0,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 6,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2wk6",
+   "sdf_sha256": "fc1c5b34c2a1273198a4dcf417d6286becb225f98057dd9051e73860d79ce473",
+   "inchikey": "XXQHLZYQOKPGEY-UWTATZPHSA-N",
+   "n_pesados": 9,
+   "carga_formal": 0,
+   "scaffold": "O=C1CC=NC(=O)N1",
+   "grupo": "O=C1CC=NC(=O)N1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 8,
+     "elemento": "I",
+     "entorno": "alifatico"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2zmm",
+   "sdf_sha256": "400f45c7e91d37cdf4c389adcacf58b13e2ed60828c90aca70c5f4ce8ffeed0b",
+   "inchikey": "PXYOQUGPJYIRGZ-UHFFFAOYSA-N",
+   "n_pesados": 31,
+   "carga_formal": 0,
+   "scaffold": "c1cc(NC2CCCCC2)cc(-c2cccs2)c1",
+   "grupo": "c1cc(NC2CCCCC2)cc(-c2cccs2)c1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 30,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "2zn7",
+   "sdf_sha256": "6a9d1b8bbd1f6997410d5cd13787df8e4f0f4daf34323e81604f5bec9fcac3c1",
+   "inchikey": "NXCMIBOFUBPJDM-UHFFFAOYSA-N",
+   "n_pesados": 35,
+   "carga_formal": 0,
+   "scaffold": "O=C(c1ccccc1)N(c1cccc(-c2cccs2)c1)C1CCCCC1",
+   "grupo": "O=C(c1ccccc1)N(c1cccc(-c2cccs2)c1)C1CCCCC1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 28,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3aaq",
+   "sdf_sha256": "1649f5cb8307ef23756e3f49cb325f8d930ae62ada7b8371a606abc6e4a057ab",
+   "inchikey": "ILXFKEOLRYLPJG-IDTAVKCVSA-N",
+   "n_pesados": 37,
+   "carga_formal": 0,
+   "scaffold": "c1ncc2ncn(C3CCCO3)c2n1",
+   "grupo": "c1ncc2ncn(C3CCCO3)c2n1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 24,
+     "elemento": "Br",
+     "entorno": "alifatico"
+    },
+    {
+     "indice": 34,
+     "elemento": "Br",
+     "entorno": "alifatico"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3ao2",
+   "sdf_sha256": "ed15dc26754684c3e229e32086ffe43e32417deed2becc8fa3ccea92c0498d70",
+   "inchikey": "CYGCZVZRSOGLAB-UHFFFAOYSA-N",
+   "n_pesados": 17,
+   "carga_formal": 0,
+   "scaffold": "c1cc(-c2ccc3c(c2)OCO3)n[nH]1",
+   "grupo": "c1cc(-c2ccc3c(c2)OCO3)n[nH]1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 14,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3ao5",
+   "sdf_sha256": "2e436016ac2e945f672c4e62572920b9fd9497912ecee250ec543bbe046c0ce2",
+   "inchikey": "OZBMCGHXSVNTHG-UHFFFAOYSA-N",
+   "n_pesados": 17,
+   "carga_formal": 0,
+   "scaffold": "c1cc(-c2ccc3c(c2)OCO3)[nH]n1",
+   "grupo": "c1cc(-c2ccc3c(c2)OCO3)[nH]n1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 14,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3b65",
+   "sdf_sha256": "11c354286ed6a7239bbf8b6f7b4d62405f5f2516c5b890cfa938194d56e92964",
+   "inchikey": "RXSZCFAPSDTELY-SFHVURJKSA-N",
+   "n_pesados": 25,
+   "carga_formal": 0,
+   "scaffold": "O=C(CCOc1ccccc1)Nc1ccccc1",
+   "grupo": "O=C(CCOc1ccccc1)Nc1ccccc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 2,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3cj2",
+   "sdf_sha256": "182c3c4cab7ad7cb45c3cf68ff4f89b24501b081998032b3e77c43a72cacd276",
+   "inchikey": "IUPOWBZLJSPZFT-AOOOYVTPSA-N",
+   "n_pesados": 18,
+   "carga_formal": 0,
+   "scaffold": "O=C(c1ccccc1)N1CCCCC1",
+   "grupo": "O=C(c1ccccc1)N1CCCCC1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 0,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3cj4",
+   "sdf_sha256": "89a3288b9172526d3b4556d3f49b37a9db12cfb63ab3dd5f536e593dde9d95ca",
+   "inchikey": "JSVSGWHGYIDZFX-TXEJJXNPSA-N",
+   "n_pesados": 25,
+   "carga_formal": 0,
+   "scaffold": "O=C(c1ccccc1)N1CCCCC1",
+   "grupo": "O=C(c1ccccc1)N1CCCCC1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 12,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3cj5",
+   "sdf_sha256": "96762db4a318e71def8a43c6a76fa7970bef46ac67ee584978d408915ea8d37d",
+   "inchikey": "DELARNBPJXTDBD-IYBDPMFKSA-N",
+   "n_pesados": 30,
+   "carga_formal": 0,
+   "scaffold": "O=C(CCC(=O)N1CCOCC1)Nc1ccccc1C(=O)N1CCCCC1",
+   "grupo": "O=C(CCC(=O)N1CCOCC1)Nc1ccccc1C(=O)N1CCCCC1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 17,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3hll",
+   "sdf_sha256": "e58db85c7f4c21dde96eedda1060f121dc59d5f8405d3e635550b6caf962c953",
+   "inchikey": "KCAJXIDMCNPGHZ-UHFFFAOYSA-N",
+   "n_pesados": 30,
+   "carga_formal": 0,
+   "scaffold": "O=c1cc(OCc2ccccc2)ccn1-c1ccccc1",
+   "grupo": "O=c1cc(OCc2ccccc2)ccn1-c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 22,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3iww",
+   "sdf_sha256": "547a9253da09d8631520fe355ba8e55d1f88dfdd261db3861fbead223c0f9bd4",
+   "inchikey": "CPITYBQMVPBERS-GJZGRUSLSA-N",
+   "n_pesados": 29,
+   "carga_formal": 0,
+   "scaffold": "c1ccccc1",
+   "grupo": "c1ccccc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 21,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3juo",
+   "sdf_sha256": "ec29f7cb4123543a2371b63ad13a4a7f98f74fa7646cc9b4f0d54d173efad378",
+   "inchikey": "DFYNENBDVWMLFE-SECBINFHSA-O",
+   "n_pesados": 17,
+   "carga_formal": 1,
+   "scaffold": "c1ccc(NC2CCC[NH2+]C2)cc1",
+   "grupo": "c1ccc(NC2CCC[NH2+]C2)cc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 2,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3jup",
+   "sdf_sha256": "e1d0e7ad44cd43a6b415d04bdaafc36db98bff7fd7cef120d39e635735b13580",
+   "inchikey": "DFYNENBDVWMLFE-VIFPVBQESA-O",
+   "n_pesados": 17,
+   "carga_formal": 1,
+   "scaffold": "c1ccc(NC2CCC[NH2+]C2)cc1",
+   "grupo": "c1ccc(NC2CCC[NH2+]C2)cc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 2,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3p8n",
+   "sdf_sha256": "5c5bc7338a9193db529c164fd76ea646ce39113ad154ee2fa697866caeb206c8",
+   "inchikey": "LLGDPTDZOVKFDU-XUHJSTDZSA-N",
+   "n_pesados": 57,
+   "carga_formal": 0,
+   "scaffold": "O=C(NCC(=O)N1CC(Oc2cc(-c3cscn3)nc3ccccc23)CC1C(=O)NC1CC1)OC1CCCC1",
+   "grupo": "O=C(NCC(=O)N1CC(Oc2cc(-c3cscn3)nc3ccccc23)CC1C(=O)NC1CC1)OC1CCCC1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 34,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3sjf",
+   "sdf_sha256": "7b32842d256e5109ec5cf6d61625d6cbbe07756d10c52c3019200aa23265b3cd",
+   "inchikey": "AWPLYTCEHNMVNJ-GJZGRUSLSA-N",
+   "n_pesados": 30,
+   "carga_formal": 0,
+   "scaffold": "c1ccccc1",
+   "grupo": "c1ccccc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 10,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3u8n",
+   "sdf_sha256": "c56bd75e3d940456ec20b5bab2cd9e6e26e20a15d3da36f17736c42b7983c9fa",
+   "inchikey": "UGNNTIXQGYYUAP-UHFFFAOYSA-O",
+   "n_pesados": 17,
+   "carga_formal": 1,
+   "scaffold": "c1cncc(N2CCC[NH2+]CC2)c1",
+   "grupo": "c1cncc(N2CCC[NH2+]CC2)c1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 13,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3zps",
+   "sdf_sha256": "3dd07d1ca1785cce861dee7cd9c907cbf913b3b8219c7f83d81c1c430aee9018",
+   "inchikey": "SCBLWEFHRVDOAJ-DFNFTQNPSA-O",
+   "n_pesados": 48,
+   "carga_formal": 1,
+   "scaffold": "c1ccc(CCCCC[NH2+]Cc2ccccc2)cc1",
+   "grupo": "c1ccc(CCCCC[NH2+]Cc2ccccc2)cc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 0,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "3zpu",
+   "sdf_sha256": "ce998ecb7e008818a071251193036f8288ea3bd6baf7579b16d6b370c43d89d3",
+   "inchikey": "SFNMYSUIYNOTIA-HIOXXDBGSA-O",
+   "n_pesados": 49,
+   "carga_formal": 1,
+   "scaffold": "O=C1CNC(=O)C(CCC[NH2+]Cc2ccccc2)Cc2ccc(cc2)CC=CCN1",
+   "grupo": "O=C1CNC(=O)C(CCC[NH2+]Cc2ccccc2)Cc2ccc(cc2)CC=CCN1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 19,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4abf",
+   "sdf_sha256": "36cf615d56f9a98dea3c4e3afc141da494452e630b8c0c80adefbea5bc61152b",
+   "inchikey": "DVYWOASQESEKEC-UHFFFAOYSA-O",
+   "n_pesados": 12,
+   "carga_formal": 1,
+   "scaffold": "c1ccc2sccc2c1",
+   "grupo": "c1ccc2sccc2c1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 11,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4agl",
+   "sdf_sha256": "a4ec142e0c0235319a62b05c6d419302bffc1701cb72c727afdf2f162a82dfd0",
+   "inchikey": "LVWAQPDXJVXTDR-UHFFFAOYSA-O",
+   "n_pesados": 13,
+   "carga_formal": 1,
+   "scaffold": "c1ccccc1",
+   "grupo": "c1ccccc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 9,
+     "elemento": "I",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 11,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4agm",
+   "sdf_sha256": "d50dd9b357f901ca25e4a73bd6378ed9e747b1857d26062de64567316eb01edf",
+   "inchikey": "YZPXNEXVQURJCE-UHFFFAOYSA-P",
+   "n_pesados": 21,
+   "carga_formal": 2,
+   "scaffold": "c1ccc(C[NH+]2CCCCC2)cc1",
+   "grupo": "c1ccc(C[NH+]2CCCCC2)cc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 19,
+     "elemento": "I",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 20,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4agn",
+   "sdf_sha256": "1bfbb4a1bf610021ed410a57b94c5105bb63e49f88b1b7c475bed2899fee10d9",
+   "inchikey": "IDHNPNUDNMDQEU-UHFFFAOYSA-P",
+   "n_pesados": 24,
+   "carga_formal": 2,
+   "scaffold": "c1ccc(C[NH+]2CCCCC2)cc1",
+   "grupo": "c1ccc(C[NH+]2CCCCC2)cc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 23,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4ago",
+   "sdf_sha256": "ef5fc115aa91626f0d0e9c6c3b1a3d893ce03f2eafe399d323e56f73c3949819",
+   "inchikey": "FCYRMDPXMJYHRX-UHFFFAOYSA-P",
+   "n_pesados": 31,
+   "carga_formal": 2,
+   "scaffold": "c1ccc(C[NH+]2CCCCC2)cc1",
+   "grupo": "c1ccc(C[NH+]2CCCCC2)cc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 23,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4agp",
+   "sdf_sha256": "005a0cf6d5b121fde287ac5ac84af00959a69cd2fd049f6579146195adbac45d",
+   "inchikey": "QHQZDNCRBPFORJ-UHFFFAOYSA-P",
+   "n_pesados": 30,
+   "carga_formal": 2,
+   "scaffold": "C(#Cc1cccc(C[NH+]2CCCCC2)c1)COc1ccccc1",
+   "grupo": "C(#Cc1cccc(C[NH+]2CCCCC2)c1)COc1ccccc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 24,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4agq",
+   "sdf_sha256": "084e066a6339bace89e9f157a98b1886755899b58d151f5945db4a4c39699cac",
+   "inchikey": "IZUZDXSTWPMHFT-UHFFFAOYSA-P",
+   "n_pesados": 30,
+   "carga_formal": 2,
+   "scaffold": "C(#Cc1cccc(C[NH+]2CCCCC2)c1)CNc1ccccc1",
+   "grupo": "C(#Cc1cccc(C[NH+]2CCCCC2)c1)CNc1ccccc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 28,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4aje",
+   "sdf_sha256": "b481d5fdc15f39acbf6112f4c389580586a192f74731de28be356048cc78a114",
+   "inchikey": "GZMFZHIPGZSUHI-UHFFFAOYSA-N",
+   "n_pesados": 15,
+   "carga_formal": 0,
+   "scaffold": "c1ccccc1",
+   "grupo": "c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 14,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4bqh",
+   "sdf_sha256": "44887446f3b4504c891dcc97bc2b2338e06cbbce9bc7c62386496e72c3900cf6",
+   "inchikey": "SJXSNMXBXJIRLV-SFHVURJKSA-N",
+   "n_pesados": 25,
+   "carga_formal": 0,
+   "scaffold": "O=C(CC1C(=O)Nc2ccccc21)c1ccc2c(c1)OCO2",
+   "grupo": "O=C(CC1C(=O)Nc2ccccc21)c1ccc2c(c1)OCO2",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 9,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4c5d",
+   "sdf_sha256": "a043b62eae843caa299af857d46d8725b94ef5b4e9f9992d5ab19048fa8a247f",
+   "inchikey": "WDPWVHPOPPOGPB-SANMLTNESA-N",
+   "n_pesados": 39,
+   "carga_formal": 0,
+   "scaffold": "O=C(NCCSCc1ccccc1)NC(=O)c1cccc(C#Cc2ccccc2)c1",
+   "grupo": "O=C(NCCSCc1ccccc1)NC(=O)c1cccc(C#Cc2ccccc2)c1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 0,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4gql",
+   "sdf_sha256": "da5eec6260ec14af596a9bf5db0e2f8269085273c4094dc6717b2cb56638e657",
+   "inchikey": "PTUCPHGSAFOJAU-MGONOCMRSA-N",
+   "n_pesados": 52,
+   "carga_formal": 0,
+   "scaffold": "O=[PH](CCCc1cc(-c2ccc(-c3ccccc3)cc2)no1)c1ccccc1",
+   "grupo": "O=[PH](CCCc1cc(-c2ccc(-c3ccccc3)cc2)no1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 30,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4gr0",
+   "sdf_sha256": "feba4e9325b6b5ea5eea8cd2d934a5c90c7fbef7e44da7fe12765bff9580183f",
+   "inchikey": "LIUMDGLYGBIKBM-SFYKDHMMSA-N",
+   "n_pesados": 44,
+   "carga_formal": 0,
+   "scaffold": "O=[PH](CCCc1cc(-c2ccc(-c3ccccc3)cc2)no1)c1ccccc1",
+   "grupo": "O=[PH](CCCc1cc(-c2ccc(-c3ccccc3)cc2)no1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 30,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4gr3",
+   "sdf_sha256": "bab09ff92730a80299656bca9b867322892c3d58a33eb69c2895de2fc130afc7",
+   "inchikey": "RXBMEHOLQJITJI-LEOXJPRUSA-N",
+   "n_pesados": 45,
+   "carga_formal": 0,
+   "scaffold": "O=[PH](CCCc1cc(-c2ccccc2)no1)c1ccccc1",
+   "grupo": "O=[PH](CCCc1cc(-c2ccccc2)no1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 23,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4gr8",
+   "sdf_sha256": "c0da13b1759ce2faf8be6351c84f48c8833811fab0cc90dcb179efe6adc97ae3",
+   "inchikey": "HXHLWPVBBLIGJV-XYJFISCASA-N",
+   "n_pesados": 37,
+   "carga_formal": 0,
+   "scaffold": "O=[PH](CCCc1cc(-c2ccccc2)no1)c1ccccc1",
+   "grupo": "O=[PH](CCCc1cc(-c2ccccc2)no1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 23,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4ibd",
+   "sdf_sha256": "8834944ebe23d7d55b462aec60933dcab4faa230e2b1049c2adf03de1977b98a",
+   "inchikey": "YQDONULRFRLRSB-IBGZPJMESA-N",
+   "n_pesados": 31,
+   "carga_formal": 0,
+   "scaffold": "O=C(C1=CC(=O)N(c2ccccc2)C1c1cccs1)c1ccccc1",
+   "grupo": "O=C(C1=CC(=O)N(c2ccccc2)C1c1cccs1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 16,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4ibe",
+   "sdf_sha256": "0a4c8ecf8471c48ac4ceea33df76b81aadbb8e0e06cee67b17290b32250bfcac",
+   "inchikey": "CERSDUPIILKAJP-SFHVURJKSA-N",
+   "n_pesados": 31,
+   "carga_formal": 0,
+   "scaffold": "O=C(C1=CC(=O)N(c2ccccc2)C1c1cccs1)c1ccccc1",
+   "grupo": "O=C(C1=CC(=O)N(c2ccccc2)C1c1cccs1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 16,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4ibf",
+   "sdf_sha256": "5721a0a38b4815076787d01e3dfc4fddae44b900869bea7a5ca11639c2a1715c",
+   "inchikey": "ZEPDKZCYASACCD-SFHVURJKSA-N",
+   "n_pesados": 31,
+   "carga_formal": 0,
+   "scaffold": "O=C(C1=CC(=O)N(c2ccccc2)C1c1cccs1)c1cccs1",
+   "grupo": "O=C(C1=CC(=O)N(c2ccccc2)C1c1cccs1)c1cccs1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 16,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4kwg",
+   "sdf_sha256": "ef445680b14fc485f2013aec583e7b987a36a20c52d5bb2b608c412abd2e64a4",
+   "inchikey": "NPDJRIGMWAQKTQ-UHFFFAOYSA-N",
+   "n_pesados": 13,
+   "carga_formal": 0,
+   "scaffold": "O=C1Nc2ccccc2C1=O",
+   "grupo": "O=C1Nc2ccccc2C1=O",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 0,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4kzu",
+   "sdf_sha256": "e15ede7e21f13278daea612199f70ee5f363aec3e9a3d31db2f2c165d722559e",
+   "inchikey": "URZUAHXELZUWFE-UHFFFAOYSA-N",
+   "n_pesados": 18,
+   "carga_formal": 0,
+   "scaffold": "O=c1cc(-c2ccccc2)oc2ccccc12",
+   "grupo": "O=c1cc(-c2ccccc2)oc2ccccc12",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 15,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4ngm",
+   "sdf_sha256": "7ea9d56cb7ee2b564978c73a421dcde961d4cd3e6224b127a26dc700f8e7aa5a",
+   "inchikey": "ARLQMQGVVFXZCW-IRXDYDNUSA-N",
+   "n_pesados": 33,
+   "carga_formal": 0,
+   "scaffold": "c1ccccc1",
+   "grupo": "c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 16,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4oc0",
+   "sdf_sha256": "52014b9114ee378f93899d2674c14bc7408c581c7db96083f78397e83a5c0878",
+   "inchikey": "VRNHYZLBDDWTFH-ZDUSSCGKSA-N",
+   "n_pesados": 28,
+   "carga_formal": 0,
+   "scaffold": "O=C(NCCCCCNC(=O)c1ccccc1)NC1CC1",
+   "grupo": "O=C(NCCCCCNC(=O)c1ccccc1)NC1CC1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 25,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4oc1",
+   "sdf_sha256": "a6ac861486ed96471899dc95056f5d615e3f2cd462e6b099f748394e6adb15e0",
+   "inchikey": "JIMADGCYCYENTN-KKUMJFAQSA-N",
+   "n_pesados": 30,
+   "carga_formal": 0,
+   "scaffold": "O=C(NCCCCCNC(=O)c1ccccc1)NCCC1CO1",
+   "grupo": "O=C(NCCCCCNC(=O)c1ccccc1)NCCC1CO1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 27,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4oc2",
+   "sdf_sha256": "897f34cb426c0174a745c51014e8d51957a5aa2fd79c39e3031c5fb23627c2b3",
+   "inchikey": "RJKIJHLQIZZWQR-GJZGRUSLSA-N",
+   "n_pesados": 29,
+   "carga_formal": 0,
+   "scaffold": "c1ccccc1",
+   "grupo": "c1ccccc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 3,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4oc3",
+   "sdf_sha256": "1b0b48aaa5d01cac1547f578b879999ecf96e9383384d9c3c290abe2ad5f0378",
+   "inchikey": "XDHPABCLBICMJM-IRXDYDNUSA-N",
+   "n_pesados": 32,
+   "carga_formal": 0,
+   "scaffold": "O=C(NCCCCCNC(=O)c1ccccc1)NCCc1ccco1",
+   "grupo": "O=C(NCCCCCNC(=O)c1ccccc1)NCCc1ccco1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 3,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4oc5",
+   "sdf_sha256": "e741d10d5f23c5d9afef3e305e1b4f0458dc8cdf903f4b8c9f4eef244837fb40",
+   "inchikey": "GVEULWULTXBFPM-ROUUACIJSA-N",
+   "n_pesados": 33,
+   "carga_formal": 0,
+   "scaffold": "O=C(NCCCCCNC(=O)c1ccccc1)NCc1ccccc1",
+   "grupo": "O=C(NCCCCCNC(=O)c1ccccc1)NCc1ccccc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 30,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4ovh",
+   "sdf_sha256": "8010913949be5992cbd6e1de78516c3cbe6c46c25d3bbdb55c1303c252394f35",
+   "inchikey": "IJOMTOSTTHHIJE-SECBINFHSA-N",
+   "n_pesados": 25,
+   "carga_formal": 0,
+   "scaffold": "c1ccc2c3c([nH]c2c1)CCCC3",
+   "grupo": "c1ccc2c3c([nH]c2c1)CCCC3",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 23,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4pnu",
+   "sdf_sha256": "e4c12001c438ff7f1631fc5946ce6233f2a79902273546020d3c3535820fe0cb",
+   "inchikey": "VVKCJZLVMZAHBK-DNVCBOLYSA-N",
+   "n_pesados": 32,
+   "carga_formal": 0,
+   "scaffold": "O=C(Cn1c2c(c3ccccc31)CCCC2)NCCc1ccccc1",
+   "grupo": "O=C(Cn1c2c(c3ccccc31)CCCC2)NCCc1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 12,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4std",
+   "sdf_sha256": "d5127fe2504a7c99bb710e16f0902658da5d74bb71a327ce50990dbe08ca5aa9",
+   "inchikey": "KFTNEILVDDUXGR-SECBINFHSA-N",
+   "n_pesados": 20,
+   "carga_formal": 0,
+   "scaffold": "O=C(NCc1ccccc1)c1ccccc1",
+   "grupo": "O=C(NCc1ccccc1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 19,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4uj2",
+   "sdf_sha256": "a1079aad46608349b1bd5c22aed4864b19771393b31aebafe2fdb35b0fc6961d",
+   "inchikey": "GWAVIYJKLSHVMT-CVEARBPZSA-O",
+   "n_pesados": 25,
+   "carga_formal": 1,
+   "scaffold": "O=C(c1ccccc1)C1C[NH2+]CC1c1ccc2c(=O)nc[nH]c2c1",
+   "grupo": "O=C(c1ccccc1)C1C[NH2+]CC1c1ccc2c(=O)nc[nH]c2c1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 24,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4uja",
+   "sdf_sha256": "6b7ada837d952878f9c45939c649e062f1836c927ea048e61fbcf544ef8b94f4",
+   "inchikey": "ZYTJGVHIDBAIRI-NEPJUHHUSA-O",
+   "n_pesados": 24,
+   "carga_formal": 1,
+   "scaffold": "O=C(c1cccs1)C1C[NH2+]CC1c1ccc2c(=O)[nH]cnc2c1",
+   "grupo": "O=C(c1cccs1)C1C[NH2+]CC1c1ccc2c(=O)[nH]cnc2c1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 4,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4xt2",
+   "sdf_sha256": "f6f9255e92446df1d86a852389a3adfd1cc6819a0a523bdac13cc3da38441128",
+   "inchikey": "JHRYBPMSBXHLJL-LSDHHAIUSA-N",
+   "n_pesados": 23,
+   "carga_formal": 0,
+   "scaffold": "c1ccc(C2CC(c3ccccc3)n3nnnc3N2)cc1",
+   "grupo": "c1ccc(C2CC(c3ccccc3)n3nnnc3N2)cc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 2,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 19,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4z83",
+   "sdf_sha256": "d1846404ea5bf3cbeb0dccde482300bb2a9fd73594bac39f0eb13a378da044d0",
+   "inchikey": "ZYTJGVHIDBAIRI-NEPJUHHUSA-O",
+   "n_pesados": 24,
+   "carga_formal": 1,
+   "scaffold": "O=C(c1cccs1)C1C[NH2+]CC1c1ccc2c(=O)[nH]cnc2c1",
+   "grupo": "O=C(c1cccs1)C1C[NH2+]CC1c1ccc2c(=O)[nH]cnc2c1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 4,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "4zx3",
+   "sdf_sha256": "3382c12da27fe6e1439dc8bd95cd13aa227e7cea16a6d006c492ca2c07a8da95",
+   "inchikey": "QSMFBPVNXFNEGF-SNVBAGLBSA-N",
+   "n_pesados": 19,
+   "carga_formal": 0,
+   "scaffold": "c1ccccc1",
+   "grupo": "c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 12,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5aba",
+   "sdf_sha256": "2516177eb3bc464e2ac9d9c865cc4649b2f6f8d86ac61626309c6aa5f2cdf337",
+   "inchikey": "UPKDBIXMTVKMCL-UHFFFAOYSA-P",
+   "n_pesados": 23,
+   "carga_formal": 2,
+   "scaffold": "c1ccc(C[NH+]2CCC([NH+]3CCCCC3)CC2)cc1",
+   "grupo": "c1ccc(C[NH+]2CCC([NH+]3CCCCC3)CC2)cc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 21,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5aoj",
+   "sdf_sha256": "a5f595a973abeaf38b0d415f2c1cbc2bcdeb4ac63fec278da2087defcc0eefea",
+   "inchikey": "YWYHXCFRZDCHOC-UHFFFAOYSA-N",
+   "n_pesados": 17,
+   "carga_formal": 0,
+   "scaffold": "c1ccc(-n2cccc2)cc1",
+   "grupo": "c1ccc(-n2cccc2)cc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 1,
+     "elemento": "I",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 5,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5aol",
+   "sdf_sha256": "a41800679b0414a3593f6cb7cb8c0c65ff367667a4f05917c8e5ff792f00b4e1",
+   "inchikey": "OVGAPUVMLZWQQF-UHFFFAOYSA-N",
+   "n_pesados": 13,
+   "carga_formal": 0,
+   "scaffold": "c1ccccc1",
+   "grupo": "c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 8,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5cqu",
+   "sdf_sha256": "b27143fe0e5d53d05a5705ba35bec2ddd6f1c2559576a94acc16d5525a35b717",
+   "inchikey": "KAIWWTMLTRXFON-UHFFFAOYSA-O",
+   "n_pesados": 25,
+   "carga_formal": 1,
+   "scaffold": "c1ccc2nn(CCc3c[nH]nn3)nc2c1",
+   "grupo": "c1ccc2nn(CCc3c[nH]nn3)nc2c1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 14,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 16,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 18,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 20,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5czm",
+   "sdf_sha256": "ef73f99b237f258c7bdfe61d143b864599c6781884184b2962429c57a42db923",
+   "inchikey": "PTUCPHGSAFOJAU-MGONOCMRSA-N",
+   "n_pesados": 52,
+   "carga_formal": 0,
+   "scaffold": "O=[PH](CCCc1cc(-c2ccc(-c3ccccc3)cc2)no1)c1ccccc1",
+   "grupo": "O=[PH](CCCc1cc(-c2ccc(-c3ccccc3)cc2)no1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 30,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5dqe",
+   "sdf_sha256": "c210eb76a79424119357bb18141ce581dce1d5fcfc828ab083acf6815b3f8826",
+   "inchikey": "IRGQJNUPNQPHQP-UHFFFAOYSA-N",
+   "n_pesados": 17,
+   "carga_formal": 0,
+   "scaffold": "c1ccc(Nc2ccccc2)cc1",
+   "grupo": "c1ccc(Nc2ccccc2)cc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 13,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5dx4",
+   "sdf_sha256": "ee5495290e9237a79d3f5cf7c1e8e2c55caa271a055e9a02621a8f5a5c946e79",
+   "inchikey": "JTOXINSTQFVILZ-UHFFFAOYSA-N",
+   "n_pesados": 28,
+   "carga_formal": 0,
+   "scaffold": "O=C1Nc2ccc(NS(=O)(=O)c3ccccc3)c3cccc1c23",
+   "grupo": "O=C1Nc2ccc(NS(=O)(=O)c3ccccc3)c3cccc1c23",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 22,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5e7n",
+   "sdf_sha256": "718b114858a1e83d1eb187e5eec40a6d616c3704488f3bdc22e90c4ca417f2f2",
+   "inchikey": "UMIZGACLAWLSMJ-UHFFFAOYSA-N",
+   "n_pesados": 30,
+   "carga_formal": 0,
+   "scaffold": "O=C(Nc1ccccc1)c1cccc(S(=O)(=O)Nc2ccccc2)c1",
+   "grupo": "O=C(Nc1ccccc1)c1cccc(S(=O)(=O)Nc2ccccc2)c1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 24,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5eij",
+   "sdf_sha256": "b9499cf0c5872f73359c54803fa040c3feedbad963e2319dc8d5a69e44288da4",
+   "inchikey": "YXBCWTQCNWLAIG-ZDUSSCGKSA-N",
+   "n_pesados": 21,
+   "carga_formal": 0,
+   "scaffold": "c1ccc(NCNc2ccccc2)cc1",
+   "grupo": "c1ccc(NCNc2ccccc2)cc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 2,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5j2x",
+   "sdf_sha256": "999d77cbfdda18aae4758970be36983b45aedaabdd73c967982dca833d78f313",
+   "inchikey": "WTHWBOWCSOCLLT-UHFFFAOYSA-N",
+   "n_pesados": 22,
+   "carga_formal": 0,
+   "scaffold": "O=c1[nH]nc(-c2ccccc2)n1-c1ccccc1",
+   "grupo": "O=c1[nH]nc(-c2ccccc2)n1-c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 21,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5j8m",
+   "sdf_sha256": "1302f58e9e2777e747bdbda30867bc0756b0730acbff72d694593bb6797069dd",
+   "inchikey": "WTHWBOWCSOCLLT-UHFFFAOYSA-N",
+   "n_pesados": 22,
+   "carga_formal": 0,
+   "scaffold": "O=c1[nH]nc(-c2ccccc2)n1-c1ccccc1",
+   "grupo": "O=c1[nH]nc(-c2ccccc2)n1-c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 21,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5mlj",
+   "sdf_sha256": "f006f1c635b55b4be262d0082fd07b2862722410802f4a9f11d1862b8858d132",
+   "inchikey": "ZHUFQANHZBJOIK-QYFYILSLSA-O",
+   "n_pesados": 23,
+   "carga_formal": 1,
+   "scaffold": "O=C1CC(=NC2C[NH2+]CC(c3ccccc3)C2)C=NN1",
+   "grupo": "O=C1CC(=NC2C[NH2+]CC(c3ccccc3)C2)C=NN1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 22,
+     "elemento": "Br",
+     "entorno": "alifatico"
+    }
+   ],
+   "geometria_imposible": true,
+   "violaciones": [
+    {
+     "tipo": "distancia",
+     "indices": [
+      14,
+      44
+     ],
+     "valor": 0.2582
+    },
+    {
+     "tipo": "angulo",
+     "indices": [
+      14,
+      21,
+      44
+     ],
+     "valor": 1.206
+    }
+   ]
+  },
+  {
+   "pid": "5mrm",
+   "sdf_sha256": "bd91672888fa72afadf66166dd901d4f3af6a58b9b8b52395d09c3e10af6edb0",
+   "inchikey": "UPPPIWMLZRPTQQ-UHFFFAOYSA-N",
+   "n_pesados": 18,
+   "carga_formal": 0,
+   "scaffold": "c1ccc(-c2ccno2)cc1",
+   "grupo": "c1ccc(-c2ccno2)cc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 14,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 16,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5n9r",
+   "sdf_sha256": "a1355d1a1ae437dd56aa432564554b3fc5bb0d9b7cac917e03c2c4eeb001f5f9",
+   "inchikey": "NRRXSEFLOFZNSO-OAHLLOKOSA-N",
+   "n_pesados": 30,
+   "carga_formal": 0,
+   "scaffold": "O=C(CCc1ccccc1)N1CCC(Cn2cnc3ccsc3c2=O)CC1",
+   "grupo": "O=C(CCc1ccccc1)N1CCC(Cn2cnc3ccsc3c2=O)CC1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 29,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5nxi",
+   "sdf_sha256": "bd2a26244c653cf0fafb1443be2bf67e75c2488403406f5e2ce29535a45ed708",
+   "inchikey": "NLJFWGABSSGIJO-UHFFFAOYSA-N",
+   "n_pesados": 21,
+   "carga_formal": 0,
+   "scaffold": "O=S(=O)(Nc1ccccc1)c1ccccc1",
+   "grupo": "O=S(=O)(Nc1ccccc1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 18,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5o1d",
+   "sdf_sha256": "542bba86e78a3c3250a7d44dae7e1152ff3c43494bdc5335d52dc562b2f16047",
+   "inchikey": "HDCGZTAEMHVMPH-UHFFFAOYSA-N",
+   "n_pesados": 20,
+   "carga_formal": 0,
+   "scaffold": "c1ccc(-n2cccc2)cc1",
+   "grupo": "c1ccc(-n2cccc2)cc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 19,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5o1f",
+   "sdf_sha256": "d1542ce9e923dba429974e315f3eb3edb3a455dabacac7f6686b68af92da11f0",
+   "inchikey": "JDSAVJOLSIWVGB-UHFFFAOYSA-N",
+   "n_pesados": 21,
+   "carga_formal": 0,
+   "scaffold": "c1ccc(-n2cccc2)cc1",
+   "grupo": "c1ccc(-n2cccc2)cc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 15,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5o1h",
+   "sdf_sha256": "766c72e4b44ccdb5b833fdde924ae2939b8cbf835e901b2da25033665e254832",
+   "inchikey": "IUCGBTPKFYQLQH-UHFFFAOYSA-N",
+   "n_pesados": 20,
+   "carga_formal": 0,
+   "scaffold": "c1ccc(-n2cccc2)cc1",
+   "grupo": "c1ccc(-n2cccc2)cc1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 8,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5owl",
+   "sdf_sha256": "1f470e111410067c7a980363b227c3af367fcb8ac72948953307efaed65a8432",
+   "inchikey": "ZSGVCOITZQLDSD-UHFFFAOYSA-O",
+   "n_pesados": 17,
+   "carga_formal": 1,
+   "scaffold": "c1ccc2[nH]cnc2c1",
+   "grupo": "c1ccc2[nH]cnc2c1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 13,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 14,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 15,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 16,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5u8c",
+   "sdf_sha256": "31b9a81c5995de4c3fefd9910bff1b3a4717fd9287720efc5fe63422cd702f57",
+   "inchikey": "XXZGNAZRWCBSBK-HUTHGQBESA-O",
+   "n_pesados": 27,
+   "carga_formal": 1,
+   "scaffold": "O=c1[nH]c2cccc(C[NH2+]Cc3ccccc3)c2[nH]c1=O",
+   "grupo": "O=c1[nH]c2cccc(C[NH2+]Cc3ccccc3)c2[nH]c1=O",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 23,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5vij",
+   "sdf_sha256": "fd2c7cac43773cf55e33d88afb0a86cbd9a7875cc6244411b750718d58f43eb4",
+   "inchikey": "NEHFCELQGZWOLJ-HBNTYKKESA-P",
+   "n_pesados": 21,
+   "carga_formal": 2,
+   "scaffold": "c1ccc([N+]2=NCCC2)cc1",
+   "grupo": "c1ccc([N+]2=NCCC2)cc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 6,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5y13",
+   "sdf_sha256": "549b70d7e5b95c59d30a7c2907a3a19d7471d2e194a0cc858ceb683b3cf83d47",
+   "inchikey": "OGTDHOOIGRXVIY-UHFFFAOYSA-N",
+   "n_pesados": 22,
+   "carga_formal": 0,
+   "scaffold": "c1ccc2ccccc2c1",
+   "grupo": "c1ccc2ccccc2c1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 19,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5y8y",
+   "sdf_sha256": "0aa24dc6f1e84a7376d8a3a571c39ad63769406dd5df97a77feefdf739b863b0",
+   "inchikey": "KVGNGFGTOSOVPB-UHFFFAOYSA-N",
+   "n_pesados": 25,
+   "carga_formal": 0,
+   "scaffold": "O=S(=O)(Nc1ccc2oncc2c1)c1ccccc1",
+   "grupo": "O=S(=O)(Nc1ccc2oncc2c1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 19,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "5y94",
+   "sdf_sha256": "f1bfd79cf328f6deec8ae2134ea8627b85671ec92ff8c40e42d393c9bf7151b9",
+   "inchikey": "DVWBDPNOOAMAKK-UHFFFAOYSA-N",
+   "n_pesados": 25,
+   "carga_formal": 0,
+   "scaffold": "O=S(=O)(Nc1ccc2oncc2c1)c1ccccc1",
+   "grupo": "O=S(=O)(Nc1ccc2oncc2c1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 6,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6d19",
+   "sdf_sha256": "0a1c81e3705daf167e1cefb0057af6e145e8a2567079338e9a3845f531ac0b5d",
+   "inchikey": "AVDUOTYJUPESMO-UHFFFAOYSA-N",
+   "n_pesados": 18,
+   "carga_formal": 0,
+   "scaffold": "O=c1ccc2ccccc2o1",
+   "grupo": "O=c1ccc2ccccc2o1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 17,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6d1g",
+   "sdf_sha256": "adfc9dcd76132f58a5df7c53c3d3ce14914a311bbf64aedd8f6a16d693d846e8",
+   "inchikey": "AVDUOTYJUPESMO-UHFFFAOYSA-N",
+   "n_pesados": 18,
+   "carga_formal": 0,
+   "scaffold": "O=c1ccc2ccccc2o1",
+   "grupo": "O=c1ccc2ccccc2o1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 17,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6g34",
+   "sdf_sha256": "bb6b0d2a8f5365e19a0dd1f5d0a8722d71e4561a3a54f2db9274c99c8474ec86",
+   "inchikey": "WHSIXKUPQCKWBY-IOSLPCCCSA-N",
+   "n_pesados": 20,
+   "carga_formal": 0,
+   "scaffold": "c1ncc2ccn(C3CCCO3)c2n1",
+   "grupo": "c1ncc2ccn(C3CCCO3)c2n1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 19,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6g35",
+   "sdf_sha256": "3d6c72e43d8282d8c4470d9e07453c27946f927d01b1535fdac7c8e8e0dbcae5",
+   "inchikey": "ZWTPRQXZXQEKFT-IOSLPCCCSA-N",
+   "n_pesados": 20,
+   "carga_formal": 0,
+   "scaffold": "c1ncc2ccn(C3CCCO3)c2n1",
+   "grupo": "c1ncc2ccn(C3CCCO3)c2n1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 11,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6g39",
+   "sdf_sha256": "dfc8bc8e59ede5bd6b654a144ce6f5568d4ace4a791399bfe29a837895ca21fc",
+   "inchikey": "WHSIXKUPQCKWBY-IOSLPCCCSA-N",
+   "n_pesados": 20,
+   "carga_formal": 0,
+   "scaffold": "c1ncc2ccn(C3CCCO3)c2n1",
+   "grupo": "c1ncc2ccn(C3CCCO3)c2n1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 19,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6g3a",
+   "sdf_sha256": "725b6c72122bee536d70c9cdde2ef27ad77199065cc7d8b88db598dd07a519d1",
+   "inchikey": "WHSIXKUPQCKWBY-IOSLPCCCSA-N",
+   "n_pesados": 20,
+   "carga_formal": 0,
+   "scaffold": "c1ncc2ccn(C3CCCO3)c2n1",
+   "grupo": "c1ncc2ccn(C3CCCO3)c2n1",
+   "elementos": [
+    "I"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 19,
+     "elemento": "I",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6gga",
+   "sdf_sha256": "43e3c5c51d00a7bf258fa9ff1204c09a0a619e45a1661d6429ad967f181e45e4",
+   "inchikey": "DQOAWXHGKIOTNR-UHFFFAOYSA-O",
+   "n_pesados": 19,
+   "carga_formal": 1,
+   "scaffold": "c1ccc2c(c1)[nH]c1ccccc12",
+   "grupo": "c1ccc2c(c1)[nH]c1ccccc12",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 18,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6gjn",
+   "sdf_sha256": "507ab5ea52275f3acd0f5a86b5811a67c9173a3850764407be2d30228d3bf84f",
+   "inchikey": "DZZMUGFFAZZVFF-HXUWFJFHSA-N",
+   "n_pesados": 34,
+   "carga_formal": 0,
+   "scaffold": "O=C(NCC(=O)N1CCCC1c1ccccc1)N(Cc1ccccc1)Cc1nn[nH]n1",
+   "grupo": "O=C(NCC(=O)N1CCCC1c1ccccc1)N(Cc1ccccc1)Cc1nn[nH]n1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 29,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6ic2",
+   "sdf_sha256": "0a78f8bce9512c946eebd442052cc328dc18a8b0b545a38b1373658ade6118f0",
+   "inchikey": "FBKMWOJEPMPVTQ-UHFFFAOYSA-N",
+   "n_pesados": 25,
+   "carga_formal": 0,
+   "scaffold": "N=C(Nc1ccccc1)c1cnon1",
+   "grupo": "N=C(Nc1ccccc1)c1cnon1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 9,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6o5t",
+   "sdf_sha256": "9c713f3952b911f1284addd3a0ee781d077ebe09bd303e50259deafb4f5fca12",
+   "inchikey": "YMPWKSWKTYLHON-UHFFFAOYSA-N",
+   "n_pesados": 18,
+   "carga_formal": 0,
+   "scaffold": "O=c1ccc2ccccc2[nH]1",
+   "grupo": "O=c1ccc2ccccc2[nH]1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 16,
+     "elemento": "Br",
+     "entorno": "arilo"
+    },
+    {
+     "indice": 17,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6std",
+   "sdf_sha256": "36b89858c08a6126f1bffc8af453d1bc0c1c4cf8e8eddc81067ccaa2f93ff9e3",
+   "inchikey": "VMASMYSTIDDLTO-JOSUJJRFSA-N",
+   "n_pesados": 21,
+   "carga_formal": 0,
+   "scaffold": "O=C(NCc1ccccc1)C1CC1",
+   "grupo": "O=C(NCc1ccccc1)C1CC1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 18,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6u5y",
+   "sdf_sha256": "c9327123fb559e9eb8daed611d1a0bc78ca39884e642b8bfa9c14f925f527dc2",
+   "inchikey": "COYGYHFILXAMSQ-UHFFFAOYSA-N",
+   "n_pesados": 30,
+   "carga_formal": 0,
+   "scaffold": "O=S(=O)(Nc1cccc(C2CCC2)c1)c1ccccc1",
+   "grupo": "O=S(=O)(Nc1cccc(C2CCC2)c1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 28,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6u6w",
+   "sdf_sha256": "46dbb5c7feae517fc14c3b8295d0e0ff6ab14e1418d376f916c557d7950c79c3",
+   "inchikey": "UQWYDZCIYINORK-UHFFFAOYSA-N",
+   "n_pesados": 21,
+   "carga_formal": 0,
+   "scaffold": "O=S(=O)(Nc1ccccc1)c1ccccc1",
+   "grupo": "O=S(=O)(Nc1ccccc1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 19,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6u8b",
+   "sdf_sha256": "47fb3133684455375092902ed12c0bd1ef08673f4cc5b0d6b2d73460fdbe13f0",
+   "inchikey": "HLGWNAJQDWZVDI-UHFFFAOYSA-N",
+   "n_pesados": 24,
+   "carga_formal": 0,
+   "scaffold": "O=S(=O)(Nc1ccccc1)c1ccccc1",
+   "grupo": "O=S(=O)(Nc1ccccc1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 12,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  },
+  {
+   "pid": "6u8o",
+   "sdf_sha256": "77e4caea83d04ac709a4e91847ded99711970dd72c3ea03c62f7386c2dfbfd69",
+   "inchikey": "DMCFTKWJTBOJFX-UHFFFAOYSA-N",
+   "n_pesados": 25,
+   "carga_formal": 0,
+   "scaffold": "O=S(=O)(Nc1cccc(C2CCC2)c1)c1ccccc1",
+   "grupo": "O=S(=O)(Nc1cccc(C2CCC2)c1)c1ccccc1",
+   "elementos": [
+    "Br"
+   ],
+   "atomos_bri": [
+    {
+     "indice": 18,
+     "elemento": "Br",
+     "entorno": "arilo"
+    }
+   ],
+   "geometria_imposible": false,
+   "violaciones": []
+  }
+ ]
+}

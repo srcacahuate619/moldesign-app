@@ -1,0 +1,59 @@
+{
+ "particiones": "PDBBind-BrI-v1",
+ "semilla": 20260923,
+ "objetivo": {
+  "entrenamiento": 0.6,
+  "validacion": 0.2,
+  "prueba": 0.2
+ },
+ "resumen": {
+  "entrenamiento": {
+   "ligandos": 72,
+   "grupos": 46,
+   "ligandos_con_Br": 53,
+   "ligandos_con_I": 19,
+   "atomos": {
+    "Br": 67,
+    "I": 21
+   }
+  },
+  "validacion": {
+   "ligandos": 24,
+   "grupos": 18,
+   "ligandos_con_Br": 18,
+   "ligandos_con_I": 6,
+   "atomos": {
+    "Br": 20,
+    "I": 6
+   }
+  },
+  "prueba": {
+   "ligandos": 26,
+   "grupos": 19,
+   "ligandos_con_Br": 18,
+   "ligandos_con_I": 8,
+   "atomos": {
+    "Br": 27,
+    "I": 13
+   }
+  }
+ },
+ "n_ligandos": 122,
+ "n_grupos": 83,
+ "n_inchikey_distintos": 114,
+ "geometria_imposible": [
+  "5mlj"
+ ],
+ "rdkit": "2025.09.6",
+ "determinista": true,
+ "entornos": {
+  "Br": {
+   "arilo": 109,
+   "alifatico": 5
+  },
+  "I": {
+   "arilo": 39,
+   "alifatico": 1
+  }
+ }
+}

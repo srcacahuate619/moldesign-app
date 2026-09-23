@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MMGBSA-PARTICIONES-BRI-V1",
+  "hypothesis": "Asignacion fija de los 122 ligandos de PDBBind con Br o I a entrenamiento, validacion y prueba (60/20/20) por scaffold de Bemis-Murcko, sin ningun scaffold compartido entre particiones, para reutilizarla sin cambios en H1, H2, H3 y H10 de docs/validacion_mmgbsa.md.",
+  "protocol": "backend/audits/lcpo_bri_h1.py curar y particionar (RDKit 2025.09.6, esta maquina, sin mirar ninguna energia ni area): grupos por scaffold (aciclicos por InChIKey), orden SHA-256(semilla:grupo), cada grupo a la particion con mayor deficit relativo, por separado para ligandos con Br y con I. Semilla 20260923. Determinista: tres ejecuciones dan la misma asignacion.",
+  "created_at": "2026-09-23T18:16:38.761005+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "27b2917fca0963cff2520dc4be25507e59017a1d",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 20260923,
+  "dependencies": {
+    "python_version": "3.14.3",
+    "packages": []
+  },
+  "gate": {
+    "description": "medicion sin gate: la asignacion se sella antes de cualquier medida de H1 y no se cambia despues"
+  },
+  "decision": "GO",
+  "assets_hashes": {
+    "backend/audits/lcpo_bri_h1.py": "bc22f9f0490d24ac1356f04706fe3a94c4e4cc4699878c22ece1a772a5c816cc",
+    "backend/audits/bri_h1/seleccion.json": "60701402692c0bebe3686d29dd11ebe88d226d1c5d05c5f333590b481781675c",
+    "backend/audits/bri_h1/particiones.json": "dc9d0162c3381ba8c517712ec1791a2e0f51ae8a1d6f80c834896c0245332c65",
+    "scripts/artifacts_science/MMGBSA-PARTICIONES-BRI-V1/metrics.json": "11356d6d316ace2774f6a4e67cdf106ff7639677d0225eba6ff675693653accf"
+  },
+  "sealed": true,
+  "sealed_at": "2026-09-23T18:16:39.417147+00:00",
+  "decision_rationale": "Asignacion sellada antes de medir H1: 122 ligandos en 83 grupos de scaffold (114 InChIKey distintos). Entrenamiento 72 ligandos / 46 grupos (Br 67 atomos, I 21), validacion 24 / 18 (Br 20, I 6), prueba 26 / 19 (Br 27, I 13). Ningun scaffold en dos particiones. Entornos: Br 109 arilo y 5 alifatico, I 39 y 1. 5mlj marcada como geometria imposible (regla de MMGBSA-H5-R1). Tres ejecuciones dan la misma asignacion.",
+  "finished_at": "2026-09-23T18:16:39.567092+00:00",
+  "duration_seconds": 60.0
+}

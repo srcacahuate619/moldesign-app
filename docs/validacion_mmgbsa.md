@@ -126,6 +126,17 @@ con el radio.
 
 **Coste.** Unos minutos: la herramienta ya existe.
 
+**Prerregistrada el 2026-09-23 como `MMGBSA-H1-LCPO-BONDI`**
+(`backend/audits/lcpo_bri_h1.py`). Universo: los 122 ligandos de PDBBind con
+Br o I (121 de geometría posible), con las particiones selladas en
+`MMGBSA-PARTICIONES-BRI-V1`: 83 grupos de scaffold; validación 20 Br + 6 I
+átomos, prueba 27 Br + 13 I. Gate: los criterios de arriba, el sesgo como IC95
+del error medio con signo dentro de ±2,81 Å², y «no empeorar a los vecinos»
+como comparación pareada con el respaldo de Amber (≤ +0,5 Å² de cota superior;
+0,0025 kcal/mol por átomo). Un piloto de 5 ligandos, declarado, mostró que un
+umbral absoluto para los vecinos fallaba en los tres brazos por igual; por eso
+se volvió al «no empeorar» del apartado 1.
+
 **Notas del propietario (informe 2026-09-23):** «prometedora», la más
 prometedora de 1.0.2. Se prueba **sin ajuste**. Que Bondi publicara esos radios
 como radios de van der Waals no dice que sirvan para LCPO: eso es justo lo que
@@ -491,9 +502,11 @@ Tomadas por el propietario (informe 2026-09-23):
 - Si H9 no es medible, queda INDETERMINADA; no se fuerza una conclusión.
 - Si Br/I no pasa, sigue desactivado **sin bloquear 1.0.2**.
 
+- Particiones de los ligandos de PDBBind con Br/I selladas el 2026-09-23
+  (`MMGBSA-PARTICIONES-BRI-V1`, semilla 20260923). FreeSolv tendrá las suyas.
+
 Pendientes:
 
-- Fijar y sellar la semilla y la asignación de particiones (antes de H1).
 - Localizar las estructuras de los conjuntos de estrés de H11.
 
 ## 5. Referencias a revisar
