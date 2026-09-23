@@ -65,7 +65,7 @@ describe("LoginForm — campos según mode", () => {
   it("mode=login → muestra email + password, NO username ni confirmPassword", () => {
     renderWithLanguage(<LoginForm {...baseProps({ mode: "login" })} />);
 
-    expect(screen.getByLabelText(/Email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Correo electr[oó]nico|Email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Contraseña/i)).toBeInTheDocument();
 
     // Username solo aparece en register
@@ -77,7 +77,7 @@ describe("LoginForm — campos según mode", () => {
   it("mode=register → muestra email + username + password + confirmPassword", () => {
     renderWithLanguage(<LoginForm {...baseProps({ mode: "register" })} />);
 
-    expect(screen.getByLabelText(/Email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Correo electr[oó]nico|Email/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Usuario/i)).toBeInTheDocument();
     // Password y Confirmar Contraseña ambos contienen "Contraseña" → getAllByLabelText
     expect(screen.getAllByLabelText(/Contraseña/i).length).toBe(2);
@@ -89,7 +89,7 @@ describe("LoginForm — campos según mode", () => {
     renderWithLanguage(<LoginForm {...baseProps({ onSubmit })} />);
 
     // Encuentra el form por el input de email dentro
-    const emailInput = screen.getByLabelText(/Email/i);
+    const emailInput = screen.getByLabelText(/Correo electr[oó]nico|Email/i);
     const form = emailInput.closest("form");
     expect(form).toBeInTheDocument();
     fireEvent.submit(form!);
