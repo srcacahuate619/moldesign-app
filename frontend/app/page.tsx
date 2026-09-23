@@ -49,7 +49,7 @@ function AnimatedLine({ text, delay = 0 }: { text: string; delay?: number }) {
 // ═══════════════════════════════════════════════════════════════
 
 function HeroSplit({ stats }: { stats: typeof EMPTY_STATS }) {
-  const { t, locale } = useLanguage();
+  const { t } = useLanguage();
 
   const EDU_STEPS = [
     {
@@ -80,47 +80,6 @@ function HeroSplit({ stats }: { stats: typeof EMPTY_STATS }) {
       desc: t("step_05_desc"),
     },
   ];
-
-  const rightDesc = () => {
-    // El registro en cadena NO encabeza esta descripción. Sella la integridad de
-    // un dossier —dice CUÁNDO se emitió algo—, y ponerlo primero sugeriría que
-    // la propiedad intelectual es la función del producto en vez de la evidencia.
-    const dict: Record<string, string> = {
-      es: "Comprobación previa antes de ejecutar, docking local con AutoDock Vina, cohortes comparables bajo una configuración común, y dossier con paquete verificable. El registro de integridad en cadena es opcional y sella cuándo se emitió un dossier; no valida su ciencia.",
-      en: "Preflight before running, local AutoDock Vina docking, comparable cohorts under a common configuration, and a dossier with a verifiable package. On-chain integrity registration is optional and seals when a dossier was issued; it does not validate its science.",
-      pt: "Verificação prévia, docking local com AutoDock Vina, coortes comparáveis e dossiê com pacote verificável. O registro opcional em cadeia prova integridade e data, não valida a ciência.",
-      fr: "Vérification préalable, docking local avec AutoDock Vina, cohortes comparables et dossier avec paquet vérifiable. L'enregistrement optionnel prouve l'intégrité et la date, pas la science.",
-      de: "Vorabprüfung, lokales Docking mit AutoDock Vina, vergleichbare Kohorten und ein überprüfbares Dossier. Die optionale Blockchain-Aufzeichnung belegt Integrität und Zeitpunkt, nicht die Wissenschaft.",
-      it: "Controllo preliminare, docking locale con AutoDock Vina, coorti comparabili e dossier con pacchetto verificabile. La registrazione opzionale prova integrità e data, non la validità scientifica.",
-      zh: "运行前检查、本地 AutoDock Vina 对接、可比较的队列，以及包含可验证数据包的档案。可选的链上记录用于证明完整性和时间，不证明科学结论。",
-      ja: "実行前チェック、ローカル AutoDock Vina ドッキング、比較可能なコホート、検証可能なパッケージを含むドシエ。任意のオンチェーン記録は完全性と発行時刻を示しますが、科学的妥当性は証明しません。",
-      ko: "실행 전 점검, 로컬 AutoDock Vina 도킹, 비교 가능한 코호트와 검증 가능한 패키지를 포함한 도시에. 선택적 온체인 기록은 무결성과 발행 시점을 증명하지만 과학적 타당성을 증명하지 않습니다.",
-      ru: "Предварительная проверка, локальный докинг AutoDock Vina, сопоставимые когорты и проверяемое досье. Необязательная запись в блокчейне подтверждает целостность и дату, но не научную обоснованность.",
-      hi: "पूर्व-जांच, स्थानीय AutoDock Vina डॉकिंग, तुलनीय समूह और सत्यापन योग्य पैकेज वाला डॉसियर। वैकल्पिक ऑन-चेन रिकॉर्ड अखंडता और समय दिखाता है, वैज्ञानिक निष्कर्ष की पुष्टि नहीं करता।",
-      ar: "فحص مسبق، وإرساء محلي باستخدام AutoDock Vina، ومجموعات قابلة للمقارنة، وملف أدلة قابل للتحقق. يسجل السجل الاختياري على السلسلة السلامة والتاريخ، ولا يثبت صحة العلم.",
-      tr: "Çalıştırma öncesi kontrol, yerel AutoDock Vina docking'i, karşılaştırılabilir kohortlar ve doğrulanabilir paket içeren dosya. İsteğe bağlı zincir kaydı bütünlük ve tarihi gösterir; bilimi doğrulamaz.",
-    };
-    return dict[locale] || dict.es;
-  };
-
-  const getStartBtn = () => {
-    const dict: Record<string, string> = {
-      es: "Iniciar Evaluación",
-      en: "Start Evaluation",
-      pt: "Iniciar Avaliação",
-      fr: "Démarrer l'Évaluation",
-      de: "Bewertung starten",
-      it: "Inizia Valutazione",
-      zh: "开始分子评估",
-      ja: "評価を開始する",
-      ko: "평가 시작하기",
-      ru: "Начать анализ",
-      hi: "मूल्यांकन शुरू करें",
-      ar: "بدء التقييم",
-      tr: "Değerlendirmeyi Başlat",
-    };
-    return dict[locale] || dict.es;
-  };
 
   return (
     <section className="min-h-screen grid grid-cols-1 lg:grid-cols-12 pt-48 pb-16 px-8 lg:px-16 gap-0">
@@ -178,7 +137,7 @@ function HeroSplit({ stats }: { stats: typeof EMPTY_STATS }) {
               className="inline-flex items-center gap-3 px-10 py-5 font-bold uppercase tracking-widest text-sm transition-colors"
               style={{ backgroundColor: "var(--text)", color: "var(--bg)" }}
             >
-              {getStartBtn()}
+              {t("pg_inicio_boton_empezar")}
               <BookOpen size={18} strokeWidth={1.5} />
             </Link>
             <ExternalLink
@@ -235,13 +194,16 @@ function HeroSplit({ stats }: { stats: typeof EMPTY_STATS }) {
             </h1>
           </motion.div>
 
+          {/* El registro en cadena NO encabeza esta descripción. Sella la integridad de
+              un dossier —dice CUÁNDO se emitió algo—, y ponerlo primero sugeriría que
+              la propiedad intelectual es la función del producto en vez de la evidencia. */}
           <motion.p
             initial={{ y: 32, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2, ease }}
             className="text-base text-muted leading-relaxed mt-8 uppercase tracking-wide"
           >
-            {rightDesc()}
+            {t("pg_inicio_descripcion")}
           </motion.p>
 
           <motion.div
@@ -305,32 +267,20 @@ function FutureVisionSection() {
 // ═══════════════════════════════════════════════════════════════
 
 function TechStackSection() {
-  const { t, locale } = useLanguage();
-
-  const getStackLabel = () => {
-    return locale === "es" ? "Stack Tecnológico" : "Technology Stack";
-  };
-  const getStackTitle = () => {
-    return locale === "es" ? "Motores de Cómputo e IA" : "Compute Engines & AI";
-  };
-  const getStackDesc = () => {
-    return locale === "es"
-      ? "Las partículas fluyendo entre los nodos representan el flujo del pipeline. Haz clic en un nodo para ver su detalle."
-      : "Particles flowing between nodes represent the pipeline flow. Click on a node to view details.";
-  };
+  const { t } = useLanguage();
 
   return (
     <section className="py-32 border-t border-theme overflow-hidden">
       <div className="max-w-6xl mx-auto px-8 lg:px-16 mb-16">
         <div className="border-l-2 pl-5" style={{ borderLeftColor: "var(--accent)" }}>
           <span className="font-mono text-sm uppercase tracking-[0.25em] text-muted block mb-1">
-            {getStackLabel()}
+            {t("pg_inicio_stack_label")}
           </span>
           <h2 className="text-3xl lg:text-4xl font-black tracking-tight text-theme uppercase">
-            {getStackTitle()}
+            {t("pg_inicio_stack_titulo")}
           </h2>
           <p className="text-base text-muted mt-3 leading-relaxed uppercase max-w-3xl">
-            {getStackDesc()}
+            {t("pg_inicio_stack_desc")}
           </p>
         </div>
       </div>
@@ -347,7 +297,7 @@ function TechStackSection() {
 // ═══════════════════════════════════════════════════════════════
 
 function LeaderboardSection() {
-  const { t, locale } = useLanguage();
+  const { t } = useLanguage();
   const [leaders, setLeaders] = useState<any[]>([]);
   const [ldError, setLdError] = useState(false);
 
@@ -357,16 +307,6 @@ function LeaderboardSection() {
       .catch(() => setLdError(true));
   }, []);
 
-  const getCommLabel = () => locale === "es" ? "Comunidad" : "Community";
-  const getLeaderTitle = () => locale === "es" ? "Evaluaciones compartidas" : "Shared evaluations";
-  const getEmptyDesc = () => locale === "es"
-    ? "La comunidad científica está creciendo. Sé el primero en compartir una evaluación."
-    : "The scientific community is growing. Be the first to share an evaluation.";
-  const getLeaderDesc = () => locale === "es"
-    ? "Evaluaciones compartidas por la comunidad. El orden es por afinidad observada; no es un ranking de candidatos."
-    : "Evaluations shared by the community, ordered by observed docking affinity. This is not a candidate ranking.";
-  const getMolCol = () => locale === "es" ? t("mx_molecula") : t("mx_molecula");
-
   if (ldError) return null;
 
   if (leaders.length === 0) {
@@ -374,11 +314,11 @@ function LeaderboardSection() {
       <section className="py-32 border-t border-theme overflow-hidden">
         <div className="max-w-6xl mx-auto px-8 lg:px-16">
           <div className="border-l-2 pl-5" style={{ borderLeftColor: "var(--accent)" }}>
-            <span className="font-mono text-sm uppercase tracking-[0.25em] text-muted block mb-1">{getCommLabel()}</span>
-            <h2 className="text-3xl lg:text-4xl font-black tracking-tight text-theme uppercase">{getLeaderTitle()}</h2>
+            <span className="font-mono text-sm uppercase tracking-[0.25em] text-muted block mb-1">{t("pg_inicio_comunidad_label")}</span>
+            <h2 className="text-3xl lg:text-4xl font-black tracking-tight text-theme uppercase">{t("pg_inicio_evaluaciones_compartidas")}</h2>
           </div>
           <p className="font-mono text-sm text-muted uppercase tracking-wide mt-10 text-center">
-            {getEmptyDesc()}
+            {t("pg_inicio_comunidad_creciendo")}
           </p>
         </div>
       </section>
@@ -390,13 +330,13 @@ function LeaderboardSection() {
       <div className="max-w-6xl mx-auto px-8 lg:px-16 mb-16">
         <div className="border-l-2 pl-5" style={{ borderLeftColor: "var(--accent)" }}>
           <span className="font-mono text-sm uppercase tracking-[0.25em] text-muted block mb-1">
-            {getCommLabel()}
+            {t("pg_inicio_comunidad_label")}
           </span>
           <h2 className="text-3xl lg:text-4xl font-black tracking-tight text-theme uppercase">
-            {getLeaderTitle()}
+            {t("pg_inicio_evaluaciones_compartidas")}
           </h2>
           <p className="text-base text-muted mt-3 leading-relaxed uppercase max-w-3xl">
-            {getLeaderDesc()}
+            {t("pg_inicio_evaluaciones_desc")}
           </p>
         </div>
       </div>
@@ -405,7 +345,7 @@ function LeaderboardSection() {
         <div className="overflow-hidden border border-theme/20">
           <div className="grid grid-cols-3 gap-4 border-b border-theme bg-[var(--bg-secondary)] px-6 py-3 text-caption font-bold text-muted">
             <span>#</span>
-            <span>{getMolCol()}</span>
+            <span>{t("mx_molecula")}</span>
             <span className="text-right">{t("pg_inicio_afinidad_kcal")}</span>
           </div>
           {leaders.map((l, i) => (

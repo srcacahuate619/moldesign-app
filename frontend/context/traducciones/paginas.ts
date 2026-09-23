@@ -151,6 +151,27 @@ export const paginas: ModuloDeTraduccion = {
     pg_inicio_pipeline: "Flujo de cálculo",
     pg_inicio_afinidad_kcal: "Afinidad (kcal/mol)",
     pg_inicio_etapas: "etapas",
+    // El registro en cadena NO encabeza esta descripción. Sella la integridad de
+    // un dossier —dice CUÁNDO se emitió algo—, y ponerlo primero sugeriría que
+    // la propiedad intelectual es la función del producto en vez de la evidencia.
+    pg_inicio_descripcion:
+      "Comprobación previa antes de ejecutar, docking local con AutoDock Vina, "
+      + "cohortes comparables bajo una configuración común, y dossier con paquete "
+      + "verificable. El registro de integridad en cadena es opcional y sella cuándo "
+      + "se emitió un dossier; no valida su ciencia.",
+    pg_inicio_boton_empezar: "Iniciar Evaluación",
+    pg_inicio_stack_label: "Stack Tecnológico",
+    pg_inicio_stack_titulo: "Motores de Cómputo e IA",
+    pg_inicio_stack_desc:
+      "Las partículas fluyendo entre los nodos representan el flujo del pipeline. "
+      + "Haz clic en un nodo para ver su detalle.",
+    pg_inicio_comunidad_label: "Comunidad",
+    pg_inicio_evaluaciones_compartidas: "Evaluaciones compartidas",
+    pg_inicio_comunidad_creciendo:
+      "La comunidad científica está creciendo. Sé el primero en compartir una evaluación.",
+    pg_inicio_evaluaciones_desc:
+      "Evaluaciones compartidas por la comunidad. El orden es por afinidad observada; "
+      + "no es un ranking de candidatos.",
 
     // ── Lanzador ──────────────────────────────────────────────────
     pg_lanzador_componentes_locales: "Componentes locales",
@@ -294,6 +315,24 @@ export const paginas: ModuloDeTraduccion = {
     pg_inicio_pipeline: "Pipeline",
     pg_inicio_afinidad_kcal: "Affinity (kcal/mol)",
     pg_inicio_etapas: "stages",
+    pg_inicio_descripcion:
+      "Preflight before running, local AutoDock Vina docking, comparable cohorts "
+      + "under a common configuration, and a dossier with a verifiable package. "
+      + "On-chain integrity registration is optional and seals when a dossier was "
+      + "issued; it does not validate its science.",
+    pg_inicio_boton_empezar: "Start Evaluation",
+    pg_inicio_stack_label: "Technology Stack",
+    pg_inicio_stack_titulo: "Compute Engines & AI",
+    pg_inicio_stack_desc:
+      "Particles flowing between nodes represent the pipeline flow. Click on a node "
+      + "to view details.",
+    pg_inicio_comunidad_label: "Community",
+    pg_inicio_evaluaciones_compartidas: "Shared evaluations",
+    pg_inicio_comunidad_creciendo:
+      "The scientific community is growing. Be the first to share an evaluation.",
+    pg_inicio_evaluaciones_desc:
+      "Evaluations shared by the community, ordered by observed docking affinity. "
+      + "This is not a candidate ranking.",
 
     // ── Lanzador ──────────────────────────────────────────────────
     pg_lanzador_componentes_locales: "Local components",
