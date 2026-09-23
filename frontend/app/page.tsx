@@ -10,13 +10,13 @@ import { PipelineFlowchart } from "@/components/PipelineFlowchart";
 import { ContrasteInicio } from "@/components/registro/ContrasteInicio";
 import { getGlobalStats } from "@/lib/api";
 import { getLeaderboard } from "@/lib/proApi";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage, Translated } from "@/context/LanguageContext";
 import { PRODUCT } from "@/lib/softwareCatalog";
 
 import { ExternalLink } from "@/components/ui/ExternalLink";
 const TechNetwork3D = dynamic(() => import("@/components/TechNetwork3D").then((m) => m.TechNetwork3D), {
   ssr: false,
-  loading: () => <div className="w-full h-[500px] flex items-center justify-center text-muted font-mono text-xs uppercase tracking-widest animate-pulse">Iniciando Red 3D...</div>,
+  loading: () => <div className="w-full h-[500px] flex items-center justify-center text-muted font-mono text-xs uppercase tracking-widest animate-pulse"><Translated id="pg_inicio_iniciando_red_3d" /></div>,
 });
 
 // La ausencia del backend no es una medición de cero.
@@ -266,7 +266,7 @@ function HeroSplit({ stats }: { stats: typeof EMPTY_STATS }) {
               <p className="text-4xl lg:text-5xl font-black text-accent font-mono mt-2">{stats.total_certifications?.toLocaleString() ?? "—"}</p>
             </div>
             <div>
-              <span className="font-mono text-xs uppercase tracking-wider text-muted">Pipeline</span>
+              <span className="font-mono text-xs uppercase tracking-wider text-muted">{t("pg_inicio_pipeline")}</span>
               <p className="text-4xl lg:text-5xl font-black text-theme font-mono mt-2">
                 07 <span className="text-base text-muted">{locale === "es" ? "etapas" : "stages"}</span>
               </p>
@@ -406,7 +406,7 @@ function LeaderboardSection() {
           <div className="grid grid-cols-3 gap-4 border-b border-theme bg-[var(--bg-secondary)] px-6 py-3 text-caption font-bold text-muted">
             <span>#</span>
             <span>{getMolCol()}</span>
-            <span className="text-right">{locale === "es" ? "Afinidad (kcal/mol)" : "Affinity (kcal/mol)"}</span>
+            <span className="text-right">{t("pg_inicio_afinidad_kcal")}</span>
           </div>
           {leaders.map((l, i) => (
             <div key={l.molecule_id || i} className="grid grid-cols-3 items-center gap-4 border-b border-theme px-6 py-3 font-mono text-xs transition-colors hover:bg-[var(--bg-secondary)]">

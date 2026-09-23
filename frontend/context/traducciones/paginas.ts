@@ -128,6 +128,11 @@ export const paginas: ModuloDeTraduccion = {
     pg_nav_salir: "SALIR",
     pg_nav_entrar: "ENTRAR",
 
+    // ── Inicio ────────────────────────────────────────────────────
+    pg_inicio_iniciando_red_3d: "Iniciando Red 3D...",
+    pg_inicio_pipeline: "Flujo de cálculo",
+    pg_inicio_afinidad_kcal: "Afinidad (kcal/mol)",
+
     // ── El error global ───────────────────────────────────────────
     pg_err_titulo: "MolDesign no pudo abrir la interfaz",
     pg_err_subtitulo: "La ventana quedó sin pintar",
@@ -237,6 +242,11 @@ export const paginas: ModuloDeTraduccion = {
     pg_nav_usuario_escritorio: "Desktop User",
     pg_nav_salir: "SIGN OUT",
     pg_nav_entrar: "SIGN IN",
+
+    // ── Inicio ────────────────────────────────────────────────────
+    pg_inicio_iniciando_red_3d: "Starting 3D Network...",
+    pg_inicio_pipeline: "Pipeline",
+    pg_inicio_afinidad_kcal: "Affinity (kcal/mol)",
 
     pg_err_titulo: "MolDesign could not open the interface",
     pg_err_subtitulo: "The window was left unpainted",
