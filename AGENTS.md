@@ -245,7 +245,7 @@ docs/             programa experimental, gates de release, auditorías
 
 ```bash
 cd frontend
-npm run test:run      # 1057 pruebas
+npm run test:run      # 1058 pruebas
 npm run tauri:build   # instalador completo
 ```
 
@@ -417,14 +417,15 @@ SBOM los lista ahora en `sin_licencia_declarada`. Ver
   (`python-embed`, 3.11.9), medidas el 2026-09-22. Con el intérprete de
   desarrollo (3.14) son 36 más (2582):
   la diferencia son `importorskip` cuya dependencia no viaja en el bundle, y por
-  eso el número que vale es el del runtime embebido. Frontend: **1057** en 117
-  archivos (medido el 2026-09-22). `tsc` limpio.
+  eso el número que vale es el del runtime embebido. Frontend: **1058** en 117
+  archivos (medido el 2026-09-23). `tsc` limpio.
   El conteo del backend lo mantiene `scripts/report_test_counts.py`, que
   escribe `docs/api/test-counts.json`: esa es la fuente, no este párrafo.
   Este párrafo ya envejeció dos veces —decía 2117 y 889, y luego 2518 cuando
   el registro ya daba 2542— mientras el registro estaba al día; si vuelven a
   discrepar, manda el registro.
-- Smoke de producción: **12/12**.
+- Smoke de producción: **13/13** (2026-09-23; la 13.ª comprueba que el smoke no
+  toca la base de datos del usuario).
 - Arranque medido en entorno de producción: **~6 s**.
 - **Cero usuarios externos** todavía. El propio roadmap identifica esto como el
   riesgo de muerte real del proyecto, por encima del científico.
