@@ -545,6 +545,15 @@ el Python que se entrega. (b) Qué cambia: ΔG_SA de unión con LCPO frente a SA
 numérica en complejos de PDBBind con y sin Br/I. (c) Si la minimización sin
 término de superficie cambia la pose de forma apreciable.
 
+**Viabilidad, medida el 2026-09-23 (exploratoria, sin sellar).** La RDKit
+2025.09.6 del Python que se entrega trae `rdFreeSASA` (FreeSASA, algoritmo de
+Lee-Richards): no hace falta ninguna dependencia nueva. Con los radios de Bondi
+y H a 0 (la convención de LCPO), en el ligando de 1zoh (4 Br, el peor caso de
+H2) da 437,80 Å² frente a 438,09 de la SASA exacta a 50 000 puntos, con
+≤ 0,43 Å² por átomo (los cuatro Br: 65,9/66,1, 59,3/59,7, 60,6/60,4,
+59,7/59,6), en menos de 1 ms; el receptor entero (11 582 átomos), en 0,22 s.
+LCPO se equivocaba en esos Br en +10 a +12 Å².
+
 **Criterio.** Por fijar tras la investigación del propietario (métodos y
 bibliotecas disponibles, licencias).
 
