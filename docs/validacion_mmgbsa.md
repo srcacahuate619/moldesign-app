@@ -559,6 +559,30 @@ bibliotecas disponibles, licencias).
 
 **Coste.** Bajo en cálculo; el trabajo es de diseño del protocolo.
 
+### H13 — OpenMM calcula el GBn2 de Amber también con azufre
+
+**Enunciado.** Reescribir las expresiones GBn2 de OpenMM con las ramas de
+`egb.F90` hace que OpenMM reproduzca a sander también con S, sin romper lo
+que ya coincidía.
+
+**Por qué.** H5 encontró hasta 11,24 kcal/mol de desacuerdo en toda topología
+con S. La fuente de Amber (AmberClassic `src/msander/egb.F90`, leída el
+2026-09-23) lo explica: `sj = fs(j)` lleva el signo del apantallamiento, el del
+S es negativo, `dij > four*sj` se cumple siempre y Amber usa **siempre** su
+serie de Taylor para el S; OpenMM evalúa la integral cerrada. Además Amber
+corta en `rgbmax` (25 Å con igb=8) y OpenMM no. El informe del propietario
+(2026-09-23) coincide: Amber es la referencia porque GBn2 se parametrizó con
+ese código, y cita el issue #1491 de OpenMM (NaN con `igb=8`).
+
+**Cómo se mide.** `backend/audits/gbn2_azufre_amber_h13.py` con
+`apply_amber_gbn2_descreening` (protocolo candidato, no producción) sobre las
+55 topologías y dos péptidos ff14SB con Met y Cys, uno de 56 Å.
+
+**Piloto (5 casos, declarado).** ACE-Met-Cys-NME: OpenMM 8.5.2 se separa de
+sander **0,92 kcal/mol**; con las ramas de Amber, 1,6e-6. 2weg: 11,2 → 1,6e-6.
+Sin S (1e4h) no cambia (4e-8). Sin rgbmax, el péptido largo deja 4,1e-3: hacen
+falta las dos piezas.
+
 ### H11 — El agujero σ no se arregla con radios
 
 **Enunciado.** Si, con H1-H5 superadas, queda un error de Br/I concentrado en
