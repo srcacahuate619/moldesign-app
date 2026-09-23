@@ -486,7 +486,7 @@ export default function CohortesPage() {
               {t("evaluation")}
             </Link>
             <div>
-              <h1 className="text-lg font-semibold tracking-tight">Cohortes</h1>
+              <h1 className="text-lg font-semibold tracking-tight">{t("lo_titulo_cohortes")}</h1>
               <p className="text-sm text-zinc-600 dark:text-white/60">
                 {t("pg_lote_intro")}
               </p>
@@ -495,7 +495,7 @@ export default function CohortesPage() {
         </div>
 
         {/* ── Pasos ───────────────────────────────────────────────── */}
-        <nav aria-label="Pasos" className="mt-5 flex flex-wrap gap-1.5">
+        <nav aria-label={t("lo_aria_pasos")} className="mt-5 flex flex-wrap gap-1.5">
           {PASOS.map((p) => (
             <span
               key={p.id}
@@ -521,7 +521,7 @@ export default function CohortesPage() {
           <div role="alert" className="mt-4 flex flex-wrap items-center gap-3 rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-900 dark:border-amber-500/25 dark:bg-amber-500/10 dark:text-amber-200">
             <span className="min-w-0 flex-1">{pollError}</span>
             <button type="button" className={SECUNDARIO} onClick={() => setPollNonce((value) => value + 1)}>
-              <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" /> Reintentar seguimiento
+              <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" /> {t("c_reintentar_seguimiento")}
             </button>
           </div>
         )}
@@ -537,7 +537,7 @@ export default function CohortesPage() {
 
               <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 <label className="block">
-                  <span className={ETIQUETA}>Nombre</span>
+                  <span className={ETIQUETA}>{t("c_nombre")}</span>
                   <input className={`${INPUT} mt-1`} value={nombre} onChange={(e) => setNombre(e.target.value)}
                     placeholder={t("lo_nombre_ejemplo")} aria-label={t("lo_nombre_cohorte")} />
                 </label>
@@ -557,7 +557,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     <summary className="cursor-pointer rounded-sm font-semibold text-zinc-900 outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white">{t("lo_ver_formatos")}</summary>
                     <div className="mt-3 space-y-3 border-t border-zinc-200 pt-3 dark:border-white/10">
                       <p><strong>{t("auto_460799387e92")}</strong> {t("lo_formatos_csv_xlsx")} <code className="font-mono">smiles</code>{t("lo_tambien_se_aceptan")} <code className="font-mono">canonical_smiles</code> {t("lo_o")} <code className="font-mono">structure</code>{t("lo_formatos_opcionales")} <code className="font-mono">name</code>, <code className="font-mono">active</code> y <code className="font-mono">control_role</code>{t("lo_formatos_xlsx_hoja")}</p>
-                      <p><strong>{t("auto_e3d883a02cc8")}</strong> {t("lo_formatos_smi")} <code className="font-mono">SMILES nombre active control_role</code>{t("lo_formatos_smi_separador")} <code className="font-mono">#</code> {t("lo_formatos_smi_comentarios")}</p>
+                      <p><strong>{t("auto_e3d883a02cc8")}</strong> {t("lo_formatos_smi")} <code className="font-mono">{t("lo_ejemplo_smi_columnas")}</code>{t("lo_formatos_smi_separador")} <code className="font-mono">#</code> {t("lo_formatos_smi_comentarios")}</p>
                       <p><strong>SDF:</strong> {t("lo_formatos_sdf")} <code className="font-mono">_Name</code>{t("lo_formatos_sdf_propiedades")} <code className="font-mono">active</code> y <code className="font-mono">control_role</code> {t("lo_formatos_sdf_opcionales")}</p>
                       <p>{t("lo_formatos_para")} <code className="font-mono">active</code>, {t("lo_formatos_usa")} <code className="font-mono">1</code> {t("lo_formatos_activa")} <code className="font-mono">0</code> {t("lo_formatos_inactiva")} <code className="font-mono">control_role</code>, {t("lo_formatos_usa")} <code className="font-mono">reference</code>, <code className="font-mono">positive</code>, <code className="font-mono">negative</code> {t("lo_o")} <code className="font-mono">none</code>.</p>
                     </div>
@@ -571,11 +571,11 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     className="mt-1 block w-full text-sm text-zinc-600 file:mr-3 file:rounded-md file:border file:border-zinc-300 file:bg-zinc-100 file:px-3 file:py-2 file:text-sm file:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white/60 dark:file:border-0 dark:file:bg-white/10 dark:file:text-white/80" />
                 </label>
                 <div className="block">
-                  <label htmlFor="cohort-receptor-pdb" className={ETIQUETA}>Receptor (PDB ID)</label>
+                  <label htmlFor="cohort-receptor-pdb" className={ETIQUETA}>{t("lo_receptor_pdb_id")}</label>
                   <div className="mt-1 flex gap-2">
                     <input id="cohort-receptor-pdb" className={INPUT} value={pdbId}
                       onChange={(e) => setPdbId(e.target.value)} placeholder="7E2Y"
-                      aria-label="Receptor PDB ID" />
+                      aria-label={t("lo_receptor_pdb_aria")} />
                     <button
                       type="button"
                       className={`${SECUNDARIO} shrink-0`}
@@ -594,12 +594,12 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                   )}
                 </div>
                 <label className="block">
-                  <span className={ETIQUETA}>Cadena (opcional)</span>
+                  <span className={ETIQUETA}>{t("lo_cadena_opcional")}</span>
                   <input className={`${INPUT} mt-1`} value={cadena} onChange={(e) => setCadena(e.target.value)}
-                    placeholder="A" aria-label="Cadena" />
+                    placeholder="A" aria-label={t("c_cadena")} />
                 </label>
                 <fieldset className="sm:col-span-2">
-                  <legend className={ETIQUETA}>Motor</legend>
+                  <legend className={ETIQUETA}>{t("c_motor")}</legend>
                   <div className="mt-1 grid gap-2 sm:grid-cols-2">
                     <label className={`flex items-start gap-3 rounded-md border p-3 ${
                       motorHistoricoQuickVina
@@ -621,14 +621,14 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                 </fieldset>
                 <div className="grid grid-cols-3 gap-2">
                   <label className="block">
-                    <span className={ETIQUETA}>Exhaust.</span>
+                    <span className={ETIQUETA}>{t("lo_exhaust_label")}</span>
                     <input type="number" min={1} max={128} className={`${INPUT} mt-1`} value={exhaustividad}
-                      aria-label="Exhaustividad" onChange={(e) => setExhaustividad(Number(e.target.value))} />
+                      aria-label={t("c_exhaustividad")} onChange={(e) => setExhaustividad(Number(e.target.value))} />
                   </label>
                   <label className="block">
-                    <span className={ETIQUETA}>Poses</span>
+                    <span className={ETIQUETA}>{t("lo_poses_label")}</span>
                     <input type="number" min={1} max={20} className={`${INPUT} mt-1`} value={poses}
-                      aria-label="Poses" onChange={(e) => setPoses(Number(e.target.value))} />
+                      aria-label={t("lo_poses_label")} onChange={(e) => setPoses(Number(e.target.value))} />
                   </label>
                   <label className="block">
                     <span className={ETIQUETA}>{t("se_gen_seed")}</span>
@@ -642,7 +642,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                 <button type="button" className={PRIMARIO} onClick={comprobar}
                   disabled={!archivo || !estudio || ocupado === "comprobar"}>
                   {ocupado === "comprobar" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Search className="h-3.5 w-3.5" />}
-                  Comprobar cohorte
+                  {t("lo_comprobar_cohorte")}
                 </button>
                 <span className="text-xs text-zinc-500 dark:text-white/60">
                   {t("pg_lote_comprobar_no_ejecuta")}
@@ -665,9 +665,9 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     [t("lo_invalidas"), resumen!.invalid_rows],
                     [t("lo_filtro_duplicados"), resumen!.duplicate_rows],
                     [t("lo_moleculas_unicas"), resumen!.unique_canonical_ligands],
-                    ["Referencia", resumen!.explicit_reference_controls],
-                    ["Positivos", resumen!.explicit_positive_controls],
-                    ["Negativos", resumen!.explicit_negative_controls],
+                    [t("lo_rol_referencia"), resumen!.explicit_reference_controls],
+                    [t("lo_rol_positivos"), resumen!.explicit_positive_controls],
+                    [t("lo_rol_negativos"), resumen!.explicit_negative_controls],
                   ].map(([etiqueta, valor]) => (
                     <div key={String(etiqueta)} className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 dark:border-white/10 dark:bg-black/20">
                       <dt className={ETIQUETA}>{etiqueta}</dt>
@@ -729,7 +729,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
               <section className={`${CAJA} p-4`} aria-labelledby="run" data-testid="cohorte-guardada">
                 <h2 id="run" className="text-sm font-semibold">{t("lo_titulo_ejecucion")}</h2>
                 <p className="mt-1 break-all font-mono text-xs font-medium text-zinc-600 dark:text-white/60">
-                  cohorte {cohorte.id} · {cohorte.source.filename} · sha256 {cohorte.source.sha256.slice(0, 16)}…
+                  {t("lo_cohorte_prefijo")} {cohorte.id} · {cohorte.source.filename} · sha256 {cohorte.source.sha256.slice(0, 16)}…
                 </p>
 
                 <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -780,7 +780,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
 
                     <dl className="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-6">
                       {[
-                        ["Archivo", corrida.progress.total_rows],
+                        [t("lo_progreso_archivo"), corrida.progress.total_rows],
                         [t("lo_elegibles"), corrida.progress.eligible_rows],
                         [t("lo_filtro_completadas"), corrida.progress.completed_rows],
                         [t("lo_filtro_duplicados"), corrida.progress.duplicate_reused_rows],
@@ -812,7 +812,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                           !(corrida.status === "interrupted" || corrida.status === "completed_with_exceptions") ||
                           ocupado === "reanudar"
                         }>
-                        <RefreshCw className="h-3.5 w-3.5" /> Reanudar
+                        <RefreshCw className="h-3.5 w-3.5" /> {t("lo_reanudar")}
                       </button>
                       <button type="button" className={PRIMARIO} onClick={verEvidencia}
                         disabled={isRunActive(corrida.status) || ocupado === "evidencia"}>
@@ -917,11 +917,11 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     <thead className="font-medium text-zinc-600 dark:text-white/65">
                       <tr>
                         <th className="px-2 py-1.5 font-normal">#</th>
-                        <th className="px-2 py-1.5 font-normal">Nombre</th>
+                        <th className="px-2 py-1.5 font-normal">{t("c_nombre")}</th>
                         <th className="px-2 py-1.5 font-normal">{t("c_estado")}</th>
-                        <th className="px-2 py-1.5 font-normal">Afinidad Vina observada (kcal/mol)</th>
-                        <th className="px-2 py-1.5 font-normal">Etiqueta</th>
-                        <th className="px-2 py-1.5 font-normal">Control</th>
+                        <th className="px-2 py-1.5 font-normal">{t("lo_th_afinidad_vina")}</th>
+                        <th className="px-2 py-1.5 font-normal">{t("lo_th_etiqueta")}</th>
+                        <th className="px-2 py-1.5 font-normal">{t("lo_th_control")}</th>
                       </tr>
                     </thead>
                     <tbody data-testid="tabla-evidencia">
@@ -976,7 +976,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                   </button>
                   <button type="button" className={SECUNDARIO} onClick={exportarZip} disabled={ocupado === "zip"}>
                     {ocupado === "zip" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <FileArchive className="h-3.5 w-3.5" />}
-                    Exportar paquete ZIP
+                    {t("c_exportar_zip")}
                   </button>
                 </div>
                 {zipGuardado && (
@@ -998,10 +998,10 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
           </div>
 
           {/* ── Lista lateral ─────────────────────────────────────── */}
-          <aside className={`${CAJA} h-fit p-3`} aria-label="Cohortes guardadas">
+          <aside className={`${CAJA} h-fit p-3`} aria-label={t("lo_cohortes_guardadas")}>
             <div className="flex items-center justify-between">
-              <h2 className="text-xs font-semibold">Cohortes guardadas</h2>
-              <button type="button" onClick={refrescarLista} className="rounded-sm text-zinc-500 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white/60 dark:hover:text-white/80" aria-label="Refrescar lista">
+              <h2 className="text-xs font-semibold">{t("lo_cohortes_guardadas")}</h2>
+              <button type="button" onClick={refrescarLista} className="rounded-sm text-zinc-500 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white/60 dark:hover:text-white/80" aria-label={t("lo_refrescar_lista")}>
                 <RefreshCw className="h-3 w-3" />
               </button>
             </div>
@@ -1015,7 +1015,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                       className="w-full rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1.5 text-left transition-colors hover:border-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:border-white/10 dark:bg-black/20 dark:hover:border-white/20">
                       <span className="block truncate text-xs">{item.name}</span>
                       <span className="block text-xs font-medium text-zinc-600 dark:text-white/60">
-                        {item.receptor_pdb_id} · {item.summary.eligible_rows}/{item.summary.total_rows} elegibles
+                        {item.receptor_pdb_id} · {item.summary.eligible_rows}/{item.summary.total_rows} {t("lo_elegibles_sufijo")}
                       </span>
                     </button>
                   </li>

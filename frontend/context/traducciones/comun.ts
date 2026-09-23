@@ -37,6 +37,12 @@ export const comun: ModuloDeTraduccion = {
     c_score: "Score",
     c_afinidad: "Afinidad",
     c_pendiente: "Pendiente",
+    c_motor: "Motor",
+    c_cadena: "Cadena",
+    c_exhaustividad: "Exhaustividad",
+    c_exportar_zip: "Exportar paquete ZIP",
+    c_nombre: "Nombre",
+    c_reintentar_seguimiento: "Reintentar seguimiento",
 
     // ── Estados ───────────────────────────────────────────────────
     c_cargando: "Cargando…",
@@ -88,6 +94,12 @@ export const comun: ModuloDeTraduccion = {
     c_score: "Score",
     c_afinidad: "Affinity",
     c_pendiente: "Pending",
+    c_motor: "Engine",
+    c_cadena: "Chain",
+    c_exhaustividad: "Exhaustiveness",
+    c_exportar_zip: "Export ZIP package",
+    c_nombre: "Name",
+    c_reintentar_seguimiento: "Retry tracking",
 
     c_cargando: "Loading…",
     c_calculando: "Calculating…",

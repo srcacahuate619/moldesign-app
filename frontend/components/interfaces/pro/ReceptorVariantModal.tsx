@@ -123,7 +123,7 @@ export function ReceptorVariantModal({ parent, onClose, onSuccess }: ReceptorVar
               <input value={name} onChange={(event) => setName(event.target.value)} maxLength={200} className="w-full rounded-lg border border-zinc-800 bg-black px-3 py-2 text-zinc-100 outline-none focus:border-purple-500/50" />
             </label>
             <label className="text-xs text-zinc-400">
-              <span className="mb-1.5 block font-medium text-zinc-300">Cadena</span>
+              <span className="mb-1.5 block font-medium text-zinc-300">{t("c_cadena")}</span>
               <input value={chain} onChange={(event) => setChain(event.target.value)} maxLength={4} className="w-full rounded-lg border border-zinc-800 bg-black px-3 py-2 text-zinc-100 outline-none focus:border-purple-500/50" />
             </label>
           </div>

@@ -29,6 +29,7 @@ const INTRADUCIBLES = new Set([
   "PDB ID", "Selector", "Pose", "poses", "Vina top-1", "Vina top-1 (original)",
   "Δ pose 1–2", "Local-First", "Copyleft", "source-available", "Hotspots",
   "Score", "Total", "Target",
+  "Control", "Exhaust.", "Poses", "Receptor (PDB ID)", "Receptor PDB ID",
 ]);
 
 /**

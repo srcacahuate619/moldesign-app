@@ -810,7 +810,7 @@ export default function ProOptionsModal({
                       <div className="grid grid-cols-2 gap-3">
                         <div className="flex flex-col gap-1">
                           <label className="text-sm font-mono uppercase tracking-wider text-zinc-500">
-                            Exhaustiveness
+                            {t("c_exhaustividad")}
                           </label>
                           <select
                             value={gridBox.exhaustiveness}

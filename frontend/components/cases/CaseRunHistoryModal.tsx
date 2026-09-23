@@ -364,7 +364,7 @@ function RunDetail({
         <Field label={t("se_cmp_affinity")} value={numeroOGuion(result.affinity_kcal, 2, " kcal/mol")} />
         <Field label="Poses" value={String(result.docking_poses?.length ?? 0)} />
         <Field label="Receptor" value={result.target_name ?? t("c_no_definido")} />
-        <Field label="Motor" value={result.vina_version ?? t("c_no_registrado")} />
+        <Field label={t("c_motor")} value={result.vina_version ?? t("c_no_registrado")} />
       </dl>
       {/* La regresión de ML NO se presenta junto a la afinidad como si fueran
           la misma cantidad: tienen distinto error y distinto dominio. */}

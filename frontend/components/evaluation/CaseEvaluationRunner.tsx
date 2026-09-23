@@ -1185,7 +1185,7 @@ export default function CaseEvaluationRunner({
             onClick={() => void resumeRun(taskId, activeRun?.executionState === "completed", activeRun?.moleculeId)}
             className="shrink-0 whitespace-nowrap rounded border border-amber-500/40 px-2 py-0.5 text-[11px] hover:text-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
           >
-            Reintentar seguimiento
+            {t("c_reintentar_seguimiento")}
           </button>
         </div>
       )}

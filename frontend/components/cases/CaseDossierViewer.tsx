@@ -276,7 +276,7 @@ export function CaseDossierViewer({
             ) : (
               <FileArchive className="h-3 w-3" aria-hidden="true" />
             )}
-            <span>{packaging ? t("auto_60b6d132c62d") : "Exportar paquete ZIP"}</span>
+            <span>{packaging ? t("auto_60b6d132c62d") : t("c_exportar_zip")}</span>
           </button>
         </div>
       </div>

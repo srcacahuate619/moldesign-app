@@ -223,7 +223,7 @@ export function CreateCaseDialog({
         <form onSubmit={handleSubmit} className="mt-5 space-y-5">
           <div>
             <label htmlFor="case-name" className="block text-xs font-medium uppercase tracking-wider text-zinc-400">
-              Nombre
+              {t("c_nombre")}
             </label>
             <input
               id="case-name"
