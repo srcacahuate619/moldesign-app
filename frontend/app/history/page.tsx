@@ -11,8 +11,16 @@ import { getEvaluationHistory, getUserStats, downloadCertificate } from "../../l
 import type { EvaluationSummary, HistoryResponse, UserStats } from "../../lib/types";
 import { EmptyState } from "../../components/ui/EmptyState";
 
+function formatDate(dateStr: string, locale: string) {
+  return new Date(dateStr).toLocaleDateString(locale === "en" ? "en-US" : "es-MX", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
 export default function HistoryPage() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { user, isLoading: authLoading } = useAuth();
   // FIX (keep-alive): /history no se desmonta (KeepAliveLayout). Recargar al
   // volver a esta ruta para que las evaluaciones recién hechas aparezcan.
@@ -54,8 +62,8 @@ export default function HistoryPage() {
         orbState="processing"
         title={t("pg_hist_verificando")}
         description={t("auto_c224ef74ad87")}
-        subline="autocomplete · validando token jwt · v 2.0"
-        footerStatus="historial molecular · acceso autenticado"
+        subline={t("pg_hist_subline_jwt")}
+        footerStatus={t("pg_hist_footer_autenticado")}
       />
     );
   }
@@ -65,20 +73,20 @@ export default function HistoryPage() {
     return (
       <EmptyState
         orbState="idle"
-        title="Acceso Bloqueado"
+        title={t("pg_hist_acceso_bloqueado")}
         description={
           <>
             {t("pg_hist_privado")}
           </>
         }
         ritual={[
-          { n: "1", t: "Inicia",  d: t("auto_121e3999ff64") },
-          { n: "2", t: "Conecta", d: "wallet Solana opcional" },
-          { n: "3", t: "Accede",  d: "a tu historial firmado" },
+          { n: "1", t: t("pg_hist_ritual_inicia"),  d: t("auto_121e3999ff64") },
+          { n: "2", t: t("pg_hist_ritual_conecta"), d: t("pg_hist_ritual_solana") },
+          { n: "3", t: t("pg_hist_ritual_accede"),  d: t("pg_hist_ritual_firmado") },
         ]}
         ctaHref="/login"
-        ctaLabel="Iniciar Sesión"
-        footerStatus="0 sesiones activas · acceso autenticado · v 2.0"
+        ctaLabel={t("pg_hist_iniciar_sesion")}
+        footerStatus={t("pg_hist_footer_sesiones")}
       />
     );
   }
@@ -96,16 +104,16 @@ export default function HistoryPage() {
       {/* ── Stats ── */}
       {stats && (
         <section className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
-          <StatCard label="Total" value={stats.total_evaluations} />
+          <StatCard label={t("pg_hist_stat_total")} value={stats.total_evaluations} />
           <StatCard label={t("lo_filtro_completadas")} value={stats.completed_evaluations} color="text-green-400" />
           <StatCard label={t("lo_filtro_fallidas")} value={stats.failed_evaluations} color="text-red-400" />
           <StatCard
-            label="Mejor score"
+            label={t("pg_hist_stat_mejor_score")}
             value={stats.best_score != null ? stats.best_score.toFixed(1) : "—"}
             color="text-brand-400"
           />
           <StatCard
-            label="Promedio"
+            label={t("pg_hist_stat_promedio")}
             value={stats.avg_score != null ? stats.avg_score.toFixed(1) : "—"}
           />
           <StatCard label={t("pg_hist_targets_unicos")} value={stats.unique_targets} />
@@ -116,9 +124,9 @@ export default function HistoryPage() {
       <section className="flex flex-wrap items-center gap-3">
         <label className="text-xs text-surface-400">{t("pg_hist_ordenar")}</label>
         {[
-          { key: "created_at", label: "Fecha" },
-          { key: "total_score", label: "Score total" },
-          { key: "affinity_kcal", label: "Afinidad" },
+          { key: "created_at", label: t("pg_hist_orden_fecha") },
+          { key: "total_score", label: t("pg_hist_orden_score_total") },
+          { key: "affinity_kcal", label: t("pg_hist_orden_afinidad") },
         ].map((opt) => (
           <button
             key={opt.key}
@@ -145,7 +153,7 @@ export default function HistoryPage() {
       {loading && (
         <div className="flex items-center gap-2 py-8 text-sm text-surface-400">
           <div className="h-5 w-5 animate-spin rounded-full border-2 border-brand-500 border-t-transparent" />
-          Cargando evaluaciones...
+          {t("pg_hist_cargando")}
         </div>
       )}
 
@@ -156,7 +164,7 @@ export default function HistoryPage() {
             // ── ESTADO 3/3: Logueado, sin historial (ThinkingOrb idle, ritual de workflow) ──
             <EmptyState
               orbState="idle"
-              title="Historial en espera"
+              title={t("pg_hist_en_espera")}
               description={
                 <>
                   {t("pg_hist_vacio")}
@@ -165,11 +173,11 @@ export default function HistoryPage() {
               ritual={[
                 { n: "1", t: t("mx_paso_disena"), d: t("mx_paso_disena_d") },
                 { n: "2", t: t("mx_paso_acopla"),  d: "Vina + XGBoost + GNN" },
-                { n: "3", t: t("mx_paso_guarda"), d: "conservar en tu historial" },
+                { n: "3", t: t("mx_paso_guarda"), d: t("pg_hist_ritual_conservar") },
               ]}
               ctaHref="/evaluation"
-              ctaLabel="Lanzar Pipeline"
-              footerStatus={`0 evaluaciones guardadas · usuario ${user?.email ?? user?.username ?? "local"} · v 2.0`}
+              ctaLabel={t("pg_hist_lanzar_pipeline")}
+              footerStatus={t("pg_hist_footer_evaluaciones", { user: user?.email ?? user?.username ?? "local" })}
             />
           ) : (
             <div className="overflow-x-auto rounded-2xl border border-surface-800">
@@ -177,16 +185,16 @@ export default function HistoryPage() {
                 <thead className="border-b border-surface-800 bg-surface-900">
                   <tr>
                     <th className="px-4 py-3 text-left font-semibold text-surface-400">SMILES</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">Target</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">Estado</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">Corrida</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">Score</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">Afinidad</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">MW</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">Lipinski</th>
+                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_target")}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_estado")}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_corrida")}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_score")}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_afinidad")}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_mw")}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_lipinski")}</th>
                     <th className="px-3 py-3 text-center font-semibold text-surface-400">QED</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">Recibo</th>
-                    <th className="px-3 py-3 text-right font-semibold text-surface-400">Fecha</th>
+                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_recibo")}</th>
+                    <th className="px-3 py-3 text-right font-semibold text-surface-400">{t("pg_hist_th_fecha")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -200,7 +208,7 @@ export default function HistoryPage() {
                         {item.is_saved && (
                           <span
                             className="ml-2 rounded bg-brand-500/10 px-1.5 py-0.5 text-xs font-bold uppercase tracking-wide text-brand-400"
-                            title="Promovida a Moldex"
+                            title={t("pg_hist_promovida_moldex")}
                           >
                             Moldex
                           </span>
@@ -275,11 +283,7 @@ export default function HistoryPage() {
                         )}
                       </td>
                       <td className="px-3 py-3 text-right text-surface-500">
-                        {item.created_at ? new Date(item.created_at).toLocaleDateString("es-MX", {
-                          day: "2-digit",
-                          month: "short",
-                          year: "numeric",
-                        }) : "—"}
+                        {item.created_at ? formatDate(item.created_at, locale) : "—"}
                       </td>
                     </tr>
                   ))}
@@ -344,30 +348,31 @@ function StatCard({
  *
  * Las claves antiguas se conservan porque una respuesta heredada aún puede traerlas.
  */
-const ESTADO_MOLECULA: Record<string, { bg: string; text: string; label: string }> = {
+const ESTADO_MOLECULA: Record<string, { bg: string; text: string; clave: string }> = {
   // MoleculeStatus — core/models.py
-  pending: { bg: "bg-yellow-900/30", text: "text-yellow-400", label: "Pendiente" },
-  validated: { bg: "bg-surface-800", text: "text-surface-300", label: "Validada" },
-  docking: { bg: "bg-blue-900/30", text: "text-blue-400", label: "En curso" },
-  evaluated: { bg: "bg-green-900/30", text: "text-green-400", label: "Completada" },
-  failed: { bg: "bg-red-900/30", text: "text-red-400", label: "Fallida" },
+  pending: { bg: "bg-yellow-900/30", text: "text-yellow-400", clave: "pg_hist_estado_pendiente" },
+  validated: { bg: "bg-surface-800", text: "text-surface-300", clave: "pg_hist_estado_validada" },
+  docking: { bg: "bg-blue-900/30", text: "text-blue-400", clave: "pg_hist_estado_en_curso" },
+  evaluated: { bg: "bg-green-900/30", text: "text-green-400", clave: "pg_hist_estado_completada" },
+  failed: { bg: "bg-red-900/30", text: "text-red-400", clave: "pg_hist_estado_fallida" },
   // Nombres de tarea heredados
-  completed: { bg: "bg-green-900/30", text: "text-green-400", label: "Completada" },
-  SUCCESS: { bg: "bg-green-900/30", text: "text-green-400", label: "Completada" },
-  FAILURE: { bg: "bg-red-900/30", text: "text-red-400", label: "Fallida" },
-  running: { bg: "bg-blue-900/30", text: "text-blue-400", label: "En curso" },
-  PENDING: { bg: "bg-yellow-900/30", text: "text-yellow-400", label: "Pendiente" },
+  completed: { bg: "bg-green-900/30", text: "text-green-400", clave: "pg_hist_estado_completada" },
+  SUCCESS: { bg: "bg-green-900/30", text: "text-green-400", clave: "pg_hist_estado_completada" },
+  FAILURE: { bg: "bg-red-900/30", text: "text-red-400", clave: "pg_hist_estado_fallida" },
+  running: { bg: "bg-blue-900/30", text: "text-blue-400", clave: "pg_hist_estado_en_curso" },
+  PENDING: { bg: "bg-yellow-900/30", text: "text-yellow-400", clave: "pg_hist_estado_pendiente" },
 };
 
 function StatusBadge({ status }: { status: string }) {
-  const c = ESTADO_MOLECULA[status] ?? {
-    bg: "bg-surface-800",
-    text: "text-surface-400",
-    label: status,
-  };
+  const { t } = useLanguage();
+  const c = ESTADO_MOLECULA[status];
   return (
-    <span className={`inline-block rounded-md px-2 py-0.5 text-xs font-semibold ${c.bg} ${c.text}`}>
-      {c.label}
+    <span
+      className={`inline-block rounded-md px-2 py-0.5 text-xs font-semibold ${
+        c ? `${c.bg} ${c.text}` : "bg-surface-800 text-surface-400"
+      }`}
+    >
+      {c ? t(c.clave) : status}
     </span>
   );
 }
