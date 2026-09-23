@@ -198,6 +198,9 @@ export const pro: ModuloDeTraduccion = {
       + "péptido.",
     pr_mot_precision_completa: "Precisión completa",
     pr_mot_precision_media: "Precisión media (CUDA)",
+
+    // ── Selectividad ──────────────────────────────────────────────
+    pr_sel_sin_evaluacion: "no hay una evaluación a la que asociar el panel",
   },
   en: {
     pr_analisis_corrida: "Run analysis",
@@ -371,5 +374,8 @@ export const pro: ModuloDeTraduccion = {
       + "a peptide.",
     pr_mot_precision_completa: "Full precision",
     pr_mot_precision_media: "Half precision (CUDA)",
+
+    // ── Selectividad ──────────────────────────────────────────────
+    pr_sel_sin_evaluacion: "there is no evaluation to attach the panel to",
   },
 };

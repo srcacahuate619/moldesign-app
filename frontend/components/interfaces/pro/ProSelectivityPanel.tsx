@@ -202,11 +202,10 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
 
   const guardar = (objeto: Parameters<typeof saveSelectivityResults>[1]) => {
     if (!moleculeId) {
-  const { t } = useLanguage();
       // Sin evaluación a la que anclarlo no hay nada que guardar, y el usuario
       // tiene que saberlo antes de cambiar de pestaña.
       setPersistencia("fallido");
-      setErrorAlGuardar("no hay una evaluación a la que asociar el panel");
+      setErrorAlGuardar(t("pr_sel_sin_evaluacion"));
       return;
     }
     setPersistencia("pendiente");
