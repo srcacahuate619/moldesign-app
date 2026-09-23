@@ -507,6 +507,26 @@ def _campos_de_protocolo_y_abstencion(eval_result, resumen) -> list:
                 "La corrida no registró con qué criterio se eligió el microestado.",
             ))
 
+    # ── Qué tautómero se acopló, y cuántos quedaron sin descartar ──────────
+    #
+    # FEP-ready, paso 1. Hasta 2026-09-23 sólo se contaban las alternativas y
+    # el expediente no decía nada. Tres estados (`chem/declaracion_tautomeros.py`):
+    # uno solo, varios sin descartar (el acoplado es el canónico de RDKit, que
+    # no predice poblaciones) o no resuelto. Las corridas anteriores no traen la
+    # declaración y no enseñan este campo: no se reconstruye a posteriori.
+    tautomeria = ligand_state.get("tautomeria") if isinstance(ligand_state, dict) else None
+    declaracion = tautomeria.get("declaracion") if isinstance(tautomeria, dict) else None
+    if isinstance(declaracion, dict) and declaracion.get("estado"):
+        from chem.declaracion_tautomeros import MULTIESTADO_REQUERIDO, RESUELTO_UNICO, resumen_para_humanos
+
+        texto = resumen_para_humanos(declaracion)
+        if declaracion["estado"] == RESUELTO_UNICO:
+            campos.append(Campo("Tautómero del ligando", texto, Estado.REGISTRADO, None))
+        elif declaracion["estado"] == MULTIESTADO_REQUERIDO:
+            campos.append(Campo("Tautómero del ligando", None, Estado.REVISAR, texto))
+        else:
+            campos.append(Campo("Tautómero del ligando", None, Estado.ABSTENCION, texto))
+
     transfer = ligand_state.get("peptide_transfer") if isinstance(ligand_state, dict) else None
     if isinstance(transfer, dict):
         transfer_status = transfer.get("status")
@@ -527,6 +547,32 @@ def _campos_de_protocolo_y_abstencion(eval_result, resumen) -> list:
             ))
 
     return campos
+
+
+def _campo_de_estado_quimico(eval_result: Any) -> Campo:
+    """Preparación: qué parte de la química del ligando quedó registrada.
+
+    Hasta 2026-09-23 decía siempre que el pipeline no registraba ni la forma
+    protonada ni el tautómero. Era cierto para las corridas viejas y dejó de
+    serlo para las nuevas: una corrida que trae la declaración de tautómeros
+    (y con ella el microestado) dice lo que falta de verdad, la estereoquímica.
+    """
+    ligand_state = _v(eval_result, "ligand_state") or {}
+    tautomeria = ligand_state.get("tautomeria") if isinstance(ligand_state, dict) else None
+    if isinstance(tautomeria, dict) and isinstance(tautomeria.get("declaracion"), dict):
+        return Campo(
+            "Estereoquímica del ligando",
+            None,
+            Estado.NO_EVALUADO,
+            "La corrida registra el pH, el microestado y el tautómero (ver el protocolo); "
+            "la estereoquímica no se evalúa todavía.",
+        )
+    return Campo(
+        "Protonación, tautomería y estereoquímica",
+        None,
+        Estado.NO_EVALUADO,
+        "El pipeline no registra la forma protonada ni el tautómero elegidos.",
+    )
 
 
 def _campos_de_eficiencia(eval_result, resumen) -> list:
@@ -894,12 +940,7 @@ def build_case_dossier(
             "Esta corrida no serializó un diff fuente→preparado. La comprobación previa lo "
             "calcula, pero no queda archivado con el resultado.",
         ),
-        Campo(
-            "Protonación, tautomería y estereoquímica",
-            None,
-            Estado.NO_EVALUADO,
-            "El pipeline no registra la forma protonada ni el tautómero elegidos.",
-        ),
+        _campo_de_estado_quimico(eval_result),
     ]
     if preflight and preflight.blockers:
         preparacion.append(

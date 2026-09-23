@@ -356,6 +356,13 @@ def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
         estado_del_ligando["tautomeria"]["motivo"] = f"{type(e).__name__}: {e}"[:200]
         log.warning("Error enumerando tautómeros, usando SMILES original", error=str(e))
 
+    # FEP-ready, paso 1: además de contar alternativas, DECLARARLAS. Cuáles
+    # son, qué átomos cambian y si el estado queda resuelto, requiere varios
+    # estados o no se pudo resolver. No cambia lo que se acopla (ver el módulo).
+    from chem.declaracion_tautomeros import declarar_tautomeros
+
+    estado_del_ligando["tautomeria"]["declaracion"] = declarar_tautomeros(smiles_del_usuario)
+
     ph_usado, aviso_de_ph = acotar_ph(ph)
     if aviso_de_ph:
         log.warning("pH fuera de rango", aviso=aviso_de_ph)
