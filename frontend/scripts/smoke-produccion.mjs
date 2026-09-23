@@ -33,10 +33,12 @@
 
 import { chromium } from "playwright";
 import { createServer } from "node:http";
-import { readFile, stat } from "node:fs/promises";
+import { mkdtemp, readFile, rm, stat } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { spawn } from "node:child_process";
+import { randomBytes } from "node:crypto";
 import net from "node:net";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -95,6 +97,16 @@ async function arrancarBackend() {
     return { error: `falta el runtime empaquetado en ${RECURSOS}. Corre \`npm run stage:desktop\`.` };
   }
   const puerto = await puertoLibre();
+  // Los DATOS, en cambio, no pueden ser los del usuario. Sin LOCAL_DATA_DIR el
+  // backend abre —y migra— `~\MolDesign\data\moldesign_local.db`, la base de
+  // quien ejecuta la prueba (medido el 2026-09-23). La carpeta temporal simula
+  // además lo que de verdad ve una instalación nueva: una base vacía.
+  // SECRET_KEY por lo mismo: sin ella el backend lee o CREA
+  // `~\.moldesign\secret_key`. Lo que NO aísla esto: el backend todavía escribe
+  // en `~\MolDesign\data` por rutas fijas que ignoran LOCAL_DATA_DIR (la
+  // siembra de `molgraph.db` si falta, `limbic.json`, las cachés de las
+  // herramientas de IA). Es del backend; está en el canal entre sesiones.
+  const datos = await mkdtemp(path.join(os.tmpdir(), "moldesign-smoke-"));
   // El entorno tiene que ser EL MISMO que prepara Rust en
   // `src-tauri/src/backend.rs`. Si no, esto no simula la aplicacion: simula
   // otra cosa. El primer intento uso `MOLDESIGN_APP_MODE` en vez de `APP_MODE`
@@ -126,6 +138,8 @@ async function arrancarBackend() {
         MOLDESIGN_OPENBABEL_DIR: path.join(RECURSOS, "tools", "openbabel"),
         TABPFN_NO_BROWSER: "true",
         PYTHONIOENCODING: "utf-8",
+        LOCAL_DATA_DIR: datos,
+        SECRET_KEY: randomBytes(32).toString("hex"),
       },
       stdio: ["ignore", "pipe", "pipe"],
     },
@@ -137,15 +151,15 @@ async function arrancarBackend() {
   const t0 = Date.now();
   const limite = t0 + 180000;
   while (Date.now() < limite) {
-    if (proc.exitCode !== null) return { error: `el backend murio:\n${salida.slice(-1500)}` };
+    if (proc.exitCode !== null) return { error: `el backend murio:\n${salida.slice(-1500)}`, datos };
     try {
       const r = await fetch(`http://127.0.0.1:${puerto}/health`, { signal: AbortSignal.timeout(2000) });
-      if (r.ok) return { puerto, proc, segundos: (Date.now() - t0) / 1000 };
+      if (r.ok) return { puerto, proc, datos, segundos: (Date.now() - t0) / 1000 };
     } catch {}
     await new Promise((r) => setTimeout(r, 200));
   }
   proc.kill();
-  return { error: `el backend no respondio en 180 s:\n${salida.slice(-1500)}` };
+  return { error: `el backend no respondio en 180 s:\n${salida.slice(-1500)}`, datos };
 }
 
 // --- 2. Servidor estatico con la CSP de produccion ---------------------------
@@ -240,10 +254,15 @@ async function main() {
   if (back.error) {
     comprobar("el backend empaquetado arranca y responde /health", false, back.error.split("\n")[0]);
     console.error(back.error);
+    if (back.datos) console.error(`(datos de esta prueba, conservados: ${back.datos})`);
     process.exit(1);
   }
   comprobar("el backend empaquetado arranca y responde /health", true, `${back.segundos.toFixed(1)} s`);
   comprobar("arranque por debajo de 15 s", back.segundos < 15, `${back.segundos.toFixed(1)} s`);
+  // Que el aislamiento se vea, no que se suponga: si el backend ignorase
+  // LOCAL_DATA_DIR, la base no aparecería aquí y estaría tocando la del usuario.
+  const baseAislada = await stat(path.join(back.datos, "moldesign_local.db")).then(() => true, () => false);
+  comprobar("la base de datos es la temporal de la prueba", baseAislada, back.datos);
 
   console.log("[2/3] Sirviendo el export con la CSP de produccion...");
   const web = await servirExport(csp);
@@ -405,8 +424,13 @@ async function main() {
   console.log("=".repeat(72));
   if (fallos.length) {
     for (const f of fallos) console.log(`  FALLA  ${f.nombre}  ${f.detalle}`);
+    console.log(`  (datos de esta prueba, conservados: ${back.datos})`);
     process.exit(1);
   }
+  // En Windows el proceso tarda en soltar el SQLite: reintentos, y si aun asi
+  // no se puede borrar, se dice. Un resto en %TEMP% no invalida el resultado.
+  await rm(back.datos, { recursive: true, force: true, maxRetries: 10, retryDelay: 300 })
+    .catch((e) => console.log(`  (no se pudo borrar ${back.datos}: ${e.code ?? e.message})`));
   process.exit(0);
 }
 
