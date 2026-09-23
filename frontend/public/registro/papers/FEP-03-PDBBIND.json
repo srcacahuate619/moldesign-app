@@ -1,0 +1,355 @@
+{
+ "id": "FEP-03-PDBBIND",
+ "meta": {
+  "titulo": "En PDBBind sí hay series para FEP: 3299 parejas en 313 dianas",
+  "entradilla": "Los 203 complejos de molflex se armaron para la diversidad y apenas daban 91 parejas perturbables. PDBBind completo da treinta y seis veces más, y el recuento no depende del tiempo que se le conceda al MCS."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un cálculo de energía libre relativa (FEP) no compara una molécula con el vacío: compara dos ligandos parecidos en el mismo sitio. Necesita ",
+     "m": null
+    },
+    {
+     "t": "series congenéricas",
+     "m": "fuerte"
+    },
+    {
+     "t": ", pocas dianas con muchos análogos. El conjunto de 203 complejos con el que se auditó FEP-03 se había armado para lo contrario, para cubrir muchas dianas distintas, y daba 91 parejas aptas repartidas en 18 dianas, con el grupo mayor en 23 ligandos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La pregunta de este experimento era si el problema era del conjunto o de la fuente: si PDBBind completo, con los mismos criterios, contiene series útiles.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con los umbrales del sello (cobertura del MCS ≥ 0,70 y perturbación ≤ 10 átomos pesados):",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "molflex (203)",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "PDBBind",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Parejas aptas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "91",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3299",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Dianas con alguna pareja",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "18",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "313",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Dianas con ≥ 10 ligandos conectados",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "—",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "28",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Dianas con ≥ 20 ligandos conectados",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "—",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "12",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La hipótesis se sostiene: la escasez de series era una propiedad del conjunto, no de la fuente.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Dos comprobaciones antes de creerlo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Réplica.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Antes de extender nada, se repitió la auditoría sobre los 203 originales. El resumen coincide con el sello y 486 de 487 parejas salen idénticas. La que cambia (1ezq-1ksn) pasa de un MCS de 1 átomo a 27 sin volverse apta, y enseña algo útil: ",
+     "m": null
+    },
+    {
+     "t": "un MCS con límite de tiempo depende de la carga de la máquina",
+     "m": "fuerte"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sensibilidad al límite de tiempo, declarada antes de correr.",
+     "m": "fuerte"
+    },
+    {
+     "t": " 163 MCS se habían cortado a los 10 s. Se repitieron con 300 s: el MCS creció en 47, 32 siguieron cortados y ",
+     "m": null
+    },
+    {
+     "t": "ninguna pareja cambió de veredicto",
+     "m": "fuerte"
+    },
+    {
+     "t": " (23 aptas antes y después). El recuento no depende del tiempo concedido. Un primer intento de esta sensibilidad fue inválido —el límite se pasó como número decimal y las 163 fallaron— y se conserva como evidencia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La limitación, declarada",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Es una ",
+      "m": null
+     },
+     {
+      "t": "cota superior",
+      "m": "fuerte"
+     },
+     {
+      "t": ": la agrupación por diana usa k-meros de secuencia y",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "no distingue mutantes puntuales de la misma proteína.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "El universo efectivo son ",
+      "m": null
+     },
+     {
+      "t": "3887 de 5325",
+      "m": "fuerte"
+     },
+     {
+      "t": " entradas, porque la copia local de",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "PDBBind no trae el ",
+     "m": null
+    },
+    {
+     "t": "_protein.pdb",
+     "m": "codigo"
+    },
+    {
+     "t": " de 1438.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Para elegir cohorte hacen falta afinidades por ligando. Las añadidas desde",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "BindingDB al índice local se emparejaron por diana y no por complejo, así que ",
+     "m": null
+    },
+    {
+     "t": "no sirven",
+     "m": "fuerte"
+    },
+    {
+     "t": "; con las de la fase A, la cohorte recomendada es galectina-3 (6qln-6qlu, 7 ligandos de un mismo artículo).",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "PDBBind ",
+      "m": null
+     },
+     {
+      "t": "no permite redistribuir",
+      "m": "fuerte"
+     },
+     {
+      "t": " sus estructuras ni sus afinidades sin",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "permiso escrito. El artefacto guarda identificadores PDB, recuentos y agregados por diana; un paquete para terceros construido sobre esta cohorte tendría que reconstruirse desde los identificadores.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FEP-03-PDBBIND.md"
+}

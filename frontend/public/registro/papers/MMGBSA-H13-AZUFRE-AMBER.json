@@ -1,0 +1,245 @@
+{
+ "id": "MMGBSA-H13-AZUFRE-AMBER",
+ "meta": {
+  "titulo": "El GBn2 de OpenMM no era el de Amber en cuanto había azufre",
+  "entradilla": "Para el azufre, Amber usa una serie donde OpenMM integra, y además corta a 25 Å. Reproducidas esas dos ramas, el desacuerdo cae de 11,24 kcal/mol a una cienmilésima."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La paridad entre OpenMM y sander para bromo y yodo (",
+     "m": null
+    },
+    {
+     "t": "MMGBSA-H5",
+     "m": "codigo"
+    },
+    {
+     "t": ") dejó un cabo suelto: con azufre, los dos programas discrepaban en GBn2 hasta 11,24 kcal/mol. No era un detalle de ligandos raros. Toda metionina y toda cisteína de un receptor lleva azufre.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "La causa, leída en el código",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El fuente de Amber (",
+     "m": null
+    },
+    {
+     "t": "egb.F90",
+     "m": "codigo"
+    },
+    {
+     "t": ") calcula la integral del radio efectivo de dos formas. Cuando la distancia entre átomos supera cuatro veces el radio apantallado del vecino, usa una ",
+     "m": null
+    },
+    {
+     "t": "serie de Taylor",
+     "m": "fuerte"
+    },
+    {
+     "t": ". El azufre de GBn2 tiene un factor de apantallamiento negativo, así que para él la serie se usa ",
+     "m": null
+    },
+    {
+     "t": "siempre",
+     "m": "fuerte"
+    },
+    {
+     "t": ". OpenMM evalúa en todos los casos la integral cerrada. Además, Amber corta la suma a 25 Å (",
+     "m": null
+    },
+    {
+     "t": "rgbmax",
+     "m": "codigo"
+    },
+    {
+     "t": ") y limita el radio inverso a 1/30 Å⁻¹.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se probó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Reescribir las expresiones de GBn2 en OpenMM con esas ramas (",
+     "m": null
+    },
+    {
+     "t": "apply_amber_gbn2_descreening",
+     "m": "codigo"
+    },
+    {
+     "t": ") y comprobar que coincide con sander en topologías con y sin azufre, y en dos péptidos con Met y Cys, uno de ellos de 56 Å para que el corte de 25 Å importe.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "sin la corrección",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "con la corrección",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "14 topologías con azufre (residuo máximo)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "11,24 kcal/mol",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1,3·10⁻⁵",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "41 sin azufre",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2,0·10⁻⁵",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2,0·10⁻⁵ (sin cambio)",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Dipéptido Met-Cys (ff14SB)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,92 kcal/mol",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1,6·10⁻⁶",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El OpenMM del Python que se entrega en Windows reproduce al de Linux en 57 de 57 comparaciones. Sin el corte de 25 Å el péptido largo deja 4,1·10⁻³ kcal/mol: hacen falta las dos ramas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué significa",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El MM-GBSA candidato sobre OpenMM ",
+     "m": null
+    },
+    {
+     "t": "no calculaba el GBn2 parametrizado en cuanto había una Met o una Cys",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Con la corrección, sí. Nada de esto está conectado a la aplicación: MM-GBSA sigue desactivado hasta pasar sus puertas.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MMGBSA-H13-AZUFRE-AMBER.md"
+}

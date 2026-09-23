@@ -1,0 +1,215 @@
+{
+ "id": "MMGBSA-H2-LCPO-AJUSTE",
+ "meta": {
+  "titulo": "Reajustar LCPO no arregla los anillos con cuatro o cinco bromos",
+  "entradilla": "Con coeficientes propios, el yodo casi aprueba y el bromo pasa validación. La prueba trae una cola que ningún juego de coeficientes corrige: los polibromados de la familia TBB, inhibidores de la CK2."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Tras el fracaso del LCPO del cloro para el bromo y el yodo (",
+     "m": null
+    },
+    {
+     "t": "MMGBSA-H1",
+     "m": "codigo"
+    },
+    {
+     "t": "), el siguiente paso declarado era ajustar los cuatro coeficientes por elemento, sólo con los átomos de entrenamiento, manteniendo el radio de Bondi fijo. Una salvaguarda adicional (H10) comprobaba que lo aprendido no dependía de haber visto los mismos scaffolds.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "NO_GO: fallan 2 de 4 casos.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Bromo.",
+      "m": "fuerte"
+     },
+     {
+      "t": " Con los coeficientes elegidos en validación —casi los del cloro",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "publicado—, validación ",
+     "m": null
+    },
+    {
+     "t": "pasa",
+     "m": "fuerte"
+    },
+    {
+     "t": " (mediana 0,94 Å², p90 4,85) y prueba ",
+     "m": null
+    },
+    {
+     "t": "falla",
+     "m": "fuerte"
+    },
+    {
+     "t": " (mediana 2,96, p90 9,70). La cola de la prueba aparece con cualquier juego de coeficientes: 9,44 con los de H1, 9,83 con el ajuste completo. Reajustar no la toca.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Yodo.",
+      "m": "fuerte"
+     },
+     {
+      "t": " Prueba ",
+      "m": null
+     },
+     {
+      "t": "pasa",
+      "m": "fuerte"
+     },
+     {
+      "t": " (mediana 1,83, p90 4,04) y validación ",
+      "m": null
+     },
+     {
+      "t": "falla",
+      "m": "fuerte"
+     },
+     {
+      "t": " sólo",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "por el intervalo del sesgo, con 6 átomos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "H10.",
+      "m": "fuerte"
+     },
+     {
+      "t": " El bromo generaliza por scaffold; el yodo falla por 0,05 Å² sobre el",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "margen, con 8 átomos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "De dónde sale la cola del bromo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "De anillos con cuatro o cinco bromos, la familia TBB de inhibidores de la CK2. Ahí dos esferas grandes vecinas se solapan de una forma que LCPO no representa, y el error crece con el enterramiento del átomo. Como en un complejo el halógeno suele estar enterrado, la hipótesis siguiente fue dejar LCPO y calcular el término no polar con una SASA numérica (",
+     "m": null
+    },
+    {
+     "t": "MMGBSA-H12A-FREESASA",
+     "m": "codigo"
+    },
+    {
+     "t": ").",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Una lección de método",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los coeficientes sueltos ",
+     "m": null
+    },
+    {
+     "t": "no están identificados",
+     "m": "fuerte"
+    },
+    {
+     "t": ": el de un término del yodo varía un 1402 % entre remuestreos. La predicción, en cambio, es estable (≤ 0,74 Å²). Por eso el criterio de estabilidad dejó de exigir un CV < 20 % a los cuatro coeficientes y pasó a pedirlo sólo al primero, junto con una dispersión de la predicción ≤ 1,0 Å². Se cambió ",
+     "m": null
+    },
+    {
+     "t": "antes",
+     "m": "fuerte"
+    },
+    {
+     "t": " de ajustar con datos reales: ni con datos sintéticos sin ruido se cumplía el criterio original.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MMGBSA-H2-LCPO-AJUSTE.md"
+}

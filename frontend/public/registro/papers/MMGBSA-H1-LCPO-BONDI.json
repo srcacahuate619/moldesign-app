@@ -1,0 +1,254 @@
+{
+ "id": "MMGBSA-H1-LCPO-BONDI",
+ "meta": {
+  "titulo": "El LCPO del cloro no sirve para el yodo",
+  "entradilla": "Con los coeficientes publicados para el Cl y el radio de Bondi, el área del yodo sale sistemáticamente corta, y más cuanto mayor es el radio. El bromo roza el aprobado; el yodo no se acerca."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El término no polar de MM-GBSA necesita el área accesible al disolvente de cada átomo. OpenMM la aproxima con LCPO, una fórmula analítica con cuatro coeficientes por tipo de átomo, y ",
+     "m": null
+    },
+    {
+     "t": "no trae coeficientes para Br ni para I",
+     "m": "fuerte"
+    },
+    {
+     "t": ". La salida más barata era usar los del cloro (Weiser, Shenkin y Still, 1999) con el radio de Bondi de cada halógeno, sin ajustar nada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Error por átomo frente a la SASA numéricamente exacta, en 121 ligandos de PDBBind con Br o I repartidos por scaffold (60/20/20, sellado antes de medir). Por elemento y partición: mediana ≤ 2,81 Å², p90 ≤ 7,25 Å², un intervalo bootstrap del sesgo dentro de ±2,81 Å², y que los átomos vecinos no empeoren respecto del respaldo que usa Amber.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los cuatro casos fallan.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "mediana",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "p90",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "IC95 del sesgo",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Br, validación",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,70",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "6,90",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[−3,14; −0,40]",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Br, prueba",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3,40",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "9,44",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[−3,03; +3,35]",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "I, validación",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4,71",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "6,49",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[−5,82; −1,32]",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "I, prueba",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4,57",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5,36",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[−4,81; −1,33]",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En el yodo el error es ",
+     "m": null
+    },
+    {
+     "t": "sistemático, negativo y crece con el radio",
+     "m": "fuerte"
+    },
+    {
+     "t": ": con un radio de 1,8 Å el error baja en las tres particiones. Es la refutación que el documento de hipótesis anticipaba: la forma funcional del cloro no escala con el tamaño del átomo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo que sí pasa: los átomos vecinos mejoran entre 0,20 y 0,23 Å² respecto del respaldo de Amber, que usa para Cl, Br e I los coeficientes de un carbono y falla por 24-31 Å².",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo que apareció de paso",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "4 de 121 ligandos no se pudieron medir, y ninguno por el halógeno. Tres contienen un ",
+     "m": null
+    },
+    {
+     "t": "=CH₂ vinílico terminal",
+     "m": "fuerte"
+    },
+    {
+     "t": ", para el que OpenMM 8.5.2 no tiene parámetro LCPO: el MM-GBSA candidato tampoco puntuaría un alqueno terminal. El cuarto es un alquino terminal al que el SDF de PDBBind le quitó el hidrógeno.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MMGBSA-H1-LCPO-BONDI.md"
+}

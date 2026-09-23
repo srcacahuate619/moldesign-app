@@ -1,5 +1,5 @@
 {
- "generado_en": "2026-09-06T06:47:02.699669+00:00",
+ "generado_en": "2026-09-23T23:24:43.331318+00:00",
  "generador": "scripts/build_registro_cientifico.py",
  "advertencia": "El cociente GO/NO_GO del manifest NO es una tasa de aciertos: mezcla prerregistros -sellados GO al declararse-, mediciones sin gate y experimentos con gate real. Esta vista separa las tres poblaciones.",
  "categorias": {
@@ -11,15 +11,15 @@
   "inconcluso": "Ejecutado y declarado sin conclusion. No se reclasifica a posteriori."
  },
  "conteo": {
-  "hallazgo": 24,
-  "refutacion": 21,
-  "medicion": 40,
+  "hallazgo": 26,
+  "refutacion": 26,
+  "medicion": 46,
   "prerregistro": 42,
-  "corrigendum": 11,
+  "corrigendum": 12,
   "inconcluso": 13
  },
- "total": 151,
- "con_paper": 64,
+ "total": 165,
+ "con_paper": 71,
  "destacados": {
   "hallazgo": [
    "FEP-04",
@@ -439,6 +439,88 @@
    "entradilla": "La ambigüedad tautomérica que bloqueaba la cartera H se reduce a un tercio cuando se mide su consecuencia en vez de su existencia. Y contar donadores y aceptores habría dado cero señal donde sí la hay."
   },
   {
+   "id": "FEP-01-EXT-PDBBIND",
+   "categoria": "medicion",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "En PDBBind, como en los 203 (164 ambiguos -> 54 con el proton moviendose), la mayoria de la ambiguedad tautomerica de FEP-01 no mueve protones y el bloqueo real por tautomero es una minoria",
+   "protocolo": "scripts/analisis_fep01ext_tautomeros.py sellado, sin modificar (sha a40a09d2e5b0), con --workspace apuntando a un espacio cuyo FEP-01/per_complex.jsonl es el de FEP-01-PDBBIND; contenedor moldesign-science del servidor, RDKit 2025.09.6. Replica previa sobre los 203 identica por registro al sello.",
+   "gate": "medicion sin gate: fraccion de ambiguos en los que el proton se mueve",
+   "razonamiento": "La hipotesis se sostiene: de los 3634 ligandos de PDBBind con tautomero ambiguo segun FEP-01, el proton se mueve en 1098 (30.2%), frente a 54/164 (32.9%) en los 203; en el 70% restante la ambiguedad no cambia que atomos donan o aceptan y no bloquea un calculo FEP. Solo 2 no ambiguos mueven el proton. Replica previa en el servidor identica al sello registro por registro (203/203). Script sellado sin modificar (a40a09d2e5b0), RDKit 2025.09.6, contenedor moldesign-science. Limitacion: 684 ligandos no canonicalizables por RDKit (KekulizeException), los mismos que FEP-01-PDBBIND no pudo leer.",
+   "sellado_en": "2026-09-23T06:51:57.040333+00:00",
+   "creado_en": "2026-09-23T06:46:20.538651+00:00",
+   "duracion_s": 259.59,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "ca68d06a5d",
+    "sucio": false
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 3,
+   "n_complejos": 5325,
+   "n_fallos": 0,
+   "metricas": {
+    "tipo": "medicion de consecuencia, sin gates de decision",
+    "duration_seconds": 259.59,
+    "n_complejos": 5325,
+    "n_ok": 4641,
+    "n_error": 684,
+    "limitacion_declarada": "El tautomero canonico NO es 'el correcto': es una heuristica de puntuacion, no una prediccion de la poblacion dominante a pH fisiologico. Se mide DESACUERDO entre el fichero y un canonicalizador estandar, no error."
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": false,
+   "titulo": "FEP-01-EXT-PDBBIND",
+   "entradilla": null
+  },
+  {
+   "id": "FEP-01-PDBBIND",
+   "categoria": "medicion",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "En PDBBind completo (5332 complejos) la ambigüedad tautomérica sigue siendo el cuello de FEP-01, como en los 203 de molflex (164/203 ambiguos, ninguno declarado)",
+   "protocolo": "scripts/analisis_fep_pdbbind.py 01 sobre el script sellado analisis_fep01_integridad.py sin modificar, universo data/pdbbind, en el contenedor moldesign-science (Linux, RDKit 2026.03.1) del servidor <host-interno> con 3 procesos. Antes, réplica sobre los 203 con --comparar-con FEP-01/metrics.json; si no reproduce, no se interpreta la extensión. listo_para_fep exige el mapping de index_map.json, que no existe en PDBBind: se informa aparte resumen_sin_mapping (no estereo_indefinido y no tautomero_ambiguo)",
+   "gate": "medición sin gate: se informan las fracciones de tautómero ambiguo y estereoquímica indefinida; el criterio de mapping se declara no aplicable",
+   "razonamiento": "La hipotesis se sostiene a escala: 3634 de 4641 ligandos legibles de PDBBind (78.3%) tienen tautomero ambiguo, frente a 164/203 (80.8%) en molflex; la ambiguedad tautomerica sigue siendo el cuello de FEP-01. Con los dos criterios que aplican a PDBBind (estereo definido y tautomero no ambiguo) hay 989/4641 listos (21.3%, frente a 19.2%). Replica previa en el servidor identica al sello complejo por complejo (203/203) con RDKit 2025.09.6, la de los sellos; con la 2026.03.1 de la imagen cambia n_tautomeros en 7 complejos (1ai4, 1g3d, 1g3e, 1gpn, 1h22, 1m0n, 1m0q) sin que ninguno cruce ambiguo/no ambiguo: la distribucion del numero de tautomeros se cita siempre con su version de RDKit. Limitaciones: 675 SDF de PDBBind ilegibles para RDKit (12.7%) y 9 entradas que no son complejos quedan fuera; listo_para_fep original da 0 por construccion porque exige el index_map de nuestra preparacion, que PDBBind no tiene. Envoltorio scripts/analisis_fep_pdbbind.py (blob e906372d, commit 52b3768) sobre el script sellado sin modificar; contenedor moldesign-science del servidor, 3 procesos.",
+   "sellado_en": "2026-09-23T02:55:30.445204+00:00",
+   "creado_en": "2026-09-22T22:21:11.469045+00:00",
+   "duracion_s": 32.83,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "52b3768704",
+    "sucio": false
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 13,
+   "n_complejos": 5325,
+   "n_fallos": 0,
+   "metricas": {
+    "tipo": "auditoria (sin docking)",
+    "duration_seconds": 32.83,
+    "decision_silenciosa_auditada": "run_mf10_relax_insitu.construir_sistema llama a Molecule.from_rdkit(molh, allow_undefined_stereo=True): el pipeline ACEPTA estereoquimica indefinida y deja que la biblioteca elija",
+    "limitacion": "la enumeracion de tautomeros de RDKit es heuristica de transformaciones, no calculo de poblaciones: >1 senala AMBIGUEDAD NO DECLARADA, no error. Dimensiona el hueco, no lo corrige",
+    "experiment_id_original": "FEP-01",
+    "universo": "pdbbind"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": false,
+   "titulo": "FEP-01-PDBBIND",
+   "entradilla": null
+  },
+  {
    "id": "FEP-02",
    "categoria": "medicion",
    "etiquetas": [],
@@ -522,6 +604,91 @@
    "entradilla": "El mismo movimiento que redujo los tautómeros a un tercio apenas divide los huecos de cadena por dos: 41 de los 86 están justo en el bolsillo. Esperaba lo contrario, y esperarlo habría sido extrapolar sin medir."
   },
   {
+   "id": "FEP-02-EXT-PDBBIND",
+   "categoria": "medicion",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "En PDBBind, como en los 203 (86 con huecos -> 41 con hueco en el sitio), menos de la mitad de los huecos de cadena caen en el sitio de union",
+   "protocolo": "scripts/analisis_fep02ext_huecos_sitio.py sellado, sin modificar (sha fbaaaf09c1e5), --workspace con FEP-02/per_complex.jsonl de FEP-02-PDBBIND; mismo contenedor; replica previa identica al sello.",
+   "gate": "medicion sin gate: fraccion de huecos en el sitio",
+   "razonamiento": "La hipotesis se sostiene: de los 1677 complejos de PDBBind con huecos de cadena, 468 (27.9%) los tienen en el sitio (8 A), 592 en la periferia y 617 lejos; 633 de 4610 huecos caen en el sitio. En los 203 era 47.7%: a escala, la mayoria de los huecos no obliga a reparar antes de declarar el receptor. Replica previa identica al sello (203/203). Script sellado sin modificar (fbaaaf09c1e5). Limitacion declarada por el propio script: un hueco lejano no garantiza que la estructura sirva para la dinamica global.",
+   "sellado_en": "2026-09-23T06:51:57.566394+00:00",
+   "creado_en": "2026-09-23T06:46:20.941428+00:00",
+   "duracion_s": 22.18,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "ca68d06a5d",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 3,
+   "n_complejos": 5325,
+   "n_fallos": 0,
+   "metricas": {
+    "tipo": "medicion de consecuencia, sin gates de decision",
+    "duration_seconds": 22.18,
+    "n_complejos": 5325,
+    "n_con_huecos_segun_FEP02": 1677,
+    "n_analizables": 1677,
+    "n_error": 0,
+    "fraccion_en_el_sitio": 0.2791,
+    "huecos_totales": 4610,
+    "huecos_en_el_sitio": 633,
+    "limitacion_declarada": "Un hueco LEJANO no garantiza que la estructura sea utilizable: puede romper plegamiento o dinamica global. Se mide que fraccion tiene el defecto EN la region que decide la union, que es la que obliga a reparar antes de declarar el receptor. Un hueco lejano se declara; uno en el sitio se arregla."
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": false,
+   "titulo": "FEP-02-EXT-PDBBIND",
+   "entradilla": null
+  },
+  {
+   "id": "FEP-02-PDBBIND",
+   "categoria": "medicion",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "La integridad del receptor en PDBBind completo (huecos de cadena, sitio entre cadenas, metales, aguas) es comparable a la de los 203 de molflex (83/203 documentables para FEP)",
+   "protocolo": "scripts/analisis_fep_pdbbind.py 02 sobre el script sellado analisis_fep02_receptor.py sin modificar, universo data/pdbbind, contenedor moldesign-science del servidor <host-interno>, 3 procesos; réplica previa sobre los 203 contra FEP-02/metrics.json",
+   "gate": "medición sin gate: se informa la fracción documentable para FEP con los criterios sellados",
+   "razonamiento": "La hipotesis se sostiene: la integridad del receptor en PDBBind es comparable a la de los 203 de molflex. Documentables para FEP 1543/3887 (39.7%) frente a 83/203 (40.9%); con huecos de cadena 43.1% frente a 42.4%; sitio entre cadenas 938/3887 (24.1%) frente a 43/203 (21.2%); con metales 819/3887 (21.1%) frente a 52/203 (25.6%); aguas en el sitio, mediana 11 frente a 10. Es decir: ampliar el universo no mejora la preparacion del receptor; seis de cada diez sistemas necesitan una decision declarada sobre huecos, cadenas, metales o aguas antes de un calculo FEP. Replica previa identica al sello complejo por complejo (203/203). Limitacion principal: 1438 de las 5325 entradas (27%) de la copia local de PDBBind no traen _protein.pdb; el universo efectivo es 3887 y no se ha comprobado que los ausentes sean aleatorios. Solo 2 complejos con cofactores: PDBBind limpia los heteroatomos del receptor (lo documento REC-12), asi que un cofactor ausente es invisible aqui.",
+   "sellado_en": "2026-09-23T02:55:46.932112+00:00",
+   "creado_en": "2026-09-22T22:21:11.903445+00:00",
+   "duracion_s": 277.45,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "52b3768704",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 7,
+   "n_complejos": 5325,
+   "n_fallos": 0,
+   "metricas": {
+    "tipo": "auditoria (sin docking)",
+    "duration_seconds": 277.45,
+    "limitacion": "un salto de numeracion no siempre es hueco fisico: hay convenciones de numeracion no consecutiva. Se marca CANDIDATO, no defecto",
+    "experiment_id_original": "FEP-02",
+    "universo": "pdbbind"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": false,
+   "titulo": "FEP-02-PDBBIND",
+   "entradilla": null
+  },
+  {
    "id": "FEP-03",
    "categoria": "medicion",
    "etiquetas": [],
@@ -558,6 +725,46 @@
    "tiene_paper": true,
    "titulo": "El conjunto se armó para lo contrario de lo que hace falta",
    "entradilla": "91 parejas utilizables sobre 18 dianas, de 487 evaluadas. Y la razón no es un defecto: el conjunto se construyó para maximizar diversidad de dianas, que es justo lo opuesto a lo que necesita FEP+."
+  },
+  {
+   "id": "FEP-03-PDBBIND",
+   "categoria": "hallazgo",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "PDBBind completo contiene dianas con series congenéricas suficientes para una cohorte FEP (pocas dianas con muchos análogos), a diferencia de los 203 de molflex (91 parejas aptas en 18 dianas, grupo mayor de 23)",
+   "protocolo": "scripts/analisis_fep_pdbbind.py 03: fase 1 con _sec_job/_kmers y umbrales del sellado analisis_fep03_congenericas.py (k-meros 8, Jaccard sobre el menor >= 0.90); fase 2 MCS RDKit con los mismos parámetros (timeout 10 s, ringMatchesRingOnly, completeRingsOnly, RemoveAllHs) repartido en shards de 2000 parejas que no se reescriben; umbrales declarados antes: cobertura MCS >= 0.70 y perturbación <= 10. Prefiltro exacto declarado antes de mirar: |n_a - n_b| > 10 no se calcula porque no puede ser apta; las medianas se informan sobre las evaluadas. Contenedor moldesign-science del servidor <host-interno>, 3 procesos, compartido con la VM de QA. Réplica previa sobre los 203 contra FEP-03/metrics.json",
+   "gate": "medición: se informan parejas aptas y dianas con serie; la elección de la cohorte congenérica es una decisión aparte y posterior",
+   "razonamiento": "La hipotesis se sostiene: PDBBind contiene series congenericas utilizables para FEP, a diferencia de los 203 de molflex. 3299 parejas aptas (cobertura MCS >= 0.70 y perturbacion <= 10, umbrales del sello) en 313 dianas, frente a 91 en 18; 28 dianas con 10 o mas ligandos conectados por parejas aptas y 12 con 20 o mas. Replica previa sobre los 203: resumen identico al sello y 486/487 parejas identicas; la que cambia (1ezq-1ksn, MCS 1 -> 27 atomos, ninguna apta) muestra que el MCS con timeout depende de la carga de la maquina. Sensibilidad declarada antes de correr: los 163 MCS cortados a 10 s se repitieron con 300 s; el MCS crecio en 47, 32 siguen cortados, 0 errores, y NINGUNA pareja cambio de veredicto (23 aptas antes y despues): el recuento no depende del timeout. Un primer intento de la sensibilidad fue invalido (timeout float, ArgumentError en las 163) y se conserva como evidencia. Limitaciones: cota superior por la agrupacion por k-meros (no distingue mutantes puntuales); universo efectivo 3887 de 5325 porque la copia local de PDBBind no trae _protein.pdb en 1438 entradas. Para elegir cohorte, las afinidades anadidas desde BindingDB al INDEX local estan emparejadas por diana y no sirven; con las de Fase A, la cohorte recomendada es galectina-3 (6qln-6qlu, 7 ligandos de un solo articulo, ChemMedChem 2019).",
+   "sellado_en": "2026-09-23T06:31:56.074075+00:00",
+   "creado_en": "2026-09-22T22:21:12.290262+00:00",
+   "duracion_s": 1483.54,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "52b3768704",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 40,
+   "n_complejos": 0,
+   "n_fallos": 0,
+   "metricas": {
+    "tipo": "auditoria (sin docking)",
+    "duration_seconds": 1483.54,
+    "universo": "pdbbind",
+    "prefiltro": "exacto: |n_a - n_b| > perturbacion_max implica perturbacion > max; no cambia las aptas. Las medianas son sobre las parejas evaluadas, no sobre todas.",
+    "limitacion": "la agrupacion por k-meros no distingue mutantes puntuales (que para FEP+ SI serian dianas distintas) y puede unir isoformas; el MCS con timeout puede ser suboptimo. Ambos sesgos SOBREESTIMAN las parejas: la cifra es una COTA SUPERIOR"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "En PDBBind sí hay series para FEP: 3299 parejas en 313 dianas",
+   "entradilla": "Los 203 complejos de molflex se armaron para la diversidad y apenas daban 91 parejas perturbables. PDBBind completo da treinta y seis veces más, y el recuento no depende del tiempo que se le conceda al MCS."
   },
   {
    "id": "FEP-04",
@@ -642,6 +849,45 @@
    "tiene_paper": true,
    "titulo": "Setenta y cinco, o diecinueve, y la diferencia no son defectos",
    "entradilla": "Cinco auditorías contaban piezas sueltas. Cruzarlas cuesta once milisegundos y da el número que ninguna tenía: cuántos cálculos de energía libre se pueden correr hoy."
+  },
+  {
+   "id": "FEP-07-PDBBIND",
+   "categoria": "medicion",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "PDBBind permite muchos mas calculos FEP ejecutables hoy que los 75 de los 203, y declarar tautomeros desbloquea una fraccion mayor que reparar receptores",
+   "protocolo": "scripts/analisis_fep_ejecutable_hoy.py sellado, sin modificar (sha d5c06e4c4936), ejecutado desde un espacio de trabajo cuyo FEP-03/parejas.jsonl son los 21 shards de FEP-03-PDBBIND y cuyos FEP-01-EXT/FEP-02-EXT son las extensiones a PDBBind; replica previa identica al sello (75 ejecutables hoy).",
+   "gate": "medicion sin gate: parejas ejecutables hoy, bloqueadas por tautomero y por receptor",
+   "razonamiento": "La hipotesis se sostiene: de las 3299 parejas aptas de FEP-03-PDBBIND, 2243 (68%) son ejecutables hoy sobre 1114 complejos, frente a 75 en los 203; declarar tautomeros desbloquea 656 mas (hasta 2899) y reparar receptores solo recuperaria 400. Confirma el orden del roadmap: declarar tautomeros primero. Las 21 parejas aptas de galectina-3 (6qln-6qlu), la cohorte recomendada, son las 21 ejecutables hoy. Replica previa identica al sello (91 parejas, 75 ejecutables). Limitacion declarada por el script: ejecutable hoy significa sin los dos bloqueos medidos, no listo para produccion; con el criterio completo de FEP-02 en ambos extremos quedan 875.",
+   "sellado_en": "2026-09-23T06:51:58.202476+00:00",
+   "creado_en": "2026-09-23T06:46:21.324400+00:00",
+   "duracion_s": 0.311,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "ca68d06a5d",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 6,
+   "n_complejos": 3299,
+   "n_fallos": 0,
+   "metricas": {
+    "tipo": "cruce de artefactos sellados, sin computo nuevo",
+    "duration_seconds": 0.311,
+    "n_parejas_aptas": 3299,
+    "limitacion_declarada": "Ejecutable HOY significa 'sin los dos bloqueos medidos', no 'lista para produccion'. FEP-02 exige ademas documentar cadenas, disulfuros, metales, cofactores y aguas, y ese criterio completo (documentado_para_fep) se reporta aparte sin usarse para clasificar, porque lo cumplen muy pocos y absorberia toda la senal. El numero es una COTA SUPERIOR de lo ejecutable."
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": false,
+   "titulo": "FEP-07-PDBBIND",
+   "entradilla": null
   },
   {
    "id": "FND-01-SMOKE",
@@ -4135,6 +4381,334 @@
    "tiene_paper": true,
    "titulo": "La cobertura sube 26.7 puntos y al top-1 llegan 11.2",
    "entradilla": "De los 31 complejos ganados a nivel de oráculo sobreviven 18 al top-5 y 13 al top-1. La fracción de lo cubierto que se realiza en top-1 baja del 62.9% al 53.0%: el siguiente cuello es la selección."
+  },
+  {
+   "id": "MMGBSA-H1-LCPO-BONDI",
+   "categoria": "refutacion",
+   "etiquetas": [],
+   "decision": "NO_GO",
+   "hipotesis": "Los coeficientes LCPO P1-P4 del Cl publicado (Weiser, Shenkin y Still 1999) con el radio de Bondi (Br 1.85 A, I 1.98 A), sin ningun ajuste, aproximan la SASA numericamente exacta de los atomos de Br y de I dentro del error de fondo de LCPO, sin sesgo mayor que ese error y sin empeorar a los atomos vecinos respecto del respaldo de Amber.",
+   "protocolo": "backend/audits/lcpo_bri_h1.py (sha sellado en MMGBSA-PARTICIONES-BRI-V1) sobre los 121 ligandos de geometria posible de esa seleccion: parametrizar con AmberTools (GAFF2, cargas Gasteiger, mbondi3; la funcion de lcpo_halogenos.py sin modificar) en el contenedor moldesign-science, medir con OpenMM 8.5.2 y Shrake-Rupley a 50000 puntos por atomo, resumir por las particiones selladas. Brazos: H1 (Cl publicado + Bondi), respaldo de Amber C_sp2_2 (control negativo) y Cl publicado con r=1.8 (diagnostico). Piloto previo de 5 ligandos declarado en el docstring: llevo a reformular el criterio de vecinos como comparacion pareada (el documento decia 'no empeorar'); los criterios 1 y 2 no se tocaron.",
+   "gate": "Por separado para Br y para I, en validacion y en prueba, con el brazo H1: (1) mediana |error| <= 2.81 A2 y p90 <= 7.25 A2; (2) IC bootstrap 95% (1000 remuestreos de grupos de scaffold, semilla 20260923) del error medio con signo dentro de +-2.81 A2; (3) en los atomos pesados que solapan con un Br o un I, cota superior del IC95 de la media pareada |error H1| - |error respaldo Amber| <= +0.5 A2. Menos de 5 atomos de un elemento en una particion: INDETERMINADO. GO si los cuatro casos (Br/I x validacion/prueba) pasan; NO_GO si alguno falla; INCONCLUSIVE si alguno es indeterminado y ninguno falla.",
+   "razonamiento": "La hipotesis se refuta. Con P1-P4 del Cl publicado y radios de Bondi, sin ajuste, los cuatro casos fallan: Br validacion (mediana 0.70, p90 6.90, pero IC95 del sesgo [-3.14,-0.40] sale de +-2.81), Br prueba (mediana 3.40, p90 9.44, IC95 [-3.03,3.35]), I validacion (mediana 4.71, IC95 [-5.82,-1.32]) e I prueba (mediana 4.57, IC95 [-4.81,-1.33]). En el yodo el error es sistematico y negativo y crece con el radio: el diagnostico con r=1.8 lo reduce en las tres particiones (prueba: mediana 3.62, media -2.95 frente a 4.57 y -3.66), que es la refutacion que el documento anticipaba (la forma funcional del Cl no escala con el radio). El criterio de vecinos pasa en las tres particiones: con H1 los atomos que solapan con Br/I mejoran 0.20-0.23 A2 frente al respaldo de Amber. El respaldo C_sp2_2 sigue fuera por 24-31 A2. 117 de 121 ligandos medidos; 4 fallos que no cuentan para el gate y no son del halogeno: tres =CH2 vinilicos terminales sin parametro LCPO en OpenMM 8.5.2 (el MM-GBSA candidato no puede puntuar un alqueno terminal) y un alquino terminal sin su H en el SDF de PDBBind. Siguiente, segun el orden declarado: H2 (reajustar P1-P4 por elemento en entrenamiento) con H10.",
+   "sellado_en": "2026-09-23T18:25:47.049823+00:00",
+   "creado_en": "2026-09-23T18:16:52.053578+00:00",
+   "duracion_s": 250.0,
+   "semillas": 20260923,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "27b2917fca",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 11,
+   "n_complejos": 121,
+   "n_fallos": 5,
+   "metricas": {
+    "experimento": "MMGBSA-H1-LCPO-BONDI",
+    "generado_utc": "2026-09-23T18:24:38.780727+00:00",
+    "seleccion_sha256": "60701402692c0bebe3686d29dd11ebe88d226d1c5d05c5f333590b481781675c",
+    "particiones_sha256": "dc9d0162c3381ba8c517712ec1791a2e0f51ae8a1d6f80c834896c0245332c65",
+    "decision_por_el_gate": "NO_GO",
+    "no_demuestra": "Que el área LCPO sea el término no polar correcto, ni que estos radios valgan para el término polar (H3): la SASA numérica es una referencia geométrica, no experimental."
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "El LCPO del cloro no sirve para el yodo",
+   "entradilla": "Con los coeficientes publicados para el Cl y el radio de Bondi, el área del yodo sale sistemáticamente corta, y más cuanto mayor es el radio. El bromo roza el aprobado; el yodo no se acerca."
+  },
+  {
+   "id": "MMGBSA-H12A-FREESASA",
+   "categoria": "refutacion",
+   "etiquetas": [],
+   "decision": "NO_GO",
+   "hipotesis": "FreeSASA (Lee-Richards) de la RDKit 2025.09.6 que viaja en el producto reproduce por atomo la SASA numericamente exacta (Shrake-Rupley, 50000 puntos) con los mismos radios (Bondi, sin H, sonda 1.4 A) en los 121 ligandos de PDBBind con Br o I, tambien en Br e I, con coste despreciable.",
+   "protocolo": "backend/audits/freesasa_h12.py sobre las topologias de MMGBSA-H1-LCPO-BONDI, ejecutado con frontend/src-tauri/resources/python (el runtime que se entrega); referencia sasa_numerica de lcpo_vs_sasa_exacta.py sin modificar. Piloto previo declarado: un ligando (1zoh, 4 Br) dio <= 0.43 A2 por atomo y < 1 ms.",
+   "gate": "GO si, por atomo pesado, el p95 de |FreeSASA - exacta| <= 0.5 A2 y el maximo <= 1.0 A2 en el conjunto y por separado en Br y en I, no hay fallos de ejecucion, y la mediana del tiempo de FreeSASA por ligando <= 50 ms. NO_GO en otro caso.",
+   "razonamiento": "NO_GO por la letra del gate: el p95 de |FreeSASA - exacta| por atomo es 0.553 A2 (tope 0.5) y el maximo 1.221 A2 (tope 1.0) en 3088 atomos pesados; en Br p95 0.643 y maximo 1.177; en I p95 0.547 y maximo 0.664. Mediana 0.144 A2 (Br 0.261, I 0.163) y 0.55 ms por ligando. El techo lo pone la resolucion por defecto de Lee-Richards, que la RDKit 2025.09.6 no expone (SASAOpts solo tiene algoritmo, clasificador y sonda). No se reformula el gate: una R1 con un criterio energetico disenado despues de ver estos numeros pasaria por construccion. Caracterizacion: el error de FreeSASA es unas 20 veces menor que el error de fondo de LCPO (mediana 2.81 A2) y que el de LCPO en Br/I (H1, H2: medianas 1-5 A2, p90 hasta 9.8), y 1.22 A2 por 0.0072 kcal/mol/A2 son menos de 0.009 kcal/mol.",
+   "sellado_en": "2026-09-23T19:30:31.742750+00:00",
+   "creado_en": "2026-09-23T19:29:17.052107+00:00",
+   "duracion_s": 60.0,
+   "semillas": 20260923,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "e9da283971",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 5,
+   "n_complejos": 121,
+   "n_fallos": 0,
+   "metricas": {
+    "experimento": "MMGBSA-H12A-FREESASA",
+    "rdkit": "2025.09.6",
+    "n_ligandos": 121,
+    "ms_mediana_por_ligando": 0.5512000061571598,
+    "pasa_gate": false
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "FreeSASA falla su gate por medio ångström cuadrado",
+   "entradilla": "La SASA numérica que ya viaja dentro de la RDKit acierta por átomo con una mediana de 0,14 Å², veinte veces mejor que LCPO. Pero su p95 sale 0,55 con el tope en 0,5, y se sella NO_GO sin reformular el criterio."
+  },
+  {
+   "id": "MMGBSA-H13-AZUFRE-AMBER",
+   "categoria": "hallazgo",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "Reescribir las expresiones GBn2 de OpenMM 8.5.2 con las ramas de Amber egb.F90 (corte y cola de rgbmax=25 A, serie de Taylor para dij>4*sj -siempre para el S, cuyo radio apantallado es negativo-, integral cerrada en el resto y tope de 1/30 A^-1 del radio inverso) hace que OpenMM reproduzca a sander en GBn2 sin superficie, tambien con azufre, sin romper lo que ya coincidia.",
+   "protocolo": "backend/audits/gbn2_azufre_amber_h13.py con apply_amber_gbn2_descreening de backend/services/chemistry/amber_compatibility.py, sobre las 55 topologias de lcpo_halogenos.py (12 con S) y dos peptidos ff14SB con Met y Cys construidos con tleap (ACE MET CYS NME; y uno de 17 residuos de 56 A de extension, que ejercita rgbmax). Servidor: OpenMM y sander (contenedor moldesign-science); esta maquina: OpenMM del runtime que se entrega sobre copias con el mismo SHA-256. Fuente de las ramas: AmberClassic src/msander/egb.F90 leido el 2026-09-23. Piloto previo de 5 casos (1c5n, 1e4h, 2weg y los dos peptidos) declarado: con la correccion pasan los 5; el brazo diagnostico sin rgbmax deja 4.1e-3 kcal/mol en el peptido largo.",
+   "gate": "GO si, con la correccion y rgbmax=25 A, todas las topologias de geometria posible (regla de MMGBSA-H5-R1) y los dos peptidos pasan en GBn2_no_SA frente a sander (residuo tras la conversion de constantes < 0.001 kcal/mol y fuerza convertida < 0.001 kcal/mol/A), no hay fallos de ejecucion, uno de los peptidos supera 25 A de extension, y OpenMM de Windows reproduce al de Linux con la correccion (< 1e-6) en todas las comparaciones con las mismas entradas. El brazo sin rgbmax es diagnostico y no entra en el gate. Cualquier otro fallo: NO_GO.",
+   "razonamiento": "La hipotesis se sostiene. Con las ramas de egb.F90 (rgbmax 25 A, serie para dij>4*sj, integral cerrada, tope de 1/30) OpenMM 8.5.2 reproduce a sander en GBn2 sin superficie en las 14 topologias con azufre (sin la correccion pasaban 0; residuo maximo 11.24 -> 1.3e-5 kcal/mol), en las 41 sin azufre de geometria posible (sin cambio: 2.0e-5) y en los dos peptidos ff14SB con Met y Cys (0.92 -> 1.6e-6 kcal/mol; el de 56 A ejercita rgbmax). 5mlj y 6gnp INDETERMINADAS por la regla geometrica de MMGBSA-H5-R1 (6gnp pasa igualmente). El OpenMM del runtime de Windows reproduce al de Linux en 57/57 comparaciones (7.1e-14 kcal/mol, 2.3e-13 kcal/mol/A). Diagnostico fuera del gate: sin rgbmax el peptido largo deja 4.1e-3 kcal/mol; hacen falta la serie del S y el corte. Consecuencia: el MM-GBSA candidato sobre OpenMM no calculaba el GBn2 parametrizado en cuanto habia una Met o una Cys; con apply_amber_gbn2_descreening si. No conecta nada a produccion.",
+   "sellado_en": "2026-09-23T19:16:28.833768+00:00",
+   "creado_en": "2026-09-23T19:15:27.002838+00:00",
+   "duracion_s": 5.0,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "6ea4cecaae",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 11,
+   "n_complejos": 57,
+   "n_fallos": 2,
+   "metricas": {
+    "experimento": "MMGBSA-H13-AZUFRE-AMBER",
+    "generado_utc": "2026-09-23T19:16:02.617353+00:00",
+    "rgbmax_A": 25.0,
+    "pasa_gate": true
+   },
+   "mantenimiento_sello": 1,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "El GBn2 de OpenMM no era el de Amber en cuanto había azufre",
+   "entradilla": "Para el azufre, Amber usa una serie donde OpenMM integra, y además corta a 25 Å. Reproducidas esas dos ramas, el desacuerdo cae de 11,24 kcal/mol a una cienmilésima."
+  },
+  {
+   "id": "MMGBSA-H2-LCPO-AJUSTE",
+   "categoria": "refutacion",
+   "etiquetas": [],
+   "decision": "NO_GO",
+   "hipotesis": "Con el radio de Bondi fijo (Br 1.85, I 1.98 A), reajustar por minimos cuadrados los coeficientes LCPO por elemento, solo con los atomos de entrenamiento de MMGBSA-PARTICIONES-BRI-V1, aproxima la SASA exacta de Br y de I dentro del error de fondo en validacion y en prueba, con prediccion estable entre remuestreos (H2); y lo que se aprende no depende de haber visto los mismos scaffolds (H10).",
+   "protocolo": "backend/audits/lcpo_bri_h2.py: etapa bases (terminos LCPO por atomo con P unitarios sobre las topologias de MMGBSA-H1, SASA exacta a 50000 puntos; guardian: con los P del Cl publicado reconstruye el area de H1 a 5e-5 A2) y etapa ajustar. Dos brazos: completo (P1-P4) y reducido (P1, P2; P3 y P4 del Cl publicado); por elemento se elige en validacion el reducido salvo que el completo baje la mediana de validacion mas de 0.5 A2; la prueba solo confirma. Cambio declarado respecto del documento: el criterio CV<20% en cada coeficiente se sustituye por CV(P1)<20% y DE bootstrap del area predicha <=1 A2, porque en un piloto SOLO de entrenamiento los terminos estan casi alineados (numero de condicion ~1e4; CV de P3 94% en Br y 997% en I) y con un objetivo sintetico sin ruido el CV de P3 del I sigue en 303%.",
+   "gate": "Por elemento (Br, I), para el brazo elegido en validacion, en validacion y en prueba: mediana |error| <= 2.81 A2, p90 <= 7.25 A2, IC95 bootstrap por scaffold del error medio con signo dentro de +-2.81 A2, CV bootstrap de P1 < 20% (1000 remuestreos de grupos de entrenamiento) y mediana de la DE bootstrap del area predicha en validacion <= 1.0 A2. Menos de 5 atomos: INDETERMINADO. GO si los cuatro casos pasan; NO_GO si alguno falla; INCONCLUSIVE si alguno es indeterminado sin fallos. H10, veredicto aparte: mediana de validacion por scaffold <= la de una particion aleatoria por molecula (semilla sellada, 60/20/20) + 1.0 A2.",
+   "razonamiento": "NO_GO: 2 de 4 casos fallan. Br (brazo reducido elegido en validacion; P1 0.962, P2 -0.391, casi los del Cl publicado): validacion PASA (mediana 0.94, p90 4.85, IC95 del sesgo [-2.57,-0.46], CV P1 1.9%, DE de prediccion 0.64 A2) y prueba FALLA (mediana 2.96, p90 9.70, IC95 [-1.60,3.98]); la cola de prueba aparece con cualquier juego de coeficientes (H1: p90 9.44; completo: 9.83), asi que no la resuelve reajustar P1-P4. I (brazo completo elegido: el reducido daba mediana de validacion 5.91): prueba PASA (mediana 1.83, p90 4.04, IC95 [-2.68,0.53]) y validacion FALLA solo por el sesgo (IC95 [-3.07,0.66], 6 atomos). H10: Br PASA (validacion por scaffold 0.94 frente a 1.70 aleatoria); I FALLA por 0.05 A2 sobre el margen (2.59 frente a 1.54, 8 atomos). Los coeficientes sueltos no estan identificados (CV de P3 del I 1402%), la prediccion si (DE <= 0.74 A2). Siguiente: diagnostico exploratorio de la cola del Br, sin reusar la prueba para elegir nada.",
+   "sellado_en": "2026-09-23T18:32:51.181913+00:00",
+   "creado_en": "2026-09-23T18:31:10.510228+00:00",
+   "duracion_s": 40.0,
+   "semillas": 20260923,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "30df834bc9",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 10,
+   "n_complejos": 149,
+   "n_fallos": 4,
+   "metricas": {
+    "experimento": "MMGBSA-H2-LCPO-AJUSTE",
+    "generado_utc": "2026-09-23T18:32:03.163441+00:00",
+    "particiones_sha256": "dc9d0162c3381ba8c517712ec1791a2e0f51ae8a1d6f80c834896c0245332c65",
+    "decision_h2_por_el_gate": "NO_GO",
+    "h10": "FALLA",
+    "no_demuestra": "Que el área LCPO sea el término no polar correcto: la SASA numérica es una referencia geométrica. Tampoco valida el término polar (H3)."
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "Reajustar LCPO no arregla los anillos con cuatro o cinco bromos",
+   "entradilla": "Con coeficientes propios, el yodo casi aprueba y el bromo pasa validación. La prueba trae una cola que ningún juego de coeficientes corrige: los polibromados de la familia TBB, inhibidores de la CK2."
+  },
+  {
+   "id": "MMGBSA-H3-FREESOLV-RADIOS",
+   "categoria": "refutacion",
+   "etiquetas": [],
+   "decision": "NO_GO",
+   "hipotesis": "En GBn2 (con las correcciones de fosforo y de descreening de Amber), usar para Br e I el radio de Bondi (1.85 y 1.98 A) en vez del 1.5 A que asigna mbondi3 reduce el error absoluto medio de la energia libre de hidratacion calculada frente a la experimental de FreeSolv v0.52 en las moleculas con Br o I, con el termino no polar calibrado solo en moleculas sin halogeno.",
+   "protocolo": "backend/audits/freesolv_h3.py. FreeSolv v0.52 (DOI 10.5281/zenodo.1161245, datos CC BY 4.0), 642 moleculas, coordenadas 3D de sus SDF, un confomero sin minimizar; regla de curacion declarada: los 37 nitro que el SDF de OEChem escribe como N(-O-)(-O-) se corrigen a [N+](=O)[O-] y se exige el InChIKey del SMILES (37/37 recuperados; 2 difieren solo en estereoquimica y se aceptan). GAFF2 + AM1-BCC (antechamber) + mbondi3 (tleap) en el contenedor moldesign-science. Polar: energia de la CustomGBForce de OpenMM 8.5.2 con apply_amber_gbn2_phosphorus y apply_amber_gbn2_descreening; brazo B cambia RADII de Br/I en el prmtop antes de construir el sistema. No polar: gamma*SASA+b, SASA de FreeSASA Lee-Richards (radios de Bondi, sin H), gamma y b por minimos cuadrados SOLO en las moleculas sin halogeno. PB de AmberTools (pbsa, radiopt=0, space 0.25, fillratio 4) como referencia electrostatica fuera del gate. Piloto previo de 6 moleculas (1 Br, 1 I, 1 nitro, 1 con S, 2 controles) solo para probar la cadena: no se comparo con el experimento.",
+   "gate": "Sin ajustar nada en Br ni en I, sobre las 37 moleculas con Br o I (21 Br, 4 Br mixtas, 12 I): GO si MAE_B <= 0.8*MAE_A y el IC bootstrap 95% (1000 remuestreos de moleculas, semilla 20260923) de MAE_B - MAE_A queda entero por debajo de 0. NO_GO en cualquier otro caso. Br e I se informan por separado sin las mixtas; los controles no cambian entre brazos por construccion; PB y el valor alquimico GAFF de FreeSolv se informan como referencia.",
+   "razonamiento": "NO_GO por la letra del gate: sobre las 37 moleculas con Br o I, MAE_A (1.5 A, mbondi3) 1.930 y MAE_B (Bondi, Br 1.85 e I 1.98 A) 2.053 kcal/mol; reduccion relativa -6.4% (se exigia >= 20%) e IC95 bootstrap de MAE_B - MAE_A [-0.010, +0.246], que no queda entero bajo cero. Br (n 21): MAE 1.67 -> 1.80, sesgo +1.57 -> +1.73. I (n 12): MAE 1.13 -> 1.27, sesgo +0.06 -> +0.76. El brazo B reduce el error en 8 de 37 moleculas. Se cumple la clausula de refutacion de H3: el radio por defecto da menos error; con 1.5 A el Br ya queda infrasolvatado (sesgo positivo) y agrandar el radio lo empeora. No polar ajustado solo en 467 moleculas sin halogeno: gamma 0.02537 kcal/mol/A2, b -3.418 kcal/mol. La primera medida se perdio por un fallo del script, no de la quimica (pbsa corta los nombres de archivo a 80 caracteres; los 37 fallos son exactamente las 37 Br/I, registrados en failures.jsonl); corregido y declarado en f7871d8, se repitio solo la etapa medir sobre los mismos prmtop: 642/642, y las 605 moleculas que ya habian salido son identicas bit a bit. Caracterizacion exploratoria posterior al gate (freesolv_h3_caracterizar.py; no cambia la decision): con PB en lugar de GB y el no polar reajustado igual, Bondi tampoco mejora (Br/I MAE 1.15 -> 1.21; Br empeora, I mejora 1.28 -> 1.00), asi que el NO_GO no es un artefacto de la aproximacion GB. GBn2 sobresolvata frente a PB con los mismos radios las moleculas con 3 F (media -2.34 kcal/mol, n 13) y con 4 o mas F (-7.68, n 5), mientras con 1 o 2 F coincide (+0.55, +0.45); y el modelo deja un sesgo de +5.94 kcal/mol en las policloradas (4 o mas Cl, n 31) que PB no explica (GB-PB -0.40), atribuible al termino no polar. Son hipotesis nuevas, no resultados.",
+   "sellado_en": "2026-09-23T22:42:43.009619+00:00",
+   "creado_en": "2026-09-23T19:27:51.560147+00:00",
+   "duracion_s": 100.1,
+   "semillas": 20260923,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "493f06a91d",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 13,
+   "n_complejos": 642,
+   "n_fallos": 37,
+   "metricas": {
+    "experimento": "MMGBSA-H3-FREESOLV-RADIOS",
+    "generado_utc": "2026-09-23T22:38:59.974523+00:00",
+    "atribucion": "FreeSolv v0.52 (Mobley y Guthrie, J. Comput.-Aided Mol. Des. 2014; release DOI 10.5281/zenodo.1161245), datos bajo CC BY 4.0. Los autores advierten que parte de los datos procede de fuentes con restricciones que podrían desconocer.",
+    "seleccion_sha256": "8bece40ad85a23ce6971ce345f6a9820a91763645c5738b68e6727719ea8f6ad",
+    "decision_por_el_gate": "NO_GO",
+    "no_demuestra": "Energías libres de hidratación con muestreo: es una estimación estática de un solo confórmero. Tampoco dice nada del agujero sigma, que las cargas atómicas no representan."
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "El radio de Bondi empeora la hidratación del bromo y del yodo",
+   "entradilla": "Contra 37 moléculas de FreeSolv, cambiar el radio GB de Br e I por el de Bondi sube el error de 1,93 a 2,05 kcal/mol. El radio se queda en 1,5 Å, y el análisis posterior apunta a otro sitio: el flúor y la dispersión."
+  },
+  {
+   "id": "MMGBSA-H5-GBN2-PARIDAD",
+   "categoria": "refutacion",
+   "etiquetas": [],
+   "decision": "NO_GO",
+   "hipotesis": "Con la misma topologia y las mismas coordenadas, OpenMM 8.5.2 (Reference, doble precision) reproduce a sander en GBn2 sin termino de superficie para ligandos con Br o I: residuo de energia tras la conversion analitica de constantes < 0.001 kcal/mol y maximo error de fuerza convertida < 0.001 kcal/mol/A, en vacuum y GBn2_no_SA. El OpenMM del runtime que se entrega (Windows) reproduce al de Linux.",
+   "protocolo": "backend/audits/gbn2_paridad_halogenos.py sobre las 55 topologias de lcpo_halogenos.py (GAFF2, cargas Gasteiger, mbondi3) en ~/moldesign-fep/halogenos_trabajo: medir con sander y OpenMM en el contenedor moldesign-science (servidor), medir --sin-sander con frontend/src-tauri/resources/python (esta maquina) sobre copias con el mismo SHA-256, comparar. Piloto previo de 3 ligandos declarado en docs/validacion_mmgbsa.md (H5): 1c5n falla por el azufre, no por el yodo.",
+   "gate": "GO si las 24 topologias con Br o I pasan en vacuum y GBn2_no_SA, o -solo si llevan S- el vacio pasa y el desacuerdo de GBn2 desaparece con el S como elemento generico (Z=34) en ambos programas; y OpenMM de Windows reproduce al de Linux con diferencia < 1e-6 kcal/mol y kcal/mol/A en todas las comparaciones con las mismas entradas. Cualquier otro fallo: NO_GO.",
+   "razonamiento": "NO_GO por la letra del gate: 23/24 topologias con Br o I lo cumplen y 5mlj no. 19/24 pasan directamente (residuo de energia <= 2e-6 kcal/mol, fuerza <= 1.1e-4 kcal/mol/A); las 4 que llevan azufre fallan solo en GBn2 y las 4 recuperan la paridad con el S como elemento generico en ambos programas (residuo <= 6.3e-6). 5mlj (Br alifatico, sin S) falla ya en vacio (3.88 kcal/mol, 71 kcal/mol/A) por una geometria de entrada imposible, no por el bromo: el H22 del SDF de PDBBind esta a 0.259 A de C13 (angulo C13-C17-H22 = 1.2 grados) y toda la diferencia esta en el termino de angulo; el gate no preveia esa excepcion y no se cambia despues de medir. Controles F/Cl: 23/23 sin S pasan y 8/8 con S se atribuyen igual. OpenMM de Windows (python del runtime que se entrega) reproduce al de Linux en 110/110 comparaciones con las mismas entradas: 8.5e-14 kcal/mol y 1.6e-13 kcal/mol/A. Hallazgo aparte: el desacuerdo del azufre en GBn2 llega a 11.24 kcal/mol (2weg) y 4.87 (5eij, 2 S); afecta a cualquier Met/Cys del receptor. Siguiente: MMGBSA-H5-R1 con un filtro de validez geometrica declarado antes de medir.",
+   "sellado_en": "2026-09-23T17:54:03.459385+00:00",
+   "creado_en": "2026-09-23T17:50:30.367042+00:00",
+   "duracion_s": 3.5,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "d83d0af9a4",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 9,
+   "n_complejos": 55,
+   "n_fallos": 1,
+   "metricas": {
+    "experimento": "MMGBSA-H5-GBN2-PARIDAD",
+    "generado_utc": "2026-09-23T17:53:33.740025+00:00",
+    "n_topologias": 55,
+    "gate": "24/24 topologías con Br o I pasan en vacuum y GBn2_no_SA, o —sólo si llevan S— el vacío pasa y el desacuerdo de GBn2 desaparece con el S como elemento genérico en ambos programas; y OpenMM de Windows reproduce al de Linux (< 1e-6)",
+    "pasa_gate": false,
+    "no_demuestra": "Que GBn2 describa bien la solvatación de Br o I. Demuestra, si pasa, que OpenMM y sander calculan lo mismo con los mismos parámetros, y registra cuáles son.",
+    "pasa_gate_windows": true
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "OpenMM y sander coinciden con Br e I; con azufre, no",
+   "entradilla": "23 de 24 topologías con bromo o yodo reproducen a sander en GBn2 hasta la sexta cifra. La que falla trae un hidrógeno imposible en el SDF, y de paso apareció un desacuerdo de hasta 11 kcal/mol en cualquier Met o Cys."
+  },
+  {
+   "id": "MMGBSA-H5-R1",
+   "categoria": "corrigendum",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "Replica de MMGBSA-H5-GBN2-PARIDAD con un filtro de validez geometrica: entre las topologias con Br o I de geometria posible, OpenMM 8.5.2 (Reference) reproduce a sander en vacuum y GBn2 sin superficie (residuo < 0.001 kcal/mol, fuerza convertida < 0.001 kcal/mol/A), con la misma excepcion del azufre que H5; y el OpenMM del runtime de Windows reproduce al de Linux.",
+   "protocolo": "backend/audits/gbn2_paridad_halogenos_r1.py, que importa sin modificar el script sellado de H5, sobre las mismas 55 topologias; corridas nuevas en directorios nuevos (servidor con sander; esta maquina con frontend/src-tauri/resources/python). Filtro declarado antes de medir: geometria imposible si dos atomos estan a < 0.5 A o un angulo de valencia mide < 30 grados. Se diseno despues de ver 5mlj en H5 y se comprobo solo sobre geometrias (sin energias) antes de este prerregistro: marca 5mlj (Br) y 6gnp (Cl, control); en los dos el SDF de PDBBind anade un H a un carbono sp2 halogenado. Diagnostico fuera del gate: recolocar ese H (perpendicular al plano si el centro es plano) y medir la paridad.",
+   "gate": "GO si entre las topologias con Br o I de geometria posible hay al menos 20 y todas pasan en vacuum y GBn2_no_SA, o -solo si llevan S- el vacio pasa y el desacuerdo desaparece con el S como elemento generico; las de geometria imposible cuentan como INDETERMINADO; y OpenMM de Windows reproduce al de Linux (< 1e-6 kcal/mol y kcal/mol/A) en todas las comparaciones con las mismas entradas. Cualquier otro fallo: NO_GO.",
+   "razonamiento": "La hipotesis se sostiene. De las 24 topologias con Br o I, 23 tienen geometria posible y las 23 pasan: 19 directamente (residuo <= 2e-6 kcal/mol, fuerza <= 1.1e-4 kcal/mol/A) y 4 con azufre que recuperan la paridad con el S como elemento generico en ambos programas. 5mlj es INDETERMINADA por el filtro declarado antes de medir (H22 a 0.259 A de C13; el SDF de PDBBind anade un H a un carbono sp2 con Br); diagnostico fuera del gate: con ese H perpendicular al plano, OpenMM y sander coinciden en 6.0e-6 kcal/mol en vacuum y GBn2, asi que el fallo de H5 queda atribuido entero a la geometria. Control F/Cl: 30 pasan y 6gnp (mismo defecto, H sobre un carbono sp2 con Cl) es INDETERMINADA; con el H recolocado coincide en 6e-9. OpenMM del runtime de Windows reproduce al de Linux en 110/110 comparaciones (8.5e-14 kcal/mol, 1.6e-13 kcal/mol/A) y el filtro da lo mismo en las dos maquinas. Con los mismos parametros (radio 1.5 A, apantallamiento 0.5, alfa/beta/gamma por defecto) los dos programas calculan lo mismo para Br e I: H1-H4 pueden atribuir errores a la fisica y no a la implementacion. Lo que no demuestra: que esos parametros sean buenos. Abierto aparte: el azufre discrepa en GBn2 hasta 11.24 kcal/mol (2weg). Nota de lectura: logs/comparar.log imprime primero el gate de H5 (NO PASA) porque reutiliza su cruce sin modificarlo; el de R1 es la ultima linea.",
+   "sellado_en": "2026-09-23T18:00:15.647247+00:00",
+   "creado_en": "2026-09-23T17:59:05.333933+00:00",
+   "duracion_s": 3.2,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "ddb5304aed",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 8,
+   "n_complejos": 55,
+   "n_fallos": 2,
+   "metricas": {
+    "experimento": "MMGBSA-H5-R1",
+    "generado_utc": "2026-09-23T17:59:43.227955+00:00",
+    "n_topologias": 55,
+    "gate": "Entre las topologías con Br o I de geometría posible (ningún par < 0,5 Å, ningún ángulo de valencia < 30°), todas pasan o, si llevan S, se atribuyen al S como en H5; hay al menos 20 evaluables; y OpenMM de Windows reproduce al de Linux (< 1e-6).",
+    "pasa_gate": true,
+    "no_demuestra": "Que GBn2 describa bien la solvatación de Br o I. Demuestra, si pasa, que OpenMM y sander calculan lo mismo con los mismos parámetros, y registra cuáles son.",
+    "pasa_gate_windows": true
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": false,
+   "titulo": "MMGBSA-H5-R1",
+   "entradilla": null
+  },
+  {
+   "id": "MMGBSA-PARTICIONES-BRI-V1",
+   "categoria": "medicion",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "Asignacion fija de los 122 ligandos de PDBBind con Br o I a entrenamiento, validacion y prueba (60/20/20) por scaffold de Bemis-Murcko, sin ningun scaffold compartido entre particiones, para reutilizarla sin cambios en H1, H2, H3 y H10 de docs/validacion_mmgbsa.md.",
+   "protocolo": "backend/audits/lcpo_bri_h1.py curar y particionar (RDKit 2025.09.6, esta maquina, sin mirar ninguna energia ni area): grupos por scaffold (aciclicos por InChIKey), orden SHA-256(semilla:grupo), cada grupo a la particion con mayor deficit relativo, por separado para ligandos con Br y con I. Semilla 20260923. Determinista: tres ejecuciones dan la misma asignacion.",
+   "gate": "medicion sin gate: la asignacion se sella antes de cualquier medida de H1 y no se cambia despues",
+   "razonamiento": "Asignacion sellada antes de medir H1: 122 ligandos en 83 grupos de scaffold (114 InChIKey distintos). Entrenamiento 72 ligandos / 46 grupos (Br 67 atomos, I 21), validacion 24 / 18 (Br 20, I 6), prueba 26 / 19 (Br 27, I 13). Ningun scaffold en dos particiones. Entornos: Br 109 arilo y 5 alifatico, I 39 y 1. 5mlj marcada como geometria imposible (regla de MMGBSA-H5-R1). Tres ejecuciones dan la misma asignacion.",
+   "sellado_en": "2026-09-23T18:16:39.417147+00:00",
+   "creado_en": "2026-09-23T18:16:38.761005+00:00",
+   "duracion_s": 60.0,
+   "semillas": 20260923,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "27b2917fca",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 4,
+   "n_complejos": 0,
+   "n_fallos": 0,
+   "metricas": {
+    "particiones": "PDBBind-BrI-v1",
+    "semilla": 20260923,
+    "n_ligandos": 122,
+    "n_grupos": 83,
+    "n_inchikey_distintos": 114,
+    "rdkit": "2025.09.6",
+    "determinista": true
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": false,
+   "titulo": "MMGBSA-PARTICIONES-BRI-V1",
+   "entradilla": null
   },
   {
    "id": "PREP-01",
