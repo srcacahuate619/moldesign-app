@@ -918,7 +918,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                       <tr>
                         <th className="px-2 py-1.5 font-normal">#</th>
                         <th className="px-2 py-1.5 font-normal">Nombre</th>
-                        <th className="px-2 py-1.5 font-normal">Estado</th>
+                        <th className="px-2 py-1.5 font-normal">{t("c_estado")}</th>
                         <th className="px-2 py-1.5 font-normal">Afinidad Vina observada (kcal/mol)</th>
                         <th className="px-2 py-1.5 font-normal">Etiqueta</th>
                         <th className="px-2 py-1.5 font-normal">Control</th>

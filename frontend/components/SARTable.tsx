@@ -117,9 +117,9 @@ export function SARTable({ moleculeId, compact }: Props) {
             <tr className="bg-zinc-800/50 text-zinc-400">
               <th className="px-3 py-2 text-left font-medium w-6">#</th>
               <th className="px-3 py-2 text-left font-medium">Molecula</th>
-              <th className="px-3 py-2 text-right font-medium">Score</th>
+              <th className="px-3 py-2 text-right font-medium">{t("c_score")}</th>
               <th className="px-3 py-2 text-right font-medium">&Delta;</th>
-              <th className="px-3 py-2 text-right font-medium">Afinidad</th>
+              <th className="px-3 py-2 text-right font-medium">{t("c_afinidad")}</th>
               <th className="px-3 py-2 text-right font-medium">&Delta;</th>
               {!compact && (
                 <>

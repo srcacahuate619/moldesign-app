@@ -460,7 +460,7 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
                           fontSize: "10px",
                           fontWeight: 700
                         }}>
-                          {status === "ready" ? "Listo" : status === "downloading" ? "Descargando" : status === "extracting" ? "Extrayendo" : status === "error" ? "Error" : "Pendiente"}
+                          {status === "ready" ? "Listo" : status === "downloading" ? "Descargando" : status === "extracting" ? "Extrayendo" : status === "error" ? "Error" : t("c_pendiente")}
                         </span>
                       </div>
                     );

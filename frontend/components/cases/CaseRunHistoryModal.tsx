@@ -279,7 +279,7 @@ export default function CaseRunHistoryModal({
                       <div className="flex shrink-0 items-center gap-3">
                         <div className="text-right">
                           <p className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-                            Afinidad
+                            {t("c_afinidad")}
                           </p>
                           <p className="font-mono text-sm font-bold text-zinc-100">
                             {numeroOGuion(run.affinityKcal, 2, " kcal/mol")}

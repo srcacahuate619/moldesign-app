@@ -29,7 +29,14 @@ export const comun: ModuloDeTraduccion = {
     c_ver_mas: "Ver más",
     c_ver_menos: "Ver menos",
     c_iniciar_sesion: "Iniciar sesión",
+    c_lanzar_pipeline: "Lanzar pipeline",
     c_que_significa: "Qué significa",
+
+    // ── Estados y magnitudes compartidas ─────────────────────────
+    c_estado: "Estado",
+    c_score: "Score",
+    c_afinidad: "Afinidad",
+    c_pendiente: "Pendiente",
 
     // ── Estados ───────────────────────────────────────────────────
     c_cargando: "Cargando…",
@@ -73,7 +80,14 @@ export const comun: ModuloDeTraduccion = {
     c_ver_mas: "Show more",
     c_ver_menos: "Show less",
     c_iniciar_sesion: "Sign in",
+    c_lanzar_pipeline: "Launch pipeline",
     c_que_significa: "What this means",
+
+    // ── Shared statuses and metrics ───────────────────────────────
+    c_estado: "Status",
+    c_score: "Score",
+    c_afinidad: "Affinity",
+    c_pendiente: "Pending",
 
     c_cargando: "Loading…",
     c_calculando: "Calculating…",

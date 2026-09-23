@@ -540,7 +540,7 @@ export default function MoldexPage() {
             className="group relative inline-flex items-center gap-3 rounded-xl border border-purple-400/30 bg-purple-600 px-8 py-4 font-mono text-xs font-bold uppercase tracking-[0.2em] text-white shadow-lg shadow-purple-950/50 transition-all hover:bg-purple-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
           >
             <Play size={14} className="fill-white" />
-            {t("mx_lanzar_pipeline")}
+            {t("c_lanzar_pipeline")}
             <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
           </motion.a>
         </div>
@@ -581,7 +581,7 @@ export default function MoldexPage() {
         <div className="pointer-events-auto z-50 flex h-[60px] w-full items-center justify-between border-b border-[var(--border)] bg-[var(--bg-card)] px-6 md:hidden dark:border-slate-800/50 dark:bg-[#0a0f1d]">
           <h1 className="flex items-center gap-2 text-sm font-black tracking-tighter text-theme">
             <FlaskConical size={16} className="text-indigo-500" />
-            <span className="uppercase">{t("mx_marca_moldex")}</span> <span className="rounded-full border border-indigo-500/35 bg-indigo-500/15 px-1.5 py-0.5 text-xs font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{t("mx_subtitulo_bioteca")}</span>
+            <span className="uppercase">Moldex</span> <span className="rounded-full border border-indigo-500/35 bg-indigo-500/15 px-1.5 py-0.5 text-xs font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{t("mx_subtitulo_bioteca")}</span>
           </h1>
           <div className="flex gap-1">
             {MOBILE_TABS.map((btn) => {
@@ -626,7 +626,7 @@ export default function MoldexPage() {
           <div className="min-w-[320px] shrink-0 border-b border-[var(--border)] p-8 dark:border-white/5">
             <h1 className="mb-8 flex items-center gap-2 text-xl font-black tracking-tighter text-theme">
               <FlaskConical size={24} className="text-indigo-500" />
-              <span className="uppercase">{t("mx_marca_moldex")}</span> <span className="rounded-full border border-indigo-500/35 bg-indigo-500/15 px-2 py-0.5 text-xs font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{t("mx_subtitulo_bioteca")}</span>
+              <span className="uppercase">Moldex</span> <span className="rounded-full border border-indigo-500/35 bg-indigo-500/15 px-2 py-0.5 text-xs font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{t("mx_subtitulo_bioteca")}</span>
             </h1>
 
             <div className="space-y-4">
@@ -866,10 +866,10 @@ export default function MoldexPage() {
                   </h2>
                   <div className="flex gap-1">
                     {selectedMolecule?.metrics?.lipinski_pass && (
-                      <span className="rounded border border-emerald-500/30 bg-emerald-500/20 px-1.5 py-0.5 text-xs font-black uppercase text-emerald-700 dark:text-emerald-400">{t("mx_filtro_lipinski")}</span>
+                      <span className="rounded border border-emerald-500/30 bg-emerald-500/20 px-1.5 py-0.5 text-xs font-black uppercase text-emerald-700 dark:text-emerald-400">Lipinski</span>
                     )}
                     {selectedMolecule?.metrics?.veber_pass && (
-                      <span className="rounded border border-blue-500/30 bg-blue-500/20 px-1.5 py-0.5 text-xs font-black uppercase text-blue-700 dark:text-blue-400">{t("mx_filtro_veber")}</span>
+                      <span className="rounded border border-blue-500/30 bg-blue-500/20 px-1.5 py-0.5 text-xs font-black uppercase text-blue-700 dark:text-blue-400">Veber</span>
                     )}
                   </div>
                 </div>
@@ -880,7 +880,7 @@ export default function MoldexPage() {
                     { label: t("mx_polaridad"),  value: selectedMolecule?.metrics?.tpsa?.toFixed(1) ?? "—",                            unit: "Å²" },
                     { label: t("mx_hotspots"),   value: `${Array.isArray(selectedMolecule?.hotspots_hit) ? selectedMolecule.hotspots_hit.length : 0}/${Array.isArray(selectedMolecule?.target?.hotspots) ? selectedMolecule.target.hotspots.length : 0}`, unit: t("mx_hits_unidad") },
                     { label: t("mx_senal_gnn"),     value: selectedMolecule?.metrics?.gnn_score !== null && selectedMolecule?.metrics?.gnn_score !== undefined ? selectedMolecule.metrics.gnn_score.toFixed(1) : "N/A", unit: t("auto_b75d71d7c486") },
-                    { label: t("mx_regla_lipinski"),   value: selectedMolecule?.metrics?.lipinski_pass === null ? "—" : selectedMolecule?.metrics?.lipinski_pass ? t("mx_cumple") : t("mx_no_cumple"),        unit: t("mx_unidad_regla") },
+                    { label: "Lipinski",   value: selectedMolecule?.metrics?.lipinski_pass === null ? "—" : selectedMolecule?.metrics?.lipinski_pass ? t("mx_cumple") : t("mx_no_cumple"),        unit: t("mx_unidad_regla") },
                   ].map(stat => (
                     <div key={stat.label} className="group rounded-2xl border border-[var(--border)] bg-[var(--bg-secondary)] p-4 transition-all hover:border-indigo-500/30 dark:border-white/5 dark:bg-black/40">
                       <p className="mb-1 text-xs font-black uppercase tracking-widest text-muted">{stat.label}</p>

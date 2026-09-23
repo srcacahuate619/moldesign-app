@@ -608,7 +608,7 @@ export const ProSelectivityPanel: React.FC<ProSelectivityPanelProps> = ({
                   : "—"}
             </span>
             <span className="text-[9px] text-zinc-400 font-mono uppercase font-bold leading-tight">
-              {deltaDeltaG !== null ? "kcal/mol" : "Estado"}
+              {deltaDeltaG !== null ? "kcal/mol" : t("c_estado")}
             </span>
           </div>
 

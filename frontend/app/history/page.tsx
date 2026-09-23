@@ -85,7 +85,7 @@ export default function HistoryPage() {
           { n: "3", t: t("pg_hist_ritual_accede"),  d: t("pg_hist_ritual_firmado") },
         ]}
         ctaHref="/login"
-        ctaLabel={t("pg_hist_iniciar_sesion")}
+        ctaLabel={t("c_iniciar_sesion")}
         footerStatus={t("pg_hist_footer_sesiones")}
       />
     );
@@ -126,7 +126,7 @@ export default function HistoryPage() {
         {[
           { key: "created_at", label: t("pg_hist_orden_fecha") },
           { key: "total_score", label: t("pg_hist_orden_score_total") },
-          { key: "affinity_kcal", label: t("pg_hist_orden_afinidad") },
+          { key: "affinity_kcal", label: t("c_afinidad") },
         ].map((opt) => (
           <button
             key={opt.key}
@@ -172,11 +172,11 @@ export default function HistoryPage() {
               }
               ritual={[
                 { n: "1", t: t("mx_paso_disena"), d: t("mx_paso_disena_d") },
-                { n: "2", t: t("mx_paso_acopla"),  d: "Vina + XGBoost + GNN" },
+                { n: "2", t: t("mx_paso_acopla"),  d: t("mx_paso_acopla_d") },
                 { n: "3", t: t("mx_paso_guarda"), d: t("pg_hist_ritual_conservar") },
               ]}
               ctaHref="/evaluation"
-              ctaLabel={t("pg_hist_lanzar_pipeline")}
+              ctaLabel={t("c_lanzar_pipeline")}
               footerStatus={t("pg_hist_footer_evaluaciones", { user: user?.email ?? user?.username ?? "local" })}
             />
           ) : (
@@ -186,12 +186,12 @@ export default function HistoryPage() {
                   <tr>
                     <th className="px-4 py-3 text-left font-semibold text-surface-400">SMILES</th>
                     <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_target")}</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_estado")}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("c_estado")}</th>
                     <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_corrida")}</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_score")}</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_afinidad")}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("c_score")}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("c_afinidad")}</th>
                     <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_mw")}</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_lipinski")}</th>
+                    <th className="px-3 py-3 text-center font-semibold text-surface-400">Lipinski</th>
                     <th className="px-3 py-3 text-center font-semibold text-surface-400">QED</th>
                     <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_recibo")}</th>
                     <th className="px-3 py-3 text-right font-semibold text-surface-400">{t("pg_hist_th_fecha")}</th>
@@ -350,7 +350,7 @@ function StatCard({
  */
 const ESTADO_MOLECULA: Record<string, { bg: string; text: string; clave: string }> = {
   // MoleculeStatus — core/models.py
-  pending: { bg: "bg-yellow-900/30", text: "text-yellow-400", clave: "pg_hist_estado_pendiente" },
+  pending: { bg: "bg-yellow-900/30", text: "text-yellow-400", clave: "c_pendiente" },
   validated: { bg: "bg-surface-800", text: "text-surface-300", clave: "pg_hist_estado_validada" },
   docking: { bg: "bg-blue-900/30", text: "text-blue-400", clave: "pg_hist_estado_en_curso" },
   evaluated: { bg: "bg-green-900/30", text: "text-green-400", clave: "pg_hist_estado_completada" },
@@ -360,7 +360,7 @@ const ESTADO_MOLECULA: Record<string, { bg: string; text: string; clave: string 
   SUCCESS: { bg: "bg-green-900/30", text: "text-green-400", clave: "pg_hist_estado_completada" },
   FAILURE: { bg: "bg-red-900/30", text: "text-red-400", clave: "pg_hist_estado_fallida" },
   running: { bg: "bg-blue-900/30", text: "text-blue-400", clave: "pg_hist_estado_en_curso" },
-  PENDING: { bg: "bg-yellow-900/30", text: "text-yellow-400", clave: "pg_hist_estado_pendiente" },
+  PENDING: { bg: "bg-yellow-900/30", text: "text-yellow-400", clave: "c_pendiente" },
 };
 
 function StatusBadge({ status }: { status: string }) {

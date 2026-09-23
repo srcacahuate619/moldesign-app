@@ -173,7 +173,7 @@ export function ScoreCard({
 
         <div className="space-y-4">
           <ScoreBar 
-            label="Afinidad" 
+            label={t("c_afinidad")} 
             value={affinity} 
             weight="45%" 
             color="#52525b" // zinc-600
