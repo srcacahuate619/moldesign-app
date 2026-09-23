@@ -1,30 +1,30 @@
 {
- "experiment_id": "FEP-02-PDBBIND",
+ "experiment_id": "FEP-02-REPLICA",
  "tipo": "auditoria (sin docking)",
- "timestamp": "2026-09-23T01:37:58.926441+00:00",
- "duration_seconds": 277.45,
+ "timestamp": "2026-09-23T01:31:58.842224+00:00",
+ "duration_seconds": 11.87,
  "resumen": {
-  "n_complejos": 5325,
-  "n_ok": 3887,
+  "n_complejos": 203,
+  "n_ok": 203,
   "cadenas": {
    "mediana": 1,
-   "multi_cadena": 1698
+   "multi_cadena": 87
   },
   "huecos_de_cadena": {
-   "complejos_con_huecos": 1677,
-   "fraccion": 0.4314,
+   "complejos_con_huecos": 86,
+   "fraccion": 0.4236,
    "huecos_mediana_cuando_hay": 2
   },
   "sitio": {
-   "entre_cadenas": 938,
-   "con_metales": 819,
-   "con_cofactores": 2,
-   "aguas_mediana": 11
+   "entre_cadenas": 43,
+   "con_metales": 52,
+   "con_cofactores": 0,
+   "aguas_mediana": 10
   },
   "disulfuros": {
-   "con_al_menos_uno": 1072
+   "con_al_menos_uno": 87
   },
-  "documentados_para_fep": 1543
+  "documentados_para_fep": 83
  },
  "verificacion_diagnostico_MF10": {
   "hipotesis": "los 9 complejos que fallaron en MF-10 con error de plantilla de OpenMM lo hicieron por cortes de cadena dejados como terminos",
@@ -68,11 +68,11 @@
   },
   "con_huecos": 9,
   "de": 9,
-  "tasa_base_en_la_cohorte": 0.4314
+  "tasa_base_en_la_cohorte": 0.4236
  },
  "limitacion": "un salto de numeracion no siempre es hueco fisico: hay convenciones de numeracion no consecutiva. Se marca CANDIDATO, no defecto",
  "experiment_id_original": "FEP-02",
- "universo": "pdbbind",
+ "universo": "molflex",
  "envoltorio": {
   "script": "scripts/analisis_fep_pdbbind.py",
   "sha256": "e906372db66b45acbadf2863cc49e3ab9205591696af0b63d59d9f5e1fd537b4",

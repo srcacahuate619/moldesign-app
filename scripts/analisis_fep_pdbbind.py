@@ -27,8 +27,11 @@ entorno (otra versión de RDKit, otro sistema), no por los datos.
 # FEP-03 sobre PDBBind: el MCS se reparte y se reanuda
 
 El script sellado calcula el MCS de cada pareja en serie y sólo escribe al
-final. Sobre 5332 complejos eso es un único proceso de días sin punto de
-reanudación. Aquí:
+final. Antes de medir se temió que sobre PDBBind fueran días (peor caso: cada
+pareja agotando su timeout de 10 s). Medido el 2026-09-22 en el servidor: 30 100
+MCS en 24,7 minutos con 3 procesos, 163 cancelados por timeout. Se conserva el
+reparto porque un único shard (el de los grupos de 66 y 64) tardó 20 minutos él
+solo, y sin shards un corte ahí lo perdía todo. Aquí:
 
 - fase 1 (agrupación por secuencia) usa las funciones y umbrales originales;
 - fase 2 enumera las parejas en orden determinista y las reparte en shards;

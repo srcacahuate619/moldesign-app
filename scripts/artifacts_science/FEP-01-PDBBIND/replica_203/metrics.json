@@ -1,54 +1,47 @@
 {
- "experiment_id": "FEP-01-PDBBIND",
+ "experiment_id": "FEP-01-REPLICA",
  "tipo": "auditoria (sin docking)",
- "timestamp": "2026-09-23T01:33:21.285597+00:00",
- "duration_seconds": 32.83,
+ "timestamp": "2026-09-23T01:31:46.848971+00:00",
+ "duration_seconds": 1.58,
  "decision_silenciosa_auditada": "run_mf10_relax_insitu.construir_sistema llama a Molecule.from_rdkit(molh, allow_undefined_stereo=True): el pipeline ACEPTA estereoquimica indefinida y deja que la biblioteca elija",
  "resumen": {
-  "n_complejos": 5325,
-  "n_ok": 4641,
+  "n_complejos": 203,
+  "n_ok": 203,
   "estereo": {
-   "con_centros_quirales": 3006,
-   "con_centros_SIN_ASIGNAR": 17,
-   "con_dobles_sin_estereo": 31,
-   "estereo_indefinido_total": 48
+   "con_centros_quirales": 138,
+   "con_centros_SIN_ASIGNAR": 0,
+   "con_dobles_sin_estereo": 1,
+   "estereo_indefinido_total": 1
   },
   "tautomeros": {
-   "ambiguos": 3634,
+   "ambiguos": 164,
    "distribucion": {
-    "10": 1034,
-    "1": 1007,
-    "2": 834,
-    "3": 575,
-    "4": 398,
-    "6": 370,
-    "9": 149,
-    "8": 105,
-    "5": 96,
-    "7": 73
+    "2": 49,
+    "10": 48,
+    "1": 39,
+    "3": 23,
+    "6": 17,
+    "4": 11,
+    "9": 8,
+    "8": 5,
+    "7": 2,
+    "5": 1
    }
   },
   "mapping": {
-   "biyectivo": 0,
-   "cubre_pesados": 0,
-   "sin_index_map": 4641
+   "biyectivo": 203,
+   "cubre_pesados": 203,
+   "sin_index_map": 0
   },
-  "listos_para_fep": 0
+  "listos_para_fep": 39
  },
  "limitacion": "la enumeracion de tautomeros de RDKit es heuristica de transformaciones, no calculo de poblaciones: >1 senala AMBIGUEDAD NO DECLARADA, no error. Dimensiona el hueco, no lo corrige",
  "experiment_id_original": "FEP-01",
- "universo": "pdbbind",
+ "universo": "molflex",
  "envoltorio": {
   "script": "scripts/analisis_fep_pdbbind.py",
   "sha256": "e906372db66b45acbadf2863cc49e3ab9205591696af0b63d59d9f5e1fd537b4",
   "script_sellado": "scripts/analisis_fep01_integridad.py",
   "sha256_sellado": "2ea7996a1ad3aed5e1bb79a82cee8a323dc8b33eef195ff53a7110dcce724519"
- },
- "resumen_sin_mapping": {
-  "criterio": "no estereo_indefinido y no tautomero_ambiguo (el mapping no aplica a PDBBind)",
-  "n_evaluados": 4641,
-  "listos_sin_criterio_de_mapping": 989,
-  "tautomero_ambiguo": 3634,
-  "estereo_indefinido": 48
  }
 }

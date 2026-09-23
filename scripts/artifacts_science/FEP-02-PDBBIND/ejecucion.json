@@ -1,0 +1,18 @@
+{
+ "maquina": "servidor johanserver (192.168.1.64): AMD Ryzen 3 3200U, 4 hilos, Linux 6.8.0-139, compartido con la VM de QA",
+ "contenedor": "moldesign-science:latest sha256:a87013a5d6017759f2627d7bf0a6bdb9194338c76853e3330d361d3f8c19a798, --cpus 3, uid 1000",
+ "python": "3.11.15",
+ "rdkit": "2025.09.6 (pip --target /work/.rdkit-2025.09.6; la version con la que se sellaron FEP-01/02/03), numpy 2.4.6",
+ "scripts_sha256": {
+  "scripts/analisis_fep01_integridad.py": "2ea7996a1ad3aed5… (= sello FEP-01)",
+  "scripts/analisis_fep02_receptor.py": "b143dadf5dfd0fb4… (= sello FEP-02)",
+  "scripts/analisis_fep03_congenericas.py": "52f76e98ae0c7b8c… (= sello FEP-03)",
+  "scripts/analisis_fep_pdbbind.py": "e906372db66b45ac… = el blob del commit 52b3768; despues solo cambio su docstring"
+ },
+ "lanzador": "scripts/lanzar_fep_pdbbind.sh (etapas replicas, extension, grupos, mcs)",
+ "universo": "data/pdbbind: 5325 entradas; 1438 sin _protein.pdb (27%, la copia local esta incompleta) y 675 SDF ilegibles para RDKit",
+ "fecha": "2026-09-22 (UTC 2026-09-23T01:31Z en adelante)",
+ "replica_203": "identica al sello por complejo (203/203)",
+ "resultado": "3887 evaluados de 5325 (1438 SIN_PDB); 1543 documentados para FEP (39.7%) frente a 83/203 (40.9%); huecos de cadena 43.1% frente a 42.4%",
+ "duracion_s": 277.45
+}

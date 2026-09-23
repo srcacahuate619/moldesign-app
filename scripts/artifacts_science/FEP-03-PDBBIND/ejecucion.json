@@ -1,0 +1,19 @@
+{
+ "maquina": "servidor johanserver (192.168.1.64): AMD Ryzen 3 3200U, 4 hilos, Linux 6.8.0-139, compartido con la VM de QA",
+ "contenedor": "moldesign-science:latest sha256:a87013a5d6017759f2627d7bf0a6bdb9194338c76853e3330d361d3f8c19a798, --cpus 3, uid 1000",
+ "python": "3.11.15",
+ "rdkit": "2025.09.6 (pip --target /work/.rdkit-2025.09.6; la version con la que se sellaron FEP-01/02/03), numpy 2.4.6",
+ "scripts_sha256": {
+  "scripts/analisis_fep01_integridad.py": "2ea7996a1ad3aed5… (= sello FEP-01)",
+  "scripts/analisis_fep02_receptor.py": "b143dadf5dfd0fb4… (= sello FEP-02)",
+  "scripts/analisis_fep03_congenericas.py": "52f76e98ae0c7b8c… (= sello FEP-03)",
+  "scripts/analisis_fep_pdbbind.py": "e906372db66b45ac… = el blob del commit 52b3768; despues solo cambio su docstring"
+ },
+ "lanzador": "scripts/lanzar_fep_pdbbind.sh (etapas replicas, extension, grupos, mcs)",
+ "universo": "data/pdbbind: 5325 entradas; 1438 sin _protein.pdb (27%, la copia local esta incompleta) y 675 SDF ilegibles para RDKit",
+ "fecha": "2026-09-22 (UTC 2026-09-23T01:31Z en adelante)",
+ "replica_203": "resumen identico al sello; 486 de 487 parejas identicas. 1ezq-1ksn: el sello da MCS 1 atomo (cobertura 0.03), la replica 27 (0.818); ninguna apta. El MCS con timeout de 10 s depende de la carga de la maquina: un MCS cortado SUBESTIMA la similitud, sesgo contrario a la cota superior que FEP-03 declara. Por eso cada pareja de la extension registra mcs_cancelado.",
+ "fase1": "3887 complejos, 1228 dianas, 547 con >=2, grupo mayor 201; 40969 parejas, 10869 prefiltradas, 30100 con MCS",
+ "resultado": "3299 parejas aptas en 313 dianas (frente a 91 en 18 en molflex); 28 dianas con >=10 ligandos conectados por parejas aptas y 12 con >=20; la mayor (grupo de 1avn, 201 miembros) conecta 153. Mediana sobre las evaluadas: cobertura 0.364, perturbacion 28. 163 MCS cancelados por timeout. Cota superior por la agrupacion por k-meros; los cancelados sesgan en sentido contrario",
+ "duracion_s": 1483.54
+}

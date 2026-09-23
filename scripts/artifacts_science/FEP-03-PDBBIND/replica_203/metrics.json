@@ -1,0 +1,32 @@
+{
+ "experiment_id": "FEP-03-REPLICA",
+ "tipo": "auditoria (sin docking)",
+ "timestamp": "2026-09-23T01:32:13.388473+00:00",
+ "duration_seconds": 14.26,
+ "umbrales_declarados": {
+  "identidad_secuencia_kmer": 0.9,
+  "cobertura_mcs": 0.7,
+  "perturbacion_max_atomos": 10
+ },
+ "resumen": {
+  "n_complejos": 203,
+  "n_dianas_distintas": 104,
+  "dianas_con_2_o_mas": 32,
+  "complejos_en_dianas_multiples": 131,
+  "tamano_grupo_max": 23,
+  "n_parejas_evaluadas": 487,
+  "n_parejas_aptas_fep": 91,
+  "dianas_con_serie_congenerica": 18,
+  "cobertura_mcs_mediana": 0.5,
+  "perturbacion_mediana": 27
+ },
+ "limitacion": "la agrupacion por k-meros no distingue mutantes puntuales (que para FEP+ SI serian dianas distintas) y puede unir isoformas; el MCS con timeout puede ser suboptimo. Ambos sesgos SOBREESTIMAN las parejas: la cifra es una COTA SUPERIOR",
+ "experiment_id_original": "FEP-03",
+ "universo": "molflex",
+ "envoltorio": {
+  "script": "scripts/analisis_fep_pdbbind.py",
+  "sha256": "e906372db66b45acbadf2863cc49e3ab9205591696af0b63d59d9f5e1fd537b4",
+  "script_sellado": "scripts/analisis_fep03_congenericas.py",
+  "sha256_sellado": "52f76e98ae0c7b8ce8b0e3071b1d0f49a80f80a2ee07f0cbc210ee39ff5ac036"
+ }
+}

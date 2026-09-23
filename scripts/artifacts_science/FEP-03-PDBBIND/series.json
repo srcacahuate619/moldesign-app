@@ -1,0 +1,4441 @@
+[
+ {
+  "grupo": 0,
+  "n_miembros": 201,
+  "n_parejas_aptas": 674,
+  "ligandos_en_parejas_aptas": [
+   "1bn1",
+   "1bn4",
+   "1bnn",
+   "1bnq",
+   "1bnt",
+   "1bnv",
+   "1bnw",
+   "1cnw",
+   "1cnx",
+   "1cny",
+   "1g1d",
+   "1g45",
+   "1g46",
+   "1g48",
+   "1g4o",
+   "1g52",
+   "1g53",
+   "1g54",
+   "1i9n",
+   "1i9p",
+   "1if7",
+   "1if8",
+   "1okl",
+   "1xpz",
+   "1xq0",
+   "1yda",
+   "1ydb",
+   "1ydd",
+   "1z9y",
+   "1zfq",
+   "1zge",
+   "2h15",
+   "2h4n",
+   "2hnc",
+   "2hoc",
+   "2o4z",
+   "2pou",
+   "2pov",
+   "2pow",
+   "2q1q",
+   "2q38",
+   "2weg",
+   "2weh",
+   "2wej",
+   "2weo",
+   "2x7t",
+   "2x7u",
+   "3d8w",
+   "3d9z",
+   "3daz",
+   "3dbu",
+   "3dc3",
+   "3dcc",
+   "3dd0",
+   "3hku",
+   "3hs4",
+   "3ibi",
+   "3ibl",
+   "3ibn",
+   "3ibu",
+   "3igp",
+   "3m1k",
+   "3m40",
+   "3m5e",
+   "3mhi",
+   "3mhl",
+   "3mhm",
+   "3mho",
+   "3mmf",
+   "3mna",
+   "3mzc",
+   "3n0n",
+   "3n2p",
+   "3n3j",
+   "3n4b",
+   "3oil",
+   "3oim",
+   "3oku",
+   "3oy0",
+   "3oyq",
+   "3p58",
+   "3po6",
+   "3r16",
+   "3r17",
+   "3ryj",
+   "3ryv",
+   "3ryx",
+   "3ryy",
+   "3ryz",
+   "3rz0",
+   "3rz1",
+   "3rz5",
+   "3rz7",
+   "3rz8",
+   "3s71",
+   "3s73",
+   "3s75",
+   "3s77",
+   "3s78",
+   "3t5u",
+   "3t82",
+   "3t83",
+   "3t84",
+   "3t85",
+   "3v7x",
+   "4bf1",
+   "4bf6",
+   "4e3g",
+   "4itp",
+   "4iwz",
+   "4jsa",
+   "4jsz",
+   "4kni",
+   "4knj",
+   "4m2r",
+   "4m2u",
+   "4q6d",
+   "4q7p",
+   "4q7s",
+   "4q7v",
+   "4q7w",
+   "4q81",
+   "4q83",
+   "4q87",
+   "4q8x",
+   "4q8y",
+   "4q90",
+   "4q99",
+   "4q9y",
+   "4qy3",
+   "4rfc",
+   "4rfd",
+   "4rux",
+   "4ruy",
+   "4ruz",
+   "4yx4",
+   "4yxi",
+   "4yyt",
+   "5ehw",
+   "5llc",
+   "5llg",
+   "5n0d",
+   "5n0e",
+   "5uln",
+   "6c7w",
+   "6c7x",
+   "6g6t",
+   "6got",
+   "6h2z",
+   "6h33",
+   "6odz",
+   "6oe0",
+   "6oe1"
+  ],
+  "n_ligandos_conectados": 153,
+  "ejemplo": "1avn"
+ },
+ {
+  "grupo": 2,
+  "n_miembros": 95,
+  "n_parejas_aptas": 136,
+  "ligandos_en_parejas_aptas": [
+   "1a9m",
+   "1ajv",
+   "1bv7",
+   "1bv9",
+   "1bwa",
+   "1d4h",
+   "1d4i",
+   "1d4j",
+   "1dif",
+   "1dmp",
+   "1eby",
+   "1ec0",
+   "1g2k",
+   "1g35",
+   "1gnm",
+   "1gnn",
+   "1gno",
+   "1hpv",
+   "1hvh",
+   "1hvi",
+   "1hvj",
+   "1hvk",
+   "1hvl",
+   "1hvr",
+   "1hvs",
+   "1iiq",
+   "1m0b",
+   "1mes",
+   "1met",
+   "1qbr",
+   "1qbs",
+   "1w5v",
+   "1w5w",
+   "1w5x",
+   "1w5y",
+   "1zsf",
+   "2aqu",
+   "2bqv",
+   "2cej",
+   "2cen",
+   "2fle",
+   "2i4d",
+   "2i4u",
+   "2i4w",
+   "2o4k",
+   "2pqz",
+   "2pwc",
+   "2pwr",
+   "2qnn",
+   "2qnp",
+   "2qnq",
+   "2r38",
+   "2r3t",
+   "2r3w",
+   "2r43",
+   "2uxz",
+   "2uy0",
+   "4hla",
+   "4i8w",
+   "4i8z",
+   "4ll3"
+  ],
+  "n_ligandos_conectados": 61,
+  "ejemplo": "1a9m"
+ },
+ {
+  "grupo": 6,
+  "n_miembros": 60,
+  "n_parejas_aptas": 429,
+  "ligandos_en_parejas_aptas": [
+   "1a94",
+   "1sdt",
+   "1sdu",
+   "1sdv",
+   "2aoc",
+   "2aod",
+   "2aoe",
+   "2aog",
+   "2avm",
+   "2avo",
+   "2avq",
+   "2avs",
+   "2f80",
+   "2f81",
+   "2f8g",
+   "2hb3",
+   "2hs1",
+   "2idw",
+   "2nmz",
+   "2qci",
+   "2qd6",
+   "2qd7",
+   "2qd8",
+   "2z4o",
+   "3bva",
+   "3bvb",
+   "3cyw",
+   "3cyx",
+   "3d1x",
+   "3d1y",
+   "3d1z",
+   "3dk1",
+   "3h5b",
+   "3nu3",
+   "3nu4",
+   "3nu5",
+   "3nu6",
+   "3nu9",
+   "3nuj",
+   "3nuo",
+   "3ok9",
+   "3pwm",
+   "3qaa",
+   "3st5",
+   "3tkw",
+   "3vf5",
+   "3vf7",
+   "3vfa",
+   "3vfb",
+   "4dfg",
+   "4hdb",
+   "4hdf",
+   "4hdp",
+   "4heg"
+  ],
+  "n_ligandos_conectados": 54,
+  "ejemplo": "1a94"
+ },
+ {
+  "grupo": 1,
+  "n_miembros": 99,
+  "n_parejas_aptas": 260,
+  "ligandos_en_parejas_aptas": [
+   "1bju",
+   "1bjv",
+   "1bty",
+   "1c5p",
+   "1c5q",
+   "1c5s",
+   "1g3d",
+   "1g3e",
+   "1k1i",
+   "1k1j",
+   "1k1l",
+   "1k1m",
+   "1pph",
+   "1ql7",
+   "1tng",
+   "1tnh",
+   "1tni",
+   "1tx7",
+   "1utn",
+   "1uto",
+   "1v2j",
+   "1v2k",
+   "1v2l",
+   "1v2o",
+   "1v2r",
+   "1v2s",
+   "1v2t",
+   "1v2u",
+   "1v2w",
+   "1y3v",
+   "1y3x",
+   "1yp9",
+   "2bza",
+   "2zdk",
+   "2zdl",
+   "2zdm",
+   "2zdn",
+   "2zfs",
+   "2zft",
+   "3aas",
+   "3gy4",
+   "3gy7",
+   "3ljo",
+   "3nkk",
+   "4ab9",
+   "4abb",
+   "4abd",
+   "4abe",
+   "4abf",
+   "4abg",
+   "4abh"
+  ],
+  "n_ligandos_conectados": 51,
+  "ejemplo": "1bju"
+ },
+ {
+  "grupo": 3,
+  "n_miembros": 66,
+  "n_parejas_aptas": 43,
+  "ligandos_en_parejas_aptas": [
+   "1c4u",
+   "1d9i",
+   "1mu6",
+   "1mu8",
+   "1oyt",
+   "1tom",
+   "1vzq",
+   "1ype",
+   "1ypg",
+   "1ypj",
+   "2bvr",
+   "2bvs",
+   "2cf8",
+   "2cf9",
+   "2cn0",
+   "2jh0",
+   "2jh5",
+   "2zc9",
+   "2zda",
+   "2zfp",
+   "2zgx",
+   "3f68",
+   "3p17",
+   "3sha",
+   "3shc",
+   "3si3",
+   "3sv2",
+   "3tu7"
+  ],
+  "n_ligandos_conectados": 28,
+  "ejemplo": "1a4w"
+ },
+ {
+  "grupo": 5,
+  "n_miembros": 62,
+  "n_parejas_aptas": 41,
+  "ligandos_en_parejas_aptas": [
+   "2xab",
+   "2xdx",
+   "2xjg",
+   "2xjj",
+   "2xjx",
+   "2yi0",
+   "2yi7",
+   "3b24",
+   "3b27",
+   "3eko",
+   "3ekr",
+   "3hek",
+   "3k97",
+   "3r4m",
+   "3r4n",
+   "3rlp",
+   "4cwf",
+   "4cwn",
+   "4cwo",
+   "4cwp",
+   "4cwq",
+   "4cwr",
+   "4cws",
+   "4cwt",
+   "4o05",
+   "4o07",
+   "4o09",
+   "4o0b"
+  ],
+  "n_ligandos_conectados": 28,
+  "ejemplo": "1yc1"
+ },
+ {
+  "grupo": 11,
+  "n_miembros": 29,
+  "n_parejas_aptas": 272,
+  "ligandos_en_parejas_aptas": [
+   "1b05",
+   "1b0h",
+   "1b1h",
+   "1b2h",
+   "1b32",
+   "1b3g",
+   "1b3h",
+   "1b3l",
+   "1b40",
+   "1b4h",
+   "1b4z",
+   "1b51",
+   "1b52",
+   "1b58",
+   "1b5h",
+   "1b5i",
+   "1b5j",
+   "1b6h",
+   "1b7h",
+   "1b9j",
+   "1jet",
+   "1jeu",
+   "1qka",
+   "1qkb",
+   "2olb",
+   "2rkm"
+  ],
+  "n_ligandos_conectados": 26,
+  "ejemplo": "1b05"
+ },
+ {
+  "grupo": 7,
+  "n_miembros": 46,
+  "n_parejas_aptas": 62,
+  "ligandos_en_parejas_aptas": [
+   "1c84",
+   "1c86",
+   "1c87",
+   "1c88",
+   "1ecv",
+   "1gfy",
+   "1no6",
+   "1onz",
+   "1pyn",
+   "1qxk",
+   "2azr",
+   "2h4g",
+   "2h4k",
+   "2hb1",
+   "2qbq",
+   "2qbr",
+   "2qbs",
+   "2zmm",
+   "2zn7",
+   "5k9w",
+   "5ka1",
+   "5ka7",
+   "5ka9",
+   "5kab",
+   "5kad"
+  ],
+  "n_ligandos_conectados": 25,
+  "ejemplo": "1bzc"
+ },
+ {
+  "grupo": 8,
+  "n_miembros": 41,
+  "n_parejas_aptas": 58,
+  "ligandos_en_parejas_aptas": [
+   "2fgu",
+   "2fgv",
+   "2i0a",
+   "2qi0",
+   "2qi1",
+   "2qi3",
+   "2qi4",
+   "2qi5",
+   "2qi6",
+   "2qi7",
+   "3ekv",
+   "3gi4",
+   "3gi5",
+   "3gi6",
+   "3i7e",
+   "3mxd",
+   "3o99",
+   "3o9a",
+   "3o9d",
+   "3o9e",
+   "3o9i",
+   "4q1w",
+   "4q1x",
+   "4q1y"
+  ],
+  "n_ligandos_conectados": 24,
+  "ejemplo": "1aid"
+ },
+ {
+  "grupo": 15,
+  "n_miembros": 24,
+  "n_parejas_aptas": 44,
+  "ligandos_en_parejas_aptas": [
+   "1afk",
+   "1afl",
+   "1jn4",
+   "1jvu",
+   "1o0f",
+   "1o0h",
+   "1o0m",
+   "1o0n",
+   "1qhc",
+   "1rnm",
+   "1rpf",
+   "1u1b",
+   "1w4o",
+   "1w4p",
+   "1w4q",
+   "1z6s",
+   "2w5g",
+   "3d6o",
+   "3d6p",
+   "4g8v",
+   "4g8y",
+   "4g90"
+  ],
+  "n_ligandos_conectados": 22,
+  "ejemplo": "1afk"
+ },
+ {
+  "grupo": 4,
+  "n_miembros": 64,
+  "n_parejas_aptas": 23,
+  "ligandos_en_parejas_aptas": [
+   "1nfu",
+   "1nfy",
+   "2uwl",
+   "2uwo",
+   "2vvc",
+   "2vvu",
+   "2vwl",
+   "2vwn",
+   "2vwo",
+   "2wyg",
+   "2wyj",
+   "2xbw",
+   "2xbx",
+   "2xc0",
+   "2xc4",
+   "2y7x",
+   "2y7z",
+   "2y80",
+   "2y81",
+   "2y82",
+   "3m36",
+   "3m37"
+  ],
+  "n_ligandos_conectados": 22,
+  "ejemplo": "1ezq"
+ },
+ {
+  "grupo": 13,
+  "n_miembros": 26,
+  "n_parejas_aptas": 23,
+  "ligandos_en_parejas_aptas": [
+   "2b9a",
+   "2f7i",
+   "3cfn",
+   "3cft",
+   "3kgt",
+   "3kgu",
+   "3nee",
+   "3neo",
+   "3nes",
+   "3nex",
+   "3p3r",
+   "4d7b",
+   "4der",
+   "4des",
+   "4det",
+   "4deu",
+   "4dew",
+   "5u49",
+   "5u4b",
+   "5u4d"
+  ],
+  "n_ligandos_conectados": 20,
+  "ejemplo": "1bm7"
+ },
+ {
+  "grupo": 16,
+  "n_miembros": 24,
+  "n_parejas_aptas": 60,
+  "ligandos_en_parejas_aptas": [
+   "1rmz",
+   "3ehx",
+   "3ehy",
+   "3f15",
+   "3f16",
+   "3f17",
+   "3f18",
+   "3f19",
+   "3f1a",
+   "3lk8",
+   "3lka",
+   "3n2v",
+   "3nx7",
+   "3ts4",
+   "3tsk",
+   "4gql",
+   "4gr0",
+   "4gr3",
+   "4gr8"
+  ],
+  "n_ligandos_conectados": 19,
+  "ejemplo": "1rmz"
+ },
+ {
+  "grupo": 14,
+  "n_miembros": 26,
+  "n_parejas_aptas": 14,
+  "ligandos_en_parejas_aptas": [
+   "3cow",
+   "3coy",
+   "3coz",
+   "3ime",
+   "3iob",
+   "3ioc",
+   "3iod",
+   "3ioe",
+   "3ivg",
+   "3ivx",
+   "4ddh",
+   "4ddk",
+   "4ddm",
+   "4de5",
+   "4ef6",
+   "4g5f",
+   "4mq6",
+   "4muf",
+   "4mul"
+  ],
+  "n_ligandos_conectados": 19,
+  "ejemplo": "3cow"
+ },
+ {
+  "grupo": 21,
+  "n_miembros": 21,
+  "n_parejas_aptas": 72,
+  "ligandos_en_parejas_aptas": [
+   "1oif",
+   "1uz1",
+   "2cbu",
+   "2cbv",
+   "2ces",
+   "2cet",
+   "2j75",
+   "2j77",
+   "2j78",
+   "2j79",
+   "2j7b",
+   "2j7d",
+   "2j7e",
+   "2j7f",
+   "2j7g",
+   "2wbg",
+   "2wc3"
+  ],
+  "n_ligandos_conectados": 17,
+  "ejemplo": "1oif"
+ },
+ {
+  "grupo": 23,
+  "n_miembros": 17,
+  "n_parejas_aptas": 25,
+  "ligandos_en_parejas_aptas": [
+   "1ps3",
+   "2f7o",
+   "2f7p",
+   "3d4y",
+   "3d4z",
+   "3d51",
+   "3d52",
+   "3ddf",
+   "3ddg",
+   "3dx1",
+   "3dx2",
+   "3dx3",
+   "3dx4",
+   "3ejp",
+   "3ejq",
+   "3ejr"
+  ],
+  "n_ligandos_conectados": 16,
+  "ejemplo": "1ps3"
+ },
+ {
+  "grupo": 9,
+  "n_miembros": 36,
+  "n_parejas_aptas": 15,
+  "ligandos_en_parejas_aptas": [
+   "1fkn",
+   "1m4h",
+   "3bra",
+   "3buf",
+   "3bug",
+   "3buh",
+   "3kmy",
+   "4dju",
+   "4djv",
+   "4djw",
+   "4djx",
+   "4djy",
+   "4fm7",
+   "4fm8",
+   "4h3f",
+   "4h3g"
+  ],
+  "n_ligandos_conectados": 16,
+  "ejemplo": "1fkn"
+ },
+ {
+  "grupo": 37,
+  "n_miembros": 13,
+  "n_parejas_aptas": 78,
+  "ligandos_en_parejas_aptas": [
+   "1px4",
+   "3dyo",
+   "3i3b",
+   "3muz",
+   "3mv0",
+   "3t08",
+   "3t09",
+   "3t0b",
+   "3t0d",
+   "3t2q",
+   "3vd4",
+   "3vd9",
+   "3vdb"
+  ],
+  "n_ligandos_conectados": 13,
+  "ejemplo": "1px4"
+ },
+ {
+  "grupo": 19,
+  "n_miembros": 22,
+  "n_parejas_aptas": 14,
+  "ligandos_en_parejas_aptas": [
+   "1ftm",
+   "1my4",
+   "1p1n",
+   "1p1q",
+   "1syh",
+   "1syi",
+   "1xhy",
+   "2al5",
+   "3bft",
+   "3bfu",
+   "3pd8",
+   "3pd9",
+   "3rtf"
+  ],
+  "n_ligandos_conectados": 13,
+  "ejemplo": "1ftm"
+ },
+ {
+  "grupo": 17,
+  "n_miembros": 24,
+  "n_parejas_aptas": 13,
+  "ligandos_en_parejas_aptas": [
+   "4llk",
+   "4llp",
+   "4lm1",
+   "4lm2",
+   "4lm3",
+   "4lm4",
+   "4mrw",
+   "4msn",
+   "5c1w",
+   "5c28",
+   "5c2a",
+   "5dh4"
+  ],
+  "n_ligandos_conectados": 12,
+  "ejemplo": "3ui7"
+ },
+ {
+  "grupo": 24,
+  "n_miembros": 17,
+  "n_parejas_aptas": 10,
+  "ligandos_en_parejas_aptas": [
+   "3zso",
+   "3zsq",
+   "3zsx",
+   "3zsy",
+   "3zt2",
+   "3zt3",
+   "4cig",
+   "4cj4",
+   "4cjp",
+   "4cjr",
+   "4ck3"
+  ],
+  "n_ligandos_conectados": 11,
+  "ejemplo": "3zso"
+ },
+ {
+  "grupo": 56,
+  "n_miembros": 10,
+  "n_parejas_aptas": 28,
+  "ligandos_en_parejas_aptas": [
+   "3qqs",
+   "3r88",
+   "3twp",
+   "3uu1",
+   "4gkm",
+   "4ij1",
+   "4m0r",
+   "4n8q",
+   "4owm",
+   "4owv"
+  ],
+  "n_ligandos_conectados": 10,
+  "ejemplo": "3qqs"
+ },
+ {
+  "grupo": 26,
+  "n_miembros": 16,
+  "n_parejas_aptas": 17,
+  "ligandos_en_parejas_aptas": [
+   "2f34",
+   "2pbw",
+   "3fv1",
+   "3fv2",
+   "3fvk",
+   "3fvn",
+   "3gba",
+   "3gbb",
+   "3s2v",
+   "4e0x"
+  ],
+  "n_ligandos_conectados": 10,
+  "ejemplo": "1vso"
+ },
+ {
+  "grupo": 57,
+  "n_miembros": 10,
+  "n_parejas_aptas": 12,
+  "ligandos_en_parejas_aptas": [
+   "3su0",
+   "3su1",
+   "3su2",
+   "3su3",
+   "3su4",
+   "3su5",
+   "3su6",
+   "3sue",
+   "3suf",
+   "3sug"
+  ],
+  "n_ligandos_conectados": 10,
+  "ejemplo": "3su0"
+ },
+ {
+  "grupo": 27,
+  "n_miembros": 16,
+  "n_parejas_aptas": 11,
+  "ligandos_en_parejas_aptas": [
+   "5cs6",
+   "5csp",
+   "5h8e",
+   "5h8g",
+   "5mod",
+   "5oqu",
+   "5orh",
+   "5orj",
+   "5ork",
+   "6hoq"
+  ],
+  "n_ligandos_conectados": 10,
+  "ejemplo": "2zjw"
+ },
+ {
+  "grupo": 44,
+  "n_miembros": 12,
+  "n_parejas_aptas": 11,
+  "ligandos_en_parejas_aptas": [
+   "1uwf",
+   "4att",
+   "4av4",
+   "4av5",
+   "4avh",
+   "4avi",
+   "4buq",
+   "4css",
+   "4cst",
+   "4lov"
+  ],
+  "n_ligandos_conectados": 10,
+  "ejemplo": "1uwf"
+ },
+ {
+  "grupo": 22,
+  "n_miembros": 18,
+  "n_parejas_aptas": 8,
+  "ligandos_en_parejas_aptas": [
+   "1m2p",
+   "1m2q",
+   "1m2r",
+   "1zoh",
+   "2oxd",
+   "2oxx",
+   "2pvj",
+   "2pvk",
+   "3fl5",
+   "3pwd"
+  ],
+  "n_ligandos_conectados": 10,
+  "ejemplo": "1m2p"
+ },
+ {
+  "grupo": 28,
+  "n_miembros": 15,
+  "n_parejas_aptas": 8,
+  "ligandos_en_parejas_aptas": [
+   "1mrw",
+   "1msm",
+   "2pk5",
+   "2pk6",
+   "3kdb",
+   "3kdc",
+   "3kdd",
+   "4mc1",
+   "4mc2",
+   "4mc9"
+  ],
+  "n_ligandos_conectados": 10,
+  "ejemplo": "1a30"
+ },
+ {
+  "grupo": 58,
+  "n_miembros": 10,
+  "n_parejas_aptas": 10,
+  "ligandos_en_parejas_aptas": [
+   "5t9u",
+   "5t9w",
+   "5t9z",
+   "5ta2",
+   "5ta4",
+   "6gji",
+   "6gjj",
+   "6gjm",
+   "6gjr"
+  ],
+  "n_ligandos_conectados": 9,
+  "ejemplo": "5t9u"
+ },
+ {
+  "grupo": 20,
+  "n_miembros": 21,
+  "n_parejas_aptas": 9,
+  "ligandos_en_parejas_aptas": [
+   "1b38",
+   "1pxn",
+   "1pxo",
+   "1pxp",
+   "4bck",
+   "4bcm",
+   "4bco",
+   "4bcp",
+   "4i3z"
+  ],
+  "n_ligandos_conectados": 9,
+  "ejemplo": "1b38"
+ },
+ {
+  "grupo": 40,
+  "n_miembros": 13,
+  "n_parejas_aptas": 8,
+  "ligandos_en_parejas_aptas": [
+   "2xye",
+   "2xyf",
+   "3zps",
+   "3zpu",
+   "4a6b",
+   "4a6c",
+   "4cpr",
+   "4cps",
+   "4cpt"
+  ],
+  "n_ligandos_conectados": 9,
+  "ejemplo": "2wl0"
+ },
+ {
+  "grupo": 54,
+  "n_miembros": 10,
+  "n_parejas_aptas": 8,
+  "ligandos_en_parejas_aptas": [
+   "4agl",
+   "4agm",
+   "4agn",
+   "4ago",
+   "4agp",
+   "4agq",
+   "5aoj",
+   "5o1d",
+   "5o1h"
+  ],
+  "n_ligandos_conectados": 9,
+  "ejemplo": "2vuk"
+ },
+ {
+  "grupo": 65,
+  "n_miembros": 9,
+  "n_parejas_aptas": 28,
+  "ligandos_en_parejas_aptas": [
+   "1loq",
+   "1x1z",
+   "2zz1",
+   "2zz2",
+   "3g1d",
+   "3g1v",
+   "3w07",
+   "3wjw"
+  ],
+  "n_ligandos_conectados": 8,
+  "ejemplo": "1km3"
+ },
+ {
+  "grupo": 72,
+  "n_miembros": 8,
+  "n_parejas_aptas": 28,
+  "ligandos_en_parejas_aptas": [
+   "1bp0",
+   "1jmf",
+   "1jmg",
+   "1nja",
+   "1njc",
+   "1njd",
+   "1nje",
+   "1tsy"
+  ],
+  "n_ligandos_conectados": 8,
+  "ejemplo": "1bp0"
+ },
+ {
+  "grupo": 31,
+  "n_miembros": 15,
+  "n_parejas_aptas": 15,
+  "ligandos_en_parejas_aptas": [
+   "3iww",
+   "3sjf",
+   "4ngm",
+   "4ngn",
+   "4oc1",
+   "4oc2",
+   "4oc3",
+   "4oc5"
+  ],
+  "n_ligandos_conectados": 8,
+  "ejemplo": "2xef"
+ },
+ {
+  "grupo": 30,
+  "n_miembros": 15,
+  "n_parejas_aptas": 12,
+  "ligandos_en_parejas_aptas": [
+   "3u8j",
+   "3u8k",
+   "3u8l",
+   "3u8n",
+   "3wtl",
+   "3wtm",
+   "3wtn",
+   "3wto"
+  ],
+  "n_ligandos_conectados": 8,
+  "ejemplo": "1uv6"
+ },
+ {
+  "grupo": 10,
+  "n_miembros": 32,
+  "n_parejas_aptas": 8,
+  "ligandos_en_parejas_aptas": [
+   "3p5o",
+   "3u5j",
+   "5f5z",
+   "5f60",
+   "5f61",
+   "5f62",
+   "6q3y",
+   "6q3z"
+  ],
+  "n_ligandos_conectados": 8,
+  "ejemplo": "2yel"
+ },
+ {
+  "grupo": 25,
+  "n_miembros": 16,
+  "n_parejas_aptas": 6,
+  "ligandos_en_parejas_aptas": [
+   "1c5y",
+   "1f5k",
+   "1w0z",
+   "1w11",
+   "1w13",
+   "3kgp",
+   "3mhw",
+   "4h42"
+  ],
+  "n_ligandos_conectados": 8,
+  "ejemplo": "1c5x"
+ },
+ {
+  "grupo": 45,
+  "n_miembros": 12,
+  "n_parejas_aptas": 5,
+  "ligandos_en_parejas_aptas": [
+   "2j4g",
+   "2vvn",
+   "2vvs",
+   "2w4x",
+   "2wca",
+   "2xj7",
+   "2xm1",
+   "2xm2"
+  ],
+  "n_ligandos_conectados": 8,
+  "ejemplo": "2j47"
+ },
+ {
+  "grupo": 60,
+  "n_miembros": 9,
+  "n_parejas_aptas": 21,
+  "ligandos_en_parejas_aptas": [
+   "1f8b",
+   "1f8c",
+   "1f8d",
+   "1f8e",
+   "2qwc",
+   "2qwd",
+   "2qwe"
+  ],
+  "n_ligandos_conectados": 7,
+  "ejemplo": "1f8b"
+ },
+ {
+  "grupo": 64,
+  "n_miembros": 9,
+  "n_parejas_aptas": 21,
+  "ligandos_en_parejas_aptas": [
+   "6qln",
+   "6qlo",
+   "6qlp",
+   "6qlq",
+   "6qlr",
+   "6qlt",
+   "6qlu"
+  ],
+  "n_ligandos_conectados": 7,
+  "ejemplo": "1kjr"
+ },
+ {
+  "grupo": 63,
+  "n_miembros": 9,
+  "n_parejas_aptas": 20,
+  "ligandos_en_parejas_aptas": [
+   "3nq3",
+   "3nq9",
+   "3ueu",
+   "3uev",
+   "3uew",
+   "3uex",
+   "4gny"
+  ],
+  "n_ligandos_conectados": 7,
+  "ejemplo": "1gx8"
+ },
+ {
+  "grupo": 18,
+  "n_miembros": 23,
+  "n_parejas_aptas": 11,
+  "ligandos_en_parejas_aptas": [
+   "1enu",
+   "1f3e",
+   "1k4h",
+   "1q65",
+   "1r5y",
+   "1s38",
+   "1s39"
+  ],
+  "n_ligandos_conectados": 7,
+  "ejemplo": "1enu"
+ },
+ {
+  "grupo": 86,
+  "n_miembros": 7,
+  "n_parejas_aptas": 10,
+  "ligandos_en_parejas_aptas": [
+   "1f57",
+   "1hdq",
+   "2ctc",
+   "2rfh",
+   "3fvl",
+   "3fx6",
+   "3kgq"
+  ],
+  "n_ligandos_conectados": 7,
+  "ejemplo": "1f57"
+ },
+ {
+  "grupo": 34,
+  "n_miembros": 13,
+  "n_parejas_aptas": 7,
+  "ligandos_en_parejas_aptas": [
+   "1e3g",
+   "1xow",
+   "3b5r",
+   "3b65",
+   "3b66",
+   "3b67",
+   "3b68"
+  ],
+  "n_ligandos_conectados": 7,
+  "ejemplo": "1e3g"
+ },
+ {
+  "grupo": 67,
+  "n_miembros": 9,
+  "n_parejas_aptas": 6,
+  "ligandos_en_parejas_aptas": [
+   "2xb8",
+   "3n76",
+   "3n7a",
+   "3n86",
+   "4b6o",
+   "4b6p",
+   "4ciw"
+  ],
+  "n_ligandos_conectados": 7,
+  "ejemplo": "2xb8"
+ },
+ {
+  "grupo": 81,
+  "n_miembros": 8,
+  "n_parejas_aptas": 6,
+  "ligandos_en_parejas_aptas": [
+   "3hvi",
+   "3hvj",
+   "3oe4",
+   "3oe5",
+   "3ozr",
+   "3ozs",
+   "3ozt"
+  ],
+  "n_ligandos_conectados": 7,
+  "ejemplo": "3hvi"
+ },
+ {
+  "grupo": 32,
+  "n_miembros": 14,
+  "n_parejas_aptas": 5,
+  "ligandos_en_parejas_aptas": [
+   "1xgi",
+   "2pu2",
+   "2r9w",
+   "2r9x",
+   "3gqz",
+   "3gvb",
+   "4kz3"
+  ],
+  "n_ligandos_conectados": 7,
+  "ejemplo": "1xgi"
+ },
+ {
+  "grupo": 50,
+  "n_miembros": 10,
+  "n_parejas_aptas": 5,
+  "ligandos_en_parejas_aptas": [
+   "2nmx",
+   "2nn1",
+   "2nn7",
+   "6evr",
+   "6ex1",
+   "6faf",
+   "6fag"
+  ],
+  "n_ligandos_conectados": 7,
+  "ejemplo": "1azm"
+ },
+ {
+  "grupo": 61,
+  "n_miembros": 9,
+  "n_parejas_aptas": 5,
+  "ligandos_en_parejas_aptas": [
+   "1fzj",
+   "1fzk",
+   "1fzm",
+   "1fzo",
+   "3p9l",
+   "3p9m",
+   "4pg9"
+  ],
+  "n_ligandos_conectados": 7,
+  "ejemplo": "1fo0"
+ },
+ {
+  "grupo": 35,
+  "n_miembros": 13,
+  "n_parejas_aptas": 4,
+  "ligandos_en_parejas_aptas": [
+   "2d3u",
+   "2d3z",
+   "3cj2",
+   "3cj4",
+   "3cj5",
+   "4eo6",
+   "4eo8"
+  ],
+  "n_ligandos_conectados": 7,
+  "ejemplo": "1nhu"
+ },
+ {
+  "grupo": 42,
+  "n_miembros": 12,
+  "n_parejas_aptas": 4,
+  "ligandos_en_parejas_aptas": [
+   "2i4j",
+   "2i4z",
+   "2yfe",
+   "3u9q",
+   "4a4v",
+   "4a4w",
+   "6md0"
+  ],
+  "n_ligandos_conectados": 7,
+  "ejemplo": "1fm9"
+ },
+ {
+  "grupo": 33,
+  "n_miembros": 13,
+  "n_parejas_aptas": 15,
+  "ligandos_en_parejas_aptas": [
+   "4bah",
+   "4bak",
+   "4bam",
+   "4ban",
+   "4bao",
+   "4baq"
+  ],
+  "n_ligandos_conectados": 6,
+  "ejemplo": "1d3d"
+ },
+ {
+  "grupo": 68,
+  "n_miembros": 9,
+  "n_parejas_aptas": 15,
+  "ligandos_en_parejas_aptas": [
+   "4k4j",
+   "4m8e",
+   "4m8h",
+   "4poh",
+   "4pp3",
+   "4pp5"
+  ],
+  "n_ligandos_conectados": 6,
+  "ejemplo": "3ozj"
+ },
+ {
+  "grupo": 107,
+  "n_miembros": 6,
+  "n_parejas_aptas": 15,
+  "ligandos_en_parejas_aptas": [
+   "1ols",
+   "1olu",
+   "1olx",
+   "1v11",
+   "1v16",
+   "1v1m"
+  ],
+  "n_ligandos_conectados": 6,
+  "ejemplo": "1ols"
+ },
+ {
+  "grupo": 125,
+  "n_miembros": 6,
+  "n_parejas_aptas": 12,
+  "ligandos_en_parejas_aptas": [
+   "4io2",
+   "4io3",
+   "4io4",
+   "4io5",
+   "4io6",
+   "4io7"
+  ],
+  "n_ligandos_conectados": 6,
+  "ejemplo": "4io2"
+ },
+ {
+  "grupo": 121,
+  "n_miembros": 6,
+  "n_parejas_aptas": 6,
+  "ligandos_en_parejas_aptas": [
+   "3pce",
+   "3pcf",
+   "3pcg",
+   "3pcj",
+   "3pck",
+   "3pcn"
+  ],
+  "n_ligandos_conectados": 6,
+  "ejemplo": "3pce"
+ },
+ {
+  "grupo": 41,
+  "n_miembros": 13,
+  "n_parejas_aptas": 5,
+  "ligandos_en_parejas_aptas": [
+   "6oqb",
+   "6oqc",
+   "6ud2",
+   "6udi",
+   "6udt",
+   "6udv"
+  ],
+  "n_ligandos_conectados": 6,
+  "ejemplo": "4hw3"
+ },
+ {
+  "grupo": 95,
+  "n_miembros": 7,
+  "n_parejas_aptas": 5,
+  "ligandos_en_parejas_aptas": [
+   "4iue",
+   "4j21",
+   "4j22",
+   "4j3l",
+   "4kzq",
+   "4kzu"
+  ],
+  "n_ligandos_conectados": 6,
+  "ejemplo": "3kr8"
+ },
+ {
+  "grupo": 71,
+  "n_miembros": 9,
+  "n_parejas_aptas": 4,
+  "ligandos_en_parejas_aptas": [
+   "4ibc",
+   "4ibd",
+   "4ibe",
+   "4ibg",
+   "4ibi",
+   "4ibj"
+  ],
+  "n_ligandos_conectados": 6,
+  "ejemplo": "4ibb"
+ },
+ {
+  "grupo": 29,
+  "n_miembros": 15,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1q8u",
+   "1q8w",
+   "1yds",
+   "1ydt",
+   "3ag9",
+   "3agl"
+  ],
+  "n_ligandos_conectados": 6,
+  "ejemplo": "1q8t"
+ },
+ {
+  "grupo": 122,
+  "n_miembros": 6,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "3sur",
+   "3sus",
+   "3sut",
+   "3suu",
+   "3suv",
+   "3suw"
+  ],
+  "n_ligandos_conectados": 6,
+  "ejemplo": "3sur"
+ },
+ {
+  "grupo": 83,
+  "n_miembros": 7,
+  "n_parejas_aptas": 10,
+  "ligandos_en_parejas_aptas": [
+   "184l",
+   "186l",
+   "187l",
+   "188l",
+   "1l83"
+  ],
+  "n_ligandos_conectados": 5,
+  "ejemplo": "184l"
+ },
+ {
+  "grupo": 93,
+  "n_miembros": 7,
+  "n_parejas_aptas": 10,
+  "ligandos_en_parejas_aptas": [
+   "3l4u",
+   "3l4v",
+   "3l4x",
+   "3l4y",
+   "3l4z"
+  ],
+  "n_ligandos_conectados": 5,
+  "ejemplo": "3ctt"
+ },
+ {
+  "grupo": 100,
+  "n_miembros": 6,
+  "n_parejas_aptas": 10,
+  "ligandos_en_parejas_aptas": [
+   "1ai4",
+   "1ai5",
+   "1ai7",
+   "1ajn",
+   "1ajp"
+  ],
+  "n_ligandos_conectados": 5,
+  "ejemplo": "1ai4"
+ },
+ {
+  "grupo": 139,
+  "n_miembros": 5,
+  "n_parejas_aptas": 10,
+  "ligandos_en_parejas_aptas": [
+   "1iih",
+   "1kv5",
+   "1trd",
+   "2j27",
+   "2v2c"
+  ],
+  "n_ligandos_conectados": 5,
+  "ejemplo": "1iih"
+ },
+ {
+  "grupo": 105,
+  "n_miembros": 6,
+  "n_parejas_aptas": 9,
+  "ligandos_en_parejas_aptas": [
+   "3ov1",
+   "3ove",
+   "3s8l",
+   "3s8n",
+   "3s8o"
+  ],
+  "n_ligandos_conectados": 5,
+  "ejemplo": "1jyq"
+ },
+ {
+  "grupo": 115,
+  "n_miembros": 6,
+  "n_parejas_aptas": 7,
+  "ligandos_en_parejas_aptas": [
+   "2vjx",
+   "2vl4",
+   "2vmf",
+   "2vot",
+   "2vqt"
+  ],
+  "n_ligandos_conectados": 5,
+  "ejemplo": "2vjx"
+ },
+ {
+  "grupo": 151,
+  "n_miembros": 5,
+  "n_parejas_aptas": 7,
+  "ligandos_en_parejas_aptas": [
+   "3c88",
+   "3c89",
+   "3c8a",
+   "3c8b",
+   "3qw5"
+  ],
+  "n_ligandos_conectados": 5,
+  "ejemplo": "3c88"
+ },
+ {
+  "grupo": 12,
+  "n_miembros": 28,
+  "n_parejas_aptas": 4,
+  "ligandos_en_parejas_aptas": [
+   "1kv1",
+   "2baj",
+   "3o8p",
+   "4f9w",
+   "4f9y"
+  ],
+  "n_ligandos_conectados": 5,
+  "ejemplo": "1kv1"
+ },
+ {
+  "grupo": 74,
+  "n_miembros": 8,
+  "n_parejas_aptas": 4,
+  "ligandos_en_parejas_aptas": [
+   "1ft7",
+   "3b3c",
+   "3b3s",
+   "3b3w",
+   "3b7i"
+  ],
+  "n_ligandos_conectados": 5,
+  "ejemplo": "1ft7"
+ },
+ {
+  "grupo": 138,
+  "n_miembros": 5,
+  "n_parejas_aptas": 4,
+  "ligandos_en_parejas_aptas": [
+   "1fh7",
+   "1fh8",
+   "1fh9",
+   "1fhd",
+   "1j01"
+  ],
+  "n_ligandos_conectados": 5,
+  "ejemplo": "1fh7"
+ },
+ {
+  "grupo": 158,
+  "n_miembros": 5,
+  "n_parejas_aptas": 4,
+  "ligandos_en_parejas_aptas": [
+   "3sxf",
+   "3t3u",
+   "3v51",
+   "3v5p",
+   "3v5t"
+  ],
+  "n_ligandos_conectados": 5,
+  "ejemplo": "3sxf"
+ },
+ {
+  "grupo": 159,
+  "n_miembros": 5,
+  "n_parejas_aptas": 4,
+  "ligandos_en_parejas_aptas": [
+   "3tz0",
+   "4dzy",
+   "4h7q",
+   "4h81",
+   "4h85"
+  ],
+  "n_ligandos_conectados": 5,
+  "ejemplo": "3tz0"
+ },
+ {
+  "grupo": 82,
+  "n_miembros": 8,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "4kp5",
+   "4kp8",
+   "4qj0",
+   "4qjw",
+   "5msb"
+  ],
+  "n_ligandos_conectados": 5,
+  "ejemplo": "4ht2"
+ },
+ {
+  "grupo": 165,
+  "n_miembros": 5,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "4j44",
+   "4j45",
+   "4j46",
+   "4j47",
+   "4j48"
+  ],
+  "n_ligandos_conectados": 5,
+  "ejemplo": "4j44"
+ },
+ {
+  "grupo": 126,
+  "n_miembros": 6,
+  "n_parejas_aptas": 6,
+  "ligandos_en_parejas_aptas": [
+   "4o0a",
+   "4r4c",
+   "4r4o",
+   "4r4t"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "4luz"
+ },
+ {
+  "grupo": 134,
+  "n_miembros": 6,
+  "n_parejas_aptas": 6,
+  "ligandos_en_parejas_aptas": [
+   "6i11",
+   "6i12",
+   "6i13",
+   "6i14"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "6i0z"
+ },
+ {
+  "grupo": 145,
+  "n_miembros": 5,
+  "n_parejas_aptas": 6,
+  "ligandos_en_parejas_aptas": [
+   "2boj",
+   "2jdm",
+   "2jdp",
+   "2jdu"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "2boj"
+ },
+ {
+  "grupo": 161,
+  "n_miembros": 5,
+  "n_parejas_aptas": 6,
+  "ligandos_en_parejas_aptas": [
+   "4dkp",
+   "4dkq",
+   "4dkr",
+   "4i54"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "4dko"
+ },
+ {
+  "grupo": 164,
+  "n_miembros": 5,
+  "n_parejas_aptas": 6,
+  "ligandos_en_parejas_aptas": [
+   "4i7j",
+   "4i7k",
+   "4i7l",
+   "4i7m"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "4i7j"
+ },
+ {
+  "grupo": 203,
+  "n_miembros": 4,
+  "n_parejas_aptas": 6,
+  "ligandos_en_parejas_aptas": [
+   "4gih",
+   "4gii",
+   "4gj2",
+   "4gj3"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "4gih"
+ },
+ {
+  "grupo": 206,
+  "n_miembros": 4,
+  "n_parejas_aptas": 6,
+  "ligandos_en_parejas_aptas": [
+   "4iic",
+   "4iid",
+   "4iie",
+   "4iif"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "4iic"
+ },
+ {
+  "grupo": 208,
+  "n_miembros": 4,
+  "n_parejas_aptas": 6,
+  "ligandos_en_parejas_aptas": [
+   "4m0y",
+   "4m12",
+   "4m13",
+   "4m14"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "4m0y"
+ },
+ {
+  "grupo": 96,
+  "n_miembros": 7,
+  "n_parejas_aptas": 5,
+  "ligandos_en_parejas_aptas": [
+   "3uil",
+   "3umq",
+   "3usx",
+   "4fnn"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "3ng4"
+ },
+ {
+  "grupo": 192,
+  "n_miembros": 4,
+  "n_parejas_aptas": 5,
+  "ligandos_en_parejas_aptas": [
+   "3c52",
+   "3c56",
+   "3n9r",
+   "3n9s"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "3c52"
+ },
+ {
+  "grupo": 207,
+  "n_miembros": 4,
+  "n_parejas_aptas": 5,
+  "ligandos_en_parejas_aptas": [
+   "4k7i",
+   "4k7n",
+   "4k7o",
+   "4mmm"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "4k7i"
+ },
+ {
+  "grupo": 153,
+  "n_miembros": 5,
+  "n_parejas_aptas": 4,
+  "ligandos_en_parejas_aptas": [
+   "3f3c",
+   "3f3d",
+   "3f3e",
+   "3f48"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "3f3c"
+ },
+ {
+  "grupo": 170,
+  "n_miembros": 4,
+  "n_parejas_aptas": 4,
+  "ligandos_en_parejas_aptas": [
+   "1cbx",
+   "1cps",
+   "1hee",
+   "1iy7"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "1cbx"
+ },
+ {
+  "grupo": 183,
+  "n_miembros": 4,
+  "n_parejas_aptas": 4,
+  "ligandos_en_parejas_aptas": [
+   "1uwt",
+   "1uwu",
+   "2ceq",
+   "2cer"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "1uwt"
+ },
+ {
+  "grupo": 211,
+  "n_miembros": 4,
+  "n_parejas_aptas": 4,
+  "ligandos_en_parejas_aptas": [
+   "4qfl",
+   "4qfn",
+   "4qfo",
+   "4qfp"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "4qfl"
+ },
+ {
+  "grupo": 94,
+  "n_miembros": 7,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "3f80",
+   "3kv2",
+   "3lp4",
+   "3lp7"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "3f80"
+ },
+ {
+  "grupo": 129,
+  "n_miembros": 6,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "6u5y",
+   "6u6w",
+   "6u8b",
+   "6u8o"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "4ql1"
+ },
+ {
+  "grupo": 36,
+  "n_miembros": 13,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "2tmn",
+   "4tln",
+   "4tmn",
+   "5tmn"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "1os0"
+ },
+ {
+  "grupo": 46,
+  "n_miembros": 11,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "1bgq",
+   "2vwc",
+   "2wer",
+   "2yge"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "1amw"
+ },
+ {
+  "grupo": 51,
+  "n_miembros": 10,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "1j37",
+   "2x8z",
+   "4ca7",
+   "4ca8"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "1j36"
+ },
+ {
+  "grupo": 52,
+  "n_miembros": 10,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "1nvq",
+   "1nvr",
+   "2br1",
+   "2brb"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "1nvq"
+ },
+ {
+  "grupo": 75,
+  "n_miembros": 8,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "1k6c",
+   "1k6p",
+   "1k6t",
+   "1k6v"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "1k6c"
+ },
+ {
+  "grupo": 77,
+  "n_miembros": 8,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "2ha2",
+   "2ha6",
+   "4ara",
+   "4arb"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "1n5r"
+ },
+ {
+  "grupo": 80,
+  "n_miembros": 8,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "3ccw",
+   "3ccz",
+   "3cd7",
+   "3cda"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "3cct"
+ },
+ {
+  "grupo": 90,
+  "n_miembros": 7,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "2oi0",
+   "3b92",
+   "3l0v",
+   "3le9"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "2oi0"
+ },
+ {
+  "grupo": 102,
+  "n_miembros": 6,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "1elb",
+   "1elc",
+   "1eld",
+   "1ele"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "1bma"
+ },
+ {
+  "grupo": 119,
+  "n_miembros": 6,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "4hu1",
+   "4knm",
+   "4knn",
+   "4qjx"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "3czv"
+ },
+ {
+  "grupo": 128,
+  "n_miembros": 6,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "4n6g",
+   "4n7m",
+   "4nbk",
+   "4nbl"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "4n5d"
+ },
+ {
+  "grupo": 136,
+  "n_miembros": 5,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "1d09",
+   "2fzg",
+   "2fzk",
+   "2h3e"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "1d09"
+ },
+ {
+  "grupo": 142,
+  "n_miembros": 5,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "1tjp",
+   "2clh",
+   "2cli",
+   "2clk"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "1tjp"
+ },
+ {
+  "grupo": 148,
+  "n_miembros": 5,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "2rk8",
+   "2rka",
+   "2rkd",
+   "3mof"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "2rk8"
+ },
+ {
+  "grupo": 156,
+  "n_miembros": 5,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "3nsn",
+   "3ozp",
+   "3s6t",
+   "3vtr"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "3nsn"
+ },
+ {
+  "grupo": 175,
+  "n_miembros": 4,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "1j14",
+   "1j16",
+   "1j17",
+   "1ql9"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "1j14"
+ },
+ {
+  "grupo": 185,
+  "n_miembros": 4,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "2rkf",
+   "2rkg",
+   "4m8x",
+   "4m8y"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "2rkf"
+ },
+ {
+  "grupo": 186,
+  "n_miembros": 4,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "2w08",
+   "3kqr",
+   "4avs",
+   "4ayu"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "2w08"
+ },
+ {
+  "grupo": 187,
+  "n_miembros": 4,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "2xd9",
+   "2xda",
+   "4b6r",
+   "4b6s"
+  ],
+  "n_ligandos_conectados": 4,
+  "ejemplo": "2xd9"
+ },
+ {
+  "grupo": 66,
+  "n_miembros": 9,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1ndw",
+   "1ndy",
+   "2e1w"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1ndv"
+ },
+ {
+  "grupo": 76,
+  "n_miembros": 8,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "3sww",
+   "4jh0",
+   "4lko"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1n1m"
+ },
+ {
+  "grupo": 103,
+  "n_miembros": 6,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1df8",
+   "1swr",
+   "2izl"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1df8"
+ },
+ {
+  "grupo": 108,
+  "n_miembros": 6,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1owe",
+   "1owh",
+   "1sqa"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1owe"
+ },
+ {
+  "grupo": 146,
+  "n_miembros": 5,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "2j62",
+   "2wb5",
+   "2xpk"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "2cbj"
+ },
+ {
+  "grupo": 147,
+  "n_miembros": 5,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "2e2r",
+   "2p7g",
+   "6i63"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "2e2r"
+ },
+ {
+  "grupo": 152,
+  "n_miembros": 5,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "3djo",
+   "3djp",
+   "3djv"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "3djo"
+ },
+ {
+  "grupo": 154,
+  "n_miembros": 5,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "3f5j",
+   "4qlk",
+   "4qll"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "3f5j"
+ },
+ {
+  "grupo": 157,
+  "n_miembros": 5,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "3s9e",
+   "3u93",
+   "4nwc"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "3s9e"
+ },
+ {
+  "grupo": 172,
+  "n_miembros": 4,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1fcx",
+   "1fcy",
+   "1fd0"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1fcx"
+ },
+ {
+  "grupo": 174,
+  "n_miembros": 4,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1hmr",
+   "1hmt",
+   "3wvm"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1hmr"
+ },
+ {
+  "grupo": 176,
+  "n_miembros": 4,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1laf",
+   "1lah",
+   "1lst"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1laf"
+ },
+ {
+  "grupo": 177,
+  "n_miembros": 4,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1lgw",
+   "1li2",
+   "1li3"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1lgw"
+ },
+ {
+  "grupo": 178,
+  "n_miembros": 4,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1m0o",
+   "1m0q",
+   "1zc9"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1m0n"
+ },
+ {
+  "grupo": 182,
+  "n_miembros": 4,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1rp7",
+   "2qta",
+   "3lq2"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1rp7"
+ },
+ {
+  "grupo": 188,
+  "n_miembros": 4,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "3t60",
+   "3t64",
+   "3t70"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "2y8c"
+ },
+ {
+  "grupo": 194,
+  "n_miembros": 4,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "3f33",
+   "3f34",
+   "3f37"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "3f33"
+ },
+ {
+  "grupo": 199,
+  "n_miembros": 4,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "4d8z",
+   "4daf",
+   "4db7"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "4d8z"
+ },
+ {
+  "grupo": 212,
+  "n_miembros": 4,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "4ygf",
+   "4yha",
+   "5tuo"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "4ygf"
+ },
+ {
+  "grupo": 222,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1dhi",
+   "1dhj",
+   "2drc"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1dhi"
+ },
+ {
+  "grupo": 223,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1drj",
+   "1drk",
+   "2dri"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1drj"
+ },
+ {
+  "grupo": 225,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1egh",
+   "1ik4",
+   "1s89"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1egh"
+ },
+ {
+  "grupo": 227,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1hi3",
+   "1hi4",
+   "1hi5"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1hi3"
+ },
+ {
+  "grupo": 236,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1oe8",
+   "2c80",
+   "2ca8"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1oe8"
+ },
+ {
+  "grupo": 237,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1qy1",
+   "1qy2",
+   "2nnd"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1qy1"
+ },
+ {
+  "grupo": 240,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "1utj",
+   "1utl",
+   "1utm"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1utj"
+ },
+ {
+  "grupo": 243,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "2a5b",
+   "2a5c",
+   "2a8g"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "2a5b"
+ },
+ {
+  "grupo": 250,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "2fqw",
+   "2fqx",
+   "2fqy"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "2fqw"
+ },
+ {
+  "grupo": 258,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "2pym",
+   "2pyn",
+   "2q64"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "2pym"
+ },
+ {
+  "grupo": 267,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "3a1c",
+   "3a1d",
+   "3a1e"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "3a1c"
+ },
+ {
+  "grupo": 286,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "3uj9",
+   "3ujc",
+   "3ujd"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "3uj9"
+ },
+ {
+  "grupo": 287,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "3v2n",
+   "3v2p",
+   "3v2q"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "3v2n"
+ },
+ {
+  "grupo": 292,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "4b5s",
+   "4b5t",
+   "4b5w"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "4b5s"
+ },
+ {
+  "grupo": 294,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "4bt3",
+   "4bt4",
+   "4bt5"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "4bt3"
+ },
+ {
+  "grupo": 296,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "4elf",
+   "4elg",
+   "4elh"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "4elf"
+ },
+ {
+  "grupo": 301,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "4hwo",
+   "4hwp",
+   "4hws"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "4hwo"
+ },
+ {
+  "grupo": 320,
+  "n_miembros": 3,
+  "n_parejas_aptas": 3,
+  "ligandos_en_parejas_aptas": [
+   "5lz4",
+   "5lz5",
+   "5lz7"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "5lz4"
+ },
+ {
+  "grupo": 91,
+  "n_miembros": 7,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "3uo4",
+   "3uod",
+   "3up2"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "2wtv"
+ },
+ {
+  "grupo": 116,
+  "n_miembros": 6,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "3zyf",
+   "4lk7",
+   "5d21"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "2wyf"
+ },
+ {
+  "grupo": 127,
+  "n_miembros": 6,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "4ovg",
+   "4ovh",
+   "4pnu"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "4mjp"
+ },
+ {
+  "grupo": 215,
+  "n_miembros": 4,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "6d5e",
+   "6d5g",
+   "6d5j"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "6d55"
+ },
+ {
+  "grupo": 221,
+  "n_miembros": 3,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "1bhf",
+   "1lkk",
+   "1lkl"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "1bhf"
+ },
+ {
+  "grupo": 293,
+  "n_miembros": 3,
+  "n_parejas_aptas": 2,
+  "ligandos_en_parejas_aptas": [
+   "4b73",
+   "4b74",
+   "4b76"
+  ],
+  "n_ligandos_conectados": 3,
+  "ejemplo": "4b73"
+ },
+ {
+  "grupo": 38,
+  "n_miembros": 13,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2wn9",
+   "2wnj"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2byr"
+ },
+ {
+  "grupo": 39,
+  "n_miembros": 13,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3zbx",
+   "4ap7"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2wgj"
+ },
+ {
+  "grupo": 43,
+  "n_miembros": 12,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1sv3",
+   "4qem"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1fv0"
+ },
+ {
+  "grupo": 47,
+  "n_miembros": 11,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3jy0",
+   "3jya"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1xws"
+ },
+ {
+  "grupo": 48,
+  "n_miembros": 11,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2zcr",
+   "2zcs"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2zcq"
+ },
+ {
+  "grupo": 59,
+  "n_miembros": 9,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1bxq",
+   "1ppl"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1apv"
+ },
+ {
+  "grupo": 69,
+  "n_miembros": 9,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "5eqe",
+   "5eqp"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3zm9"
+ },
+ {
+  "grupo": 70,
+  "n_miembros": 9,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4b32",
+   "4b33"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4b2i"
+ },
+ {
+  "grupo": 73,
+  "n_miembros": 8,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1fkg",
+   "1fkh"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1d7i"
+ },
+ {
+  "grupo": 79,
+  "n_miembros": 8,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4c52",
+   "4c5d"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2yxj"
+ },
+ {
+  "grupo": 88,
+  "n_miembros": 7,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4jyt",
+   "4jz1"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2gv6"
+ },
+ {
+  "grupo": 92,
+  "n_miembros": 7,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2wvt",
+   "2xib"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2wvt"
+ },
+ {
+  "grupo": 101,
+  "n_miembros": 6,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1d4l",
+   "1z1h"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1b6k"
+ },
+ {
+  "grupo": 104,
+  "n_miembros": 6,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1gpk",
+   "1gpn"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1e66"
+ },
+ {
+  "grupo": 109,
+  "n_miembros": 6,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1y1z",
+   "1y20"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1pb8"
+ },
+ {
+  "grupo": 120,
+  "n_miembros": 6,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3ebh",
+   "3q44"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3ebh"
+ },
+ {
+  "grupo": 123,
+  "n_miembros": 6,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4cr5",
+   "4cr9"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4cr5"
+ },
+ {
+  "grupo": 124,
+  "n_miembros": 6,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4erf",
+   "4hbm"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4erf"
+ },
+ {
+  "grupo": 130,
+  "n_miembros": 6,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "5mwh",
+   "5ov8"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4uye"
+ },
+ {
+  "grupo": 131,
+  "n_miembros": 6,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "5eu1",
+   "5f1h"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "5eu1"
+ },
+ {
+  "grupo": 133,
+  "n_miembros": 6,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "5vcy",
+   "5vcz"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "5vcv"
+ },
+ {
+  "grupo": 140,
+  "n_miembros": 5,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1zs0",
+   "1zvx"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1jao"
+ },
+ {
+  "grupo": 149,
+  "n_miembros": 5,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2xyd",
+   "4ca6"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2xyd"
+ },
+ {
+  "grupo": 150,
+  "n_miembros": 5,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2zwz",
+   "2zxd"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2zwz"
+ },
+ {
+  "grupo": 155,
+  "n_miembros": 5,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "6h36",
+   "6h37"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3mdz"
+ },
+ {
+  "grupo": 163,
+  "n_miembros": 5,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4og3",
+   "4og4"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4gq4"
+ },
+ {
+  "grupo": 167,
+  "n_miembros": 5,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "5a5q",
+   "5a81"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4qsu"
+ },
+ {
+  "grupo": 171,
+  "n_miembros": 4,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1f4f",
+   "1f4g"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1f4e"
+ },
+ {
+  "grupo": 179,
+  "n_miembros": 4,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2b1g",
+   "2b1i"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1oz0"
+ },
+ {
+  "grupo": 181,
+  "n_miembros": 4,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2pog",
+   "2qe4"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1qkt"
+ },
+ {
+  "grupo": 191,
+  "n_miembros": 4,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3bxf",
+   "3bxh"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3bxe"
+ },
+ {
+  "grupo": 196,
+  "n_miembros": 4,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4fp1",
+   "4m6u"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3uxk"
+ },
+ {
+  "grupo": 210,
+  "n_miembros": 4,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4mre",
+   "4mrg"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4mre"
+ },
+ {
+  "grupo": 224,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "6i8m",
+   "6i8t"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1efy"
+ },
+ {
+  "grupo": 233,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4ew2",
+   "4ew3"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1njs"
+ },
+ {
+  "grupo": 235,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1od8",
+   "1v0l"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1od8"
+ },
+ {
+  "grupo": 238,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2o4j",
+   "2o4r"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1rjk"
+ },
+ {
+  "grupo": 239,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3oaf",
+   "4g95"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1u71"
+ },
+ {
+  "grupo": 242,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1x8r",
+   "1x8t"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1x8r"
+ },
+ {
+  "grupo": 247,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2cc7",
+   "2ccb"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2cc7"
+ },
+ {
+  "grupo": 252,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2gz2",
+   "4r3w"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2gz2"
+ },
+ {
+  "grupo": 253,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "5y12",
+   "5y13"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2hnx"
+ },
+ {
+  "grupo": 255,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2jke",
+   "2jkp"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2jke"
+ },
+ {
+  "grupo": 261,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2v58",
+   "2v59"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2v58"
+ },
+ {
+  "grupo": 263,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2wly",
+   "2wlz"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2wly"
+ },
+ {
+  "grupo": 264,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2xxr",
+   "2xxx"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2xxr"
+ },
+ {
+  "grupo": 265,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2ya6",
+   "2ya7"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2ya6"
+ },
+ {
+  "grupo": 266,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2yaz",
+   "2yb0"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2yay"
+ },
+ {
+  "grupo": 268,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3juo",
+   "3jup"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3b4p"
+ },
+ {
+  "grupo": 270,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3cz1",
+   "3d78"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3cyz"
+ },
+ {
+  "grupo": 272,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3ekp",
+   "3ekt"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3ekp"
+ },
+ {
+  "grupo": 274,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4fl1",
+   "4fl2"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3fqe"
+ },
+ {
+  "grupo": 276,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3hzk",
+   "3hzv"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3hzk"
+ },
+ {
+  "grupo": 277,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3ip5",
+   "3ip9"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3ip5"
+ },
+ {
+  "grupo": 282,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3ppp",
+   "3ppq"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3ppp"
+ },
+ {
+  "grupo": 284,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3qox",
+   "3sr4"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3qox"
+ },
+ {
+  "grupo": 289,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4arw",
+   "4asj"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3zll"
+ },
+ {
+  "grupo": 290,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4az6",
+   "4azb"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4az5"
+ },
+ {
+  "grupo": 291,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4azg",
+   "4azi"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4azc"
+ },
+ {
+  "grupo": 297,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "6d1d",
+   "6d1g"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4exs"
+ },
+ {
+  "grupo": 299,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4few",
+   "4gkh"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4few"
+ },
+ {
+  "grupo": 300,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "5tbm",
+   "5ufp"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4ghi"
+ },
+ {
+  "grupo": 306,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4kn0",
+   "4kn1"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4kmz"
+ },
+ {
+  "grupo": 307,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4l4z",
+   "4l50"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4l4z"
+ },
+ {
+  "grupo": 308,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4qev",
+   "4qew"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4mr6"
+ },
+ {
+  "grupo": 310,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4pow",
+   "4pp0"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4pow"
+ },
+ {
+  "grupo": 312,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4r74",
+   "4r75"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4r73"
+ },
+ {
+  "grupo": 315,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "6fe0",
+   "6fe1"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "5fl5"
+ },
+ {
+  "grupo": 319,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "5kh3",
+   "6ce6"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "5kh3"
+ },
+ {
+  "grupo": 321,
+  "n_miembros": 3,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "5mkr",
+   "5mks"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "5mkr"
+ },
+ {
+  "grupo": 323,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1add",
+   "1fkw"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1add"
+ },
+ {
+  "grupo": 325,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1amk",
+   "2vxn"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1amk"
+ },
+ {
+  "grupo": 326,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1ctt",
+   "1ctu"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1ctt"
+ },
+ {
+  "grupo": 327,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1e2k",
+   "1e2l"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1e2k"
+ },
+ {
+  "grupo": 328,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1e3v",
+   "1ogx"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1e3v"
+ },
+ {
+  "grupo": 331,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1eoc",
+   "2buv"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1eoc"
+ },
+ {
+  "grupo": 332,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1ew8",
+   "1ew9"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1ew8"
+ },
+ {
+  "grupo": 334,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1f73",
+   "1f74"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1f73"
+ },
+ {
+  "grupo": 338,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1g98",
+   "1koj"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1g98"
+ },
+ {
+  "grupo": 340,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1gyx",
+   "1gyy"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1gyx"
+ },
+ {
+  "grupo": 343,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1hyo",
+   "2hzy"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1hyo"
+ },
+ {
+  "grupo": 344,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1i2s",
+   "3b3x"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1i2s"
+ },
+ {
+  "grupo": 350,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1kdk",
+   "1lhu"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1kdk"
+ },
+ {
+  "grupo": 351,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1kmy",
+   "1lgt"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1kmy"
+ },
+ {
+  "grupo": 353,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1lee",
+   "1lf2"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1lee"
+ },
+ {
+  "grupo": 354,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1lke",
+   "1lnm"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1lke"
+ },
+ {
+  "grupo": 355,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1mmq",
+   "1mmr"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1mmq"
+ },
+ {
+  "grupo": 356,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1mrx",
+   "1msn"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1mrx"
+ },
+ {
+  "grupo": 358,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1nw5",
+   "1nw7"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1nw5"
+ },
+ {
+  "grupo": 362,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1odi",
+   "1odj"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1odi"
+ },
+ {
+  "grupo": 365,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1q54",
+   "2vnp"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1q54"
+ },
+ {
+  "grupo": 366,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1q72",
+   "1qyg"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1q72"
+ },
+ {
+  "grupo": 367,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1qk3",
+   "1qk4"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1qk3"
+ },
+ {
+  "grupo": 373,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1sw2",
+   "3mam"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1sw2"
+ },
+ {
+  "grupo": 383,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1yei",
+   "1yej"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1yei"
+ },
+ {
+  "grupo": 385,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "1z4o",
+   "2wf5"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "1z4o"
+ },
+ {
+  "grupo": 386,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2bes",
+   "2bet"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2bes"
+ },
+ {
+  "grupo": 387,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2bfq",
+   "2bfr"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2bfq"
+ },
+ {
+  "grupo": 388,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2bt9",
+   "4csd"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2bt9"
+ },
+ {
+  "grupo": 390,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2e7f",
+   "2ogy"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2e7f"
+ },
+ {
+  "grupo": 392,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2fqo",
+   "2fqt"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2fqo"
+ },
+ {
+  "grupo": 394,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2gst",
+   "3gst"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2gst"
+ },
+ {
+  "grupo": 396,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2h6b",
+   "3e5u"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2h6b"
+ },
+ {
+  "grupo": 397,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2hjb",
+   "2q7q"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2hjb"
+ },
+ {
+  "grupo": 399,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2hmu",
+   "2hmv"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2hmu"
+ },
+ {
+  "grupo": 402,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2i4v",
+   "2i4x"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2i4v"
+ },
+ {
+  "grupo": 405,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2nsj",
+   "2nsl"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2nsj"
+ },
+ {
+  "grupo": 407,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2ptz",
+   "2pu1"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2ptz"
+ },
+ {
+  "grupo": 408,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2pvu",
+   "2q2a"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2pvu"
+ },
+ {
+  "grupo": 409,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2pwd",
+   "2pwg"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2pwd"
+ },
+ {
+  "grupo": 410,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2q88",
+   "2q89"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2q88"
+ },
+ {
+  "grupo": 413,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2r58",
+   "2r5a"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2r58"
+ },
+ {
+  "grupo": 414,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2reg",
+   "2rin"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2reg"
+ },
+ {
+  "grupo": 420,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2vmc",
+   "2vmd"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2vmc"
+ },
+ {
+  "grupo": 421,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2vpn",
+   "2vpo"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2vpn"
+ },
+ {
+  "grupo": 423,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2w8j",
+   "2w8w"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2w8j"
+ },
+ {
+  "grupo": 424,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2wor",
+   "2wos"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2wor"
+ },
+ {
+  "grupo": 425,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "2wvz",
+   "2wzs"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "2wvz"
+ },
+ {
+  "grupo": 433,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3ao4",
+   "3ao5"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3ao4"
+ },
+ {
+  "grupo": 438,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3ebo",
+   "3ebp"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3ebo"
+ },
+ {
+  "grupo": 439,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3eeb",
+   "3fzy"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3eeb"
+ },
+ {
+  "grupo": 444,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3fj7",
+   "3fjg"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3fj7"
+ },
+ {
+  "grupo": 445,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3gkz",
+   "3gm0"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3gkz"
+ },
+ {
+  "grupo": 451,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3hu3",
+   "4ko8"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3hu3"
+ },
+ {
+  "grupo": 452,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3i4y",
+   "3i51"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3i4y"
+ },
+ {
+  "grupo": 453,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3ikd",
+   "3ikg"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3ikd"
+ },
+ {
+  "grupo": 456,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3lzs",
+   "3lzu"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3lzs"
+ },
+ {
+  "grupo": 457,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3m6r",
+   "3pn4"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3m6r"
+ },
+ {
+  "grupo": 460,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3nik",
+   "3nim"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3nik"
+ },
+ {
+  "grupo": 463,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3p3g",
+   "3ps1"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3p3g"
+ },
+ {
+  "grupo": 464,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3p8n",
+   "3p8o"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3p8n"
+ },
+ {
+  "grupo": 466,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3qfy",
+   "3qfz"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3qfy"
+ },
+ {
+  "grupo": 467,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3qps",
+   "3qqa"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3qps"
+ },
+ {
+  "grupo": 469,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3rf4",
+   "3rf5"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3rf4"
+ },
+ {
+  "grupo": 474,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3s43",
+   "3s54"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3s43"
+ },
+ {
+  "grupo": 477,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3ta0",
+   "3ta1"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3ta0"
+ },
+ {
+  "grupo": 478,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3ubd",
+   "4gue"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3ubd"
+ },
+ {
+  "grupo": 479,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3upk",
+   "3v4t"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3upk"
+ },
+ {
+  "grupo": 482,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "3zhx",
+   "3zi0"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "3zhx"
+ },
+ {
+  "grupo": 486,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4ai5",
+   "4aia"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4ai5"
+ },
+ {
+  "grupo": 489,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4b7j",
+   "4b7r"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4b7j"
+ },
+ {
+  "grupo": 491,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4bi6",
+   "4bi7"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4bi6"
+ },
+ {
+  "grupo": 495,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4cu7",
+   "4cu8"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4cu7"
+ },
+ {
+  "grupo": 498,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4do4",
+   "4do5"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4do4"
+ },
+ {
+  "grupo": 501,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4etz",
+   "4eu0"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4etz"
+ },
+ {
+  "grupo": 503,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4gqp",
+   "4lar"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4gqp"
+ },
+ {
+  "grupo": 508,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4ipi",
+   "4ipj"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4ipi"
+ },
+ {
+  "grupo": 511,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4jkw",
+   "4k55"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4jkw"
+ },
+ {
+  "grupo": 512,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4jpx",
+   "4jpy"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4jpx"
+ },
+ {
+  "grupo": 516,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4ks1",
+   "4ks4"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4ks1"
+ },
+ {
+  "grupo": 517,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4kwf",
+   "4kwg"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4kwf"
+ },
+ {
+  "grupo": 520,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4lj5",
+   "4lj8"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4lj5"
+ },
+ {
+  "grupo": 526,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4o61",
+   "4oct"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4o61"
+ },
+ {
+  "grupo": 527,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4omj",
+   "4omk"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4omj"
+ },
+ {
+  "grupo": 529,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4q08",
+   "4q09"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4q08"
+ },
+ {
+  "grupo": 530,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "4q3t",
+   "4q3u"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "4q3t"
+ },
+ {
+  "grupo": 536,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "5mro",
+   "5mrp"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "5mro"
+ },
+ {
+  "grupo": 541,
+  "n_miembros": 2,
+  "n_parejas_aptas": 1,
+  "ligandos_en_parejas_aptas": [
+   "5vc3",
+   "5vc4"
+  ],
+  "n_ligandos_conectados": 2,
+  "ejemplo": "5vc3"
+ }
+]

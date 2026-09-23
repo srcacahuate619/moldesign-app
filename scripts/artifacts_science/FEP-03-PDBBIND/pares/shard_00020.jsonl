@@ -1,0 +1,969 @@
+{"pid_a": "2qm9", "pid_b": "3hk1", "n_a": 31, "n_b": 22, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.136, "perturbacion": 47, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1d09", "pid_b": "2fzc", "n_a": 16, "n_b": 18, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.625, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1d09", "pid_b": "2fzg", "n_a": 16, "n_b": 22, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.5, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1d09", "pid_b": "2fzk", "n_a": 16, "n_b": 25, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.5, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1d09", "pid_b": "2h3e", "n_a": 16, "n_b": 16, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.938, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2fzc", "pid_b": "2fzg", "n_a": 18, "n_b": 22, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.444, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2fzc", "pid_b": "2fzk", "n_a": 18, "n_b": 25, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.444, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2fzc", "pid_b": "2h3e", "n_a": 18, "n_b": 16, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.688, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2fzg", "pid_b": "2fzk", "n_a": 22, "n_b": 25, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2fzg", "pid_b": "2h3e", "n_a": 22, "n_b": 16, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.5, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2fzk", "pid_b": "2h3e", "n_a": 25, "n_b": 16, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.5, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1e5j", "pid_b": "1h5v", "n_a": 46, "n_b": 57, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1e5j", "pid_b": "1ocq", "n_a": 46, "n_b": 21, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1e5j", "pid_b": "1w3k", "n_a": 46, "n_b": 21, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1e5j", "pid_b": "1w3l", "n_a": 46, "n_b": 32, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1h5v", "pid_b": "1ocq", "n_a": 57, "n_b": 21, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1h5v", "pid_b": "1w3k", "n_a": 57, "n_b": 21, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1h5v", "pid_b": "1w3l", "n_a": 57, "n_b": 32, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1ocq", "pid_b": "1w3k", "n_a": 21, "n_b": 21, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.619, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1ocq", "pid_b": "1w3l", "n_a": 21, "n_b": 32, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1w3k", "pid_b": "1w3l", "n_a": 21, "n_b": 32, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1fh7", "pid_b": "1fh8", "n_a": 18, "n_b": 17, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.647, "perturbacion": 13, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1fh7", "pid_b": "1fh9", "n_a": 18, "n_b": 20, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 1.0, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1fh7", "pid_b": "1fhd", "n_a": 18, "n_b": 21, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1fh7", "pid_b": "1j01", "n_a": 18, "n_b": 18, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.611, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1fh8", "pid_b": "1fh9", "n_a": 17, "n_b": 20, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.647, "perturbacion": 15, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1fh8", "pid_b": "1fhd", "n_a": 17, "n_b": 21, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.647, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1fh8", "pid_b": "1j01", "n_a": 17, "n_b": 18, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1fh9", "pid_b": "1fhd", "n_a": 20, "n_b": 21, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 0.9, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1fh9", "pid_b": "1j01", "n_a": 20, "n_b": 18, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.611, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1fhd", "pid_b": "1j01", "n_a": 21, "n_b": 18, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.611, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1iih", "pid_b": "1kv5", "n_a": 11, "n_b": 9, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1iih", "pid_b": "1trd", "n_a": 11, "n_b": 10, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.7, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1iih", "pid_b": "2j27", "n_a": 11, "n_b": 9, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1iih", "pid_b": "2v2c", "n_a": 11, "n_b": 9, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1kv5", "pid_b": "1trd", "n_a": 9, "n_b": 10, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1kv5", "pid_b": "2j27", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1kv5", "pid_b": "2v2c", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1trd", "pid_b": "2j27", "n_a": 10, "n_b": 9, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1trd", "pid_b": "2v2c", "n_a": 10, "n_b": 9, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2j27", "pid_b": "2v2c", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1jao", "pid_b": "1jaq", "n_a": 22, "n_b": 21, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.714, "perturbacion": 13, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1jao", "pid_b": "1zs0", "n_a": 22, "n_b": 26, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.273, "perturbacion": 36, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1jao", "pid_b": "1zvx", "n_a": 22, "n_b": 26, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.273, "perturbacion": 36, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1jao", "pid_b": "3tt4", "n_a": 22, "n_b": 26, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 0.727, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.004}
+{"pid_a": "1jaq", "pid_b": "1zs0", "n_a": 21, "n_b": 26, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.238, "perturbacion": 37, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1jaq", "pid_b": "1zvx", "n_a": 21, "n_b": 26, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.238, "perturbacion": 37, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1jaq", "pid_b": "3tt4", "n_a": 21, "n_b": 26, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.476, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1zs0", "pid_b": "1zvx", "n_a": 26, "n_b": 26, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1zs0", "pid_b": "3tt4", "n_a": 26, "n_b": 26, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.269, "perturbacion": 38, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1zvx", "pid_b": "3tt4", "n_a": 26, "n_b": 26, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.269, "perturbacion": 38, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1tjp", "pid_b": "2cle", "n_a": 18, "n_b": 21, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.389, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1tjp", "pid_b": "2clh", "n_a": 18, "n_b": 21, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.389, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1tjp", "pid_b": "2cli", "n_a": 18, "n_b": 22, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.389, "perturbacion": 26, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1tjp", "pid_b": "2clk", "n_a": 18, "n_b": 10, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.9, "perturbacion": 10, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2cle", "pid_b": "2clh", "n_a": 21, "n_b": 21, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.381, "perturbacion": 26, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2cle", "pid_b": "2cli", "n_a": 21, "n_b": 22, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.524, "perturbacion": 21, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2cle", "pid_b": "2clk", "n_a": 21, "n_b": 10, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2clh", "pid_b": "2cli", "n_a": 21, "n_b": 22, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 0.81, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.008}
+{"pid_a": "2clh", "pid_b": "2clk", "n_a": 21, "n_b": 10, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2cli", "pid_b": "2clk", "n_a": 22, "n_b": 10, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1u33", "pid_b": "1xd0", "n_a": 36, "n_b": 55, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1u33", "pid_b": "3old", "n_a": 36, "n_b": 66, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1u33", "pid_b": "4gqq", "n_a": 36, "n_b": 15, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1u33", "pid_b": "4gqr", "n_a": 36, "n_b": 23, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1xd0", "pid_b": "3old", "n_a": 55, "n_b": 66, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1xd0", "pid_b": "4gqq", "n_a": 55, "n_b": 15, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1xd0", "pid_b": "4gqr", "n_a": 55, "n_b": 23, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3old", "pid_b": "4gqq", "n_a": 66, "n_b": 15, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3old", "pid_b": "4gqr", "n_a": 66, "n_b": 23, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4gqq", "pid_b": "4gqr", "n_a": 15, "n_b": 23, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.533, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1yq7", "pid_b": "2f94", "n_a": 17, "n_b": 19, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.647, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1yq7", "pid_b": "2f9k", "n_a": 17, "n_b": 16, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.688, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1yq7", "pid_b": "4pvx", "n_a": 17, "n_b": 26, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.529, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1yq7", "pid_b": "4pvy", "n_a": 17, "n_b": 26, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.529, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2f94", "pid_b": "2f9k", "n_a": 19, "n_b": 16, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.688, "perturbacion": 13, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2f94", "pid_b": "4pvx", "n_a": 19, "n_b": 26, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.474, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2f94", "pid_b": "4pvy", "n_a": 19, "n_b": 26, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.474, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2f9k", "pid_b": "4pvx", "n_a": 16, "n_b": 26, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.562, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2f9k", "pid_b": "4pvy", "n_a": 16, "n_b": 26, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.562, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4pvx", "pid_b": "4pvy", "n_a": 26, "n_b": 26, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.423, "perturbacion": 30, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.005}
+{"pid_a": "2boj", "pid_b": "2jdm", "n_a": 11, "n_b": 12, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2boj", "pid_b": "2jdp", "n_a": 11, "n_b": 12, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2boj", "pid_b": "2jdu", "n_a": 11, "n_b": 12, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2boj", "pid_b": "3zdv", "n_a": 11, "n_b": 25, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2jdm", "pid_b": "2jdp", "n_a": 12, "n_b": 12, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2jdm", "pid_b": "2jdu", "n_a": 12, "n_b": 12, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2jdm", "pid_b": "3zdv", "n_a": 12, "n_b": 25, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2jdp", "pid_b": "2jdu", "n_a": 12, "n_b": 12, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2jdp", "pid_b": "3zdv", "n_a": 12, "n_b": 25, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2jdu", "pid_b": "3zdv", "n_a": 12, "n_b": 25, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2cbj", "pid_b": "2j62", "n_a": 25, "n_b": 27, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.24, "perturbacion": 40, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.004}
+{"pid_a": "2cbj", "pid_b": "2wb5", "n_a": 25, "n_b": 26, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.24, "perturbacion": 39, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.004}
+{"pid_a": "2cbj", "pid_b": "2x0y", "n_a": 25, "n_b": 18, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.111, "perturbacion": 39, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2cbj", "pid_b": "2xpk", "n_a": 25, "n_b": 27, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.24, "perturbacion": 40, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.004}
+{"pid_a": "2j62", "pid_b": "2wb5", "n_a": 27, "n_b": 26, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2j62", "pid_b": "2x0y", "n_a": 27, "n_b": 18, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.278, "perturbacion": 35, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2j62", "pid_b": "2xpk", "n_a": 27, "n_b": 27, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 0.963, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2wb5", "pid_b": "2x0y", "n_a": 26, "n_b": 18, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.278, "perturbacion": 34, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2wb5", "pid_b": "2xpk", "n_a": 26, "n_b": 27, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2x0y", "pid_b": "2xpk", "n_a": 18, "n_b": 27, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.278, "perturbacion": 35, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2e2r", "pid_b": "2p7a", "n_a": 17, "n_b": 9, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.778, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2e2r", "pid_b": "2p7g", "n_a": 17, "n_b": 17, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2e2r", "pid_b": "2p7z", "n_a": 17, "n_b": 29, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2e2r", "pid_b": "6i63", "n_a": 17, "n_b": 17, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2p7a", "pid_b": "2p7g", "n_a": 9, "n_b": 17, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.778, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2p7a", "pid_b": "2p7z", "n_a": 9, "n_b": 29, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2p7a", "pid_b": "6i63", "n_a": 9, "n_b": 17, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.778, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2p7g", "pid_b": "2p7z", "n_a": 17, "n_b": 29, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2p7g", "pid_b": "6i63", "n_a": 17, "n_b": 17, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2p7z", "pid_b": "6i63", "n_a": 29, "n_b": 17, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2rk8", "pid_b": "2rka", "n_a": 7, "n_b": 9, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.571, "perturbacion": 8, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2rk8", "pid_b": "2rkd", "n_a": 7, "n_b": 9, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.714, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2rk8", "pid_b": "2rke", "n_a": 7, "n_b": 8, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.429, "perturbacion": 9, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2rk8", "pid_b": "3mof", "n_a": 7, "n_b": 6, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.5, "perturbacion": 7, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2rka", "pid_b": "2rkd", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.444, "perturbacion": 10, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2rka", "pid_b": "2rke", "n_a": 9, "n_b": 8, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.5, "perturbacion": 9, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2rka", "pid_b": "3mof", "n_a": 9, "n_b": 6, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.833, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2rkd", "pid_b": "2rke", "n_a": 9, "n_b": 8, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.5, "perturbacion": 9, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2rkd", "pid_b": "3mof", "n_a": 9, "n_b": 6, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.667, "perturbacion": 7, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2rke", "pid_b": "3mof", "n_a": 8, "n_b": 6, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.667, "perturbacion": 6, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2xyd", "pid_b": "3nxq", "n_a": 51, "n_b": 34, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2xyd", "pid_b": "4ca6", "n_a": 51, "n_b": 51, "prefiltrada": false, "mcs": 51, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.004}
+{"pid_a": "2xyd", "pid_b": "6f9v", "n_a": 51, "n_b": 40, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2xyd", "pid_b": "6h5x", "n_a": 51, "n_b": 27, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3nxq", "pid_b": "4ca6", "n_a": 34, "n_b": 51, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3nxq", "pid_b": "6f9v", "n_a": 34, "n_b": 40, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.324, "perturbacion": 52, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "3nxq", "pid_b": "6h5x", "n_a": 34, "n_b": 27, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.296, "perturbacion": 45, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4ca6", "pid_b": "6f9v", "n_a": 51, "n_b": 40, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4ca6", "pid_b": "6h5x", "n_a": 51, "n_b": 27, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "6f9v", "pid_b": "6h5x", "n_a": 40, "n_b": 27, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2zwz", "pid_b": "2zx8", "n_a": 12, "n_b": 23, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2zwz", "pid_b": "2zxd", "n_a": 12, "n_b": 12, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.833, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2zx8", "pid_b": "2zxd", "n_a": 23, "n_b": 12, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3c88", "pid_b": "3c89", "n_a": 33, "n_b": 35, "prefiltrada": false, "mcs": 32, "cobertura_mcs": 0.97, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "3c88", "pid_b": "3c8a", "n_a": 33, "n_b": 35, "prefiltrada": false, "mcs": 32, "cobertura_mcs": 0.97, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3c88", "pid_b": "3c8b", "n_a": 33, "n_b": 35, "prefiltrada": false, "mcs": 32, "cobertura_mcs": 0.97, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3c88", "pid_b": "3qw5", "n_a": 33, "n_b": 38, "prefiltrada": false, "mcs": 31, "cobertura_mcs": 0.939, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3c89", "pid_b": "3c8a", "n_a": 35, "n_b": 35, "prefiltrada": false, "mcs": 33, "cobertura_mcs": 0.943, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "3c89", "pid_b": "3c8b", "n_a": 35, "n_b": 35, "prefiltrada": false, "mcs": 33, "cobertura_mcs": 0.943, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "3c89", "pid_b": "3qw5", "n_a": 35, "n_b": 38, "prefiltrada": false, "mcs": 31, "cobertura_mcs": 0.886, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "3c8a", "pid_b": "3c8b", "n_a": 35, "n_b": 35, "prefiltrada": false, "mcs": 34, "cobertura_mcs": 0.971, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "3c8a", "pid_b": "3qw5", "n_a": 35, "n_b": 38, "prefiltrada": false, "mcs": 31, "cobertura_mcs": 0.886, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.013}
+{"pid_a": "3c8b", "pid_b": "3qw5", "n_a": 35, "n_b": 38, "prefiltrada": false, "mcs": 31, "cobertura_mcs": 0.886, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.013}
+{"pid_a": "3djo", "pid_b": "3djp", "n_a": 21, "n_b": 21, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 0.81, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.015}
+{"pid_a": "3djo", "pid_b": "3djq", "n_a": 21, "n_b": 25, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 0.81, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.016}
+{"pid_a": "3djo", "pid_b": "3djv", "n_a": 21, "n_b": 21, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 0.762, "perturbacion": 10, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.027}
+{"pid_a": "3djp", "pid_b": "3djq", "n_a": 21, "n_b": 25, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 0.81, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.122}
+{"pid_a": "3djp", "pid_b": "3djv", "n_a": 21, "n_b": 21, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 0.952, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.008}
+{"pid_a": "3djq", "pid_b": "3djv", "n_a": 25, "n_b": 21, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 0.762, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "3f3c", "pid_b": "3f3d", "n_a": 13, "n_b": 9, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.667, "perturbacion": 10, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3f3c", "pid_b": "3f3e", "n_a": 13, "n_b": 9, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.667, "perturbacion": 10, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3f3c", "pid_b": "3f48", "n_a": 13, "n_b": 6, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 1.0, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3f3c", "pid_b": "4mme", "n_a": 13, "n_b": 20, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.462, "perturbacion": 21, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3f3d", "pid_b": "3f3e", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.778, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3f3d", "pid_b": "3f48", "n_a": 9, "n_b": 6, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3f3d", "pid_b": "4mme", "n_a": 9, "n_b": 20, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3f3e", "pid_b": "3f48", "n_a": 9, "n_b": 6, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3f3e", "pid_b": "4mme", "n_a": 9, "n_b": 20, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3f48", "pid_b": "4mme", "n_a": 6, "n_b": 20, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3f5j", "pid_b": "3f5k", "n_a": 45, "n_b": 56, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3f5j", "pid_b": "3f5l", "n_a": 45, "n_b": 23, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3f5j", "pid_b": "4qlk", "n_a": 45, "n_b": 45, "prefiltrada": false, "mcs": 45, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.004}
+{"pid_a": "3f5j", "pid_b": "4qll", "n_a": 45, "n_b": 45, "prefiltrada": false, "mcs": 45, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "3f5k", "pid_b": "3f5l", "n_a": 56, "n_b": 23, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3f5k", "pid_b": "4qlk", "n_a": 56, "n_b": 45, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3f5k", "pid_b": "4qll", "n_a": 56, "n_b": 45, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3f5l", "pid_b": "4qlk", "n_a": 23, "n_b": 45, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3f5l", "pid_b": "4qll", "n_a": 23, "n_b": 45, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4qlk", "pid_b": "4qll", "n_a": 45, "n_b": 45, "prefiltrada": false, "mcs": 45, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "3mdz", "pid_b": "3ml5", "n_a": 16, "n_b": 13, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.385, "perturbacion": 19, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3mdz", "pid_b": "6h36", "n_a": 16, "n_b": 24, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.375, "perturbacion": 28, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3mdz", "pid_b": "6h37", "n_a": 16, "n_b": 25, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.375, "perturbacion": 29, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3mdz", "pid_b": "6h38", "n_a": 16, "n_b": 26, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.375, "perturbacion": 30, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3ml5", "pid_b": "6h36", "n_a": 13, "n_b": 24, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3ml5", "pid_b": "6h37", "n_a": 13, "n_b": 25, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3ml5", "pid_b": "6h38", "n_a": 13, "n_b": 26, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "6h36", "pid_b": "6h37", "n_a": 24, "n_b": 25, "prefiltrada": false, "mcs": 24, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "6h36", "pid_b": "6h38", "n_a": 24, "n_b": 26, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.542, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.019}
+{"pid_a": "6h37", "pid_b": "6h38", "n_a": 25, "n_b": 26, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.52, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.014}
+{"pid_a": "3nsn", "pid_b": "3ozp", "n_a": 57, "n_b": 25, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3nsn", "pid_b": "3s6t", "n_a": 57, "n_b": 25, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3nsn", "pid_b": "3vtr", "n_a": 57, "n_b": 57, "prefiltrada": false, "mcs": 57, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "3nsn", "pid_b": "3wmc", "n_a": 57, "n_b": 28, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3ozp", "pid_b": "3s6t", "n_a": 25, "n_b": 25, "prefiltrada": false, "mcs": 25, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3ozp", "pid_b": "3vtr", "n_a": 25, "n_b": 57, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3ozp", "pid_b": "3wmc", "n_a": 25, "n_b": 28, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.32, "perturbacion": 37, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3s6t", "pid_b": "3vtr", "n_a": 25, "n_b": 57, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3s6t", "pid_b": "3wmc", "n_a": 25, "n_b": 28, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.32, "perturbacion": 37, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3vtr", "pid_b": "3wmc", "n_a": 57, "n_b": 28, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3s9e", "pid_b": "3u92", "n_a": 10, "n_b": 15, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.4, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3s9e", "pid_b": "3u93", "n_a": 10, "n_b": 10, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3s9e", "pid_b": "4g8n", "n_a": 10, "n_b": 12, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.5, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3s9e", "pid_b": "4nwc", "n_a": 10, "n_b": 16, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 1.0, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3u92", "pid_b": "3u93", "n_a": 15, "n_b": 10, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.4, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3u92", "pid_b": "4g8n", "n_a": 15, "n_b": 12, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.417, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3u92", "pid_b": "4nwc", "n_a": 15, "n_b": 16, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.267, "perturbacion": 23, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3u93", "pid_b": "4g8n", "n_a": 10, "n_b": 12, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.5, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3u93", "pid_b": "4nwc", "n_a": 10, "n_b": 16, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 1.0, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4g8n", "pid_b": "4nwc", "n_a": 12, "n_b": 16, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.417, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3sxf", "pid_b": "3t3u", "n_a": 26, "n_b": 29, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 0.885, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3sxf", "pid_b": "3v51", "n_a": 26, "n_b": 32, "prefiltrada": false, "mcs": 25, "cobertura_mcs": 0.962, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 1.003}
+{"pid_a": "3sxf", "pid_b": "3v5p", "n_a": 26, "n_b": 26, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 0.654, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 1.11}
+{"pid_a": "3sxf", "pid_b": "3v5t", "n_a": 26, "n_b": 31, "prefiltrada": false, "mcs": 25, "cobertura_mcs": 0.962, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.05}
+{"pid_a": "3t3u", "pid_b": "3v51", "n_a": 29, "n_b": 32, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 0.793, "perturbacion": 15, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.155}
+{"pid_a": "3t3u", "pid_b": "3v5p", "n_a": 29, "n_b": 26, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 0.885, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 4.422}
+{"pid_a": "3t3u", "pid_b": "3v5t", "n_a": 29, "n_b": 31, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 0.793, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.004}
+{"pid_a": "3v51", "pid_b": "3v5p", "n_a": 32, "n_b": 26, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 0.654, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.275}
+{"pid_a": "3v51", "pid_b": "3v5t", "n_a": 32, "n_b": 31, "prefiltrada": false, "mcs": 24, "cobertura_mcs": 0.774, "perturbacion": 15, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.909}
+{"pid_a": "3v5p", "pid_b": "3v5t", "n_a": 26, "n_b": 31, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 0.654, "perturbacion": 23, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.169}
+{"pid_a": "3tz0", "pid_b": "4dzy", "n_a": 9, "n_b": 12, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.667, "perturbacion": 9, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3tz0", "pid_b": "4h7q", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3tz0", "pid_b": "4h81", "n_a": 9, "n_b": 12, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.667, "perturbacion": 9, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3tz0", "pid_b": "4h85", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4dzy", "pid_b": "4h7q", "n_a": 12, "n_b": 9, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.556, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4dzy", "pid_b": "4h81", "n_a": 12, "n_b": 12, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4dzy", "pid_b": "4h85", "n_a": 12, "n_b": 9, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.667, "perturbacion": 9, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4h7q", "pid_b": "4h81", "n_a": 9, "n_b": 12, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.556, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4h7q", "pid_b": "4h85", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4h81", "pid_b": "4h85", "n_a": 12, "n_b": 9, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.667, "perturbacion": 9, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3vhk", "pid_b": "4asd", "n_a": 22, "n_b": 32, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.318, "perturbacion": 40, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3vhk", "pid_b": "4ase", "n_a": 22, "n_b": 32, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.364, "perturbacion": 38, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "4asd", "pid_b": "4ase", "n_a": 32, "n_b": 32, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 0.562, "perturbacion": 28, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.062}
+{"pid_a": "4dko", "pid_b": "4dkp", "n_a": 25, "n_b": 24, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.625, "perturbacion": 19, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.033}
+{"pid_a": "4dko", "pid_b": "4dkq", "n_a": 25, "n_b": 27, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.6, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.033}
+{"pid_a": "4dko", "pid_b": "4dkr", "n_a": 25, "n_b": 27, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.6, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.036}
+{"pid_a": "4dko", "pid_b": "4i54", "n_a": 25, "n_b": 28, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.6, "perturbacion": 23, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.067}
+{"pid_a": "4dkp", "pid_b": "4dkq", "n_a": 24, "n_b": 27, "prefiltrada": false, "mcs": 24, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "4dkp", "pid_b": "4dkr", "n_a": 24, "n_b": 27, "prefiltrada": false, "mcs": 24, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4dkp", "pid_b": "4i54", "n_a": 24, "n_b": 28, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 0.958, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.024}
+{"pid_a": "4dkq", "pid_b": "4dkr", "n_a": 27, "n_b": 27, "prefiltrada": false, "mcs": 27, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4dkq", "pid_b": "4i54", "n_a": 27, "n_b": 28, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 0.852, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.254}
+{"pid_a": "4dkr", "pid_b": "4i54", "n_a": 27, "n_b": 28, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 0.852, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.394}
+{"pid_a": "4gq4", "pid_b": "4og3", "n_a": 27, "n_b": 31, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.074, "perturbacion": 54, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4gq4", "pid_b": "4og4", "n_a": 27, "n_b": 31, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.074, "perturbacion": 54, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4og3", "pid_b": "4og4", "n_a": 31, "n_b": 31, "prefiltrada": false, "mcs": 31, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4i7j", "pid_b": "4i7k", "n_a": 6, "n_b": 7, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4i7j", "pid_b": "4i7l", "n_a": 6, "n_b": 7, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4i7j", "pid_b": "4i7m", "n_a": 6, "n_b": 10, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4i7k", "pid_b": "4i7l", "n_a": 7, "n_b": 7, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.857, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4i7k", "pid_b": "4i7m", "n_a": 7, "n_b": 10, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4i7l", "pid_b": "4i7m", "n_a": 7, "n_b": 10, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4j44", "pid_b": "4j45", "n_a": 26, "n_b": 23, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 0.957, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4j44", "pid_b": "4j46", "n_a": 26, "n_b": 28, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.462, "perturbacion": 30, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "4j44", "pid_b": "4j47", "n_a": 26, "n_b": 29, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.462, "perturbacion": 31, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "4j44", "pid_b": "4j48", "n_a": 26, "n_b": 32, "prefiltrada": false, "mcs": 24, "cobertura_mcs": 0.923, "perturbacion": 10, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4j45", "pid_b": "4j46", "n_a": 23, "n_b": 28, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.478, "perturbacion": 29, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "4j45", "pid_b": "4j47", "n_a": 23, "n_b": 29, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.478, "perturbacion": 30, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "4j45", "pid_b": "4j48", "n_a": 23, "n_b": 32, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 0.957, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4j46", "pid_b": "4j47", "n_a": 28, "n_b": 29, "prefiltrada": false, "mcs": 28, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4j46", "pid_b": "4j48", "n_a": 28, "n_b": 32, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.429, "perturbacion": 36, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4j47", "pid_b": "4j48", "n_a": 29, "n_b": 32, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.414, "perturbacion": 37, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4nra", "pid_b": "5e73", "n_a": 17, "n_b": 24, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.529, "perturbacion": 23, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.009}
+{"pid_a": "4nra", "pid_b": "5e74", "n_a": 17, "n_b": 33, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4nra", "pid_b": "5mge", "n_a": 17, "n_b": 14, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.143, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5e73", "pid_b": "5e74", "n_a": 24, "n_b": 33, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 0.958, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.017}
+{"pid_a": "5e73", "pid_b": "5mge", "n_a": 24, "n_b": 14, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.143, "perturbacion": 34, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5e74", "pid_b": "5mge", "n_a": 33, "n_b": 14, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4qsu", "pid_b": "4qsv", "n_a": 9, "n_b": 17, "prefiltrada": false, "mcs": 1, "cobertura_mcs": 0.111, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4qsu", "pid_b": "5a5q", "n_a": 9, "n_b": 19, "prefiltrada": false, "mcs": 1, "cobertura_mcs": 0.111, "perturbacion": 26, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4qsu", "pid_b": "5a81", "n_a": 9, "n_b": 27, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4qsu", "pid_b": "6s57", "n_a": 9, "n_b": 30, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4qsv", "pid_b": "5a5q", "n_a": 17, "n_b": 19, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.118, "perturbacion": 32, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4qsv", "pid_b": "5a81", "n_a": 17, "n_b": 27, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.176, "perturbacion": 38, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4qsv", "pid_b": "6s57", "n_a": 17, "n_b": 30, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "5a5q", "pid_b": "5a81", "n_a": 19, "n_b": 27, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 1.0, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5a5q", "pid_b": "6s57", "n_a": 19, "n_b": 30, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "5a81", "pid_b": "6s57", "n_a": 27, "n_b": 30, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.259, "perturbacion": 43, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "5fck", "pid_b": "6fuh", "n_a": 34, "n_b": 27, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.296, "perturbacion": 45, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5fck", "pid_b": "6fui", "n_a": 34, "n_b": 29, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.276, "perturbacion": 47, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "6fuh", "pid_b": "6fui", "n_a": 27, "n_b": 29, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 0.741, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "10gs", "pid_b": "1lbk", "n_a": 33, "n_b": 20, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "10gs", "pid_b": "2gss", "n_a": 33, "n_b": 19, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "10gs", "pid_b": "3gss", "n_a": 33, "n_b": 39, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.636, "perturbacion": 30, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.018}
+{"pid_a": "1lbk", "pid_b": "2gss", "n_a": 20, "n_b": 19, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.263, "perturbacion": 29, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1lbk", "pid_b": "3gss", "n_a": 20, "n_b": 39, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2gss", "pid_b": "3gss", "n_a": 19, "n_b": 39, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1cbx", "pid_b": "1cps", "n_a": 15, "n_b": 16, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.8, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1cbx", "pid_b": "1hee", "n_a": 15, "n_b": 16, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.733, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1cbx", "pid_b": "1iy7", "n_a": 15, "n_b": 16, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.733, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1cps", "pid_b": "1hee", "n_a": 16, "n_b": 16, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.688, "perturbacion": 10, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1cps", "pid_b": "1iy7", "n_a": 16, "n_b": 16, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.688, "perturbacion": 10, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1hee", "pid_b": "1iy7", "n_a": 16, "n_b": 16, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.75, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1f4e", "pid_b": "1f4f", "n_a": 18, "n_b": 29, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1f4e", "pid_b": "1f4g", "n_a": 18, "n_b": 34, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1f4e", "pid_b": "4lrr", "n_a": 18, "n_b": 25, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.389, "perturbacion": 29, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1f4f", "pid_b": "1f4g", "n_a": 29, "n_b": 34, "prefiltrada": false, "mcs": 28, "cobertura_mcs": 0.966, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1f4f", "pid_b": "4lrr", "n_a": 29, "n_b": 25, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.32, "perturbacion": 38, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1f4g", "pid_b": "4lrr", "n_a": 34, "n_b": 25, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.32, "perturbacion": 43, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1fcx", "pid_b": "1fcy", "n_a": 29, "n_b": 29, "prefiltrada": false, "mcs": 28, "cobertura_mcs": 0.966, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.01}
+{"pid_a": "1fcx", "pid_b": "1fcz", "n_a": 29, "n_b": 27, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.556, "perturbacion": 26, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.014}
+{"pid_a": "1fcx", "pid_b": "1fd0", "n_a": 29, "n_b": 30, "prefiltrada": false, "mcs": 28, "cobertura_mcs": 0.966, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.011}
+{"pid_a": "1fcy", "pid_b": "1fcz", "n_a": 29, "n_b": 27, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 0.593, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1fcy", "pid_b": "1fd0", "n_a": 29, "n_b": 30, "prefiltrada": false, "mcs": 28, "cobertura_mcs": 0.966, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.011}
+{"pid_a": "1fcz", "pid_b": "1fd0", "n_a": 27, "n_b": 30, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.556, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.012}
+{"pid_a": "1hii", "pid_b": "1hsh", "n_a": 41, "n_b": 45, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.244, "perturbacion": 66, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1hii", "pid_b": "3s45", "n_a": 41, "n_b": 35, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 0.457, "perturbacion": 44, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.004}
+{"pid_a": "1hsh", "pid_b": "3s45", "n_a": 45, "n_b": 35, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.286, "perturbacion": 60, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1hmr", "pid_b": "1hms", "n_a": 20, "n_b": 20, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.55, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1hmr", "pid_b": "1hmt", "n_a": 20, "n_b": 20, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1hmr", "pid_b": "3wvm", "n_a": 20, "n_b": 20, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1hms", "pid_b": "1hmt", "n_a": 20, "n_b": 20, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.55, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1hms", "pid_b": "3wvm", "n_a": 20, "n_b": 20, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.55, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1hmt", "pid_b": "3wvm", "n_a": 20, "n_b": 20, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1j14", "pid_b": "1j16", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1j14", "pid_b": "1j17", "n_a": 9, "n_b": 34, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1j14", "pid_b": "1ql9", "n_a": 9, "n_b": 34, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1j16", "pid_b": "1j17", "n_a": 9, "n_b": 34, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1j16", "pid_b": "1ql9", "n_a": 9, "n_b": 34, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1j17", "pid_b": "1ql9", "n_a": 34, "n_b": 34, "prefiltrada": false, "mcs": 34, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1laf", "pid_b": "1lah", "n_a": 12, "n_b": 9, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1laf", "pid_b": "1lst", "n_a": 12, "n_b": 10, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.8, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1lah", "pid_b": "1lst", "n_a": 9, "n_b": 10, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1lgw", "pid_b": "1li2", "n_a": 8, "n_b": 7, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.857, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1lgw", "pid_b": "1li3", "n_a": 8, "n_b": 8, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.75, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1li2", "pid_b": "1li3", "n_a": 7, "n_b": 8, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1m0n", "pid_b": "1m0o", "n_a": 25, "n_b": 24, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 0.667, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1m0n", "pid_b": "1m0q", "n_a": 25, "n_b": 22, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 0.727, "perturbacion": 15, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1m0n", "pid_b": "1zc9", "n_a": 25, "n_b": 16, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.938, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1m0o", "pid_b": "1m0q", "n_a": 24, "n_b": 22, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 1.0, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1m0o", "pid_b": "1zc9", "n_a": 24, "n_b": 16, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.938, "perturbacion": 10, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1m0q", "pid_b": "1zc9", "n_a": 22, "n_b": 16, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.938, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1oz0", "pid_b": "1thz", "n_a": 57, "n_b": 33, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1oz0", "pid_b": "2b1g", "n_a": 57, "n_b": 21, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1oz0", "pid_b": "2b1i", "n_a": 57, "n_b": 25, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1thz", "pid_b": "2b1g", "n_a": 33, "n_b": 21, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1thz", "pid_b": "2b1i", "n_a": 33, "n_b": 25, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.12, "perturbacion": 52, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2b1g", "pid_b": "2b1i", "n_a": 21, "n_b": 25, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1q5k", "pid_b": "4acc", "n_a": 21, "n_b": 31, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.286, "perturbacion": 40, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1q5k", "pid_b": "6hk3", "n_a": 21, "n_b": 34, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4acc", "pid_b": "6hk3", "n_a": 31, "n_b": 34, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 0.645, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.547}
+{"pid_a": "1qkt", "pid_b": "2ayr", "n_a": 20, "n_b": 37, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1qkt", "pid_b": "2pog", "n_a": 20, "n_b": 21, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.35, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.23}
+{"pid_a": "1qkt", "pid_b": "2qe4", "n_a": 20, "n_b": 24, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.35, "perturbacion": 30, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.302}
+{"pid_a": "2ayr", "pid_b": "2pog", "n_a": 37, "n_b": 21, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2ayr", "pid_b": "2qe4", "n_a": 37, "n_b": 24, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2pog", "pid_b": "2qe4", "n_a": 21, "n_b": 24, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 0.952, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.011}
+{"pid_a": "1rp7", "pid_b": "2qta", "n_a": 27, "n_b": 26, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1rp7", "pid_b": "3lpl", "n_a": 27, "n_b": 11, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1rp7", "pid_b": "3lq2", "n_a": 27, "n_b": 26, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2qta", "pid_b": "3lpl", "n_a": 26, "n_b": 11, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2qta", "pid_b": "3lq2", "n_a": 26, "n_b": 26, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3lpl", "pid_b": "3lq2", "n_a": 11, "n_b": 26, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1uwt", "pid_b": "1uwu", "n_a": 13, "n_b": 13, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.846, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1uwt", "pid_b": "2ceq", "n_a": 13, "n_b": 14, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.846, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1uwt", "pid_b": "2cer", "n_a": 13, "n_b": 22, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.846, "perturbacion": 13, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1uwu", "pid_b": "2ceq", "n_a": 13, "n_b": 14, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.846, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1uwu", "pid_b": "2cer", "n_a": 13, "n_b": 22, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.846, "perturbacion": 13, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2ceq", "pid_b": "2cer", "n_a": 14, "n_b": 22, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 1.0, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2glp", "pid_b": "3b7j", "n_a": 21, "n_b": 13, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.538, "perturbacion": 20, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2glp", "pid_b": "3cf8", "n_a": 21, "n_b": 22, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.381, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2glp", "pid_b": "3ed0", "n_a": 21, "n_b": 20, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.4, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3b7j", "pid_b": "3cf8", "n_a": 13, "n_b": 22, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.538, "perturbacion": 21, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.005}
+{"pid_a": "3b7j", "pid_b": "3ed0", "n_a": 13, "n_b": 20, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.538, "perturbacion": 19, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.012}
+{"pid_a": "3cf8", "pid_b": "3ed0", "n_a": 22, "n_b": 20, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.4, "perturbacion": 26, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.032}
+{"pid_a": "2rkf", "pid_b": "2rkg", "n_a": 46, "n_b": 46, "prefiltrada": false, "mcs": 46, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "2rkf", "pid_b": "4m8x", "n_a": 46, "n_b": 49, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 0.304, "perturbacion": 67, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.01}
+{"pid_a": "2rkf", "pid_b": "4m8y", "n_a": 46, "n_b": 49, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 0.304, "perturbacion": 67, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.009}
+{"pid_a": "2rkg", "pid_b": "4m8x", "n_a": 46, "n_b": 49, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 0.304, "perturbacion": 67, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.009}
+{"pid_a": "2rkg", "pid_b": "4m8y", "n_a": 46, "n_b": 49, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 0.304, "perturbacion": 67, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.009}
+{"pid_a": "4m8x", "pid_b": "4m8y", "n_a": 49, "n_b": 49, "prefiltrada": false, "mcs": 49, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "2w08", "pid_b": "3kqr", "n_a": 12, "n_b": 8, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2w08", "pid_b": "4avs", "n_a": 12, "n_b": 11, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.273, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2w08", "pid_b": "4ayu", "n_a": 12, "n_b": 11, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.273, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3kqr", "pid_b": "4avs", "n_a": 8, "n_b": 11, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.25, "perturbacion": 15, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3kqr", "pid_b": "4ayu", "n_a": 8, "n_b": 11, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.25, "perturbacion": 15, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4avs", "pid_b": "4ayu", "n_a": 11, "n_b": 11, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2xd9", "pid_b": "2xda", "n_a": 18, "n_b": 20, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 0.889, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2xd9", "pid_b": "4b6r", "n_a": 18, "n_b": 22, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.667, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2xd9", "pid_b": "4b6s", "n_a": 18, "n_b": 25, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.667, "perturbacion": 19, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2xda", "pid_b": "4b6r", "n_a": 20, "n_b": 22, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.6, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2xda", "pid_b": "4b6s", "n_a": 20, "n_b": 25, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.6, "perturbacion": 21, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4b6r", "pid_b": "4b6s", "n_a": 22, "n_b": 25, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 0.909, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.013}
+{"pid_a": "2y8c", "pid_b": "3t60", "n_a": 38, "n_b": 35, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.543, "perturbacion": 35, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2y8c", "pid_b": "3t64", "n_a": 38, "n_b": 29, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.448, "perturbacion": 41, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2y8c", "pid_b": "3t70", "n_a": 38, "n_b": 30, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.433, "perturbacion": 42, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3t60", "pid_b": "3t64", "n_a": 35, "n_b": 29, "prefiltrada": false, "mcs": 29, "cobertura_mcs": 1.0, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3t60", "pid_b": "3t70", "n_a": 35, "n_b": 30, "prefiltrada": false, "mcs": 29, "cobertura_mcs": 0.967, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.006}
+{"pid_a": "3t64", "pid_b": "3t70", "n_a": 29, "n_b": 30, "prefiltrada": false, "mcs": 29, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2za0", "pid_b": "4kyh", "n_a": 22, "n_b": 29, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.318, "perturbacion": 37, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2za0", "pid_b": "4kyk", "n_a": 22, "n_b": 25, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.364, "perturbacion": 31, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "2za0", "pid_b": "4pv5", "n_a": 22, "n_b": 34, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4kyh", "pid_b": "4kyk", "n_a": 29, "n_b": 25, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.28, "perturbacion": 40, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "4kyh", "pid_b": "4pv5", "n_a": 29, "n_b": 34, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.241, "perturbacion": 49, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "4kyk", "pid_b": "4pv5", "n_a": 25, "n_b": 34, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.32, "perturbacion": 43, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.008}
+{"pid_a": "3arq", "pid_b": "3arw", "n_a": 36, "n_b": 26, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.385, "perturbacion": 42, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.479}
+{"pid_a": "3arq", "pid_b": "3arx", "n_a": 36, "n_b": 22, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3arw", "pid_b": "3arx", "n_a": 26, "n_b": 22, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.091, "perturbacion": 44, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3bxe", "pid_b": "3bxf", "n_a": 10, "n_b": 20, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.6, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3bxe", "pid_b": "3bxg", "n_a": 10, "n_b": 16, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.6, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3bxe", "pid_b": "3bxh", "n_a": 10, "n_b": 16, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.6, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3bxf", "pid_b": "3bxg", "n_a": 20, "n_b": 16, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.438, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3bxf", "pid_b": "3bxh", "n_a": 20, "n_b": 16, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3bxg", "pid_b": "3bxh", "n_a": 16, "n_b": 16, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.438, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3c52", "pid_b": "3c56", "n_a": 10, "n_b": 18, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 1.0, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3c52", "pid_b": "3n9r", "n_a": 10, "n_b": 15, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 1.0, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3c52", "pid_b": "3n9s", "n_a": 10, "n_b": 19, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 1.0, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3c56", "pid_b": "3n9r", "n_a": 18, "n_b": 15, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.867, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3c56", "pid_b": "3n9s", "n_a": 18, "n_b": 19, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.722, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3n9r", "pid_b": "3n9s", "n_a": 15, "n_b": 19, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3dln", "pid_b": "3dp4", "n_a": 10, "n_b": 13, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.6, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3dln", "pid_b": "3rt8", "n_a": 10, "n_b": 15, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.6, "perturbacion": 13, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3dln", "pid_b": "4f39", "n_a": 10, "n_b": 15, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.4, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3dp4", "pid_b": "3rt8", "n_a": 13, "n_b": 15, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.462, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3dp4", "pid_b": "4f39", "n_a": 13, "n_b": 15, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.308, "perturbacion": 20, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3rt8", "pid_b": "4f39", "n_a": 15, "n_b": 15, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.267, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3f33", "pid_b": "3f34", "n_a": 13, "n_b": 11, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 1.0, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3f33", "pid_b": "3f37", "n_a": 13, "n_b": 9, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3f33", "pid_b": "3u90", "n_a": 13, "n_b": 17, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.231, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3f34", "pid_b": "3f37", "n_a": 11, "n_b": 9, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3f34", "pid_b": "3u90", "n_a": 11, "n_b": 17, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.182, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3f37", "pid_b": "3u90", "n_a": 9, "n_b": 17, "prefiltrada": false, "mcs": 1, "cobertura_mcs": 0.111, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4o6w", "pid_b": "4o9w", "n_a": 61, "n_b": 41, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3uxk", "pid_b": "3uxl", "n_a": 10, "n_b": 10, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.6, "perturbacion": 8, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3uxk", "pid_b": "4fp1", "n_a": 10, "n_b": 13, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.2, "perturbacion": 19, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3uxk", "pid_b": "4m6u", "n_a": 10, "n_b": 8, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.25, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3uxl", "pid_b": "4fp1", "n_a": 10, "n_b": 13, "prefiltrada": false, "mcs": 1, "cobertura_mcs": 0.1, "perturbacion": 21, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3uxl", "pid_b": "4m6u", "n_a": 10, "n_b": 8, "prefiltrada": false, "mcs": 1, "cobertura_mcs": 0.125, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4fp1", "pid_b": "4m6u", "n_a": 13, "n_b": 8, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.75, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4aj4", "pid_b": "4aje", "n_a": 21, "n_b": 15, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.4, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4aj4", "pid_b": "4aji", "n_a": 21, "n_b": 18, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.333, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4aj4", "pid_b": "4ajl", "n_a": 21, "n_b": 21, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 0.667, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.007}
+{"pid_a": "4aje", "pid_b": "4aji", "n_a": 15, "n_b": 18, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.533, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4aje", "pid_b": "4ajl", "n_a": 15, "n_b": 21, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.4, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4aji", "pid_b": "4ajl", "n_a": 18, "n_b": 21, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.333, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4b9k", "pid_b": "4bks", "n_a": 32, "n_b": 24, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.792, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.087}
+{"pid_a": "4b9k", "pid_b": "4bkt", "n_a": 32, "n_b": 19, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4b9k", "pid_b": "6fmj", "n_a": 32, "n_b": 30, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 0.767, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "4bks", "pid_b": "4bkt", "n_a": 24, "n_b": 19, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.684, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4bks", "pid_b": "6fmj", "n_a": 24, "n_b": 30, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.792, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.085}
+{"pid_a": "4bkt", "pid_b": "6fmj", "n_a": 19, "n_b": 30, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4d8z", "pid_b": "4daf", "n_a": 19, "n_b": 18, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 0.889, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.03}
+{"pid_a": "4d8z", "pid_b": "4db7", "n_a": 19, "n_b": 18, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4d8z", "pid_b": "4nl1", "n_a": 19, "n_b": 13, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.154, "perturbacion": 28, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4daf", "pid_b": "4db7", "n_a": 18, "n_b": 18, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.833, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.039}
+{"pid_a": "4daf", "pid_b": "4nl1", "n_a": 18, "n_b": 13, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.154, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4db7", "pid_b": "4nl1", "n_a": 18, "n_b": 13, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.154, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4ezx", "pid_b": "4ezz", "n_a": 55, "n_b": 57, "prefiltrada": false, "mcs": 29, "cobertura_mcs": 0.527, "perturbacion": 54, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.429}
+{"pid_a": "4ezx", "pid_b": "4jne", "n_a": 55, "n_b": 31, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4ezz", "pid_b": "4jne", "n_a": 57, "n_b": 31, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4g0p", "pid_b": "4g0y", "n_a": 21, "n_b": 23, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 0.667, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.046}
+{"pid_a": "4gih", "pid_b": "4gii", "n_a": 23, "n_b": 25, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 1.0, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4gih", "pid_b": "4gj2", "n_a": 23, "n_b": 24, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4gih", "pid_b": "4gj3", "n_a": 23, "n_b": 26, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4gii", "pid_b": "4gj2", "n_a": 25, "n_b": 24, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 0.958, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4gii", "pid_b": "4gj3", "n_a": 25, "n_b": 26, "prefiltrada": false, "mcs": 25, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4gj2", "pid_b": "4gj3", "n_a": 24, "n_b": 26, "prefiltrada": false, "mcs": 24, "cobertura_mcs": 1.0, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4k9y", "pid_b": "4kao", "n_a": 36, "n_b": 32, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 0.812, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "4gzp", "pid_b": "4gzt", "n_a": 20, "n_b": 20, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.35, "perturbacion": 26, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.021}
+{"pid_a": "4gzp", "pid_b": "4gzw", "n_a": 20, "n_b": 46, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4gzp", "pid_b": "4gzx", "n_a": 20, "n_b": 32, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4gzt", "pid_b": "4gzw", "n_a": 20, "n_b": 46, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4gzt", "pid_b": "4gzx", "n_a": 20, "n_b": 32, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4gzw", "pid_b": "4gzx", "n_a": 46, "n_b": 32, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4iic", "pid_b": "4iid", "n_a": 10, "n_b": 11, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.8, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4iic", "pid_b": "4iie", "n_a": 10, "n_b": 12, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.8, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4iic", "pid_b": "4iif", "n_a": 10, "n_b": 13, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.8, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4iid", "pid_b": "4iie", "n_a": 11, "n_b": 12, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.818, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4iid", "pid_b": "4iif", "n_a": 11, "n_b": 13, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.818, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4iie", "pid_b": "4iif", "n_a": 12, "n_b": 13, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.75, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.006}
+{"pid_a": "4k7i", "pid_b": "4k7n", "n_a": 8, "n_b": 9, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4k7i", "pid_b": "4k7o", "n_a": 8, "n_b": 12, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4k7i", "pid_b": "4mmm", "n_a": 8, "n_b": 14, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 1.0, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4k7n", "pid_b": "4k7o", "n_a": 9, "n_b": 12, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4k7n", "pid_b": "4mmm", "n_a": 9, "n_b": 14, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4k7o", "pid_b": "4mmm", "n_a": 12, "n_b": 14, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.667, "perturbacion": 10, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4m0y", "pid_b": "4m12", "n_a": 22, "n_b": 25, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4m0y", "pid_b": "4m13", "n_a": 22, "n_b": 26, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4m0y", "pid_b": "4m14", "n_a": 22, "n_b": 26, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4m12", "pid_b": "4m13", "n_a": 25, "n_b": 26, "prefiltrada": false, "mcs": 25, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4m12", "pid_b": "4m14", "n_a": 25, "n_b": 26, "prefiltrada": false, "mcs": 25, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4m13", "pid_b": "4m14", "n_a": 26, "n_b": 26, "prefiltrada": false, "mcs": 25, "cobertura_mcs": 0.962, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.102}
+{"pid_a": "4m2v", "pid_b": "4m2w", "n_a": 23, "n_b": 19, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.474, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "4m2v", "pid_b": "4r59", "n_a": 23, "n_b": 25, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.174, "perturbacion": 40, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4m2v", "pid_b": "4r5a", "n_a": 23, "n_b": 24, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.174, "perturbacion": 39, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4m2w", "pid_b": "4r59", "n_a": 19, "n_b": 25, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.211, "perturbacion": 36, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4m2w", "pid_b": "4r5a", "n_a": 19, "n_b": 24, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.211, "perturbacion": 35, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4r59", "pid_b": "4r5a", "n_a": 25, "n_b": 24, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.625, "perturbacion": 19, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4mre", "pid_b": "4mrg", "n_a": 9, "n_b": 11, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.778, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4qfl", "pid_b": "4qfn", "n_a": 17, "n_b": 14, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.714, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4qfl", "pid_b": "4qfo", "n_a": 17, "n_b": 17, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.647, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4qfl", "pid_b": "4qfp", "n_a": 17, "n_b": 15, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.733, "perturbacion": 10, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4qfn", "pid_b": "4qfo", "n_a": 14, "n_b": 17, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.857, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4qfn", "pid_b": "4qfp", "n_a": 14, "n_b": 15, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.786, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4qfo", "pid_b": "4qfp", "n_a": 17, "n_b": 15, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.867, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4ygf", "pid_b": "4yha", "n_a": 13, "n_b": 14, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4ygf", "pid_b": "5tt3", "n_a": 13, "n_b": 16, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.385, "perturbacion": 19, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4ygf", "pid_b": "5tuo", "n_a": 13, "n_b": 10, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4yha", "pid_b": "5tt3", "n_a": 14, "n_b": 16, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.357, "perturbacion": 20, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4yha", "pid_b": "5tuo", "n_a": 14, "n_b": 10, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5tt3", "pid_b": "5tuo", "n_a": 16, "n_b": 10, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.5, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5f0f", "pid_b": "5ioz", "n_a": 23, "n_b": 14, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.143, "perturbacion": 33, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5f0f", "pid_b": "5j1r", "n_a": 23, "n_b": 14, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.714, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5f0f", "pid_b": "5j3l", "n_a": 23, "n_b": 15, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.333, "perturbacion": 28, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5ioz", "pid_b": "5j1r", "n_a": 14, "n_b": 14, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.143, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5ioz", "pid_b": "5j3l", "n_a": 14, "n_b": 15, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.429, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5j1r", "pid_b": "5j3l", "n_a": 14, "n_b": 15, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.357, "perturbacion": 19, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5g5v", "pid_b": "6gxq", "n_a": 36, "n_b": 34, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 0.647, "perturbacion": 26, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "5g5v", "pid_b": "6rfn", "n_a": 36, "n_b": 35, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 0.629, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5g5v", "pid_b": "6rfw", "n_a": 36, "n_b": 36, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 0.611, "perturbacion": 28, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.009}
+{"pid_a": "6gxq", "pid_b": "6rfn", "n_a": 34, "n_b": 35, "prefiltrada": false, "mcs": 27, "cobertura_mcs": 0.794, "perturbacion": 15, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.254}
+{"pid_a": "6gxq", "pid_b": "6rfw", "n_a": 34, "n_b": 36, "prefiltrada": false, "mcs": 28, "cobertura_mcs": 0.824, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.431}
+{"pid_a": "6rfn", "pid_b": "6rfw", "n_a": 35, "n_b": 36, "prefiltrada": false, "mcs": 27, "cobertura_mcs": 0.771, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "6d55", "pid_b": "6d5e", "n_a": 34, "n_b": 33, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 0.667, "perturbacion": 23, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.435}
+{"pid_a": "6d55", "pid_b": "6d5g", "n_a": 34, "n_b": 32, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.656, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.225}
+{"pid_a": "6d55", "pid_b": "6d5j", "n_a": 34, "n_b": 26, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.808, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.015}
+{"pid_a": "6d5e", "pid_b": "6d5g", "n_a": 33, "n_b": 32, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 0.812, "perturbacion": 13, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "6d5e", "pid_b": "6d5j", "n_a": 33, "n_b": 26, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 1.0, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "6d5g", "pid_b": "6d5j", "n_a": 32, "n_b": 26, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 1.0, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "6hqy", "pid_b": "6hrq", "n_a": 22, "n_b": 23, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.409, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "6hqy", "pid_b": "6hsh", "n_a": 22, "n_b": 29, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.455, "perturbacion": 31, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.006}
+{"pid_a": "6hqy", "pid_b": "6htg", "n_a": 22, "n_b": 20, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.45, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "6hrq", "pid_b": "6hsh", "n_a": 23, "n_b": 29, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.261, "perturbacion": 40, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "6hrq", "pid_b": "6htg", "n_a": 23, "n_b": 20, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.5, "perturbacion": 23, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "6hsh", "pid_b": "6htg", "n_a": 29, "n_b": 20, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.3, "perturbacion": 37, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "6t1i", "pid_b": "6t1j", "n_a": 27, "n_b": 29, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.407, "perturbacion": 34, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "6t1i", "pid_b": "6t1l", "n_a": 27, "n_b": 28, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.444, "perturbacion": 31, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.005}
+{"pid_a": "6t1j", "pid_b": "6t1l", "n_a": 29, "n_b": 28, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 0.607, "perturbacion": 23, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1a28", "pid_b": "1sr7", "n_a": 23, "n_b": 35, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1a28", "pid_b": "2w8y", "n_a": 23, "n_b": 32, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.478, "perturbacion": 33, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 1.807}
+{"pid_a": "1sr7", "pid_b": "2w8y", "n_a": 35, "n_b": 32, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.375, "perturbacion": 43, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 1.645}
+{"pid_a": "1k9s", "pid_b": "1pr5", "n_a": 20, "n_b": 19, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.474, "perturbacion": 21, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1atr", "pid_b": "3ldq", "n_a": 27, "n_b": 31, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.704, "perturbacion": 20, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1atr", "pid_b": "3m3z", "n_a": 27, "n_b": 25, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.76, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.043}
+{"pid_a": "3ldq", "pid_b": "3m3z", "n_a": 31, "n_b": 25, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.84, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.046}
+{"pid_a": "1bhf", "pid_b": "1lkk", "n_a": 45, "n_b": 46, "prefiltrada": false, "mcs": 41, "cobertura_mcs": 0.911, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.016}
+{"pid_a": "1bhf", "pid_b": "1lkl", "n_a": 45, "n_b": 42, "prefiltrada": false, "mcs": 37, "cobertura_mcs": 0.881, "perturbacion": 13, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1lkk", "pid_b": "1lkl", "n_a": 46, "n_b": 42, "prefiltrada": false, "mcs": 42, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1dhi", "pid_b": "1dhj", "n_a": 33, "n_b": 33, "prefiltrada": false, "mcs": 33, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1dhi", "pid_b": "2drc", "n_a": 33, "n_b": 33, "prefiltrada": false, "mcs": 33, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1dhj", "pid_b": "2drc", "n_a": 33, "n_b": 33, "prefiltrada": false, "mcs": 33, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1drj", "pid_b": "1drk", "n_a": 10, "n_b": 10, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1drj", "pid_b": "2dri", "n_a": 10, "n_b": 10, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1drk", "pid_b": "2dri", "n_a": 10, "n_b": 10, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "6i8m", "pid_b": "6i8t", "n_a": 26, "n_b": 26, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1egh", "pid_b": "1ik4", "n_a": 9, "n_b": 10, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1egh", "pid_b": "1s89", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1ik4", "pid_b": "1s89", "n_a": 10, "n_b": 9, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1epo", "pid_b": "4er2", "n_a": 46, "n_b": 48, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 0.5, "perturbacion": 48, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.111}
+{"pid_a": "1hi3", "pid_b": "1hi4", "n_a": 27, "n_b": 27, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 0.852, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.004}
+{"pid_a": "1hi3", "pid_b": "1hi5", "n_a": 27, "n_b": 27, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 0.852, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1hi4", "pid_b": "1hi5", "n_a": 27, "n_b": 27, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 0.852, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1i5r", "pid_b": "3hb4", "n_a": 49, "n_b": 30, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1i5r", "pid_b": "6mnc", "n_a": 49, "n_b": 20, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3hb4", "pid_b": "6mnc", "n_a": 30, "n_b": 20, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.95, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1lan", "pid_b": "1lcp", "n_a": 9, "n_b": 10, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.667, "perturbacion": 7, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1lan", "pid_b": "2ewb", "n_a": 9, "n_b": 21, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1lcp", "pid_b": "2ewb", "n_a": 10, "n_b": 21, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1m7d", "pid_b": "1m7i", "n_a": 35, "n_b": 56, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1mrn", "pid_b": "1mrs", "n_a": 55, "n_b": 22, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1mrn", "pid_b": "4unp", "n_a": 55, "n_b": 15, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1mrs", "pid_b": "4unp", "n_a": 22, "n_b": 15, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.133, "perturbacion": 33, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1njs", "pid_b": "4ew2", "n_a": 38, "n_b": 33, "prefiltrada": false, "mcs": 29, "cobertura_mcs": 0.879, "perturbacion": 13, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1njs", "pid_b": "4ew3", "n_a": 38, "n_b": 33, "prefiltrada": false, "mcs": 29, "cobertura_mcs": 0.879, "perturbacion": 13, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4ew2", "pid_b": "4ew3", "n_a": 33, "n_b": 33, "prefiltrada": false, "mcs": 33, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1od8", "pid_b": "1v0k", "n_a": 18, "n_b": 18, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.611, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.018}
+{"pid_a": "1od8", "pid_b": "1v0l", "n_a": 18, "n_b": 17, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1v0k", "pid_b": "1v0l", "n_a": 18, "n_b": 17, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.647, "perturbacion": 13, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.019}
+{"pid_a": "1oe8", "pid_b": "2c80", "n_a": 20, "n_b": 26, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 1.0, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1oe8", "pid_b": "2ca8", "n_a": 20, "n_b": 20, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2c80", "pid_b": "2ca8", "n_a": 26, "n_b": 20, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 1.0, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1qy1", "pid_b": "1qy2", "n_a": 12, "n_b": 11, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.909, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1qy1", "pid_b": "2nnd", "n_a": 12, "n_b": 12, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1qy2", "pid_b": "2nnd", "n_a": 11, "n_b": 12, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.909, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1rjk", "pid_b": "2o4j", "n_a": 30, "n_b": 30, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.7, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 1.345}
+{"pid_a": "1rjk", "pid_b": "2o4r", "n_a": 30, "n_b": 30, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.7, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.987}
+{"pid_a": "2o4j", "pid_b": "2o4r", "n_a": 30, "n_b": 30, "prefiltrada": false, "mcs": 30, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1u71", "pid_b": "3oaf", "n_a": 24, "n_b": 22, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.591, "perturbacion": 20, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1u71", "pid_b": "4g95", "n_a": 24, "n_b": 22, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.591, "perturbacion": 20, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3oaf", "pid_b": "4g95", "n_a": 22, "n_b": 22, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1utj", "pid_b": "1utl", "n_a": 8, "n_b": 10, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.875, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1utj", "pid_b": "1utm", "n_a": 8, "n_b": 9, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.875, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1utl", "pid_b": "1utm", "n_a": 10, "n_b": 9, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1w9v", "pid_b": "2iuz", "n_a": 48, "n_b": 28, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1x8r", "pid_b": "1x8t", "n_a": 25, "n_b": 25, "prefiltrada": false, "mcs": 25, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1x8r", "pid_b": "2pq9", "n_a": 25, "n_b": 28, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.84, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1x8t", "pid_b": "2pq9", "n_a": 25, "n_b": 28, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.84, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2a5b", "pid_b": "2a5c", "n_a": 20, "n_b": 19, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 0.947, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.018}
+{"pid_a": "2a5b", "pid_b": "2a8g", "n_a": 20, "n_b": 19, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2a5c", "pid_b": "2a8g", "n_a": 19, "n_b": 19, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 0.895, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.033}
+{"pid_a": "2afx", "pid_b": "3pbb", "n_a": 12, "n_b": 22, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.5, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2amt", "pid_b": "2gzl", "n_a": 37, "n_b": 44, "prefiltrada": false, "mcs": 27, "cobertura_mcs": 0.73, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 3.928}
+{"pid_a": "2amt", "pid_b": "3elc", "n_a": 37, "n_b": 18, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2gzl", "pid_b": "3elc", "n_a": 44, "n_b": 18, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2c92", "pid_b": "2c94", "n_a": 31, "n_b": 32, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 0.839, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.004}
+{"pid_a": "2c92", "pid_b": "2c97", "n_a": 31, "n_b": 18, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2c94", "pid_b": "2c97", "n_a": 32, "n_b": 18, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2cc7", "pid_b": "2ccb", "n_a": 18, "n_b": 27, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 1.0, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2e91", "pid_b": "2e92", "n_a": 16, "n_b": 20, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.688, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2f1g", "pid_b": "2hhn", "n_a": 32, "n_b": 39, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 0.531, "perturbacion": 37, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2f1g", "pid_b": "3n3g", "n_a": 32, "n_b": 29, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.276, "perturbacion": 45, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2hhn", "pid_b": "3n3g", "n_a": 39, "n_b": 29, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.276, "perturbacion": 52, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "2fqw", "pid_b": "2fqx", "n_a": 19, "n_b": 20, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2fqw", "pid_b": "2fqy", "n_a": 19, "n_b": 19, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 0.947, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2fqx", "pid_b": "2fqy", "n_a": 20, "n_b": 19, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 0.947, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.017}
+{"pid_a": "2gkl", "pid_b": "3iof", "n_a": 12, "n_b": 18, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.167, "perturbacion": 26, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2gkl", "pid_b": "3iog", "n_a": 12, "n_b": 14, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.167, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3iof", "pid_b": "3iog", "n_a": 18, "n_b": 14, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.571, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2gz2", "pid_b": "3pwk", "n_a": 27, "n_b": 12, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2gz2", "pid_b": "4r3w", "n_a": 27, "n_b": 27, "prefiltrada": false, "mcs": 27, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3pwk", "pid_b": "4r3w", "n_a": 12, "n_b": 27, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2hnx", "pid_b": "5y12", "n_a": 18, "n_b": 23, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.389, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2hnx", "pid_b": "5y13", "n_a": 18, "n_b": 22, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.389, "perturbacion": 26, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5y12", "pid_b": "5y13", "n_a": 23, "n_b": 22, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.955, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2iko", "pid_b": "3own", "n_a": 26, "n_b": 49, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2jke", "pid_b": "2jkp", "n_a": 11, "n_b": 13, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.818, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2jke", "pid_b": "2zq0", "n_a": 11, "n_b": 44, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2jkp", "pid_b": "2zq0", "n_a": 13, "n_b": 44, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2o8h", "pid_b": "2ovv", "n_a": 34, "n_b": 30, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.5, "perturbacion": 34, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2o8h", "pid_b": "2ovy", "n_a": 34, "n_b": 30, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.5, "perturbacion": 34, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2ovv", "pid_b": "2ovy", "n_a": 30, "n_b": 30, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.7, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 2.065}
+{"pid_a": "2oiq", "pid_b": "4o2p", "n_a": 37, "n_b": 34, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.235, "perturbacion": 55, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "2oiq", "pid_b": "4ybk", "n_a": 37, "n_b": 38, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.27, "perturbacion": 55, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.004}
+{"pid_a": "4o2p", "pid_b": "4ybk", "n_a": 34, "n_b": 38, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.235, "perturbacion": 56, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "2pym", "pid_b": "2pyn", "n_a": 40, "n_b": 40, "prefiltrada": false, "mcs": 40, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2pym", "pid_b": "2q64", "n_a": 40, "n_b": 40, "prefiltrada": false, "mcs": 40, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2pyn", "pid_b": "2q64", "n_a": 40, "n_b": 40, "prefiltrada": false, "mcs": 40, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2qtg", "pid_b": "3lgs", "n_a": 20, "n_b": 17, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.471, "perturbacion": 21, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.089}
+{"pid_a": "2v58", "pid_b": "2v59", "n_a": 20, "n_b": 22, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 0.9, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2v58", "pid_b": "3rv4", "n_a": 20, "n_b": 27, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.3, "perturbacion": 35, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2v59", "pid_b": "3rv4", "n_a": 22, "n_b": 27, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.273, "perturbacion": 37, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2vsl", "pid_b": "3cm2", "n_a": 34, "n_b": 36, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.265, "perturbacion": 52, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2vsl", "pid_b": "3hl5", "n_a": 34, "n_b": 37, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 0.529, "perturbacion": 35, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.025}
+{"pid_a": "3cm2", "pid_b": "3hl5", "n_a": 36, "n_b": 37, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.278, "perturbacion": 53, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "2wly", "pid_b": "2wlz", "n_a": 28, "n_b": 28, "prefiltrada": false, "mcs": 27, "cobertura_mcs": 0.964, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2wly", "pid_b": "2wm0", "n_a": 28, "n_b": 42, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2wlz", "pid_b": "2wm0", "n_a": 28, "n_b": 42, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2xxr", "pid_b": "2xxt", "n_a": 10, "n_b": 15, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.4, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2xxr", "pid_b": "2xxx", "n_a": 10, "n_b": 10, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2xxt", "pid_b": "2xxx", "n_a": 15, "n_b": 10, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.4, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2ya6", "pid_b": "2ya7", "n_a": 20, "n_b": 23, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.95, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2ya6", "pid_b": "2ya8", "n_a": 20, "n_b": 20, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.25, "perturbacion": 30, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "2ya7", "pid_b": "2ya8", "n_a": 23, "n_b": 20, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.25, "perturbacion": 33, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2yay", "pid_b": "2yaz", "n_a": 28, "n_b": 20, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.6, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.007}
+{"pid_a": "2yay", "pid_b": "2yb0", "n_a": 28, "n_b": 16, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2yaz", "pid_b": "2yb0", "n_a": 20, "n_b": 16, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3a1c", "pid_b": "3a1d", "n_a": 31, "n_b": 27, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 0.963, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3a1c", "pid_b": "3a1e", "n_a": 31, "n_b": 31, "prefiltrada": false, "mcs": 31, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3a1d", "pid_b": "3a1e", "n_a": 27, "n_b": 31, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 0.963, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3b4p", "pid_b": "3juo", "n_a": 16, "n_b": 17, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.688, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.016}
+{"pid_a": "3b4p", "pid_b": "3jup", "n_a": 16, "n_b": 17, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.688, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.016}
+{"pid_a": "3juo", "pid_b": "3jup", "n_a": 17, "n_b": 17, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3c2f", "pid_b": "3c2o", "n_a": 22, "n_b": 12, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.25, "perturbacion": 28, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3c2f", "pid_b": "3c2r", "n_a": 22, "n_b": 12, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.25, "perturbacion": 28, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3c2o", "pid_b": "3c2r", "n_a": 12, "n_b": 12, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.333, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3cyz", "pid_b": "3cz1", "n_a": 13, "n_b": 14, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.308, "perturbacion": 19, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3cyz", "pid_b": "3d78", "n_a": 13, "n_b": 14, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.308, "perturbacion": 19, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3cz1", "pid_b": "3d78", "n_a": 14, "n_b": 14, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3drf", "pid_b": "3drg", "n_a": 49, "n_b": 70, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3drf", "pid_b": "3dri", "n_a": 49, "n_b": 33, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3drg", "pid_b": "3dri", "n_a": 70, "n_b": 33, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3ekp", "pid_b": "3ekt", "n_a": 35, "n_b": 38, "prefiltrada": false, "mcs": 35, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3ekp", "pid_b": "3ekw", "n_a": 35, "n_b": 51, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3ekt", "pid_b": "3ekw", "n_a": 38, "n_b": 51, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3fed", "pid_b": "3fee", "n_a": 20, "n_b": 13, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.462, "perturbacion": 21, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3fed", "pid_b": "3ff3", "n_a": 20, "n_b": 10, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.9, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3fee", "pid_b": "3ff3", "n_a": 13, "n_b": 10, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.6, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3fqe", "pid_b": "4fl1", "n_a": 25, "n_b": 31, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.28, "perturbacion": 42, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3fqe", "pid_b": "4fl2", "n_a": 25, "n_b": 31, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.28, "perturbacion": 42, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4fl1", "pid_b": "4fl2", "n_a": 31, "n_b": 31, "prefiltrada": false, "mcs": 31, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3hmo", "pid_b": "3hmp", "n_a": 35, "n_b": 16, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3hmo", "pid_b": "5n93", "n_a": 35, "n_b": 24, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3hmp", "pid_b": "5n93", "n_a": 16, "n_b": 24, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.375, "perturbacion": 28, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3hzk", "pid_b": "3hzm", "n_a": 34, "n_b": 16, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3hzk", "pid_b": "3hzv", "n_a": 34, "n_b": 34, "prefiltrada": false, "mcs": 33, "cobertura_mcs": 0.971, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3hzm", "pid_b": "3hzv", "n_a": 16, "n_b": 34, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3ip5", "pid_b": "3ip6", "n_a": 6, "n_b": 8, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.5, "perturbacion": 8, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3ip5", "pid_b": "3ip9", "n_a": 6, "n_b": 7, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.833, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3ip6", "pid_b": "3ip9", "n_a": 8, "n_b": 7, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.429, "perturbacion": 9, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3jzj", "pid_b": "3k00", "n_a": 44, "n_b": 45, "prefiltrada": false, "mcs": 32, "cobertura_mcs": 0.727, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "3jzj", "pid_b": "3k02", "n_a": 44, "n_b": 55, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3k00", "pid_b": "3k02", "n_a": 45, "n_b": 55, "prefiltrada": false, "mcs": 34, "cobertura_mcs": 0.756, "perturbacion": 32, "apta_fep": false, "mcs_cancelado": true, "t_mcs_s": 10.791}
+{"pid_a": "4zzx", "pid_b": "4zzy", "n_a": 18, "n_b": 28, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.722, "perturbacion": 20, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3kr4", "pid_b": "4k3n", "n_a": 22, "n_b": 17, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.412, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3kr4", "pid_b": "4r76", "n_a": 22, "n_b": 26, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.409, "perturbacion": 30, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4k3n", "pid_b": "4r76", "n_a": 17, "n_b": 26, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.765, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3pb7", "pid_b": "3pb9", "n_a": 22, "n_b": 12, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.5, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3ppp", "pid_b": "3ppq", "n_a": 8, "n_b": 7, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3ppp", "pid_b": "3ppr", "n_a": 8, "n_b": 10, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.375, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3ppq", "pid_b": "3ppr", "n_a": 7, "n_b": 10, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.286, "perturbacion": 13, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3qgw", "pid_b": "3qgy", "n_a": 22, "n_b": 30, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.273, "perturbacion": 40, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3qox", "pid_b": "3sr4", "n_a": 26, "n_b": 27, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3qox", "pid_b": "4ek9", "n_a": 26, "n_b": 21, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 0.857, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3sr4", "pid_b": "4ek9", "n_a": 27, "n_b": 21, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 0.857, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3s0b", "pid_b": "3s0d", "n_a": 17, "n_b": 11, "prefiltrada": false, "mcs": 1, "cobertura_mcs": 0.091, "perturbacion": 26, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3s0b", "pid_b": "3s0e", "n_a": 17, "n_b": 12, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.5, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3s0d", "pid_b": "3s0e", "n_a": 11, "n_b": 12, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.273, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3uj9", "pid_b": "3ujc", "n_a": 11, "n_b": 11, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3uj9", "pid_b": "3ujd", "n_a": 11, "n_b": 11, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3ujc", "pid_b": "3ujd", "n_a": 11, "n_b": 11, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3v2n", "pid_b": "3v2p", "n_a": 16, "n_b": 20, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3v2n", "pid_b": "3v2q", "n_a": 16, "n_b": 18, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 1.0, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3v2p", "pid_b": "3v2q", "n_a": 20, "n_b": 18, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 1.0, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3vvy", "pid_b": "3vw1", "n_a": 24, "n_b": 28, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.292, "perturbacion": 38, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "3zll", "pid_b": "4arw", "n_a": 17, "n_b": 24, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.588, "perturbacion": 21, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3zll", "pid_b": "4asj", "n_a": 17, "n_b": 27, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 0.941, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4arw", "pid_b": "4asj", "n_a": 24, "n_b": 27, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.875, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4az5", "pid_b": "4az6", "n_a": 14, "n_b": 25, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4az5", "pid_b": "4azb", "n_a": 14, "n_b": 25, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4az6", "pid_b": "4azb", "n_a": 25, "n_b": 25, "prefiltrada": false, "mcs": 25, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4azc", "pid_b": "4azg", "n_a": 14, "n_b": 25, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4azc", "pid_b": "4azi", "n_a": 14, "n_b": 25, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4azg", "pid_b": "4azi", "n_a": 25, "n_b": 25, "prefiltrada": false, "mcs": 25, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4b5s", "pid_b": "4b5t", "n_a": 6, "n_b": 7, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4b5s", "pid_b": "4b5w", "n_a": 6, "n_b": 6, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.833, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4b5t", "pid_b": "4b5w", "n_a": 7, "n_b": 6, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.833, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4b73", "pid_b": "4b74", "n_a": 25, "n_b": 28, "prefiltrada": false, "mcs": 25, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4b73", "pid_b": "4b76", "n_a": 25, "n_b": 17, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 0.941, "perturbacion": 10, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4b74", "pid_b": "4b76", "n_a": 28, "n_b": 17, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4bt3", "pid_b": "4bt4", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4bt3", "pid_b": "4bt5", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4bt4", "pid_b": "4bt5", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4crl", "pid_b": "4f6u", "n_a": 35, "n_b": 29, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.207, "perturbacion": 52, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4crl", "pid_b": "4f6w", "n_a": 35, "n_b": 47, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4f6u", "pid_b": "4f6w", "n_a": 29, "n_b": 47, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4elf", "pid_b": "4elg", "n_a": 39, "n_b": 37, "prefiltrada": false, "mcs": 36, "cobertura_mcs": 0.973, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.562}
+{"pid_a": "4elf", "pid_b": "4elh", "n_a": 39, "n_b": 37, "prefiltrada": false, "mcs": 36, "cobertura_mcs": 0.973, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.182}
+{"pid_a": "4elg", "pid_b": "4elh", "n_a": 37, "n_b": 37, "prefiltrada": false, "mcs": 37, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4exs", "pid_b": "6d1d", "n_a": 14, "n_b": 18, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.143, "perturbacion": 28, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4exs", "pid_b": "6d1g", "n_a": 14, "n_b": 18, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.143, "perturbacion": 28, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "6d1d", "pid_b": "6d1g", "n_a": 18, "n_b": 18, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 0.944, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "4few", "pid_b": "4gkh", "n_a": 21, "n_b": 24, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 0.952, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4few", "pid_b": "4gki", "n_a": 21, "n_b": 25, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 0.667, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4gkh", "pid_b": "4gki", "n_a": 24, "n_b": 25, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 0.583, "perturbacion": 21, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4ghi", "pid_b": "5tbm", "n_a": 21, "n_b": 26, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.333, "perturbacion": 33, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4ghi", "pid_b": "5ufp", "n_a": 21, "n_b": 28, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.333, "perturbacion": 35, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5tbm", "pid_b": "5ufp", "n_a": 26, "n_b": 28, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 1.0, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4hwo", "pid_b": "4hwp", "n_a": 28, "n_b": 29, "prefiltrada": false, "mcs": 28, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4hwo", "pid_b": "4hws", "n_a": 28, "n_b": 29, "prefiltrada": false, "mcs": 28, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4hwp", "pid_b": "4hws", "n_a": 29, "n_b": 29, "prefiltrada": false, "mcs": 28, "cobertura_mcs": 0.966, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4i8x", "pid_b": "4i9h", "n_a": 15, "n_b": 51, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4i8x", "pid_b": "4i9u", "n_a": 15, "n_b": 23, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.6, "perturbacion": 20, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4i9h", "pid_b": "4i9u", "n_a": 51, "n_b": 23, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4ieh", "pid_b": "4lvt", "n_a": 59, "n_b": 65, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 0.373, "perturbacion": 80, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.841}
+{"pid_a": "4ieh", "pid_b": "4lxd", "n_a": 59, "n_b": 48, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4lvt", "pid_b": "4lxd", "n_a": 65, "n_b": 48, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4jfk", "pid_b": "4jfm", "n_a": 37, "n_b": 35, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.543, "perturbacion": 34, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "4jfk", "pid_b": "5dit", "n_a": 37, "n_b": 49, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4jfm", "pid_b": "5dit", "n_a": 35, "n_b": 49, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4kn0", "pid_b": "4kn1", "n_a": 33, "n_b": 32, "prefiltrada": false, "mcs": 32, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4l4z", "pid_b": "4l50", "n_a": 14, "n_b": 17, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4l4z", "pid_b": "4l51", "n_a": 14, "n_b": 14, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.429, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4l50", "pid_b": "4l51", "n_a": 17, "n_b": 14, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.429, "perturbacion": 19, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4mr6", "pid_b": "4qev", "n_a": 27, "n_b": 30, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.296, "perturbacion": 41, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "4mr6", "pid_b": "4qew", "n_a": 27, "n_b": 31, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.296, "perturbacion": 42, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "4qev", "pid_b": "4qew", "n_a": 30, "n_b": 31, "prefiltrada": false, "mcs": 30, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4pow", "pid_b": "4pox", "n_a": 20, "n_b": 21, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.35, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4pow", "pid_b": "4pp0", "n_a": 20, "n_b": 20, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4pox", "pid_b": "4pp0", "n_a": 21, "n_b": 20, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.35, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4r0a", "pid_b": "5wyx", "n_a": 17, "n_b": 19, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.353, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4r0a", "pid_b": "5wyz", "n_a": 17, "n_b": 19, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.118, "perturbacion": 32, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5wyx", "pid_b": "5wyz", "n_a": 19, "n_b": 19, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.421, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "4r73", "pid_b": "4r74", "n_a": 16, "n_b": 16, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.438, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4r73", "pid_b": "4r75", "n_a": 16, "n_b": 18, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.375, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4r74", "pid_b": "4r75", "n_a": 16, "n_b": 18, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.75, "perturbacion": 10, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.005}
+{"pid_a": "5eei", "pid_b": "5een", "n_a": 19, "n_b": 22, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.368, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5eei", "pid_b": "5ef7", "n_a": 19, "n_b": 23, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.526, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5een", "pid_b": "5ef7", "n_a": 22, "n_b": 23, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.318, "perturbacion": 31, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5fe9", "pid_b": "5lvq", "n_a": 18, "n_b": 17, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.353, "perturbacion": 23, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5fl5", "pid_b": "6fe0", "n_a": 22, "n_b": 26, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.273, "perturbacion": 36, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5fl5", "pid_b": "6fe1", "n_a": 22, "n_b": 28, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.273, "perturbacion": 38, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "6fe0", "pid_b": "6fe1", "n_a": 26, "n_b": 28, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 0.846, "perturbacion": 10, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.02}
+{"pid_a": "5fnr", "pid_b": "5fnt", "n_a": 22, "n_b": 34, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "5fnr", "pid_b": "5fnu", "n_a": 22, "n_b": 39, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "5fnt", "pid_b": "5fnu", "n_a": 34, "n_b": 39, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 0.647, "perturbacion": 29, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5ive", "pid_b": "5ivv", "n_a": 16, "n_b": 20, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.125, "perturbacion": 32, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5ive", "pid_b": "5ivy", "n_a": 16, "n_b": 20, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.188, "perturbacion": 30, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5ivv", "pid_b": "5ivy", "n_a": 20, "n_b": 20, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.5, "perturbacion": 20, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5kh3", "pid_b": "6ce6", "n_a": 15, "n_b": 22, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 0.933, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5kh3", "pid_b": "6ced", "n_a": 15, "n_b": 17, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.4, "perturbacion": 20, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "6ce6", "pid_b": "6ced", "n_a": 22, "n_b": 17, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.353, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5lz4", "pid_b": "5lz5", "n_a": 20, "n_b": 25, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.95, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5lz4", "pid_b": "5lz7", "n_a": 20, "n_b": 25, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.95, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5lz5", "pid_b": "5lz7", "n_a": 25, "n_b": 25, "prefiltrada": false, "mcs": 25, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5mkr", "pid_b": "5mks", "n_a": 34, "n_b": 31, "prefiltrada": false, "mcs": 31, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5mkr", "pid_b": "6fhk", "n_a": 34, "n_b": 27, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 0.667, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5mks", "pid_b": "6fhk", "n_a": 31, "n_b": 27, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 0.667, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "6b97", "pid_b": "6b98", "n_a": 24, "n_b": 13, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1add", "pid_b": "1fkw", "n_a": 19, "n_b": 18, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 0.778, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.108}
+{"pid_a": "1ado", "pid_b": "2ot1", "n_a": 10, "n_b": 25, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1amk", "pid_b": "2vxn", "n_a": 9, "n_b": 10, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1ctt", "pid_b": "1ctu", "n_a": 16, "n_b": 17, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1e2k", "pid_b": "1e2l", "n_a": 18, "n_b": 18, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1e3v", "pid_b": "1ogx", "n_a": 28, "n_b": 20, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.95, "perturbacion": 10, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1ec9", "pid_b": "1ecq", "n_a": 13, "n_b": 13, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.692, "perturbacion": 8, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1eoc", "pid_b": "2buv", "n_a": 11, "n_b": 11, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.727, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1ew8", "pid_b": "1ew9", "n_a": 8, "n_b": 6, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.833, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1f73", "pid_b": "1f74", "n_a": 21, "n_b": 20, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.95, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1fq5", "pid_b": "2jxr", "n_a": 62, "n_b": 46, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1g7v", "pid_b": "1phw", "n_a": 25, "n_b": 13, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1g98", "pid_b": "1koj", "n_a": 15, "n_b": 16, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 0.933, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1gwv", "pid_b": "1o7o", "n_a": 23, "n_b": 25, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.13, "perturbacion": 42, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1gyx", "pid_b": "1gyy", "n_a": 9, "n_b": 13, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.778, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1hn4", "pid_b": "3qlm", "n_a": 32, "n_b": 18, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1hp5", "pid_b": "1jak", "n_a": 14, "n_b": 14, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.214, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1hyo", "pid_b": "2hzy", "n_a": 11, "n_b": 15, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1i2s", "pid_b": "3b3x", "n_a": 13, "n_b": 13, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.923, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1ie9", "pid_b": "1s19", "n_a": 30, "n_b": 30, "prefiltrada": false, "mcs": 24, "cobertura_mcs": 0.8, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 2.495}
+{"pid_a": "1izi", "pid_b": "1lzq", "n_a": 50, "n_b": 50, "prefiltrada": false, "mcs": 30, "cobertura_mcs": 0.6, "perturbacion": 40, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.196}
+{"pid_a": "1jcx", "pid_b": "3e12", "n_a": 25, "n_b": 20, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.75, "perturbacion": 15, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "1jlr", "pid_b": "1upf", "n_a": 32, "n_b": 9, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1jqy", "pid_b": "1pzi", "n_a": 33, "n_b": 23, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 0.957, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1kdk", "pid_b": "1lhu", "n_a": 21, "n_b": 20, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.95, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.061}
+{"pid_a": "1kmy", "pid_b": "1lgt", "n_a": 14, "n_b": 15, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1lee", "pid_b": "1lf2", "n_a": 39, "n_b": 39, "prefiltrada": false, "mcs": 38, "cobertura_mcs": 0.974, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.104}
+{"pid_a": "1lke", "pid_b": "1lnm", "n_a": 28, "n_b": 27, "prefiltrada": false, "mcs": 27, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1mmq", "pid_b": "1mmr", "n_a": 33, "n_b": 33, "prefiltrada": false, "mcs": 29, "cobertura_mcs": 0.879, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1mrx", "pid_b": "1msn", "n_a": 37, "n_b": 41, "prefiltrada": false, "mcs": 34, "cobertura_mcs": 0.919, "perturbacion": 10, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 5.382}
+{"pid_a": "1n4h", "pid_b": "1nq7", "n_a": 22, "n_b": 25, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.5, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1nw5", "pid_b": "1nw7", "n_a": 27, "n_b": 26, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1o1s", "pid_b": "1qbq", "n_a": 35, "n_b": 20, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1oar", "pid_b": "1oau", "n_a": 22, "n_b": 19, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.316, "perturbacion": 29, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1odi", "pid_b": "1odj", "n_a": 19, "n_b": 20, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 0.947, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.017}
+{"pid_a": "1ogg", "pid_b": "1ur9", "n_a": 43, "n_b": 39, "prefiltrada": false, "mcs": 28, "cobertura_mcs": 0.718, "perturbacion": 26, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1oxr", "pid_b": "1td7", "n_a": 13, "n_b": 20, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.538, "perturbacion": 19, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1q54", "pid_b": "2vnp", "n_a": 16, "n_b": 14, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.786, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1q72", "pid_b": "1qyg", "n_a": 22, "n_b": 21, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1qk3", "pid_b": "1qk4", "n_a": 24, "n_b": 23, "prefiltrada": false, "mcs": 23, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1r1h", "pid_b": "1r1j", "n_a": 29, "n_b": 28, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 0.571, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "1rd4", "pid_b": "3f78", "n_a": 34, "n_b": 10, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1ro6", "pid_b": "3o56", "n_a": 20, "n_b": 31, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1s5z", "pid_b": "4cp5", "n_a": 26, "n_b": 27, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.385, "perturbacion": 33, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1sgu", "pid_b": "1sh9", "n_a": 45, "n_b": 50, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.267, "perturbacion": 71, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1sw2", "pid_b": "3mam", "n_a": 8, "n_b": 8, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1t31", "pid_b": "3n7o", "n_a": 49, "n_b": 28, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1ugx", "pid_b": "1ws4", "n_a": 27, "n_b": 13, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1uou", "pid_b": "2wk6", "n_a": 16, "n_b": 9, "prefiltrada": false, "mcs": 1, "cobertura_mcs": 0.111, "perturbacion": 23, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1usi", "pid_b": "1usk", "n_a": 12, "n_b": 9, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.667, "perturbacion": 9, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "1vyf", "pid_b": "1vyg", "n_a": 20, "n_b": 22, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.45, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1x38", "pid_b": "1x39", "n_a": 20, "n_b": 22, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 0.7, "perturbacion": 14, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1y3n", "pid_b": "1y3p", "n_a": 24, "n_b": 48, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1ydk", "pid_b": "4hj2", "n_a": 26, "n_b": 38, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "1yei", "pid_b": "1yej", "n_a": 23, "n_b": 27, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.913, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.007}
+{"pid_a": "1yqy", "pid_b": "4dv8", "n_a": 23, "n_b": 29, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.304, "perturbacion": 38, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "1z4o", "pid_b": "2wf5", "n_a": 16, "n_b": 16, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.75, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2bes", "pid_b": "2bet", "n_a": 14, "n_b": 13, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.923, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2bfq", "pid_b": "2bfr", "n_a": 36, "n_b": 27, "prefiltrada": false, "mcs": 27, "cobertura_mcs": 1.0, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2bt9", "pid_b": "4csd", "n_a": 12, "n_b": 12, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2cex", "pid_b": "3b50", "n_a": 20, "n_b": 21, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.35, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.04}
+{"pid_a": "2e7f", "pid_b": "2ogy", "n_a": 33, "n_b": 33, "prefiltrada": false, "mcs": 33, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2euk", "pid_b": "2evl", "n_a": 57, "n_b": 51, "prefiltrada": false, "mcs": 42, "cobertura_mcs": 0.824, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.393}
+{"pid_a": "2fqo", "pid_b": "2fqt", "n_a": 17, "n_b": 17, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2fu8", "pid_b": "2qdt", "n_a": 14, "n_b": 11, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.455, "perturbacion": 15, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2gst", "pid_b": "3gst", "n_a": 35, "n_b": 35, "prefiltrada": false, "mcs": 35, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2h6b", "pid_b": "3e5u", "n_a": 12, "n_b": 12, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2hjb", "pid_b": "2q7q", "n_a": 10, "n_b": 9, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.889, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2hmu", "pid_b": "2hmv", "n_a": 31, "n_b": 27, "prefiltrada": false, "mcs": 27, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2i2c", "pid_b": "4dy6", "n_a": 38, "n_b": 49, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2i4v", "pid_b": "2i4x", "n_a": 39, "n_b": 49, "prefiltrada": false, "mcs": 39, "cobertura_mcs": 1.0, "perturbacion": 10, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2isw", "pid_b": "3ohi", "n_a": 10, "n_b": 20, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.7, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2jg0", "pid_b": "2jjb", "n_a": 25, "n_b": 25, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.44, "perturbacion": 28, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "2nsj", "pid_b": "2nsl", "n_a": 22, "n_b": 22, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2pqb", "pid_b": "2pqc", "n_a": 28, "n_b": 25, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.84, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2ptz", "pid_b": "2pu1", "n_a": 9, "n_b": 10, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2pvu", "pid_b": "2q2a", "n_a": 10, "n_b": 12, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.8, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2pwd", "pid_b": "2pwg", "n_a": 11, "n_b": 13, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.818, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2q88", "pid_b": "2q89", "n_a": 10, "n_b": 11, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.7, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2qrk", "pid_b": "2qrl", "n_a": 23, "n_b": 10, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "2r1y", "pid_b": "3bpc", "n_a": 33, "n_b": 32, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 0.5, "perturbacion": 33, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.056}
+{"pid_a": "2r58", "pid_b": "2r5a", "n_a": 12, "n_b": 11, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2reg", "pid_b": "2rin", "n_a": 7, "n_b": 10, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2std", "pid_b": "3std", "n_a": 20, "n_b": 28, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.4, "perturbacion": 32, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2vb8", "pid_b": "2vba", "n_a": 14, "n_b": 16, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.143, "perturbacion": 26, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2ves", "pid_b": "4lch", "n_a": 30, "n_b": 35, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.433, "perturbacion": 39, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.005}
+{"pid_a": "2vmc", "pid_b": "2vmd", "n_a": 15, "n_b": 13, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.846, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2vpn", "pid_b": "2vpo", "n_a": 10, "n_b": 11, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.7, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2vw1", "pid_b": "2vw2", "n_a": 20, "n_b": 13, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.308, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2w8j", "pid_b": "2w8w", "n_a": 22, "n_b": 22, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2wor", "pid_b": "2wos", "n_a": 21, "n_b": 21, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 0.81, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.009}
+{"pid_a": "2wvz", "pid_b": "2wzs", "n_a": 16, "n_b": 14, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 1.0, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "2x2r", "pid_b": "5zo8", "n_a": 24, "n_b": 28, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 0.833, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2xn3", "pid_b": "2xn5", "n_a": 18, "n_b": 21, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.556, "perturbacion": 19, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "2ydw", "pid_b": "2yek", "n_a": 32, "n_b": 30, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.7, "perturbacion": 20, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.114}
+{"pid_a": "2ypo", "pid_b": "3pfp", "n_a": 12, "n_b": 19, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.417, "perturbacion": 21, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "2za5", "pid_b": "4a6l", "n_a": 31, "n_b": 30, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.7, "perturbacion": 19, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3ahn", "pid_b": "3aho", "n_a": 42, "n_b": 43, "prefiltrada": false, "mcs": 18, "cobertura_mcs": 0.429, "perturbacion": 49, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.013}
+{"pid_a": "3ao4", "pid_b": "3ao5", "n_a": 16, "n_b": 17, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.938, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.014}
+{"pid_a": "3c4h", "pid_b": "3fhb", "n_a": 12, "n_b": 10, "prefiltrada": false, "mcs": 2, "cobertura_mcs": 0.2, "perturbacion": 18, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "3ckz", "pid_b": "3cl0", "n_a": 23, "n_b": 20, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.25, "perturbacion": 33, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3d7k", "pid_b": "3iae", "n_a": 39, "n_b": 39, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.308, "perturbacion": 54, "apta_fep": false, "mcs_cancelado": true, "t_mcs_s": 10.829}
+{"pid_a": "3ebo", "pid_b": "3ebp", "n_a": 19, "n_b": 28, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 1.0, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3eeb", "pid_b": "3fzy", "n_a": 36, "n_b": 36, "prefiltrada": false, "mcs": 36, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3exe", "pid_b": "3exh", "n_a": 26, "n_b": 26, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.462, "perturbacion": 28, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.435}
+{"pid_a": "3f6e", "pid_b": "3fzn", "n_a": 36, "n_b": 39, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 0.333, "perturbacion": 51, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 1.678}
+{"pid_a": "3fas", "pid_b": "3fat", "n_a": 10, "n_b": 13, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.6, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3fj7", "pid_b": "3fjg", "n_a": 10, "n_b": 11, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.8, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3gkz", "pid_b": "3gm0", "n_a": 11, "n_b": 14, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3gnw", "pid_b": "3hky", "n_a": 44, "n_b": 41, "prefiltrada": false, "mcs": 32, "cobertura_mcs": 0.78, "perturbacion": 21, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.042}
+{"pid_a": "3gs6", "pid_b": "3gsm", "n_a": 27, "n_b": 18, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 0.944, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3h89", "pid_b": "3h8b", "n_a": 71, "n_b": 70, "prefiltrada": false, "mcs": 60, "cobertura_mcs": 0.857, "perturbacion": 21, "apta_fep": false, "mcs_cancelado": true, "t_mcs_s": 10.1}
+{"pid_a": "3hf8", "pid_b": "3hfb", "n_a": 38, "n_b": 33, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.394, "perturbacion": 45, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.023}
+{"pid_a": "3hl8", "pid_b": "3hp9", "n_a": 20, "n_b": 23, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.35, "perturbacion": 29, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3hu3", "pid_b": "4ko8", "n_a": 31, "n_b": 31, "prefiltrada": false, "mcs": 31, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "3i4y", "pid_b": "3i51", "n_a": 10, "n_b": 10, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.9, "perturbacion": 2, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3ikd", "pid_b": "3ikg", "n_a": 26, "n_b": 27, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "3ipq", "pid_b": "3ipu", "n_a": 41, "n_b": 34, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.382, "perturbacion": 49, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.01}
+{"pid_a": "3lzs", "pid_b": "3lzu", "n_a": 38, "n_b": 38, "prefiltrada": false, "mcs": 38, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "3m6r", "pid_b": "3pn4", "n_a": 27, "n_b": 27, "prefiltrada": false, "mcs": 27, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3nhi", "pid_b": "3nht", "n_a": 23, "n_b": 23, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.348, "perturbacion": 30, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "3nik", "pid_b": "3nim", "n_a": 31, "n_b": 33, "prefiltrada": false, "mcs": 29, "cobertura_mcs": 0.935, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.004}
+{"pid_a": "3nyx", "pid_b": "4gfo", "n_a": 25, "n_b": 18, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.389, "perturbacion": 29, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3oy8", "pid_b": "3oyw", "n_a": 24, "n_b": 23, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.478, "perturbacion": 25, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3p3g", "pid_b": "3ps1", "n_a": 27, "n_b": 28, "prefiltrada": false, "mcs": 27, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "3p8n", "pid_b": "3p8o", "n_a": 57, "n_b": 56, "prefiltrada": false, "mcs": 56, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.006}
+{"pid_a": "3qfy", "pid_b": "3qfz", "n_a": 10, "n_b": 11, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.8, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "3qps", "pid_b": "3qqa", "n_a": 29, "n_b": 35, "prefiltrada": false, "mcs": 28, "cobertura_mcs": 0.966, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "3rdo", "pid_b": "3rdq", "n_a": 16, "n_b": 15, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.467, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "3rf4", "pid_b": "3rf5", "n_a": 21, "n_b": 16, "prefiltrada": false, "mcs": 16, "cobertura_mcs": 1.0, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3rlb", "pid_b": "4pop", "n_a": 18, "n_b": 17, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.529, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "3rv8", "pid_b": "3veh", "n_a": 19, "n_b": 17, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.412, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3rwp", "pid_b": "4rqk", "n_a": 34, "n_b": 23, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3s43", "pid_b": "3s54", "n_a": 35, "n_b": 38, "prefiltrada": false, "mcs": 35, "cobertura_mcs": 1.0, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "3slz", "pid_b": "3sm2", "n_a": 66, "n_b": 35, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3str", "pid_b": "3sw8", "n_a": 44, "n_b": 17, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "3ta0", "pid_b": "3ta1", "n_a": 31, "n_b": 27, "prefiltrada": false, "mcs": 27, "cobertura_mcs": 1.0, "perturbacion": 4, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "3ubd", "pid_b": "4gue", "n_a": 37, "n_b": 32, "prefiltrada": false, "mcs": 31, "cobertura_mcs": 0.969, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 1.711}
+{"pid_a": "3upk", "pid_b": "3v4t", "n_a": 39, "n_b": 39, "prefiltrada": false, "mcs": 39, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.011}
+{"pid_a": "3wzn", "pid_b": "3x00", "n_a": 16, "n_b": 23, "prefiltrada": false, "mcs": 14, "cobertura_mcs": 0.875, "perturbacion": 11, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "3zhx", "pid_b": "3zi0", "n_a": 25, "n_b": 31, "prefiltrada": false, "mcs": 25, "cobertura_mcs": 1.0, "perturbacion": 6, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "3znr", "pid_b": "3zns", "n_a": 36, "n_b": 37, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 0.556, "perturbacion": 33, "apta_fep": false, "mcs_cancelado": true, "t_mcs_s": 10.237}
+{"pid_a": "4ad2", "pid_b": "4ad3", "n_a": 21, "n_b": 22, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.619, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "4afg", "pid_b": "4b5d", "n_a": 16, "n_b": 18, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.375, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4ai5", "pid_b": "4aia", "n_a": 11, "n_b": 11, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4ayp", "pid_b": "4ayq", "n_a": 24, "n_b": 14, "prefiltrada": false, "mcs": 3, "cobertura_mcs": 0.214, "perturbacion": 32, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4b7j", "pid_b": "4b7r", "n_a": 20, "n_b": 20, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4bb9", "pid_b": "4ly9", "n_a": 16, "n_b": 35, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4bi6", "pid_b": "4bi7", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4c1t", "pid_b": "4c1u", "n_a": 37, "n_b": 28, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.679, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.005}
+{"pid_a": "4cd4", "pid_b": "4cd5", "n_a": 21, "n_b": 25, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.619, "perturbacion": 20, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "4cpy", "pid_b": "4cpz", "n_a": 20, "n_b": 23, "prefiltrada": false, "mcs": 5, "cobertura_mcs": 0.25, "perturbacion": 33, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4cu7", "pid_b": "4cu8", "n_a": 10, "n_b": 11, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.8, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4dhl", "pid_b": "4dsy", "n_a": 15, "n_b": 15, "prefiltrada": false, "mcs": 7, "cobertura_mcs": 0.467, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4do4", "pid_b": "4do5", "n_a": 14, "n_b": 11, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.909, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4etz", "pid_b": "4eu0", "n_a": 46, "n_b": 46, "prefiltrada": false, "mcs": 46, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "4flp", "pid_b": "4kcx", "n_a": 31, "n_b": 29, "prefiltrada": false, "mcs": 4, "cobertura_mcs": 0.138, "perturbacion": 52, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4gqp", "pid_b": "4lar", "n_a": 11, "n_b": 10, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 1.0, "perturbacion": 1, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4h75", "pid_b": "5jsj", "n_a": 68, "n_b": 50, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4hp0", "pid_b": "4hpi", "n_a": 53, "n_b": 39, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4ipi", "pid_b": "4ipj", "n_a": 9, "n_b": 9, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4j7d", "pid_b": "4j7e", "n_a": 34, "n_b": 37, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.618, "perturbacion": 29, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.038}
+{"pid_a": "4je7", "pid_b": "4je8", "n_a": 27, "n_b": 20, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.5, "perturbacion": 27, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "4jkw", "pid_b": "4k55", "n_a": 14, "n_b": 15, "prefiltrada": false, "mcs": 13, "cobertura_mcs": 0.929, "perturbacion": 3, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4jpx", "pid_b": "4jpy", "n_a": 12, "n_b": 12, "prefiltrada": false, "mcs": 12, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4km0", "pid_b": "4km2", "n_a": 17, "n_b": 21, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.471, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4ks1", "pid_b": "4ks4", "n_a": 20, "n_b": 28, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.95, "perturbacion": 10, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4kwf", "pid_b": "4kwg", "n_a": 18, "n_b": 13, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.846, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "4kx8", "pid_b": "4kxb", "n_a": 33, "n_b": 22, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4kxn", "pid_b": "4p5d", "n_a": 29, "n_b": 32, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 0.759, "perturbacion": 17, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4lj5", "pid_b": "4lj8", "n_a": 27, "n_b": 27, "prefiltrada": false, "mcs": 27, "cobertura_mcs": 1.0, "perturbacion": 0, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4lxz", "pid_b": "4ly1", "n_a": 19, "n_b": 25, "prefiltrada": false, "mcs": 10, "cobertura_mcs": 0.526, "perturbacion": 24, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "4m0e", "pid_b": "4m0f", "n_a": 21, "n_b": 38, "prefiltrada": true, "apta_fep": false}
+{"pid_a": "4mhy", "pid_b": "4mhz", "n_a": 22, "n_b": 22, "prefiltrada": false, "mcs": 11, "cobertura_mcs": 0.5, "perturbacion": 22, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.005}
+{"pid_a": "4nkt", "pid_b": "4nku", "n_a": 29, "n_b": 39, "prefiltrada": false, "mcs": 20, "cobertura_mcs": 0.69, "perturbacion": 28, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "4o61", "pid_b": "4oct", "n_a": 13, "n_b": 10, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.9, "perturbacion": 5, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "4omj", "pid_b": "4omk", "n_a": 31, "n_b": 30, "prefiltrada": false, "mcs": 26, "cobertura_mcs": 0.867, "perturbacion": 9, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.009}
+{"pid_a": "4p6w", "pid_b": "4p6x", "n_a": 35, "n_b": 26, "prefiltrada": false, "mcs": 1, "cobertura_mcs": 0.038, "perturbacion": 59, "apta_fep": false, "mcs_cancelado": true, "t_mcs_s": 10.593}
+{"pid_a": "4q08", "pid_b": "4q09", "n_a": 26, "n_b": 28, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 0.846, "perturbacion": 10, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.02}
+{"pid_a": "4q3t", "pid_b": "4q3u", "n_a": 13, "n_b": 12, "prefiltrada": false, "mcs": 9, "cobertura_mcs": 0.75, "perturbacion": 7, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.0}
+{"pid_a": "5aan", "pid_b": "6epa", "n_a": 24, "n_b": 26, "prefiltrada": false, "mcs": 6, "cobertura_mcs": 0.25, "perturbacion": 38, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.005}
+{"pid_a": "5cep", "pid_b": "5ceq", "n_a": 25, "n_b": 29, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.76, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5mro", "pid_b": "5mrp", "n_a": 18, "n_b": 20, "prefiltrada": false, "mcs": 15, "cobertura_mcs": 0.833, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 0.003}
+{"pid_a": "5mwp", "pid_b": "5mwy", "n_a": 29, "n_b": 30, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.276, "perturbacion": 43, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.005}
+{"pid_a": "5tuz", "pid_b": "5vsf", "n_a": 28, "n_b": 29, "prefiltrada": false, "mcs": 22, "cobertura_mcs": 0.786, "perturbacion": 13, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "5ut6", "pid_b": "5win", "n_a": 23, "n_b": 27, "prefiltrada": false, "mcs": 8, "cobertura_mcs": 0.348, "perturbacion": 34, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.001}
+{"pid_a": "5vc3", "pid_b": "5vc4", "n_a": 36, "n_b": 36, "prefiltrada": false, "mcs": 32, "cobertura_mcs": 0.889, "perturbacion": 8, "apta_fep": true, "mcs_cancelado": false, "t_mcs_s": 6.733}
+{"pid_a": "5zhl", "pid_b": "6jof", "n_a": 30, "n_b": 28, "prefiltrada": false, "mcs": 21, "cobertura_mcs": 0.75, "perturbacion": 16, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.002}
+{"pid_a": "6i8y", "pid_b": "6qpl", "n_a": 24, "n_b": 25, "prefiltrada": false, "mcs": 17, "cobertura_mcs": 0.708, "perturbacion": 15, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.023}
+{"pid_a": "6o94", "pid_b": "6o95", "n_a": 36, "n_b": 30, "prefiltrada": false, "mcs": 19, "cobertura_mcs": 0.633, "perturbacion": 28, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 0.01}
+{"pid_a": "6qau", "pid_b": "6qav", "n_a": 34, "n_b": 32, "prefiltrada": false, "mcs": 27, "cobertura_mcs": 0.844, "perturbacion": 12, "apta_fep": false, "mcs_cancelado": false, "t_mcs_s": 4.069}

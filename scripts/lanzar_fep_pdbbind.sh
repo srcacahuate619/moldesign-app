@@ -6,9 +6,9 @@
 # fallo: una réplica que no reproduce su sello invalida la extensión.
 #
 #   sh lanzar.sh replicas     # FEP-01/02/03 sobre los 203, contra los sellos (minutos)
-#   sh lanzar.sh extension    # FEP-01 y FEP-02 sobre PDBBind (decenas de minutos)
+#   sh lanzar.sh extension    # FEP-01 y FEP-02 sobre PDBBind (medido: 33 s y 4,6 min)
 #   sh lanzar.sh grupos       # FEP-03 fase 1: cuántas parejas hay (minutos)
-#   sh lanzar.sh mcs          # FEP-03 fases 2 y 3 (horas o días; reanudable)
+#   sh lanzar.sh mcs          # FEP-03 fases 2 y 3 (medido: 25 min con 3 procesos; reanudable)
 #
 # Se ejecuta DENTRO del contenedor moldesign-science, con /work = ~/moldesign-fep.
 set -eu

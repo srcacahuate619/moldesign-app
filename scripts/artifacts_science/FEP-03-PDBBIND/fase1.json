@@ -1,0 +1,28 @@
+{
+ "n_pdbbind": 5325,
+ "n_complejos": 3887,
+ "n_dianas_distintas": 1228,
+ "dianas_con_2_o_mas": 547,
+ "tamano_grupo_max": 201,
+ "n_parejas": 40969,
+ "n_parejas_prefiltradas": 10869,
+ "n_parejas_con_mcs": 30100,
+ "n_shards": 21,
+ "grupos_mayores": [
+  201,
+  99,
+  95,
+  66,
+  64,
+  62,
+  60,
+  46,
+  41,
+  36,
+  32,
+  29,
+  28,
+  26,
+  26
+ ]
+}
