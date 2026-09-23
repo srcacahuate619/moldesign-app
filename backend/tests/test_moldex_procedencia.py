@@ -58,6 +58,7 @@ def _resultado(**overrides):
         tpsa=64.2,
         total_score=88.0,
         gnn_score=71.0,
+        clgnn_score=0.74,
         lipinski_pass=True,
         veber_pass=True,
         scientific_warnings=[],

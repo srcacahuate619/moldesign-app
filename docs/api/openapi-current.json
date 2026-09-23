@@ -2074,6 +2074,18 @@
             "minimum": 0.0,
             "title": "Rmsd Ub",
             "type": "number"
+          },
+          "source_provenance": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Provenance"
           }
         },
         "required": [
@@ -4152,6 +4164,17 @@
             ],
             "title": "Affinity"
           },
+          "clgnn_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Clgnn Score"
+          },
           "gnn_score": {
             "anyOf": [
               {
@@ -5714,6 +5737,19 @@
               }
             ],
             "title": "Selectivity Verdict"
+          },
+          "task_id": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id"
           }
         },
         "required": [
@@ -6838,7 +6874,7 @@
     "description": "MolDesign expone un pipeline científico basado en RDKit, AutoDock Vina y scoring explícito. La IA interpreta resultados ya calculados y no genera métricas químicas por sí misma.",
     "summary": "Plataforma de diseño molecular asistido con pipeline científico reproducible.",
     "title": "MolDesign API",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -10580,6 +10616,154 @@
         "summary": "Encender un motor descargable que ya está instalado",
         "tags": [
           "Evaluación científica"
+        ]
+      }
+    },
+    "/evaluation/estimate": {
+      "get": {
+        "description": "Estimación para una evaluación, un ensemble o una cohorte.\n\n`ligandos` es lo único que separa los tres casos. Y `target_pdb_id` no es\ndecorativo: con él se comprueba EN DISCO si el receptor ya está preparado,\nque es el coste de una sola vez —medido en 8.8 s— responsable de que una\nprimera corrida parezca rota al lado de la segunda.",
+        "operationId": "estimar_esta_corrida_evaluation_estimate_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "exhaustiveness",
+            "required": false,
+            "schema": {
+              "default": 8,
+              "title": "Exhaustiveness",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "conformers",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "title": "Conformers",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "target_pdb_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Target Pdb Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "grid_size_x",
+            "required": false,
+            "schema": {
+              "default": 30.0,
+              "title": "Grid Size X",
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "grid_size_y",
+            "required": false,
+            "schema": {
+              "default": 30.0,
+              "title": "Grid Size Y",
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "grid_size_z",
+            "required": false,
+            "schema": {
+              "default": 30.0,
+              "title": "Grid Size Z",
+              "type": "number"
+            }
+          },
+          {
+            "in": "query",
+            "name": "rotables",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Rotables"
+            }
+          },
+          {
+            "in": "query",
+            "name": "anti_targets",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "title": "Anti Targets",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "mmgbsa",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Mmgbsa",
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "ligandos",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "title": "Ligandos",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Estimar Esta Corrida Evaluation Estimate Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cuánto tardaría esta corrida en ESTE equipo",
+        "tags": [
+          "Meta"
         ]
       }
     },

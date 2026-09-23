@@ -6,10 +6,10 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 
 ## Identidad del snapshot
 
-- Paths: **113**
-- Operaciones HTTP: **119**
-- Versión declarada: `1.0.0`
-- SHA-256: `a35cc4721039f98bf917cb73ffe8c0c042cd0b7c3e517cf7a5bce488f40e823b`
+- Paths: **114**
+- Operaciones HTTP: **120**
+- Versión declarada: `1.0.1`
+- SHA-256: `1bfbacd4f4ead1d48b0a8b5dc7d3d9288ff8160920087b53ef8c5e1253e16dcd`
 - Schema completo: [api/openapi-current.json](api/openapi-current.json)
 - Regenerar: `python scripts/generate_openapi_contract.py --write`
 - Verificar en CI: `python scripts/generate_openapi_contract.py --check`
@@ -88,6 +88,7 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `POST` | `/evaluation/dossier/{molecule_id}/preview` | `dossier_preview_evaluation_dossier__molecule_id__preview_post` | Dossier del caso en PDF (inline) | Evaluación científica, Dossier de caso |
 | `GET` | `/evaluation/engines` | `listar_motores_evaluation_engines_get` | Qué motores de docking puede ejecutar esta instalación | Evaluación científica |
 | `POST` | `/evaluation/engines/{motor_id}/encender` | `encender_motor_evaluation_engines__motor_id__encender_post` | Encender un motor descargable que ya está instalado | Evaluación científica |
+| `GET` | `/evaluation/estimate` | `estimar_esta_corrida_evaluation_estimate_get` | Cuánto tardaría esta corrida en ESTE equipo | Meta |
 | `POST` | `/evaluation/evaluate` | `evaluate_sync_evaluation_evaluate_post` | Evaluacion sincrona con SSE progress | Evaluación científica |
 | `GET` | `/evaluation/files/complex/{molecule_id}` | `get_complex_file_evaluation_files_complex__molecule_id__get` | Complejo proteína-ligando fusionado (un único PDB para visualización 3D correcta) | Evaluación científica, Evaluación científica |
 | `GET` | `/evaluation/files/poses/{molecule_id}` | `get_pose_file_evaluation_files_poses__molecule_id__get` | Descargar SDF de poses de docking | Evaluación científica, Evaluación científica |

@@ -45,7 +45,12 @@ class MoldexMetricsRead(BaseModel):
     tpsa: float | None = None
     #: Escala 0-100.
     score: float | None = None
+    #: RTMScore (legacy). Nulo en toda corrida de la app de escritorio: sus pesos no
+    #: viajan y el puente directo no la calcula. Se conserva por las bases antiguas.
     gnn_score: float | None = None
+    #: CL-GNN. EXPERIMENTAL: se calcula y se guarda, pero pesa 0.0 en el ranking
+    #: (sus AUC históricos no son del SHA-256 que viaja; stacking_weights.json).
+    clgnn_score: float | None = None
     lipinski_pass: bool | None = None
     veber_pass: bool | None = None
 
@@ -224,6 +229,7 @@ async def get_moldex(
                 "tpsa": res.tpsa,
                 "score": res.total_score,
                 "gnn_score": res.gnn_score,
+                "clgnn_score": res.clgnn_score,
                 "lipinski_pass": res.lipinski_pass,
                 "veber_pass": res.veber_pass,
             },

@@ -65,3 +65,17 @@ def test_el_esquema_no_publica_la_ruta_local_del_receptor():
     # EVAL-INT-008: el hash se publica, la ruta privada del usuario no.
     assert "receptor_path" not in moldex.MoldexProvenanceRead.model_fields
     assert "receptor_path" not in moldex.MoldexMoleculeRead.model_fields
+
+
+def test_la_cl_gnn_llega_a_moldex_y_la_gnn_legacy_no_se_rompe():
+    """Decisión del propietario (2026-09-23): la CL-GNN se enseña, marcada experimental.
+
+    `gnn_score` (RTMScore) se queda en el contrato por las bases antiguas, aunque en
+    una corrida de escritorio siempre llegue nulo. Ninguna de las dos es obligatoria:
+    una ausencia no puede convertirse en un cero.
+    """
+    campos = moldex.MoldexMetricsRead.model_fields
+
+    for nombre in ("gnn_score", "clgnn_score"):
+        assert nombre in campos
+        assert not campos[nombre].is_required()
