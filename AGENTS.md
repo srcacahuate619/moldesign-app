@@ -245,7 +245,7 @@ docs/             programa experimental, gates de release, auditorías
 
 ```bash
 cd frontend
-npm run test:run      # 1058 pruebas
+npm run test:run      # 1062 pruebas
 npm run tauri:build   # instalador completo
 ```
 
@@ -417,7 +417,7 @@ SBOM los lista ahora en `sin_licencia_declarada`. Ver
   (`python-embed`, 3.11.9), medidas el 2026-09-22. Con el intérprete de
   desarrollo (3.14) son 36 más (2582):
   la diferencia son `importorskip` cuya dependencia no viaja en el bundle, y por
-  eso el número que vale es el del runtime embebido. Frontend: **1058** en 117
+  eso el número que vale es el del runtime embebido. Frontend: **1062** en 117
   archivos (medido el 2026-09-23). `tsc` limpio.
   El conteo del backend lo mantiene `scripts/report_test_counts.py`, que
   escribe `docs/api/test-counts.json`: esa es la fuente, no este párrafo.
