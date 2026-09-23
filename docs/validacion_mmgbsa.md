@@ -137,6 +137,32 @@ como comparación pareada con el respaldo de Amber (≤ +0,5 Å² de cota superi
 umbral absoluto para los vecinos fallaba en los tres brazos por igual; por eso
 se volvió al «no empeorar» del apartado 1.
 
+**Resultado, medido el 2026-09-23 (sellado): NO_GO.** 117 de 121 ligandos
+medidos (4 fallos que no son del halógeno, abajo).
+
+| brazo H1 (Cl publicado + Bondi) | validación | prueba |
+|---|---|---|
+| Br: mediana / p90 / IC95 del sesgo (Å²) | 0,70 / 6,90 / [−3,14, −0,40] | 3,40 / 9,44 / [−3,03, +3,35] |
+| I: mediana / p90 / IC95 del sesgo (Å²) | 4,71 / 6,49 / [−5,82, −1,32] | 4,57 / 5,36 / [−4,81, −1,33] |
+
+- **El yodo lo refuta con la firma que se había anticipado:** un sesgo
+  negativo sistemático que **crece con el radio**. Con r = 1,8 el mismo
+  conjunto de coeficientes se equivoca menos que con el Bondi de 1,98 en las
+  tres particiones (prueba: mediana 3,62, media −2,95). La forma funcional del
+  cloro no se traslada a una esfera mayor.
+- El bromo pasa mediana y p90 en validación, pero no el sesgo, y en prueba
+  falla los tres: la calidad depende mucho del scaffold (el IC de prueba va de
+  −3 a +3).
+- **Los vecinos no empeoran:** con H1 los átomos que solapan con Br/I mejoran
+  0,20-0,23 Å² frente al respaldo de Amber, en las tres particiones.
+- El respaldo de Amber (`C_sp2_2`) sigue fuera por 24-31 Å².
+- **Cuatro fallos que no son del halógeno:** tres `=CH2` vinílicos terminales
+  para los que el OpenMM 8.5.2 que viaja **no tiene parámetro LCPO** (el
+  MM-GBSA candidato no puede puntuar hoy un alqueno terminal), y un alquino
+  terminal al que el SDF de PDBBind le quitó el H.
+
+Siguiente, según el orden declarado: H2 con H10.
+
 **Notas del propietario (informe 2026-09-23):** «prometedora», la más
 prometedora de 1.0.2. Se prueba **sin ajuste**. Que Bondi publicara esos radios
 como radios de van der Waals no dice que sirvan para LCPO: eso es justo lo que
@@ -484,8 +510,8 @@ referencias concretas del informe están por localizar).
 1. **H5** (minutos): si la implementación no coincide, nada más tiene sentido.
    **Cerrada, GO** (`MMGBSA-H5-R1`, tras un NO_GO de H5 por una entrada
    imposible).
-2. **H1** (minutos) y, sólo si falla, **H2** (horas), con **H10** en la misma
-   corrida.
+2. **H1** (minutos): **cerrada, NO_GO** (el yodo, con sesgo que crece con el
+   radio). Por tanto **H2** (horas), con **H10** en la misma corrida.
 3. **H3 y H4**: primero contra PBSA en las mismas geometrías, después FreeSolv.
 4. **H6**: declarar el dominio.
 5. **H7, H8, H9 y H11**: sistemas completos y poses, en la semana de servidor.
@@ -532,3 +558,4 @@ Pendientes:
 - 2026-09-23 — H5 sellada (NO_GO 23/24 por 5mlj) y su réplica R1 con filtro
   geométrico (GO 23/23 evaluables). El azufre discrepa en GBn2 hasta
   11,24 kcal/mol.
+- 2026-09-23 — particiones selladas y H1 sellada: NO_GO.

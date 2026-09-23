@@ -27,3 +27,12 @@ data/pose_selector_dataset/**     -text
 *.pdb                             -text
 *.sdf                             -text
 *.mol2                            -text
+# Activos sellados de la campaña MM-GBSA Br/I: su SHA-256 está en un manifiesto
+# de scripts/artifacts_science/ y viven fuera de él. (Hay otros 146 activos
+# sellados antiguos en la misma situación; pendiente en docs/versions/1.0.2_cambios.md.)
+backend/audits/bri_h1/**                     -text
+backend/audits/gbn2_paridad_halogenos.py     -text
+backend/audits/gbn2_paridad_halogenos_r1.py  -text
+backend/audits/lcpo_bri_h1.py                -text
+backend/audits/lcpo_halogenos.py             -text
+backend/audits/lcpo_vs_sasa_exacta.py        -text

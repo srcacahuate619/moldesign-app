@@ -28,8 +28,12 @@ Por separado para Br y para I, en validacion y en prueba, con el brazo H1: (1) m
 ## Estado
 
 - Creado: 2026-09-23T18:16:52.053578+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: NO_GO
+- Sellado: sí (2026-09-23T18:25:47.049823+00:00)
+- Finalizado: 2026-09-23T18:26:03.886382+00:00
+- Razón de la decisión: La hipotesis se refuta. Con P1-P4 del Cl publicado y radios de Bondi, sin ajuste, los cuatro casos fallan: Br validacion (mediana 0.70, p90 6.90, pero IC95 del sesgo [-3.14,-0.40] sale de +-2.81), Br prueba (mediana 3.40, p90 9.44, IC95 [-3.03,3.35]), I validacion (mediana 4.71, IC95 [-5.82,-1.32]) e I prueba (mediana 4.57, IC95 [-4.81,-1.33]). En el yodo el error es sistematico y negativo y crece con el radio: el diagnostico con r=1.8 lo reduce en las tres particiones (prueba: mediana 3.62, media -2.95 frente a 4.57 y -3.66), que es la refutacion que el documento anticipaba (la forma funcional del Cl no escala con el radio). El criterio de vecinos pasa en las tres particiones: con H1 los atomos que solapan con Br/I mejoran 0.20-0.23 A2 frente al respaldo de Amber. El respaldo C_sp2_2 sigue fuera por 24-31 A2. 117 de 121 ligandos medidos; 4 fallos que no cuentan para el gate y no son del halogeno: tres =CH2 vinilicos terminales sin parametro LCPO en OpenMM 8.5.2 (el MM-GBSA candidato no puede puntuar un alqueno terminal) y un alquino terminal sin su H en el SDF de PDBBind. Siguiente, segun el orden declarado: H2 (reajustar P1-P4 por elemento en entrenamiento) con H10.
+- Hashes de assets: 11 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 

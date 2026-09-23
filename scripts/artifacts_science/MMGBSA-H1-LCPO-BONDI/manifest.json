@@ -4,7 +4,7 @@
   "hypothesis": "Los coeficientes LCPO P1-P4 del Cl publicado (Weiser, Shenkin y Still 1999) con el radio de Bondi (Br 1.85 A, I 1.98 A), sin ningun ajuste, aproximan la SASA numericamente exacta de los atomos de Br y de I dentro del error de fondo de LCPO, sin sesgo mayor que ese error y sin empeorar a los atomos vecinos respecto del respaldo de Amber.",
   "protocol": "backend/audits/lcpo_bri_h1.py (sha sellado en MMGBSA-PARTICIONES-BRI-V1) sobre los 121 ligandos de geometria posible de esa seleccion: parametrizar con AmberTools (GAFF2, cargas Gasteiger, mbondi3; la funcion de lcpo_halogenos.py sin modificar) en el contenedor moldesign-science, medir con OpenMM 8.5.2 y Shrake-Rupley a 50000 puntos por atomo, resumir por las particiones selladas. Brazos: H1 (Cl publicado + Bondi), respaldo de Amber C_sp2_2 (control negativo) y Cl publicado con r=1.8 (diagnostico). Piloto previo de 5 ligandos declarado en el docstring: llevo a reformular el criterio de vecinos como comparacion pareada (el documento decia 'no empeorar'); los criterios 1 y 2 no se tocaron.",
   "created_at": "2026-09-23T18:16:52.053578+00:00",
-  "status": "created",
+  "status": "finished",
   "git_state": {
     "branch": "codex/release-hygiene",
     "commit": "27b2917fca0963cff2520dc4be25507e59017a1d",
@@ -25,5 +25,23 @@
   "gate": {
     "description": "Por separado para Br y para I, en validacion y en prueba, con el brazo H1: (1) mediana |error| <= 2.81 A2 y p90 <= 7.25 A2; (2) IC bootstrap 95% (1000 remuestreos de grupos de scaffold, semilla 20260923) del error medio con signo dentro de +-2.81 A2; (3) en los atomos pesados que solapan con un Br o un I, cota superior del IC95 de la media pareada |error H1| - |error respaldo Amber| <= +0.5 A2. Menos de 5 atomos de un elemento en una particion: INDETERMINADO. GO si los cuatro casos (Br/I x validacion/prueba) pasan; NO_GO si alguno falla; INCONCLUSIVE si alguno es indeterminado y ninguno falla."
   },
-  "decision": "PENDING"
+  "decision": "NO_GO",
+  "assets_hashes": {
+    "backend/audits/lcpo_bri_h1.py": "bc22f9f0490d24ac1356f04706fe3a94c4e4cc4699878c22ece1a772a5c816cc",
+    "backend/audits/lcpo_halogenos.py": "d745db83ed715937cfbaeb7f1abc1fb539feffe19cf93cdfc4a48fb8bddccaa1",
+    "backend/audits/lcpo_vs_sasa_exacta.py": "487c06aadadb832b80d519cc0f9f13cc387b87b8d381712e6c0829ca35b4f1f8",
+    "backend/audits/bri_h1/seleccion.json": "60701402692c0bebe3686d29dd11ebe88d226d1c5d05c5f333590b481781675c",
+    "backend/audits/bri_h1/particiones.json": "dc9d0162c3381ba8c517712ec1791a2e0f51ae8a1d6f80c834896c0245332c65",
+    "scripts/artifacts_science/MMGBSA-H1-LCPO-BONDI/metrics.json": "2252f0210ca178801af0a5964cde6db42790051898f2b657ebc542e31ca7fb9b",
+    "scripts/artifacts_science/MMGBSA-H1-LCPO-BONDI/per_complex.jsonl": "3386e487db9507204a3b2adc40c01e35fed2a9a466cd271330183951d9537d9b",
+    "scripts/artifacts_science/MMGBSA-H1-LCPO-BONDI/failures.jsonl": "839245888e99fff0b9294170c0bbdd0b15713682e56a79d9ce59b53a8d384bbb",
+    "scripts/artifacts_science/MMGBSA-H1-LCPO-BONDI/logs/medir.log": "adbda38f2d6db40a05e104267c1cac1164fd22c4e3aefe4531b16822453a42be",
+    "scripts/artifacts_science/MMGBSA-H1-LCPO-BONDI/logs/parametrizar.log": "0e3c08ac65014ebcfc2064ae96f2927ee9e9a1539bcbe55f69b08b3ab39a2340",
+    "scripts/artifacts_science/MMGBSA-H1-LCPO-BONDI/logs/resumir.log": "343e4fd9a2369bc771c7f08aeca6a5e36a07c73dc8885116bafbad3ef8e127c2"
+  },
+  "sealed": true,
+  "sealed_at": "2026-09-23T18:25:47.049823+00:00",
+  "decision_rationale": "La hipotesis se refuta. Con P1-P4 del Cl publicado y radios de Bondi, sin ajuste, los cuatro casos fallan: Br validacion (mediana 0.70, p90 6.90, pero IC95 del sesgo [-3.14,-0.40] sale de +-2.81), Br prueba (mediana 3.40, p90 9.44, IC95 [-3.03,3.35]), I validacion (mediana 4.71, IC95 [-5.82,-1.32]) e I prueba (mediana 4.57, IC95 [-4.81,-1.33]). En el yodo el error es sistematico y negativo y crece con el radio: el diagnostico con r=1.8 lo reduce en las tres particiones (prueba: mediana 3.62, media -2.95 frente a 4.57 y -3.66), que es la refutacion que el documento anticipaba (la forma funcional del Cl no escala con el radio). El criterio de vecinos pasa en las tres particiones: con H1 los atomos que solapan con Br/I mejoran 0.20-0.23 A2 frente al respaldo de Amber. El respaldo C_sp2_2 sigue fuera por 24-31 A2. 117 de 121 ligandos medidos; 4 fallos que no cuentan para el gate y no son del halogeno: tres =CH2 vinilicos terminales sin parametro LCPO en OpenMM 8.5.2 (el MM-GBSA candidato no puede puntuar un alqueno terminal) y un alquino terminal sin su H en el SDF de PDBBind. Siguiente, segun el orden declarado: H2 (reajustar P1-P4 por elemento en entrenamiento) con H10.",
+  "finished_at": "2026-09-23T18:26:03.886382+00:00",
+  "duration_seconds": 250.0
 }
