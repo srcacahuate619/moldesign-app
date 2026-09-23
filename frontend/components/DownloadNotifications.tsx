@@ -120,7 +120,7 @@ export function DownloadNotifications() {
           <div className="max-h-[min(65dvh,460px)] overflow-y-auto p-2 custom-scrollbar">
             {activity.length > 0 && (
               <section aria-labelledby="recent-activity">
-                <h2 id="recent-activity" className="px-2 py-1.5 text-xs font-bold uppercase tracking-wider text-zinc-400">Actividad reciente</h2>
+                <h2 id="recent-activity" className="px-2 py-1.5 text-xs font-bold uppercase tracking-wider text-zinc-400">{t("op_descargas_actividad_reciente")}</h2>
                 {activity.map((item) => {
                   const Icon = item.status === "success" ? CheckCircle2 : item.status === "error" ? CircleAlert : LoaderCircle;
                   const row = (
@@ -145,7 +145,7 @@ export function DownloadNotifications() {
             )}
 
             <section aria-labelledby="model-activity">
-              <h2 id="model-activity" className="px-2 py-1.5 text-xs font-bold uppercase tracking-wider text-zinc-400">Modelos y motores</h2>
+              <h2 id="model-activity" className="px-2 py-1.5 text-xs font-bold uppercase tracking-wider text-zinc-400">{t("op_descargas_modelos_motores")}</h2>
               {manifest.map((entry) => {
                 const status = models[entry.id] || "missing";
                 const event = progress[entry.id];

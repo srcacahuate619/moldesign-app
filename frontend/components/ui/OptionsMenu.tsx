@@ -354,7 +354,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
 
 
                   <section>
-                    <h3 className={sectionLabelClass}>Modelos y motores</h3>
+                    <h3 className={sectionLabelClass}>{t("op_menu_modelos_motores")}</h3>
                     <div className="space-y-1">
                       <button
                         type="button"

@@ -58,6 +58,9 @@ export const comun: ModuloDeTraduccion = {
     c_sin_motor:
       "No se pudo establecer contacto con el motor local de MolDesign. "
       + "Revisa su estado en la aplicación y vuelve a intentarlo.",
+
+    // ── Login ─────────────────────────────────────────────────────
+    c_login_email: "Correo electrónico",
   },
   en: {
     c_reintentar: "Retry",
@@ -95,5 +98,8 @@ export const comun: ModuloDeTraduccion = {
     c_sin_motor:
       "Could not reach the local MolDesign engine. "
       + "Check its status in the application and try again.",
+
+    // ── Login ─────────────────────────────────────────────────────
+    c_login_email: "Email",
   },
 };

@@ -176,7 +176,7 @@ export function LoginForm({
 
         <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="login-email" className="text-sm font-medium text-surface-300 font-mono">Email</label>
+            <label htmlFor="login-email" className="text-sm font-medium text-surface-300 font-mono">{t("c_login_email")}</label>
             <input
               id="login-email"
               type="email"

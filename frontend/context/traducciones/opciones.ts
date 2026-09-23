@@ -86,6 +86,11 @@ export const opciones: ModuloDeTraduccion = {
     op_pasos_no_garantizan:
       "Más pasos aumentan el coste y pueden mejorar la convergencia; no "
       + "garantizan precisión. 1000 es un valor orientativo para screening.",
+
+    // ── Descargas y menú ──────────────────────────────────────────
+    op_descargas_actividad_reciente: "Actividad reciente",
+    op_descargas_modelos_motores: "Modelos y motores",
+    op_menu_modelos_motores: "Modelos y motores",
   },
   en: {
     op_titulo: "Evaluation options",
@@ -151,5 +156,10 @@ export const opciones: ModuloDeTraduccion = {
     op_pasos_no_garantizan:
       "More steps raise the cost and may improve convergence; they do not "
       + "guarantee accuracy. 1000 is a rule-of-thumb value for screening.",
+
+    // ── Descargas y menú ──────────────────────────────────────────
+    op_descargas_actividad_reciente: "Recent activity",
+    op_descargas_modelos_motores: "Models and engines",
+    op_menu_modelos_motores: "Models and engines",
   },
 };

@@ -63,7 +63,7 @@ export function ProviderBadge({ provider, isStreaming, resourceStatus, destino =
     }
   } else if (isCloud) {
     statusIcon = <Wifi size={12} color={color} />;
-    statusText = "Conectado";
+    statusText = t("ia_conectado");
     statusColor = color;
   } else if (resourceStatus) {
     const { llm_state, pipeline_state, using_gpu, gpu_name, gpu_vram_total_gb, vram_free_gb, ram_free_gb, ram_total_gb } = resourceStatus;
