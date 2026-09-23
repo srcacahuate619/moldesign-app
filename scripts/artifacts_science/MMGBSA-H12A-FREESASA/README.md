@@ -28,8 +28,12 @@ GO si, por atomo pesado, el p95 de |FreeSASA - exacta| <= 0.5 A2 y el maximo <= 
 ## Estado
 
 - Creado: 2026-09-23T19:29:17.052107+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: NO_GO
+- Sellado: sí (2026-09-23T19:30:31.742750+00:00)
+- Finalizado: 2026-09-23T19:30:31.924060+00:00
+- Razón de la decisión: NO_GO por la letra del gate: el p95 de |FreeSASA - exacta| por atomo es 0.553 A2 (tope 0.5) y el maximo 1.221 A2 (tope 1.0) en 3088 atomos pesados; en Br p95 0.643 y maximo 1.177; en I p95 0.547 y maximo 0.664. Mediana 0.144 A2 (Br 0.261, I 0.163) y 0.55 ms por ligando. El techo lo pone la resolucion por defecto de Lee-Richards, que la RDKit 2025.09.6 no expone (SASAOpts solo tiene algoritmo, clasificador y sonda). No se reformula el gate: una R1 con un criterio energetico disenado despues de ver estos numeros pasaria por construccion. Caracterizacion: el error de FreeSASA es unas 20 veces menor que el error de fondo de LCPO (mediana 2.81 A2) y que el de LCPO en Br/I (H1, H2: medianas 1-5 A2, p90 hasta 9.8), y 1.22 A2 por 0.0072 kcal/mol/A2 son menos de 0.009 kcal/mol.
+- Hashes de assets: 5 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 

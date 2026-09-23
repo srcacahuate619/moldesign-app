@@ -575,8 +575,25 @@ H2) da 437,80 Å² frente a 438,09 de la SASA exacta a 50 000 puntos, con
 59,7/59,6), en menos de 1 ms; el receptor entero (11 582 átomos), en 0,22 s.
 LCPO se equivocaba en esos Br en +10 a +12 Å².
 
-**Criterio.** Por fijar tras la investigación del propietario (métodos y
-bibliotecas disponibles, licencias).
+**Notas del propietario (segunda ronda).** FreeSASA es MIT: puede viajar como
+componente separado de un producto PolyForm NC conservando su aviso (hoy la
+RDKit que viaja lo lleva enlazado y el aviso falta: pendiente). MMPBSA.py usa
+LCPO por defecto y admite `molsurf=1` (verificado en el `input_parser.py` del
+contenedor). No hay en la literatura un error de LCPO medido para Br o I: lo
+midieron H1 y H2. Si se cambia de LCPO a FreeSASA, γ debe recalibrarse.
+
+**H12a, medida el 2026-09-23 (`MMGBSA-H12A-FREESASA`, sellada): NO_GO por la
+letra del gate.** Por átomo, FreeSASA frente a la SASA exacta en 3088 átomos:
+mediana 0,14 Å², p95 **0,55** (tope 0,5) y máximo **1,22** (tope 1,0); Br p95
+0,64, I p95 0,55; 0,55 ms por ligando. El techo lo pone la resolución por
+defecto de Lee-Richards, que la RDKit no expone. No se reformula el gate: un
+criterio energético diseñado después de ver los datos pasaría por
+construcción. Como caracterización: el error es unas 20 veces menor que el de
+fondo de LCPO y que el de LCPO en Br/I, y en energía no llega a 0,01 kcal/mol
+por átomo. La elección para el producto se apoya en esa comparación y en H3,
+que usa FreeSASA dentro del modelo completo.
+
+**Criterio de la parte en complejos (H12b).** Por fijar.
 
 **Coste.** Bajo en cálculo; el trabajo es de diseño del protocolo.
 
