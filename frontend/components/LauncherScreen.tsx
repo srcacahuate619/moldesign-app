@@ -26,7 +26,7 @@ export function LauncherScreen() {
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t("pg_lanzador_modelos_motores")}</h1>
           <p className="mt-3 max-w-xl text-sm font-medium leading-6 text-[var(--text-secondary)]">
             {t("auto_7194e52d2e3f")}
-            {downloading > 0 && ` Hay ${downloading} descarga${downloading === 1 ? "" : "s"} en progreso.`}
+            {downloading > 0 && t(downloading === 1 ? "pg_lanzador_descarga_una" : "pg_lanzador_descargas_varias", { n: downloading })}
           </p>
         </header>
 

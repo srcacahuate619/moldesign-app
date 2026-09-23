@@ -378,7 +378,6 @@
   "components/interfaces/pro/PipelineTimeline.tsx: OpenMM",
   "components/interfaces/pro/PipelineTimeline.tsx: Pipeline completado",
   "components/interfaces/pro/PipelineTimeline.tsx: XGBoost",
-  "components/interfaces/pro/PipelineTimeline.tsx: etapas",
   "components/interfaces/pro/PoseComparisonDialog.tsx: Comparar poses en 3D",
   "components/interfaces/pro/PoseComparisonDialog.tsx: Pose #",
   "components/interfaces/pro/PoseComparisonDialog.tsx: coordenadas registradas",

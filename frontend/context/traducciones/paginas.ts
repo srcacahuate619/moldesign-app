@@ -150,6 +150,7 @@ export const paginas: ModuloDeTraduccion = {
     pg_inicio_iniciando_red_3d: "Iniciando Red 3D...",
     pg_inicio_pipeline: "Flujo de cálculo",
     pg_inicio_afinidad_kcal: "Afinidad (kcal/mol)",
+    pg_inicio_etapas: "etapas",
 
     // ── Lanzador ──────────────────────────────────────────────────
     pg_lanzador_componentes_locales: "Componentes locales",
@@ -157,6 +158,8 @@ export const paginas: ModuloDeTraduccion = {
     pg_lanzador_componentes_disponibles: "Componentes disponibles",
     pg_lanzador_abrir: "Abrir MolDesign",
     pg_lanzador_instalar_requerido: "Instalar motor requerido",
+    pg_lanzador_descarga_una: " Hay {n} descarga en progreso.",
+    pg_lanzador_descargas_varias: " Hay {n} descargas en progreso.",
 
     // ── El error global ───────────────────────────────────────────
     pg_err_titulo: "MolDesign no pudo abrir la interfaz",
@@ -290,6 +293,7 @@ export const paginas: ModuloDeTraduccion = {
     pg_inicio_iniciando_red_3d: "Starting 3D Network...",
     pg_inicio_pipeline: "Pipeline",
     pg_inicio_afinidad_kcal: "Affinity (kcal/mol)",
+    pg_inicio_etapas: "stages",
 
     // ── Lanzador ──────────────────────────────────────────────────
     pg_lanzador_componentes_locales: "Local components",
@@ -297,6 +301,8 @@ export const paginas: ModuloDeTraduccion = {
     pg_lanzador_componentes_disponibles: "Available components",
     pg_lanzador_abrir: "Open MolDesign",
     pg_lanzador_instalar_requerido: "Install required engine",
+    pg_lanzador_descarga_una: " {n} download in progress.",
+    pg_lanzador_descargas_varias: " {n} downloads in progress.",
 
     pg_err_titulo: "MolDesign could not open the interface",
     pg_err_subtitulo: "The window was left unpainted",

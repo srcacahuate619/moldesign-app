@@ -201,6 +201,9 @@ export const pro: ModuloDeTraduccion = {
 
     // ── Selectividad ──────────────────────────────────────────────
     pr_sel_sin_evaluacion: "no hay una evaluación a la que asociar el panel",
+
+    // ── Timeline ──────────────────────────────────────────────────
+    pr_timeline_etapas: "etapas",
   },
   en: {
     pr_analisis_corrida: "Run analysis",
@@ -377,5 +380,8 @@ export const pro: ModuloDeTraduccion = {
 
     // ── Selectividad ──────────────────────────────────────────────
     pr_sel_sin_evaluacion: "there is no evaluation to attach the panel to",
+
+    // ── Timeline ──────────────────────────────────────────────────
+    pr_timeline_etapas: "stages",
   },
 };

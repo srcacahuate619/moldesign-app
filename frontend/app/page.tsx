@@ -268,7 +268,7 @@ function HeroSplit({ stats }: { stats: typeof EMPTY_STATS }) {
             <div>
               <span className="font-mono text-xs uppercase tracking-wider text-muted">{t("pg_inicio_pipeline")}</span>
               <p className="text-4xl lg:text-5xl font-black text-theme font-mono mt-2">
-                07 <span className="text-base text-muted">{locale === "es" ? "etapas" : "stages"}</span>
+                07 <span className="text-base text-muted">{t("pg_inicio_etapas")}</span>
               </p>
             </div>
           </motion.div>

@@ -260,7 +260,7 @@ export function PipelineTimeline({
         </span>
         {!isDone && !failed && finishedCount > 0 && (
           <span className="text-[9px] font-mono text-white/25">
-            {finishedCount}/{stages.length} etapas
+            {finishedCount}/{stages.length} {t("pr_timeline_etapas")}
           </span>
         )}
       </div>
