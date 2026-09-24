@@ -230,6 +230,40 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
     }
   });
 
+  it("un literal con clave que NO se ve no cuenta como migrable, y uno que se ve sí", () => {
+    // `keyFor` empareja también por el inglés. Antes, con una clave de inglés
+    // «Retry», `id="Retry"` salía como detectado y --write lo habría reescrito
+    // como `id={t(...)}`. Lo mismo con un valor que sólo se compara. El segundo
+    // mutante es el contraste: sin él, «Detectadas 0» no demostraría nada.
+    const raiz = resolve(__dirname, "../..");
+    const mutante = join(raiz, "components", "MutanteInvisibleDelGuardian.tsx");
+    const detectadas = () => {
+      const salida = execFileSync(process.execPath, [SCRIPT], { cwd: raiz, encoding: "utf8" });
+      const m = /Detectadas (\d+) cadenas/.exec(salida);
+      if (!m) throw new Error("el barrido no dijo cuántas detectó:\n" + salida.slice(0, 300));
+      return Number(m[1]);
+    };
+    try {
+      writeFileSync(mutante, [
+        "export function MutanteInvisibleDelGuardian({ modo }: { modo: string }) {",
+        "  return (<div id=\"Retry\" data-activo={modo === \"Definir\" ? 1 : 0} />);",
+        "}",
+        "",
+      ].join("\n"), "utf8");
+      expect(detectadas()).toBe(0);
+
+      writeFileSync(mutante, [
+        "export function MutanteInvisibleDelGuardian() {",
+        "  return (<div id=\"Retry\"><span>Definir</span></div>);",
+        "}",
+        "",
+      ].join("\n"), "utf8");
+      expect(detectadas()).toBe(1);
+    } finally {
+      rmSync(mutante, { force: true });
+    }
+  });
+
   it("el texto pendiente de traducir sólo puede bajar", () => {
     const actual: string[] = JSON.parse(execFileSync(process.execPath, [SCRIPT, "--json"], {
       cwd: resolve(__dirname, "../.."),

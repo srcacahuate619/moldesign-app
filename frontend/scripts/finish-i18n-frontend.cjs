@@ -206,8 +206,21 @@ const VISIBLE_PROPERTIES = new Set([
   "aria-label", "aria-description", "ariaLabel", "ariaDescription", "alt",
   "help", "hint", "warning", "error", "emptyState", "q", "a", "reason", "note", "badge",
 ]);
+// Un literal que se COMPARA no se pinta: `modo === "LIST"`, `case "DATE_DESC":`.
+// Contarlo como texto visible llevó a un lote de migración a reestructurar
+// Moldex para esconder de este barrido valores de estado que nadie lee.
+const IGUALDADES = new Set([
+  ts.SyntaxKind.EqualsEqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsEqualsToken,
+  ts.SyntaxKind.EqualsEqualsToken, ts.SyntaxKind.ExclamationEqualsToken,
+]);
+function seCompara(node) {
+  const padre = node.parent;
+  if (padre && ts.isBinaryExpression(padre) && IGUALDADES.has(padre.operatorToken.kind)) return true;
+  return Boolean(padre && ts.isCaseClause(padre) && padre.expression === node);
+}
 function visibleLiteral(node, kind) {
   if (kind === "jsx") return true;
+  if (seCompara(node)) return false;
   if (ts.isJsxAttribute(node.parent)) {
     return VISIBLE_PROPERTIES.has(nameOf(node.parent.name));
   }
@@ -275,6 +288,12 @@ for (const file of roots.flatMap(function (dir) { return walk(dir, function (p) 
     // seguían pintando sin traducir. Cuentan como pendientes mientras --write
     // tendría que reescribirlos; los de nivel superior no, porque las tablas
     // estáticas se resuelven con t(valor) al renderizar (ver traducciones/index.ts).
+    //
+    // Y sólo si se VE. `keyFor` empareja también por el valor inglés: con una
+    // clave cuyo inglés fuera «run», `id="run"` salía como detectado y --write lo
+    // habría convertido en `id={t(...)}`. Lo encontró el lote 3 de migración
+    // (2026-09-23) al intentar la clave de «corrida».
+    if (!visibleLiteral(node, kind)) return;
     function pendienteConClave() {
       const technicalToken = kind !== "jsx" && /^[a-z][a-z0-9_-]*$/.test(value);
       if (visibleLiteral(node, kind) && !technicalToken && esPendiente(value)) {
