@@ -107,3 +107,40 @@ describe("EstadoDelLigando", () => {
     expect(container).toBeEmptyDOMElement();
   });
 });
+
+// FEP-ready, paso 1 (56e8733): el backend declara el tautómero en tres estados.
+// La tarjeta lo traduce desde el código, no desde la frase del backend.
+describe("EstadoDelLigando: declaración del tautómero", () => {
+  const conDeclaracion = (declaracion: Record<string, unknown> | null) =>
+    comoResultado({
+      ligand_state: {
+        ...CAFEINA.ligand_state,
+        tautomeria: { ...CAFEINA.ligand_state.tautomeria, declaracion },
+      },
+    });
+
+  it("varios candidatos sin descartar: lo dice y pide revisarlo antes de FEP", () => {
+    render(<EstadoDelLigando result={conDeclaracion({ estado: "MULTIESTADO_REQUERIDO", n_candidatos: 3, motivo: "x" })} />);
+    const aviso = screen.getByText(/3 candidatos y ninguno descartado con evidencia/);
+    expect(aviso).toHaveTextContent(/no una predicción de población/);
+    expect(aviso).toHaveTextContent(/antes de un cálculo de energía libre/);
+  });
+
+  it("uno solo: lo declara sin alarma", () => {
+    render(<EstadoDelLigando result={conDeclaracion({ estado: "RESUELTO_UNICO", n_candidatos: 1 })} />);
+    expect(screen.getByText(/uno solo enumerable/)).toBeInTheDocument();
+    expect(screen.queryByText(/ninguno descartado/)).toBeNull();
+  });
+
+  it("no resuelto: enseña el código del motivo, nunca el texto de la excepción", () => {
+    render(<EstadoDelLigando result={conDeclaracion({ estado: "NO_RESUELTO", motivo: "ENUMERACION_FALLO: ValueError: bad valence" })} />);
+    expect(screen.getByText(/no resuelto: la enumeración falló/)).toBeInTheDocument();
+    expect(screen.getByText(/ENUMERACION_FALLO/)).toBeInTheDocument();
+    expect(screen.queryByText(/ValueError/)).toBeNull();
+  });
+
+  it("una corrida anterior, sin declaración, no inventa ninguna", () => {
+    render(<EstadoDelLigando result={conDeclaracion(null)} />);
+    expect(screen.queryByText(/Tautómero:/)).toBeNull();
+  });
+});

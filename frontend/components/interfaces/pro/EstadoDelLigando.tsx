@@ -139,6 +139,48 @@ export function EstadoDelLigando({ result }: { readonly result: EvaluationResult
           {prot.motivo}
         </p>
       )}
+
+      <DeclaracionDelTautomero declaracion={taut?.declaracion} />
     </section>
+  );
+}
+
+/**
+ * Qué tautómero se acopló, y si quedaron otros sin descartar (FEP-ready, paso 1).
+ *
+ * Se traduce desde el CÓDIGO que emite el backend (`estado`, `n_candidatos`), no
+ * desde su frase en castellano: es el contrato de F→B-004 del canal entre
+ * sesiones. De `motivo` sólo se enseña el código del principio. El resto puede
+ * ser el texto de una excepción. Sin declaración (corridas anteriores a
+ * 56e8733) no se enseña nada, igual que en el expediente.
+ */
+function DeclaracionDelTautomero({
+  declaracion,
+}: {
+  declaracion?: { estado?: string; n_candidatos?: number | null; motivo?: string | null } | null;
+}) {
+  const { t } = useLanguage();
+  const estado = declaracion?.estado;
+  if (!estado) return null;
+
+  if (estado === "RESUELTO_UNICO") {
+    return (
+      <p className="mt-2 text-[11px] leading-relaxed text-[var(--text-dim)]">
+        <strong className="font-semibold">{t("pn_taut_titulo")}</strong> {t("pn_taut_unico")}
+      </p>
+    );
+  }
+  const codigo = estado === "NO_RESUELTO" ? (declaracion?.motivo ?? "").split(":")[0].trim() : "";
+  return (
+    <p
+      role="status"
+      className="mt-2 rounded-lg border border-amber-500/25 bg-amber-500/[0.05] p-2.5 text-[11px] leading-relaxed text-amber-900 dark:text-amber-100/85"
+    >
+      <strong className="font-semibold">{t("pn_taut_titulo")}</strong>{" "}
+      {estado === "MULTIESTADO_REQUERIDO"
+        ? t("pn_taut_multiestado", { n: declaracion?.n_candidatos ?? "?" })
+        : t("pn_taut_no_resuelto")}
+      {codigo ? <span className="font-mono"> ({codigo})</span> : null}
+    </p>
   );
 }

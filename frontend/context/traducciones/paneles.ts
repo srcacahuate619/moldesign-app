@@ -200,6 +200,17 @@ export const paneles: ModuloDeTraduccion = {
     pn_ph_no_cambia:
       "A pH 7.4 la especie no cambia respecto a lo que escribiste: se acopló tal "
       + "cual.",
+    // Declaración del tautómero (backend/chem/declaracion_tautomeros.py). Las
+    // frases calcan las del expediente: el canónico de RDKit es reproducible,
+    // no una predicción de población.
+    pn_taut_titulo: "Tautómero:",
+    pn_taut_unico: "uno solo enumerable; no hay alternativas que declarar.",
+    pn_taut_multiestado:
+      "{n} candidatos y ninguno descartado con evidencia. Se acopló el canónico "
+      + "de RDKit, que es una representación reproducible, no una predicción de "
+      + "población: revísalo antes de un cálculo de energía libre.",
+    pn_taut_no_resuelto:
+      "no resuelto: la enumeración falló o quedó incompleta, así que no se declara.",
 
     // ── SAR ───────────────────────────────────────────────────────
     pn_sar_titulo: "Análisis SAR — estructura-actividad",
@@ -474,6 +485,14 @@ export const paneles: ModuloDeTraduccion = {
     pn_ph_no_cambia:
       "At pH 7.4 the species does not change from what you typed: it was docked as "
       + "it is.",
+    pn_taut_titulo: "Tautomer:",
+    pn_taut_unico: "a single enumerable form; there are no alternatives to declare.",
+    pn_taut_multiestado:
+      "{n} candidates and none ruled out with evidence. The RDKit canonical form "
+      + "was docked; it is a reproducible representation, not a population "
+      + "prediction: review it before a free-energy calculation.",
+    pn_taut_no_resuelto:
+      "not resolved: the enumeration failed or was incomplete, so it is not declared.",
 
     pn_sar_titulo: "SAR analysis — structure-activity",
     pn_sar_comparables: "Structurally comparable molecules",

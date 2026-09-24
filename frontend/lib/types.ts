@@ -120,7 +120,23 @@ export type EvaluationResult = {
     cambio_respecto_a_la_entrada?: boolean | null;
     carga_formal_neta?: number | null;
     formula_acoplada?: string | null;
-    tautomeria?: { aplicada?: boolean; motor?: string | null; alternativas?: number | null; motivo?: string | null } | null;
+    tautomeria?: {
+      aplicada?: boolean;
+      motor?: string | null;
+      alternativas?: number | null;
+      motivo?: string | null;
+      /**
+       * Declaración FEP-ready (`backend/chem/declaracion_tautomeros.py`, desde
+       * 56e8733). Sólo en corridas nuevas: las anteriores no la traen y no se
+       * reconstruye. `estado` y `n_candidatos` son el contrato estable; `motivo`
+       * empieza por un código (`SMILES_INVALIDO`, `ENUMERACION_FALLO: …`).
+       */
+      declaracion?: {
+        estado?: "RESUELTO_UNICO" | "MULTIESTADO_REQUERIDO" | "NO_RESUELTO" | string;
+        n_candidatos?: number | null;
+        motivo?: string | null;
+      } | null;
+    } | null;
     protonacion?: { aplicada?: boolean; motor?: string | null; ph?: number | null; alternativas?: number | null; motivo?: string | null } | null;
 
     /** Manifiesto de la frontera ESMFold -> ligando; null en corridas no peptidicas. */
