@@ -426,7 +426,10 @@ fn path_identity(path: &Path) -> String {
         let len = buf.iter().position(|&c| c == 0).unwrap_or(buf.len());
         String::from_utf16_lossy(&buf[..len])
     } else {
-        format!("<sin volumen: os error {}>", io::Error::last_os_error().raw_os_error().unwrap_or(-1))
+        format!(
+            "<sin volumen: os error {}>",
+            io::Error::last_os_error().raw_os_error().unwrap_or(-1)
+        )
     };
     let canon = fs::canonicalize(path)
         .map(|p| p.display().to_string())
@@ -1255,9 +1258,11 @@ fn validate_run_entry(value: Option<&serde_json::Value>, path: &str) -> Result<(
 
     match run.get("taskId").and_then(|v| v.as_str()) {
         Some(s) if !s.is_empty() => {}
-        _ => return Err(format!(
-            "INVALID_MANIFEST: `{path}.taskId` falta o no es una cadena."
-        )),
+        _ => {
+            return Err(format!(
+                "INVALID_MANIFEST: `{path}.taskId` falta o no es una cadena."
+            ))
+        }
     }
     match run.get("executionState").and_then(|v| v.as_str()) {
         Some(s) if RUN_EXECUTION_STATES.contains(&s) => {}
@@ -1604,7 +1609,14 @@ pub fn self_test_create_case(
     study_kind: &str,
     owner_user_id: &str,
 ) -> Result<(String, PathBuf, String), String> {
-    core_create_owned(parent, folder_name, name, study_kind, &now_iso(), owner_user_id)
+    core_create_owned(
+        parent,
+        folder_name,
+        name,
+        study_kind,
+        &now_iso(),
+        owner_user_id,
+    )
 }
 
 #[cfg(test)]

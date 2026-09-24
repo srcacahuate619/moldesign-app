@@ -33,10 +33,16 @@ import { explicarSitio } from "../sitioDelReceptor";
  * La pregunta que motivó esto era «¿podemos explicarlo para cada uno de los
  * 380?», y sólo se contesta ejecutándolo sobre los 380. Una maqueta de tres
  * receptores demuestra que la función corre, no que el catálogo tenga los datos.
+ *
+ * Se lee la fuente versionada de la raíz, no la copia de `src-tauri/resources/`.
+ * Es el mismo fichero: `scripts/bundle_helper.py` lo copia byte a byte
+ * (`shutil.copy2`) al hacer el staging. Pero la copia sólo existe después del
+ * staging, y la prueba fallaba en cualquier clon limpio, incluida la CI pública
+ * (2026-09-23, canal entre sesiones B→F-006).
  */
 const CATALOGO = JSON.parse(
   readFileSync(
-    resolve(dirname(fileURLToPath(import.meta.url)), "..", "..", "src-tauri", "resources", "curated_targets.json"),
+    resolve(dirname(fileURLToPath(import.meta.url)), "..", "..", "..", "curated_targets.json"),
     "utf8",
   ),
 ) as Parameters<typeof explicarSitio>[0][];

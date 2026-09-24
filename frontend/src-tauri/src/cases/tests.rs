@@ -403,7 +403,10 @@ fn replace_target_overwrites_an_existing_file() {
     replace_target(&src, &dst).unwrap();
 
     assert_eq!(fs::read(&dst).unwrap(), b"nuevo");
-    assert!(!src.exists(), "el temporal debería haberse consumido en el reemplazo");
+    assert!(
+        !src.exists(),
+        "el temporal debería haberse consumido en el reemplazo"
+    );
     let _ = fs::remove_dir_all(dir);
 }
 
@@ -1162,14 +1165,8 @@ fn the_run_book_is_validated_row_by_row() {
     .unwrap();
 
     for (nombre, runs) in [
-        (
-            "runs no es lista",
-            serde_json::json!({"taskId": "t-1"}),
-        ),
-        (
-            "fila no es objeto",
-            serde_json::json!(["t-1"]),
-        ),
+        ("runs no es lista", serde_json::json!({"taskId": "t-1"})),
+        ("fila no es objeto", serde_json::json!(["t-1"])),
         (
             "fila sin taskId",
             serde_json::json!([{"executionState":"running","startedAt":"2026-08-23T12:00:00.000Z"}]),

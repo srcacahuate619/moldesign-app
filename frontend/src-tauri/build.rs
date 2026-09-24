@@ -42,7 +42,28 @@ const APP_MANIFEST: &str = r#"<?xml version="1.0" encoding="utf-8"?>
 </assembly>
 "#;
 
+/// `tauri.conf.json` empaqueta `resources/`, y `tauri-build` aborta si no existe
+/// («resource path 'resources' doesn't exist»). Ese directorio sólo aparece con
+/// `npm run stage:desktop`, así que en un clon limpio (la CI pública, un fork)
+/// ni `cargo clippy` ni `cargo test` compilaban (2026-09-23, canal entre
+/// sesiones B→F-006). Se crea vacío y se avisa.
+///
+/// Esto no deja pasar un instalador sin runtime: `tauri build` ejecuta antes las
+/// puertas de `beforeBuildCommand` (`check:runtime-arbol`, `stage:desktop`,
+/// `verify:desktop-runtime`…), que exigen el runtime entero.
+fn asegurar_directorio_de_recursos() {
+    let recursos = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("resources");
+    if !recursos.exists() {
+        std::fs::create_dir_all(&recursos).expect("no se pudo crear resources/");
+        println!(
+            "cargo:warning=resources/ no existía (clon sin staging): se crea vacío. \
+             El instalador exige `npm run stage:desktop`."
+        );
+    }
+}
+
 fn main() {
+    asegurar_directorio_de_recursos();
     let windows = tauri_build::WindowsAttributes::new().app_manifest(APP_MANIFEST);
     tauri_build::try_build(tauri_build::Attributes::new().windows_attributes(windows))
         .expect("fallo el build script de Tauri");

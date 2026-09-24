@@ -86,10 +86,7 @@ pub(crate) fn is_packaged_app() -> bool {
 /// Directorio de datos persistente y no-virtualizado de MolDesign, para estado
 /// que debe sobrevivir a desinstalar (índice de casos, modelos descargados).
 pub(crate) fn persistent_data_dir(app: &tauri::AppHandle) -> Option<PathBuf> {
-    app.path()
-        .home_dir()
-        .ok()
-        .map(|d| d.join("MolDesign"))
+    app.path().home_dir().ok().map(|d| d.join("MolDesign"))
 }
 
 /// Autotest instalado del registro de casos (gate empaquetado).
@@ -103,16 +100,24 @@ pub(crate) fn persistent_data_dir(app: &tauri::AppHandle) -> Option<PathBuf> {
 /// donde el centinela indique y se consume (borra el centinela). En operación
 /// normal no hay centinela y no hace nada.
 fn run_case_self_test(app: &tauri::AppHandle) {
-    let Ok(home) = app.path().home_dir() else { return };
+    let Ok(home) = app.path().home_dir() else {
+        return;
+    };
     let req_path = home.join(".moldesign-case-self-test.json");
-    let Ok(body) = std::fs::read_to_string(&req_path) else { return };
+    let Ok(body) = std::fs::read_to_string(&req_path) else {
+        return;
+    };
     let Ok(req) = serde_json::from_str::<serde_json::Value>(&body) else {
         // Centinela corrupto: se consume y se sigue como arranque normal.
         let _ = std::fs::remove_file(&req_path);
         return;
     };
 
-    let mode = req.get("mode").and_then(|v| v.as_str()).unwrap_or("").to_string();
+    let mode = req
+        .get("mode")
+        .and_then(|v| v.as_str())
+        .unwrap_or("")
+        .to_string();
     let evidence = req
         .get("evidence")
         .and_then(|v| v.as_str())
@@ -122,7 +127,11 @@ fn run_case_self_test(app: &tauri::AppHandle) {
     let registry_path = cases::registry_path(app);
 
     let result = match mode.as_str() {
-        "create" => match req.get("parent").and_then(|v| v.as_str()).map(PathBuf::from) {
+        "create" => match req
+            .get("parent")
+            .and_then(|v| v.as_str())
+            .map(PathBuf::from)
+        {
             None => serde_json::json!({"ok": false, "mode": "create", "error": "falta `parent`"}),
             Some(parent) => {
                 let folder = req
@@ -134,7 +143,11 @@ fn run_case_self_test(app: &tauri::AppHandle) {
                     .and_then(|v| v.as_str())
                     .unwrap_or("self-test-owner");
                 match cases::self_test_create_case(
-                    &parent, folder, "Caso de aceptación", "explore-hypothesis", owner,
+                    &parent,
+                    folder,
+                    "Caso de aceptación",
+                    "explore-hypothesis",
+                    owner,
                 ) {
                     Ok((id, case_dir, _manifest)) => {
                         let reg = app.state::<CaseRegistry>();
@@ -147,7 +160,9 @@ fn run_case_self_test(app: &tauri::AppHandle) {
                                 "registry_path": registry_path.map(|p| p.display().to_string()),
                                 "health": format!("{:?}", reg.health()),
                             }),
-                            Err(e) => serde_json::json!({"ok": false, "mode": "create", "error": e}),
+                            Err(e) => {
+                                serde_json::json!({"ok": false, "mode": "create", "error": e})
+                            }
                         }
                     }
                     Err(e) => serde_json::json!({"ok": false, "mode": "create", "error": e}),
@@ -172,7 +187,9 @@ fn run_case_self_test(app: &tauri::AppHandle) {
                         "manifest_readable": readable,
                     })
                 }
-                Err(e) => serde_json::json!({"ok": false, "mode": "verify", "case_id": case_id, "error": e}),
+                Err(e) => {
+                    serde_json::json!({"ok": false, "mode": "verify", "case_id": case_id, "error": e})
+                }
             }
         }
         other => serde_json::json!({"ok": false, "mode": other, "error": "modo desconocido"}),
@@ -181,10 +198,7 @@ fn run_case_self_test(app: &tauri::AppHandle) {
     if let Some(parent) = evidence.parent() {
         let _ = std::fs::create_dir_all(parent);
     }
-    let ok = result
-        .get("ok")
-        .and_then(|v| v.as_bool())
-        .unwrap_or(false);
+    let ok = result.get("ok").and_then(|v| v.as_bool()).unwrap_or(false);
     let _ = std::fs::write(
         &evidence,
         serde_json::to_string_pretty(&result).unwrap_or_default(),
