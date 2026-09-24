@@ -1,5 +1,5 @@
 {
- "generado_en": "2026-09-23T23:45:56.199959+00:00",
+ "generado_en": "2026-09-24T09:02:17.654194+00:00",
  "generador": "scripts/build_registro_cientifico.py",
  "advertencia": "El cociente GO/NO_GO del manifest NO es una tasa de aciertos: mezcla prerregistros -sellados GO al declararse-, mediciones sin gate y experimentos con gate real. Esta vista separa las tres poblaciones.",
  "categorias": {
@@ -1194,7 +1194,7 @@
     "dev_cadenas_unicas": 1072,
     "receptor_clusters_elegibles": 256
    },
-   "mantenimiento_sello": 6,
+   "mantenimiento_sello": 7,
    "reemplazado_por": null,
    "tiene_paper": true,
    "titulo": "Un conjunto que se usa una sola vez, custodiado antes de existir",
@@ -1238,7 +1238,7 @@
     "poses_parcialmente_trazables": 4300,
     "pct_poses_completamente_trazables": 0.0
    },
-   "mantenimiento_sello": 6,
+   "mantenimiento_sello": 7,
    "reemplazado_por": null,
    "tiene_paper": true,
    "titulo": "De dónde salió cada pose, y los huecos declarados como huecos",
@@ -4168,7 +4168,7 @@
    "n_complejos": 0,
    "n_fallos": 0,
    "metricas": null,
-   "mantenimiento_sello": 0,
+   "mantenimiento_sello": 1,
    "reemplazado_por": null,
    "tiene_paper": false,
    "titulo": "MF-33-MIN-PRE",
@@ -4351,7 +4351,7 @@
    "n_complejos": 0,
    "n_fallos": 0,
    "metricas": null,
-   "mantenimiento_sello": 0,
+   "mantenimiento_sello": 1,
    "reemplazado_por": null,
    "tiene_paper": false,
    "titulo": "MF-33-PB-PRE",
@@ -4831,7 +4831,7 @@
     "n_complejos": 116,
     "n_ok": 116
    },
-   "mantenimiento_sello": 0,
+   "mantenimiento_sello": 2,
    "reemplazado_por": null,
    "tiene_paper": false,
    "titulo": "PREP-01",
@@ -4873,7 +4873,7 @@
     "n_poses_validas": 232,
     "duracion_total_s": 581.7
    },
-   "mantenimiento_sello": 2,
+   "mantenimiento_sello": 3,
    "reemplazado_por": null,
    "tiene_paper": false,
    "titulo": "PROD-PV-H-01",
@@ -4907,7 +4907,7 @@
    "n_complejos": 0,
    "n_fallos": 0,
    "metricas": null,
-   "mantenimiento_sello": 2,
+   "mantenimiento_sello": 3,
    "reemplazado_por": null,
    "tiene_paper": false,
    "titulo": "PROD-PV-H-01-PRE",
@@ -5979,7 +5979,7 @@
     "global_coverage": 1.0,
     "max_charge_drift_e": 2.7755575615628914e-17
    },
-   "mantenimiento_sello": 0,
+   "mantenimiento_sello": 2,
    "reemplazado_por": null,
    "tiene_paper": true,
    "titulo": "Cargas parciales con once criterios y ningún respaldo silencioso",

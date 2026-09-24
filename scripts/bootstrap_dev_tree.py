@@ -500,6 +500,15 @@ def _incorporar_rastreados(raiz: Path, staging: Path, componente: Componente) ->
         shutil.copy2(actual, provisional)
 
 
+def _solo_rastreados(raiz: Path, destino: Path) -> bool:
+    """`True` si `destino` no contiene nada que git no conozca (o está vacío)."""
+    if destino.is_file():
+        return destino.relative_to(raiz).as_posix() in rutas_rastreadas(raiz)
+    rastreadas = rutas_rastreadas(raiz)
+    return all(p.relative_to(raiz).as_posix() in rastreadas
+               for p in destino.rglob("*") if p.is_file())
+
+
 def _mover_componentes(raiz: Path, staging: Path, forzar: bool) -> None:
     """Mueve cada componente entero. Nada se borra: lo anterior se aparta."""
     ejecutable = Path(sys.executable).resolve()
@@ -522,7 +531,13 @@ def _mover_componentes(raiz: Path, staging: Path, forzar: bool) -> None:
         destino = _ruta(raiz, componente)
         _incorporar_rastreados(raiz, staging, componente)
         if destino.exists():
-            if not forzar:
+            # Un clon recién hecho ya trae `tools/llama/` con tres ficheros
+            # VERSIONADOS (.gitkeep, README.md, SHA256SUM.txt). Se acaban de copiar
+            # al staging, así que sustituir la carpeta no pierde nada. Hasta el
+            # 2026-09-24 esto exigía --force y un fork no podía aprovisionarse:
+            # --fetch se quedaba a medias (INCOMPLETO). Sólo se exige permiso si
+            # hay algo que git no conoce.
+            if not forzar and not _solo_rastreados(raiz, destino):
                 raise SystemExit(
                     f"`{componente.prefijo}` ya existe en el árbol y este "
                     "artefacto no lo puso. No se sobrescribe nada sin permiso "

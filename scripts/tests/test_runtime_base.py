@@ -663,3 +663,54 @@ def test_los_pesos_de_una_dependencia_viajan_y_se_declaran(arbol, tmp_path):
     with pytest.raises(arch.ArchivoRechazado) as excinfo:
         arch.empaquetar(arbol, tmp_path / "art9" / "x.zip")
     assert excinfo.value.codigo == "PESO_PROPIO"
+
+
+def test_un_clon_recien_hecho_se_aprovisiona_sin_force(clon, tmp_path):
+    """El defecto que destapó el --fetch de punta a punta del 2026-09-24.
+
+    Un clon nuevo ya trae `tools/llama/` con sus tres ficheros versionados. El
+    extractor se negaba a colocar el componente sin --force, se quedaba a medias
+    y el árbol acababa INCOMPLETO. Las pruebas anteriores pasaban --force.
+    """
+    (clon / "tools" / "llama" / "llama-server.exe").write_bytes(b"binario")
+    (clon / "python-embed").mkdir(exist_ok=True)
+    (clon / "python-embed" / "python.exe").write_bytes(b"MZ")
+    (clon / "tools" / "vina").mkdir(parents=True, exist_ok=True)
+    (clon / "tools" / "vina" / "vina.exe").write_bytes(b"v")
+    (clon / "tools" / "openbabel" / "bin").mkdir(parents=True, exist_ok=True)
+    (clon / "tools" / "openbabel" / "bin" / "obabel.exe").write_bytes(b"o")
+    salida = tmp_path / "art" / arch.RUNTIME_BASE.filename
+    arch.empaquetar(clon, salida)
+    # Lo que tiene un clon recién hecho: sólo lo versionado.
+    for relativa in ("python-embed", "tools/vina", "tools/openbabel/bin"):
+        shutil.rmtree(clon / relativa)
+    (clon / "tools" / "llama" / "llama-server.exe").unlink()
+    readme = (clon / "tools/llama/README.md").read_bytes()
+
+    assert boot.aprovisionar(clon, salida, arch.sha256(salida), forzar=False) == 0
+    assert (clon / "tools/llama/llama-server.exe").read_bytes() == b"binario"
+    assert (clon / "tools/llama/README.md").read_bytes() == readme
+
+
+def test_una_carpeta_con_contenido_ajeno_sigue_exigiendo_force(clon, tmp_path):
+    (clon / "tools" / "llama" / "llama-server.exe").write_bytes(b"binario")
+    (clon / "python-embed").mkdir(exist_ok=True)
+    (clon / "python-embed" / "python.exe").write_bytes(b"MZ")
+    (clon / "tools" / "vina").mkdir(parents=True, exist_ok=True)
+    (clon / "tools" / "vina" / "vina.exe").write_bytes(b"v")
+    (clon / "tools" / "openbabel" / "bin").mkdir(parents=True, exist_ok=True)
+    (clon / "tools" / "openbabel" / "bin" / "obabel.exe").write_bytes(b"o")
+    salida = tmp_path / "art" / arch.RUNTIME_BASE.filename
+    arch.empaquetar(clon, salida)
+    for relativa in ("python-embed", "tools/vina", "tools/openbabel/bin"):
+        shutil.rmtree(clon / relativa)
+    (clon / "tools" / "llama" / "llama-server.exe").write_bytes(b"MIO, NO DE GIT")
+
+    # Se niega de una de dos formas: devolviendo 1 al medir el árbol, o con
+    # SystemExit al ir a colocar el componente. Lo que importa es que no pisa.
+    try:
+        rc = boot.aprovisionar(clon, salida, arch.sha256(salida), forzar=False)
+    except SystemExit:
+        rc = 1
+    assert rc != 0
+    assert (clon / "tools/llama/llama-server.exe").read_bytes() == b"MIO, NO DE GIT"
