@@ -676,7 +676,10 @@ def aprovisionar(raiz: Path, desde: Path | None, sha_declarado: str | None,
         )
         return 1
 
-    esperado = RUNTIME_BASE.sha256 or sha_declarado
+    # Un --sha256 explícito manda: quien reconstruye su propio runtime con
+    # build_base_archive.py y lo pasa con --desde declara él mismo qué espera.
+    # Sin él, se verifica contra el publicado. Nunca se extrae sin un hash.
+    esperado = sha_declarado or RUNTIME_BASE.sha256
 
     if desde is not None:
         archivo = desde.resolve()

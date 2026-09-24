@@ -291,6 +291,13 @@ def test_check_no_modifica_un_artefacto_canonico_previo(arbol, monkeypatch, caps
     Se crea un artefacto canónico en `dist/`, se le escribe un contenido
     reconocible, se corre `--check`, y se comprueba byte a byte que sigue igual.
     """
+    # Desde el 2026-09-24 el runtime está publicado y un árbol sintético no
+    # reproduce su SHA-256 (así debe ser: --check devolvería 1). Lo que mide esta
+    # prueba es otra cosa, que --check no reescriba el canónico, así que se
+    # simula el estado sin publicar.
+    import dataclasses
+    monkeypatch.setattr(arch, "RUNTIME_BASE",
+                        dataclasses.replace(arch.RUNTIME_BASE, sha256=None, size_bytes=None))
     canonico = arbol / "dist" / arch.RUNTIME_BASE.filename
     canonico.parent.mkdir(parents=True, exist_ok=True)
     canonico.write_bytes(b"NO ME TOQUES" * 100)

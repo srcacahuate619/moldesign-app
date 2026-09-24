@@ -175,16 +175,21 @@ RUNTIME_BASE = Modulo(
         "cada componente conserva la suya; el inventario del artefacto las "
         "declara una por una (ver RUNTIME-MANIFEST.json)"
     ),
+    # Publicado el 2026-09-24 en el commit c84a2d9e de Hugging Face, en la RAÍZ
+    # del repositorio (no en v1.1.0/, como preveía docs/81): la ruta que vale es
+    # la de la URL. Hugging Face declara para ese objeto X-Linked-Size 593414884 y
+    # X-Linked-ETag = el SHA-256 de abajo, que es el que empaqueta este script
+    # sobre el árbol de 84ba801 (build_base_archive.py --check).
     urls=(
         "https://huggingface.co/srcacahuate/moldesign-models/resolve/"
-        "<REVISION-INMUTABLE>/v1.1.0/runtime-base-v1.1.0.zip",
+        "c84a2d9e0ac436a4f4c5eb18617cbdc388b41d3a/runtime-base-v1.1.0.zip",
     ),
-    sha256=None,
-    size_bytes=None,
+    sha256="74d08e89329d7aa197480691319140bdc400875461c516eb38dbe4ff55ad998e",
+    size_bytes=593414884,
     gated=False,
     nota=(
-        "La URL lleva `<REVISION-INMUTABLE>` a propósito: una rama no fija "
-        "bytes. Se sustituye por el commit de Hugging Face al publicar."
+        "URL fijada a una revisión inmutable de Hugging Face: una rama no fija "
+        "bytes. El bootstrap verifica tamaño y SHA-256 antes de extraer."
     ),
 )
 
