@@ -23,6 +23,7 @@ data/pose_selector_dataset/**     -text
 
 # Estructuras: binarias de hecho, aunque `.pdb` sea texto.
 *.pdb.gz                          binary
+tools/openbabel/*.tar.gz          binary
 *.pdbqt                           -text
 *.pdb                             -text
 *.sdf                             -text
