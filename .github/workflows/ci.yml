@@ -42,10 +42,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install desktop backend dependencies
+      # La lista EXACTA del intérprete que se distribuye, no requirements-desktop.txt:
+      # esa se desviaba a mano y en septiembre de 2026 le faltaban gemmi, openpyxl
+      # y torch-geometric (52 pruebas de backend y la recolección de rescoring en
+      # rojo en un clon limpio). Lo que se verifica tiene que ser lo que se entrega.
+      - name: Install the distributed runtime environment
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements-desktop.txt
+          python -m pip install -r requirements-embed.lock.txt
           # Dependencias SOLO de pruebas, en su propio archivo para que no
           # entren en el instalador. Incluye pypdf, sin la cual las 36 pruebas
           # del contrato del dossier hacen `importorskip` y se saltan en
@@ -63,6 +67,12 @@ jobs:
         run: python ../scripts/generate_openapi_contract.py --check
       - name: Verify local documentation links
         run: python ../scripts/check_docs_links.py --check
+      # Cada experimento sellado tiene que validar desde un clon: un hash distinto
+      # es un fallo; un fichero ausente sólo pasa si scripts/sellos_no_distribuidos.json
+      # lo declara (PDBBind, runtime), con motivo y cómo obtenerlo. En septiembre
+      # de 2026 un clon limpio validaba 12 de 167.
+      - name: Verify every sealed experiment from a clean clone
+        run: python ../scripts/validar_sellos.py --check
       - name: Verify generated runtime inventory
         run: python ../scripts/generate_runtime_inventory.py --check
       # Existía y no corría en CI. Es el gate que impide que la interfaz muestre
@@ -81,8 +91,8 @@ jobs:
       # Ver docs/79_ADR_FRONTERA_OPEN_BABEL.md.
       - name: Verify the Open Babel boundary
         run: python ../scripts/check_openbabel_boundary.py
-      # Los artefactos aprendidos no están cubiertos por la AGPL de la raíz.
-      # Este gate exige que cada directorio que los contenga lo diga junto a los
+      # Los artefactos aprendidos se rigen por LICENSE-MODELS, no por la licencia
+      # del código. Este gate exige que cada directorio que los contenga lo diga junto a los
       # archivos, y que ningún documento normativo afirme lo contrario de lo que
       # hay. Sólo mira `git ls-files`, así que funciona sobre un clon limpio.
       - name: Verify the learned-artifact licence boundary
@@ -113,17 +123,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install desktop scientific dependencies
+      - name: Install the distributed runtime environment
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r backend/requirements-desktop.txt
-          python -m pip install pytest==8.4.2 pytest-asyncio==0.26.0
-      # Misma advertencia que con el SBOM: el manifiesto declara pesos
-      # entrenados (`.pt`) que el repositorio no distribuye —van aparte, bajo
-      # LICENSE-MODELS—. Sobre un clon limpio sus hashes no se comprueban, y el
-      # gate lo dice en vez de fallar. Los artefactos que SÍ viajan se verifican.
+          python -m pip install -r backend/requirements-embed.lock.txt
+          python -m pip install -r backend/requirements-test.txt
+      # Los pesos que usa el producto (clasificador XGBoost, model_a_*, CL-GNN
+      # gnn_v2_cl_best.pt) están versionados bajo LICENSE-MODELS, así que el
+      # manifiesto se verifica ENTERO: sin la bandera que toleraba pesos ausentes.
       - name: Verify model manifest and artifact hashes
-        run: python rescoring/scripts/generate_model_manifest.py --check --permitir-pesos-ausentes
+        run: python rescoring/scripts/generate_model_manifest.py --check
       - name: Run rescoring contracts
         run: python -m pytest rescoring/tests --maxfail=1 -ra -p no:cacheprovider
       - name: Enforce Vina importance gate
@@ -199,9 +208,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install desktop backend dependencies
+      - name: Install the distributed runtime environment
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r backend/requirements-desktop.txt
+          python -m pip install -r backend/requirements-embed.lock.txt
       - name: Exercise submit to persisted local result
         run: python scripts/smoke_test_desktop.py

@@ -55,6 +55,7 @@
         "tests/test_correcciones_cientificas_3.py": 14,
         "tests/test_corridas_doradas.py": 30,
         "tests/test_database_lifecycle.py": 9,
+        "tests/test_declaracion_tautomeros.py": 11,
         "tests/test_descarga_por_inactividad_admet.py": 9,
         "tests/test_desktop_job_status.py": 9,
         "tests/test_destinos_de_descarga.py": 5,
@@ -93,7 +94,9 @@
         "tests/test_fallback_open_babel.py": 10,
         "tests/test_familia_estructural_no_es_area_clinica.py": 22,
         "tests/test_fixtures_del_gate_no_divergen.py": 5,
+        "tests/test_freesolv_h3_rutas_pbsa.py": 2,
         "tests/test_gate_molchat_adversarial.py": 18,
+        "tests/test_gbn2_azufre_como_amber.py": 5,
         "tests/test_guarda_frontera_open_babel.py": 23,
         "tests/test_guarda_push_publico.py": 4,
         "tests/test_herg_y_desolvatacion.py": 9,
@@ -104,7 +107,7 @@
         "tests/test_ionizacion_y_mpo.py": 23,
         "tests/test_known_molecules.py": 92,
         "tests/test_la_advertencia_de_calibracion_no_se_pierde.py": 15,
-        "tests/test_las_pruebas_no_tocan_los_datos_reales.py": 8,
+        "tests/test_las_pruebas_no_tocan_los_datos_reales.py": 14,
         "tests/test_lcpo_aproxima_la_sasa_exacta.py": 12,
         "tests/test_lector_de_sdf_de_meeko.py": 24,
         "tests/test_lector_pose_pdbqt.py": 18,
@@ -125,7 +128,7 @@
         "tests/test_mmgbsa_pose_hardening.py": 21,
         "tests/test_models.py": 13,
         "tests/test_molchat_diagnostico.py": 7,
-        "tests/test_moldex_contrato_declarado.py": 5,
+        "tests/test_moldex_contrato_declarado.py": 6,
         "tests/test_moldex_procedencia.py": 5,
         "tests/test_molgraph_publico_y_privado.py": 16,
         "tests/test_motores_declarados_son_los_que_existen.py": 7,
@@ -204,7 +207,7 @@
         "tests/test_windows_maquina_limpia.py": 6,
         "tests/test_workspace_lock.py": 2
       },
-      "total": 2546
+      "total": 2571
     }
   }
 }

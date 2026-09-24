@@ -46,7 +46,7 @@ No contiene una afirmación nueva de validez científica. Las métricas se trans
 ## Modelos declarados por el manifest v4
 
 - Manifest: `rescoring/artifacts/model-manifest.json` (schema v4)
-- SHA-256 del manifest: `84c843c86935fc96d0db5cee125185bc90ca2c7a175352e1a56691089bdb5be0`
+- SHA-256 del manifest: `726be143e52f28d38ce78568c3b2846900e8135d5b95ea3c55bd4536f2d4c3ac`
 
 ### `classifier_binder`
 
@@ -66,18 +66,16 @@ No contiene una afirmación nueva de validez científica. Las métricas se trans
 
 - Archivo: `gnn_v2_cl_best.pt`
 - SHA-256: `f714dd8208f491258dcb4671bc1e29f308712c1c27f629409f2e33993186bb4f`
-- Estado científico declarado: `HELD_OUT_MULTITARGET__TRANSFERENCIA_DEPENDE_DE_LA_FAMILIA`
+- Estado científico declarado: `CHECKPOINT_INCLUDED__EXTERNAL_VALIDATION_FOR_EXACT_SHA256_PENDING`
 - Fecha de entrenamiento: `2026-07-26`
-- Feature schema: Grafo heterogeneo: ligando (38-dim por atomo) + proteina (Ca de residuos de bolsillo) + cross-edges ligando-Ca a <8 A. ContrastiveGNN (GAT+GIN+Set2Set+Cross-Attention) -> GNNv2Classifier, 751448 parametros, hidden_dim=128.
-- Nota del manifest: LA TRANSFERENCIA DEPENDE DE LA FAMILIA Y NO SE PUEDE CITAR UN AUC GLOBAL. Funciona en familias bien representadas en PDBbind: HIV proteasa 0.949, 5-HT1A 0.850. Queda en el azar donde no lo estan: CDK2 0.594, ER-alfa 0.658, CA2 0.588 -- el grafo no modela el metal como nodo, asi que los contactos Zn-ligando no se ven. Trombina falla al 100% (error tecnico del PDB 1e66, sin resolver). Por eso los pesos de stacking de metaloenzima que ponian clgnn=1.0 se rechazan en scoring/engine.py. Ver docs/CL_GNN_MULTITARGET_RESULTS.md.
+- Feature schema: Grafo heterogeneo: ligando (38-dim por atomo) + proteina (Ca de residuos de bolsillo) + cross-edges ligando-Ca a <8 A. ContrastiveGNN (GAT+GIN+Set2Set+Cross-Attention) -> GNNv2Classifier, 677657 parametros entrenables, hidden_dim=128.
+- Nota del manifest: El checkpoint actual carga y puede producir una senal experimental, pero sus bytes no son los del modelo al que pertenecen los AUC externos historicos. Hasta repetir y sellar la evaluacion externa para este SHA-256, su peso de stacking de release es 0.0 y no decide ranking ni recomendacion.
 
 | Métrica declarada | Valor |
 |---|---:|
-| `auc_held_out_por_familia` | {'gpcr_5HT1A_7E2Y': 0.8496, 'kinase_CDK2_3PP0': 0.5942, 'metalloenzyme_CA2_3dc3': 0.5883, 'nuclear_receptor_ERalpha_3ERT': 0.6581, 'protease_HIV_1HSG': 0.9491, 'protease_factorXa_3CYX': 0.7394, 'protease_thrombin_1e66': None} |
-| `fallos_silenciosos_pct` | {'gpcr_5HT1A_7E2Y': 0.16, 'metalloenzyme_CA2_3dc3': 5.09, 'protease_HIV_1HSG': 0.16, 'protease_factorXa_3CYX': 3.32, 'protease_thrombin_1e66': 100.0} |
-| `finetuning` | BCE, 100 epocas, lr=5e-4 |
-| `pretraining` | NT-Xent, ruido gaussiano std=0.2, 200 epocas, lr=1e-3 |
-| `val_auc_pdbbind_docked` | 0.6433 |
+| `checkpoint_epoch` | 22 |
+| `checkpoint_self_reported_val_auc` | 0.6109756097560977 |
+| `external_metrics_for_exact_sha256` | — |
 
 ### `model_a_universal`
 

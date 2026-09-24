@@ -130,7 +130,7 @@ MODEL_REGISTRY: dict[str, dict[str, Any]] = {
             "source": "PDBbind refined, redockeados con AutoDock Vina (exhaustiveness=8)",
             "train": 566,
             "val": 142,
-            "note": "Procedencia declarada del entrenamiento; los derechos de redistribucion derivados de PDBbind requieren revision antes del release publico.",
+            "note": "Procedencia declarada del entrenamiento (PDBbind refined, redockeado). Los pesos se distribuyen gratuitamente bajo LICENSE-MODELS por decision del titular (2026-09-23); el dataset de entrenamiento no se redistribuye.",
         },
         "split": {"method": "train/val 566/142 sobre PDBbind refined redockeado", "evaluacion": "No existe evaluacion externa sellada para el SHA-256 actual."},
         "training_date": "2026-07-26",

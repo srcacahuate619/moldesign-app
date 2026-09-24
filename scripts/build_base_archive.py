@@ -68,9 +68,11 @@ contra `git ls-files` es la que impide el daño, y corre siempre.
 Los pesos entrenados de MolDesign (`rescoring/artifacts/*.pt`) estaban dentro
 de `base-v1.0.0.zip`. No vuelven. Su licencia no es la de las dependencias que
 los rodean, y mezclarlos obliga a poner una sola etiqueta sobre dos cosas
-distintas. Su origen declarado es `hf.co/srcacahuate/moldesign-rescoring`, con
-acceso controlado; ese repositorio **todavía no existe** y este script no lo
-inventa. Ver `PESOS_PROPIOS` más abajo y `docs/78`.
+distintas. **Los que usa el producto están versionados en el repositorio** bajo
+LICENSE-MODELS (decisión del titular, 2026-09-23: se distribuyen gratuitamente).
+`PESOS_PROPIOS` describe sólo un módulo opcional de checkpoints antiguos que no
+está publicado; su definición entra en el manifiesto interno del zip, así que
+no se cambia sin reconstruir el archivo. Ver `docs/78`.
 
 # Determinismo
 

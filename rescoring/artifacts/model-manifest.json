@@ -48,7 +48,7 @@
     "gnn_v2_cl": {
       "dataset": {
         "complexes": 708,
-        "note": "Procedencia declarada del entrenamiento; los derechos de redistribucion derivados de PDBbind requieren revision antes del release publico.",
+        "note": "Procedencia declarada del entrenamiento (PDBbind refined, redockeado). Los pesos se distribuyen gratuitamente bajo LICENSE-MODELS por decision del titular (2026-09-23); el dataset de entrenamiento no se redistribuye.",
         "source": "PDBbind refined, redockeados con AutoDock Vina (exhaustiveness=8)",
         "train": 566,
         "val": 142

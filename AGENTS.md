@@ -417,9 +417,9 @@ SBOM los lista ahora en `sin_licencia_declarada`. Ver
 
 ## Estado y honestidad
 
-- Backend: **2546** pruebas recolectadas con el intérprete que se distribuye
-  (`python-embed`, 3.11.9), medidas el 2026-09-22. Con el intérprete de
-  desarrollo (3.14) son 36 más (2582):
+- Backend: **2571** pruebas recolectadas con el intérprete que se distribuye
+  (`python-embed`, 3.11.9), medidas el 2026-09-23. Con el intérprete de
+  desarrollo (3.14) son 36 más (2607):
   la diferencia son `importorskip` cuya dependencia no viaja en el bundle, y por
   eso el número que vale es el del runtime embebido. Frontend: **1062** en 117
   archivos (medido el 2026-09-23). `tsc` limpio.
@@ -430,6 +430,12 @@ SBOM los lista ahora en `sin_licencia_declarada`. Ver
   discrepar, manda el registro.
 - Smoke de producción: **13/13** (2026-09-23; la 13.ª comprueba que el smoke no
   toca la base de datos del usuario).
+- Sellos: los **167** experimentos sellados validan desde un clon limpio
+  (`python scripts/validar_sellos.py --check`, paso de la CI); lo que no viaja
+  (PDBBind, runtime) está declarado en `scripts/sellos_no_distribuidos.json`.
+  El 2026-09-23 un clon limpio validaba 12.
+- CI: instala `backend/requirements-embed.lock.txt`, la lista exacta del
+  intérprete distribuido, no `requirements-desktop.txt`.
 - Arranque medido en entorno de producción: **~6 s**.
 - **Cero usuarios externos** todavía. El propio roadmap identifica esto como el
   riesgo de muerte real del proyecto, por encima del científico.

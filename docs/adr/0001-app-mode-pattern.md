@@ -93,4 +93,4 @@ const API_URL = typeof window !== 'undefined' && window.__TAURI__
 - [docs/02_DESKTOP.md](../02_DESKTOP.md) — Adaptación cloud → desktop
 - [docs/04_ARCHITECTURE.md](../04_ARCHITECTURE.md) — Organización del código
 - [backend/core/config.py](../../backend/core/config.py) — Implementación de Settings
-- [backend/core/db_factory.py](../../backend/core/db_factory.py) — Fábrica de DB
+- [backend/core/database.py](../../backend/core/database.py) — Motor y sesiones de SQLite (la antigua `db_factory.py` se fusionó aquí)

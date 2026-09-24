@@ -198,7 +198,7 @@ Cada análogo es químicamente válido, sintetizable, y filtrado por drug-likene
 ## 5. MolChamb — Features Cuánticas
 
 Ver documentación completa en [metricas_experimentales.md §17](metricas_experimentales.md#17-molchamb--features-cuánticas-propias)
-y [datos_para_paper.md §13](datos_para_paper.md#13-molchamb--tecnología-propia-de-features-cuánticas).
+(el antiguo `datos_para_paper.md §13` ya no existe en el repositorio).
 
 En el contexto del asistente:
 - MolChat puede invocar MolChamb para **explicar la química electrónica** de un hit

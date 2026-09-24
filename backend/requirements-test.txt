@@ -11,10 +11,16 @@
 # leerlos es cosa de las pruebas. Por eso van separados: meter pypdf en
 # requirements-desktop lo metería en el bundle sin que nadie lo use.
 #
-# Instalación:
+# Instalación (la misma que la CI, sobre el intérprete que se distribuye):
+#     python -m pip install -r backend/requirements-embed.lock.txt
 #     python -m pip install -r backend/requirements-test.txt
+#
+# pytest y pytest-asyncio van con las MISMAS versiones que trae el runtime
+# embebido (requirements-embed.lock.txt). Hasta el 2026-09-23 aquí se fijaban
+# 8.4.2 y 0.26.0 mientras el intérprete distribuido traía 9.1.1 y 1.4.0: la CI
+# probaba con otro pytest y los dos ficheros no se podían instalar juntos.
 
-pytest==8.4.2
-pytest-asyncio==0.26.0
+pytest==9.1.1
+pytest-asyncio==1.4.0
 pypdf==5.1.0
 ruff==0.16.5

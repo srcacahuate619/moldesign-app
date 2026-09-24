@@ -617,11 +617,16 @@ def imprimir(estado: Estado, raiz: Path) -> int:
     ok_ob, detalle_ob = verificar_open_babel(raiz)
     print(f"Open Babel: {'OK' if ok_ob else 'NO'} — {detalle_ob}")
 
+    # Hasta el 2026-09-23 este aviso decía que los pesos propios «no vienen» y
+    # que su origen estaba «SIN PUBLICAR». Los que usa el producto (clasificador
+    # XGBoost, model_a_*, CL-GNN gnn_v2_cl_best.pt) están VERSIONADOS en
+    # rescoring/artifacts/ bajo LICENSE-MODELS y los trae el propio clon; lo que
+    # no está publicado es el módulo opcional de checkpoints antiguos.
     print(
-        f"\nPesos propios ({PESOS_PROPIOS.id}): no vienen en el runtime base.\n"
-        f"  licencia: {PESOS_PROPIOS.licencia}\n"
-        f"  origen:   {PESOS_PROPIOS.urls[0] if PESOS_PROPIOS.urls else 'SIN PUBLICAR'}\n"
-        "  su ausencia degrada capacidades y la corrida lo declara; no bloquea."
+        "\nPesos propios: los que usa el producto vienen con el clon, en rescoring/artifacts/\n"
+        f"  licencia: {PESOS_PROPIOS.licencia}; se verifican con\n"
+        "  python rescoring/scripts/generate_model_manifest.py --check\n"
+        f"  El módulo opcional «{PESOS_PROPIOS.id}» (checkpoints antiguos) no está publicado y no hace falta."
     )
 
     for aviso in estado.avisos:
