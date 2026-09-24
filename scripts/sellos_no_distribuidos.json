@@ -1,0 +1,54 @@
+{
+ "_doc": "Activos sellados que un clon del repositorio NO trae, con el motivo y cómo conseguirlos. Lo lee scripts/validar_sellos.py: un fichero ausente sólo se acepta si aparece aquí; un fichero presente con otro hash es siempre un fallo. Añadir una entrada es declarar un hueco, no esconderlo.",
+ "entradas": [
+  {
+   "prefijo": "data/pdbbind/",
+   "clase": "NO_REDISTRIBUIBLE",
+   "motivo": "PDBBind v2020: su licencia no permite redistribuir estructuras ni afinidades.",
+   "como_obtenerlo": "Descargar PDBBind v2020 (refined + general) con su licencia y extraerlo en data/pdbbind/<pdb_id>/. Los hashes sellados permiten comprobar que es la misma copia."
+  },
+  {
+   "prefijo": "data/pose_selector_dataset/",
+   "clase": "NO_REDISTRIBUIBLE",
+   "motivo": "Poses redockeadas y receptores derivados de PDBBind.",
+   "como_obtenerlo": "Se reconstruye desde PDBBind con los scripts del selector de pose (rescoring/pose_selector/); el manifiesto del dataset y sus hashes están versionados."
+  },
+  {
+   "prefijo": "tools/",
+   "clase": "RUNTIME",
+   "motivo": "Binarios de terceros (Vina, Open Babel, xTB, llama.cpp): no se versionan.",
+   "como_obtenerlo": "python scripts/bootstrap_dev_tree.py --fetch"
+  },
+  {
+   "prefijo": "python-embed/",
+   "clase": "RUNTIME",
+   "motivo": "Intérprete embebido que se distribuye con el instalador.",
+   "como_obtenerlo": "python scripts/bootstrap_dev_tree.py --fetch"
+  },
+  {
+   "prefijo": "esmfold/models/",
+   "clase": "RUNTIME",
+   "motivo": "Tokenizer y pesos de ESMFold (descarga opcional).",
+   "como_obtenerlo": "python scripts/bootstrap_dev_tree.py --fetch (tokenizer); los pesos, desde el lanzador de la aplicación."
+  },
+  {
+   "prefijo": "data/pdbs/",
+   "clase": "NO_REDISTRIBUIBLE",
+   "motivo": "Copia local de estructuras preparadas desde PDBBind.",
+   "como_obtenerlo": "Se regenera desde PDBBind con los scripts del experimento que la sella."
+  },
+  {
+   "prefijo": "data/target_library/",
+   "clase": "NO_VERSIONADO",
+   "motivo": "Biblioteca de estructuras descomprimidas; el repositorio versiona los .pdb.gz de data/targets/.",
+   "como_obtenerlo": "Se descomprime desde data/targets/ en el primer uso."
+  },
+  {
+   "prefijo": "data/targets/",
+   "experimentos": ["FND-05"],
+   "clase": "NO_CONSERVADO",
+   "motivo": "FND-05 (2026-07) selló 111 .pdb descomprimidos que después se sustituyeron por .pdb.gz: 107 ya no existen ni en la máquina del mantenedor y 4 sólo existen allí, sin versionar. Los hashes quedan como registro de lo que se usó.",
+   "como_obtenerlo": "No se puede: la evidencia de esos ficheros no se conservó. Se declara para que no pase por un fallo del clon."
+  }
+ ]
+}
