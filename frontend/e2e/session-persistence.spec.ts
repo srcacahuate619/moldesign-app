@@ -163,13 +163,17 @@ test("cada cuenta conserva sus casos y Alice recupera su corrida tras reiniciar"
     const key = Object.keys(localStorage).find((item) => item.startsWith("moldesign_case:alice:"));
     if (!key) throw new Error("No se persistió el caso de Alice");
     const record = JSON.parse(localStorage.getItem(key) as string);
-    record.activeRun = {
+    // Esquema v7: la corrida vive en el LIBRO (`runs`). `activeRun` ya no se lee
+    // del manifiesto, se deriva de la última fila (lib/cases/schema.ts). Esta
+    // prueba seguía escribiendo el `activeRun` de la v6, que la aplicación
+    // ignora con razón, y fallaba desde que entró la v7.
+    record.runs = [{
       taskId: "task-alice",
       moleculeId: "molecule-alice",
       executionState: "completed",
       startedAt: "2026-08-27T11:59:00.000Z",
-      completedAt: "2026-08-27T12:00:00.000Z",
-    };
+      finishedAt: "2026-08-27T12:00:00.000Z",
+    }];
     localStorage.setItem(key, JSON.stringify(record));
   });
 

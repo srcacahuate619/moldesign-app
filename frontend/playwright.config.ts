@@ -11,6 +11,12 @@ export default defineConfig({
   reporter: process.env.CI ? "github" : "line",
   use: {
     baseURL: "http://127.0.0.1:3100",
+    // Los selectores de estas pruebas están en castellano («Nombre», «Crear
+    // caso»), y la aplicación sigue el idioma del navegador cuando el usuario
+    // no ha elegido ninguno (LanguageContext). Playwright arranca en en-US, así
+    // que cada texto que la migración i18n traduce deja a una prueba buscando
+    // un rótulo que ya no está: pasó el 2026-09-23 con «Nombre» → «Name».
+    locale: "es-ES",
     channel: "msedge",
     headless: true,
     trace: "retain-on-failure",
