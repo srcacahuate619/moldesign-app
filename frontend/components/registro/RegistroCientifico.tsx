@@ -20,6 +20,7 @@ import {
   duracionLegible,
   fechaLegible,
   ESTILO_CATEGORIA,
+  conAlfa,
   ORDEN_CATEGORIAS,
   type Categoria,
   type Experimento,
@@ -42,7 +43,7 @@ function Insignia({ cat }: { cat: Categoria }) {
         textTransform: "uppercase",
         color: e.color,
         background: e.fondo,
-        border: `1px solid ${e.color}44`,
+        border: `1px solid ${conAlfa(e.color, 27)}`,
         borderRadius: 3,
         whiteSpace: "nowrap",
       }}
@@ -110,7 +111,7 @@ function Tarjeta({ e, onClick }: { e: Experimento; onClick: () => void }) {
           </span>
         )}
         {e.etiquetas.includes("corrigendum") && (
-          <span style={{ fontSize: 12, letterSpacing: "0.1em", color: "#fbbf24" }}>
+          <span style={{ fontSize: 12, letterSpacing: "0.1em", color: "var(--categoria-corrigendum)" }}>
             CORRIGENDUM
           </span>
         )}
@@ -120,8 +121,8 @@ function Tarjeta({ e, onClick }: { e: Experimento; onClick: () => void }) {
               fontSize: 12,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
-              color: "#fbbf24",
-              border: "1px solid #fbbf2455",
+              color: "var(--categoria-corrigendum)",
+              border: `1px solid ${conAlfa("var(--categoria-corrigendum)", 33)}`,
               padding: "1px 5px",
               borderRadius: 2,
             }}
@@ -331,7 +332,7 @@ function VistaExperimento({
             color: "var(--text-secondary)",
           }}
         >
-          <strong style={{ color: "#fbbf24" }}>Cifras reemplazadas.</strong> {t("pr_reg_defecto_detectado")} <em>{t("pr_reg_despues")}</em> {t("auto_c1b398a5da7e")}{" "}
+          <strong style={{ color: "var(--categoria-corrigendum)" }}>Cifras reemplazadas.</strong> {t("pr_reg_defecto_detectado")} <em>{t("pr_reg_despues")}</em> {t("auto_c1b398a5da7e")}{" "}
           <button
             type="button"
             onClick={() => abrir(e.reemplazado_por as string)}
@@ -340,7 +341,7 @@ function VistaExperimento({
               background: "none",
               border: "none",
               padding: 0,
-              color: "#fbbf24",
+              color: "var(--categoria-corrigendum)",
               fontSize: 13,
               cursor: "pointer",
               textDecoration: "underline",
@@ -726,7 +727,7 @@ export function RegistroCientifico() {
                   borderRadius: 3,
                   color: on ? est.color : "var(--text-muted)",
                   background: on ? est.fondo : "transparent",
-                  border: `1px solid ${on ? est.color + "66" : "var(--border)"}`,
+                  border: `1px solid ${on ? conAlfa(est.color, 40) : "var(--border)"}`,
                 }}
               >
                 {est.nombre} <span style={{ opacity: 0.7 }}>{n}</span>

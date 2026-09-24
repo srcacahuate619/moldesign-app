@@ -133,7 +133,7 @@ export default function HistoryPage() {
             onClick={() => { setSortBy(opt.key); setPage(1); }}
             className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
               sortBy === opt.key
-                ? "bg-brand-600/20 text-brand-400"
+                ? "bg-brand-600/20 text-brand-600 dark:text-brand-400"
                 : "text-surface-400 hover:bg-surface-800"
             }`}
           >
@@ -144,8 +144,8 @@ export default function HistoryPage() {
 
       {/* ── Error ── */}
       {error && (
-        <section className="rounded-2xl border border-red-900/50 bg-red-950/30 p-4">
-          <pre className="text-xs text-red-300">{error}</pre>
+        <section className="rounded-2xl border border-red-300 bg-red-50 p-4 dark:border-red-900/50 dark:bg-red-950/30">
+          <pre className="text-xs text-red-800 dark:text-red-300">{error}</pre>
         </section>
       )}
 

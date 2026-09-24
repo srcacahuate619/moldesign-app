@@ -314,7 +314,7 @@ export function CreateCaseDialog({
             <button
               type="submit"
               disabled={!canSubmit}
-              className="rounded-md border border-brand-500/40 bg-brand-600 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-md border border-brand-500/40 bg-brand-600 px-4 py-1.5 text-sm font-medium text-white dark:text-white transition-colors hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {submitting ? t("auto_60e8763517ba") : "Crear caso"}
             </button>

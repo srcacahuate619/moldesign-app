@@ -64,7 +64,7 @@ export function DownloadCard({ entry }: { entry: ModuleEntry }) {
       )}
 
       <div className="mt-4">
-        {(status === "missing" || status === "error") && <button type="button" onClick={() => startDownload(entry.id)} className="min-h-11 w-full whitespace-nowrap border border-[var(--accent)] bg-[var(--accent)] px-4 text-xs font-bold uppercase tracking-wider text-white hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)]">{status === "error" ? "Reintentar descarga" : "Descargar y verificar"}</button>}
+        {(status === "missing" || status === "error") && <button type="button" onClick={() => startDownload(entry.id)} className="min-h-11 w-full whitespace-nowrap border border-[var(--accent)] bg-[var(--accent)] px-4 text-xs font-bold uppercase tracking-wider text-white dark:text-zinc-950 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)]">{status === "error" ? "Reintentar descarga" : "Descargar y verificar"}</button>}
         {status === "downloading" && <button type="button" onClick={() => cancelDownload(entry.id)} className="min-h-11 w-full whitespace-nowrap border border-[var(--border)] px-4 text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)] hover:bg-[var(--bg-alt)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)]">{t("c_cancelar")}</button>}
         {status === "extracting" && <p className="text-sm font-medium text-[var(--text-secondary)]">{t("auto_86cc769fdd42")}</p>}
       </div>

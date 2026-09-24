@@ -98,40 +98,50 @@ export const ESTILO_CATEGORIA: Record<
   hallazgo: {
     nombre: "Hallazgo",
     corto: "Gate superado",
-    color: "#34d399",
+    color: "var(--categoria-hallazgo)",
     fondo: "rgba(52, 211, 153, 0.10)",
   },
   refutacion: {
     nombre: "Refutación",
     corto: "Hipótesis derribada",
-    color: "#f87171",
+    color: "var(--categoria-refutacion)",
     fondo: "rgba(248, 113, 113, 0.10)",
   },
   medicion: {
     nombre: "Medición",
     corto: "Mide, no decide",
-    color: "#60a5fa",
+    color: "var(--categoria-medicion)",
     fondo: "rgba(96, 165, 250, 0.10)",
   },
   prerregistro: {
     nombre: "Prerregistro",
     corto: "Declaración previa",
-    color: "#a78bfa",
+    color: "var(--categoria-prerregistro)",
     fondo: "rgba(167, 139, 250, 0.10)",
   },
   corrigendum: {
     nombre: "Corrigendum",
     corto: "Corrección propia",
-    color: "#fbbf24",
+    color: "var(--categoria-corrigendum)",
     fondo: "rgba(251, 191, 36, 0.10)",
   },
   inconcluso: {
     nombre: "Inconcluso",
     corto: "Sin conclusión",
-    color: "#94a3b8",
+    color: "var(--categoria-inconcluso)",
     fondo: "rgba(148, 163, 184, 0.10)",
   },
 };
+
+/**
+ * Un color de categoría con transparencia. Los colores son variables CSS
+ * (cambian con el tema), así que no admiten un alfa hexadecimal pegado detrás
+ * como hacía `${color}44`: eso daba una declaración inválida y el borde
+ * desaparecía.
+ */
+export function conAlfa(color: string, porcentaje: number): string {
+  return `color-mix(in srgb, ${color} ${porcentaje}%, transparent)`;
+}
 
 export const ORDEN_CATEGORIAS: Categoria[] = [
   "hallazgo",

@@ -53,7 +53,7 @@ export function CaseEmptyState({
             onClick={onCreate}
             disabled={createDisabled}
             aria-describedby={createDisabled && createDisabledReason ? "create-disabled-reason" : undefined}
-            className="inline-flex items-center gap-2 rounded-md border border-brand-500/40 bg-brand-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-950 active:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-brand-600"
+            className="inline-flex items-center gap-2 rounded-md border border-brand-500/40 bg-brand-600 px-4 py-2 text-sm font-medium text-white dark:text-white transition-colors hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-950 active:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-brand-600"
           >
             <Plus className="h-4 w-4" aria-hidden="true" />
             Crear caso
@@ -83,7 +83,7 @@ export function CaseEmptyState({
           </p>
         )}
 
-        <p className="mt-8 border-t border-surface-800 pt-4 font-mono text-[11px] uppercase tracking-wider text-zinc-600">
+        <p className="mt-8 border-t border-surface-800 pt-4 font-mono text-[11px] uppercase tracking-wider text-[var(--text-dim)]">
           {storageLabel}
         </p>
       </div>

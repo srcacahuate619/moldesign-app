@@ -100,7 +100,7 @@ function Node({ targetPos, tech, onClick, isAnyActive }: any) {
           draggable={false}
         >
           <div 
-            className={`text-center bg-[#0f0f0f] border border-[#8c7a99]/40 text-white font-mono uppercase tracking-widest whitespace-nowrap cursor-pointer pointer-events-auto hover:bg-white hover:text-black hover:shadow-[0_0_20px_rgba(255,255,255,0.8)] transition-all duration-300 shadow-[0_0_12px_rgba(255,255,255,0.15)] ${isAnyActive ? 'w-[250px] text-xs px-4 py-2.5' : 'w-[210px] text-[10px] px-3 py-1.5'}`}
+            className={`text-center bg-[#0f0f0f] border border-[#8c7a99]/40 text-white dark:text-white font-mono uppercase tracking-widest whitespace-nowrap cursor-pointer pointer-events-auto hover:bg-white hover:text-black hover:shadow-[0_0_20px_rgba(255,255,255,0.8)] transition-all duration-300 shadow-[0_0_12px_rgba(255,255,255,0.15)] ${isAnyActive ? 'w-[250px] text-xs px-4 py-2.5' : 'w-[210px] text-[10px] px-3 py-1.5'}`}
             onClick={(e) => {
               e.stopPropagation();
               onClick(tech);
@@ -275,7 +275,7 @@ export function TechNetwork3D() {
         </Canvas>
         
         {/* Overlay de instrucciones */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[9px] font-mono uppercase tracking-widest text-zinc-500 pointer-events-none">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[9px] font-mono uppercase tracking-widest text-[var(--text-dim)] pointer-events-none">
           {t("z_girar_3d")}
         </div>
       </div>

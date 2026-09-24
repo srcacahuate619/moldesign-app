@@ -612,7 +612,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     <label className={`flex cursor-not-allowed items-start gap-3 rounded-md border p-3 ${
                       motorHistoricoQuickVina
                         ? "border-amber-300 bg-amber-50 text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-100"
-                        : "border-zinc-200 bg-zinc-100 text-zinc-500 dark:border-white/10 dark:bg-white/[0.02] dark:text-white/60"
+                        : "border-zinc-200 bg-zinc-100 text-zinc-600 dark:border-white/10 dark:bg-white/[0.02] dark:text-white/60"
                     }`}>
                       <input type="radio" name="motor" checked={motorHistoricoQuickVina} disabled aria-describedby="quickvina-note" className="mt-0.5" />
                       <span><span className="block text-sm font-semibold">{t("lo_qvina_proximamente")}</span><span id="quickvina-note" className="block text-xs leading-relaxed">{motorHistoricoQuickVina ? t("lo_qvina_no_disponible") : t("lo_qvina_requiere_binario")}</span></span>

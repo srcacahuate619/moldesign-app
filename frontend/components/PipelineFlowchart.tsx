@@ -273,7 +273,7 @@ export function PipelineFlowchart() {
               </p>
             </div>
             <div className="flex items-center gap-4 bg-zinc-900/50 p-2 border border-zinc-800 rounded-full backdrop-blur-md">
-              <span className="text-[10px] uppercase font-mono tracking-widest text-zinc-500 font-bold px-2">{t("z_simulacion_visual")}</span>
+              <span className="text-[10px] uppercase font-mono tracking-widest text-[var(--text-dim)] font-bold px-2">{t("z_simulacion_visual")}</span>
               <button 
                 onClick={togglePlay}
                 aria-label={

@@ -423,7 +423,7 @@ export default function MoldexPage() {
                 loadMoldex();
               }
             }}
-            className="w-full rounded-xl bg-red-600 py-3.5 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
+            className="w-full rounded-xl bg-red-600 py-3.5 text-xs font-black uppercase tracking-widest text-white dark:text-white transition-all hover:bg-red-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]"
           >
             {t("pg_mx_reintentar")}
           </button>

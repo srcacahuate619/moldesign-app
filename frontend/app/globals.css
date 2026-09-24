@@ -95,6 +95,15 @@
   --border-light: #3f3f46;
   --accent: #8c7a99;
   --accent-strong: #a78bfa;
+  /* Categorías del registro científico (lib/registro.ts). En oscuro, los 400
+     de siempre; en claro, los 700: el 400 daba 1,84:1 (verde) y 2,65:1 (rojo)
+     sobre #fafafa. */
+  --categoria-hallazgo: #34d399;
+  --categoria-refutacion: #f87171;
+  --categoria-medicion: #60a5fa;
+  --categoria-prerregistro: #a78bfa;
+  --categoria-corrigendum: #fbbf24;
+  --categoria-inconcluso: #94a3b8;
 }
 .light {
   --bg: #fafafa;
@@ -109,6 +118,12 @@
   --border-light: #d4d4d8;
   --accent: #7c3aed;
   --accent-strong: #6d28d9;
+  --categoria-hallazgo: #047857;
+  --categoria-refutacion: #b91c1c;
+  --categoria-medicion: #1d4ed8;
+  --categoria-prerregistro: #6d28d9;
+  --categoria-corrigendum: #92400e;
+  --categoria-inconcluso: #475569;
 }
 
 /* ── Theme Utility Classes ──────────────────────────────────── */

@@ -48,7 +48,7 @@ export function EngineStatusBar() {
   const starting = engine.state === "starting";
   const tone = starting
     ? "border-surface-700 bg-surface-900 text-zinc-300"
-    : "border-amber-500/30 bg-amber-500/10 text-amber-200";
+    : "border-amber-500/30 bg-amber-500/10 text-amber-900 dark:text-amber-200";
 
   return (
     <div
@@ -87,7 +87,7 @@ export function EngineStatusBar() {
               setRetrying(false);
             }
           }}
-          className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded border border-amber-500/40 px-2 py-0.5 text-[11px] transition-colors hover:text-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 disabled:cursor-not-allowed disabled:opacity-50"
+          className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded border border-amber-500/40 px-2 py-0.5 text-[11px] transition-colors hover:text-amber-950 dark:hover:text-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <RefreshCw
             className={`h-3 w-3 ${retrying ? "animate-spin" : ""}`}

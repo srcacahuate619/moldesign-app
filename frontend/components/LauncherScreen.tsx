@@ -39,7 +39,7 @@ export function LauncherScreen() {
             type="button"
             disabled={!requiredReady}
             onClick={() => router.push("/")}
-            className="min-h-12 whitespace-nowrap border border-[var(--accent)] bg-[var(--accent)] px-5 text-sm font-bold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)] disabled:cursor-not-allowed disabled:border-[var(--border)] disabled:bg-[var(--bg-alt)] disabled:text-[var(--text-dim)]"
+            className="min-h-12 whitespace-nowrap border border-[var(--accent)] bg-[var(--accent)] px-5 text-sm font-bold text-white dark:text-zinc-950 transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)] disabled:cursor-not-allowed disabled:border-[var(--border)] disabled:bg-[var(--bg-alt)] disabled:text-[var(--text-dim)]"
           >
             {requiredReady ? (allReady ? t("pg_lanzador_abrir") : t("auto_1f88e3bba8e6")) : (downloading > 0 ? t("auto_8497fd8cc5e0") : t("pg_lanzador_instalar_requerido"))}
           </button>

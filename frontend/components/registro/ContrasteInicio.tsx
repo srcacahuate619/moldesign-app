@@ -15,6 +15,7 @@ import Link from "next/link";
 import {
   cargarIndice,
   ESTILO_CATEGORIA,
+  conAlfa,
   type IndiceRegistro,
 } from "@/lib/registro";
 
@@ -217,7 +218,7 @@ function Panel({
                 padding: "3px 7px",
                 borderRadius: 2,
                 color,
-                border: `1px solid ${color}44`,
+                border: `1px solid ${conAlfa(color, 27)}`,
                 textDecoration: "none",
               }}
             >
