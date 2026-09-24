@@ -60,6 +60,7 @@ ERROR DE PROCEDIMIENTO RECONOCIDO: no se debe sellar como asset la ruta VIVA de 
 NO AFECTA A LA MEDICION: es una prueba de contrato del modulo de produccion; el runner no la importa ni la ejecuta. La prueba anadida solo verifica un comportamiento que se implemento DESPUES de leer el resultado, y por eso no podia existir antes del sello.
 
 Misma leccion que el otro asset: no sellar como asset la ruta viva de codigo que el propio experimento va a obligar a cambiar. (commit 9824790076f32857bfd844e109f0988f8bdc2f4a)
+- 2026-09-24T04:04:33.191849+00:00: `backend/services/chemistry/pose_physical_validity.py` `9f06756f→33d4c662` — Activo cambiado despues del sello: backend/services/chemistry/pose_physical_validity.py es un modulo o documento vivo que se sello como asset (regla 4 de las reglas de metodo: no sellar un modulo de produccion vivo). El resultado sellado se produjo con la version anterior, cuyo hash queda en previous_hash; la version actual es la del commit c0a247f. Se registra el 2026-09-23, antes de la auditoria externa, para que validar_sellos.py distinga este cambio declarado de una corrupcion. No cambia ninguna cifra ni decision del experimento. (commit c0a247f)
 
 ## Flujo de trabajo
 

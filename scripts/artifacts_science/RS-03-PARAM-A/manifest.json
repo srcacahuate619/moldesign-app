@@ -31,13 +31,31 @@
     "scripts/artifacts_science/RS-03-PARAM-A/metrics.json": "67c169c9635a41bbb8fb95624577b1b198000bfa624cbb98f0fca60bb0f07380",
     "scripts/artifacts_science/RS-03-PARAM-A/per_complex.jsonl": "2785a5b84ccedc829012cb7c63daa300540b1c557bb825bba34d9c1dcc551b2c",
     "scripts/artifacts_science/RS-03-PARAM-A/failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "scripts/run_rs03_param_a.py": "c01f668463838ca9c8867394ee16af7886179bad282580c5a05763b46aa64f24",
-    "scripts/remote_docker_runner.py": "9aac660b3d0c2610ccaef5cee84cc0e7c4c6fa319346a1abf37e1ff8607d8efa",
+    "scripts/run_rs03_param_a.py": "214f90eae0475ebc900b4591f8144cb4172ae4bbc06a5e0e2d337f41efb71e42",
+    "scripts/remote_docker_runner.py": "552ff499e2909f266e482f67855d7718cd277ccb7c9d126d7a22aeace5793f9d",
     "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
     "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97"
   },
   "sealed": true,
   "sealed_at": "2026-08-17T04:05:45.996771+00:00",
   "decision_rationale": "11 gates G1-G11 cumplidos: 116/116 ligandos parametrizados, cobertura global 100% y 100% en los 6 estratos, determinismo 2.78e-17 (<=1e-6), |sum q - formal| max 1e-15 (<=1e-4), mapeo biyectivo + atom_order_hash, cero fallback silencioso, energia finita + serializable 100%, modelo NAGL 1.0.0 produccion SHA 7981e7f5 registrado, Sage 2.2.1. Reemplaza el tipado heuristico de molchamb_v2.py:65 como base de cargas. Siguiente: RS-03-PARAM-B (AM1-BCC estratificado) y luego RS-03-PARAM (agregacion).",
-  "finished_at": "2026-08-17T04:05:46.357344+00:00"
+  "finished_at": "2026-08-17T04:05:46.357344+00:00",
+  "seal_maintenance": [
+    {
+      "date": "2026-09-24T04:04:36.718309+00:00",
+      "reason": "Activo cambiado despues del sello: scripts/run_rs03_param_a.py es un modulo o documento vivo que se sello como asset (regla 4 de las reglas de metodo: no sellar un modulo de produccion vivo). El resultado sellado se produjo con la version anterior, cuyo hash queda en previous_hash; la version actual es la del commit b072e8f. Se registra el 2026-09-23, antes de la auditoria externa, para que validar_sellos.py distinga este cambio declarado de una corrupcion. No cambia ninguna cifra ni decision del experimento.",
+      "path": "scripts/run_rs03_param_a.py",
+      "previous_hash": "c01f668463838ca9c8867394ee16af7886179bad282580c5a05763b46aa64f24",
+      "new_hash": "214f90eae0475ebc900b4591f8144cb4172ae4bbc06a5e0e2d337f41efb71e42",
+      "content_commit": "b072e8f"
+    },
+    {
+      "date": "2026-09-24T04:04:37.423926+00:00",
+      "reason": "Activo cambiado despues del sello: scripts/remote_docker_runner.py es un modulo o documento vivo que se sello como asset (regla 4 de las reglas de metodo: no sellar un modulo de produccion vivo). El resultado sellado se produjo con la version anterior, cuyo hash queda en previous_hash; la version actual es la del commit b072e8f. Se registra el 2026-09-23, antes de la auditoria externa, para que validar_sellos.py distinga este cambio declarado de una corrupcion. No cambia ninguna cifra ni decision del experimento.",
+      "path": "scripts/remote_docker_runner.py",
+      "previous_hash": "9aac660b3d0c2610ccaef5cee84cc0e7c4c6fa319346a1abf37e1ff8607d8efa",
+      "new_hash": "552ff499e2909f266e482f67855d7718cd277ccb7c9d126d7a22aeace5793f9d",
+      "content_commit": "b072e8f"
+    }
+  ]
 }

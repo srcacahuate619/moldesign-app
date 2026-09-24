@@ -35,6 +35,11 @@ Referencia: `RS-03-PARAM-A-PRE sellado (147abb1) refina PRE maestro (7dfa3b8) QA
 - Razón de la decisión: 11 gates G1-G11 cumplidos: 116/116 ligandos parametrizados, cobertura global 100% y 100% en los 6 estratos, determinismo 2.78e-17 (<=1e-6), |sum q - formal| max 1e-15 (<=1e-4), mapeo biyectivo + atom_order_hash, cero fallback silencioso, energia finita + serializable 100%, modelo NAGL 1.0.0 produccion SHA 7981e7f5 registrado, Sage 2.2.1. Reemplaza el tipado heuristico de molchamb_v2.py:65 como base de cargas. Siguiente: RS-03-PARAM-B (AM1-BCC estratificado) y luego RS-03-PARAM (agregacion).
 - Hashes de assets: 8 archivo(s) con SHA-256
 
+## Mantenimiento del sello
+
+- 2026-09-24T04:04:36.718309+00:00: `scripts/run_rs03_param_a.py` `c01f6684→214f90ea` — Activo cambiado despues del sello: scripts/run_rs03_param_a.py es un modulo o documento vivo que se sello como asset (regla 4 de las reglas de metodo: no sellar un modulo de produccion vivo). El resultado sellado se produjo con la version anterior, cuyo hash queda en previous_hash; la version actual es la del commit b072e8f. Se registra el 2026-09-23, antes de la auditoria externa, para que validar_sellos.py distinga este cambio declarado de una corrupcion. No cambia ninguna cifra ni decision del experimento. (commit b072e8f)
+- 2026-09-24T04:04:37.423926+00:00: `scripts/remote_docker_runner.py` `9aac660b→552ff499` — Activo cambiado despues del sello: scripts/remote_docker_runner.py es un modulo o documento vivo que se sello como asset (regla 4 de las reglas de metodo: no sellar un modulo de produccion vivo). El resultado sellado se produjo con la version anterior, cuyo hash queda en previous_hash; la version actual es la del commit b072e8f. Se registra el 2026-09-23, antes de la auditoria externa, para que validar_sellos.py distinga este cambio declarado de una corrupcion. No cambia ninguna cifra ni decision del experimento. (commit b072e8f)
+
 ## Flujo de trabajo
 
 1. `init`: crea este directorio con `manifest.json` prellenado y skeletons vacíos.

@@ -36,6 +36,10 @@ DOS CO-PRIMARIAS, y las dos se leen JUNTAS. Es la razon de ser de este diseno: m
 - Hashes de dataset: 2 archivo(s) con SHA-256
 - Hashes de assets: 2 archivo(s) con SHA-256
 
+## Mantenimiento del sello
+
+- 2026-09-24T04:04:30.645403+00:00: `scripts/run_mf33min_relajacion.py` `04af58fd→ae9fa14e` — Activo cambiado despues del sello: scripts/run_mf33min_relajacion.py es un modulo o documento vivo que se sello como asset (regla 4 de las reglas de metodo: no sellar un modulo de produccion vivo). El resultado sellado se produjo con la version anterior, cuyo hash queda en previous_hash; la version actual es la del commit f003cd9. Se registra el 2026-09-23, antes de la auditoria externa, para que validar_sellos.py distinga este cambio declarado de una corrupcion. No cambia ninguna cifra ni decision del experimento. (commit f003cd9)
+
 ## Flujo de trabajo
 
 1. `init`: crea este directorio con `manifest.json` prellenado y skeletons vacíos.

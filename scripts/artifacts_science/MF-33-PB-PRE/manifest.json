@@ -31,10 +31,20 @@
     "scripts/artifacts_science/MF-33/per_complex.jsonl": "ee1d03c926eef6ff02bdf2b189d097d2b1b1240f5b0f56827203a10343edb48d"
   },
   "assets_hashes": {
-    "scripts/run_mf33pb_validez_fisica.py": "46aa1048d56c4b3350c27b66d9efd934cf16c73411c319de82d474543fe3a98f"
+    "scripts/run_mf33pb_validez_fisica.py": "dac9b5ae33ebc3c70daff3abd33c8e847fccc27ef1344585019b0116ab4cf36e"
   },
   "sealed": true,
   "sealed_at": "2026-08-23T06:29:46.795649+00:00",
   "decision_rationale": "Prerregistro sellado ANTES de ejecutar, con el hash del script. Este SI es ciego, y conviene decirlo porque el anterior de esta serie no lo era: nadie ha medido la validez fisica sobre el brazo flexible, ni yo ni nadie, y la pregunta pareada single contra ensemble no se ha mirado. La rama (2) -que el ensemble entregue poses MENOS validas- esta escrita en serio y no como formalidad: es un desenlace posible, seria contrario a la hipotesis, y obligaria a cambiar como el manuscrito presenta el ensemble. Existe porque C10 dejo de estar bloqueado. Figuraba en el docs/52 como imposible -las poses se borraron- y la retencion forense de MF-33-B-RET-R1 lo desbloqueo. Es la segunda vez que ese R1 justifica su diseno en el mismo acto de fallar su gate. El MDE se calcula ANTES con la biblioteca de FND-04 y se declara en cuatro formas -11.85, 16.77 y 20.53 pp segun la discordancia, mas b>=6 con c=0- para que ninguna diferencia pequena se pueda leer despues como tendencia. Es la leccion de RS-14 y el mismo trato que recibieron REC-11 y REC-05. Se prohibe de antemano el error mas probable, que es comparar esta tasa con el 8.62 / 15.52% de MF-33-TOP1: aquello es protocolo rigido sobre 116 y esto es flexible sobre 48. Y se declara que 47 de los 48 complejos tienen poses byte-identicas a las que tendra MF-33-B-RET-R2, asi que solo 1afl habra que recalcularlo cuando aquel cierre.",
-  "finished_at": "2026-08-23T06:29:46.948191+00:00"
+  "finished_at": "2026-08-23T06:29:46.948191+00:00",
+  "seal_maintenance": [
+    {
+      "date": "2026-09-24T04:04:31.316162+00:00",
+      "reason": "Activo cambiado despues del sello: scripts/run_mf33pb_validez_fisica.py es un modulo o documento vivo que se sello como asset (regla 4 de las reglas de metodo: no sellar un modulo de produccion vivo). El resultado sellado se produjo con la version anterior, cuyo hash queda en previous_hash; la version actual es la del commit f007411. Se registra el 2026-09-23, antes de la auditoria externa, para que validar_sellos.py distinga este cambio declarado de una corrupcion. No cambia ninguna cifra ni decision del experimento.",
+      "path": "scripts/run_mf33pb_validez_fisica.py",
+      "previous_hash": "46aa1048d56c4b3350c27b66d9efd934cf16c73411c319de82d474543fe3a98f",
+      "new_hash": "dac9b5ae33ebc3c70daff3abd33c8e847fccc27ef1344585019b0116ab4cf36e",
+      "content_commit": "f007411"
+    }
+  ]
 }

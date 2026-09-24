@@ -32,7 +32,7 @@
   },
   "assets_hashes": {
     "scripts/run_prodpvh01_representacion_h.py": "b4957f9dbef7c7776889a94b0fa8b7e302f5121c3952403f5a2ccbb73ca848cc",
-    "backend/services/chemistry/pose_physical_validity.py": "9f06756fa9929fd97eb2c8970a08ea8787517c8db2ce617fcd075aea1a60bb48",
+    "backend/services/chemistry/pose_physical_validity.py": "33d4c66220462859ad9a13bfcf04f548783829c2ffc534a8bde54355cc303ebe",
     "scripts/run_mf33hcor_reconstruccion.py": "072746e4530ec8fc2cbdaae0356b2b71fb52b65d23e0f758e192fbbcd09b5e95",
     "backend/tests/test_lector_pose_pdbqt.py": "8e8a286ddddc3d7b979c3299f31d7349095af2c248f164f7d34a55b01f68a961",
     "backend/tests/test_pose_physical_validity.py": "36011ab83af9eaa441f60a6fac23c9617fa8a58039083c490cf8936d9966eabb"
@@ -57,6 +57,14 @@
       "previous_hash": "8c20984d9fa6202557e2916e2933b9c0511e12bd65f3a5ff6746ff85f1790e26",
       "new_hash": "36011ab83af9eaa441f60a6fac23c9617fa8a58039083c490cf8936d9966eabb",
       "content_commit": "9824790076f32857bfd844e109f0988f8bdc2f4a"
+    },
+    {
+      "date": "2026-09-24T04:04:33.905320+00:00",
+      "reason": "Activo cambiado despues del sello: backend/services/chemistry/pose_physical_validity.py es un modulo o documento vivo que se sello como asset (regla 4 de las reglas de metodo: no sellar un modulo de produccion vivo). El resultado sellado se produjo con la version anterior, cuyo hash queda en previous_hash; la version actual es la del commit c0a247f. Se registra el 2026-09-23, antes de la auditoria externa, para que validar_sellos.py distinga este cambio declarado de una corrupcion. No cambia ninguna cifra ni decision del experimento.",
+      "path": "backend/services/chemistry/pose_physical_validity.py",
+      "previous_hash": "9f06756fa9929fd97eb2c8970a08ea8787517c8db2ce617fcd075aea1a60bb48",
+      "new_hash": "33d4c66220462859ad9a13bfcf04f548783829c2ffc534a8bde54355cc303ebe",
+      "content_commit": "c0a247f"
     }
   ]
 }

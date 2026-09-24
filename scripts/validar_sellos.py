@@ -23,8 +23,10 @@ Recorre todos los manifiestos con las mismas funciones que
 26 experimentos— y clasifica cada fichero sellado:
 
     VERIFICADO        presente y con el hash sellado
+    EN_COPIA          el fichero vivo cambió, está declarado como divergencia y
+                      su copia conservada en el artefacto tiene el hash sellado
     NO_DISTRIBUIDO    ausente y declarado en scripts/sellos_no_distribuidos.json
-    DISTINTO          presente con otro hash                     → fallo
+    DISTINTO          presente con otro hash y sin divergencia   → fallo
     AUSENTE           ausente y no declarado                     → fallo
 
 `--check` sale con 1 si hay algún fallo o un manifiesto no pasa el esquema.
@@ -71,7 +73,9 @@ def _no_distribuido(tabla: list[dict], experimento: str, ruta: str) -> dict | No
 
 def revisar(detalle: bool = False) -> tuple[Counter, dict]:
     em = _cargar_manifest_tool()
-    tabla = json.loads(TABLA.read_text(encoding="utf-8"))["entradas"]
+    declaracion = json.loads(TABLA.read_text(encoding="utf-8"))
+    tabla = declaracion["entradas"]
+    divergencias = {(d["experimento"], d["ruta"]): d for d in declaracion.get("divergencias_declaradas", [])}
     esquema = em._load_schema()
     base = em._git_toplevel()
     totales: Counter = Counter()
@@ -102,6 +106,11 @@ def revisar(detalle: bool = False) -> tuple[Counter, dict]:
                     continue
                 if em._sha256_file(resuelta) == esperado:
                     totales["VERIFICADO"] += 1
+                    continue
+                div = divergencias.get((exp, guardada.replace("\\", "/")))
+                copia = RAIZ / div["copia_conservada"] if div else None
+                if div and div["hash_sellado"] == esperado and copia.is_file() and em._sha256_file(copia) == esperado:
+                    totales["EN_COPIA"] += 1
                 else:
                     totales["DISTINTO"] += 1
                     fallos[exp].append(f"DISTINTO: {guardada}")
@@ -158,7 +167,7 @@ def main() -> int:
     totales, info = revisar()
     fallos = info["fallos"]
     print(f"sellados {totales['sellados']} (sin sellar {totales['sin_sellar']}); ficheros: "
-          f"verificados {totales['VERIFICADO']}, no distribuidos {totales['NO_DISTRIBUIDO']} "
+          f"verificados {totales['VERIFICADO']}, en copia conservada {totales['EN_COPIA']}, no distribuidos {totales['NO_DISTRIBUIDO']} "
           f"{info['no_distribuidos']}, distintos {totales['DISTINTO']}, ausentes {totales['AUSENTE']}")
     if fallos:
         print(f"FALLAN {len(fallos)} experimentos:")

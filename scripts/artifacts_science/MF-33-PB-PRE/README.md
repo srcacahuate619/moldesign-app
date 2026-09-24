@@ -36,6 +36,10 @@ PRIMARIA: fraccion de complejos cuyo top-1 pasa la bateria completa de PoseBuste
 - Hashes de dataset: 2 archivo(s) con SHA-256
 - Hashes de assets: 1 archivo(s) con SHA-256
 
+## Mantenimiento del sello
+
+- 2026-09-24T04:04:31.316162+00:00: `scripts/run_mf33pb_validez_fisica.py` `46aa1048→dac9b5ae` — Activo cambiado despues del sello: scripts/run_mf33pb_validez_fisica.py es un modulo o documento vivo que se sello como asset (regla 4 de las reglas de metodo: no sellar un modulo de produccion vivo). El resultado sellado se produjo con la version anterior, cuyo hash queda en previous_hash; la version actual es la del commit f007411. Se registra el 2026-09-23, antes de la auditoria externa, para que validar_sellos.py distinga este cambio declarado de una corrupcion. No cambia ninguna cifra ni decision del experimento. (commit f007411)
+
 ## Flujo de trabajo
 
 1. `init`: crea este directorio con `manifest.json` prellenado y skeletons vacíos.

@@ -49,7 +49,7 @@
     "scripts/test_pose_provenance.py": "c03fd9141a4d99ad0df52a4a8d89e0a5000e566dde3487a7b4befcbbf30fc4b4",
     "scripts/artifacts_science/manifest.schema.json": "97c19323a631722094d71d0ce3763bcb67f924f3aab7170ecf93fe0f94aa6b97",
     "scripts/experiment_manifest.py": "c88d890e5da4af43d8c42ad4161ca2fb9c96ed92d7dc009313c57e2e78b86d4a",
-    "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md": "fd27bd0c6c6516b6251090a13984a40ec86c220dcff6db6ac7708c297f16ecbe"
+    "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md": "64761646a2325bcf89f1070b2f66cbb78c0f953e9d42ec3942bd844b2ec9d636"
   },
   "sealed": true,
   "sealed_at": "2026-08-16T03:25:16.164881+00:00",
@@ -103,6 +103,14 @@
       "previous_hash": "3c8bab59acf5fcf4ba5e567a51f121fff66737410450288154b1dfbf2fff6179",
       "new_hash": "fd27bd0c6c6516b6251090a13984a40ec86c220dcff6db6ac7708c297f16ecbe",
       "content_commit": "82997dab038ccaaeb206f0bad446291dd933e176"
+    },
+    {
+      "date": "2026-09-24T04:04:29.760679+00:00",
+      "reason": "Activo cambiado despues del sello: docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md es un modulo o documento vivo que se sello como asset (regla 4 de las reglas de metodo: no sellar un modulo de produccion vivo). El resultado sellado se produjo con la version anterior, cuyo hash queda en previous_hash; la version actual es la del commit 1b03189. Se registra el 2026-09-23, antes de la auditoria externa, para que validar_sellos.py distinga este cambio declarado de una corrupcion. No cambia ninguna cifra ni decision del experimento.",
+      "path": "docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md",
+      "previous_hash": "fd27bd0c6c6516b6251090a13984a40ec86c220dcff6db6ac7708c297f16ecbe",
+      "new_hash": "64761646a2325bcf89f1070b2f66cbb78c0f953e9d42ec3942bd844b2ec9d636",
+      "content_commit": "1b03189"
     }
   ]
 }

@@ -31,12 +31,30 @@
   },
   "assets_hashes": {
     "scripts/analisis_politicas_preparacion.py": "661974a19d8d44afd36e0a86583221316eeba42d88172ee43a7f94eb919a16c5",
-    "backend/services/chemistry/preparation_report.py": "4ea25f01e657ab4b9beb31b9aabe7e13506772eb0814a54df5d3dd8e0304051e",
+    "backend/services/chemistry/preparation_report.py": "a7bc16081eb0af2d66c9bebbdff645e74f24263fde29494ec0805abbfc99b7da",
     "backend/data/site_species_vocabulary.json": "ce0a000fb6a7fd535ebacbc1fe74764454df134cb68504eb7b7a8035e7b2e115",
-    "backend/services/docking/preparer.py": "49948c5716d9d21a559b1d8114faa0e6a12e977bf514ea5cbcff9c10866e4a6f"
+    "backend/services/docking/preparer.py": "80e851dc6100dba305de1d0fa660dca5c821db717f2c1984d5eb3490729c5ae4"
   },
   "sealed": true,
   "sealed_at": "2026-08-23T07:41:01.255960+00:00",
   "decision_rationale": "MEDICION, no experimento con gate: convierte en numero lo que hasta ahora era lectura de codigo. Sobre los 116 y con la fuente RCSB identica para las tres rutas. CONFIRMA lo que la auditoria afirmo: la ruta de docking del producto ELIMINA TODAS LAS AGUAS en 115 de 115 complejos que las tienen, que es lo contrario de la politica que docs/51 declara; y pierde algun metal en 55 de 116 complejos, cinco veces mas que el dataset experimental, que los pierde en 11. CORRIGE una afirmacion propia, y esta es la parte que no se esperaba: EL DATASET EXPERIMENTAL TAMBIEN PIERDE COSAS. Contra la fuente original de RCSB pierde algun metal en 11 complejos, algun cofactor conocido en 8 y alguna especie no aditiva del sitio en 22. La conservacion completa que REC-08-EXT midio -1788 de 1788 aguas, 42 de 42 metales- es cierta RELATIVA AL _protein.pdb DE PDBBIND, que ya venia limpiado, y NO relativa a la estructura depositada. Es exactamente lo que REC-12-R1 predijo: la fuente limpiada ocultaba la pregunta. docs/51 debe declarar respecto a que fuente mide su politica. HALLAZGO CONTRAINTUITIVO: la ruta de docking del producto pierde MENOS cofactores organicos conocidos -5 complejos- que el dataset experimental -8-, porque tiene una lista positiva codificada -HEM, NAD, FAD, FMN, ATP, ADP, SAM y los clusters hierro-azufre- mientras el dataset heredo lo que PDBBind hubiera dejado. En cofactores el producto es MEJOR que el conjunto sobre el que se valido la ciencia. Sigue siendo peor en aguas y en metales. DEFECTO PROPIO CORREGIDO ANTES DE REGISTRAR: la primera pasada contaba el ligando cristalografico como especie del sitio perdida, y daba 110 de 116 en las TRES rutas, una alarma sin contenido. Sacar el ligando del receptor es lo correcto. Se descarta por solapamiento dentro de 0.5 A, igual que hace el modulo sellado de REC-12, y las cifras utiles bajan a 22, 41 y 41.",
-  "finished_at": "2026-08-23T07:41:01.426454+00:00"
+  "finished_at": "2026-08-23T07:41:01.426454+00:00",
+  "seal_maintenance": [
+    {
+      "date": "2026-09-24T04:04:32.026522+00:00",
+      "reason": "Activo cambiado despues del sello: backend/services/chemistry/preparation_report.py es un modulo o documento vivo que se sello como asset (regla 4 de las reglas de metodo: no sellar un modulo de produccion vivo). El resultado sellado se produjo con la version anterior, cuyo hash queda en previous_hash; la version actual es la del commit ec55953. Se registra el 2026-09-23, antes de la auditoria externa, para que validar_sellos.py distinga este cambio declarado de una corrupcion. No cambia ninguna cifra ni decision del experimento.",
+      "path": "backend/services/chemistry/preparation_report.py",
+      "previous_hash": "4ea25f01e657ab4b9beb31b9aabe7e13506772eb0814a54df5d3dd8e0304051e",
+      "new_hash": "a7bc16081eb0af2d66c9bebbdff645e74f24263fde29494ec0805abbfc99b7da",
+      "content_commit": "ec55953"
+    },
+    {
+      "date": "2026-09-24T04:04:32.570156+00:00",
+      "reason": "Activo cambiado despues del sello: backend/services/docking/preparer.py es un modulo o documento vivo que se sello como asset (regla 4 de las reglas de metodo: no sellar un modulo de produccion vivo). El resultado sellado se produjo con la version anterior, cuyo hash queda en previous_hash; la version actual es la del commit f474c19. Se registra el 2026-09-23, antes de la auditoria externa, para que validar_sellos.py distinga este cambio declarado de una corrupcion. No cambia ninguna cifra ni decision del experimento.",
+      "path": "backend/services/docking/preparer.py",
+      "previous_hash": "49948c5716d9d21a559b1d8114faa0e6a12e977bf514ea5cbcff9c10866e4a6f",
+      "new_hash": "80e851dc6100dba305de1d0fa660dca5c821db717f2c1984d5eb3490729c5ae4",
+      "content_commit": "f474c19"
+    }
+  ]
 }

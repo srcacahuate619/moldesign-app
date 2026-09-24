@@ -31,11 +31,21 @@
     "scripts/artifacts_science/MF-33-PB/per_complex.jsonl": "ca705e81820cb124d51df916ee79ced946feb7849e6640f571b1ce948d499cae"
   },
   "assets_hashes": {
-    "scripts/run_mf33min_relajacion.py": "04af58fd3b6abef2f01708630aaa68fbf72fb99182e2eec64387a89ceae949e3",
+    "scripts/run_mf33min_relajacion.py": "ae9fa14e89872a360805c1e379ba703f7144707c799284c0ade5f201abec9fbd",
     "scripts/posebusters_metrica.py": "e4e17593b77b82c7c9d0b56d7dc0e87de2a1aea4b637e477cbdefdacc7f25213"
   },
   "sealed": true,
   "sealed_at": "2026-08-23T08:24:32.935001+00:00",
   "decision_rationale": "Prerregistro sellado ANTES de ejecutar, con el hash del script. Es CIEGO: nadie ha relajado estas poses ni ha mirado que pasa cuando se relajan. Existe por una pregunta que MF-33-PB dejo abierta y que es mas interesante que su propio resultado. Aquel midio que internal_energy falla 7997 de 8215 veces, y la tentacion es leerlo como 'el protocolo esta roto, hay que minimizar'. Pero internal_energy compara contra conformeros LIBRES, y un ligando UNIDO paga una penalizacion conformacional REAL: se tuerce para encajar. Las dos explicaciones son incompatibles y producen decisiones de producto opuestas, asi que hay que distinguirlas antes de tocar nada. El diseno de dos brazos es lo que las separa. Si la RESTRINGIDA arregla la fisica sin mover la pose, era artefacto. Si solo la LIBRE la arregla y ademas se desplaza, la tension estaba sosteniendo la colocacion. LAS DOS CO-PRIMARIAS SE LEEN JUNTAS y eso no es una formalidad: medir solo la fisica produciria un GO para un cambio que puede estar rompiendo la cobertura, que es lo unico que hoy funciona bien -MF-33-B-RET-R2 midio c=0 en oraculo y en top-5-. La lectura (2) esta escrita en serio: PROHIBE adoptar la minimizacion aunque la mejora fisica sea espectacular. LIMITE QUE SE DECLARA Y NO SE DISIMULA: la minimizacion es del ligando solo, con MMFF y SIN el campo del receptor, asi que 'en el sitio' lo sostienen las restricciones posicionales y no la proteina. Un ligando relajado en el campo real podria comportarse distinto y este experimento NO lo mide. Se elige asi porque distingue las dos explicaciones con lo que hay; meter el campo del receptor es otro experimento, mas caro y con mas piezas que pueden fallar. Y se prohibe de antemano el salto que la idea invita a dar: usar el desplazamiento como criterio de descarte en produccion. Alli no hay cristal, asi que la regla mediria distancia a la pose de partida y estaria asumiendo que la de partida era la buena, que es exactamente lo que no se sabe.",
-  "finished_at": "2026-08-23T08:24:33.093954+00:00"
+  "finished_at": "2026-08-23T08:24:33.093954+00:00",
+  "seal_maintenance": [
+    {
+      "date": "2026-09-24T04:04:30.645403+00:00",
+      "reason": "Activo cambiado despues del sello: scripts/run_mf33min_relajacion.py es un modulo o documento vivo que se sello como asset (regla 4 de las reglas de metodo: no sellar un modulo de produccion vivo). El resultado sellado se produjo con la version anterior, cuyo hash queda en previous_hash; la version actual es la del commit f003cd9. Se registra el 2026-09-23, antes de la auditoria externa, para que validar_sellos.py distinga este cambio declarado de una corrupcion. No cambia ninguna cifra ni decision del experimento.",
+      "path": "scripts/run_mf33min_relajacion.py",
+      "previous_hash": "04af58fd3b6abef2f01708630aaa68fbf72fb99182e2eec64387a89ceae949e3",
+      "new_hash": "ae9fa14e89872a360805c1e379ba703f7144707c799284c0ade5f201abec9fbd",
+      "content_commit": "f003cd9"
+    }
+  ]
 }
