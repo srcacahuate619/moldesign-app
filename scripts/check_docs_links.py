@@ -36,8 +36,26 @@ def _local_target(raw_target: str) -> str | None:
     return target.split("#", maxsplit=1)[0].split("?", maxsplit=1)[0]
 
 
+RETENIDOS = ROOT / "scripts" / "retenidos_del_publico.txt"
+
+
+def _retenidos() -> set[Path]:
+    """Rutas retenidas del repositorio público, declaradas en retenidos_del_publico.txt.
+
+    Un enlace a un documento retenido (un manuscrito sin enviar) está roto en el
+    repositorio público POR DECISIÓN, no por descuido: la lista es la fuente de
+    verdad de esa decisión. Sin esto, la CI del repositorio público fallaba en 23
+    enlaces que en el de desarrollo eran válidos (medido el 2026-09-24).
+    """
+    if not RETENIDOS.is_file():
+        return set()
+    return {(ROOT / linea.strip()).resolve() for linea in RETENIDOS.read_text(encoding="utf-8").splitlines()
+            if linea.strip() and not linea.lstrip().startswith("#")}
+
+
 def find_broken_links() -> list[tuple[Path, int, str]]:
     broken: list[tuple[Path, int, str]] = []
+    retenidos = _retenidos()
     for source in sorted(DOCS.rglob("*.md")):
         for line_number, line in enumerate(source.read_text(encoding="utf-8").splitlines(), start=1):
             # Un SMILES como ``C[C@H](CS)`` no es un enlace Markdown.
@@ -46,7 +64,8 @@ def find_broken_links() -> list[tuple[Path, int, str]]:
                 target = _local_target(raw_target)
                 if target is None:
                     continue
-                if not (source.parent / target).resolve().exists():
+                destino = (source.parent / target).resolve()
+                if not destino.exists() and destino not in retenidos:
                     broken.append((source, line_number, raw_target))
     return broken
 
