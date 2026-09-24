@@ -12,10 +12,9 @@ A clear description of what the problem is.
 ## Proposed solution
 What you'd like to see happen.
 
-## Bucket tag
-- [ ] bucket-c (GNN-v3 research track)
-- [ ] paper claim (affects JCIM paper)
+## Area
 - [ ] reproducibility
+- [ ] science (a number or a claim)
 - [ ] other
 
 ## Alternatives considered

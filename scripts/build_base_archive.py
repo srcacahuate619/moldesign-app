@@ -7,7 +7,8 @@
 SHA-256; la aplicación lo descarga y lo extrae para poder arrancar. Pero
 **ningún script del repositorio lo generaba**: `base-v1.0.0.zip` se subió a
 mano. Un repositorio público del que no se puede reconstruir el binario
-distribuido incumple la promesa que la AGPL hace a quien lo recibe.
+distribuido no se puede auditar (la regla nació con la AGPL; con PolyForm
+Noncommercial sigue siendo la de reproducibilidad).
 
 La primera versión de este script cerraba ese hueco y abría otro. Auditado el
 2026-09-06, `base-v1.0.0.zip` resultó ser un archivo que **no se puede extraer

@@ -6,8 +6,9 @@
 `git clone` no basta. El árbol necesita ~2,2 GB que **no viajan en el
 repositorio** —el intérprete embebido, los motores nativos y la base sembrada—
 y hasta hoy no había forma documentada de conseguirlos. Un repositorio público
-del que nadie puede reconstruir el binario distribuido incumple la promesa que
-la AGPL le hace a quien lo recibe.
+del que nadie puede reconstruir el binario distribuido no se puede auditar (la
+promesa se formuló cuando el proyecto era AGPL; hoy es PolyForm Noncommercial y
+sigue valiendo como regla de reproducibilidad).
 
 # El bloqueo que abrió la primera versión
 

@@ -121,6 +121,10 @@ La receta de release y el checksum del artefacto validado están en
 
 ## Desarrollo
 
+> **Auditar o reproducir desde un fork:** [CONTRIBUTING.md](CONTRIBUTING.md) §2-§4 reúne los
+> comandos exactos de la CI, el aprovisionamiento del runtime, el build y la
+> verificación de los 167 experimentos sellados (`python scripts/validar_sellos.py --check`).
+
 ### Un clon no basta: hay que aprovisionar el árbol
 
 `git clone` trae el código, los manifiestos, los hashes y las estructuras
@@ -164,7 +168,7 @@ compila.
 Frontend:
 
     cd frontend
-    npm install
+    npm ci
     npm run test:run
     npm run build:desktop
 
@@ -178,8 +182,8 @@ Instalador autocontenido, con el árbol ya aprovisionado:
     cd frontend
     npm run tauri:build
 
-`beforeBuildCommand` de `src-tauri/tauri.conf.json` encadena trece puertas y
-Tauri las ejecuta solo. Las que gobiernan el orden:
+`beforeBuildCommand` de `src-tauri/tauri.conf.json` encadena quince puertas
+(la lista completa está en `AGENTS.md`, «Construir») y Tauri las ejecuta solo. Las que gobiernan el orden:
 
     check:openbabel-fuente   `tools/openbabel/` coincide con su manifiesto y
                              convierte una molécula de verdad

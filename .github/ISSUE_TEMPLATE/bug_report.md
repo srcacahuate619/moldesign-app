@@ -18,8 +18,8 @@ Expected: ...
 Actual: ...
 
 ## Environment
-- OS: [Windows 11 / Linux / macOS]
-- Python: [e.g. 3.14.0]
+- OS: [Windows 11 x64 is the supported platform; Linux/macOS are not tested]
+- Python: [3.11, installed from backend/requirements-embed.lock.txt?]
 - MolDesign commit: [`git rev-parse --short HEAD`]
 
 ## Logs and artefacts
