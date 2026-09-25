@@ -106,7 +106,7 @@ AMINOACIDOS_L: dict[str, str] = {
 }
 
 #: Enlace peptídico: N–Cα–C(=O). El Cα es el índice 1 de la coincidencia.
-_ESQUELETO = "[NX3][CX4][CX3](=[OX1])"
+_ESQUELETO = "[N;X3,X4][CX4][CX3](=[OX1])"
 
 #: Cisteína invierte la letra CIP sin cambiar la serie estérica: el azufre pesa
 #: más que el carbonilo en las reglas de prioridad.

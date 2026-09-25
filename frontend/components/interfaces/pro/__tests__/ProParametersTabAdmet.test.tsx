@@ -75,7 +75,7 @@ describe("ProParametersTab · ADMET ausente", () => {
   it("no da por buena la toxicologia que nadie evaluo", () => {
     render(<ProParametersTab result={SIN_ADMET} />);
     expect(screen.queryByText(/Sin alertas de reactividad sistémica/)).toBeNull();
-    expect(screen.getByText(/no corrió en este equipo/)).toBeInTheDocument();
+    expect(screen.getByText(/retirado por falta de procedencia/)).toBeInTheDocument();
   });
 
   it("explica el hueco una vez, sin inventarle una causa", () => {
@@ -102,6 +102,7 @@ describe("ProParametersTab · ADMET presente", () => {
     expect(screen.getByText("✓ Alta")).toBeInTheDocument();
     expect(screen.getByText("✗ No permeable")).toBeInTheDocument();
     expect(screen.getByText("Inhibidor CYP2C9")).toBeInTheDocument();
+    expect(screen.getByText(/no equivalen a toxicidad clínica/)).toBeInTheDocument();
     expect(screen.queryByRole("status")).toBeNull();
   });
 

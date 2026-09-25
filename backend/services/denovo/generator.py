@@ -44,6 +44,7 @@ class MolecularSuggestion:
     ml_score: float | None = None
     source: str = "rule_based"  # "rule_based", "reinvent", "molgpt"
     warnings: list[str] = field(default_factory=list)
+    transformed_atom_indices: list[int] = field(default_factory=list)
 
 
 @dataclass
@@ -61,8 +62,8 @@ class GenerationResult:
 # Bioisosteric replacements comunes
 # Ref: Meanwell (2011), Patani & LaVoie (1996)
 BIOISOSTERIC_PAIRS = [
-    # (SMARTS pattern to find, replacement SMARTS, name, rationale)
-    ("C(=O)O", "C(=O)N", "Ácido → Amida",
+    # (substructure SMARTS, replacement molecule, name, rationale)
+    ("[CX3](=[OX1])[O;H1,-1]", "C(N)=O", "Ácido → Amida",
      "Reemplazo bioisostérico clásico. La amida es más estable metabólicamente "
      "y puede mantener interacciones similares de H-bond."),
     ("c1ccccc1", "c1ccncc1", "Fenilo → Piridina",
@@ -71,10 +72,10 @@ BIOISOSTERIC_PAIRS = [
     ("C(F)(F)F", "C(=O)C", "Trifluorometil → Acetil",
      "Puede mejorar propiedades metabólicas en ciertos contextos, "
      "aunque cambia las propiedades electrónicas significativamente."),
-    ("S(=O)(=O)N", "C(=O)N", "Sulfonamida → Amida",
+    ("[SX4](=[OX1])(=[OX1])[NH2]", "C(N)=O", "Sulfonamida → Amida",
      "Simplifica la molécula manteniendo la capacidad de H-bond. "
      "Puede mejorar la permeabilidad de membrana."),
-    ("OC", "NC", "O-metil → N-metil",
+    ("[O;X2]-[CH3]", "NC", "O-metil → N-metil",
      "La N-metilación puede mejorar la permeabilidad de membrana "
      "y la estabilidad metabólica en algunos scaffolds."),
 ]
@@ -201,118 +202,72 @@ def generate_suggestions(
                     warnings=["Eliminar fragmentos puede reducir afinidad"],
                 ))
 
-        # 2. Sugerencias bioisostéricas basadas en estructura
-        smiles_str = smiles
+        # 2. Transformaciones sobre el grafo, con un solo sitio inequívoco.
+        from services.chemistry.structural_alerts import alertas_estructurales
+        parent_alerts = set(alertas_estructurales(mol))
+
         for pattern, replacement, name, rationale in BIOISOSTERIC_PAIRS:
             if len(suggestions) >= max_suggestions:
                 break
-            if pattern in smiles_str:
-                new_smiles = smiles_str.replace(pattern, replacement, 1)
-                # Validar que el resultado sea una molécula válida
-                new_mol = Chem.MolFromSmiles(new_smiles)
-                if new_mol is not None:
-                    canonical = Chem.MolToSmiles(new_mol)
-                    if canonical != Chem.MolToSmiles(mol):  # No sugerir la misma molécula
-                        suggestions.append(MolecularSuggestion(
-                            smiles=canonical,
-                            name=name,
-                            description=f"Reemplazo bioisostérico: {pattern} → {replacement}",
-                            rationale=rationale,
-                            modification_type="bioisostere",
-                            expected_effect="may_improve_adme",
-                            confidence="medium",
-                            warnings=[
-                                "Los reemplazos bioisostéricos pueden alterar la afinidad. "
-                                "Se recomienda evaluar la sugerencia para verificar."
-                            ],
-                        ))
-
-        # 3. Validar y Puntuar con ML (si hay SMILES)
-        from core.config import get_settings
-        import httpx
-        import asyncio
-
-        settings = get_settings()
-
-        async def score_suggestion(sug: MolecularSuggestion):
-            if not sug.smiles:
-                return
-
+            query = Chem.MolFromSmarts(pattern)
+            replacement_mol = Chem.MolFromSmiles(replacement)
+            if query is None or replacement_mol is None:
+                continue
+            matches = mol.GetSubstructMatches(query, uniquify=True)
+            if len(matches) != 1:
+                continue
+            matched = set(matches[0])
+            external = sum(
+                neighbor.GetIdx() not in matched
+                for idx in matched
+                for neighbor in mol.GetAtomWithIdx(idx).GetNeighbors()
+            )
+            # ReplaceSubstructs would attach every external bond to the same
+            # replacement atom. That is only justified for a single bond.
+            if external != 1:
+                continue
+            products = Chem.ReplaceSubstructs(
+                mol, query, replacement_mol, replaceAll=False,
+                replacementConnectionPoint=0,
+            )
+            if len(products) != 1:
+                continue
+            candidate = products[0]
             try:
-                from rdkit import Chem
-                from rdkit.Chem import Descriptors, QED
-                m = Chem.MolFromSmiles(sug.smiles)
-                if not m: return
+                Chem.SanitizeMol(candidate)
+                if len(Chem.GetMolFrags(candidate)) != 1:
+                    continue
+                candidate_alerts = set(alertas_estructurales(candidate))
+                if candidate_alerts - parent_alerts:
+                    continue
+                canonical = Chem.MolToSmiles(candidate, isomericSmiles=True)
+                if canonical == Chem.MolToSmiles(mol, isomericSmiles=True):
+                    continue
+            except (ValueError, RuntimeError):
+                continue
+            suggestions.append(MolecularSuggestion(
+                smiles=canonical,
+                name=name,
+                description=f"Transformación por subestructura: {pattern} → {replacement}",
+                rationale=rationale,
+                modification_type="bioisostere",
+                expected_effect="may_improve_adme",
+                confidence="low",
+                transformed_atom_indices=list(matches[0]),
+                warnings=[
+                    "Transformación de grafo exploratoria; no se acopló ni se validó "
+                    "una mejora de afinidad, ADME o actividad biológica.",
+                    *(
+                        ["Alertas estructurales heredadas del padre: "
+                         + ", ".join(sorted(candidate_alerts))]
+                        if candidate_alerts else []
+                    ),
+                ],
+            ))
 
-                # Calcular descriptores para el ML
-                mw = Descriptors.MolWt(m)
-                logp = Descriptors.MolLogP(m)
-                tpsa = Descriptors.TPSA(m)
-                hbd = Descriptors.NumHDonors(m)
-                hba = Descriptors.NumHAcceptors(m)
-                rb = Descriptors.NumRotatableBonds(m)
-                qed_val = QED.qed(m)
-
-                payload = {
-                    "smiles": sug.smiles,
-                    "molecular_weight": mw,
-                    "logp": logp,
-                    "tpsa": tpsa,
-                    "hbd": hbd,
-                    "hba": hba,
-                    "rotatable_bonds": rb,
-                    "qed": qed_val
-                }
-
-                async with httpx.AsyncClient(timeout=5.0) as client:
-                    resp = await client.post(f"{settings.rescoring_url}/pre-score", json=payload)
-                    if resp.status_code == 200:
-                        data = resp.json()
-                        sug.ml_score = data.get("score")
-            except Exception as e:
-                log.warning("ml_prescore_failed", error=str(e), smiles=sug.smiles)
-
-        # Ejecutar pre-scoring en paralelo para las sugerencias con SMILES
-        concrete_sugs = [s for s in suggestions if s.smiles]
-        if concrete_sugs:
-            try:
-                # Nota: Esto asume que generate_suggestions es llamada en un contexto async
-                # Como es llamada por FastAPI, podemos usar loop si es necesario o hacerla async
-                loop = asyncio.get_event_loop()
-                if loop.is_running():
-                    # No podemos usar loop.run_until_complete si ya está corriendo
-                    # Pero el router es async, así que generate_suggestions DEBERÍA ser async
-                    pass
-            except RuntimeError:
-                pass
-        # Por ahora, lo haré síncrono pero con un cliente HTTP síncrono para no romper nada.
-
-        def score_suggestion_sync(sug: MolecularSuggestion):
-            if not sug.smiles: return
-            try:
-                from rdkit import Chem
-                from rdkit.Chem import Descriptors, QED
-                m = Chem.MolFromSmiles(sug.smiles)
-                if not m: return
-                payload = {
-                    "smiles": sug.smiles,
-                    "molecular_weight": Descriptors.MolWt(m),
-                    "logp": Descriptors.MolLogP(m),
-                    "tpsa": Descriptors.TPSA(m),
-                    "hbd": Descriptors.NumHDonors(m),
-                    "hba": Descriptors.NumHAcceptors(m),
-                    "rotatable_bonds": Descriptors.NumRotatableBonds(m),
-                    "qed": QED.qed(m)
-                }
-                import requests
-                resp = requests.post(f"{settings.rescoring_url}/pre-score", json=payload, timeout=2.0)
-                if resp.status_code == 200:
-                    sug.ml_score = resp.json().get("score")
-            except Exception:
-                pass
-
-        for s in concrete_sugs:
-            score_suggestion_sync(s)
+        # Las sugerencias son propuestas químicas sin docking ni calibración.
+        # El antiguo POST de pre-score local no se devolvía en la API y añadía
+        # latencia sin evidencia interpretable, así que no se ejecuta aquí.
 
         # Limitar a max_suggestions
         suggestions = suggestions[:max_suggestions]
@@ -320,6 +275,7 @@ def generate_suggestions(
         result_warnings = [
             "Las sugerencias son hipótesis computacionales basadas en reglas de química medicinal.",
             "Ninguna sugerencia garantiza mejora en actividad biológica real.",
+            "Las estructuras sugeridas no se acoplaron ni demostraron mejora.",
             "Se recomienda evaluar cada sugerencia con el pipeline completo antes de aceptarla.",
         ]
 

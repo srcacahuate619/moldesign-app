@@ -30,10 +30,18 @@
 
 ## 1. Contexto — por qué documentar esto
 
-MolDesign v1 (el `moldesign-build` que tenemos hoy, commit `08c7f2d`), funciona
-**espectacularmente** para 5 receptores protein-estándar en 18 familias curadas
-del `curated_targets.csv` (80 targets). En esos tests dio EF@1% promedio 33.37x
-vs histórico 28.91x (+15.5%) y AUC promedio 0.925. **Eso es valido para el paper JCIM.**
+La tabla histórica de `docs/17_EF_BENCHMARK_FIXES.md` §6.7 reúne **5 dianas
+etiquetadas**, no 80 dianas ni 18 familias. Informó EF@1% medio 33.37x frente
+a 28.91x histórico y AUC medio **0.919**; 0.925 fue la AUC de una sola
+diana. Uno de los cinco ensayos etiquetó «CDK2» al receptor **3PP0, HER2
+(ERBB2)**, según su cabecera PDB local, con una biblioteca de activos CDK2.
+Los señuelos ChEMBL no tienen inactividad verificada, los pesos se
+seleccionaron sobre el mismo conjunto, y el clasificador y la fórmula no
+son los distribuidos hoy. No hay artefacto de corridas que reproduzca el
+promedio 33.37x desde este repositorio. Estas cifras son **históricas y
+exploratorias**; no respaldan una afirmación de rendimiento del producto
+ni una conclusión de paper. El ranking M4 actual y su evidencia limitada
+están en `docs/90_FASE6_DECISION_M4.md`.
 
 Pero si un usuario externo descarga la app, pone un PDB nuevo de un glycoprotein
 con glycan pocket, le va a dar resultados sin sentido. Sin excepciones, sin alertas.
@@ -501,7 +509,12 @@ estructurales que usa Vina+XGB (MolChamb usa descriptores quantum-chemistry
 vía xTB, Vina+XGB usa shells + ECIF + 1D/2D RDKit). En principio, info nueva
 debería aumentar AUC. No podemos afirmar ni negar eso sin GNN-v3.
 
-### 8.3 Statement paper-defensible sobre MolChamb
+### 8.3 Texto histórico retirado como afirmación de paper
+
+El pasaje siguiente se conserva sólo para auditar la formulación antigua. El
+segundo receptor fue HER2/ERBB2 3PP0 con activos CDK2 y no valida un
+resultado CDK2; tampoco usa el clasificador ni los pesos de release actuales.
+**No debe citarse como evidencia publicable.**
 
 > "**MolChamb ablation**. MolChamb (Molecular Chamber, quantum-chemistry
 > stacking component) was tested on 5HT1A (GPCR) and CDK2 (kinase). In both,

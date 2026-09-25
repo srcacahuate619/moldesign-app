@@ -12,8 +12,6 @@ Given a "hit" molecule, generates analogs by:
 
 from __future__ import annotations
 
-import math
-import re
 from dataclasses import dataclass
 from enum import Enum
 from typing import Callable
@@ -88,43 +86,10 @@ class AnalogCandidate:
 # ── SA Score (Synthetic Accessibility) ────────────────────────────────────
 
 def _compute_sa_score(mol: Chem.Mol) -> float:
-    """
-    Simplified SA Score based on Ertl & Schuffenhauer (2009).
-    Uses fragment complexity + ring penalty.
-    """
-    fragment_score = 0.0
-    n_fragments = 0
+    """Ertl-Schuffenhauer SA score as implemented by RDKit Contrib."""
+    from rdkit.Contrib.SA_Score import sascorer
 
-    try:
-        fragments = BRICS.BRICSDecompose(mol, minFragmentSize=1)
-        n_fragments = len(list(fragments))
-    except Exception:
-        n_fragments = max(1, mol.GetNumHeavyAtoms() // 4)
-
-    # Fragment complexity: more unique fragments = harder to synthesize
-    fragment_score = math.log(max(1, n_fragments))
-
-    # Size penalty
-    size_penalty = mol.GetNumHeavyAtoms() / 100.0
-
-    # Ring complexity
-    n_rings = rdMolDescriptors.CalcNumRings(mol)
-    n_bridge = rdMolDescriptors.CalcNumBridgeheadAtoms(mol)
-    ring_penalty = (n_rings * 0.1) + (n_bridge * 0.3)
-
-    # Chirality
-    n_chiral = len(Chem.FindMolChiralCenters(mol, includeUnassigned=True))
-    chiral_penalty = n_chiral * 0.2
-
-    # Spiro penalty
-    spiro_pattern = Chem.MolFromSmarts("[*]([*])([*])([*])")
-    n_spiro = len(mol.GetSubstructMatches(spiro_pattern)) if spiro_pattern else 0
-    spiro_penalty = n_spiro * 0.5
-
-    # Scale to 1-10 (1=easy, 10=hard)
-    raw = fragment_score + size_penalty + ring_penalty + chiral_penalty + spiro_penalty
-    sa = min(10.0, max(1.0, raw * 1.5 + 1.0))
-    return round(sa, 2)
+    return round(float(sascorer.calculateScore(mol)), 2)
 
 
 # ── Property computation ────────────────────────────────────────────────────
@@ -160,10 +125,13 @@ def _compute_properties(smiles: str) -> dict | None:
         return None
 
 
-def _passes_filters(props: dict) -> bool:
+def _passes_filters(props: dict, mol: Chem.Mol) -> bool:
     """Check if molecule passes drug-likeness filters."""
+    from services.chemistry.structural_alerts import alertas_estructurales
+
     return (
-        props["qed"] >= 0.2
+        not alertas_estructurales(mol)
+        and props["qed"] >= 0.2
         and props["sa_score"] <= 6.0
         and 100 <= props["mw"] <= 600
         and -2 <= props["logp"] <= 7
@@ -513,7 +481,7 @@ def _make_candidate(
         return None
 
     props = _compute_properties(canonical)
-    if props is None or not _passes_filters(props):
+    if props is None or not _passes_filters(props, mol):
         return None
 
     sim = _morgan_similarity(canonical, parent_smiles)
@@ -528,133 +496,123 @@ def _make_candidate(
     )
 
 
+def _single_dummy(mol: Chem.Mol) -> tuple[int, int] | None:
+    dummies = [atom for atom in mol.GetAtoms() if atom.GetAtomicNum() == 0]
+    if len(dummies) != 1 or len(dummies[0].GetNeighbors()) != 1:
+        return None
+    return dummies[0].GetIdx(), dummies[0].GetNeighbors()[0].GetIdx()
+
+
+def _remove_dummy(mol: Chem.Mol) -> tuple[Chem.Mol, int] | None:
+    attachment = _single_dummy(mol)
+    if attachment is None:
+        return None
+    dummy, anchor = attachment
+    rw = Chem.RWMol(mol)
+    rw.RemoveAtom(dummy)
+    if anchor > dummy:
+        anchor -= 1
+    result = rw.GetMol()
+    Chem.SanitizeMol(result)
+    return result, anchor
+
+
+def _join_on_dummies(left: Chem.Mol, right: Chem.Mol) -> str | None:
+    """Connect the two declared attachment atoms without choosing an index."""
+    lhs, rhs = _single_dummy(left), _single_dummy(right)
+    if lhs is None or rhs is None:
+        return None
+    offset = left.GetNumAtoms()
+    rw = Chem.RWMol(Chem.CombineMols(left, right))
+    rw.AddBond(lhs[1], offset + rhs[1], Chem.BondType.SINGLE)
+    for dummy in sorted((lhs[0], offset + rhs[0]), reverse=True):
+        rw.RemoveAtom(dummy)
+    mol = rw.GetMol()
+    Chem.SanitizeMol(mol)
+    if len(Chem.GetMolFrags(mol)) != 1:
+        return None
+    return Chem.MolToSmiles(mol, isomericSmiles=True)
+
+
 def _hop_scaffold(parent_smi: str, old_core_smi: str, new_core_smi: str) -> str | None:
-    """
-    Replace scaffold in parent molecule with alternative core.
-    Simple approach: return cleaned new core as a molecule.
-    Real scaffold hopping would require R-group enumeration.
+    """Transfer one identified parent R group to a core with one explicit site.
+
+    Multi-substituted parents and cores without an attachment marker abstain.
+    Returning a bare replacement core would mislabel it as an analog.
     """
     try:
-        import re
-
-        # Clean the new core: remove dummy atoms
-        clean_core = re.sub(r"\[\d+\*\]", "", new_core_smi)
-        clean_core = clean_core.replace("[*]", "").replace("*", "").replace("()", "")
-
-        if not clean_core or len(clean_core) < 2:
+        parent = Chem.MolFromSmiles(parent_smi)
+        old_core = Chem.MolFromSmiles(old_core_smi)
+        new_core = Chem.MolFromSmiles(new_core_smi)
+        if any(x is None for x in (parent, old_core, new_core)):
             return None
-
-        new_mol = Chem.MolFromSmiles(clean_core)
-        if new_mol is None:
+        residual = Chem.ReplaceCore(parent, old_core, labelByIndex=True)
+        if residual is None or _single_dummy(residual) is None:
             return None
-
-        # For scaffold hopping: return the new scaffold as a simplified analog
-        # Full implementation would attach the parent's substituents to this core
-        return Chem.MolToSmiles(new_mol, isomericSmiles=True)
-
-    except Exception:
+        return _join_on_dummies(new_core, residual)
+    except (ValueError, RuntimeError):
         return None
 
 
 def _swap_substituents(parent_smi: str, new_sub_smi: str) -> str | None:
-    """
-    Swap a substituent on the parent Murcko scaffold with a new one.
-    Properly forms a single bond between scaffold and substituent.
-    """
-
+    """Replace one R group at its original Murcko attachment atom."""
     try:
-        parent_mol = Chem.MolFromSmiles(parent_smi)
-        if parent_mol is None:
+        parent = Chem.MolFromSmiles(parent_smi)
+        new_sub = Chem.MolFromSmiles(new_sub_smi)
+        if parent is None or new_sub is None or _single_dummy(new_sub) is None:
             return None
-
-        scaffold = MurckoScaffold.GetScaffoldForMol(parent_mol)
+        scaffold = MurckoScaffold.GetScaffoldForMol(parent)
         if scaffold is None or scaffold.GetNumHeavyAtoms() < 2:
             return None
-
-        # Clean the new substituent of dummy atoms
-        sub_clean = re.sub(r"\[\d+\*\]", "", new_sub_smi)
-        sub_clean = sub_clean.replace("[*]", "").replace("*", "")
-
-        if not sub_clean or len(sub_clean) < 1:
+        old_sub = Chem.ReplaceCore(parent, scaffold, labelByIndex=True)
+        attachment = _single_dummy(old_sub) if old_sub is not None else None
+        if attachment is None:
             return None
-
-        sub_mol = Chem.MolFromSmiles(sub_clean)
-        if sub_mol is None:
+        scaffold_index = old_sub.GetAtomWithIdx(attachment[0]).GetIsotope()
+        if scaffold_index >= scaffold.GetNumAtoms():
             return None
-
-        # Find atoms in scaffold that have free valence (can form new bond)
-        scaffold_rw = Chem.RWMol(scaffold)
-        n_atoms_before = scaffold_rw.GetNumAtoms()
-
-        # Combine scaffold and substituent, then form a bond
-        combined = Chem.CombineMols(scaffold, sub_mol)
-        rw = Chem.RWMol(combined)
-
-        # Find the first atom in scaffold with an implicit H to use as attachment point
-        # and the first atom in substituent to attach
-        attach_scaffold = -1
-        for i in range(n_atoms_before):
-            atom = rw.GetAtomWithIdx(i)
-            if atom.GetAtomicNum() > 1 and atom.GetNumImplicitHs() > 0:
-                # Prefer carbon atoms with free valence
-                if atom.GetAtomicNum() == 6:
-                    attach_scaffold = i
-                    break
-                elif attach_scaffold < 0:
-                    attach_scaffold = i
-
-        # Find attachment point on substituent
-        attach_sub = -1
-        for i in range(n_atoms_before, rw.GetNumAtoms()):
-            atom = rw.GetAtomWithIdx(i)
-            if atom.GetAtomicNum() > 1 and atom.GetNumImplicitHs() > 0:
-                if atom.GetAtomicNum() == 6:
-                    attach_sub = i
-                    break
-                elif attach_sub < 0:
-                    attach_sub = i
-
-        if attach_scaffold < 0 or attach_sub < 0:
-            return None
-
-        rw.AddBond(attach_scaffold, attach_sub, Chem.BondType.SINGLE)
-
-        Chem.SanitizeMol(rw)
-        return Chem.MolToSmiles(rw, isomericSmiles=True)
-
-    except Exception:
+        core = Chem.RWMol(scaffold)
+        dummy = core.AddAtom(Chem.Atom(0))
+        core.AddBond(scaffold_index, dummy, Chem.BondType.SINGLE)
+        return _join_on_dummies(core.GetMol(), new_sub)
+    except (ValueError, RuntimeError):
         return None
 
 
 def _replace_fragment(parent_smi: str, old_frag: str, new_frag: str) -> str | None:
-    """Replace one BRICS fragment with another using SMILES substitution."""
+    """Replace a BRICS fragment only with unique one-bond graph mapping."""
     try:
-        # Clean both fragments of attachment markers
-        old_clean = old_frag
-        new_clean = new_frag
-        for pattern in [r"\[\d+\*\]", r"\[\*\]", r"\*"]:
-            import re
-            old_clean = re.sub(pattern, "", old_clean)
-            new_clean = re.sub(pattern, "", new_clean)
-
-        if not old_clean or not new_clean:
+        parent = Chem.MolFromSmiles(parent_smi)
+        old = Chem.MolFromSmiles(old_frag)
+        new = Chem.MolFromSmiles(new_frag)
+        if any(x is None for x in (parent, old, new)):
             return None
-
-        if old_clean in parent_smi and old_clean != new_clean:
-            new_smi = parent_smi.replace(old_clean, new_clean, 1)
-
-            # Validate
-            new_mol = Chem.MolFromSmiles(new_smi)
-            if new_mol is None:
-                return None
-
-            # Check that it's structurally valid (connected)
-            fragments = Chem.GetMolFrags(new_mol)
-            if len(fragments) > 1:
-                return None  # disconnected fragments
-
-            return Chem.MolToSmiles(new_mol, isomericSmiles=True)
-
-        return None
-    except Exception:
+        old_clean = _remove_dummy(old)
+        new_clean = _remove_dummy(new)
+        if old_clean is None or new_clean is None:
+            return None
+        query, _ = old_clean
+        matches = parent.GetSubstructMatches(query, uniquify=True)
+        if len(matches) != 1:
+            return None
+        matched = set(matches[0])
+        external = sum(
+            neighbor.GetIdx() not in matched
+            for idx in matched
+            for neighbor in parent.GetAtomWithIdx(idx).GetNeighbors()
+        )
+        if external != 1:
+            return None
+        products = Chem.ReplaceSubstructs(
+            parent, query, new_clean[0],
+            replaceAll=False, replacementConnectionPoint=new_clean[1],
+        )
+        if len(products) != 1:
+            return None
+        product = products[0]
+        Chem.SanitizeMol(product)
+        if len(Chem.GetMolFrags(product)) != 1:
+            return None
+        return Chem.MolToSmiles(product, isomericSmiles=True)
+    except (ValueError, RuntimeError):
         return None

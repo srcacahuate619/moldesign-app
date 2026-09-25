@@ -1,11 +1,13 @@
-# MolChamb Ablation Study - CDK2
+# MolChamb Ablation Study - historical CDK2-labelled cohort on HER2 3PP0
 
-**Target**: CDK2 | **Family**: kinase
+**Receptor**: 3PP0 HER2/ERBB2 | **Ligands**: CDK2-labelled historical cohort | **Family**: kinase
 **Dataset**: 199 mols (50 actives)
 **Box source**: curated_csv
 **Box center**: [17.1, 16.55, 26.6]
 **Box size**: 32.7 Angstrom
 **MolChamb runtime**: 0.27s (cache hit 100%)
+
+**Correction (2026-09-25):** The local 3PP0 PDB header identifies HER2/ERBB2, not CDK2. The cohort mixes a different receptor with CDK2-labelled actives; its AUC and EF are exploratory artifacts and cannot support a CDK2 or paper claim. The scoring model and weights also differ from current release.
 
 ## Ablation Table
 
@@ -42,7 +44,7 @@ A hot-patch (commits 4f48fde and 51f8a89) was added that:
 
 The hot-patch rescues GNN-v2 from the degenerate state (varying probabilities instead of constant 0.5 for all molecules), but **the resulting discrimination is near-random** (AUC 0.9616). This is expected: the 18 -> 38 adapter is lossy (drops ~53% of the Bucket A.1 features, mapping the new element columns to the original 'X' catch-all), and the GPU checkpoint was never trained to extract signal from the projected feature distribution.
 
-**Conclusion for the paper**: The primary claim remains **Vina + XGB (AUC 0.9860, EF@1% 3.98x)**. All combinations involving GNN-v2 produce worse AUC than Vina + XGB alone, because:
+**Historical conclusion withdrawn from paper use**: The primary claim remains **Vina + XGB (AUC 0.9860, EF@1% 3.98x)**. All combinations involving GNN-v2 produce worse AUC than Vina + XGB alone, because:
 - GNN-v2 alone has lower discrimination than Vina-only in this configuration (single hot-patched checkpoint, no retrain),
 - Calibrated Stacking averages Vina+XGB with low-discrimination CL-GNN (CL-GNN appears to contribute nothing on this target -- likely a similar Bucket A issue to be diagnosed as part of Bucket C),
 - MolChamb cannot claim value-add or value-loss here because the ensemble baseline (Calibrated Stacking) is already worse than the simpler Vina+XGB.

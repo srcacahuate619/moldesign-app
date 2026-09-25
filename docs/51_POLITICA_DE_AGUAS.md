@@ -12,9 +12,9 @@ conservándolas — `b`=10, `c`=8, McNemar exacto p=0.814529, `SIN_DIFERENCIA_DE
 
 ---
 
-## 1. Qué hace el pipeline hoy
+## 1. Qué hizo el programa experimental con sus receptores
 
-**Conserva todas las aguas cristalográficas del PDB de origen en `rec.pdbqt`.** Todas: las
+**El programa experimental conservó todas las aguas cristalográficas del PDB de origen en `rec.pdbqt`.** Todas: las
 que median puentes de hidrógeno con el ligando, las de la segunda esfera, las de la
 superficie, y las que el ligando desplaza al unirse.
 
@@ -29,6 +29,20 @@ complejos de train:
 | Perdidas | **0** |
 
 Lo mismo con los metales: 42 de 42 conservados, 0 perdidos.
+
+## 1bis. Qué hace la aplicación distribuida
+
+La ruta de producción en `backend/services/docking/preparer.py` **retira HOH,
+WAT y DOD**, además de otros HETATM por defecto, al preparar el receptor para
+Vina. `vina_service.py` registra el aviso `SITIO_DESOLVATADO`: censará las aguas
+del sitio cuando puede leer la estructura de origen y declarará la falta de
+censo cuando no pueda. La prueba PREP-01 midió retirada de todas las aguas en
+115/115 casos de la ruta de producto. Por tanto, la conservación 1788/1788 de
+REC-08-EXT y el contraste de REC-11 describen el **programa experimental**,
+no garantizan que una corrida de la aplicación conserve aguas. Esta diferencia
+bloquea una lectura de «receptor FEP-ready» basada sólo en FEP-02: dicho
+cribado usa `_protein.pdb` de PDBbind y no comprueba el receptor preparado que
+se exportaría.
 
 ## 2. Por qué es una decisión y no un detalle
 
@@ -54,8 +68,7 @@ mal montado» sin saber por qué; era esto.
 
 ## 3. La política declarada
 
-> **Se conservan todas las aguas cristalográficas del receptor, sin excepción, en todos los
-> artefactos del programa.** No se eliminan, no se filtran por B-factor ni por ocupancia, y
+> **En los artefactos del programa experimental se conservaron todas las aguas cristalográficas del receptor, sin excepción.** No se eliminan, no se filtran por B-factor ni por ocupancia, y
 > no se decide por complejo.
 
 **Se declara tal cual, sin cambiarla**, por tres razones:

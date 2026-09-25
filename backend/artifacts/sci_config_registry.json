@@ -1,14 +1,14 @@
 {
   "registry_version": "1.0.0",
   "created_at": "2026-09-10T00:00:00+00:00",
-  "last_modified": "2026-09-10T00:00:00+00:00",
-  "config_hash": "6101ed0211d821d02b8f6ee69444259dd0684e7d690dbb1ee5a45f77f27310dc",
+  "last_modified": "2026-09-25T00:00:00+00:00",
+  "config_hash": "2df4f25f5a7b1f55da3d0e6055c5cc7fb41e3fa77c8d8633e0876f4e645f15e8",
   "contract": {
-    "id": "M4_STACKING_ALPHA_V1",
+    "id": "M4_VINA_ONLY_PENDING_DOCKED_VALIDATION_V2",
     "model_manifest": "rescoring/artifacts/model-manifest.json",
     "clgnn_sha256": "f714dd8208f491258dcb4671bc1e29f308712c1c27f629409f2e33993186bb4f",
     "clgnn_status": "CHECKPOINT_INCLUDED__EXTERNAL_VALIDATION_FOR_EXACT_SHA256_PENDING",
-    "policy": "CL-GNN se ejecuta y serializa como senal experimental, pero no decide ranking ni recomendacion hasta que una evaluacion externa sellada sea atribuible al SHA-256 exacto. La GNN legacy esta deprecada y tampoco decide. M5-Zn se calcula y persiste en su protocolo separado."
+    "policy": "Vina decide el ranking generico M4. XGBoost y CL-GNN se ejecutan y conservan como senales experimentales sin peso hasta validar sus bytes exactos y la mejora sobre Vina con poses de produccion en dianas disjuntas. M5-Zn es un protocolo separado."
   },
   "parameters": {
     "stacking_default": {
@@ -41,6 +41,25 @@
             "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
           },
           "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": "2026-09-25T00:00:00+00:00"
+        },
+        {
+          "value": {
+            "vina": 1.0,
+            "xgb": 0.0,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 2,
+          "adopted_at": "2026-09-25T00:00:00+00:00",
+          "reason": "Peso provisional de XGBoost cero: la prueba Fase 6 reproduce el holdout cristalografico pero no valida poses Vina ni la mejora incremental sobre Vina en dianas disjuntas.",
+          "reference": {
+            "source": "docs/89_FASE6_PREREG_CLASIFICADOR.md y docs/90_FASE6_DECISION_M4.md",
+            "method": "Abstencion de peso ML hasta prueba con poses de produccion y control por familia proteica",
+            "notes": "El clasificador se calcula y persiste como senal experimental; no decide el ranking M4."
+          },
+          "calibration_id": "M4_VINA_ONLY_PENDING_DOCKED_VALIDATION_V2",
           "superseded_at": null
         }
       ]
@@ -75,6 +94,25 @@
             "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
           },
           "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": "2026-09-25T00:00:00+00:00"
+        },
+        {
+          "value": {
+            "vina": 1.0,
+            "xgb": 0.0,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 2,
+          "adopted_at": "2026-09-25T00:00:00+00:00",
+          "reason": "Peso provisional de XGBoost cero: la prueba Fase 6 reproduce el holdout cristalografico pero no valida poses Vina ni la mejora incremental sobre Vina en dianas disjuntas.",
+          "reference": {
+            "source": "docs/89_FASE6_PREREG_CLASIFICADOR.md y docs/90_FASE6_DECISION_M4.md",
+            "method": "Abstencion de peso ML hasta prueba con poses de produccion y control por familia proteica",
+            "notes": "El clasificador se calcula y persiste como senal experimental; no decide el ranking M4."
+          },
+          "calibration_id": "M4_VINA_ONLY_PENDING_DOCKED_VALIDATION_V2",
           "superseded_at": null
         }
       ]
@@ -109,6 +147,25 @@
             "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
           },
           "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": "2026-09-25T00:00:00+00:00"
+        },
+        {
+          "value": {
+            "vina": 1.0,
+            "xgb": 0.0,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 2,
+          "adopted_at": "2026-09-25T00:00:00+00:00",
+          "reason": "Peso provisional de XGBoost cero: la prueba Fase 6 reproduce el holdout cristalografico pero no valida poses Vina ni la mejora incremental sobre Vina en dianas disjuntas.",
+          "reference": {
+            "source": "docs/89_FASE6_PREREG_CLASIFICADOR.md y docs/90_FASE6_DECISION_M4.md",
+            "method": "Abstencion de peso ML hasta prueba con poses de produccion y control por familia proteica",
+            "notes": "El clasificador se calcula y persiste como senal experimental; no decide el ranking M4."
+          },
+          "calibration_id": "M4_VINA_ONLY_PENDING_DOCKED_VALIDATION_V2",
           "superseded_at": null
         }
       ]
@@ -143,6 +200,25 @@
             "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
           },
           "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": "2026-09-25T00:00:00+00:00"
+        },
+        {
+          "value": {
+            "vina": 1.0,
+            "xgb": 0.0,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 2,
+          "adopted_at": "2026-09-25T00:00:00+00:00",
+          "reason": "Peso provisional de XGBoost cero: la prueba Fase 6 reproduce el holdout cristalografico pero no valida poses Vina ni la mejora incremental sobre Vina en dianas disjuntas.",
+          "reference": {
+            "source": "docs/89_FASE6_PREREG_CLASIFICADOR.md y docs/90_FASE6_DECISION_M4.md",
+            "method": "Abstencion de peso ML hasta prueba con poses de produccion y control por familia proteica",
+            "notes": "El clasificador se calcula y persiste como senal experimental; no decide el ranking M4."
+          },
+          "calibration_id": "M4_VINA_ONLY_PENDING_DOCKED_VALIDATION_V2",
           "superseded_at": null
         }
       ]
@@ -177,6 +253,25 @@
             "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
           },
           "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": "2026-09-25T00:00:00+00:00"
+        },
+        {
+          "value": {
+            "vina": 1.0,
+            "xgb": 0.0,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 2,
+          "adopted_at": "2026-09-25T00:00:00+00:00",
+          "reason": "Peso provisional de XGBoost cero: la prueba Fase 6 reproduce el holdout cristalografico pero no valida poses Vina ni la mejora incremental sobre Vina en dianas disjuntas.",
+          "reference": {
+            "source": "docs/89_FASE6_PREREG_CLASIFICADOR.md y docs/90_FASE6_DECISION_M4.md",
+            "method": "Abstencion de peso ML hasta prueba con poses de produccion y control por familia proteica",
+            "notes": "El clasificador se calcula y persiste como senal experimental; no decide el ranking M4."
+          },
+          "calibration_id": "M4_VINA_ONLY_PENDING_DOCKED_VALIDATION_V2",
           "superseded_at": null
         }
       ]
@@ -211,6 +306,25 @@
             "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
           },
           "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": "2026-09-25T00:00:00+00:00"
+        },
+        {
+          "value": {
+            "vina": 1.0,
+            "xgb": 0.0,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 2,
+          "adopted_at": "2026-09-25T00:00:00+00:00",
+          "reason": "Peso provisional de XGBoost cero: la prueba Fase 6 reproduce el holdout cristalografico pero no valida poses Vina ni la mejora incremental sobre Vina en dianas disjuntas.",
+          "reference": {
+            "source": "docs/89_FASE6_PREREG_CLASIFICADOR.md y docs/90_FASE6_DECISION_M4.md",
+            "method": "Abstencion de peso ML hasta prueba con poses de produccion y control por familia proteica",
+            "notes": "El clasificador se calcula y persiste como senal experimental; no decide el ranking M4."
+          },
+          "calibration_id": "M4_VINA_ONLY_PENDING_DOCKED_VALIDATION_V2",
           "superseded_at": null
         }
       ]
@@ -245,6 +359,25 @@
             "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
           },
           "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": "2026-09-25T00:00:00+00:00"
+        },
+        {
+          "value": {
+            "vina": 1.0,
+            "xgb": 0.0,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 2,
+          "adopted_at": "2026-09-25T00:00:00+00:00",
+          "reason": "Peso provisional de XGBoost cero: la prueba Fase 6 reproduce el holdout cristalografico pero no valida poses Vina ni la mejora incremental sobre Vina en dianas disjuntas.",
+          "reference": {
+            "source": "docs/89_FASE6_PREREG_CLASIFICADOR.md y docs/90_FASE6_DECISION_M4.md",
+            "method": "Abstencion de peso ML hasta prueba con poses de produccion y control por familia proteica",
+            "notes": "El clasificador se calcula y persiste como senal experimental; no decide el ranking M4."
+          },
+          "calibration_id": "M4_VINA_ONLY_PENDING_DOCKED_VALIDATION_V2",
           "superseded_at": null
         }
       ]
@@ -279,6 +412,25 @@
             "notes": "CL-GNN se ejecuta y conserva como senal experimental con peso cero."
           },
           "calibration_id": "M4_STACKING_ALPHA_V1",
+          "superseded_at": "2026-09-25T00:00:00+00:00"
+        },
+        {
+          "value": {
+            "vina": 1.0,
+            "xgb": 0.0,
+            "gnn": 0.0,
+            "clgnn": 0.0,
+            "quantum_sign": 1.0
+          },
+          "version": 2,
+          "adopted_at": "2026-09-25T00:00:00+00:00",
+          "reason": "Peso provisional de XGBoost cero: la prueba Fase 6 reproduce el holdout cristalografico pero no valida poses Vina ni la mejora incremental sobre Vina en dianas disjuntas.",
+          "reference": {
+            "source": "docs/89_FASE6_PREREG_CLASIFICADOR.md y docs/90_FASE6_DECISION_M4.md",
+            "method": "Abstencion de peso ML hasta prueba con poses de produccion y control por familia proteica",
+            "notes": "El clasificador se calcula y persiste como senal experimental; no decide el ranking M4."
+          },
+          "calibration_id": "M4_VINA_ONLY_PENDING_DOCKED_VALIDATION_V2",
           "superseded_at": null
         }
       ]

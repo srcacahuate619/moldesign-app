@@ -98,24 +98,11 @@ def test_tabpfn_lee_el_campo_que_existe():
     )
 
 
-def test_tabpfn_no_se_marca_cargado_antes_de_estarlo():
-    """Puesta antes del fit, la bandera volvía permanente un fallo de carga."""
-    # Sólo código: el comentario que explica el defecto cita la línea vieja, y
-    # buscarla en el texto plano encontraría la explicación antes que el código.
-    lineas = [
-        (i, linea.strip())
-        for i, linea in enumerate(
-            (BACKEND / "chem" / "blood_viability.py").read_text(encoding="utf-8").splitlines()
-        )
-        if not linea.strip().startswith("#")
-    ]
-    pos_fit = next(i for i, l in lineas if "_tabpfn_classifier.fit(" in l)
-    pos_marca = next(i for i, l in lineas if l == "_tabpfn_loaded = True")
-    assert pos_marca > pos_fit, (
-        "`_tabpfn_loaded = True` volvió a ponerse antes del `fit`: si la carga "
-        "falla, no se reintenta nunca y el clasificador queda en None para "
-        "siempre."
-    )
+def test_tabpfn_no_entrena_etiquetas_sin_procedencia():
+    """El CSV histórico no puede volver a alimentar una predicción clínica."""
+    fuente = (BACKEND / "chem" / "blood_viability.py").read_text(encoding="utf-8")
+    assert "TabPFNClassifier(" not in fuente
+    assert "_tabpfn_classifier.fit(" not in fuente
 
 
 def test_el_estado_de_tabpfn_llega_al_resultado():

@@ -1,7 +1,6 @@
 import gc
 import threading
 import time
-from pathlib import Path
 from typing import Dict, Any, List
 
 from core.models import PhysicochemicalProperties
@@ -11,11 +10,8 @@ logger = get_logger(__name__)
 
 # Disponibilidad de los modelos, comprobada SIN ejecutarlos.
 #
-# EL FALLO QUE ARREGLA. Aqui habia dos `try: from admet_ai import ADMETModel` /
-# `from tabpfn import TabPFNClassifier` a nivel de modulo. Ninguno de los dos
-# nombres se usaba: cuando de verdad hacen falta se vuelven a importar dentro
-# de `get_admet_model()` y de la deteccion de toxicidad. Servian solo para
-# decidir si escribir un warning.
+# ADMET-AI se sondea sin importarlo al arranque. La ruta de TabPFN quedó
+# retirada en fase 6 por falta de procedencia de sus etiquetas.
 #
 # El precio era el arranque entero de la aplicacion. `api.main` importa
 # `chem.router` -> `chem.properties` -> este modulo, asi que ese import se
@@ -45,9 +41,6 @@ _ADMET_MODEL = None
 
 if not _paquete_instalado("admet_ai"):
     logger.warning("admet-ai not installed. Blood viability will use mock predictions.")
-
-if not _paquete_instalado("tabpfn"):
-    logger.warning("tabpfn not installed. Custom toxicity flags will be empty.")
 
 # ── Descarga por inactividad de ADMET-AI ────────────────────────────────────
 #
@@ -240,11 +233,8 @@ class _EnUso:
 _admet_cache: Dict[str, Dict[str, Any]] = {}
 _ADMET_CACHE_MAX_SIZE = 500
 
-# ── Cache del clasificador TabPFN (entrenado en control_toxics.csv) ────────
-_tabpfn_classifier = None
-_tabpfn_loaded = False
-#: "evaluado" | "fallo" | "no_evaluado". Lo consulta el llamador para que la
-#: interfaz pueda distinguir «TabPFN no encontró nada» de «TabPFN no corrió».
+# Las etiquetas de control_toxics.csv carecen de procedencia verificable.
+# El clasificador queda retirado; el estado distingue ausencia de evaluación.
 _tabpfn_estado = "no_evaluado"
 
 
@@ -424,99 +414,14 @@ def predict_admet_ai(smiles: str) -> Dict[str, Any]:
         }
 
 def predict_tabpfn_custom_toxicity(properties: PhysicochemicalProperties) -> List[str]:
-    """
-    In-context learning tabular classifier.
-    Checks descriptors against custom internal knowledge base (PAINS, Patents).
-    """
-    alerts = []
+    """Retirado: las etiquetas de control_toxics.csv carecen de fuente.
 
-    # Reglas locales heurísticas rápidas
-    if properties.tpsa > 140:
-        alerts.append("High TPSA (Custom Rule)")
-    if properties.sa_score > 6:
-        alerts.append("Hard to synthesize (SA > 6)")
-
-    # ═════════════════════════════════════════════════════════════════════
-    # TabPFN nunca ha clasificado nada
-    # ═════════════════════════════════════════════════════════════════════
-    #
-    # Auditoría del 2026-09-04. Tres defectos encadenados:
-    #
-    #   1. `properties.logp` NO EXISTE. El campo se llama `log_p`
-    #      (`core/models.py`). Cada llamada lanzaba
-    #
-    #          AttributeError: 'PhysicochemicalProperties' object has no
-    #          attribute 'logp'
-    #
-    #      capturada por el `except` de abajo, que sólo escribe un warning.
-    #      Es decir: TabPFN nunca llegó a predecir, en ninguna corrida.
-    #   2. `_tabpfn_loaded = True` se ponía ANTES de cargar y ajustar. Si la
-    #      carga fallaba, la bandera quedaba en True y no se reintentaba nunca,
-    #      con `_tabpfn_classifier` en None para siempre.
-    #   3. Que fallara no salía por ninguna parte: la función devuelve la misma
-    #      lista de alertas heurísticas tanto si TabPFN dijo «nada» como si no
-    #      llegó a mirar, y la interfaz pintaba «✓ Sin alertas … identificadas
-    #      por TabPFN» en verde. Un modelo que no corrió no es un visto bueno.
-    #
-    # Se arreglan los tres. El estado va en `_tabpfn_estado`, que el llamador
-    # persiste para que la interfaz pueda decir «no se evaluó» en vez de
-    # inventar un aprobado.
+    La función sigue existiendo para compatibilidad con el esquema histórico,
+    pero nunca entrena, predice ni penaliza un score.
+    """
     global _tabpfn_estado
     _tabpfn_estado = "no_evaluado"
-    try:
-        global _tabpfn_classifier, _tabpfn_loaded
-
-        if not _tabpfn_loaded:
-            data_path = Path("backend/chem/control_toxics.csv")
-            if not data_path.exists():
-                data_path = Path("chem/control_toxics.csv")
-
-            if data_path.exists():
-                from tabpfn import TabPFNClassifier
-                import pandas as pd
-                import numpy as np
-
-                df = pd.read_csv(data_path)
-                feature_cols = ["mw", "logp", "tpsa", "hbd", "hba", "rotatable_bonds"]
-                if all(col in df.columns for col in feature_cols) and "toxic" in df.columns:
-                    X_train = df[feature_cols].values
-                    y_train = df["toxic"].values
-                    _tabpfn_classifier = TabPFNClassifier(device="cpu")
-                    _tabpfn_classifier.fit(X_train, y_train)
-                    # La bandera SÓLO después de que carga y ajuste terminen.
-                    # Puesta antes, un fallo de carga se volvía permanente.
-                    _tabpfn_loaded = True
-                    logger.info("TabPFN classifier loaded and cached", samples=len(X_train))
-
-        if _tabpfn_classifier is not None:
-            import numpy as np
-            X_query = np.array([[
-                properties.molecular_weight,
-                # `log_p`, no `logp`. El nombre equivocado hacía que esta línea
-                # lanzara AttributeError en TODAS las llamadas.
-                properties.log_p,
-                properties.tpsa,
-                properties.hbd,
-                properties.hba,
-                properties.rotatable_bonds
-            ]])
-            pred = _tabpfn_classifier.predict(X_query)[0]
-            _tabpfn_estado = "evaluado"
-            if pred == 1:
-                alerts.append("TabPFN Alert: High Toxicity (Custom KB)")
-    except Exception as e:
-        _tabpfn_estado = "fallo"
-        # WARNING y no debug: es un componente que la interfaz anuncia por su
-        # nombre. Si no corrió, alguien tiene que poder saberlo.
-        logger.warning(
-            "tabpfn_no_clasifico",
-            error=f"{type(e).__name__}: {e}"[:200],
-            efecto="las alertas mostradas son sólo las heurísticas locales",
-        )
-
-    # Forzamos una limpieza de RAM como se solicitó para TabPFN en el plan secuencial
-    gc.collect()
-    return alerts
+    return []
 
 
 def _rampa_descendente(x: float, uno_hasta: float, cero_desde: float) -> float:
@@ -650,8 +555,7 @@ def calculate_blood_viability(smiles: str, properties: PhysicochemicalProperties
                 lineal en medio. Los dos cortes son de manual, no ajustados.
         S_hia   1.0 si el clasificador de absorción dice sí, 0.5 si no.
                 El 0.5 es una constante elegida a mano.
-        S_tox   (1 − p_hERG), acotado a 0.05, multiplicado por 0.8 por cada
-                alerta del clasificador de toxicidad.
+        S_tox   (1 − p_hERG), acotado a 0.05; no incluye TabPFN.
 
     Tres cantidades de naturaleza distinta —una concentración, una etiqueta
     binaria y una probabilidad— combinadas con constantes que no salen de
@@ -682,10 +586,11 @@ def calculate_blood_viability(smiles: str, properties: PhysicochemicalProperties
         properties.blood_solubility_logs = None
         properties.blood_ppb_category = None
         properties.blood_systemic_reactivity = []
+        properties.blood_tabpfn_estado = "no_evaluado"
         return properties
 
-    # 2. Predicciones TabPFN (Custom Data)
-    tabpfn_alerts = predict_tabpfn_custom_toxicity(properties)
+    # 2. Ruta TabPFN retirada por falta de procedencia de sus etiquetas.
+    predict_tabpfn_custom_toxicity(properties)
 
     # --- CYP METABOLISM ALERTS ---
     cyp_alerts = []
@@ -773,7 +678,7 @@ def calculate_blood_viability(smiles: str, properties: PhysicochemicalProperties
 
     hia = admet_preds.get("HIA")
     properties.blood_hia_permeable = bool(hia) if hia is not None else None
-    properties.blood_systemic_reactivity = tabpfn_alerts + cyp_alerts
+    properties.blood_systemic_reactivity = cyp_alerts
     # Con qué derecho se muestra esa lista. `predict_tabpfn_custom_toxicity`
     # deja el estado en el módulo; sin él, una lista vacía se pintaba como
     # visto bueno aunque el clasificador no hubiera corrido.
@@ -864,8 +769,6 @@ def calculate_blood_viability(smiles: str, properties: PhysicochemicalProperties
         # Corridas o modelos que sólo entregan la etiqueta: se conserva un
         # factor, pero moderado, y sin fingir que la etiqueta es una medida.
         S_tox *= 0.5
-    if len(tabpfn_alerts) > 0:
-        S_tox *= (0.8 ** len(tabpfn_alerts)) # Penalización progresiva
 
     # Geometric Mean de 3 parámetros
     viability = (S_sol * S_hia * S_tox) ** (1/3)

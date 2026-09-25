@@ -37,13 +37,13 @@ settings = get_settings()
 log = get_logger(__name__)
 
 # ═══════════════════════════════════════════════════════════════════════
-# M4 release stacking (Vina + XGBoost; CL-GNN is experimental with w=0)
+# M4 release ranking: Vina alone until docked-pose validation of XGBoost.
 # Canonical source: backend/artifacts/sci_config_registry.json
 # ═══════════════════════════════════════════════════════════════════════
 
 _RELEASE_SAFE_M4_WEIGHTS = {
-    "vina": 0.25,
-    "xgb": 0.75,
+    "vina": 1.0,
+    "xgb": 0.0,
     "gnn": 0.0,
     "clgnn": 0.0,
     "quantum_sign": 1.0,

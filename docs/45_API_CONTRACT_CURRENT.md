@@ -9,7 +9,7 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 - Paths: **114**
 - Operaciones HTTP: **120**
 - Versión declarada: `1.0.1`
-- SHA-256: `cd699f575a2192e4d548aa9bd419724eb4f8e61fec6bf7d7cac7aaf9095f084f`
+- SHA-256: `ecf83ae212313f88e452141af966f9a0fe969e6ceb354755db2f82114c5b8ea1`
 - Schema completo: [api/openapi-current.json](api/openapi-current.json)
 - Regenerar: `python scripts/generate_openapi_contract.py --write`
 - Verificar en CI: `python scripts/generate_openapi_contract.py --check`

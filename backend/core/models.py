@@ -443,7 +443,7 @@ class EvaluationResultORM(Base):
     clgnn_score       = Column(Float, nullable=True)  # CL-GNN contrastive learning score
     quantum_score     = Column(Float, nullable=True)  # xTB + MMFF94 quantum features
     ums_score         = Column(Float, nullable=True)  # Universal Metal Score (SMARTS warheads Zn2+, M5 para metaloenzimas)
-    mmgbsa_score      = Column(Float, nullable=True)  # MM-GBSA delta G (OpenMM OBC2)
+    mmgbsa_score      = Column(Float, nullable=True)  # ΔE de interacción GBn2+ACE, ε_in=1, sin entropía; no es ΔG. Ruta no disponible en producción
     # ── Los CUATRO pesos del stacking, cada uno con su nombre ────────────
     #
     # El engine resuelve cuatro —vina, xgb, gnn legacy y clgnn— y aqui solo se
@@ -877,7 +877,7 @@ class PhysicochemicalProperties(BaseModel):
     blood_bbb_motivo: str | None = Field(None, description="Qué regla del consenso decidió la permeabilidad, y con qué números")
     blood_cns_mpo: float | None = Field(None, ge=0, le=6, description="CNS MPO de Pfizer (Wager et al. 2010), 0-6. Informa; no decide la permeabilidad")
     blood_hia_permeable: bool | None = Field(None, description="¿Se absorbe en el intestino?")
-    blood_systemic_reactivity: list[str] = Field(default_factory=list, description="Alertas de toxicidad TabPFN/PAINS")
+    blood_systemic_reactivity: list[str] = Field(default_factory=list, description="Señales CYP de ADMET-AI; TabPFN retirado por falta de procedencia")
     blood_tabpfn_estado: str | None = Field(
         None,
         description=(
@@ -1120,7 +1120,10 @@ class EvaluationResultRead(BaseModel):
     clgnn_score:          float | None = None  # CL-GNN contrastive learning score
     quantum_score:        float | None = None  # xTB + MMFF94 quantum features
     ums_score:            float | None = None  # Universal Metal Score (SMARTS warheads Zn2+, M5)
-    mmgbsa_score:         float | None = None  # Legacy invalidado; no se expone como energía.
+    mmgbsa_score:         float | None = Field(
+        default=None,
+        description="Siempre null en producción. El cálculo histórico sería ΔE de interacción GBn2+ACE, ε_in=1, sin entropía; no es ΔG. Ruta MMGBSA_NO_DISPONIBLE.",
+    )
 
     @field_validator("mmgbsa_score")
     @classmethod
@@ -1402,7 +1405,7 @@ class ScoreBreakdown(BaseModel):
     gnn_score:          float | None = Field(None, description="Score RTMScore GNN (Nivel 2). None si el GNN no está disponible.")
     clgnn_score:        float | None = Field(None, description="Score CL-GNN (contrastive learning). None si no disponible.")
     xgb_score:          float | None = Field(None, description="Probabilidad XGBoost classifier. None si no disponible.")
-    mmgbsa_score:       float | None = Field(None, description="MM-GBSA delta G (OpenMM OBC2). None si no disponible.")
+    mmgbsa_score:       float | None = Field(None, description="ΔE de interacción GBn2+ACE, ε_in=1, sin entropía; no es ΔG. Ruta no disponible en producción. None si no disponible.")
     quantum_score:      float | None = Field(None, description="Score cuantico (xTB+MMFF94). None si no disponible.")
     ums_score:          float | None = Field(None, description="Universal Metal Score (SMARTS warheads Zn2+, scorer ortogonal M5 para metaloenzimas). None si no disponible.")
     stacking_vina_weight:  float | None = Field(None, description="Peso de Vina en el stacking por familia.")

@@ -151,13 +151,13 @@
     "family": "kinase",
     "has_structure": true,
     "aliases": [
-      "CDK4 Cyclin D1",
+      "HER2 (ERBB2) kinase domain",
       "METASTATIC LYMPH NODE GENE 19 PROTEIN",
       "MLN 19",
       "PROTO-",
-      "cdk4",
-      "quinasa dependiente de ciclina 4",
-      "cdk4 ciclina d1"
+      "her2",
+      "erbb2",
+      "receptor del factor de crecimiento epidermico 2"
     ]
   },
   {

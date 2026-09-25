@@ -1,7 +1,9 @@
 """
 benchmark_ef_vina.py
 
-Benchmark Enrichment Factor CIENTIFICAMENTE RIGUROSO:
+Benchmark histórico de enriquecimiento. No es evidencia de liberación:
+requiere señuelos controlados, identidad y hash del clasificador actual,
+pesos prefijados y validación externa. Las métricas antiguas se retiraron.
   - Vina real (exhaust=4, sin engaños)
   - Features 3D completas (Shell + ECIF + 1D/2D = 160)
   - Classifier binario XGBoost (AUC 0.858)
@@ -1434,9 +1436,12 @@ def main():
                         # 13.10x (HIV-PR) results in metricas_experimentales.md.
                         # The previous code incorrectly used xgb_score (regressor) which can
                         # be negative — that broke EF ranking. See PR/issue history.
-                        vina = abs(r.get("vina_score") or -5.0)
+                        vina_raw = r.get("vina_score")
+                        vina = abs(vina_raw if vina_raw is not None else -5.0)
                         vina_norm = min(1.0, vina / 12.0)
-                        if prob is not None and not math.isnan(prob) and prob > 0.01:
+                        # p=0 es una predicción válida. Sólo la ausencia o
+                        # un valor no finito justifican usar Vina a solas.
+                        if prob is not None and math.isfinite(prob) and 0.0 <= prob <= 1.0:
                             r["composite"] = round(prob * 0.70 + vina_norm * 0.30, 4)
                         else:
                             # vina-only real (no fabricación): componente ML ausente

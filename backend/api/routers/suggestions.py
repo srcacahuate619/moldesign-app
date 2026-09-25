@@ -38,6 +38,7 @@ class SuggestionItem(BaseModel):
     confidence: str
     source: str
     warnings: list[str]
+    transformed_atom_indices: list[int] = Field(default_factory=list, description="Índices de átomos del SMILES de entrada reemplazados por la transformación.")
 
 
 class SuggestionResponse(BaseModel):
@@ -93,6 +94,7 @@ async def generate_suggestions(data: SuggestionRequest, request: Request) -> Sug
             confidence=s.confidence,
             source=s.source,
             warnings=s.warnings,
+            transformed_atom_indices=s.transformed_atom_indices,
         )
         for s in result.suggestions
     ]

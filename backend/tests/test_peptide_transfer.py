@@ -44,6 +44,17 @@ def test_transfiere_coordenadas_al_grafo_y_completa_oxt():
     assert resultado.manifest["input_graph_hash"] == resultado.manifest["output_graph_hash"]
 
 
+def test_transferir_zwitterion_de_trialanina_conserva_cargas_y_grafo():
+    smiles = "C[C@H]([NH3+])C(=O)N[C@@H](C)C(=O)N[C@@H](C)C(=O)[O-]"
+    resultado = transferir_coordenadas(smiles, _pdb_sin_oxt("AAA"))
+    assert resultado.manifest["status"] == "completed"
+    assert resultado.manifest["coordinates_transferred"] == 15
+    assert Chem.MolToSmiles(resultado.mol, isomericSmiles=True) == Chem.MolToSmiles(
+        Chem.MolFromSmiles(smiles), isomericSmiles=True
+    )
+    assert resultado.manifest["input_graph_hash"] == resultado.manifest["output_graph_hash"]
+
+
 def test_rechaza_estereoquimica_ambigua_y_peptido_d():
     with pytest.raises(TransferenciaPeptidicaError) as ambiguous:
         transferir_coordenadas(

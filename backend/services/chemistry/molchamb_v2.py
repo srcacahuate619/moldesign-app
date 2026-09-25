@@ -7,7 +7,7 @@ Architecture:
   2. RDKit → ligand 3D conformer
   3. MolChamb → GFN2-xTB partial charges
   4. Custom XML → Amber residue template for ligand
-  5. OpenMM → amber14-all.xml + gbn2.xml → MM-GBSA
+  5. OpenMM → amber14-all.xml + gbn2.xml → energía potencial GBn2+ACE sin entropía
 """
 
 from __future__ import annotations
@@ -321,7 +321,8 @@ def compute_mmgbsa(protein_pdb: str, ligand_smiles: str, max_iter: int = 500) ->
 
     # 5. Minimize con verificación de convergencia
     integrator = LangevinMiddleIntegrator(300 * unit.kelvin, 1.0 / unit.picosecond, 0.002 * unit.picoseconds)
-    sim = Simulation(modeller.topology, system, integrator, Platform.getPlatformByName("CPU"))
+    platform = Platform.getPlatformByName("CPU")
+    sim = Simulation(modeller.topology, system, integrator, platform)
     sim.context.setPositions(modeller.positions)
 
     # Capturar energía inicial para verificar convergencia
@@ -339,6 +340,7 @@ def compute_mmgbsa(protein_pdb: str, ligand_smiles: str, max_iter: int = 500) ->
             "energy_change": round(energy_change, 4),
             "time_sec": round(time.time() - t0, 2),
             "has_molchamb": False,
+            "platform": platform.getName(),
             "warning": "MM-GBSA no convergió — energía virtualmente sin cambio",
         }
 
@@ -363,6 +365,7 @@ def compute_mmgbsa(protein_pdb: str, ligand_smiles: str, max_iter: int = 500) ->
         "energy_change": round(energy_change, 4),
         "time_sec": round(time.time() - t0, 2),
         "has_molchamb": has_molchamb,
+        "platform": platform.getName(),
     }
 
 
@@ -405,7 +408,8 @@ def compute_mmgbsa_from_pose(
             (los H NO se ponen en la última posición — bug del NaN).
 
     Returns:
-        dict with g_complex, g_protein, g_ligand, mmgbsa, time_sec, has_molchamb
+        dict with potential energies (GBn2+ACE, kcal/mol), platform and status.
+        La diferencia de energías no incluye entropía ni es ΔG de unión.
     """
     t0 = time.time()
     platform = _get_best_platform()
@@ -450,6 +454,7 @@ def compute_mmgbsa_from_pose(
                 pass
             return {
                 "mmgbsa": None, "status": "not_evaluated", "used_pose": False,
+                "platform": platform.getName(),
                 "error": "No se dispone de una pose acoplada válida; MM-GBSA no evaluado.",
             }
 
@@ -533,6 +538,7 @@ def compute_mmgbsa_from_pose(
                 "mmgbsa": None,
                 "time_sec": 0.0,
                 "has_molchamb": False,
+                "platform": platform.getName(),
                 "error": f"Unsupported elements: {unsupported}",
             }
 
@@ -581,6 +587,7 @@ def compute_mmgbsa_from_pose(
             "mmgbsa": round(g_complex - g_protein - g_ligand, 3),
             "time_sec": round(time.time() - t0, 2),
             "has_molchamb": has_molchamb,
+            "platform": platform.getName(),
         }
     finally:
         try:

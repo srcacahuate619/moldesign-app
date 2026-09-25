@@ -1,3 +1,13 @@
+> **Rectificación de fase 6 (2026-09-25): MM-GBSA retirado del producto.**
+> Este documento conserva el relato histórico y sus resultados no son una
+> validación de energía libre de unión. El código usa implicit/gbn2.xml
+> (GBn2+ACE), no OBC2. La diferencia E_complejo − E_proteína − E_ligando
+> es de energía potencial de un protocolo concreto; no incluye entropía,
+> solvente explícito ni un cálculo de ΔG/ΔΔG. El tipado de ligando y la
+> minimización no superaron las puertas físicas de la auditoría. La ruta
+> pública devuelve MMGBSA_NO_DISPONIBLE; ninguna cifra antigua debe usarse
+> para ordenar moléculas o afirmar afinidad.
+
 > **Documento histórico — julio de 2026.** Escrito para el árbol anterior del
 > proyecto (`moldesign-app`) y traído aquí por trazabilidad. Puede describir un
 > estado que ya no es el vigente: la versión 1.0.0 es una aplicación de
@@ -6,7 +16,7 @@
 # MolChamb v2.0 — MM-GBSA Engine con Cargas Cuánticas
 
 > **Tecnología propia**. Motor de MM-GBSA complete que reemplaza Antechamber/GAFF2.
-> **Versión**: Julio 2026 | **Estado**: Validado en HIV-proteasa
+> **Versión**: Julio 2026 | **Estado actual**: retirado; resultados históricos no validados
 
 ---
 
@@ -35,7 +45,7 @@ MolChamb v1.0 (features cuánticas):
 
 MolChamb v2.0 (MM-GBSA engine):
   Reemplaza: tleap + GAFF2 → PDBFixer + ResidueTemplate XML
-  Output: ΔΔG (kcal/mol) con cargas cuánticas
+  Output histórico: ΔE potencial (kcal/mol) con cargas estimadas
 ```
 
 El stack completo de MolChamb reemplaza **todas las dependencias de AmberTools**
@@ -49,7 +59,7 @@ en el pipeline de drug discovery de MolDesign:
 | GAFF2 types | `protein-*` Amber con template XML custom |
 | GAFF2 bonded params | amber14-all.xml (protein-* types aplicados a orgánicos) |
 | `sander` (minimización) | OpenMM nativo (CPU/GPU auto-detect) |
-| PBSA/GBSA | OpenMM OBC2 (`implicit/gbn2.xml`) |
+| PBSA/GBSA | OpenMM GBn2+ACE (`implicit/gbn2.xml`) |
 
 ---
 
@@ -95,7 +105,7 @@ en el pipeline de drug discovery de MolDesign:
 │           ▼                                                    │
 │  ┌─────────────────┐                                          │
 │  │ Decomposition    │  E_complex - E_protein - E_ligand       │
-│  │                  │  = ΔΔG (kcal/mol)                       │
+│  │                  │  = ΔE potencial (kcal/mol)             │
 │  └─────────────────┘                                          │
 │                                                                │
 └────────────────────────────────────────────────────────────────┘
@@ -178,7 +188,7 @@ Si xTB no está disponible, fallback a Gasteiger (RDKit).
 ### 3.4 Energía: OpenMM GBSA
 
 - **Force Field**: `amber14-all.xml` (proteína + general organic)
-- **Implicit Solvent**: `implicit/gbn2.xml` (OBC2 Generalized Born)
+- **Implicit Solvent**: `implicit/gbn2.xml` (GBn2+ACE)
 - **Nonbonded**: NoCutoff (vacuum + GBSA)
 - **Constraints**: HBonds (SHAKE)
 - **H Mass Repartitioning**: 1.5 amu (4 fs timestep)
@@ -190,7 +200,7 @@ Si xTB no está disponible, fallback a Gasteiger (RDKit).
 1. Minimize complex (500 iter max) → E_complex (total + GBSA)
 2. Zero ligand charges → minimize → E_protein (protein internal + GBSA)
 3. Zero protein charges → minimize → E_ligand (ligand internal + MolChamb charges + GBSA)
-4. ΔΔG = E_complex - E_protein - E_ligand
+4. ΔE potencial = E_complex - E_protein - E_ligand (sin entropía)
 ```
 
 Nota: La contribución GBSA está incluida en cada energía (no se calcula aparte).
@@ -243,7 +253,7 @@ result = {
     "g_complex": float,      # kcal/mol
     "g_protein": float,      # kcal/mol
     "g_ligand": float,       # kcal/mol
-    "mmgbsa": float,         # ΔΔG = G_complex - G_protein - G_ligand
+    "mmgbsa": float,         # ΔE potencial; no ΔG ni ΔΔG
     "time_sec": float,
     "has_molchamb": bool,    # True si usó cargas xTB
     "error": str | None,     # None si OK, mensaje si fallback
@@ -311,7 +321,7 @@ def _get_best_platform() -> Platform:
 | Parametrización | GAFF2 (validado) | protein-* types (aproximación) |
 | Preparación proteína | tleap (bash script) | PDBFixer (Python) |
 | Construcción complejo | tleap → prmtop/inpcrd | Modeller.add() (in-memory) |
-| GBSA | PBSA/GBSA nativo | OpenMM OBC2 (gbn2.xml) |
+| GBSA | PBSA/GBSA nativo | OpenMM GBn2+ACE (gbn2.xml) |
 | Minimización | sander/pmemd | OpenMM (CPU/GPU auto-detect) |
 | Windows nativo | ❌ (bash/Linux) | **✅ 100%** |
 | Dependencias | bash, antechamber, tleap, amber | openmm, pdbfixer, rdkit, xtb |

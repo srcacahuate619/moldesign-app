@@ -13,7 +13,7 @@ def test_current_contract_is_consistent():
 
 def test_gate_detects_an_unsealed_registry_edit(tmp_path, monkeypatch):
     data = json.loads(gate.REGISTRY.read_text(encoding="utf-8"))
-    data["parameters"]["stacking_default"]["versions"][0]["value"]["clgnn"] = 0.2
+    data["parameters"]["stacking_default"]["versions"][-1]["value"]["clgnn"] = 0.2
     broken = tmp_path / "registry.json"
     broken.write_text(json.dumps(data), encoding="utf-8")
     monkeypatch.setattr(gate, "REGISTRY", broken)

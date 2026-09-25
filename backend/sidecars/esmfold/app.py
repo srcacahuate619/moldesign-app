@@ -66,8 +66,8 @@ class PredictRequest(BaseModel):
     protein_pdb: str = Field(..., description="Contenido del archivo PDB del receptor.")
     peptide_smiles: str = Field(..., description="SMILES del péptido a acoplar.")
     num_poses: int = Field(default=5, ge=1, le=20, description="Número de poses a devolver (cabeado a max_poses del config)")
-    grid_center: tuple[float, float, float] | None = Field(default=None)
-    grid_size: tuple[float, float, float] | None = Field(default=None)
+    grid_center: tuple[float, float, float] = Field(..., description="Centro de caja declarado por el llamador en coordenadas del receptor.")
+    grid_size: tuple[float, float, float] = Field(..., description="Tamaño de caja declarado por el llamador en Å.")
 
 
 class PoseResponse(BaseModel):

@@ -33,7 +33,7 @@ def test_registry_is_real_and_cwd_independent(tmp_path, monkeypatch):
 
 def test_registry_rejects_an_unsealed_edit(tmp_path):
     data = json.loads(_SCI_REGISTRY_PATH.read_text(encoding="utf-8"))
-    data["parameters"]["stacking_default"]["versions"][0]["value"]["vina"] = 0.99
+    data["parameters"]["stacking_default"]["versions"][-1]["value"]["vina"] = 0.99
     altered = tmp_path / "registry.json"
     altered.write_text(json.dumps(data), encoding="utf-8")
     with pytest.raises(ValueError, match="re-sellar"):
@@ -47,7 +47,7 @@ def test_every_family_resolves_the_conservative_release_contract(family):
     assert parameter is not None
     assert parameter.category == ParameterCategory.SCORING_WEIGHTS
     assert _resolve_stacking_weights(_get_stacking_weights(family)) == {
-        "vina": pytest.approx(0.25), "xgb": pytest.approx(0.75),
+        "vina": pytest.approx(1.0), "xgb": pytest.approx(0.0),
         "gnn": pytest.approx(0.0), "clgnn": pytest.approx(0.0),
         "quantum_sign": pytest.approx(1.0),
     }
@@ -70,3 +70,33 @@ def test_clgnn_is_reported_but_cannot_change_release_ranking():
     assert results[0].total_score == results[1].total_score
     assert results[0].stacking_clgnn_weight == 0.0
     assert results[0].stacking_effective_weights["clgnn"] == 0.0
+
+def test_xgb_is_reported_but_cannot_change_release_ranking():
+    from scoring.engine import calculate_score_breakdown
+
+    docking = DockingResult(best_affinity=-8.0, poses=[DockingPose(rank=1, affinity=-8.0, rmsd_lb=0.0, rmsd_ub=0.0)])
+    props = PhysicochemicalProperties(molecular_weight=300.0, log_p=2.0, tpsa=60.0, hbd=1, hba=4, rotatable_bonds=3, heavy_atom_count=21, ring_count=2, qed=0.7, sa_score=2.5, lipinski_pass=True, veber_pass=True)
+    results = [calculate_score_breakdown(docking, props, xgb_prob=value, target_family="protease") for value in (0.01, 0.99)]
+    assert results[0].total_score == results[1].total_score
+    assert results[0].stacking_xgb_weight == 0.0
+    assert results[0].stacking_effective_weights["xgb"] == 0.0
+
+
+@pytest.mark.parametrize(
+    ("affinity", "heavy_atoms", "expected"),
+    [
+        (-5.0, 14, 5.41),
+        (-7.0, 20, 25.41),
+        (-9.0, 25, 46.27),
+        (-11.0, 32, 62.98),
+        (-13.0, 40, 73.70),
+    ],
+)
+def test_release_score_matches_documented_vina_formula(affinity, heavy_atoms, expected):
+    from scoring.engine import calculate_score_breakdown
+
+    docking = DockingResult(best_affinity=affinity, poses=[DockingPose(rank=1, affinity=affinity, rmsd_lb=0.0, rmsd_ub=0.0)])
+    props = PhysicochemicalProperties(molecular_weight=heavy_atoms * 12.0, log_p=2.0, tpsa=60.0, hbd=1, hba=4, rotatable_bonds=3, heavy_atom_count=heavy_atoms, ring_count=2, qed=0.7, sa_score=2.5, lipinski_pass=True, veber_pass=True)
+    result = calculate_score_breakdown(docking, props, xgb_prob=0.99, target_family="protease")
+    assert result.total_score == expected
+    assert result.stacking_effective_weights == {"vina": 1.0, "xgb": 0.0, "gnn": 0.0, "clgnn": 0.0}

@@ -29,7 +29,7 @@ export const PIPELINES_BY_FAMILY: Record<string, Pipeline> = {
   // ── FIX UI-8 (2026-08-04): pipeline "default" para targets NO curados ──
   // Antes no existía key "default": familia desconocida caía al fallback
   // `?? PIPELINES_BY_FAMILY.gpcr` → un target auto-ingestado sin
-  // structural_family mostraba "M4 GPCR · Vina + XGB + CL-GNN" con stacking
+  // structural_family mostraba "M4 GPCR · Vina + CL-GNN" con stacking
   // weights de GPCR que NO aplican a ese target → resultados engañosos.
   // Ahora el default es un stacking NEUTRO explícito, marcado como no-curado
   // (family-gating no validado). Ver docs/36 UI-8.
@@ -37,93 +37,93 @@ export const PIPELINES_BY_FAMILY: Record<string, Pipeline> = {
     id: "m4_default_uncured",
     label: "Pipeline por defecto · target no curado",
     stages: [
-      { id: "vina", label: "Docking Vina", value: "-7.0 kcal/mol", sub: "v1.2.7", weight: 0.25, color: "#a78bfa" },
-      { id: "xgb", label: "XGBoost", value: "p = 0.60", sub: "500 trees", weight: 0.75, color: "#60a5fa" },
+      { id: "vina", label: "Docking Vina", value: "-7.0 kcal/mol", sub: "v1.2.7", weight: 1.0, color: "#a78bfa" },
+      { id: "xgb", label: "XGBoost", value: "p = 0.60", sub: "500 trees", weight: 0.0, color: "#60a5fa" },
       { id: "clgnn", label: "CL-GNN", value: "0.50", sub: "v3.1 - senal experimental - w=0", weight: 0.0, color: "#34d399", degraded: true, note: "target sin familia curada — CL-GNN no validado" },
       { id: "quantum", label: "Quantum", value: "0.55", sub: "xTB + MMFF94", weight: 0.0, color: "#22d3ee", post_hoc: true },
       { id: "gnn", label: "GNN legacy", value: "—", sub: "RTMScore, deprecada", weight: 0.0, color: "#94a3b8", degraded: true, note: "sin peso en los pesos por defecto" },
       { id: "mmgbsa", label: "MM-GBSA", value: "No disponible", sub: "Motor legacy invalidado", weight: 0.0, color: "#10b981", post_hoc: true },
     ],
-    note: "Target sin curación científica: familia estructural desconocida, Spearman ρ no calibrado. Interpreta los scores con precaución — no aplica family-gating validado.",
+    note: "Target sin curación científica: familia estructural desconocida, Spearman ρ no calibrado. XGBoost se muestra sin peso de release. Interpreta los scores con precaución — no aplica family-gating validado.",
   },
   // ── Los pesos son los EFECTIVOS del backend, no una narrativa ──────────
   //
   // All named M4 families intentionally resolve to the same conservative
-  // alpha contract (Vina 0.25 + XGBoost 0.75). A family-specific weight may
+  // provisional contract (Vina 1.00; XGBoost 0.00). A family-specific weight may
   // return only after preregistered, sealed validation of the exact artifact.
   // Historical metrics from different CL-GNN bytes are provenance, not a
   // license to influence current rankings.
   gpcr: {
     id: "m4_gpcr",
-    label: "M4 GPCR · Vina + XGB",
+    label: "M4 GPCR · Vina",
     stages: [
-      { id: "vina", label: "Docking Vina", value: "-9.4 kcal/mol", sub: "v1.2.7", weight: 0.25, color: "#a78bfa" },
-      { id: "xgb", label: "XGBoost", value: "p = 0.81", sub: "500 trees", weight: 0.75, color: "#60a5fa" },
+      { id: "vina", label: "Docking Vina", value: "-9.4 kcal/mol", sub: "v1.2.7", weight: 1.0, color: "#a78bfa" },
+      { id: "xgb", label: "XGBoost", value: "p = 0.81", sub: "500 trees", weight: 0.0, color: "#60a5fa" },
       { id: "clgnn", label: "CL-GNN", value: "0.68", sub: "v3.1 - senal experimental - w=0", weight: 0.0, color: "#34d399", degraded: true, note: "el artefacto vigente no le asigna peso en GPCR" },
       { id: "quantum", label: "Quantum", value: "0.55", sub: "xTB + MMFF94", weight: 0.0, color: "#22d3ee", post_hoc: true },
       { id: "gnn", label: "GNN legacy", value: "—", sub: "RTMScore, deprecada", weight: 0.0, color: "#94a3b8", degraded: true, note: "deprecada; no participa en el contrato de release" },
       { id: "mmgbsa", label: "MM-GBSA", value: "No disponible", sub: "Motor legacy invalidado", weight: 0.0, color: "#10b981", post_hoc: true },
     ],
-    note: "Contrato alpha: Vina 0.25 + XGBoost 0.75; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
+    note: "Contrato provisional: Vina 1.00; XGBoost 0.00; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
   },
   protease: {
     id: "m4_protease",
     label: "M4 Proteasa · pesos por defecto",
     stages: [
-      { id: "vina", label: "Docking Vina", value: "-7.8 kcal/mol", sub: "v1.2.7", weight: 0.25, color: "#a78bfa" },
-      { id: "xgb", label: "XGBoost", value: "p = 0.55", sub: "500 trees", weight: 0.75, color: "#60a5fa" },
+      { id: "vina", label: "Docking Vina", value: "-7.8 kcal/mol", sub: "v1.2.7", weight: 1.0, color: "#a78bfa" },
+      { id: "xgb", label: "XGBoost", value: "p = 0.55", sub: "500 trees", weight: 0.0, color: "#60a5fa" },
       { id: "clgnn", label: "CL-GNN", value: "0.74", sub: "v3.1 - senal experimental - w=0", weight: 0.0, color: "#34d399", degraded: true },
       { id: "quantum", label: "Quantum", value: "0.55", sub: "xTB + MMFF94", weight: 0.0, color: "#22d3ee", post_hoc: true },
       { id: "gnn", label: "GNN legacy", value: "—", sub: "RTMScore, deprecada", weight: 0.0, color: "#94a3b8", degraded: true },
       { id: "mmgbsa", label: "MM-GBSA", value: "No disponible", sub: "Motor legacy invalidado", weight: 0.0, color: "#10b981", post_hoc: true },
     ],
-    note: "Contrato alpha: Vina 0.25 + XGBoost 0.75; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
+    note: "Contrato provisional: Vina 1.00; XGBoost 0.00; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
   },
   kinase: {
     id: "m4_kinase",
     label: "M4 Kinasa · pesos por defecto",
     stages: [
-      { id: "vina", label: "Docking Vina", value: "-7.6 kcal/mol", sub: "v1.2.7", weight: 0.25, color: "#a78bfa" },
-      { id: "xgb", label: "XGBoost", value: "p = 0.83", sub: "500 trees", weight: 0.75, color: "#60a5fa" },
+      { id: "vina", label: "Docking Vina", value: "-7.6 kcal/mol", sub: "v1.2.7", weight: 1.0, color: "#a78bfa" },
+      { id: "xgb", label: "XGBoost", value: "p = 0.83", sub: "500 trees", weight: 0.0, color: "#60a5fa" },
       { id: "clgnn", label: "CL-GNN", value: "0.55", sub: "v3.1 - senal experimental - w=0", weight: 0.0, color: "#34d399", degraded: true },
       { id: "quantum", label: "Quantum", value: "0.55", sub: "xTB + MMFF94", weight: 0.0, color: "#22d3ee", post_hoc: true },
       { id: "gnn", label: "GNN legacy", value: "—", sub: "RTMScore, deprecada", weight: 0.0, color: "#94a3b8", degraded: true },
       { id: "mmgbsa", label: "MM-GBSA", value: "No disponible", sub: "Motor legacy invalidado", weight: 0.0, color: "#10b981", post_hoc: true },
     ],
-    note: "Contrato alpha: Vina 0.25 + XGBoost 0.75; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
+    note: "Contrato provisional: Vina 1.00; XGBoost 0.00; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
   },
   nuclear_receptor: {
     id: "m4_nuclear",
     label: "M4 Nuclear Receptor · pesos por defecto",
     stages: [
-      { id: "vina", label: "Docking Vina", value: "-8.2 kcal/mol", sub: "v1.2.7", weight: 0.25, color: "#a78bfa" },
-      { id: "xgb", label: "XGBoost", value: "p = 0.91", sub: "500 trees", weight: 0.75, color: "#60a5fa" },
+      { id: "vina", label: "Docking Vina", value: "-8.2 kcal/mol", sub: "v1.2.7", weight: 1.0, color: "#a78bfa" },
+      { id: "xgb", label: "XGBoost", value: "p = 0.91", sub: "500 trees", weight: 0.0, color: "#60a5fa" },
       { id: "clgnn", label: "CL-GNN", value: "0.45", sub: "v3.1 - senal experimental - w=0", weight: 0.0, color: "#34d399", degraded: true },
       { id: "quantum", label: "Quantum", value: "0.55", sub: "xTB + MMFF94", weight: 0.0, color: "#22d3ee", post_hoc: true },
       { id: "gnn", label: "GNN legacy", value: "—", sub: "RTMScore, deprecada", weight: 0.0, color: "#94a3b8", degraded: true },
       { id: "mmgbsa", label: "MM-GBSA", value: "No disponible", sub: "Motor legacy invalidado", weight: 0.0, color: "#10b981", post_hoc: true },
     ],
-    note: "Contrato alpha: Vina 0.25 + XGBoost 0.75; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
+    note: "Contrato provisional: Vina 1.00; XGBoost 0.00; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
   },
   soluble_enzyme: {
     id: "m4_soluble",
     label: "M4 Soluble Enzyme · pesos por defecto",
     stages: [
-      { id: "vina", label: "Docking Vina", value: "-7.4 kcal/mol", sub: "v1.2.7", weight: 0.25, color: "#a78bfa" },
-      { id: "xgb", label: "XGBoost", value: "p = 0.62", sub: "500 trees", weight: 0.75, color: "#60a5fa" },
+      { id: "vina", label: "Docking Vina", value: "-7.4 kcal/mol", sub: "v1.2.7", weight: 1.0, color: "#a78bfa" },
+      { id: "xgb", label: "XGBoost", value: "p = 0.62", sub: "500 trees", weight: 0.0, color: "#60a5fa" },
       { id: "clgnn", label: "CL-GNN", value: "0.61", sub: "v3.1 - senal experimental - w=0", weight: 0.0, color: "#34d399", degraded: true },
       { id: "quantum", label: "Quantum", value: "0.55", sub: "xTB + MMFF94", weight: 0.0, color: "#22d3ee", post_hoc: true },
       { id: "gnn", label: "GNN legacy", value: "—", sub: "RTMScore, deprecada", weight: 0.0, color: "#94a3b8", degraded: true },
       { id: "mmgbsa", label: "MM-GBSA", value: "No disponible", sub: "Motor legacy invalidado", weight: 0.0, color: "#10b981", post_hoc: true },
     ],
-    note: "Contrato alpha: Vina 0.25 + XGBoost 0.75; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
+    note: "Contrato provisional: Vina 1.00; XGBoost 0.00; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
   },
   metaloenzyme: {
     id: "m4_metal_sin_m5",
     label: "M4 · pesos por defecto · M5-Zn se registra aparte",
     stages: [
-      { id: "vina", label: "Docking Vina", value: "-5.1 kcal/mol", sub: "v1.2.7", weight: 0.25, color: "#a78bfa" },
-      { id: "xgb", label: "XGBoost", value: "p = 0.60", sub: "500 trees", weight: 0.75, color: "#60a5fa" },
+      { id: "vina", label: "Docking Vina", value: "-5.1 kcal/mol", sub: "v1.2.7", weight: 1.0, color: "#a78bfa" },
+      { id: "xgb", label: "XGBoost", value: "p = 0.60", sub: "500 trees", weight: 0.0, color: "#60a5fa" },
       { id: "clgnn", label: "CL-GNN", value: "0.59", sub: "v3.1 - senal experimental - w=0", weight: 0.0, color: "#34d399", degraded: true },
       { id: "quantum", label: "Quantum", value: "0.55", sub: "xTB + MMFF94", weight: 0.0, color: "#22d3ee", post_hoc: true },
       { id: "gnn", label: "GNN legacy", value: "—", sub: "RTMScore, deprecada", weight: 0.0, color: "#94a3b8", degraded: true },
@@ -131,7 +131,7 @@ export const PIPELINES_BY_FAMILY: Record<string, Pipeline> = {
       { id: "molchamb", label: "MolChamb", value: "0.71", sub: "GFN2-xTB", weight: 0.0, color: "#ec4899", post_hoc: true, note: "participa dentro del UMS histórico, no en el stacking" },
       { id: "mmgbsa", label: "MM-GBSA", value: "No disponible", sub: "Motor legacy invalidado", weight: 0.0, color: "#10b981", post_hoc: true, degraded: true },
     ],
-    note: "M4 usa el contrato alpha conservador. M5-Zn se ejecuta y persiste aparte con sus estados de abstencion o revision; UMS y MolChamb siguen como senales informativas.",
+    note: "M4 usa el contrato provisional Vina solo. M5-Zn se ejecuta y persiste aparte con sus estados de abstencion o revision; UMS y MolChamb siguen como senales informativas.",
   },
 };
 

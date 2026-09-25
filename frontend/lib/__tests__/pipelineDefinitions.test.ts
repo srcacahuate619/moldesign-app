@@ -116,9 +116,9 @@ describe("PIPELINES_BY_FAMILY — fallbacks del DOT por familia", () => {
       expect(etapa?.weight).toBe(0.0);
       expect(etapa?.post_hoc).toBe(true);
     }
-    // Y Vina y XGBoost SI puntuan: son los pesos por defecto de M4.
-    expect(pipeline.stages.find((s) => s.id === "vina")?.weight).toBe(0.25);
-    expect(pipeline.stages.find((s) => s.id === "xgb")?.weight).toBe(0.75);
+    // M4 provisional usa Vina a solas hasta validar ML sobre poses de release.
+    expect(pipeline.stages.find((s) => s.id === "vina")?.weight).toBe(1.0);
+    expect(pipeline.stages.find((s) => s.id === "xgb")?.weight).toBe(0.0);
   });
 
   it("ninguna familia atribuye a CL-GNN el peso de la GNN legacy", () => {

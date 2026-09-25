@@ -611,31 +611,29 @@ async def run_pipeline(
                                 f"exhaustividad de Vina; una búsqueda menor puede cambiar las poses."
                             )
 
-                    # Heurística estructural (secundaria — solo genera warning)
-                    structure_looks_like_peptide = False
-                    if mol:
-                        peptide_backbone = Chem.MolFromSmarts("[NX3][CX4][CX3](=[OX1])")
-                        matches = mol.GetSubstructMatches(peptide_backbone)
-                        structure_looks_like_peptide = len(matches) >= 3
-
-                    # Decisión de routing: consistente con queue_handler.py (OR lógico)
-                    is_peptide = user_chose_peptide_engine or structure_looks_like_peptide
+                    # La misma detección conservadora del camino legacy sólo
+                    # aconseja; la elección explícita gobierna el enrutado.
+                    from services.chemistry.peptides import es_peptido_lineal
+                    structure_looks_like_peptide = es_peptido_lineal(smiles)
+                    is_peptide = user_chose_peptide_engine
 
                     # Si el usuario eligió Vina pero la estructura parece
                     # péptido → respetar al usuario pero añadir warning científico
                     if structure_looks_like_peptide and not user_chose_peptide_engine:
                         context["scientific_warnings"].append(
-                            "⚠️ Se detectaron ≥3 enlaces peptídicos en la molécula. "
+                            "⚠️ Se detectó una secuencia peptídica lineal compatible con ESMFold. "
                             "Si se trata de un péptido o peptidomimético, considera usar "
                             "la ruta ESMFold exploratoria; no hay benchmark de precisión de poses."
                         )
-                        is_peptide = False  # el usuario mandó — no redirigir
 
                     if is_peptide:
                         from services.docking.peptide_docking import run_peptide_docking_helper
+                        if context.get("conformer") is None:
+                            context["conformer"] = await _generar_conformaciones(smiles, stage_params)
+                        peptide_smiles = context["conformer"]["canonical_smiles"]
                         docking = await run_peptide_docking_helper(
                             task_id=task_id,
-                            smiles=smiles,
+                            smiles=peptide_smiles,
                             target_pdb_id=pipeline_params.target_pdb_id,
                             peptide_docking_engine=peptide_docking_engine or "esmfold",
                             grid_center=list(box_center),

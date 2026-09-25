@@ -481,6 +481,8 @@ async def _run_full_evaluation_async(
             # (péptidos, cachés), y entonces el upsert no lo toca.
             _estado_del_ligando_persistible: dict | None = None
             _peptide_transfer_manifest: dict | None = None
+            conformer_prepared: dict | None = None
+            peptide_smiles = smiles
             docking = None
 
             try:
@@ -514,12 +516,20 @@ async def _run_full_evaluation_async(
                             f"exhaustividad de Vina; una búsqueda menor puede cambiar las poses.",
                         ))
 
-                    # Detección Enterprise de Péptidos vía Patrones Estructurales SMARTS
-                    # Busca el patrón del esqueleto peptídico: [N]-[C.alpha]-[C](=O)
-                    peptide_backbone = Chem.MolFromSmarts("[NX3][CX4][CX3](=[OX1])")
-                    matches = mol.GetSubstructMatches(peptide_backbone)
-                    # Exigimos al menos 4 enlaces peptídicos secuenciales para considerarlo un péptido o peptidomimético pesado
-                    is_peptide = len(matches) >= 3 or peptide_docking_engine == "esmfold"
+                    # La detección sólo avisa; nunca cambia el motor elegido.
+                    # Exige una cadena lineal legible de >=3 residuos estándar,
+                    # no tres coincidencias SMARTS independientes.
+                    from services.chemistry.peptides import es_peptido_lineal
+                    from services.docking.protocolo import es_motor_peptidico
+                    structure_looks_like_peptide = es_peptido_lineal(smiles)
+                    is_peptide = es_motor_peptidico(peptide_docking_engine)
+                    if structure_looks_like_peptide and not is_peptide:
+                        scientific_warnings.append(aviso(
+                            "PEPTIDO_LINEAL_DETECTADO", Severidad.INFO,
+                            "Se detectó una secuencia peptídica lineal compatible con "
+                            "ESMFold; se respeta el motor Vina solicitado. La ruta "
+                            "ESMFold es exploratoria y no valida precisión de poses.",
+                        ))
 
                     # Detectar metales
                     metals_in_mol = {atom.GetSymbol() for atom in mol.GetAtoms()} & {
@@ -531,6 +541,12 @@ async def _run_full_evaluation_async(
 
             # Nivel 3: Docking Peptídico Autónomo
             if is_peptide:
+                # Elegir el microestado antes de bifurcar: ESMFold y el respaldo
+                # Vina reciben el mismo grafo, con su estado y hash persistidos.
+                conformer_prepared = await generate_conformer(smiles, ph)
+                _estado_del_ligando_persistible = conformer_prepared.get("estado_del_ligando")
+                peptide_smiles = conformer_prepared["canonical_smiles"]
+                effective_smiles_hash = conformer_prepared["smiles_hash"]
                 log.info({"event": "routing_to_level_3_peptide", "molecule_id": str(pipeline_params.molecule_id), "engine": peptide_docking_engine})
                 await cache.set_job_progress(task_id, 40, "peptide_folding")
 
@@ -557,16 +573,16 @@ async def _run_full_evaluation_async(
                 try:
                     if peptide_docking_engine == "colabfold" and temp_pdb_path:
                         from services.colabfold.service import get_colabfold_service
-                        ml_res = await get_colabfold_service().predict(temp_pdb_path, smiles)
+                        ml_res = await get_colabfold_service().predict(temp_pdb_path, peptide_smiles)
                     elif peptide_docking_engine == "esmfold-experimental" and temp_pdb_path:
                         from services.esmfold_pro.service import get_esmfold_pro_service
                         ml_res = await get_esmfold_pro_service().predict(
-                            temp_pdb_path, smiles, grid_center=grid_center, grid_size=grid_size
+                            temp_pdb_path, peptide_smiles, grid_center=box_center, grid_size=box_size
                         )
                     elif temp_pdb_path:
                         from services.esmfold.service import get_esmfold_service
                         ml_res = await get_esmfold_service().predict(
-                            temp_pdb_path, smiles, grid_center=grid_center, grid_size=grid_size
+                            temp_pdb_path, peptide_smiles, grid_center=box_center, grid_size=box_size
                         )
                 finally:
                     # [FIX #2] Limpiar el archivo temporal del disco para evitar leak de espacio
@@ -606,9 +622,9 @@ async def _run_full_evaluation_async(
                                 Chem.SanitizeMol(mol_pep)
                             except Exception:
                                 pass
-                            mol_pep.SetProp("SMILES", smiles)
+                            mol_pep.SetProp("SMILES", peptide_smiles)
                             mol_pep.SetProp("_Name", f"Pose_{p.rank}")
-                            sdf_parts.append(_mol_to_sdf_string(mol_pep, smiles))
+                            sdf_parts.append(_mol_to_sdf_string(mol_pep, peptide_smiles))
 
                     sdf_content = "".join(sdf_parts)
                     from services.docking.peptide_docking import peptide_poses_run_path
@@ -716,6 +732,12 @@ async def _run_full_evaluation_async(
                         f"Fallo en Docking Peptídico ({msg}). Se usó AutoDock Vina como fallback.",
                     ))
 
+            if docking is not None and _estado_del_ligando_persistible:
+                from services.docking.ligand_state_warnings import avisos_estado_ligando
+                scientific_warnings.extend(avisos_estado_ligando(
+                    _estado_del_ligando_persistible
+                ))
+
             # Nivel 4: Detección de compuestos organometálicos
             # [FIX] El warning anterior implicaba que xtb+AD4 estaban corriendo.
             # Honestidad: los detectamos, pero actualmente corremos Vina como aproximación.
@@ -734,7 +756,7 @@ async def _run_full_evaluation_async(
             # Si no se ejecutó Nivel 3, corremos Vina de forma estándar
             if docking is None:
                 await cache.set_job_progress(task_id, 20, "conformer")
-                conformer = await generate_conformer(smiles, ph)
+                conformer = conformer_prepared or await generate_conformer(smiles, ph)
                 log.info({
                     "event": "conformer listo para docking",
                     "conformer_path": conformer["conformer_path"]
@@ -1031,11 +1053,10 @@ async def _run_full_evaluation_async(
                 except Exception as ums_err:
                     log.debug("ums_compute_failed", error=str(ums_err)[:200])
 
-            # ── v1.7.2: MM-GBSA real (MolChamb v2) — OPCIONAL y ASYNC ──
-            # Señal energética de solvente implícito (AMBER14SB + OBC2).
-            #
-            # DESACTIVADO POR DEFECTO (enable_mmgbsa=False): el usuario lo
-            # activa explícitamente en la pestaña de evaluación. Motivo:
+            # Ruta histórica de ΔE potencial GBn2+ACE (ε_in=1, sin entropía).
+            # No es ΔG. La guardia inicial rechaza enable_mmgbsa=True con
+            # MMGBSA_NO_DISPONIBLE; este bloque se conserva sólo para trazabilidad.
+            # El motivo original para ejecutarlo en segundo plano era:
             # OpenMM MM-GBSA tarda >180s en CPU (sin GPU) — bloquear el
             # pipeline hasta terminarlo degrada la UX. Por eso:
             #   - enable_mmgbsa=False → mmgbsa_score=None, sin subprocess.

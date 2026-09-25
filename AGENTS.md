@@ -158,14 +158,14 @@ Estado auditado hoy, sobre 203 complejos:
 | Auditoría | Listos | Cuello |
 |---|---:|---|
 | `FEP-01` integridad del ligando | **19%** (39/203) | 164 con tautómero ambiguo, **ninguno declarado** |
-| `FEP-02` integridad del receptor | **41%** (83/203) | 86 con huecos de cadena, 43 con el sitio repartido, 52 con metales, mediana de 10 aguas sin documentar |
-| `FEP-03` series congenéricas | 91 parejas / 18 dianas | El conjunto se armó para diversidad, lo contrario de lo que FEP+ necesita |
+| `FEP-02` cribado preliminar del receptor | **83/203 (41%) cumplen sólo el criterio de numeración y cadena**, no readiness FEP | Sobre `_protein.pdb` de PDBbind ya limpiado: 86 con saltos de numeración candidatos a hueco físico, 43 con el sitio entre cadenas, 52 con metales; mediana de 10 aguas. Entre los 83, hay 20 con metales en el sitio y 75 con aguas a ≤6 Å; sólo 8 no tienen ninguno de esos dos factores. Aguas, metales, cofactores y preparación del producto no forman parte del criterio de 83. |
+| `FEP-03` series congenéricas | 91 parejas / 18 dianas, **cota superior** | 9 parejas tienen perturbación de grafo pesado cero; la cohorte se armó para diversidad y no demuestra una red FEP utilizable. |
 
 Orden de trabajo declarado (`docs/50_ROADMAP.md` §3):
 
 1. **Declarar tautómeros** — **hecho** (`56e8733`, tres estados) y medido en
    `FEP-01-DECL` (GO): 180/203 (88,7%) quedan *declarados*, pero sólo **39 (19%)
-   resueltos**; 141 necesitan multiestado y 22 superan el tope de 32. Declarado
+   resueltos**; 142 tienen estado MULTIESTADO_REQUERIDO (141 cumplen el criterio declarado; uno queda bloqueado por estereoquímica) y 22 superan el tope de 32. Declarado
    no es resuelto: la cifra que describe el estado real es la del 19%. Para
    docking con Vina apenas importa; para FEP+ es determinante, porque el
    tautómero define qué átomos donan y cuáles aceptan puentes de hidrógeno.

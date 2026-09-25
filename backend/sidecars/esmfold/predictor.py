@@ -165,13 +165,14 @@ class StubPredictor(BasePredictor):
                 error="SMILES del péptido vacío o demasiado corto",
             )
 
+        if grid_center is None or grid_size is None:
+            return PredictionResult(
+                success=False, poses=[], best_confidence=None,
+                method="ESMFold-Stub", execution_time_s=0.0,
+                warnings=warnings, error="SIN_CAJA_DECLARADA",
+            )
+
         await asyncio.sleep(random.uniform(1.0, 3.0))
-
-        if grid_center is None:
-            grid_center = (0.0, 0.0, 0.0)
-        if grid_size is None:
-            grid_size = (25.0, 25.0, 25.0)
-
         cx, cy, cz = grid_center
         poses: list[PredictedPose] = []
         seed = int(hashlib.sha256(
@@ -343,11 +344,18 @@ class ESMFoldFastPredictor(BasePredictor):
         grid_center: tuple[float, float, float] | None,
         grid_size: tuple[float, float, float] | None,
     ) -> PredictionResult:
-        import torch
         start = time.monotonic()
         warnings: list[str] = []
         tmp_files: list[str] = []
 
+        if grid_center is None or grid_size is None:
+            return PredictionResult(
+                success=False, poses=[], best_confidence=None,
+                method="ESMFold-Fast", execution_time_s=0.0,
+                warnings=warnings, error="SIN_CAJA_DECLARADA",
+            )
+
+        import torch
         try:
             # 1. Extraer secuencia del péptido
             sequence = await asyncio.to_thread(
@@ -419,10 +427,8 @@ class ESMFoldFastPredictor(BasePredictor):
             tmp_files.append(rec_path)
             Path(rec_path).write_text(protein_pdb)
 
-            # 4. Calcular grid box si no se proveyó
-            if grid_center is None or grid_size is None:
-                grid_center, grid_size = self._compute_grid_from_ligand(pep_path)
-
+            # 4. La caja fue declarada por el llamador en coordenadas del receptor.
+            # La geometría del péptido plegado nunca puede definir el sitio.
             # 5. Dockear con Vina
             vina_version = vina_seed = vina_exhaustiveness = None
             if self._vina_path is None:
@@ -691,35 +697,6 @@ class ESMFoldFastPredictor(BasePredictor):
         if max(values) <= 1.0:
             media *= 100.0
         return media
-
-    # ── Grid computation ───────────────────────────────────────────────
-
-    @staticmethod
-    def _compute_grid_from_ligand(pdb_path: str) -> tuple[tuple[float, float, float], tuple[float, float, float]]:
-        """Calcula centro y tamaño del grid box basado en el ligando plegado."""
-        coords = []
-        with open(pdb_path) as f:
-            for line in f:
-                if line.startswith(("ATOM", "HETATM")):
-                    try:
-                        coords.append((
-                            float(line[30:38]),
-                            float(line[38:46]),
-                            float(line[46:54]),
-                        ))
-                    except (ValueError, IndexError):
-                        continue
-
-        if not coords:
-            return (0.0, 0.0, 0.0), (25.0, 25.0, 25.0)
-
-        xs, ys, zs = zip(*coords)
-        cx = sum(xs) / len(xs)
-        cy = sum(ys) / len(ys)
-        cz = sum(zs) / len(zs)
-        span = max(max(xs) - min(xs), max(ys) - min(ys), max(zs) - min(zs)) + 10.0
-        span = max(span, 20.0)
-        return (cx, cy, cz), (span, span, span)
 
     # ── Vina docking ───────────────────────────────────────────────────
 
@@ -1253,11 +1230,18 @@ class ESMFoldProPredictor(ESMFoldFastPredictor):
         grid_center: tuple[float, float, float] | None,
         grid_size: tuple[float, float, float] | None,
     ) -> PredictionResult:
-        import torch
         start = time.monotonic()
         warnings: list[str] = []
         tmp_files: list[str] = []
 
+        if grid_center is None or grid_size is None:
+            return PredictionResult(
+                success=False, poses=[], best_confidence=None,
+                method="ESMFold-Pro", execution_time_s=0.0,
+                warnings=warnings, error="SIN_CAJA_DECLARADA",
+            )
+
+        import torch
         try:
             # 1. Extraer secuencias
             peptide_seq = await asyncio.to_thread(

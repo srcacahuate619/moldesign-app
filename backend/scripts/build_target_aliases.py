@@ -106,7 +106,7 @@ TARGET_ALIASES_ES: dict[str, list[str]] = {
     "1M17": ["receptor egfr", "egfr", "receptor del factor de crecimiento epidermico",
              "erbb1", "her1"],
     "4FK3": ["braf", "braf v600e", "kinasa braf", "v600e"],
-    "3PP0": ["cdk4", "quinasa dependiente de ciclina 4", "cdk4 ciclina d1"],
+    "3PP0": ["her2", "erbb2", "receptor del factor de crecimiento epidermico 2"],
     "3WZE": ["vegfr2", "kdr", "receptor de vegf", "kinasa kdr", "receptor vegfr-2"],
     "3G0E": ["jak2", "quinasa jak2", "janus quinasa 2"],
     "2HZI": ["abl1", "kinasa abl", "bcr-abl", "imatinib"],
@@ -287,6 +287,14 @@ def main() -> int:
             "has_structure": bool(_pdb_files_for(pid)),
             "aliases": unique,
         }
+
+    # Sin las estructuras locales, reconstruir desde JSON incompleto borraría
+    # aliases y marcaría todas las dianas como sin estructura. Nunca sobrescribir
+    # el catálogo versionado con ese resultado degradado.
+    n_structure = sum(1 for e in entries.values() if e["has_structure"])
+    if n_structure == 0:
+        print("No hay estructuras de dianas locales; catálogo intacto.", file=sys.stderr)
+        return 1
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as f:

@@ -122,12 +122,12 @@ export const paneles: ModuloDeTraduccion = {
       ": no hace falta repetir el acoplamiento, porque sólo depende del SMILES.",
     pn_reactividad_sistemica: "Señales de reactividad sistémica:",
     pn_reactividad_tabpfn:
-      "Señales de reactividad sistémica producidas por TabPFN; requieren "
-      + "validación experimental.",
+      "Señales estimadas de metabolismo CYP; no equivalen a toxicidad "
+      + "clínica. Las alertas TabPFN de corridas antiguas no están validadas.",
     pn_toxicidad_sin_evaluar:
-      "— Sin evaluar: el clasificador de toxicidad no corrió en este equipo.",
+      "— Sin evaluar: TabPFN retirado por falta de procedencia de sus etiquetas.",
     pn_sin_alertas_reactividad:
-      "✓ Sin alertas de reactividad sistémica identificadas por TabPFN.",
+      "✓ Sin señales CYP identificadas por ADMET-AI; no es una prueba de seguridad.",
     pn_perfil_sanguineo: "Perfil sanguíneo (índice)",
 
     // ── Drug-likeness y PAINS ─────────────────────────────────────
@@ -411,12 +411,12 @@ export const paneles: ModuloDeTraduccion = {
       + "alone.",
     pn_reactividad_sistemica: "Systemic reactivity signals:",
     pn_reactividad_tabpfn:
-      "Systemic reactivity signals produced by TabPFN; they require experimental "
-      + "validation.",
+      "Estimated CYP metabolism signals do not establish clinical toxicity. "
+      + "Legacy TabPFN alerts are unvalidated.",
     pn_toxicidad_sin_evaluar:
-      "— Not evaluated: the toxicity classifier did not run on this machine.",
+      "— Not evaluated: TabPFN withdrawn because its labels lack provenance.",
     pn_sin_alertas_reactividad:
-      "✓ No systemic reactivity alerts identified by TabPFN.",
+      "✓ No CYP signals identified by ADMET-AI; this does not establish safety.",
     pn_perfil_sanguineo: "Blood profile (index)",
 
     pn_drug_likeness: "Drug-likeness rule profile",

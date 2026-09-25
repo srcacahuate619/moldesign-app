@@ -1,10 +1,22 @@
 # ADR 87 - Release contract for M4 stacking and CL-GNN
 
-Status: accepted for the first public alpha (2026-09-10).
+Status: alpha v1 accepted on 2026-09-10; superseded for generic M4 ranking by
+the provisional v2 decision on 2026-09-25 (docs/90_FASE6_DECISION_M4.md).
 
-## Decision
+## Current decision
 
-The canonical release contract is `backend/artifacts/sci_config_registry.json` (`M4_STACKING_ALPHA_V1`). Every generic M4 family resolves to:
+The canonical registry now records M4_VINA_ONLY_PENDING_DOCKED_VALIDATION_V2.
+Generic M4 uses Vina weight 1.00 and XGBoost, legacy GNN and CL-GNN weight
+0.00. The historical 0.25/0.75 ratio below describes alpha v1 only.
+The full formula, with Vina in both the affinity normalization and the
+stacking factor, is documented in docs/90_FASE6_DECISION_M4.md. The
+classifier's reproduced crystal-pose holdout AUC does not qualify a positive
+release weight on docked poses.
+
+## Historical alpha v1 decision
+
+
+The historical canonical release contract is `backend/artifacts/sci_config_registry.json` (`M4_STACKING_ALPHA_V1`). Every generic M4 family resolves to:
 
 | component | release weight |
 |---|---:|

@@ -2802,6 +2802,7 @@
                 "type": "null"
               }
             ],
+            "description": "Siempre null en producción. El cálculo histórico sería ΔE de interacción GBn2+ACE, ε_in=1, sin entropía; no es ΔG. Ruta MMGBSA_NO_DISPONIBLE.",
             "title": "Mmgbsa Score"
           },
           "model_used": {
@@ -4819,7 +4820,7 @@
             "title": "Blood Solubility Logs"
           },
           "blood_systemic_reactivity": {
-            "description": "Alertas de toxicidad TabPFN/PAINS",
+            "description": "Señales CYP de ADMET-AI; TabPFN retirado por falta de procedencia",
             "items": {
               "type": "string"
             },
@@ -6043,6 +6044,14 @@
           "source": {
             "title": "Source",
             "type": "string"
+          },
+          "transformed_atom_indices": {
+            "description": "Índices de átomos del SMILES de entrada reemplazados por la transformación.",
+            "items": {
+              "type": "integer"
+            },
+            "title": "Transformed Atom Indices",
+            "type": "array"
           },
           "warnings": {
             "items": {

@@ -133,14 +133,14 @@ Estado hoy, medido:
 | Auditoría | Listos | Cuello |
 |---|---:|---|
 | `FEP-01` integridad del ligando | **39/203 (19%)** | 164 de 203 con tautómero ambiguo, **ninguno declarado** |
-| `FEP-02` integridad del receptor | **83/203 (41%)** | 86 con huecos de cadena, 43 con el sitio repartido, 52 con metales, mediana de 10 aguas sin documentar |
-| `FEP-03` series congenéricas | 91 parejas / 18 dianas | El conjunto se armó para **diversidad**, lo contrario de lo que FEP+ necesita |
+| `FEP-02` cribado preliminar del receptor | **83/203 (41%) sólo sin saltos de numeración y sitio en una cadena** | Sobre `_protein.pdb` de PDBbind ya limpiado: 86 saltos de numeración candidatos a hueco físico, 43 sitios entre cadenas, 52 con metales, mediana de 10 aguas. De los 83, 20 tienen metal en el sitio y 75 aguas a ≤6 Å; sólo 8 no tienen ninguno de esos dos factores. No equivale a readiness FEP. |
+| `FEP-03` series congenéricas | 91 parejas / 18 dianas, **cota superior** | 9 de las 91 tienen perturbación de grafo pesado cero; el conjunto se armó para **diversidad**, lo contrario de lo que FEP+ necesita. |
 
 Orden de ejecución:
 
 1. **Declarar tautómeros.** ~~Sube `FEP-01` de 19% a >80% de un golpe.~~ **Hecho y medido
    (2026-09-23, `FEP-01-DECL`, GO):** 180/203 (88,7%) *declarados*, pero sólo 39 (19%)
-   *resueltos*; 141 quedan en multiestado (mediana de 4 candidatos) y 22 pasan de 32. La
+   *resueltos*; 142 tienen estado multiestado (141 cumplen el criterio declarado; uno queda bloqueado por estereoquímica; mediana de 4 candidatos) y 22 pasan de 32. La
    predicción se cumplía por la letra y era engañosa en la sustancia. Para docking con
    Vina apenas importa; para FEP+ es determinante, porque el tautómero define qué átomos
    donan y cuáles aceptan puentes de hidrógeno. Siguiente: un modelo energético validado

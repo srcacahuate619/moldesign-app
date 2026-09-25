@@ -277,7 +277,7 @@ export function ProParametersTab({ result }: Props) {
                 : "bg-indigo-500/20 text-indigo-300 border-indigo-500/30"
             }`}
           >
-            {admetAusente ? "ADMET-AI no disponible" : "ADMET-AI & TabPFN"}
+            {admetAusente ? "ADMET-AI no disponible" : "ADMET-AI"}
           </span>
         </div>
 
