@@ -285,7 +285,8 @@ def _run_download(dl_id: str, model_id: str, filename: str, user_id: str | None 
         from services.ai.red import exigir_permiso
         exigir_permiso(f"https://huggingface.co/{model_id}", user_id)
 
-        target_dir = Path(__file__).parent.parent.parent.parent / "models" / "llm"
+        from services.ai.local_llm import MODEL_SEARCH_PATHS
+        target_dir = MODEL_SEARCH_PATHS[1]
         target_dir.mkdir(parents=True, exist_ok=True)
 
         def _on_progress(total_mb: float, downloaded_mb: float):

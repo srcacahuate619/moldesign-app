@@ -113,7 +113,7 @@ async def get_protein_file(
         log.error("no se pudo obtener PDB", pdb_id=pdb_id, error=str(exc))
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=f"No se pudo obtener la estructura PDB para {pdb_id}: {str(exc)}",
+            detail=f"No se pudo obtener la estructura PDB para {pdb_id}.",
         ) from exc
 
 
@@ -241,7 +241,7 @@ async def get_complex_file(
     except Exception as exc:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=f"No se pudo obtener el PDB del receptor {pdb_id}: {exc}",
+            detail=f"No se pudo obtener el PDB del receptor {pdb_id}.",
         )
 
     try:

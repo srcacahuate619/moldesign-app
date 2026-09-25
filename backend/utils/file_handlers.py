@@ -333,7 +333,7 @@ async def download_pdb_from_rcsb(pdb_id: str, user_id: str | None = None) -> str
         raise RuntimeError(
             f"No se pudo obtener la estructura PDB '{pdb_id}'. "
             f"Verifica tu conexion a internet o asegurate de tener el archivo "
-            f"en {local_pdb}. Error: {e}"
+            "en la caché local."
         ) from e
 
     # Validación básica: un .pdb válido siempre contiene líneas ATOM o HETATM

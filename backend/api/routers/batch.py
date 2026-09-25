@@ -214,7 +214,6 @@ async def submit_batch(
     file: UploadFile = File(...),
     target_pdb_id: str = Query("7E2Y", min_length=4, max_length=10,
         description="Target PDB ID. Usar 'ALL' para correr contra todos los targets pre-curados."),
-    num_workers: int = Query(2, ge=1, le=6),
     early_exit: bool = Query(
         True,
         deprecated=True,
@@ -320,6 +319,9 @@ async def submit_batch(
 
     has_labels = any(m["is_active"] is not None for m in valid)
 
+    # El batch legado recorre las combinaciones en serie; el dispatcher limita Vina.
+    num_workers = 1
+
     # ── Create batch record ────────────────────────────────────────
     batch_id = str(_uuid_mod.uuid4())
     batch = {
@@ -335,6 +337,8 @@ async def submit_batch(
         "results": [],
         "created_at": datetime.now(UTC).isoformat(),
         "num_workers": num_workers,
+        "active_task_id": None,
+        "cancel_requested": False,
         "owner_id": _owner_of(current_user),
         # Se guarda el hecho, no la petición: el pre-filtro no se aplica.
         "early_exit": False,
@@ -361,7 +365,7 @@ async def submit_batch(
         "early_exit_enabled": False,
         "has_active_labels": has_labels,
         "status": "running",
-        "estimated_seconds": len(valid) * len(targets) * 25 // num_workers,
+        "estimated_seconds": len(valid) * len(targets) * 25,
     }
 
 
@@ -382,6 +386,7 @@ async def get_batch_status(
     return {
         "batch_id": batch["id"],
         "status": batch["status"],
+        "active_task_id": batch.get("active_task_id"),
         "total": batch["total"],
         "completed": batch["completed"],
         "failed": batch.get("failed", 0),
@@ -398,6 +403,27 @@ async def get_batch_status(
         "error": batch.get("error"),
     }
 
+
+
+@router.post("/batch/{batch_id}/cancel")
+async def cancel_batch(
+    batch_id: str,
+    current_user: UserORM | None = Depends(get_current_user_optional),
+) -> dict[str, Any]:
+    """Stop the active recorded evaluation and skip remaining batch rows."""
+    from services.docking.queue_handler import request_desktop_job_cancellation
+
+    async with _batch_lock:
+        batch = _require_own_batch(await _get_batch(batch_id), current_user)
+        if batch["status"] not in {"running", "cancelling"}:
+            return {"batch_id": batch_id, "status": batch["status"], "cancelled": False}
+        batch["cancel_requested"] = True
+        batch["status"] = "cancelling"
+        active_task_id = batch.get("active_task_id")
+        await _persist_batch(batch)
+    if active_task_id:
+        request_desktop_job_cancellation(active_task_id)
+    return {"batch_id": batch_id, "status": "cancelling", "cancelled": True}
 
 _EXPORT_HEADERS = [
     "Rank", "Name", "SMILES", "TotalScore", "Affinity_kcal", "MW",
@@ -580,6 +606,33 @@ async def export_batch_csv(
 
 # ── Background processing ────────────────────────────────────────────────────
 
+
+async def _evaluate_one_recorded(smiles: str, target_pdb_id: str, name: str, owner: str, batch_id: str | None = None) -> tuple[str, str]:
+    """Each legacy batch item has the same durable request as a regular evaluation."""
+    from core.database import get_db_session
+    from services.docking.queue_handler import submit_recorded_evaluation, await_recorded_evaluation
+    from utils.cache import cache
+
+    async with get_db_session() as request_db:
+        task = await submit_recorded_evaluation(
+            db=request_db, smiles=smiles, target_pdb_id=target_pdb_id,
+            molecule_name=name, user_id=None if owner == "demo" else owner,
+        )
+    await cache.set(f"task_owner:{task.id}", owner, ttl=86400)
+    if batch_id:
+        async with _batch_lock:
+            batch = _batches.get(batch_id)
+            if batch is not None:
+                batch["active_task_id"] = task.id
+                await _persist_batch(batch)
+                if batch.get("cancel_requested"):
+                    from services.docking.queue_handler import request_desktop_job_cancellation
+                    request_desktop_job_cancellation(task.id)
+    state = await await_recorded_evaluation(task.id)
+    if state.status != "SUCCESS" or state.result is None:
+        raise RuntimeError("La evaluación no produjo un resultado persistido.")
+    return task.id, str(state.result.molecule_id)
+
 async def _process_batch(
     batch_id: str,
     molecules: list[dict],
@@ -602,12 +655,17 @@ async def _process_batch(
 
     # ── Per-target + per-molecule evaluation ──────────────────────
     for target_pdb_id in targets:
+        if _batches.get(batch_id, {}).get("cancel_requested"):
+            break
         target_pdb_id = target_pdb_id.upper()
 
         for mol in molecules:
+            if _batches.get(batch_id, {}).get("cancel_requested"):
+                break
             name = mol["name"]
             smiles = mol["smiles"]
 
+            task_id = None
             async with sem:
                 # BATCH-SCI-001. Aqui vivia un pre-filtro de vecindad
                 # (`predict_early_exit`) que saltaba el acoplamiento y metia la
@@ -620,22 +678,10 @@ async def _process_batch(
 
                 # ── Full evaluation ────────────────────────────────
                 try:
-                    from services.docking.queue_handler import _run_full_evaluation_async
-
-                    task_id = str(_uuid_mod.uuid4())
                     owner = _batches.get(batch_id, {}).get("owner_id", "demo")
-                    from services.docking.queue_handler import EVAL_WATCHDOG_TIMEOUT_S
-                    pipeline_result = await _asyncio.wait_for(_run_full_evaluation_async(
-                        task_id=task_id,
-                        smiles=smiles,
-                        target_pdb_id=target_pdb_id,
-                        molecule_name=name,
-                        user_id=None if owner == "demo" else owner,
-                    ), timeout=EVAL_WATCHDOG_TIMEOUT_S)
-                    if pipeline_result.get("error"):
-                        raise RuntimeError(pipeline_result["error"])
-
-                    molecule_id = pipeline_result.get("molecule_id")
+                    task_id, molecule_id = await _evaluate_one_recorded(
+                        smiles, target_pdb_id, name, owner, batch_id=batch_id,
+                    )
                     if not molecule_id:
                         result = {"name": name, "smiles": smiles, "target": target_pdb_id,
                                   "status": "failed", "error": "No molecule_id"}
@@ -690,6 +736,9 @@ async def _process_batch(
                         batch["completed"] += 1
                         if result.get("status") == "failed":
                             batch["failed"] += 1
+                        if task_id is None:
+                            task_id = batch.get("active_task_id")
+                        batch["active_task_id"] = None
                         result["task_id"] = task_id
                         result["row_id"] = mol.get("row_id")
                         batch["results"].append(result)
@@ -698,7 +747,11 @@ async def _process_batch(
     # ── EF/AUC si hay labels ──────────────────────────────────────
     async with _batch_lock:
         batch = _batches.get(batch_id)
-        if batch and batch["completed"] >= batch["total"]:
+        if batch and batch.get("cancel_requested"):
+            batch["status"] = "cancelled"
+            batch["active_task_id"] = None
+            batch["finished_at"] = datetime.now(UTC).isoformat()
+        elif batch and batch["completed"] >= batch["total"]:
             batch["status"] = "completed"
             batch["finished_at"] = datetime.now(UTC).isoformat()
         if batch and has_labels and batch["status"] == "completed":

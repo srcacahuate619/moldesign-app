@@ -56,13 +56,13 @@ async def test_batch_failure_keeps_owner_and_never_reads_old_success(monkeypatch
     identifier = str(uuid.uuid4())
     batch._batches[identifier] = {"id": identifier, "owner_id": owner, "total": 1,
         "completed": 0, "failed": 0, "results": [], "status": "running"}
-    evaluate = AsyncMock(return_value={"molecule_id": str(uuid.uuid4()), "error": "engine failed"})
-    monkeypatch.setattr(qh, "_run_full_evaluation_async", evaluate)
+    evaluate = AsyncMock(side_effect=RuntimeError("engine failed"))
+    monkeypatch.setattr(batch, "_evaluate_one_recorded", evaluate)
     try:
         await batch._process_batch(identifier, [{"name": "ligand", "smiles": "CCO"}],
                                    ["7E2Y"], 1, False, False)
         state = batch._batches[identifier]
-        assert evaluate.call_args.kwargs["user_id"] == owner
+        assert evaluate.call_args.args[3] == owner
         assert state["failed"] == 1
         assert state["status"] == "completed"
         assert state["results"][0]["error"] == "engine failed"

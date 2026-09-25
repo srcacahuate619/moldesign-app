@@ -237,125 +237,16 @@ class CalibrationHealthMonitor:
     # ── Check: Normalization Coverage ──────────────────────────────────
 
     def _check_normalization_coverage(self, report: CalibrationHealthReport) -> None:
-        """
-        Verifica que el rango de normalización [-10, -4] cubre las afinidades
-        observadas en el último benchmark.
-        """
-        if self._benchmark_path is None or not self._benchmark_path.exists():
-            report.add_check(HealthCheckResult(
-                check_name="normalization_coverage",
-                status=CheckStatus.UNABLE,
-                severity=CheckSeverity.MEDIUM,
-                message="No benchmark data available to evaluate normalization coverage.",
-                recommendation="Run benchmark_reference_panel.py to generate baseline data.",
-            ))
-            return
-
-        try:
-            benchmark = json.loads(self._benchmark_path.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, OSError) as e:
-            report.add_check(HealthCheckResult(
-                check_name="normalization_coverage",
-                status=CheckStatus.UNABLE,
-                severity=CheckSeverity.MEDIUM,
-                message=f"Could not read benchmark file: {e}",
-            ))
-            return
-
-        # Extraer afinidades del benchmark
-        # Soporta múltiples formatos de benchmark:
-        #   - "runs" con "best_affinity" (benchmark_reference_panel.py output)
-        #   - "accepted" con "predicted_affinity_kcal" (external_calibration)
-        #   - "results" con "best_affinity_kcal" (formato genérico)
-        affinities: list[float] = []
-        records = (
-            benchmark.get("runs")
-            or benchmark.get("results")
-            or benchmark.get("accepted", [])
-        )
-        for rec in records:
-            aff = (
-                rec.get("best_affinity")
-                or rec.get("best_affinity_kcal")
-                or rec.get("predicted_affinity_kcal")
-            )
-            if aff is not None:
-                affinities.append(float(aff))
-
-        if not affinities:
-            report.add_check(HealthCheckResult(
-                check_name="normalization_coverage",
-                status=CheckStatus.UNABLE,
-                severity=CheckSeverity.MEDIUM,
-                message="Benchmark file contains no affinity values.",
-            ))
-            return
-
-        best_param = self._registry.get_value("affinity_normalization_best") or -10.0
-        worst_param = self._registry.get_value("affinity_normalization_worst") or -4.0
-        observed_min = min(affinities)
-        observed_max = max(affinities)
-
-        # Chequear si hay afinidades fuera del rango de normalización
-        n_below_best = sum(1 for a in affinities if a < best_param)
-        n_above_worst = sum(1 for a in affinities if a > worst_param)
-        n_total = len(affinities)
-
-        issues = []
-        if n_below_best > 0:
-            issues.append(
-                f"{n_below_best}/{n_total} affinities below best={best_param} "
-                f"(min observed: {observed_min:.2f} kcal/mol). "
-                "These get clamped to score=100, losing resolution at the top."
-            )
-        if n_above_worst > 0:
-            issues.append(
-                f"{n_above_worst}/{n_total} affinities above worst={worst_param} "
-                f"(max observed: {observed_max:.2f} kcal/mol). "
-                "These get clamped to score=0, losing resolution at the bottom."
-            )
-
-        # Chequear si el rango observado es muy estrecho vs el rango de normalización
-        obs_range = observed_max - observed_min
-        norm_range = worst_param - best_param
-        utilization = obs_range / norm_range if norm_range != 0 else 0
-
-        if issues:
-            report.add_check(HealthCheckResult(
-                check_name="normalization_coverage",
-                status=CheckStatus.WARNING,
-                severity=CheckSeverity.MEDIUM,
-                message=f"Normalization range [{best_param}, {worst_param}] does not fully cover observed affinities.",
-                details={
-                    "normalization_best": best_param,
-                    "normalization_worst": worst_param,
-                    "observed_min_affinity": round(observed_min, 3),
-                    "observed_max_affinity": round(observed_max, 3),
-                    "n_below_best": n_below_best,
-                    "n_above_worst": n_above_worst,
-                    "range_utilization": round(utilization, 3),
-                    "issues": issues,
-                },
-                recommendation=(
-                    "Consider re-anchoring normalization range to "
-                    f"[{min(best_param, observed_min - 0.5):.1f}, "
-                    f"{max(worst_param, observed_max + 0.5):.1f}] kcal/mol."
-                ),
-            ))
-        else:
-            report.add_check(HealthCheckResult(
-                check_name="normalization_coverage",
-                status=CheckStatus.PASS,
-                severity=CheckSeverity.INFO,
-                message="Normalization range covers all observed benchmark affinities.",
-                details={
-                    "normalization_range": [best_param, worst_param],
-                    "observed_range": [round(observed_min, 3), round(observed_max, 3)],
-                    "range_utilization": round(utilization, 3),
-                },
-            ))
-
-    # ── Check: Grid Box Adequacy ───────────────────────────────────────
+        """Legacy registry bounds are not used by the current LE-based engine."""
+        report.add_check(HealthCheckResult(
+            check_name="normalization_coverage",
+            status=CheckStatus.UNABLE,
+            severity=CheckSeverity.INFO,
+            message=(
+                "La normalización LE del motor activo no usa "
+                "affinity_normalization_best/worst; este control requiere rediseño."
+            ),
+        ))
 
     def _check_grid_adequacy(self, report: CalibrationHealthReport) -> None:
         """

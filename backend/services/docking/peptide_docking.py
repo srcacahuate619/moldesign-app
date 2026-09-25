@@ -43,7 +43,6 @@ async def run_peptide_docking_helper(
     from core.models import DockingPose, DockingResult
     from utils.file_handlers import StoragePath, download_pdb_from_rcsb
     from utils.local_storage import exists, read_text, write_text
-    from utils.refinement import refine_receptor_peptide_complex
     from rdkit import Chem
 
     async with get_db_session() as db:
@@ -138,6 +137,12 @@ async def run_peptide_docking_helper(
                 pass
 
     scientific_warnings = []
+    if settings.peptide_refinement_enabled:
+        scientific_warnings.append(aviso(
+            "PEPTIDE_REFINEMENT_NO_VALIDADO", Severidad.PRECAUCION,
+            "Se solicitó refinamiento peptídico, pero la ruta OpenMM/Amber "
+            "no está validada. Se conserva la pose original de Vina.",
+        ))
     peptide_transfer_manifest = getattr(ml_res, "transfer_manifest", None) if ml_res else None
     if ml_res and ml_res.poses:
         sdf_parts = []
@@ -150,11 +155,6 @@ async def run_peptide_docking_helper(
             if peptide_sdf:
                 mol_pep = Chem.MolFromMolBlock(peptide_sdf, sanitize=False, removeHs=False)
             else:
-                if settings.peptide_refinement_enabled and pdb_content:
-                    try:
-                        peptide_pdb = refine_receptor_peptide_complex(pdb_content, peptide_pdb)
-                    except Exception as re_err:
-                        log.warning("Fallo inesperado al llamar refine_receptor_peptide_complex", error=str(re_err))
                 mol_pep = Chem.MolFromPDBBlock(peptide_pdb, sanitize=False)
             if mol_pep:
                 try:

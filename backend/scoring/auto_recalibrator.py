@@ -199,10 +199,6 @@ class AutoRecalibrator:
         for check in health_report.checks:
             self._analyze_check(check, proposal)
 
-        # 4. Analizar normalization drift si hay benchmark
-        if self._benchmark_path and self._benchmark_path.exists():
-            self._propose_normalization_reanchor(proposal)
-
         # 5. Overall recommendation
         proposal.overall_recommendation = self._compute_overall_recommendation(proposal)
         proposal.estimated_impact = self._estimate_impact(proposal)
@@ -231,9 +227,6 @@ class AutoRecalibrator:
 
         for check in health_report.checks:
             self._analyze_check(check, proposal)
-
-        if self._benchmark_path and self._benchmark_path.exists():
-            self._propose_normalization_reanchor(proposal)
 
         proposal.overall_recommendation = self._compute_overall_recommendation(proposal)
         proposal.estimated_impact = self._estimate_impact(proposal)
@@ -292,20 +285,8 @@ class AutoRecalibrator:
                 ))
 
         elif check.check_name == "normalization_coverage":
-            issues = check.details.get("issues", [])
-            if check.recommendation:
-                proposal.add_change(ProposedChange(
-                    action=ProposalAction.UPDATE_PARAMETER,
-                    priority=ProposalPriority.MEDIUM,
-                    parameter_name="affinity_normalization_range",
-                    current_value=[
-                        check.details.get("normalization_best"),
-                        check.details.get("normalization_worst"),
-                    ],
-                    proposed_value=check.recommendation,
-                    reason="; ".join(issues),
-                    evidence=f"Observed range: [{check.details.get('observed_min_affinity')}, {check.details.get('observed_max_affinity')}] kcal/mol",
-                ))
+            # El motor activo normaliza por LE; no se propone un rango inerte.
+            pass
 
         elif check.check_name == "panel_quality":
             if check.status in (CheckStatus.WARNING, CheckStatus.FAIL):
@@ -349,80 +330,6 @@ class AutoRecalibrator:
                     evidence="Critical dependencies missing",
                     requires_human_review=True,
                 ))
-
-    def _propose_normalization_reanchor(self, proposal: RecalibrationProposal) -> None:
-        """
-        Si hay benchmark data, propone re-anclaje de normalización basado
-        en las afinidades realmente observadas.
-
-        Estrategia:
-          - best = percentil 5 de afinidades observadas (redondeado a 0.5)
-          - worst = percentil 95 (redondeado a 0.5)
-          - Esto evita que outliers distorsionen el rango.
-        """
-        if self._benchmark_path is None or not self._benchmark_path.exists():
-            return
-
-        try:
-            benchmark = json.loads(self._benchmark_path.read_text(encoding="utf-8"))
-        except (json.JSONDecodeError, OSError):
-            return
-
-        records = benchmark.get("results", benchmark.get("accepted", []))
-        affinities: list[float] = []
-        for rec in records:
-            aff = rec.get("best_affinity_kcal") or rec.get("predicted_affinity_kcal")
-            if aff is not None:
-                affinities.append(float(aff))
-
-        if len(affinities) < 5:
-            return  # Not enough data
-
-        affinities.sort()
-        n = len(affinities)
-
-        # Percentiles
-        p5_idx = max(0, int(n * 0.05))
-        p95_idx = min(n - 1, int(n * 0.95))
-        p5 = affinities[p5_idx]
-        p95 = affinities[p95_idx]
-
-        # Redondear a 0.5 kcal/mol
-        proposed_best = math.floor(p5 * 2) / 2.0   # Redondea hacia abajo (más negativo)
-        proposed_worst = math.ceil(p95 * 2) / 2.0   # Redondea hacia arriba (menos negativo)
-
-        # Asegurar rango mínimo de 4 kcal/mol
-        if (proposed_worst - proposed_best) < 4.0:
-            midpoint = (proposed_best + proposed_worst) / 2.0
-            proposed_best = midpoint - 2.0
-            proposed_worst = midpoint + 2.0
-
-        current_best = self._registry.get_value("affinity_normalization_best") or -10.0
-        current_worst = self._registry.get_value("affinity_normalization_worst") or -4.0
-
-        # Solo proponer si el cambio es significativo (> 0.5 kcal/mol)
-        best_diff = abs(proposed_best - current_best)
-        worst_diff = abs(proposed_worst - current_worst)
-
-        if best_diff > 0.5 or worst_diff > 0.5:
-            proposal.add_change(ProposedChange(
-                action=ProposalAction.UPDATE_PARAMETER,
-                priority=ProposalPriority.HIGH,
-                parameter_name="affinity_normalization_range",
-                current_value={"best": current_best, "worst": current_worst},
-                proposed_value={"best": proposed_best, "worst": proposed_worst},
-                reason=(
-                    f"Benchmark data suggests re-anchoring. "
-                    f"Observed P5={p5:.2f}, P95={p95:.2f} kcal/mol. "
-                    f"Current range [{current_best}, {current_worst}] → "
-                    f"Proposed [{proposed_best}, {proposed_worst}]."
-                ),
-                evidence=(
-                    f"Based on {n} docking results. "
-                    f"Observed range: [{affinities[0]:.2f}, {affinities[-1]:.2f}] kcal/mol."
-                ),
-                requires_benchmark=False,  # Already based on benchmark
-            ))
 
     def _compute_overall_recommendation(self, proposal: RecalibrationProposal) -> str:
         """Genera una recomendación general basada en las propuestas."""

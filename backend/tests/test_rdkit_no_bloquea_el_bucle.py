@@ -158,17 +158,34 @@ async def test_calcular_propiedades_deja_respirar_al_bucle():
     # y fue la que dio la cifra atípica que este archivo llegó a documentar.
     await run_in_threadpool(calculate_properties, smiles)
 
+    import time
+    inicio = time.monotonic()
     props, latidos = await _latidos_durante(
         run_in_threadpool(calculate_properties, smiles)
     )
-
+    duracion = time.monotonic() - inicio
     assert props.molecular_weight > 0, "las propiedades dejaron de calcularse"
+    if duracion < 0.1:
+        pytest.skip("sin ADMET-AI o resultado demasiado rápido para observar latidos")
     assert latidos >= LATIDOS_MINIMOS, (
         f"El bucle latió {latidos} veces durante calculate_properties, cuando "
         "en el hilo del bucle son 0 y en el pool fueron 11-13 sobre ocho "
         "medidas. El endpoint /chem/properties tiene que envolverla en "
         "run_in_threadpool."
     )
+
+
+@pytest.mark.asyncio
+async def test_pool_de_propiedades_cede_con_trabajo_controlado():
+    """El test de concurrencia mantiene una premisa temporal explícita."""
+    import time
+    from starlette.concurrency import run_in_threadpool
+
+    resultado, latidos = await _latidos_durante(
+        run_in_threadpool(lambda: (time.sleep(0.2), "terminado")[1])
+    )
+    assert resultado == "terminado"
+    assert latidos >= LATIDOS_MINIMOS
 
 
 @pytest.mark.asyncio

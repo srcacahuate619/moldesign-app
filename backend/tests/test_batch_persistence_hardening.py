@@ -78,7 +78,7 @@ async def test_checkpoint_failure_prevents_launch(monkeypatch):
     upload = UploadFile(filename="molecules.csv", file=io.BytesIO(
         b"smiles,name\nCC(=O)Oc1ccccc1C(=O)O,aspirin\n"))
     with pytest.raises(OSError, match="disk full"):
-        await batch.submit_batch(upload, "7E2Y", 1, False, None, None)
+        await batch.submit_batch(upload, "7E2Y", False, None, None)
     launch.assert_not_awaited()
 
 

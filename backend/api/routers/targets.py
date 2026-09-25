@@ -159,13 +159,14 @@ async def upload_custom_target(
     if cofactors_whitelist:
         cofactors = [c.strip().upper() for c in cofactors_whitelist.split(",") if c.strip()]
 
-    # SEC-C08: Validar tamaño máximo para prevenir agotamiento de RAM/DoS (Límite: 50MB)
-    MAX_SIZE = 50 * 1024 * 1024
+    # SEC-C08: 31 MiB de archivo deja margen al sobre multipart bajo
+    # BodyLimitMiddleware (32 MiB para el cuerpo HTTP completo).
+    MAX_SIZE = 31 * 1024 * 1024
     content = await file.read(MAX_SIZE + 1)
     if len(content) > MAX_SIZE:
         raise HTTPException(
             status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
-            detail="File size exceeds the 50MB limit."
+            detail="File size exceeds the 31 MiB limit."
         )
 
     # SEC-C08: Validar magic bytes/estructura básica para asegurar que es un PDB/SDF válido
@@ -387,7 +388,7 @@ async def resolve_target_name(
         )
     except Exception as e:
         log.error("resolve_target_name_failed", query=request.query, error=str(e))
-        raise HTTPException(status_code=502, detail=f"Error al buscar en RCSB: {e}")
+        raise HTTPException(status_code=502, detail="RCSB no está disponible para la búsqueda.") from e
 
 
 class AlphaFoldLookupRequest(BaseModel):
@@ -432,7 +433,15 @@ async def alphafold_lookup(
     """
     from services.alphafold.client import download_structure, lookup_uniprot
 
-    entry = await lookup_uniprot(uniprot_id.strip().upper())
+    from urllib.error import HTTPError, URLError
+    from services.ai.red import SalidaNoAutorizada
+    try:
+        entry = await lookup_uniprot(uniprot_id.strip().upper())
+    except SalidaNoAutorizada as exc:
+        raise HTTPException(status_code=403, detail="Salida de red no autorizada.") from exc
+    except (URLError, HTTPError, TimeoutError, OSError) as exc:
+        log.warning("alphafold_lookup_unavailable", error=str(exc))
+        raise HTTPException(status_code=503, detail="AlphaFold DB no está disponible.") from exc
     if entry is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -452,6 +461,11 @@ async def alphafold_lookup(
             total_residues=entry.total_residues,
             warnings=structure.warnings,
         )
+    except SalidaNoAutorizada as exc:
+        raise HTTPException(status_code=403, detail="Salida de red no autorizada.") from exc
+    except (URLError, HTTPError, TimeoutError, OSError) as exc:
+        log.warning("alphafold_structure_unavailable", error=str(exc))
+        raise HTTPException(status_code=503, detail="AlphaFold DB no está disponible.") from exc
     except Exception as e:
         log.error("error procesando estructura AlphaFold", error=str(e))
         return AlphaFoldEntryResponse(
@@ -463,7 +477,7 @@ async def alphafold_lookup(
             high_confidence_residues=None,
             total_residues=None,
             warnings=[
-                f"No se pudo analizar la estructura: {str(e)}",
+                "No se pudo analizar la estructura AlphaFold.",
                 "La estructura puede descargarse manualmente desde AlphaFold DB.",
             ],
         )
@@ -545,12 +559,17 @@ async def download_community_target(
 
     # Ingresar localmente
     from services.targets.ingestion_manager import ingest_new_target
-    result = await ingest_new_target(
-        pdb_id=pdb_id,
-        db=db,
-        force_reingest=False,
-        user_id=str(current_user.id),
-    )
+    from services.ai.red import SalidaNoAutorizada
+    try:
+        result = await ingest_new_target(
+            pdb_id=pdb_id, db=db, force_reingest=False,
+            user_id=str(current_user.id),
+        )
+    except SalidaNoAutorizada as exc:
+        raise HTTPException(status_code=403, detail="Salida de red no autorizada.") from exc
+    except (ConnectionError, TimeoutError, OSError, RuntimeError) as exc:
+        log.warning("community_target_download_unavailable", pdb_id=pdb_id, error=str(exc))
+        raise HTTPException(status_code=503, detail="El servicio de estructuras no está disponible.") from exc
     return {"success": True, "message": f"Target {pdb_id} descargado e ingerido", "result": result}
 
 async def _read_variant_source_bytes(target: TargetORM) -> bytes:
@@ -716,6 +735,6 @@ async def get_target_pdb(
             raise HTTPException(status_code=403, detail=str(e)) from e
         raise HTTPException(
             status_code=404,
-            detail=f"No se pudo encontrar el PDB {pdb_id}: {str(e)}"
+            detail=f"No se pudo encontrar el PDB {pdb_id}."
         )
 

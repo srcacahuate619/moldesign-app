@@ -710,7 +710,8 @@ class LocalLLM:
         if self._process is None or self._process.stdout is None:
             return
         try:
-            log_dir = Path(__file__).resolve().parents[3] / "logs"
+            from core.config import directorio_de_datos
+            log_dir = directorio_de_datos("llm_logs") / "logs"
             log_dir.mkdir(parents=True, exist_ok=True)
             self._stdout_file = open(
                 log_dir / "llama-server.log", "ab", buffering=0

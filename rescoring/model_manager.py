@@ -464,6 +464,22 @@ class ModelManager:
             best_pose = min(request.poses, key=lambda p: p.vina_score)
             valid_poses = [best_pose]
 
+        pose_rank_used = next(
+            (index for index, pose in enumerate(request.poses) if pose is valid_poses[0]),
+            None,
+        )
+        if pose_rank_used is None:
+            pose_rank_used = next(
+                (index for index, pose in enumerate(request.poses)
+                 if pose.pdbqt_block == valid_poses[0].pdbqt_block),
+                None,
+            )
+        if pose_rank_used not in (None, 0):
+            warnings.append(
+                f"Model A usó la pose {pose_rank_used + 1}; la afinidad principal de Vina "
+                "puede corresponder a otra pose."
+            )
+
         # ── 2. Varianza de poses (feature de incertidumbre, 0 CPU extra) ─
         vina_scores = [p.vina_score for p in request.poses]
         score_var = float(np.var(vina_scores)) if len(vina_scores) > 1 else 0.0
@@ -573,6 +589,8 @@ class ModelManager:
                 fallback_reason=reason,
                 pose_scores=pose_sel_result["pose_scores"] if pose_sel_result else None,
                 selected_pose_rank=pose_sel_result["selected_pose_rank"] if pose_sel_result else None,
+                pose_rank_used=pose_rank_used,
+                vina_score_used=valid_poses[0].vina_score,
                 pose_confidence=pose_sel_result["pose_confidence"] if pose_sel_result else None,
                 pose_abstained=pose_sel_result["pose_abstained"] if pose_sel_result else None,
                 pose_selector_model=pose_sel_result["pose_selector_model"] if pose_sel_result else None,
@@ -864,6 +882,8 @@ class ModelManager:
             selected_pose_rank=(
                 pose_sel_result["selected_pose_rank"] if pose_sel_result else None
             ),
+            pose_rank_used=pose_rank_used,
+            vina_score_used=valid_poses[0].vina_score,
             pose_confidence=(
                 pose_sel_result["pose_confidence"] if pose_sel_result else None
             ),

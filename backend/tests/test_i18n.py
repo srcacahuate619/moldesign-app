@@ -24,9 +24,12 @@ def test_payload_translation_is_recursive_and_request_scoped(
     monkeypatch.setitem(i18n.ENGLISH_MESSAGES, "No encontrado", "Not found")
     token = i18n.set_request_locale("en-US")
     try:
-        assert i18n.localize_payload({"detail": "No encontrado", "items": ["No encontrado"]}) == {
-            "detail": "Not found",
-            "items": ["Not found"],
+        assert i18n.localize_payload({
+            "detail": "No encontrado", "items": ["No encontrado"],
+            "name": "No encontrado", "warnings": ["No encontrado"],
+        }) == {
+            "detail": "Not found", "items": ["No encontrado"],
+            "name": "No encontrado", "warnings": ["Not found"],
         }
     finally:
         i18n.reset_request_locale(token)

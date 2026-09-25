@@ -77,6 +77,13 @@ async def test_la_evaluacion_sincrona_anonima_no_tiene_cupo(monkeypatch):
 
     monkeypatch.setattr(evaluation, "get_target_for_user", _sin_receptor)
 
+    import services.docking.queue_handler as qh
+
+    async def _submit_falso(**_kwargs):
+        return SimpleNamespace(id=str(uuid.uuid4()))
+
+    monkeypatch.setattr(qh, "submit_recorded_evaluation", _submit_falso)
+
     peticion = evaluation.EvaluationSubmitRequest(smiles="CC(=O)Oc1ccccc1C(=O)O", target_pdb_id="7E2Y")
 
     respuesta = await evaluation.evaluate_sync(
@@ -96,6 +103,13 @@ async def test_la_evaluacion_sincrona_comprueba_la_huella_del_preflight(monkeypa
         return None
 
     monkeypatch.setattr(evaluation, "get_target_for_user", _sin_receptor)
+
+    import services.docking.queue_handler as qh
+
+    async def _submit_falso(**_kwargs):
+        return SimpleNamespace(id=str(uuid.uuid4()))
+
+    monkeypatch.setattr(qh, "submit_recorded_evaluation", _submit_falso)
 
     async def _preflight_distinto(**_kwargs):
         return {
@@ -187,6 +201,13 @@ async def test_un_bloqueante_de_preparacion_detiene_la_evaluacion_sincrona(monke
 
     monkeypatch.setattr(evaluation, "get_target_for_user", _sin_receptor)
 
+    import services.docking.queue_handler as qh
+
+    async def _submit_falso(**_kwargs):
+        return SimpleNamespace(id=str(uuid.uuid4()))
+
+    monkeypatch.setattr(qh, "submit_recorded_evaluation", _submit_falso)
+
     async def _preflight_bloqueado(**_kwargs):
         return {
             "technical_blockers": ["LIGANDO_INVALIDO"],
@@ -219,6 +240,13 @@ async def test_el_dueno_de_la_tarea_queda_registrado_antes_de_ejecutar(monkeypat
         return None
 
     monkeypatch.setattr(evaluation, "get_target_for_user", _sin_receptor)
+
+    import services.docking.queue_handler as qh
+
+    async def _submit_falso(**_kwargs):
+        return SimpleNamespace(id=str(uuid.uuid4()))
+
+    monkeypatch.setattr(qh, "submit_recorded_evaluation", _submit_falso)
 
     usuario = SimpleNamespace(id=uuid.uuid4())
     peticion = evaluation.EvaluationSubmitRequest(smiles="CC(=O)Oc1ccccc1C(=O)O", target_pdb_id="7E2Y")

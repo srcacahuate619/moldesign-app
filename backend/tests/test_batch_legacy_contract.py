@@ -249,7 +249,10 @@ async def test_el_procesado_de_fondo_recorre_las_moleculas_y_acumula_resultados(
 
     import services.docking.queue_handler as qh
 
-    monkeypatch.setattr(qh, "_run_full_evaluation_async", _falsa_evaluacion, raising=False)
+    async def _falso_registrado(smiles, target_pdb_id, name, owner, **_kwargs):
+        return str(uuid.uuid4()), str(uuid.uuid4())
+
+    monkeypatch.setattr(batch_mod, "_evaluate_one_recorded", _falso_registrado)
 
     try:
         await batch_mod._process_batch(

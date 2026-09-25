@@ -7,11 +7,22 @@ Edita los valores o usa variables de entorno (tienen prioridad).
 from __future__ import annotations
 
 import os
+import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
 
 # Raíz del servicio
 SERVICE_ROOT = Path(__file__).resolve().parent
+
+
+def _default_log_dir() -> Path:
+    """Logs de usuario; el sidecar nunca escribe dentro de la instalación."""
+    if os.getenv("ESMFOLD_LOG_DIR"):
+        return Path(os.environ["ESMFOLD_LOG_DIR"])
+    if os.getenv("MOLDESIGN_TESTING") == "1" and not os.getenv("LOCAL_DATA_DIR"):
+        return Path(tempfile.gettempdir()) / "moldesign-tests" / "esmfold_logs"
+    data_dir = Path(os.getenv("LOCAL_DATA_DIR", str(Path.home() / "MolDesign" / "data")))
+    return data_dir / "logs" / "esmfold"
 
 
 @dataclass
@@ -71,11 +82,7 @@ class ServiceConfig:
     max_poses: int = field(default_factory=lambda: int(os.getenv("ESMFOLD_MAX_POSES", "10")))
 
     # ── Logging ─────────────────────────────────────────────────────────
-    log_dir: Path = field(
-        default_factory=lambda: Path(
-            os.getenv("ESMFOLD_LOG_DIR", str(SERVICE_ROOT / "logs"))
-        )
-    )
+    log_dir: Path = field(default_factory=_default_log_dir)
     log_level: str = field(default_factory=lambda: os.getenv("ESMFOLD_LOG_LEVEL", "INFO"))
 
 

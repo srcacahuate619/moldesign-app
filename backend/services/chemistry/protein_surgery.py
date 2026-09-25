@@ -523,11 +523,11 @@ def trim_to_window(protein_pdb: str, ligand_center: tuple[float, float, float],
 # ═══════════════════════════════════════════════════════════
 
 _METAL_BINDING_SMARTS = {
-    "sulfonamide": Chem.MolFromSmarts("[#16X4](=[OX1])(=[OX1])-[#7X3]"),
-    "carboxylate": Chem.MolFromSmarts("[CX3](=[OX1])-[OX2H1,O-]"),
-    "thiol": Chem.MolFromSmarts("[#16X2H1]"),
-    "hydroxamic_acid": Chem.MolFromSmarts("[CX3](=[OX1])-[NX3]-[OX2H1]"),
-    "imidazole": Chem.MolFromSmarts("c1nc[nH]c1"),  # imidazole ring
+    "sulfonamide": Chem.MolFromSmarts("[SX4](=[OX1])(=[OX1])[N;H1,H2,-1]"),
+    "carboxylate": Chem.MolFromSmarts("[CX3;!$(C(=O)N)](=[OX1])[OX2H1,OX1-]"),
+    "thiol": Chem.MolFromSmarts("[SX2H1,SX1-]"),
+    "hydroxamic_acid": Chem.MolFromSmarts("[CX3](=[OX1])[NX3,NX2-][OX2H1,OX1-]"),
+    "imidazole": Chem.MolFromSmarts("[nX2]1c[nX3]cc1"),
     "phosphate": Chem.MolFromSmarts("[PX4](=O)(O)(O)O"),
 }
 
@@ -537,7 +537,7 @@ _ZN_BINDING_GROUPS = ["sulfonamide", "carboxylate", "thiol", "hydroxamic_acid", 
 def metal_features(smiles: str) -> dict:
     """
     Compute pre-docking metal-binding features from SMILES.
-    Zero cost (no Vina, no xTB). Feeds XGBoost for metalloenzyme discrimination.
+    Diagnostic counts only; these features do not feed the deployed XGBoost model.
     """
     features = {
         "sulfonamide_count": 0,

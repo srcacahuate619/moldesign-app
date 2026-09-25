@@ -25,13 +25,16 @@ import re
 import shutil
 import sys
 import tempfile
+import threading
 import time
 import uuid
 from contextlib import asynccontextmanager
 from pathlib import Path
 
+from filelock import FileLock, Timeout as FileLockTimeout
+
 from chem.conformer_ensemble import es_hash_derivado
-from core.config import get_settings
+from core.config import get_settings, directorio_de_datos
 from core.exceptions import DockingFailed, VinaExecutableNotFound
 from core.models import DockingPose, DockingResult
 from core.version import APP_VERSION
@@ -79,6 +82,42 @@ from utils.logger import get_logger
 
 settings = get_settings()
 log = get_logger(__name__)
+
+# Con vina_cpu=0 un Vina ocupa todos los núcleos disponibles. El semáforo
+# protege las event loops de este proceso y el candado de archivo coordina
+# otros procesos MolDesign (incluido selectivity_subprocess).
+VINA_PROCESS_LIMIT = 1
+_vina_process_gate = threading.BoundedSemaphore(VINA_PROCESS_LIMIT)
+
+
+def _vina_lock_path() -> Path:
+    directory = directorio_de_datos("locks")
+    directory.mkdir(parents=True, exist_ok=True)
+    return directory / "vina-process.lock"
+
+
+@asynccontextmanager
+async def vina_process_slot():
+    acquired = False
+    file_lock = None
+    try:
+        while not acquired:
+            acquired = _vina_process_gate.acquire(blocking=False)
+            if not acquired:
+                await asyncio.sleep(0.05)
+        file_lock = FileLock(str(_vina_lock_path()))
+        while True:
+            try:
+                file_lock.acquire(timeout=0)
+                break
+            except FileLockTimeout:
+                await asyncio.sleep(0.05)
+        yield
+    finally:
+        if file_lock is not None and file_lock.is_locked:
+            file_lock.release()
+        if acquired:
+            _vina_process_gate.release()
 
 
 def _source_commit() -> str | None:
@@ -618,23 +657,24 @@ async def _run_vina_subprocess(
         "--out", str(output_path),
     ]
 
-    process = await asyncio.create_subprocess_exec(
-        *command,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE,
-        creationflags=BANDERAS_SIN_VENTANA,
-    )
-    arranque = time.monotonic()
-    try:
-        # Timeout de 10 minutos para soportar ex=32 en GPCRs
-        stdout_bytes, stderr_bytes = await communicate_managed(process, timeout=600.0)
-    except asyncio.TimeoutError:
-        raise DockingFailed(
-            molecule_id=molecule_id,
-            target_pdb_id=target_pdb_id,
-            detail="AutoDock Vina excedió el timeout de 600 segundos. "
-                   "La molécula puede ser demasiado grande o compleja para este setup.",
+    async with vina_process_slot():
+        process = await asyncio.create_subprocess_exec(
+            *command,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE,
+            creationflags=BANDERAS_SIN_VENTANA,
         )
+        arranque = time.monotonic()
+        try:
+            # Timeout de 10 minutos para soportar ex=32 en GPCRs
+            stdout_bytes, stderr_bytes = await communicate_managed(process, timeout=600.0)
+        except asyncio.TimeoutError:
+            raise DockingFailed(
+                molecule_id=molecule_id,
+                target_pdb_id=target_pdb_id,
+                detail="AutoDock Vina excedió el timeout de 600 segundos. "
+                       "La molécula puede ser demasiado grande o compleja para este setup.",
+            )
 
     stdout = stdout_bytes.decode("utf-8", errors="replace")
     stderr = stderr_bytes.decode("utf-8", errors="replace")

@@ -196,7 +196,7 @@ async def prepare_certification(
         raise HTTPException(status_code=404, detail="Molécula no encontrada")
 
     if mol.user_id and mol.user_id != current_user.id:
-        raise HTTPException(status_code=403, detail="No tienes permiso")
+        raise HTTPException(status_code=404, detail="Molécula no encontrada")
 
     if not _is_solana_wallet(user_wallet):
         raise HTTPException(status_code=422, detail="La direccion de wallet de Solana no es valida")
@@ -248,7 +248,7 @@ async def link_certification(
         raise HTTPException(status_code=404, detail="Molecula no encontrada")
 
     if mol.user_id and mol.user_id != current_user.id:
-        raise HTTPException(status_code=403, detail="No tienes permiso")
+        raise HTTPException(status_code=404, detail="Molécula no encontrada")
 
     # 1. Verify transaction on blockchain
     record = await verify_certification_onchain(request.signature)

@@ -453,9 +453,19 @@ async def evaluate_sync(
         submission_target=submission_target,
     )
 
-    task_id = str(uuid.uuid4())
-    # El dueño se registra ANTES de ejecutar: `status`, `stream` y `cancel`
-    # deciden con esta entrada quién puede operar la corrida.
+    from services.docking.queue_handler import submit_recorded_evaluation
+
+    task = await submit_recorded_evaluation(
+        db=db, client_ip=get_real_ip(request),
+        smiles=smiles, target_pdb_id=data.target_pdb_id, ph=data.ph,
+        molecule_name=data.molecule_name or smiles[:20], is_control=data.is_control,
+        user_id=str(current_user.id) if current_user else None,
+        grid_center=data.grid_center, grid_size=data.grid_size,
+        custom_hotspots=data.custom_hotspots,
+        peptide_docking_engine=data.peptide_docking_engine,
+        pipeline_config=data.pipeline_config.model_dump() if data.pipeline_config else None,
+    )
+    task_id = task.id
     from utils.cache import cache as _cache
 
     await _cache.set(
@@ -468,59 +478,24 @@ async def evaluate_sync(
     async def event_generator():
         import time
         import json
-        from services.docking.queue_handler import _run_full_evaluation_async
+        from services.docking.queue_handler import await_recorded_evaluation
 
         t0 = time.monotonic()
+        yield f"data: {json.dumps({'type': 'start', 'task_id': task_id, 'smiles': smiles[:30]})}\n\n"
 
-        # SSE: start
-        yield f"data: {json.dumps({'type': 'start', 'task_id': task_id[:8], 'smiles': smiles[:30]})}\n\n"
-
-        # Execute pipeline
         try:
-            pipeline_result = await _run_full_evaluation_async(
-                task_id=task_id, smiles=smiles,
-                target_pdb_id=data.target_pdb_id,
-                ph=data.ph,
-                molecule_name=data.molecule_name or smiles[:20],
-                is_control=data.is_control,
-                user_id=str(current_user.id) if current_user else None,
-                grid_center=data.grid_center,
-                grid_size=data.grid_size,
-                custom_hotspots=data.custom_hotspots,
-                peptide_docking_engine=data.peptide_docking_engine,
-                pipeline_config=data.pipeline_config.model_dump() if data.pipeline_config else None,
-                docking_engine=data.pipeline_config.docking_engine if data.pipeline_config else "vina",
-                run_admet_ai=admet_requested(
-                    data.pipeline_config.model_dump().get("stage_params", {}).get("properties")
-                    if data.pipeline_config else None
-                ),
-            )
-        except Exception as e:
+            state = await await_recorded_evaluation(task_id)
+            if state.status != "SUCCESS" or state.result is None:
+                raise RuntimeError("La evaluación no produjo un resultado persistido.")
+        except Exception:
             elapsed = time.monotonic() - t0
-            yield f"data: {json.dumps({'type': 'error', 'error': str(e), 'elapsed': round(elapsed,1)})}\n\n"
+            yield f"data: {json.dumps({'type': 'error', 'error': 'La evaluación falló; consulta el estado de la tarea para más detalles.', 'elapsed': round(elapsed, 1)})}\n\n"
             return
 
-        molecule_id = pipeline_result.get("molecule_id")
-        db_saved = False
+        # El estado del dispatcher lleva el snapshot de ESTA corrida.
+        result = state.result
+        db_saved = True
         db_warning = None
-        result = None  # v1.7.3: inicializado explícitamente (fix scoping frágil 'result' in dir())
-
-        # El resultado ya fue persistido por el pipeline; se relee localmente.
-        if molecule_id:
-            try:
-                from uuid import UUID
-                from core.database import get_db_session
-                from db.repository import Repository
-                from core.models import EvaluationResultRead
-
-                async with get_db_session() as db2:
-                    repo = Repository(db2)
-                    eval_data = await repo.get_evaluation_result(UUID(molecule_id))
-                    if eval_data:
-                        result = EvaluationResultRead.model_validate(eval_data)
-                        db_saved = True
-            except Exception as e:
-                db_warning = f"Resultados no guardados: DB offline ({str(e)[:60]})"
 
         # SSE: done
         elapsed = time.monotonic() - t0
@@ -550,7 +525,7 @@ async def evaluate_sync(
 
         final = {
             "type": "done",
-            "task_id": task_id[:8],
+            "task_id": task_id,
             "elapsed": round(elapsed, 1),
             "db_saved": db_saved,
             "db_warning": db_warning,

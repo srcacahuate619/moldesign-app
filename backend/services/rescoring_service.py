@@ -135,6 +135,8 @@ def predict_rescore(
             "shap_output": response.shap_output,
             "shap_model_id": response.shap_model_id,
             "features_used": response.features_used,
+            "pose_rank_used": getattr(response, "pose_rank_used", None),
+            "vina_score_used": getattr(response, "vina_score_used", None),
             # F-21: transparencia del modelo usado. El sidecar rellena
             # model_used/fallback_reason en el quality gate; in_domain viene
             # del ApplicabilityDomainChecker. getattr para tolerar sidecars

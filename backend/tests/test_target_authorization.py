@@ -238,7 +238,6 @@ async def test_scientific_preflights_reject_a_foreign_private_receptor(environme
             await batch.submit_batch(
                 file=legacy_upload,
                 target_pdb_id=private.pdb_id,
-                num_workers=1,
                 early_exit=False,
                 current_user=bob,
                 db=session,

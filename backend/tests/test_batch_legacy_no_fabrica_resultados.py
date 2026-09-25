@@ -77,7 +77,11 @@ async def test_una_molecula_con_vecinos_inactivos_se_acopla_igual(monkeypatch):
 
     import services.docking.queue_handler as qh
 
-    monkeypatch.setattr(qh, "_run_full_evaluation_async", _falsa_evaluacion, raising=False)
+    async def _falso_registrado(smiles, target_pdb_id, name, owner, **_kwargs):
+        evaluadas.append(smiles)
+        return str(uuid.uuid4()), str(uuid.uuid4())
+
+    monkeypatch.setattr(batch_mod, "_evaluate_one_recorded", _falso_registrado)
     monkeypatch.setattr(
         "services.ai.molgraph.predict_early_exit", _prefiltro_agresivo, raising=False
     )

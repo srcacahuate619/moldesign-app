@@ -194,10 +194,6 @@ class Settings(BaseSettings):
         return druglikeness
 
     # ── IA ───────────────────────────────────────────────────────────────────
-    provider_config_path: str = Field(
-        default_factory=lambda: str(Path.home() / ".moldesign" / "provider_config.json"),
-        description="Ruta al archivo JSON donde se persisten las API keys encriptadas.",
-    )
     gemini_api_key: str | None = None
     gemini_model: str = "gemini-2.5-flash"
     gemini_max_tokens: int = Field(default=2000, ge=100, le=8192)
@@ -265,6 +261,12 @@ class Settings(BaseSettings):
     # ── Blockchain (opcional en desktop) ────────────────────────────────────
     solana_rpc_url: str = "https://api.devnet.solana.com"
 
+    # AlphaFold DB es una fuente estructural externa activa en
+    # /targets/alphafold/{lookup,search}. No es motor de docking ni servicio
+    # local: sus salidas explícitas están inventariadas en
+    # services.ai.red.DESTINOS como alphafold@alphafold.ebi.ac.uk y pasan
+    # por exigir_permiso. La aplicación puede abrir sin red; esas consultas
+    # requieren permiso y conectividad.
     # ── Integraciones dormidas ──────────────────────────────────────────────
     #
     # Tres routers describen capacidades que ESTA instalación no tiene:

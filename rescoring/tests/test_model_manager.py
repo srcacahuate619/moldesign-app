@@ -196,6 +196,8 @@ def test_missing_receptor_abstiene_modelo_y_clasificador(tmp_path):
     result = ModelManager().predict(request)
     assert result.score_a is None
     assert result.classifier_prob is None
+    assert result.pose_rank_used == 0
+    assert result.vina_score_used == -8.0
     assert result.delta.delta is None
     assert any("Features 3D no disponibles" in w for w in result.warnings)
 

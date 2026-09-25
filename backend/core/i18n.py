@@ -53,24 +53,28 @@ def translate_text(value: str) -> str:
     direct = ENGLISH_MESSAGES.get(value) or ENGLISH_MESSAGES.get(normalized)
     if direct is not None:
         return direct
-    translated = value
-    for spanish, english in sorted(
-        ENGLISH_MESSAGES.items(), key=lambda item: len(item[0]), reverse=True
-    ):
-        if len(spanish) >= 8 and spanish in translated:
-            translated = translated.replace(spanish, english)
-    return translated
+    return value
 
 
-def localize_payload(value: Any) -> Any:
+_MESSAGE_FIELDS = frozenset({
+    "message", "msg", "detail", "motivo", "observation", "reason",
+    "error", "errors", "warning", "warnings",
+})
+
+
+def localize_payload(value: Any, *, _message: bool = False) -> Any:
+    """Translate only declared message fields, never names or user data."""
     if isinstance(value, str):
-        return translate_text(value)
+        return translate_text(value) if _message else value
     if isinstance(value, list):
-        return [localize_payload(item) for item in value]
+        return [localize_payload(item, _message=_message) for item in value]
     if isinstance(value, tuple):
-        return tuple(localize_payload(item) for item in value)
+        return tuple(localize_payload(item, _message=_message) for item in value)
     if isinstance(value, dict):
-        return {key: localize_payload(item) for key, item in value.items()}
+        return {
+            key: localize_payload(item, _message=isinstance(key, str) and key in _MESSAGE_FIELDS)
+            for key, item in value.items()
+        }
     return value
 
 

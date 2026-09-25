@@ -597,10 +597,16 @@ async def _run_full_evaluation_async(
                     log.info("Predicción de Nivel 3 completada con éxito")
                     from rdkit import Chem
                     from chem.conformer import _mol_to_sdf_string
-                    from utils.refinement import refine_receptor_peptide_complex
                     from core.config import get_settings
 
                     settings = get_settings()
+                    if settings.peptide_refinement_enabled:
+                        scientific_warnings.append(aviso(
+                            "PEPTIDE_REFINEMENT_NO_VALIDADO", Severidad.PRECAUCION,
+                            "Se solicitó refinamiento peptídico, pero la ruta "
+                            "OpenMM/Amber no está validada. Se conserva la pose "
+                            "original de Vina sin marcarla como refinada.",
+                        ))
                     sdf_parts = []
                     for p in ml_res.poses:
                         # El sidecar puede entregar un SDF con el grafo original
@@ -611,11 +617,6 @@ async def _run_full_evaluation_async(
                         if peptide_sdf:
                             mol_pep = Chem.MolFromMolBlock(peptide_sdf, sanitize=False, removeHs=False)
                         else:
-                            if settings.peptide_refinement_enabled and pdb_content:
-                                try:
-                                    peptide_pdb = refine_receptor_peptide_complex(pdb_content, peptide_pdb)
-                                except Exception as re_err:
-                                    log.warning("Fallo inesperado al llamar refine_receptor_peptide_complex", error=str(re_err))
                             mol_pep = Chem.MolFromPDBBlock(peptide_pdb, sanitize=False)
                         if mol_pep:
                             try:
@@ -863,6 +864,9 @@ async def _run_full_evaluation_async(
 
             await cache.set_job_progress(task_id, 80, "scoring")
 
+            # Un fallo del cliente ML no puede convertir una corrida Vina válida
+            # en NameError durante la persistencia posterior.
+            ml_result: dict | None = None
             # --- [NUEVO PASO] ML Rescoring Correction + GNN (Nivel 2) ---
             # Paso 1: XGBoost rescoring corrige la afinidad de Vina.
             # Paso 2: RTMScore GNN evalúa la geometría continua de la pose.
@@ -1673,6 +1677,23 @@ def _submit_evaluation_desktop(
         executor = _get_desktop_executor()
         executor.submit(lambda: _asyncio.run(_run_serialized_wrapper()))
     return task
+
+
+
+async def await_recorded_evaluation(task_id: str, *, timeout_s: float | None = None) -> JobStatus:
+    """Wait for a recorded desktop job; keep the dispatcher in charge of work."""
+    import time
+
+    timeout_s = timeout_s or EVAL_QUEUE_WAIT_TIMEOUT_S + EVAL_WATCHDOG_TIMEOUT_S + 10
+    deadline = time.monotonic() + timeout_s
+    while True:
+        state = await get_job_status(task_id)
+        if state.status in {"SUCCESS", "FAILURE"}:
+            return state
+        if time.monotonic() >= deadline:
+            request_desktop_job_cancellation(task_id)
+            raise TimeoutError("La evaluación excedió el plazo de ejecución.")
+        await asyncio.sleep(0.25)
 
 
 async def get_job_status(task_id: str) -> JobStatus:

@@ -17,30 +17,16 @@ def refine_receptor_peptide_complex(
     receptor_pdb_content: str,
     peptide_pdb_content: str,
 ) -> str:
-    """
-    Realiza la minimización del complejo receptor-péptido.
-    Mantiene el backbone del receptor congelado y optimiza las cadenas laterales y el péptido.
-    
-    1. Intenta usar OpenMM con AMBER14SB y solvente implícito GB/SA.
-    2. Si falla o no está instalado, cae automáticamente a RDKit UFF con restricciones.
-    3. Si falla RDKit, retorna el bloque PDB original.
-    """
-    # 1. Intentar refinamiento con OpenMM/Amber
-    try:
-        return _refine_openmm(receptor_pdb_content, peptide_pdb_content)
-    except ImportError:
-        log.info("OpenMM no está instalado en el entorno local. Activando fallback a RDKit UFF.")
-    except Exception as exc:
-        log.warning("Fallo en refinamiento OpenMM. Activando fallback a RDKit UFF.", error=str(exc))
+    """Ruta retirada hasta validar parámetros y procedencia en el runtime real.
 
-    # 2. Fallback a RDKit UFF
-    try:
-        return _refine_rdkit_uff(receptor_pdb_content, peptide_pdb_content)
-    except Exception as exc:
-        log.warning("Fallo en refinamiento de fallback RDKit UFF. Retornando coordenadas originales.", error=str(exc))
-
-    # 3. Retornar las coordenadas originales del péptido
-    return peptide_pdb_content
+    El XML histórico no existe; el fallback UFF podía devolver la entrada
+    intacta sin informar que no había refinamiento. Nunca se anuncia una pose
+    refinada a partir de ese resultado.
+    """
+    raise RuntimeError(
+        "PEPTIDE_REFINEMENT_NO_VALIDADO: la ruta OpenMM/Amber y su fallback "
+        "no tienen un protocolo validado; se conserva la pose original."
+    )
 
 
 def _refine_openmm(receptor_pdb_content: str, peptide_pdb_content: str) -> str:

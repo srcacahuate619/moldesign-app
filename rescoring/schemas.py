@@ -144,6 +144,8 @@ class RescoreResponse(BaseModel):
     # está disponible o degradó. El resto de la respuesta es independiente.
     pose_scores: list[float] | None = Field(None, description="Scores del selector v0.6 por pose (orden del request, mayor = mejor)")
     selected_pose_rank: int | None = Field(None, description="Índice 0-based de la pose seleccionada (tipo-cristal)")
+    pose_rank_used: int | None = Field(None, description="Índice 0-based de la pose que alimentó Model A")
+    vina_score_used: float | None = Field(None, description="Afinidad Vina de la pose usada por Model A")
     pose_confidence: float | None = Field(None, description="Margen de confianza top1 − top2 (0 si N==1)")
     pose_abstained: bool | None = Field(None, description="Abstención por margen bajo (regla de Fase 3, t=0.097663)")
     pose_selector_model: str | None = Field(None, description="Identificador del modelo del selector (p. ej. pose_selector_v06)")
