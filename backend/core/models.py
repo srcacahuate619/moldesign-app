@@ -596,6 +596,23 @@ class EvaluationRunORM(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
 
+class EvaluationRunAddendumORM(Base):
+    """Evidencia posterior al snapshot, ligada a una corrida y sellada por bytes."""
+
+    __tablename__ = "evaluation_run_addenda"
+
+    id = Column(Uuid(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    task_id = Column(String(200), nullable=False, index=True)
+    molecule_id = Column(
+        Uuid(as_uuid=True), ForeignKey("molecules.id", ondelete="CASCADE"),
+        nullable=False, index=True,
+    )
+    kind = Column(String(32), nullable=False)
+    payload_json = Column(SQLiteJSON, nullable=False)
+    sha256 = Column(String(64), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
 class CohortORM(Base):
     """
     Cohorte comprobada y CONGELADA. La fuente inmutable de una ejecución futura.
@@ -962,6 +979,8 @@ class DockingResult(BaseModel):
     #: Ruta lógica content-addressed a los bytes exactos. A diferencia de
     #: ``targets/{pdb}/prepared.pdbqt``, esta ruta no cambia al repreparar.
     receptor_path: str | None = None
+    # Procedencia medida durante ESTA ejecución; None en resultados heredados.
+    execution_provenance: dict[str, Any] | None = None
     execution_time_s: float | None = None
     # `str` sigue aceptándose: es lo que guardaron las corridas anteriores a la
     # severidad declarada, y la columna es JSON, así que no hay migración. Ver

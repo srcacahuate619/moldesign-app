@@ -36,6 +36,7 @@ confianza.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -178,7 +179,7 @@ def golden_m5_zn_ca2() -> dict:
     }
 
 
-def golden_m5_replay() -> dict:
+def replay_m5_from_checkpoints() -> dict:
     """Las tres AUC, reconstruidas desde los checkpoints originales.
 
     Es la garantía de que la fórmula implementada sigue siendo la publicada.
@@ -256,6 +257,60 @@ def golden_m5_replay() -> dict:
         ),
         "perfiles": perfiles,
     }
+
+
+# El replay necesita tres matrices originales que el clon no redistribuye.
+# SHA-256 medidos sobre los archivos locales el 2026-09-24, antes de fase 4.
+M5_REPLAY_INPUTS = {
+    "1GKC": ("data/benchmark_checkpoint_mmp9.json",
+             "593b50762830bb475ea361bcb7e5f5e525811545f562339675304eeae94c4bf3"),
+    "1O86": ("data/benchmark_checkpoint_ace.json",
+             "f646d7fb7b2e3946f638beaa213cf57d9dff9c6d37630fd1d8db593182973fb2"),
+    "3DC3": ("data/gnn_v31/checkpoints/benchmark_checkpoint_ca2.json",
+             "92f5c3dcc5d0bbe13159ea44ad2516a3596e217bebdc6903909236dbe1233e49"),
+}
+
+
+def golden_m5_replay() -> dict:
+    """Contrato verificable en clon: ausencia declarada, nunca AUC fingida."""
+    from services.pipeline.protocols.m5.zinc import PERFILES
+
+    return {
+        "golden_version": 2,
+        "estado": "NO_DISTRIBUIDO",
+        "motivo": "Los checkpoints de benchmark no se redistribuyen en el repositorio.",
+        "replay_requiere": {
+            pdb: {"ruta": path, "sha256": digest,
+                  "auc_declarada_no_recalculada": PERFILES[pdb].auc_m5_referencia}
+            for pdb, (path, digest) in M5_REPLAY_INPUTS.items()
+        },
+        "verificacion_manual": "python scripts/generate_goldens.py --verify-m5-replay",
+    }
+
+
+def verify_m5_replay() -> int:
+    for pdb, (name, expected) in M5_REPLAY_INPUTS.items():
+        path = RAIZ / name
+        if not path.is_file():
+            print(f"NO DISPONIBLE: falta {name} ({pdb})")
+            return 2
+        digest = hashlib.sha256()
+        with path.open("rb") as stream:
+            for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                digest.update(chunk)
+        if digest.hexdigest() != expected:
+            print(f"INVALIDO: SHA-256 distinto para {name}")
+            return 1
+    result = replay_m5_from_checkpoints()
+    mismatches = [
+        pdb for pdb, row in result["perfiles"].items()
+        if not row.get("coincide_con_el_perfil")
+    ]
+    if mismatches:
+        print(f"INVALIDO: AUC reconstruida distinta en {mismatches}")
+        return 1
+    print("Replay M5-Zn verificado con los tres checkpoints de hash conocido.")
+    return 0
 
 
 # ── Péptidos: los dos contratos ──────────────────────────────────────────
@@ -584,7 +639,10 @@ GENERADORES = {
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--verify-m5-replay", action="store_true")
     args = parser.parse_args()
+    if args.verify_m5_replay:
+        return verify_m5_replay()
 
     DESTINO.mkdir(parents=True, exist_ok=True)
     diferencias = []

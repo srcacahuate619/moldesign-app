@@ -79,52 +79,28 @@ class _RepositorioDoble:
 
 
 @pytest.mark.asyncio
-async def test_ruta_por_defecto_alcanza_calculate_properties(monkeypatch):
-    """Sin `pipeline_config`, la corrutina llega a propiedades y no a NameError."""
-    hilo_de_llamada: dict[str, int] = {}
-    llamadas: list[str] = []
+async def test_ruta_por_defecto_delega_con_presupuesto_historico(monkeypatch):
+    """El modo normal usa el runner común con 8/5 y las etapas declaradas."""
+    from services.pipeline import runner
 
-    def _propiedades_doble(smiles: str, run_admet_ai: bool = False):
-        llamadas.append(smiles)
-        hilo_de_llamada["ident"] = threading.get_ident()
-        raise _ParadaTrasPropiedades
+    received = {}
 
-    @asynccontextmanager
-    async def _sesion_doble():
-        yield object()
+    async def fake_runner(**kwargs):
+        received.update(kwargs)
+        return {"status": "SUCCESS", "delegado": True}
 
-    monkeypatch.setattr(qh, "calculate_properties", _propiedades_doble)
-    monkeypatch.setattr(qh, "get_db_session", _sesion_doble)
-    monkeypatch.setattr(qh, "Repository", _RepositorioDoble)
-    monkeypatch.setattr(qh, "commit_with_retry", lambda _db: asyncio.sleep(0))
-
-    import services.targets.resolution as resolucion
-
-    async def _resolver_doble(_repo, _db, _pdb_id):
-        return _diana_doble()
-
-    monkeypatch.setattr(resolucion, "resolve_execution_target", _resolver_doble)
-
-    hilo_del_bucle = threading.get_ident()
-
-    with pytest.raises(_ParadaTrasPropiedades):
-        await qh._run_full_evaluation_async(
-            task_id=str(uuid4()),
-            smiles="CC(=O)OC1=CC=CC=C1C(=O)O",
-            target_pdb_id="3F75",
-            molecule_name="regresion-ruta-por-defecto",
-            pipeline_config=None,   # <- la rama que estaba rota
-        )
-
-    assert llamadas == ["CC(=O)OC1=CC=CC=C1C(=O)O"], (
-        "No se llego a `calculate_properties`. Antes del arreglo la corrutina "
-        "moria aqui con NameError: name 'asyncio' is not defined."
+    monkeypatch.setattr(runner, "run_pipeline", fake_runner)
+    result = await qh._run_full_evaluation_async(
+        task_id=str(uuid4()), smiles="CCO", target_pdb_id="3F75",
+        pipeline_config=None,
     )
-    assert hilo_de_llamada["ident"] != hilo_del_bucle, (
-        "`calculate_properties` corrio en el hilo del event loop. "
-        "`asyncio.to_thread` debe sacarla del bucle: si no, ADMET/torch lo "
-        "bloquean, que es justo lo que 3f20933 intentaba arreglar."
-    )
+    assert result["delegado"] is True
+    assert received["stage_params"]["docking"] == {
+        "exhaustiveness": qh.settings.vina_exhaustiveness,
+        "num_poses": qh.settings.vina_num_poses,
+    }
+    assert {"xgb", "clgnn"} <= set(received["enabled_stages"])
+    assert received["pipeline_config"]["execution_profile"] == "default"
 
 
 @pytest.mark.asyncio

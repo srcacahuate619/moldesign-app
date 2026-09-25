@@ -322,3 +322,56 @@ async def test_ligandos_del_paquete_salen_del_snapshot_aunque_cambie_la_fila(mon
     assert por_nombre["ligand.smi"].contenido == b"CC(=O)Oc1ccccc1C(=O)O\n"
     assert por_nombre["ligand_docked.smi"].contenido == b"CC(=O)Oc1ccccc1C(=O)O\n"
     assert por_nombre["ligand.smi"].fuente == "eval_result.ligand_state.smiles_entrada"
+
+
+@pytest.mark.asyncio
+async def test_artefactos_ejecutados_exigen_hash_y_llevan_bytes_exactos(monkeypatch):
+    """Un paquete transfiere los inputs reales; nunca sustituye un archivo mutado."""
+    import hashlib
+    from services.dossier.taxonomy import Estado
+    from utils import local_storage
+
+    raw = {
+        "runs/docking/a/3F75/one/poses.sdf": b"poses\r\n",
+        "runs/docking/a/3F75/one/vina.log": b"vina log\n",
+        "runs/receptors/r.pdbqt": b"receptor\n",
+        "ligands/a/conformer.sdf": b"conformer\n",
+        "ligands/a/vina_input.pdbqt": b"ligand\n",
+    }
+
+    async def fake_read_bytes(path):
+        return raw[path]
+
+    monkeypatch.setattr(local_storage, "read_bytes", fake_read_bytes)
+    digest = lambda path: hashlib.sha256(raw[path]).hexdigest()
+    result = SimpleNamespace(
+        poses_file_path="runs/docking/a/3F75/one/poses.sdf",
+        receptor_path="runs/receptors/r.pdbqt",
+        receptor_sha256=digest("runs/receptors/r.pdbqt"),
+        docking_protocol={"execution_provenance": {
+            "poses_sha256": digest("runs/docking/a/3F75/one/poses.sdf"),
+            "ligand_input_path": "ligands/a/conformer.sdf",
+            "ligand_input_sha256": digest("ligands/a/conformer.sdf"),
+            "ligand_pdbqt_path": "ligands/a/vina_input.pdbqt",
+            "ligand_pdbqt_sha256": digest("ligands/a/vina_input.pdbqt"),
+            "log_path": "runs/docking/a/3F75/one/vina.log",
+            "log_sha256": digest("runs/docking/a/3F75/one/vina.log"),
+        }},
+    )
+    items = await router_mod._artefactos(result, SimpleNamespace(pdb_id="3F75"), None)
+    by_name = {item.nombre: item for item in items}
+    for name, path in (
+        ("poses.sdf", "runs/docking/a/3F75/one/poses.sdf"),
+        ("vina.log", "runs/docking/a/3F75/one/vina.log"),
+        ("3F75_prepared.pdbqt", "runs/receptors/r.pdbqt"),
+        ("ligand_input.sdf", "ligands/a/conformer.sdf"),
+        ("ligand_input.pdbqt", "ligands/a/vina_input.pdbqt"),
+    ):
+        assert by_name[name].estado == Estado.REGISTRADO
+        assert by_name[name].contenido == raw[path]
+
+    raw["ligands/a/conformer.sdf"] = b"mutado\n"
+    items = await router_mod._artefactos(result, SimpleNamespace(pdb_id="3F75"), None)
+    by_name = {item.nombre: item for item in items}
+    assert by_name["ligand_input.sdf"].estado == Estado.NO_DISPONIBLE
+    assert by_name["ligand_input.sdf"].contenido is None

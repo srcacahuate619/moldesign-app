@@ -14,6 +14,8 @@ from __future__ import annotations
 
 import uuid
 import enum
+import hashlib
+import json
 from datetime import UTC, datetime
 from typing import Any
 from types import SimpleNamespace
@@ -29,6 +31,7 @@ from core.exceptions import DatabaseQueryError, TargetNotFound
 from core.models import (
     DockingResult,
     EvaluationRunORM,
+    EvaluationRunAddendumORM,
     EvaluationResultORM,
     MoleculeCreate,
     MoleculeORM,
@@ -42,6 +45,7 @@ from utils.logger import get_logger
 
 settings = get_settings()
 log = get_logger(__name__)
+_UNSET = object()  # Diferencia campo omitido de limpieza explícita.
 
 
 def _property_values(properties: PhysicochemicalProperties) -> dict[str, Any]:
@@ -791,6 +795,82 @@ class Repository:
         await self.db.flush()
         return corrida
 
+    async def append_run_addendum(
+        self, molecule_id: uuid.UUID, task_id: str, kind: str, payload: dict[str, Any],
+    ) -> EvaluationRunAddendumORM:
+        """Anexa evidencia sin mutar el snapshot; reintentar el mismo contenido no duplica."""
+        allowed = {
+            "selectivity": {"selectivity_ratio", "selectivity_delta_delta_g",
+                            "selectivity_ran", "selectivity_verdict", "anti_target_results"},
+            "mmgbsa": {"mmgbsa_score", "status", "reason"},
+            "ai_report": {"ai_report"},
+            "certificate": {"blockchain_tx_id", "blockchain_hash",
+                            "certified_task_id", "certified_total_score"},
+        }
+        if kind not in allowed or not set(payload).issubset(allowed[kind]):
+            raise ValueError(f"Addendum {kind!r} contiene campos no permitidos")
+        encoded = json.dumps(payload, sort_keys=True, ensure_ascii=False,
+                             separators=(",", ":"), allow_nan=False).encode("utf-8")
+        digest = hashlib.sha256(encoded).hexdigest()
+        previous = await self.db.scalar(select(EvaluationRunAddendumORM).where(
+            EvaluationRunAddendumORM.molecule_id == molecule_id,
+            EvaluationRunAddendumORM.task_id == str(task_id),
+            EvaluationRunAddendumORM.kind == kind,
+            EvaluationRunAddendumORM.sha256 == digest,
+        ))
+        if previous is not None:
+            return previous
+        row = EvaluationRunAddendumORM(
+            molecule_id=molecule_id, task_id=str(task_id), kind=kind,
+            payload_json=payload, sha256=digest,
+        )
+        self.db.add(row)
+        await self.db.flush()
+        return row
+
+    async def materialize_run_snapshot(self, run: EvaluationRunORM) -> dict[str, Any]:
+        """Aplica addenda verificadas a una copia; el snapshot base sigue inmutable."""
+        data = dict(run.snapshot_json or {})
+        rows = (await self.db.execute(select(EvaluationRunAddendumORM).where(
+            EvaluationRunAddendumORM.molecule_id == run.molecule_id,
+            EvaluationRunAddendumORM.task_id == run.task_id,
+        ).order_by(EvaluationRunAddendumORM.created_at, EvaluationRunAddendumORM.id))).scalars()
+        for row in rows:
+            encoded = json.dumps(row.payload_json, sort_keys=True, ensure_ascii=False,
+                                 separators=(",", ":"), allow_nan=False).encode("utf-8")
+            if hashlib.sha256(encoded).hexdigest() != row.sha256:
+                raise ValueError(f"Addendum corrupto: {row.id}")
+            if row.kind in {"selectivity", "ai_report", "certificate"}:
+                data.update(row.payload_json)
+            elif row.kind == "mmgbsa":
+                data["mmgbsa_score"] = row.payload_json.get("mmgbsa_score")
+                status = row.payload_json.get("status")
+                reason = row.payload_json.get("reason")
+                data["mmgbsa_addendum_status"] = status
+                data["mmgbsa_addendum_reason"] = reason
+                if status in {"timeout", "failed"}:
+                    warnings = list(data.get("scientific_warnings") or [])
+                    warnings.append({
+                        "codigo": "MMGBSA_TIMEOUT" if status == "timeout" else "MMGBSA_FAILED",
+                        "severidad": "precaucion",
+                        "mensaje": f"MM-GBSA no produjo score: {reason or status}.",
+                    })
+                    data["scientific_warnings"] = warnings
+        return data
+
+    async def save_ai_report_for_run(
+        self, molecule_id: uuid.UUID, task_id: str | None, report: str,
+    ) -> None:
+        if task_id is None:
+            await self.upsert_evaluation_result(molecule_id=molecule_id, ai_report=report)
+            return
+        await self.append_run_addendum(
+            molecule_id, task_id, "ai_report", {"ai_report": report},
+        )
+        await self.update_evaluation_for_task(
+            molecule_id, task_id, ai_report=report,
+        )
+
     async def mark_evaluation_run_failed(self, task_id: str, reason: str) -> bool:
         """Corrige el terminal sin alterar el snapshot cientifico congelado."""
         corrida = await self.get_evaluation_run(task_id)
@@ -881,8 +961,8 @@ class Repository:
         docking: DockingResult | None = None,
         scores: dict[str, Any] | None = None,
         ai_report: str | None = None,
-        is_control: bool = False,
-        error_message: str | None = None,
+        is_control: bool | object = _UNSET,
+        error_message: str | None | object = _UNSET,
         task_id: str | None = None,
         structural_evidence: dict[str, Any] | None = None,
         pose_selection: dict[str, Any] | None = None,
@@ -894,7 +974,8 @@ class Repository:
             result = EvaluationResultORM(molecule_id=molecule_id)
             self.db.add(result)
 
-        result.is_control = is_control
+        if is_control is not _UNSET:
+            result.is_control = bool(is_control)
 
         # Sólo se escribe si llega algo. El upsert se llama varias veces por
         # evaluación —propiedades, luego docking— y un `None` intermedio no
@@ -1047,8 +1128,9 @@ class Repository:
         if ai_report is not None:
             result.ai_report = ai_report
 
-        result.error_message = error_message
-        if error_message is not None:
+        if error_message is not _UNSET:
+            result.error_message = error_message
+        if error_message is not _UNSET and error_message is not None:
             # Si hay error, limpiar scores y docking previos para evitar datos stale
             result.total_score = None
             result.affinity_score = None
@@ -1063,7 +1145,12 @@ class Repository:
         if task_id is not None:
             result.task_id = task_id
 
-        result.evaluated_at = datetime.now(UTC)
+        # Un informe narrativo posterior no cambia cuándo se evaluó el sistema.
+        if any(value is not None for value in (
+            properties, docking, scores, task_id, structural_evidence,
+            pose_selection, docking_protocol, ligand_state,
+        )) or error_message is not _UNSET:
+            result.evaluated_at = datetime.now(UTC)
         await self.db.flush()
         return result
 

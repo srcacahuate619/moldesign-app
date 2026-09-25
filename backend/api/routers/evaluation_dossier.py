@@ -31,6 +31,7 @@ eso es peor que no entregar nada.
 
 from __future__ import annotations
 
+import hashlib
 import uuid
 from datetime import datetime, timezone
 from types import SimpleNamespace
@@ -96,7 +97,7 @@ async def _reunir(
             )
         )
     eval_result = (
-        SimpleNamespace(**dict(corrida.snapshot_json or {})) if corrida is not None
+        SimpleNamespace(**(await repository.materialize_run_snapshot(corrida))) if corrida is not None
         else await db.scalar(
             select(EvaluationResultORM).where(EvaluationResultORM.molecule_id == molecule_id)
         )
@@ -128,29 +129,62 @@ async def _artefactos(eval_result, target, molecule) -> list[Artefacto]:
     Se leen sólo por las rutas lógicas del almacenamiento del producto; nunca
     por una ruta que venga de la petición.
     """
-    from utils.local_storage import read_text
+    from core.exceptions import LocalStorageError
+    from utils.local_storage import read_bytes
 
     artefactos: list[Artefacto] = []
+    protocolo = getattr(eval_result, "docking_protocol", None) or {}
+    ejecucion = protocolo.get("execution_provenance") or {} if isinstance(protocolo, dict) else {}
 
-    # ── Poses ────────────────────────────────────────────────────────
-    poses_path = getattr(eval_result, "poses_file_path", None)
-    contenido_poses = None
-    if poses_path:
+    async def leer_sellado(path: str | None, sha256: str | None, prefix: str) -> bytes | None:
+        """Solo incluye bytes vinculados a esta corrida por ruta lógica y SHA."""
+        if not isinstance(path, str) or not path.startswith(prefix):
+            return None
+        if not isinstance(sha256, str) or len(sha256) != 64:
+            return None
         try:
-            contenido_poses = await read_text(poses_path)
-        except Exception as exc:  # archivo borrado, permisos, disco
-            log.warning("dossier_poses_no_legibles", error=str(exc))
+            raw = await read_bytes(path)
+            if hashlib.sha256(raw).hexdigest() != sha256:
+                log.warning("dossier_artefacto_hash_distinto", path=path)
+                return None
+            return raw
+        except (OSError, ValueError, LocalStorageError) as exc:
+            log.warning("dossier_artefacto_no_legible", path=path, error=str(exc))
+            return None
+
+    # ── Archivos exactos de la corrida ────────────────────────────────
+    poses_path = getattr(eval_result, "poses_file_path", None)
+    contenido_poses = await leer_sellado(
+        poses_path, ejecucion.get("poses_sha256"), "runs/docking/"
+    )
     artefactos.append(Artefacto(
-        rol="outputs",
-        nombre="poses.sdf",
-        media_type="chemical/x-mdl-sdfile",
+        rol="outputs", nombre="poses.sdf", media_type="chemical/x-mdl-sdfile",
         fuente="eval_result.poses_file_path",
         estado=Estado.REGISTRADO if contenido_poses else Estado.NO_DISPONIBLE,
-        contenido=contenido_poses.encode("utf-8") if contenido_poses else None,
-        razon=None if contenido_poses else (
-            "La corrida no conserva el archivo de poses en el almacenamiento local."
-        ),
+        contenido=contenido_poses,
+        razon=None if contenido_poses else
+            "La corrida no conserva poses inmutables con SHA-256 verificable.",
     ))
+
+    for nombre, media, campo_ruta, campo_sha, prefijo, rol in (
+        ("ligand_input.sdf", "chemical/x-mdl-sdfile", "ligand_input_path",
+         "ligand_input_sha256", "ligands/", "inputs"),
+        ("ligand_input.pdbqt", "chemical/x-pdbqt", "ligand_pdbqt_path",
+         "ligand_pdbqt_sha256", "ligands/", "inputs"),
+        ("vina.log", "text/plain", "log_path", "log_sha256",
+         "runs/docking/", "logs"),
+    ):
+        contenido = await leer_sellado(
+            ejecucion.get(campo_ruta), ejecucion.get(campo_sha), prefijo,
+        )
+        artefactos.append(Artefacto(
+            rol=rol, nombre=nombre, media_type=media,
+            fuente=f"eval_result.docking_protocol.execution_provenance.{campo_ruta}",
+            estado=Estado.REGISTRADO if contenido else Estado.NO_DISPONIBLE,
+            contenido=contenido,
+            razon=None if contenido else
+                "La corrida no conserva este archivo con SHA-256 verificable.",
+        ))
 
     # Cada pose conserva su bloque PDBQT exacto. Es especialmente importante
     # para ensemble: el top-K puede mezclar K archivos SDF distintos y, por
@@ -185,29 +219,19 @@ async def _artefactos(eval_result, target, molecule) -> list[Artefacto]:
         ))
 
     # ── Receptor preparado ───────────────────────────────────────────
-    # El almacenamiento por PDB ID es mutable: puede contener una preparacion
-    # posterior a la corrida. Incluirla como si fuera el input ejecutado haria
-    # el paquete aparentemente reproducible con el receptor equivocado. Solo
-    # se incluye una ruta ligada al resultado; mientras el ORM no la persista,
-    # la ausencia se declara de forma honesta.
     pdb_id = getattr(target, "pdb_id", None) if target else None
-    preparado = None
-    receptor_path = getattr(eval_result, "receptor_path", None)
-    if receptor_path:
-        try:
-            preparado = (await read_text(receptor_path)).encode("utf-8")
-        except Exception as exc:
-            log.warning("dossier_receptor_preparado_no_legible", error=str(exc))
+    preparado = await leer_sellado(
+        getattr(eval_result, "receptor_path", None),
+        getattr(eval_result, "receptor_sha256", None), "runs/receptors/",
+    )
     artefactos.append(Artefacto(
         rol="inputs",
         nombre=f"{sanitizar(pdb_id or 'receptor')}_prepared.pdbqt",
-        media_type="chemical/x-pdbqt",
-        fuente="eval_result.receptor_path",
+        media_type="chemical/x-pdbqt", fuente="eval_result.receptor_path",
         estado=Estado.REGISTRADO if preparado else Estado.NO_DISPONIBLE,
         contenido=preparado,
-        razon=None if preparado else (
-            "La corrida no conserva una copia inmutable del receptor preparado que utilizó."
-        ),
+        razon=None if preparado else
+            "La corrida no conserva receptor inmutable con SHA-256 verificable.",
     ))
 
     # Los dos SMILES se toman de la corrida, nunca de la fila mutable.

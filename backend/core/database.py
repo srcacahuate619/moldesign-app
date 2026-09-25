@@ -51,7 +51,7 @@ def get_settings():
 
 # ── Versión del esquema ───────────────────────────────────────────────────────
 
-SCHEMA_VERSION = 26  # procedencia del registro de pesos y de SHAP; columnas nullable
+SCHEMA_VERSION = 27  # addenda por task_id para evidencia posterior al snapshot
 """
 Versión del esquema SQLite. Es la plataforma de referencia (F-04): el ORM
 (core/models.py) ES la fuente de verdad del schema, y esta constante sella

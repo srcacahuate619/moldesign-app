@@ -58,6 +58,7 @@ async def generate_ai_report_stream_endpoint(
         forbidden_detail="Sin permiso",
     )
 
+    report_task_id = getattr(result, "task_id", None)
     if result.ai_report:
         async def cached_stream():
             import json
@@ -89,9 +90,8 @@ async def generate_ai_report_stream_endpoint(
                 if full_text:
                     async with get_db_session() as session:
                         repo = Repository(session)
-                        await repo.upsert_evaluation_result(
-                            molecule_id=molecule_id,
-                            ai_report=full_text,
+                        await repo.save_ai_report_for_run(
+                            molecule_id, report_task_id, full_text,
                         )
             except ReporteBloqueado as bloqueo:
                 # Se entrega el motivo y **no se persiste**: el reporte se sirve
@@ -146,6 +146,7 @@ async def generate_ai_report_endpoint(
         forbidden_detail="No tienes permiso para acceder a este reporte.",
     )
 
+    report_task_id = getattr(result, "task_id", None)
     if result.ai_report:
         return AIReportResponse(ai_report=result.ai_report)
 
@@ -165,9 +166,8 @@ async def generate_ai_report_endpoint(
         report = await safe_generate_ai_report(ai_request)
 
         if report:
-            await repository.upsert_evaluation_result(
-                molecule_id=molecule_id,
-                ai_report=report,
+            await repository.save_ai_report_for_run(
+                molecule_id, report_task_id, report,
             )
 
         return AIReportResponse(ai_report=report)

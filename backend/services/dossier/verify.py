@@ -31,6 +31,7 @@ from __future__ import annotations
 import hashlib
 import json
 import posixpath
+import re
 import zipfile
 from dataclasses import dataclass, field
 from typing import Any
@@ -213,6 +214,12 @@ def verificar_paquete(datos: bytes) -> ResultadoVerificacion:
                     )
                 continue
 
+            tamano = entrada.get("tamano")
+            sha = entrada.get("sha256")
+            if type(tamano) is not int or tamano < 0:
+                resultado.error(f"`{path}`: falta un tamaño entero no negativo.")
+            if not isinstance(sha, str) or re.fullmatch(r"[0-9a-f]{64}", sha) is None:
+                resultado.error(f"`{path}`: falta un SHA-256 hexadecimal válido.")
             if path not in relativos:
                 resultado.error(f"Falta el archivo declarado `{path}`.")
                 continue
@@ -220,12 +227,10 @@ def verificar_paquete(datos: bytes) -> ResultadoVerificacion:
             contenido = zf.read(relativos[path])
             resultado.archivos_presentes += 1
 
-            tamano = entrada.get("tamano")
-            if isinstance(tamano, int) and tamano != len(contenido):
+            if type(tamano) is int and tamano != len(contenido):
                 resultado.error(
                     f"`{path}`: tamaño {len(contenido)} B, el manifiesto declara {tamano} B."
                 )
-            sha = entrada.get("sha256")
             real = hashlib.sha256(contenido).hexdigest()
             if isinstance(sha, str) and sha != real:
                 resultado.error(f"`{path}`: SHA-256 no coincide (modificado).")

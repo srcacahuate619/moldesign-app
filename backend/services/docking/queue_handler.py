@@ -13,6 +13,7 @@ from __future__ import annotations
 # propiedades. El gate no lo veia porque solo ejercitaba la ruta CON
 # `pipeline_config`, que retorna antes hacia `services/pipeline/runner.py`.
 import asyncio
+import hashlib
 import json
 import os
 import threading
@@ -25,6 +26,7 @@ from uuid import UUID
 from chem.conformer import generate_conformer
 from chem.properties import calculate_properties
 from core.config import get_settings
+from core import config as core_config
 from core.database import commit_with_retry, get_db_session
 from core.models import JobStatus, MoleculeStatus, _coerce_hotspots
 from db.repository import Repository
@@ -274,7 +276,28 @@ async def _run_full_evaluation_async(
     except ImportError:
         pass
 
-    # --- PRO MODE PIPELINE ---
+    # PROV-004: ambos modos ejecutan el mismo runner. El perfil normal conserva
+    # el presupuesto de búsqueda histórico y CL-GNN; toda evidencia científica
+    # y sus avisos se producen por el mismo conjunto de etapas.
+    if pipeline_config is None:
+        default_settings = core_config.get_settings()
+        pipeline_config = {
+            "execution_profile": "default",
+            "docking_engine": docking_engine,
+            "enabled_stages": [
+                "validation", "properties", "sa_filter", "conformer",
+                "docking", "xgb", "clgnn",
+            ],
+            "stage_params": {
+                "properties": {"run_admet_ai": bool(run_admet_ai)},
+                "docking": {
+                    "exhaustiveness": int(default_settings.vina_exhaustiveness),
+                    "num_poses": int(default_settings.vina_num_poses),
+                },
+                "xgb": {"run_gnn": True},
+            },
+        }
+    # --- ÚNICO EJECUTOR CIENTÍFICO ---
     if pipeline_config:
         from services.pipeline.runner import run_pipeline
         if ph is not None:
@@ -586,7 +609,10 @@ async def _run_full_evaluation_async(
                             sdf_parts.append(_mol_to_sdf_string(mol_pep, smiles))
 
                     sdf_content = "".join(sdf_parts)
-                    poses_path = StoragePath.docking_poses(effective_smiles_hash, pipeline_params.target_pdb_id)
+                    from services.docking.peptide_docking import peptide_poses_run_path
+                    poses_path = peptide_poses_run_path(
+                        effective_smiles_hash, pipeline_params.target_pdb_id, task_id,
+                    )
                     await write_text(poses_path, sdf_content)
                     from core.models import DockingPose, DockingResult
 
@@ -653,6 +679,13 @@ async def _run_full_evaluation_async(
                             best_affinity=poses[0].affinity,
                             poses=poses,
                             poses_file_path=poses_path,
+                            execution_provenance={
+                                "poses_sha256": hashlib.sha256(
+                                    sdf_content.encode("utf-8")).hexdigest(),
+                                "box_center": None,
+                                "box_size": None,
+                                "source": "peptide_transfer",
+                            },
                             parsing_source="sdf",
                             engine_efectivo="esmfold",
                             vina_version=getattr(ml_res, "vina_version", None),
@@ -1056,6 +1089,13 @@ async def _run_full_evaluation_async(
                         except _asyncio.TimeoutError:
                             log.warning("mmgbsa_bg_timeout_kill",
                                         molecule_id=str(mol_id)[:8])
+                            async with get_db_session() as _db:
+                                await Repository(_db).append_run_addendum(
+                                    mol_id, task_id, "mmgbsa",
+                                    {"mmgbsa_score": None, "status": "timeout",
+                                     "reason": "El subproceso excedió 300 segundos"},
+                                )
+                                await _db.commit()
                             try:
                                 _proc.kill()
                             except Exception:
@@ -1084,6 +1124,12 @@ async def _run_full_evaluation_async(
                                     async with get_db_session() as _db:
                                         _repo = Repository(_db)
                                         if not _is_desktop_job_cancelled(task_id):
+                                            await _repo.append_run_addendum(
+                                                mol_id, task_id, "mmgbsa",
+                                                {"mmgbsa_score": _score,
+                                                 "status": "evaluated" if _score is not None else "unavailable",
+                                                 "reason": _mmgbsa_result.get("error") if _score is None else None},
+                                            )
                                             await _repo.update_evaluation_for_task(
                                                 mol_id, task_id, mmgbsa_score=_score,
                                             )

@@ -1,94 +1,107 @@
 {
- "_doc": "Activos sellados que un clon del repositorio NO trae, con el motivo y cómo conseguirlos. Lo lee scripts/validar_sellos.py: un fichero ausente sólo se acepta si aparece aquí; un fichero presente con otro hash es siempre un fallo. Añadir una entrada es declarar un hueco, no esconderlo.",
- "entradas": [
-  {
-   "prefijo": "data/pdbbind/",
-   "clase": "NO_REDISTRIBUIBLE",
-   "motivo": "PDBBind v2020: su licencia no permite redistribuir estructuras ni afinidades.",
-   "como_obtenerlo": "Descargar PDBBind v2020 (refined + general) con su licencia y extraerlo en data/pdbbind/<pdb_id>/. Los hashes sellados permiten comprobar que es la misma copia."
-  },
-  {
-   "prefijo": "data/pose_selector_dataset/",
-   "clase": "NO_REDISTRIBUIBLE",
-   "motivo": "Poses redockeadas y receptores derivados de PDBBind.",
-   "como_obtenerlo": "Se reconstruye desde PDBBind con los scripts del selector de pose (rescoring/pose_selector/); el manifiesto del dataset y sus hashes están versionados."
-  },
-  {
-   "prefijo": "tools/",
-   "clase": "RUNTIME",
-   "motivo": "Binarios de terceros (Vina, Open Babel, xTB, llama.cpp): no se versionan.",
-   "como_obtenerlo": "python scripts/bootstrap_dev_tree.py --fetch"
-  },
-  {
-   "prefijo": "python-embed/",
-   "clase": "RUNTIME",
-   "motivo": "Intérprete embebido que se distribuye con el instalador.",
-   "como_obtenerlo": "python scripts/bootstrap_dev_tree.py --fetch"
-  },
-  {
-   "prefijo": "esmfold/models/",
-   "clase": "RUNTIME",
-   "motivo": "Tokenizer y pesos de ESMFold (descarga opcional).",
-   "como_obtenerlo": "python scripts/bootstrap_dev_tree.py --fetch (tokenizer); los pesos, desde el lanzador de la aplicación."
-  },
-  {
-   "prefijo": "data/pdbs/",
-   "clase": "NO_REDISTRIBUIBLE",
-   "motivo": "Copia local de estructuras preparadas desde PDBBind.",
-   "como_obtenerlo": "Se regenera desde PDBBind con los scripts del experimento que la sella."
-  },
-  {
-   "prefijo": "data/target_library/",
-   "clase": "NO_VERSIONADO",
-   "motivo": "Biblioteca de estructuras descomprimidas; el repositorio versiona los .pdb.gz de data/targets/.",
-   "como_obtenerlo": "Se descomprime desde data/targets/ en el primer uso."
-  },
-  {
-   "prefijo": "data/targets/",
-   "experimentos": [
-    "FND-05"
-   ],
-   "clase": "NO_CONSERVADO",
-   "motivo": "FND-05 (2026-07) selló 111 .pdb descomprimidos que después se sustituyeron por .pdb.gz: 107 ya no existen ni en la máquina del mantenedor y 4 sólo existen allí, sin versionar. Los hashes quedan como registro de lo que se usó.",
-   "como_obtenerlo": "No se puede: la evidencia de esos ficheros no se conservó. Se declara para que no pase por un fallo del clon."
-  }
- ],
- "divergencias_declaradas": [
-  {
-   "experimento": "AF-01",
-   "ruta": "rescoring/artifacts/split_config.json",
-   "hash_sellado": "5fc4e589b78311ae12eb1d5e51eef51d39cc218c7a9c9d033880bdfb031fb3d5",
-   "copia_conservada": "scripts/artifacts_science/AF-01/sellado_original/rescoring/artifacts/split_config.json",
-   "motivo": "Se selló como dataset/modelo (inmutable: maintain no lo admite) y el fichero vivo cambió después. Los bytes sellados se recuperaron del historial de desarrollo (commit a516a4eb) y se conservan en la copia."
-  },
-  {
-   "experimento": "FND-01-SMOKE",
-   "ruta": "scripts/experiment_manifest.py",
-   "hash_sellado": "5ea8a60a6a8de5484caf2b2b15ac72729d447281f4444fec0ff4403d186f4178",
-   "copia_conservada": "scripts/artifacts_science/FND-01-SMOKE/sellado_original/scripts/experiment_manifest.py",
-   "motivo": "Se selló como dataset/modelo (inmutable: maintain no lo admite) y el fichero vivo cambió después. Los bytes sellados se recuperaron del historial de desarrollo (commit b91fc629) y se conservan en la copia."
-  },
-  {
-   "experimento": "REC-01",
-   "ruta": "curated_targets.json",
-   "hash_sellado": "ba8654ebce79c35eebe77d5c0589155fbf569df48f3349b9e965ea2ce491c7c2",
-   "copia_conservada": "scripts/artifacts_science/REC-01/sellado_original/curated_targets.json",
-   "motivo": "Se selló como dataset/modelo (inmutable: maintain no lo admite) y el fichero vivo cambió después. Los bytes sellados se recuperaron del historial de desarrollo (commit 3a815e4c) y se conservan en la copia."
-  },
-  {
-   "experimento": "RS-01",
-   "ruta": "rescoring/artifacts/pose_selector_v06_meta.json",
-   "hash_sellado": "296b125ba852522259c11385063dc825c18efc3769228a22a640702ea5b5147d",
-   "copia_conservada": "scripts/artifacts_science/RS-01/sellado_original/rescoring/artifacts/pose_selector_v06_meta.json",
-   "motivo": "Se selló como dataset/modelo (inmutable: maintain no lo admite) y el fichero vivo cambió después. Los bytes sellados se recuperaron del historial de desarrollo (commit a516a4eb) y se conservan en la copia."
-  },
-  {
-   "experimento": "RS-01A",
-   "ruta": "rescoring/artifacts/pose_selector_v06_meta.json",
-   "hash_sellado": "296b125ba852522259c11385063dc825c18efc3769228a22a640702ea5b5147d",
-   "copia_conservada": "scripts/artifacts_science/RS-01A/sellado_original/rescoring/artifacts/pose_selector_v06_meta.json",
-   "motivo": "Se selló como dataset/modelo (inmutable: maintain no lo admite) y el fichero vivo cambió después. Los bytes sellados se recuperaron del historial de desarrollo (commit a516a4eb) y se conservan en la copia."
-  }
- ],
- "_doc_divergencias": "Ficheros sellados que siguen versionados pero cambiaron después del sello y no admiten maintain (se sellaron como dataset o modelo). El validador los comprueba contra la copia conservada, que tiene los bytes exactos del sello."
+  "_doc": "Activos sellados que un clon del repositorio NO trae, con el motivo y cómo conseguirlos. Lo lee scripts/validar_sellos.py: un fichero ausente sólo se acepta si aparece aquí; un fichero presente con otro hash es siempre un fallo. Añadir una entrada es declarar un hueco, no esconderlo.",
+  "entradas": [
+    {
+      "prefijo": "data/pdbbind/",
+      "clase": "NO_REDISTRIBUIBLE",
+      "motivo": "PDBBind v2020: su licencia no permite redistribuir estructuras ni afinidades.",
+      "como_obtenerlo": "Descargar PDBBind v2020 (refined + general) con su licencia y extraerlo en data/pdbbind/<pdb_id>/. Los hashes sellados permiten comprobar que es la misma copia."
+    },
+    {
+      "prefijo": "data/pose_selector_dataset/",
+      "clase": "NO_REDISTRIBUIBLE",
+      "motivo": "Poses redockeadas y receptores derivados de PDBBind.",
+      "como_obtenerlo": "Se reconstruye desde PDBBind con los scripts del selector de pose (rescoring/pose_selector/); el manifiesto del dataset y sus hashes están versionados."
+    },
+    {
+      "prefijo": "tools/",
+      "clase": "RUNTIME",
+      "motivo": "Binarios de terceros (Vina, Open Babel, xTB, llama.cpp): no se versionan.",
+      "como_obtenerlo": "python scripts/bootstrap_dev_tree.py --fetch"
+    },
+    {
+      "prefijo": "python-embed/",
+      "clase": "RUNTIME",
+      "motivo": "Intérprete embebido que se distribuye con el instalador.",
+      "como_obtenerlo": "python scripts/bootstrap_dev_tree.py --fetch"
+    },
+    {
+      "prefijo": "esmfold/models/",
+      "clase": "RUNTIME",
+      "motivo": "Tokenizer y pesos de ESMFold (descarga opcional).",
+      "como_obtenerlo": "python scripts/bootstrap_dev_tree.py --fetch (tokenizer); los pesos, desde el lanzador de la aplicación."
+    },
+    {
+      "prefijo": "data/pdbs/",
+      "clase": "NO_REDISTRIBUIBLE",
+      "motivo": "Copia local de estructuras preparadas desde PDBBind.",
+      "como_obtenerlo": "Se regenera desde PDBBind con los scripts del experimento que la sella."
+    },
+    {
+      "prefijo": "data/target_library/",
+      "clase": "NO_VERSIONADO",
+      "motivo": "Biblioteca de estructuras descomprimidas; el repositorio versiona los .pdb.gz de data/targets/.",
+      "como_obtenerlo": "Se descomprime desde data/targets/ en el primer uso."
+    },
+    {
+      "prefijo": "data/targets/",
+      "experimentos": [
+        "FND-05"
+      ],
+      "rutas": [
+        "data/targets/1gkc_chainA.pdb",
+        "data/targets/3pp0_chainB.pdb",
+        "data/targets/7e2y_chainB.pdb",
+        "data/targets/7e2y_chainR.pdb"
+      ],
+      "clase": "NO_CONSERVADO",
+      "motivo": "Sólo estos cuatro PDB de FND-05 carecen de copia versionada. Los otros 107 se verifican al descomprimir sus .pdb.gz y comparar el SHA-256 original.",
+      "como_obtenerlo": "Recuperar los cuatro PDB originales desde el entorno de producción de FND-05, si aún existen; el clon no los contiene."
+    }
+  ],
+  "divergencias_declaradas": [
+    {
+      "experimento": "AF-01",
+      "ruta": "rescoring/artifacts/split_config.json",
+      "hash_sellado": "5fc4e589b78311ae12eb1d5e51eef51d39cc218c7a9c9d033880bdfb031fb3d5",
+      "copia_conservada": "scripts/artifacts_science/AF-01/sellado_original/rescoring/artifacts/split_config.json",
+      "motivo": "Se selló como dataset/modelo (inmutable: maintain no lo admite) y el fichero vivo cambió después. Los bytes sellados se recuperaron del historial de desarrollo (commit a516a4eb) y se conservan en la copia."
+    },
+    {
+      "experimento": "FND-01-SMOKE",
+      "ruta": "scripts/experiment_manifest.py",
+      "hash_sellado": "5ea8a60a6a8de5484caf2b2b15ac72729d447281f4444fec0ff4403d186f4178",
+      "copia_conservada": "scripts/artifacts_science/FND-01-SMOKE/sellado_original/scripts/experiment_manifest.py",
+      "motivo": "Se selló como dataset/modelo (inmutable: maintain no lo admite) y el fichero vivo cambió después. Los bytes sellados se recuperaron del historial de desarrollo (commit b91fc629) y se conservan en la copia."
+    },
+    {
+      "experimento": "REC-01",
+      "ruta": "curated_targets.json",
+      "hash_sellado": "ba8654ebce79c35eebe77d5c0589155fbf569df48f3349b9e965ea2ce491c7c2",
+      "copia_conservada": "scripts/artifacts_science/REC-01/sellado_original/curated_targets.json",
+      "motivo": "Se selló como dataset/modelo (inmutable: maintain no lo admite) y el fichero vivo cambió después. Los bytes sellados se recuperaron del historial de desarrollo (commit 3a815e4c) y se conservan en la copia."
+    },
+    {
+      "experimento": "RS-01",
+      "ruta": "rescoring/artifacts/pose_selector_v06_meta.json",
+      "hash_sellado": "296b125ba852522259c11385063dc825c18efc3769228a22a640702ea5b5147d",
+      "copia_conservada": "scripts/artifacts_science/RS-01/sellado_original/rescoring/artifacts/pose_selector_v06_meta.json",
+      "motivo": "Se selló como dataset/modelo (inmutable: maintain no lo admite) y el fichero vivo cambió después. Los bytes sellados se recuperaron del historial de desarrollo (commit a516a4eb) y se conservan en la copia."
+    },
+    {
+      "experimento": "RS-01A",
+      "ruta": "rescoring/artifacts/pose_selector_v06_meta.json",
+      "hash_sellado": "296b125ba852522259c11385063dc825c18efc3769228a22a640702ea5b5147d",
+      "copia_conservada": "scripts/artifacts_science/RS-01A/sellado_original/rescoring/artifacts/pose_selector_v06_meta.json",
+      "motivo": "Se selló como dataset/modelo (inmutable: maintain no lo admite) y el fichero vivo cambió después. Los bytes sellados se recuperaron del historial de desarrollo (commit a516a4eb) y se conservan en la copia."
+    },
+    {
+      "experimento": "PREP-01",
+      "ruta": "backend/services/docking/preparer.py",
+      "hash_sellado": "80e851dc6100dba305de1d0fa660dca5c821db717f2c1984d5eb3490729c5ae4",
+      "copia_conservada": "scripts/historical_sources/PREP-01/preparer.py",
+      "motivo": "La remediación de fase 1 cambió preparer.py. La copia conserva exactamente el hash del activo re-sellado por PREP-01; se recuperó del commit 94c21b8. El productor anterior al mantenimiento sigue declarado en seal_maintenance[].previous_hash."
+    }
+  ],
+  "_doc_divergencias": "Ficheros sellados que siguen versionados pero cambiaron después del sello y no admiten maintain (se sellaron como dataset o modelo). El validador los comprueba contra la copia conservada, que tiene los bytes exactos del sello."
 }

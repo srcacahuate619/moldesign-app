@@ -66,8 +66,9 @@ async def test_new_projection_preserves_all_old_fields_and_rollback(session_fact
         new = await Repository(db).get_evaluation_result(molecule_id)
         assert new.id == result_id and new.task_id == "new"
         for name in ["mmgbsa_score", "quantum_score", "ai_report", "structural_evidence",
-                     "blockchain_tx_id", "poses_file_path"]:
+                     "poses_file_path"]:
             assert getattr(new, name) is None
+        assert new.blockchain_tx_id == "old seal"
         assert new.selectivity_ran is False
         archive = (await db.execute(select(EvaluationRunORM))).scalar_one()
         snapshot = archive.snapshot_json

@@ -1,0 +1,107 @@
+{
+  "condiciones": "Windows x64; Python embebido 3.11.9; Vina 1.2.7; Meeko 0.7.1; RDKit 2025.9.6; dimorphite_dl 2.0.2; 3F75; semilla 42 en PRO.",
+  "golden_version": 1,
+  "normal": {
+    "affinity_kcal": -4.879,
+    "execution": {
+      "box_center": [
+        43.21,
+        2.19,
+        46.19
+      ],
+      "box_size": [
+        25.4,
+        25.4,
+        25.4
+      ],
+      "cpu": 0,
+      "ligand_input_sha256": "f6493b28b606f2e45d15aea0e4ac825514d743b0ccfe26098fd2c2bafb86f31b",
+      "ligand_pdbqt_sha256": "af05479941ee22d8858eabb2deb1fccb4bc11aeeb283ad0529138ae43e4316d4",
+      "poses_sha256": "247d014c61abf3e7f6ef9250e19160e8b10884d892f9470e5c8026bc24d345e9",
+      "receptor_prep": {
+        "chain": "A",
+        "cofactors_whitelist": [],
+        "meeko_parameterized_json_sha256": "14d44bdb197f527c60ee09e30db97851f66018ce69565cf672d5b2356ae0c8b3",
+        "protonation_method": "Meeko 0.7.1; asignación por plantilla, sin pH experimental declarado",
+        "recipe_hash": "5a06cddaaf904788c0e1600833969e55950de14c67fd41a0cece9fdca0c2e973",
+        "removed_residues": [],
+        "site_chains": [
+          "A",
+          "P"
+        ],
+        "source": "meeko_report"
+      },
+      "receptor_sha256": "8b945aba2292c92ef32ff2c7a6ae3cdcf5ccd7a0d7041d4a5995bbd3d69189ff",
+      "toolchain": {
+        "dimorphite_dl": "2.0.2",
+        "meeko": "0.7.1",
+        "rdkit": "2025.9.6",
+        "vina": "1.2.7"
+      }
+    },
+    "ligand_smiles_acoplado": "CC(=O)Nc1ccc(O)cc1",
+    "model_used": "universal",
+    "pose_selection_contract": "pose_selection/v1",
+    "protocol": {
+      "contract": "docking_protocol/v2",
+      "engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 5,
+      "seed": 42
+    },
+    "receptor_sha256": "8b945aba2292c92ef32ff2c7a6ae3cdcf5ccd7a0d7041d4a5995bbd3d69189ff",
+    "vina_version": "1.2.7"
+  },
+  "pro": {
+    "affinity_kcal": -5.656,
+    "execution": {
+      "box_center": [
+        43.21,
+        2.19,
+        46.19
+      ],
+      "box_size": [
+        25.4,
+        25.4,
+        25.4
+      ],
+      "cpu": 0,
+      "ligand_input_sha256": "0f06b8e3d194de6f0c085b6f0439a4b8095b4015992c6c1d32a2b237593b46d6",
+      "ligand_pdbqt_sha256": "d0f85a7e391d170b1ee9388b2f6da7ce1a4050aa766afdf7cc85bb9917a0f69d",
+      "poses_sha256": "c1052df4e9898bb3071d609fb25c1eac106e1155d1c54bcd80244d768c00eb5e",
+      "receptor_prep": {
+        "chain": "A",
+        "cofactors_whitelist": [],
+        "meeko_parameterized_json_sha256": "14d44bdb197f527c60ee09e30db97851f66018ce69565cf672d5b2356ae0c8b3",
+        "protonation_method": "Meeko 0.7.1; asignación por plantilla, sin pH experimental declarado",
+        "recipe_hash": "5a06cddaaf904788c0e1600833969e55950de14c67fd41a0cece9fdca0c2e973",
+        "removed_residues": [],
+        "site_chains": [
+          "A",
+          "P"
+        ],
+        "source": "meeko_report"
+      },
+      "receptor_sha256": "8b945aba2292c92ef32ff2c7a6ae3cdcf5ccd7a0d7041d4a5995bbd3d69189ff",
+      "toolchain": {
+        "dimorphite_dl": "2.0.2",
+        "meeko": "0.7.1",
+        "rdkit": "2025.9.6",
+        "vina": "1.2.7"
+      }
+    },
+    "ligand_smiles_acoplado": "CC(=O)Oc1ccccc1C(=O)[O-]",
+    "model_used": "universal",
+    "pose_selection_contract": "pose_selection/v1",
+    "protocol": {
+      "contract": "docking_protocol/v2",
+      "engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42
+    },
+    "receptor_sha256": "8b945aba2292c92ef32ff2c7a6ae3cdcf5ccd7a0d7041d4a5995bbd3d69189ff",
+    "vina_version": "1.2.7"
+  },
+  "protocolo": "evaluation_e2e_vina/1"
+}

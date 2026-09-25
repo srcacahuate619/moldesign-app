@@ -434,3 +434,33 @@ class TestCli:
             capture_output=True, text=True, encoding="utf-8", errors="replace",
         )
         assert proceso.returncode == 2
+
+
+
+@pytest.mark.parametrize("missing_field", ["sha256", "tamano"])
+def test_verificador_rechaza_metadato_registrado_ausente_aun_con_indice_actualizado(missing_field):
+    original, _, raiz = _paquete()
+    with zipfile.ZipFile(io.BytesIO(original)) as zf:
+        manifesto = json.loads(zf.read(f"{raiz}/manifest.json"))
+        registered = next(row for row in manifesto["files"] if row["estado"] == "REGISTRADO")
+        registered[missing_field] = None
+        changed_manifest = (json.dumps(manifesto, ensure_ascii=False, sort_keys=True)
+                            + "\n").encode("utf-8")
+        index_lines = zf.read(f"{raiz}/{CHECKSUMS_NAME}").decode("utf-8").splitlines()
+    changed_index = "\n".join(
+        (hashlib.sha256(changed_manifest).hexdigest() + line[64:])
+        if line.endswith("  manifest.json") else line for line in index_lines
+    ) + "\n"
+
+    def alter(name, data):
+        if name.endswith("/manifest.json"):
+            return name, changed_manifest
+        if name.endswith("/" + CHECKSUMS_NAME):
+            return name, changed_index.encode("utf-8")
+        return name, data
+
+    result = verificar_paquete(_rehacer(original, alter))
+    assert not result.valido
+    expected = "SHA-256" if missing_field == "sha256" else "tamaño"
+    assert any(registered["path"] in error and expected in error
+               for error in result.errores)

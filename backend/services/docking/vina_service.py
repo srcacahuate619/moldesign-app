@@ -17,7 +17,10 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+import importlib.metadata
 import json
+import os
+import subprocess
 import re
 import shutil
 import sys
@@ -31,6 +34,7 @@ from chem.conformer_ensemble import es_hash_derivado
 from core.config import get_settings
 from core.exceptions import DockingFailed, VinaExecutableNotFound
 from core.models import DockingPose, DockingResult
+from core.version import APP_VERSION
 from services.docking.pose_recovery import (
     PoseNoRecuperable, verificar_pares_sdf_pdbqt,
 )
@@ -75,6 +79,33 @@ from utils.logger import get_logger
 
 settings = get_settings()
 log = get_logger(__name__)
+
+
+def _source_commit() -> str | None:
+    """Commit de desarrollo si hay Git; en bundle sólo se declara con env."""
+    declared = os.environ.get("MOLDESIGN_BUILD_COMMIT")
+    if declared and re.fullmatch(r"[0-9a-fA-F]{40}", declared):
+        return declared.lower()
+    repo = Path(__file__).resolve().parents[3]
+    if not (repo / ".git").exists():
+        return None
+    try:
+        flags = getattr(subprocess, "CREATE_NO_WINDOW", 0)
+        dirty = subprocess.run(
+            ["git", "status", "--porcelain", "--untracked-files=normal"], cwd=repo,
+            capture_output=True, text=True, timeout=3, creationflags=flags,
+        )
+        # HEAD de un árbol modificado no identifica los bytes que se ejecutan.
+        if dirty.returncode != 0 or dirty.stdout.strip():
+            return None
+        result = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=repo, capture_output=True,
+            text=True, timeout=2, creationflags=flags,
+        )
+        value = result.stdout.strip()
+        return value.lower() if result.returncode == 0 and re.fullmatch(r"[0-9a-fA-F]{40}", value) else None
+    except (OSError, subprocess.TimeoutExpired):
+        return None
 
 
 async def _sha256_del_objeto(object_name: str) -> str | None:
@@ -737,6 +768,7 @@ async def run_vina_docking(
         effective_size = tuple(float(v) for v in target_size)
     receptor_sha256 = hashlib.sha256(receptor_content).hexdigest()
     preparation_warnings: list[dict] = []
+    preparation_report: dict | None = None
     if receptor_object_path is not None:
         try:
             preparation_report = json.loads(
@@ -808,10 +840,11 @@ async def run_vina_docking(
     effective_engine_identity = docking_engine
     if docking_engine == "qvina2" and not _resolve_executable(settings.qvina2_executable_path):
         effective_engine_identity = "vina_fallback_from_qvina2"
+    ligand_input_sha256 = await _huella_del_conformero(smiles_hash)
     cache_fingerprint = _docking_cache_fingerprint(
         # Se lee ANTES de preparar el ligando: es un archivo, no un subproceso,
         # así que la huella no cuesta una corrida de Meeko en cada acierto.
-        ligand_input_sha256=await _huella_del_conformero(smiles_hash),
+        ligand_input_sha256=ligand_input_sha256,
         receptor_sha256=receptor_sha256,
         target_chain=target_chain,
         center=effective_center,
@@ -863,6 +896,7 @@ async def run_vina_docking(
             smiles_hash, smiles=smiles, target_pdb_id=target_pdb_id
         )
 
+        ligand_pdbqt_sha256 = await _sha256_del_objeto(ligand_object_path)
         export_cmd = _resolve_executable(settings.meeko_export_path)
         if not export_cmd:
             raise DockingFailed(
@@ -1161,6 +1195,52 @@ async def run_vina_docking(
                             f"Error en análisis de hotspots: {e}",
                         ))
 
+                def dependency_version(package: str) -> str | None:
+                    try:
+                        return importlib.metadata.version(package)
+                    except importlib.metadata.PackageNotFoundError:
+                        return None
+
+                execution_provenance = {
+                    "box_center": [float(v) for v in effective_center],
+                    "box_size": [float(v) for v in effective_size],
+                    "cpu": int(settings.vina_cpu),
+                    "app_version": APP_VERSION,
+                    "git_commit": _source_commit(),
+                    "ligand_input_sha256": ligand_input_sha256,
+                    "ligand_input_path": StoragePath.ligand_conformer(smiles_hash),
+                    "ligand_pdbqt_sha256": ligand_pdbqt_sha256,
+                    "ligand_pdbqt_path": ligand_object_path,
+                    "log_path": log_path,
+                    "poses_sha256": hashlib.sha256(output_sdf.read_bytes()).hexdigest(),
+                    "log_sha256": await _sha256_del_objeto(log_path),
+                    "receptor_sha256": receptor_sha256,
+                    "receptor_prep": {
+                        "source": "meeko_report" if preparation_report is not None else "durable_receptor_snapshot",
+                        "recipe_hash": preparation_report.get("recipe_hash") if preparation_report else None,
+                        "meeko_parameterized_json_sha256": (
+                            preparation_report.get("meeko_parameterized_json_sha256")
+                            if preparation_report else None
+                        ),
+                        "protonation_method": (
+                            preparation_report.get("protonation_method")
+                            if preparation_report else None
+                        ),
+                        "removed_residues": (
+                            preparation_report.get("removed_residues")
+                            if preparation_report else None
+                        ),
+                        "chain": target_chain,
+                        "site_chains": sorted(site_chains) if site_chains else None,
+                        "cofactors_whitelist": sorted(cofactors_whitelist) if cofactors_whitelist else [],
+                    },
+                    "toolchain": {
+                        "vina": vina_version,
+                        "meeko": dependency_version("meeko"),
+                        "rdkit": dependency_version("rdkit"),
+                        "dimorphite_dl": dependency_version("dimorphite_dl"),
+                    },
+                }
                 result = DockingResult(
                     best_affinity=poses[0].affinity,
                     poses=poses,
@@ -1176,6 +1256,7 @@ async def run_vina_docking(
                     num_poses_solicitadas=effective_num_poses,
                     receptor_sha256=receptor_sha256,
                     receptor_path=receptor_snapshot_path,
+                    execution_provenance=execution_provenance,
                     scientific_warnings=scientific_warnings,
                     hotspots_hit=hotspots_hit,
                 )

@@ -48,7 +48,7 @@ from typing import Any
 
 #: Versión del contrato. Cambiarla obliga a mirar `services/dossier/` y
 #: `test_dossier_estructural.py`.
-CONTRATO = "docking_protocol/v1"
+CONTRATO = "docking_protocol/v2"
 
 #: Motores peptídicos que sustituyen a Vina por completo. Si uno de estos corrió,
 #: es el motor de la corrida — no el `docking_engine` que venía por defecto.
@@ -128,4 +128,8 @@ def construir_protocolo(
     if solicitado:
         protocolo["solicitado"] = solicitado
 
+    # En resultados heredados o de rutas que no miden estos bytes se declara la
+    # ausencia. No se reconstruye una caja a partir de la petición del usuario.
+    provenance = getattr(docking, "execution_provenance", None)
+    protocolo["execution_provenance"] = provenance if provenance else None
     return protocolo

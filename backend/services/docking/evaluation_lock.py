@@ -21,7 +21,8 @@ def serialize_ligand_evaluation(*, delegate_pro=False):
         @functools.wraps(fn)
         async def wrapped(*args, **kwargs):
             params = signature.bind(*args, **kwargs).arguments
-            if delegate_pro and params.get("pipeline_config"):
+            if delegate_pro:
+                # El dispatcher sólo valida y delega; runner toma el lock único.
                 return await fn(*args, **kwargs)
             key = params["smiles"]
             with _guard:

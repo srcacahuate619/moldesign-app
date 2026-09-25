@@ -107,6 +107,7 @@ def main() -> int:
                 anti_target_results=result.off_targets or [],
             )
             if task_id is not None:
+                await repo.append_run_addendum(mol_uuid, task_id, "selectivity", values)
                 updated = await repo.update_evaluation_for_task(mol_uuid, task_id, **values)
                 if not updated:
                     payload["persistence_skipped"] = "projection_belongs_to_another_run"

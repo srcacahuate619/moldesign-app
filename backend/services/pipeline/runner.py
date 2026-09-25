@@ -394,7 +394,8 @@ async def run_pipeline(
                 properties=context["properties"],
                 grid_center=list(box_center),
                 grid_size=list(box_size),
-                run_gnn=params.get("run_gnn", False),  # GNN off: RTMScore ya no corre aquí
+                run_gnn=params.get("run_gnn", False),
+                target_family=pipeline_params.target_structural_family,
             )
 
             if not ml_result.get("fallback") and params.get("run_xgb", True):

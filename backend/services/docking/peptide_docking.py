@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import hashlib
+import uuid
 from typing import Any
 
 from chem.conformer import _mol_to_sdf_string
@@ -15,6 +17,16 @@ from utils.logger import get_logger
 
 log = get_logger(__name__)
 settings = get_settings()
+
+
+def peptide_poses_run_path(smiles_hash: str, pdb_id: str, task_id: str) -> str:
+    """Una ruta nueva por ejecución; el ID externo nunca entra crudo en una ruta."""
+    from utils.file_handlers import StoragePath
+
+    task_digest = hashlib.sha256(task_id.encode("utf-8")).hexdigest()[:16]
+    return StoragePath.docking_poses_run(
+        smiles_hash, pdb_id, f"peptide/{task_digest}/{uuid.uuid4().hex}",
+    )
 
 
 async def run_peptide_docking_helper(
@@ -154,7 +166,7 @@ async def run_peptide_docking_helper(
                 sdf_parts.append(_mol_to_sdf_string(mol_pep, smiles))
 
         sdf_content = "".join(sdf_parts)
-        poses_path = StoragePath.docking_poses(_mol_smiles_hash, _tgt_pdb_id)
+        poses_path = peptide_poses_run_path(_mol_smiles_hash, _tgt_pdb_id, task_id)
         await write_text(poses_path, sdf_content)
 
         # ═══════════════════════════════════════════════════════════════
@@ -261,6 +273,12 @@ async def run_peptide_docking_helper(
                 best_affinity=best_affinity,
                 poses=poses,
                 poses_file_path=poses_path,
+                execution_provenance={
+                    "poses_sha256": hashlib.sha256(sdf_content.encode("utf-8")).hexdigest(),
+                    "box_center": None,
+                    "box_size": None,
+                    "source": "peptide_transfer",
+                },
                 parsing_source="sdf",
                 engine_efectivo="esmfold",
                 vina_version=getattr(ml_res, "vina_version", None),

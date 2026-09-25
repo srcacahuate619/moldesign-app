@@ -1,5 +1,5 @@
 {
- "generado_en": "2026-09-24T09:02:17.654194+00:00",
+ "generado_en": "2026-09-25T04:48:26.810456+00:00",
  "generador": "scripts/build_registro_cientifico.py",
  "advertencia": "El cociente GO/NO_GO del manifest NO es una tasa de aciertos: mezcla prerregistros -sellados GO al declararse-, mediciones sin gate y experimentos con gate real. Esta vista separa las tres poblaciones.",
  "categorias": {

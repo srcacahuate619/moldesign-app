@@ -9,6 +9,18 @@ def avisos_estado_ligando(estado: dict | None) -> list[dict]:
     if not isinstance(estado, dict):
         return []
     resultado: list[dict] = []
+    if estado.get("cambio_respecto_a_la_entrada"):
+        resultado.append(aviso(
+            "ESPECIE_ACOPLADA_DISTINTA", Severidad.PRECAUCION,
+            f"La especie acoplada no es la entrada: {estado.get('smiles_entrada')} "
+            f"→ {estado.get('smiles_acoplado')}. Las alternativas no evaluadas "
+            "siguen siendo incertidumbre química.",
+        ))
+    elif (estado.get("protonacion") or {}).get("motivo"):
+        resultado.append(aviso(
+            "SIN_CORRECCION_DE_PROTONACION", Severidad.PRECAUCION,
+            str(estado["protonacion"]["motivo"]),
+        ))
     seleccion = (estado.get("protonacion") or {}).get("seleccion") or {}
     if seleccion.get("criterio") == "primer_smiles_alfabetico_sin_centros":
         resultado.append(aviso(

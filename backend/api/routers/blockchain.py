@@ -286,18 +286,24 @@ async def link_certification(
             EvaluationResultORM.molecule_id == request.molecule_id
         )
     )
+    seal_values = _valores_del_sello(
+        request.signature, getattr(evaluacion_sellada, "task_id", None),
+        record.total_score,
+    )
     stmt_update = (
         update(EvaluationResultORM)
         .where(EvaluationResultORM.molecule_id == request.molecule_id)
         .values(
-            **_valores_del_sello(
-                signature=request.signature,
-                task_id=getattr(evaluacion_sellada, "task_id", None),
-                sealed_score=record.total_score,
-            )
+            **seal_values
         )
     )
     await db.execute(stmt_update)
+    if getattr(evaluacion_sellada, "task_id", None):
+        from db.repository import Repository
+        await Repository(db).append_run_addendum(
+            request.molecule_id, evaluacion_sellada.task_id, "certificate",
+            seal_values,
+        )
 
     mol.is_saved = True
     if mol.user_id is None:

@@ -1,40 +1,23 @@
 {
-  "descripcion": "Replay matemático de los tres perfiles desde los checkpoints originales, comparado con la AUC que declara cada perfil. Desde V2 esa AUC ya no es la de delong_paired_report.json: el §2 del ADR obliga a versión nueva al cambiar un patrón de warhead, y aquí cambiaron dos (el nitro y el doble conteo).",
-  "fuente_de_referencia": "backend/services/pipeline/protocols/m5/zinc.py::PERFILES (V1 en data/molchamb_loto/delong_paired_report.json)",
-  "golden_version": 1,
-  "perfiles": {
+  "estado": "NO_DISTRIBUIDO",
+  "golden_version": 2,
+  "motivo": "Los checkpoints de benchmark no se redistribuyen en el repositorio.",
+  "replay_requiere": {
     "1GKC": {
-      "auc_m5_declarada": 0.9289066667,
-      "auc_m5_publicada_v1": 0.9207733333,
-      "auc_m5_reconstruida": 0.9289066667,
-      "coincide_con_el_perfil": true,
-      "mejora_sobre_v1": 0.0081333333,
-      "n_positivos": 50,
-      "n_total": 1925,
-      "protocol_id": "M5_ZN_MMP9_1GKC_V2",
-      "vina_reference_max": 8.247
+      "auc_declarada_no_recalculada": 0.9289066666666667,
+      "ruta": "data/benchmark_checkpoint_mmp9.json",
+      "sha256": "593b50762830bb475ea361bcb7e5f5e525811545f562339675304eeae94c4bf3"
     },
     "1O86": {
-      "auc_m5_declarada": 0.7178800738,
-      "auc_m5_publicada_v1": 0.6707693675,
-      "auc_m5_reconstruida": 0.7178800738,
-      "coincide_con_el_perfil": true,
-      "mejora_sobre_v1": 0.0471107063,
-      "n_positivos": 46,
-      "n_total": 2003,
-      "protocol_id": "M5_ZN_ACE_1O86_V2",
-      "vina_reference_max": 9.566
+      "auc_declarada_no_recalculada": 0.7178800737597476,
+      "ruta": "data/benchmark_checkpoint_ace.json",
+      "sha256": "f646d7fb7b2e3946f638beaa213cf57d9dff9c6d37630fd1d8db593182973fb2"
     },
     "3DC3": {
-      "auc_m5_declarada": 0.9506927814,
-      "auc_m5_publicada_v1": 0.9313775801,
-      "auc_m5_reconstruida": 0.9506927814,
-      "coincide_con_el_perfil": true,
-      "mejora_sobre_v1": 0.0193152013,
-      "n_positivos": 37,
-      "n_total": 1933,
-      "protocol_id": "M5_ZN_CA2_3DC3_V2",
-      "vina_reference_max": 10.45
+      "auc_declarada_no_recalculada": 0.9506927813889839,
+      "ruta": "data/gnn_v31/checkpoints/benchmark_checkpoint_ca2.json",
+      "sha256": "92f5c3dcc5d0bbe13159ea44ad2516a3596e217bebdc6903909236dbe1233e49"
     }
-  }
+  },
+  "verificacion_manual": "python scripts/generate_goldens.py --verify-m5-replay"
 }

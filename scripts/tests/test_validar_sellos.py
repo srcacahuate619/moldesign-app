@@ -93,3 +93,35 @@ def test_el_repositorio_real_valida_entero():
 
     assert not info["fallos"], f"sellos que no validan: {sorted(info['fallos'])[:10]}"
     assert totales["sellados"] >= 167
+
+
+def test_re_sello_mantenido_no_certifica_productor(arbol):
+    manifest_path = arbol.RAIZ / "artifacts" / "EXP-1" / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["seal_maintenance"] = [
+        {"path": "datos/bueno.txt", "previous_hash": _sha(b"anterior")},
+        {"path": "datos/vivo.txt", "previous_hash": _sha(b"antes del sello")},
+    ]
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    totales, info = arbol.revisar()
+    assert totales["MANTENIDO"] == 1
+    assert totales["MANTENIDO_EN_COPIA"] == 1
+    assert info["experimentos_mantenidos"] == 1
+
+
+def test_pdb_comprimido_solo_valida_si_bytes_descomprimidos_coinciden(arbol):
+    import gzip
+    manifest_path = arbol.RAIZ / "artifacts" / "EXP-1" / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    ruta = "data/targets/3F75/raw.pdb"
+    manifest["dataset_hashes"][ruta] = _sha(b"ATOM EXACTO\n")
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    compressed = arbol.RAIZ / "data" / "targets" / "3F75" / "raw.pdb.gz"
+    compressed.parent.mkdir(parents=True)
+    compressed.write_bytes(gzip.compress(b"ATOM EXACTO\n"))
+    totales, _ = arbol.revisar()
+    assert totales["VERIFICADO_GZ"] == 1
+    compressed.write_bytes(gzip.compress(b"OTRO\n"))
+    totales, info = arbol.revisar()
+    assert totales["VERIFICADO_GZ"] == 0
+    assert f"GZ_DISTINTO: {ruta}" in info["fallos"]["EXP-1"]

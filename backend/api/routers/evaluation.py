@@ -886,7 +886,9 @@ async def get_evaluation_result(
             )
 
         try:
-            data = EvaluationResultRead.model_validate(run.snapshot_json)
+            data = EvaluationResultRead.model_validate(
+                await repository.materialize_run_snapshot(run)
+            )
         except Exception as exc:
             log.error(
                 "evaluation_run_snapshot_invalid",

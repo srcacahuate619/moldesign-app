@@ -25,7 +25,10 @@ async def begin_evaluation_projection(repository, molecule_id, task_id, *, is_co
     # El archivo contiene una copia de CADA columna antes de reiniciar la
     # proyección. Un rollback revierte ambas operaciones; no se borran archivos.
     for column in EvaluationResultORM.__table__.columns:
-        if column.name not in {"id", "molecule_id"}:
+        if column.name not in {
+            "id", "molecule_id", "blockchain_tx_id", "blockchain_hash",
+            "certified_task_id", "certified_total_score",
+        }:
             setattr(current, column.name, None)
     current.task_id = task_id
     current.is_control = is_control

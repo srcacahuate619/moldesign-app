@@ -458,7 +458,7 @@ function VistaExperimento({
         {e.mantenimiento_sello > 0 && (
           <Dato
             k="mantenimiento"
-            v={`${e.mantenimiento_sello} entrada(s) de deriva de assets documentada(s)`}
+            v={`${e.mantenimiento_sello} mantenimiento(s) declarados. El hash actual no acredita qué código produjo la cifra original.`}
           />
         )}
       </Seccion>

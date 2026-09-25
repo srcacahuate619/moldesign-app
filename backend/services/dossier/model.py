@@ -880,9 +880,9 @@ def build_case_dossier(
     preflight = projection.preflight
     protocolo_corrida = _v(eval_result, "docking_protocol") or {}
     estado_ligando = _v(eval_result, "ligand_state") or {}
-    caja_corrida = _v(eval_result, "docking_box") or {}
-    centro_corrida = _v(caja_corrida, "grid_center")
-    tamano_corrida = _v(caja_corrida, "grid_size")
+    procedencia_ejecucion = _v(protocolo_corrida, "execution_provenance") or {}
+    centro_corrida = _v(procedencia_ejecucion, "box_center")
+    tamano_corrida = _v(procedencia_ejecucion, "box_size")
 
     entradas = [
         _campo_dato(
@@ -1031,6 +1031,28 @@ def build_case_dossier(
     protocolo = [
         _campo_dato("Motor de acoplamiento", modelo.get("engine"), "La corrida no registró el motor."),
         _campo_dato("Versión del motor", repro.get("vina_version"), "La corrida no registró la versión."),
+        _campo_dato("Versión MolDesign", _v(procedencia_ejecucion, "app_version"),
+                    "La corrida no registró la versión de la aplicación."),
+        _campo_dato("Commit de código", _v(procedencia_ejecucion, "git_commit"),
+                    "La corrida no declaró un commit verificable (bundle o árbol modificado)."),
+        _campo_dato("CPU solicitadas a Vina", _v(procedencia_ejecucion, "cpu"),
+                    "La corrida no registró el argumento CPU de Vina."),
+        _campo_dato("SHA-256 receptor preparado", _v(procedencia_ejecucion, "receptor_sha256"),
+                    "La corrida no registró el hash del receptor preparado."),
+        _campo_dato("SHA-256 ligando SDF de entrada", _v(procedencia_ejecucion, "ligand_input_sha256"),
+                    "La corrida no registró el hash del conformero de entrada."),
+        _campo_dato("SHA-256 ligando PDBQT", _v(procedencia_ejecucion, "ligand_pdbqt_sha256"),
+                    "La corrida no registró el hash del PDBQT acoplado."),
+        _campo_dato("SHA-256 poses SDF", _v(procedencia_ejecucion, "poses_sha256"),
+                    "La corrida no registró el hash del SDF de salida."),
+        _campo_dato("SHA-256 log", _v(procedencia_ejecucion, "log_sha256"),
+                    "La corrida no registró el hash del log."),
+        _campo_dato("Receta de receptor", _v(_v(procedencia_ejecucion, "receptor_prep"), "recipe_hash"),
+                    "La corrida no registró el hash de receta del receptor."),
+        _campo_dato("Versiones de preparación",
+                    json.dumps(_v(procedencia_ejecucion, "toolchain"), ensure_ascii=False, sort_keys=True)
+                    if _v(procedencia_ejecucion, "toolchain") else None,
+                    "La corrida no registró la cadena de herramientas."),
         _campo_dato("Semilla aleatoria", repro.get("random_seed"), "La corrida no registró la semilla."),
         _campo_dato("Origen del parseo", repro.get("parsing_source"), "La corrida no registró el parser."),
         _campo_dato("Modelo de rescoring", modelo.get("model"), "La corrida no registró el modelo."),

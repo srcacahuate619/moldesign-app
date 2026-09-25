@@ -179,6 +179,9 @@ impiden afirmar que el cálculo puede reconstruirse. Usa
 `inputs/ligand_docked.smi` para la especie acoplada y `inputs/ligand.smi`
 para la entrada original, cuando ambos archivos estén registrados. Comprueba
 también el receptor preparado y la caja efectiva antes de repetir Vina.
+Los archivos `inputs/ligand_input.sdf`, `inputs/ligand_input.pdbqt` y
+`logs/vina.log` llevan los bytes archivados cuando sus SHA-256 coincidieron
+con la procedencia de la corrida; su ausencia queda declarada en el manifiesto.
 
 ## 3.1. La evidencia estructural, en crudo
 
@@ -196,9 +199,9 @@ La configuración de la corrida NO se repite aquí: vive en `run/protocol.json`,
 donde cada parámetro lleva además su estado. Un segundo archivo con los mismos
 valores en plano crearía dos sitios donde mirar y ninguna comprobación nueva.
 
-Conformeros y restarts no aparecen en ninguno de los dos: el resultado no los
-persiste, y rellenarlos desde la configuración del caso les atribuiría a esta
-corrida un ajuste que nadie guardó con ella.
+El protocolo registra conformeros solicitados y generados cuando la etapa
+los informó. No registra una serie completa de restarts; ningún campo ausente
+se rellena desde la configuración declarada por el caso.
 
 El PDF es una lectura de estos archivos. Están en crudo para que se pueda
 comprobar que el documento no añadió, quitó ni suavizó nada.

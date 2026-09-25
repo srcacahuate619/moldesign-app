@@ -22,9 +22,12 @@ Recorre todos los manifiestos con las mismas funciones que
 `scripts/experiment_manifest.py` —que no se modifica: está sellado como activo en
 26 experimentos— y clasifica cada fichero sellado:
 
-    VERIFICADO        presente y con el hash sellado
-    EN_COPIA          el fichero vivo cambió, está declarado como divergencia y
-                      su copia conservada en el artefacto tiene el hash sellado
+    VERIFICADO        presente y con el hash original, sin mantenimiento
+    MANTENIDO         presente con hash re-sellado; no acredita código productor
+    VERIFICADO_GZ     PDB ausente pero bytes exactos recuperables desde .pdb.gz
+    EN_COPIA          el fichero vivo cambió y una copia conserva el hash sellado
+    MANTENIDO_EN_COPIA el activo re-sellado cambió otra vez; el hash re-sellado
+                      sigue conservado, sin certificar el productor original
     NO_DISTRIBUIDO    ausente y declarado en scripts/sellos_no_distribuidos.json
     DISTINTO          presente con otro hash y sin divergencia   → fallo
     AUSENTE           ausente y no declarado                     → fallo
@@ -40,6 +43,8 @@ de texto fuera de `artifacts_science/` que tienen que viajar sin conversión.
 from __future__ import annotations
 
 import argparse
+import gzip
+import hashlib
 import importlib.util
 import json
 import subprocess
@@ -66,7 +71,9 @@ def _cargar_manifest_tool():
 
 def _no_distribuido(tabla: list[dict], experimento: str, ruta: str) -> dict | None:
     for e in tabla:
-        if ruta.startswith(e["prefijo"]) and experimento in e.get("experimentos", [experimento]):
+        if (ruta.startswith(e["prefijo"])
+                and ruta in e.get("rutas", [ruta])
+                and experimento in e.get("experimentos", [experimento])):
             return e
     return None
 
@@ -81,6 +88,7 @@ def revisar(detalle: bool = False) -> tuple[Counter, dict]:
     totales: Counter = Counter()
     fallos: dict = defaultdict(list)
     no_distribuidos: Counter = Counter()
+    maintained_experiments: set[str] = set()
     for manifest_path in sorted(ARTEFACTOS.glob("*/manifest.json")):
         exp = manifest_path.parent.name
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -92,10 +100,33 @@ def revisar(detalle: bool = False) -> tuple[Counter, dict]:
             totales["sin_sellar"] += 1
             continue
         totales["sellados"] += 1
+        maintenance = manifest.get("seal_maintenance") or []
+        maintained_paths = {e["path"].replace("\\", "/") for e in maintenance}
+        if maintenance:
+            maintained_experiments.add(exp)
+            totales["eventos_mantenimiento"] += len(maintenance)
         for campo in CAMPOS:
             for guardada, esperado in (manifest.get(campo) or {}).items():
                 resuelta = em._resolve_stored_path(guardada, base)
                 if not Path(resuelta).is_file():
+                    # Una copia comprimida sí conserva los bytes científicos.
+                    compressed = Path(resuelta + ".gz")
+                    if guardada.startswith("data/targets/") and compressed.is_file():
+                        digest = hashlib.sha256()
+                        try:
+                            with gzip.open(compressed, "rb") as stream:
+                                for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                                    digest.update(chunk)
+                        except (OSError, EOFError):
+                            fallos[exp].append(f"GZ_INVALIDO: {guardada}")
+                            totales["DISTINTO"] += 1
+                            continue
+                        if digest.hexdigest() == esperado:
+                            totales["VERIFICADO_GZ"] += 1
+                        else:
+                            fallos[exp].append(f"GZ_DISTINTO: {guardada}")
+                            totales["DISTINTO"] += 1
+                        continue
                     entrada = _no_distribuido(tabla, exp, guardada)
                     if entrada:
                         totales["NO_DISTRIBUIDO"] += 1
@@ -105,16 +136,25 @@ def revisar(detalle: bool = False) -> tuple[Counter, dict]:
                         fallos[exp].append(f"AUSENTE: {guardada}")
                     continue
                 if em._sha256_file(resuelta) == esperado:
-                    totales["VERIFICADO"] += 1
+                    if guardada.replace("\\", "/") in maintained_paths:
+                        totales["MANTENIDO"] += 1
+                    else:
+                        totales["VERIFICADO"] += 1
                     continue
                 div = divergencias.get((exp, guardada.replace("\\", "/")))
                 copia = RAIZ / div["copia_conservada"] if div else None
                 if div and div["hash_sellado"] == esperado and copia.is_file() and em._sha256_file(copia) == esperado:
-                    totales["EN_COPIA"] += 1
+                    if guardada.replace("\\", "/") in maintained_paths:
+                        totales["MANTENIDO_EN_COPIA"] += 1
+                    else:
+                        totales["EN_COPIA"] += 1
                 else:
                     totales["DISTINTO"] += 1
                     fallos[exp].append(f"DISTINTO: {guardada}")
-    return totales, {"fallos": dict(fallos), "no_distribuidos": dict(no_distribuidos)}
+    return totales, {
+        "fallos": dict(fallos), "no_distribuidos": dict(no_distribuidos),
+        "experimentos_mantenidos": len(maintained_experiments),
+    }
 
 
 def _activos_de_texto_fuera() -> list[str]:
@@ -167,7 +207,12 @@ def main() -> int:
     totales, info = revisar()
     fallos = info["fallos"]
     print(f"sellados {totales['sellados']} (sin sellar {totales['sin_sellar']}); ficheros: "
-          f"verificados {totales['VERIFICADO']}, en copia conservada {totales['EN_COPIA']}, no distribuidos {totales['NO_DISTRIBUIDO']} "
+          f"verificados {totales['VERIFICADO']}, mantenidos {totales['MANTENIDO']} "
+          f"({totales['eventos_mantenimiento']} eventos en {info['experimentos_mantenidos']} experimentos), "
+          f"verificados vía gz {totales['VERIFICADO_GZ']}, "
+          f"en copia conservada {totales['EN_COPIA']}, "
+          f"mantenidos en copia {totales['MANTENIDO_EN_COPIA']}, "
+          f"no distribuidos {totales['NO_DISTRIBUIDO']} "
           f"{info['no_distribuidos']}, distintos {totales['DISTINTO']}, ausentes {totales['AUSENTE']}")
     if fallos:
         print(f"FALLAN {len(fallos)} experimentos:")
@@ -177,7 +222,7 @@ def main() -> int:
                 for linea in lista[1:]:
                     print(f"      {linea}")
         return 1
-    print("todos los experimentos sellados validan (lo no distribuido, declarado)")
+    print("sin diferencias no declaradas; los activos MANTENIDO no verifican el código productor original")
     return 0
 
 

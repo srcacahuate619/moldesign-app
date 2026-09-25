@@ -193,44 +193,32 @@ def test_m5_zn_sella_las_dos_abstenciones():
 
 
 @pytest.mark.parametrize("pdb", ["3DC3", "1GKC", "1O86"])
-def test_el_replay_reproduce_la_auc_declarada(pdb: str):
-    """La garantía de que la fórmula sigue siendo la del perfil.
-
-    Comparaba contra `auc_m5_publicada`, que es la de V1. Desde V2 el detector
-    de warheads es otro —el nitro dejó de contar como quelante y `n_warheads`
-    cuenta grupos, no claves— así que la referencia correcta es la que el
-    PERFIL declara. La de V1 se conserva en el golden para que el cambio de
-    versión quede en el registro, y la mejora se comprueba abajo.
-    """
-    perfil = _golden("m5_zn_replay")["perfiles"][pdb]
-    if "checkpoint_ausente" in perfil:
-        pytest.skip(f"checkpoint ausente: {perfil['checkpoint_ausente']}")
-    assert perfil["coincide_con_el_perfil"] is True, (
-        f"{pdb}: la AUC reconstruida ({perfil['auc_m5_reconstruida']}) no "
-        f"coincide con la que declara el perfil ({perfil['auc_m5_declarada']})"
-    )
+def test_replay_declara_checkpoint_y_hash_sin_fingir_auc(pdb: str):
+    """En clon público el checkpoint falta: el contrato declara la dependencia."""
+    d = _golden("m5_zn_replay")
+    assert d["estado"] == "NO_DISTRIBUIDO"
+    assert set(d["replay_requiere"]) == {"3DC3", "1GKC", "1O86"}
+    item = d["replay_requiere"][pdb]
+    assert item["ruta"].startswith("data/")
+    assert len(item["sha256"]) == 64
+    assert 0 <= item["auc_declarada_no_recalculada"] <= 1
 
 
-@pytest.mark.parametrize("pdb", ["3DC3", "1GKC", "1O86"])
-def test_v2_ordena_mejor_que_v1_en_los_tres(pdb: str):
-    """Lo que justifica el cambio de versión, medido y no supuesto.
+def test_replay_real_si_estan_los_tres_checkpoints():
+    """El check numérico se ejecuta sólo cuando sus datos externos existen."""
+    import importlib.util
+    from pathlib import Path
 
-    Corregir el detector no era sólo química correcta: mejora el orden en los
-    tres perfiles sobre sus propios checkpoints. Si algún día deja de mejorar,
-    el detector volvió a cambiar y hay que rehacer la medición antes de sellar.
-    """
-    perfil = _golden("m5_zn_replay")["perfiles"][pdb]
-    if "checkpoint_ausente" in perfil:
-        pytest.skip(f"checkpoint ausente: {perfil['checkpoint_ausente']}")
-    assert perfil["mejora_sobre_v1"] > 0, (
-        f"{pdb}: V2 mide {perfil['auc_m5_reconstruida']} y V1 medía "
-        f"{perfil['auc_m5_publicada_v1']}"
-    )
-
-
-def test_el_replay_cubre_los_tres_perfiles():
-    perfiles = _golden("m5_zn_replay")["perfiles"]
-    assert set(perfiles) == {"3DC3", "1GKC", "1O86"}
+    root = Path(__file__).resolve().parents[2]
+    sources = _golden("m5_zn_replay")["replay_requiere"]
+    if any(not (root / item["ruta"]).is_file() for item in sources.values()):
+        pytest.skip("Los checkpoints M5 no se redistribuyen en este worktree")
+    spec = importlib.util.spec_from_file_location("generate_goldens", root / "scripts" / "generate_goldens.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    assert module.verify_m5_replay() == 0
+    replay = module.replay_m5_from_checkpoints()
+    assert all(row["mejora_sobre_v1"] > 0 for row in replay["perfiles"].values())
 
 
 # ── Péptidos: los dos contratos ──────────────────────────────────────────

@@ -1,7 +1,7 @@
 # 56 — Contrato del dossier y del paquete reproducible
 
-**Estado:** 🟢 Vigente desde Sprint 4A. Motor backend implementado; la
-integración con la interfaz de Informe llega en Sprint 4B.
+**Estado:** contrato implementado y actualizado en fase 4 de la auditoría.
+Las capacidades se describen según los datos que realmente persiste cada corrida.
 
 ---
 
@@ -52,10 +52,11 @@ corrección documentada en `docs/53`. Las cifras históricas 8,62 % / 15,52 % **
 se citan** como justificación en ninguna parte del dossier, y el proxy de
 energía no se presenta como fallo físico soberano.
 
-Hoy `eval_result.pose_validation` **no es una columna del ORM**: el validador de
-`services/chemistry/pose_physical_validity.py` existe pero no está cableado al
-pipeline (`docs/53 §12`, punto 6). En consecuencia el control sale siempre
-`NO EVALUADO`, que es lo correcto y está cubierto por pruebas.
+La evaluación estructural se persiste en `structural_evidence` y la selección
+en `pose_selection`. En corridas anteriores a ese contrato, o si una etapa no
+produjo evidencia, los controles correspondientes se declaran no evaluados.
+La reconstrucción de hidrógenos y el criterio físico deben leerse en el
+protocolo concreto de la corrida; no se infieren de la presencia de un SDF.
 
 ---
 
@@ -140,9 +141,12 @@ resto de `/evaluation`.
 
 ### Coherencia de la corrida
 
-Si `EvaluationResult.celery_task_id` existe y **no coincide** con el `task_id`
-de la proyección, el endpoint responde **409**. No se empaqueta en silencio un
-resultado que pertenece a otra corrida.
+Con `task_id` declarado, el backend carga `evaluation_runs.snapshot_json` de
+esa corrida y verifica su identidad. Las addenda selladas por `task_id` se
+aplican a una copia del snapshot para mostrar selectividad, MM-GBSA, informe IA
+y certificado llegados después; el snapshot base permanece inmutable. Un hash
+de addendum incorrecto detiene la lectura. Sin `task_id`, se lee la proyección
+vigente. Una identidad discordante responde **409**.
 
 Si la huella de la corrida no coincide con la del preflight, el modelo lo
 declara —`REVISAR` en «relación de la corrida con los inputs actuales»—, escribe
@@ -166,14 +170,20 @@ moldesign_case_<case-id>_run_<task-short>/
 ├── run/
 │   ├── protocol.json            parámetros, entradas y procedencia
 │   └── reproduce.md             receta de reproducción
-├── inputs/                      ligando y receptor preparado, si existen
-├── outputs/                     poses serializadas, si existen
-├── evidence/
-│   └── evidence_summary.json    controles, dimensiones, decisiones
-└── logs/                        advertencias y errores de ESTA corrida
+├── inputs/                      SDF y PDBQT ejecutados, SMILES y receptor preparado
+├── outputs/                     poses SDF y bloques PDBQT exactos, si existen
+├── evidencia/
+│   ├── evidence_summary.json    controles, dimensiones, decisiones
+│   ├── structural_evidence.json evidencia física por pose, si existe
+│   ├── pose_selection.json      selección, si existe
+│   └── pose_index.json          índice de poses, si existe
+└── logs/                        log Vina sellado y advertencias de ESTA corrida
 ```
 
-**Sólo artefactos reales.** Si un archivo no existe: no se fabrica un marcador
+**Sólo artefactos reales.** SDF de entrada, PDBQT de entrada, receptor, poses
+y log se leen por su ruta lógica de corrida y se contrastan con el SHA-256
+persistido antes de agregarlos. Un archivo mutable cuyo contenido cambió se
+marca `NO_DISPONIBLE` aunque todavía exista en disco. Si un archivo no existe: no se fabrica un marcador
 que parezca el artefacto; se registra en `manifest.json` con estado
 `NO_DISPONIBLE` o `NO_EVALUADO` y su razón, y la ausencia se explica en el
 `README.md`.
@@ -238,7 +248,9 @@ extrajera sería la vía de entrada obvia para un zip-slip.
    versión futura **detiene** la verificación en vez de concluir.
 5. **Archivos declarados**: los `REGISTRADO` existen; los declarados ausentes
    **no** están presentes (si aparecen, el paquete miente sobre sí mismo).
-6. **Tamaño y SHA-256** de cada archivo declarado.
+6. **Tamaño y SHA-256 obligatorios** de cada archivo `REGISTRADO`: tamaño
+   entero no negativo y hash hexadecimal de 64 caracteres. Ausencia, `null`,
+   `bool` o formato incorrecto invalidan el paquete aunque el contenido exista.
 7. **Archivos no declarados**: ninguno, salvo las tres exclusiones.
 8. **`checksums.sha256`**: ordenado, sin líneas mal formadas, coincide con el
    contenido real y no lista archivos que no están.
@@ -302,12 +314,16 @@ Declaradas, no escondidas:
    de preparación junto a la corrida.
 3. **`pose_validation` sin cablear.** Mientras no sea columna del ORM, el
    control físico será siempre `NO_EVALUADO`.
-4. **Protonación, tautomería y estereoquímica.** El pipeline no las registra;
-   hasta que lo haga se declaran `NO_EVALUADO`.
+4. **Estados químicos.** `ligand_state` registra la especie acoplada,
+   protonación, declaración de tautómeros y estereoquímica cuando la corrida
+   produjo esos datos. Declarado no equivale a resuelto: una ambigüedad
+   multestado conserva su advertencia y no se promueve a `PASA`.
 5. **Receptor original.** El paquete incluye el receptor *preparado* cuando
    existe; el PDB de origen se referencia por hash pero no se empaqueta.
-6. **Top-K, ensemble y dominio por pose.** Sólo se incluye lo que la corrida
-   serializó; no hay selección de poses ni comparación entre semillas.
+6. **Top-K, ensemble y dominio por pose.** `pose_selection` y
+   `structural_evidence` se empaquetan cuando la corrida los serializó.
+   La ausencia queda declarada; una recomendación del selector no valida por
+   sí misma la pose ni sustituye una comparación entre semillas.
 7. **Importación del paquete.** Este sprint exporta y verifica; reconstruir un
    caso desde un ZIP es Hito 3.
 8. **Firma y cifrado.** Fuera de alcance por decisión explícita: el paquete es

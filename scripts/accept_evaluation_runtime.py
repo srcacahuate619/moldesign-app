@@ -6,6 +6,7 @@ No toca ``~/MolDesign``: crea SQLite, artefactos, logs y evidencia dentro de
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import socket
@@ -44,8 +45,15 @@ if SOBRE_BUNDLE and not (_STAGED / "backend" / "api" / "main.py").is_file():
     )
 ARBOL = _STAGED if SOBRE_BUNDLE else ROOT
 BACKEND = ARBOL / "backend"
-PYTHON = (ARBOL / "python" / "python.exe") if SOBRE_BUNDLE else (ROOT / "python-embed" / "python.exe")
-VINA_EXE = _STAGED / "tools" / "vina" / "vina.exe"
+PYTHON = Path(os.environ.get(
+    "MOLDESIGN_GATE_PYTHON",
+    str((ARBOL / "python" / "python.exe") if SOBRE_BUNDLE
+        else (ROOT / "python-embed" / "python.exe")),
+))
+VINA_EXE = Path(os.environ.get(
+    "MOLDESIGN_GATE_VINA",
+    str(_STAGED / "tools" / "vina" / "vina.exe"),
+))
 # Aspirina: ligando pequeño pero farmacológicamente plausible que supera el
 # umbral mínimo del validador (a diferencia del etanol usado originalmente).
 SMILES = "CC(=O)OC1=CC=CC=C1C(=O)O"
@@ -270,6 +278,60 @@ def _assert_clgnn_observable(result: dict[str, Any], contract: str) -> None:
         )
 
 
+def _golden_actual(result: dict[str, Any]) -> dict[str, Any]:
+    protocol = result.get("docking_protocol") or {}
+    execution = protocol.get("execution_provenance") or {}
+    ligand = result.get("ligand_state") or {}
+    selection = result.get("pose_selection") or {}
+    return {
+        "affinity_kcal": result.get("affinity_kcal"),
+        "vina_version": result.get("vina_version"),
+        "receptor_sha256": result.get("receptor_sha256"),
+        "ligand_smiles_acoplado": ligand.get("smiles_acoplado"),
+        "model_used": result.get("model_used"),
+        "pose_selection_contract": selection.get("contract"),
+        "protocol": {k: protocol.get(k) for k in (
+            "contract", "engine", "exhaustiveness", "num_poses", "seed",
+        )},
+        "execution": {k: execution.get(k) for k in (
+            "box_center", "box_size", "cpu", "ligand_input_sha256",
+            "ligand_pdbqt_sha256", "poses_sha256", "receptor_sha256",
+            "receptor_prep", "toolchain",
+        )},
+    }
+
+
+def check_e2e_golden(pro: dict[str, Any], normal: dict[str, Any], data_dir: Path) -> None:
+    """Compara snapshots de Vina real y los bytes de poses que quedaron en disco."""
+    golden_path = ROOT / "backend" / "tests" / "goldens" / "e2e_vina_3f75.json"
+    golden = json.loads(golden_path.read_text(encoding="utf-8"))
+    for label, result in (("pro", pro), ("normal", normal)):
+        actual = _golden_actual(result)
+        expected = golden[label]
+        if actual != expected:
+            for field in expected:
+                if actual.get(field) != expected[field]:
+                    raise GateFailure(f"Golden E2E {label}: {field} difiere")
+            raise GateFailure(f"Golden E2E {label}: campos inesperados")
+        relative = result.get("poses_file_path")
+        if not isinstance(relative, str):
+            raise GateFailure(f"Golden E2E {label}: no hay ruta de poses")
+        candidate = (data_dir / relative).resolve()
+        if not candidate.is_relative_to(data_dir.resolve()) or not candidate.is_file():
+            raise GateFailure(f"Golden E2E {label}: poses ausentes o ruta inválida")
+        content_hash = hashlib.sha256(candidate.read_bytes()).hexdigest()
+        if content_hash != actual["execution"]["poses_sha256"]:
+            raise GateFailure(f"Golden E2E {label}: SHA de poses no corresponde al archivo")
+        receptor_relative = result.get("receptor_path")
+        if not isinstance(receptor_relative, str):
+            raise GateFailure(f"Golden E2E {label}: no hay snapshot de receptor")
+        receptor_file = (data_dir / receptor_relative).resolve()
+        if not receptor_file.is_relative_to(data_dir.resolve()) or not receptor_file.is_file():
+            raise GateFailure(f"Golden E2E {label}: receptor ausente o ruta inválida")
+        if hashlib.sha256(receptor_file.read_bytes()).hexdigest() != result["receptor_sha256"]:
+            raise GateFailure(f"Golden E2E {label}: SHA de receptor no corresponde al archivo")
+
+
 def _contrato_sin_pipeline_config(
     base: str,
     token: str,
@@ -278,9 +340,8 @@ def _contrato_sin_pipeline_config(
 ) -> dict[str, Any]:
     """Corrida por la ruta por defecto: `submit` SIN `pipeline_config`.
 
-    Debe terminar en SUCCESS y dejar resultado persistido y releible. Es la rama
-    que `_run_full_evaluation_async` ejecuta en linea, sin delegar en el runner
-    PRO, y la que estuvo rota sin que este gate se enterara.
+    Debe terminar en SUCCESS y dejar resultado persistido y releible. Usa el mismo runner que PRO con perfil normal explicito, y antes quedaba
+    fuera del gate aunque tuviera un contrato diferente.
     """
     preflight = _json(base, "POST", "/evaluation/preflight", token=token, body={
         "smiles": SMILES_SIN_CONFIG,
@@ -528,6 +589,26 @@ def main() -> int:
             if not any(name.endswith("outputs/poses.sdf") for name in archive.namelist()):
                 raise GateFailure("El dossier no contiene el SDF de poses registrado.")
 
+            execution = (reopened.get("docking_protocol") or {}).get("execution_provenance") or {}
+            for zip_suffix, relative, expected_sha in (
+                ("inputs/ligand_input.sdf", execution.get("ligand_input_path"),
+                 execution.get("ligand_input_sha256")),
+                ("inputs/ligand_input.pdbqt", execution.get("ligand_pdbqt_path"),
+                 execution.get("ligand_pdbqt_sha256")),
+                ("logs/vina.log", execution.get("log_path"), execution.get("log_sha256")),
+                ("inputs/3F75_prepared.pdbqt", reopened.get("receptor_path"),
+                 reopened.get("receptor_sha256")),
+            ):
+                matches = [name for name in archive.namelist() if name.endswith(zip_suffix)]
+                if len(matches) != 1 or not isinstance(relative, str):
+                    raise GateFailure(f"El dossier omite el archivo ejecutado {zip_suffix}.")
+                stored = (data_dir / relative).resolve()
+                if not stored.is_relative_to(data_dir.resolve()) or not stored.is_file():
+                    raise GateFailure(f"El archivo conservado {zip_suffix} no existe.")
+                exact = archive.read(matches[0])
+                if exact != stored.read_bytes() or hashlib.sha256(exact).hexdigest() != expected_sha:
+                    raise GateFailure(f"El dossier alteró los bytes ejecutados de {zip_suffix}.")
+
         forbidden_checks = [
             ("GET", f"/evaluation/status/{task_id}", None),
             ("GET", f"/evaluation/result/{molecule_id}?task_id={task_id}", None),
@@ -544,6 +625,10 @@ def main() -> int:
 
         # ── Contrato 2: la misma instalación, por la ruta por defecto ────────
         sin_config = _contrato_sin_pipeline_config(base, alice, evidence, molecule_id)
+        normal_result = json.loads(
+            (evidence / "result-sin-config.json").read_text(encoding="utf-8")
+        )["reabierto"]
+        check_e2e_golden(reopened, normal_result, data_dir)
 
         summary.update({
             "status": "PASS",
