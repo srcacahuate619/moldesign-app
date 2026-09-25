@@ -132,6 +132,8 @@ def predict_rescore(
             "inference_time_ms": round(elapsed, 1),
             "warnings": response.warnings,
             "shap_values": response.shap_values,
+            "shap_output": response.shap_output,
+            "shap_model_id": response.shap_model_id,
             "features_used": response.features_used,
             # F-21: transparencia del modelo usado. El sidecar rellena
             # model_used/fallback_reason en el quality gate; in_domain viene

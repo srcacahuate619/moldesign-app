@@ -57,6 +57,7 @@ def main() -> int:
         num_workers = 2
     anti_targets_csv = sys.argv[7] if len(sys.argv) > 7 else ""
     task_id = sys.argv[8] if len(sys.argv) > 8 else None
+    docking_protocol = json.loads(sys.argv[9]) if len(sys.argv) > 9 else None
     anti_ids = [a.strip() for a in anti_targets_csv.split(",") if a.strip()] or None
 
     import asyncio
@@ -80,6 +81,7 @@ def main() -> int:
             on_target_affinity=on_affinity,
             num_workers=num_workers,
             anti_targets=anti_ids,
+            docking_protocol=docking_protocol,
         )
 
         payload = {
@@ -99,6 +101,7 @@ def main() -> int:
             repo = Repository(db)
             values = dict(
                 selectivity_ratio=result.selectivity_ratio,
+                selectivity_delta_delta_g=result.delta_delta_g_kcal,
                 selectivity_ran=True,
                 selectivity_verdict=payload["selectivity_verdict"],
                 anti_target_results=result.off_targets or [],

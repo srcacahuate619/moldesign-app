@@ -1,4 +1,4 @@
-"""Regression tests for the deterministic v4 model manifest release gate."""
+"""Regression tests for the deterministic v5 model manifest release gate."""
 
 from __future__ import annotations
 
@@ -55,7 +55,7 @@ def _saltar_si_faltan_pesos() -> None:
         return
     faltan = pesos_ausentes(directorio, _declarados(manifiesto))
     if faltan and not se_exigen_pesos():
-        pytest.skip(motivo(faltan, "declarados por el manifiesto v4"))
+        pytest.skip(motivo(faltan, "declarados por el manifiesto v5"))
 
 
 def _load_generator_module():
@@ -127,8 +127,19 @@ def test_generator_rejects_downgrade_or_lost_registered_model(generator):
         generator._assert_safe_transition(lost_model, desired)
 
 
-def test_json_schema_declares_exact_v4_model_set():
+def test_json_schema_declares_exact_v5_model_set():
     schema_path = default_artifacts_dir() / "model-manifest.schema.json"
     schema = json.loads(schema_path.read_text(encoding="utf-8"))
     assert schema["properties"]["manifest_version"]["const"] == MANIFEST_VERSION
     assert set(schema["properties"]["models"]["required"]) == REQUIRED_MODEL_KEYS
+    assert "applicability_domain" in schema["required"]
+
+
+def test_runtime_verifier_rejects_changed_ad_hash(tmp_path):
+    manifest = load_manifest(default_artifacts_dir() / "model-manifest.json")
+    manifest["applicability_domain"]["sha256"] = "0" * 64
+    path = tmp_path / "model-manifest.json"
+    path.write_bytes(canonical_manifest_bytes(manifest))
+    result = verify_model_manifest(path, default_artifacts_dir())
+    assert not result.valid
+    assert any("applicability_domain: sha256 no coincide" in error for error in result.errors)

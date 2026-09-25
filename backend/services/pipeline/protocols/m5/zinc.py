@@ -382,6 +382,8 @@ def calcular(
     smiles: str,
     vina_kcal_mol: float | None = None,
     xgb_prob: float | None = None,
+    xgb_in_domain: bool = True,
+    xgb_features_ok: bool = True,
     gnn_d_prob: float | None = None,
     hay_zinc_confirmado: bool = False,
     familia_normalizada: str | None = None,
@@ -439,9 +441,12 @@ def calcular(
             ),
         )
 
+    # La probabilidad existe como observacion, pero fuera de dominio o sin
+    # geometria 3D no es un componente valido del perfil M5.
+    xgb_aplicable = xgb_prob if xgb_in_domain and xgb_features_ok else None
     disponibles = {
         "vina": vina_kcal_mol,
-        "xgb": xgb_prob,
+        "xgb": xgb_aplicable,
         "gnn_d": gnn_d_prob,
         "ums": señales.get("ums_warhead"),
     }

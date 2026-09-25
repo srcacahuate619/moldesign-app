@@ -491,6 +491,13 @@ def build_labeled_metrics(
         "n_negative": len(negativos),
         "n_labeled_molecules": len(etiquetadas),
         "coverage": cobertura,
+        "excluidos": {
+            "activos": sum(e["active_label"] is True for e in etiquetadas
+                           if e["observed_vina_affinity_kcal_mol"] is None),
+            "inactivos": sum(e["active_label"] is False for e in etiquetadas
+                             if e["observed_vina_affinity_kcal_mol"] is None),
+            "motivo": "sin_afinidad_observada",
+        },
         "controls": controles,
     }
 
@@ -519,31 +526,23 @@ def build_labeled_metrics(
     n_pos = len(positivos)
     tasa_base = n_pos / n
 
-    # ROC-AUC por Mann-Whitney con empates a 0.5, sobre el score = -afinidad.
-    concordantes = 0.0
-    for p in positivos:
-        for q in negativos:
-            a, b = p["observed_vina_affinity_kcal_mol"], q["observed_vina_affinity_kcal_mol"]
-            if a < b:
-                concordantes += 1.0
-            elif a == b:
-                concordantes += 0.5
-    roc_auc = round(concordantes / (n_pos * len(negativos)), 6)
+    from scoring.enriquecimiento import ef_fraccional, roc_auc_midrank
+
+    scores = [-float(e["observed_vina_affinity_kcal_mol"]) for e in ordenadas]
+    labels = [e["active_label"] is True for e in ordenadas]
+    roc_auc = round(roc_auc_midrank(scores, labels), 6)
 
     factores = []
     for fraccion in EF_FRACTIONS:
-        k = math.ceil(n * fraccion)
-        if k < 1 or k >= n:
+        if math.ceil(n * fraccion) >= n:
             continue
-        aciertos = sum(1 for e in ordenadas[:k] if e["active_label"] is True)
-        factores.append(
-            {
-                "fraction": fraccion,
-                "n_selected": k,
-                "n_actives_selected": aciertos,
-                "value": round((aciertos / k) / tasa_base, 6) if tasa_base else None,
-            }
-        )
+        ef, aciertos, k = ef_fraccional(scores, labels, fraccion)
+        factores.append({
+            "fraction": fraccion,
+            "n_selected": k,
+            "n_actives_selected": round(aciertos, 6),
+            "value": round(ef, 6) if ef is not None else None,
+        })
 
     return {
         "status": "evaluated",

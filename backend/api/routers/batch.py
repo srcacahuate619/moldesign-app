@@ -85,7 +85,7 @@ def _require_own_batch(batch: dict[str, Any] | None, current_user: UserORM | Non
     return batch
 
 
-def _extract_from_csv(content: str) -> tuple[list[dict[str, str]], dict[str, bool]]:
+def _extract_from_csv(content: str, *, with_labels: bool = False) -> tuple[list[dict], dict[str, bool]]:
     """Extrae SMILES + nombres + labels active/inactive desde CSV."""
     import csv
     reader = csv.DictReader(io.StringIO(content))
@@ -111,13 +111,16 @@ def _extract_from_csv(content: str) -> tuple[list[dict[str, str]], dict[str, boo
                 except (ValueError, TypeError):
                     pass
         if smiles and len(smiles) > 1:
-            molecules.append({"smiles": smiles, "name": name or smiles[:20]})
+            item = {"smiles": smiles, "name": name or smiles[:20]}
+            if with_labels:
+                item["is_active"] = is_active
+            molecules.append(item)
             if name and is_active is not None:
                 labels[name] = is_active
     return molecules, labels
 
 
-def _extract_from_excel(content: bytes) -> tuple[list[dict[str, str]], dict[str, bool]]:
+def _extract_from_excel(content: bytes, *, with_labels: bool = False) -> tuple[list[dict], dict[str, bool]]:
     """Extrae SMILES + nombres + labels active/inactive desde Excel."""
     import openpyxl
     import zipfile
@@ -154,12 +157,17 @@ def _extract_from_excel(content: bytes) -> tuple[list[dict[str, str]], dict[str,
             smiles = str(value(smiles_col)).strip() if value(smiles_col) else None
             name = str(value(name_col)).strip() if value(name_col) else None
             if smiles and len(smiles) > 1:
-                molecules.append({"smiles": smiles, "name": name or smiles[:20]})
+                item = {"smiles": smiles, "name": name or smiles[:20]}
+                if with_labels:
+                    item["is_active"] = None
+                molecules.append(item)
                 if len(molecules) > 500:
                     raise HTTPException(400, "Máximo 500 moléculas por batch")
                 if name and active_col is not None:
                     try:
                         labels[name] = bool(int(value(active_col)))
+                        if with_labels:
+                            molecules[-1]["is_active"] = labels[name]
                     except (ValueError, TypeError):
                         pass
         return molecules, labels
@@ -246,9 +254,10 @@ async def submit_batch(
     active_labels: dict[str, bool] = {}  # name → is_active
 
     if filename.endswith(".csv"):
-        molecules, active_labels = _extract_from_csv(content.decode("utf-8", errors="replace"))
+        molecules, active_labels = _extract_from_csv(
+            content.decode("utf-8", errors="replace"), with_labels=True)
     elif filename.endswith((".xlsx", ".xls")):
-        molecules, active_labels = _extract_from_excel(content)
+        molecules, active_labels = _extract_from_excel(content, with_labels=True)
     elif filename.endswith(".sdf"):
         molecules = _extract_smiles_from_sdf(content.decode("utf-8", errors="replace"))
         active_labels = {}
@@ -264,7 +273,8 @@ async def submit_batch(
                     label = int(parts[2]) if len(parts) > 2 else None
                 except ValueError as exc:
                     raise HTTPException(400, "Etiqueta active inválida en archivo SMILES") from exc
-                molecules.append({"smiles": smiles, "name": name})
+                molecules.append({"smiles": smiles, "name": name,
+                                  "is_active": bool(label) if label is not None else None})
                 if label is not None:
                     active_labels[name] = bool(label)
     else:
@@ -297,8 +307,10 @@ async def submit_batch(
             valid.append({
                 "smiles": v.canonical_smiles,
                 "name": m["name"],
+                "row_id": len(valid),
                 "original": m["smiles"],
-                "is_active": active_labels.get(m["name"]),
+                "is_active": m["is_active"] if "is_active" in m
+                             else active_labels.get(m["name"]),
             })
         except Exception:
             invalid += 1
@@ -365,11 +377,7 @@ async def get_batch_status(
     # Return sorted results (best first) if complete
     results = batch.get("results", [])
     if batch["status"] == "completed":
-        results = sorted(
-            results,
-            key=lambda r: r.get("total_score") or 0,
-            reverse=True,
-        )
+        results = sorted(results, key=_orden_exportado)
 
     return {
         "batch_id": batch["id"],
@@ -383,6 +391,9 @@ async def get_batch_status(
         "early_exit_enabled": batch.get("early_exit", False),
         "has_active_labels": batch.get("has_labels", False),
         "ef_metrics": batch.get("ef_metrics"),
+        "ranking_policy": "por_diana_y_componentes_completos_primero",
+        "ranking_mixto": len({r.get("stacking_degraded") for r in results
+                              if r.get("status") == "success"}) > 1,
         "results": results,
         "error": batch.get("error"),
     }
@@ -409,7 +420,10 @@ def _regla_exportada(valor: bool | None, si: str = "PASS", no: str = "FAIL") -> 
 
 def _orden_exportado(resultado: dict) -> tuple:
     valor = _numero_exportado(resultado.get("total_score"), 4)
-    return (resultado.get("status") != "success", valor is None, -(valor or 0.0))
+    return (resultado.get("target") or "",
+            resultado.get("status") != "success",
+            resultado.get("stacking_degraded") is not False,
+            valor is None, -(valor or 0.0))
 
 
 def _fila_exportada(rango: int, resultado: dict) -> list[Any]:
@@ -642,6 +656,9 @@ async def _process_batch(
                                     "status": "success",
                                     "affinity_kcal": r.affinity_kcal,
                                     "total_score": r.total_score,
+                                    "affinity_score": r.affinity_score,
+                                    "stacking_degraded": r.stacking_degraded,
+                                    "stacking_effective_weights": r.stacking_effective_weights,
                                     "adme_score": r.adme_score,
                                     "molecular_weight": r.molecular_weight,
                                     "log_p": r.log_p, "tpsa": r.tpsa,
@@ -674,6 +691,7 @@ async def _process_batch(
                         if result.get("status") == "failed":
                             batch["failed"] += 1
                         result["task_id"] = task_id
+                        result["row_id"] = mol.get("row_id")
                         batch["results"].append(result)
                         await _persist_batch(batch)
 
@@ -697,44 +715,97 @@ async def _process_batch(
 
 
 def _compute_ef_metrics(results: list[dict], molecules: list[dict], skipped: int) -> dict | None:
-    """Computa EF@1%, EF@5%, EF@10% y ROC-AUC si hay labels active/inactive."""
+    """EF/AUC por diana. Fallos cuentan como el peor score y quedan declarados."""
+    from collections import Counter
+    from scoring.enriquecimiento import ef_fraccional, roc_auc_midrank
 
-    name_to_active = {m["name"]: m.get("is_active", False) for m in molecules}
-
-    scored = [
-        (r.get("total_score") or 0, bool(name_to_active.get(r["name"], False)))
-        for r in results
-        if r.get("status") == "success" and r.get("total_score") is not None
-    ]
-    if not scored or not any(a for _, a in scored):
+    labels: dict[object, bool] = {}
+    for molecule in molecules:
+        label = molecule.get("is_active")
+        if label is None:
+            continue
+        key = ("row", molecule["row_id"]) if molecule.get("row_id") is not None else (
+            molecule["name"], molecule["smiles"])
+        if key in labels:
+            return {"status": "not_evaluated", "reason": "identidad_de_fila_duplicada"}
+        labels[key] = bool(label)
+    if not labels:
         return None
 
-    scored.sort(key=lambda x: x[0], reverse=True)
-    n = len(scored)
-    n_act = sum(1 for _, a in scored if a)
-    if n_act == 0:
+    por_diana: dict[str, dict] = {}
+    for target in sorted({r.get("target") for r in results if r.get("target")}):
+        target_rows = [r for r in results if r.get("target") == target]
+        by_key = {
+            (("row", r["row_id"]) if r.get("row_id") is not None
+             else (r.get("name"), r.get("smiles"))): r
+            for r in target_rows
+        }
+        signatures = {
+            (r.get("stacking_degraded"),
+             tuple(sorted((r.get("stacking_effective_weights") or {}).items())))
+            for r in target_rows if r.get("status") == "success"
+        }
+        basis = "affinity_score" if len(signatures) > 1 else "total_score"
+        scores: list[float] = []
+        y: list[bool] = []
+        reasons: Counter[str] = Counter()
+        excluded_active = excluded_inactive = 0
+        for key, label in labels.items():
+            row = by_key.get(key)
+            value = row.get(basis) if row and row.get("status") == "success" else None
+            try:
+                score = float(value) if value is not None else float("-inf")
+                if math.isnan(score):
+                    score = float("-inf")
+            except (TypeError, ValueError):
+                score = float("-inf")
+            if score == float("-inf"):
+                reason = (row.get("error") or row.get("status") or "sin_score") if row else "sin_resultado"
+                reasons[str(reason)[:80]] += 1
+                excluded_active += int(label)
+                excluded_inactive += int(not label)
+            scores.append(score)
+            y.append(label)
+
+        auc = roc_auc_midrank(scores, y)
+        metrics = {
+            "n_total": len(y),
+            "n_actives": sum(y),
+            "score_basis": basis,
+            "roc_auc": round(auc, 4) if auc is not None else None,
+            "excluidos": {"activos": excluded_active, "inactivos": excluded_inactive,
+                          "motivos": dict(reasons)},
+        }
+        for pct in (1, 5, 10):
+            ef, _, _ = ef_fraccional(scores, y, pct / 100.0)
+            metrics[f"ef_{pct}pct"] = round(ef, 2) if ef is not None else None
+        por_diana[target] = metrics
+    if not por_diana:
         return None
 
-    def ef_at(pct: float) -> float:
-        top_n = max(1, int(n * pct / 100))
-        found = sum(1 for _, a in scored[:top_n] if a)
-        expected = n_act * (top_n / n)
-        return round(found / expected, 2) if expected > 0 else 0.0
-
-    try:
-        from sklearn.metrics import roc_auc_score
-        y_true = [int(a) for _, a in scored]
-        y_score = [s for s, _ in scored]
-        auc = round(float(roc_auc_score(y_true, y_score)), 4)
-    except Exception:
-        auc = None
-
-    return {
-        "n_total": n,
-        "n_actives": n_act,
-        "n_early_exit_skipped": skipped,
-        "ef_1pct": ef_at(1.0),
-        "ef_5pct": ef_at(5.0),
-        "ef_10pct": ef_at(10.0),
-        "roc_auc": auc,
+    keys = ("ef_1pct", "ef_5pct", "ef_10pct", "roc_auc")
+    media = {
+        key: round(sum(m[key] for m in por_diana.values() if m[key] is not None) /
+                   sum(m[key] is not None for m in por_diana.values()), 4)
+        if any(m[key] is not None for m in por_diana.values()) else None
+        for key in keys
     }
+    result = {
+        "status": "evaluated",
+        "por_diana": por_diana,
+        "media": media,
+        "n_early_exit_skipped": skipped,
+        "n_total": sum(m["n_total"] for m in por_diana.values()),
+        "n_actives": sum(m["n_actives"] for m in por_diana.values()),
+        "excluidos": {
+            "activos": sum(m["excluidos"]["activos"] for m in por_diana.values()),
+            "inactivos": sum(m["excluidos"]["inactivos"] for m in por_diana.values()),
+        },
+    }
+    # Campos heredados: con varias dianas representan la media no ponderada
+    # de las métricas por diana, nunca un ranking global mezclado.
+    result.update(media if len(por_diana) > 1 else {
+        key: next(iter(por_diana.values()))[key] for key in keys
+    })
+    result["aggregation"] = "mean_per_target" if len(por_diana) > 1 else "single_target"
+    return result

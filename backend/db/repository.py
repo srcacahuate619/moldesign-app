@@ -18,7 +18,7 @@ from datetime import UTC, datetime
 from typing import Any
 from types import SimpleNamespace
 
-from sqlalchemy import select, func, update, or_, JSON
+from sqlalchemy import select, func, update, or_, JSON, case
 from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
@@ -128,7 +128,10 @@ class Repository:
             .options(
                 joinedload(EvaluationResultORM.molecule).joinedload(MoleculeORM.target)
             )
-            .order_by(EvaluationResultORM.total_score.desc())
+            .order_by(
+                case((EvaluationResultORM.stacking_degraded.is_(False), 0), else_=1),
+                EvaluationResultORM.total_score.desc(),
+            )
             .limit(limit)
         )
         if user_id:
@@ -711,7 +714,11 @@ class Repository:
             .options(
                 joinedload(EvaluationResultORM.molecule).joinedload(MoleculeORM.target)
             )
-            .order_by(TargetORM.name.asc(), EvaluationResultORM.total_score.desc())
+            .order_by(
+                TargetORM.name.asc(),
+                case((EvaluationResultORM.stacking_degraded.is_(False), 0), else_=1),
+                EvaluationResultORM.total_score.desc(),
+            )
         )
 
         if limit is not None:
@@ -840,6 +847,7 @@ class Repository:
         self,
         molecule_id: uuid.UUID,
         selectivity_ratio: float | None,
+        selectivity_delta_delta_g: float | None,
         selectivity_ran: bool,
         selectivity_verdict: str,
         anti_target_results: list[dict] | None,
@@ -859,6 +867,7 @@ class Repository:
             return
 
         result.selectivity_ratio = selectivity_ratio
+        result.selectivity_delta_delta_g = selectivity_delta_delta_g
         result.selectivity_ran = selectivity_ran
         result.selectivity_verdict = selectivity_verdict
         result.anti_target_results = anti_target_results or []
@@ -995,6 +1004,9 @@ class Repository:
             )
             result.stacking_degraded = bool(scores["stacking_degraded"]) if scores.get("stacking_degraded") is not None else None
             result.stacking_missing_components = list(scores["degraded_missing"]) if scores.get("degraded_missing") is not None else None
+            result.weights_source = scores.get("weights_source")
+            result.weights_registry_hash = scores.get("weights_registry_hash")
+            result.weights_calibration_id = scores.get("weights_calibration_id")
             # M5-Zn. `None` en las cuatro = el protocolo no se ejecuto en esta
             # corrida; jamas un score de cero. Ver services/pipeline/protocols/m5.
             result.m5_protocol_id = (
@@ -1023,6 +1035,8 @@ class Repository:
             # XAI
             if "shap_values" in scores:
                 result.shap_values = scores["shap_values"]
+                result.shap_output = scores.get("shap_output")
+                result.shap_model_id = scores.get("shap_model_id")
             if "gnn_attention" in scores:
                 result.gnn_attention = scores["gnn_attention"]
             if "gnn_attention_svg" in scores:

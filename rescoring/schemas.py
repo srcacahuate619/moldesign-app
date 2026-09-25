@@ -54,15 +54,18 @@ class PreScoreResponse(BaseModel):
     """Respuesta de pre-scoring."""
     score: float
     model_version: str
-    in_domain: bool
+    in_domain: bool | None
 
 
 class ApplicabilityDomainResult(BaseModel):
     """Resultado del check de Applicability Domain."""
 
-    in_domain: bool = Field(..., description="¿Molécula dentro del dominio de entrenamiento?")
-    mahalanobis_distance: float = Field(..., description="Distancia de Mahalanobis")
-    threshold: float = Field(..., description="Umbral (percentil 99 del training set)")
+    in_domain: bool | None = Field(..., description="None si no existe un AD válido para el modelo servido.")
+    mahalanobis_distance: float | None = Field(..., description="Distancia de Mahalanobis en el espacio evaluado.")
+    threshold: float | None = Field(..., description="Umbral out-of-sample; None si AD no evaluado.")
+    status: str = "evaluated"
+    reason: str | None = None
+    artifact_sha256: str | None = None
     out_of_range_descriptors: list[str] = Field(
         default_factory=list,
         description="Descriptores fuera de rango (e.g., 'MW: 1250 Da, rango training: 150-750')",
@@ -121,7 +124,9 @@ class RescoreResponse(BaseModel):
     warnings: list[str] = Field(default_factory=list, description="Warnings científicos")
 
     # XAI
-    shap_values: dict[str, float] | None = Field(None, description="Top contribuciones SHAP de XGBoost")
+    shap_values: dict[str, float] | None = Field(None, description="SHAP del regresor Model A.")
+    shap_output: str | None = None
+    shap_model_id: str | None = None
     gnn_attention: list[float] | None = Field(None, description="Atención GNN por átomo del ligando")
     gnn_attention_svg: str | None = Field(None, description="Mapa de calor 2D SVG generado por RDKit")
     gnn_pharmacophores: dict[str, float] | None = Field(None, description="Desglose porcentual de atención por grupo farmacóforo")

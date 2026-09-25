@@ -125,7 +125,7 @@ class TestHealthEndpoint:
         # test_health_returns_503_*, no esta.
         verificacion_sana = {
             "valid": True,
-            "manifest_version": 4,
+            "manifest_version": 5,
             "models": [],
             "errors": [],
         }
@@ -147,7 +147,7 @@ class TestHealthEndpoint:
             assert data["components"]["vina"]["status"] == "healthy"
             assert data["components"]["database"]["status"] == "healthy"
             assert data["components"]["model_manifest"]["status"] == "healthy"
-            assert data["components"]["model_manifest"]["manifest_version"] == 4
+            assert data["components"]["model_manifest"]["manifest_version"] == 5
 
     def test_health_returns_503_when_rdkit_unhealthy(self, client: TestClient):
         """RDKit unhealthy → 503 + status='degraded' (frontend marca base como missing)."""

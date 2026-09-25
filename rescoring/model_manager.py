@@ -57,6 +57,8 @@ class ModelManager:
         self.model_a = None
         self.model_null = None
         self.model_a_artifact: dict | None = None
+        self.model_a_sha256: str | None = None
+        self.family_model_sha256: dict[str, str] = {}
         self.model_null_artifact: dict | None = None
         self.delta_distribution: dict[str, Any] | None = None
         self.applicability_domain: dict[str, Any] | None = None
@@ -79,8 +81,8 @@ class ModelManager:
         # stale 3D features.
         self._feature_cache: dict[tuple[str, str, str], dict[str, float]] = {}
         self._feature_cache_max: int = 256
-        # [A2] Medias de entrenamiento (desde applicability_domain) para
-        # imputación explícita de features faltantes. Se llena en load_models.
+        # Sólo hay medias de los siete descriptores AD; otras features
+        # ausentes invalidan el contrato de predicción.
         self._feature_means: dict[str, float] = {}
 
     @property
@@ -165,6 +167,7 @@ class ModelManager:
             # Cargar Modelo A (JSON)
             self.model_a = xgb.Booster()
             self.model_a.load_model(str(model_a_path))
+            self.model_a_sha256 = hashlib.sha256(model_a_path.read_bytes()).hexdigest()
 
             # [A2] Guard de contrato: Model A fuera de 167 features (p. ej.
             # legacy de 176) → modo degradado explícito, jamás predicción.
@@ -244,6 +247,7 @@ class ModelManager:
                     continue
 
                 self.family_models[family] = model
+                self.family_model_sha256[family] = hashlib.sha256(fam_json.read_bytes()).hexdigest()
                 self._families_trained.append(family)
 
                 meta_path = fam_json.with_suffix(".metadata.json")
@@ -275,8 +279,18 @@ class ModelManager:
             try:
                 with open(ad_path) as f:
                     ad_data = json.load(f)
+                    if ad_data.get("artifact_version") == 2:
+                        registry = json.loads((ad_path.parent / "model-manifest.json").read_text(encoding="utf-8"))
+                        ad_hash = hashlib.sha256(ad_path.read_bytes()).hexdigest()
+                        if (registry.get("manifest_version") != 5
+                                or registry.get("applicability_domain", {}).get("sha256") != ad_hash
+                                or ad_data.get("model_a_sha256") != self.model_a_sha256
+                                or not classifier_path.is_file()
+                                or ad_data.get("classifier_sha256") != hashlib.sha256(classifier_path.read_bytes()).hexdigest()):
+                            raise ValueError("AD no coincide con el manifiesto o los modelos servidos")
                     threshold_val = ad_data.get("threshold", ad_data.get("threshold_p99"))
                     self.applicability_domain = {
+                        "artifact_sha256": hashlib.sha256(ad_path.read_bytes()).hexdigest(),
                         "mean": np.array(ad_data["mean"]),
                         "cov_inv": np.array(ad_data["cov_inv"]),
                         "threshold": threshold_val,
@@ -306,9 +320,8 @@ class ModelManager:
             except Exception as e:
                 log.error("report_load_error", error=str(e))
 
-        # [A2] Medias de entrenamiento para imputación explícita: se usan
-        # únicamente las del AD core (167 features). Nunca se usará 0.0 como
-        # imputación silenciosa.
+        # Las medias del AD 7D sólo pueden imputar esos siete descriptores.
+        # Las features 3D sin medias válidas hacen abstener al modelo.
         self._feature_means = {}
         ad = self.applicability_domain
         if ad:
@@ -525,8 +538,13 @@ class ModelManager:
             if features_3d is not None:
                 self._feature_cache[cache_key] = features_3d.copy()
 
+        if features_3d is not None and not any(
+            value > 0 for key, value in features_3d.items()
+            if key.startswith(("shell_", "ecif_")) or key == "close_contacts_4A"
+        ):
+            features_3d = None
         if features_3d is None:
-            reason = "Features 3D no disponibles: receptor o pose ilegible; Model A y clasificador no evaluados."
+            reason = "Features 3D no disponibles: receptor, pose o contactos ilegibles; Model A y clasificador no evaluados."
             warnings.append(reason)
             log.warning("features_3d_unavailable", smiles=request.smiles[:50],
                         target=request.target_pdb_path)
@@ -598,6 +616,8 @@ class ModelManager:
         # ── 4. Check Applicability Domain ────────────────────────────
         ad_checker = ApplicabilityDomainChecker(self.applicability_domain)
         ad_result = ad_checker.check(descriptors_1d2d)
+        if ad_result.status != "evaluated":
+            warnings.append(f"Dominio de aplicabilidad no evaluado: {ad_result.reason}")
 
         # ── 5. Predicción de Modelos e Interpolación Dinámica (Consenso) ─
         import xgboost as xgb
@@ -685,9 +705,9 @@ class ModelManager:
         # (universal, o de familia si pasó el quality gate) y reciben la
         # advertencia honesta de baja confianza — sin interpolación.
         dist = ad_result.mahalanobis_distance
-        core_threshold = ad_result.threshold if ad_result.threshold is not None else 16.2
+        core_threshold = ad_result.threshold
 
-        if dist > core_threshold:
+        if dist is not None and core_threshold is not None and dist > core_threshold:
             warnings.append(
                 f"⚠️ XGBOOST FUERA DEL DOMINIO DE APLICABILIDAD. "
                 f"Distancia de Mahalanobis: {dist:.1f} (umbral: {core_threshold:.1f}). "
@@ -831,6 +851,10 @@ class ModelManager:
             inference_time_ms=0.0,  # se sobreescribe en app.py
             warnings=warnings,
             shap_values=top_shap,
+            shap_output="delta_pKi" if top_shap else None,
+            shap_model_id=(self.family_model_sha256.get(target_family)
+                           if model_used == "family" else self.model_a_sha256)
+                          if top_shap else None,
             classifier_prob=round(classifier_prob, 4) if classifier_prob is not None else None,
             model_used=model_used,
             fallback_reason=fallback_reason,
@@ -890,7 +914,7 @@ class ModelManager:
             log.warning("pose_selector_run_failed", error=str(e))
             return None
 
-    def predict_null(self, request) -> tuple[float, bool]:
+    def predict_null(self, request) -> tuple[float, bool | None]:
         """
         Predicción rápida usando solo Modelo NULL (features 1D/2D).
         """
@@ -982,6 +1006,11 @@ class ModelManager:
                     features_3d = extractor.extract_from_pose(
                         best_pdbqt, target_pdb, smiles=smiles, skip_prolif=True,
                     )
+                if features_3d is not None and not any(
+                    value > 0 for key, value in features_3d.items()
+                    if key.startswith(("shell_", "ecif_")) or key == "close_contacts_4A"
+                ):
+                    features_3d = None
                 if features_3d is not None:
                     features_3d["vina_best_score"] = best_vina
             if features_3d is None:

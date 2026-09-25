@@ -54,17 +54,39 @@ def build_evaluation_report_request(
     ]
     docking = DockingResult(best_affinity=result.affinity_kcal, poses=poses)
     is_control = bool(result.is_control)
-    score_breakdown = calculate_score_breakdown(
+    # Los textos de feedback no se persistian en filas historicas, por eso
+    # calculamos una plantilla. Las magnitudes que recibe la IA se toman de
+    # las columnas selladas de la corrida y nunca se sustituyen por el
+    # resultado de esta recomputacion.
+    template = calculate_score_breakdown(
         docking,
         properties,
         is_control=is_control,
+        target_hotspots=target_hotspots,
+        affinity_threshold=getattr(result, "affinity_threshold", None) or -7.5,
         gnn_score=result.gnn_score,
         xgb_prob=result.xgb_score,
         clgnn_prob=result.clgnn_score,
         quantum_score=result.quantum_score,
         ums_score=result.ums_score,
-        mmgbsa_score=None,  # valor legacy sin procedencia invalidado
+        mmgbsa_score=None,
         target_family=result.target_family,
+    )
+    persisted_fields = (
+        "total_score", "affinity_score", "adme_score", "druglikeness_score",
+        "specificity_score", "specificity_multiplier", "affinity_threshold",
+        "gnn_factor", "sa_factor", "blood_factor", "ligand_efficiency",
+        "stacking_vina_weight", "stacking_xgb_weight", "stacking_gnn_weight",
+        "stacking_clgnn_weight", "stacking_effective_weights",
+        "stacking_degraded", "weights_source", "weights_registry_hash",
+        "weights_calibration_id",
+    )
+    persisted = {key: getattr(result, key, None) for key in persisted_fields}
+    persisted["lipophilic_efficiency"] = getattr(
+        result, "ligand_lipophilicity_efficiency", None
+    )
+    score_breakdown = template.model_copy(
+        update={key: value for key, value in persisted.items() if value is not None}
     )
 
     return AIReportRequest(

@@ -71,6 +71,7 @@ class PipelineParams:
     target_grid_size_y: float
     target_grid_size_z: float
     target_hotspots_base: list[dict[str, Any]]
+    target_hotspots_source: str | None
     target_cofactors_whitelist: list[str]
 
     # ════════════════════════════════════════════════════════════════
@@ -201,6 +202,7 @@ class PipelineParams:
         target_grid_size_y: float,
         target_grid_size_z: float,
         target_hotspots_base: list[dict[str, Any]],
+        target_hotspots_source: str | None,
         target_cofactors_whitelist: list[str],
         affinity_threshold: float | None,
         specificity_floor: float,
@@ -240,6 +242,7 @@ class PipelineParams:
             target_grid_size_y=target_grid_size_y,
             target_grid_size_z=target_grid_size_z,
             target_hotspots_base=target_hotspots_base,
+            target_hotspots_source=target_hotspots_source,
             target_cofactors_whitelist=target_cofactors_whitelist,
             molecule_id=molecule_id,
             molecule_smiles=molecule_smiles,

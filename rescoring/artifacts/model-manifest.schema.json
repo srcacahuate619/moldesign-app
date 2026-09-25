@@ -1,16 +1,17 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://moldesign.ai/schemas/model-manifest-v4.json",
-  "title": "MolDesign rescoring model manifest v4",
+  "$id": "https://moldesign.ai/schemas/model-manifest-v5.json",
+  "title": "MolDesign rescoring model manifest v5",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "manifest_version",
-    "models"
+    "models",
+    "applicability_domain"
   ],
   "properties": {
     "manifest_version": {
-      "const": 4
+      "const": 5
     },
     "models": {
       "type": "object",
@@ -33,6 +34,34 @@
         },
         "pose_selector_v06": {
           "$ref": "#/$defs/model"
+        }
+      }
+    },
+    "applicability_domain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "file",
+        "sha256",
+        "source_csv_sha256",
+        "n_training_samples",
+        "threshold_source"
+      ],
+      "properties": {
+        "file": {
+          "const": "applicability_domain.json"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "source_csv_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "n_training_samples": {
+          "const": 537
+        },
+        "threshold_source": {
+          "const": "max_5fold_oos_p99_chi2_7_p99_seed42"
         }
       }
     }

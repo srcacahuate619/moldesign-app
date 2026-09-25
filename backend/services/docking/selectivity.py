@@ -168,6 +168,22 @@ async def seleccionar_anti_dianas(
     return elegidas, desconocidas
 
 
+def validar_protocolo_panel(protocol: dict[str, Any] | None) -> tuple[int, int, int]:
+    """Exige que el docking anti-diana repita los parámetros Vina de la corrida."""
+    if not isinstance(protocol, dict) or protocol.get("engine") != "vina":
+        raise ValueError("Selectividad no comparable: falta protocolo Vina principal")
+    if (protocol.get("conformers_generated") or 1) > 1:
+        raise ValueError("Selectividad no comparable: ensemble principal sin ensemble anti-diana")
+    values = tuple(protocol.get(key) for key in ("exhaustiveness", "num_poses", "seed"))
+    if any(value is None or isinstance(value, bool) or not isinstance(value, int)
+           for value in values):
+        raise ValueError("Selectividad no comparable: protocolo Vina principal incompleto")
+    exhaustiveness, num_poses, seed = values
+    if exhaustiveness < 1 or num_poses < 1 or seed < 0:
+        raise ValueError("Selectividad no comparable: parámetros Vina inválidos")
+    return exhaustiveness, num_poses, seed
+
+
 async def run_selectivity_panel(
     smiles: str,
     smiles_hash: str,
@@ -176,6 +192,7 @@ async def run_selectivity_panel(
     num_workers: int = 2,
     anti_targets: list[str] | None = None,
     repository: Any | None = None,
+    docking_protocol: dict[str, Any] | None = None,
 ) -> SelectivityResult:
     """
     Run docking against anti-target panel (async nativa, sin threads).
@@ -192,6 +209,7 @@ async def run_selectivity_panel(
     from services.docking.vina_service import run_vina_docking
 
     start = time.monotonic()
+    exhaustiveness, num_poses, seed = validar_protocolo_panel(docking_protocol)
 
     targets, desconocidas = await seleccionar_anti_dianas(anti_targets, repository)
 
@@ -234,6 +252,9 @@ async def run_selectivity_panel(
                     target_center=sitio.center if sitio else at.get("center"),
                     target_size=sitio.size if sitio else at.get("size"),
                     site_chains=sitio.site_chains if sitio else None,
+                    exhaustiveness=exhaustiveness,
+                    num_poses=num_poses,
+                    seed=seed,
                 )
                 return {
                     "pdb_id": pdb_id,
@@ -244,6 +265,10 @@ async def run_selectivity_panel(
                     "poses": len(docking.poses) if docking and docking.poses else 0,
                     "threshold": at["affinity_threshold"],
                     "site_chains": sitio.site_chains if sitio else None,
+                    "procedencia_caja": sitio.procedencia_caja if sitio else "panel",
+                    "docking_protocol": {"engine": "vina", "exhaustiveness": exhaustiveness,
+                                         "num_poses": num_poses, "seed": seed,
+                                         "smiles_hash": smiles_hash},
                     "status": "ok",
                 }
             except Exception as e:
@@ -283,7 +308,10 @@ async def run_selectivity_panel(
     results = [r for r in results if isinstance(r, dict)]
 
     # -- Compute selectivity metrics --------------------------------------------
-    safety_flags = []
+    safety_flags = [
+        "Los scores de Vina entre receptores distintos no son energías libres "
+        "experimentales directamente comparables; el margen es exploratorio."
+    ]
     # `None` hasta que alguna anti-diana devuelva afinidad. Antes empezaba en
     # 0.0, que además de ser un valor que ninguna anti-diana produce, hacía que
     # «no se une a ninguna» —el mejor caso— fuera indistinguible de «no se

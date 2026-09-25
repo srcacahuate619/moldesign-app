@@ -37,6 +37,8 @@ from pathlib import Path
 import numpy as np
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT / "backend"))
+from scoring.enriquecimiento import ef_fraccional
 DATA_DIR = PROJECT_ROOT / "data"
 METASTACK_DIR = PROJECT_ROOT / "rescoring"
 
@@ -66,15 +68,8 @@ STACKING_WEIGHTS = {
 
 
 def ef(scores, labels, pct):
-    n = len(scores)
-    n_act = sum(labels)
-    if n_act == 0:
-        return 1.0
-    top_n = max(1, int(n * pct / 100))
-    pairs = sorted(zip(scores, labels), key=lambda x: x[0], reverse=True)
-    found = sum(1 for _, a in pairs[:top_n] if a)
-    expected = n_act * top_n / n
-    return round(found / expected, 2) if expected > 0 else 1.0
+    value, _, _ = ef_fraccional(scores, labels, pct / 100.0)
+    return round(value, 2) if value is not None else 1.0
 
 
 def _component(r, key):

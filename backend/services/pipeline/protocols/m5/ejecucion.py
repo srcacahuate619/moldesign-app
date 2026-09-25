@@ -152,6 +152,8 @@ def ejecutar(
     target_family: str | None,
     vina_kcal_mol: float | None,
     xgb_prob: float | None,
+    xgb_in_domain: bool = True,
+    xgb_features_ok: bool = True,
     ruta_receptor: str | None = None,
     gnn_d_prob: float | None = None,
 ) -> SalidaM5Zn | None:
@@ -193,6 +195,8 @@ def ejecutar(
         smiles=smiles or "",
         vina_kcal_mol=vina_kcal_mol,
         xgb_prob=xgb_prob,
+        xgb_in_domain=xgb_in_domain,
+        xgb_features_ok=xgb_features_ok,
         gnn_d_prob=gnn_d_prob,
         hay_zinc_confirmado=hay_zinc,
         familia_normalizada=target_family,

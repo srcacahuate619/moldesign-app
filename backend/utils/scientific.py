@@ -111,6 +111,7 @@ def audit_scientific_quality(
     hotspots_hit: list[str],
     regimen: str | None = None,
     cumple_ro3: bool | None = None,
+    hotspots_source: str | None = None,
 ) -> list[str]:
     """
     Analiza los resultados crudos y genera advertencias científicas dinámicas.
@@ -127,26 +128,24 @@ def audit_scientific_quality(
         _avisos_de_eficiencia(affinity_kcal, heavy_atom_count, regimen, cumple_ro3)
     )
 
-    # 2. Lipophilic Efficiency (LLE)
-    lle = abs(affinity_kcal) - log_p
-    if lle < 1.0:
-        warnings.append(
-            f"Baja Eficiencia Lipofílica (LLE={lle:.2f}): El compuesto depende demasiado de la hidrofobicidad para unirse. Riesgo de baja selectividad y toxicidad."
-        )
+    # La LLE derivada del score de Vina es un proxy continuo; el umbral
+    # experimental de potencia no esta calibrado para este proxy. Se muestra
+    # en el desglose, pero no genera una alerta categorica.
 
     # 3. Estabilidad del modo de enlace (RMSD Diversification)
-    if len(docking_poses) > 2:
+    if len(docking_poses) > 1:
         # Vina suele dar RMSD lb/ub. Usamos lb como proxy de distancia al centro.
         # Un análisis más real requeriría calcular distancias entre poses.
         # Pero podemos usar la diferencia de afinidad como proxy de "seguridad" del modo 1.
         gap = abs(docking_poses[1]['affinity'] - docking_poses[0]['affinity'])
-        if gap < 0.1:
+        rmsd_lb = docking_poses[1].get("rmsd_lb")
+        if gap < 0.1 and rmsd_lb is not None and rmsd_lb > 2.0:
             warnings.append(
                 "Incertidumbre de Pose: Hay múltiples modos de enlace con energías casi idénticas. El modo 1 podría no ser el único biológicamente relevante."
             )
 
     # 4. Análisis de Hotspots
-    if hotspots:
+    if hotspots and hotspots_source == "curated_experimental":
         total_hotspots = len(hotspots)
         hits_count = len(hotspots_hit)
         hit_ratio = hits_count / total_hotspots if total_hotspots > 0 else 0

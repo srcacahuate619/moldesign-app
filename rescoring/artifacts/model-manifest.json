@@ -1,5 +1,12 @@
 {
-  "manifest_version": 4,
+  "applicability_domain": {
+    "file": "applicability_domain.json",
+    "n_training_samples": 537,
+    "sha256": "c1ab9adf7bc7c6d127a6e58cbe272eba67400d1ba57c48fbfdc1712a4a491698",
+    "source_csv_sha256": "178e39247b80e6515e75962ded33b63395d087e1d1b5e301a0a95e02219ed501",
+    "threshold_source": "max_5fold_oos_p99_chi2_7_p99_seed42"
+  },
+  "manifest_version": 5,
   "models": {
     "classifier_binder": {
       "best_iteration": 92,

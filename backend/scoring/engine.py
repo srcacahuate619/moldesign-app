@@ -12,6 +12,7 @@ El resultado es una métrica de priorización basada en estándares de la indust
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import time
@@ -170,7 +171,7 @@ _SCI_REGISTRY_PATH = (
 )
 
 
-def _get_stacking_weights(target_family: str | None) -> dict:
+def _get_stacking_weights(target_family: str | None, *, with_provenance: bool = False) -> dict | tuple:
     # SciConfigRegistry is the active, sealed source for M4 release weights.
     family = (target_family or "").lower().strip()
     if family in AREAS_CLINICAS_CONOCIDAS:
@@ -204,19 +205,19 @@ def _get_stacking_weights(target_family: str | None) -> dict:
             )
         configured = parameter.current_value
         if isinstance(configured, dict):
-            return configured
+            provenance = (
+                "sci_config_registry",
+                hashlib.sha256(_SCI_REGISTRY_PATH.read_bytes()).hexdigest(),
+                parameter.current_version.calibration_id if parameter.current_version else None,
+            )
+            return (configured, *provenance) if with_provenance else configured
         raise TypeError(f"{parameter.name} no contiene un diccionario de pesos")
     except Exception as e:
-        log.debug("stacking_weights_registry_unavailable, using fallback", error=str(e)[:100])
+        log.error("stacking_weights_registry_unavailable", error=str(e)[:200],
+                  fallback="codigo")
 
-    weights = _load_stacking_weights()
-    # Normalización de claves: el JSON calibrado por auto_recalibrator puede
-    # usar "prob" (probabilidad del clasificador) en lugar de "xgb". Mapeamos
-    # para que la calibración nunca quede huérfana en el fallback.
-    if isinstance(weights, dict):
-        weights = _normalize_weight_keys(weights)
-
-    return weights.get(family, weights.get("default", STACKING_WEIGHTS["default"]))
+    fallback = STACKING_WEIGHTS.get(family, STACKING_WEIGHTS["default"])
+    return (fallback, "fallback_codigo", None, None) if with_provenance else fallback
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -451,6 +452,7 @@ def calculate_score_breakdown(
     quantum_score: float | None = None,
     ums_score: float | None = None,
     target_family: str | None = None,
+    target_hotspots_source: str | None = None,
 ) -> ScoreBreakdown:
     """Calcula el breakdown completo del score para una evaluación.
 
@@ -458,6 +460,8 @@ def calculate_score_breakdown(
     REGLA DE ORO v2.0 — DESACOPLAMIENTO DE MÉTRICAS (fix #2 Spearman)
     ═══════════════════════════════════════════════════════════════════════
     El ranking de afinidad (total_score) usa docking + ML. MM-GBSA legacy está retirado.
+    El total sólo es comparable entre filas con idénticos pesos efectivos del
+    stacking; los rankings de varias corridas separan cobertura incompleta.
     ADME, Drug-likeness, SA Score y Blood Viability son "flags" de perfil
     farmacocinético para el químico medicinal — NUNCA alteran el score
     de afinidad.
@@ -489,9 +493,9 @@ def calculate_score_breakdown(
     )
 
     # ML Stacking: Vina + XGBoost + CL-GNN con pesos por familia
-    weights = _get_stacking_weights(target_family)
-    if not isinstance(weights, dict):
-        weights = STACKING_WEIGHTS["default"]
+    weights, weights_source, weights_registry_hash, weights_calibration_id = (
+        _get_stacking_weights(target_family, with_provenance=True)
+    )
     resolved = _resolve_stacking_weights(weights)
     w_vina = resolved["vina"]
     w_xgb = resolved["xgb"]
@@ -647,7 +651,9 @@ def calculate_score_breakdown(
 
     stacking_factor = 0.5 + stacking_raw  # escala [0.5, 1.5]; regresión pura → 1.0
 
-    adjusted_affinity_score = clamp_score(affinity_score * stacking_factor)
+    # El maximo teorico del producto es 150. Reescalar conserva la cabeza
+    # del ranking, donde antes el clamp a 100 fabricaba empates.
+    adjusted_affinity_score = affinity_score * stacking_factor / 1.5
 
     # El motor legacy carece de parametrización válida y de versión por corrida.
     # Su float no puede influir en la puntuación ni figurar como energía.
@@ -659,7 +665,10 @@ def calculate_score_breakdown(
     specificity_score = 100.0
     specificity_multiplier = 1.0
 
-    if target_hotspots and docking.hotspots_hit is not None:
+    # El catalogo actual contiene hotspots autogenerados. Solo una fuente
+    # experimental curada y declarada puede mover el ranking.
+    if (target_hotspots_source == "curated_experimental"
+            and target_hotspots and docking.hotspots_hit is not None):
         total_importance = sum(h.get("importance", 1.0) for h in target_hotspots)
         hits_importance = 0.0
         hit_names = set(docking.hotspots_hit or [])
@@ -744,6 +753,9 @@ def calculate_score_breakdown(
         stacking_effective_weights={k: round(v, 8) for k, v in effective_weights.items()},
         stacking_degraded=stacking_degraded,
         degraded_missing=degraded_missing,
+        weights_source=weights_source,
+        weights_registry_hash=weights_registry_hash,
+        weights_calibration_id=weights_calibration_id,
         target_family=target_family,
         specificity_score=specificity_score,
         specificity_multiplier=specificity_multiplier,

@@ -458,6 +458,9 @@ class EvaluationResultORM(Base):
     stacking_effective_weights = Column(SQLiteJSON, nullable=True)
     stacking_degraded = Column(Boolean, nullable=True)
     stacking_missing_components = Column(SQLiteJSON, nullable=True)
+    weights_source = Column(String(40), nullable=True)
+    weights_registry_hash = Column(String(64), nullable=True)
+    weights_calibration_id = Column(String(120), nullable=True)
     target_family     = Column(String(50), nullable=True)  # familia estructural del target
 
     #: ── M5-Zn (SCHEMA 20) ────────────────────────────────────────────
@@ -496,7 +499,9 @@ class EvaluationResultORM(Base):
     model_used               = Column(String(50), nullable=True)   # "family" | "universal" | None
 
     # ── Explainable AI (XAI) ──────────────────────────────────────────────────
-    shap_values      = Column(SQLiteJSON, nullable=True)  # { "LogP": -0.2, "MW": +0.5 }
+    shap_values      = Column(SQLiteJSON, nullable=True)  # Regresor Model A, no clasificador.
+    shap_output      = Column(String(30), nullable=True)
+    shap_model_id    = Column(String(64), nullable=True)
     gnn_attention    = Column(SQLiteJSON, nullable=True)  # [0.1, 0.8, 0.2, ...] pesos atómicos
     gnn_attention_svg= Column(Text, nullable=True)   # Mapa 2D de RDKit en formato SVG
     gnn_pharmacophores = Column(SQLiteJSON, nullable=True) # {"Aromaticos / Pi-Stacking": 45.0, ...} (ASCII keys, ver gnn_explainability.py + docs/36 UI-6)
@@ -1142,6 +1147,8 @@ class EvaluationResultRead(BaseModel):
 
     # XAI
     shap_values:        dict[str, float] | None = None
+    shap_output:        str | None = None
+    shap_model_id:      str | None = None
     gnn_attention:      list[float] | None = None
     gnn_attention_svg:  str | None = None
     gnn_pharmacophores: dict[str, float] | None = None
@@ -1382,6 +1389,9 @@ class ScoreBreakdown(BaseModel):
     ums_warhead:          float | None = Field(None, description="UMS SMARTS-only, la senal autorizada de los tres perfiles M5-Zn. NO es ums_score, que es el UMS historico con donantes y MolChamb.")
     stacking_degraded: bool = Field(False, description="[A3] True si el stacking corrió con componentes ausentes (sin fabricar 0.5); los pesos se re-normalizaron sobre los disponibles o cayó a regresión pura de afinidad.")
     degraded_missing: list[str] = Field(default_factory=list, description="[A3] Componentes del stacking ausentes (vina/xgb/gnn/clgnn) que causaron degradación.")
+    weights_source: str | None = None
+    weights_registry_hash: str | None = None
+    weights_calibration_id: str | None = None
     target_family:       str | None = Field(None, description="Familia estructural del target (gpcr, kinase, protease, etc).")
     specificity_score:  float | None = None
     ligand_efficiency:  float | None = None

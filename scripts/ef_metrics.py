@@ -20,6 +20,8 @@ import numpy as np
 from sklearn.metrics import roc_auc_score
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "backend"))
+from scoring.enriquecimiento import ef_fraccional
 from universal_metal_score import detect_warheads
 
 OUT = Path("data/molchamb_loto/ef_metrics_report.json")
@@ -112,17 +114,8 @@ def ef_at_fraction(y_true, y_score, fraction):
 
     EF@f = (actives in top f% / top f% size) / (total actives / total size)
     """
-    y_true = np.asarray(y_true)
-    y_score = np.asarray(y_score)
-    n = len(y_true)
-    k = max(1, int(round(fraction * n)))
-    top_idx = np.argsort(-y_score)[:k]
-    n_act = y_true.sum()
-    n_act_top = y_true[top_idx].sum()
-    if n_act == 0:
-        return 0.0, 0.0
-    ef = (n_act_top / k) / (n_act / n)
-    return float(ef), int(n_act_top)
+    ef, found, _ = ef_fraccional(y_score, y_true, fraction)
+    return float(ef or 0.0), found
 
 
 def bedroc(y_true, y_score, alpha=20.0):

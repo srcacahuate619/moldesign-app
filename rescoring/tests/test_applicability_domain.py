@@ -56,26 +56,27 @@ def _make_ad_artifact(n_samples: int = 100) -> dict:
 # ─────────────────────────────────────────────
 
 
-class TestPermissiveMode:
-    """Tests cuando no hay artefacto cargado (Fase 1)."""
+class TestUnavailableMode:
+    """Sin artefacto no hay evidencia para clasificar dominio."""
 
     def test_no_artifact_returns_in_domain(self):
         """Sin artefacto, toda molécula pasa."""
         checker = ApplicabilityDomainChecker(ad_data=None)
         result = checker.check(_make_sample_descriptors())
-        assert result.in_domain is True
+        assert result.in_domain is None
+        assert result.status == "not_evaluated"
 
     def test_no_artifact_distance_is_zero(self):
         """Sin artefacto, la distancia reportada es 0."""
         checker = ApplicabilityDomainChecker(ad_data=None)
         result = checker.check(_make_sample_descriptors())
-        assert result.mahalanobis_distance == 0.0
+        assert result.mahalanobis_distance is None
 
     def test_no_artifact_threshold_is_zero(self):
         """Sin artefacto, el umbral reportado es 0."""
         checker = ApplicabilityDomainChecker(ad_data=None)
         result = checker.check(_make_sample_descriptors())
-        assert result.threshold == 0.0
+        assert result.threshold is None
 
     def test_no_artifact_no_out_of_range(self):
         """Sin artefacto, no hay descriptores fuera de rango."""
@@ -186,11 +187,8 @@ class TestBuildFromTrainingData:
             assert "max" in rng
             assert rng["min"] <= rng["max"]
 
-    def test_singular_covariance_uses_pinv(self):
-        """
-        Covarianza singular (features idénticas) debe usar pseudo-inversa
-        sin hacer crash.
-        """
+    def test_singular_covariance_uses_regularization(self):
+        """Ledoit-Wolf regulariza columnas colineales sin abortar."""
         # Crear data con columnas colineales
         rng = np.random.RandomState(42)
         n = 50
@@ -212,3 +210,32 @@ class TestBuildFromTrainingData:
         art_95 = ApplicabilityDomainChecker.build_from_training_data(data, names, percentile=95)
         art_99 = ApplicabilityDomainChecker.build_from_training_data(data, names, percentile=99)
         assert art_95["threshold"] < art_99["threshold"]
+
+
+def test_committed_ad_accepts_aspirin_and_gaussian_control():
+    """Aceptación SCORE-001 sobre el artefacto distribuido, no sólo sintéticos."""
+    import json
+    from rdkit import Chem
+    from rdkit.Chem import Crippen, Descriptors, QED, rdMolDescriptors
+
+    path = Path(__file__).resolve().parent.parent / "artifacts" / "applicability_domain.json"
+    ad = json.loads(path.read_text(encoding="utf-8"))
+    checker = ApplicabilityDomainChecker(ad)
+    mol = Chem.MolFromSmiles("CC(=O)Oc1ccccc1C(=O)O")
+    aspirin = {
+        "mw": Descriptors.MolWt(mol), "logp": Crippen.MolLogP(mol),
+        "tpsa": rdMolDescriptors.CalcTPSA(mol), "hbd": rdMolDescriptors.CalcNumHBD(mol),
+        "hba": rdMolDescriptors.CalcNumHBA(mol),
+        "rotatable_bonds": rdMolDescriptors.CalcNumRotatableBonds(mol),
+        "qed": QED.qed(mol),
+    }
+    result = checker.check(aspirin)
+    assert result.status == "evaluated"
+    assert result.in_domain is True
+
+    rng = np.random.default_rng(42)
+    samples = rng.multivariate_normal(ad["mean"], ad["cov"], size=5000)
+    diff = samples - np.asarray(ad["mean"])
+    distances = np.sqrt(np.einsum("ij,jk,ik->i", diff, np.asarray(ad["cov_inv"]), diff))
+    assert float(np.mean(distances > ad["threshold"])) <= 0.02
+    assert not np.isclose(ad["threshold"], (537 - 1) / np.sqrt(537), atol=1e-3)

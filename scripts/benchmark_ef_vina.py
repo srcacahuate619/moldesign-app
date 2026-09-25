@@ -33,6 +33,8 @@ import numpy as np
 from sklearn.metrics import roc_auc_score
 
 PROJECT_ROOT = Path(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.insert(0, str(PROJECT_ROOT / "backend"))
+from scoring.enriquecimiento import ef_fraccional
 DATA_DIR = PROJECT_ROOT / "data"
 CHECKPOINT = DATA_DIR / "benchmark_checkpoint_v2.json"
 REPORT_PATH = DATA_DIR / "ef_report_final.json"
@@ -1297,15 +1299,8 @@ def score_with_classifier(result: dict, engine: str = "cpu") -> tuple[float, flo
 
 def enrichment_factor(scores: list[float], labels: list[bool], pct: float = 1.0) -> float:
     """EF@X%: activos_en_top_X% / esperados_al_azar."""
-    n = len(scores)
-    n_actives = sum(labels)
-    if n_actives == 0 or n == 0:
-        return 1.0
-    top_n = max(1, int(n * pct / 100))
-    pairs = sorted(zip(scores, labels), key=lambda x: x[0], reverse=True)
-    found = sum(1 for _, a in pairs[:top_n] if a)
-    expected = n_actives * top_n / n
-    return round(found / expected, 2) if expected > 0 else 1.0
+    ef, _, _ = ef_fraccional(scores, labels, pct / 100.0)
+    return round(ef, 2) if ef is not None else 1.0
 
 
 def print_metrics(scores: list[float], labels: list[bool], title: str = "Results"):

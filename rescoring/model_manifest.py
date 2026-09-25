@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 
-MANIFEST_VERSION = 4
+MANIFEST_VERSION = 5
 # `gnn_v2_cl` se anade el 2026-09-04. El checkpoint existia desde julio, con su
 # procedencia entera en `docs/CL_GNN_MULTITARGET_RESULTS.md` —708 complejos de
 # PDBbind redockeados, 566/142, evaluado en 7 benchmarks held-out— pero no en
@@ -116,6 +116,30 @@ def verify_model_manifest(
             "model_keys:" + ",".join(model_keys)
             + "; expected:" + ",".join(sorted(REQUIRED_MODEL_KEYS))
         )
+
+    ad = manifest.get("applicability_domain")
+    if not isinstance(ad, dict):
+        errors.append("applicability_domain ausente")
+    else:
+        ad_file = ad.get("file")
+        ad_hash = ad.get("sha256")
+        if ad_file != "applicability_domain.json" or not isinstance(ad_hash, str) or len(ad_hash) != 64:
+            errors.append("applicability_domain: archivo o sha256 inválido")
+        elif not (artifacts_dir / ad_file).is_file():
+            errors.append("applicability_domain: artefacto ausente")
+        elif sha256_file(artifacts_dir / ad_file) != ad_hash.lower():
+            errors.append("applicability_domain: sha256 no coincide")
+        else:
+            try:
+                payload = load_manifest(artifacts_dir / ad_file)
+                for key, model_key in (("model_a_sha256", "model_a_universal"),
+                                       ("classifier_sha256", "classifier_binder")):
+                    if payload.get(key) != models.get(model_key, {}).get("sha256"):
+                        errors.append(f"applicability_domain: {key} no coincide con modelo")
+                if payload.get("source_csv_sha256") != ad.get("source_csv_sha256"):
+                    errors.append("applicability_domain: fuente CSV no coincide")
+            except (OSError, ValueError, json.JSONDecodeError) as exc:
+                errors.append(f"applicability_domain: ilegible:{exc}")
 
     for model_key, entry in models.items():
         if not isinstance(entry, dict):

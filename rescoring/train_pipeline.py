@@ -682,59 +682,22 @@ class MLTrainer:
         Returns:
             dict listo para guardar en artifacts/applicability_domain.json
         """
+        from applicability_domain import AD_DESCRIPTORS, ApplicabilityDomainChecker
+
+        missing = [name for name in AD_DESCRIPTORS if name not in feature_names]
+        if missing:
+            raise ValueError(f"AD sin descriptores requeridos: {missing}")
         X = self.prepare_features(complexes, pdb_ids, feature_names)
-
-        mean = np.mean(X, axis=0)
-        # Ensure mean is always 1D array (scalar for 1 feature)
-        mean = np.atleast_1d(mean)
-
-        cov = np.cov(X.T)
-
-        # np.cov returns scalar for 1 feature — ensure 2D
-        if cov.ndim == 0:
-            cov = np.array([[float(cov)]])
-        elif cov.ndim == 1:
-            cov = cov.reshape(1, 1)
-
-        # Regularización para evitar singularidad
-        cov += np.eye(cov.shape[0]) * 1e-6
-
-        try:
-            cov_inv = np.linalg.inv(cov)
-        except np.linalg.LinAlgError:
-            log.warning("cov_singular", msg="Covarianza singular, usando pseudoinversa")
-            cov_inv = np.linalg.pinv(cov)
-
-        # Calcular Mahalanobis para todos los puntos de training
-        diffs = X - mean
-        mahal_dists = np.sqrt(np.sum(diffs @ cov_inv * diffs, axis=1))
-
-        # Umbral = percentil 99 (1% de training queda fuera)
-        threshold = float(np.percentile(mahal_dists, 99))
-
-        ad_data = {
-            "n_training_samples": len(pdb_ids),
-            "n_features": len(feature_names),
-            "feature_names": feature_names,
-            "mean": mean.tolist(),
-            "cov_inv": cov_inv.tolist(),
-            "threshold_p99": round(threshold, 4),
-            "training_mahal_stats": {
-                "mean": round(float(np.mean(mahal_dists)), 4),
-                "std": round(float(np.std(mahal_dists)), 4),
-                "max": round(float(np.max(mahal_dists)), 4),
-                "p95": round(float(np.percentile(mahal_dists, 95)), 4),
-                "p99": round(threshold, 4),
-            },
-        }
-
+        indices = [feature_names.index(name) for name in AD_DESCRIPTORS]
+        ad_data = ApplicabilityDomainChecker.build_from_training_data(
+            X[:, indices], AD_DESCRIPTORS
+        )
         log.info(
             "applicability_domain_built",
-            n_samples=len(pdb_ids),
-            n_features=len(feature_names),
-            threshold_p99=round(threshold, 4),
+            n_samples=ad_data["n_training_samples"],
+            threshold=ad_data["threshold"],
+            method=ad_data["threshold_source"],
         )
-
         return ad_data
 
     def evaluate_by_family(

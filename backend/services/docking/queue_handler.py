@@ -361,6 +361,7 @@ async def _run_full_evaluation_async(
             target_grid_size_y=target.grid_size_y,
             target_grid_size_z=target.grid_size_z,
             target_hotspots_base=_coerce_hotspots(target.hotspots) or [],
+            target_hotspots_source=getattr(target, "hotspots_source", None),
             target_cofactors_whitelist=_coerce_hotspots(target.cofactors_whitelist) or [],
             affinity_threshold=target.affinity_threshold,
             specificity_floor=target.specificity_floor if target.specificity_floor is not None else 0.5,
@@ -813,6 +814,8 @@ async def _run_full_evaluation_async(
             ml_pki_value: float | None = None
             ml_pki_aplicada_value: bool | None = None
             shap_values_dict: dict | None = None
+            shap_output_value: str | None = None
+            shap_model_id_value: str | None = None
             gnn_attention_list: list | None = None
             gnn_attention_svg_data: str | None = None
             gnn_pharmacophores_dict: dict | None = None
@@ -905,6 +908,8 @@ async def _run_full_evaluation_async(
 
                     # --- XAI: capturar explicabilidad ---
                     shap_values_dict = ml_result.get("shap_values")
+                    shap_output_value = ml_result.get("shap_output")
+                    shap_model_id_value = ml_result.get("shap_model_id")
 
                     # Warnings científicos del microservicio
                     if ml_result.get("warnings"):
@@ -1126,6 +1131,7 @@ async def _run_full_evaluation_async(
                 properties,
                 is_control=is_control,
                 target_hotspots=active_hotspots,
+                target_hotspots_source=pipeline_params.target_hotspots_source,
                 affinity_threshold=pipeline_params.affinity_threshold,
                 specificity_floor=target_specificity_floor,
                 gnn_score=gnn_score_value,
@@ -1162,6 +1168,7 @@ async def _run_full_evaluation_async(
                 hotspots_hit=docking.hotspots_hit,
                 regimen=_reg.regimen.value,
                 cumple_ro3=_reg.cumple_ro3,
+                hotspots_source=pipeline_params.target_hotspots_source,
             )
             # Combinamos advertencias técnicas con las científicas de valor añadido
             docking.scientific_warnings.extend(deep_warnings)
@@ -1209,6 +1216,8 @@ async def _run_full_evaluation_async(
                     target_family=target_family_value,
                     vina_kcal_mol=docking.best_affinity if docking else None,
                     xgb_prob=ml_result.get("classifier_prob") if ml_result and not ml_result.get("fallback") else None,
+                    xgb_in_domain=ml_result.get("in_applicability_domain") is True if ml_result else False,
+                    xgb_features_ok=bool(ml_result and ml_result.get("classifier_prob") is not None and not ml_result.get("fallback")),
                     # GNN-D no tiene productor en produccion; solo CA2 la pide y
                     # por eso CA2 devuelve NOT_EVALUATED_MISSING_COMPONENT. El
                     # §4.1 del ADR prohibe sustituirla por CL-GNN.
@@ -1247,6 +1256,8 @@ async def _run_full_evaluation_async(
                     "ml_pki": ml_pki_value,
                     "ml_pki_aplicada": ml_pki_aplicada_value,
                     "shap_values": shap_values_dict,
+                    "shap_output": shap_output_value,
+                    "shap_model_id": shap_model_id_value,
                     "gnn_attention": gnn_attention_list,
                     "gnn_attention_svg": gnn_attention_svg_data,
                     "gnn_pharmacophores": gnn_pharmacophores_dict,

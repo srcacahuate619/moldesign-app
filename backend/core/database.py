@@ -51,7 +51,7 @@ def get_settings():
 
 # ── Versión del esquema ───────────────────────────────────────────────────────
 
-SCHEMA_VERSION = 24  # identidad v2 y violaciones Muegge; ambas columnas nullable
+SCHEMA_VERSION = 26  # procedencia del registro de pesos y de SHAP; columnas nullable
 """
 Versión del esquema SQLite. Es la plataforma de referencia (F-04): el ORM
 (core/models.py) ES la fuente de verdad del schema, y esta constante sella

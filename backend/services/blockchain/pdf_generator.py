@@ -15,6 +15,9 @@ from reportlab.pdfgen import canvas
 from core.models import MoleculeORM, EvaluationResultORM
 from services.blockchain.certificate_context import generate_physiological_context
 from services.blockchain.evidence_summary import build_evidence_summary
+from services.docking.selectividad_margen import (
+    ESCALA_DE_MARGEN, INCERTIDUMBRE_VINA_KCAL, factor_de_selectividad,
+)
 from services.blockchain.certificate_figures import (
     generate_2d_interaction_diagram,
     generate_energy_profile_plot,
@@ -832,7 +835,7 @@ def generate_certificate_pdf(
     # ── PANEL DE SELECTIVIDAD (ANTI-TARGETS) ────────────────────────
     anti_results = getattr(eval_result, "anti_target_results", None) or []
     selectivity_ran = getattr(eval_result, "selectivity_ran", False)
-    selectivity_ratio = getattr(eval_result, "selectivity_ratio", None)
+    selectivity_delta_delta_g = getattr(eval_result, "selectivity_delta_delta_g", None)
     selectivity_verdict = getattr(eval_result, "selectivity_verdict", None)
 
     if selectivity_ran and anti_results:
@@ -841,13 +844,29 @@ def generate_certificate_pdf(
             Paragraph("Panel computacional de anti-targets", section_title_style),
         ]
 
-        # Selectivity ratio + verdict
-        if selectivity_ratio is not None:
-            ratio_color = "#15803d" if (selectivity_ratio or 0) > 3 else "#b45309" if (selectivity_ratio or 0) > 1 else "#b91c1c"
+        if selectivity_delta_delta_g is not None:
+            margen_color = (
+                "#15803d" if selectivity_delta_delta_g >= ESCALA_DE_MARGEN[0][0]
+                else "#b45309" if selectivity_delta_delta_g >= ESCALA_DE_MARGEN[1][0]
+                else "#b91c1c"
+            )
+            banda_min = factor_de_selectividad(
+                selectivity_delta_delta_g - INCERTIDUMBRE_VINA_KCAL)
+            banda_max = factor_de_selectividad(
+                selectivity_delta_delta_g + INCERTIDUMBRE_VINA_KCAL)
             anti_section.append(Paragraph(
-                f"<b>Ratio de separación reportado:</b> <font color='{ratio_color}'>{selectivity_ratio:.1f}x</font> "
-                f"- etiqueta serializada: {selectivity_verdict or 'sin clasificación'}",
-                normal_style
+                f"<b>Margen computacional ΔΔG:</b> "
+                f"<font color='{margen_color}'>{selectivity_delta_delta_g:.2f} kcal/mol</font> "
+                f"(factor orientativo {banda_min:.1g}x–{banda_max:.1g}x). "
+                f"{selectivity_verdict or 'sin clasificación'}. "
+                "Los scores de Vina entre receptores distintos no son energías libres "
+                "experimentales directamente comparables.",
+                normal_style,
+            ))
+        else:
+            anti_section.append(Paragraph(
+                "Margen computacional no evaluado: faltan afinidades comparables.",
+                normal_style,
             ))
 
         # Anti-target results table
@@ -1222,7 +1241,20 @@ def generate_certificate_pdf(
         if eval_result.shap_values:
             shap_img = generate_shap_image(eval_result.shap_values, 6.8*inch, 2.8*inch)
             if shap_img:
-                story.append(Paragraph("XGBOOST NATIVE SHAP EXPLAINER", xai_header_style))
+                shap_output = getattr(eval_result, "shap_output", None)
+                shap_model_id = getattr(eval_result, "shap_model_id", None)
+                if shap_output == "delta_pKi" and shap_model_id:
+                    heading = "SHAP del regresor Model A (residuo de pKi sobre Vina)"
+                    provenance = f"SHA-256 del modelo: {shap_model_id}."
+                else:
+                    heading = "SHAP histórico: modelo/objetivo no sellados"
+                    provenance = "No se puede atribuir esta explicación a un modelo exacto."
+                story.append(Paragraph(heading, xai_header_style))
+                story.append(Paragraph(
+                    provenance + " Estas contribuciones no explican el total_score "
+                    "ni la probabilidad del clasificador que entra al ranking.",
+                    normal_style,
+                ))
                 story.append(shap_img)
                 story.append(Spacer(1, 4))
 
@@ -1415,8 +1447,11 @@ def generate_certificate_pdf(
         "no cubiertos por estos filtros.<br/><br/>"
 
         "· <b>Selectividad:</b> " +
-        (f"Se evaluo la selectividad frente a {len(anti_results)} anti-targets (ratio: {selectivity_ratio:.1f}x). " if selectivity_ran and anti_results else
-         "Este analisis evalua la afinidad contra UN solo target biologico. ") +
+        (f"Se evaluo la selectividad frente a {len(anti_results)} anti-targets "
+         f"(margen ΔΔG: {selectivity_delta_delta_g:.2f} kcal/mol). "
+         if selectivity_ran and anti_results and selectivity_delta_delta_g is not None else
+         "El margen frente a anti-targets no se pudo evaluar. ") +
+        "Los scores de Vina entre receptores distintos no son energias libres experimentales comparables. " +
         "La selectividad in vivo puede diferir debido a metabolitos activos, union a proteinas plasmaticas y efectos de dosis.<br/><br/>"
 
         "· <b>Sintesis:</b> El SA Score es una estimacion heuristica de la dificultad sintetica. "

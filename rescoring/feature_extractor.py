@@ -633,7 +633,7 @@ class InteractionFeatureExtractor:
                     pass
 
             if lig_coords is None or len(lig_coords) == 0:
-                return zero_extracted_3d_features()
+                return None
 
             # Close contacts + shell counts + ECIF (numpy, <0.05s)
             prot_coords = _get_conformer_coords(prot_rdmol)

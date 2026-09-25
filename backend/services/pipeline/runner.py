@@ -338,6 +338,7 @@ async def run_pipeline(
             target_grid_size_y=target.grid_size_y,
             target_grid_size_z=target.grid_size_z,
             target_hotspots_base=_coerce_hotspots(target.hotspots) or [],
+            target_hotspots_source=getattr(target, "hotspots_source", None),
             target_cofactors_whitelist=_coerce_hotspots(target.cofactors_whitelist) or [],
             affinity_threshold=target.affinity_threshold,
             specificity_floor=target.specificity_floor if target.specificity_floor is not None else 0.5,
@@ -435,6 +436,8 @@ async def run_pipeline(
                 # classifier_prob alimenta el breakdown → xgb_score persistido
                 context["scores"]["classifier_prob"] = ml_result.get("classifier_prob")
                 context["scores"]["shap_values"] = ml_result.get("shap_values")
+                context["scores"]["shap_output"] = ml_result.get("shap_output")
+                context["scores"]["shap_model_id"] = ml_result.get("shap_model_id")
 
                 # F-21: transparencia del modelo usado (familia vs universal),
                 # dominio de aplicabilidad y fallback. engine_used no se produce
@@ -736,11 +739,27 @@ async def run_pipeline(
                         continue
                     workers = pipeline_params.num_workers or params.get("num_workers", 2)
                     anti_ids = pipeline_params.selected_anti_targets or []
+                    try:
+                        from services.docking.selectivity import validar_protocolo_panel
+                        panel_protocol = construir_protocolo(
+                            docking=context["docking"],
+                            peptide_engine=peptide_docking_engine,
+                            docking_engine=docking_engine,
+                            docking_params=stage_params.get("docking"),
+                            conformer_ctx=context.get("conformer"),
+                        )
+                        validar_protocolo_panel(panel_protocol)
+                    except ValueError as exc:
+                        context["scientific_warnings"].append(
+                            f"Selectividad omitida: {exc}"
+                        )
+                        continue
 
                     try:
                         import sys as _sys
                         import os as _os
                         import asyncio as _asyncio
+                        import json as _json
 
                         _embed_python = _sys.executable
                         _wrapper = _os.path.join(
@@ -762,6 +781,7 @@ async def run_pipeline(
                             str(workers),
                             ",".join(anti_ids),
                             task_id,
+                            _json.dumps(panel_protocol),
                             stdout=_asyncio.subprocess.PIPE,
                             stderr=_asyncio.subprocess.DEVNULL,
                             creationflags=BANDERAS_SIN_VENTANA,
@@ -852,6 +872,7 @@ async def run_pipeline(
                 hotspots_hit=docking.hotspots_hit,
                 regimen=_reg.regimen.value,
                 cumple_ro3=_reg.cumple_ro3,
+                hotspots_source=pipeline_params.target_hotspots_source,
             )
             docking.scientific_warnings.extend(context["scientific_warnings"])
             docking.scientific_warnings.extend(deep_warnings)
@@ -978,6 +999,7 @@ async def run_pipeline(
                 props,
                 is_control=is_control,
                 target_hotspots=active_hotspots,
+                target_hotspots_source=pipeline_params.target_hotspots_source,
                 affinity_threshold=pipeline_params.affinity_threshold,
                 specificity_floor=target_specificity_floor,
                 gnn_score=context["scores"].get("gnn_score"),
@@ -1008,6 +1030,8 @@ async def run_pipeline(
                     target_family=target_family_value,
                     vina_kcal_mol=docking.best_affinity if docking else None,
                     xgb_prob=context["scores"].get("classifier_prob"),
+                    xgb_in_domain=context["scores"].get("in_applicability_domain") is True,
+                    xgb_features_ok=context["scores"].get("classifier_prob") is not None,
                     # GNN-D no tiene productor en produccion; solo CA2 la pide.
                     # El §4.1 del ADR prohibe sustituirla por CL-GNN.
                     gnn_d_prob=None,

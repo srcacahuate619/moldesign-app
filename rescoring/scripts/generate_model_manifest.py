@@ -1,4 +1,4 @@
-"""Generate and verify the deterministic rescoring model manifest v4.
+"""Generate and verify the deterministic rescoring model manifest v5.
 
 The registry below is intentionally declarative: every runtime model must be
 named here before it can appear in a release.  ``--check`` never writes and
@@ -394,7 +394,7 @@ def _build_classifier_binder_entry(spec: dict[str, Any]) -> dict[str, Any]:
 
 
 def build_manifest() -> dict[str, Any]:
-    """Build the complete deterministic v4 document from declared sources."""
+    """Build the complete deterministic v5 document from declared sources."""
     report = _load_json(TRAINING_REPORT_PATH, "Informe de entrenamiento")
     models: dict[str, Any] = {}
     for model_key, spec in MODEL_REGISTRY.items():
@@ -409,7 +409,23 @@ def build_manifest() -> dict[str, Any]:
             models[model_key] = _build_classifier_binder_entry(spec)
         else:
             raise ValueError(f"Tipo de modelo no soportado en registro: {kind!r}")
-    return {"manifest_version": MANIFEST_VERSION, "models": models}
+    ad_path = ARTIFACTS_DIR / "applicability_domain.json"
+    ad = _load_json(ad_path, "Dominio de aplicabilidad")
+    for key, model_key in (("model_a_sha256", "model_a_universal"),
+                           ("classifier_sha256", "classifier_binder")):
+        if ad.get(key) != models[model_key]["sha256"]:
+            raise ValueError(f"AD no corresponde al modelo {model_key}")
+    if ad.get("feature_names") != ["mw", "logp", "tpsa", "hbd", "hba", "rotatable_bonds", "qed"]:
+        raise ValueError("AD no declara el espacio fisicoquímico 7D")
+    ad_entry = {
+        "file": ad_path.name,
+        "sha256": sha256_file(ad_path),
+        "source_csv_sha256": ad["source_csv_sha256"],
+        "n_training_samples": ad["n_training_samples"],
+        "threshold_source": ad["threshold_source"],
+    }
+    return {"manifest_version": MANIFEST_VERSION, "models": models,
+            "applicability_domain": ad_entry}
 
 
 def _assert_safe_transition(existing: dict[str, Any], desired: dict[str, Any]) -> None:

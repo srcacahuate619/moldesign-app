@@ -28,6 +28,7 @@ from services.targets.access import (
 )
 from services.docking.selectivity import (
     run_selectivity_panel,
+    validar_protocolo_panel,
     seleccionar_anti_dianas,
     ANTI_TARGET_PANEL,
 )
@@ -161,13 +162,16 @@ async def run_selectivity(
     )
     target_pdb = target.pdb_id if target else "7E2Y"
     on_affinity = await _selectivity_reference(repository, evaluation)
-
     anti_ids = anti_targets.split(",") if anti_targets else None
     for target_id in anti_ids or []:
         await get_target_for_user(
             repository, target_id, current_user, allow_missing=True
         )
 
+    try:
+        validar_protocolo_panel(evaluation.docking_protocol)
+    except ValueError as exc:
+        raise HTTPException(409, str(exc)) from exc
     result = await run_selectivity_panel(
         smiles=smiles,
         smiles_hash=smiles_hash,
@@ -179,6 +183,7 @@ async def run_selectivity(
         # Sin el repositorio, hERG (5VA1) y NaV1.5 (6MVW) se preparaban con una
         # sola cadena teniendo el sitio declarado en dos y tres.
         repository=repository,
+        docking_protocol=evaluation.docking_protocol,
     )
 
     # Persistencia del panel. Aqui habia un tercer `except Exception: pass`
@@ -268,6 +273,10 @@ async def run_selectivity_stream(
     if evaluation.molecule.target:
         require_target_object_access(evaluation.molecule.target, current_user)
     on_affinity = await _selectivity_reference(repository, evaluation)
+    try:
+        exhaustiveness, num_poses, seed = validar_protocolo_panel(evaluation.docking_protocol)
+    except ValueError as exc:
+        raise HTTPException(409, str(exc)) from exc
 
     anti_ids = anti_targets.split(",") if anti_targets else None
     for target_id in anti_ids or []:
@@ -291,7 +300,10 @@ async def run_selectivity_stream(
 
         sem = asyncio.Semaphore(num_workers)
         off_target_results = []
-        safety_flags = []
+        safety_flags = [
+            "Los scores de Vina entre receptores distintos son exploratorios "
+            "y no equivalen a diferencias experimentales de energía libre."
+        ]
         worst_off_affinity = 0.0
         peor_anti_diana: str | None = None
 
@@ -342,6 +354,9 @@ async def run_selectivity_stream(
                         target_center=sitio.center,
                         target_size=sitio.size,
                         site_chains=sitio.site_chains,
+                        exhaustiveness=exhaustiveness,
+                        num_poses=num_poses,
+                        seed=seed,
                     )
                     res = {
                         "pdb_id": pdb_id,
@@ -351,6 +366,11 @@ async def run_selectivity_stream(
                         "affinity": docking.best_affinity if docking else None,
                         "poses": len(docking.poses) if docking and docking.poses else 0,
                         "threshold": at["affinity_threshold"],
+                        "site_chains": sitio.site_chains,
+                        "procedencia_caja": sitio.procedencia_caja,
+                        "docking_protocol": {"engine": "vina", "exhaustiveness": exhaustiveness,
+                                             "num_poses": num_poses, "seed": seed,
+                                             "smiles_hash": smiles_hash},
                         "status": "ok",
                     }
                 except Exception as e:
@@ -557,6 +577,10 @@ async def dock_single_anti_target(
 
     smiles = evaluation.molecule.smiles
     smiles_hash = evaluation.molecule.smiles_hash
+    try:
+        exhaustiveness, num_poses, seed = validar_protocolo_panel(evaluation.docking_protocol)
+    except ValueError as exc:
+        raise HTTPException(409, str(exc)) from exc
 
     # Find anti-target config
     at = next((t for t in ANTI_TARGET_PANEL if t["pdb_id"] == target_pdb_id), None)
@@ -593,6 +617,9 @@ async def dock_single_anti_target(
             target_center=sitio.center,
             target_size=sitio.size,
             site_chains=sitio.site_chains,
+            exhaustiveness=exhaustiveness,
+            num_poses=num_poses,
+            seed=seed,
         )
         res = {
             "pdb_id": target_pdb_id,
@@ -602,6 +629,11 @@ async def dock_single_anti_target(
             "affinity": docking.best_affinity if docking else None,
             "poses": len(docking.poses) if docking and docking.poses else 0,
             "threshold": at["affinity_threshold"],
+            "site_chains": sitio.site_chains,
+            "procedencia_caja": sitio.procedencia_caja,
+            "docking_protocol": {"engine": "vina", "exhaustiveness": exhaustiveness,
+                                 "num_poses": num_poses, "seed": seed,
+                                 "smiles_hash": smiles_hash},
             "status": "ok",
         }
     except Exception as e:

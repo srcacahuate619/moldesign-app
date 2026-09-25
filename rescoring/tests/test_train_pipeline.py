@@ -295,41 +295,39 @@ class TestMLTrainer:
 
 
 class TestApplicabilityDomain:
-    """Tests para construcción del Applicability Domain."""
+    """La construcción usa el espacio 7D completo y umbral fuera de muestra."""
+
+    def _complexes(self, n):
+        from applicability_domain import AD_DESCRIPTORS
+        rng = np.random.default_rng(42)
+        matrix = rng.normal(size=(n, len(AD_DESCRIPTORS)))
+        complexes = []
+        for i, row in enumerate(matrix):
+            cpx = MagicMock(pdb_id=f"c{i}")
+            cpx.features = dict(zip(AD_DESCRIPTORS, map(float, row)))
+            complexes.append(cpx)
+        return complexes, [f"c{i}" for i in range(n)], AD_DESCRIPTORS
 
     def test_ad_structure(self):
-        """AD tiene la estructura correcta."""
         trainer = MLTrainer()
-
-        complexes = []
-        for i in range(50):
-            cpx = MagicMock(pdb_id=f"c{i}")
-            cpx.features = {f: float(np.random.randn()) for f in ["mw", "logp"]}
-            complexes.append(cpx)
-
-        ad = trainer.build_applicability_domain(
-            complexes, [f"c{i}" for i in range(50)], ["mw", "logp"],
-        )
-
-        assert "mean" in ad
-        assert "cov_inv" in ad
-        assert "threshold_p99" in ad
-        assert "n_training_samples" in ad
+        complexes, ids, names = self._complexes(50)
+        ad = trainer.build_applicability_domain(complexes, ids, names)
+        assert np.asarray(ad["mean"]).shape == (7,)
+        assert np.asarray(ad["cov_inv"]).shape == (7, 7)
+        assert ad["feature_names"] == names
+        assert ad["threshold_source"] == "max_5fold_oos_p99_chi2_7_p99_seed42"
         assert ad["n_training_samples"] == 50
-        assert ad["n_features"] == 2
 
-    def test_ad_threshold_positive(self):
-        """Umbral de Mahalanobis es positivo."""
+    def test_ad_threshold_positive_and_deterministic(self):
         trainer = MLTrainer()
+        complexes, ids, names = self._complexes(100)
+        first = trainer.build_applicability_domain(complexes, ids, names)
+        second = trainer.build_applicability_domain(complexes, ids, names)
+        assert first["threshold"] > 0
+        assert first == second
 
-        complexes = []
-        for i in range(100):
-            cpx = MagicMock(pdb_id=f"c{i}")
-            cpx.features = {"mw": float(300 + np.random.randn() * 50)}
-            complexes.append(cpx)
-
-        ad = trainer.build_applicability_domain(
-            complexes, [f"c{i}" for i in range(100)], ["mw"],
-        )
-
-        assert ad["threshold_p99"] > 0
+    def test_ad_rejects_incomplete_descriptor_space(self):
+        trainer = MLTrainer()
+        complexes, ids, _ = self._complexes(50)
+        with pytest.raises(ValueError, match="AD sin descriptores requeridos"):
+            trainer.build_applicability_domain(complexes, ids, ["mw", "logp"])

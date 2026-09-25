@@ -1,36 +1,8 @@
-"""
-rescoring/applicability_domain.py
+"""Dominio de aplicabilidad fisicoquímico 7D con Ledoit-Wolf.
 
-Verificación de Applicability Domain con distancia de Mahalanobis.
-
-Origen: Banca / Basilea III (Population Stability Index).
-Adaptado a cheminformatics: detectar automáticamente moléculas fuera del
-dominio de entrenamiento del modelo ANTES de predecir.
-
-Lógica:
-  1. Calcular distancia de Mahalanobis de la molécula al centroide del training set
-  2. Comparar con umbral (percentil 99 de distancias en training set)
-  3. Si distancia > umbral → molécula fuera de dominio → NO predecir con ML
-
-Artefacto requerido: artifacts/applicability_domain.json
-  {
-    "mean": [...],           # media de cada descriptor en training set
-    "cov_inv": [[...],...],  # inversa de la matriz de covarianza
-    "threshold": 8.7,        # percentil 99 de distancias de Mahalanobis en training
-    "feature_names": [...],  # nombres de los descriptores usados
-    "feature_ranges": {      # rangos observados por descriptor (para reportar al usuario)
-      "mw": {"min": 150, "max": 750},
-      "logp": {"min": -2.0, "max": 6.0},
-      ...
-    }
-  }
-
-Este artefacto se genera en Fase 2 de entrenamiento.
-En Fase 1 (sin artefacto), el check es permisivo (todo pasa).
-
-Referencia:
-  - Sahlin U. "The Applicability Domain in QSAR Modeling." QSAR & Comb Sci, 2008.
-  - Yurdakul B. "Statistical Properties of Population Stability Index." WMU, 2018.
+El umbral combina el p99 en cinco pliegues fuera de muestra con el
+referente χ² de la misma dimensión. Si falta un artefacto compatible,
+el resultado es not_evaluated; nunca se presume dominio.
 """
 
 from __future__ import annotations
@@ -61,52 +33,32 @@ class ApplicabilityDomainChecker:
         """
         Args:
             ad_data: dict with keys 'mean', 'cov_inv', 'threshold', 'feature_names', 'feature_ranges'
-                     o None si no hay artefacto (modo permisivo)
+                     o None si no hay artefacto (estado no evaluado)
         """
+        self._unavailable_reason = None
         self._loaded = ad_data is not None
-        self._mean = ad_data["mean"] if ad_data else None
-        self._cov_inv = ad_data["cov_inv"] if ad_data else None
-        self._threshold = ad_data["threshold"] if ad_data else 0.0
+        self._feature_names = list(ad_data.get("feature_names", [])) if ad_data else []
         self._feature_ranges = ad_data.get("feature_ranges", {}) if ad_data else {}
-
-        # [A2] El artefacto applicability_domain.json tiene 172 feature_names
-        # (167 contrato - 4 pose features siempre presentes + 9 interacciones
-        # ProLIF). _align_feature_names subsetea a AD_DESCRIPTORS para la
-        # distancia (legacy): la inferencia siempre provee esos 8 descriptores.
-        # En check() un descriptor ausente NO se pone en 0.0: la molécula
-        # queda FUERA de dominio (conservador, sin fabricación).
-        artifact_names = ad_data.get("feature_names", AD_DESCRIPTORS) if ad_data else AD_DESCRIPTORS
-        self._feature_names = self._align_feature_names(artifact_names)
-
-    def _align_feature_names(self, artifact_names: list[str]) -> list[str]:
-        """Subsetea el artefacto para usar solo AD_DESCRIPTORS si el artefacto fue
-        construido con más features de las que tenemos en inferencia."""
-        if len(artifact_names) <= len(AD_DESCRIPTORS) or not self._loaded:
-            return artifact_names
-
-        # Encontrar los indices de AD_DESCRIPTORS dentro del artefacto
-        common = [i for i, name in enumerate(artifact_names) if name in AD_DESCRIPTORS]
-        if len(common) < 3:
-            # Si no hay suficientes matches, no podemos subsetear de forma confiable
-            log.warning(
-                "ad_feature_mismatch",
-                msg=f"Solo {len(common)} de {len(AD_DESCRIPTORS)} AD_DESCRIPTORS "
-                    f"encontrados en el artefacto ({len(artifact_names)} features). "
-                    "Usando las primeras features del artefacto como fallback."
+        self._artifact_sha256 = ad_data.get("artifact_sha256") if ad_data else None
+        self._mean = np.asarray(ad_data["mean"], dtype=float) if ad_data else None
+        self._cov_inv = np.asarray(ad_data["cov_inv"], dtype=float) if ad_data else None
+        self._threshold = ad_data.get("threshold") if ad_data else None
+        if ad_data is None:
+            self._unavailable_reason = "No hay artefacto de AD."
+        elif self._feature_names != AD_DESCRIPTORS:
+            # Un subbloque de una matriz de precisión 172D NO es la inversa
+            # de la covarianza marginal 7D. Tampoco hereda su umbral 172D.
+            self._loaded = False
+            self._unavailable_reason = (
+                "AD legacy en otro espacio de features: falta recalibración 7D "
+                "sobre el pool de entrenamiento del modelo servido."
             )
-            return artifact_names[: len(AD_DESCRIPTORS)]
-
-        # Subsetear mean, cov_inv y feature_ranges
-        mean_arr = np.array(self._mean)
-        cov_inv_arr = np.array(self._cov_inv)
-        self._mean = mean_arr[common].tolist()
-        self._cov_inv = cov_inv_arr[np.ix_(common, common)].tolist()
-        self._feature_ranges = {
-            name: self._feature_ranges[name]
-            for name in artifact_names
-            if name in self._feature_ranges and name in AD_DESCRIPTORS
-        }
-        return AD_DESCRIPTORS
+        elif (self._mean.shape != (len(AD_DESCRIPTORS),)
+              or self._cov_inv.shape != (len(AD_DESCRIPTORS), len(AD_DESCRIPTORS))
+              or self._threshold is None
+              or not np.isfinite(self._threshold)):
+            self._loaded = False
+            self._unavailable_reason = "Artefacto AD 7D incompleto o no finito."
 
     def check(self, descriptors: dict[str, float]) -> Any:
         """
@@ -121,22 +73,19 @@ class ApplicabilityDomainChecker:
         from schemas import ApplicabilityDomainResult
 
         if not self._loaded:
-            # Sin artefacto → modo permisivo (Fase 1)
-            log.debug(
-                "ad_check_permissive",
-                msg="Sin artefacto de Applicability Domain. Modo permisivo (Fase 1).",
-            )
+            log.warning("ad_not_evaluated", reason=self._unavailable_reason)
             return ApplicabilityDomainResult(
-                in_domain=True,
-                mahalanobis_distance=0.0,
-                threshold=0.0,
-                out_of_range_descriptors=[],
+                in_domain=None,
+                mahalanobis_distance=None,
+                threshold=None,
+                status="not_evaluated",
+                reason=self._unavailable_reason,
+                artifact_sha256=self._artifact_sha256,
             )
 
         # Construir vector de descriptores en el orden correcto.
         # [A3] SIN zero-padding (era descriptors.get(feat, 0.0)): un descriptor
-        # ausente significa que la molécula no puede verificarse → fuera de
-        # dominio (conservador, igual que el fallo de cálculo de Mahalanobis).
+        # ausente significa que la molécula no puede verificarse.
         mol_vector = []
         missing_feats = []
         for feat in self._feature_names:
@@ -153,12 +102,13 @@ class ApplicabilityDomainChecker:
                 features=missing_feats,
             )
             return ApplicabilityDomainResult(
-                in_domain=False,
-                mahalanobis_distance=float("inf"),
+                in_domain=None,
+                mahalanobis_distance=None,
                 threshold=self._threshold,
-                out_of_range_descriptors=[
-                    f"{f} (ausente)" for f in missing_feats
-                ],
+                status="not_evaluated",
+                reason="Descriptores ausentes: " + ", ".join(missing_feats),
+                out_of_range_descriptors=[f"{f} (ausente)" for f in missing_feats],
+                artifact_sha256=self._artifact_sha256,
             )
         mol_vector = np.array(mol_vector, dtype=float)
 
@@ -167,14 +117,24 @@ class ApplicabilityDomainChecker:
             distance = mahalanobis(mol_vector, self._mean, self._cov_inv)
         except Exception as e:
             log.error("mahalanobis_error", error=str(e))
-            # Si falla el cálculo, ser conservador → fuera de dominio
+            # Si falla el cálculo, el dominio queda no evaluado.
             return ApplicabilityDomainResult(
-                in_domain=False,
-                mahalanobis_distance=float("inf"),
+                in_domain=None,
+                mahalanobis_distance=None,
                 threshold=self._threshold,
+                status="not_evaluated",
+                reason="Error en cálculo de distancia",
                 out_of_range_descriptors=["Error en cálculo de distancia"],
+                artifact_sha256=self._artifact_sha256,
             )
 
+        if not np.isfinite(distance):
+            return ApplicabilityDomainResult(
+                in_domain=None, mahalanobis_distance=None,
+                threshold=self._threshold, status="not_evaluated",
+                reason="Distancia AD no finita",
+                artifact_sha256=self._artifact_sha256,
+            )
         in_domain = distance <= self._threshold
 
         # Identificar qué descriptores están fuera de rango
@@ -202,6 +162,7 @@ class ApplicabilityDomainChecker:
             mahalanobis_distance=round(distance, 4),
             threshold=self._threshold,
             out_of_range_descriptors=out_of_range,
+            artifact_sha256=self._artifact_sha256,
         )
 
     @staticmethod
@@ -224,34 +185,42 @@ class ApplicabilityDomainChecker:
         Returns:
             dict serializable a JSON con mean, cov_inv, threshold, feature_names, feature_ranges
         """
-        n_samples, n_features = training_descriptors.shape
+        from sklearn.covariance import LedoitWolf
+        from sklearn.model_selection import KFold
+        from scipy.stats import chi2
 
-        mean = training_descriptors.mean(axis=0)
-        cov = np.cov(training_descriptors.T)
+        X = np.asarray(training_descriptors, dtype=float)
+        n_samples, n_features = X.shape
+        if len(feature_names) != n_features or len(set(feature_names)) != n_features or n_samples < 30:
+            raise ValueError("AD requiere nombres únicos para cada columna y >=30 muestras")
+        if not np.isfinite(X).all():
+            raise ValueError("AD no admite descriptores NaN/Inf")
+        full_fit = LedoitWolf().fit(X)
+        mean = full_fit.location_
+        cov = full_fit.covariance_
+        cov_inv = np.linalg.inv(cov)
 
-        # Manejar covarianza singular (features colineales)
-        try:
-            cov_inv = np.linalg.inv(cov)
-        except np.linalg.LinAlgError:
-            log.warning(
-                "ad_singular_covariance",
-                msg="Covarianza singular. Usando pseudo-inversa (Moore-Penrose).",
+        # Cada distancia se mide con media/covarianza ajustadas SIN su fila.
+        # KFold fijo hace el umbral reproducible y separa calibración de ajuste.
+        distances = np.empty(n_samples, dtype=float)
+        for train_idx, test_idx in KFold(n_splits=5, shuffle=True, random_state=42).split(X):
+            fit = LedoitWolf().fit(X[train_idx])
+            inverse = np.linalg.inv(fit.covariance_)
+            diff = X[test_idx] - fit.location_
+            distances[test_idx] = np.sqrt(
+                np.einsum("ij,jk,ik->i", diff, inverse, diff)
             )
-            cov_inv = np.linalg.pinv(cov)
-
-        # Vectorized Mahalanobis distances for all training points
-        # Formula: d_i = sqrt((x_i - mu)^T * Sigma^-1 * (x_i - mu))
-        # Using broadcasting: diff shape (n, d), cov_inv shape (d, d)
-        diff = training_descriptors - mean  # shape (n, d)
-        # (n, d) @ (d, d) -> (n, d), then element-wise multiply with diff and sum
-        distances = np.sqrt(np.einsum("ij,jk,ik->i", diff, cov_inv, diff)).tolist()
-
-        threshold = float(np.percentile(distances, percentile))
+        oos_threshold = float(np.percentile(distances, percentile))
+        gaussian_reference = float(np.sqrt(chi2.ppf(percentile / 100.0, n_features)))
+        # El p99 empírico puede ser menor que el p99 de una población
+        # gaussiana con la misma covarianza. El piso evita que el AD rechace
+        # sistemáticamente moléculas centrales bajo ese control preregistrado.
+        threshold = max(oos_threshold, gaussian_reference)
 
         # Rangos por descriptor
         feature_ranges = {}
         for i, name in enumerate(feature_names):
-            col = training_descriptors[:, i]
+            col = X[:, i]
             feature_ranges[name] = {
                 "min": round(float(col.min()), 4),
                 "max": round(float(col.max()), 4),
@@ -261,8 +230,14 @@ class ApplicabilityDomainChecker:
 
         artifact = {
             "mean": mean.tolist(),
+            "cov": cov.tolist(),
             "cov_inv": cov_inv.tolist(),
             "threshold": round(threshold, 4),
+            "threshold_source": (
+                f"max_5fold_oos_p{percentile:g}_chi2_{n_features}_p{percentile:g}_seed42"
+            ),
+            "threshold_oos_p99": round(oos_threshold, 4),
+            "threshold_gaussian_p99": round(gaussian_reference, 4),
             "percentile": percentile,
             "n_training_samples": n_samples,
             "n_features": n_features,
