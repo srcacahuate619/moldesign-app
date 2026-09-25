@@ -458,6 +458,16 @@ def _campos_de_protocolo_y_abstencion(eval_result, resumen) -> list:
     # La transferencia ESMFold→ligando se presenta sólo si fue persistida;
     # nunca se reconstruye desde el PDB ni desde la etiqueta del motor.
     ligand_state = _v(eval_result, "ligand_state") or {}
+    identidad = ligand_state.get("identidad_entrada") if isinstance(ligand_state, dict) else None
+    if isinstance(identidad, dict):
+        campos.append(_campo_dato(
+            "RDKit de canonicalización", identidad.get("rdkit_version"),
+            "La corrida no registró la versión de RDKit usada para la identidad.",
+        ))
+        campos.append(_campo_dato(
+            "SHA-256 de identidad v2", identidad.get("sha256"),
+            "La corrida no registró un hash de identidad con versión de RDKit.",
+        ))
 
     # ── A qué pH se protonó, y qué especie salió de ahí ────────────────────
     #
@@ -490,22 +500,47 @@ def _campos_de_protocolo_y_abstencion(eval_result, resumen) -> list:
             empatados = seleccion.get("empatados")
             alternativas = protonacion.get("alternativas")
             descripcion = None
-            if ph_usado is not None:
+            criterio = str(seleccion.get("criterio") or "")
+            if criterio.startswith("cargas_esperadas_ph_") and ph_usado is not None:
                 descripcion = (
                     f"Microestado más próximo al predicho a pH {ph_usado:g}"
                     + (f", de {alternativas} enumerados" if isinstance(alternativas, int) else "")
-                    # Un empate lo rompe el orden alfabético del SMILES, no la
-                    # química. Se dice, porque cambia cuánto vale la elección.
                     + (
                         f"; {empatados} empataron y el desempate fue alfabético"
                         if isinstance(empatados, int) and empatados > 1 else ""
                     )
                 )
-            campos.append(_campo_dato(
-                "Especie acoplada",
-                descripcion,
-                "La corrida no registró con qué criterio se eligió el microestado.",
-            ))
+            elif criterio == "primer_smiles_alfabetico_sin_centros":
+                descripcion = (
+                    "Primer SMILES canónico por orden alfabético: la tabla no "
+                    "reconoció centros ionizables y no estimó poblaciones"
+                    + (f"; {empatados} candidatos" if isinstance(empatados, int) else "")
+                )
+            elif criterio == "grupo_reconocido_sin_pka":
+                clases = ", ".join(seleccion.get("clases_sin_pka") or [])
+                descripcion = (
+                    f"Menor carga formal entre alternativas y entrada; {clases} "
+                    "carece de pKa verificado. Población química no determinada."
+                )
+            if seleccion.get("revision_biguanida"):
+                descripcion = (descripcion or "Selección de biguanida") + (
+                    "; monocatión como hipótesis en revisión por datos "
+                    "experimentales discrepantes cerca de pH fisiológico"
+                )
+            elif seleccion.get("clases_sin_pka") and descripcion:
+                descripcion += "; el grupo sin pKa sigue en revisión"
+            if descripcion and seleccion.get("quimica_resuelta") is False:
+                campos.append(Campo(
+                    "Especie acoplada", None, Estado.REVISAR,
+                    descripcion + ". La selección es reproducible, pero la población "
+                    "del microestado no quedó establecida por una constante química verificada.",
+                ))
+            else:
+                campos.append(_campo_dato(
+                    "Especie acoplada",
+                    descripcion,
+                    "La corrida no registró con qué criterio se eligió el microestado.",
+                ))
 
     # ── Qué tautómero se acopló, y cuántos quedaron sin descartar ──────────
     #
@@ -550,27 +585,40 @@ def _campos_de_protocolo_y_abstencion(eval_result, resumen) -> list:
 
 
 def _campo_de_estado_quimico(eval_result: Any) -> Campo:
-    """Preparación: qué parte de la química del ligando quedó registrada.
-
-    Hasta 2026-09-23 decía siempre que el pipeline no registraba ni la forma
-    protonada ni el tautómero. Era cierto para las corridas viejas y dejó de
-    serlo para las nuevas: una corrida que trae la declaración de tautómeros
-    (y con ella el microestado) dice lo que falta de verdad, la estereoquímica.
-    """
+    """Identidad estereoquímica registrada o incertidumbre explícita."""
     ligand_state = _v(eval_result, "ligand_state") or {}
+    estereo = ligand_state.get("estereoquimica") if isinstance(ligand_state, dict) else None
+    if isinstance(estereo, dict):
+        smiles_3d = estereo.get("smiles_3d_efectivo")
+        centros = int(estereo.get("centros_sin_asignar") or 0)
+        dobles = int(estereo.get("dobles_sin_asignar") or 0)
+        sin_clasificar = int(estereo.get("dobles_sin_clasificar_3d") or 0)
+        if not smiles_3d:
+            return Campo(
+                "Estereoquímica del ligando", None, Estado.ABSTENCION,
+                "No se pudo asignar el isómero desde la geometría 3D guardada.",
+            )
+        if centros or dobles:
+            return Campo(
+                "Estereoquímica del ligando", smiles_3d, Estado.REVISAR,
+                f"La entrada dejó {centros} centro(s) y {dobles} doble(s) E/Z "
+                f"sin especificar; el conformero representa un isómero. "
+                f"{sin_clasificar} doble(s) siguen sin clasificar desde 3D. "
+                "Los demás estereoisómeros no se evaluaron.",
+            )
+        return Campo(
+            "Estereoquímica del ligando", smiles_3d, Estado.REGISTRADO,
+            "SMILES isomérico derivado del conformero 3D guardado.",
+        )
     tautomeria = ligand_state.get("tautomeria") if isinstance(ligand_state, dict) else None
     if isinstance(tautomeria, dict) and isinstance(tautomeria.get("declaracion"), dict):
         return Campo(
-            "Estereoquímica del ligando",
-            None,
-            Estado.NO_EVALUADO,
+            "Estereoquímica del ligando", None, Estado.NO_EVALUADO,
             "La corrida registra el pH, el microestado y el tautómero (ver el protocolo); "
-            "la estereoquímica no se evalúa todavía.",
+            "la estereoquímica no se evaluó en esa corrida.",
         )
     return Campo(
-        "Protonación, tautomería y estereoquímica",
-        None,
-        Estado.NO_EVALUADO,
+        "Protonación, tautomería y estereoquímica", None, Estado.NO_EVALUADO,
         "El pipeline no registra la forma protonada ni el tautómero elegidos.",
     )
 

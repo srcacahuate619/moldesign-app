@@ -92,7 +92,7 @@ def test_el_dossier_pide_revisar_cuando_quedan_varios_candidatos():
     campo = campos["Tautómero del ligando"]
 
     assert campo.estado == Estado.REVISAR
-    assert "3 tautómeros" in campo.razon and "canónico de RDKit" in campo.razon
+    assert "3 tautómeros" in campo.razon and "población no se predijo" in campo.razon
 
 
 def test_el_dossier_registra_el_caso_resuelto_y_se_abstiene_en_el_no_resuelto():
@@ -128,4 +128,5 @@ def test_el_conformador_adjunta_la_declaracion():
     declaracion = estado["tautomeria"]["declaracion"]
 
     assert declaracion["estado"] == MULTIESTADO_REQUERIDO
-    assert declaracion["smiles_entrada"] == estado["smiles_entrada"]
+    assert declaracion["smiles_entrada"] == estado["smiles_acoplado"]
+    assert estado["tautomeria"]["declaracion_entrada"]["smiles_entrada"] == estado["smiles_entrada"]

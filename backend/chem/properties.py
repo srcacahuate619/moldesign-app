@@ -128,12 +128,12 @@ class VerberRule:
     TPSA_MAX      = 140.0
 
     @classmethod
-    def evaluate(cls, rot_bonds: int, tpsa: float) -> tuple[bool, list[str]]:
+    def evaluate(cls, rot_bonds: int, tpsa: float, hbd: int, hba: int) -> tuple[bool, list[str]]:
         violations = []
         if rot_bonds > cls.ROT_BONDS_MAX:
             violations.append(f"RotBonds={rot_bonds} > {cls.ROT_BONDS_MAX}")
-        if tpsa > cls.TPSA_MAX:
-            violations.append(f"TPSA={tpsa:.1f} > {cls.TPSA_MAX}")
+        if tpsa > cls.TPSA_MAX and hbd + hba > 12:
+            violations.append(f"TPSA={tpsa:.1f} > {cls.TPSA_MAX} y HBD+HBA={hbd+hba} > 12")
         return len(violations) == 0, violations
 
 
@@ -147,9 +147,10 @@ class GhoseRule:
     MW_RANGE     = (160.0, 480.0)
     LOGP_RANGE   = (-0.4, 5.6)
     ATOM_RANGE   = (20, 70)
+    MR_RANGE     = (40.0, 130.0)
 
     @classmethod
-    def evaluate(cls, mw: float, log_p: float, heavy_atoms: int) -> tuple[bool, list[str]]:
+    def evaluate(cls, mw: float, log_p: float, heavy_atoms: int, molar_refractivity: float) -> tuple[bool, list[str]]:
         violations = []
         if mw < cls.MW_RANGE[0] or mw > cls.MW_RANGE[1]:
             violations.append(f"MW={mw:.1f} fuera de [{cls.MW_RANGE[0]}, {cls.MW_RANGE[1]}]")
@@ -157,6 +158,8 @@ class GhoseRule:
             violations.append(f"logP={log_p:.2f} fuera de [{cls.LOGP_RANGE[0]}, {cls.LOGP_RANGE[1]}]")
         if heavy_atoms < cls.ATOM_RANGE[0] or heavy_atoms > cls.ATOM_RANGE[1]:
             violations.append(f"heavy_atoms={heavy_atoms} fuera de [{cls.ATOM_RANGE[0]}, {cls.ATOM_RANGE[1]}]")
+        if not cls.MR_RANGE[0] <= molar_refractivity <= cls.MR_RANGE[1]:
+            violations.append(f"MR={molar_refractivity:.1f} fuera de [{cls.MR_RANGE[0]}, {cls.MR_RANGE[1]}]")
         return len(violations) == 0, violations
 
 
@@ -184,7 +187,7 @@ class MueggeRule:
     """
     Muegge rules for drug-likeness (Muegge et al., 2001).
 
-    A score-based system. Pass if score >= 2 out of the following:
+    Los nueve criterios deben cumplirse; el score 0-9 es informativo:
     - MW 200-600
     - logP -2 to 5
     - TPSA < 150
@@ -219,7 +222,7 @@ class MueggeRule:
             score += 1
         if hba <= 10:
             score += 1
-        return score >= 2, score
+        return score == 9, score
 
 
 def _calc_fsp3(mol: Mol) -> float:
@@ -351,9 +354,10 @@ def _calc_qed(mol: Mol) -> float:
 
 def _calc_sa_score(mol: Mol) -> tuple[float, list[str]]:
     """
-    Synthetic Accessibility Score (SA Score) con desglose de motivos.
+    Synthetic Accessibility Score de RDKit (Ertl y Schuffenhauer 2009).
 
-    Retorna: (score_final, lista_de_motivos)
+    Se devuelve la escala original 1-10; no se suma una penalización
+    local por anillos que el método publicado no define.
     """
     reasons = []
     if sascorer is None:
@@ -364,26 +368,7 @@ def _calc_sa_score(mol: Mol) -> tuple[float, list[str]]:
         if raw_score > 4.5:
             reasons.append("Complejidad de fragmentos alta")
 
-        # Penalización por tensión de anillo ( MVP Fix para Cubano )
-        strain_penalty = 0.0
-        ri = mol.GetRingInfo()
-        three_rings = 0
-        four_rings = 0
-        for ring in ri.AtomRings():
-            if len(ring) == 3:
-                three_rings += 1
-                strain_penalty += 1.5
-            elif len(ring) == 4:
-                four_rings += 1
-                strain_penalty += 1.0
-
-        if three_rings > 0:
-            reasons.append(f"Tensión de anillo: {three_rings} ciclopropano(s) (+{three_rings * 1.5})")
-        if four_rings > 0:
-            reasons.append(f"Tensión de anillo: {four_rings} ciclobutano(s) (+{four_rings * 1.0})")
-
-        final_score = round(min(10.0, raw_score + strain_penalty), 2)
-        return final_score, reasons
+        return round(raw_score, 2), reasons
     except Exception as e:
         log.error("error calculando sa_score", error=str(e))
         return 5.0, ["Error interno en cálculo de SA"]
@@ -477,8 +462,9 @@ def calculate_properties(smiles: str, run_admet_ai: bool = True) -> Physicochemi
 
     # Paso 3: evaluar drug-likeness
     lipinski_pass, lipinski_violations = LipinskiRule.evaluate(mw, log_p, hbd, hba)
-    veber_pass, veber_violations = VerberRule.evaluate(rot_bonds, tpsa)
-    ghose_pass, _ = GhoseRule.evaluate(mw, log_p, heavy_atoms)
+    veber_pass, veber_violations = VerberRule.evaluate(rot_bonds, tpsa, hbd, hba)
+    molar_refractivity = Crippen.MolMR(mol)
+    ghose_pass, _ = GhoseRule.evaluate(mw, log_p, heavy_atoms, molar_refractivity)
     egan_pass, _ = EganRule.evaluate(tpsa, log_p)
 
     # Muegge: necesita num_carbons y num_heteroatoms del mol
@@ -488,6 +474,20 @@ def calculate_properties(smiles: str, run_admet_ai: bool = True) -> Physicochemi
         mw, log_p, tpsa, hbd, hba, rot_bonds,
         num_rings=ring_count, num_carbons=num_carbons, num_heteroatoms=num_heteroatoms,
     )
+    muegge_violations = []
+    if not muegge_pass:
+        criteria = [
+            (200 <= mw <= 600, "MW fuera de 200-600"),
+            (-2 <= log_p <= 5, "logP fuera de -2 a 5"),
+            (tpsa <= 150, "TPSA > 150"),
+            (ring_count <= 7, "más de 7 anillos"),
+            (num_carbons > 4, "menos de 5 carbonos"),
+            (num_heteroatoms > 1, "menos de 2 heteroátomos"),
+            (rot_bonds <= 15, "más de 15 enlaces rotables"),
+            (hbd <= 5, "HBD > 5"),
+            (hba <= 10, "HBA > 10"),
+        ]
+        muegge_violations = [description for passed, description in criteria if not passed]
 
     # Fsp3: fraction of sp3-hybridized carbons
     fsp3 = _calc_fsp3(mol)
@@ -523,6 +523,7 @@ def calculate_properties(smiles: str, run_admet_ai: bool = True) -> Physicochemi
         egan_pass=egan_pass,
         muegge_pass=muegge_pass,
         muegge_score=muegge_score,
+        muegge_violations=muegge_violations,
         fsp3=fsp3,
         is_pains=pains_result["is_pains"],
         pains_matches=pains_result["matches"],
@@ -582,7 +583,7 @@ def get_veber_violations(props: PhysicochemicalProperties) -> list[str]:
     """
     Retorna la lista de violaciones de Veber para propiedades ya calculadas.
     """
-    _, violations = VerberRule.evaluate(props.rotatable_bonds, props.tpsa)
+    _, violations = VerberRule.evaluate(props.rotatable_bonds, props.tpsa, props.hbd, props.hba)
     return violations
 
 

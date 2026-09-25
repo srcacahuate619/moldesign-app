@@ -1,7 +1,7 @@
 {
   "eficiencia_normalizada": {
     "escala_sujetada": true,
-    "fq_vina_proxy": 0.6283,
+    "fq_vina_proxy": 0.6311,
     "ha_para_la_escala": 15,
     "le_scale_pki": 0.580841,
     "ligand_efficiency_vina": 0.5,

@@ -546,11 +546,12 @@ async def run_pipeline(
 
                 elif stage_id == "sa_filter":
                     if context["properties"] and context["properties"].sa_score > 7.0:
-                        from core.exceptions import SyntheticInfeasibilityError
-                        raise SyntheticInfeasibilityError(
-                            smiles=smiles,
-                            sa_score=context["properties"].sa_score,
-                        )
+                        from services.avisos import Severidad, aviso
+                        context["scientific_warnings"].append(aviso(
+                            "SA_ALTO", Severidad.PRECAUCION,
+                            f"SA Score RDKit {context['properties'].sa_score:.2f} > 7: síntesis potencialmente difícil. "
+                            "La evaluación estructural continúa; SA no demuestra inviabilidad sintética.",
+                        ))
 
                 elif stage_id == "conformer":
                     # Si ya corrió en paralelo con properties no se repite, pero
@@ -854,6 +855,10 @@ async def run_pipeline(
             )
             docking.scientific_warnings.extend(context["scientific_warnings"])
             docking.scientific_warnings.extend(deep_warnings)
+            from services.docking.ligand_state_warnings import avisos_estado_ligando
+            docking.scientific_warnings.extend(avisos_estado_ligando(
+                (context.get("conformer") or {}).get("estado_del_ligando")
+            ))
 
             target_specificity_floor = pipeline_params.specificity_floor
 

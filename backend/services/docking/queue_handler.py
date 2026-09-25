@@ -257,6 +257,7 @@ async def _run_full_evaluation_async(
     docking_engine: str = "vina",
     run_admet_ai: bool = False,
     enable_mmgbsa: bool = False,
+    ph: float | None = None,
 ) -> dict[str, Any]:
     if enable_mmgbsa or (pipeline_config or {}).get("pro_mmgbsa"):
         raise ValueError("MM-GBSA no disponible (MMGBSA_CONDICION): parametrización legacy inconsistente.")
@@ -276,6 +277,13 @@ async def _run_full_evaluation_async(
     # --- PRO MODE PIPELINE ---
     if pipeline_config:
         from services.pipeline.runner import run_pipeline
+        if ph is not None:
+            pipeline_config = dict(pipeline_config)
+            stage_params = dict(pipeline_config.get("stage_params") or {})
+            conformer_params = dict(stage_params.get("conformer") or {})
+            conformer_params["ph"] = ph
+            stage_params["conformer"] = conformer_params
+            pipeline_config["stage_params"] = stage_params
         _engine = pipeline_config.get("docking_engine", docking_engine)
         return await run_pipeline(
             task_id=task_id,
@@ -395,31 +403,13 @@ async def _run_full_evaluation_async(
             await repository.set_molecule_status(pipeline_params.molecule_id, MoleculeStatus.VALIDATED)
             await commit_with_retry(db)  # v1.7.4: transacción corta
 
-            # --- [NUEVO] Filtro SA Score (Accesibilidad Sintética) ---
-            # Si la molécula es imposible de fabricar, abortamos para evitar
-            # falsos positivos científicos.
+            # SA > 7 señala dificultad, no imposibilidad demostrada.
             if properties.sa_score > 7.0:
-                log.warning({
-                    "event": "synthetic_infeasibility_abort",
-                    "smiles": smiles,
-                    "sa_score": properties.sa_score
-                })
-                await repository.upsert_evaluation_result(
-                    molecule_id=pipeline_params.molecule_id,
-                    properties=properties,
-                    error_message=f"Inviabilidad Sintetica: SA Score {properties.sa_score} > 7.0. Esta molecula es probablemente imposible de sintetizar en laboratorio.",
-                    is_control=is_control,
-                    task_id=task_id,
-                )
-                await repository.set_molecule_status(pipeline_params.molecule_id, MoleculeStatus.FAILED)
-                await commit_with_retry(db)  # v1.7.4: transacción corta (abort SA)
-                await cache.set_job_progress(task_id, 100, "failed")
-                return {
-                    "task_id": task_id,
-                    "molecule_id": str(pipeline_params.molecule_id),
-                    "error": "Synthetic Infeasibility",
-                    "sa_score": properties.sa_score
-                }
+                scientific_warnings.append(aviso(
+                    "SA_ALTO", Severidad.PRECAUCION,
+                    f"SA Score RDKit {properties.sa_score:.2f} > 7: síntesis potencialmente difícil. "
+                    "La evaluación estructural continúa; SA no demuestra inviabilidad sintética.",
+                ))
 
             await repository.upsert_evaluation_result(
                 molecule_id=pipeline_params.molecule_id,
@@ -708,7 +698,7 @@ async def _run_full_evaluation_async(
             # Si no se ejecutó Nivel 3, corremos Vina de forma estándar
             if docking is None:
                 await cache.set_job_progress(task_id, 20, "conformer")
-                conformer = await generate_conformer(smiles)
+                conformer = await generate_conformer(smiles, ph)
                 log.info({
                     "event": "conformer listo para docking",
                     "conformer_path": conformer["conformer_path"]
@@ -749,15 +739,17 @@ async def _run_full_evaluation_async(
                         # corridas. Ahora lo elige `chem/ionizacion.py`; ver
                         # `test_microestado_de_protonacion.py`.
                         _sel = _prot.get("seleccion") or {}
-                        if _sel.get("criterio") == "cargas_esperadas_ph_7.4":
+                        if str(_sel.get("criterio", "")).startswith("cargas_esperadas_ph_"):
                             _como = (
                                 f"se eligió el que coincide con los centros "
-                                f"ionizados esperados a pH 7.4 "
+                                f"ionizados esperados a pH {_prot.get('ph')} "
                                 f"(+{_sel.get('cationes_esperados')}/"
                                 f"−{_sel.get('aniones_esperados')})"
                             )
+                        elif _sel.get("criterio") == "grupo_reconocido_sin_pka":
+                            _como = "grupo reconocido sin pKa verificado: menor carga formal, en revisión"
                         else:
-                            _como = "no se reconocieron centros ionizables: se usó el primero"
+                            _como = "sin centros reconocidos: selección alfabética reproducible, sin población estimada"
                         _detalles.append(
                             f"se protonó a pH {_prot.get('ph')} con {_prot.get('motor')}"
                             + (f" ({_n} estados devueltos, {_como})" if _n else "")
@@ -778,19 +770,15 @@ async def _run_full_evaluation_async(
                         (_estado_ligando["protonacion"]["motivo"]),
                     ))
 
-                # v1.5: Actualizar smiles_hash en DB al protonado (dimorphite_dl a pH 7.4)
-                # El conformer se guarda con hash protonado. La DB debe coincidir para que
-                # el endpoint de interacciones 3D encuentre los archivos de poses.
-                # v1.7.3: comparamos contra el snapshot (pipeline_params), NO contra el ORM.
-                if conformer.get("smiles_hash") and conformer["smiles_hash"] != effective_smiles_hash:
-                    molecule.smiles_hash = conformer["smiles_hash"]
-                    molecule.smiles = conformer.get("canonical_smiles", molecule.smiles)
-                    db.add(molecule)
-                    await commit_with_retry(db)
-                    # El snapshot ya no se toca; actualizamos SOLO la variable local.
+                from services.docking.ligand_state_warnings import avisos_estado_ligando
+                scientific_warnings.extend(avisos_estado_ligando(_estado_ligando))
+
+                # La identidad de la fila es la entrada validada; la especie
+                # transformada pertenece a esta corrida y ya está en
+                # ligand_state. Los archivos de poses/conformero usan el hash
+                # local de la especie acoplada, sin secuestrar la fila ORM.
+                if conformer.get("smiles_hash"):
                     effective_smiles_hash = conformer["smiles_hash"]
-                    log.info("smiles_hash_actualizado_post_protonacion",
-                             anterior=smiles[:30], nuevo=conformer.get("canonical_smiles", "")[:30])
 
                 await repository.set_molecule_status(pipeline_params.molecule_id, MoleculeStatus.DOCKING)
                 await commit_with_retry(db)  # v1.7.4: transacción corta (docking)
@@ -1301,7 +1289,7 @@ async def _run_full_evaluation_async(
             return {
                 "task_id": task_id,
                 "molecule_id": str(pipeline_params.molecule_id),
-                "smiles_hash": effective_smiles_hash,
+                "smiles_hash": pipeline_params.molecule_smiles_hash,
                 "target_pdb_id": pipeline_params.target_pdb_id,
                 "total_score": breakdown.total_score,
                 "best_affinity": docking.best_affinity,
@@ -1397,6 +1385,7 @@ def submit_evaluation_job(
     custom_hotspots: list[str] | None = None,
     peptide_docking_engine: str | None = None,
     pipeline_config: dict | None = None,
+    ph: float | None = None,
 ) -> _DesktopTask:
     """
     Encola una tarea de evaluacion en el dispatcher local DESKTOP.
@@ -1407,6 +1396,7 @@ def submit_evaluation_job(
     return _submit_evaluation_desktop(
         smiles=smiles,
         target_pdb_id=target_pdb_id,
+        ph=ph,
         molecule_name=molecule_name,
         is_control=is_control,
         user_id=user_id,
@@ -1430,6 +1420,7 @@ def _submit_evaluation_desktop(
     peptide_docking_engine: str | None = None,
     pipeline_config: dict | None = None,
     task_id: str | None = None,
+    ph: float | None = None,
 ) -> _DesktopTask:
     task_id = task_id or str(_uuid_mod.uuid4())
     task = _DesktopTask(task_id)
@@ -1540,6 +1531,7 @@ def _submit_evaluation_desktop(
             result = await asyncio.wait_for(
                 _run_full_evaluation_async(
                     task_id=task_id, smiles=smiles, target_pdb_id=target_pdb_id,
+                    ph=ph,
                     molecule_name=molecule_name, is_control=is_control,
                     user_id=user_id, grid_center=grid_center, grid_size=grid_size,
                     custom_hotspots=custom_hotspots,

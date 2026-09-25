@@ -103,7 +103,7 @@ def test_los_cuatro_coeficientes_son_los_publicados():
 
 
 def test_la_columna_en_kcal_es_coherente_con_la_conversion():
-    """Y deja escrito el 0.15 % de diferencia con el 1.37 convencional."""
+    """RT ln 10 a 298.15 K y el factor implícito de Reynolds son próximos."""
     factores = []
     for ha, pki, kcal in TABLA_3:
         escala, _, _ = le_scale_pki(ha)
@@ -114,7 +114,8 @@ def test_la_columna_en_kcal_es_coherente_con_la_conversion():
         f"el factor implícito en la tabla 3 salió {implicito:.5f}"
     )
     # No son el mismo número, y la diferencia se documenta en el módulo.
-    assert abs(KCAL_POR_UNIDAD_LOG - implicito) / implicito < 0.002
+    assert KCAL_POR_UNIDAD_LOG == pytest.approx(1.364, abs=0.001)
+    assert abs(KCAL_POR_UNIDAD_LOG - implicito) / implicito < 0.003
 
 
 # ── El rango de validez del ajuste ───────────────────────────────────────

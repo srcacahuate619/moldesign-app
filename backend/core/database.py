@@ -51,11 +51,19 @@ def get_settings():
 
 # ── Versión del esquema ───────────────────────────────────────────────────────
 
-SCHEMA_VERSION = 22  # tabla operativa batch_runs; esquema científico intacto
+SCHEMA_VERSION = 24  # identidad v2 y violaciones Muegge; ambas columnas nullable
 """
 Versión del esquema SQLite. Es la plataforma de referencia (F-04): el ORM
 (core/models.py) ES la fuente de verdad del schema, y esta constante sella
 la versión "de facto" en la tabla schema_meta al arrancar.
+
+v24 (fase 2): `evaluation_results.muegge_violations` es aditiva y nullable.
+Las filas históricas conservan NULL: su filtro tenía otra semántica y no se
+reconstruye retrospectivamente un resultado de nueve criterios.
+
+v23 (fase 2): `molecules.identity_hash_v2` es aditiva y nullable. Incluye la
+versión exacta de RDKit en el preimage; las filas anteriores quedan NULL,
+porque no se conoce con qué versión se canonicalizaron y no se les inventa.
 
 v2 (F-21): 4 columnas aditivas nullable en evaluation_results
 (engine_used, fallback_reason, in_applicability_domain, model_used).

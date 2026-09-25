@@ -35,6 +35,7 @@ from rdkit import RDLogger
 from rdkit.Chem import Descriptors, rdMolDescriptors, SaltRemover
 from rdkit.Chem.rdchem import Mol
 
+from chem.identity import identity_hash_v2
 from core.config import get_settings
 from core.exceptions import InvalidSMILES
 from core.models import ValidationResult
@@ -82,6 +83,7 @@ class _ValidationState:
     mol: Mol | None = None
     canonical_smiles: str | None = None
     smiles_hash: str | None = None
+    identity_hash_v2: str | None = None
     heavy_atom_count: int | None = None
     molecular_formula: str | None = None
     #: Regimen de tamano (chem/regimenes.py). Lo fija `_check_size`.
@@ -174,6 +176,24 @@ def _check_atoms(state: _ValidationState) -> None:
         state.add_warning(f"{message} Verifica que la molécula sea drug-like.")
 
 
+def estereo_no_asignada(mol: Mol) -> tuple[int, int]:
+    """Número de centros tetraédricos y dobles enlaces estereogénicos sin definir."""
+    potencial = Chem.FindPotentialStereo(Chem.Mol(mol))
+    sin_asignar = [
+        centro for centro in potencial
+        if centro.specified == Chem.StereoSpecified.Unspecified
+    ]
+    centros = sum(
+        centro.type == Chem.StereoType.Atom_Tetrahedral
+        for centro in sin_asignar
+    )
+    dobles = sum(
+        centro.type == Chem.StereoType.Bond_Double
+        for centro in sin_asignar
+    )
+    return centros, dobles
+
+
 def _check_chemical_plausibility(state: _ValidationState) -> None:
     """
     Paso adicional: reglas de plausibilidad química para evitar estructuras
@@ -208,14 +228,20 @@ def _check_chemical_plausibility(state: _ValidationState) -> None:
         )
         return
 
-    # v1.5: Detectar estereocentros no asignados (elige enantiomero arbitrario)
-    unassigned = Chem.FindMolChiralCenters(state.mol, includeUnassigned=True)
-    unassigned = [(i, tag) for i, tag in unassigned if tag == "?"]
-    if unassigned:
+    # La entrada sin @/@@ o /\ puede desembocar en un isómero 3D concreto.
+    # Ambos tipos deben declararse antes de perderse en la normalización.
+    centros, dobles = estereo_no_asignada(state.mol)
+    if centros:
         state.add_warning(
-            f"Se detectaron {len(unassigned)} estereocentro(s) sin estereoquimica definida. "
+            f"Se detectaron {centros} estereocentro(s) sin estereoquimica definida. "
             "RDKit elegira un enantiomero arbitrario para el docking 3D. "
             "Usa '@' o '@@' en el SMILES para especificar la quiralidad deseada."
+        )
+    if dobles:
+        state.add_warning(
+            f"Se detectaron {dobles} doble(s) enlace(s) estereogenico(s) sin E/Z definida. "
+            "El conformero 3D representara una geometria concreta; usa '/' y "
+            "'\\' en el SMILES para declarar el isomero deseado."
         )
 
 
@@ -431,6 +457,7 @@ def _canonicalize(state: _ValidationState) -> None:
 
     # SHA-256 del canónico en UTF-8
     state.smiles_hash = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+    state.identity_hash_v2 = identity_hash_v2(canonical)
 
     # Fórmula molecular (ej. "C9H8O4" para aspirina)
     state.molecular_formula = rdMolDescriptors.CalcMolFormula(state.mol)
@@ -487,6 +514,8 @@ def validate_smiles(smiles: str) -> ValidationResult:
         is_valid=state.is_valid,
         canonical_smiles=state.canonical_smiles,
         smiles_hash=state.smiles_hash,
+        identity_hash_v2=state.identity_hash_v2,
+        motor_canonico=f"RDKit {Chem.rdBase.rdkitVersion}",
         errors=state.errors,
         warnings=state.warnings,
         heavy_atom_count=state.heavy_atom_count,

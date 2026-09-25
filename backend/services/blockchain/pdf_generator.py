@@ -663,7 +663,8 @@ def generate_certificate_pdf(
 
     lle = None
     if main_affinity is not None and eval_result.log_p is not None:
-        lle = (-main_affinity / 1.36) - eval_result.log_p
+        from scoring.eficiencia import KCAL_POR_UNIDAD_LOG
+        lle = (-main_affinity / KCAL_POR_UNIDAD_LOG) - eval_result.log_p
 
     pdb_upper = (mol.target.pdb_id.upper() if mol.target else "")
     top_pose = evidence_summary["top_pose_affinity"]
@@ -1090,14 +1091,22 @@ def generate_certificate_pdf(
 
     infractions_str = ", ".join(infractions) if infractions else "No se registraron infracciones frente a estas reglas"
 
+    reglas_v24 = getattr(eval_result, "muegge_violations", None) is not None
+    veber_txt = "NO EVALUADO" if not reglas_v24 else ("CUMPLE" if eval_result.veber_pass else "NO CUMPLE")
+    ghose_txt = "NO EVALUADO" if not reglas_v24 else ("CUMPLE" if getattr(eval_result, "ghose_pass", None) else "NO CUMPLE")
+    muegge_txt = "NO EVALUADO" if not reglas_v24 else (
+        f"CUMPLE ({getattr(eval_result, 'muegge_score', '?')}/9)"
+        if getattr(eval_result, "muegge_pass", None) else "NO CUMPLE"
+    )
+
     dl_data = [
         ["Regla de Lipinski (Ro5)", "CUMPLE" if eval_result.lipinski_pass else "NO CUMPLE",
          "QED (heurístico)", f"{eval_result.qed:.3f}" if eval_result.qed else "N/A"],
-        ["Regla de Veber", "CUMPLE" if eval_result.veber_pass else "NO CUMPLE",
+        ["Regla de Veber", veber_txt,
          "Fsp3 (C sp3)", f"{eval_result.fsp3:.3f}" if getattr(eval_result, 'fsp3', None) is not None else "N/A"],
-        ["Regla de Ghose", "CUMPLE" if getattr(eval_result, 'ghose_pass', None) else "NO CUMPLE",
+        ["Regla de Ghose", ghose_txt,
          "Regla de Egan", "CUMPLE" if getattr(eval_result, 'egan_pass', None) else "NO CUMPLE"],
-        ["Regla de Muegge", f"CUMPLE ({getattr(eval_result, 'muegge_score', '?')}/9)" if getattr(eval_result, 'muegge_pass', None) else "NO CUMPLE",
+        ["Regla de Muegge", muegge_txt,
          "SA (heurístico)", f"{eval_result.sa_score:.2f} / 10" if eval_result.sa_score else "N/A"],
     ]
 

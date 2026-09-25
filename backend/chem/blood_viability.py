@@ -747,15 +747,20 @@ def calculate_blood_viability(smiles: str, properties: PhysicochemicalProperties
     properties.blood_bbb_permeable = decision.permeable
     properties.blood_bbb_motivo = decision.motivo
 
-    # El CNS MPO ya no decide (ver `_calculate_cns_mpo`), pero se muestra: deja
-    # ver qué término penaliza a la molécula cuando el veredicto sorprende.
-    properties.blood_cns_mpo = _calculate_cns_mpo(
-        mw=properties.molecular_weight,
-        logp=properties.log_p,
-        tpsa=properties.tpsa,
-        hbd=properties.hbd,
-        hba=properties.hba,
-        smiles=smiles,
+    # El MPO incorpora pKa y LogD. Si la clase está reconocida pero no
+    # cuantificada, o la biguanida tiene modelos experimentales discrepantes,
+    # ocultar esa incertidumbre detrás de un número sería una falsa precisión.
+    from chem.ionizacion import analizar_ionizacion
+    estado_ion = analizar_ionizacion(smiles, properties.log_p)
+    properties.blood_cns_mpo = (
+        _calculate_cns_mpo(
+            mw=properties.molecular_weight,
+            logp=properties.log_p,
+            tpsa=properties.tpsa,
+            hbd=properties.hbd,
+            hba=properties.hba,
+            smiles=smiles,
+        ) if estado_ion.quimica_resuelta else None
     )
 
     logger.info(

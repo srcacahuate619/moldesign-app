@@ -117,7 +117,7 @@ def declarar_tautomeros(smiles: str) -> dict[str, Any]:
     else:
         base["estado"] = MULTIESTADO_REQUERIDO
         base["motivo"] = (f"{len(smiles_candidatos)} tautómeros enumerados y ninguno descartado "
-                          "con evidencia; el acoplamiento usa el canónico de RDKit")
+                          "con evidencia; la especie acoplada se identifica aparte")
     return base
 
 
@@ -131,5 +131,5 @@ def resumen_para_humanos(declaracion: dict[str, Any] | None) -> str | None:
         return "Un solo tautómero enumerable"
     if estado == MULTIESTADO_REQUERIDO:
         return (f"{n} tautómeros candidatos, ninguno descartado con evidencia; "
-                "se acopló el canónico de RDKit, que no es una predicción de población")
+                "la especie acoplada se declaró, pero su población no se predijo")
     return f"No resuelto: {declaracion.get('motivo') or 'enumeración incompleta'}"

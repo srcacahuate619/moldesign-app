@@ -109,6 +109,28 @@ def test_se_declaran_los_centros_reconocidos():
     assert estado.pka_mas_basico == 9.8
 
 
+def test_losartan_tetrazol_1h_y_2h_conservan_el_centro_acido():
+    from rdkit import Chem
+    from rdkit.Chem.MolStandardize import rdMolStandardize
+    from chem.ionizacion import cargas_esperadas_a_ph
+
+    entrada = "CCCCc1nc(Cl)c(CO)n1Cc1ccc(-c2ccccc2-c2nnn[nH]2)cc1"
+    parametros = rdMolStandardize.CleanupParameters()
+    parametros.tautomerRemoveSp3Stereo = False
+    canonico = Chem.MolToSmiles(
+        rdMolStandardize.TautomerEnumerator(parametros).Canonicalize(
+            Chem.MolFromSmiles(entrada)
+        )
+    )
+    assert entrada != canonico
+    for smiles in (entrada, canonico):
+        assert cargas_esperadas_a_ph(smiles) == (0, 1)
+        estado = analizar_ionizacion(smiles, 3.0)
+        assert [centro[0] for centro in estado.centros] == ["tetrazol"]
+        assert estado.centros_completos
+        assert estado.carga_neta == -1
+
+
 def test_una_amida_no_se_confunde_con_una_amina_basica():
     """El nitrógeno amídico no se protona a pH 7.4."""
     estado = analizar_ionizacion("CC(=O)Nc1ccc(O)cc1", 1.0)  # paracetamol
@@ -146,3 +168,94 @@ def test_el_mpo_usa_pka_y_logd_cuando_recibe_el_smiles():
         "una amina de pKa 9.8 debe puntuar peor cuando se tiene en cuenta que "
         "en sangre está protonada"
     )
+
+
+@pytest.mark.parametrize(
+    ("nombre", "smiles", "esperadas", "carga"),
+    [
+        ("metformina", "CN(C)C(=N)N=C(N)N", (1, 0), 1),
+        ("cimetidina", "CN=C(NC#N)NCCSCc1[nH]cnc1C", (0, 0), 0),
+        ("celecoxib", "Cc1ccc(-c2cc(C(F)(F)F)nn2-c2ccc(S(N)(=O)=O)cc2)cc1", (0, 0), 0),
+        ("glucosa_6_fosfato", "O=P(O)(O)O[C@H]1O[C@H](CO)[C@@H](O)[C@H](O)[C@H]1O", (0, 2), -2),
+    ],
+)
+def test_lig003_reconoce_carga_fisiologica(nombre, smiles, esperadas, carga):
+    from chem.ionizacion import cargas_esperadas_a_ph
+    assert cargas_esperadas_a_ph(smiles) == esperadas, nombre
+    assert analizar_ionizacion(smiles, 1.0).carga_neta == carga, nombre
+
+
+def test_lig003_microestado_real_cimetidina_celecoxib_fosfato():
+    from dimorphite_dl import protonate_smiles
+    from chem.ionizacion import elegir_microestado
+    from rdkit import Chem
+
+    casos = [
+        ("cimetidina", "CN=C(NC#N)NCCSCc1[nH]cnc1C", 0),
+        ("celecoxib", "Cc1ccc(-c2cc(C(F)(F)F)nn2-c2ccc(S(N)(=O)=O)cc2)cc1", 0),
+        ("glucosa_6_fosfato", "O=P(O)(O)O[C@H]1O[C@H](CO)[C@@H](O)[C@H](O)[C@H]1O", -2),
+    ]
+    for nombre, smiles, carga in casos:
+        alternativas = protonate_smiles(smiles, ph_min=7.4, ph_max=7.4)
+        elegido, criterio = elegir_microestado(smiles, alternativas)
+        assert Chem.GetFormalCharge(Chem.MolFromSmiles(elegido)) == carga, nombre
+        assert criterio["quimica_resuelta"] is (nombre != "cimetidina")
+
+
+def test_lig003_imida_sin_pka_deja_revision_explicita():
+    from dimorphite_dl import protonate_smiles
+    from chem.ionizacion import elegir_microestado
+    from rdkit import Chem
+
+    talidomida = "O=C1CCC(N2C(=O)c3ccccc3C2=O)C(=O)N1"
+    elegido, criterio = elegir_microestado(
+        talidomida, protonate_smiles(talidomida, ph_min=7.4, ph_max=7.4)
+    )
+    assert Chem.GetFormalCharge(Chem.MolFromSmiles(elegido)) == 0
+    assert criterio["criterio"] == "grupo_reconocido_sin_pka"
+    assert criterio["quimica_resuelta"] is False
+
+
+def test_lig003_incertidumbre_aparece_como_revision_en_dossier_y_aviso():
+    from types import SimpleNamespace
+    from dimorphite_dl import protonate_smiles
+    from chem.ionizacion import elegir_microestado
+    from services.docking.ligand_state_warnings import avisos_estado_ligando
+    from services.dossier.model import Estado, _campos_de_protocolo_y_abstencion
+
+    smiles = "CN(C)C(=N)N=C(N)N"
+    _, seleccion = elegir_microestado(
+        smiles, protonate_smiles(smiles, ph_min=7.4, ph_max=7.4)
+    )
+    assert seleccion["revision_biguanida"] is True
+    assert seleccion["quimica_resuelta"] is False
+    estado = {"protonacion": {"aplicada": True, "ph": 7.4, "alternativas": 3, "seleccion": seleccion}}
+    assert any(a["codigo"] == "BIGUANIDA_ESTADO_EN_REVISION" for a in avisos_estado_ligando(estado))
+    campos = _campos_de_protocolo_y_abstencion(
+        SimpleNamespace(ligand_state=estado), {"top_pose_affinity": -6.0}
+    )
+    especie = next(c for c in campos if c.etiqueta == "Especie acoplada")
+    assert especie.estado == Estado.REVISAR
+    assert "hipótesis" in especie.razon
+
+
+def test_fosfato_no_cuenta_dos_veces_la_carga_escrita_en_la_entrada():
+    for smiles in ("COP(=O)(O)O", "COP(=O)([O-])O", "COP(=O)([O-])[O-]"):
+        estado = analizar_ionizacion(smiles, 1.0)
+        assert estado.carga_neta == -2
+
+
+def test_cns_mpo_se_abstiene_si_pka_clase_esta_en_revision(monkeypatch):
+    from chem import blood_viability
+    from chem.properties import calculate_properties
+
+    monkeypatch.setattr(blood_viability, "predict_admet_ai", lambda _s: {
+        "Solubility": -3.0, "HIA": None, "BBB_prob": None,
+    })
+    monkeypatch.setattr(blood_viability, "predict_tabpfn_custom_toxicity", lambda _p: [])
+    metformina = "CN(C)C(=N)N=C(N)N"
+    aspirina = "CC(=O)Oc1ccccc1C(=O)O"
+    props_met = calculate_properties(metformina, run_admet_ai=False)
+    props_asp = calculate_properties(aspirina, run_admet_ai=False)
+    assert blood_viability.calculate_blood_viability(metformina, props_met).blood_cns_mpo is None
+    assert blood_viability.calculate_blood_viability(aspirina, props_asp).blood_cns_mpo is not None

@@ -248,6 +248,7 @@ class TestSubmitEvaluationJob:
             "custom_hotspots",
             "peptide_docking_engine",
             "pipeline_config",
+            "ph",
         ]
         sig_status = inspect.signature(qh.get_job_status)
         assert list(sig_status.parameters) == ["task_id"]

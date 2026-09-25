@@ -92,11 +92,12 @@ class ConformerRequest(BaseModel):
         max_length=2000,
         description="SMILES de la molécula. Se valida y canonicaliza internamente.",
     )
+    ph: float | None = Field(default=None, ge=1.0, le=12.0, allow_inf_nan=False)
     force_regenerate: bool = Field(
         default=False,
         description=(
-            "Si True, regenera el conformer aunque ya exista en disco local. "
-            "Útil cuando el usuario quiere explorar otra conformación."
+            "Compatibilidad con clientes anteriores. El endpoint regenera siempre "
+            "hasta disponer de una clave de caché que incluya pH y algoritmo."
         ),
     )
 
@@ -111,6 +112,7 @@ class ConformerResponse(BaseModel):
     molecular_formula:      str
     sdf_content:            str = ""
     from_cache:             bool = False
+    estado_del_ligando:     dict | None = None
 
 
 class PropertiesResponse(BaseModel):
@@ -297,11 +299,11 @@ async def conformer_endpoint(
     cache: LocalRuntimeStore = Depends(get_cache),
 ) -> ConformerResponse:
     """
-    Genera estructura 3D con reutilización basada en el archivo local.
+    Genera estructura 3D al pH solicitado y devuelve su estado químico.
 
-    El conformer se genera una sola vez por molécula y se reutiliza.
-    force_regenerate=True permite al usuario explorar una conformación
-    alternativa (útil si ETKDG generó una geometría subóptima).
+    La caché antigua indexada por SMILES de entrada no distingue pH,
+    versión del algoritmo ni microestado. Se regenera hasta disponer de
+    una clave validada para ese conjunto completo de parámetros.
 
     Lanza HTTP 422 si el SMILES es inválido.
     Lanza HTTP 422 si la generación 3D falla (ConformerGenerationError).
@@ -309,42 +311,10 @@ async def conformer_endpoint(
     """
     bind_context(endpoint="conformer", smiles_preview=request.smiles[:20])
 
-    # Verificar si ya existe en el almacenamiento local (a menos que se pida regenerar)
-    if not request.force_regenerate:
-        validation = validate_smiles_or_raise(request.smiles)
-        smiles_hash = validation.smiles_hash
-
-        from utils.file_handlers import StoragePath
-        from utils.local_storage import exists
-        existing_path = StoragePath.ligand_conformer(smiles_hash)
-
-        if await exists(existing_path):
-            log.debug(
-                "conformer existente en almacenamiento local",
-                hash_prefix=smiles_hash[:8],
-                path=existing_path,
-            )
-            # Leer SDF para enviarlo al frontend
-            sdf_content = ""
-            try:
-                from utils.local_storage import read_text
-                sdf_content = await read_text(existing_path)
-            except Exception:
-                pass
-            return ConformerResponse(
-                canonical_smiles=validation.canonical_smiles,
-                smiles_hash=smiles_hash,
-                conformer_path=existing_path,
-                num_atoms_3d=validation.heavy_atom_count or 0,
-                optimization_converged=True,
-                had_macrocycle=False,
-                molecular_formula=validation.molecular_formula or "",
-                sdf_content=sdf_content,
-                from_cache=True,
-            )
-
+    # La especie depende del pH y del algoritmo; un SDF previo indexado sólo
+    # por el SMILES de entrada no demuestra que sea el estado solicitado.
     # Generar nuevo conformer
-    result = await generate_conformer(request.smiles)
+    result = await generate_conformer(request.smiles, request.ph)
 
     log.info(
         "conformer generado",
@@ -365,6 +335,7 @@ async def conformer_endpoint(
         molecular_formula=result["molecular_formula"],
         sdf_content=result.get("sdf_content", ""),
         from_cache=False,
+        estado_del_ligando=result.get("estado_del_ligando"),
     )
 
 

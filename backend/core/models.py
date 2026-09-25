@@ -285,6 +285,8 @@ class MoleculeORM(Base):
     # Hash SHA-256 del SMILES canonicalizado.
     # Permite detectar moléculas duplicadas y usar cache de docking.
     smiles_hash = Column(String(64), nullable=False, index=True)
+    # v23: identidad con versión de RDKit; NULL en filas históricas sin versión.
+    identity_hash_v2 = Column(String(64), nullable=True)
     is_saved    = Column(Boolean, default=False, server_default='false', nullable=False)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -400,8 +402,9 @@ class EvaluationResultORM(Base):
     # ── Drug-likeness extendido (Ghose/Egan/Muegge/Fsp3/PAINS) ─────────────
     ghose_pass       = Column(Boolean, nullable=True)  # Ghose drug-likeness filter
     egan_pass        = Column(Boolean, nullable=True)  # Egan bioavailability filter
-    muegge_pass      = Column(Boolean, nullable=True)  # Muegge drug-likeness (>=2 passes)
+    muegge_pass      = Column(Boolean, nullable=True)  # v24: cumple los nueve criterios
     muegge_score     = Column(Integer, nullable=True)  # Muegge raw score (0-9)
+    muegge_violations = Column(SQLiteJSON, nullable=True)  # v24; NULL histórico
     fsp3             = Column(Float, nullable=True)    # Fraction of sp3-hybridized carbons
     is_pains         = Column(Boolean, nullable=True)  # Matchea alguna subestructura PAINS
     pains_matches    = Column(SQLiteJSON, nullable=True)    # Subestructuras PAINS matcheadas
@@ -827,8 +830,9 @@ class PhysicochemicalProperties(BaseModel):
     veber_pass:       bool
     ghose_pass:       bool | None = Field(None, description="Ghose drug-likeness filter")
     egan_pass:        bool | None = Field(None, description="Egan bioavailability filter")
-    muegge_pass:      bool | None = Field(None, description="Muegge drug-likeness score (>=2 passes)")
+    muegge_pass:      bool | None = Field(None, description="Cumple los nueve criterios Muegge")
     muegge_score:     int  | None = Field(None, ge=0, le=9, description="Muegge raw score (0-9)")
+    muegge_violations: list[str] = Field(default_factory=list, description="Criterios Muegge incumplidos")
     fsp3:             float | None = Field(None, ge=0, le=1, description="Fraction of sp3-hybridized carbons")
 
     # ── PAINS filter ──────────────────────────────────────────────────────
@@ -1061,6 +1065,7 @@ class EvaluationResultRead(BaseModel):
     egan_pass:        bool | None = None
     muegge_pass:      bool | None = None
     muegge_score:     int | None = None
+    muegge_violations: list[str] | None = None
     fsp3:             float | None = None
     is_pains:         bool | None = None
     pains_matches:    list[dict] | None = None
@@ -1155,20 +1160,21 @@ class EvaluationResultRead(BaseModel):
     @property
     def ligand_efficiency(self) -> float | None:
         """
-        LE = affinity_kcal / heavy_atom_count
+        LE = |afinidad Vina| / heavy_atom_count, positiva para afinidad favorable.
         """
         if self.affinity_kcal is not None and self.heavy_atom_count and self.heavy_atom_count > 0:
-            return round(self.affinity_kcal / self.heavy_atom_count, 3)
+            return round(abs(self.affinity_kcal) / self.heavy_atom_count, 3)
         return None
 
     @computed_field
     @property
     def ligand_lipophilicity_efficiency(self) -> float | None:
         """
-        LLE = (-affinity_kcal / 1.36) - log_p
+        LLE = (-affinity_kcal / RT ln 10) - log_p; proxy con Vina.
         """
         if self.affinity_kcal is not None and self.log_p is not None:
-            return round((-self.affinity_kcal / 1.36) - self.log_p, 3)
+            from scoring.eficiencia import KCAL_POR_UNIDAD_LOG
+            return round((-self.affinity_kcal / KCAL_POR_UNIDAD_LOG) - self.log_p, 3)
         return None
 
     # ── Eficiencia normalizada por tamaño ────────────────────────────────
@@ -1230,6 +1236,16 @@ class EvaluationResultRead(BaseModel):
     model_config = {"from_attributes": True}
 
     @model_validator(mode="after")
+    def _druglikeness_historico_no_se_reinterpreta(self):
+        # v24: antes de este campo Veber, Ghose y Muegge tenían criterios
+        # diferentes. No presentar un PASS histórico bajo las reglas nuevas.
+        if self.muegge_violations is None:
+            self.veber_pass = None
+            self.ghose_pass = None
+            self.muegge_pass = None
+        return self
+
+    @model_validator(mode="after")
     def _normalize_legacy_task_id(self):
         """Acepta payloads v2 y devuelve ambos nombres durante la transición."""
         if self.task_id is None:
@@ -1275,7 +1291,7 @@ class EvaluationResultRead(BaseModel):
         return _coerce_hotspots(v)
 
     @field_validator("docking_poses", "scientific_warnings", "hotspots_hit",
-                     "sa_reasons", "pains_matches", "blood_systemic_reactivity",
+                     "sa_reasons", "muegge_violations", "pains_matches", "blood_systemic_reactivity",
                      "gnn_attention", "anti_target_results", mode="before")
     @classmethod
     def _parse_json_list_fields(cls, v, info):
@@ -1518,7 +1534,9 @@ class ValidationResult(BaseModel):
     """
     is_valid:         bool
     canonical_smiles: str | None   # SMILES canonicalizado por RDKit
-    smiles_hash:      str | None   # SHA-256 del canonical SMILES
+    smiles_hash:      str | None   # SHA-256 del canonical SMILES (legacy)
+    identity_hash_v2: str | None = None
+    motor_canonico: str | None = None
     errors:           list[str]    # vacío si is_valid == True
     warnings:         list[str]    # problemas no fatales (ej. valencia inusual pero válida)
     heavy_atom_count: int | None

@@ -285,6 +285,8 @@ class EvaluationGeometry(BaseModel):
 
 class EvaluationSubmitRequest(EvaluationGeometry):
     smiles: str = Field(..., min_length=1, max_length=2000)
+    ph: float | None = Field(default=None, ge=1.0, le=12.0, allow_inf_nan=False,
+                             description="pH solicitado para el microestado del ligando")
     target_pdb_id: str = Field(default="7E2Y", min_length=4, max_length=10)
     chain: str | None = Field(
         default=None,
@@ -319,6 +321,9 @@ class EvaluationSubmitRequest(EvaluationGeometry):
         anidado = self.pipeline_config.peptide_docking_engine if self.pipeline_config else None
         if anidado is not None and anidado != self.peptide_docking_engine:
             raise ValueError("peptide_docking_engine debe coincidir con pipeline_config.peptide_docking_engine")
+        ph_pro = (self.pipeline_config.stage_params.get("conformer") or {}).get("ph") if self.pipeline_config else None
+        if self.ph is not None and ph_pro is not None and self.ph != ph_pro:
+            raise ValueError("ph debe coincidir con pipeline_config.stage_params.conformer.ph")
         return self
 
     preflight_fingerprint: str | None = Field(
@@ -412,6 +417,7 @@ async def evaluate_sync(
             pipeline_result = await _run_full_evaluation_async(
                 task_id=task_id, smiles=smiles,
                 target_pdb_id=data.target_pdb_id,
+                ph=data.ph,
                 molecule_name=data.molecule_name or smiles[:20],
                 is_control=data.is_control,
                 user_id=str(current_user.id) if current_user else None,

@@ -70,10 +70,10 @@ Por eso el resultado se llama **`fq_vina_proxy`** y no `fit_quality` a secas.
 El nombre carga la advertencia: es la escala de Reynolds evaluada sobre un
 proxy, no la métrica que el artículo valida.
 
-La conversión de kcal/mol a unidades de pKi usa 1.37, que es el valor
-convencional en química medicinal (RT·ln 10, ~299 K). Medido contra la propia
+La conversión de kcal/mol a unidades de pKi usa 1.364, RT·ln 10 a 298.15 K.
+Medido contra la propia
 tabla 3 —dividiendo su columna en kcal entre la columna en pKi— el factor
-implícito del artículo es 1.36788, un 0.15 % menor. La diferencia es
+implícito del artículo es 1.36788, un 0.28 % mayor. La diferencia es
 irrelevante frente a la incertidumbre de tratar un score de Vina como un pKi,
 pero se deja escrita para que nadie la descubra como si fuera un error.
 
@@ -111,8 +111,8 @@ REYNOLDS_HA_MAX = 50
 SILE_EXPONENTE = 0.3
 
 #: kcal/mol por unidad logarítmica de afinidad. Convencional en química
-#: medicinal; el factor implícito en la tabla 3 de Reynolds es 1.36788.
-KCAL_POR_UNIDAD_LOG = 1.37
+#: medicinal a 298.15 K; el factor implícito de Reynolds es 1.36788.
+KCAL_POR_UNIDAD_LOG = 1.364
 
 
 @dataclass(frozen=True)

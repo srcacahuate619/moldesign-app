@@ -41,7 +41,7 @@ STAGE_REGISTRY: dict[str, Stage] = {
     "sa_filter": Stage(
         id="sa_filter",
         label="SA Score / Sintetizabilidad",
-        description="Filtro rápido que rechaza compuestos imposibles de sintetizar.",
+        description="Declara SA alto como precaución sin abortar la evaluación.",
         dependencies=["properties"],
         required=True,
     ),

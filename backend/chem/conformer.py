@@ -40,7 +40,8 @@ from typing import Any
 
 from starlette.concurrency import run_in_threadpool
 
-from chem.validator import validate_smiles_or_raise
+from chem.identity import identity_manifest
+from chem.validator import estereo_no_asignada, validate_smiles_or_raise
 from core.config import get_settings
 from core.exceptions import ConformerGenerationError
 from core.models import ValidationResult
@@ -77,7 +78,7 @@ def _get_etkdg_params(random_seed: int = 42) -> AllChem.EmbedParameters:
 
 # ── Optimización de geometría ─────────────────────────────────────────────────
 
-def _optimize_with_mmff(mol: Mol) -> tuple[Mol, bool]:
+def _optimize_with_mmff(mol: Mol) -> tuple[Mol, bool, str]:
     """
     Optimiza la geometría del conformer con el campo de fuerza MMFF94.
 
@@ -100,7 +101,7 @@ def _optimize_with_mmff(mol: Mol) -> tuple[Mol, bool]:
             result = MMFFOptimizeMolecule(mol, mmffVariant="MMFF94", maxIters=2000)
             converged = (result == 0)   # 0 = convergió, 1 = no convergió, -1 = error
             if result != -1:
-                return mol, converged
+                return mol, converged, "MMFF94"
     except Exception as e:
         log.debug("MMFF94 falló, intentando UFF", error=str(e))
 
@@ -108,10 +109,10 @@ def _optimize_with_mmff(mol: Mol) -> tuple[Mol, bool]:
     try:
         result = AllChem.UFFOptimizeMolecule(mol, maxIters=2000)
         converged = (result == 0)
-        return mol, converged
+        return mol, converged, "UFF"
     except Exception as e:
         log.warning("UFF también falló — usando geometría sin optimizar", error=str(e))
-        return mol, False
+        return mol, False, "sin_optimizacion"
 
 
 # ── Detección de macrociclos ──────────────────────────────────────────────────
@@ -287,6 +288,7 @@ def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
     smiles_del_usuario = canonical
     estado_del_ligando: dict[str, Any] = {
         "smiles_entrada": smiles_del_usuario,
+        "identidad_entrada": identity_manifest(smiles_del_usuario),
         "tautomeria": {"aplicada": False, "motor": None, "alternativas": None, "motivo": None},
         "protonacion": {"aplicada": False, "motor": None, "ph": None, "alternativas": None, "motivo": None},
     }
@@ -361,7 +363,7 @@ def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
     # estados o no se pudo resolver. No cambia lo que se acopla (ver el módulo).
     from chem.declaracion_tautomeros import declarar_tautomeros
 
-    estado_del_ligando["tautomeria"]["declaracion"] = declarar_tautomeros(smiles_del_usuario)
+    estado_del_ligando["tautomeria"]["declaracion_entrada"] = declarar_tautomeros(smiles_del_usuario)
 
     ph_usado, aviso_de_ph = acotar_ph(ph)
     if aviso_de_ph:
@@ -407,7 +409,7 @@ def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
             # predicción de otro es el acoplamiento que hacía imposible exponer
             # este parámetro; ver `chem/ionizacion.py::cargas_esperadas_a_ph`.
             canonical, criterio_protonacion = elegir_microestado(
-                canonical, list(protonated_list), ph_usado
+                smiles_del_usuario, list(protonated_list), ph_usado
             )
             estado_del_ligando["protonacion"] = {
                 "aplicada": True,
@@ -441,6 +443,8 @@ def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
         log.warning("Error en dimorphite_dl, usando neutro", error=str(e))
 
     estado_del_ligando["smiles_acoplado"] = canonical
+    estado_del_ligando["tautomeria"]["declaracion"] = declarar_tautomeros(canonical)
+    estado_del_ligando["identidad_acoplada"] = identity_manifest(canonical)
     estado_del_ligando["cambio_respecto_a_la_entrada"] = canonical != smiles_del_usuario
 
     # ── La carga formal neta de la especie que se acopla ────────────────────
@@ -498,8 +502,13 @@ def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
     # Paso 3: intentar generar conformer con distintas semillas
     mol_3d = None
     last_error = None
+    semilla_usada: int | None = None
+    estrategia_embebido: str | None = None
+    intentos_etkdg = 0
+    mitigaciones: list[str] = []
 
     for attempt in range(max_attempts):
+        intentos_etkdg += 1
         seed = 42 + (attempt * 137)   # semillas distintas en cada intento
         params = _get_etkdg_params(random_seed=seed)
 
@@ -510,6 +519,8 @@ def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
             if result == 0:
                 # Embedding exitoso
                 mol_3d = mol_copy.GetMol()
+                semilla_usada = seed
+                estrategia_embebido = "ETKDGv3"
                 log.debug(
                     "embedding exitoso",
                     attempt=attempt + 1,
@@ -541,6 +552,9 @@ def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
             result = AllChem.EmbedMolecule(mol_copy, params)
             if result == 0:
                 mol_3d = mol_copy.GetMol()
+                semilla_usada = 42
+                estrategia_embebido = "ETKDGv3_useRandomCoords"
+                mitigaciones.append("coordenadas_aleatorias")
                 log.info("Mitigación 1 exitosa — conformero generado usando coordenadas aleatorias")
         except Exception as e:
             log.warning("Mitigación 1 falló con excepción", error=str(e))
@@ -566,6 +580,9 @@ def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
             uff_result = AllChem.UFFOptimizeMolecule(mol_copy, maxIters=1000)
 
             mol_3d = mol_copy.GetMol()
+            semilla_usada = 42
+            estrategia_embebido = "2D_3D_perturbacion_UFF"
+            mitigaciones.append("2D_3D_perturbacion_UFF")
             log.info("Mitigación 2 exitosa — conformero 3D generado vía fallback 2D-3D + UFF", uff_result=uff_result)
         except Exception as e:
             log.error("Mitigación 2 falló con excepción", error=str(e))
@@ -583,7 +600,16 @@ def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
 
 
     # Paso 4: optimizar geometría con MMFF94
-    mol_3d, converged = _optimize_with_mmff(mol_3d)
+    mol_3d, converged, campo_fuerza = _optimize_with_mmff(mol_3d)
+    estado_del_ligando["conformero"] = {
+        "rdkit_version": rdkit.__version__,
+        "semilla": semilla_usada,
+        "estrategia_embebido": estrategia_embebido,
+        "intentos_etkdg": intentos_etkdg,
+        "mitigaciones": mitigaciones,
+        "campo_fuerza_final": campo_fuerza,
+        "optimizacion_convergida": converged,
+    }
 
     if not converged:
         log.warning(
@@ -596,8 +622,37 @@ def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
     # de entrada para parametrizar correctamente el ligando.
     mol_final = mol_3d
 
+    # La geometría que entra en el SDF puede fijar un isómero que el SMILES
+    # del usuario dejó abierto. Se registra lo que RDKit puede asignar desde
+    # el 3D y se declara también si el doble enlace sigue sin clasificar.
+    entrada_mol = Chem.MolFromSmiles(smiles_del_usuario)
+    centros_pendientes, dobles_pendientes = estereo_no_asignada(entrada_mol)
+    estereo: dict[str, Any] = {
+        "centros_sin_asignar": centros_pendientes,
+        "dobles_sin_asignar": dobles_pendientes,
+        "declarada_por_el_usuario": not (centros_pendientes or dobles_pendientes),
+        "smiles_3d_efectivo": None,
+        "dobles_sin_clasificar_3d": None,
+        "motor": f"RDKit AssignStereochemistryFrom3D {rdkit.__version__}",
+        "semilla": semilla_usada,
+    }
+    try:
+        copia_3d = Chem.Mol(mol_final)
+        Chem.AssignStereochemistryFrom3D(copia_3d)
+        copia_sin_h = Chem.RemoveHs(copia_3d)
+        estereo["smiles_3d_efectivo"] = Chem.MolToSmiles(
+            copia_sin_h, isomericSmiles=True
+        )
+        estereo["dobles_sin_clasificar_3d"] = estereo_no_asignada(copia_sin_h)[1]
+    except Exception as exc:
+        estereo["motivo"] = f"Asignación desde 3D falló: {type(exc).__name__}: {exc}"[:200]
+    estado_del_ligando["estereoquimica"] = estereo
+
     # Paso 6: convertir a SDF y guardar en el almacenamiento local
     sdf_content = _mol_to_sdf_string(mol_final, canonical)
+    estado_del_ligando["conformero"]["sdf_sha256"] = _hashlib.sha256(
+        sdf_content.encode("utf-8")
+    ).hexdigest()
 
     num_atoms_3d = mol_final.GetNumAtoms()
 

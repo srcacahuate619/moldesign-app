@@ -188,10 +188,10 @@ class TestEvaluationResultReadContract:
         dumped = model.model_dump()
 
         assert dumped["ligand_efficiency"] == pytest.approx(
-            round(-9.42 / 26, 3)
+            round(9.42 / 26, 3)
         )
         assert dumped["ligand_lipophilicity_efficiency"] == pytest.approx(
-            round((-(-9.42) / 1.36) - 2.6, 3)
+            round((-(-9.42) / 1.364) - 2.6, 3)
         )
 
     def test_sqlite_json_strings_are_coerced(self):

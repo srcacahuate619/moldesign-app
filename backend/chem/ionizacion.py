@@ -41,8 +41,10 @@ resultado viene con la lista de centros detectados y el pKa que se les asignó:
 quien lea el número puede ver de dónde sale y descartarlo si su molécula no
 encaja en la clase.
 
-Los valores representativos son los de manual de química medicinal, no
-ajustados a ningún conjunto de este proyecto:
+Los valores representativos combinan clases de manual y medidas publicadas
+para esqueletos estrechos. Ninguno se ajustó a datos de este proyecto. Los
+nuevos grupos con medida llevan DOI junto a su SMARTS; los reconocidos sin
+constante verificable se declaran aparte:
 
     amina alifática primaria/secundaria/terciaria   pKa ≈ 9.8   base
     amidina / guanidina                             pKa ≈ 12.0  base
@@ -52,6 +54,11 @@ ajustados a ningún conjunto de este proyecto:
     ácido carboxílico                               pKa ≈ 4.2   ácido
     tetrazol                                        pKa ≈ 4.9   ácido
     sulfonamida (N-arilo)                           pKa ≈ 9.5   ácido
+    ArSO2NH2 (celecoxib)                            pKa = 9.525 ácido
+    ArSO2NHCONH (glimepirida)                       pKa = 5.32  ácido
+    monoéster fosfato                               pKa = 1.1/6.36 ácido
+    biguanida                                       pKa = 10.57 base, REVISIÓN
+    N-cianoguanidina, imida N-H                     sin pKa verificado
     fenol                                           pKa ≈ 10.0  ácido
 
 # La ecuación
@@ -61,9 +68,9 @@ Henderson-Hasselbalch, para el centro dominante de cada signo:
     base   LogD = LogP − log10(1 + 10^(pKa − pH))
     ácido  LogD = LogP − log10(1 + 10^(pH − pKa))
 
-Con centros de los dos signos se restan las dos correcciones: es la
-aproximación habitual para un zwitterión y, como todo lo demás aquí, va
-declarada.
+Con centros de ambos signos se usa un denominador compartido para las
+microespecies. Para monoésteres de fosfato se añade el segundo término de
+acidez. Sigue siendo una aproximación de clase, no un LogD medido.
 
 # Lo que no es un pKa: la carga permanente
 
@@ -101,6 +108,15 @@ class CentroIonizable:
 #: pH 7.4 es el de pKa más alto entre las bases y el más bajo entre los ácidos.
 CENTROS: tuple[CentroIonizable, ...] = (
     # ── Bases ───────────────────────────────────────────────────────────
+    # Biguanida: un solo grupo conjugado, no una guanidina + amidina.
+    # Abdelrahman et al. (2021), DOI 10.3390/molecules26164730, midieron
+    # pKa 10.57 y 8.00 a 25 C, I=0.1 M. Langmaier et al. (2016) respaldan
+    # el monocatión en un rango amplio. Como discrepan en la segunda carga,
+    # el selector marca REVIEW para esta clase.
+    CentroIonizable(
+        "biguanida", "[N;!a]~[C;X3](~[N;!a])~[N;!a]~[C;X3](~[N;!a])~[N;!a]",
+        10.57, "base",
+    ),
     CentroIonizable("guanidina", "[NX3][CX3](=[NX2])[NX3]", 12.0, "base"),
     CentroIonizable("amidina", "[NX3][CX3]=[NX2]", 11.5, "base"),
     # Aminas alifáticas: se excluyen amidas, sulfonamidas, anilinas y nitrilos.
@@ -125,8 +141,20 @@ CENTROS: tuple[CentroIonizable, ...] = (
     ),
     # ── Ácidos ──────────────────────────────────────────────────────────
     CentroIonizable("acido_carboxilico", "[CX3](=O)[OX2H1]", 4.2, "acido"),
+    # Dos tautómeros prototrópicos del tetrazol; un mismo anillo se reclama
+    # una sola vez en _explorar_centros aunque encajen ambas representaciones.
     CentroIonizable("tetrazol", "c1nnn[nH]1", 4.9, "acido"),
+    CentroIonizable("tetrazol", "c1nn[nH]n1", 4.9, "acido"),
+    # Caine et al. (2019), DOI 10.1039/c9sc01818b: celecoxib 9.525,
+    # glimepirida 5.32. Sólo se aplican a los esqueletos estudiados.
+    CentroIonizable("sulfonilurea_arilo", "[c][SX4](=O)(=O)[NX3;H1][CX3](=O)[NX3]", 5.32, "acido"),
+    CentroIonizable("sulfonamida_primaria_arilo", "[c][SX4](=O)(=O)[NX3;H2]", 9.525, "acido"),
     CentroIonizable("sulfonamida_arilo", "[SX4](=O)(=O)[NX3;H1][a]", 9.5, "acido"),
+    # Methyl phosphate: 1.1 +/- 0.2 y 6.36 +/- 0.01 a 25 C, I=0.1 M
+    # (Saha et al., 1996, DOI 10.1007/s007750050048; dato tabulado
+    # por Sigel et al., 2022, DOI 10.3390/molecules27092625).
+    # El segundo protón se registra sobre el MISMO fósforo de forma explícita.
+    CentroIonizable("fosfato_monoester", "[PX4](=O)([O;H1,-1])([O;H1,-1])[OX2][#6]", 1.1, "acido"),
     CentroIonizable("fosfato", "[PX4](=O)([OX2H1])", 2.0, "acido"),
     CentroIonizable("fenol", "[OX2H1][a]", 10.0, "acido"),
 )
@@ -146,6 +174,15 @@ CENTROS: tuple[CentroIonizable, ...] = (
 #: muchas bases de datos— escribe una carga formal que a pH 7.4 es real pero NO
 #: es permanente: esa molecula si difunde por su fraccion neutra. Bloquear por
 #: carga formal convertiria la forma en que se escribio el SMILES en un veredicto.
+# Durant et al. (1977), DOI 10.1021/jm00217a007, observan que el
+# sustituyente ciano reduce la basicidad de la guanidina. Su abstract no
+# determina un pKa acuoso; se suprime el falso positivo guanidina y se declara
+# que esta clase carece de constante cuantitativa verificada.
+CLASES_SIN_PKA: tuple[tuple[str, str], ...] = (
+    ("n_cianoguanidina", "[NX3][CX3](=[NX2])[NX3]C#N"),
+    ("imida_no_calibrada", "[CX3](=O)[NX3;H1][CX3]=O"),
+)
+
 CARGAS_PERMANENTES: tuple[tuple[str, str], ...] = (
     ("amonio_cuaternario", "[NX4+;H0]"),
     ("n_aromatico_cuaternizado", "[nX3+;H0]"),
@@ -174,6 +211,10 @@ class EstadoDeIonizacion:
     carga_formal: int = 0
     #: Grupos de carga permanente reconocidos, por su nombre.
     cargas_permanentes: list[str] = field(default_factory=list)
+    #: False si la enumeración de tautómeros falló o alcanzó el tope.
+    centros_completos: bool = True
+    clases_sin_pka: list[str] = field(default_factory=list)
+    quimica_resuelta: bool = True
 
     @property
     def tiene_carga_permanente(self) -> bool:
@@ -216,13 +257,10 @@ def analizar_ionizacion(smiles: str, logp: float | None) -> EstadoDeIonizacion:
     if mol is None:
         return EstadoDeIonizacion(logd=logp)
 
-    encontrados: list[tuple[str, float, str]] = []
-    for centro in CENTROS:
-        patron = Chem.MolFromSmarts(centro.smarts)
-        if patron is None:
-            continue
-        if mol.HasSubstructMatch(patron):
-            encontrados.append((centro.nombre, centro.pka, centro.caracter))
+    centros_por_grupo, barrido_completo = _explorar_centros(mol)
+    clases_sin_pka = _clases_sin_pka(mol)
+    # El panel muestra clases, no el número de instancias de cada clase.
+    encontrados = list(dict.fromkeys(centros_por_grupo)) if barrido_completo else []
 
     permanentes: list[str] = []
     for nombre, smarts in CARGAS_PERMANENTES:
@@ -237,7 +275,13 @@ def analizar_ionizacion(smiles: str, logp: float | None) -> EstadoDeIonizacion:
     base_dominante = max(bases, key=lambda c: c[1]) if bases else None
     acido_dominante = min(acidos, key=lambda c: c[1]) if acidos else None
 
-    estado = EstadoDeIonizacion(logd=logp, centros=encontrados)
+    estado = EstadoDeIonizacion(logd=logp if barrido_completo else None,
+                                centros=encontrados)
+    estado.centros_completos = barrido_completo
+    estado.clases_sin_pka = clases_sin_pka
+    estado.quimica_resuelta = barrido_completo and not clases_sin_pka and not any(
+        centro[0] == "biguanida" for centro in encontrados
+    )
     estado.pka_mas_basico = base_dominante[1] if base_dominante else None
     estado.cargas_permanentes = permanentes
 
@@ -248,8 +292,21 @@ def analizar_ionizacion(smiles: str, logp: float | None) -> EstadoDeIonizacion:
     # permanentemente cargadas salían con carga neta 0, es decir «neutras».
     estado.carga_formal = Chem.GetFormalCharge(mol)
     estado.carga_neta = estado.carga_formal
+    # El grupo bifásico puede llegar ya como monoanión o dianión. Su carga
+    # formal se quita de la base antes de aplicar la población a pH 7.4;
+    # de otro modo la entrada dianión terminaba falsamente en −4.
+    patron_fosfato = Chem.MolFromSmarts(
+        "[PX4](=O)([O;H1,-1])([O;H1,-1])[OX2][#6]"
+    )
+    indices_fosfato = {
+        indice
+        for coincidencia in mol.GetSubstructMatches(patron_fosfato)
+        for indice in coincidencia[2:4]
+        if mol.GetAtomWithIdx(indice).GetFormalCharge() < 0
+    }
+    estado.carga_neta += len(indices_fosfato)
 
-    if logp is None:
+    if not barrido_completo or logp is None:
         return estado
 
     # ── La fracción neutra, con UN solo denominador ──────────────────────
@@ -280,6 +337,11 @@ def analizar_ionizacion(smiles: str, logp: float | None) -> EstadoDeIonizacion:
         estado.fraccion_acido_ionizada = round(_fraccion_ionizada(pka, "acido"), 3)
         if estado.fraccion_acido_ionizada >= 0.5:
             estado.carga_neta -= 1
+        if any(c[0] == "fosfato_monoester_segunda" for c in acidos):
+            segundo = 6.36
+            denominador += 10 ** (2 * PH_FISIOLOGICO - pka - segundo)
+            if _fraccion_ionizada(segundo, "acido") >= 0.5:
+                estado.carga_neta -= 1
 
     estado.logd = round(logp - math.log10(denominador), 2)
     return estado
@@ -344,39 +406,83 @@ def desirabilidad_pka(pka_mas_basico: float | None) -> float:
 # demasiado gruesa para esa molécula, que es la limitación declarada de toda la
 # tabla. No empeora nada; simplemente no lo resuelve.
 #
-# Cuando no se reconoce ningún centro, o RDKit falla, se conserva `[0]` y se
-# dice por qué. Un cambio silencioso de criterio sería peor que el criterio malo.
+# Si no hay centro reconocido, el fallback es el menor SMILES canónico, no
+# la posición de Dimorphite. Si se reconoce un grupo sin pKa, se minimiza la
+# carga formal y se declara REVIEW. Ningún orden alfabético estima poblaciones.
 
 
-def _centros_por_instancia(mol) -> list[tuple[str, float, str]]:
-    """Los centros de `CENTROS` que casan, contando cada aparición.
+def _clases_sin_pka(mol) -> list[str]:
+    """Grupos reconocidos cualitativamente sin constante acuosa fiable."""
+    from rdkit import Chem
+    return [
+        nombre for nombre, smarts in CLASES_SIN_PKA
+        if mol.HasSubstructMatch(Chem.MolFromSmarts(smarts))
+    ]
 
-    `analizar_ionizacion` usa `HasSubstructMatch` porque sólo necesita saber qué
-    clases hay. Aquí hacen falta los recuentos: la lisina tiene DOS aminas
-    alifáticas y a pH 7.4 las dos están protonadas.
 
-    Las clases se recorren en el orden de `CENTROS` —bases de pKa descendente,
-    luego ácidos— y un átomo ya reclamado por una clase no vuelve a contarse.
-    Eso resuelve los solapamientos en la dirección correcta: el nitrógeno de una
-    guanidina también casa con `amina_alifatica`, y guanidina va antes.
+def _explorar_centros(mol) -> tuple[list[tuple[str, float, str]], bool]:
+    """Centros sobre la entrada y los tautómeros del tetrazol, sin doble conteo.
+
+    RDKit conserva los índices de los átomos pesados al tautomerizar. Sólo se
+    aplican patrones sobre esos tautómeros cuando la clase es químicamente
+    invariante bajo el cambio; el tetrazol 1H/2H es el caso medido aquí.
     """
     from rdkit import Chem
+    from rdkit.Chem.MolStandardize import rdMolStandardize
+    from chem.declaracion_tautomeros import MAX_TAUTOMEROS
+
+    # Buscar en todos los tautómeros sólo está validado para el tetrazol.
+    # Un barrido indiscriminado produce un falso positivo: el tautómero imídico
+    # del paracetamol presenta su N amídico como si fuera una amina básica.
+    # Para las demás clases se conserva el grafo de entrada hasta contar con
+    # reglas de equivalencia química por grupo, no sólo coincidencia SMARTS.
+    hay_tetrazol = any(
+        len(anillo) == 5 and sorted(mol.GetAtomWithIdx(i).GetAtomicNum() for i in anillo)
+        == [6, 7, 7, 7, 7]
+        for anillo in mol.GetRingInfo().AtomRings()
+    )
+    formas = [mol]
+    completo = True
+    if hay_tetrazol:
+        parametros = rdMolStandardize.CleanupParameters()
+        parametros.tautomerRemoveSp3Stereo = False
+        parametros.maxTautomers = MAX_TAUTOMEROS
+        try:
+            resultado = rdMolStandardize.TautomerEnumerator(parametros).Enumerate(mol)
+            completo = resultado.status == rdMolStandardize.TautomerEnumeratorStatus.Completed
+            formas.extend(resultado.tautomers)
+        except Exception:
+            completo = False
 
     reclamados: set[int] = set()
+    for _, smarts in CLASES_SIN_PKA:
+        for coincidencia in mol.GetSubstructMatches(Chem.MolFromSmarts(smarts)):
+            reclamados.update(coincidencia)
     encontrados: list[tuple[str, float, str]] = []
-
     for centro in CENTROS:
         patron = Chem.MolFromSmarts(centro.smarts)
         if patron is None:
             continue
-        for coincidencia in mol.GetSubstructMatches(patron):
+        coincidencias = sorted({
+            tuple(sorted(coincidencia))
+            for forma in (formas if centro.nombre == "tetrazol" else [mol])
+            for coincidencia in forma.GetSubstructMatches(patron)
+        })
+        for coincidencia in coincidencias:
             atomos = set(coincidencia)
             if atomos & reclamados:
                 continue
-            reclamados |= atomos
+            reclamados.update(atomos)
             encontrados.append((centro.nombre, centro.pka, centro.caracter))
+            if centro.nombre == "fosfato_monoester":
+                encontrados.append(("fosfato_monoester_segunda", 6.36, "acido"))
+    return encontrados, completo
 
-    return encontrados
+
+def _centros_por_instancia(mol) -> list[tuple[str, float, str]]:
+    """Centros por grupo; una enumeración incompleta no permite predecirlos."""
+    encontrados, completo = _explorar_centros(mol)
+    return encontrados if completo else []
 
 
 def cargas_esperadas_a_ph(smiles: str, ph: float = PH_FISIOLOGICO) -> tuple[int, int] | None:
@@ -401,8 +507,8 @@ def cargas_esperadas_a_ph(smiles: str, ph: float = PH_FISIOLOGICO) -> tuple[int,
     if mol is None:
         return None
 
-    centros = _centros_por_instancia(mol)
-    if not centros:
+    centros, barrido_completo = _explorar_centros(mol)
+    if not barrido_completo or not centros:
         return None
 
     positivos = sum(
@@ -448,14 +554,54 @@ def elegir_microestado(
     if not microestados:
         return smiles_neutro, {"criterio": "sin_microestados", "indice": None}
 
+    # Dimorphite puede variar el orden y la grafía de los SMILES entre procesos.
+    # La identidad de cada candidato se fija con RDKit ANTES de elegir, también
+    # cuando la tabla de pKa no reconoce ningún centro.
+    try:
+        from rdkit import Chem
+    except ImportError:
+        Chem = None
+    canonicos = sorted({
+        Chem.MolToSmiles(mol, isomericSmiles=True)
+        for estado in microestados
+        if Chem is not None and (mol := Chem.MolFromSmiles(estado)) is not None
+    })
+    entrada = Chem.MolFromSmiles(smiles_neutro) if Chem is not None else None
+    clases_sin_pka = _clases_sin_pka(entrada) if entrada is not None else []
+    if clases_sin_pka and entrada is not None:
+        # Dimorphite puede no ofrecer la forma neutra de N-cianoguanidina.
+        # La entrada del investigador sí es un candidato auditable.
+        canonicos = sorted(set(canonicos) | {Chem.MolToSmiles(entrada, isomericSmiles=True)})
+    if not canonicos:
+        return smiles_neutro, {
+            "criterio": "sin_microestados_validos",
+            "indice": None,
+            "alternativas_recibidas": len(microestados),
+            "motivo": "Ninguna alternativa pudo validarse con RDKit; se conserva la entrada.",
+        }
+
+    biguanida_en_revision = bool(
+        entrada is not None and any(c[0] == "biguanida" for c in _centros_por_instancia(entrada))
+    )
     esperadas = cargas_esperadas_a_ph(smiles_neutro, ph)
     if esperadas is None:
-        return microestados[0], {
-            "criterio": "primero_de_la_lista",
-            "indice": 0,
+        # Una imida/cianoguanidina reconocida sin pKa no se trata como
+        # "sin centro" ordinario: se minimiza la carga formal y se avisa.
+        candidato = min(canonicos, key=lambda smi: (sum(_cargas_formales(smi)), smi)) if clases_sin_pka else canonicos[0]
+        return candidato, {
+            "criterio": "grupo_reconocido_sin_pka" if clases_sin_pka else "primer_smiles_alfabetico_sin_centros",
+            "clases_sin_pka": clases_sin_pka,
+            "indice": None,
+            "ph": ph,
+            "empatados": len(canonicos),
+            "quimica_resuelta": False,
             "motivo": (
-                "No se reconoció ningún centro ionizable de la tabla de clases, "
-                "así que no hay estado esperado con el que comparar."
+                "Hay un grupo reconocido sin pKa verificable; se minimizó la carga formal "
+                "entre alternativas y entrada, con resultado en revisión."
+                if clases_sin_pka else
+                "No se reconoció ningún centro ionizable de la tabla de clases. "
+                "Se eligió el menor SMILES canónico para reproducibilidad; "
+                "el orden alfabético no estima la población química."
             ),
         }
 
@@ -480,7 +626,7 @@ def elegir_microestado(
     # cadena, que es una propiedad de la molécula y no de la corrida. El
     # resultado es reproducible aunque dimorphite baraje.
     candidatos: list[tuple[int, str]] = []
-    for candidato in microestados:
+    for candidato in canonicos:
         cargas = _cargas_formales(candidato)
         if cargas is None:
             continue
@@ -488,10 +634,11 @@ def elegir_microestado(
         candidatos.append((distancia, candidato))
 
     if not candidatos:
-        return microestados[0], {
-            "criterio": "primero_de_la_lista",
-            "indice": 0,
-            "motivo": "Ningún microestado se pudo leer con RDKit.",
+        return smiles_neutro, {
+            "criterio": "sin_microestados_validos",
+            "indice": None,
+            "alternativas_recibidas": len(microestados),
+            "motivo": "Ninguna alternativa pudo evaluarse con RDKit; se conserva la entrada.",
         }
 
     mejor_distancia, elegido = min(candidatos)
@@ -505,6 +652,9 @@ def elegir_microestado(
         "cationes_esperados": pos_esperados,
         "aniones_esperados": neg_esperados,
         "desajuste": mejor_distancia,
+        "clases_sin_pka": clases_sin_pka,
+        "quimica_resuelta": not clases_sin_pka and not biguanida_en_revision and mejor_distancia == 0 and sum(1 for d, _ in candidatos if d == mejor_distancia) == 1,
+        "revision_biguanida": biguanida_en_revision,
         # Cuántos empataron en distancia. Si es > 1, el desempate lo hizo el
         # orden alfabético y no la química: se declara para que se vea.
         "empatados": sum(1 for d, _ in candidatos if d == mejor_distancia),

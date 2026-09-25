@@ -23,7 +23,7 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from chem.validator import smiles_to_hash
+from chem.validator import smiles_to_hash, validate_smiles
 from core.config import get_settings
 from core.exceptions import DatabaseQueryError, TargetNotFound
 from core.models import (
@@ -76,6 +76,7 @@ def _property_values(properties: PhysicochemicalProperties) -> dict[str, Any]:
     result.egan_pass = bool(properties.egan_pass) if properties.egan_pass is not None else None
     result.muegge_pass = bool(properties.muegge_pass) if properties.muegge_pass is not None else None
     result.muegge_score = int(properties.muegge_score) if properties.muegge_score is not None else None
+    result.muegge_violations = list(properties.muegge_violations)
     result.fsp3 = float(properties.fsp3) if properties.fsp3 is not None else None
     result.is_pains = bool(properties.is_pains) if properties.is_pains is not None else None
     result.pains_matches = list(properties.pains_matches) if properties.pains_matches is not None else []
@@ -546,6 +547,7 @@ class Repository:
             user_id=user_id,
             target_id=target.id,
             smiles_hash=smiles_to_hash(data.smiles),
+            identity_hash_v2=validate_smiles(data.smiles).identity_hash_v2,
         )
         self.db.add(molecule)
         from core.database import flush_with_retry
@@ -645,6 +647,7 @@ class Repository:
             user_id=user_id,
             target_id=target.id,
             smiles_hash=smiles_hash,
+            identity_hash_v2=validate_smiles(smiles).identity_hash_v2,
         )
         self.db.add(molecule)
         from core.database import flush_with_retry

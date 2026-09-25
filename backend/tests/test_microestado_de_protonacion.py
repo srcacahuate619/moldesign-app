@@ -119,8 +119,8 @@ def test_la_eleccion_no_depende_del_orden_en_que_venga_la_lista(
         )
 
 
-def test_sin_centros_reconocidos_se_conserva_el_primero_y_se_dice():
-    """La cafeína no tiene centro ionizable: no hay nada que comparar."""
+def test_sin_centros_reconocidos_declara_que_el_desempate_no_es_quimico():
+    """La cafeína no tiene centro ionizable: no se inventa una población."""
     smiles = "CN1C=NC2=C1C(=O)N(C)C(=O)N2C"
     assert cargas_esperadas_a_ph(smiles) is None
 
@@ -128,10 +128,26 @@ def test_sin_centros_reconocidos_se_conserva_el_primero_y_se_dice():
     elegido, criterio = elegir_microestado(smiles, microestados)
 
     assert elegido == microestados[0]
-    assert criterio["criterio"] == "primero_de_la_lista", (
-        "Sin centros reconocidos el criterio tiene que declararse como tal, no "
-        "aparentar una decisión que no se tomó."
-    )
+    assert criterio["criterio"] == "primer_smiles_alfabetico_sin_centros"
+    assert criterio["quimica_resuelta"] is False
+
+
+@pytest.mark.parametrize("smiles", [
+    "O=C1CC[C@@H](N2C(=O)c3ccccc3C2=O)C(=O)N1",  # talidomida R
+    "O=C1CC[C@H](N2C(=O)c3ccccc3C2=O)C(=O)N1",   # talidomida S
+])
+def test_imida_sin_pka_es_determinista_y_declara_revision(smiles):
+    from rdkit import Chem
+
+    assert cargas_esperadas_a_ph(smiles) is None
+    estados = _microestados(smiles)
+    assert len(estados) > 1
+    referencia, criterio = elegir_microestado(smiles, estados)
+    assert Chem.GetFormalCharge(Chem.MolFromSmiles(referencia)) == 0
+    assert criterio["criterio"] == "grupo_reconocido_sin_pka"
+    assert criterio["quimica_resuelta"] is False
+    for permutacion in (estados[::-1], sorted(estados), sorted(estados, reverse=True)):
+        assert elegir_microestado(smiles, permutacion)[0] == referencia
 
 
 def test_una_lista_vacia_no_rompe_la_corrida():

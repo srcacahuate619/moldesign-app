@@ -716,13 +716,14 @@ def calculate_score_breakdown(
     )
 
     # LE y LLE bruta para el frontend
-    le_raw = round(docking.best_affinity / properties.heavy_atom_count, 3) if properties.heavy_atom_count else None
+    le_raw = round(abs(docking.best_affinity) / properties.heavy_atom_count, 3) if properties.heavy_atom_count else None
 
     best_affinity_val = docking.best_affinity
     if best_affinity_val > 0.0:
         log.warning(f"best_affinity is positive ({best_affinity_val}), which violates the Vina negative convention. Clipping to 0.0.")
         best_affinity_val = 0.0
-    lle_raw = round((-best_affinity_val / 1.36) - properties.log_p, 3) if properties.log_p is not None else None
+    from scoring.eficiencia import KCAL_POR_UNIDAD_LOG
+    lle_raw = round((-best_affinity_val / KCAL_POR_UNIDAD_LOG) - properties.log_p, 3) if properties.log_p is not None else None
 
     return ScoreBreakdown(
         # Ranking (Afinidad pura)
