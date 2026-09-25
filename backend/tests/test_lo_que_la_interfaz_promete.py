@@ -5,8 +5,8 @@ anunciaban capacidades y cifras que el árbol no respalda:
 
 * **«7 anti-targets clínicos: hERG, CYP2D6/CYP3A4, 5-HT2B, PXR, BSEP, DAT»**
   El panel real (`services/docking/selectivity.py::ANTI_TARGET_PANEL`) tiene
-  CINCO, y no son esos: hERG (5VA1), CYP3A4 (4NY4), 5-HT2B (4NC3), PDE3A
-  (1SO2) y NaV1.5 (6MVW). CYP2D6, PXR, BSEP y DAT no están.
+  TRES: hERG (5VA1), CYP3A4 (4NY4) y 5-HT2B (4NC3).
+  Los sustitutos 1SO2/6MVW no representan PDE3A/NaV1.5 humanos.
 
 * **«predicción 91.5% en 94 fármacos»** para BBB. Esa cifra no aparece en
   ninguna parte del backend ni de las pruebas. Lo que hay medido es 39 de 41
@@ -62,7 +62,7 @@ def test_el_numero_de_anti_targets_anunciado_es_el_que_hay():
     from services.docking.selectivity import ANTI_TARGET_PANEL
 
     reales = len(ANTI_TARGET_PANEL)
-    assert reales == 5, (
+    assert reales == 3, (
         f"el panel cambió a {reales} anti-targets: actualiza esta prueba Y el "
         "texto de la interfaz, que los anuncia por número."
     )

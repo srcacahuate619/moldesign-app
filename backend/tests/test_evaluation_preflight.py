@@ -120,8 +120,8 @@ def test_preflight_does_not_download_the_receptor(monkeypatch, tmp_path):
         raise AssertionError("el preflight intentó descargar del RCSB")
 
     monkeypatch.setattr(file_handlers, "download_pdb_from_rcsb", _explode)
-    monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: None)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: None)
+    monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id, recipe_hash=None: None)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: None)
 
     report = _build()
 
@@ -135,8 +135,8 @@ def test_preflight_does_not_download_the_receptor(monkeypatch, tmp_path):
 
 @rdkit_available
 def test_missing_artifacts_are_never_reported_as_passing(monkeypatch):
-    monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: None)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: None)
+    monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id, recipe_hash=None: None)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: None)
 
     report = _build()
 
@@ -271,6 +271,9 @@ def test_fingerprint_document_has_no_timestamp():
         "seed",
         "source_sha256",
         "prepared_sha256",
+        "receptor_recipe_hash",
+        "site_chains",
+        "cofactors_whitelist",
     }
 
 
@@ -332,7 +335,7 @@ def test_diff_comes_from_the_real_filter(monkeypatch, tmp_path):
     source = tmp_path / "1ABC.pdb"
     source.write_text(MINIMAL_PDB, encoding="utf-8")
     monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: source)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: None)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: None)
 
     report = _build()
     diff = report["preparation_diff"]
@@ -364,7 +367,7 @@ def test_removed_metals_raise_a_warning_not_a_block(monkeypatch, tmp_path):
     source = tmp_path / "1ABC.pdb"
     source.write_text(MINIMAL_PDB, encoding="utf-8")
     monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: source)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: None)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: None)
 
     report = _build()
 
@@ -384,7 +387,7 @@ def test_policy_declares_that_the_whitelist_reaches_the_docking_route(monkeypatc
     source = tmp_path / "1ABC.pdb"
     source.write_text(MINIMAL_PDB, encoding="utf-8")
     monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: source)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: None)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: None)
 
     report = _build(cofactors_whitelist=["ZN"])
 
@@ -402,7 +405,7 @@ def test_a_chain_that_leaves_no_atoms_blocks_before_wasting_the_run(monkeypatch,
     source = tmp_path / "1ABC.pdb"
     source.write_text(MINIMAL_PDB, encoding="utf-8")
     monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: source)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: None)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: None)
 
     report = _build(chain="Z")
 
@@ -424,7 +427,7 @@ def test_hashes_are_computed_over_the_real_files(monkeypatch, tmp_path):
     prepared.write_text("ATOM      1  N   ALA A   1       0.0   0.0   0.0  1.00  0.00     0.000 N\n", encoding="utf-8")
 
     monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: source)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: prepared)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: prepared)
 
     report = _build()
 
@@ -440,7 +443,7 @@ def test_fingerprint_changes_when_the_source_artifact_changes(monkeypatch, tmp_p
     source = tmp_path / "1ABC.pdb"
     source.write_text(MINIMAL_PDB, encoding="utf-8")
     monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: source)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: None)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: None)
 
     first = _build()["input_fingerprint"]
     source.write_text(MINIMAL_PDB.replace("20.00", "21.00", 1), encoding="utf-8")
@@ -454,7 +457,7 @@ def test_prepared_receptor_absent_is_not_evaluated(monkeypatch, tmp_path):
     source = tmp_path / "1ABC.pdb"
     source.write_text(MINIMAL_PDB, encoding="utf-8")
     monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: source)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: None)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: None)
 
     report = _build()
 
@@ -472,7 +475,7 @@ def test_prepared_receptor_for_another_chain_is_not_reused_or_hashed_as_input(mo
         encoding="utf-8",
     )
     monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: source)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: prepared)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: prepared)
 
     report = _build(chain="A")
 
@@ -492,7 +495,7 @@ def test_no_absolute_paths_leak_into_the_response(monkeypatch, tmp_path):
     prepared = tmp_path / "prepared.pdbqt"
     prepared.write_text("ATOM\n", encoding="utf-8")
     monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: source)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: prepared)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: prepared)
 
     import re
 
@@ -537,7 +540,7 @@ def test_a_zero_center_declares_the_box_the_run_will_derive(monkeypatch, tmp_pat
     source = tmp_path / "1ABC.pdb"
     source.write_text(MINIMAL_PDB, encoding="utf-8")
     monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: source)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: None)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: None)
 
     report = _build(grid_center=(0.0, 0.0, 0.0))
     effective = report["effective_config"]
@@ -620,7 +623,7 @@ def test_hotspots_on_a_chain_that_is_not_docked_raise_a_warning(monkeypatch, tmp
     source = tmp_path / "1ABC.pdb"
     source.write_text(MINIMAL_PDB, encoding="utf-8")
     monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: source)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: None)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: None)
 
     report = _build(chain="A", catalog_hotspots=["B:TYR400", "A:CYS351"])
 
@@ -637,7 +640,7 @@ def test_hotspots_inside_the_docked_chain_pass(monkeypatch, tmp_path):
     source = tmp_path / "1ABC.pdb"
     source.write_text(MINIMAL_PDB, encoding="utf-8")
     monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: source)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: None)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: None)
 
     report = _build(chain="A", catalog_hotspots=["A:CYS351", "A:GLY352"])
     assert _control(report, "HOTSPOTS_FUERA_DEL_RECEPTOR")["state"] == "pasa"
@@ -649,7 +652,7 @@ def test_hotspots_without_a_chain_prefix_are_not_evaluated(monkeypatch, tmp_path
     source = tmp_path / "1ABC.pdb"
     source.write_text(MINIMAL_PDB, encoding="utf-8")
     monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: source)
-    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id: None)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: None)
 
     report = _build(chain="A", catalog_hotspots=["CYS351"])
     assert _control(report, "HOTSPOTS_FUERA_DEL_RECEPTOR")["state"] == "no_evaluado"

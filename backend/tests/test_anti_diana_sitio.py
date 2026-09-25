@@ -153,7 +153,8 @@ def test_el_catalogo_sigue_declarando_multicadena_las_dos_cardiacas():
     por_id = {f["pdb_id"]: f for f in filas if isinstance(f, dict) and "pdb_id" in f}
 
     assert len(set(por_id["5VA1"].get("site_chains") or [])) > 1, "hERG"
-    assert len(set(por_id["6MVW"].get("site_chains") or [])) > 1, "NaV1.5"
+    assert "6MVW" not in {row["pdb_id"] for row in ANTI_TARGET_PANEL}
+    assert "1SO2" not in {row["pdb_id"] for row in ANTI_TARGET_PANEL}
 
     # Y que ninguna entrada del panel se quede sin comprobar por olvido.
     for entrada in ANTI_TARGET_PANEL:

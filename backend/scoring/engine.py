@@ -659,7 +659,7 @@ def calculate_score_breakdown(
     specificity_score = 100.0
     specificity_multiplier = 1.0
 
-    if target_hotspots:
+    if target_hotspots and docking.hotspots_hit is not None:
         total_importance = sum(h.get("importance", 1.0) for h in target_hotspots)
         hits_importance = 0.0
         hit_names = set(docking.hotspots_hit or [])

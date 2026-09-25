@@ -157,7 +157,7 @@ export const pro: ModuloDeTraduccion = {
     pr_sel_sin_conclusion:
       "0 umbrales rebasados en el panel; esto no constituye una conclusión de "
       + "seguridad.",
-    pr_sel_anti_targets: "Anti-targets del panel (5 receptores)",
+    pr_sel_anti_targets: "Anti-targets del panel (3 receptores)",
     pr_sel_umbral_minimo: "Umbral mínimo:",
     pr_sel_saber_mas: "Saber más",
     pr_sel_sin_evaluar: "Sin evaluar",
@@ -340,7 +340,7 @@ export const pro: ModuloDeTraduccion = {
     pr_sel_sin_conclusion:
       "0 thresholds exceeded in the panel; this does not constitute a safety "
       + "conclusion.",
-    pr_sel_anti_targets: "Panel anti-targets (5 receptors)",
+    pr_sel_anti_targets: "Panel anti-targets (3 receptors)",
     pr_sel_umbral_minimo: "Minimum threshold:",
     pr_sel_saber_mas: "Learn more",
     pr_sel_sin_evaluar: "Not evaluated",

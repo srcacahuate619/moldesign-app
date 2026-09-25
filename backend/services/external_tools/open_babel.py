@@ -194,7 +194,10 @@ def _ruta_relativa(ruta: Path) -> str:
     """
     base = directorio_de_la_herramienta()
     try:
-        cola = ruta.resolve().relative_to(base.resolve()).as_posix()
+        # La ruta publicada describe la ubicación dentro del paquete. resolve()
+        # seguiría un junction/symlink del worktree y perdería "bin/" aunque
+        # el archivo verificado siga siendo el declarado por el manifiesto.
+        cola = ruta.absolute().relative_to(base.absolute()).as_posix()
     except (ValueError, OSError):
         return f"{UBICACION_CANONICA}/{ruta.name}"
     return f"{UBICACION_CANONICA}/{cola}" if cola != "." else UBICACION_CANONICA

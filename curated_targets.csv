@@ -14,7 +14,7 @@ pdb_id,name,chain,family,area,grid_cx,grid_cy,grid_cz,grid_sx,grid_sy,grid_sz,ho
 5ZBH,PAR2 Protease-Activated Receptor,A,gpcr,Inflammation,14.326,23.859,-53.306,37.1,37.1,37.1,15,14.326,23.859,-53.306
 1M17,EGFR Kinase Domain,A,kinase,Oncology,22.014,0.253,52.794,32.5,32.5,32.5,15,22.014,0.253,52.794
 4FK3,BRAF V600E Kinase,B,kinase,Oncology,-1.985,50.204,20.149,32.1,32.1,32.1,15,-1.985,50.204,20.149
-3PP0,CDK4 Cyclin D1,B,kinase,Oncology,17.100,16.550,26.600,22.0,22.0,22.0,15,17.100,16.550,26.600
+3PP0,HER2 (ERBB2) kinase domain,B,kinase,Oncology,17.100,16.550,26.600,22.0,22.0,22.0,15,17.100,16.550,26.600
 4ZZZ,CDK4/Cyclin D1 Complex,A,kinase,Oncology,63.410,6.480,9.590,22.0,22.0,22.0,13,63.410,6.480,9.590
 3WZE,BTK Bruton Tyrosine Kinase,A,kinase,Oncology,22.876,24.550,36.824,37.0,37.0,37.0,15,22.876,24.550,36.824
 3G0E,JAK2 Kinase,A,kinase,Oncology,34.165,-3.628,-78.308,27.8,27.8,27.8,15,34.165,-3.628,-78.308
@@ -61,9 +61,9 @@ pdb_id,name,chain,family,area,grid_cx,grid_cy,grid_cz,grid_sx,grid_sy,grid_sz,ho
 4EJJ,CYP2C9,A,cytochrome,Safety,-13.760,-13.630,-7.460,22.0,22.0,22.0,15,-13.760,-13.630,-7.460
 3QXX,CYP2C19,A,cytochrome,Safety,1.220,-24.050,-23.770,22.0,22.0,22.0,15,1.220,-24.050,-23.770
 2NNJ,CYP1A2,A,cytochrome,Safety,48.760,15.280,-24.280,31.6,31.6,31.6,15,48.760,15.280,-24.280
-6MVW,NaV1.5 SCN5A,C,ion_channel,Safety,125.443,163.436,14.781,20.0,20.0,20.0,0,125.443,163.436,14.781
+6MVW,NavAb bacterial sodium channel,C,ion_channel,Research proxy,125.443,163.436,14.781,20.0,20.0,20.0,0,125.443,163.436,14.781
 4NC3,5-HT2B HTR2B,A,gpcr,Safety,-22.060,-18.620,12.050,22.0,22.0,22.0,15,-22.060,-18.620,12.050
-1SO2,PDE3A Cardiac,C,phosphodiesterase,Safety,60.710,0.540,10.440,22.0,22.0,22.0,15,60.710,0.540,10.440
+1SO2,PDE3B human phosphodiesterase,C,phosphodiesterase,Research proxy,60.710,0.540,10.440,22.0,22.0,22.0,15,60.710,0.540,10.440
 4W1V,PDE4B Inflammation,B,phosphodiesterase,Inflammation,-10.080,-4.860,-19.100,22.0,22.0,22.0,9,-10.080,-4.860,-19.100
 6N7B,PDE5A cGMP-specific,A,phosphodiesterase,Cardiovascular,-24.500,3.670,-1.340,22.0,22.0,22.0,15,-24.500,3.670,-1.340
 6Y5E,GABA-A Receptor,J,ion_channel,CNS,113.787,132.058,133.714,20.6,20.6,20.6,2,113.787,132.058,133.714

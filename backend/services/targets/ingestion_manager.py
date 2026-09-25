@@ -178,7 +178,7 @@ async def ingest_new_target(
         target = TargetORM(
             pdb_id=pdb_id,
             name=_target_name,
-            chain=chain_id,
+            chain=detected_chain,
             grid_center_x=center[0],
             grid_center_y=center[1],
             grid_center_z=center[2],
@@ -207,10 +207,14 @@ async def ingest_new_target(
         db.add(target)
     else:
         existing.is_prepared = True
+        existing.chain = detected_chain
         existing.prepared_file_path = prepared_file_path
         existing.grid_center_x = center[0]
         existing.grid_center_y = center[1]
         existing.grid_center_z = center[2]
+        existing.grid_size_x = size[0]
+        existing.grid_size_y = size[1]
+        existing.grid_size_z = size[2]
         for campo, valor in sitio.items():
             setattr(existing, campo, valor)
         existing.hotspots = hotspots

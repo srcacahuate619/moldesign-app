@@ -100,7 +100,7 @@ STAGE_REGISTRY: dict[str, Stage] = {
         id="selectivity",
         label="Selectividad (Safety Panel)",
         description=(
-            "Docking contra panel de anti-targets (hERG, CYP3A4, 5-HT2B, PDE3, NaV1.5) "
+            "Docking contra panel estructural (hERG, CYP3A4, 5-HT2B) "
             "para calcular selectividad ON/OFF y flags de seguridad."
         ),
         dependencies=["docking"],

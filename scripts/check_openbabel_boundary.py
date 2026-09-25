@@ -18,7 +18,7 @@ Las nueve comprobaciones, en el orden en que aparecen:
     G5  su hash coincide con el manifiesto
     G6  `obabel -V` devuelve la versión declarada
     G7  una conversión PDBQT→SDF real funciona sobre el árbol comprobado
-    G8  el SDF convertido es el que se persiste (contrato de `vina_service`)
+    G8  el docking se abstiene si Meeko no exporta un SDF utilizable
     G9  el SBOM y la pantalla de licencias NO lo llaman `GPL-2.0-or-later`
 
 # Por qué cada guarda lleva su propia muestra rota
@@ -529,42 +529,28 @@ def g4_g7_herramienta(
 
 
 def g8_contrato_de_persistencia(resultado: Resultado) -> None:
-    """G8 el SDF convertido es el que se persiste."""
+    """G8 el docking no reconstruye química desde PDBQT."""
     fuente_path = RAIZ / "backend" / "services" / "docking" / "vina_service.py"
     if not fuente_path.is_file():
         resultado.salta("G8 no está `vina_service.py`")
         return
     codigo = _sin_comentarios(fuente_path.read_text(encoding="utf-8"))
     faltan: list[str] = []
+    if "convertir_pdbqt_a_sdf(" in codigo or 'parsing_source = "sdf_openbabel_cli"' in codigo:
+        faltan.append("la conversión PDBQT→SDF sigue en la ruta de producción")
     if not re.search(
-        r"if sdf_a_persistir is not None:\s*await write_text\(poses_path, sdf_a_persistir\)"
-        r"\s*else:\s*await write_file\(output_sdf, poses_path\)",
+        r"if not poses:\s*raise DockingFailed\(",
         codigo,
     ):
-        faltan.append(
-            "la persistencia del SDF de poses no está condicionada a de dónde "
-            "salieron las poses"
-        )
-    if 'parsing_source == "sdf_openbabel_cli") != (sdf_a_persistir is not None)' not in codigo:
-        faltan.append(
-            "falta la comprobación de coherencia entre la procedencia declarada "
-            "y el archivo que se entrega"
-        )
-    if 'parsing_source = "openbabel"' in codigo:
-        faltan.append(
-            'vuelve la procedencia inválida `"openbabel"`, que revienta '
-            "DockingResult justo cuando el respaldo funciona"
-        )
-    modelos = (RAIZ / "backend" / "core" / "models.py").read_text(encoding="utf-8")
-    if "sdf_openbabel_cli" not in modelos:
-        faltan.append("`DockingResult.parsing_source` ya no admite `sdf_openbabel_cli`")
+        faltan.append("falta la abstención cuando Meeko no exporta poses SDF")
+    if "No se reconstruye la molécula desde el PDBQT de Vina." not in codigo:
+        faltan.append("la abstención no declara el motivo químico")
+    if not re.search(r"await write_file\(output_sdf, poses_path\)", codigo):
+        faltan.append("no se entrega el SDF verificado de Meeko")
     if faltan:
-        resultado.mal(
-            "G8 el contrato de persistencia del respaldo está roto:\n  - "
-            + "\n  - ".join(faltan)
-        )
+        resultado.mal("G8 contrato de abstención roto:\n  - " + "\n  - ".join(faltan))
     else:
-        resultado.bien("G8 el SDF entregado es aquel del que salieron las poses")
+        resultado.bien("G8 sin conversión PDBQT→SDF en docking; SDF de Meeko o abstención")
 
 
 def g9_licencia_declarada(resultado: Resultado) -> None:

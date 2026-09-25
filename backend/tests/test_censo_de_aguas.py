@@ -175,8 +175,8 @@ def test_el_censo_es_barato():
 
 # ── P3: la cita que respalda la decisión de multicadena ────────────────────
 #
-# El panel de anti-dianas acopla hERG (5VA1) y NaV1.5 (6MVW) sobre estructuras
-# experimentales ensambladas, no sobre modelos de co-plegamiento. Esa decisión
+# El panel conserva hERG (5VA1) ensamblado. 6MVW es NavAb bacteriano y fue
+# retirado del panel de seguridad humana en fase 1. Esa decisión
 # se tomó por medición del catálogo; el benchmark de canales iónicos es la
 # evidencia de literatura que faltaba citar.
 

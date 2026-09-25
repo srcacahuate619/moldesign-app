@@ -306,6 +306,7 @@ async def test_private_complex_never_downloads_internal_id(monkeypatch):
 @pytest.mark.asyncio
 async def test_redock_keeps_old_artifacts_and_uses_hashed_receptor(tmp_path, monkeypatch):
     import hashlib
+    import json
     from pathlib import Path
     from services.docking import vina_service as vina
     from utils import local_storage as storage
@@ -321,6 +322,11 @@ async def test_redock_keeps_old_artifacts_and_uses_hashed_receptor(tmp_path, mon
     original = b"original receptor bytes"
     await storage.write_bytes(original, source)
     await storage.write_bytes(b"ligand", ligand)
+    await storage.write_bytes(
+        json.dumps({"receptor_sha256": hashlib.sha256(original).hexdigest(),
+                    "protonation_templates": {}}).encode(),
+        "targets/7E2Y/prepared.report.json",
+    )
     monkeypatch.setattr(vina, "prepare_target", AsyncMock(return_value=source))
     monkeypatch.setattr(vina, "resolve_effective_docking_box", lambda **kw: ((1, 2, 3), (20, 20, 20)))
     monkeypatch.setattr(vina, "_resolve_executable", lambda path: "available")
@@ -328,6 +334,8 @@ async def test_redock_keeps_old_artifacts_and_uses_hashed_receptor(tmp_path, mon
     monkeypatch.setattr(vina, "parse_vina_output_sdf", lambda content: [
         {"rank": 1, "affinity": -8.0, "rmsd_lb": 0.0, "rmsd_ub": 0.0}])
     monkeypatch.setattr(vina, "_parse_vina_stdout", lambda content: [])
+    monkeypatch.setattr(vina, "fusionar_rmsd_desde_pdbqt", lambda poses, content: (poses, {"fusionado": True, "afinidades_discrepantes": []}))
+    monkeypatch.setattr(vina, "verificar_pares_sdf_pdbqt", lambda *args: None)
     monkeypatch.setattr(vina, "_check_ligand_fits_box", lambda *args: None)
 
     async def prepare_ligand(*args, **kwargs):

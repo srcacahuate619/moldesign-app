@@ -266,6 +266,13 @@ async def run_ensemble_docking(
     # binario por construccion, y la semilla base es la misma. Lo que cambia
     # entre corridas es la conformacion de entrada, y eso viaja por pose.
     primera = resultados[0][1]
+    winning_index = entregadas[0].conformer_index
+    winning_result = next(
+        (partial for index, partial in resultados if index == winning_index), None
+    )
+    winning_hotspots = (
+        deepcopy(winning_result.hotspots_hit) if winning_result is not None else None
+    )
 
     return DockingResult(
         best_affinity=entregadas[0].affinity,
@@ -289,4 +296,5 @@ async def run_ensemble_docking(
         receptor_path=getattr(primera, "receptor_path", None),
         execution_time_s=tiempo_total,
         scientific_warnings=avisos,
+        hotspots_hit=winning_hotspots,
     )

@@ -67,26 +67,7 @@ const DEFAULT_ANTI_TARGETS: AntiTargetInfo[] = [
     bioDetails: "El agonismo prolongado de 5-HT2B estimula la mitogénesis y proliferación aberrante de fibroblastos en las válvulas del corazón, produciendo fibrosis valvular irreversible y regurgitación aórtica/mitral (caso histórico Fenfluramina / Dexfenfluramina), así como hipertensión arterial pulmonar.",
     mitigationSar: "Estrategias de Optimización SAR: Eliminar o modificar farmacóforos triptamínicos básicos; sustituir aminas secundarias por grupos voluminosos o amidas no protonables; verificar el modo de enlace para asegurar comportamiento como antagonista neutro en lugar de agonista."
   },
-  {
-    pdb_id: "1SO2",
-    name: "PDE3A",
-    category: "Cardiac",
-    risk: "Inhibición de PDE3 afecta contractilidad y frecuencia cardíaca.",
-    threshold: -8.0,
-    targetFunction: "Fosfodiesterasa específica de nucleótidos cíclicos (cAMP) reguladora de la contractilidad celular en miocardio y musculatura lisa vascular.",
-    bioDetails: "La inhibición aguda de PDE3A eleva los niveles intracelulares de cAMP, ejerciendo efectos inotrópicos positivos; sin embargo, su inhibición crónica en fármacos no cardiotónicos aumenta la tasa de mortalidad en pacientes con arritmias ventriculares.",
-    mitigationSar: "Estrategias de Optimización SAR: Distorsionar los motivos planos bicíclicos que imitan al anillo purínico del cAMP; modificar la distancia entre el dador de puente de hidrógeno y la cavidad lipofílica de PDE3."
-  },
-  {
-    pdb_id: "6MVW",
-    name: "NaV1.5 (SCN5A)",
-    category: "Cardiac",
-    risk: "Bloqueo de canales de sodio miocardíacos altera conducción eléctrica.",
-    threshold: -7.5,
-    targetFunction: "Canal de sodio dependiente de voltaje responsable de la despolarización rápida (Fase 0) del potencial de acción miocárdico.",
-    bioDetails: "El bloqueo de NaV1.5 disminuye la velocidad de conducción del impulso cardíaco, prolongando el intervalo QRS y la onda P. El bloqueo no deseado puede desencadenar arritmias ventriculares reentrantes o Síndrome de Brugada inducido por fármacos.",
-    mitigationSar: "Estrategias de Optimización SAR: Disminuir la lipofilicidad del fragmento que interacciona con los residuos aromáticos Phe1760 y Tyr1767 en el segmento S6 del dominio IV; agregar sustituyentes voluminosos que impidan la entrada al poro interno."
-  }
+
 ];
 
 // ═══════════════════════════════════════════════════════════════════════

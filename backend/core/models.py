@@ -958,7 +958,7 @@ class DockingResult(BaseModel):
     # severidad declarada, y la columna es JSON, así que no hay migración. Ver
     # `services/avisos.py` para por qué la severidad ya no se deduce del texto.
     scientific_warnings: list[str | dict] = Field(default_factory=list)
-    hotspots_hit: list[str] = Field(default_factory=list)
+    hotspots_hit: list[str] | None = None  # None = no evaluado; [] = evaluado sin aciertos
     #: Manifiesto de transferencia ESMFold->ligando, si el protocolo peptidico lo produjo.
     peptide_transfer_manifest: dict[str, Any] | None = None
 

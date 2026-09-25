@@ -98,14 +98,9 @@ TARGET_CONFIGS = {
         "pdb_local": lambda d: d / "7e2y.pdb",
         "pdbqt_local": lambda d: d / "7E2Y_obabel.pdbqt",
     },
-    "3pp0": {
-        "name": "cdk2",
-        "family": "kinase",
-        "center": (25.86, 30.61, 7.55),  # fallback, overridden by curated DB
-        "data_dir": lambda d: d / "multitarget" / "cdk2",
-        "pdb_local": lambda d: d / "3PP0.pdb",
-        "pdbqt_local": lambda d: d / "multitarget" / "cdk2" / "3PP0.pdbqt",
-    },
+    # 3PP0 is HER2/ERBB2. The former CDK2 config used a different target's
+    # ligand cohort, so new runs with that mapping are blocked. Historical
+    # benchmark artifacts are kept intact for provenance.
     "1hsg": {
         "name": "hiv_protease",
         "family": "protease",

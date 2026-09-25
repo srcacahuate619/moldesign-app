@@ -56,9 +56,17 @@ class StoragePath:
         return f"targets/{pdb_id.upper()}/raw.pdb"
 
     @staticmethod
-    def target_prepared(pdb_id: str) -> str:
-        """Proteína preparada para AutoDock Vina (.pdbqt)."""
-        return f"targets/{pdb_id.upper()}/prepared.pdbqt"
+    def target_prepared(pdb_id: str, recipe_hash: str | None = None) -> str:
+        """Receptor preparado, aislado por la receta que produjo sus átomos.
+
+        La ruta sin hash sólo permite leer artefactos históricos; una
+        preparación nueva siempre debe pasar la huella de su receta.
+        """
+        if recipe_hash is None:
+            return f"targets/{pdb_id.upper()}/prepared.pdbqt"
+        if len(recipe_hash) != 64 or any(c not in "0123456789abcdef" for c in recipe_hash):
+            raise ValueError("recipe_hash debe ser un SHA-256 hexadecimal")
+        return f"targets/{pdb_id.upper()}/prepared-{recipe_hash}.pdbqt"
 
     @staticmethod
     def ligand_conformer(smiles_hash: str) -> str:

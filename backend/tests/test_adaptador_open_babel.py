@@ -355,11 +355,9 @@ def test_el_preflight_declara_el_conversor_estructural():
 def test_el_preflight_avisa_pero_no_bloquea_cuando_open_babel_falta(
     tmp_path, monkeypatch
 ):
-    """Si Meeko exporta bien, Open Babel no llega a ejecutarse.
+    """El estado del programa externo se declara sin bloquear docking.
 
-    Bloquear una corrida que iba a funcionar convertiría la comprobación en un
-    estorbo. Lo que no puede pasar es que la corrida NECESITE el respaldo, no lo
-    tenga y siga en silencio: de eso se encarga `vina_service`.
+    La ruta de docking exige el SDF de Meeko y se abstiene si no lo obtiene.
     """
     from services.docking.preflight import _toolchain_controls
 
@@ -419,8 +417,8 @@ def test_health_lo_reporta_degradado_y_no_tumba_la_aplicacion(tmp_path, monkeypa
     """`open_babel` no es un componente `core`: que falte no impide abrir.
 
     El arranque ya lo exige antes, en `bundled_layout` del contenedor Tauri; y
-    una corrida que necesite el respaldo se abstiene con motivo. Tumbar `/health`
-    además habría dejado la aplicación sin abrir por una herramienta de respaldo.
+    docking se abstiene si Meeko no exporta SDF. Tumbar `/health` por una
+    herramienta auxiliar también impediría abrir la aplicación.
     """
     from api import main as api_main
 

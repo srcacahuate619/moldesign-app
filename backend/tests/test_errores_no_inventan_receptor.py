@@ -158,8 +158,7 @@ def test_openbabel_no_se_invoca_por_nombre_suelto():
         "entorno Python de Open Babel, que es justo la frontera que hay que "
         "mantener separada."
     )
-    assert "services.external_tools" in codigo, (
-        "Toda invocacion de Open Babel debe pasar por el adaptador unico "
-        "`services.external_tools.open_babel`, que solo ejecuta el binario "
-        "empaquetado y comprueba su hash."
+    assert "open_babel" not in codigo, (
+        "El docking debe exportar SDF con Meeko y abstenerse si falla; "
+        "Open Babel queda fuera de este flujo."
     )

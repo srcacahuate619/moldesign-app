@@ -58,6 +58,9 @@ from typing import Any, Literal
 from core.config import get_settings
 from chem.validator import validate_smiles
 from services.docking import preparer
+from services.docking.search_policy import (
+    BOX_VOLUME_WARNING_A3, box_volume, effective_exhaustiveness as resolve_exhaustiveness,
+)
 from utils.local_storage import path_for
 from utils.file_handlers import StoragePath
 from utils.logger import get_logger
@@ -65,7 +68,7 @@ from utils.logger import get_logger
 log = get_logger(__name__)
 settings = get_settings()
 
-PREFLIGHT_SCHEMA_VERSION = 3
+PREFLIGHT_SCHEMA_VERSION = 4
 
 #: Identificador de la ruta de ejecución inspeccionada. La política de
 #: heteroátomos difiere entre docking y MM-GBSA (docs/53 §6.2), así que el
@@ -215,6 +218,9 @@ def canonical_input_document(
     seed: int,
     source_sha256: str | None,
     prepared_sha256: str | None,
+    receptor_recipe_hash: str | None = None,
+    site_chains: list[str] | None = None,
+    cofactors_whitelist: list[str] | None = None,
     conformers: int = 1,
     pipeline_config: dict[str, Any] | None = None,
 ) -> str:
@@ -255,7 +261,10 @@ def canonical_input_document(
         # describen la misma corrida. Los hashes pertenecen por ello a la
         # identidad de la preparación, no sólo a la sección de procedencia.
         "source_sha256": source_sha256,
-        "prepared_sha256": prepared_sha256,
+        "prepared_sha256": None,
+        "receptor_recipe_hash": receptor_recipe_hash,
+        "site_chains": sorted(site_chains) if site_chains else None,
+        "cofactors_whitelist": sorted(cofactors_whitelist or []),
     }
     # `conformers` entra SOLO cuando hay ensemble.
     #
@@ -283,33 +292,27 @@ def fingerprint_of(document: str) -> str:
 
 
 def _source_pdb_path(pdb_id: str) -> Path | None:
-    """
-    Fuente que leería `prepare_target`, con su MISMA precedencia.
-
-    `prepare_target` prefiere el PDB compartido (`get_target_pdb_path`) y sólo
-    cae al crudo descargado si aquél no existe. Aquí se replica esa
-    precedencia y se detiene ahí: si no hay nada en disco, se devuelve `None`
-    y el control correspondiente sale `no_evaluado` — nunca se descarga.
-    """
-    shared = Path(preparer.get_target_pdb_path(pdb_id))
-    if shared.exists():
-        return shared
-    raw = path_for(StoragePath.target_raw(pdb_id))
-    if raw.exists():
-        return raw
-    # Ultimo recurso ANTES de rendirse: materializar la estructura que viaja en
-    # el instalador. La siembra del arranque tarda decenas de segundos en copiar
-    # las 407, y quien acaba de instalar pregunta dentro de ese hueco. Copiar un
-    # archivo del bundle no es descargar: la regla de este modulo —no tocar la
-    # red— sigue intacta.
-    from services.semilla_estructuras import sembrar_una
-
-    return sembrar_una(pdb_id)
+    """Fuente local que usaría prepare_target, sin descargar de la red."""
+    return preparer.receptor_source_path_no_network(pdb_id)
 
 
-def _prepared_pdbqt_path(pdb_id: str) -> Path | None:
-    prepared = path_for(StoragePath.target_prepared(pdb_id))
-    return prepared if prepared.exists() else None
+def _prepared_pdbqt_path(pdb_id: str, recipe_hash: str | None) -> Path | None:
+    if recipe_hash is None:
+        return None
+    logical = StoragePath.target_prepared(pdb_id, recipe_hash)
+    prepared = path_for(logical)
+    report = path_for(preparer._meeko_report_path(logical))
+    if not prepared.is_file() or not report.is_file():
+        return None
+    try:
+        evidence = json.loads(report.read_text(encoding="utf-8"))
+        if (evidence.get("recipe_hash") != recipe_hash
+            or evidence.get("receptor_sha256") != hashlib.sha256(prepared.read_bytes()).hexdigest()
+            or "protonation_templates" not in evidence):
+            return None
+    except (OSError, ValueError):
+        return None
+    return prepared
 
 
 # ── Núcleo ───────────────────────────────────────────────────────────
@@ -329,6 +332,8 @@ def build_preflight(
     catalog_grid_size: tuple[float, float, float] | None,
     catalog_hotspots: list[str] | None,
     cofactors_whitelist: list[str] | None,
+    site_chains: list[str] | None = None,
+    site_ligand: str | None = None,
     calibracion: dict[str, Any] | None = None,
     docking_engine: str = "vina",
     exhaustiveness: int | None = None,
@@ -440,8 +445,12 @@ def build_preflight(
 
     # ── Receptor: artefactos reales ──────────────────────────────────
     pdb_id = target_pdb_id.strip().upper()
+    site_ligand = site_ligand or preparer.catalog_site_ligand(pdb_id)
     source_path = _source_pdb_path(pdb_id)
-    prepared_path = _prepared_pdbqt_path(pdb_id)
+    prepared_path: Path | None = None
+    source_original_text: str | None = None
+    cadenas_del_sitio = {str(c).strip() for c in (site_chains or []) if str(c).strip()}
+    cadenas = cadenas_del_sitio if len(cadenas_del_sitio) > 1 else {chain.strip()}
 
     source_sha: str | None = None
     source_counts: _SpeciesCount | None = None
@@ -451,7 +460,10 @@ def build_preflight(
         try:
             source_bytes = source_path.read_bytes()
             source_sha = sha256_of(source_bytes)
-            source_text = source_bytes.decode("utf-8", errors="replace")
+            source_original_text = (source_bytes.decode("utf-8", errors="replace")
+                                    .replace("\r\n", "\n").replace("\r", "\n"))
+            from services.chemistry.ensamblaje_biologico import generar_unidad_biologica
+            source_text = generar_unidad_biologica(source_original_text, pdb_id=pdb_id).pdb
             source_counts = count_species(source_text)
             controls.append(
                 Control(
@@ -512,9 +524,10 @@ def build_preflight(
             # argumentos que usa `vina_service.run_docking`.
             filtered_text = preparer.filter_pdb_content(
                 source_text,
-                chain_id=chain,
+                chain_id=cadenas,
                 keep_hetatm=True,
                 cofactors_whitelist=cofactors_whitelist,
+                site_ligand=site_ligand,
             )
             filtered_counts = count_species(filtered_text)
             diff = _build_diff(source_counts, filtered_counts, chain)
@@ -573,6 +586,61 @@ def build_preflight(
         )
     )
 
+    retained_organic = sorted({
+        line[17:20].strip()
+        for line in (filtered_text or "").splitlines()
+        if line.startswith("HETATM")
+        and line[17:20].strip() not in preparer.METAL_COFACTORS
+        and line[17:20].strip() != "MSE"
+    })
+    if retained_organic:
+        controls.append(Control(
+            code="COFACTOR_TEMPLATE_NO_DISPONIBLE",
+            state="bloquea",
+            title="Plantilla local de cofactor",
+            observation=(
+                "Sin plantilla Meeko local validada para "
+                + ", ".join(retained_organic) + "."
+            ),
+            reason="La preparación se abstiene antes de consultar CCD por red o retirar el cofactor.",
+            provenance="preparer.prepare_target · política offline de cofactores",
+        ))
+
+    from chem.conformer_ensemble import normalizar_k
+
+    conformaciones = normalizar_k(conformers if conformers is not None else 1)
+
+    effective, grid_controls = _effective_configuration(
+        grid_center=grid_center,
+        grid_size=grid_size,
+        catalog_grid_center=catalog_grid_center,
+        catalog_grid_size=catalog_grid_size,
+        custom_hotspots=custom_hotspots,
+        catalog_hotspots=catalog_hotspots,
+        cofactors_whitelist=cofactors_whitelist,
+        filtered_text=(preparer.source_for_dynamic_box(
+                           source_text, cadenas, site_ligand, preparer.catalog_site_center(pdb_id))
+                       if source_text is not None else None),
+        prepared_chains=sorted(filtered_counts.chains) if filtered_counts else [],
+        docking_engine=docking_engine,
+        exhaustiveness=exhaustiveness,
+        num_poses=num_poses,
+        conformers=conformaciones,
+    )
+    controls.extend(grid_controls)
+    recipe_hash = (
+        preparer.receptor_recipe_hash(
+            source_original_text,
+            chains=cadenas,
+            cofactors_whitelist=cofactors_whitelist,
+            center=tuple(effective["grid_center"]),
+            size=tuple(effective["grid_size"]),
+            site_ligand=site_ligand,
+        )
+        if source_original_text is not None else None
+    )
+    prepared_path = _prepared_pdbqt_path(pdb_id, recipe_hash)
+
     # ── Receptor preparado ───────────────────────────────────────────
     prepared_sha: str | None = None
     prepared_sha_for_run: str | None = None
@@ -586,7 +654,7 @@ def build_preflight(
             prepared_chains = sorted(preparer.prepared_receptor_chains(prepared_text))
             prepared_compatible = preparer.prepared_receptor_matches_chain(
                 prepared_text,
-                chain,
+                cadenas,
             )
             prepared_atoms = sum(
                 1
@@ -643,6 +711,41 @@ def build_preflight(
             )
         )
 
+    if prepared_path is not None and prepared_compatible:
+        try:
+            prep_report = json.loads(path_for(preparer._meeko_report_path(
+                StoragePath.target_prepared(pdb_id, recipe_hash)
+            )).read_text(encoding="utf-8"))
+            templates = prep_report["protonation_templates"]
+            histidines = sorted(
+                f"{resid}={row['template']}" for resid, row in templates.items()
+                if row.get("input_resname") in {"HIS", "HID", "HIE", "HIP"}
+            )
+            controls.append(Control(
+                code="RECEPTOR_PROTONACION_DECLARADA", state="advertencia",
+                title="Protonación del receptor",
+                observation=("Plantillas de histidina de Meeko: "
+                             + (", ".join(histidines) if histidines else "ninguna") + "."),
+                reason="El template elegido está registrado; el microestado experimental no está validado.",
+                provenance="informe Meeko del receptor preparado",
+            ))
+        except (OSError, ValueError, KeyError, TypeError):
+            controls.append(Control(
+                code="RECEPTOR_PROTONACION_DECLARADA", state="bloquea",
+                title="Protonación del receptor",
+                observation="El receptor preparado carece del resumen de plantillas de Meeko.",
+                reason="No se puede atribuir una protonación concreta a un PDBQT sin este registro.",
+                provenance="informe Meeko del receptor preparado",
+            ))
+    elif source_text is not None:
+        controls.append(Control(
+            code="RECEPTOR_PROTONACION_DECLARADA", state="no_evaluado",
+            title="Protonación del receptor",
+            observation="Meeko aún no ha preparado el receptor; la plantilla elegida no se conoce.",
+            reason="El preflight no ejecuta Meeko ni adivina HIE/HID/HIP desde un PDB sin hidrógenos.",
+            provenance="Meeko 0.7.1 · selección de plantillas",
+        ))
+
     # ── Herramientas del runtime ─────────────────────────────────────
     controls.extend(
         _toolchain_controls(
@@ -658,26 +761,6 @@ def build_preflight(
     # que cambia lo que se ejecuta, se congela con el caso y se imprime en el
     # dossier. Un valor imposible cae al defecto en vez de bloquear: el
     # preflight informa, no rechaza por una cifra mal escrita.
-    from chem.conformer_ensemble import normalizar_k
-
-    conformaciones = normalizar_k(conformers if conformers is not None else 1)
-
-    effective, grid_controls = _effective_configuration(
-        grid_center=grid_center,
-        grid_size=grid_size,
-        catalog_grid_center=catalog_grid_center,
-        catalog_grid_size=catalog_grid_size,
-        custom_hotspots=custom_hotspots,
-        catalog_hotspots=catalog_hotspots,
-        cofactors_whitelist=cofactors_whitelist,
-        filtered_text=filtered_text,
-        prepared_chains=sorted(filtered_counts.chains) if filtered_counts else [],
-        docking_engine=docking_engine,
-        exhaustiveness=exhaustiveness,
-        num_poses=num_poses,
-        conformers=conformaciones,
-    )
-    controls.extend(grid_controls)
     # Se expone junto a la configuración efectiva para que el cliente pueda
     # persistir el mismo protocolo y reenviarlo en /evaluation/submit.
     if pipeline_config:
@@ -706,6 +789,9 @@ def build_preflight(
         seed=int(effective["seed"]),
         source_sha256=source_sha,
         prepared_sha256=prepared_sha_for_run,
+        receptor_recipe_hash=recipe_hash,
+        site_chains=sorted(cadenas) if len(cadenas) > 1 else None,
+        cofactors_whitelist=cofactors_whitelist,
         conformers=conformaciones,
         pipeline_config=pipeline_config,
     )
@@ -725,6 +811,9 @@ def build_preflight(
             "source_sha256": source_sha,
             "prepared_available": prepared_path is not None,
             "prepared_sha256": prepared_sha,
+            "recipe_hash": recipe_hash,
+            "site_chains": sorted(cadenas),
+            "site_ligand_removed": site_ligand,
             "prepared_compatible": prepared_compatible,
             "prepared_chains": prepared_chains,
             # SC-9: el respaldo científico del receptor viaja con el informe,
@@ -1093,30 +1182,10 @@ def _toolchain_controls(
         )
     )
 
-    # ── El conversor estructural de respaldo ─────────────────────────────
-    #
-    # Open Babel viaja DENTRO del instalador, así que su ausencia o su
-    # alteración no describen una función que el usuario no compró: describen
-    # una instalación dañada. Se comprueba aquí, que es barato, en vez de
-    # descubrirlo a mitad de una corrida.
-    #
-    # No bloquea. Si Meeko exporta un SDF utilizable —el camino normal— Open
-    # Babel no llega a ejecutarse, y bloquear una corrida que iba a funcionar
-    # sería convertir una comprobación en un estorbo. Lo que no puede pasar es
-    # que la corrida NECESITE el respaldo, no lo tenga y siga en silencio: de
-    # eso se encarga `vina_service`, que en ese caso deja el aviso
-    # `CONVERSOR_ESTRUCTURAL_NO_DISPONIBLE` con severidad crítica.
-    #
-    # `verificar_version=False` A PROPÓSITO. El presupuesto entero de este
-    # módulo es cero subprocesos y cero modelos —lo fija
-    # `test_preflight_never_runs_docking_or_expensive_models`— y comprobar la
-    # versión exige lanzar `obabel -V`. Aquí se comprueba lo que se puede
-    # comprobar leyendo el disco: que el programa está y que su hash es el
-    # declarado. La versión la verifican `/health` y el verificador del bundle,
-    # que sí pueden gastar un proceso.
-    #
-    # El control DICE cuál de las dos cosas comprobó. Un informe que dijera
-    # «verificado» tras mirar sólo el hash afirmaría de más.
+    # El bundle incluye Open Babel como programa independiente. Su estado sigue
+    # siendo útil para diagnosticar la instalación y artefactos históricos, pero
+    # la ruta de docking actual se abstiene si Meeko no exporta un SDF válido.
+    # El preflight sólo inspecciona manifiesto y hash: no lanza subprocesos.
     from services.external_tools import open_babel
 
     conversor = open_babel.estado_actual(verificar_version=False)
@@ -1132,16 +1201,14 @@ def _toolchain_controls(
         Control(
             code="CONVERSOR_ESTRUCTURAL_DISPONIBLE",
             state="pasa" if conversor.disponible else "advertencia",
-            title="Conversor estructural de respaldo",
+            title="Herramienta estructural incluida",
             observation=observacion,
             reason=(
-                "Cuando la exportación de Meeko no produce un SDF utilizable, la "
-                "evidencia estructural se rescata convirtiendo el PDBQT de Vina con "
-                "Open Babel, un programa independiente (GPL-2.0-only) que MolDesign "
-                "invoca como herramienta de línea de órdenes. Sin él, esa corrida se "
-                "abstiene en vez de entregar poses incompletas. No se busca en el "
-                "PATH: un binario ajeno produciría un resultado que el informe "
-                "atribuiría a la versión declarada."
+                "Open Babel viaja como programa independiente (GPL-2.0-only) y "
+                "se conserva para operaciones y artefactos históricos. La ruta "
+                "de docking actual exige el SDF exportado por Meeko: si falla, "
+                "se abstiene sin reconstruir química desde el PDBQT de Vina. "
+                "La inspección de este control no busca ejecutables en PATH."
             ),
             provenance="services.external_tools.open_babel · tools/openbabel/openbabel-manifest.json",
         )
@@ -1211,7 +1278,8 @@ def _effective_configuration(
             controls.append(
                 Control(
                     code="GRID_EFECTIVO",
-                    state="advertencia",
+                    state=("bloquea" if "PROTEIN_ATOM_FALLBACK" in derived["source"]
+                           else "advertencia"),
                     title="Caja de búsqueda",
                     observation=(
                         f"La configuración enviada tiene centro (0, 0, 0), así que la corrida "
@@ -1219,8 +1287,9 @@ def _effective_configuration(
                         f"lado {derived['size']} Å (origen: {derived['source']})."
                     ),
                     reason=(
-                        "El centro derivado depende de los heteroátomos del archivo. No es una "
-                        "hipótesis de sitio confirmada por nadie."
+                        "Si sólo se halló el centroide proteico, la corrida se abstiene. "
+                        "Una caja derivada de un heteroátomo tampoco es una hipótesis "
+                        "de sitio validada experimentalmente."
                     ),
                     provenance=(
                         "preparer.resolve_effective_docking_box · "
@@ -1260,6 +1329,25 @@ def _effective_configuration(
             )
         )
 
+    volume = box_volume(size)
+    if volume > BOX_VOLUME_WARNING_A3:
+        effective_exh = resolve_exhaustiveness(
+            requested=exhaustiveness,
+            default=(4 if docking_engine.strip().lower() == "qvina2" else settings.vina_exhaustiveness),
+            size=size,
+            engine=docking_engine.strip().lower(),
+        )
+        controls.append(Control(
+            code="GRID_VOLUMEN_AMPLIO",
+            state="advertencia",
+            title="Volumen de búsqueda amplio",
+            observation=f"Caja de {volume:.0f} Å³; exhaustividad efectiva {effective_exh}.",
+            reason=("El umbral de 27 000 Å³ y el escalón 32 son una política "
+                    "conservadora pendiente de benchmark de convergencia; "
+                    "no garantizan una pose correcta."),
+            provenance="services.docking.search_policy · tamaño efectivo de caja",
+        ))
+
     hotspots = sorted(custom_hotspots) if custom_hotspots else sorted(catalog_hotspots or [])
     hotspots_origin = (
         "seleccion_usuario" if custom_hotspots else ("catalogo_target" if catalog_hotspots else "ninguno")
@@ -1292,10 +1380,11 @@ def _effective_configuration(
         "hotspots": hotspots,
         "hotspots_origin": hotspots_origin,
         "docking_engine": docking_engine.strip().lower(),
-        "exhaustiveness": int(
-            exhaustiveness
-            if exhaustiveness is not None
-            else (4 if docking_engine.strip().lower() == "qvina2" else settings.vina_exhaustiveness)
+        "exhaustiveness": resolve_exhaustiveness(
+            requested=exhaustiveness,
+            default=(4 if docking_engine.strip().lower() == "qvina2" else settings.vina_exhaustiveness),
+            size=size,
+            engine=docking_engine.strip().lower(),
         ),
         "num_poses": int(num_poses if num_poses is not None else settings.vina_num_poses),
         "seed": int(settings.vina_seed),
@@ -1307,7 +1396,7 @@ def _effective_configuration(
             "route": EXECUTION_ROUTE,
             "waters": "eliminadas",
             "metals": "conservados_solo_whitelist",
-            "organic_cofactors": "conservados_lista_producto",
+            "organic_cofactors": "bloqueados_sin_plantilla_local",
             "organic_cofactors_kept": sorted(preparer.ORGANIC_COFACTORS_KEPT),
             "cofactors_whitelist_declared": sorted(cofactors_whitelist or []),
             "cofactors_whitelist_applied": True,

@@ -17,6 +17,12 @@ from __future__ import annotations
 from utils.procesos import BANDERAS_SIN_VENTANA, communicate_managed
 
 import asyncio
+from functools import lru_cache
+import hashlib
+import importlib.metadata
+import json
+import math
+import re
 import shutil
 import sys
 import tempfile
@@ -29,7 +35,7 @@ from utils.file_handlers import (
     download_pdb_from_rcsb,
     validate_pdbqt_content,
 )
-from utils.local_storage import exists, read_text, write_file, write_text
+from utils.local_storage import exists, path_for, read_text, write_file, write_text
 from utils.logger import get_logger
 
 settings = get_settings()
@@ -63,6 +69,42 @@ _METAL_COFACTORS = {
     "ZN", "MG", "CA", "MN", "FE", "CU", "CO", "NI", "K", "NA", "CL",
     "AU", "HG", "PT", "CD", "GD", "XE", "KR", "SR", "PB", "IR", "OS",
 }
+
+
+@lru_cache(maxsize=1)
+def _catalog_site_ligands() -> dict[str, str]:
+    catalog = Path(__file__).resolve().parents[3] / "curated_targets.json"
+    try:
+        rows = json.loads(catalog.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return {
+        str(row["pdb_id"]).upper(): str(row["site_ligand"]).upper()
+        for row in rows if row.get("site_ligand")
+    }
+
+
+def catalog_site_ligand(pdb_id: str) -> str | None:
+    return _catalog_site_ligands().get(pdb_id.upper())
+
+
+@lru_cache(maxsize=1)
+def _catalog_site_centers() -> dict[str, tuple[float, float, float]]:
+    catalog = Path(__file__).resolve().parents[3] / "curated_targets.json"
+    try:
+        rows = json.loads(catalog.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return {
+        str(row["pdb_id"]).upper(): tuple(
+            float(row[f"grid_center_{axis}"]) for axis in "xyz"
+        )
+        for row in rows
+        if all(row.get(f"grid_center_{axis}") is not None for axis in "xyz")
+    }
+
+def catalog_site_center(pdb_id: str) -> tuple[float, float, float] | None:
+    return _catalog_site_centers().get(pdb_id.upper())
 
 
 def _resolve_executable(path_or_name: str) -> str | None:
@@ -144,6 +186,7 @@ def _filter_pdb_content(
     chain_id: str | set[str] | list[str] | tuple[str, ...],
     keep_hetatm: bool = False,
     cofactors_whitelist: list[str] | None = None,
+    site_ligand: str | None = None,
 ) -> str:
     """
     Filtra la(s) cadena(s) de interés para preparación del receptor.
@@ -184,45 +227,34 @@ def _filter_pdb_content(
     filtered_lines: list[str] = []
     excluded_hetatm: dict[str, int] = {}  # residue_name → count (para logging)
 
-    # ── v1.8.1: Resolución de altlocs ──────────────────────────────────────
-    # Algunos PDBs (ej. 5NN5, 6FBQ, 5TY1) contienen residuos con dos
-    # conformaciones alternativas (altloc A/B/C) donde ciertos átomos solo
-    # existen en una variante. Meeko falla con "Requested altlocs not found"
-    # porque no puede reconstruir el residuo con conformaciones mezcladas.
-    # Estrategia ortodoxa (pdb-tools/OpenBabel/obabel):
-    #   1. Agrupar átomos ATOM/HETATM por (chain, resSeq, resName).
-    #   2. Por residuo, elegir la variante altloc que tenga MÁS átomos.
-    #   3. Conservar solo esa variante (o sin altloc si es la mayoritaria).
-    _residue_atoms: dict[tuple, list[tuple]] = {}
+    # Los átomos sin altloc son comunes a todas las conformaciones. Elegimos
+    # sólo entre variantes no vacías, por ocupación acumulada y desempate
+    # estable (A primero); la clave incluye insertion code.
+    _variant_occupancy: dict[tuple[str, str, str], dict[str, float]] = {}
     for line in pdb_content.splitlines():
-        record = line[:6].strip()
-        if record not in {"ATOM", "HETATM"}:
+        if line[:6].strip() not in {"ATOM", "HETATM"} or len(line) < 27:
             continue
+        variant = line[16:17].strip()
+        if not variant:
+            continue
+        key = (line[21:22].strip() or "A", line[22:26].strip(), line[26:27])
         try:
-            altloc = line[16:17]
-            res_name = line[17:20].strip()
-            chain = line[21:22].strip() or "A"
-            res_seq_raw = line[22:26].strip()
-            res_seq = int(res_seq_raw) if res_seq_raw.strip().lstrip("-").isdigit() else 0
-        except Exception:
-            continue
-        key = (chain, res_seq, res_name)
-        variant = altloc or " "
-        _residue_atoms.setdefault(key, []).append((variant, line))
-
-    # Elegir la variante mayoritaria por residuo
-    _chosen_altloc: dict[tuple, str] = {}
-    for key, entries in _residue_atoms.items():
-        counts: dict[str, int] = {}
-        for variant, _ in entries:
-            counts[variant] = counts.get(variant, 0) + 1
-        # Variante sin altloc ( " " ) es la preferida si existe; si no, la más común
-        if counts.get(" ", 0) >= max(counts.values()):
-            chosen = " "
-        else:
-            chosen = max(counts, key=lambda v: (counts[v], v == " "))
-        _chosen_altloc[key] = chosen
-    # ────────────────────────────────────────────────────────────────────────
+            occupancy = float(line[54:60])
+        except ValueError:
+            occupancy = 0.0
+        counts = _variant_occupancy.setdefault(key, {})
+        counts[variant] = counts.get(variant, 0.0) + occupancy
+    _chosen_altloc = {
+        key: min(variants, key=lambda v: (-variants[v], v))
+        for key, variants in _variant_occupancy.items()
+    }
+    if _chosen_altloc:
+        log.info(
+            "receptor_altloc_resueltos",
+            chain=etiqueta_cadena,
+            residues=len(_chosen_altloc),
+            variants={"+".join(key): value for key, value in _chosen_altloc.items()},
+        )
 
     for line in pdb_content.splitlines():
         record = line[:6].strip()
@@ -247,24 +279,20 @@ def _filter_pdb_content(
             continue
         if current_chain not in cadenas:
             continue
-        if residue_seq <= 0:
-            continue
-
-        # --- v1.8.1: Descartar átomos de la variante altloc no elegida ---
-        # Si el residuo tiene altlocs, conservar SOLO la variante mayoritaria.
-        # Sin esto, Meeko no puede armar residuos con conformaciones mezcladas
-        # (fallo "Requested altlocs not found for: [...]" en 5NN5, 6FBQ, etc).
-        if record in {"ATOM", "HETATM"}:
-            try:
-                altloc_variant = line[16:17]
-            except IndexError:
-                altloc_variant = " "
-            chosen = _chosen_altloc.get((current_chain, residue_seq, residue_name), " ")
-            if altloc_variant != chosen:
+        # Los átomos sin altloc se conservan siempre. La variante elegida se
+        # normaliza a altloc vacío para que Meeko reciba un residuo coherente.
+        variant = line[16:17].strip()
+        if variant:
+            key = (current_chain, residue_seq_raw, line[26:27])
+            if variant != _chosen_altloc.get(key):
                 continue
+            line = line[:16] + " " + line[17:]
 
         # --- Filtro de HETATM: eliminar ligandos, lípidos, retener cofactores ---
         if record == "HETATM":
+            if site_ligand and residue_name == site_ligand.upper():
+                excluded_hetatm[residue_name] = excluded_hetatm.get(residue_name, 0) + 1
+                continue
             is_metal = residue_name in _METAL_COFACTORS
             # v1.8.1: Selenometionina (MSE) → MET. El átomo SE no tiene radio
             # covalente en RDKit ("Element Se doesn't have an implemented
@@ -607,11 +635,11 @@ def prepared_receptor_matches_chain(
     return prepared_receptor_chains(pdbqt_content) == pedidas
 
 
-def derive_dynamic_box(filtered_pdb_content: str) -> dict[str, object] | None:
+def derive_dynamic_box(source_pdb_content: str) -> dict[str, object] | None:
     """Deriva la caja dinámica con el algoritmo vivo usado por producción.
 
-    Se recibe el PDB *ya filtrado* para que preflight, preparación y Vina
-    resuelvan exactamente el mismo artefacto. No ejecuta Meeko ni docking.
+    Se recibe la estructura con el ligando cocristalizado aún presente.
+    No ejecuta Meeko ni docking.
     """
 
     try:
@@ -625,7 +653,7 @@ def derive_dynamic_box(filtered_pdb_content: str) -> dict[str, object] | None:
             delete=False,
             dir=settings.vina_temp_dir,
         ) as handle:
-            handle.write(filtered_pdb_content)
+            handle.write(source_pdb_content)
             pdb_path = Path(handle.name)
         try:
             result = compute_dynamic_box(ligand_mol2=None, pdb_path=str(pdb_path))
@@ -646,12 +674,62 @@ def derive_dynamic_box(filtered_pdb_content: str) -> dict[str, object] | None:
     }
 
 
+def source_for_dynamic_box(
+    assembled_pdb: str,
+    chains: set[str],
+    site_ligand: str | None = None,
+    reference_center: tuple[float, float, float] | None = None,
+) -> str:
+    """Selecciona una copia del ligando de sitio en el ensamblaje.
+
+    Si el catálogo ya fija un centro, la copia más cercana a él es la misma
+    que sustentó esa anotación. Sin ese dato no se inventa una preferencia.
+    """
+    selected_copy: tuple[str, str, str] | None = None
+    if site_ligand and reference_center is not None:
+        copies: dict[tuple[str, str, str], list[tuple[float, float, float]]] = {}
+        for line in assembled_pdb.splitlines():
+            if (not line.startswith("HETATM")
+                or (line[21:22].strip() or "A") not in chains
+                or line[17:20].strip() != site_ligand.upper()):
+                continue
+            key = (line[21:22].strip() or "A", line[22:26].strip(), line[26:27])
+            try:
+                point = tuple(float(line[i:i + 8]) for i in (30, 38, 46))
+            except ValueError:
+                continue
+            copies.setdefault(key, []).append(point)
+        if copies:
+            selected_copy = min(
+                copies,
+                key=lambda key: (
+                    math.dist(
+                        tuple(sum(p[i] for p in copies[key]) / len(copies[key])
+                              for i in range(3)),
+                        reference_center,
+                    ),
+                    key,
+                ),
+            )
+    return "\n".join(
+        line for line in assembled_pdb.splitlines()
+        if not line.startswith(("ATOM", "HETATM"))
+        or ((line[21:22].strip() or "A") in chains
+            and (not line.startswith("HETATM")
+                 or (not site_ligand or line[17:20].strip() == site_ligand.upper())
+                 and (selected_copy is None or (
+                     line[21:22].strip() or "A", line[22:26].strip(), line[26:27]
+                 ) == selected_copy)))
+    ) + "\n"
+
+
 def resolve_effective_docking_box(
     *,
     pdb_id: str,
     chain_id: str,
     center: tuple[float, float, float],
     size: tuple[float, float, float],
+    site_chains: list[str] | None = None,
 ) -> tuple[tuple[float, float, float], tuple[float, float, float]]:
     """Resuelve la caja que deben recibir tanto Meeko como Vina.
 
@@ -666,21 +744,22 @@ def resolve_effective_docking_box(
     if normalized_center != (0.0, 0.0, 0.0):
         return normalized_center, normalized_size
 
-    source_path = Path(get_target_pdb_path(pdb_id))
-    if not source_path.exists():
+    source_path = receptor_source_path_no_network(pdb_id)
+    if source_path is None:
         raise ProteinPreparationError(
             pdb_id=pdb_id,
             step="dynamic_box_source",
             detail="No existe el PDB fuente necesario para derivar la caja de docking.",
         )
-    source_content = source_path.read_text(encoding="utf-8", errors="replace")
-    filtered_content = _filter_pdb_content(
-        source_content,
-        chain_id=chain_id,
-        keep_hetatm=True,
-        cofactors_whitelist=None,
+    original = source_path.read_text(encoding="utf-8", errors="replace")
+    from services.chemistry.ensamblaje_biologico import generar_unidad_biologica
+    assembled = generar_unidad_biologica(original, pdb_id=pdb_id).pdb
+    site = {str(c).strip() for c in (site_chains or []) if str(c).strip()}
+    chains = site if len(site) > 1 else {chain_id.strip()}
+    source_with_ligand = source_for_dynamic_box(
+        assembled, chains, catalog_site_ligand(pdb_id), catalog_site_center(pdb_id)
     )
-    derived = derive_dynamic_box(filtered_content)
+    derived = derive_dynamic_box(source_with_ligand)
     if derived is None:
         raise ProteinPreparationError(
             pdb_id=pdb_id,
@@ -690,9 +769,128 @@ def resolve_effective_docking_box(
                 "La corrida se detiene antes de enviar un centro (0,0,0) a Vina."
             ),
         )
+    if "PROTEIN_ATOM_FALLBACK" in derived["source"]:
+        raise ProteinPreparationError(
+            pdb_id=pdb_id,
+            step="dynamic_box_without_site_ligand",
+            detail=("La caja dinámica sólo encontró el centroide de la proteína. "
+                    "Se necesita una caja explícita o un ligando de sitio identificado."),
+        )
     derived_center = tuple(derived["center"])
     derived_size = float(derived["size"])
     return derived_center, (derived_size, derived_size, derived_size)
+
+
+RECEPTOR_RECIPE_VERSION = 5
+
+
+def receptor_recipe_hash(
+    source_content: str,
+    *,
+    chains: set[str],
+    cofactors_whitelist: list[str] | None,
+    center: tuple[float, float, float],
+    size: tuple[float, float, float],
+    site_ligand: str | None = None,
+) -> str:
+    """Identidad de todos los inputs que pueden cambiar el PDBQT preparado."""
+    try:
+        meeko_version = importlib.metadata.version("meeko")
+    except importlib.metadata.PackageNotFoundError:
+        meeko_version = "not-installed"
+    box_center = [float(v) for v in center]
+    box_size = [float(v) for v in size]
+    crop = None
+    if len(chains) > 1:
+        from services.docking.preparer_multichain import radio_para_caja
+        crop = {
+            "center": box_center,
+            "radius": float(radio_para_caja(tuple(box_size))),
+        }
+    recipe = {
+        "version": RECEPTOR_RECIPE_VERSION,
+        "source_sha256": hashlib.sha256(source_content.encode("utf-8")).hexdigest(),
+        "chains": sorted(chains),
+        "cofactors_whitelist": sorted({str(v).upper() for v in (cofactors_whitelist or [])}),
+        "site_ligand_removed": site_ligand.upper() if site_ligand else None,
+        "crop": crop,
+        "meeko_version": meeko_version,
+        "meeko_options": {
+            "add_hydrogens": True,
+            "write_parameterized_json": True,
+            "allow_bad_residues": True,
+            "default_altloc": settings.meeko_default_altloc,
+            "box_center": box_center,
+            "box_size": box_size,
+        },
+    }
+    canonical = json.dumps(recipe, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+    return hashlib.sha256(canonical.encode("ascii")).hexdigest()
+
+
+def _residuos_eliminados(
+    input_pdb: str,
+    output_pdbqt: str,
+    *,
+    center: tuple[float, float, float],
+    size: tuple[float, float, float],
+) -> list[dict[str, object]]:
+    """Compara residuos reales de entrada y salida; stderr solo es diagnóstico."""
+    input_residues: dict[tuple[str, str, str], dict[str, object]] = {}
+    output_keys: set[tuple[str, str, str]] = set()
+    for content, receiving_input in ((input_pdb, True), (output_pdbqt, False)):
+        for line in content.splitlines():
+            if not line.startswith(("ATOM", "HETATM")) or len(line) < 54:
+                continue
+            key = (line[21:22].strip() or "A", line[22:26].strip(), line[26:27])
+            if not receiving_input:
+                output_keys.add(key)
+                continue
+            record = input_residues.setdefault(
+                key, {"chain": key[0], "residue_number": key[1],
+                      "insertion_code": key[2].strip(),
+                      "name": line[17:20].strip(), "positions": []}
+            )
+            try:
+                record["positions"].append(tuple(float(line[i:i + 8])
+                                                 for i in (30, 38, 46)))
+            except ValueError:
+                continue
+    removed = []
+    for key, record in input_residues.items():
+        if key in output_keys:
+            continue
+        positions = record.pop("positions")
+        distance = min((
+            math.dist(
+                (max(abs(pos[i] - float(center[i])) - float(size[i]) / 2, 0.0)
+                 for i in range(3)),
+                (0.0, 0.0, 0.0),
+            ) for pos in positions
+        ), default=float("inf"))
+        record["distance_to_box_A"] = round(distance, 3) if math.isfinite(distance) else None
+        record["site_critical"] = distance <= 6.0
+        removed.append(record)
+    return sorted(removed, key=lambda row: (str(row["chain"]), str(row["residue_number"])))
+
+
+def receptor_source_path_no_network(pdb_id: str) -> Path | None:
+    """Misma prioridad de fuente que prepare_target, sin descarga de red."""
+    pdb_id = pdb_id.upper()
+    raw = path_for(StoragePath.target_raw(pdb_id))
+    if raw.exists():
+        return raw
+    shared = Path(get_target_pdb_path(pdb_id))
+    if shared.exists():
+        return shared
+    from services.semilla_estructuras import sembrar_una
+    return sembrar_una(pdb_id)
+
+
+def _meeko_report_path(prepared_path: str) -> str:
+    if not prepared_path.endswith(".pdbqt"):
+        raise ValueError("La ruta preparada debe acabar en .pdbqt")
+    return prepared_path[:-6] + ".report.json"
 
 
 async def prepare_target(
@@ -703,6 +901,7 @@ async def prepare_target(
     force_reprepare: bool = False,
     cofactors_whitelist: list[str] | None = None,
     site_chains: list[str] | None = None,
+    site_ligand: str | None = None,
 ) -> str:
     """
     Prepara un receptor para Vina y lo guarda en el almacenamiento local.
@@ -725,14 +924,19 @@ async def prepare_target(
     settings.local_data_dir).
     """
     pdb_id = pdb_id.upper()
+    site_ligand = site_ligand or catalog_site_ligand(pdb_id)
 
     # Las cadenas a conservar. `site_chains` con una sola —o ausente— deja el
     # comportamiento histórico intacto, byte a byte.
     cadenas_del_sitio = [c.strip() for c in (site_chains or []) if c and c.strip()]
     multicadena = len(set(cadenas_del_sitio)) > 1
     cadenas = set(cadenas_del_sitio) if multicadena else {chain_id.strip()}
-    prepared_path = StoragePath.target_prepared(pdb_id)
     raw_path = StoragePath.target_raw(pdb_id)
+    if tuple(float(v) for v in center) == (0.0, 0.0, 0.0):
+        center, size = resolve_effective_docking_box(
+            pdb_id=pdb_id, chain_id=chain_id, center=center, size=size,
+            site_chains=site_chains,
+        )
 
     # La copia que consume el rescoring. `get_target_pdb_path` puede resolverla
     # al directorio del programa -de solo lectura en una instalacion-, asi que
@@ -754,23 +958,6 @@ async def prepare_target(
     copia_pendiente = not shared_pdb_path.exists() or (
         not cadenas <= cadenas_compartidas and shared_pdb_path == compartido_local
     )
-
-    # ── El camino rapido ────────────────────────────────────────────────────
-    #
-    # Es el de CADA acoplamiento a partir del segundo, asi que va antes de leer
-    # y ensamblar el receptor: nada de eso hace falta para devolver un `.pdbqt`
-    # que ya esta en disco y declara las cadenas pedidas.
-    if not force_reprepare and not copia_pendiente and await exists(prepared_path):
-        prepared_content = await read_text(prepared_path)
-        if prepared_receptor_matches_chain(prepared_content, cadenas):
-            return prepared_path
-        log.warning(
-            "prepared_receptor_chain_mismatch",
-            pdb_id=pdb_id,
-            requested_chain=sorted(cadenas),
-            cached_chains=sorted(prepared_receptor_chains(prepared_content)),
-            action="reprepare",
-        )
 
     # ── El origen: el crudo depositado, y su unidad biologica ───────────────
     #
@@ -806,6 +993,32 @@ async def prepare_target(
         origen = await download_pdb_from_rcsb(pdb_id)
         await write_text(raw_path, origen)
 
+    recipe_hash = receptor_recipe_hash(
+        origen,
+        chains=cadenas,
+        cofactors_whitelist=cofactors_whitelist,
+        center=center,
+        size=size,
+        site_ligand=site_ligand,
+    )
+    prepared_path = StoragePath.target_prepared(pdb_id, recipe_hash)
+
+    # ── El camino rapido ────────────────────────────────────────────────────
+    #
+    # El hash cubre la fuente y la receta antes de consultar el artefacto.
+    if (not force_reprepare and not copia_pendiente
+            and await exists(prepared_path) and await exists(_meeko_report_path(prepared_path))):
+        prepared_content = await read_text(prepared_path)
+        if prepared_receptor_matches_chain(prepared_content, cadenas):
+            return prepared_path
+        log.warning(
+            "prepared_receptor_chain_mismatch",
+            pdb_id=pdb_id,
+            requested_chain=sorted(cadenas),
+            cached_chains=sorted(prepared_receptor_chains(prepared_content)),
+            action="reprepare",
+        )
+
     # Va ANTES del filtro de cadena a proposito: las copias generadas traen
     # identificadores nuevos y `site_chains` -que se mide sobre el mismo
     # ensamblaje- ya los nombra. Cuando no hay nada que generar la funcion
@@ -813,6 +1026,30 @@ async def prepare_target(
     from services.chemistry.ensamblaje_biologico import generar_unidad_biologica
 
     raw_content = generar_unidad_biologica(origen, pdb_id=pdb_id).pdb
+
+    # Sin plantilla local validada, Meeko intenta consultar CCD en la red.
+    # La preparación offline se abstiene; nunca retira el cofactor en silencio.
+    retained_cofactors = {
+        line[17:20].strip()
+        for line in raw_content.splitlines()
+        if line.startswith("HETATM")
+        and (line[21:22].strip() or "A") in cadenas
+        and line[17:20].strip() != site_ligand
+        and line[17:20].strip() not in _METAL_COFACTORS
+        and line[17:20].strip() != "MSE"
+        and (line[17:20].strip() in _STANDARD_RESIDUES
+             or line[17:20].strip() in (cofactors_whitelist or []))
+    }
+    if retained_cofactors:
+        raise ProteinPreparationError(
+            pdb_id=pdb_id,
+            step="cofactor_template_missing",
+            detail=(
+                "No hay plantilla Meeko local validada para "
+                + ", ".join(sorted(retained_cofactors))
+                + ". Se detiene antes de una descarga o de eliminar el cofactor."
+            ),
+        )
 
     # --- Asegurar PDB en volumen compartido para Rescoring ---
     #
@@ -836,6 +1073,7 @@ async def prepare_target(
                 chain_id=cadenas,
                 keep_hetatm=True,
                 cofactors_whitelist=cofactors_whitelist,
+                site_ligand=site_ligand,
             ),
             encoding="utf-8",
         )
@@ -859,6 +1097,7 @@ async def prepare_target(
             cadenas,
             keep_hetatm=True,  # v1.8: Conservar cofactores (metales, grupos prostéticos) para docking realista
             cofactors_whitelist=cofactors_whitelist,
+            site_ligand=site_ligand,
         )
         if multicadena:
             # El recorte al sitio NO es opcional aquí: conservar los oligómeros
@@ -904,35 +1143,6 @@ async def prepare_target(
 
         input_pdb.write_text(filtered_content, encoding="utf-8")
 
-        # ── [Bucket B] Dynamic box fallback ────────────────────────────────
-        # If the caller did not specify a real center (origin sentinel),
-        # derive one at runtime from the PDB's HETATM/protein atoms using the
-        # same algorithm that scripts/recalibrate_all_386_targets.py applied
-        # offline to the curated database.  Keeps the historical centers
-        # consistent with on-the-fly preparation of new PDBs.
-        if center == (0.0, 0.0, 0.0) or center == (0, 0, 0):
-            derived = derive_dynamic_box(filtered_content)
-            if derived is None:
-                raise ProteinPreparationError(
-                    pdb_id=pdb_id,
-                    step="dynamic_box_derivation",
-                    detail=(
-                        "La caja no está definida y no pudo derivarse del receptor filtrado. "
-                        "No se ejecutará Meeko con un centro (0,0,0)."
-                    ),
-                )
-            center = tuple(derived["center"])
-            derived_size_value = float(derived["size"])
-            size = (derived_size_value, derived_size_value, derived_size_value)
-            log.info(
-                "auto_box_derived",
-                pdb_id=pdb_id,
-                center=center,
-                size=derived_size_value,
-                source=derived["source"],
-            )
-        # ────────────────────────────────────────────────────────────────
-
         center_x, center_y, center_z = center
         size_x, size_y, size_z = size
 
@@ -945,6 +1155,7 @@ async def prepare_target(
             "--read_pdb", str(input_pdb),
             "-o", str(output_basename),
             "-p",
+            "-j",
             "-v",
             "-a",
             "--default_altloc", settings.meeko_default_altloc,
@@ -985,7 +1196,6 @@ async def prepare_target(
             combined = stderr_txt + "\n" + stdout_txt
             # Glicanos comunes que Meeko no parametriza y que NUNCA deben
             # estar en el receptor (azúcares de superficie, no del sitio activo).
-            _GLYCAN_RESIDUES = ("NAG", "FUC", "BMA", "MAN", "GAL", "SIA", "BGC", "GLC")
             # Parsear residuos problemáticos del stderr/stdout (altlocs, unknown templates)
             problematic: list[str] = []
             import re as _re
@@ -1005,14 +1215,29 @@ async def prepare_target(
                     detail=combined[-400:],
                     problematic=problematic[:20],
                 )
-                # Reintento con --delete_residues: elimina glicanos y residuos
-                # problemáticos que Meeko no parametriza (NAG/FUC/MAN/BMA,
-                # selenometioninas, altlocs rotos).
+                # Nunca borrar aminoácidos estándar ni cofactores declarados.
+                # Sólo se permiten HETATM extraños fuera de la lista blanca.
+                names_by_id = {
+                    f"{line[21:22].strip() or 'A'}:{line[22:26].strip()}": line[17:20].strip()
+                    for line in filtered_content.splitlines()
+                    if line.startswith(("ATOM", "HETATM"))
+                }
+                deletable = [
+                    residue for residue in problematic
+                    if names_by_id.get(residue) not in _AMINO_ACIDS_AND_VARIANTS
+                    and names_by_id.get(residue) not in (cofactors_whitelist or [])
+                    and names_by_id.get(residue) not in ORGANIC_COFACTORS_KEPT
+                ]
+                if not deletable:
+                    raise ProteinPreparationError(
+                        pdb_id=pdb_id,
+                        step="meeko_residue_not_deletable",
+                        detail=("Meeko no preparó el receptor; sus residuos problemáticos "
+                                f"{problematic} son proteína o cofactores declarados. "
+                                "Se detiene sin borrar el sitio."),
+                    )
                 retry_command = [a for a in command if a != "-a"]
-                if problematic:
-                    retry_command += ["--delete_residues", ",".join(problematic[:30])]
-                else:
-                    retry_command += ["--delete_residues", ",".join(_GLYCAN_RESIDUES)]
+                retry_command += ["--delete_residues", ",".join(deletable[:30])]
                 try:
                     process2 = await asyncio.create_subprocess_exec(
                         *retry_command,
@@ -1101,6 +1326,62 @@ async def prepare_target(
             has_gasteiger_charges=pdbqt_has_charges,
         )
 
+        removed = _residuos_eliminados(
+            filtered_content, content, center=center, size=size,
+        )
+        critical = [row for row in removed if row["site_critical"]]
+        if critical:
+            raise ProteinPreparationError(
+                pdb_id=pdb_id,
+                step="receptor_site_residues_missing",
+                detail=(
+                    "Meeko eliminó residuos a 6 Å o menos de la caja: "
+                    + json.dumps(critical, ensure_ascii=False)
+                    + ". No se ejecuta docking contra un sitio incompleto."
+                ),
+            )
+        # El PDBQT conserva el nombre de entrada HIS aunque Meeko haya
+        # seleccionado HIE/HID/HIP. El JSON parametrizado es la única fuente
+        # local exacta de la plantilla asignada a cada residuo.
+        parameterized_path = Path(f"{output_basename}.json")
+        if not parameterized_path.is_file():
+            raise ProteinPreparationError(
+                pdb_id=pdb_id, step="meeko_parameterized_json_missing",
+                detail="Meeko no escribió el JSON de plantillas del receptor.",
+            )
+        parameterized_bytes = parameterized_path.read_bytes()
+        try:
+            monomers = json.loads(parameterized_bytes)["monomers"]
+            protonation_templates = {
+                resid: {"input_resname": row["input_resname"],
+                        "template": row["residue_template_key"]}
+                for resid, row in monomers.items()
+                if row.get("input_resname") in {
+                    "HIS", "HID", "HIE", "HIP", "ASP", "ASH", "GLU", "GLH",
+                    "CYS", "CYX", "LYS", "TYR", "ARG",
+                }
+            }
+        except (ValueError, KeyError, TypeError) as exc:
+            raise ProteinPreparationError(
+                pdb_id=pdb_id, step="meeko_parameterized_json_invalid",
+                detail=f"No se pudieron leer las plantillas elegidas por Meeko: {exc}",
+            ) from exc
+        report = {
+            "meeko_parameterized_json_sha256": hashlib.sha256(parameterized_bytes).hexdigest(),
+            "protonation_templates": protonation_templates,
+            "protonation_method": "Meeko 0.7.1; asignación por plantilla, sin pH experimental declarado",
+            "recipe_hash": recipe_hash,
+            "receptor_sha256": hashlib.sha256(output_pdbqt.read_bytes()).hexdigest(),
+            "removed_residues": removed,
+            "meeko_reported_residues": sorted(set(
+                f"{m.group(2)}:{m.group(3)}"
+                for m in re.finditer(
+                    r"(['\"])([A-Za-z]):(\d+)\1",
+                    (stderr + stdout).decode("utf-8", errors="replace"),
+                )
+            )),
+        }
+        await write_text(_meeko_report_path(prepared_path), json.dumps(report, sort_keys=True))
         await write_file(output_pdbqt, prepared_path)
 
     log.info("receptor preparado para Vina", pdb_id=pdb_id, chain="+".join(sorted(cadenas)),

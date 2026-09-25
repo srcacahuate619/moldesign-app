@@ -1051,6 +1051,8 @@ async def evaluation_preflight(
         # normaliza aquí porque el ORM la guarda como JSON libre.
         whitelist = [w if isinstance(w, str) else w.get("name") for w in whitelist]
         whitelist = [w for w in whitelist if w]
+        site_chains = list(getattr(target, "site_chains", None) or [])
+        site_ligand = getattr(target, "site_ligand", None)
     else:
         chain = data.chain or "A"
         origin = "desconocido"
@@ -1059,6 +1061,8 @@ async def evaluation_preflight(
         catalog_size = None
         catalog_hotspots = []
         whitelist = []
+        site_chains = None
+        site_ligand = None
 
     report = build_preflight(
         smiles=data.smiles,
@@ -1073,6 +1077,8 @@ async def evaluation_preflight(
         catalog_grid_size=catalog_size,
         catalog_hotspots=catalog_hotspots,
         cofactors_whitelist=whitelist,
+        site_chains=site_chains,
+        site_ligand=site_ligand,
         # SC-9: el respaldo científico del receptor entra en el informe con el
         # resto de los controles. Se calcula en un solo sitio para que ninguna
         # superficie tenga que deducirlo —ni pueda olvidarlo—.

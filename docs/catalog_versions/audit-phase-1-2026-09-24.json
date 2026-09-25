@@ -1,0 +1,131 @@
+{
+  "catalog_version": "audit-phase-1-2026-09-24",
+  "based_on_commit": "fb3b315",
+  "supersedes": {
+    "curated_targets_json_sha256": "7c653ab5875537321a7dbd99435166638a54708311f4346e3d0a6f99ecd71f1c",
+    "curated_targets_csv_sha256": "e56d4c7f47952342bf6199118ce3914e7381e2f0d6ddf93f1306aa085a8e01ed"
+  },
+  "active": {
+    "curated_targets_json_sha256": "f23828d84752ebea0897272f4047483e409a6e272e212b9e4c70c325bf111a7f",
+    "curated_targets_csv_sha256": "41b4bb75bc60026542ba5be00881d0d3f4d76993d608c0a3bfa84d9dc560e6e1"
+  },
+  "hERG_5VA1": {
+    "pdb_gz_sha256": "31625f8009a9b9da2c80e01764be053393a8d4713dd2c6f159f37c91de0ba49d",
+    "assembly": "generar_unidad_biologica; four chains A-D",
+    "reference_residues": [
+      "T623",
+      "S624",
+      "Y652",
+      "F656"
+    ],
+    "reference_atoms_Y652_F656": 92,
+    "reference_center_A": [
+      73.15,
+      73.15,
+      78.534
+    ],
+    "grid_center_A": [
+      73.15,
+      73.15,
+      78.53
+    ],
+    "grid_size_A": [
+      28.8,
+      28.8,
+      30.0
+    ],
+    "site_chain_atoms_in_box": {
+      "A": 273,
+      "B": 273,
+      "C": 273,
+      "D": 273
+    },
+    "basis": "AUDIT/hallazgos/DOCK.md DOCK-016; investigaciones/dock_investigacion.md PR-DOCK-04; geometry recalculated on bundled PDB",
+    "status": "Meeko 0.7.1 local preparation passed; 4 chains retained; 8 ASP residues outside 6 A safety margin declared",
+    "meeko_recipe_hash": "aa74c270651fe6521c0eec9f95fbfc8ef134e19117f03cc744b8c5594e292334",
+    "prepared_pdbqt_sha256": "1111f21f3357ac52ffd0b68188007aa89c43ffb7cfa1ce7418370c7aab77f641",
+    "preparation_report_sha256": "852f708b269f24ee634aff5977c1d36ea5ea3cec5dd90f3fce516f22c86f760d",
+    "removed_residues": [
+      {
+        "chain": "A",
+        "distance_to_box_A": 6.094,
+        "insertion_code": "",
+        "name": "ASP",
+        "residue_number": "540",
+        "site_critical": false
+      },
+      {
+        "chain": "A",
+        "distance_to_box_A": 6.373,
+        "insertion_code": "",
+        "name": "ASP",
+        "residue_number": "609",
+        "site_critical": false
+      },
+      {
+        "chain": "B",
+        "distance_to_box_A": 6.094,
+        "insertion_code": "",
+        "name": "ASP",
+        "residue_number": "540",
+        "site_critical": false
+      },
+      {
+        "chain": "B",
+        "distance_to_box_A": 6.373,
+        "insertion_code": "",
+        "name": "ASP",
+        "residue_number": "609",
+        "site_critical": false
+      },
+      {
+        "chain": "C",
+        "distance_to_box_A": 6.094,
+        "insertion_code": "",
+        "name": "ASP",
+        "residue_number": "540",
+        "site_critical": false
+      },
+      {
+        "chain": "C",
+        "distance_to_box_A": 6.373,
+        "insertion_code": "",
+        "name": "ASP",
+        "residue_number": "609",
+        "site_critical": false
+      },
+      {
+        "chain": "D",
+        "distance_to_box_A": 6.094,
+        "insertion_code": "",
+        "name": "ASP",
+        "residue_number": "540",
+        "site_critical": false
+      },
+      {
+        "chain": "D",
+        "distance_to_box_A": 6.373,
+        "insertion_code": "",
+        "name": "ASP",
+        "residue_number": "609",
+        "site_critical": false
+      }
+    ],
+    "histidine_templates": {
+      "A:562": "HIE",
+      "A:674": "HIE",
+      "B:562": "HIE",
+      "B:674": "HIE",
+      "C:562": "HIE",
+      "C:674": "HIE",
+      "D:562": "HIE",
+      "D:674": "HIE"
+    }
+  },
+  "identity_corrections": {
+    "3PP0": "HER2/ERBB2, not CDK4 or CDK2",
+    "6MVW": "bacterial NavAb, not human NaV1.5; removed from default safety panel",
+    "1SO2": "human PDE3B, not PDE3A; removed from default safety panel"
+  },
+  "historical_artifacts": "REC-01 and scripts/artifacts_science unchanged; old measurements retain their input hashes"
+}

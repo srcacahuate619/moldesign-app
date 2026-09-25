@@ -194,19 +194,15 @@ def test_g8_pasa_sobre_el_arbol_real():
     assert sano.ok, sano.fallos
 
 
-def test_g8_marca_la_vuelta_de_la_persistencia_incondicional(monkeypatch, tmp_path):
-    """Se reconstruye el defecto original y se exige que la guarda lo vea."""
+def test_g8_marca_conversion_pdbqt_y_falta_de_abstencion(monkeypatch, tmp_path):
+    """G8 detecta el retorno de una conversión químicamente ambigua."""
     falso = tmp_path / "arbol"
     servicio = falso / "backend" / "services" / "docking"
     servicio.mkdir(parents=True)
-    (falso / "backend" / "core").mkdir(parents=True)
     (servicio / "vina_service.py").write_text(
-        "parsing_source = \"openbabel\"\n"
-        "await write_file(output_sdf, poses_path)\n",
-        encoding="utf-8",
-    )
-    (falso / "backend" / "core" / "models.py").write_text(
-        'parsing_source: Literal["sdf", "pdbqt", "vina_stdout"] = "sdf"\n',
+        'parsing_source = "sdf_openbabel_cli"\n'
+        'sdf = await convertir_pdbqt_a_sdf(pdbqt)\n'
+        'await write_file(output_sdf, poses_path)\n',
         encoding="utf-8",
     )
     monkeypatch.setattr(guarda, "RAIZ", falso)
@@ -214,9 +210,23 @@ def test_g8_marca_la_vuelta_de_la_persistencia_incondicional(monkeypatch, tmp_pa
     guarda.g8_contrato_de_persistencia(roto)
     assert not roto.ok
     mensaje = "\n".join(roto.fallos)
-    assert "condicionada" in mensaje
-    assert "coherencia" in mensaje
-    assert "sdf_openbabel_cli" in mensaje
+    assert "conversión PDBQT" in mensaje
+    assert "abstención" in mensaje
+
+
+def test_g8_marca_entrega_sdf_sin_comprobar_poses(monkeypatch, tmp_path):
+    falso = tmp_path / "arbol"
+    servicio = falso / "backend" / "services" / "docking"
+    servicio.mkdir(parents=True)
+    (servicio / "vina_service.py").write_text(
+        'if not poses:\n    raise DockingFailed(detail="No se reconstruye la molécula desde el PDBQT de Vina.")\n',
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(guarda, "RAIZ", falso)
+    roto = _resultado()
+    guarda.g8_contrato_de_persistencia(roto)
+    assert not roto.ok
+    assert "SDF verificado" in "\n".join(roto.fallos)
 
 
 # ── G9: la licencia declarada ───────────────────────────────────────────

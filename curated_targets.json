@@ -24872,76 +24872,80 @@
     "name": "hERG (KCNH2 — Potassium Channel)",
     "chain": "A",
     "description": "\"Subunidad formadora de poros (alfa) del canal de potasio rectificador interno dependiente de voltaje\". Las propiedades del canal están moduladas por el AMPc y el ensamblaje de subunidades. Se caracteriza por una cinética de activación inusual al producir corrientes salientes relativamente pequeñas durante la despolarización de la membrana y grandes corrientes internas durante la repolarización posterior que reflejan una rápida inactivación durante la despolarización y una rápida recuperación de la inactivación, pero una lenta desactivación (cierre) durante la repolarización. Forma un complejo estable con KCNE1 o KCNE2, y esta heteromultimerización regula la actividad del canal rectificador de potasio interno.",
-    "grid_center_x": 77.3,
-    "grid_center_y": 52.64,
-    "grid_center_z": 38.66,
-    "grid_size_x": 26.5,
-    "grid_size_y": 26.5,
-    "grid_size_z": 26.5,
+    "grid_center_x": 73.15,
+    "grid_center_y": 73.15,
+    "grid_center_z": 78.53,
+    "grid_size_x": 28.8,
+    "grid_size_y": 28.8,
+    "grid_size_z": 30.0,
     "requires_cns": 0,
     "structural_family": "ion_channel",
     "organism": "Homo sapiens",
     "resolution": 2.8,
     "hotspots": [
       {
-        "name": "A:LYS759",
+        "name": "A:THR623",
         "importance": 1.0
       },
       {
-        "name": "A:ARG784",
-        "importance": 0.94
+        "name": "A:SER624",
+        "importance": 1.0
       },
       {
-        "name": "A:MET713",
-        "importance": 0.89
+        "name": "A:TYR652",
+        "importance": 1.0
       },
       {
-        "name": "A:LEU732",
-        "importance": 0.89
+        "name": "A:PHE656",
+        "importance": 1.0
       },
       {
-        "name": "A:THR760",
-        "importance": 0.89
+        "name": "B:THR623",
+        "importance": 1.0
       },
       {
-        "name": "A:ASP829",
-        "importance": 0.89
+        "name": "B:SER624",
+        "importance": 1.0
       },
       {
-        "name": "A:LEU717",
-        "importance": 0.83
+        "name": "B:TYR652",
+        "importance": 1.0
       },
       {
-        "name": "A:CYS729",
-        "importance": 0.83
+        "name": "B:PHE656",
+        "importance": 1.0
       },
       {
-        "name": "A:HIS831",
-        "importance": 0.83
+        "name": "C:THR623",
+        "importance": 1.0
       },
       {
-        "name": "A:VAL716",
-        "importance": 0.78
+        "name": "C:SER624",
+        "importance": 1.0
       },
       {
-        "name": "A:ASN733",
-        "importance": 0.78
+        "name": "C:TYR652",
+        "importance": 1.0
       },
       {
-        "name": "A:PHE758",
-        "importance": 0.78
+        "name": "C:PHE656",
+        "importance": 1.0
       },
       {
-        "name": "A:THR761",
-        "importance": 0.78
+        "name": "D:THR623",
+        "importance": 1.0
       },
       {
-        "name": "A:SER783",
-        "importance": 0.78
+        "name": "D:SER624",
+        "importance": 1.0
       },
       {
-        "name": "A:ASN714",
-        "importance": 0.72
+        "name": "D:TYR652",
+        "importance": 1.0
+      },
+      {
+        "name": "D:PHE656",
+        "importance": 1.0
       }
     ],
     "affinity_threshold": -7.5,
@@ -24958,11 +24962,15 @@
     "anti_target_risk": null,
     "site_chains": [
       "A",
-      "B"
+      "B",
+      "C",
+      "D"
     ],
     "site_chain_atoms": {
-      "A": 500,
-      "B": 101
+      "A": 273,
+      "B": 273,
+      "C": 273,
+      "D": 273
     },
     "site_evidence": "box_volume",
     "site_ligand": null,

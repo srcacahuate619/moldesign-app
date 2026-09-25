@@ -12,8 +12,8 @@ llamada la pasaban tal cual a `run_vina_docking(target_chain=...)` **sin pasar
 
 Resultado medido sobre el catálogo:
 
-    5VA1  hERG (KCNH2)   panel: chain=A    catálogo: site_chains ["A","B"]
-    6MVW  NaV1.5 (SCN5A) panel: chain=A    catálogo: site_chains ["C","D","A"]
+    5VA1  hERG (KCNH2)   panel: chain=A    catálogo: site_chains ["A","B","C","D"]
+    6MVW  NavAb bacteriano: retirado del panel clínico en fase 1
 
 El **mismo receptor** recibía la cavidad completa cuando se acoplaba como diana
 principal y media cavidad cuando se acoplaba como anti-diana. Y las dos
@@ -39,8 +39,8 @@ que la ausencia del número, porque la ausencia se ve.
 
 # Por qué estructuras experimentales y no co-plegamiento
 
-Dos de las cinco anti-dianas del panel son canales iónicos con el sitio en un
-poro oligomérico: hERG/Kv11.1 (`5VA1`) y NaV1.5 (`6MVW`). Es exactamente la
+hERG/Kv11.1 (`5VA1`) conserva las cuatro subunidades de su poro. 6MVW es
+NavAb bacteriano y ya no figura como NaV1.5 humano en el panel. Es la
 familia donde las herramientas modernas de co-plegamiento proteína-ligando
 —AlphaFold 3, Boltz-2, Protenix-v2— tienen un modo de fallo documentado:
 colapsan la cavidad del poro.

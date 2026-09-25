@@ -703,7 +703,7 @@ async def run_pipeline(
 
                 elif stage_id == "selectivity":
                     # ── v1.7.3: Selectivity Panel (Safety Profiling) ──────────────
-                    # Docking contra anti-targets (hERG, CYP3A4, 5-HT2B, PDE3, NaV1.5)
+                    # Docking contra anti-targets (hERG, CYP3A4, 5-HT2B)
                     # para calcular ratio de selectividad ON/OFF y flags de seguridad.
                     # Solo corre si el usuario lo activó en ProOptionsModal.
                     #

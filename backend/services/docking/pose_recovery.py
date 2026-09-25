@@ -357,3 +357,30 @@ async def recuperar_pose_agrupada(
         max_desplazamiento_A=maximo,
         pseudoatomos_de_pegado=pseudoatomos,
     )
+
+
+def verificar_pares_sdf_pdbqt(
+    sdf_content: str,
+    pdbqt_blocks: list[str],
+    *,
+    tolerance_A: float = TOLERANCIA_A,
+) -> list[float]:
+    """Demuestra la biyección geométrica de cada pose antes de entregar docking.
+
+    Los recuentos iguales no bastan: dos registros con afinidades empatadas
+    podrían estar intercambiados y atribuir los contactos a otra geometría.
+    """
+    records = _registros(sdf_content)
+    if not records or len(records) != len(pdbqt_blocks):
+        raise PoseNoRecuperable(
+            f"SDF/PDBQT con recuentos diferentes: {len(records)}/{len(pdbqt_blocks)}."
+        )
+    displacements: list[float] = []
+    for rank, (record, block) in enumerate(zip(records, pdbqt_blocks, strict=True), 1):
+        atoms = _atomos_de_registro_sdf(record)
+        coordinates, _ = _coordenadas_de_pdbqt(block)
+        if not coordinates:
+            raise PoseNoRecuperable(f"La pose {rank} no contiene coordenadas PDBQT.")
+        _, maximum = _correspondencia_geometrica(coordinates, atoms, tolerance_A)
+        displacements.append(maximum)
+    return displacements

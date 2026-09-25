@@ -11,7 +11,7 @@ Anti-targets are proteins whose inhibition causes toxicity:
 - CYP3A4: drug metabolism -> drug-drug interactions
 - 5-HT2B: serotonin receptor -> cardiac valvulopathy
 - PDE3: phosphodiesterase -> cardiac contractility
-- NaV1.5: sodium channel -> cardiac conduction block
+- NavAb is a bacterial channel; it is not a NaV1.5 safety assay.
 
 All structures from RCSB PDB, pre-cached locally.
 
@@ -23,7 +23,7 @@ Referencias:
 
   Zhu Y., Rahman T. (2026) "Benchmarking co-folding tools on Nav, Cav and Kv
   channels". Frontiers in Biophysics 4:1937302.
-  — por qué hERG (5VA1) y NaV1.5 (6MVW) se acoplan sobre la estructura
+  — por qué hERG (5VA1) se acopla sobre la estructura
   experimental ensamblada y no sobre un modelo de co-plegamiento: en canales
   de membrana esas herramientas colapsan la cavidad del poro, que es
   justamente lo que el panel mide. Ver `anti_target_sitio.py`.
@@ -63,8 +63,8 @@ ANTI_TARGET_PANEL = [
         "chain": "A",
         "category": "Cardiac",
         "risk": "Arritmia cardiaca (QT prolongation). Retiro de Terfenadina, Cisaprida, Grepafloxacino.",
-        "center": (79.14, 68.54, 78.53),
-        "size": (24.0, 24.0, 24.0),
+        "center": (73.15, 73.15, 78.53),
+        "size": (28.8, 28.8, 30.0),
         "affinity_threshold": -7.0,
     },
     {
@@ -87,26 +87,7 @@ ANTI_TARGET_PANEL = [
         "size": (22.0, 22.0, 22.0),
         "affinity_threshold": -7.5,
     },
-    {
-        "pdb_id": "1SO2",
-        "name": "PDE3A",
-        "chain": "A",
-        "category": "Cardiac",
-        "risk": "Inhibicion de PDE3 afecta contractilidad. Milrinona solo uso hospitalario.",
-        "center": (69.46, 12.39, 27.22),
-        "size": (22.0, 22.0, 22.0),
-        "affinity_threshold": -8.0,
-    },
-    {
-        "pdb_id": "6MVW",
-        "name": "NaV1.5 (SCN5A)",
-        "chain": "A",
-        "category": "Cardiac",
-        "risk": "Bloqueo de canales de sodio causa arritmia. Flecainida muestra el mecanismo.",
-        "center": (125.44, 163.44, 14.78),
-        "size": (24.0, 24.0, 24.0),
-        "affinity_threshold": -7.5,
-    },
+
 ]
 
 
@@ -225,7 +206,7 @@ async def run_selectivity_panel(
     async def dock_one(at: dict) -> dict:
         pdb_id = at["pdb_id"]
         # ── El sitio, resuelto contra el catálogo ANTES de acoplar ───────────
-        # Ver `anti_target_sitio.py`: hERG (5VA1) y NaV1.5 (6MVW) declaran
+        # Ver `anti_target_sitio.py`: hERG (5VA1) declara
         # `site_chains` de dos y tres cadenas, y este camino las preparaba con
         # una. Son las dos anti-dianas cardíacas del panel.
         sitio = await resolver_sitio_de_anti_diana(at, repository) if repository else None

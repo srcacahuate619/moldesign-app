@@ -31,13 +31,21 @@ from chem.conformer_ensemble import es_hash_derivado
 from core.config import get_settings
 from core.exceptions import DockingFailed, VinaExecutableNotFound
 from core.models import DockingPose, DockingResult
-from services.docking.preparer import prepare_target, resolve_effective_docking_box
-from services.external_tools import open_babel
+from services.docking.pose_recovery import (
+    PoseNoRecuperable, verificar_pares_sdf_pdbqt,
+)
+from services.docking.search_policy import (
+    BOX_VOLUME_WARNING_A3, box_volume, effective_exhaustiveness as resolve_exhaustiveness,
+)
+from services.docking.preparer import (
+    _meeko_report_path,
+    prepare_target,
+    resolve_effective_docking_box,
+)
 from utils.cache import cache
 from utils.file_handlers import (
     StoragePath,
     parse_vina_output_sdf,
-    parse_vina_output_pdbqt,
     fusionar_rmsd_desde_pdbqt,
     extract_pdbqt_poses,
     validate_pdbqt_content,
@@ -704,20 +712,21 @@ async def run_vina_docking(
     """
     receptor_object_path = None
     if prepared_receptor_bytes is None:
-        receptor_object_path = await prepare_target(
-            pdb_id=target_pdb_id,
-            chain_id=target_chain,
-            center=target_center,
-            size=target_size,
-            force_reprepare=False,
-            cofactors_whitelist=cofactors_whitelist,
-            site_chains=site_chains,
-        )
         effective_center, effective_size = resolve_effective_docking_box(
             pdb_id=target_pdb_id,
             chain_id=target_chain,
             center=target_center,
             size=target_size,
+            site_chains=site_chains,
+        )
+        receptor_object_path = await prepare_target(
+            pdb_id=target_pdb_id,
+            chain_id=target_chain,
+            center=effective_center,
+            size=effective_size,
+            force_reprepare=False,
+            cofactors_whitelist=cofactors_whitelist,
+            site_chains=site_chains,
         )
         receptor_content = await read_bytes(receptor_object_path)
     else:
@@ -727,15 +736,73 @@ async def run_vina_docking(
         effective_center = tuple(float(v) for v in target_center)
         effective_size = tuple(float(v) for v in target_size)
     receptor_sha256 = hashlib.sha256(receptor_content).hexdigest()
+    preparation_warnings: list[dict] = []
+    if receptor_object_path is not None:
+        try:
+            preparation_report = json.loads(
+                await read_text(_meeko_report_path(receptor_object_path))
+            )
+        except (OSError, ValueError) as exc:
+            raise DockingFailed(
+                molecule_id=smiles_hash,
+                target_pdb_id=target_pdb_id,
+                detail=f"Falta el informe de preparación del receptor: {exc}",
+            ) from exc
+        if preparation_report.get("receptor_sha256") != receptor_sha256:
+            raise DockingFailed(
+                molecule_id=smiles_hash,
+                target_pdb_id=target_pdb_id,
+                detail="El informe de preparación no corresponde al receptor PDBQT.",
+            )
+        templates = preparation_report.get("protonation_templates")
+        if templates is None:
+            raise DockingFailed(
+                molecule_id=smiles_hash,
+                target_pdb_id=target_pdb_id,
+                detail="El informe de preparación no declara plantillas de protonación.",
+            )
+        histidines = sorted(
+            f"{resid}={row['template']}" for resid, row in templates.items()
+            if row.get("input_resname") in {"HIS", "HID", "HIE", "HIP"}
+        )
+        preparation_warnings.append(aviso(
+            "RECEPTOR_PROTONACION_DECLARADA", Severidad.PRECAUCION,
+            "Plantillas de histidina asignadas por Meeko: "
+            + (", ".join(histidines) if histidines else "ninguna en este receptor")
+            + ". La asignación procede de plantillas y no valida el microestado "
+              "experimental ni un pH concreto.",
+        ))
+        removed = preparation_report.get("removed_residues") or []
+        if removed:
+            label = ", ".join(
+                f"{row['chain']}:{row['residue_number']} {row['name']} "
+                f"({row['distance_to_box_A']} Å de la caja)"
+                for row in removed
+            )
+            preparation_warnings.append(aviso(
+                "RESIDUOS_ELIMINADOS_FUERA_DEL_SITIO",
+                Severidad.PRECAUCION,
+                f"Meeko eliminó residuos del receptor fuera del margen crítico: {label}.",
+            ))
     receptor_snapshot_path = StoragePath.prepared_receptor_snapshot(receptor_sha256)
     # Se materializa incluso ante cache hit: caches creados antes de este
     # contrato sólo guardaban el hash y no podían reconstruir el input.
     await write_bytes(receptor_content, receptor_snapshot_path)
-    effective_exhaustiveness = (
-        int(exhaustiveness)
-        if exhaustiveness is not None
-        else (4 if docking_engine == "qvina2" else int(settings.vina_exhaustiveness))
+    effective_exhaustiveness = resolve_exhaustiveness(
+        requested=exhaustiveness,
+        default=(4 if docking_engine == "qvina2" else int(settings.vina_exhaustiveness)),
+        size=effective_size,
+        engine=docking_engine,
     )
+    volume = box_volume(effective_size)
+    if volume > BOX_VOLUME_WARNING_A3:
+        preparation_warnings.append(aviso(
+            "CAJA_BUSQUEDA_AMPLIA", Severidad.PRECAUCION,
+            f"La caja ocupa {volume:.0f} Å³ (> {BOX_VOLUME_WARNING_A3:.0f} Å³). "
+            f"Exhaustividad efectiva: {effective_exhaustiveness}. "
+            "El umbral y el escalón automático son una política conservadora; "
+            "no garantizan convergencia de poses.",
+        ))
     effective_num_poses = int(num_poses) if num_poses is not None else int(settings.vina_num_poses)
     effective_seed = int(seed) if seed is not None else int(settings.vina_seed)
     effective_engine_identity = docking_engine
@@ -773,6 +840,11 @@ async def run_vina_docking(
             )
             cached["receptor_sha256"] = receptor_sha256
             cached["receptor_path"] = receptor_snapshot_path
+            current_warnings = list(cached.get("scientific_warnings") or [])
+            for warning in preparation_warnings:
+                if warning not in current_warnings:
+                    current_warnings.append(warning)
+            cached["scientific_warnings"] = current_warnings
             return DockingResult(**cached)
 
     # Use a unique subdirectory for each job to avoid race conditions in parallel runs
@@ -818,7 +890,7 @@ async def run_vina_docking(
                 output_sdf = tmp_dir_path / f"{smiles_hash}_{target_pdb_id}_out.sdf"
                 output_log = tmp_dir_path / f"{smiles_hash}_{target_pdb_id}.log"
 
-                scientific_warnings: list[dict] = []
+                scientific_warnings: list[dict] = list(preparation_warnings)
 
                 # ── Qué aguas tenía el sitio antes de quitarlas ─────────────
                 #
@@ -944,14 +1016,22 @@ async def run_vina_docking(
                     parsed_poses, diag_rmsd = fusionar_rmsd_desde_pdbqt(
                         parsed_poses, pdbqt_content
                     )
-                    if not diag_rmsd["fusionado"]:
-                        log.warning(
-                            "rmsd_no_fusionado_por_recuentos_distintos",
-                            poses_en_sdf=diag_rmsd["poses_en_sdf"],
-                            poses_en_pdbqt=diag_rmsd["poses_en_pdbqt"],
+                    if not diag_rmsd["fusionado"] or diag_rmsd["afinidades_discrepantes"]:
+                        raise DockingFailed(
+                            molecule_id=smiles_hash,
+                            target_pdb_id=target_pdb_id,
+                            detail=("Las poses SDF y PDBQT no coinciden en recuento, "
+                                    "orden o afinidad; no se atribuye un bloque "
+                                    "PDBQT a otra geometría."),
                         )
-                    for discrepancia in diag_rmsd["afinidades_discrepantes"]:
-                        log.warning("afinidad_discrepante_entre_sdf_y_pdbqt", **discrepancia)
+                    try:
+                        verificar_pares_sdf_pdbqt(sdf_content, pdbqt_pose_blocks)
+                    except PoseNoRecuperable as exc:
+                        raise DockingFailed(
+                            molecule_id=smiles_hash,
+                            target_pdb_id=target_pdb_id,
+                            detail=f"No se pudo demostrar la correspondencia geométrica SDF/PDBQT: {exc}",
+                        ) from exc
 
                 poses: list[DockingPose] = []
                 for i, pose_dict in enumerate(parsed_poses):
@@ -959,180 +1039,29 @@ async def run_vina_docking(
                     block = pdbqt_pose_blocks[i] if i < len(pdbqt_pose_blocks) else None
                     poses.append(DockingPose(**cast_pose_dict(pose_dict), pdbqt_block=block))
 
-                parsing_source = "sdf" if poses else None
-
-                # ── QUÉ SDF SE ENTREGA ───────────────────────────────────
-                #
-                # EL FALLO QUE ARREGLA. Después del respaldo de Open Babel, la
-                # persistencia era literal e incondicional:
-                #
-                #     await write_file(output_sdf, poses_path)
-                #
-                # es decir, se guardaba SIEMPRE el SDF de Meeko —el inválido, el
-                # que había obligado a llamar al respaldo— mientras las poses del
-                # informe salían del SDF de Open Babel, que se borraba a
-                # continuación. El dossier citaba unas poses y entregaba un
-                # archivo que no las contenía.
-                #
-                # A partir de aquí el archivo entregado es una decisión
-                # explícita: `sdf_a_persistir` es siempre aquel del que salieron
-                # las poses que se van a informar.
-                #: El SDF que produjo un conversor externo, cuando fue de ahí de
-                #: donde salieron las poses. `None` significa que se entrega el
-                #: archivo de Meeko tal cual.
-                #:
-                #: Esta línea decía «el caso normal y el de todas las corridas
-                #: anteriores». Era falso en TODAS: hasta el 2026-09-19 un ancla
-                #: en el `re.match` de `parse_vina_output_sdf` descartaba las
-                #: propiedades de Meeko, así que `poses` siempre llegaba vacío y
-                #: el respaldo se usaba en el 100% de los acoplamientos
-                #: (172 de 172 medidos en ENS-PILOT-01). Corregido el ancla,
-                #: `None` vuelve a ser de verdad el caso normal.
-                sdf_a_persistir: str | None = None
-                #: Qué programa externo produjo ese archivo, con su procedencia.
-                conversor_estructural: dict | None = None
-
-                # ── Respaldo: Open Babel convierte el PDBQT a SDF ────────
-                #
-                # Se llega aquí cuando Meeko exportó un SDF zombi. Open Babel es
-                # un PROGRAMA INDEPENDIENTE (GPL-2.0-only) que se invoca por
-                # subproceso a través del adaptador único; ni se importa ni se
-                # enlaza. Ver `docs/79_ADR_FRONTERA_OPEN_BABEL.md`.
-                #
-                # No hay `except Exception` aquí. El error del adaptador es
-                # tipado y su estado se declara: convertir un fallo en «no
-                # disponible» es exactamente cómo cuatro componentes de este
-                # árbol se apagaron sin que nadie lo notara.
-                if not poses:
-                    try:
-                        conversion = await open_babel.convertir_pdbqt_a_sdf(pdbqt_content)
-                    except open_babel.OpenBabelNoDisponible as ob_exc:
-                        # Open Babel viaja en el instalador: su ausencia o su
-                        # alteración es una instalación dañada, no una función
-                        # opcional. Se registra con el motivo y NO se atribuye
-                        # nada a Open Babel, porque no llegó a ejecutarse.
-                        log.warning(
-                            "respaldo_open_babel_no_disponible",
-                            estado=ob_exc.estado.value,
-                            detalle=ob_exc.detalle,
-                        )
-                        scientific_warnings.append(aviso(
-                            "CONVERSOR_ESTRUCTURAL_NO_DISPONIBLE", Severidad.CRITICA,
-                            "La exportación de Meeko no produjo un SDF utilizable y el "
-                            "conversor estructural empaquetado (Open Babel) no se pudo "
-                            f"usar [{ob_exc.estado.value}]: {ob_exc.detalle} "
-                            "La evidencia estructural de esta corrida queda incompleta.",
-                        ))
-                    else:
-                        parsed_poses = parse_vina_output_sdf(conversion.contenido)
-                        poses = []
-                        for i, pose_dict in enumerate(parsed_poses):
-                            # El bloque PDBQT original viaja intacto: la
-                            # trazabilidad hacia lo que Vina escribió de verdad
-                            # no depende de la conversión.
-                            block = pdbqt_pose_blocks[i] if i < len(pdbqt_pose_blocks) else None
-                            poses.append(DockingPose(**cast_pose_dict(pose_dict), pdbqt_block=block))
-                        if poses:
-                            parsing_source = "sdf_openbabel_cli"
-                            sdf_a_persistir = conversion.contenido
-                            conversor_estructural = {
-                                "herramienta": "Open Babel",
-                                "invocacion": "subproceso CLI",
-                                "version_declarada": conversion.version_declarada,
-                                "licencia_spdx": conversion.licencia_spdx,
-                                "ruta_relativa": conversion.ruta_relativa,
-                                "sha256": conversion.sha256,
-                                "motivo": "la exportación de Meeko no produjo un SDF utilizable",
-                            }
-                            log.warning(
-                                "respaldo_open_babel_usado",
-                                version=conversion.version_declarada,
-                                sha256=conversion.sha256[:12],
-                                poses=len(poses),
-                            )
-                            scientific_warnings.append(aviso(
-                                "CONVERSION_ESTRUCTURAL_DE_RESPALDO", Severidad.INFO,
-                                "El SDF de poses lo produjo Open Babel "
-                                f"{conversion.version_declarada} (GPL-2.0-only, invocado "
-                                "como herramienta externa) a partir del PDBQT de Vina, "
-                                "porque la exportación de Meeko no era utilizable. Las "
-                                "afinidades no cambian: salen del mismo parser.",
-                            ))
-                        else:
-                            # Llegar aquí es ahora una anomalía de verdad: Open
-                            # Babel produjo un SDF del que no salió ninguna pose.
-                            #
-                            # Esta rama describía otra cosa. Decía, «MEDIDO el
-                            # 2026-09-05», que éste era «el camino NORMAL, no una
-                            # anomalía», y atribuía la causa a que Open Babel
-                            # escribe sus datos en `> <REMARK>`. La observación
-                            # era correcta y la causa estaba mal situada: lo que
-                            # hacía normal este camino era un defecto AGUAS
-                            # ARRIBA —el ancla del `re.match` que descartaba las
-                            # propiedades de Meeko y vaciaba `poses` siempre—,
-                            # no nada de Open Babel. Leer `<REMARK>` se arregló
-                            # después; el ancla, el 2026-09-19.
-                            #
-                            # La consecuencia que se declaraba incómoda ya no
-                            # existe: `sdf_a_persistir` decide explícitamente
-                            # qué archivo se entrega, y es siempre aquel del que
-                            # salieron las poses informadas.
-                            # Ver `docs/79_ADR_FRONTERA_OPEN_BABEL.md` §10.
-                            log.info(
-                                "respaldo_open_babel_sin_metadatos_en_el_sdf",
-                                detalle=(
-                                    "Open Babel produjo un SDF válido; sus datos de "
-                                    "Vina viajan en `> <REMARK>`, que parse_vina_output_sdf "
-                                    "no lee. Las afinidades se extraen del PDBQT, de las "
-                                    "mismas líneas REMARK VINA RESULT."
-                                ),
-                                version=conversion.version_declarada,
-                            )
-
-                # Fallback: if still no poses, try parsing PDBQT for affinity only
-                if not poses:
-                    pdbqt_content = output_pdbqt.read_text(encoding="utf-8", errors="replace")
-                    pdbqt_pose_blocks = extract_pdbqt_poses(pdbqt_content)
-                    parsed_poses_pdbqt = parse_vina_output_pdbqt(pdbqt_content)
-                    poses = []
-                    for i, pose in enumerate(parsed_poses_pdbqt):
-                        block = pdbqt_pose_blocks[i] if i < len(pdbqt_pose_blocks) else None
-                        poses.append(DockingPose(**cast_pose_dict(pose), pdbqt_block=block))
-                    if poses:
-                        parsing_source = "pdbqt"
-                        log.warning("Affinity fallback: Extracted from REMARK VINA RESULT because SDF lacked numeric metadata.")
-
-                if not poses:
-                    if not settings.docking_allow_stdout_fallback:
-                        raise DockingFailed(
-                            molecule_id=smiles_hash,
-                            target_pdb_id=target_pdb_id,
-                            detail=(
-                                "No se pudieron extraer poses estructuradas desde SDF/PDBQT y el fallback "
-                                "a stdout está deshabilitado por rigor científico."
-                            ),
-                        )
-
-                    poses_stdout = _parse_vina_stdout(stdout)
-                    pdbqt_pose_blocks = extract_pdbqt_poses(pdbqt_content)
-                    poses = []
-                    for i, pose in enumerate(poses_stdout):
-                        block = pdbqt_pose_blocks[i] if i < len(pdbqt_pose_blocks) else None
-                        poses.append(DockingPose(**cast_pose_dict(pose.model_dump()), pdbqt_block=block))
-                    if poses:
-                        parsing_source = "vina_stdout"
-                        scientific_warnings.append(aviso(
-                            "PARSEO_DESDE_STDOUT", Severidad.INFO,
-                            "Las afinidades se extrajeron de la tabla de stdout de Vina; "
-                            "revisa el log para trazabilidad completa.",
-                        ))
-
+                # PDBQT no conserva órdenes de enlace ni la química completa.
+                # Si Meeko no exporta poses SDF utilizables, la corrida se
+                # abstiene antes de persistir un archivo estructural falso.
                 if not poses:
                     raise DockingFailed(
                         molecule_id=smiles_hash,
                         target_pdb_id=target_pdb_id,
-                        detail="Vina terminó pero no se pudieron parsear poses válidas.",
+                        detail=(
+                            "Meeko no produjo poses SDF químicamente verificables. "
+                            "No se reconstruye la molécula desde el PDBQT de Vina."
+                        ),
                     )
+                if len(poses) != len(pdbqt_pose_blocks):
+                    raise DockingFailed(
+                        molecule_id=smiles_hash,
+                        target_pdb_id=target_pdb_id,
+                        detail=(
+                            "El número de poses SDF no coincide con los bloques "
+                            "PDBQT producidos por Vina."
+                        ),
+                    )
+                parsing_source = "sdf"
+                conversor_estructural = None
 
                 if poses[0].affinity > -3.0:
                     # PRECAUCION, no nota: por encima de -6 el score de Vina deja
@@ -1204,39 +1133,12 @@ async def run_vina_docking(
                     smiles_hash, target_pdb_id, artifact_id
                 )
 
-                # ── EL ARCHIVO ENTREGADO ES AQUEL DEL QUE SALIERON LAS POSES ─
-                #
-                # Para `sdf`, `pdbqt` y `vina_stdout` las poses se leyeron del
-                # archivo de Meeko, y ese archivo se entrega TAL CUAL con
-                # `write_file`, que copia bytes y no reescribe el texto: el
-                # estado persistido de esos tres caminos es idéntico al de antes
-                # de este cambio.
-                #
-                # Sólo el camino de Open Babel entrega otro contenido —el suyo—,
-                # que es exactamente el defecto que esto corrige.
-                #
-                # La comprobación de coherencia no es decorativa: el defecto
-                # original consistía precisamente en que la procedencia decía una
-                # cosa y el archivo era otra, y nada lo notaba.
-                if (parsing_source == "sdf_openbabel_cli") != (sdf_a_persistir is not None):
-                    raise DockingFailed(
-                        molecule_id=smiles_hash,
-                        target_pdb_id=target_pdb_id,
-                        detail=(
-                            "Incoherencia interna: la procedencia declarada "
-                            f"({parsing_source!r}) no corresponde con el archivo que se "
-                            "iba a entregar. Se aborta antes de persistir un dossier que "
-                            "cite unas poses y adjunte otras."
-                        ),
-                    )
-                if sdf_a_persistir is not None:
-                    await write_text(poses_path, sdf_a_persistir)
-                else:
-                    await write_file(output_sdf, poses_path)
+                # Sólo se entregan los bytes del SDF validado de Meeko.
+                await write_file(output_sdf, poses_path)
                 await write_text(log_path, output_log.read_text(encoding="utf-8"))
 
                 # --- [NUEVO] Análisis de Hotspots Dinámico ---
-                hotspots_hit = []
+                hotspots_hit: list[str] | None = None
                 if hotspots and poses and poses[0].pdbqt_block:
                     try:
                         hotspots_hit = _analyze_hotspot_interactions(
@@ -1323,14 +1225,6 @@ def _analyze_hotspot_interactions(
     # Formato esperado de hotspot['name']: "MET97", "ASP116", "A:TYR100"
     hotspot_names_full = {h["name"].upper() for h in hotspots}
 
-    # Precomputar una versión sin cadena para fallbacks
-    hotspot_names_no_chain = {}
-    for h in hotspot_names_full:
-        if ":" in h:
-            hotspot_names_no_chain[h.split(":")[1]] = h
-        else:
-            hotspot_names_no_chain[h] = h
-
     receptor_atoms = {} # name -> list of coords
 
     with open(receptor_path, "r") as f:
@@ -1349,9 +1243,6 @@ def _analyze_hotspot_interactions(
                     matched_id = full_res_with_chain
                 elif full_res_no_chain in hotspot_names_full:
                     matched_id = full_res_no_chain
-                elif full_res_no_chain in hotspot_names_no_chain:
-                    # Fallback: si el PDBQT perdió la cadena, usar la versión sin cadena
-                    matched_id = hotspot_names_no_chain[full_res_no_chain]
 
                 if matched_id:
                     try:
