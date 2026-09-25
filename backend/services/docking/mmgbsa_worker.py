@@ -29,6 +29,8 @@ async def run_mmgbsa_pose_subprocess(
             f"Respuesta inválida de MM-GBSA (exit={process.returncode}): "
             + stderr.decode("utf-8", "replace")[-1000:]
         ) from exc
+    if process.returncode and result.get("status") == "not_evaluated":
+        return result
     if process.returncode:
         raise RuntimeError(result.get("error") or f"MM-GBSA terminó con exit={process.returncode}")
     score = result.get("mmgbsa")

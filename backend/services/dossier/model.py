@@ -830,6 +830,11 @@ def build_case_dossier(
     ligando = inputs.ligand
     config = inputs.config
     preflight = projection.preflight
+    protocolo_corrida = _v(eval_result, "docking_protocol") or {}
+    estado_ligando = _v(eval_result, "ligand_state") or {}
+    caja_corrida = _v(eval_result, "docking_box") or {}
+    centro_corrida = _v(caja_corrida, "grid_center")
+    tamano_corrida = _v(caja_corrida, "grid_size")
 
     entradas = [
         _campo_dato(
@@ -850,14 +855,14 @@ def build_case_dossier(
         ),
         _campo_dato(
             "Ligando canónico (el que se acopla)",
-            (ligando.canonical_smiles if ligando else None) or _v(molecule, "smiles"),
+            _v(estado_ligando, "smiles_acoplado"),
             "No se registró la forma canónica del ligando.",
         ),
         _campo_dato(
             "Caja efectiva",
-            (f"centro {tuple(config.grid_center)} · tamaño {tuple(config.grid_size)} Å"
-             if config and config.grid_center and config.grid_size else None),
-            "La configuración efectiva no quedó registrada en el caso.",
+            (f"centro {tuple(centro_corrida)} · tamaño {tuple(tamano_corrida)} Å"
+             if centro_corrida and tamano_corrida else None),
+            "La corrida no persistió la caja efectiva; la caja declarada por el caso no prueba la ejecutada.",
         ),
         _campo_dato(
             "Residuos de referencia",
@@ -984,16 +989,16 @@ def build_case_dossier(
         _campo_dato(
             "Configuración PRO declarada",
             json.dumps(config.pipeline_config, ensure_ascii=False, sort_keys=True) if config and config.pipeline_config else None,
-            "La corrida no registró opciones PRO avanzadas.",
+            "El caso no declaró opciones PRO avanzadas; este campo no acredita su ejecución.",
         ),
         _campo_dato(
             "Exhaustiveness",
-            config.exhaustiveness if config else None,
+            _v(protocolo_corrida, "exhaustiveness"),
             "La corrida no registró la exhaustividad utilizada.",
         ),
         _campo_dato(
             "Poses solicitadas",
-            config.num_poses if config else None,
+            _v(protocolo_corrida, "num_poses"),
             "La corrida no registró el número de poses solicitado.",
         ),
         _campo_dato(
@@ -1007,6 +1012,34 @@ def build_case_dossier(
             "La corrida no registró errores.",
         ),
     ]
+
+    if config:
+        for etiqueta, declarado, ejecutado in (
+            ("Exhaustividad declarada por el caso", config.exhaustiveness, _v(protocolo_corrida, "exhaustiveness")),
+            ("Poses declaradas por el caso", config.num_poses, _v(protocolo_corrida, "num_poses")),
+        ):
+            if declarado is not None:
+                difiere = ejecutado is not None and declarado != ejecutado
+                protocolo.append(Campo(
+                    etiqueta,
+                    str(declarado),
+                    Estado.REVISAR if difiere else Estado.REGISTRADO,
+                    "El valor declarado por el caso difiere del protocolo ejecutado." if difiere
+                    else "Valor declarado por el caso; la ejecución se documenta por separado.",
+                ))
+        if config.grid_center and config.grid_size:
+            difiere = bool(
+                centro_corrida and tamano_corrida
+                and (list(config.grid_center) != list(centro_corrida)
+                     or list(config.grid_size) != list(tamano_corrida))
+            )
+            entradas.append(Campo(
+                "Caja declarada por el caso",
+                f"centro {tuple(config.grid_center)} · tamaño {tuple(config.grid_size)} Å",
+                Estado.REVISAR if difiere else Estado.REGISTRADO,
+                "La caja declarada difiere de la ejecutada." if difiere
+                else "Valor declarado por el caso; no sustituye la caja ejecutada.",
+            ))
 
     # ── Poses ────────────────────────────────────────────────────────
     poses_crudas = _v(eval_result, "docking_poses") or []
@@ -1041,7 +1074,7 @@ def build_case_dossier(
         _campo_dato("Poses solicitadas al motor",
                     config.num_poses if config else None,
                     "La corrida no registró el número de poses solicitado."),
-        _campo_dato("Exhaustividad", config.exhaustiveness if config else None,
+        _campo_dato("Exhaustividad", _v(protocolo_corrida, "exhaustiveness"),
                     "La corrida no registró la exhaustividad utilizada."),
         _campo_dato("Semilla aleatoria", repro.get("random_seed"),
                     "La corrida no registró la semilla: no es repetible bit a bit."),

@@ -117,6 +117,7 @@ def compute_xtb_features(smiles: str) -> dict:
     if mol is None:
         return {}
 
+    formal_charge = Chem.GetFormalCharge(mol)
     mol = Chem.AddHs(mol)
     # Deterministic conformer generation
     params = AllChem.ETKDGv3()
@@ -148,7 +149,7 @@ def compute_xtb_features(smiles: str) -> dict:
 
     try:
         result = subprocess.run(
-            [xtb_bin, input_file, "--sp", "--gfn", "2", "--chrg", "0"],
+            [xtb_bin, input_file, "--sp", "--gfn", "2", "--chrg", str(formal_charge)],
             cwd=d, capture_output=True, timeout=120, env=env,
         )
 
@@ -311,7 +312,7 @@ def compute_all_quantum_features(smiles: str) -> dict:
     return features
 
 
-def compute_quantum_score(smiles: str) -> float:
+def compute_quantum_score(smiles: str) -> float | None:
     """ÍNDICE HEURÍSTICO EXPERIMENTAL en [0, 1]. No es un observable cuántico.
 
     Combinación lineal de cuatro descriptores normalizados, con pesos y
@@ -328,13 +329,22 @@ def compute_quantum_score(smiles: str) -> float:
     Devuelve None cuando no se pueden calcular las features: no se fabrica.
     """
     features = compute_all_quantum_features(smiles)
-    if not features:
+    import math
+    required = {
+        "xtb_homo_lumo_gap_ev_per_ha",
+        "xtb_abs_charge_sum_per_ha",
+        "xtb_total_energy_eh_per_ha",
+        "mmff_atom_type_mean_per_ha",
+    }
+    if not required.issubset(features) or any(
+        not math.isfinite(float(features[name])) for name in required
+    ):
         return None
-    
-    hl = features.get("xtb_homo_lumo_gap_ev_per_ha", 0.0)
-    abs_q = features.get("xtb_abs_charge_sum_per_ha", 0.0)
-    energy = abs(features.get("xtb_total_energy_eh_per_ha", 0.0))
-    atom_div = features.get("mmff_atom_type_mean_per_ha", 0.0)
+
+    hl = features["xtb_homo_lumo_gap_ev_per_ha"]
+    abs_q = features["xtb_abs_charge_sum_per_ha"]
+    energy = abs(features["xtb_total_energy_eh_per_ha"])
+    atom_div = features["mmff_atom_type_mean_per_ha"]
     
     hl_norm = min(1.0, hl / 1.3)
     q_norm = min(1.0, abs_q / 0.27)
@@ -377,7 +387,7 @@ def compute_quantum_score_cached(smiles: str) -> float | None:
     """Cached wrapper around compute_quantum_score. Avoids re-running xTB."""
     import time
 
-    key = hashlib.sha256(smiles.encode()).hexdigest()
+    key = hashlib.sha256(("quantum_score/v2:" + smiles).encode()).hexdigest()
     try:
         conn = _get_qc_db()
         try:
@@ -390,6 +400,8 @@ def compute_quantum_score_cached(smiles: str) -> float | None:
         pass
 
     score = _compute_quantum_score_original(smiles)
+    if score is None:
+        return None
     try:
         conn = _get_qc_db()
         try:

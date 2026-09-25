@@ -346,7 +346,7 @@ export default function ProEvaluation({
     parallelDocks: initialRunConfiguration?.pipelineConfig?.pro_parallel_docks ?? 2,
     enableSelectivity: initialRunConfiguration?.pipelineConfig?.pro_selectivity ?? false,
     selectedAntiTargets: [...(initialRunConfiguration?.pipelineConfig?.pro_anti_targets ?? ["5VA1", "4NY4", "4NC3", "1SO2", "6MVW"])],
-    enableMMGBSA: initialRunConfiguration?.pipelineConfig?.pro_mmgbsa ?? false,
+    enableMMGBSA: false,
     mmgbsaSteps: initialRunConfiguration?.pipelineConfig?.pro_mmgbsa_steps ?? 1000,
     // ADMET-AI es OPT-IN. `!== false` encendía el interruptor siempre que la
     // configuración no lo apagara a mano —es decir, casi siempre—, mientras el
@@ -908,7 +908,7 @@ export default function ProEvaluation({
         targetPdbId={structuralSystem?.receptor.pdbId ?? target}
         gridSize={[gridBox.sizeX, gridBox.sizeY, gridBox.sizeZ]}
         antiTargets={advancedOpts.enableSelectivity ? advancedOpts.selectedAntiTargets.length : 0}
-        mmgbsa={advancedOpts.enableMMGBSA}
+        mmgbsa={false}
       />
 
       {/* ── Botonera de Control ── */}
@@ -1000,7 +1000,7 @@ export default function ProEvaluation({
                   pro_parallel_docks: advancedOpts.parallelDocks,
                   pro_selectivity: advancedOpts.enableSelectivity,
                   pro_anti_targets: advancedOpts.selectedAntiTargets,
-                  pro_mmgbsa: advancedOpts.enableMMGBSA,
+                  pro_mmgbsa: false,
                   pro_mmgbsa_steps: advancedOpts.mmgbsaSteps,
                   gnn_precision: dockingEngine.gnnPrecision,
                   peptide_docking_engine: dockingEngine.peptideEngine ?? undefined,
@@ -1230,7 +1230,7 @@ export default function ProEvaluation({
                 } else if (realResult.ums_score != null) {
                   realDot.ums = { value: realResult.ums_score.toFixed(2), sub: t("ev_ums_historico") };
                 }
-                if (realResult.mmgbsa_score != null) realDot.mmgbsa = { value: `${realResult.mmgbsa_score.toFixed(1)} kcal/mol` };
+
                 // MM-GBSA on-demand (modal): el endpoint NO persiste al ORM,
                 // así que el valor vive en estado local → override acá.
                 if (mmgbsaResult?.delta_g_total_kcal != null) {
@@ -1260,8 +1260,8 @@ export default function ProEvaluation({
               // calculado" — honesto, no un valor inventado.
               if (realResult && !realDot.mmgbsa) {
                 realDot.mmgbsa = {
-                  value: "no calculado",
-                  sub: "click para calcular",
+                  value: "no disponible",
+                  sub: "motor legacy invalidado",
                 };
               }
 
@@ -1340,7 +1340,7 @@ export default function ProEvaluation({
                       const mmgbsaDone = isMmgbsa && mmgbsaAlreadyDone;
                       const mmgbsaRunning = isMmgbsa && mmgbsaState === "running";
                       // Clickable cuando NO hay resultado: idle o error (retry).
-                      const mmgbsaClickable = isMmgbsa && !mmgbsaAlreadyDone && mmgbsaState !== "running";
+                      const mmgbsaClickable = false;
 
                       const dotNodeContent = (
                         <>
@@ -1411,8 +1411,8 @@ export default function ProEvaluation({
                         <React.Fragment key={node.id}>
                           {isMmgbsa && !mmgbsaDone ? (
                             <button
-                              onClick={() => { if (!mmgbsaRunning) setShowMmgbsaModal(true); }}
-                              disabled={mmgbsaRunning}
+                              onClick={() => {}}
+                              disabled
                               className="dot-node flex min-h-11 shrink-0 flex-col items-center gap-1.5 rounded-lg px-3 transition-[background-color,border-color,box-shadow,opacity,transform] duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
                               style={{
                                 boxShadow: mmgbsaClickable
@@ -1501,7 +1501,7 @@ export default function ProEvaluation({
               onComparePoses={(leftRank, rightRank) => setPoseComparison({ leftRank, rightRank })}
               enableSelectivity={advancedOpts.enableSelectivity}
               onRequestMmgbsa={() => {
-                if (mmgbsaState !== "running" && !mmgbsaAlreadyDone) setShowMmgbsaModal(true);
+                // MM-GBSA retirado hasta validar un motor de reemplazo.
               }}
               mmgbsaRunning={mmgbsaState === "running"}
               mmgbsaDone={mmgbsaAlreadyDone}
@@ -1698,7 +1698,7 @@ export default function ProEvaluation({
               pro_parallel_docks: adv.parallelDocks,
               pro_selectivity: adv.enableSelectivity,
               pro_anti_targets: [...adv.selectedAntiTargets],
-              pro_mmgbsa: adv.enableMMGBSA,
+              pro_mmgbsa: false,
               pro_mmgbsa_steps: adv.mmgbsaSteps,
               gnn_precision: engine.gnnPrecision,
               peptide_docking_engine: engine.peptideEngine ?? undefined,

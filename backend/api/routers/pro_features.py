@@ -832,9 +832,7 @@ async def run_mmgbsa_endpoint(
     db: AsyncSession = Depends(get_db),
 ) -> dict[str, Any]:
     """
-    Run MM-GBSA binding free energy calculation on a docked pose.
-
-    Uses OpenMM with GPU auto-detection (CUDA > OpenCL > CPU).
+    Motor MM-GBSA legacy retirado hasta validar una parametrización consistente.
     """
     from uuid import UUID
 
@@ -852,196 +850,16 @@ async def run_mmgbsa_endpoint(
         forbidden_detail="No tienes permiso para operar esta evaluación.",
         missing_detail="Evaluation not found",
     )
-    evaluation = await repository.get_evaluation_result(mol_uuid)
-    if evaluation is None:
-        raise HTTPException(status_code=404, detail="Evaluation not found")
+    from services.chemistry.mmgbsa_contrato import MMGBSA_NO_DISPONIBLE
+    raise HTTPException(status_code=422, detail=MMGBSA_NO_DISPONIBLE)
 
-    if evaluation.molecule is None or evaluation.molecule.target is None:
-        raise HTTPException(status_code=404, detail="Molecule or target missing")
-
-    target = require_target_object_access(evaluation.molecule.target, current_user)
-    # ── ¿Se puede parametrizar este ligando? Se pregunta ANTES ───────────
-    #
-    # `molchamb_v2` ya rechazaba todo lo que no fuera C/H/O/N/S/P, pero lo hacía
-    # después de preparar el receptor, generar la pose y construir el sistema
-    # OpenMM — minutos de trabajo— y devolvía `Unsupported elements: {'Cl'}`
-    # por la vía de un fallo genérico. En química médica los halógenos no son
-    # un caso raro, así que ese camino no era la excepción: era la norma para
-    # una fracción grande de las moléculas que la gente evalúa.
-    #
-    # Preguntar primero cuesta un parseo de SMILES y convierte un fallo opaco
-    # de tres minutos en una frase inmediata que explica la causa.
-    no_parametrizables = elementos_no_parametrizables(evaluation.molecule.smiles)
-    if no_parametrizables:
-        log.info(
-            "mmgbsa_no_parametrizable",
-            molecule_id=molecule_id,
-            elementos=sorted(no_parametrizables),
-        )
-        raise HTTPException(
-            status_code=422,
-            detail=motivo_de_no_parametrizable(no_parametrizables),
-        )
-
-    # ── Get protein PDB ──────────────────────────────────────────
-    protein_pdb = None
-    try:
-        prepared_path = StoragePath.target_prepared(target.pdb_id)
-        if await exists(prepared_path):
-            protein_pdb = await read_text(prepared_path)
-        else:
-            raw_path = StoragePath.target_raw(target.pdb_id)
-            if await exists(raw_path):
-                protein_pdb = await read_text(raw_path)
-    except Exception as e:
-        log.warning("storage_protein_not_found", error=str(e))
-
-    # Fallback to local target_library directory
-    if protein_pdb is None:
-        target_lib = Path("data/target_library")
-        if target_lib.exists():
-            for pfile in target_lib.glob(f"**/{target.pdb_id}.pdb"):
-                try:
-                    protein_pdb = pfile.read_text(encoding="utf-8", errors="ignore")
-                    break
-                except Exception as exc:
-                    log.warning("mmgbsa_receptor_read_failed", path=str(pfile), error=str(exc))
-
-    if protein_pdb is None:
-        # Fallback 2: search data/targets
-        local_target = Path(f"data/targets/{target.pdb_id}.pdb")
-        if local_target.exists():
-            try:
-                protein_pdb = local_target.read_text(encoding="utf-8", errors="ignore")
-            except Exception as exc:
-                log.warning("mmgbsa_receptor_read_failed", path=str(local_target), error=str(exc))
-
-    if protein_pdb is None:
-        raise HTTPException(status_code=503, detail=f"Estructura PDB del receptor {target.pdb_id} no disponible")
-
-    # Resolve the selected pose from this evaluation, never a regenerated conformer.
-    mol = await _mmgbsa_docked_pose(repository, evaluation, pose_rank)
-    from rdkit import Chem
-
-    # ── FIX MM-GBSA (2026-08-04, -11351 kcal/mol): usar la pose REAL y el
-    # ΔG de unión correcto (g_complex - g_protein - g_ligand), NO run_mmgbsa
-    # de scoring/mmgbsa.py que era protein-only y reportaba la energía total
-    # del complejo como si fuera ΔG (por eso salían valores absurdos de miles
-    # de kcal/mol). compute_mmgbsa_from_pose (molchamb_v2.py) coloca el
-    # ligando en la pose dockeada real y resta proteína/ligando aislados.
-    # Ver docs/36 UI-2 BUG-2 + SC-10.
-    tmp_dir: Path | None = None
-    try:
-        # Guardar el PDB de proteína en temp para compute_mmgbsa_from_pose
-        import tempfile
-        tmp_dir = Path(tempfile.mkdtemp())
-        protein_path = tmp_dir / "protein.pdb"
-        protein_path.write_text(protein_pdb, encoding="utf-8")
-
-        # FIX NaN (2026-08-04): guardar el SDF del pose y pasarlo como
-        # ligand_sdf_path para que compute_mmgbsa_from_pose construya la
-        # topología DESDE el SDF (conformador real de Vina) y agregue H con
-        # coordenadas (addCoords=True). Sin esto, los H sin coordenadas caían
-        # todos en la última posición del pose → colapso → NaN.
-        ligand_sdf_tmp = tmp_dir / "pose.sdf"
-        with Chem.SDWriter(str(ligand_sdf_tmp)) as writer:
-            writer.write(mol)
-
-        from services.docking.mmgbsa_worker import run_mmgbsa_pose_subprocess
-        import asyncio
-        try:
-            result = await run_mmgbsa_pose_subprocess(
-                str(protein_path), evaluation.molecule.smiles, str(ligand_sdf_tmp),
-                max_iter=num_steps,
-            )
-        except asyncio.TimeoutError as exc:
-            raise HTTPException(status_code=504, detail="MM-GBSA excedió el tiempo límite; no evaluado.") from exc
-
-        mmgbsa_total = result.get("mmgbsa")
-        if mmgbsa_total is None:
-            # Fallback: si no convergió o falló, devolver error claro en vez de
-            # un valor absurdo. El frontend muestra el error en el modal.
-            raise HTTPException(
-                status_code=422,
-                detail=f"MM-GBSA no produjo ΔG válido: {result.get('error', 'sin convergencia')}",
-            )
-
-        # ── Se guarda, porque costo minutos de minimizacion ─────────────────
-        #
-        # Este endpoint calculaba y devolvia SIN PERSISTIR. El valor vivia solo
-        # en el estado del componente, asi que recargar la pagina o volver a la
-        # evaluacion desde el historial lo borraba, y habia que repetir mil
-        # pasos de minimizacion. Peor: el dossier lee `mmgbsa_score` del ORM, de
-        # modo que el informe declaraba «no calculado» un MM-GBSA que el usuario
-        # habia visto en pantalla.
-        #
-        # Es el mismo defecto que B1/B2 sobre una operacion mas cara. Quien hace
-        # el trabajo es quien lo guarda.
-        from core.database import commit_with_retry
-
-        persistido = False
-        try:
-            persistido = await repository.update_evaluation_for_task(
-                mol_uuid, evaluation.task_id, mmgbsa_score=round(mmgbsa_total, 3),
-            )
-            await commit_with_retry(db)
-        except Exception as exc:  # noqa: BLE001 - se reporta, no se traga
-            log.error(
-                "mmgbsa_no_persistido",
-                molecule_id=molecule_id,
-                error=f"{type(exc).__name__}: {exc}",
-            )
-
-        # Descomposición física real (vdW + electrostática + GB + SASA) no está
-        # en compute_mmgbsa_from_pose; estimar componentes del g_complex no es
-        # correcto. Devolvemos el ΔG total + el breakdown de g_complex/g_protein
-        # para que el frontend no invente descomposiciones falsas.
-        return {
-            "molecule_id": molecule_id,
-            "task_id": evaluation.task_id,
-            "persisted": persistido,
-            "pose_rank": pose_rank,
-            "delta_g_total_kcal": round(mmgbsa_total, 3),
-            "delta_g_vdw": None,
-            "delta_g_electrostatic": None,
-            "delta_g_gb_polar": None,
-            "delta_g_nonpolar_sasa": None,
-            "components": {
-                "g_complex": result.get("g_complex"),
-                "g_protein": result.get("g_protein"),
-                "g_ligand": result.get("g_ligand"),
-                "delta_g": round(mmgbsa_total, 3),
-            },
-            "minimized": True,
-            "platform": result.get("platform", "CPU"),
-            "execution_time_s": result.get("time_sec"),
-            "warnings": [],
-            # `condicion_de_validez` no es una nota al pie: es la mitad del
-            # dato. Viaja al modal, al DOT y al dossier junto al ΔG.
-            "condicion_de_validez": MMGBSA_CONDICION,
-            "note": "ΔG = g_complex - g_protein - g_ligand (pose real de docking). "
-                    "La descomposición por contribución requiere MM-GBSA por residuo "
-                    "(no disponible en este endpoint).",
-        }
-    except HTTPException:
-        raise
-    except Exception as e:
-        log.warning("mmgbsa_from_pose_failed", error=str(e)[:300])
-        raise HTTPException(status_code=500, detail=f"MM-GBSA falló: {str(e)[:200]}")
-    finally:
-        # `tmp_dir` puede seguir siendo None: el fallo pudo ocurrir antes de
-        # crearlo (import, conformador ausente). Se comprueba en vez de confiar
-        # en que el `except` de abajo atrape el NameError, que era lo que hacía.
-        if tmp_dir is not None:
-            import shutil
-
-            shutil.rmtree(tmp_dir, ignore_errors=True)
 
 
 @router.get("/gpu")
 async def gpu_status() -> dict[str, Any]:
     """Check GPU availability for acceleration features."""
     return {
+        "mmgbsa": {"disponible": False, "motivo": "MMGBSA_CONDICION: parametrización legacy inconsistente"},
         "openmm_gpu": is_gpu_available(),
         "torch_cuda": _check_torch_cuda(),
         "platforms": _get_openmm_platforms(),

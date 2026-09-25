@@ -85,7 +85,7 @@ class PoseVarianceResult(BaseModel):
 class DeltaResult(BaseModel):
     """Delta de Especificidad 3D."""
 
-    delta: float = Field(..., description="score_A - score_NULL")
+    delta: float | None = Field(..., description="score_A - score_NULL; None si no se pudo medir")
     semaphore: str = Field(..., description="GREEN / YELLOW / RED")
     interpretation: str = Field(..., description="Interpretación en lenguaje natural")
 
@@ -94,8 +94,8 @@ class RescoreResponse(BaseModel):
     """Respuesta completa del rescoring."""
 
     # Scores
-    score_a: float = Field(..., description="Score del Modelo A (ranking, features completas)")
-    score_null: float = Field(..., description="Score del Modelo NULL (solo descriptores 1D/2D)")
+    score_a: float | None = Field(..., description="Score del Modelo A; None si faltan features 3D")
+    score_null: float | None = Field(..., description="Score del Modelo NULL; None si la corrida se abstuvo")
     gnn_score: float | None = Field(None, description="Score calculado por el modelo RTMScore (GNN)")
 
     # Delta

@@ -86,7 +86,7 @@ log = get_logger(__name__)
 # ─────────────────────────────────────────────────────────────
 
 # Cache version — increment when features change to invalidate cache
-CACHE_VERSION: int = 4
+CACHE_VERSION: int = 5
 
 INTERACTION_FEATURES: list[str] = [
     "hbond_donor_count",        # H-bonds donde el ligando es donor
@@ -286,7 +286,7 @@ class InteractionFeatureExtractor:
         self,
         protein_pdb_path: str | Path,
         ligand_sdf_path: str | Path,
-    ) -> dict[str, float]:
+    ) -> dict[str, float] | None:
         """
         Extraer features 3D desde archivos PDB (proteína) + SDF (ligando).
 
@@ -302,7 +302,7 @@ class InteractionFeatureExtractor:
 
         Returns:
             dict con las 164 keys de EXTRACTED_3D_FEATURES.
-            Valores 0.0 si algo falla.
+            None si los archivos o su geometría no se pueden medir.
         """
         # Pipeline optimizado (v4)
         protein_pdb_path = Path(protein_pdb_path)
@@ -310,11 +310,11 @@ class InteractionFeatureExtractor:
 
         if not protein_pdb_path.exists():
             log.warning("protein_file_missing", path=str(protein_pdb_path))
-            return zero_extracted_3d_features()
+            return None
 
         if not ligand_sdf_path.exists():
             log.warning("ligand_file_missing", path=str(ligand_sdf_path))
-            return zero_extracted_3d_features()
+            return None
 
         try:
             return self._extract_pdb_sdf(
@@ -327,7 +327,7 @@ class InteractionFeatureExtractor:
                 protein=protein_pdb_path.name,
                 ligand=ligand_sdf_path.name,
             )
-            return zero_extracted_3d_features()
+            return None
 
     # ─── Inferencia: PDBQT pose + PDB target ─────────────────
 
@@ -337,7 +337,7 @@ class InteractionFeatureExtractor:
         target_pdb_path: str | Path,
         smiles: str = "",
         skip_prolif: bool = False,
-    ) -> dict[str, float]:
+    ) -> dict[str, float] | None:
         """
         Extraer features 3D de una pose de docking (output de Vina).
 
@@ -351,10 +351,10 @@ class InteractionFeatureExtractor:
 
         Returns:
             dict con keys de EXTRACTED_3D_FEATURES (164 fields).
-            Valores 0.0 si algo falla.
+            None si la geometría no pudo medirse.
         """
         if not self._prolif_ok and not skip_prolif:
-            return zero_extracted_3d_features()
+            return None
 
         try:
             return self._extract_pdbqt(
@@ -366,7 +366,7 @@ class InteractionFeatureExtractor:
                 error=str(e),
                 smiles=smiles[:50] if smiles else "N/A",
             )
-            return zero_extracted_3d_features()
+            return None
 
     # ─────────────────────────────────────────────────────────
     # Implementación interna — Training path
@@ -376,7 +376,7 @@ class InteractionFeatureExtractor:
         self,
         protein_pdb: str,
         ligand_sdf: str,
-    ) -> dict[str, float]:
+    ) -> dict[str, float] | None:
         """
         Core pipeline: PDB + SDF → 164 interaction features (v4).
 
@@ -392,18 +392,18 @@ class InteractionFeatureExtractor:
             lig_rdmol = _load_ligand_sdf(ligand_sdf)
             if lig_rdmol is None:
                 log.warning("ligand_sdf_unreadable", path=ligand_sdf)
-                return zero_extracted_3d_features()
+                return None
 
             lig_coords = _get_conformer_coords(lig_rdmol)
             if lig_coords is None:
                 log.warning("ligand_no_3d_coords", path=ligand_sdf)
-                return zero_extracted_3d_features()
+                return None
 
             # 2. Proteína (RDKit-direct, rápido)
             prot_rdmol = _load_protein_pdb(protein_pdb)
             if prot_rdmol is None:
                 log.warning("protein_pdb_unreadable", path=protein_pdb)
-                return zero_extracted_3d_features()
+                return None
 
             # 3. ProLIF Molecules (Opcional)
             features = zero_extracted_3d_features()
@@ -438,6 +438,8 @@ class InteractionFeatureExtractor:
 
             # 7. Close contacts + shell counts + ECIF (numpy, <0.1s total)
             prot_coords = _get_conformer_coords(prot_rdmol)
+            if prot_coords is None or len(prot_coords) == 0:
+                return None
             if prot_coords is not None:
                 # Close contacts (original 2 features)
                 cc4, cc6 = _compute_close_contacts(prot_coords, lig_coords)
@@ -475,7 +477,7 @@ class InteractionFeatureExtractor:
         pdbqt_block: str,
         target_pdb: str,
         skip_prolif: bool = False,
-    ) -> dict[str, float]:
+    ) -> dict[str, float] | None:
         """
         Core pipeline: PDBQT (docking pose) + PDB (target) → features.
 
@@ -501,7 +503,7 @@ class InteractionFeatureExtractor:
             prot_rdmol = _load_protein_pdb(target_pdb)
             if prot_rdmol is None:
                 log.warning("protein_unreadable_inference", path=target_pdb)
-                return zero_extracted_3d_features()
+                return None
 
             features = zero_extracted_3d_features()
             lig_coords = None
@@ -1181,7 +1183,7 @@ def extract_single_complex(
         ligand_sdf: ruta absoluta al SDF del ligando
 
     Returns:
-        dict con el contrato ``EXTRACTED_3D_FEATURES`` (zeros si falla).
+        dict con el contrato ``EXTRACTED_3D_FEATURES``; None si falla.
     """
     ext = InteractionFeatureExtractor()
     return ext.extract_from_files(protein_pdb, ligand_sdf)

@@ -8,7 +8,7 @@ import uuid
 
 from typing import Literal
 from fastapi import APIRouter, Depends, HTTPException, Request, status
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
@@ -22,6 +22,7 @@ from api.routers.evaluation_access import puede_operar, require_owned_molecule
 from services.targets.access import get_target_for_user
 from services.targets.calibracion import estado_de_calibracion
 from services.pipeline.registry import admet_requested
+from services.docking.protocolo import validar_motor_solicitado
 from api.routers.evaluation_cohort_runs import cohort_router as evaluation_cohort_runs_on_cohorts
 from api.routers.evaluation_cohort_runs import router as evaluation_cohort_runs_router
 from api.routers.evaluation_cohorts import router as evaluation_cohorts_router
@@ -96,8 +97,6 @@ def inventario_de_motores() -> dict[str, list[dict]]:
             return False
 
     vina_ok = _binario(settings.vina_executable_path)
-    qvina_ok = _binario(settings.qvina2_executable_path)
-
     docking = [
         {
             "id": "vina",
@@ -120,18 +119,17 @@ def inventario_de_motores() -> dict[str, list[dict]]:
             "id": "qvina2",
             "etiqueta": "QuickVina 2",
             "familia": "docking",
-            "estado": "listo" if qvina_ok else "no_instalado",
-            "disponible": qvina_ok,
+            "estado": "no_habilitado",
+            "disponible": False,
             "accion": None,
             "bytes_descarga": 0,
             "archivos_faltantes": [],
             "dependencias_faltantes": [],
             "modulo_launcher": None,
             "requiere": "binario_externo",
-            "motivo": None if qvina_ok else (
-                "QuickVina 2 no viene con esta versión y no se encontró en el "
-                "sistema. El preflight bloquea la corrida antes de ejecutarla, "
-                "porque caer a Vina en silencio cambiaría el método sin decirlo."
+            "motivo": (
+                "QuickVina 2 no está habilitado para evaluaciones en esta versión. "
+                "El backend rechaza la selección antes de encolar la corrida."
             ),
         },
     ]
@@ -238,7 +236,13 @@ class PipelineConfigRequest(BaseModel):
     enabled_stages: list[str] = Field(default_factory=lambda: ["validation", "properties", "sa_filter", "conformer", "docking", "xgb", "clgnn"])
     stage_params: dict[str, dict] = Field(default_factory=dict)
     stage_order: list[str] | None = None
-    docking_engine: str = Field(default="vina", description="Motor de docking: 'vina', 'qvina2' o 'diffdock'")
+    docking_engine: str = Field(default="vina", description="Motor de docking ejecutable en esta versión")
+
+    @field_validator("docking_engine")
+    @classmethod
+    def validar_docking_engine(cls, motor: str) -> str:
+        validar_motor_solicitado(docking_engine=motor)
+        return motor
     pro_workers: int | None = Field(default=None)
     pro_parallel_docks: int | None = Field(default=None)
     pro_selectivity: bool | None = Field(default=None)
@@ -247,6 +251,24 @@ class PipelineConfigRequest(BaseModel):
     pro_mmgbsa_steps: int | None = Field(default=None)
     gnn_precision: str | None = Field(default=None)
     peptide_docking_engine: str | None = Field(default=None)
+
+    @field_validator("peptide_docking_engine")
+    @classmethod
+    def validar_peptide_engine(cls, motor: str | None) -> str | None:
+        validar_motor_solicitado(peptide_engine=motor)
+        return motor
+
+    @model_validator(mode="after")
+    def no_motor_oculto_en_etapa(self):
+        if "engine" in self.stage_params.get("docking", {}):
+            raise ValueError("El motor se declara en docking_engine, no en stage_params.docking.engine")
+        if self.pro_mmgbsa:
+            raise ValueError("MM-GBSA no disponible (MMGBSA_CONDICION): parametrización legacy inconsistente.")
+        if ("openmm" in self.enabled_stages
+                or "openmm" in (self.stage_order or [])
+                or "openmm" in self.stage_params):
+            raise ValueError("La etapa openmm está retirada: sobrescribía poses y no ejecutaba OpenMM.")
+        return self
 
 class EvaluationGeometry(BaseModel):
     @field_validator("grid_center", "grid_size", check_fields=False)
@@ -282,8 +304,23 @@ class EvaluationSubmitRequest(EvaluationGeometry):
     # registraba como método de la corrida y el despacho lo mandaba a ESMFold por
     # el `elif` final. La procedencia nombraba un método que no se ejecutó.
     # Vuelve cuando exista, con implementación y pesos.
-    peptide_docking_engine: Literal["esmfold", "esmfold-pro", "esmfold-experimental", "colabfold"] | None = Field(default=None, description="Motor de docking peptídico elegido explícitamente. Ausente conserva la ruta de small molecules (Vina/QuickVina).")
+    peptide_docking_engine: str | None = Field(default=None, description="Ruta peptídica disponible tras descargar ESMFold; ausente usa Vina.")
+
+    @field_validator("peptide_docking_engine")
+    @classmethod
+    def validar_peptide_engine(cls, motor: str | None) -> str | None:
+        validar_motor_solicitado(peptide_engine=motor)
+        return motor
+
     pipeline_config: PipelineConfigRequest | None = Field(default=None, description="Configuración manual del pipeline de ejecución (Modo PRO)")
+
+    @model_validator(mode="after")
+    def motor_peptidico_consistente(self):
+        anidado = self.pipeline_config.peptide_docking_engine if self.pipeline_config else None
+        if anidado is not None and anidado != self.peptide_docking_engine:
+            raise ValueError("peptide_docking_engine debe coincidir con pipeline_config.peptide_docking_engine")
+        return self
+
     preflight_fingerprint: str | None = Field(
         default=None,
         min_length=71,
@@ -771,9 +808,12 @@ async def get_evaluation_status(
     # del JobStatus; el frontend lo fétcha on-demand desde
     # GET /evaluation/gnn-attention/{molecule_id} solo cuando abre el tab
     # Explicabilidad. El campo completo sigue en /evaluation/result/{id}.
-    if status_obj and status_obj.result and getattr(status_obj.result, "gnn_attention_svg", None):
+    if status_obj and status_obj.result and any(
+        getattr(status_obj.result, name, None)
+        for name in ("gnn_attention", "gnn_attention_svg", "gnn_pharmacophores")
+    ):
         status_obj.result = status_obj.result.model_copy(
-            update={"gnn_attention_svg": None}
+            update={"gnn_attention": None, "gnn_attention_svg": None, "gnn_pharmacophores": None}
         )
 
     return status_obj
@@ -859,7 +899,7 @@ async def get_evaluation_result(
             data.target_name = molecule.target.name
             data.target_spearman_rho = molecule.target.spearman_rho
             data.target_calibracion = estado_de_calibracion(molecule.target).to_dict()
-        return data
+        return data.model_copy(update={"gnn_attention": None, "gnn_attention_svg": None, "gnn_pharmacophores": None, "mmgbsa_score": None})
 
     result = await repository.get_evaluation_result(molecule_id)
     if result is None:
@@ -878,7 +918,7 @@ async def get_evaluation_result(
             result.molecule.target
         ).to_dict()
 
-    return data
+    return data.model_copy(update={"gnn_attention": None, "gnn_attention_svg": None, "gnn_pharmacophores": None, "mmgbsa_score": None})
 
 
 class GnnAttentionResponse(BaseModel):
@@ -922,8 +962,8 @@ async def get_gnn_attention(
     )
 
     return GnnAttentionResponse(
-        gnn_attention_svg=result.gnn_attention_svg,
-        gnn_attention=result.gnn_attention,
+        gnn_attention_svg=None,
+        gnn_attention=None,
     )
 
 

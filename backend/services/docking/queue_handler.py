@@ -14,6 +14,7 @@ from __future__ import annotations
 # `pipeline_config`, que retorna antes hacia `services/pipeline/runner.py`.
 import asyncio
 import json
+import os
 import threading
 import uuid as _uuid_mod
 from concurrent.futures import ThreadPoolExecutor
@@ -27,7 +28,7 @@ from core.config import get_settings
 from core.database import commit_with_retry, get_db_session
 from core.models import JobStatus, MoleculeStatus, _coerce_hotspots
 from db.repository import Repository
-from services.docking.protocolo import construir_protocolo
+from services.docking.protocolo import construir_protocolo, validar_motor_solicitado
 from scoring.engine import calculate_score_breakdown
 from services.docking.desktop_job_status import get_desktop_job_status
 from services.docking.desktop_process_registry import (
@@ -257,6 +258,14 @@ async def _run_full_evaluation_async(
     run_admet_ai: bool = False,
     enable_mmgbsa: bool = False,
 ) -> dict[str, Any]:
+    if enable_mmgbsa or (pipeline_config or {}).get("pro_mmgbsa"):
+        raise ValueError("MM-GBSA no disponible (MMGBSA_CONDICION): parametrización legacy inconsistente.")
+    validar_motor_solicitado(
+        docking_engine=(pipeline_config or {}).get("docking_engine", docking_engine),
+        peptide_engine=peptide_docking_engine,
+    )
+    if "engine" in ((pipeline_config or {}).get("stage_params") or {}).get("docking", {}):
+        raise ValueError("El motor se declara en docking_engine, no en stage_params.docking.engine")
     # ── Pipeline resource signal ────────────────────────────────────
     try:
         from services.ai.resource_manager import get_resource_manager
@@ -475,18 +484,18 @@ async def _run_full_evaluation_async(
                             "MOLECULA_GRANDE", Severidad.INFO,
                             f"Molécula grande ({_n_heavy_b} átomos pesados, {_n_rot_b} enlaces "
                             f"rotables) — el docking será lento (búsqueda conformacional extensa). "
-                            f"Para mayor velocidad, usa el motor rápido en Opciones (QuickVina: "
-                            f"reduce exhaustividad de 8→4, ~2-4x más rápido) a costa de menos "
-                            f"exhaustividad de búsqueda. Para péptidos, ESMFold/DiffPepDock son "
-                            f"más precisos.",
+                            f"Si el tiempo es un límite, revisa el tamaño de la caja y la "
+                            f"exhaustividad de Vina; reducirlos limita la búsqueda y puede "
+                            f"cambiar las poses. La ruta ESMFold para péptidos es exploratoria "
+                            f"y no tiene un benchmark de precisión de poses.",
                         ))
                     elif _n_rot_b > 8 or _n_heavy_b > 25:
                         scientific_warnings.append(aviso(
                             "MOLECULA_FLEXIBLE", Severidad.INFO,
                             f"Molécula con {_n_heavy_b} átomos pesados y {_n_rot_b} enlaces "
                             f"rotables — el docking puede tardar más de lo habitual. "
-                            f"Considera el motor rápido (QuickVina, exhaustividad 4) "
-                            f"si la velocidad es prioridad.",
+                            f"Si necesitas reducir el tiempo, revisa la caja y la "
+                            f"exhaustividad de Vina; una búsqueda menor puede cambiar las poses.",
                         ))
 
                     # Detección Enterprise de Péptidos vía Patrones Estructurales SMARTS
@@ -494,7 +503,7 @@ async def _run_full_evaluation_async(
                     peptide_backbone = Chem.MolFromSmarts("[NX3][CX4][CX3](=[OX1])")
                     matches = mol.GetSubstructMatches(peptide_backbone)
                     # Exigimos al menos 4 enlaces peptídicos secuenciales para considerarlo un péptido o peptidomimético pesado
-                    is_peptide = len(matches) >= 3 or (peptide_docking_engine in ("esmfold", "colabfold"))
+                    is_peptide = len(matches) >= 3 or peptide_docking_engine == "esmfold"
 
                     # Detectar metales
                     metals_in_mol = {atom.GetSymbol() for atom in mol.GetAtoms()} & {
@@ -546,7 +555,6 @@ async def _run_full_evaluation_async(
                 finally:
                     # [FIX #2] Limpiar el archivo temporal del disco para evitar leak de espacio
                     if temp_pdb_path:
-                        import os
                         try:
                             os.unlink(temp_pdb_path)
                         except OSError:
@@ -605,8 +613,8 @@ async def _run_full_evaluation_async(
                         poses.append(DockingPose(
                             rank=_p.rank,
                             affinity=float(_aff),
-                            rmsd_lb=_rmsd if _rmsd is not None else 0.0,
-                            rmsd_ub=_rmsd if _rmsd is not None else 0.0,
+                            rmsd_lb=_rmsd,
+                            rmsd_ub=_rmsd,
                         ))
 
                     _plddt = ml_res.best_confidence
@@ -655,8 +663,10 @@ async def _run_full_evaluation_async(
                             poses=poses,
                             poses_file_path=poses_path,
                             parsing_source="sdf",
-                            vina_version="AutoDock Vina 1.2.7",
-                            vina_random_seed=42,
+                            engine_efectivo="esmfold",
+                            vina_version=getattr(ml_res, "vina_version", None),
+                            vina_random_seed=getattr(ml_res, "vina_seed", None),
+                            exhaustiveness_efectiva=getattr(ml_res, "vina_exhaustiveness", None),
                             scientific_warnings=scientific_warnings,
                             peptide_transfer_manifest=getattr(ml_res, "transfer_manifest", None),
                         )
@@ -873,9 +883,9 @@ async def _run_full_evaluation_async(
                     # Ahora se conservan las dos, por separado, y
                     # `docking.best_affinity` no lo toca nadie más que el
                     # acoplamiento.
-                    pki_a = ml_result.get("score_a", 0.0)
+                    pki_a = ml_result.get("score_a")
                     en_dominio = ml_result.get("in_applicability_domain")
-                    if pki_a > 0:
+                    if pki_a is not None and pki_a > 0:
                         ml_pki_value = float(pki_a)
                         ml_pki_aplicada_value = bool(en_dominio) if en_dominio is not None else None
                         log.info({
@@ -907,9 +917,6 @@ async def _run_full_evaluation_async(
 
                     # --- XAI: capturar explicabilidad ---
                     shap_values_dict = ml_result.get("shap_values")
-                    gnn_attention_list = ml_result.get("gnn_attention")
-                    gnn_attention_svg_data = ml_result.get("gnn_attention_svg")
-                    gnn_pharmacophores_dict = ml_result.get("gnn_pharmacophores")
 
                     # Warnings científicos del microservicio
                     if ml_result.get("warnings"):
@@ -959,12 +966,7 @@ async def _run_full_evaluation_async(
                     "reason": "predict_clgnn returned None",
                 })
 
-            # Generate GNN XAI Explainability (Attention weights, 2D SVG heatmap, Pharmacophores)
-            try:
-                from services.ai.gnn_explainability import generate_gnn_explainability
-                gnn_attention_list, gnn_attention_svg_data, gnn_pharmacophores_dict = generate_gnn_explainability(pipeline_params.molecule_smiles, clgnn_prob_value)
-            except Exception as xai_err:
-                log.debug("gnn_explainability_error", error=str(xai_err))
+            # No attribution is published without model and input provenance.
 
             # Quantum features (xTB + MMFF94) — lightweight, only for certain targets
             quantum_score_value = None
@@ -975,25 +977,31 @@ async def _run_full_evaluation_async(
                     sys.path.insert(0, _scripts_path)
                 from compute_quantum_features import compute_quantum_score
                 quantum_score_value = compute_quantum_score(pipeline_params.molecule_smiles)
-            except Exception:
-                pass
+            except Exception as quantum_err:
+                log.warning("quantum_features_failed_skipped",
+                            molecule_id=str(pipeline_params.molecule_id)[:8],
+                            error=str(quantum_err)[:200])
+            if quantum_score_value is None:
+                scientific_warnings.append(aviso(
+                    "QUANTUM_NO_EVALUADO", Severidad.INFO,
+                    "Índice cuántico no evaluado: faltan descriptores xTB verificables.",
+                ))
 
             # UMS (Universal Metal Score) — scorer ortogonal SMARTS-only para
             # metaloenzimas (w5 del M5_gated, ver scoring/ums.py + PAPER_UMS.md).
-            # Se computa SIEMPRE (es barato, SMILES-only, rdkit in-memory) pero
-            # engine.py solo lo aplica cuando target_family es metaloenzima.
-            # El molchamb_score precomputado se reutiliza como componente cuántico.
+            # Sin xTB verificable se abstiene: 0.5 no es una medición.
             ums_score_value = None
-            try:
-                from scoring.ums import compute_universal_metal_score
-                _ums, _ums_feats = compute_universal_metal_score(
-                    pipeline_params.molecule_smiles,
-                    molchamb_score=quantum_score_value if quantum_score_value is not None else 0.5,
-                    target_family=pipeline_params.target_structural_family,
-                )
-                ums_score_value = _ums
-            except Exception as ums_err:
-                log.debug("ums_compute_failed", error=str(ums_err)[:200])
+            if quantum_score_value is not None:
+                try:
+                    from scoring.ums import compute_universal_metal_score
+                    _ums, _ums_feats = compute_universal_metal_score(
+                        pipeline_params.molecule_smiles,
+                        molchamb_score=quantum_score_value,
+                        target_family=pipeline_params.target_structural_family,
+                    )
+                    ums_score_value = _ums
+                except Exception as ums_err:
+                    log.debug("ums_compute_failed", error=str(ums_err)[:200])
 
             # ── v1.7.2: MM-GBSA real (MolChamb v2) — OPCIONAL y ASYNC ──
             # Señal energética de solvente implícito (AMBER14SB + OBC2).

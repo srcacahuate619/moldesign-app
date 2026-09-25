@@ -22,6 +22,7 @@ cohortes. Comprobar que el legado funciona no es aprobarlo.
 from __future__ import annotations
 
 import asyncio
+import csv as csv_module
 import io
 import uuid
 
@@ -171,8 +172,8 @@ def test_exportar_en_csv_produce_la_tabla_rankeada(client):
     assert lineas[0].startswith("Rank,Name,SMILES,TotalScore")
     # El orden del Batch histórico es `total_score` descendente. Sigue siéndolo:
     # esta prueba lo constata, no lo aprueba.
-    assert '"mejor"' in lineas[1]
-    assert '"peor"' in lineas[2]
+    filas = list(csv_module.DictReader(io.StringIO(respuesta.text)))
+    assert [fila["Name"] for fila in filas] == ["mejor", "peor"]
 
 
 def test_exportar_un_batch_en_curso_sigue_dando_400(client):

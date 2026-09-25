@@ -551,6 +551,8 @@ Debe mostrar:
 
 4. **Delta-Learning** (`train_families.py:273-277`): Modelo entrenado para predecir `pKi - Vina_pKi`. En inferencia, `model_manager.py:470-476` reconstruye: `pKi_pred = Vina_pKi + delta_pred`. No mejoró el benchmark (skew PDBbind→ChEMBL persiste).
 
+> Estado del contrato de escritorio: `POST /rescore` inline se retiró en API-008 porque devolvía un score fabricado. Las referencias de esta sección al endpoint describen el sidecar `rescoring/app.py`, no una ruta publicada por `backend/api/main.py`.
+
 5. **Clasificador Binario** (`rescoring/artifacts/classifier_binder.json`): XGBoost classifier con Shell+ECIF+1D (160 features). Predice P(pKi > 7.0). ROC AUC 0.858, F1 0.805 en PDBbind validation. Integrado en `model_manager.py` y expuesto como `classifier_prob` en `/rescore`.
 
 6. **QuickVina 2** (`backend/services/docking/vina_service.py:287-295`): Cableado `docking_engine` parameter. Modo `qvina2` usa exhaustiveness=4 (~3x más rápido). Config existía pero sin backend wiring. Frontend `DockingEnginePanel.tsx` ya tenía el selector.

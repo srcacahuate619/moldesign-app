@@ -88,8 +88,8 @@ STAGE_REGISTRY: dict[str, Stage] = {
     ),
     "openmm": Stage(
         id="openmm",
-        label="L3 OpenMM",
-        description="Minimización de alta resolución con campo de fuerzas AMBER14SB y solvente implícito.",
+        label="Refinamiento retirado",
+        description="Etapa retirada: la implementación anterior sobrescribía poses y usaba UFF de RDKit.",
         dependencies=["docking"],
         required=False,
         enabled=False,  # Opcional por defecto

@@ -62,7 +62,7 @@ async def _generar_conformaciones(smiles: str, params_por_etapa) -> dict:
             f"({type(exc).__name__}); la corrida sigue con una sola."
         ]
         return base
-from services.docking.protocolo import construir_protocolo, es_motor_peptidico
+from services.docking.protocolo import construir_protocolo, es_motor_peptidico, validar_motor_solicitado
 from services.docking.vina_service import run_vina_docking
 from services.targets.resolution import resolve_execution_target
 from services.docking.rescoring_client import get_ml_rescore
@@ -237,6 +237,17 @@ async def run_pipeline(
     prepared_receptor_bytes: bytes | None = None,
 ) -> dict[str, Any]:
 
+    if (pipeline_config or {}).get("pro_mmgbsa"):
+        raise ValueError("MM-GBSA no disponible (MMGBSA_CONDICION): parametrización legacy inconsistente.")
+    validar_motor_solicitado(docking_engine=docking_engine, peptide_engine=peptide_docking_engine)
+    if ("openmm" in (enabled_stages or [])
+            or "openmm" in (stage_order or [])
+            or "openmm" in (stage_params or {})
+            or "openmm" in (required_stage_ids or set())):
+        raise ValueError("La etapa openmm está retirada: sobrescribía poses y no ejecutaba OpenMM.")
+    if "engine" in (stage_params or {}).get("docking", {}):
+        raise ValueError("El motor se declara en docking_engine, no en stage_params.docking.engine")
+
     # Resolver orden
     if stage_order is None:
         stage_order = list(STAGE_REGISTRY.keys())
@@ -403,9 +414,9 @@ async def run_pipeline(
                 # y otro dominio. Compartir la unidad kcal/mol no las hace
                 # intercambiables. Y la sustitución ocurría incluso con el
                 # modelo fuera de su dominio de aplicabilidad.
-                pki_a = ml_result.get("score_a", 0.0)
+                pki_a = ml_result.get("score_a")
                 en_dominio = ml_result.get("in_applicability_domain")
-                if pki_a > 0:
+                if pki_a is not None and pki_a > 0:
                     context["scores"]["ml_pki"] = float(pki_a)
                     context["scores"]["ml_pki_aplicada"] = (
                         bool(en_dominio) if en_dominio is not None else None
@@ -463,17 +474,6 @@ async def run_pipeline(
                             error=str(_clgnn_err)[:200])
 
             context["scores"]["clgnn_prob"] = clgnn_prob
-
-            try:
-                from services.ai.gnn_explainability import generate_gnn_explainability
-                att_w, att_svg, pharm_d = generate_gnn_explainability(pipeline_params.molecule_smiles, clgnn_prob)
-                context["scores"]["gnn_attention"] = att_w
-                context["scores"]["gnn_attention_svg"] = att_svg
-                context["scores"]["gnn_pharmacophores"] = pharm_d
-            except Exception as _gnn_exc_err:
-                log.warning("gnn_explainability_failed",
-                            molecule_id=str(pipeline_params.molecule_id)[:8],
-                            error=str(_gnn_exc_err)[:200])
 
         # Emisión de evento inicial global
         await cache.push_stage_event(task_id, {"type": "pipeline_started", "timestamp": datetime.now(UTC).isoformat()})
@@ -568,7 +568,7 @@ async def run_pipeline(
                     # ── Detección de tipo de molécula ────────────────────────────────
                     # Regla: la selección explícita del usuario SIEMPRE gana sobre la
                     # heurística estructural. El SMARTS solo genera un warning cuando
-                    # el usuario eligió un engine de small-molecules (Vina/QuickVina)
+                    # el usuario eligió un engine de small-molecules (Vina)
                     # pero la molécula parece un péptido.
                     from rdkit import Chem
                     mol = Chem.MolFromSmiles(smiles)
@@ -593,17 +593,17 @@ async def run_pipeline(
                             context["scientific_warnings"].append(
                                 f"⚠️ Molécula grande ({_n_heavy_b} átomos pesados, {_n_rot_b} enlaces "
                                 f"rotables) — el docking será lento (búsqueda conformacional extensa). "
-                                f"Para mayor velocidad, usa el motor rápido en Opciones (QuickVina: "
-                                f"reduce exhaustividad de 8→4, ~2-4x más rápido) a costa de menos "
-                                f"exhaustividad de búsqueda. Para péptidos, ESMFold/DiffPepDock son "
-                                f"más precisos."
+                                f"Si el tiempo es un límite, revisa el tamaño de la caja y la "
+                                f"exhaustividad de Vina; reducirlos limita la búsqueda y puede "
+                                f"cambiar las poses. La ruta ESMFold para péptidos es exploratoria "
+                                f"y no tiene un benchmark de precisión de poses."
                             )
                         elif _n_rot_b > 8 or _n_heavy_b > 25:
                             context["scientific_warnings"].append(
                                 f"⚠️ Molécula con {_n_heavy_b} átomos pesados y {_n_rot_b} enlaces "
                                 f"rotables — el docking puede tardar más de lo habitual. "
-                                f"Considera el motor rápido (QuickVina, exhaustividad 4) "
-                                f"si la velocidad es prioridad."
+                                f"Si necesitas reducir el tiempo, revisa la caja y la "
+                                f"exhaustividad de Vina; una búsqueda menor puede cambiar las poses."
                             )
 
                     # Heurística estructural (secundaria — solo genera warning)
@@ -616,13 +616,13 @@ async def run_pipeline(
                     # Decisión de routing: consistente con queue_handler.py (OR lógico)
                     is_peptide = user_chose_peptide_engine or structure_looks_like_peptide
 
-                    # Si el usuario eligió Vina/QuickVina pero la estructura parece
+                    # Si el usuario eligió Vina pero la estructura parece
                     # péptido → respetar al usuario pero añadir warning científico
                     if structure_looks_like_peptide and not user_chose_peptide_engine:
                         context["scientific_warnings"].append(
                             "⚠️ Se detectaron ≥3 enlaces peptídicos en la molécula. "
                             "Si se trata de un péptido o peptidomimético, considera usar "
-                            "ESMFold, ESMFold Pro o ColabFold para mayor precisión de pose."
+                            "la ruta ESMFold exploratoria; no hay benchmark de precisión de poses."
                         )
                         is_peptide = False  # el usuario mandó — no redirigir
 
@@ -638,95 +638,54 @@ async def run_pipeline(
                         )
                     else:
                         engine = params.get("engine", docking_engine)
-                        if engine == "diffdock":
-                            from services.diffdock.service import DiffDockService
-                            from services.docking.preparer import get_target_pdb_path
-                            from core.models import DockingResult, DockingPose
+                        validar_motor_solicitado(engine)
+                        num_poses = params.get("num_poses", 8)
 
-                            diffdock_svc = DiffDockService()
-                            # Obtenemos la ruta real de los archivos
-                            conformer_path = context["conformer"]["conformer_path"]
-                            target_pdb_path = str(get_target_pdb_path(pipeline_params.target_pdb_id))
-
-                            dd_result = await diffdock_svc.predict(
-                                protein_pdb_path=target_pdb_path,
-                                ligand_sdf_path=conformer_path,
-                                num_poses=params.get("num_poses", 5)
+                        async def _dock_una(smiles_hash: str, smiles: str | None = None):
+                            """Una corrida de Vina. Es la unidad que el ensemble repite."""
+                            return await run_vina_docking(
+                                smiles_hash=smiles_hash,
+                                target_pdb_id=pipeline_params.target_pdb_id,
+                                target_chain=pipeline_params.target_chain,
+                                site_chains=pipeline_params.target_site_chains,
+                                target_center=box_center,
+                                target_size=box_size,
+                                hotspots=active_hotspots,
+                                docking_engine=engine,
+                                exhaustiveness=params.get("exhaustiveness", 32),
+                                num_poses=num_poses,
+                                seed=params.get("seed", 42),
+                                smiles=smiles,
+                                prepared_receptor_bytes=prepared_receptor_bytes,
+                                cofactors_whitelist=pipeline_params.target_cofactors_whitelist,
                             )
 
-                            if not dd_result.success:
-                                raise RuntimeError(f"DiffDock falló: {dd_result.error}")
+                        # Ensemble SOLO si la etapa de generacion 3D produjo
+                        # mas de una conformacion. `conformers` con un solo
+                        # elemento, o ausente, entra por el camino de siempre.
+                        conformaciones = (context.get("conformer") or {}).get("conformers") or []
+                        if len(conformaciones) > 1:
+                            from services.docking.ensemble import run_ensemble_docking
 
-                            docking_poses = []
-                            for p in dd_result.poses:
-                                # Usamos la afinidad predicha si existe, de lo contrario un valor dummy negativo/cero
-                                fake_affinity = p.affinity_predicted if p.affinity_predicted is not None else 0.0
-                                if fake_affinity > 0: fake_affinity = -fake_affinity
+                            async def _avisar_progreso(hechas: int, total: int):
+                                """El recuento REAL, no una animación."""
+                                await cache.push_stage_event(task_id, {
+                                    "type": "stage_progress",
+                                    "stage_id": "docking",
+                                    "done": hechas,
+                                    "total": total,
+                                    "timestamp": datetime.now(UTC).isoformat(),
+                                })
 
-                                docking_poses.append(DockingPose(
-                                    rank=p.rank,
-                                    affinity=fake_affinity,
-                                    rmsd_lb=0.0,
-                                    rmsd_ub=p.rmsd_from_input or 0.0,
-                                    pdbqt_block=None
-                                ))
-
-                            docking = DockingResult(
-                                best_affinity=docking_poses[0].affinity if docking_poses else 0.0,
-                                poses=docking_poses,
-                                poses_file_path=None, # DiffDock guarda poses individuales, no tenemos el multi-SDF aqui facilmente
-                                parsing_source="sdf",
-                                execution_time_s=dd_result.execution_time_s,
-                                scientific_warnings=dd_result.warnings + [dd_result.scientific_context],
+                            docking = await run_ensemble_docking(
+                                smiles=smiles,
+                                conformeros=conformaciones,
+                                num_poses=num_poses,
+                                dock_una=_dock_una,
+                                on_progress=_avisar_progreso,
                             )
                         else:
-                            num_poses = params.get("num_poses", 8)
-
-                            async def _dock_una(smiles_hash: str, smiles: str | None = None):
-                                """Una corrida de Vina. Es la unidad que el ensemble repite."""
-                                return await run_vina_docking(
-                                    smiles_hash=smiles_hash,
-                                    target_pdb_id=pipeline_params.target_pdb_id,
-                                    target_chain=pipeline_params.target_chain,
-                                    site_chains=pipeline_params.target_site_chains,
-                                    target_center=box_center,
-                                    target_size=box_size,
-                                    hotspots=active_hotspots,
-                                    docking_engine=engine,
-                                    exhaustiveness=params.get("exhaustiveness", 32),
-                                    num_poses=num_poses,
-                                    seed=params.get("seed", 42),
-                                    smiles=smiles,
-                                    prepared_receptor_bytes=prepared_receptor_bytes,
-                                    cofactors_whitelist=pipeline_params.target_cofactors_whitelist,
-                                )
-
-                            # Ensemble SOLO si la etapa de generacion 3D produjo
-                            # mas de una conformacion. `conformers` con un solo
-                            # elemento, o ausente, entra por el camino de siempre.
-                            conformaciones = (context.get("conformer") or {}).get("conformers") or []
-                            if len(conformaciones) > 1:
-                                from services.docking.ensemble import run_ensemble_docking
-
-                                async def _avisar_progreso(hechas: int, total: int):
-                                    """El recuento REAL, no una animación."""
-                                    await cache.push_stage_event(task_id, {
-                                        "type": "stage_progress",
-                                        "stage_id": "docking",
-                                        "done": hechas,
-                                        "total": total,
-                                        "timestamp": datetime.now(UTC).isoformat(),
-                                    })
-
-                                docking = await run_ensemble_docking(
-                                    smiles=smiles,
-                                    conformeros=conformaciones,
-                                    num_poses=num_poses,
-                                    dock_una=_dock_una,
-                                    on_progress=_avisar_progreso,
-                                )
-                            else:
-                                docking = await _dock_una(smiles_hash=smiles_hash, smiles=smiles)
+                            docking = await _dock_una(smiles_hash=smiles_hash, smiles=smiles)
                     context["docking"] = docking
 
                 elif stage_id == "xgb":
@@ -847,29 +806,6 @@ async def run_pipeline(
                             f"Selectividad en background no disponible: {str(sel_err)[:120]}"
                         )
 
-                elif stage_id == "openmm":
-                    from utils.refinement import refine_complex_small_molecule
-                    from utils.file_handlers import StoragePath
-                    from utils.local_storage import read_text, write_text
-
-                    if context.get("docking") and context["docking"].poses_file_path:
-                        try:
-                            # Leer target PDB y ligando SDF
-                            target_pdb_content = await read_text(StoragePath.target_raw(pipeline_params.target_pdb_id))
-                            ligand_sdf_content = await read_text(context["docking"].poses_file_path)
-
-                            # Ejecutar refinamiento
-                            refined_sdf = refine_complex_small_molecule(
-                                target_pdb_content, ligand_sdf_content,
-                                iterations=params.get("iterations", 100)
-                            )
-
-                            # Sobrescribir archivo de poses con el refinado
-                            await write_text(context["docking"].poses_file_path, refined_sdf)
-                            context["scientific_warnings"].append("L3 Refinement (OpenMM AMBER14SB) aplicado a las poses generadas.")
-                        except Exception as ref_err:
-                            log.warning("Fallo en refinement", error=str(ref_err))
-                            context["scientific_warnings"].append(f"Fallo en Refinement L3: {str(ref_err)}")
 
             except Exception as e:
                 error = str(e)
@@ -939,16 +875,21 @@ async def run_pipeline(
             # metaloenzimas (w5 del M5_gated, ver scoring/ums.py + PAPER_UMS.md).
             # Solo se aplica en engine.py si target_family es metaloenzima.
             ums_score_val = None
-            try:
-                from scoring.ums import compute_universal_metal_score
-                _ums, _ = compute_universal_metal_score(
-                    pipeline_params.molecule_smiles,
-                    molchamb_score=quantum_score_val if quantum_score_val is not None else 0.5,
-                    target_family=pipeline_params.target_structural_family,
+            if quantum_score_val is None:
+                context["scientific_warnings"].append(
+                    "Índice cuántico y UMS histórico no evaluados: faltan descriptores xTB verificables."
                 )
-                ums_score_val = _ums
-            except Exception as _ums_err:
-                log.debug("ums_compute_failed", error=str(_ums_err)[:200])
+            else:
+                try:
+                    from scoring.ums import compute_universal_metal_score
+                    _ums, _ = compute_universal_metal_score(
+                        pipeline_params.molecule_smiles,
+                        molchamb_score=quantum_score_val,
+                        target_family=pipeline_params.target_structural_family,
+                    )
+                    ums_score_val = _ums
+                except Exception as _ums_err:
+                    log.debug("ums_compute_failed", error=str(_ums_err)[:200])
 
             # ── v1.7.2: MM-GBSA real — OPCIONAL y por SUBPROCESS ──
             # Desactivado por defecto (el usuario lo activa en la pestaña).

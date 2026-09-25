@@ -9,7 +9,9 @@ rankeados de mejor a peor en Excel.
 from __future__ import annotations
 
 import asyncio
+import csv
 import io
+import math
 import uuid as _uuid_mod
 from datetime import datetime, UTC
 from typing import Any
@@ -386,6 +388,61 @@ async def get_batch_status(
     }
 
 
+_EXPORT_HEADERS = [
+    "Rank", "Name", "SMILES", "TotalScore", "Affinity_kcal", "MW",
+    "LogP", "TPSA", "HBD", "HBA", "Lipinski", "Veber", "Ghose",
+    "Egan", "Muegge", "Fsp3", "QED", "SAScore", "PAINS",
+    "ADME_Score", "BBB", "hERG_Alerts", "Status", "Error", "Target",
+]
+
+
+def _numero_exportado(valor: Any, decimales: int) -> float | None:
+    if valor is None:
+        return None
+    numero = float(valor)
+    return round(numero, decimales) if math.isfinite(numero) else None
+
+
+def _regla_exportada(valor: bool | None, si: str = "PASS", no: str = "FAIL") -> str | None:
+    return si if valor is True else no if valor is False else None
+
+
+def _orden_exportado(resultado: dict) -> tuple:
+    valor = _numero_exportado(resultado.get("total_score"), 4)
+    return (resultado.get("status") != "success", valor is None, -(valor or 0.0))
+
+
+def _fila_exportada(rango: int, resultado: dict) -> list[Any]:
+    pains = resultado.get("is_pains")
+    if pains is None and resultado.get("pains_count") is not None:
+        pains = resultado["pains_count"] > 0
+    alertas = resultado.get("herg_alerts")
+    if isinstance(alertas, list):
+        alertas = "; ".join(str(a) for a in alertas)
+    muegge = resultado.get("muegge_score")
+    return [
+        rango, resultado.get("name"), resultado.get("smiles"),
+        _numero_exportado(resultado.get("total_score"), 1),
+        _numero_exportado(resultado.get("affinity_kcal"), 2),
+        _numero_exportado(resultado.get("molecular_weight"), 1),
+        _numero_exportado(resultado.get("log_p"), 2),
+        _numero_exportado(resultado.get("tpsa"), 1),
+        resultado.get("hbd"), resultado.get("hba"),
+        _regla_exportada(resultado.get("lipinski_pass")),
+        _regla_exportada(resultado.get("veber_pass")),
+        _regla_exportada(resultado.get("ghose_pass")),
+        _regla_exportada(resultado.get("egan_pass")),
+        f"{muegge}/9" if muegge is not None else None,
+        _numero_exportado(resultado.get("fsp3"), 3),
+        _numero_exportado(resultado.get("qed"), 3),
+        _numero_exportado(resultado.get("sa_score"), 1),
+        _regla_exportada(pains, "YES", "NO"),
+        _numero_exportado(resultado.get("adme_score"), 1),
+        _regla_exportada(resultado.get("bbb_permeable"), "YES", "NO"),
+        alertas, resultado.get("status"), resultado.get("error"), resultado.get("target"),
+    ]
+
+
 @router.get("/batch/{batch_id}/export")
 async def export_batch_excel(
     batch_id: str,
@@ -398,11 +455,7 @@ async def export_batch_excel(
     if batch["status"] != "completed":
         raise HTTPException(status_code=400, detail="Batch aun en progreso")
 
-    results = sorted(
-        batch["results"],
-        key=lambda r: r.get("total_score") or 0,
-        reverse=True,
-    )
+    results = sorted(batch["results"], key=_orden_exportado)
 
     # ── Build Excel ─────────────────────────────────────────────────
     try:
@@ -426,13 +479,7 @@ async def export_batch_excel(
         )
 
         # Headers
-        headers = [
-            "Rank", "Molecule Name", "SMILES", "Total Score", "Affinity (kcal/mol)",
-            "MW (Da)", "LogP", "TPSA", "HBD", "HBA",
-            "Lipinski", "Veber", "Ghose", "Egan", "Muegge",
-            "Fsp3", "QED", "SA Score", "PAINS", "ADMET Score",
-            "BBB", "hERG Alerts",
-        ]
+        headers = _EXPORT_HEADERS
         for col, header in enumerate(headers, 1):
             cell = ws.cell(row=1, column=col, value=header)
             cell.font = header_font
@@ -443,33 +490,8 @@ async def export_batch_excel(
         # Data rows
         for i, r in enumerate(results):
             row = i + 2
-            is_pains = r.get("is_pains", False) or (r.get("pains_count", 0) > 0)
-            row_fill = fail_fill if is_pains else None
-
-            values = [
-                i + 1,
-                r.get("name", ""),
-                r.get("smiles", ""),
-                round(r.get("total_score") or 0, 1),
-                round(r.get("affinity_kcal") or 0, 2),
-                round(r.get("molecular_weight") or 0, 1),
-                round(r.get("log_p") or 0, 2),
-                round(r.get("tpsa") or 0, 1),
-                r.get("hbd", 0),
-                r.get("hba", 0),
-                "PASS" if r.get("lipinski_pass") else "FAIL",
-                "PASS" if r.get("veber_pass") else "FAIL",
-                "PASS" if r.get("ghose_pass") else "FAIL",
-                "PASS" if r.get("egan_pass") else "FAIL",
-                f"{r.get('muegge_score', '?')}/9" if r.get("muegge_pass") is not None else "N/A",
-                round(r.get("fsp3") or 0, 3),
-                round(r.get("qed") or 0, 3),
-                round(r.get("sa_score") or 0, 1),
-                "YES" if is_pains else "NO",
-                round(r.get("admet_score") or 0, 1),
-                "YES" if r.get("bbb_permeable") else "NO",
-                r.get("herg_alerts", 0),
-            ]
+            values = _fila_exportada(i + 1, r)
+            row_fill = fail_fill if r.get("status") == "failed" else None
 
             for col, value in enumerate(values, 1):
                 cell = ws.cell(row=row, column=col, value=value)
@@ -478,11 +500,12 @@ async def export_batch_excel(
                 if row_fill:
                     cell.fill = row_fill
                 # Highlight PAINS
-                if col == 19 and is_pains:
+                if col == 19 and values[18] == "YES":
                     cell.font = Font(color="dc2626", bold=True)
 
         # Column widths
-        widths = [6, 22, 35, 11, 14, 9, 8, 8, 6, 6, 10, 10, 10, 10, 10, 9, 9, 9, 8, 11, 6, 10]
+        widths = [6, 22, 35, 11, 14, 9, 8, 8, 6, 6, 10, 10, 10,
+                  10, 10, 9, 9, 9, 8, 11, 6, 18, 12, 35, 12]
         for i, w in enumerate(widths):
             ws.column_dimensions[get_column_letter(i + 1)].width = w
 
@@ -525,42 +548,13 @@ async def export_batch_csv(
     if batch["status"] != "completed":
         raise HTTPException(status_code=400, detail="Batch no completado")
 
-    results = sorted(
-        batch["results"],
-        key=lambda r: r.get("total_score") or 0,
-        reverse=True,
-    )
+    results = sorted(batch["results"], key=_orden_exportado)
 
     output = io.StringIO()
-    headers = [
-        "Rank", "Name", "SMILES", "TotalScore", "Affinity_kcal",
-        "MW", "LogP", "TPSA", "Lipinski", "Veber", "Ghose", "Egan", "Muegge",
-        "Fsp3", "QED", "SAScore", "PAINS", "ADMET_Score",
-    ]
-    output.write(",".join(headers) + "\n")
-
-    for i, r in enumerate(results):
-        row = [
-            str(i + 1),
-            f'"{r.get("name", "")}"',
-            r.get("smiles", ""),
-            str(round(r.get("total_score") or 0, 1)),
-            str(round(r.get("affinity_kcal") or 0, 2)),
-            str(round(r.get("molecular_weight") or 0, 1)),
-            str(round(r.get("log_p") or 0, 2)),
-            str(round(r.get("tpsa") or 0, 1)),
-            "PASS" if r.get("lipinski_pass") else "FAIL",
-            "PASS" if r.get("veber_pass") else "FAIL",
-            "PASS" if r.get("ghose_pass") else "FAIL",
-            "PASS" if r.get("egan_pass") else "FAIL",
-            str(r.get("muegge_score", "?")) if r.get("muegge_pass") is not None else "N/A",
-            str(round(r.get("fsp3") or 0, 3)),
-            str(round(r.get("qed") or 0, 3)),
-            str(round(r.get("sa_score") or 0, 1)),
-            "YES" if r.get("is_pains") else "NO",
-            str(round(r.get("admet_score") or 0, 1)),
-        ]
-        output.write(",".join(row) + "\n")
+    writer = csv.writer(output)
+    writer.writerow(_EXPORT_HEADERS)
+    for i, r in enumerate(results, start=1):
+        writer.writerow(_fila_exportada(i, r))
 
     output.seek(0)
     return StreamingResponse(
@@ -641,7 +635,7 @@ async def _process_batch(
                             repo = Repository(db)
                             r = await read_run_result(repo, UUID(molecule_id), task_id)
                             if r is not None:
-                                pains_count = len(r.pains_matches) if r.pains_matches else 0
+                                pains_count = len(r.pains_matches) if r.pains_matches is not None else None
                                 result = {
                                     "molecule_id": str(r.molecule_id),
                                     "name": name, "smiles": smiles, "target": target_pdb_id,
@@ -651,8 +645,16 @@ async def _process_batch(
                                     "adme_score": r.adme_score,
                                     "molecular_weight": r.molecular_weight,
                                     "log_p": r.log_p, "tpsa": r.tpsa,
+                                    "hbd": r.hbd, "hba": r.hba,
                                     "lipinski_pass": r.lipinski_pass,
                                     "veber_pass": r.veber_pass,
+                                    "ghose_pass": r.ghose_pass,
+                                    "egan_pass": r.egan_pass,
+                                    "muegge_pass": r.muegge_pass,
+                                    "muegge_score": r.muegge_score,
+                                    "fsp3": r.fsp3,
+                                    "bbb_permeable": r.blood_bbb_permeable,
+                                    "herg_alerts": getattr(r, "herg_alerts", None),
                                     "pains_count": pains_count,
                                     "is_pains": r.is_pains,
                                     "qed": r.qed, "sa_score": r.sa_score,

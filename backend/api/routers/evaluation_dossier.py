@@ -210,17 +210,20 @@ async def _artefactos(eval_result, target, molecule) -> list[Artefacto]:
         ),
     ))
 
-    # ── Ligando: el SMILES canónico como archivo ─────────────────────
-    smiles = getattr(molecule, "smiles", None)
-    artefactos.append(Artefacto(
-        rol="inputs",
-        nombre="ligand.smi",
-        media_type="chemical/x-daylight-smiles",
-        fuente="molecule.smiles",
-        estado=Estado.REGISTRADO if smiles else Estado.NO_DISPONIBLE,
-        contenido=f"{smiles}\n".encode("utf-8") if smiles else None,
-        razon=None if smiles else "La molécula no tiene SMILES serializado.",
-    ))
+    # Los dos SMILES se toman de la corrida, nunca de la fila mutable.
+    estado_ligando = getattr(eval_result, "ligand_state", None) or {}
+    for nombre, clave in (("ligand.smi", "smiles_entrada"),
+                          ("ligand_docked.smi", "smiles_acoplado")):
+        smiles = estado_ligando.get(clave) if isinstance(estado_ligando, dict) else None
+        artefactos.append(Artefacto(
+            rol="inputs",
+            nombre=nombre,
+            media_type="chemical/x-daylight-smiles",
+            fuente=f"eval_result.ligand_state.{clave}",
+            estado=Estado.REGISTRADO if smiles else Estado.NO_DISPONIBLE,
+            contenido=f"{smiles}\n".encode("utf-8") if smiles else None,
+            razon=None if smiles else "La corrida no conservó esta especie del ligando.",
+        ))
 
     # ── Contratos estructurales: la evidencia, en su forma exacta ────
     #

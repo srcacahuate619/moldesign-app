@@ -70,26 +70,22 @@ def build_provenance(
     Devuelve `None` en cada campo que la corrida no serializo, en vez de omitirlo: un
     hueco declarado es informacion, un campo ausente es una duda.
     """
-    smiles = getattr(eval_result, "smiles", None) or _value(molecule, "smiles")
     protocol = getattr(eval_result, "docking_protocol", None) or {}
-    receptor_ref = (getattr(eval_result, "receptor_path", None)
-                    or _value(target, "pdb_id")
-                    or _value(target, "name"))
+    ligand_state = getattr(eval_result, "ligand_state", None) or {}
+    smiles = _value(ligand_state, "smiles_acoplado")
+    receptor_ref = getattr(eval_result, "receptor_path", None)
+    box = getattr(eval_result, "docking_box", None) or {}
     config = {
         "vina_version": getattr(eval_result, "vina_version", None),
-        "random_seed": getattr(eval_result, "vina_random_seed", None),
+        "random_seed": _value(protocol, "seed") if protocol else getattr(eval_result, "vina_random_seed", None),
         "exhaustiveness": (
-            getattr(eval_result, "vina_exhaustiveness", None)
-            or _value(protocol, "exhaustiveness")
+            _value(protocol, "exhaustiveness")
         ),
         "num_modes": (
-            getattr(eval_result, "vina_num_modes", None)
-            or _value(protocol, "num_poses")
+            _value(protocol, "num_poses")
         ),
-        "grid_center": [_value(target, "grid_center_x"), _value(target, "grid_center_y"),
-                        _value(target, "grid_center_z")],
-        "grid_size": [_value(target, "grid_size_x"), _value(target, "grid_size_y"),
-                      _value(target, "grid_size_z")],
+        "grid_center": _value(box, "grid_center"),
+        "grid_size": _value(box, "grid_size"),
     }
     poses = getattr(eval_result, "docking_poses", None) or []
     bloques = [_value(p, "pdbqt_block") for p in poses]
@@ -98,9 +94,9 @@ def build_provenance(
     campos = {
         "ligando_smiles_sha256": _sha256_de(smiles),
         "receptor_referencia": receptor_ref,
-        "configuracion_sha256": _sha256_de(config),
+        "configuracion_sha256": (_sha256_de(config) if protocol and box else None),
         "poses_sha256": _sha256_de("\n".join(bloques)) if bloques else None,
-        "motor": getattr(eval_result, "engine_used", None) or _value(protocol, "engine"),
+        "motor": _value(protocol, "engine") or getattr(eval_result, "engine_used", None),
         "modelo": getattr(eval_result, "model_used", None),
         "vocabulario_especies": None,   # lo rellena el diff de preparacion cuando exista
     }
@@ -139,7 +135,7 @@ def build_evidence_summary(
 
     protocol_stub = getattr(eval_result, "docking_protocol", None) or {}
     vina_version = getattr(eval_result, "vina_version", None)
-    random_seed = getattr(eval_result, "vina_random_seed", None)
+    random_seed = (_value(protocol_stub, "seed") if protocol_stub else getattr(eval_result, "vina_random_seed", None))
     parsing_source = getattr(eval_result, "parsing_source", None)
     reproducibility_count = sum(value not in (None, "") for value in (vina_version, random_seed, parsing_source))
     # `str(item)` sobre un aviso nuevo imprimiría el diccionario entero. Los
@@ -403,8 +399,8 @@ def build_evidence_summary(
         "universal": "modelo universal",
     }.get(modelo, modelo or "modelo no informado")
     engine_name = (
-        getattr(eval_result, "engine_used", None)
-        or _value(protocol_stub, "engine")
+        _value(protocol_stub, "engine")
+        or getattr(eval_result, "engine_used", None)
         or "motor no informado"
     )
     dimensions = [
@@ -680,18 +676,9 @@ def build_evidence_summary(
             },
             "cuantico": {"salida": getattr(eval_result, "quantum_score", None)},
             "mmgbsa": {
-                "salida_kcal_mol": getattr(eval_result, "mmgbsa_score", None),
-                # La condición viaja PEGADA al número, aquí y en el dossier.
-                # Un ΔG de MM-GBSA sin decir con qué se parametrizó el ligando
-                # es exactamente la clase de número que este producto existe
-                # para no emitir. Ver `services/chemistry/molchamb_v2.py`:
-                # el ligando se tipa con átomos de la biblioteca de PROTEÍNA de
-                # AMBER14 porque no hay GAFF/antechamber en el paquete.
-                "condicion_de_validez": (
-                    MMGBSA_CONDICION
-                    if getattr(eval_result, "mmgbsa_score", None) is not None
-                    else None
-                ),
+                "salida_kcal_mol": None,
+                "status": "legacy_invalidado" if getattr(eval_result, "mmgbsa_score", None) is not None else "no_disponible",
+                "condicion_de_validez": MMGBSA_CONDICION,
             },
             "familia_del_objetivo": getattr(eval_result, "target_family", None),
             "stacking": {
@@ -713,8 +700,8 @@ def build_evidence_summary(
         },
         "model_context": {
             "engine": (
-                getattr(eval_result, "engine_used", None)
-                or _value(getattr(eval_result, "docking_protocol", None), "engine")
+                _value(getattr(eval_result, "docking_protocol", None), "engine")
+                or getattr(eval_result, "engine_used", None)
             ),
             "model": getattr(eval_result, "model_used", None),
             "in_domain": getattr(eval_result, "in_applicability_domain", None),

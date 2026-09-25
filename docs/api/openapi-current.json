@@ -2064,16 +2064,30 @@
             "type": "integer"
           },
           "rmsd_lb": {
-            "description": "RMSD lower bound vs pose 1",
-            "minimum": 0.0,
-            "title": "Rmsd Lb",
-            "type": "number"
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "RMSD lower bound vs pose 1; None si no se midió",
+            "title": "Rmsd Lb"
           },
           "rmsd_ub": {
-            "description": "RMSD upper bound vs pose 1",
-            "minimum": 0.0,
-            "title": "Rmsd Ub",
-            "type": "number"
+            "anyOf": [
+              {
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "RMSD upper bound vs pose 1; None si no se midió",
+            "title": "Rmsd Ub"
           },
           "source_provenance": {
             "anyOf": [
@@ -3477,19 +3491,13 @@
           "peptide_docking_engine": {
             "anyOf": [
               {
-                "enum": [
-                  "esmfold",
-                  "esmfold-pro",
-                  "esmfold-experimental",
-                  "colabfold"
-                ],
                 "type": "string"
               },
               {
                 "type": "null"
               }
             ],
-            "description": "Motor de docking peptídico elegido explícitamente. Ausente conserva la ruta de small molecules (Vina/QuickVina).",
+            "description": "Ruta peptídica disponible tras descargar ESMFold; ausente usa Vina.",
             "title": "Peptide Docking Engine"
           },
           "pipeline_config": {
@@ -3890,6 +3898,111 @@
           }
         },
         "title": "InputsDeclarados",
+        "type": "object"
+      },
+      "InteractionResponse": {
+        "properties": {
+          "engine": {
+            "title": "Engine",
+            "type": "string"
+          },
+          "hydrogen_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hydrogen Model"
+          },
+          "interactions": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Interactions",
+            "type": "array"
+          },
+          "interactions_by_type": {
+            "additionalProperties": {
+              "items": {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "title": "Interactions By Type",
+            "type": "object"
+          },
+          "molecule_id": {
+            "title": "Molecule Id",
+            "type": "string"
+          },
+          "pharmacophore_features": {
+            "additionalProperties": true,
+            "title": "Pharmacophore Features",
+            "type": "object"
+          },
+          "pose_rank": {
+            "title": "Pose Rank",
+            "type": "integer"
+          },
+          "pose_source_path": {
+            "title": "Pose Source Path",
+            "type": "string"
+          },
+          "pose_source_sha256": {
+            "title": "Pose Source Sha256",
+            "type": "string"
+          },
+          "protein_filter": {
+            "title": "Protein Filter",
+            "type": "string"
+          },
+          "protein_source_path": {
+            "title": "Protein Source Path",
+            "type": "string"
+          },
+          "protein_source_sha256": {
+            "title": "Protein Source Sha256",
+            "type": "string"
+          },
+          "summary": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Summary",
+            "type": "object"
+          },
+          "target_pdb_id": {
+            "title": "Target Pdb Id",
+            "type": "string"
+          },
+          "total_interactions": {
+            "title": "Total Interactions",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "molecule_id",
+          "target_pdb_id",
+          "pose_rank",
+          "pose_source_path",
+          "pose_source_sha256",
+          "protein_source_path",
+          "protein_source_sha256",
+          "protein_filter",
+          "engine",
+          "hydrogen_model",
+          "total_interactions",
+          "summary",
+          "interactions_by_type",
+          "pharmacophore_features",
+          "interactions"
+        ],
+        "title": "InteractionResponse",
         "type": "object"
       },
       "JobStatus": {
@@ -4819,7 +4932,7 @@
         "properties": {
           "docking_engine": {
             "default": "vina",
-            "description": "Motor de docking: 'vina', 'qvina2' o 'diffdock'",
+            "description": "Motor de docking ejecutable en esta versión",
             "title": "Docking Engine",
             "type": "string"
           },
@@ -11117,7 +11230,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/InteractionResponse"
+                }
               }
             },
             "description": "Successful Response"
@@ -12386,7 +12501,7 @@
     },
     "/pro/mmgbsa/{molecule_id}": {
       "post": {
-        "description": "Run MM-GBSA binding free energy calculation on a docked pose.\n\nUses OpenMM with GPU auto-detection (CUDA > OpenCL > CPU).",
+        "description": "Motor MM-GBSA legacy retirado hasta validar una parametrización consistente.",
         "operationId": "run_mmgbsa_endpoint_pro_mmgbsa__molecule_id__post",
         "parameters": [
           {
@@ -13004,26 +13119,6 @@
         "summary": "Validar atomos compatibles con Vina",
         "tags": [
           "Protein Surgery"
-        ]
-      }
-    },
-    "/rescore": {
-      "post": {
-        "description": "ML rescoring inline — sin sidecar separado.\n\nModelManager se carga una sola vez en el lifespan de la app\n(app.state.model_manager), no por request.",
-        "operationId": "rescore_inline_rescore_post",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "Rescore Inline",
-        "tags": [
-          "Rescoring"
         ]
       }
     },

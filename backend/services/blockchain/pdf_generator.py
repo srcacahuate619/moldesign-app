@@ -18,7 +18,6 @@ from services.blockchain.evidence_summary import build_evidence_summary
 from services.blockchain.certificate_figures import (
     generate_2d_interaction_diagram,
     generate_energy_profile_plot,
-    generate_gnn_attention_image,
     generate_shap_image,
     get_2d_image,
 )
@@ -1192,7 +1191,7 @@ def generate_certificate_pdf(
     # ReportLab decide el salto según el contenido para mantener un dossier compacto.
 
     # EXPLAINABLE AI (XAI) SECTION
-    has_xai = eval_result.shap_values or eval_result.gnn_attention
+    has_xai = bool(eval_result.shap_values)
     if has_xai:
         story.append(Paragraph("Explicabilidad Científica e IA de Caja Transparente", section_title_style))
 
@@ -1238,45 +1237,6 @@ def generate_certificate_pdf(
                 story.append(KeepTogether([shap_table]))
                 story.append(Spacer(1, 10))
 
-        if eval_result.gnn_attention:
-            gnn_img = generate_gnn_attention_image(mol.smiles, eval_result.gnn_attention, 6.8*inch, 3.8*inch)
-            if gnn_img:
-                story.append(Paragraph("Atención GNN (RTMScore) MAPA DE HOTSPOTS", xai_header_style))
-                story.append(gnn_img)
-                story.append(Spacer(1, 4))
-
-                legend_text = (
-                    "<b>Interpretación del Mapa de Hotspots:</b> Las esferas de colores en la estructura indican los átomos en los que "
-                    "la red neuronal geométrica centró su atención tridimensional al evaluar el complejo ligando-receptor. Las regiones con "
-                    "colores más intensos (rojo/naranja) denotan interacciones de contacto local que más definen la afinidad predicha."
-                )
-                story.append(Paragraph(legend_text, ParagraphStyle('LegendStyle', parent=normal_style, fontSize=8, textColor=colors.HexColor('#475569'))))
-                story.append(Spacer(1, 10))
-
-        if eval_result.gnn_pharmacophores:
-            story.append(Paragraph("Desglose de señales farmacofóricas (GNN)", xai_header_style))
-
-            pharmacophore_rows = [["Señal farmacofórica", "Valor serializado"]]
-            for k, v in eval_result.gnn_pharmacophores.items():
-                value = f"{v:.1f}%" if isinstance(v, (int, float)) else str(v)
-                pharmacophore_rows.append([k, value])
-
-            ph_table = Table(pharmacophore_rows, colWidths=[320, 170])
-            ph_table.setStyle(TableStyle([
-                ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor('#e2e8f0')),
-                ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
-                ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
-                ('FONTSIZE', (0,0), (-1,-1), 8),
-                ('PADDING', (0,0), (-1,-1), 3)
-            ]))
-            story.append(ph_table)
-            story.append(Paragraph(
-                "<i>Valores informativos emitidos por el modelo. No se comparan con un control ni con un benchmark por target porque esa procedencia no está serializada en la corrida.</i>",
-                ParagraphStyle('GnnEvidenceNote', parent=normal_style, fontSize=7.5, leading=9.5, textColor=SLATE),
-            ))
-
-            story.append(Spacer(1, 10))
-
     # Appendix only: preserve legacy outputs for traceability without placing
     # them in the scientific narrative or decision surface.
     story.append(Paragraph("Apéndice técnico: salidas heredadas", section_title_style))
@@ -1295,7 +1255,6 @@ def generate_certificate_pdf(
         ("Salida CL-GNN", eval_result.clgnn_score, ""),
         ("Salida XGBoost", eval_result.xgb_score, ""),
         ("Salida cuántica", eval_result.quantum_score, ""),
-        ("MM-GBSA post-hoc", eval_result.mmgbsa_score, " kcal/mol"),
     )
     for label, value, suffix in signal_fields:
         if value is not None:

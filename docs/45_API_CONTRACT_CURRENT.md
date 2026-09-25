@@ -6,10 +6,10 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 
 ## Identidad del snapshot
 
-- Paths: **114**
-- Operaciones HTTP: **120**
+- Paths: **113**
+- Operaciones HTTP: **119**
 - Versión declarada: `1.0.1`
-- SHA-256: `1bfbacd4f4ead1d48b0a8b5dc7d3d9288ff8160920087b53ef8c5e1253e16dcd`
+- SHA-256: `d984fdc2581ce09a913f1150497e87267e418a76509a47aa03eb89ac0e6595ee`
 - Schema completo: [api/openapi-current.json](api/openapi-current.json)
 - Regenerar: `python scripts/generate_openapi_contract.py --write`
 - Verificar en CI: `python scripts/generate_openapi_contract.py --check`
@@ -120,7 +120,6 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `POST` | `/proteins/surgery/metal-features` | `metal_features_endpoint_proteins_surgery_metal_features_post` | Detectar grupos quelantes de metales | Protein Surgery |
 | `POST` | `/proteins/surgery/prepare` | `prepare_target_endpoint_proteins_surgery_prepare_post` | Preparar receptor para docking | Protein Surgery |
 | `POST` | `/proteins/surgery/validate-atoms` | `validate_vina_atoms_endpoint_proteins_surgery_validate_atoms_post` | Validar atomos compatibles con Vina | Protein Surgery |
-| `POST` | `/rescore` | `rescore_inline_rescore_post` | Rescore Inline | Rescoring |
 | `GET` | `/rescoring/health` | `rescoring_health_rescoring_health_get` | Rescoring Health | ML Rescoring |
 | `GET` | `/rescoring/info` | `rescoring_info_rescoring_info_get` | Rescoring Info | ML Rescoring |
 | `GET` | `/rescoring/ram` | `rescoring_ram_rescoring_ram_get` | Rescoring Ram | ML Rescoring |

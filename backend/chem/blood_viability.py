@@ -766,20 +766,29 @@ def calculate_blood_viability(smiles: str, properties: PhysicochemicalProperties
         cns_mpo=properties.blood_cns_mpo,
     )
 
-    properties.blood_hia_permeable = bool(admet_preds["HIA"])
+    hia = admet_preds.get("HIA")
+    properties.blood_hia_permeable = bool(hia) if hia is not None else None
     properties.blood_systemic_reactivity = tabpfn_alerts + cyp_alerts
     # Con qué derecho se muestra esa lista. `predict_tabpfn_custom_toxicity`
     # deja el estado en el módulo; sin él, una lista vacía se pintaba como
     # visto bueno aunque el clasificador no hubiera corrido.
     properties.blood_tabpfn_estado = _tabpfn_estado
 
-    ppb = admet_preds["PPB"]
-    if ppb > 99.0:
+    ppb = admet_preds.get("PPB")
+    if ppb is None:
+        properties.blood_ppb_category = None
+    elif ppb > 99.0:
         properties.blood_ppb_category = "extreme"
     elif ppb > 90.0:
         properties.blood_ppb_category = "high"
     else:
         properties.blood_ppb_category = "low"
+
+    # El índice incluye HIA: si esa cabeza faltó, no hay índice completo.
+    if properties.blood_hia_permeable is None:
+        properties.blood_viability_score = None
+        logger.warning("blood_viability_missing_hia", smiles=smiles[:30])
+        return properties
 
     # --- MPO (OPTIMIZACIÓN MULTIPARAMÉTRICA) ---
     # Calculamos factores de supervivencia (S_factor) de 0.0 a 1.0

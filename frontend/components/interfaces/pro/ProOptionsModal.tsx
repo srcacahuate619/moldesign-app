@@ -110,7 +110,7 @@ const DEFAULT_ADVANCED: AdvancedConfig = {
   // mismo SMILES protonado, el mismo hash y la misma entrada de caché que
   // antes de que este campo existiera. Verificado sobre cuatro moléculas.
   protonationPh: 7.4,
-  enableMMGBSA: true,
+  enableMMGBSA: false,
   mmgbsaSteps: 1000,
   // OPT-IN, no opt-out. ADMET-AI es un modelo aparte que se carga en local y
   // cuya primera ejecución domina el reloj de la corrida; el backend ya lo
@@ -983,14 +983,6 @@ export default function ProOptionsModal({
                     label: "Selectividad Anti-Target",
                     desc: t("auto_bf0382f209fa"),
                     icon: ShieldCheck,
-                    badge: undefined as string | undefined,
-                    note: undefined as string | undefined,
-                  },
-                  {
-                    key: "enableMMGBSA" as const,
-                    label: "Refinamiento MM-GBSA",
-                    desc: t("auto_dc39d5d9367f"),
-                    icon: Atom,
                     badge: undefined as string | undefined,
                     note: undefined as string | undefined,
                   },

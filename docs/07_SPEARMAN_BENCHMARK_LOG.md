@@ -235,6 +235,8 @@
 |-----------|:------:|---------|
 | Vina docking con curated_targets.csv | ✅ | ρ=0.19-0.29, significativo |
 | Quality gate en model_manager.py | ✅ | Previene usar modelos familiares débiles |
+> Actualización del contrato (API-008): las menciones históricas a `/rescore` se refieren al sidecar de rescoring. La API principal de escritorio retiró su ruta inline defectuosa; no expone `classifier_prob` ni conteos ProLIF por esa ruta.
+
 | Clasificador binario | ✅ | ROC AUC 0.858, integrado en /rescore |
 | QuickVina 2 mode | ✅ | exh=4, 2x más rápido |
 | 865 complejos con features + Vina | ✅ | Feature cache completo |

@@ -121,7 +121,7 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
     const targets = config.enableSelectivity ? config.selectedAntiTargets.length : 0;
     try {
       const r = await fetch(
-        `${await getApiUrl()}/hardware/estimate?mode=pro&anti_targets=${targets}&mmgbsa=${config.enableMMGBSA}`
+        `${await getApiUrl()}/hardware/estimate?mode=pro&anti_targets=${targets}&mmgbsa=false`
       );
       const data = await r.json();
       setEstimate(data);
@@ -308,20 +308,16 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
                   <div>
                     <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">{t("pn_reevaluacion_mmgbsa")}</span>
                     <p className="text-[10px] text-zinc-500">
-                      {t("auto_e68b364d222e")}
-                      {hw?.gpu?.available ? t("auto_e853b37ac881") : t("auto_3db55aa751bc")}
+                      {t("pr_mmgbsa_control_retirado")}
                     </p>
                   </div>
                 </div>
                 <button
-                  onClick={() => onChange({ ...config, enableMMGBSA: !config.enableMMGBSA })}
-                  className={`w-9 h-5 rounded-full transition-colors relative ${
-                    config.enableMMGBSA ? "bg-violet-500" : "bg-zinc-300 dark:bg-zinc-600"
-                  }`}
+                  disabled
+                  aria-label={t("pr_mmgbsa_control_retirado")}
+                  className="w-9 h-5 rounded-full transition-colors relative bg-zinc-300 dark:bg-zinc-600"
                 >
-                  <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-transform ${
-                    config.enableMMGBSA ? "translate-x-4" : "translate-x-0.5"
-                  }`} />
+                  <div className="absolute top-0.5 w-4 h-4 rounded-full bg-white translate-x-0.5" />
                 </button>
               </label>
 

@@ -3,7 +3,9 @@ from core.models import PhysicochemicalProperties
 
 
 def clamp_score(value: float) -> float:
-    """Asegura que cualquier score quede en el rango [0, 100]."""
+    """Asegura que cualquier score finito quede en el rango [0, 100]."""
+    if not math.isfinite(value):
+        raise ValueError("Un score no finito no puede normalizarse.")
     return round(max(0.0, min(100.0, value)), 2)
 
 
@@ -23,6 +25,8 @@ def normalize_affinity(
     - Sigmoide centrada en LE = -0.30
     - Penalizador por Potencia Absoluta: Si afinidad > threshold, el score cae.
     """
+    if not math.isfinite(affinity_kcal):
+        raise ValueError("La afinidad debe ser finita antes de normalizar.")
     if not heavy_atoms or heavy_atoms <= 0:
         # Fallback a afinidad absoluta con sigmoide
         mid_abs = threshold

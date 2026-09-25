@@ -9,27 +9,61 @@ pi-stacking, salt bridges, cation-pi, halogen bonds.
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
+import hashlib
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from core.config import get_settings
 from core.database import get_db
 from core.models import UserORM
 from db.repository import Repository
 from api.dependencies import get_current_user_optional
 from api.routers.evaluation_access import require_owned_molecule
 from services.targets.access import require_target_object_access
-from utils.file_handlers import StoragePath
 from utils.local_storage import exists, read_text
 from utils.logger import get_logger
 
 log = get_logger(__name__)
 router = APIRouter(prefix="/evaluation", tags=["Interaction Analysis"])
-settings = get_settings()
 
 
-@router.get("/interactions/{molecule_id}")
+def _pdbqt_receptor_a_pdb(contenido: str) -> str:
+    """Extrae los ATOM del receptor Vina sin inferir contactos con heteroátomos."""
+    atomos = []
+    tipos = {"A": "C", "C": "C", "OA": "O", "NA": "N", "SA": "S", "HD": "H"}
+    for linea in contenido.splitlines():
+        if not linea.startswith("ATOM  "):
+            continue
+        campos = linea.split()
+        tipo = campos[-1].upper() if campos else ""
+        elemento = tipos.get(tipo, tipo[:1] if tipo else "")
+        if not elemento:
+            continue
+        atomos.append(linea[:66].ljust(76) + f"{elemento:>2}")
+    return "\n".join(atomos) + "\nEND\n" if atomos else ""
+
+
+class InteractionResponse(BaseModel):
+    molecule_id: str
+    target_pdb_id: str
+    pose_rank: int
+    pose_source_path: str
+    pose_source_sha256: str
+    protein_source_path: str
+    protein_source_sha256: str
+    protein_filter: str
+    engine: str
+    hydrogen_model: str | None
+    total_interactions: int
+    summary: dict[str, int]
+    interactions_by_type: dict[str, list[dict[str, Any]]]
+    pharmacophore_features: dict[str, Any]
+    interactions: list[dict[str, Any]]
+
+
+@router.get("/interactions/{molecule_id}", response_model=InteractionResponse)
 async def get_interactions(
     molecule_id: str,
     pose_rank: int = Query(1, ge=1, le=20, description="Which docking pose to analyze (1=best)"),
@@ -74,59 +108,37 @@ async def get_interactions(
         raise HTTPException(status_code=404, detail="Molecule or target data missing")
 
     target = require_target_object_access(evaluation.molecule.target, current_user)
-    smiles_hash = evaluation.molecule.smiles_hash
-
-    # ── Get protein PDB ──────────────────────────────────────────────
-    raw_path = StoragePath.target_raw(target.pdb_id)
-    pdb_content = None
+    # La pose pertenece a la corrida. Una ruta compartida o el confórmero de
+    # entrada representarían otra geometría y producirían contactos falsos.
+    poses_path = evaluation.poses_file_path
+    if not poses_path or not await exists(poses_path):
+        raise HTTPException(status_code=404, detail="La corrida no conserva poses SDF acopladas.")
     try:
-        if await exists(raw_path):
-            pdb_content = await read_text(raw_path)
-        else:
-            from utils.file_handlers import download_pdb_from_rcsb
-            pdb_content = await download_pdb_from_rcsb(target.pdb_id)
-    except Exception as e:
-        log.warning("protein_pdb_not_available", target=target.pdb_id, error=str(e))
-        # Try prepared PDBQT as fallback
-        try:
-            prepared_path = StoragePath.target_prepared(target.pdb_id)
-            if await exists(prepared_path):
-                pdbqt_content = await read_text(prepared_path)
-                pdb_content = pdbqt_content  # rough fallback
-        except Exception:
-            pass
+        sdf_content = await read_text(poses_path)
+    except Exception as exc:
+        log.warning("poses_sdf_not_available", path=poses_path, error=str(exc))
+        raise HTTPException(status_code=404, detail="No se pudo leer la pose de esta corrida.") from exc
+    pose_sha256 = hashlib.sha256(sdf_content.encode("utf-8")).hexdigest()
 
-    if pdb_content is None:
-        raise HTTPException(
-            status_code=503,
-            detail=f"Protein structure not available for {target.pdb_id}",
-        )
-
-    # ── Get ligand SDF (poses) ───────────────────────────────────────
-    poses_path = StoragePath.docking_poses(smiles_hash, target.pdb_id)
-    sdf_content = None
+    # El receptor que se analiza debe ser el snapshot preparado que entró a
+    # Vina, no el PDB crudo mutable del catálogo.
+    receptor_path = evaluation.receptor_path
+    receptor_sha256 = evaluation.receptor_sha256
+    if not receptor_path or not receptor_sha256:
+        raise HTTPException(status_code=409, detail="La corrida no conserva receptor preparado verificable.")
+    if not await exists(receptor_path):
+        raise HTTPException(status_code=404, detail="Falta el receptor preparado de esta corrida.")
     try:
-        if await exists(poses_path):
-            sdf_content = await read_text(poses_path)
-    except Exception as e:
-        log.warning("poses_sdf_not_available", error=str(e))
+        receptor_pdbqt = await read_text(receptor_path)
+    except Exception as exc:
+        raise HTTPException(status_code=404, detail="No se pudo leer el receptor de esta corrida.") from exc
+    protein_sha256 = hashlib.sha256(receptor_pdbqt.encode("utf-8")).hexdigest()
+    if protein_sha256 != receptor_sha256:
+        raise HTTPException(status_code=409, detail="El hash del receptor preparado no coincide con la corrida.")
+    pdb_content = _pdbqt_receptor_a_pdb(receptor_pdbqt)
+    if not pdb_content:
+        raise HTTPException(status_code=409, detail="El receptor preparado no contiene átomos analizables.")
 
-    if sdf_content is None:
-        # Try to extract pose from PDBQT
-        try:
-            ligand_path = StoragePath.ligand_conformer(smiles_hash)
-            if await exists(ligand_path):
-                sdf_content = await read_text(ligand_path)
-        except Exception:
-            pass
-
-    if sdf_content is None:
-        raise HTTPException(
-            status_code=503,
-            detail="Docked poses not found. Run docking first.",
-        )
-
-    # ── Write temp files for ProLIF ──────────────────────────────────
     import tempfile
 
     tmp_dir = tempfile.mkdtemp()
@@ -185,6 +197,13 @@ async def get_interactions(
             "molecule_id": molecule_id,
             "target_pdb_id": target.pdb_id,
             "pose_rank": pose_rank,
+            "pose_source_path": poses_path,
+            "pose_source_sha256": pose_sha256,
+            "protein_source_path": receptor_path,
+            "protein_filter": "ATOM_only",
+            "protein_source_sha256": protein_sha256,
+            "engine": report.engine,
+            "hydrogen_model": report.hydrogen_model,
             "total_interactions": len(report.interactions),
             "summary": report.summary,
             "interactions_by_type": interactions_by_type,

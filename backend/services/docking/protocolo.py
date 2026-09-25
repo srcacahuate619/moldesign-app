@@ -52,12 +52,18 @@ CONTRATO = "docking_protocol/v1"
 
 #: Motores peptídicos que sustituyen a Vina por completo. Si uno de estos corrió,
 #: es el motor de la corrida — no el `docking_engine` que venía por defecto.
-_MOTORES_PEPTIDICOS = {
-    "esmfold",
-    "colabfold",
-    "esmfold-pro",
-    "esmfold-experimental",
-}
+MOTORES_DOCKING_EJECUTABLES = frozenset({"vina"})
+MOTORES_PEPTIDICOS_EJECUTABLES = frozenset({"esmfold"})
+
+
+def validar_motor_solicitado(
+    docking_engine: str = "vina", peptide_engine: str | None = None,
+) -> None:
+    """La misma puerta para las entradas HTTP y los llamadores internos."""
+    if docking_engine not in MOTORES_DOCKING_EJECUTABLES:
+        raise ValueError(f"motor de docking no ejecutable: {docking_engine}")
+    if peptide_engine is not None and peptide_engine not in MOTORES_PEPTIDICOS_EJECUTABLES:
+        raise ValueError(f"motor peptídico no ejecutable: {peptide_engine}")
 
 
 def es_motor_peptidico(motor: str | None) -> bool:
@@ -67,7 +73,7 @@ def es_motor_peptidico(motor: str | None) -> bool:
     corre la ruta peptídica: sin esta comprobación, el nombre de Vina acababa en
     la procedencia de una corrida que en realidad ejecutó ESMFold.
     """
-    return motor in _MOTORES_PEPTIDICOS
+    return motor in MOTORES_PEPTIDICOS_EJECUTABLES
 
 
 def construir_protocolo(
@@ -93,11 +99,9 @@ def construir_protocolo(
     pedido_exh = params.get("exhaustiveness")
     pedido_poses = params.get("num_poses")
 
-    # Un motor peptídico no pasa por `vina_service`, así que no deja
-    # `engine_efectivo`: ahí el pedido ES el ejecutado.
     ejecutado_engine = getattr(docking, "engine_efectivo", None)
-    if es_motor_peptidico(peptide_engine):
-        ejecutado_engine = pedido_engine
+    if not ejecutado_engine:
+        raise ValueError("No se puede sellar el motor sin engine_efectivo de la ejecución")
     ejecutado_exh = getattr(docking, "exhaustiveness_efectiva", None)
     ejecutado_poses = getattr(docking, "num_poses_solicitadas", None)
 
@@ -106,7 +110,7 @@ def construir_protocolo(
         "conformers_requested": conformer.get("conformers_requested", 1),
         "conformers_generated": conformer.get("conformers_generated", 1),
         "conformer_warnings": list(conformer.get("conformer_warnings") or []),
-        "engine": ejecutado_engine or pedido_engine,
+        "engine": ejecutado_engine,
         "exhaustiveness": ejecutado_exh if ejecutado_exh is not None else pedido_exh,
         "num_poses": ejecutado_poses if ejecutado_poses is not None else pedido_poses,
         "seed": getattr(docking, "vina_random_seed", None),

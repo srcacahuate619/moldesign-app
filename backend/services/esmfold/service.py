@@ -80,6 +80,9 @@ class ESMFoldResult:
     error: str | None = None
     scientific_status: str = "EXPERIMENTAL"
     transfer_manifest: dict[str, Any] | None = None
+    vina_version: str | None = None
+    vina_seed: int | None = None
+    vina_exhaustiveness: int | None = None
 
     @property
     def scientific_context(self) -> str:
@@ -606,6 +609,9 @@ class ESMFoldService:
             warnings=result.get("warnings", []),
             scientific_status=result.get("scientific_status", "EXPERIMENTAL"),
             transfer_manifest=result.get("transfer_manifest"),
+            vina_version=result.get("vina_version"),
+            vina_seed=result.get("vina_seed"),
+            vina_exhaustiveness=result.get("vina_exhaustiveness"),
         )
 
 

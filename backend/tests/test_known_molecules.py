@@ -37,6 +37,7 @@ from rdkit.Chem.rdMolDescriptors import CalcMolFormula  # noqa: E402
 from services.ai.known_molecules import (  # noqa: E402
     KNOWN_MOLECULES,
     KNOWN_SMILES,
+    NOMBRES_ESTEREO_PENDIENTE,
     _NON_SMILES_PREFIXES,
 )
 
@@ -204,6 +205,8 @@ def test_la_formula_coincide_con_la_referencia(nombre):
     la misma molécula, y exigir uno concreto haría fallar la prueba por una
     diferencia de escritura en vez de por una diferencia química.
     """
+    if nombre in NOMBRES_ESTEREO_PENDIENTE:
+        pytest.skip("fórmula verificada, estereoquímica pendiente: entrada retirada")
     assert nombre in KNOWN_SMILES, f"«{nombre}» tiene referencia pero no está publicado"
     real = _formula(KNOWN_SMILES[nombre])
     esperada = REFERENCIA[nombre]
@@ -277,3 +280,18 @@ def test_no_quedan_entradas_marcadas_como_sin_verificar():
 
     assert "TODO" not in tabla, "hay entradas marcadas como pendientes de verificar"
     assert "FIXME" not in tabla
+
+
+
+def test_testosterona_coincide_con_inchikey_completo_de_auditoria():
+    from services.ai.known_molecules import get_smiles_by_name
+    mol = Chem.MolFromSmiles(get_smiles_by_name("testosterona"))
+    assert Chem.MolToInchiKey(mol) == "MUMGGOZAMZWBJJ-DYKIIFRCSA-N"
+    assert all(cip != "?" for _, cip in Chem.FindMolChiralCenters(mol, includeUnassigned=True))
+
+
+@pytest.mark.parametrize("nombre", sorted(NOMBRES_ESTEREO_PENDIENTE))
+def test_nombres_enantiopuros_sin_referencia_no_entregan_smiles(nombre):
+    from services.ai.known_molecules import get_smiles_by_name
+    assert get_smiles_by_name(nombre) is None
+    assert nombre not in KNOWN_SMILES

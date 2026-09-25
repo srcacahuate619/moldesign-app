@@ -59,9 +59,10 @@ class InteractionReport:
     target_pdb_id: str
     pose_rank: int
     interactions: list[Interaction] = field(default_factory=list)
-    summary: dict[str, int] = field(default_factory=dict)  # count per type
+    summary: dict[str, int] = field(default_factory=dict)
     pharmacophore_features: dict[str, list[tuple[float, float, float]]] = field(default_factory=dict)
-    # donor, acceptor, hydrophobic, aromatic, positive, negative → list of (x,y,z) coords
+    engine: str = "no_evaluado"
+    hydrogen_model: str | None = None
 
 
 def analyze_complex(
@@ -71,113 +72,83 @@ def analyze_complex(
     target_pdb_id: str = "",
     pose_rank: int = 1,
 ) -> InteractionReport:
-    """
-    Analyze protein-ligand interactions using ProLIF.
-
-    Args:
-        protein_pdb_path: Path to the prepared protein PDB file
-        ligand_sdf_path: Path to the docked ligand SDF file
-        molecule_id: Molecule UUID for reporting
-        target_pdb_id: Target PDB ID
-        pose_rank: Which pose (1 = best)
-
-    Returns:
-        InteractionReport with detailed interaction data
-    """
+    """Analiza la pose real y declara si ProLIF o el respaldo produjo los contactos."""
     report = InteractionReport(
-        molecule_id=molecule_id,
-        target_pdb_id=target_pdb_id,
-        pose_rank=pose_rank,
+        molecule_id=molecule_id, target_pdb_id=target_pdb_id, pose_rank=pose_rank,
     )
-
     try:
         import prolif
-        from prolif.plotting.network import LigNetwork
         from rdkit import Chem
-    except ImportError:
-        log.warning("prolif_not_available")
-        return _fallback_analysis(protein_pdb_path, ligand_sdf_path, report)
 
-    try:
-        # Load protein and ligand
-        protein = prolif.Molecule(str(protein_pdb_path))
-        ligand_mol = Chem.SDMolSupplier(str(ligand_sdf_path))[0]
+        # El PDB crudo puede contener el ligando del cristal y aguas. No son
+        # residuos del receptor que se acopló y jamás deben contarse como tales.
+        atom_lines = [
+            line for line in Path(protein_pdb_path).read_text(encoding="utf-8").splitlines()
+            if line.startswith("ATOM  ")
+        ]
+        if not atom_lines:
+            raise ValueError("El receptor no tiene átomos ATOM")
+        protein_mol = Chem.MolFromPDBBlock(
+            "\n".join(atom_lines) + "\nEND\n", removeHs=False, sanitize=True,
+        )
+        if protein_mol is None:
+            raise ValueError("RDKit no pudo interpretar el receptor")
+        ligand_mol = Chem.SDMolSupplier(str(ligand_sdf_path), removeHs=False)[0]
         if ligand_mol is None:
-            log.warning("ligand_sdf_parse_failed", path=str(ligand_sdf_path))
-            return _fallback_analysis(protein_pdb_path, ligand_sdf_path, report)
-
+            raise ValueError("RDKit no pudo interpretar la pose")
+        # H geométricos de RDKit: no implica estado de protonación a pH 7.4.
+        protein_mol = Chem.AddHs(protein_mol, addCoords=True)
+        ligand_mol = Chem.AddHs(ligand_mol, addCoords=True)
+        protein = prolif.Molecule.from_rdkit(protein_mol)
         ligand = prolif.Molecule.from_rdkit(ligand_mol)
-
-        # Compute interaction fingerprint
-        fp = prolif.Fingerprint([
-            "HBDonor", "HBAcceptor", "Hydrophobic",
-            "PiStacking", "PiCation", "CationPi",
-            "Anionic", "Cationic",
+        fingerprint = prolif.Fingerprint([
+            "HBDonor", "HBAcceptor", "Hydrophobic", "PiStacking",
+            "PiCation", "CationPi", "Anionic", "Cationic",
             "XBAcceptor", "XBDonor",
         ])
-        fp.run_from_iterable([ligand], protein)
-
-        if len(fp.ifp) == 0:
-            log.info("no_interactions_found", molecule_id=molecule_id)
-            return report
-
-        # Parse fingerprint data
-        frame = fp.to_dataframe()
-        interaction_counts = {}
-        pharmacophore = {
-            "donor": [],
-            "acceptor": [],
-            "hydrophobic": [],
-            "aromatic": [],
-            "positive": [],
-            "negative": [],
+        ifp = fingerprint.generate(ligand, protein, metadata=True)
+        nombres = {
+            "HBDonor": "hbond", "HBAcceptor": "hbond",
+            "Hydrophobic": "hydrophobic", "PiStacking": "pi_stacking",
+            "PiCation": "cation_pi", "CationPi": "cation_pi",
+            "Anionic": "salt_bridge", "Cationic": "salt_bridge",
+            "XBAcceptor": "halogen", "XBDonor": "halogen",
         }
-
-        for (ligand_key, protein_key), data in fp.ifp.items():
-            for interaction_type, has_int in data.items():
-                if not has_int:
+        for (_lig_res, prot_res), tipos in ifp.items():
+            for nombre, evidencias in tipos.items():
+                tipo = nombres.get(nombre)
+                if tipo is None:
                     continue
-
-                interaction_counts[interaction_type] = interaction_counts.get(interaction_type, 0) + 1
-
-                # Extract residue info from protein key
-                residue_info = _parse_prolif_key(protein_key)
-                ligand_info = _parse_prolif_key(ligand_key)
-
-                interaction = _classify_interaction(
-                    interaction_type=interaction_type,
-                    residue_info=residue_info,
-                    ligand_info=ligand_info,
-                    protein=protein,
-                    ligand=ligand,
-                    residue_key=protein_key,
-                    ligand_key=ligand_key,
-                )
-
-                if interaction:
-                    report.interactions.append(interaction)
-
-        # Pharmacophore features extraction
-        try:
-            pharmacophore = _extract_pharmacophore_features(ligand_mol)
-        except Exception:
-            pass
-
-        report.summary = interaction_counts
-        report.pharmacophore_features = pharmacophore
-
-        log.info(
-            "interaction_analysis_complete",
-            molecule_id=molecule_id,
-            total_interactions=len(report.interactions),
-            types=list(interaction_counts.keys()),
-        )
-
-    except Exception as e:
-        log.error("interaction_analysis_error", error=str(e), molecule_id=molecule_id)
+                for evidencia in evidencias:
+                    li = evidencia["parent_indices"]["ligand"][0]
+                    pi = evidencia["parent_indices"]["protein"][0]
+                    lp = ligand_mol.GetConformer().GetAtomPosition(li)
+                    pp = protein_mol.GetConformer().GetAtomPosition(pi)
+                    distancia = evidencia.get("distance")
+                    if distancia is None:
+                        distancia = float(np.linalg.norm(np.array([lp.x-pp.x, lp.y-pp.y, lp.z-pp.z])))
+                    angle = evidencia.get("angle")
+                    report.interactions.append(Interaction(
+                        type=tipo,
+                        residue_name=prot_res.name,
+                        residue_number=prot_res.number,
+                        residue_chain=prot_res.chain or "",
+                        ligand_atom=f"{ligand_mol.GetAtomWithIdx(li).GetSymbol()}{li}",
+                        protein_atom=f"{protein_mol.GetAtomWithIdx(pi).GetSymbol()}{pi}",
+                        distance=round(float(distancia), 2),
+                        angle=round(float(angle), 1) if angle is not None else None,
+                        strength="strong" if tipo == "salt_bridge" else "moderate" if tipo == "hbond" else "weak",
+                        lig_x=round(lp.x, 2), lig_y=round(lp.y, 2), lig_z=round(lp.z, 2),
+                        prot_x=round(pp.x, 2), prot_y=round(pp.y, 2), prot_z=round(pp.z, 2),
+                    ))
+                    report.summary[tipo] = report.summary.get(tipo, 0) + 1
+        report.pharmacophore_features = _extract_pharmacophore_features(ligand_mol)
+        report.engine = f"prolif:{prolif.__version__}"
+        report.hydrogen_model = "rdkit_add_hs_coordinates"
+        return report
+    except Exception as exc:
+        log.warning("prolif_analysis_unavailable", error=str(exc))
         return _fallback_analysis(protein_pdb_path, ligand_sdf_path, report)
-
-    return report
 
 
 def _parse_prolif_key(key: str) -> dict[str, Any]:
@@ -384,98 +355,66 @@ def _extract_pharmacophore_features(ligand_mol) -> dict[str, list[tuple[float, f
 
 
 def _fallback_analysis(protein_pdb_path, ligand_sdf_path, report):
-    """Simple distance-based fallback when ProLIF is unavailable."""
+    """Contactos por distancias, sin inferir enlaces H ni química no medida."""
+    report.engine = "distancias_sin_quimica"
+    report.hydrogen_model = None
     try:
         from rdkit import Chem
 
-        # Parse protein
-        with open(protein_pdb_path) as f:
-            pdb_lines = f.readlines()
-
         protein_atoms = []
-        for line in pdb_lines:
-            if line.startswith("ATOM") or line.startswith("HETATM"):
-                try:
-                    x = float(line[30:38])
-                    y = float(line[38:46])
-                    z = float(line[46:54])
-                    atom_name = line[12:16].strip()
-                    res_name = line[17:20].strip()
-                    res_num = int(line[22:26])
-                    chain = line[21:22].strip()
-                    protein_atoms.append({
-                        "x": x, "y": y, "z": z,
-                        "atom": atom_name, "residue": res_name,
-                        "residue_num": res_num, "chain": chain,
-                    })
-                except (ValueError, IndexError):
-                    continue
+        for line in Path(protein_pdb_path).read_text(encoding="utf-8").splitlines():
+            if not line.startswith("ATOM  "):
+                continue
+            element = line[76:78].strip().upper() or line[12:16].strip()[:1].upper()
+            if element == "H":
+                continue
+            try:
+                protein_atoms.append({
+                    "xyz": np.array([float(line[30:38]), float(line[38:46]), float(line[46:54])]),
+                    "element": element,
+                    "atom": line[12:16].strip(),
+                    "residue": line[17:20].strip(),
+                    "residue_num": int(line[22:26]),
+                    "chain": line[21:22].strip(),
+                })
+            except (ValueError, IndexError):
+                continue
 
-        # Parse ligand
-        ligand = Chem.SDMolSupplier(str(ligand_sdf_path))[0]
+        ligand = Chem.SDMolSupplier(str(ligand_sdf_path), removeHs=False)[0]
         if ligand is None:
             return report
-
         conf = ligand.GetConformer()
-        summary = {}
-
         for atom in ligand.GetAtoms():
-            lig_pos = conf.GetAtomPosition(atom.GetIdx())
-            lig_name = atom.GetSymbol() + str(atom.GetIdx())
-
+            if atom.GetAtomicNum() == 1:
+                continue
+            pos = conf.GetAtomPosition(atom.GetIdx())
+            lig_xyz = np.array([pos.x, pos.y, pos.z])
+            lig_element = atom.GetSymbol().upper()
             for prot in protein_atoms:
-                dx = lig_pos.x - prot["x"]
-                dy = lig_pos.y - prot["y"]
-                dz = lig_pos.z - prot["z"]
-                dist = np.sqrt(dx*dx + dy*dy + dz*dz)
-
-                if dist < 3.2:  # H-bond range
-                    # Check if donor/acceptor
-                    donor = atom.GetAtomicNum() in (7, 8)
-                    acceptor = prot["atom"][0] in ("O", "N")
-                    if donor or acceptor:
-                        itype = "hbond"
-                    else:
-                        itype = "hydrophobic"
-
-                    summary[itype] = summary.get(itype, 0) + 1
-                    report.interactions.append(Interaction(
-                        type=itype,
-                        residue_name=prot["residue"],
-                        residue_number=prot["residue_num"],
-                        residue_chain=prot["chain"],
-                        ligand_atom=lig_name,
-                        protein_atom=prot["atom"],
-                        distance=round(dist, 2),
-                        strength="moderate" if itype == "hbond" else "weak",
-                        lig_x=round(lig_pos.x, 2),
-                        lig_y=round(lig_pos.y, 2),
-                        lig_z=round(lig_pos.z, 2),
-                        prot_x=round(prot["x"], 2),
-                        prot_y=round(prot["y"], 2),
-                        prot_z=round(prot["z"], 2),
-                    ))
-                elif dist < 4.0:
-                    summary["hydrophobic"] = summary.get("hydrophobic", 0) + 1
-                    report.interactions.append(Interaction(
-                        type="hydrophobic",
-                        residue_name=prot["residue"],
-                        residue_number=prot["residue_num"],
-                        residue_chain=prot["chain"],
-                        ligand_atom=lig_name,
-                        protein_atom=prot["atom"],
-                        distance=round(dist, 2),
-                        strength="weak",
-                        lig_x=round(lig_pos.x, 2),
-                        lig_y=round(lig_pos.y, 2),
-                        lig_z=round(lig_pos.z, 2),
-                        prot_x=round(prot["x"], 2),
-                        prot_y=round(prot["y"], 2),
-                        prot_z=round(prot["z"], 2),
-                    ))
-
-        report.summary = summary
-    except Exception as e:
-        log.warning("fallback_analysis_failed", error=str(e))
-
+                dist = float(np.linalg.norm(lig_xyz - prot["xyz"]))
+                if dist < 1.5:
+                    continue  # colisión, no interacción favorable
+                if lig_element == "C" and prot["element"] == "C" and dist < 4.0:
+                    tipo = "hydrophobic"
+                elif lig_element in ("N", "O") and prot["element"] in ("N", "O") and dist < 3.5:
+                    tipo = "polar_contact"  # sin H/ángulo no es un puente de H
+                else:
+                    continue
+                report.summary[tipo] = report.summary.get(tipo, 0) + 1
+                report.interactions.append(Interaction(
+                    type=tipo,
+                    residue_name=prot["residue"],
+                    residue_number=prot["residue_num"],
+                    residue_chain=prot["chain"],
+                    ligand_atom=f"{lig_element}{atom.GetIdx()}",
+                    protein_atom=prot["atom"],
+                    distance=round(dist, 2),
+                    strength="weak",
+                    lig_x=round(pos.x, 2), lig_y=round(pos.y, 2), lig_z=round(pos.z, 2),
+                    prot_x=round(float(prot["xyz"][0]), 2),
+                    prot_y=round(float(prot["xyz"][1]), 2),
+                    prot_z=round(float(prot["xyz"][2]), 2),
+                ))
+    except Exception as exc:
+        log.warning("fallback_analysis_failed", error=str(exc))
     return report

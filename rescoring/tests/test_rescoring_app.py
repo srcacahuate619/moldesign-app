@@ -154,3 +154,16 @@ class TestRescoreEndpoint:
         """Body vacío → 422."""
         resp = client.post("/rescore", json={})
         assert resp.status_code == 422
+
+
+def test_rescore_sin_receptor_devuelve_abstencion_serializable(client, tmp_path):
+    rescoring_app.model_manager._is_loaded = True
+    payload = _make_rescore_payload()
+    payload["target_pdb_path"] = str(tmp_path / "missing.pdb")
+    response = client.post("/rescore", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["score_a"] is None
+    assert data["classifier_prob"] is None
+    assert data["delta"]["delta"] is None
+    assert any("Features 3D no disponibles" in w for w in data["warnings"])

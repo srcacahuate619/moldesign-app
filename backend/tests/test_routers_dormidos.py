@@ -71,7 +71,7 @@ def test_la_app_por_defecto_sigue_sirviendo_lo_demas():
     from api.main import app
 
     rutas = _rutas(app)
-    for imprescindible in ("/evaluation/engines", "/chem/properties", "/rescore"):
+    for imprescindible in ("/evaluation/engines", "/chem/properties"):
         assert imprescindible in rutas, f"{imprescindible} desapareció de la app"
 
 

@@ -522,7 +522,43 @@ class ModelManager:
             if len(self._feature_cache) >= self._feature_cache_max:
                 first_key = next(iter(self._feature_cache))
                 del self._feature_cache[first_key]
-            self._feature_cache[cache_key] = features_3d.copy()
+            if features_3d is not None:
+                self._feature_cache[cache_key] = features_3d.copy()
+
+        if features_3d is None:
+            reason = "Features 3D no disponibles: receptor o pose ilegible; Model A y clasificador no evaluados."
+            warnings.append(reason)
+            log.warning("features_3d_unavailable", smiles=request.smiles[:50],
+                        target=request.target_pdb_path)
+            descriptors = {
+                "mw": request.molecular_weight,
+                "logp": request.logp,
+                "tpsa": request.tpsa,
+                "hbd": float(request.hbd),
+                "hba": float(request.hba),
+                "rotatable_bonds": float(request.rotatable_bonds),
+                "qed": request.qed,
+            }
+            ad_result = ApplicabilityDomainChecker(self.applicability_domain).check(descriptors)
+            return RescoreResponse(
+                score_a=None,
+                score_null=None,
+                delta=DeltaResult(delta=None, semaphore="NOT_EVALUATED",
+                                  interpretation=reason),
+                applicability_domain=ad_result,
+                pose_variance=pose_variance,
+                features_used=descriptors,
+                model_version=self._model_version or "unknown",
+                inference_time_ms=0.0,
+                warnings=warnings,
+                classifier_prob=None,
+                fallback_reason=reason,
+                pose_scores=pose_sel_result["pose_scores"] if pose_sel_result else None,
+                selected_pose_rank=pose_sel_result["selected_pose_rank"] if pose_sel_result else None,
+                pose_confidence=pose_sel_result["pose_confidence"] if pose_sel_result else None,
+                pose_abstained=pose_sel_result["pose_abstained"] if pose_sel_result else None,
+                pose_selector_model=pose_sel_result["pose_selector_model"] if pose_sel_result else None,
+            )
 
         # Features 1D/2D (del request, pre-calculadas por backend)
         descriptors_1d2d = {
@@ -919,6 +955,7 @@ class ModelManager:
 
         # ── Extraer features de todas las moleculas ──────────────
         all_features_list = []
+        failed_3d: set[int] = set()
 
         for req in requests:
             # Normalizar request — acepta pydantic objects y dicts
@@ -931,7 +968,7 @@ class ModelManager:
                 return default
 
             mw = float(_v(req, "molecular_weight", 300))
-            features_3d = {}
+            features_3d = None
 
             # Best pose — extraer features if possible
             poses_raw = _v(req, "poses", [])
@@ -945,7 +982,11 @@ class ModelManager:
                     features_3d = extractor.extract_from_pose(
                         best_pdbqt, target_pdb, smiles=smiles, skip_prolif=True,
                     )
-                features_3d["vina_best_score"] = best_vina
+                if features_3d is not None:
+                    features_3d["vina_best_score"] = best_vina
+            if features_3d is None:
+                failed_3d.add(len(all_features_list))
+                features_3d = {}
 
             # Combine all features
             all_feats = {
@@ -971,16 +1012,22 @@ class ModelManager:
         # con ALL_FEATURES y no habra padding.
         feature_names = list(self.model_a_artifact.get("feature_names", [])) if self.model_a_artifact else []
         if not feature_names:
-            return [{"score_a": 0.0, "score_null": 0.0, "classifier_prob": None}] * n
+            return [{
+                "score_a": None, "score_null": None, "classifier_prob": None,
+                "delta": None, "excluded": True,
+                "warnings": ["Contrato del modelo no disponible."],
+            } for _ in range(n)]
 
         n_features = len(feature_names)
 
         # [A2] Sin zero-padding: features faltantes/no finitas → imputación por
         # media de entrenamiento; si no es imputable → fila excluida (NaN) con
         # log + identificador (smiles).
-        excluded_rows: list[int] = []
+        excluded_rows: list[int] = list(failed_3d)
         matrix = np.zeros((n, n_features), dtype=np.float64)
         for i, feats in enumerate(all_features_list):
+            if i in failed_3d:
+                continue
             row_problem = [
                 f for f in feature_names
                 if f not in feats or not math.isfinite(float(feats[f]))
@@ -1030,13 +1077,15 @@ class ModelManager:
         results = []
         for i in range(n):
             if i in excluded_rows:
-                # [A3] Exclusión explícita: NaN en vez de un score fabricado.
+                reason = ("Features 3D no disponibles: receptor o pose ilegible."
+                          if i in failed_3d else "Contrato de features incompleto.")
                 results.append({
-                    "score_a": float("nan"),
-                    "score_null": float("nan"),
+                    "score_a": None,
+                    "score_null": None,
                     "classifier_prob": None,
-                    "delta": float("nan"),
+                    "delta": None,
                     "excluded": True,
+                    "warnings": [reason],
                 })
                 continue
             score_a = float(scores_a[i]) if i < len(scores_a) else 0.0

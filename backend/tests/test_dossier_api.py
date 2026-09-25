@@ -305,3 +305,20 @@ class TestArtefactosEstructuralesEnElZip:
                 assert hashlib.sha256(crudo).hexdigest() == archivo["sha256"], archivo["path"]
                 assert archivo["tamano"] == len(crudo)
                 assert archivo["rol"]
+
+
+@pytest.mark.asyncio
+async def test_ligandos_del_paquete_salen_del_snapshot_aunque_cambie_la_fila(monkeypatch):
+    from utils import local_storage
+
+    async def sin_archivo(_ruta):
+        raise FileNotFoundError
+    monkeypatch.setattr(local_storage, "read_text", sin_archivo)
+    mol = molecula()
+    mol.smiles = "CCO"
+    resultado = resultado_completo()
+    artefactos = await router_mod._artefactos(resultado, target_completo(), mol)
+    por_nombre = {a.nombre: a for a in artefactos}
+    assert por_nombre["ligand.smi"].contenido == b"CC(=O)Oc1ccccc1C(=O)O\n"
+    assert por_nombre["ligand_docked.smi"].contenido == b"CC(=O)Oc1ccccc1C(=O)O\n"
+    assert por_nombre["ligand.smi"].fuente == "eval_result.ligand_state.smiles_entrada"

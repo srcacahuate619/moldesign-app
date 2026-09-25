@@ -73,7 +73,7 @@ def test_el_respaldo_de_qvina2_queda_declarado():
 def test_un_motor_peptidico_no_lo_pisa_el_nombre_de_vina():
     """`docking_engine` vale «vina» por defecto también en la ruta peptídica."""
     p = construir_protocolo(
-        docking=_docking(engine_efectivo=None),
+        docking=_docking(engine_efectivo="esmfold"),
         peptide_engine="esmfold",
         docking_engine="vina",
         docking_params={"engine": "vina"},

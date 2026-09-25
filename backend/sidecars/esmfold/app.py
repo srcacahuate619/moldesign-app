@@ -95,6 +95,9 @@ class PredictResponse(BaseModel):
     error: str | None = None
     scientific_status: str = "EXPERIMENTAL"
     transfer_manifest: dict[str, Any] | None = None
+    vina_version: str | None = None
+    vina_seed: int | None = None
+    vina_exhaustiveness: int | None = None
 
 
 class HealthResponse(BaseModel):
@@ -136,6 +139,9 @@ def _result_to_response(r: PredictionResult) -> PredictResponse:
         error=r.error,
         scientific_status=r.scientific_status,
         transfer_manifest=r.transfer_manifest,
+        vina_version=r.vina_version,
+        vina_seed=r.vina_seed,
+        vina_exhaustiveness=r.vina_exhaustiveness,
     )
 
 

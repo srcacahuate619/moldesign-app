@@ -15,12 +15,19 @@ ELEMENTOS_PARAMETRIZABLES: frozenset[str] = frozenset({"C", "H", "O", "N", "S", 
 #: La condición bajo la cual el número significa algo. Viaja con el número:
 #: a la pantalla, a la respuesta del endpoint y al dossier.
 MMGBSA_CONDICION: str = (
-    "Resultado del motor MM-GBSA legacy no validado científicamente: el tipado "
+    "Resultado del motor MM-GBSA legacy invalidado científicamente: el tipado "
     "del ligando sobre AMBER14 presenta parámetros incompletos y cargas "
     "inconsistentes entre electrostática y solvatación. No se ha demostrado "
     "que permita ordenar poses, ni que sus errores se cancelen. No es comparable "
     "entre ligandos distintos ni con un ΔG experimental; no debe sustentar "
     "decisiones científicas hasta validar el protocolo de reemplazo."
+)
+
+
+MMGBSA_NO_DISPONIBLE: str = (
+    "MM-GBSA no disponible (MMGBSA_CONDICION): el motor legacy no supera la guardia de "
+    "parametrización; las cargas electrostáticas y GB del ligando son inconsistentes. "
+    "Los valores históricos sin versión del motor quedan invalidados para interpretación científica."
 )
 
 

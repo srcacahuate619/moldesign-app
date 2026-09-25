@@ -63,7 +63,7 @@ def build_evaluation_report_request(
         clgnn_prob=result.clgnn_score,
         quantum_score=result.quantum_score,
         ums_score=result.ums_score,
-        mmgbsa_score=result.mmgbsa_score,
+        mmgbsa_score=None,  # valor legacy sin procedencia invalidado
         target_family=result.target_family,
     )
 

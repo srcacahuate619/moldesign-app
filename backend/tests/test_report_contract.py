@@ -273,6 +273,9 @@ class TestPdfReportContract:
             adme_score=68.0,
             druglikeness_score=70.0,
             gnn_score=0.5,
+            gnn_attention=[0.1, 0.6, 0.2],
+            gnn_attention_svg="<svg/>",
+            gnn_pharmacophores={"Aromaticos / Pi-Stacking": 80.0},
             docking_poses=[
                 {"rank": 1, "affinity": -5.8, "rmsd_lb": 0.0, "rmsd_ub": 0.0},
                 {"rank": 2, "affinity": -5.1, "rmsd_lb": 1.1, "rmsd_ub": 1.4},
@@ -332,6 +335,10 @@ class TestPdfReportContract:
             assert "SIGUIENTE ACCIÓN JUSTIFICABLE" in text
             assert "Matriz de evidencia por dimensión" in text
             assert "Validez física de poses" in text
+            assert "red neuronal geométrica" not in text
+            assert "RTMScore" not in text
+            assert "Atención GNN" not in text
+            assert "Desglose de señales farmacofóricas (GNN)" not in text
             assert "Proof of Discovery" not in text
             assert "Control Nativo" not in text
             assert "Referencia Target" not in text

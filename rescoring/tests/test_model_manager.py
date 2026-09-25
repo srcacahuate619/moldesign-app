@@ -171,3 +171,58 @@ class TestPrepareFeatureVector:
         features = {"a_feat": 1.0, "b_feat": 2.0, "c_feat": 0.0}
         vector = mm._prepare_feature_vector(features, model="A")
         assert vector.dtype == np.float64
+
+
+def test_missing_receptor_abstiene_modelo_y_clasificador(tmp_path):
+    from schemas import RescoreRequest
+
+    request = RescoreRequest.model_validate({
+        "smiles": "CCO",
+        "target_pdb_path": str(tmp_path / "missing.pdb"),
+        "poses": [{
+            "pdbqt_block": "ATOM      1  C1  LIG A   1       0.000   0.000   0.000",
+            "vina_score": -8.0,
+            "rmsd_lb": 0.0,
+            "rmsd_ub": 0.0,
+        }],
+        "molecular_weight": 46.07,
+        "logp": -0.31,
+        "tpsa": 20.23,
+        "hbd": 1,
+        "hba": 1,
+        "rotatable_bonds": 0,
+        "qed": 0.4,
+    })
+    result = ModelManager().predict(request)
+    assert result.score_a is None
+    assert result.classifier_prob is None
+    assert result.delta.delta is None
+    assert any("Features 3D no disponibles" in w for w in result.warnings)
+
+
+def test_batch_missing_receptor_no_devuelve_probabilidad(tmp_path):
+    from schemas import RescoreRequest
+
+    class FakeModel:
+        def predict(self, matrix):
+            return [0.8]
+
+    request = RescoreRequest.model_validate({
+        "smiles": "CCO",
+        "target_pdb_path": str(tmp_path / "missing.pdb"),
+        "poses": [{
+            "pdbqt_block": "ATOM      1  C1  LIG A   1       0.000   0.000   0.000",
+            "vina_score": -8.0, "rmsd_lb": 0.0, "rmsd_ub": 0.0,
+        }],
+        "molecular_weight": 46.07, "logp": -0.31, "tpsa": 20.23,
+        "hbd": 1, "hba": 1, "rotatable_bonds": 0, "qed": 0.4,
+    })
+    mm = ModelManager()
+    mm.model_a_artifact = {"feature_names": ["mw"]}
+    mm.model_a = FakeModel()
+    mm.model_null = FakeModel()
+    result = mm.predict_batch([request])[0]
+    assert result["excluded"] is True
+    assert result["score_a"] is None
+    assert result["classifier_prob"] is None
+    assert "Features 3D no disponibles" in result["warnings"][0]

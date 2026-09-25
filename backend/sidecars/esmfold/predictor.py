@@ -17,6 +17,7 @@ import hashlib
 import math
 import os
 import random
+import re
 import shutil
 import sys
 import tempfile
@@ -98,6 +99,17 @@ class PredictionResult:
     error: str | None = None
     scientific_status: str = "EXPERIMENTAL"
     transfer_manifest: dict | None = None
+    vina_version: str | None = None
+    vina_seed: int | None = None
+    vina_exhaustiveness: int | None = None
+
+
+def _metadata_vina(stdout: str) -> tuple[str | None, int | None]:
+    """Metadatos observados en stdout; el comando solicitado no prueba ejecución."""
+    version = re.search(r"AutoDock Vina\s+v([\d.]+)", stdout)
+    seed = re.search(r"random seed:\s*(-?\d+)", stdout)
+    return (version.group(1) if version else None,
+            int(seed.group(1)) if seed else None)
 
 
 # ── Interfaz abstracta ────────────────────────────────────────────────────
@@ -367,7 +379,7 @@ class ESMFoldFastPredictor(BasePredictor):
             if plddt < 50.0:
                 warnings.append(
                     f"pLDDT bajo ({plddt:.1f}). La estructura plegada tiene baja confianza. "
-                    "Considerá usar esmfold-pro para mayor precisión."
+                    "Revisa la secuencia y trata las poses posteriores como exploratorias."
                 )
 
             # 2b. Frontera quimica V1: el SMILES conserva la conectividad y
@@ -412,6 +424,7 @@ class ESMFoldFastPredictor(BasePredictor):
                 grid_center, grid_size = self._compute_grid_from_ligand(pep_path)
 
             # 5. Dockear con Vina
+            vina_version = vina_seed = vina_exhaustiveness = None
             if self._vina_path is None:
                 warnings.append("Vina no encontrado. Devolviendo estructura plegada sin docking.")
                 # `origen` iba por defecto, y su defecto es `ORIGEN_VINA`: esta
@@ -426,7 +439,7 @@ class ESMFoldFastPredictor(BasePredictor):
                                   origen=ORIGEN_SOLO_PLEGADO)
                 ]
             else:
-                poses = await asyncio.to_thread(
+                poses, vina_version, vina_seed, vina_exhaustiveness = await asyncio.to_thread(
                     self._vina_dock, ligand_input_path, rec_path,
                     grid_center, grid_size, num_poses
                 )
@@ -461,6 +474,9 @@ class ESMFoldFastPredictor(BasePredictor):
                 warnings=warnings,
                 scientific_status=("COMPLETED" if any(p.vina_affinity_kcal_mol is not None for p in poses) else "NOT_EVALUATED_DOCKING_FAILED"),
                 transfer_manifest=transfer_manifest,
+                vina_version=vina_version,
+                vina_seed=vina_seed,
+                vina_exhaustiveness=vina_exhaustiveness,
             )
 
         except Exception as e:
@@ -714,7 +730,7 @@ class ESMFoldFastPredictor(BasePredictor):
         center: tuple[float, float, float],
         size: tuple[float, float, float],
         num_poses: int,
-    ) -> list[PredictedPose]:
+    ) -> tuple[list[PredictedPose], str | None, int | None, int | None]:
         """
         Ejecuta AutoDock Vina para dockear el péptido plegado contra el receptor.
 
@@ -809,18 +825,18 @@ class ESMFoldFastPredictor(BasePredictor):
                     mol = Chem.MolFromPDBFile(ligand_pdb_path, removeHs=False, sanitize=True)
                 if mol is None:
                     log.warning("ligando_pdb_no_parseable", ruta=ligand_pdb_path)
-                    return ESMFoldFastPredictor._fallback_poses(ligand_pdb_path)
+                    return ESMFoldFastPredictor._fallback_poses(ligand_pdb_path), None, None, None
                 mol = Chem.AddHs(mol, addCoords=True)
 
                 preparacion = MoleculePreparation()
                 setups = preparacion.prepare(mol)
                 if not setups:
                     log.warning("meeko_sin_setups")
-                    return ESMFoldFastPredictor._fallback_poses(ligand_pdb_path)
+                    return ESMFoldFastPredictor._fallback_poses(ligand_pdb_path), None, None, None
                 pdbqt_str, ok, msg = PDBQTWriterLegacy.write_string(setups[0])
                 if not ok:
                     log.warning("meeko_write_failed", detalle=str(msg)[:300])
-                    return ESMFoldFastPredictor._fallback_poses(ligand_pdb_path)
+                    return ESMFoldFastPredictor._fallback_poses(ligand_pdb_path), None, None, None
                 lig_pdbqt.write_text(pdbqt_str, encoding="utf-8")
                 pdbqt_atom_map = ESMFoldFastPredictor._pdbqt_heavy_index_map(
                     pdbqt_str, mol
@@ -828,7 +844,7 @@ class ESMFoldFastPredictor(BasePredictor):
             except Exception as exc:
                 log.warning("meeko_ligand_prep_failed",
                             error=f"{type(exc).__name__}: {exc}"[:300])
-                return ESMFoldFastPredictor._fallback_poses(ligand_pdb_path)
+                return ESMFoldFastPredictor._fallback_poses(ligand_pdb_path), None, None, None
 
             result = _meeko_receptor(receptor_pdb_path, rec_pdbqt)
             # El recorte va por la COLA. `stderr[:300]` dejaba fuera el error y
@@ -841,9 +857,10 @@ class ESMFoldFastPredictor(BasePredictor):
                     salida_existe=rec_pdbqt.is_file(),
                     stderr=(result.stderr or "")[-600:],
                 )
-                return ESMFoldFastPredictor._fallback_poses(ligand_pdb_path)
+                return ESMFoldFastPredictor._fallback_poses(ligand_pdb_path), None, None, None
 
             # Ejecutar Vina
+            vina_exhaustiveness = 8
             vina_cmd = [
                 self._vina_path,
                 "--ligand", str(lig_pdbqt),
@@ -852,7 +869,7 @@ class ESMFoldFastPredictor(BasePredictor):
                 "--size_x", str(sx), "--size_y", str(sy), "--size_z", str(sz),
                 "--out", str(out_pdbqt),
                 "--num_modes", str(num_poses),
-                "--exhaustiveness", "8",
+                "--exhaustiveness", str(vina_exhaustiveness),
                 "--seed", "42",
             ]
             # ── TRES TIMEOUTS EN CASCADA, Y ÉSTE ES EL QUE MANDA ─────────
@@ -913,7 +930,7 @@ class ESMFoldFastPredictor(BasePredictor):
             if result.returncode != 0 or not out_pdbqt.exists():
                 log.warning("vina_docking_failed", returncode=result.returncode,
                            stderr=result.stderr[:200])
-                return ESMFoldFastPredictor._fallback_poses(ligand_pdb_path)
+                return ESMFoldFastPredictor._fallback_poses(ligand_pdb_path), None, None, None
 
             # Parsear output PDBQT → poses
             poses = ESMFoldFastPredictor._parse_vina_pdbqt(
@@ -923,7 +940,8 @@ class ESMFoldFastPredictor(BasePredictor):
                 pose.ligand_sdf = ESMFoldFastPredictor._pose_sdf_from_pdbqt(
                     mol, pose.ligand_pdb, pdbqt_atom_map
                 )
-            return poses
+            vina_version, vina_seed = _metadata_vina(result.stdout or "")
+            return poses, vina_version, vina_seed, vina_exhaustiveness
 
     @staticmethod
     def _pdbqt_heavy_index_map(pdbqt_text: str, template_mol) -> dict[int, int]:

@@ -19,6 +19,7 @@ Por qué separarlos:
 """
 
 import enum
+import math
 import uuid
 from datetime import datetime
 from typing import Any, Literal
@@ -878,8 +879,8 @@ class DockingPose(BaseModel):
     """Una sola pose de docking retornada por AutoDock Vina."""
     rank:     int   = Field(..., ge=1)
     affinity: float = Field(..., description="Energía de unión en kcal/mol. Más negativo = mejor.")
-    rmsd_lb:  float = Field(..., ge=0, description="RMSD lower bound vs pose 1")
-    rmsd_ub:  float = Field(..., ge=0, description="RMSD upper bound vs pose 1")
+    rmsd_lb:  float | None = Field(..., ge=0, description="RMSD lower bound vs pose 1; None si no se midió")
+    rmsd_ub:  float | None = Field(..., ge=0, description="RMSD upper bound vs pose 1; None si no se midió")
     pdbqt_block: str | None = Field(None, description="Bloque PDBQT de la pose para rescoring.")
     # Optional metadata only: original rank/file/parser before ensemble sorting.
     # Historical rows remain unknown; no coordinates or scores are inferred.
@@ -896,6 +897,13 @@ class DockingPose(BaseModel):
     conformer_index: int | None = Field(
         None, ge=0, description="Índice 0-based de la conformación de origen. None si K=1."
     )
+
+    @field_validator("affinity", "rmsd_lb", "rmsd_ub")
+    @classmethod
+    def medidas_finitas(cls, valor: float | None) -> float | None:
+        if valor is not None and not math.isfinite(valor):
+            raise ValueError("Las medidas de cada pose deben ser finitas o ausentes.")
+        return valor
 
 
 class DockingResult(BaseModel):
@@ -963,7 +971,7 @@ class DockingResult(BaseModel):
         Permitimos 0.0 como caso borde de "ausencia de interacción" para evitar
         crashes de validación, aunque se tratará como score cero.
         """
-        if v > 0:
+        if not math.isfinite(v) or v > 0:
             raise ValueError(
                 f"La afinidad de docking debe ser negativa o cero (got {v}). "
                 "Un valor > 0 indica un error en el parsing de Vina."
@@ -1075,7 +1083,13 @@ class EvaluationResultRead(BaseModel):
     clgnn_score:          float | None = None  # CL-GNN contrastive learning score
     quantum_score:        float | None = None  # xTB + MMFF94 quantum features
     ums_score:            float | None = None  # Universal Metal Score (SMARTS warheads Zn2+, M5)
-    mmgbsa_score:         float | None = None  # MM-GBSA delta G (OpenMM OBC2)
+    mmgbsa_score:         float | None = None  # Legacy invalidado; no se expone como energía.
+
+    @field_validator("mmgbsa_score")
+    @classmethod
+    def invalidar_mmgbsa_sin_procedencia(cls, value: float | None) -> None:
+        # No existe versión de motor en el esquema histórico: ningún float es verificable.
+        return None
     stacking_vina_weight: float | None = None  # peso de Vina
     stacking_xgb_weight:  float | None = None  # peso del clasificador XGBoost
     stacking_gnn_weight:  float | None = None  # peso de la GNN LEGACY (RTMScore)

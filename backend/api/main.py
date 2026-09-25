@@ -266,76 +266,8 @@ async def _lifespan_owned(app: FastAPI):
     except Exception as e:
         log.warning("reconciliacion_cohort_runs_fallo", error=str(e)[:200])
 
-    # v1.3: Pre-cargar ModelManager una sola vez en el startup
-    # (antes se instanciaba y cargaba en CADA /rescore — 5s por request)
-    # FIX: antes hacia `from rescoring.model_manager import ModelManager`
-    # directo, que rompia si el repo root no estaba en sys.path
-    # (cwd de uvicorn es backend/, no el repo root). Ahora usamos el
-    # bridge services/rescoring_bridge.py que normaliza los paths, los
-    # env vars y cachea via lru_cache, así el startup y el primer
-    # request comparten la misma instancia.
-    # El precalentamiento NO bloquea el arranque.
-    #
-    # POR QUE CAMBIO. Cargar aqui el ModelManager costaba 4,45 s de los 5,03 s
-    # que tardaba el `lifespan` entero (medido con el log de arranque del
-    # 2026-09-01). Durante esos segundos la ventana de la aplicacion no se abre:
-    # el supervisor de Rust espera a que /health conteste. Y lo que se estaba
-    # esperando eran unos modelos que NADIE necesita para abrir la aplicacion —
-    # solo hacen falta cuando se rescorea una pose, al final de un docking que
-    # dura minutos.
-    #
-    # Sigue siendo un precalentamiento, no una carga perezosa: se lanza en
-    # cuanto la aplicacion esta sirviendo y termina mucho antes de que la
-    # primera evaluacion llegue a necesitarlo. Lo que se elimina es la espera.
-    #
-    # `asyncio.to_thread` y no `create_task` a secas: `get_model_manager()` es
-    # trabajo bloqueante (lee JSON, instancia xgboost) y en el bucle de eventos
-    # congelaria el servidor los mismos 4,45 s, que es justo lo que se quiere
-    # evitar.
-    #
-    # Si una peticion a /rescore llegara ANTES de que termine, su fallback
-    # perezoso —que ya existia— la resuelve por el mismo bridge cacheado. En el
-    # peor caso se carga dos veces una sola vez; nunca da un resultado distinto.
-    app.state.model_manager = None
-
-    # La siembra de estructuras va en el mismo hilo de fondo: son copias de
-    # archivo, no pueden bloquear la ventana, y tienen que estar hechas antes
-    # de que nadie pulse «Comprobar preparacion».
-    async def _sembrar_estructuras() -> None:
-        try:
-            from services.semilla_estructuras import sembrar_estructuras_empaquetadas
-            recuento = await asyncio.to_thread(sembrar_estructuras_empaquetadas)
-            if recuento["sembradas"]:
-                log.info("estructuras_empaquetadas_sembradas", **recuento)
-        except Exception as e:
-            log.warning("siembra_de_estructuras_fallo", error=str(e)[:200])
-
-    app.state._siembra_estructuras = asyncio.create_task(_sembrar_estructuras())
-
-    async def _precalentar_model_manager() -> None:
-        try:
-            from services.rescoring_bridge import get_model_manager
-            mgr, _, _, _ = await asyncio.to_thread(get_model_manager)
-            app.state.model_manager = mgr
-            if mgr is not None and getattr(mgr, "is_loaded", False):
-                log.info("ModelManager precalentado en segundo plano",
-                         models=list(getattr(mgr, "models", {}).keys())
-                         if hasattr(mgr, "models") else [])
-            else:
-                log.warning("ModelManager no disponible, /rescore hara fallback",
-                            error="rescoring_bridge.get_model_manager returned None")
-        except Exception as e:
-            log.warning("ModelManager no pudo precalentarse, /rescore hara fallback",
-                        error=str(e)[:200])
-            app.state.model_manager = None
-
-    # La referencia se guarda en `app.state`: una tarea sin referencias fuertes
-    # puede ser recolectada a mitad de ejecucion.
-    app.state._precalentado_rescoring = asyncio.create_task(_precalentar_model_manager())
-
     yield
 
-    app.state.model_manager = None
     await close_engine()
     log.info("aplicacion MolDesign detenida limpiamente")
 
@@ -400,58 +332,6 @@ if settings.montar_routers_dormidos:
             "Se montaron porque MONTAR_ROUTERS_DORMIDOS está activo."
         ),
     )
-
-
-# ── Rescoring inline (backend desktop) ──────────────────────────────────────
-@app.post("/rescore", tags=["Rescoring"])
-async def rescore_inline(request: Request):
-    """ML rescoring inline — sin sidecar separado.
-
-    ModelManager se carga una sola vez en el lifespan de la app
-    (app.state.model_manager), no por request.
-    """
-    body = await request.json()
-    mgr = getattr(request.app.state, "model_manager", None)
-    if mgr is None:
-        # Fallback: si el startup no pudo cargar, cargar lazy una vez
-        # via el mismo bridge que usa el startup (consistencia + cache).
-        try:
-            from services.rescoring_bridge import get_model_manager
-            mgr, _, _, _ = get_model_manager()
-            request.app.state.model_manager = mgr
-        except Exception as e:
-            return {"fallback": True, "error": f"ModelManager unavailable: {str(e)[:100]}",
-                    "score_a": 0.0, "gnn_score": None, "warnings": []}
-        if mgr is None:
-            return {"fallback": True, "error": "ModelManager unavailable: rescoring module not loaded",
-                    "score_a": 0.0, "gnn_score": None, "warnings": []}
-
-    poses = body.get("poses", [])
-    target_pdb = body.get("target_pdb_path", "")
-    smiles = body.get("smiles", "")
-
-    # FIX: arg-order bug. Firma real: extract_from_pose(pose_pdbqt_block,
-    # target_pdb_path, smiles=""), NO (smiles, poses[0], target_pdb).
-    pose_block = poses[0].get("pdbqt_block", "") if poses else ""
-
-    try:
-        from services.rescoring_bridge import get_interaction_feature_extractor
-        InteractionFeatureExtractor = get_interaction_feature_extractor()
-        extractor = InteractionFeatureExtractor()
-        features = extractor.extract_from_pose(
-            pose_block, target_pdb, smiles=smiles, skip_prolif=True,
-        )
-        result = mgr.predict(features, smiles)
-        return {
-            "score_a": result.score_a,
-            "gnn_score": result.gnn_score,
-            "warnings": result.warnings or [],
-        }
-    except Exception as e:
-        return {
-            "fallback": True, "error": str(e)[:100],
-            "score_a": 0.0, "gnn_score": None, "warnings": [],
-        }
 
 
 @app.exception_handler(RequestValidationError)

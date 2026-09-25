@@ -86,7 +86,7 @@ motor legacy. Rechaza enlaces/ángulos sin término ni restricción aplicable,
 cargas GB/electrostática incoherentes y excepciones de carga vacías cuando no
 corresponde. Devuelve un error explícito; no fabrica una energía.
 
-Esto puede hacer que MM-GBSA legacy se abstenga con frecuencia mientras se
+Esto hace que MM-GBSA legacy se abstenga siempre por construcción mientras se
 valida el reemplazo. Es una limitación real y transitoria, no disponibilidad
 restaurada. La guardia es necesaria pero no suficiente: no demuestra tipado
 correcto, cobertura completa de torsiones ni validez predictiva.

@@ -81,9 +81,9 @@
 - **ECIF Features**: reduccion de 176→68 features. ECIF (56) + Vina (4) + 1D/2D (8). Menos overfitting.
 - **Vina Features Reales**: 540/865 complejos PDBbind re-dockeados. Features Vina no-cero en training.
 - **Delta-Learning**: modelo entrena en pKi - Vina_pKi. Reconstruccion en inferencia.
-- **Clasificador Binario**: XGBoost classifier pKi>7 con ROC AUC 0.858. Integrado en /rescore.
+- **Clasificador Binario**: XGBoost classifier pKi>7 con ROC AUC 0.858. Usado por el servicio interno de rescoring; el endpoint inline `POST /rescore` del backend de escritorio se retiró en API-008.
 - **QuickVina 2**: cableado `docking_engine` en vina_service.py. Modo rapido exhaustiveness=4 (~3x).
-- **Interaction Fingerprints**: conteos ProLIF expuestos en /rescore para consenso scoring.
+- **Interaction Fingerprints**: conteos ProLIF disponibles en el sidecar de rescoring; el backend de escritorio ya no publica `POST /rescore`.
 
 ### Infraestructura
 

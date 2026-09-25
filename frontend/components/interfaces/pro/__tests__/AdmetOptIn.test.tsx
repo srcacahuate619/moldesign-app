@@ -85,15 +85,9 @@ describe("defecto de ADMET-AI", () => {
     expect(admetSwitch()).toHaveAttribute("aria-checked", "false");
   });
 
-  it("los módulos que sí eran opt-out siguen como estaban", () => {
-    // El cambio es de ADMET, no una revisión del panel entero: MM-GBSA sigue
-    // encendido y Selectividad apagada. Si esto se rompe, alguien movió algo
-    // que nadie pidió mover.
+  it("mantiene selectividad apagada y no ofrece MM-GBSA legacy", () => {
     abrirOpciones();
-    expect(screen.getByRole("switch", { name: "Refinamiento MM-GBSA" })).toHaveAttribute(
-      "aria-checked",
-      "true",
-    );
+    expect(screen.queryByRole("switch", { name: "Refinamiento MM-GBSA" })).not.toBeInTheDocument();
     expect(
       screen.getByRole("switch", { name: "Selectividad Anti-Target" }),
     ).toHaveAttribute("aria-checked", "false");

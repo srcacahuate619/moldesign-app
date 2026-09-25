@@ -314,23 +314,9 @@ def estimar_corrida(
         total_min += SEGUNDOS_PREPARAR_RECEPTOR
         total_max += SEGUNDOS_PREPARAR_RECEPTOR * 3
 
-    if usa_mmgbsa:
-        if gpu_cuda:
-            gbsa_min, gbsa_max, nota = 15.0, 30.0, "Acelerado por GPU CUDA."
-        elif gpu_opencl:
-            gbsa_min, gbsa_max, nota = 30.0, 60.0, "GPU OpenCL."
-        else:
-            gbsa_min, gbsa_max, nota = 120.0, 300.0, "Sin GPU: corre en CPU y es lento."
-        etapas.append({
-            "etapa": "MM-GBSA",
-            "segundos_min": round(gbsa_min * ligandos),
-            "segundos_max": round(gbsa_max * ligandos),
-            "nota": nota,
-        })
-        total_min += gbsa_min * ligandos
-        total_max += gbsa_max * ligandos
-
     avisos: list[str] = []
+    if usa_mmgbsa:
+        avisos.append("MM-GBSA no disponible: parametrización legacy inconsistente; no se estima tiempo de esa etapa.")
     if por_acoplamiento_max > TIMEOUT_DOCKING_S:
         avisos.append(
             f"Con esta configuración un solo acoplamiento podría superar el límite de "

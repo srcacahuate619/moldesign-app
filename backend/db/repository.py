@@ -917,8 +917,8 @@ class Repository:
                 return {
                     "rank": int(p.rank),
                     "affinity": float(p.affinity),
-                    "rmsd_lb": float(p.rmsd_lb),
-                    "rmsd_ub": float(p.rmsd_ub),
+                    "rmsd_lb": float(p.rmsd_lb) if p.rmsd_lb is not None else None,
+                    "rmsd_ub": float(p.rmsd_ub) if p.rmsd_ub is not None else None,
                     "pdbqt_block": getattr(p, "pdbqt_block", None),
                     "conformer_index": getattr(p, "conformer_index", None),
                     # EL FALLO QUE ARREGLA (ENS-07). Esta lista enumera los

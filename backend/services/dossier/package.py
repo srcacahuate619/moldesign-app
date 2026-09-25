@@ -173,9 +173,12 @@ Con MolDesign: abre el caso, restaura los inputs de `case/case_snapshot.json`,
 ejecuta la comprobación previa y compara la huella resultante con
 `input_fingerprint`. Si coincide, la corrida nueva parte de la misma hipótesis.
 
-Fuera de MolDesign: `run/protocol.json` lleva motor, versión, semilla,
-exhaustividad y caja. Con el receptor y el ligando de `inputs/` puede repetirse
-el acoplamiento con AutoDock Vina directamente.
+Fuera de MolDesign: consulta el estado de cada campo en `run/protocol.json`.
+Sólo los valores `REGISTRADO` proceden de la corrida; los `NO_DISPONIBLE`
+impiden afirmar que el cálculo puede reconstruirse. Usa
+`inputs/ligand_docked.smi` para la especie acoplada y `inputs/ligand.smi`
+para la entrada original, cuando ambos archivos estén registrados. Comprueba
+también el receptor preparado y la caja efectiva antes de repetir Vina.
 
 ## 3.1. La evidencia estructural, en crudo
 

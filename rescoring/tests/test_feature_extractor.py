@@ -65,16 +65,15 @@ class TestFeatureContracts:
 class TestGracefulDegradation:
     """Unreadable structures must preserve the complete public contract."""
 
-    def test_missing_training_files_return_complete_zero_contract(self, tmp_path):
+    def test_missing_training_files_declara_extraccion_ausente(self, tmp_path):
         extractor = InteractionFeatureExtractor()
         features = extractor.extract_from_files(
             tmp_path / "missing-protein.pdb",
             tmp_path / "missing-ligand.sdf",
         )
-        assert list(features) == EXTRACTED_3D_FEATURES
-        assert set(features.values()) == {0.0}
+        assert features is None
 
-    def test_missing_target_pose_returns_complete_zero_contract(self, tmp_path):
+    def test_missing_target_pose_declara_extraccion_ausente(self, tmp_path):
         extractor = InteractionFeatureExtractor()
         features = extractor.extract_from_pose(
             "ATOM      1  C1  LIG A   1       0.000   0.000   0.000",
@@ -82,5 +81,4 @@ class TestGracefulDegradation:
             smiles="CCO",
             skip_prolif=True,
         )
-        assert list(features) == EXTRACTED_3D_FEATURES
-        assert set(features.values()) == {0.0}
+        assert features is None

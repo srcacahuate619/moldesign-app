@@ -64,7 +64,7 @@ def test_los_elementos_soportados_son_los_que_tienen_tipo_de_proteina():
 
 def test_la_condicion_dice_para_que_sirve_y_para_que_no():
     # No atribuir utilidad para ordenar poses sin una validación experimental.
-    assert "no validado científicamente" in MMGBSA_CONDICION
+    assert "invalidado científicamente" in MMGBSA_CONDICION
     assert "No se ha demostrado" in MMGBSA_CONDICION
     assert "No es comparable entre" in MMGBSA_CONDICION
     assert "experimental" in MMGBSA_CONDICION
@@ -72,7 +72,7 @@ def test_la_condicion_dice_para_que_sirve_y_para_que_no():
     assert "AMBER14" in MMGBSA_CONDICION
 
 
-def test_la_condicion_viaja_con_el_numero_al_resumen_de_evidencia():
+def test_el_valor_legacy_queda_invalidado_en_resumen_de_evidencia():
     from services.blockchain.evidence_summary import build_evidence_summary
 
     class _Eval:
@@ -82,11 +82,12 @@ def test_la_condicion_viaja_con_el_numero_al_resumen_de_evidencia():
 
     resumen = build_evidence_summary(_Eval())
     mmgbsa = resumen["ml_signals"]["mmgbsa"]
-    assert mmgbsa["salida_kcal_mol"] == -21.4
+    assert mmgbsa["salida_kcal_mol"] is None
+    assert mmgbsa["status"] == "legacy_invalidado"
     assert mmgbsa["condicion_de_validez"] == MMGBSA_CONDICION
 
 
-def test_sin_numero_no_hay_condicion_que_declarar():
+def test_sin_numero_el_motor_sigue_no_disponible():
     from services.blockchain.evidence_summary import build_evidence_summary
 
     class _Eval:
@@ -95,7 +96,7 @@ def test_sin_numero_no_hay_condicion_que_declarar():
         scientific_warnings = []
 
     resumen = build_evidence_summary(_Eval())
-    assert resumen["ml_signals"]["mmgbsa"]["condicion_de_validez"] is None
+    assert resumen["ml_signals"]["mmgbsa"]["status"] == "no_disponible"
 
 
 def test_el_modulo_muerto_ya_no_ofrece_un_calculo_falso():

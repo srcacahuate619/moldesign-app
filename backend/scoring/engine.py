@@ -457,7 +457,7 @@ def calculate_score_breakdown(
     ═══════════════════════════════════════════════════════════════════════
     REGLA DE ORO v2.0 — DESACOPLAMIENTO DE MÉTRICAS (fix #2 Spearman)
     ═══════════════════════════════════════════════════════════════════════
-    El ranking de afinidad (total_score) usa SOLO docking + ML + MM-GBSA.
+    El ranking de afinidad (total_score) usa docking + ML. MM-GBSA legacy está retirado.
     ADME, Drug-likeness, SA Score y Blood Viability son "flags" de perfil
     farmacocinético para el químico medicinal — NUNCA alteran el score
     de afinidad.
@@ -471,7 +471,7 @@ def calculate_score_breakdown(
         gnn_score: Score de RTMScore GNN (deprecated). Se mantiene para compatibilidad.
         xgb_prob: Probabilidad del clasificador XGBoost (binder classifier).
         clgnn_prob: Probabilidad del CL-GNN contrastivo.
-        mmgbsa_score: MM-GBSA delta G (OpenMM OBC2). Se aplica solo al top 10%.
+        mmgbsa_score: valor legacy ignorado hasta disponer de un motor validado y versionado.
         target_family: Familia estructural (gpcr, kinase, protease, etc).
                       Determina los pesos del stacking.
     """
@@ -506,11 +506,8 @@ def calculate_score_breakdown(
     # no una señal ausente. Con `if docking.best_affinity` caía a `None`, el
     # stack se marcaba degradado y renormalizaba el peso de Vina a XGBoost, que
     # es un clasificador ligand-only y no ha visto el receptor.
-    vina_norm = (
-        _finite_or_none(min(1.0, abs(docking.best_affinity) / 12.0), "vina")
-        if docking.best_affinity is not None
-        else None
-    )
+    afinidad_finita = _finite_or_none(docking.best_affinity, "vina_affinity")
+    vina_norm = min(1.0, abs(afinidad_finita) / 12.0) if afinidad_finita is not None else None
     xgb_val = _finite_or_none(xgb_prob, "xgb")
     clgnn_val = _finite_or_none(clgnn_prob, "clgnn")
     quantum_val = _finite_or_none(quantum_score, "quantum")
@@ -652,16 +649,10 @@ def calculate_score_breakdown(
 
     adjusted_affinity_score = clamp_score(affinity_score * stacking_factor)
 
-    # MM-GBSA factor (ortogonal, se aplica sobre el score ajustado).
-    # [A3] NaN/Inf de MM-GBSA → factor neutro 1.0, no se fabrica un delta G.
-    mmgbsa_finite = _finite_or_none(mmgbsa_score, "mmgbsa")
-    if mmgbsa_finite is not None:
-        mmgbsa_norm = min(1.0, max(-1.0, mmgbsa_finite / 20.0))  # [-1, 1]
-        mmgbsa_factor = 1.0 + (mmgbsa_norm * 0.10)  # [0.9, 1.1]
-    else:
-        mmgbsa_factor = 1.0
-
-    adjusted_affinity_score = clamp_score(adjusted_affinity_score * mmgbsa_factor)
+    # El motor legacy carece de parametrización válida y de versión por corrida.
+    # Su float no puede influir en la puntuación ni figurar como energía.
+    mmgbsa_finite = None
+    mmgbsa_factor = 1.0
 
     # El ranking se basa PURAMENTE en la afinidad ajustada
     # specificity_multiplier solo aplica si hay hotspots validados

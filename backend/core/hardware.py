@@ -247,20 +247,8 @@ def estimate_evaluation_time(
         total_min += anti_time
         total_max += anti_time * 2
 
-    # MM-GBSA
     if use_mmgbsa:
-        if hardware.gpu_cuda:
-            gbsa_time = 15
-            estimates["mmgbsa"] = "15s (GPU CUDA acelerado)"
-        elif hardware.gpu_opencl:
-            gbsa_time = 30
-            estimates["mmgbsa"] = "30s (GPU OpenCL)"
-        else:
-            gbsa_time = 120
-            estimates["mmgbsa"] = "120s (CPU — lento)"
-
-        total_min += gbsa_time
-        total_max += gbsa_time * 1.5
+        estimates["mmgbsa"] = "No disponible: parametrización legacy inconsistente"
 
     estimates["total_seconds_min"] = total_min
     estimates["total_seconds_max"] = int(total_max)

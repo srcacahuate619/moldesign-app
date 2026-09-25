@@ -498,6 +498,16 @@ export type InteractionsReport = {
   molecule_id: string;
   target_pdb_id: string;
   pose_rank: number;
+  pose_source_path: string;
+  pose_source_sha256: string;
+  protein_source_path: string;
+  protein_source_sha256: string;
+  protein_filter: string;
+  engine: string;
+  hydrogen_model: string | null;
   total_interactions: number;
+  summary: Record<string, number>;
+  interactions_by_type: Record<string, InteractionDatum[]>;
+  pharmacophore_features: Record<string, unknown>;
   interactions: InteractionDatum[];
 };

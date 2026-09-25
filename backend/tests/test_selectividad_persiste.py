@@ -203,7 +203,6 @@ def test_ninguna_escritura_del_panel_se_traga_su_fallo():
         pro_features.save_selectivity_results_endpoint,
         pro_features.dock_single_anti_target,
         pro_features._persistir_anti_target,
-        pro_features.run_mmgbsa_endpoint,
     )
     for funcion in escriben:
         fuente = inspect.getsource(funcion)
@@ -221,20 +220,11 @@ def test_ninguna_escritura_del_panel_se_traga_su_fallo():
     # propiedad habria obligado a ensuciar codigo sano para callar una prueba.
 
 
-def test_el_mmgbsa_bajo_demanda_se_guarda():
-    """Costaba mil pasos de minimizacion y vivia solo en el estado del componente.
-
-    Recargar la pagina lo borraba y habia que repetirlo. Peor: el dossier lee
-    `mmgbsa_score` del ORM, asi que el informe declaraba «no calculado» un
-    MM-GBSA que el usuario habia visto en pantalla.
-    """
+def test_el_mmgbsa_bajo_demanda_esta_retirado():
+    """El endpoint no puede persistir floats sin versión ni modelo de carga."""
     import inspect
-
     from api.routers import pro_features
 
     fuente = inspect.getsource(pro_features.run_mmgbsa_endpoint)
-    assert "update_evaluation_for_task" in fuente and "mmgbsa_score=" in fuente, (
-        "el MM-GBSA bajo demanda vuelve a no persistirse"
-    )
-    assert "commit_with_retry" in fuente
-    assert '"persisted"' in fuente
+    assert "MMGBSA_NO_DISPONIBLE" in fuente
+    assert "update_evaluation_for_task" not in fuente

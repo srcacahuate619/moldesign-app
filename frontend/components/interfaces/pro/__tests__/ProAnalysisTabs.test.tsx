@@ -108,8 +108,9 @@ describe("ProAnalysisTabs", () => {
     expect(screen.getByText("selectividad real")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("tab", { name: /^MM-GBSA:/i }));
-    fireEvent.click(screen.getByRole("button", { name: /Configurar MM-GBSA/i }));
-    expect(onRequestMmgbsa).toHaveBeenCalledTimes(1);
+    expect(screen.getByText(/parametrización legacy no supera la guardia/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "No disponible" })).toBeDisabled();
+    expect(onRequestMmgbsa).not.toHaveBeenCalled();
 
     fireEvent.click(screen.getByRole("tab", { name: /^SAR:/i }));
     expect(screen.getByText("SAR existente")).toBeInTheDocument();

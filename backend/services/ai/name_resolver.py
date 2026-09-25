@@ -1,7 +1,7 @@
 """
 services/ai/name_resolver.py
 
-Centralized name -> canonical SMILES resolution for MolChat.
+Centralized name -> isomeric SMILES resolution for MolChat.
 
 Purpose
 -------
@@ -10,7 +10,7 @@ falling through to the LLM "proso" (conceptual) pipeline for molecules that
 are actually resolvable deterministically. When the user asks for the
 "properties of nicotine" or "properties of dapagliflozin" (in Spanish or
 English, with or without accents), this module resolves the name to a
-canonical SMILES so the factual pipeline (compute_properties via
+isomeric SMILES so the factual pipeline (compute_properties via
 tool_registry) can answer with verified data, bypassing the LLM entirely.
 
 Privacy contract (STRICT)
@@ -85,6 +85,7 @@ from pathlib import Path
 try:
     from services.ai.known_molecules import (
         ALL_NAMES,
+        NOMBRES_ESTEREO_PENDIENTE,
         get_english_name,
         get_smiles_by_name,
         normalize_name,
@@ -93,6 +94,7 @@ try:
 except Exception:  # ImportError or, if the module exists but is mid-edit, AttributeError
     _HAS_KNOWN_MOLECULES = False
     ALL_NAMES = []  # type: ignore[assignment]
+    NOMBRES_ESTEREO_PENDIENTE = frozenset()
 
     def normalize_name(s: str) -> str:  # minimal local fallback
         import unicodedata
@@ -129,12 +131,11 @@ except Exception:
 
 _PUBCHEM_TTL_SECONDS = 86400 * 30  # ~30 days
 
-# PubChem name -> CanonicalSMILES + light props endpoint. We request the same
-# light fields web_tools.pubchem_lookup requests, plus CanonicalSMILES so we
-# can persist a verified canonical form in the cache.
+# PR-ORQ-01: PUG-REST devuelve la propiedad isomérica bajo la clave SMILES.
+# ConnectivitySMILES omite estereoquímica y no sirve para resolver un fármaco.
 _PUBCHEM_NAME_URL = (
     "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/{name}"
-    "/property/MolecularWeight,XLogP,CanonicalSMILES/JSON"
+    "/property/MolecularWeight,XLogP,SMILES/JSON"
 )
 
 
@@ -149,7 +150,7 @@ class ResolutionResult:
     Fields
     ------
     smiles : str | None
-        Canonical SMILES if resolved, None if not.
+        Isomeric SMILES if available, None if not.
     source : str
         One of: "dict" | "molgraph_fts" | "pubchem" | "fuzzy" | "failed".
     english_name : str | None
@@ -258,8 +259,8 @@ def _query_molgraph_fts(
 def _pubchem_name_to_smiles(name: str, timeout_seconds: float) -> str | None:
     """Synchronous PubChem name->SMILES lookup. Runs inside a worker thread.
 
-    Returns the CanonicalSMILES on success, None on any failure (HTTP error,
-    timeout, no result, missing CanonicalSMILES field). NEVER raises — the
+    Returns the isomeric SMILES on success, None on any failure (HTTP error,
+    timeout, no result, missing SMILES field). NEVER raises — the
     caller relies on None to continue the fallback chain.
     """
     if not _HAS_WEB_TOOLS:
@@ -278,7 +279,7 @@ def _pubchem_name_to_smiles(name: str, timeout_seconds: float) -> str | None:
         return None
     if not props or not isinstance(props, list):
         return None
-    smiles = props[0].get("CanonicalSMILES") if isinstance(props[0], dict) else None
+    smiles = props[0].get("SMILES") if isinstance(props[0], dict) else None
     if not smiles or not isinstance(smiles, str):
         return None
     return smiles
@@ -329,8 +330,8 @@ def _pubchem_cached_smiles_for(name: str) -> str | None:
         try:
             row = conn.execute(
                 "SELECT smiles, fetched_at FROM cache "
-                "WHERE data_json LIKE ? LIMIT 1",
-                (f'%"name": "%{name}%"%',),
+                "WHERE data_json LIKE ? AND data_json LIKE ? LIMIT 1",
+                (f'%"name": "%{name}%"%', '%"smiles_kind": "isomeric_v1"%'),
             ).fetchone()
         finally:
             conn.close()
@@ -513,7 +514,7 @@ async def resolve_molecule_name(
     molgraph_db_path: Path | None = None,
     timeout_seconds: float = 4.0,
 ) -> ResolutionResult:
-    """Resolve a user-typed molecule name into a canonical SMILES.
+    """Resolve a user-typed molecule name into an isomeric SMILES when available.
 
     Parameters
     ----------
@@ -602,6 +603,8 @@ async def _resolve_candidate(
     """
     if not normalized:
         return None
+    if normalized in NOMBRES_ESTEREO_PENDIENTE:
+        return None  # sin referencia de InChIKey completo; no consultar otras fuentes
 
     english_translation = get_english_name(normalized)
 
@@ -644,8 +647,8 @@ async def _resolve_candidate(
             # Persist into the shared cache so the next resolve is instant.
             data_json_blob = (
                 '{"name": "%s", '
-                '"canonical_smiles": "%s", '
-                '"resolved_by": "name_resolver"}'
+                '"isomeric_smiles": "%s", '
+                '"smiles_kind": "isomeric_v1", "resolved_by": "name_resolver"}'
                 % (query_name.replace('"', ''), smiles.replace('"', ''))
             )
             _cache_pubchem_result(smiles, data_json_blob, time.time())

@@ -215,12 +215,33 @@ def run_training_pipeline(
     # ─── Paso 6: Feature extraction masiva ───
     log.info("step_6_feature_extraction")
     feature_cache = Path(data_dir) / "feature_cache_v4"
-    _extract_features_for_all(
+    failed_3d_ids = _extract_features_for_all(
         vip_complexes,
         skip_structure_checks,
         max_workers=6,
         cache_dir=feature_cache,
     )
+    if failed_3d_ids:
+        vip_complexes = [c for c in vip_complexes if c.pdb_id not in failed_3d_ids]
+        report["excluded_missing_3d"] = sorted(failed_3d_ids)
+        log.warning("training_complexes_excluded_missing_3d",
+                    count=len(failed_3d_ids), ids=sorted(failed_3d_ids))
+        if len(vip_complexes) < 100:
+            report["status"] = "failed"
+            report["error"] = "Menos de 100 complejos con features 3D verificables."
+            _save_report(report, output_dir / "training_report.json")
+            return report
+        # Los splits anteriores incluían IDs excluidos; regenerarlos antes de entrenar.
+        test_ids = create_frozen_test_set(
+            vip_complexes, family_classifications, test_size=test_size, seed=seed,
+        )
+        splits = scaffold_split_cv(vip_complexes, test_ids, n_folds=n_folds, seed=seed)
+        save_split_config(test_ids, splits, output_dir / "split_config.json", seed=seed)
+        report["test_set_size"] = len(test_ids)
+        report["splits"] = {
+            "n_folds": n_folds,
+            "fold_sizes": [{"train": s.n_train, "val": s.n_val} for s in splits],
+        }
     log.info("step_6_complete")
 
     # ─── Paso 7: Entrenar Model A + Model NULL ───
@@ -377,7 +398,7 @@ def _extract_features_for_all(
     skip_structure: bool,
     max_workers: int = 6,
     cache_dir: str | Path | None = None,
-) -> None:
+) -> set[str]:
     """
     Extraer features para todos los complejos VIP.
 
@@ -422,6 +443,7 @@ def _extract_features_for_all(
     n_failed_3d = 0
     n_success_3d = 0
     n_cached_3d = 0
+    failed_ids: set[str] = set()
 
     # ── Preparar cache dir ──
     if cache_dir is not None:
@@ -464,17 +486,7 @@ def _extract_features_for_all(
 
     # ── Paso 2: Extraer Group C+D+E (3D) con multiprocessing ──
     if skip_structure or not extractor.is_available:
-        # Sin extracción 3D — rellenar zeros
-        for cpx in complexes:
-            cpx.features.update(zero_all_3d_features())
-        n_extracted = len(complexes)
-        log.info(
-            "features_extracted_no_3d",
-            total=n_extracted,
-            skip_structure=skip_structure,
-            prolif_available=extractor.is_available,
-        )
-        return
+        raise ValueError("Entrenamiento con features 3D ausentes: no se rellenan con ceros.")
 
     # Identificar qué complejos necesitan extracción 3D
     jobs: list[tuple[int, str, str, str]] = []  # (idx, pdb_id, prot_path, lig_path)
@@ -505,8 +517,8 @@ def _extract_features_for_all(
                         pass  # Cache corrupto or version mismatch, re-extraer
             jobs.append((i, pdb_id, str(cpx.protein_pdb_path), str(cpx.ligand_sdf_path)))
         else:
-            cpx.features.update(zero_all_3d_features())
-            n_extracted += 1
+            failed_ids.add(str(pdb_id))
+            n_failed_3d += 1
 
     print(f"[step6] Jobs to extract: {len(jobs)}, cached: {n_cached_3d}, no_paths: {len(complexes) - len(jobs) - n_cached_3d}", flush=True)
     log.info(
@@ -519,7 +531,7 @@ def _extract_features_for_all(
 
     # Ejecutar en paralelo con ProcessPoolExecutor
     t_start = time.time()
-    results_3d: dict[int, dict[str, float]] = {}
+    results_3d: dict[int, dict[str, float] | None] = {}
 
     effective_workers = min(max_workers, len(jobs)) if jobs else 1
     print(f"[step6] Starting ProcessPoolExecutor with {effective_workers} workers...", flush=True)
@@ -540,20 +552,18 @@ def _extract_features_for_all(
                 feats_3d = future.result(timeout=120)  # 2 min max por complejo
             except Exception as e:
                 log.warning("3d_extraction_worker_error", pdb_id=pdb_id, error=str(e))
-                feats_3d = zero_all_3d_features()
+                feats_3d = None
 
             results_3d[idx] = feats_3d
 
-            has_nonzero = any(
-                feats_3d.get(f, 0.0) > 0.0 for f in INTERACTION_FEATURES
-            )
-            if has_nonzero:
-                n_success_3d += 1
-            else:
+            if feats_3d is None:
+                failed_ids.add(str(pdb_id))
                 n_failed_3d += 1
+            else:
+                n_success_3d += 1
 
             # Guardar en cache (v4 format with version tag)
-            if cache_dir is not None:
+            if cache_dir is not None and feats_3d is not None:
                 try:
                     cache_file = cache_dir / f"{pdb_id}.json"
                     cache_data = {"version": CACHE_VERSION, "features": feats_3d}
@@ -580,7 +590,10 @@ def _extract_features_for_all(
 
     # Asignar features 3D a los complejos
     for idx, pdb_id, prot_path, lig_path in jobs:
-        feats_3d = results_3d.get(idx, zero_all_3d_features())
+        feats_3d = results_3d.get(idx)
+        if feats_3d is None:
+            failed_ids.add(str(pdb_id))
+            continue
         complexes[idx].features.update(feats_3d)
         n_extracted += 1
 
@@ -595,6 +608,7 @@ def _extract_features_for_all(
         avg_seconds_per_complex=round(total_time / max(len(jobs), 1), 1),
         max_workers=effective_workers,
     )
+    return failed_ids
 
 
 def _fill_1d2d_features(cpx, features: dict) -> None:

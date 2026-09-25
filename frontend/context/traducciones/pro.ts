@@ -43,7 +43,10 @@ export const pro: ModuloDeTraduccion = {
     pr_post_docking_limite:
       "Estas acciones amplían la evidencia de la corrida; no convierten una "
       + "afinidad de docking en actividad, eficacia o selectividad experimental.",
-    pr_refinar_mmgbsa: "Refinar una pose con MM-GBSA",
+    pr_refinar_mmgbsa: "MM-GBSA no disponible",
+    pr_mmgbsa_retirado: "La parametrización legacy no supera la guardia de integridad. Los valores históricos sin versión de motor están invalidados.",
+    pr_mmgbsa_indisponible: "No disponible",
+    pr_mmgbsa_control_retirado: "MM-GBSA no disponible: parametrización legacy inconsistente.",
     pr_ordenar_poses: "ordenar poses de esta misma molécula",
     pr_mmgbsa_no_comparable:
       "No es comparable entre moléculas distintas ni con un ΔG experimental: el "
@@ -223,7 +226,10 @@ export const pro: ModuloDeTraduccion = {
     pr_post_docking_limite:
       "These actions widen the evidence of the run; they do not turn a docking "
       + "affinity into experimental activity, efficacy or selectivity.",
-    pr_refinar_mmgbsa: "Refine a pose with MM-GBSA",
+    pr_refinar_mmgbsa: "MM-GBSA unavailable",
+    pr_mmgbsa_retirado: "Legacy parameterisation fails the integrity check. Historical values without a recorded engine version are invalid.",
+    pr_mmgbsa_indisponible: "Unavailable",
+    pr_mmgbsa_control_retirado: "MM-GBSA unavailable: inconsistent legacy parameterisation.",
     pr_ordenar_poses: "rank poses of this same molecule",
     pr_mmgbsa_no_comparable:
       "It is not comparable between different molecules, nor against an "

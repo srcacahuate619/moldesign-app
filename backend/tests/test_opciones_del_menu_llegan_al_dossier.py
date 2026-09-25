@@ -46,15 +46,14 @@ def _todos(d):
 
 # ── Los valores del menú, uno por uno ────────────────────────────────────
 
-def test_la_caja_efectiva_declara_centro_y_tamano():
-    """Sin la caja no se puede repetir la corrida: es DÓNDE se acopló."""
-    campo = _campo(_todos(_dossier()), "Caja efectiva")
-    assert campo.estado == Estado.REGISTRADO
-    # Los valores del fixture, no unos cualesquiera.
-    assert "103.03" in str(campo.valor)
-    assert "114.79" in str(campo.valor)
-    assert "108.36" in str(campo.valor)
-    assert "25.0" in str(campo.valor)
+def test_la_caja_declarada_no_se_presenta_como_ejecutada():
+    dossier = _dossier()
+    efectiva = _campo(_todos(dossier), "Caja efectiva")
+    declarada = _campo(_todos(dossier), "Caja declarada por el caso")
+    assert efectiva.estado == Estado.NO_DISPONIBLE
+    assert declarada.estado == Estado.REGISTRADO
+    assert "103.03" in str(declarada.valor)
+    assert "25.0" in str(declarada.valor)
 
 
 def test_los_residuos_de_referencia_se_enumeran():
@@ -106,6 +105,20 @@ def test_con_opciones_avanzadas_el_json_viaja_entero():
     assert campo.estado == Estado.REGISTRADO
     for clave in avanzadas:
         assert clave in str(campo.valor), f"falta {clave} en la configuración sellada"
+
+
+def test_el_snapshot_manda_sobre_los_valores_del_menu():
+    caso = caso_completo()
+    caso["projection"].inputs.config.exhaustiveness = 64
+    caso["projection"].inputs.config.num_poses = 20
+    caso["molecule"].smiles = "CCO"
+    campos = _todos(build_case_dossier(**caso))
+
+    assert _campo(campos, "Exhaustiveness").valor == "8"
+    assert _campo(campos, "Poses solicitadas").valor == "9"
+    assert _campo(campos, "Exhaustividad declarada por el caso").estado == Estado.REVISAR
+    assert _campo(campos, "Poses declaradas por el caso").estado == Estado.REVISAR
+    assert _campo(campos, "Ligando canónico (el que se acopla)").valor == "CC(=O)Oc1ccccc1C(=O)O"
 
 
 def test_la_semilla_queda_escrita():

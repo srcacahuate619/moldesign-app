@@ -26,6 +26,8 @@ async def run_peptide_docking_helper(
     grid_size: list[float] | None = None,
 ) -> Any:
     """Ejecuta la ruta peptídica y cae a Vina si el proveedor no responde."""
+    from services.docking.protocolo import validar_motor_solicitado
+    validar_motor_solicitado(peptide_engine=peptide_docking_engine)
     from core.models import DockingPose, DockingResult
     from utils.file_handlers import StoragePath, download_pdb_from_rcsb
     from utils.local_storage import exists, read_text, write_text
@@ -194,8 +196,8 @@ async def run_peptide_docking_helper(
             poses.append(DockingPose(
                 rank=p_pose.rank,
                 affinity=float(afinidad),
-                rmsd_lb=rmsd if rmsd is not None else 0.0,
-                rmsd_ub=rmsd if rmsd is not None else 0.0,
+                rmsd_lb=rmsd,
+                rmsd_ub=rmsd,
             ))
 
         plddt = ml_res.best_confidence
@@ -260,8 +262,10 @@ async def run_peptide_docking_helper(
                 poses=poses,
                 poses_file_path=poses_path,
                 parsing_source="sdf",
-                vina_version="AutoDock Vina 1.2.7",
-                vina_random_seed=42,
+                engine_efectivo="esmfold",
+                vina_version=getattr(ml_res, "vina_version", None),
+                vina_random_seed=getattr(ml_res, "vina_seed", None),
+                exhaustiveness_efectiva=getattr(ml_res, "vina_exhaustiveness", None),
                 scientific_warnings=scientific_warnings,
                 peptide_transfer_manifest=getattr(ml_res, "transfer_manifest", None),
             )

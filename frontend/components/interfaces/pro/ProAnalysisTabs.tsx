@@ -540,31 +540,18 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                       {t("pr_refinar_mmgbsa")}
                     </h4>
                   </div>
-                  {/* La frase anterior era «Usa la pose real de docking y reporta
-                      ΔG = G(complejo) − G(receptor) − G(ligando)». Describe la
-                      aritmética, que es cierta, y al leerse sola invita a tomar
-                      el número por una energía libre calculada con un campo de
-                      fuerzas adecuado al ligando. No lo es: el ligando se tipa
-                      sobre la biblioteca de PROTEÍNA de AMBER14. Lo que el
-                      método sostiene —ordenar poses del mismo ligando— se dice
-                      aquí, no en una nota que aparece después de calcular. */}
-                  <p className="mt-2 text-xs leading-5 text-zinc-400">
-                    {t("auto_3363d78ec95f")}{" "}
-                    <strong className="font-semibold text-zinc-300">{t("pr_ordenar_poses")}</strong>{" "}
-                    {t("auto_01a2c44be46f")}
-                  </p>
-                  <p className="mt-1.5 text-[11px] leading-5 text-amber-200/70">
-                    {t("pr_mmgbsa_no_comparable")}
+                  <p className="mt-2 text-xs leading-5 text-amber-200/80">
+                    {t("pr_mmgbsa_retirado")}
                   </p>
                 </div>
                 <button
                   type="button"
                   onClick={onRequestMmgbsa}
-                  disabled={!moleculeId || mmgbsaRunning || mmgbsaDone}
+                  disabled
                   className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-emerald-400/30 bg-emerald-500/15 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-100 transition-colors hover:bg-emerald-500/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <FlaskConical size={14} aria-hidden="true" />
-                  {mmgbsaRunning ? t("c_calculando") : mmgbsaDone ? "MM-GBSA disponible" : "Configurar MM-GBSA"}
+                  {t("pr_mmgbsa_indisponible")}
                 </button>
               </div>
               {!moleculeId && (

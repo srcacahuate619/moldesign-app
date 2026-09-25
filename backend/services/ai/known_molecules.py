@@ -26,9 +26,9 @@ The dict is intentionally LIMITED. For unknown molecules the orchestrator
 
 SMILES provenance
 -----------------
-TODA entrada de este diccionario esta verificada: `tests/test_known_molecules.py`
-comprueba que parsea en RDKit y que su formula molecular coincide con la
-referencia. La prueba falla si alguien anade una entrada sin referencia.
+Las entradas con referencia de fórmula se verifican en `tests/test_known_molecules.py`.
+La fórmula no determina estereoquímica: los nombres enantiopuros sin InChIKey
+completo quedan fuera hasta contar con referencia estereoespecífica. La prueba falla si alguien anade una entrada sin referencia.
 
 Las entradas que NO se pudieron verificar se RETIRARON, no se dejaron marcadas.
 Un nombre ausente lo resuelve `name_resolver` contra MolGraph o PubChem, que son
@@ -144,7 +144,7 @@ KNOWN_MOLECULES: dict[str, str] = {
 
     # ── Metabólicos / endocrino ──────────────────────────────────────────
     "metformina": "CN(C)C(=N)NC(=N)N",
-    "testosterona": "CC12CCC3C(CCC4=CC(=O)CCC34C)C1CCC2O",
+    "testosterona": "C[C@]12CC[C@H]3[C@@H](CCC4=CC(=O)CC[C@]34C)[C@@H]1CC[C@@H]2O",
     "estradiol": "C[C@]12CC[C@H]3[C@@H](CCc4cc(O)ccc34)[C@@H]1CC[C@@H]2O",
     "progesterona": "CC(=O)[C@H]1CC[C@H]2[C@@H]3CCC4=CC(=O)CC[C@]4(C)[C@H]3CC[C@]12C",
     "prednisona": "C[C@]12CC(=O)[C@H]3[C@@H](CCC4=CC(=O)C=C[C@]34C)[C@@H]1CC[C@]2(O)C(=O)CO",
@@ -258,6 +258,17 @@ KNOWN_MOLECULES: dict[str, str] = {
     "bencenoacetato": "CC(=O)Oc1ccccc1",  # aspirin residue base
     "acido benzoico": "OC(=O)c1ccccc1",
 }
+
+# ORQ-001: nombres enantiopuros cuyo SMILES local carecía de estereoquímica.
+# Un nombre de fármaco no puede acoplar una configuración arbitraria.
+# Se reincorporarán uno por uno con SMILES isomérico e InChIKey completo.
+NOMBRES_ESTEREO_PENDIENTE: frozenset[str] = frozenset({
+    "naproxeno", "paroxetina", "captopril", "penicilina", "penicilina g",
+    "penicillin g", "amoxicilina", "adrenalina", "epinefrina",
+    "glutamato", "nicotina", "nicotine",
+})
+for _nombre_ambiguo in NOMBRES_ESTEREO_PENDIENTE:
+    KNOWN_MOLECULES.pop(_nombre_ambiguo, None)
 
 # Remove the accidental placeholder entries added above while drafting.
 KNOWN_MOLECULES.pop("clindamicina_correct", None)
