@@ -267,8 +267,8 @@ class TestLlamadasRemotas:
     def test_con_el_interruptor_encendido_si_consulta(self, monkeypatch):
         salidas = []
 
-        def _espia(mensaje, contexto):
-            salidas.append(mensaje)
+        def _espia(mensaje, contexto, user_id=None):
+            salidas.append((mensaje, user_id))
             return "[PubChem] datos"
 
         monkeypatch.setattr(
@@ -282,6 +282,7 @@ class TestLlamadasRemotas:
         )
 
         assert salidas, "con el permiso dado, la consulta si procede"
+        assert salidas[0][1] == ALICE
         assert any("PubChem" in m.get("content", "") for m in mensajes)
 
     def test_el_turno_no_sale_sin_consentimiento_del_destino(self, tmp_path, monkeypatch):

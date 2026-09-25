@@ -20,6 +20,8 @@ import hashlib
 import hmac
 import json
 import jwt
+import os
+import uuid
 from datetime import UTC, datetime, timedelta
 from typing import Any
 
@@ -78,6 +80,7 @@ def create_access_token(
         "iat": int(now.timestamp()),
         "exp": int(expires.timestamp()),
         "type": "access",
+        "jti": str(uuid.uuid4()),
     }
 
     if additional_claims:
@@ -93,6 +96,7 @@ def create_access_token(
 def create_refresh_token(
     subject: str,
     expires_delta: timedelta | None = None,
+    additional_claims: dict[str, Any] | None = None,
 ) -> str:
     """
     Crea un JWT de refresco de larga duración.
@@ -111,7 +115,10 @@ def create_refresh_token(
         "iat": int(now.timestamp()),
         "exp": int(expires.timestamp()),
         "type": "refresh",
+        "jti": str(uuid.uuid4()),
     }
+    if additional_claims:
+        payload.update(additional_claims)
 
     encoded_header = _b64url_encode(_json_dumps(header).encode("utf-8"))
     encoded_payload = _b64url_encode(_json_dumps(payload).encode("utf-8"))
@@ -125,7 +132,7 @@ def decode_token(token: str) -> dict[str, Any]:
     Valida firma y expiración del token usando PyJWT.
     """
     try:
-        return jwt.decode(token, settings.secret_key, algorithms=["HS256"])
+        return jwt.decode(token, settings.secret_key, algorithms=["HS256"], options={"require": ["exp", "iat", "sub", "type", "jti"]})
     except jwt.ExpiredSignatureError as exc:
         raise TokenExpired() from exc
     except jwt.InvalidTokenError as exc:
@@ -135,13 +142,24 @@ def decode_token(token: str) -> dict[str, Any]:
                     token,
                     settings.supabase_jwt_secret,
                     algorithms=["HS256"],
-                    options={"verify_aud": False}
+                    options={"verify_aud": False, "require": ["exp", "iat", "sub", "type", "jti"]}
                 )
             except jwt.ExpiredSignatureError as e_exc:
                 raise TokenExpired() from e_exc
             except jwt.InvalidTokenError as i_exc:
                 raise InvalidCredentials() from i_exc
         raise InvalidCredentials() from exc
+
+
+def current_launch_binding() -> str | None:
+    """Huella del secreto efímero compartido por Rust y su backend."""
+    secret = os.environ.get("MOLDESIGN_LAUNCH_TOKEN", "")
+    return hashlib.sha256(secret.encode()).hexdigest() if len(secret) >= 32 else None
+
+
+def valid_guest_token(payload: dict[str, Any]) -> bool:
+    binding = current_launch_binding()
+    return bool(binding and hmac.compare_digest(str(payload.get("launch", "")), binding))
 
 
 def get_subject_from_token(token: str) -> str:

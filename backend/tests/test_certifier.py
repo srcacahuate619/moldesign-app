@@ -229,7 +229,7 @@ class TestVerify:
                 "meta": {"err": None},
                 "transaction": {
                     "message": {
-                        "accountKeys": [],
+                        "accountKeys": [{"pubkey": "1" * 32, "signer": True}],
                         "instructions": [
                             {
                                 "programId": c.MEMO_PROGRAM_ID_STR,
@@ -250,6 +250,23 @@ class TestVerify:
         assert params[1]["encoding"] == "jsonParsed"
         assert params[1]["commitment"] == "confirmed"
         assert params[1]["maxSupportedTransactionVersion"] == 0
+
+    @pytest.mark.asyncio
+    async def test_verify_rejects_wallet_in_memo_without_matching_signer(self):
+        from services.blockchain.certifier import SolanaCertifier
+
+        c = SolanaCertifier("https://api.devnet.solana.com")
+        memo = ("MolDesign-v1|CC0|" + "a" * 64
+                + "|85.50|7E2Y|2026-07-28T00:00:00+00:00|" + "2" * 32)
+        c._rpc = AsyncMock(return_value={
+            "meta": {"err": None},
+            "transaction": {"message": {
+                "accountKeys": [{"pubkey": "1" * 32, "signer": True},
+                                {"pubkey": "2" * 32, "signer": False}],
+                "instructions": [{"programId": c.MEMO_PROGRAM_ID_STR, "parsed": memo}],
+            }},
+        })
+        assert await c.verify("1" * 64) is None
 
     @pytest.mark.asyncio
     async def test_verify_rejects_malformed_signature_without_rpc(self):

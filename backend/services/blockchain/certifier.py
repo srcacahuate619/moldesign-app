@@ -89,6 +89,8 @@ class SolanaCertifier:
         """Call Solana JSON-RPC using only the Python standard library."""
         if not self.is_devnet:
             raise RuntimeError("MolDesign alpha only permits Solana devnet")
+        from services.ai.red import exigir_permiso
+        exigir_permiso(self.rpc_url, None)
         self._request_id += 1
         payload = json.dumps(
             {"jsonrpc": "2.0", "id": self._request_id, "method": method, "params": params or []}
@@ -172,10 +174,25 @@ class SolanaCertifier:
             if not transaction or (transaction.get("meta") or {}).get("err") is not None:
                 return None
             memo = self._extract_memo(transaction)
-            return self._parse_memo(memo) if memo else None
+            record = self._parse_memo(memo) if memo else None
+            if record and record.user_wallet:
+                if record.user_wallet not in self._transaction_signers(transaction):
+                    log.warning("memo_wallet_not_signer", signature=signature[:16])
+                    return None
+            return record
         except (OSError, RuntimeError, ValueError, TypeError, urlerror.URLError) as exc:
             log.warning("solana_verify_failed", signature=signature[:16], error=str(exc))
             return None
+
+    @staticmethod
+    def _transaction_signers(tx: dict) -> set[str]:
+        """Deriva firmantes del mensaje confirmado, nunca del texto del memo."""
+        message = tx["transaction"]["message"]
+        keys = message.get("accountKeys", [])
+        if keys and isinstance(keys[0], dict):
+            return {str(key["pubkey"]) for key in keys if key.get("signer") is True}
+        required = int(message.get("header", {}).get("numRequiredSignatures", 0))
+        return {str(key) for key in keys[:required]}
 
     async def close(self):
         """Compatibility no-op: stdlib HTTP calls do not keep a client open."""

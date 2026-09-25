@@ -8,7 +8,7 @@ import uuid
 
 from typing import Literal
 from fastapi import APIRouter, Depends, HTTPException, Request, status
-from pydantic import BaseModel, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
@@ -17,7 +17,7 @@ from core.database import get_db
 from core.models import EvaluationResultRead, JobStatus, UserORM, _coerce_hotspots
 from db.repository import Repository
 from utils.logger import bind_context, get_logger
-from api.dependencies import get_current_user_optional
+from api.dependencies import get_current_user, get_current_user_optional
 from api.routers.evaluation_access import puede_operar, require_owned_molecule
 from services.targets.access import get_target_for_user
 from services.targets.calibracion import estado_de_calibracion
@@ -206,7 +206,7 @@ async def listar_motores() -> dict[str, list[dict]]:
 )
 async def encender_motor(
     motor_id: str,
-    current_user: UserORM | None = Depends(get_current_user_optional),
+    current_user: UserORM = Depends(get_current_user),
 ) -> dict:
     """Arranca el proceso del motor y espera a que responda.
 
@@ -232,6 +232,24 @@ async def encender_motor(
     return estado
 
 
+class DockingStageParams(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    exhaustiveness: int | None = Field(default=None, ge=1, le=128)
+    num_poses: int | None = Field(default=None, ge=1, le=20)
+    seed: int | None = Field(default=None, ge=0, le=2147483647)
+
+
+class ConformerStageParams(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    conformers: int | None = Field(default=None, ge=1, le=64)
+    ph: float | None = Field(default=None, ge=1.0, le=12.0, allow_inf_nan=False)
+
+
+class PropertiesStageParams(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    run_admet_ai: bool | None = None
+
+
 class PipelineConfigRequest(BaseModel):
     enabled_stages: list[str] = Field(default_factory=lambda: ["validation", "properties", "sa_filter", "conformer", "docking", "xgb", "clgnn"])
     stage_params: dict[str, dict] = Field(default_factory=dict)
@@ -243,8 +261,8 @@ class PipelineConfigRequest(BaseModel):
     def validar_docking_engine(cls, motor: str) -> str:
         validar_motor_solicitado(docking_engine=motor)
         return motor
-    pro_workers: int | None = Field(default=None)
-    pro_parallel_docks: int | None = Field(default=None)
+    pro_workers: int | None = Field(default=None, ge=1, le=32)
+    pro_parallel_docks: int | None = Field(default=None, ge=1, le=32)
     pro_selectivity: bool | None = Field(default=None)
     pro_anti_targets: list[str] | None = Field(default=None)
     pro_mmgbsa: bool | None = Field(default=None)
@@ -258,16 +276,43 @@ class PipelineConfigRequest(BaseModel):
         validar_motor_solicitado(peptide_engine=motor)
         return motor
 
+    @field_validator("stage_params")
+    @classmethod
+    def validar_parametros_de_etapas(cls, params: dict[str, dict]) -> dict[str, dict]:
+        if "docking" in params:
+            if not isinstance(params["docking"], dict):
+                raise ValueError("stage_params.docking debe ser un objeto")
+            if "engine" in params["docking"]:
+                raise ValueError("El motor se declara en docking_engine")
+            params = {**params, "docking": DockingStageParams.model_validate(
+                params["docking"]
+            ).model_dump(exclude_none=True)}
+        if "conformer" in params:
+            params = {**params, "conformer": ConformerStageParams.model_validate(
+                params["conformer"]
+            ).model_dump(exclude_none=True)}
+        if "properties" in params:
+            params = {**params, "properties": PropertiesStageParams.model_validate(
+                params["properties"]
+            ).model_dump(exclude_none=True)}
+        return params
+
     @model_validator(mode="after")
     def no_motor_oculto_en_etapa(self):
-        if "engine" in self.stage_params.get("docking", {}):
-            raise ValueError("El motor se declara en docking_engine, no en stage_params.docking.engine")
-        if self.pro_mmgbsa:
-            raise ValueError("MM-GBSA no disponible (MMGBSA_CONDICION): parametrización legacy inconsistente.")
         if ("openmm" in self.enabled_stages
                 or "openmm" in (self.stage_order or [])
                 or "openmm" in self.stage_params):
             raise ValueError("La etapa openmm está retirada: sobrescribía poses y no ejecutaba OpenMM.")
+        allowed_stages = {"validation", "properties", "sa_filter", "conformer",
+                          "docking", "xgb", "clgnn", "selectivity", "rescoring"}
+        if (set(self.enabled_stages) - allowed_stages
+                or set(self.stage_order or []) - allowed_stages
+                or set(self.stage_params) - allowed_stages):
+            raise ValueError("Hay una etapa desconocida o no ejecutable")
+        if "engine" in self.stage_params.get("docking", {}):
+            raise ValueError("El motor se declara en docking_engine, no en stage_params.docking.engine")
+        if self.pro_mmgbsa:
+            raise ValueError("MM-GBSA no disponible (MMGBSA_CONDICION): parametrización legacy inconsistente.")
         return self
 
 class EvaluationGeometry(BaseModel):
@@ -278,8 +323,10 @@ class EvaluationGeometry(BaseModel):
         if value is not None:
             if not all(math.isfinite(v) for v in value):
                 raise ValueError("La caja debe contener sólo números finitos")
-            if info.field_name == "grid_size" and any(v <= 0 for v in value):
-                raise ValueError("Las dimensiones de la caja deben ser positivas")
+            if info.field_name == "grid_center" and any(abs(v) > 10000 for v in value):
+                raise ValueError("El centro debe estar entre -10000 y 10000 Å")
+            if info.field_name == "grid_size" and any(v < 5 or v > 80 for v in value):
+                raise ValueError("Cada dimensión de la caja debe estar entre 5 y 80 Å")
         return value
 
 
@@ -300,7 +347,7 @@ class EvaluationSubmitRequest(EvaluationGeometry):
     is_control: bool = Field(default=False, description="Si es True, se ignora el score químico (ADME/Drug-likeness) al calcular el score total.")
     grid_center: tuple[float, float, float] | None = Field(default=None, description="Centro de la Grid Box override (X, Y, Z)")
     grid_size: tuple[float, float, float] | None = Field(default=None, description="Tamaño de la Grid Box override (dX, dY, dZ)")
-    custom_hotspots: list[str] | None = Field(default=None, description="Lista de hotspots seleccionados por el usuario")
+    custom_hotspots: list[str] | None = Field(default=None, max_length=128, description="Lista de hotspots seleccionados por el usuario")
     patient_profile: dict | None = Field(default=None, description="Datos clínicos y genómicos del paciente (Capa 0)")
     # ENG-003. La lista tenía un motor de más, y no era un motor: se aceptaba, se
     # registraba como método de la corrida y el despacho lo mandaba a ESMFold por
@@ -313,6 +360,22 @@ class EvaluationSubmitRequest(EvaluationGeometry):
     def validar_peptide_engine(cls, motor: str | None) -> str | None:
         validar_motor_solicitado(peptide_engine=motor)
         return motor
+
+    @field_validator("patient_profile")
+    @classmethod
+    def limitar_perfil(cls, value: dict | None) -> dict | None:
+        if value is not None:
+            import json
+            if len(json.dumps(value, ensure_ascii=False).encode("utf-8")) > 65536:
+                raise ValueError("El perfil supera 64 KiB")
+        return value
+
+    @field_validator("custom_hotspots")
+    @classmethod
+    def limitar_hotspots(cls, value: list[str] | None) -> list[str] | None:
+        if value and any(not item or len(item) > 32 for item in value):
+            raise ValueError("Cada hotspot debe tener entre 1 y 32 caracteres")
+        return value
 
     pipeline_config: PipelineConfigRequest | None = Field(default=None, description="Configuración manual del pipeline de ejecución (Modo PRO)")
 
@@ -996,7 +1059,7 @@ class PreflightRequest(EvaluationGeometry):
     )
     grid_center: tuple[float, float, float] | None = None
     grid_size: tuple[float, float, float] | None = None
-    custom_hotspots: list[str] | None = None
+    custom_hotspots: list[str] | None = Field(default=None, max_length=128)
     docking_engine: str = Field(default="vina", max_length=32)
     exhaustiveness: int | None = Field(default=None, ge=1, le=128)
     num_poses: int | None = Field(default=None, ge=1, le=20)

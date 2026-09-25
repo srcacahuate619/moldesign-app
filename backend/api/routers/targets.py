@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fastapi.responses import PlainTextResponse
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.database import get_db
@@ -22,6 +22,8 @@ from services.targets.access import (
     get_target_for_user,
     require_target_object_access,
     target_is_accessible,
+    is_rcsb_pdb_id,
+    is_safe_local_target_id,
 )
 
 from utils.logger import get_logger
@@ -61,12 +63,11 @@ class TargetVariantRequest(BaseModel):
                 normalized.append(value)
         return sorted(normalized)
 
-    @field_validator("grid_size")
-    @classmethod
-    def _validate_grid_size(cls, value):
-        if value is not None and any(side < 5.0 or side > 80.0 for side in value):
-            raise ValueError("Cada dimensión de la caja debe estar entre 5 y 80 Å.")
-        return value
+    @model_validator(mode="after")
+    def validar_caja_variante(self):
+        from services.targets.box_validation import validar_caja
+        validar_caja(self.grid_center, self.grid_size)
+        return self
 
 
 class TargetIngestRequest(BaseModel):
@@ -103,7 +104,8 @@ async def ingest_target(
             chain_id=request.chain_id,
             is_hot=request.is_hot,
             structural_family=request.structural_family,
-            cofactors_whitelist=request.cofactors_whitelist
+            cofactors_whitelist=request.cofactors_whitelist,
+            user_id=str(current_user.id),
         )
         return result
     except Exception as e:
@@ -144,6 +146,14 @@ async def upload_custom_target(
         grid_center = (grid_center_x, grid_center_y, grid_center_z)
 
     grid_size = (grid_size_x, grid_size_y, grid_size_z)
+    from services.targets.box_validation import validar_caja
+    try:
+        center_values = (grid_center_x, grid_center_y, grid_center_z)
+        if any(v is not None for v in center_values) and grid_center is None:
+            raise ValueError("Debes indicar las tres coordenadas del centro.")
+        validar_caja(grid_center, grid_size)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
 
     cofactors = []
     if cofactors_whitelist:
@@ -345,7 +355,10 @@ class ResolveTargetNameResponse(BaseModel):
     response_model=ResolveTargetNameResponse,
     summary="Buscar estructuras en RCSB PDB por nombre de proteína",
 )
-async def resolve_target_name(request: ResolveTargetNameRequest):
+async def resolve_target_name(
+    request: ResolveTargetNameRequest,
+    current_user: UserORM = Depends(get_current_user),
+):
     """
     Busca estructuras experimentales en RCSB PDB por nombre de proteína.
 
@@ -407,7 +420,10 @@ class TargetSearchResponse(BaseModel):
     response_model=AlphaFoldEntryResponse,
     summary="Buscar proteína en AlphaFold DB por UniProt ID",
 )
-async def alphafold_lookup(uniprot_id: str) -> AlphaFoldEntryResponse:
+async def alphafold_lookup(
+    uniprot_id: str,
+    current_user: UserORM = Depends(get_current_user),
+) -> AlphaFoldEntryResponse:
     """
     Busca una proteína en AlphaFold Database por UniProt accession.
 
@@ -461,6 +477,7 @@ async def alphafold_lookup(uniprot_id: str) -> AlphaFoldEntryResponse:
 async def alphafold_search(
     gene: str = Query(..., min_length=2, max_length=50, description="Nombre del gen (ej: HTR1A)"),
     organism: str = Query(default="Homo sapiens", description="Organismo"),
+    current_user: UserORM = Depends(get_current_user),
 ) -> TargetSearchResponse:
     """
     Busca proteínas en AlphaFold DB a través de UniProt por nombre de gen.
@@ -517,23 +534,14 @@ async def get_community_targets(db: AsyncSession = Depends(get_db)):
 async def download_community_target(
     pdb_id: str,
     db: AsyncSession = Depends(get_db),
-    current_user: UserORM | None = Depends(get_current_user_optional),
+    current_user: UserORM = Depends(get_current_user),
 ):
     """
     Descarga un target de la comunidad e ingesta localmente.
     """
-    # Primero intentar obtener metadata de la comunidad (cloud)
-    try:
-        import httpx
-        from core.config import get_settings
-        community_url = getattr(get_settings(), "community_api_url", None) or "http://localhost:8010"
-        async with httpx.AsyncClient(timeout=10) as client:
-            r = await client.get(f"{community_url}/targets/community")
-            if r.status_code == 200:
-                community = r.json()
-                target_info = next((t for t in community if t["pdb_id"] == pdb_id.upper()), None)
-    except Exception:
-        target_info = None
+    if not is_rcsb_pdb_id(pdb_id.upper()):
+        raise HTTPException(status_code=422, detail="PDB ID inválido")
+    pdb_id = pdb_id.upper()
 
     # Ingresar localmente
     from services.targets.ingestion_manager import ingest_new_target
@@ -541,6 +549,7 @@ async def download_community_target(
         pdb_id=pdb_id,
         db=db,
         force_reingest=False,
+        user_id=str(current_user.id),
     )
     return {"success": True, "message": f"Target {pdb_id} descargado e ingerido", "result": result}
 
@@ -663,6 +672,8 @@ async def get_target_pdb(
         identifier_is_uuid = True
         target = await db.get(TargetORM, target_uuid)
     except ValueError:
+        if not is_safe_local_target_id(target_id_or_pdb):
+            raise HTTPException(status_code=422, detail="Identificador de receptor inválido")
         target = await repository.get_target_by_pdb_id(target_id_or_pdb.upper())
 
     if target is not None:
@@ -673,6 +684,8 @@ async def get_target_pdb(
         raise HTTPException(status_code=404, detail="No existe el receptor solicitado.")
 
     pdb_id = target.pdb_id if target else target_id_or_pdb.upper()
+    if not is_safe_local_target_id(pdb_id) or (target is None and not is_rcsb_pdb_id(pdb_id)):
+        raise HTTPException(status_code=404, detail="No existe el receptor solicitado.")
 
     # 1. Buscar en biblioteca local (pre-cargada)
     try:
@@ -693,9 +706,14 @@ async def get_target_pdb(
 
     # 3. Descargar de RCSB
     try:
-        content = await download_pdb_from_rcsb(pdb_id)
+        content = await download_pdb_from_rcsb(
+            pdb_id, user_id=str(current_user.id) if current_user else None
+        )
         return PlainTextResponse(content=content)
     except Exception as e:
+        from services.ai.red import SalidaNoAutorizada
+        if isinstance(e, SalidaNoAutorizada):
+            raise HTTPException(status_code=403, detail=str(e)) from e
         raise HTTPException(
             status_code=404,
             detail=f"No se pudo encontrar el PDB {pdb_id}: {str(e)}"

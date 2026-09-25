@@ -12,6 +12,7 @@ Fuentes oficiales:
 from __future__ import annotations
 
 import threading
+import re
 import time
 import uuid
 from pathlib import Path
@@ -241,13 +242,19 @@ def recommend_quantization(ram_free_gb: float = 0.0, vram_free_gb: float = -1.0)
     }
 
 
-def start_download(model_id: str, filename: str) -> dict:
+def start_download(model_id: str, filename: str, user_id: str | None = None) -> dict:
     """
     Iniciar descarga de un archivo GGUF. Corre en background thread.
 
     Returns:
         {download_id, status: "downloading", filename, model_id}
     """
+    if (not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", model_id)
+            or not re.fullmatch(r"[A-Za-z0-9_.-]+\.gguf", filename, re.IGNORECASE)
+            or ".." in filename):
+        raise ValueError("Modelo o nombre de archivo GGUF inválido")
+    from services.ai.red import exigir_permiso
+    exigir_permiso(f"https://huggingface.co/{model_id}", user_id)
     dl_id = str(uuid.uuid4())[:8]
 
     with _downloads_lock:
@@ -265,16 +272,18 @@ def start_download(model_id: str, filename: str) -> dict:
         }
 
     thread = threading.Thread(
-        target=_run_download, args=(dl_id, model_id, filename), daemon=True,
+        target=_run_download, args=(dl_id, model_id, filename, user_id), daemon=True,
     )
     thread.start()
     return _downloads[dl_id]
 
 
-def _run_download(dl_id: str, model_id: str, filename: str):
+def _run_download(dl_id: str, model_id: str, filename: str, user_id: str | None = None):
     """Background thread: descargar el modelo y actualizar progreso."""
     try:
         from huggingface_hub import hf_hub_download
+        from services.ai.red import exigir_permiso
+        exigir_permiso(f"https://huggingface.co/{model_id}", user_id)
 
         target_dir = Path(__file__).parent.parent.parent.parent / "models" / "llm"
         target_dir.mkdir(parents=True, exist_ok=True)

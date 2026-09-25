@@ -116,6 +116,7 @@ async function arrancarBackend() {
   // porque sin Vina el backend NO esta sano. La prueba fallaba por culpa de la
   // prueba, que es la unica forma de fallar que no ensena nada.
   const vinaExe = path.join(RECURSOS, "tools", "vina", process.platform === "win32" ? "vina.exe" : "vina");
+  const launchToken = randomBytes(32).toString("hex");
   const proc = spawn(
     py,
     ["-m", "uvicorn", "api.main:app", "--host", "127.0.0.1", "--port", String(puerto),
@@ -142,6 +143,7 @@ async function arrancarBackend() {
         PYTHONIOENCODING: "utf-8",
         LOCAL_DATA_DIR: datos,
         SECRET_KEY: randomBytes(32).toString("hex"),
+        MOLDESIGN_LAUNCH_TOKEN: launchToken,
       },
       stdio: ["ignore", "pipe", "pipe"],
     },
@@ -156,7 +158,7 @@ async function arrancarBackend() {
     if (proc.exitCode !== null) return { error: `el backend murio:\n${salida.slice(-1500)}`, datos };
     try {
       const r = await fetch(`http://127.0.0.1:${puerto}/health`, { signal: AbortSignal.timeout(2000) });
-      if (r.ok) return { puerto, proc, datos, segundos: (Date.now() - t0) / 1000 };
+      if (r.ok) return { puerto, proc, datos, launchToken, segundos: (Date.now() - t0) / 1000 };
     } catch {}
     await new Promise((r) => setTimeout(r, 200));
   }
@@ -265,6 +267,15 @@ async function main() {
   // LOCAL_DATA_DIR, la base no aparecería aquí y estaría tocando la del usuario.
   const baseAislada = await stat(path.join(back.datos, "moldesign_local.db")).then(() => true, () => false);
   comprobar("la base de datos es la temporal de la prueba", baseAislada, back.datos);
+  const loginUrl = "http://127.0.0.1:" + back.puerto + "/auth/desktop-login";
+  const sinSecreto = await fetch(loginUrl);
+  comprobar("login de escritorio rechaza peticion sin secreto", sinSecreto.status === 403,
+    String(sinSecreto.status));
+  const conSecreto = await fetch(loginUrl, {
+    headers: { "X-MolDesign-Launch": back.launchToken },
+  });
+  comprobar("login de escritorio acepta secreto de este arranque", conSecreto.status === 200,
+    String(conSecreto.status));
 
   console.log("[2/3] Sirviendo el export con la CSP de produccion...");
   const web = await servirExport(csp);
@@ -286,7 +297,7 @@ async function main() {
   }
 
   const contexto = await navegador.newContext({ viewport: { width: 1400, height: 900 } });
-  await contexto.addInitScript((puerto) => {
+  await contexto.addInitScript(({ puerto, launchToken }) => {
     window.__TAURI_INTERNALS__ = {};
     window.__TAURI__ = {
       core: {
@@ -295,12 +306,13 @@ async function main() {
             return { state: "ready", port: puerto, detail: null };
           }
           if (cmd === "backend_status") return { state: "ready", port: puerto, detail: null };
+          if (cmd === "backend_launch_token") return launchToken;
           throw new Error(`comando no simulado: ${cmd}`);
         },
       },
       event: { listen: async () => () => {} },
     };
-  }, back.puerto);
+  }, { puerto: back.puerto, launchToken: back.launchToken });
 
   const pagina = await contexto.newPage();
   const erroresCsp = [];

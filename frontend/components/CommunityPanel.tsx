@@ -4,6 +4,7 @@
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect } from "react";
 import { Globe, Users, Trophy, Download, Lock, RefreshCw, Wifi, WifiOff, Share2, User } from "lucide-react";
+import { downloadCommunityTarget } from "../lib/proApi";
 import { getApiUrl } from "../lib/config";
 import type { Target } from "../lib/api";
 import { getUserItem, setUserItem } from "../lib/userStorage";
@@ -41,18 +42,12 @@ export function CommunityPanel() {
     setLoading(true);
     setError(null);
     try {
-      const [targetsRes, leaderRes] = await Promise.all([
-        fetch(`${await getApiUrl()}/targets/community`),
-        fetch(`${await getApiUrl()}/stats/leaderboard`),
-      ]);
+      const targetsRes = await fetch(`${await getApiUrl()}/targets/community`);
       if (targetsRes.ok) {
         const t = await targetsRes.json();
         setCommunityTargets(Array.isArray(t) ? t : []);
+        setLeaderboard([]);
         setConnected(true);
-      }
-      if (leaderRes.ok) {
-        const l = await leaderRes.json();
-        setLeaderboard(Array.isArray(l) ? l.slice(0, 5) : []);
       }
     } catch {
       setError(t("auto_02aba466e282"));
@@ -65,10 +60,8 @@ export function CommunityPanel() {
   const handleDownload = async (pdbId: string) => {
     setDownloading(pdbId);
     try {
-      const r = await fetch(`${await getApiUrl()}/targets/community/download/${pdbId}`, { method: "POST" });
-      if (r.ok) {
-        window.dispatchEvent(new CustomEvent("target_downloaded", { detail: { pdb_id: pdbId } }));
-      }
+      await downloadCommunityTarget(pdbId);
+      window.dispatchEvent(new CustomEvent("target_downloaded", { detail: { pdb_id: pdbId } }));
     } catch {}
     finally { setDownloading(null); }
   };

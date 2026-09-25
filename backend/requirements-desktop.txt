@@ -6,10 +6,10 @@
 # ── Framework ───────────────────────────────────────────────────────
 fastapi==0.135.2
 uvicorn[standard]==0.42.0
-starlette==1.0.0
+starlette==1.7.0
 pydantic==2.12.5
 pydantic-settings==2.13.1
-python-multipart==0.0.22
+python-multipart==0.0.32
 python-dotenv==1.2.2
 
 # ── Base de datos local (SQLite) ─────────────────────────────────────
@@ -45,12 +45,12 @@ numba==0.65.0
 
 # ── Generación de PDFs ───────────────────────────────────────────────
 reportlab==4.2.0
-pillow==12.2.0
+pillow==12.3.0
 
 # ── Auth y seguridad ─────────────────────────────────────────────────
-PyJWT==2.8.0
+PyJWT==2.15.0
 bcrypt==4.2.1            # antes era passlib[bcrypt]; solo usamos bcrypt directo (auth.py:51)
-cryptography==42.0.7
+cryptography==50.0.1
 # NOTE: argon2-cffi REMOVIDO — el hashing real usa bcrypt+PBKDF2, nunca se
 # importo argon2. Si en el futuro decides migrar a Argon2, reinstalalo
 # explicito y migrar los hashes con rehash-on-login.

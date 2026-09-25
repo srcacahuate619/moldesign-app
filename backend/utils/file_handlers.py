@@ -177,6 +177,8 @@ async def search_rcsb_by_name(
     import httpx
 
     search_url = "https://search.rcsb.org/rcsbsearch/v2/query"
+    from services.ai.red import exigir_permiso
+    exigir_permiso(search_url, None)
 
     search_payload = {
         "query": {
@@ -243,7 +245,13 @@ async def _fetch_rcsb_entry_detail(pdb_id: str) -> dict | None:
     """Fetch detailed metadata for a PDB entry from RCSB Data API."""
     import httpx
 
-    detail_url = f"https://data.rcsb.org/rest/v1/core/entry/{pdb_id.upper()}"
+    from services.targets.access import is_rcsb_pdb_id
+    pdb_id = pdb_id.upper()
+    if not is_rcsb_pdb_id(pdb_id):
+        raise ValueError("PDB ID inválido")
+    detail_url = f"https://data.rcsb.org/rest/v1/core/entry/{pdb_id}"
+    from services.ai.red import exigir_permiso
+    exigir_permiso(detail_url, None)
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
             resp = await client.get(detail_url)
@@ -283,7 +291,7 @@ async def _fetch_rcsb_entry_detail(pdb_id: str) -> dict | None:
 
 # ── Descarga desde RCSB PDB ───────────────────────────────────────────────────
 
-async def download_pdb_from_rcsb(pdb_id: str) -> str:
+async def download_pdb_from_rcsb(pdb_id: str, user_id: str | None = None) -> str:
     """
     Descarga la estructura de una proteina desde el RCSB PDB publico.
 
@@ -292,7 +300,10 @@ async def download_pdb_from_rcsb(pdb_id: str) -> str:
 
     Retorna el contenido del archivo .pdb como string.
     """
+    from services.targets.access import is_rcsb_pdb_id
     pdb_id = pdb_id.upper()
+    if not is_rcsb_pdb_id(pdb_id):
+        raise ValueError("PDB ID inválido")
 
     # 1. Cache local (pre-bundled para modo offline / Steam)
     local_cache = Path(os.getenv("MOLDESIGN_PDB_CACHE", str(
@@ -300,6 +311,8 @@ async def download_pdb_from_rcsb(pdb_id: str) -> str:
     )))
     local_pdb = local_cache / f"{pdb_id}.pdb"
     if local_pdb.exists():
+        if not local_pdb.resolve().is_relative_to(local_cache.resolve()):
+            raise ValueError("Cache PDB fuera del directorio permitido")
         content = local_pdb.read_text(encoding="utf-8")
         if "ATOM" in content or "HETATM" in content:
             log.info("pdb_from_local_cache", pdb_id=pdb_id)
@@ -307,6 +320,8 @@ async def download_pdb_from_rcsb(pdb_id: str) -> str:
 
     # 2. Descarga desde RCSB
     url = f"https://files.rcsb.org/download/{pdb_id}.pdb"
+    from services.ai.red import exigir_permiso
+    exigir_permiso(url, user_id)
     log.info("descargando estructura PDB desde RCSB", pdb_id=pdb_id, url=url)
 
     try:
@@ -342,7 +357,13 @@ async def fetch_target_cofactors_from_rcsb(pdb_id: str) -> list[str]:
     esenciales de una proteína. Devuelve una lista de los IDs (3 letras) de todos los 
     HETATMs que deben preservarse en el pocket (e.g. ['HEM', 'NAD', 'ZN', 'MG']).
     """
-    url = f"https://data.rcsb.org/rest/v1/core/entry/{pdb_id.upper()}"
+    from services.targets.access import is_rcsb_pdb_id
+    pdb_id = pdb_id.upper()
+    if not is_rcsb_pdb_id(pdb_id):
+        raise ValueError("PDB ID inválido")
+    url = f"https://data.rcsb.org/rest/v1/core/entry/{pdb_id}"
+    from services.ai.red import exigir_permiso
+    exigir_permiso(url, None)
     log.info("buscando cofactores en RCSB PDB", pdb_id=pdb_id, url=url)
 
     cofactors = set()

@@ -522,7 +522,8 @@ def _buscar_en_indice(raiz: Path, pdb_id: str, solo_bajo_targets: bool = False) 
     # El indice puede estar rancio respecto al disco: se confirma antes de
     # devolver. Decir que un fichero esta cuando ya no esta es peor que no
     # encontrarlo.
-    if ruta is not None and ruta.is_file():
+    if (ruta is not None and ruta.is_file()
+            and ruta.resolve().is_relative_to(raiz.resolve())):
         return ruta
     return None
 
@@ -545,20 +546,23 @@ def invalidar_indice_de_targets() -> None:
 
 def get_target_pdb_path(pdb_id: str) -> str:
     """Resuelve la ruta local al archivo PDB del target.
-    
+
     Prioridad:
       1. Bundle del instalador: data/targets/{pdb_id}.pdb (offline, pre-cargado)
          o dentro de data/target_library/{area_key}/{pdb_id}.pdb
       2. ~MolDesign/data/targets/{pdb_id}.pdb (descargado/cacheado)
     """
+    from services.targets.access import is_safe_local_target_id
     pdb_id_clean = pdb_id.strip()
+    if not is_safe_local_target_id(pdb_id_clean):
+        raise ValueError("Identificador de receptor inválido")
 
     # 1. Bundle directory (ships with installer, highest priority)
     root_dir = Path(__file__).resolve().parent.parent.parent.parent
 
     # 1a. Standard target path
     bundle = root_dir / "data" / "targets" / f"{pdb_id_clean}.pdb"
-    if bundle.exists():
+    if bundle.exists() and bundle.resolve().is_relative_to((root_dir / "data" / "targets").resolve()):
         return str(bundle)
 
     # 1b. Biblioteca de targets, por indice.
@@ -575,7 +579,7 @@ def get_target_pdb_path(pdb_id: str) -> str:
 
     # 2. Cache del escritorio.
     local = Path(settings.local_data_dir) / "targets" / f"{pdb_id_clean}.pdb"
-    if local.exists():
+    if local.exists() and local.resolve().is_relative_to((Path(settings.local_data_dir) / "targets").resolve()):
         return str(local)
 
     # Fallback: buscar en subdirectorios `targets/` anidados del directorio de
@@ -596,6 +600,8 @@ def get_target_pdb_path(pdb_id: str) -> str:
         return str(encontrada)
 
     # Return the path even if it doesn't exist yet (will be downloaded on demand).
+    if not local.resolve().is_relative_to((Path(settings.local_data_dir) / "targets").resolve()):
+        raise ValueError("Ruta de receptor fuera del directorio de datos")
     return str(local)
 
 

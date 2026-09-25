@@ -50,6 +50,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -1315,16 +1316,23 @@ def _effective_configuration(
                 )
             )
     else:
+        invalid_size = any(not math.isfinite(v) or not 5 <= v <= 80 for v in size)
+        invalid_center = any(not math.isfinite(v) or abs(v) > 10000 for v in center)
         controls.append(
             Control(
                 code="GRID_EFECTIVO",
-                state="pasa",
+                state="bloquea" if invalid_size or invalid_center else "pasa",
                 title="Caja de búsqueda",
                 observation=(
-                    f"Centro {_fmt(center)}, tamaño {_fmt(size)} Å · origen: "
-                    f"{'elegido por ti' if center_origin == 'override_usuario' else 'catálogo del receptor'}."
+                    f"Centro {_fmt(center)} · origen: "
+                    f"{'elegido por ti' if center_origin == 'override_usuario' else 'catálogo del receptor'}; "
+                    f"tamaño {_fmt(size)} Å · origen: "
+                    f"{'elegido por ti' if size_origin == 'override_usuario' else 'catálogo del receptor'}."
                 ),
-                reason="Es la caja exacta que recibirá el acoplamiento.",
+                reason=("Caja fuera de los límites de ejecución: lados entre 5 y 80 Å, "
+                        "centro finito entre -10000 y 10000 Å."
+                        if invalid_size or invalid_center else
+                        "Es la caja exacta que recibirá el acoplamiento."),
                 provenance="PipelineParams.effective_grid_center/size",
             )
         )

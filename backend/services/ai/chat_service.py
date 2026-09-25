@@ -963,7 +963,7 @@ class ChatService:
         if allow_web or os.environ.get("MOLCHAT_ALLOW_WEB", "") == "1":
             try:
                 from services.ai.tools.web_tools import pubchem_autolookup
-                pubchem = pubchem_autolookup(user_message, conv.molecule_context)
+                pubchem = pubchem_autolookup(user_message, conv.molecule_context, user_id=conv.user_id)
                 if pubchem:
                     variable_parts.append(pubchem)
             except ImportError:

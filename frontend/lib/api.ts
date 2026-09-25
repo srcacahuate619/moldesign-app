@@ -109,6 +109,7 @@ export async function getTargetPdb(pdbId: string): Promise<string> {
 }
 
 import { getApiUrl, resetApiUrl } from "./config";
+import { desktopLogin } from "./desktopAuth";
 
 // ── Recuperación de un puerto que dejó de ser el del backend ────────────────
 //
@@ -336,11 +337,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
           // ProEvaluation cuando el siguiente guardado tira 401/404.
         } else if (isDesktopRuntime()) {
           // Invitado Desktop caduco (caso raro): recuperar silenciosamente.
-          fetch(`${await getApiUrl()}/auth/desktop-login`, {
-            headers: { "ngrok-skip-browser-warning": "true" },
-            cache: "no-store",
-          })
-            .then((r) => (r.ok ? r.json() : null))
+          desktopLogin()
             .then((data) => {
               if (data?.access_token) {
                 localStorage.setItem(
@@ -668,9 +665,17 @@ export async function traspasarDelInvitado(
   moleculeIds: string[],
   cohortIds: string[] = [],
 ): Promise<{ moleculas_traspasadas: number; cohortes_traspasadas: number; corridas_traspasadas?: number }> {
+  // La cuenta destino prueba que controla también la sesión invitada de este
+  // arranque. El token se pide por IPC justo antes del traspaso y no se guarda
+  // en localStorage junto a la cuenta personal.
+  if (!isDesktopRuntime()) throw new Error("El traspaso del invitado requiere el escritorio");
+  const guest = await desktopLogin();
   return request("/auth/traspaso", {
     method: "POST",
-    body: JSON.stringify({ molecule_ids: moleculeIds, cohort_ids: cohortIds }),
+    body: JSON.stringify({
+      molecule_ids: moleculeIds, cohort_ids: cohortIds,
+      guest_token: guest.access_token,
+    }),
   });
 }
 

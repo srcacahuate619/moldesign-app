@@ -25,6 +25,7 @@ Tres reglas:
 from __future__ import annotations
 
 import os
+from contextvars import ContextVar
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from urllib.parse import urlparse
@@ -32,6 +33,13 @@ from urllib.parse import urlparse
 from utils.logger import get_logger
 
 log = get_logger(__name__)
+
+
+_identidad_peticion: ContextVar[str | None] = ContextVar("identidad_red_peticion", default=None)
+
+
+def fijar_identidad_peticion(user_id: str | None) -> None:
+    _identidad_peticion.set(user_id)
 
 
 class SalidaNoAutorizada(RuntimeError):
@@ -86,6 +94,12 @@ DESTINOS: tuple[Destino, ...] = (
         que_sale="el texto de búsqueda o el PDB ID",
     ),
     Destino(
+        servicio="rcsb-archivos",
+        host="files.rcsb.org",
+        finalidad="descargar la estructura de un receptor PDB",
+        que_sale="el PDB ID del receptor",
+    ),
+    Destino(
         servicio="rcsb-datos",
         host="data.rcsb.org",
         finalidad="metadatos de una estructura PDB concreta",
@@ -96,6 +110,18 @@ DESTINOS: tuple[Destino, ...] = (
         host="huggingface.co",
         finalidad="buscar y descargar modelos de lenguaje locales",
         que_sale="el texto de búsqueda del modelo, o el identificador del modelo a descargar",
+    ),
+    Destino(
+        servicio="alphafold",
+        host="alphafold.ebi.ac.uk",
+        finalidad="consultar o descargar estructuras AlphaFold",
+        que_sale="el identificador UniProt o la estructura solicitada",
+    ),
+    Destino(
+        servicio="solana-devnet",
+        host="api.devnet.solana.com",
+        finalidad="verificar un memo de certificación en devnet",
+        que_sale="la firma pública de la transacción",
     ),
     Destino(
         servicio="uniprot",
@@ -190,6 +216,7 @@ def exigir_permiso(url: str, user_id: str | None) -> Destino:
     permiso—, luego que el destino esté declarado, y sólo al final el permiso de
     la cuenta.
     """
+    user_id = user_id or _identidad_peticion.get()
     if modo_offline():
         raise SalidaNoAutorizada(
             "El equipo está en modo offline: ninguna herramienta sale a la red, "

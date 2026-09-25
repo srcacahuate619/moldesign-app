@@ -158,6 +158,7 @@ fn bootstrap_lock() -> &'static Mutex<()> {
 /// cierra el handle del job y termina Python y sus descendientes.
 struct OwnedBackend {
     child: std::process::Child,
+    launch_token: String,
     #[cfg(target_os = "windows")]
     job_handle: isize,
 }
@@ -191,6 +192,17 @@ impl Drop for OwnedBackend {
 fn child_slot() -> &'static Mutex<Option<OwnedBackend>> {
     static CHILD: OnceLock<Mutex<Option<OwnedBackend>>> = OnceLock::new();
     CHILD.get_or_init(|| Mutex::new(None))
+}
+
+/// Sólo la WebView propia obtiene este secreto por IPC; nunca viaja en logs,
+/// en BackendStatus ni en un endpoint HTTP público.
+pub fn current_launch_token() -> Result<String, String> {
+    if current_status().state != BackendPhase::Ready {
+        return Err("El backend no está listo".to_string());
+    }
+    let guard = child_slot().lock().map_err(|_| "Estado del backend no disponible")?;
+    guard.as_ref().map(|owned| owned.launch_token.clone())
+        .ok_or_else(|| "No hay backend propio".to_string())
 }
 
 /// Señal de cierre FINAL de la aplicación.
@@ -607,6 +619,10 @@ fn attach_kill_on_close_job(child: &std::process::Child) -> Result<isize, String
 }
 
 fn spawn_backend(layout: &RuntimeLayout, port: u16) -> Result<OwnedBackend, String> {
+    let mut random = [0_u8; 32];
+    getrandom::getrandom(&mut random)
+        .map_err(|_| "No se pudo generar el secreto de arranque".to_string())?;
+    let launch_token = hex::encode(random);
     let _ = std::fs::create_dir_all(&layout.log_dir);
     // Un archivo por lanzamiento en vez de truncar; `backend.latest.log` apunta
     // al más reciente para que el diagnóstico no tenga que adivinar.
@@ -651,6 +667,7 @@ fn spawn_backend(layout: &RuntimeLayout, port: u16) -> Result<OwnedBackend, Stri
     .arg(&layout.backend_dir)
     .current_dir(&layout.backend_dir)
     .env("APP_MODE", "DESKTOP")
+    .env("MOLDESIGN_LAUNCH_TOKEN", &launch_token)
     .env("ENVIRONMENT", "production")
     .env("PYTHONPATH", &layout.backend_dir)
     // Los recursos instalados son inmutables. Evita que Python llene el
@@ -710,12 +727,12 @@ fn spawn_backend(layout: &RuntimeLayout, port: u16) -> Result<OwnedBackend, Stri
                 return Err(reason);
             }
         };
-        Ok(OwnedBackend { child, job_handle })
+        Ok(OwnedBackend { child, job_handle, launch_token })
     }
 
     #[cfg(not(target_os = "windows"))]
     {
-        Ok(OwnedBackend { child })
+        Ok(OwnedBackend { child, launch_token })
     }
 }
 

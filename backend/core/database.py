@@ -51,7 +51,7 @@ def get_settings():
 
 # ── Versión del esquema ───────────────────────────────────────────────────────
 
-SCHEMA_VERSION = 27  # addenda por task_id para evidencia posterior al snapshot
+SCHEMA_VERSION = 28  # tabla aditiva revoked_tokens para revocación JWT
 """
 Versión del esquema SQLite. Es la plataforma de referencia (F-04): el ORM
 (core/models.py) ES la fuente de verdad del schema, y esta constante sella

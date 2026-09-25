@@ -6,6 +6,7 @@ import {
   Globe, Users, Download, RefreshCw, Wifi, WifiOff,
   Share2, User, Search, Activity, Target,
 } from "lucide-react";
+import { downloadCommunityTarget } from "../../lib/proApi";
 import { getApiUrl } from "../../lib/config";
 import type { Target as TargetType } from "../../lib/api";
 import { getUserItem } from "../../lib/userStorage";
@@ -36,16 +37,13 @@ export default function ComunidadPage() {
     setLoading(true);
     setError(null);
     try {
-      const [targetsRes, leaderRes] = await Promise.all([
-        fetch(`${await getApiUrl()}/targets/community`),
-        fetch(`${await getApiUrl()}/stats/leaderboard`),
-      ]);
-      if (!targetsRes.ok || !leaderRes.ok) {
+      const targetsRes = await fetch(`${await getApiUrl()}/targets/community`);
+      if (!targetsRes.ok) {
         throw new Error("Los datos compartidos no están disponibles.");
       }
-      const [t, l] = await Promise.all([targetsRes.json(), leaderRes.json()]);
-      setCommunityTargets(Array.isArray(t) ? t : []);
-      setLeaderboard(Array.isArray(l) ? l : []);
+      const targets = await targetsRes.json();
+      setCommunityTargets(Array.isArray(targets) ? targets : []);
+      setLeaderboard([]);
       setConnected(true);
     } catch {
       setError(t("auto_02aba466e282"));
@@ -63,8 +61,7 @@ export default function ComunidadPage() {
     setDownloading(pdbId);
     setDownloadError(null);
     try {
-      const r = await fetch(`${await getApiUrl()}/targets/community/download/${pdbId}`, { method: "POST" });
-      if (!r.ok) throw new Error(`No se pudo descargar el receptor ${pdbId}.`);
+      await downloadCommunityTarget(pdbId);
       window.dispatchEvent(new CustomEvent("target_downloaded", { detail: { pdb_id: pdbId } }));
     } catch {
       setDownloadError(`No se pudo descargar el receptor ${pdbId}.`);

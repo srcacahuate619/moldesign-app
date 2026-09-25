@@ -173,6 +173,10 @@ async def _bootstrap_runtime_resources() -> None:
     Path(settings.vina_temp_dir).mkdir(parents=True, exist_ok=True)
 
     await create_all_tables()
+    from core.database import get_db_session
+    from db.repository import Repository
+    async with get_db_session() as db:
+        await Repository(db).get_or_create_test_user()
     await _auto_seed_molgraph_if_missing()
     await _auto_seed_curated_targets_if_empty()
     await _resincronizar_catalogo_curado()

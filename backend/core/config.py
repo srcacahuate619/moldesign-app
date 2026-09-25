@@ -18,11 +18,15 @@ def _resolve_secret_key() -> str:
     key_dir = Path.home() / ".moldesign"
     key_file = key_dir / "secret_key"
     if key_file.exists():
+        if os.name != "nt":
+            os.chmod(key_file, 0o600)
         return key_file.read_text(encoding="utf-8").strip()
 
     new_key = os.urandom(32).hex()
-    key_dir.mkdir(parents=True, exist_ok=True)
-    key_file.write_text(new_key, encoding="utf-8")
+    key_dir.mkdir(parents=True, exist_ok=True, mode=0o700)
+    fd = os.open(key_file, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    with os.fdopen(fd, "w", encoding="utf-8") as handle:
+        handle.write(new_key)
     return new_key
 
 

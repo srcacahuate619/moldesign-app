@@ -67,6 +67,8 @@ class AlphaFoldStructure:
 def _api_get(endpoint: str) -> Any:
     """GET síncrono a la API de AlphaFold DB."""
     url = f"{ALPHAFOLD_API_BASE}{endpoint}"
+    from services.ai.red import exigir_permiso
+    exigir_permiso(url, None)
     req = Request(url, headers={"Accept": "application/json"})
     try:
         with urlopen(req, timeout=30) as response:
@@ -82,6 +84,8 @@ def _api_get(endpoint: str) -> Any:
 
 def _download_file(url: str, dest: str) -> None:
     """Descarga un archivo de AlphaFold DB."""
+    from services.ai.red import exigir_permiso
+    exigir_permiso(url, None)
     req = Request(url)
     with urlopen(req, timeout=120) as response:
         with open(dest, "wb") as f:
@@ -120,10 +124,7 @@ async def lookup_uniprot(uniprot_id: str) -> AlphaFoldEntry | None:
     Returns:
         AlphaFoldEntry con metadata del modelo, o None si no existe.
     """
-    loop = asyncio.get_event_loop()
-    data = await loop.run_in_executor(
-        None, _api_get, f"/prediction/{uniprot_id}"
-    )
+    data = await asyncio.to_thread(_api_get, f"/prediction/{uniprot_id}")
 
     if data is None or (isinstance(data, list) and len(data) == 0):
         log.info("proteína no encontrada en AlphaFold DB", uniprot_id=uniprot_id)
@@ -174,11 +175,10 @@ async def download_structure(
     pdb_filename = f"AF-{entry.uniprot_id}-F1-model_v4.pdb"
     pdb_path = str(Path(output_dir) / pdb_filename)
 
-    loop = asyncio.get_event_loop()
-    await loop.run_in_executor(None, _download_file, entry.model_url, pdb_path)
+    await asyncio.to_thread(_download_file, entry.model_url, pdb_path)
 
     # Analizar confianza
-    plddt_scores = await loop.run_in_executor(None, _parse_plddt_from_pdb, pdb_path)
+    plddt_scores = await asyncio.to_thread(_parse_plddt_from_pdb, pdb_path)
 
     warnings = []
     high_conf = sum(1 for s in plddt_scores if s > 70)
@@ -253,9 +253,9 @@ async def search_by_gene(gene_name: str, organism: str = "Homo sapiens") -> list
         f"&format=json&size=5&fields=accession,gene_names,organism_name"
     )
 
-    loop = asyncio.get_event_loop()
-
     def _search_uniprot():
+        from services.ai.red import exigir_permiso
+        exigir_permiso(uniprot_url, None)
         req = Request(uniprot_url, headers={"Accept": "application/json"})
         try:
             with urlopen(req, timeout=30) as response:
@@ -264,7 +264,7 @@ async def search_by_gene(gene_name: str, organism: str = "Homo sapiens") -> list
             log.warning("error buscando en UniProt", error=str(e))
             return None
 
-    data = await loop.run_in_executor(None, _search_uniprot)
+    data = await asyncio.to_thread(_search_uniprot)
     if not data or "results" not in data:
         return []
 

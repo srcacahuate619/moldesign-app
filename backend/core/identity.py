@@ -13,6 +13,7 @@ from __future__ import annotations
 
 #: Correo de la cuenta invitada creada por `/auth/desktop-login`.
 GUEST_EMAIL = "desktop@moldesign.local"
+ANON_EMAIL = "demo@moldesign.local"
 
 
 def es_invitado(user) -> bool:

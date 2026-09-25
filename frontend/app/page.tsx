@@ -9,7 +9,6 @@ import { BookOpen, Github } from "lucide-react";
 import { PipelineFlowchart } from "@/components/PipelineFlowchart";
 import { ContrasteInicio } from "@/components/registro/ContrasteInicio";
 import { getGlobalStats } from "@/lib/api";
-import { getLeaderboard } from "@/lib/proApi";
 import { useLanguage, Translated } from "@/context/LanguageContext";
 import { PRODUCT } from "@/lib/softwareCatalog";
 
@@ -293,79 +292,6 @@ function TechStackSection() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-//  LEADERBOARD SECTION
-// ═══════════════════════════════════════════════════════════════
-
-function LeaderboardSection() {
-  const { t } = useLanguage();
-  const [leaders, setLeaders] = useState<any[]>([]);
-  const [ldError, setLdError] = useState(false);
-
-  useEffect(() => {
-    getLeaderboard()
-      .then((data) => setLeaders(Array.isArray(data) ? data.slice(0, 10) : []))
-      .catch(() => setLdError(true));
-  }, []);
-
-  if (ldError) return null;
-
-  if (leaders.length === 0) {
-    return (
-      <section className="py-32 border-t border-theme overflow-hidden">
-        <div className="max-w-6xl mx-auto px-8 lg:px-16">
-          <div className="border-l-2 pl-5" style={{ borderLeftColor: "var(--accent)" }}>
-            <span className="font-mono text-sm uppercase tracking-[0.25em] text-muted block mb-1">{t("pg_inicio_comunidad_label")}</span>
-            <h2 className="text-3xl lg:text-4xl font-black tracking-tight text-theme uppercase">{t("pg_inicio_evaluaciones_compartidas")}</h2>
-          </div>
-          <p className="font-mono text-sm text-muted uppercase tracking-wide mt-10 text-center">
-            {t("pg_inicio_comunidad_creciendo")}
-          </p>
-        </div>
-      </section>
-    );
-  }
-
-  return (
-    <section className="py-32 border-t border-theme overflow-hidden">
-      <div className="max-w-6xl mx-auto px-8 lg:px-16 mb-16">
-        <div className="border-l-2 pl-5" style={{ borderLeftColor: "var(--accent)" }}>
-          <span className="font-mono text-sm uppercase tracking-[0.25em] text-muted block mb-1">
-            {t("pg_inicio_comunidad_label")}
-          </span>
-          <h2 className="text-3xl lg:text-4xl font-black tracking-tight text-theme uppercase">
-            {t("pg_inicio_evaluaciones_compartidas")}
-          </h2>
-          <p className="text-base text-muted mt-3 leading-relaxed uppercase max-w-3xl">
-            {t("pg_inicio_evaluaciones_desc")}
-          </p>
-        </div>
-      </div>
-
-      <div className="max-w-4xl mx-auto px-8 lg:px-16">
-        <div className="overflow-hidden border border-theme/20">
-          <div className="grid grid-cols-3 gap-4 border-b border-theme bg-[var(--bg-secondary)] px-6 py-3 text-caption font-bold text-muted">
-            <span>#</span>
-            <span>{t("mx_molecula")}</span>
-            <span className="text-right">{t("pg_inicio_afinidad_kcal")}</span>
-          </div>
-          {leaders.map((l, i) => (
-            <div key={l.molecule_id || i} className="grid grid-cols-3 items-center gap-4 border-b border-theme px-6 py-3 font-mono text-xs transition-colors hover:bg-[var(--bg-secondary)]">
-              <span className="text-muted">{(i + 1).toString().padStart(2, "0")}</span>
-              <span className="truncate text-theme" title={l.smiles || l.target_name}>
-                {(l.smiles || l.target_name || "—").slice(0, 36)}
-              </span>
-              <span className="text-right text-accent font-bold">
-                {l.affinity_kcal != null ? l.affinity_kcal.toFixed(1) : "—"}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════
 //  PAGE
 // ═══════════════════════════════════════════════════════════════
 
@@ -394,7 +320,6 @@ export default function HomePage() {
       <PipelineFlowchart />
       <TechStackSection />
       <ContrasteInicio />
-      <LeaderboardSection />
 
       <footer className="px-8 lg:px-16 py-12 border-t border-theme flex flex-col md:flex-row justify-between items-center gap-6 font-mono text-xs uppercase tracking-widest" style={{ color: "var(--text-dim)" }}>
         <div className="flex flex-col gap-1">

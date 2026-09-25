@@ -308,7 +308,7 @@ def estado_actual(*, verificar_version: bool = False) -> DisponibilidadOpenBabel
 
     esperado = (manifiesto.get("archivos") or {}).get(relativa_exe, {}).get("sha256")
     real = _sha256(exe)
-    if esperado and real != esperado:
+    if not esperado or real != esperado:
         return DisponibilidadOpenBabel(
             estado=EstadoOpenBabel.HASH_MISMATCH,
             detalle=(

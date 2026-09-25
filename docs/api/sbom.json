@@ -8,18 +8,6 @@
       "sha256": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
     },
     {
-      "bytes": 58998784,
-      "nombre": "xtb.exe",
-      "ruta": "tools/xtb/xtb.exe",
-      "sha256": "90bff4e570ffa10a1558364ee393711900bff239f02d313685353e055324f4c3"
-    },
-    {
-      "bytes": 9216,
-      "nombre": "llama-server.exe",
-      "ruta": "tools/llama/llama-server.exe",
-      "sha256": "338827a298c806afb8ef678d7903ee7fe2078faed40797295c36a52aace73bfb"
-    },
-    {
       "bytes": 35328,
       "invocacion": "subproceso CLI (programa independiente)",
       "licencia": "GPL-2.0-only",
@@ -6602,7 +6590,7 @@
       {
         "licencia": "Apache-2.0 AND MIT",
         "nombre": "aiohttp",
-        "version": "3.14.1"
+        "version": "3.14.3"
       },
       {
         "licencia": "Apache 2.0",
@@ -6732,7 +6720,7 @@
       {
         "licencia": "Apache-2.0 OR BSD-3-Clause",
         "nombre": "cryptography",
-        "version": "42.0.7"
+        "version": "50.0.1"
       },
       {
         "licencia": "Copyright (c) 2015, matplotlib project",
@@ -7078,7 +7066,7 @@
       {
         "licencia": "MIT-CMU",
         "nombre": "pillow",
-        "version": "12.2.0"
+        "version": "12.3.0"
       },
       {
         "licencia": "MIT",
@@ -7158,7 +7146,7 @@
       {
         "licencia": "MIT",
         "nombre": "PyJWT",
-        "version": "2.8.0"
+        "version": "2.15.0"
       },
       {
         "licencia": "Apache-2.0",
@@ -7193,7 +7181,7 @@
       {
         "licencia": "Apache-2.0",
         "nombre": "python-multipart",
-        "version": "0.0.22"
+        "version": "0.0.32"
       },
       {
         "licencia": "Apache-2.0",
@@ -7288,7 +7276,7 @@
       {
         "licencia": "BSD-3-Clause",
         "nombre": "starlette",
-        "version": "1.0.0"
+        "version": "1.7.0"
       },
       {
         "licencia": "MIT OR Apache-2.0",
@@ -8869,7 +8857,7 @@
         "fuente": "",
         "licencia": "",
         "nombre": "moldesign",
-        "version": "1.0.0"
+        "version": "1.0.1"
       },
       {
         "fuente": "registry+https://github.com/rust-lang/crates.io-index",

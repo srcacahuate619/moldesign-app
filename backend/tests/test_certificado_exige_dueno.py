@@ -103,4 +103,4 @@ def test_el_usuario_demo_no_lleva_una_contrasena_escrita_en_el_codigo():
 
     assert "demo123" not in fuente
     # La identidad de servicio no debe poder autenticarse por contraseña.
-    assert "secrets.token_hex" in fuente
+    assert "hashed_password=None, is_active=False" in fuente

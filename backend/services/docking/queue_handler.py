@@ -408,8 +408,7 @@ async def _run_full_evaluation_async(
         # El smiles_hash puede ser actualizado por protonación (línea ~786).
         # Esta variable local es la única fuente de verdad para el resto.
         effective_smiles_hash = pipeline_params.molecule_smiles_hash
-
-
+        scientific_warnings = []
 
         try:
             # EVAL-SCI-002. Aqui vivia un pre-filtro que consultaba el grafo
@@ -454,8 +453,12 @@ async def _run_full_evaluation_async(
                     log.info("metal_binding_detected",
                              smiles=pipeline_params.molecule_smiles[:80],
                              groups=metal_binding.get("zn_binding_groups_total", 0))
-            except Exception:
-                pass
+            except Exception as exc:
+                log.warning("metal_features_failed", error=str(exc)[:200])
+                scientific_warnings.append(aviso(
+                    "METAL_FEATURES_NO_EVALUADO", Severidad.PRECAUCION,
+                    "No se pudieron calcular los grupos quelantes; la ausencia de señal no es negativa.",
+                ))
 
             # Pre-calcular hotspots en scope (v1.7.3: desde snapshot, no ORM)
             box_center = pipeline_params.effective_grid_center
@@ -474,7 +477,6 @@ async def _run_full_evaluation_async(
             is_peptide = False
             is_organometallic = False
             metals_in_mol = set()
-            scientific_warnings = []
             # Se rellena en el paso del conformer; `None` si esa rama no corrió
             # (péptidos, cachés), y entonces el upsert no lo toca.
             _estado_del_ligando_persistible: dict | None = None
@@ -1119,7 +1121,8 @@ async def _run_full_evaluation_async(
                                          molecule_id=str(mol_id)[:8],
                                          mmgbsa=round(_score, 2) if _score else None,
                                          elapsed_s=_mmgbsa_result.get("time_sec"))
-                                # Persistir el score post-hoc en DB + cache
+                                # Sólo se publica un valor si también quedó en la BD.
+                                persisted = False
                                 try:
                                     async with get_db_session() as _db:
                                         _repo = Repository(_db)
@@ -1134,13 +1137,15 @@ async def _run_full_evaluation_async(
                                                 mol_id, task_id, mmgbsa_score=_score,
                                             )
                                             await _db.commit()
+                                            persisted = True
                                 except Exception as _db_err:
-                                    log.debug("mmgbsa_bg_db_update_failed",
+                                    log.error("mmgbsa_bg_db_update_failed",
                                               error=str(_db_err)[:200])
                                 try:
                                     await cache.set_job_progress(
-                                        task_id, 100,
-                                        "done", extra={"mmgbsa_score": _score})
+                                        task_id, 100, "done",
+                                        extra={"mmgbsa_score": _score} if persisted else
+                                              {"mmgbsa_status": "persistence_failed"})
                                 except Exception:
                                     pass
                             except Exception as _json_err:

@@ -12,10 +12,16 @@ from core.models import UserORM
 
 TARGET_NOT_FOUND = "No existe el receptor solicitado."
 _RCSB_PDB_ID = re.compile(r"^[A-Z0-9]{4}$")
+_LOCAL_TARGET_ID = re.compile(r"^[A-Z0-9_-]{4,32}$")
 
 
 def is_rcsb_pdb_id(value: str) -> bool:
     return _RCSB_PDB_ID.fullmatch(value) is not None
+
+
+def is_safe_local_target_id(value: str) -> bool:
+    """Un nombre de archivo de receptor nunca contiene separadores ni unidad."""
+    return _LOCAL_TARGET_ID.fullmatch(value.upper()) is not None
 
 
 def target_is_accessible(target: Any, current_user: UserORM | None) -> bool:

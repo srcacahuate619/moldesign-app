@@ -453,6 +453,10 @@ def g4_g7_herramienta(
         return
     resultado.bien(f"G4 [{etiqueta}] ejecutable presente en tools/openbabel/{relativa_exe}")
 
+    if relativa_exe not in manifiesto.get("archivos", {}):
+        resultado.mal(f"G5 [{etiqueta}] el ejecutable no tiene hash en el manifiesto")
+        return
+
     # G5: TODOS los archivos declarados, no sólo el ejecutable. Un plugin
     # alterado cambia lo que el programa hace sin tocar el .exe.
     desviados: list[str] = []

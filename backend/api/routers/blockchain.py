@@ -142,7 +142,10 @@ class CertificationRequest(BaseModel):
 
 
 @router.get("/health")
-async def blockchain_health(settings: Settings = Depends(get_settings)):
+async def blockchain_health(
+    settings: Settings = Depends(get_settings),
+    current_user: UserORM = Depends(get_current_user),
+):
     """
     Returns Solana connection health status for the frontend.
     The frontend uses this to show indicator in CertificationModal.
@@ -315,7 +318,10 @@ async def link_certification(
 
 
 @router.get("/verify/{signature}")
-async def verify_certification(signature: str):
+async def verify_certification(
+    signature: str,
+    current_user: UserORM = Depends(get_current_user),
+):
     """
     Verify a certification transaction on the blockchain.
 

@@ -465,7 +465,15 @@ async def start_model_download(
     if not model_id or not filename:
         raise HTTPException(status_code=400, detail="model_id y filename requeridos")
     from services.ai.model_registry import start_download
-    dl = start_download(model_id, filename)
+    from services.ai.red import exigir_permiso, SalidaNoAutorizada
+    try:
+        exigir_permiso(f"https://huggingface.co/{model_id}", str(current_user.id))
+    except SalidaNoAutorizada as exc:
+        raise HTTPException(status_code=403, detail=str(exc)) from exc
+    try:
+        dl = start_download(model_id, filename, user_id=str(current_user.id))
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
     return dl
 
 

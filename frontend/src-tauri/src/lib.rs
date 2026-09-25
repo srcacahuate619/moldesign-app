@@ -7,7 +7,7 @@ use std::{fs::OpenOptions, io::Write};
 use tauri::Manager;
 
 use backend::{
-    current_status, ensure_backend_sync, reset_for_retry, shutdown_for_app_exit, BackendStatus,
+    current_launch_token, current_status, ensure_backend_sync, reset_for_retry, shutdown_for_app_exit, BackendStatus,
 };
 use cases::{
     case_create, case_forget, case_initialize, case_list_authorized, case_open_token,
@@ -227,6 +227,11 @@ fn backend_status() -> BackendStatus {
     current_status()
 }
 
+#[tauri::command]
+fn backend_launch_token() -> Result<String, String> {
+    current_launch_token()
+}
+
 /// Reintento explícito: cierra el proceso propio y vuelve a arrancar.
 ///
 /// Cierra ANTES de reintentar porque un motor a medias —lanzado pero sin pasar
@@ -343,6 +348,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             ensure_backend,
             backend_status,
+            backend_launch_token,
             restart_backend,
             download_model,
             cancel_download,

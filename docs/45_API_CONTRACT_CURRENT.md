@@ -6,10 +6,10 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 
 ## Identidad del snapshot
 
-- Paths: **113**
-- Operaciones HTTP: **119**
+- Paths: **114**
+- Operaciones HTTP: **120**
 - Versión declarada: `1.0.1`
-- SHA-256: `d984fdc2581ce09a913f1150497e87267e418a76509a47aa03eb89ac0e6595ee`
+- SHA-256: `cd699f575a2192e4d548aa9bd419724eb4f8e61fec6bf7d7cac7aaf9095f084f`
 - Schema completo: [api/openapi-current.json](api/openapi-current.json)
 - Regenerar: `python scripts/generate_openapi_contract.py --write`
 - Verificar en CI: `python scripts/generate_openapi_contract.py --check`
@@ -49,6 +49,7 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `GET` | `/ai/status` | `ai_status_ai_status_get` | Ai Status | MolChat |
 | `GET` | `/auth/desktop-login` | `desktop_auto_login_auth_desktop_login_get` | Auto-login para modo DESKTOP | Autenticación |
 | `POST` | `/auth/login` | `login_auth_login_post` | Iniciar sesión | Autenticación |
+| `POST` | `/auth/logout` | `logout_auth_logout_post` | Logout | Autenticación |
 | `GET` | `/auth/me` | `get_me_auth_me_get` | Perfil del usuario autenticado | Autenticación |
 | `POST` | `/auth/oauth` | `oauth_login_auth_oauth_post` | Iniciar sesión con OAuth (Google / Microsoft) | Autenticación |
 | `POST` | `/auth/refresh` | `refresh_auth_refresh_post` | Refrescar access token | Autenticación |
@@ -125,7 +126,7 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `GET` | `/rescoring/ram` | `rescoring_ram_rescoring_ram_get` | Rescoring Ram | ML Rescoring |
 | `GET` | `/sar/{molecule_id}` | `get_sar_table_sar__molecule_id__get` | Get Sar Table | SAR Analysis |
 | `GET` | `/stats/global` | `get_global_stats_stats_global_get` | Get Global Stats | Estadísticas |
-| `GET` | `/stats/leaderboard` | `get_leaderboard_stats_leaderboard_get` | Evaluaciones compartidas por afinidad observada | Estadísticas |
+| `GET` | `/stats/leaderboard` | `get_leaderboard_stats_leaderboard_get` | Evaluaciones de esta cuenta por afinidad observada | Estadísticas |
 | `POST` | `/suggestions/generate` | `generate_suggestions_suggestions_generate_post` | Generar sugerencias de modificación molecular | Generación de novo |
 | `GET` | `/targets/` | `list_targets_targets__get` | Listar todos los targets biológicos disponibles | Targets biológicos |
 | `GET` | `/targets/alphafold/lookup/{uniprot_id}` | `alphafold_lookup_targets_alphafold_lookup__uniprot_id__get` | Buscar proteína en AlphaFold DB por UniProt ID | Targets biológicos |

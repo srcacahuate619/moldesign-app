@@ -21,24 +21,25 @@ Seguridad implementada:
 from __future__ import annotations
 
 import hashlib
+import hmac
 import os
 import uuid
-from datetime import timedelta
+from datetime import UTC, datetime, timedelta
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status
-from pydantic import BaseModel, EmailStr, Field
+from fastapi import APIRouter, Depends, Header, HTTPException, Request, status
+from pydantic import BaseModel, EmailStr, Field, field_validator
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 import jwt
 from typing import Literal
 
-from api.auth import create_access_token, create_refresh_token, decode_token
+from api.auth import create_access_token, create_refresh_token, decode_token, current_launch_binding, valid_guest_token
 from api.dependencies import get_current_user
 from api.rate_limiter import login_limiter, register_limiter
 from core.config import get_settings
 from core.database import get_db
-from core.identity import GUEST_EMAIL, es_invitado
-from core.models import TraspasoRequest, TraspasoResponse, UserORM
+from core.identity import ANON_EMAIL, GUEST_EMAIL, es_invitado
+from core.models import TraspasoRequest, TraspasoResponse, UserORM, RevokedTokenORM
 from services.accounts.traspaso import (
     PlanDeTraspaso,
     TraspasoNoPermitido,
@@ -64,6 +65,8 @@ except ImportError:
 
 def _hash_password(password: str) -> str:
     """Hash password with bcrypt (cost=12)."""
+    if len(password.encode("utf-8")) > 72:
+        raise ValueError("La contraseña supera el límite de 72 bytes de bcrypt")
     if _BCRYPT_AVAILABLE:
         return bcrypt.hashpw(
             password.encode("utf-8"),
@@ -78,8 +81,10 @@ def _hash_password(password: str) -> str:
     return "pbkdf2:" + salt.hex() + ":" + pwd_hash.hex()
 
 
-def _verify_password(password: str, stored_hash: str) -> bool:
+def _verify_password(password: str, stored_hash: str | None) -> bool:
     """Verify password. Auto-migrates legacy PBKDF2 → bcrypt on success."""
+    if not stored_hash or len(password.encode("utf-8")) > 72:
+        return False
     # bcrypt format: starts with '$2b$' or '$2a$'
     if stored_hash.startswith("$2"):
         if _BCRYPT_AVAILABLE:
@@ -109,6 +114,13 @@ class RegisterRequest(BaseModel):
     email: EmailStr
     username: str = Field(..., min_length=3, max_length=50, pattern=r"^[a-zA-Z0-9_-]+$")
     password: str = Field(..., min_length=8, max_length=128)
+
+    @field_validator("password")
+    @classmethod
+    def bcrypt_bytes(cls, password: str) -> str:
+        if len(password.encode("utf-8")) > 72:
+            raise ValueError("La contraseña no puede superar 72 bytes UTF-8")
+        return password
 
 
 class LoginRequest(BaseModel):
@@ -154,6 +166,9 @@ async def register(
 
     # Rate limiting: 3 registros/min por IP
     register_limiter.check(raw_request)
+
+    if request.username.casefold() in {"demo", "desktop_user", "desktopuser"} or str(request.email).casefold() in {ANON_EMAIL, GUEST_EMAIL}:
+        raise HTTPException(status_code=409, detail="Identidad reservada por la aplicación")
 
     # Verificar email duplicado
     stmt = select(UserORM).where(UserORM.email == request.email)
@@ -282,6 +297,9 @@ async def refresh(
             detail="Token de refresco inválido o expirado",
         )
 
+    if await db.get(RevokedTokenORM, payload["jti"]) is not None:
+        raise HTTPException(status_code=401, detail="Token de refresco revocado")
+
     # Verificar que el usuario existe y está activo
     try:
         user_id = uuid.UUID(subject)
@@ -300,14 +318,25 @@ async def refresh(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Usuario no encontrado o desactivado",
         )
+    if es_invitado(user) and not valid_guest_token(payload):
+        raise HTTPException(status_code=401, detail="Sesión invitada caducada")
 
     settings = get_settings()
+    guest_claims = {"launch": current_launch_binding()} if es_invitado(user) else None
     access_token = create_access_token(
         subject=str(user.id),
         expires_delta=timedelta(minutes=settings.jwt_access_token_expire_minutes),
+        additional_claims=guest_claims,
     )
+    # Rotación con revocación persistente: el refresh anterior no se reutiliza.
+    db.add(RevokedTokenORM(
+        jti=payload["jti"], expires_at=datetime.fromtimestamp(payload["exp"], UTC)
+    ))
+    await db.commit()
     # También rotamos el refresh token para mayor seguridad
-    new_refresh_token = create_refresh_token(subject=str(user.id))
+    new_refresh_token = create_refresh_token(
+        subject=str(user.id), additional_claims=guest_claims
+    )
 
     return AuthResponse(
         access_token=access_token,
@@ -334,6 +363,34 @@ async def get_me(
         is_active=current_user.is_active,
         created_at=current_user.created_at.isoformat() if current_user.created_at else "",
     )
+
+
+class LogoutRequest(BaseModel):
+    refresh_token: str | None = None
+
+
+@router.post("/logout", status_code=204)
+async def logout(
+    data: LogoutRequest,
+    authorization: str | None = Header(default=None),
+    current_user: UserORM = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Revoca el access actual y, si pertenece a la cuenta, su refresh."""
+    tokens = [authorization.split(" ", 1)[1]] if authorization else []
+    if data.refresh_token:
+        tokens.append(data.refresh_token)
+    for token in tokens:
+        try:
+            payload = decode_token(token)
+        except Exception:
+            continue
+        if payload.get("sub") == str(current_user.id):
+            if await db.get(RevokedTokenORM, payload["jti"]) is None:
+                db.add(RevokedTokenORM(
+                    jti=payload["jti"], expires_at=datetime.fromtimestamp(payload["exp"], UTC)
+                ))
+    await db.commit()
 
 
 # ── OAuth ─────────────────────────────────────────────────────────────────────
@@ -375,6 +432,10 @@ async def oauth_login(
     """Verifica un id_token de OAuth y devuelve tokens de acceso locales."""
     login_limiter.check(raw_request)
     settings = get_settings()
+    # Esta instalación es local y no puede atribuir consentimiento de red
+    # a alguien que todavía no está autenticado.
+    if settings.is_desktop:
+        raise HTTPException(status_code=403, detail="OAuth externo no disponible en modo escritorio")
 
     email = None
 
@@ -539,6 +600,9 @@ async def traspasar_del_invitado(
         # decisión legítima, no un error.
         return TraspasoResponse()
 
+    if not data.guest_token:
+        raise HTTPException(status_code=403, detail="Se requiere prueba de la sesión invitada")
+
     invitado = await db.execute(select(UserORM).where(UserORM.email == GUEST_EMAIL))
     cuenta_invitada = invitado.scalars().first()
     if cuenta_invitada is None:
@@ -546,6 +610,13 @@ async def traspasar_del_invitado(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="No hay cuenta invitada en esta máquina: no hay nada que traspasar.",
         )
+    try:
+        prueba = decode_token(data.guest_token)
+    except Exception as exc:
+        raise HTTPException(status_code=403, detail="Prueba invitada inválida") from exc
+    if (prueba.get("type") != "access" or prueba.get("sub") != str(cuenta_invitada.id)
+            or not valid_guest_token(prueba)):
+        raise HTTPException(status_code=403, detail="Prueba invitada inválida")
 
     from core.models import CohortORM, CohortRunORM, MoleculeORM
 
@@ -625,11 +696,18 @@ async def traspasar_del_invitado(
 
 
 @router.get("/desktop-login", summary="Auto-login para modo DESKTOP")
-async def desktop_auto_login(db: AsyncSession = Depends(get_db)):
+async def desktop_auto_login(
+    x_moldesign_launch: str | None = Header(default=None, alias="X-MolDesign-Launch"),
+    db: AsyncSession = Depends(get_db),
+):
     from core.config import get_settings as gs
     s = gs()
     if not s.is_desktop:
         raise HTTPException(status_code=403, detail="Solo disponible en modo DESKTOP")
+    launch_token = os.environ.get("MOLDESIGN_LAUNCH_TOKEN", "")
+    supplied = x_moldesign_launch or ""
+    if len(launch_token) < 32 or not hmac.compare_digest(supplied, launch_token):
+        raise HTTPException(status_code=403, detail="Lanzamiento de escritorio no autorizado")
 
     result = await db.execute(select(UserORM).where(UserORM.email == "desktop@moldesign.local"))
     user = result.scalars().first()
@@ -643,21 +721,22 @@ async def desktop_auto_login(db: AsyncSession = Depends(get_db)):
         db.add(user)
         await db.flush()
 
-    # Desktop: caducidad muy larga (10 años access / 10 años refresh) — la app
-    # desktop no debe exigir re-login por expiración de sesión (mecanismo cloud
-    # que en local solo causa fricción y mezcla de cuentas). No tocamos los
-    # defaults globales (30d/1a) que sigue usando el flujo web/cloud.
-    DESKTOP_ACCESS_EXPIRE = timedelta(days=365 * 10)
-    DESKTOP_REFRESH_EXPIRE = timedelta(days=365 * 10)
+    # Los tokens del invitado dejan de servir al reiniciar el backend.
+    binding = current_launch_binding()
+    if binding is None:
+        raise HTTPException(status_code=503, detail="Backend sin secreto de lanzamiento")
+    DESKTOP_ACCESS_EXPIRE = timedelta(minutes=30)
+    DESKTOP_REFRESH_EXPIRE = timedelta(days=1)
 
     access_token = create_access_token(
         str(user.id),
-        additional_claims={"username": user.username, "email": user.email},
+        additional_claims={"username": user.username, "email": user.email, "launch": binding},
         expires_delta=DESKTOP_ACCESS_EXPIRE,
     )
     refresh_token = create_refresh_token(
         str(user.id),
         expires_delta=DESKTOP_REFRESH_EXPIRE,
+        additional_claims={"launch": binding},
     )
     return {
         "access_token": access_token,

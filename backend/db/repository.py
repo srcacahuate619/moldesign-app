@@ -505,35 +505,33 @@ class Repository:
         return target_6x1a or target_6b3j or target_7e2y
 
     async def get_or_create_test_user(self) -> UserORM:
-        stmt = select(UserORM).where(UserORM.username == "demo")
-        result = await self.db.execute(stmt)
-        existing = result.scalar_one_or_none()
+        """Identidad anónima reservada por email, nunca por username registrable."""
+        from core.identity import ANON_EMAIL
+
+        existing = await self.db.scalar(select(UserORM).where(UserORM.email == ANON_EMAIL))
         if existing is not None:
+            # La identidad de servicio no debe poder iniciar sesión, tampoco
+            # tras migrar una base que la creó con otro contrato.
+            if existing.is_active or existing.hashed_password is not None:
+                existing.is_active = False
+                existing.hashed_password = None
+                await self.db.flush()
             return existing
 
-        import secrets
-
-        from api.routers.auth import _hash_password
-
-        # MOLDEX-BE-015: esta cuenta se creaba con la contraseña `demo123`
-        # escrita aquí y `is_active=True`. Como `/auth/login` acepta username o
-        # email, cualquiera que alcanzara la API entraba como demo y veía todo
-        # lo que el espacio demo poseyera. Es una identidad de servicio, no una
-        # cuenta de persona: no debe poder autenticarse.
-        #
-        # El invitado real del escritorio es otro —`Desktop User`, creado por
-        # `/auth/desktop-login` con contraseña aleatoria—, así que nadie
-        # necesita iniciar sesión como demo. Misma técnica que allí.
+        squatter = await self.db.scalar(select(UserORM).where(UserORM.username == "demo"))
+        if squatter is not None:
+            # Conserva el usuario y sus moléculas; libera únicamente el nombre
+            # reservado. El dueño anónimo nuevo no adopta esos datos.
+            squatter.username = f"user-{squatter.id.hex}"
+            await self.db.flush()
         user = UserORM(
-            email="demo@moldesign.local",
-            username="demo",
-            hashed_password=_hash_password(secrets.token_hex(32)),
-            is_active=True,
+            email=ANON_EMAIL, username="demo",
+            hashed_password=None, is_active=False,
         )
         self.db.add(user)
         from core.database import flush_with_retry
         await flush_with_retry(self.db)
-        log.info("usuario demo creado para flujo MVP", user_id=str(user.id))
+        log.info("identidad anónima reservada", user_id=str(user.id))
         return user
 
     async def create_molecule(

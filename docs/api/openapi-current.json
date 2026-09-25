@@ -1620,9 +1620,22 @@
         "properties": {
           "force_regenerate": {
             "default": false,
-            "description": "Si True, regenera el conformer aunque ya exista en disco local. Útil cuando el usuario quiere explorar otra conformación.",
+            "description": "Compatibilidad con clientes anteriores. El endpoint regenera siempre hasta disponer de una clave de caché que incluya pH y algoritmo.",
             "title": "Force Regenerate",
             "type": "boolean"
+          },
+          "ph": {
+            "anyOf": [
+              {
+                "maximum": 12.0,
+                "minimum": 1.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ph"
           },
           "smiles": {
             "description": "SMILES de la molécula. Se valida y canonicaliza internamente.",
@@ -1647,6 +1660,18 @@
           "conformer_path": {
             "title": "Conformer Path",
             "type": "string"
+          },
+          "estado_del_ligando": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Estado Del Ligando"
           },
           "from_cache": {
             "default": false,
@@ -2648,7 +2673,7 @@
                 "type": "null"
               }
             ],
-            "description": "LE = affinity_kcal / heavy_atom_count",
+            "description": "LE = |afinidad Vina| / heavy_atom_count, positiva para afinidad favorable.",
             "readOnly": true,
             "title": "Ligand Efficiency"
           },
@@ -2661,7 +2686,7 @@
                 "type": "null"
               }
             ],
-            "description": "LLE = (-affinity_kcal / 1.36) - log_p",
+            "description": "LLE = (-affinity_kcal / RT ln 10) - log_p; proxy con Vina.",
             "readOnly": true,
             "title": "Ligand Lipophilicity Efficiency"
           },
@@ -2827,6 +2852,20 @@
               }
             ],
             "title": "Muegge Score"
+          },
+          "muegge_violations": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Muegge Violations"
           },
           "pains_matches": {
             "anyOf": [
@@ -3033,6 +3072,28 @@
               }
             ],
             "title": "Selectivity Verdict"
+          },
+          "shap_model_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shap Model Id"
+          },
+          "shap_output": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Shap Output"
           },
           "shap_values": {
             "anyOf": [
@@ -3398,6 +3459,7 @@
                 "items": {
                   "type": "string"
                 },
+                "maxItems": 128,
                 "type": "array"
               },
               {
@@ -3499,6 +3561,20 @@
             ],
             "description": "Ruta peptídica disponible tras descargar ESMFold; ausente usa Vina.",
             "title": "Peptide Docking Engine"
+          },
+          "ph": {
+            "anyOf": [
+              {
+                "maximum": 12.0,
+                "minimum": 1.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "pH solicitado para el microestado del ligando",
+            "title": "Ph"
           },
           "pipeline_config": {
             "anyOf": [
@@ -4154,6 +4230,23 @@
           "password"
         ],
         "title": "LoginRequest",
+        "type": "object"
+      },
+      "LogoutRequest": {
+        "properties": {
+          "refresh_token": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Refresh Token"
+          }
+        },
+        "title": "LogoutRequest",
         "type": "object"
       },
       "MetalFeaturesRequest": {
@@ -4842,7 +4935,7 @@
                 "type": "null"
               }
             ],
-            "description": "Muegge drug-likeness score (>=2 passes)",
+            "description": "Cumple los nueve criterios Muegge",
             "title": "Muegge Pass"
           },
           "muegge_score": {
@@ -4858,6 +4951,14 @@
             ],
             "description": "Muegge raw score (0-9)",
             "title": "Muegge Score"
+          },
+          "muegge_violations": {
+            "description": "Criterios Muegge incumplidos",
+            "items": {
+              "type": "string"
+            },
+            "title": "Muegge Violations",
+            "type": "array"
           },
           "pains_matches": {
             "description": "List of matched PAINS substructures",
@@ -5004,6 +5105,8 @@
           "pro_parallel_docks": {
             "anyOf": [
               {
+                "maximum": 32.0,
+                "minimum": 1.0,
                 "type": "integer"
               },
               {
@@ -5026,6 +5129,8 @@
           "pro_workers": {
             "anyOf": [
               {
+                "maximum": 32.0,
+                "minimum": 1.0,
                 "type": "integer"
               },
               {
@@ -5209,6 +5314,7 @@
                 "items": {
                   "type": "string"
                 },
+                "maxItems": 128,
                 "type": "array"
               },
               {
@@ -5329,19 +5435,6 @@
       },
       "PrepareTargetRequest": {
         "properties": {
-          "ligand_smiles": {
-            "anyOf": [
-              {
-                "maxLength": 2000,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "SMILES del ligando cocristalizado (opcional, mejora la deteccion del pocket).",
-            "title": "Ligand Smiles"
-          },
           "protein_pdb_content": {
             "description": "Contenido PDB de la proteina.",
             "maxLength": 500000,
@@ -5358,6 +5451,10 @@
       },
       "PrepareTargetResponse": {
         "properties": {
+          "box_source": {
+            "title": "Box Source",
+            "type": "string"
+          },
           "chain_count": {
             "additionalProperties": {
               "type": "integer"
@@ -5385,17 +5482,6 @@
             "title": "Vina Center Z",
             "type": "number"
           },
-          "vina_receptor_pdb": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Vina Receptor Pdb"
-          },
           "vina_size": {
             "title": "Vina Size",
             "type": "number"
@@ -5410,7 +5496,7 @@
         },
         "required": [
           "success",
-          "vina_receptor_pdb",
+          "box_source",
           "vina_center_x",
           "vina_center_y",
           "vina_center_z",
@@ -6685,6 +6771,18 @@
             "title": "Cohort Ids",
             "type": "array"
           },
+          "guest_token": {
+            "anyOf": [
+              {
+                "maxLength": 4096,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Guest Token"
+          },
           "molecule_ids": {
             "items": {
               "format": "uuid",
@@ -6902,6 +7000,17 @@
             ],
             "title": "Heavy Atom Count"
           },
+          "identity_hash_v2": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Identity Hash V2"
+          },
           "is_valid": {
             "title": "Is Valid",
             "type": "boolean"
@@ -6916,6 +7025,17 @@
               }
             ],
             "title": "Molecular Formula"
+          },
+          "motor_canonico": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Motor Canonico"
           },
           "regimen": {
             "anyOf": [
@@ -8448,6 +8568,24 @@
     "/auth/desktop-login": {
       "get": {
         "operationId": "desktop_auto_login_auth_desktop_login_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-MolDesign-Launch",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Moldesign-Launch"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -8456,6 +8594,16 @@
               }
             },
             "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
           }
         },
         "summary": "Auto-login para modo DESKTOP",
@@ -8501,6 +8649,59 @@
           }
         },
         "summary": "Iniciar sesión",
+        "tags": [
+          "Autenticación"
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "description": "Revoca el access actual y, si pertenece a la cuenta, su refresh.",
+        "operationId": "logout_auth_logout_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Logout",
         "tags": [
           "Autenticación"
         ]
@@ -9046,6 +9247,24 @@
       "get": {
         "description": "Returns Solana connection health status for the frontend.\nThe frontend uses this to show indicator in CertificationModal.",
         "operationId": "blockchain_health_blockchain_health_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -9054,6 +9273,16 @@
               }
             },
             "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
           }
         },
         "summary": "Blockchain Health",
@@ -9074,6 +9303,22 @@
             "schema": {
               "title": "Signature",
               "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
             }
           }
         ],
@@ -9200,6 +9445,22 @@
               "format": "uuid",
               "title": "Molecule Id",
               "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
             }
           }
         ],
@@ -13040,7 +13301,7 @@
     },
     "/proteins/surgery/prepare": {
       "post": {
-        "description": "Orquesta la preparacion completa de un receptor: analisis de cadenas, deteccion de metales, calculo de pocket, trimming de cadenas y generacion de PDBQT. Requiere el PDB de la proteina. Si se provee un SMILES de ligando, mejora la deteccion del sitio activo.",
+        "description": "Orquesta la preparacion completa de un receptor: analisis de cadenas, deteccion de metales, calculo de pocket, trimming de cadenas y generacion de PDBQT. Requiere el PDB de la proteina. El sitio sólo se deriva de coordenadas presentes en el PDB.",
         "operationId": "prepare_target_endpoint_proteins_surgery_prepare_post",
         "requestBody": {
           "content": {
@@ -13249,37 +13510,23 @@
     },
     "/stats/global": {
       "get": {
-        "description": "Obtiene estadísticas globales de la plataforma en tiempo real.",
+        "description": "Conserva el contrato JSON antiguo, pero los datos son sólo de esta cuenta.",
         "operationId": "get_global_stats_stats_global_get",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          }
-        },
-        "summary": "Get Global Stats",
-        "tags": [
-          "Estadísticas"
-        ]
-      }
-    },
-    "/stats/leaderboard": {
-      "get": {
-        "description": "Evaluaciones compartidas ordenadas por afinidad Vina observada.",
-        "operationId": "get_leaderboard_stats_leaderboard_get",
         "parameters": [
           {
-            "in": "query",
-            "name": "limit",
+            "in": "header",
+            "name": "authorization",
             "required": false,
             "schema": {
-              "default": 10,
-              "title": "Limit",
-              "type": "integer"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
             }
           }
         ],
@@ -13303,7 +13550,66 @@
             "description": "Validation Error"
           }
         },
-        "summary": "Evaluaciones compartidas por afinidad observada",
+        "summary": "Get Global Stats",
+        "tags": [
+          "Estadísticas"
+        ]
+      }
+    },
+    "/stats/leaderboard": {
+      "get": {
+        "operationId": "get_leaderboard_stats_leaderboard_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 10,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Evaluaciones de esta cuenta por afinidad observada",
         "tags": [
           "Estadísticas"
         ]
@@ -13417,6 +13723,22 @@
               "title": "Uniprot Id",
               "type": "string"
             }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
           }
         ],
         "responses": {
@@ -13475,6 +13797,22 @@
               "description": "Organismo",
               "title": "Organism",
               "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
             }
           }
         ],
@@ -13645,6 +13983,24 @@
       "post": {
         "description": "Busca estructuras experimentales en RCSB PDB por nombre de proteína.\n\nEl endpoint consulta la RCSB Search API v2 + Data API, retornando\nlos mejores resultados ordenados por resolución (mejor primero).\n\nÚtil para el frontend: el usuario escribe \"EGFR\" y obtiene una lista\nde PDB IDs para seleccionar sin tener que memorizar códigos.\n\nEjemplos de búsqueda:\n  - \"EGFR\" → retorna estructuras de EGFR (receptor EGF)\n  - \"CDK4\" → retorna quinasa dependiente de ciclina 4\n  - \"5-HT1A\" → retorna receptor de serotonina 1A",
         "operationId": "resolve_target_name_targets_resolve_name_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {

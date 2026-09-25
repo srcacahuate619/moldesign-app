@@ -42,6 +42,10 @@ from chem.conformer import generate_conformer
 from chem.properties import calculate_properties, summarize_adme_profile
 from chem.validator import validate_smiles, validate_smiles_or_raise
 from core.database import get_db
+from api.dependencies import get_current_user_optional
+from api.routers.evaluation_access import require_owned_molecule
+from db.repository import Repository
+from core.models import UserORM
 from core.models import MoleculeORM
 import uuid
 from sqlalchemy import select
@@ -348,21 +352,15 @@ async def conformer_endpoint(
 async def render_2d_molecule(
     molecule_id: uuid.UUID,
     db: AsyncSession = Depends(get_db),
+    current_user: UserORM | None = Depends(get_current_user_optional),
 ):
-    """
-    Genera una representación vectorial (SVG) de la molécula en 2D.
-    Útil para mostrar miniaturas en la Moldex.
-    """
+    """Genera una miniatura SVG sólo para el dueño de la molécula."""
     bind_context(endpoint="render_2d", molecule_id=str(molecule_id))
-
-    # 1. Buscar molécula por ID para obtener el SMILES
-    stmt = select(MoleculeORM).where(MoleculeORM.id == molecule_id)
-    result = await db.execute(stmt)
-    molecule = result.scalar_one_or_none()
-
-    if not molecule:
-        log.warning("molécula no encontrada para renderizado", molecule_id=molecule_id)
-        raise HTTPException(status_code=404, detail="Molécula no encontrada")
+    molecule = await require_owned_molecule(
+        repository=Repository(db), db=db, molecule_id=molecule_id,
+        current_user=current_user, forbidden_detail="Molécula no accesible",
+        missing_detail="Molécula no encontrada",
+    )
 
     # 2 y 3. Construir el SVG con RDKit, fuera del bucle de eventos.
     #
@@ -395,7 +393,7 @@ async def render_2d_molecule(
     return Response(
         content=svg,
         media_type="image/svg+xml",
-        headers={"Cache-Control": "public, max-age=86400"} # Cachear 24h
+        headers={"Cache-Control": "private, no-store"}
     )
 
 

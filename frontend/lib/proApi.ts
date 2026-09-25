@@ -698,7 +698,7 @@ export async function validateVinaAtoms(smiles: string): Promise<ValidateVinaAto
 
 export interface PrepareTargetResponse {
   success: boolean;
-  vina_receptor_pdb: string | null;
+  box_source: string;
   vina_center_x: number;
   vina_center_y: number;
   vina_center_z: number;
@@ -710,14 +710,12 @@ export interface PrepareTargetResponse {
 
 export async function prepareTarget(
   proteinPdbContent: string,
-  ligandSmiles?: string,
 ): Promise<PrepareTargetResponse> {
   const res = await customFetch(`${await getApiUrl()}/proteins/surgery/prepare`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       protein_pdb_content: proteinPdbContent,
-      ligand_smiles: ligandSmiles,
     }),
   });
   await assertOk(res);

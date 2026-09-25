@@ -189,6 +189,7 @@ export type EvaluationResult = {
   egan_pass: boolean | null;
   muegge_pass: boolean | null;
   muegge_score: number | null;
+  muegge_violations: string[] | null;
   fsp3: number | null;
   is_pains: boolean | null;
   pains_matches: string[] | null;
@@ -271,6 +272,8 @@ export type EvaluationResult = {
 
   // XAI
   shap_values: Record<string, number> | null;
+  shap_model_id: string | null;
+  shap_output: string | null;
   gnn_attention: number[] | null;
   gnn_attention_svg: string | null;
   gnn_pharmacophores: Record<string, number> | null;

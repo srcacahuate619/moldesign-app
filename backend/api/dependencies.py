@@ -21,7 +21,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.database import get_db
 from core.exceptions import InvalidCredentials, TokenExpired
-from core.models import UserORM
+from core.models import UserORM, RevokedTokenORM
 from utils.logger import get_logger
 
 log = get_logger(__name__)
@@ -56,7 +56,8 @@ async def get_current_user(
     lo crea automáticamente (JIT Provisioning).
     Lanza 401 si el token es inválido o expirado.
     """
-    from api.auth import decode_token
+    from api.auth import decode_token, valid_guest_token
+    from core.identity import GUEST_EMAIL
 
     token = _extract_token(authorization)
 
@@ -69,6 +70,10 @@ async def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         ) from exc
 
+    if payload.get("type") != "access":
+        raise HTTPException(status_code=401, detail="Tipo de token inválido")
+    if await db.get(RevokedTokenORM, payload["jti"]) is not None:
+        raise HTTPException(status_code=401, detail="Token revocado")
     subject = payload.get("sub")
     if not isinstance(subject, str) or not subject:
         raise HTTPException(
@@ -88,31 +93,10 @@ async def get_current_user(
     result = await db.execute(stmt)
     user = result.scalar_one_or_none()
 
-    # JIT Provisioning para usuarios de Supabase
     if user is None:
-        email = payload.get("email", f"user_{user_id}@oauth.local")
-        user = UserORM(
-            id=user_id,
-            email=email,
-            username=email.split("@")[0],
-            auth_provider="oauth",
-            subscription_tier="free"
-        )
-        db.add(user)
-        try:
-            await db.commit()
-            await db.refresh(user)
-        except Exception:
-            await db.rollback()
-            # Race condition recovery: Check if user was created concurrently
-            stmt = select(UserORM).where(UserORM.id == user_id)
-            result = await db.execute(stmt)
-            user = result.scalar_one_or_none()
-            if user is None:
-                raise HTTPException(
-                    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                    detail="Error creando usuario OAuth local",
-                )
+        raise HTTPException(status_code=401, detail="Usuario no encontrado")
+    if user.email == GUEST_EMAIL and not valid_guest_token(payload):
+        raise HTTPException(status_code=401, detail="Sesión invitada caducada")
 
     if not user.is_active:
         raise HTTPException(
@@ -120,6 +104,8 @@ async def get_current_user(
             detail="Usuario desactivado",
         )
 
+    from services.ai.red import fijar_identidad_peticion
+    fijar_identidad_peticion(str(user.id))
     request.state.user = user
     return user
 

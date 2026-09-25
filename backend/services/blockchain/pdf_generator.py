@@ -745,6 +745,18 @@ def generate_certificate_pdf(
         story.append(Spacer(1, 4))
         story.append(Paragraph(spec_warning, normal_style))
 
+    # La omisión de un archivo no equivale a una medida negativa de contactos.
+    if not pose_sdf_content or not receptor_pdb_content:
+        faltan = []
+        if not pose_sdf_content:
+            faltan.append("pose SDF")
+        if not receptor_pdb_content:
+            faltan.append("estructura PDB del receptor")
+        story.append(Paragraph(
+            "Mapa de contactos no evaluado: faltan " + ", ".join(faltan) + ".",
+            normal_style,
+        ))
+
     # Residue-Ligand Interactions Sub-Section
     contacts = compute_residue_interactions(receptor_pdb_content, pose_sdf_content)
     if contacts:

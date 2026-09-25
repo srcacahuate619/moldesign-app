@@ -69,7 +69,8 @@ async def ingest_new_target(
     is_hot: bool = False,
     structural_family: str | None = None,
     cofactors_whitelist: list[str] | None = None,
-    force_reingest: bool = False
+    force_reingest: bool = False,
+    user_id: str | None = None,
 ) -> dict:
     """
     Orquesta la ingesta completa de un target desde el PDB ID.
@@ -78,7 +79,10 @@ async def ingest_new_target(
     3. Prepara receptor (PDBQT).
     4. Persiste en DB.
     """
+    from services.targets.access import is_rcsb_pdb_id
     pdb_id = pdb_id.upper().strip()
+    if not is_rcsb_pdb_id(pdb_id):
+        raise ValueError("PDB ID inválido")
     repo = Repository(db)
 
     # 1. Verificar si ya existe
@@ -90,7 +94,7 @@ async def ingest_new_target(
     log.info("ingesta_iniciada", pdb_id=pdb_id)
     raw_path = StoragePath.target_raw(pdb_id)
     if not await exists(raw_path):
-        pdb_content = await download_pdb_from_rcsb(pdb_id)
+        pdb_content = await download_pdb_from_rcsb(pdb_id, user_id=user_id)
         await write_text(raw_path, pdb_content)
         # El censo de aguas se cachea por (pdb_id, caja) y no puede enterarse
         # solo de que el archivo cambió. Ver `services/chemistry/censo_de_aguas`.
@@ -286,6 +290,8 @@ async def ingest_custom_target(
     Si is_curated=True, asume que es un archivo .pdbqt listo.
     Si is_curated=False, asume que es un .pdb y lo cura.
     """
+    from services.targets.box_validation import validar_caja
+    validar_caja(grid_center, grid_size)
     import uuid
     pdb_id = f"USR_{uuid.uuid4().hex[:6].upper()}"
     repo = Repository(db)

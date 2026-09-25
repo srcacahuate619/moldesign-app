@@ -110,16 +110,12 @@ class PrepareTargetRequest(BaseModel):
         max_length=500000,
         description="Contenido PDB de la proteina.",
     )
-    ligand_smiles: str | None = Field(
-        default=None,
-        max_length=2000,
-        description="SMILES del ligando cocristalizado (opcional, mejora la deteccion del pocket).",
-    )
+
 
 
 class PrepareTargetResponse(BaseModel):
     success: bool
-    vina_receptor_pdb: str | None
+    box_source: str
     vina_center_x: float
     vina_center_y: float
     vina_center_z: float
@@ -155,8 +151,8 @@ async def metal_features_endpoint(request: MetalFeaturesRequest) -> MetalFeature
             has_metal_binding_potential=bool(result.get("has_metal_binding_potential", 0)),
         )
     except Exception as e:
-        log.warning("metal_features_failed", error=str(e))
-        return MetalFeaturesResponse()
+        log.error("metal_features_failed", error=str(e))
+        raise HTTPException(503, "No se pudieron calcular los grupos quelantes") from e
 
 
 @router.post(
@@ -188,8 +184,8 @@ async def detect_metals_endpoint(request: DetectMetalsRequest) -> DetectMetalsRe
             count=len(metals),
         )
     except Exception as e:
-        log.warning("detect_metals_failed", error=str(e))
-        return DetectMetalsResponse(metals=[], count=0)
+        log.error("detect_metals_failed", error=str(e))
+        raise HTTPException(503, "No se pudo detectar metales en la estructura") from e
     finally:
         try:
             Path(tmp.name).unlink(missing_ok=True)
@@ -252,8 +248,8 @@ async def validate_vina_atoms_endpoint(request: ValidateVinaAtomsRequest) -> Val
             unsupported_elements=sorted(unsupported),
         )
     except Exception as e:
-        log.warning("validate_vina_atoms_failed", error=str(e))
-        return ValidateVinaAtomsResponse(all_supported=False, unsupported_elements=[])
+        log.error("validate_vina_atoms_failed", error=str(e))
+        raise HTTPException(503, "No se pudo validar compatibilidad atómica") from e
 
 
 @router.post(
@@ -264,72 +260,39 @@ async def validate_vina_atoms_endpoint(request: ValidateVinaAtomsRequest) -> Val
         "Orquesta la preparacion completa de un receptor: "
         "analisis de cadenas, deteccion de metales, calculo de pocket, "
         "trimming de cadenas y generacion de PDBQT. "
-        "Requiere el PDB de la proteina. Si se provee un SMILES de ligando, "
-        "mejora la deteccion del sitio activo."
+        "Requiere el PDB de la proteina. El sitio sólo se deriva de "
+        "coordenadas presentes en el PDB."
     ),
     status_code=status.HTTP_200_OK,
 )
 async def prepare_target_endpoint(request: PrepareTargetRequest) -> PrepareTargetResponse:
-    """Prepara un receptor para docking (pipeline completo de cirugia)."""
-    lig_path = None
-    if request.ligand_smiles:
-        from rdkit import Chem
-        mol = Chem.MolFromSmiles(request.ligand_smiles)
-        if mol:
-            from rdkit.Chem import AllChem
-            mol = Chem.AddHs(mol)
-            AllChem.EmbedMolecule(mol, AllChem.ETKDGv3())
-            AllChem.MMFFOptimizeMolecule(mol)
-
-            tmp_mol2 = tempfile.NamedTemporaryFile(suffix=".mol2", delete=False, mode="w")
-            mol_block = Chem.MolToMolBlock(mol)
-            tmp_mol2.write(mol_block)
-            tmp_mol2.close()
-            lig_path = tmp_mol2.name
-
-    tmp_pdb = tempfile.NamedTemporaryFile(suffix=".pdb", delete=False, mode="w", encoding="utf-8")
+    """Analiza la estructura sin usar un SMILES como localizador espacial."""
+    from services.chemistry.protein_surgery import prepare_target
     try:
-        tmp_pdb.write(request.protein_pdb_content)
-        tmp_pdb.close()
-
-        from services.chemistry.protein_surgery import prepare_target
-        result = prepare_target(tmp_pdb.name, lig_path)
-        chain_info = result.get("chains", {})
-        if isinstance(chain_info, dict):
-            chain_count = chain_info
-        elif isinstance(chain_info, list):
-            chain_count = {}
-            for c in chain_info:
-                chain_count[c] = chain_count.get(c, 0) + 1
-        else:
-            chain_count = {}
-
-        return PrepareTargetResponse(
-            success=True,
-            vina_receptor_pdb=result.get("vina_receptor"),
-            vina_center_x=float(result.get("vina_center", (0, 0, 0))[0]),
-            vina_center_y=float(result.get("vina_center", (0, 0, 0))[1]),
-            vina_center_z=float(result.get("vina_center", (0, 0, 0))[2]),
-            vina_size=float(result.get("vina_box", 22.0)),
-            metal_count=len(result.get("metal_atoms", [])),
-            chain_count=chain_count,
-            warnings=result.get("warnings", []),
-        )
-    except Exception as e:
-        log.warning("prepare_target_failed", error=str(e))
-        return PrepareTargetResponse(
-            success=False, vina_receptor_pdb=None,
-            vina_center_x=0, vina_center_y=0, vina_center_z=0,
-            vina_size=22.0, metal_count=0, chain_count={},
-            warnings=["Error interno al preparar el receptor."],
-        )
-    finally:
-        try:
-            Path(tmp_pdb.name).unlink(missing_ok=True)
-        except Exception:
-            pass
-        if lig_path:
-            try:
-                Path(lig_path).unlink(missing_ok=True)
-            except Exception:
-                pass
+        with tempfile.TemporaryDirectory(prefix="surgery_") as work_dir:
+            protein_file = Path(work_dir) / "input.pdb"
+            protein_file.write_text(request.protein_pdb_content, encoding="utf-8")
+            result = prepare_target(str(protein_file), output_dir=work_dir)
+            chain_info = result.get("chains", {})
+            if isinstance(chain_info, dict):
+                chain_count = chain_info
+            elif isinstance(chain_info, list):
+                chain_count = {}
+                for chain in chain_info:
+                    chain_count[chain] = chain_count.get(chain, 0) + 1
+            else:
+                chain_count = {}
+            return PrepareTargetResponse(
+                success=True,
+                box_source=str(result.get("box_source", "sin_definir")),
+                vina_center_x=float(result.get("vina_center", (0, 0, 0))[0]),
+                vina_center_y=float(result.get("vina_center", (0, 0, 0))[1]),
+                vina_center_z=float(result.get("vina_center", (0, 0, 0))[2]),
+                vina_size=float(result.get("vina_box", 22.0)),
+                metal_count=len(result.get("metal_atoms", [])),
+                chain_count=chain_count,
+                warnings=result.get("warnings", []),
+            )
+    except Exception as exc:
+        log.error("prepare_target_failed", error=str(exc))
+        raise HTTPException(503, "No se pudo preparar el receptor") from exc

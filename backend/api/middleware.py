@@ -26,6 +26,8 @@ from core.i18n import (
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.trustedhost import TrustedHostMiddleware
+from starlette.responses import JSONResponse
 
 from core.config import get_settings
 from utils.logger import bind_context, clear_context, get_logger
@@ -49,6 +51,12 @@ def register_middleware(app: FastAPI) -> None:
 
     @app.middleware("http")
     async def request_context_middleware(request: Request, call_next):
+        from services.ai.red import fijar_identidad_peticion
+        fijar_identidad_peticion(None)
+        origin = request.headers.get("origin")
+        if (request.method.upper() not in {"GET", "HEAD", "OPTIONS"}
+                and origin and origin not in settings.cors_origins):
+            return JSONResponse(status_code=403, content={"detail": "Origen no autorizado"})
         request_id = request.headers.get("X-Request-ID") or str(uuid4())
         started = time.perf_counter()
         locale = parse_accept_language(request.headers.get("accept-language"))
@@ -70,6 +78,7 @@ def register_middleware(app: FastAPI) -> None:
             raise
         finally:
             reset_request_locale(locale_token)
+            fijar_identidad_peticion(None)
             clear_context()
 
         elapsed_ms = round((time.perf_counter() - started) * 1000, 2)
@@ -89,3 +98,10 @@ def register_middleware(app: FastAPI) -> None:
         clear_context()
 
         return response
+
+    # En producción sólo se aceptan nombres locales. `testserver` pertenece
+    # exclusivamente a TestClient en desarrollo; nunca al ejecutable instalado.
+    allowed_hosts = ["127.0.0.1", "localhost", "tauri.localhost"]
+    if settings.environment != "production":
+        allowed_hosts.append("testserver")
+    app.add_middleware(TrustedHostMiddleware, allowed_hosts=allowed_hosts)

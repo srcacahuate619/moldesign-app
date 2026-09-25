@@ -30,6 +30,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 import { getApiUrl } from "./config";
+import { desktopLogin } from "./desktopAuth";
 import { recordarInvitado } from "./traspaso";
 
 /**
@@ -129,16 +130,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // aunque la app de escritorio ya tiene un usuario pre-configurado.
       // `getApiUrl()` es una promesa —en escritorio el puerto lo elige Rust—
       // y este efecto no es asíncrono, así que la cadena arranca desde ella.
-      getApiUrl()
-        .then((base) =>
-          fetch(`${base}/auth/desktop-login`, {
-            headers: { "ngrok-skip-browser-warning": "true" },
-            cache: "no-store",
-          }),
-        )
-        .then(async (res) => {
-          if (!res.ok) throw new Error(`desktop-login ${res.status}`);
-          const data = await res.json();
+      desktopLogin()
+        .then((data) => {
           if (data?.access_token) {
             // Esta —y sólo esta— es la puerta por la que se entra como invitado.
             // Se recuerda aquí porque `_persist` sobrescribe `moldesign_auth` y
@@ -247,11 +240,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const logout = useCallback(() => {
+    if (token) {
+      const currentToken = token;
+      const currentRefresh = refreshToken;
+      void getApiUrl()
+        .then((base) => fetch(`${base}/auth/logout`, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${currentToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ refresh_token: currentRefresh }),
+        }))
+        .catch(() => {});
+    }
     setToken(null);
     setRefreshToken(null);
     setUser(null);
     localStorage.removeItem("moldesign_auth");
-  }, []);
+  }, [token, refreshToken]);
 
   const value = useMemo(
     () => ({ user, token, refreshToken, isLoading, login, register, loginWithOAuth, logout }),

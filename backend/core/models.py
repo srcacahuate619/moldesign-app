@@ -238,6 +238,14 @@ class UserORM(Base):
     molecules = relationship("MoleculeORM", back_populates="user")
 
 
+class RevokedTokenORM(Base):
+    """JTI invalidado; persiste entre reinicios y expira con el propio JWT."""
+    __tablename__ = "revoked_tokens"
+
+    jti = Column(String(36), primary_key=True)
+    expires_at = Column(DateTime(timezone=True), nullable=False)
+
+
 class MoleculeORM(Base):
     """
     Molécula diseñada por el usuario.
@@ -1691,6 +1699,7 @@ class TraspasoRequest(BaseModel):
 
     molecule_ids: list[uuid.UUID] = Field(default_factory=list, max_length=1000)
     cohort_ids: list[uuid.UUID] = Field(default_factory=list, max_length=1000)
+    guest_token: str | None = Field(default=None, max_length=4096)
 
 
 class TraspasoResponse(BaseModel):
