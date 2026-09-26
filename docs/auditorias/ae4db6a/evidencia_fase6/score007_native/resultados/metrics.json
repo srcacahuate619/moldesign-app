@@ -1,0 +1,83 @@
+{
+  "all_holdout": {
+    "average_precision": 0.8296921768706164,
+    "bootstrap_by_protein_cluster": {
+      "brier_ci95": [
+        0.10959827769923002,
+        0.16791496504648443
+      ],
+      "iterations": 2000,
+      "roc_auc_ci95": [
+        0.829169469301006,
+        0.9269868978521152
+      ],
+      "skipped_one_class": 0,
+      "valid": 2000
+    },
+    "brier": 0.13700553483979436,
+    "brier_prevalence_baseline": 0.24842913444378345,
+    "ece_10_equal_width": 0.06491262320338224,
+    "n": 328,
+    "negative": 177,
+    "positive": 151,
+    "prevalence": 0.4603658536585366,
+    "roc_auc": 0.8818049163766977
+  },
+  "matrix_sha256": "9ee1917995ff6a3b38ebf0f21b076f75b5bee6d6acb2c26a574a70a2f6501851",
+  "metadata_auc_absolute_difference": 4.916376697639002e-06,
+  "model_sha256": "b83a936564036b196b53919c707250c441d49fbd1b9427b15f7ebe48850ea636",
+  "numpy": "1.26.4",
+  "pose_source": "crystal_native",
+  "python": "3.10.20",
+  "reproduces_metadata_auc": true,
+  "script_sha256": "8ff8289663d1b349bf6e71f1c6af4dcf73af13e26c0d937a7f2e7f1c4a6c4e2e",
+  "seen_protein_cluster": {
+    "average_precision": 0.8301977511927047,
+    "bootstrap_by_protein_cluster": {
+      "brier_ci95": [
+        0.1055705760381475,
+        0.1770370817472279
+      ],
+      "iterations": 2000,
+      "roc_auc_ci95": [
+        0.8214284417470693,
+        0.9387536202149459
+      ],
+      "skipped_one_class": 0,
+      "valid": 2000
+    },
+    "brier": 0.13855650941415107,
+    "brier_prevalence_baseline": 0.24999539501556484,
+    "ece_10_equal_width": 0.10086868712958348,
+    "n": 233,
+    "negative": 116,
+    "positive": 117,
+    "prevalence": 0.5021459227467812,
+    "roc_auc": 0.8852048334806956
+  },
+  "unseen_protein_cluster": {
+    "average_precision": 0.8386916773859151,
+    "bootstrap_by_protein_cluster": {
+      "brier_ci95": [
+        0.0907310625462293,
+        0.18848126851822725
+      ],
+      "iterations": 2000,
+      "roc_auc_ci95": [
+        0.7407677646898534,
+        0.9373148130720923
+      ],
+      "skipped_one_class": 0,
+      "valid": 2000
+    },
+    "brier": 0.13320156562058263,
+    "brier_prevalence_baseline": 0.2298060941828255,
+    "ece_10_equal_width": 0.10787641688397055,
+    "n": 95,
+    "negative": 61,
+    "positive": 34,
+    "prevalence": 0.35789473684210527,
+    "roc_auc": 0.8543876567020251
+  },
+  "xgboost": "3.2.0"
+}

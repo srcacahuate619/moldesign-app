@@ -1,0 +1,23 @@
+{
+  "cohort": "Fase A PDBBind v2020, native crystal poses",
+  "excluded_holdout": [],
+  "excluded_pool": [],
+  "holdout": 328,
+  "holdout_seen_clusters": 233,
+  "holdout_unseen_clusters": 95,
+  "input_file_hashes_sha256": "bc34f03af725be7657799483a0647364a904a40940e8965d0b5f4c32af45cff7",
+  "input_ids": 865,
+  "matrix_sha256": "9ee1917995ff6a3b38ebf0f21b076f75b5bee6d6acb2c26a574a70a2f6501851",
+  "numpy": "2.4.4",
+  "pool": 537,
+  "preparation": "train_families.enrich_features_with_1d2d + build_feature_matrix",
+  "python": "3.11.9",
+  "script_sha256": "8ff8289663d1b349bf6e71f1c6af4dcf73af13e26c0d937a7f2e7f1c4a6c4e2e",
+  "source_hashes": {
+    "groups": "9756211324d16cdafb0dc6a4c473ff2bedeff8a38aa81e4f7b9144d687033568",
+    "index": "1c52a9b7631cc11a31c6b3344ececa3de8a9087c86ab3e6c5a30dc69861de02d",
+    "metadata": "e8b5de0feea62e3c571d0b1936ba6ac80f19709277f3ab9b2e1cfdfee3bb128b",
+    "model": "b83a936564036b196b53919c707250c441d49fbd1b9427b15f7ebe48850ea636",
+    "split": "bbc57126e2306e087dcddb76478a8cddfbd36fb7de3f350806b6366ee3534f6f"
+  }
+}

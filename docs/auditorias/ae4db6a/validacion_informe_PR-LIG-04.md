@@ -1,0 +1,51 @@
+# Validación independiente del informe PR-LIG-04 (fase 2)
+
+Fecha: 2026-09-24. Entorno: RDKit 2025.09.6 y Dimorphite-DL del runtime embebido de MolDesign. Se leyó `investigaciones/informe_pr_lig_04_fase2_pka.md` como hipótesis, no como fuente primaria.
+
+## Lo reproducido
+
+- Los SMILES exactos del panel para talidomida R/S, metformina, cimetidina, losartán, celecoxib, glucosa 6 fosfato, glimepirida y glibenclamida son válidos en RDKit. Sus InChIKeys calculados coinciden con los declarados en el informe. La variante 1H/2H de losartán escrita como `...c2nn[nH]n2` en ambos lados es la misma cadena, por lo que ese par no demuestra por sí mismo dos tautómeros.
+- Los SMARTS propuestos casan sobre el panel en los motivos indicados: biguanida en metformina, N-cianoguanidina en cimetidina, sulfonamida primaria en celecoxib, imida N-H en talidomida, monoéster fosfato en glucosa 6 fosfato y sulfonilurea en glimepirida/glibenclamida. Esto demuestra coincidencia estructural del panel, no pKa ni cobertura general.
+- Código actual a pH 7,4: metformina +2 (4 alternativas de Dimorphite, empate entre 2); cimetidina +1 con la carga en N-cianoguanidina; celecoxib neutro por desempate alfabético sin centro reconocido; glucosa 6 fosfato −1; glimepirida y glibenclamida −1 por desempate alfabético sin centro reconocido. Para estas dos últimas el informe dice «0 antes», contradicho por la ejecución actual. La carga observada no demuestra corrección del criterio químico.
+- Para glucosa 6 fosfato, Dimorphite devolvió dos especies: monoanión (−1) y dianión (−2). El selector eligió el monoanión porque la tabla esperaba una sola carga negativa. La interpretación inicial de que faltaba el dianión fue errónea y queda rectificada aquí. La propuesta de añadir `fosfato_monoester_2` a `CENTROS` tampoco funciona tal cual: `_explorar_centros` reclama los átomos del primer patrón de fosfato e impide un segundo centro solapado. Se requiere generación explícita del segundo estado y una regla bifásica probada.
+
+## Lo que no queda verificado
+
+- El directorio de investigaciones no contiene los `content.md` ni las tablas/PDF/HTML primarios que el informe enumera con SHA-256. Solo aparece el informe; por tanto esos hashes y las citas de tabla no se pueden auditar localmente.
+- No se confirmó de primera mano ninguno de los pKa numéricos, sus incertidumbres ni las condiciones de medición. Un DOI citado es una pista bibliográfica, no prueba de que ese artículo contenga el número atribuido.
+- La propia tabla del informe dice que el pKa experimental acuoso de N-cianoguanidina está `NO DETERMINADO`; su dictamen final propone a la vez codificar `pKa(BH+) <= 0.4`. Esa cifra no supera su propia regla de evidencia.
+- La instrucción del informe de usar una `imida` genérica de pKa 9,5 mezcla ftalimida, succinimida y glutarimida, cuyos valores que el mismo informe declara abarcan aproximadamente 8,3 a 11,4. Una regla única cerca de los bordes de pH podría escoger la especie incorrecta.
+- El informe usa formulaciones de «corregido» sobre el código que aún no las implementaba. Son propuestas, no resultados de ejecución.
+
+## Decisión provisional
+
+Se mantienen los cambios deterministas de LIG-001/002 y la advertencia cuando no hay criterio químico. No se incorporan pKa numéricos nuevos a producción desde este informe. Se solicitó un paquete de fuentes primarias con el prompt `corrigendum/prompt_verificacion_fuentes_PR-LIG-04.md`; cuando llegue, se repetirán controles de especie real, no solo SMARTS.
+
+## Adenda tras el segundo paquete de fuentes (2026-09-24)
+
+El SHA-256 del segundo informe coincide con el entregado (`7ac1673548f11e5acb4e9018dcbc78c0e827533f86004c6b6d3e74b28e943044`). Se recalcularon los hashes y tamaños de los diez archivos: todos coinciden con el índice del informe. Esto acredita integridad del paquete local, no pertinencia científica de cada archivo.
+
+- `PMC6601425_Caine_2019.xml` y `.md`: texto completo pertinente. Contienen 9.525 (desviación 0.06) para celecoxib y 5.32 para glimepirida. Los valores de glibenclamida 5.22 y 5.30 aparecen como referencias anteriores en su tabla, no como mediciones nuevas de Caine.
+- `Langmaier_2016_pubmed_27564915.xml`: PMID, título y DOI correctos. El abstract avala cualitativamente que el monocatión de metformina domina un rango muy amplio, pero no contiene 3.1, 13.8, 15.3 ni las incertidumbres numéricas del primer informe. CrossRef solo aporta metadatos.
+- `Kumler_Eiler_1943_crossref.json`: únicamente metadatos de la publicación; no contiene las tablas I/III ni los pKa 1.54/6.31/0.94/6.11. Atribuir esos números a la fuente local como «medición comprobada» no está justificado todavía.
+- `Durant_1977_cimetidine_PMID881671.xml`: **archivo equivocado**. El PMID 881671 corresponde a *Effects of polyethylene IUDs and unilateral ovariectomy in golden hamsters*, DOI 10.1530/jrf.0.0500311. No respalda ningún pKa de cimetidina; `Durant_1977_crossref.json` solo identifica la publicación buscada.
+- `Butler_1954_phenobarbital_PMID13184391.xml`: **archivo equivocado**. El PMID 13184391 corresponde a *Phenolphthalein in childhood: dosage efficacy*, DOI 10.1016/s0022-3476(54)80139-9. No respalda fenobarbital.
+- `Hajdu_1969_glibenclamide_PMID5394457.xml`: título pertinente (*Physico-chemical and analytical studies on HB 419*), pero no aporta texto íntegro ni pKa. `Wan_2003_glibenclamide_crossref.json` aporta metadatos, no el experimento. La tabla de Caine cita sus cifras de forma secundaria.
+
+Decisión: solo los números de celecoxib y glimepirida tienen comprobación directa en texto primario del paquete. La neutralidad del grupo biguanida como monocatión es cualitativamente respaldada por el abstract de Langmaier. El resto de constantes y atribuciones precisas siguen pendientes de las tablas originales o de una regla explícita de incertidumbre; no se incorporan como valores exactos a la implementación.
+
+## Verificación directa adicional y corrección de referencias (2026-09-24)
+
+Se consultaron las publicaciones primarias y los metadatos originales, porque el segundo paquete contenía documentos bien hasheados pero dos PMID ajenos al tema. Estas son las decisiones adoptadas en código; los enlaces permiten repetir la lectura.
+
+| Clase | Evidencia comprobada | Decisión |
+|---|---|---|
+| Sulfonamida primaria aromática y sulfonilurea | [Caine, Bronzato y Popelier 2019](https://doi.org/10.1039/c9sc01818b), texto completo ya incluido en el paquete local: celecoxib 9,525; glimepirida 5,32. | Reglas SMARTS estrechas para ArSO₂NH₂ y ArSO₂NHCONH; pKa representativos 9,525 y 5,32, respectivamente. No se extrapolan a todas las sulfonamidas. |
+| Monoéster de fosfato | [Saha et al. 1996](https://doi.org/10.1007/s007750050048) midieron por titulación potenciométrica el ácido metilfosfórico en agua a 25 °C e I=0,1 M NaNO₃. La tabla de sus autores en [Sigel et al. 2022](https://doi.org/10.3390/molecules27092625) registra pKa 1,1 ± 0,2 y 6,36 ± 0,01. Esta última fuente resume el experimento; **no** es un segundo experimento. | Dos desprotonaciones sobre el mismo grupo; el selector elige el dianión de glucosa 6 fosfato a pH 7,4. Son valores del análogo metilo, no una medida directa de glucosa 6 fosfato. El DOI 10.3390/molecules27093066 que figuró transitoriamente en un comentario era erróneo y se corrigió antes del commit. |
+| N-cianoguanidina | El [artículo original de Durant et al. 1977](https://pubmed.ncbi.nlm.nih.gov/17751/) es PMID **17751**, DOI **10.1021/jm00217a007**. Su abstract dice que el sustituyente ciano reduce mucho la basicidad de la guanidina, pero no ofrece un pKa numérico de cimetidina. El PMID 881671 del paquete local era un artículo sobre hámsters. | Se impide que el SMARTS genérico de guanidina reclame ese grupo. No se codifica el 0,4 ni el 6,80 sin su tabla original. Se selecciona la forma neutra de cimetidina de manera reproducible y se marca `quimica_resuelta=false` con aviso persistido. |
+| Biguanida | El abstract de [Langmaier et al. 2016](https://pubmed.ncbi.nlm.nih.gov/27564915/) favorece el monocatión en amplio rango. Sin embargo, el experimento de [Abdelrahman et al. 2021](https://doi.org/10.3390/molecules26164730), tabla 1 y esquema 2, propone **tres** constantes 2,67(2), 8,00(1), 10,57(1) a 25 °C e I=0,1 M NaCl, con biprotonación relevante cerca de pH fisiológico y posición del protón no localizada de forma única. Por tanto la afirmación del primer informe de que +1 es inequívoco o de que 13,8 es el único pKa básico no resiste la verificación. | El SMARTS de biguanida se cuenta una vez para evitar el falso +2 por sumar guanidina y amidina. Se selecciona +1 como hipótesis de trabajo respaldada por Langmaier, pero se persiste `revision_biguanida=true`, `quimica_resuelta=false` y un aviso que exige revisar la especie antes de interpretar la pose. No se afirma que la controversia experimental esté resuelta. |
+| Imida | La cifra 11,4 de glutarimida aparece como cita secundaria en [RSC Advances 2018](https://doi.org/10.1039/C8RA03057J) y en compilaciones, pero no localicé la medida original en el paquete recibido. La tesis de Durham hallada en búsqueda trata principalmente la **acidez del carbono** de talidomida, no prueba el pKa N–H de la glutarimida. La ftalimida no puede compartir automáticamente el valor de glutarimida. | Se reconoce la imida N–H como grupo sin pKa calibrado; entre los estados generados se prefiere la menor carga, con `quimica_resuelta=false` y aviso. En talidomida selecciona la especie neutra sin inventar una constante genérica. |
+
+Adicionalmente, el XML `Butler_1954_phenobarbital_PMID13184391.xml` identifica una publicación de fenolftaleína pediátrica; no se usa para barbitúricos. El informe inicial atribuyó 0,94/6,11 de glucosa 6 fosfato a Kumler y Eiler sin sus tablas. No se incorporó esa atribución: la implementación usa el análogo metilfosfato con condiciones declaradas.
+
+**Límite de validación:** estas reglas eligen una especie estructural para docking, no predicen pKa de una molécula arbitraria. La neutralidad de cimetidina y talidomida es una decisión conservadora respaldada de forma desigual, no una medición directa de población. La discrepancia de metformina requiere un estudio específico antes de cerrar su estado químico como resuelto.
