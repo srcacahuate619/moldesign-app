@@ -128,6 +128,9 @@ afinidades de PDBBind.
 
 ## Hallazgos de esta revisión que siguen abiertos
 
+Estado al cerrar la primera parte. Los puntos 1 a 3 se corrigen o se miden
+en la segunda parte, más abajo.
+
 1. **DOCK-012 (MEDIA) no se corrigió.** `_check_ligand_fits_box` sigue
    comparando la caja con la extensión por ejes del confórmero de entrada, que
    depende de su orientación.
@@ -147,3 +150,109 @@ afinidades de PDBBind.
    starlette 1.0.0, PyJWT 2.8.0 y cryptography 42.0.7. Un instalador
    construido sin regenerarlo no llevaría las actualizaciones de API-015.
 5. **No se construyó un instalador NSIS** ni se probó una instalación limpia.
+
+## Segunda parte: lo que se corrigió después (commit `30a9eb5`)
+
+### Guarda de cofactores con margen de sitio (DOCK-003)
+
+La guarda de la fase 1 bloqueaba cualquier cofactor sin plantilla Meeko,
+estuviera donde estuviera. Ahora aplica el mismo margen que la fase 1 usa para
+los residuos que pierde Meeko (`MARGEN_SITIO_A = 6.0`):
+
+- a 6 Å o menos de la caja, bloquea;
+- más lejos, los fosfo-residuos vuelven a su aminoácido (TPO→THR, SEP→SER,
+  PTR→TYR, retirando el fosfato, como ya se hacía con MSE→MET) y los demás
+  cofactores se retiran;
+- todo queda declarado en el informe de preparación, en la procedencia de la
+  corrida y en el aviso `COFACTORES_SIN_PLANTILLA_FUERA_DEL_SITIO`.
+
+La receta del receptor sube a la versión 6.
+
+Comprobación de extremo a extremo con Meeko 0.7.1 y Vina 1.2.7:
+
+- **6GUE (CDK2/ciclina A):** la TPO160 está a 7,9 Å de la caja. Se prepara con
+  THR160 y Vina devuelve 5 poses; la mejor, −8,67 kcal/mol con roscovitina, es
+  un control de ejecución, no una afinidad validada.
+- **5TGZ (CB1):** su FMN está a 30,7 Å (pertenece a la flavodoxina fusionada
+  para cristalizar) y ya no bloquea. Sigue sin prepararse por otra razón:
+  Meeko elimina 5 residuos del sitio con la cadena lateral incompleta.
+
+### Disponibilidad del catálogo: medida, no supuesta
+
+`backend/data/disponibilidad_catalogo.json` lo genera
+`scripts/generate_catalog_availability.py`:
+
+- la parte de cofactores se recalcula con la misma función que usa
+  `prepare_target` y se comprueba en la suite;
+- `--barrido` prepara de verdad las 370 dianas restantes con Meeko.
+
+Se ejecutó dos veces con resultado idéntico. De 380 dianas:
+
+| Motivo | Dianas |
+|---|---:|
+| Meeko elimina residuos a ≤ 6 Å de la caja (guarda DOCK-002 de la fase 1) | 119 |
+| Meeko no puede construir el receptor (errores internos de la cadena, p. ej. «Expected 2 paddings») | 11 |
+| Cofactor sin plantilla a ≤ 6 Å de la caja (DOCK-003) | 10 |
+| **No disponibles** | **140 (36,8 %)** |
+
+De los 846 residuos que Meeko elimina en esas 119 dianas, 842 tienen la cadena
+lateral incompleta en el PDB depositado (sobre todo Lys, Glu, Arg y Gln). En
+1.0.1 esos residuos se borraban en silencio y se acoplaba contra el hueco
+(DOCK-002). La fase 1 convirtió ese borrado en bloqueo, pero no midió cuántas
+dianas afectaba. Las 140 siguen en el catálogo, marcadas con `disponible: false`
+y su motivo: la interfaz las muestra y no deja elegirlas.
+
+Resolver las 119 exige decidir cómo completar esas cadenas laterales
+(reconstruirlas o truncarlas a los átomos observados, en ambos casos
+declarado). Es una decisión científica abierta.
+
+### DOCK-012
+
+`_check_ligand_fits_box` compara el diámetro del ligando (la máxima distancia
+entre dos átomos) con el lado menor de la caja. Ya no depende de la orientación
+del confórmero de entrada, y el `except Exception: pass` se sustituyó por
+errores concretos, que se registran en el log.
+
+### Panel de selectividad
+
+- **Por defecto:** hERG (5VA1) y 5-HT2B (4NC3). Ambas pertenecen al panel
+  mínimo de 44 dianas de Bowes et al. 2012 (Nat Rev Drug Discov 11:909).
+- **CYP3A4 sale del panel por defecto:** no está entre esas 44 (su inhibición
+  es una interacción fármaco-fármaco que ya estima ADMET) y 4NY4 no se puede
+  preparar sin plantilla del hemo.
+- **La interfaz pedía por defecto 5VA1, 4NY4, 4NC3, 1SO2 y 6MVW** en tres
+  componentes. 1SO2 (PDE3B) y 6MVW (NavAb) eran las identidades erróneas que la
+  fase 1 retiró del panel; el backend las seguía acoplando como «anti-diana del
+  usuario». Ahora la interfaz pide el panel del backend, y una prueba lo fija.
+- **Se ofrecen, sin marcar**, 9 dianas más de Bowes 2012 cuya identidad humana
+  se comprobó en la cabecera COMPND/SOURCE de su PDB: 5-HT1A, 5-HT1B, 5-HT2A,
+  β1, β2, CB1, NET, receptor de andrógenos y COX-2. Se excluyeron 4BVN (β1 de
+  pavo), 1GPK (AChE de *Torpedo*) y 6Y5A (5-HT3 de ratón).
+- **Con el inventario actual sólo se pueden preparar hERG, 5-HT1A y NET.**
+  5-HT2B y las demás quedan no disponibles por cadenas laterales incompletas en
+  el sitio.
+
+### Metadatos de organismo del catálogo
+
+20 de las 380 entradas declaran *Homo sapiens*, pero su PDB es de otro
+organismo según su propio registro SOURCE. Entre ellas: la proteasa del VIH,
+la Mpro del SARS-CoV-2, varias enzimas bacterianas, NavAb, el β1 de pavo y la
+AChE de *Torpedo*. No se ha corregido: cambiaría datos del catálogo. Queda
+abierto, con la lista reproducible en esta verificación.
+
+### MolChat (ORQ-001)
+
+Los 8 fármacos en cuarentena (12 nombres y alias) vuelven al diccionario con el
+SMILES isomérico de PubChem: naproxeno, paroxetina, captopril, penicilina G,
+amoxicilina, adrenalina, glutamato y nicotina. Se verificaron de dos formas:
+
+- el InChIKey completo recalculado con RDKit coincide con el de PubChem;
+- la configuración CIP de cada centro es la del fármaco: (S)-naproxeno,
+  (3S,4R)-paroxetina, (2S,5R,6R)-penicilinas, (R)-adrenalina, L-glutamato y
+  (S)-nicotina.
+
+El diccionario conserva 25 entradas con centros sin asignar. Casi todas son
+fármacos que se comercializan como racemato, para los que el SMILES sin
+estereoquímica es correcto. Dos quedan por revisar: el tramadol (racemato
+*cis*: sin estereoquímica admite también el diastereómero *trans*) y la
+metanfetamina (el fármaco es el enantiómero S).

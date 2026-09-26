@@ -23,6 +23,7 @@ sin fusiones. Las fases siguen el orden del plan del auditor
 | `06d27b6` | Fase 7: calidad y eficiencia | [fase7.md](fase7.md) |
 | `3fcf35f` | Regresiones halladas al verificar las fases | [verificacion_2026-09-26.md](verificacion_2026-09-26.md) |
 | `d3c0e0b` | Puertas de CI que las fases dejaron en rojo | [verificacion_2026-09-26.md](verificacion_2026-09-26.md) |
+| `30a9eb5` | Cofactores con margen de sitio, disponibilidad del catálogo medida, DOCK-012, panel de selectividad y MolChat | [verificacion_2026-09-26.md](verificacion_2026-09-26.md), segunda parte |
 
 Otros documentos de este directorio:
 
@@ -91,11 +92,11 @@ Significado de cada estado:
 
 | Estado | Hallazgos |
 |---|---:|
-| Corregido | 105 |
+| Corregido | 107 |
 | Retirado | 10 |
 | Contenido | 6 |
-| Parcial | 5 |
-| Pendiente | 5 |
+| Parcial | 4 |
+| Pendiente | 4 |
 | **Total** | **131** |
 
 ### Fase 0
@@ -113,7 +114,7 @@ Significado de cada estado:
 | ENG-A04 | ALTA | Retirado | rama DiffDock que persistía afinidad 0.0 eliminada |
 | ENG-A06 | ALTA | Corregido |  |
 | LIG-008 | ALTA | Corregido |  |
-| ORQ-001 | ALTA | Parcial | testosterona corregida; 8 fármacos (12 alias) en cuarentena hasta tener SMILES isomérico verificado |
+| ORQ-001 | ALTA | Corregido | testosterona y los 8 fármacos en cuarentena vuelven con SMILES isomérico de PubChem, InChIKey y CIP verificados |
 | ORQ-003 | ALTA | Corregido |  |
 | PHYS-002 | ALTA | Retirado | valores históricos sin versión de motor ya no se muestran como kcal/mol |
 | PHYS-006 | ALTA | Corregido |  |
@@ -138,8 +139,8 @@ Significado de cada estado:
 | DOCK-004 | CRÍTICA | Corregido |  |
 | DOCK-005 | CRÍTICA | Corregido |  |
 | PROV-003 | CRÍTICA | Corregido |  |
-| DOCK-002 | ALTA | Corregido |  |
-| DOCK-003 | ALTA | Contenido | cofactor en el sitio sin plantilla validada ⇒ abstención (12/380 dianas, ver verificación) |
+| DOCK-002 | ALTA | Corregido | ya no se borran en silencio; medido: 119/380 dianas quedan no disponibles por residuos del sitio que Meeko elimina |
+| DOCK-003 | ALTA | Contenido | cofactor sin plantilla a ≤ 6 Å de la caja ⇒ abstención (10/380 dianas); más lejos se retira o se devuelve a su aminoácido, declarado |
 | DOCK-006 | ALTA | Corregido |  |
 | DOCK-007 | ALTA | Corregido |  |
 | DOCK-008 | ALTA | Corregido |  |
@@ -270,6 +271,6 @@ Significado de cada estado:
 
 | ID | Sev. | Estado | Nota |
 |---|---|---|---|
-| DOCK-012 | MEDIA | Pendiente | omitido por las fases 0-7: `_check_ligand_fits_box` no cambió |
+| DOCK-012 | MEDIA | Corregido | omitido por las fases 0-7; corregido en la verificación: diámetro del ligando, independiente de la orientación |
 | ENG-A17 | MEDIA | Corregido | vía ENG-A03: el backend rechaza los motores que AGENTS.md declara no disponibles |
 | PROV-017 | MEDIA | Corregido | vía LIG-005 (SA>7 ya no aborta) y ORQ-002 (denominador declarado); sin cambio propio |
