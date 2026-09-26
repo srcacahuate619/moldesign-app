@@ -6,10 +6,10 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 
 ## Identidad del snapshot
 
-- Paths: **114**
-- Operaciones HTTP: **120**
+- Paths: **115**
+- Operaciones HTTP: **121**
 - Versión declarada: `1.0.1`
-- SHA-256: `ecf83ae212313f88e452141af966f9a0fe969e6ceb354755db2f82114c5b8ea1`
+- SHA-256: `827dde542acf6d8574051dbc6812c4def2cd1b44c665f4a131d38a2e34052758`
 - Schema completo: [api/openapi-current.json](api/openapi-current.json)
 - Regenerar: `python scripts/generate_openapi_contract.py --write`
 - Verificar en CI: `python scripts/generate_openapi_contract.py --check`
@@ -70,6 +70,7 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `GET` | `/evaluation/ai-report/{molecule_id}/stream` | `generate_ai_report_stream_endpoint_evaluation_ai_report__molecule_id__stream_get` | Generar reporte IA bajo demanda (Streaming SSE) | Evaluación científica, Evaluación científica |
 | `POST` | `/evaluation/batch` | `submit_batch_evaluation_batch_post` | Submit Batch | Batch Screening |
 | `GET` | `/evaluation/batch/{batch_id}` | `get_batch_status_evaluation_batch__batch_id__get` | Get Batch Status | Batch Screening |
+| `POST` | `/evaluation/batch/{batch_id}/cancel` | `cancel_batch_evaluation_batch__batch_id__cancel_post` | Cancel Batch | Batch Screening |
 | `GET` | `/evaluation/batch/{batch_id}/csv` | `export_batch_csv_evaluation_batch__batch_id__csv_get` | Export Batch Csv | Batch Screening |
 | `GET` | `/evaluation/batch/{batch_id}/export` | `export_batch_excel_evaluation_batch__batch_id__export_get` | Export Batch Excel | Batch Screening |
 | `POST` | `/evaluation/cancel` | `cancel_evaluation_evaluation_cancel_post` | Cancelar una evaluación desktop por task_id | Evaluación científica |

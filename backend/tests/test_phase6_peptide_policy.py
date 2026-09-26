@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import importlib
+import sys
+from pathlib import Path
 
 import pytest
 from pydantic import ValidationError
@@ -28,7 +30,11 @@ def test_linear_standard_peptides_are_recognized(sequence):
 
 @pytest.mark.asyncio
 async def test_sidecar_abstains_without_declared_box(monkeypatch):
-    monkeypatch.syspath_prepend("backend/sidecars/esmfold")
+    # La CI ejecuta desde backend/ y rescoring también tiene un `app`: la ruta
+    # sale del archivo, no del directorio de trabajo, y se evita el módulo cacheado.
+    monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[1] / "sidecars" / "esmfold"))
+    monkeypatch.delitem(sys.modules, "app", raising=False)
+    monkeypatch.delitem(sys.modules, "predictor", raising=False)
     app = importlib.import_module("app")
     predictor = importlib.import_module("predictor")
     request = {"protein_pdb": "ATOM      1  N   ALA A   1      0.000   0.000   0.000  1.00 20.00           N",

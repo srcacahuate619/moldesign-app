@@ -9670,18 +9670,6 @@
             }
           },
           {
-            "in": "query",
-            "name": "num_workers",
-            "required": false,
-            "schema": {
-              "default": 2,
-              "maximum": 6,
-              "minimum": 1,
-              "title": "Num Workers",
-              "type": "integer"
-            }
-          },
-          {
             "deprecated": true,
             "description": "RETIRADO (BATCH-SCI-001). Se acepta por compatibilidad y se ignora: el pre-filtro de vecindad saltaba el acoplamiento y publicaba ceros como si fueran medidas. La respuesta declara `early_exit_enabled: false`.",
             "in": "query",
@@ -9808,6 +9796,67 @@
           }
         },
         "summary": "Get Batch Status",
+        "tags": [
+          "Batch Screening"
+        ]
+      }
+    },
+    "/evaluation/batch/{batch_id}/cancel": {
+      "post": {
+        "description": "Stop the active recorded evaluation and skip remaining batch rows.",
+        "operationId": "cancel_batch_evaluation_batch__batch_id__cancel_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "batch_id",
+            "required": true,
+            "schema": {
+              "title": "Batch Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Cancel Batch Evaluation Batch  Batch Id  Cancel Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cancel Batch",
         "tags": [
           "Batch Screening"
         ]

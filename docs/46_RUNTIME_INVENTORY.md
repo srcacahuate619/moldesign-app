@@ -10,7 +10,7 @@ No contiene una afirmación nueva de validez científica. Las métricas se trans
 - PDB IDs únicos: **380**
 - IDs con estructura distribuida en el repositorio (`.pdb.gz` de nombre exacto): **380 / 380**
 - Archivos `.pdb.gz` versionados (incluye variantes de cadena y duplicados): **407**
-- SHA-256 del catálogo: `7c653ab5875537321a7dbd99435166638a54708311f4346e3d0a6f99ecd71f1c`
+- SHA-256 del catálogo: `f23828d84752ebea0897272f4047483e409a6e272e212b9e4c70c325bf111a7f`
 
 ### Familias estructurales
 
@@ -45,8 +45,8 @@ No contiene una afirmación nueva de validez científica. Las métricas se trans
 
 ## Modelos declarados por el manifest v4
 
-- Manifest: `rescoring/artifacts/model-manifest.json` (schema v4)
-- SHA-256 del manifest: `726be143e52f28d38ce78568c3b2846900e8135d5b95ea3c55bd4536f2d4c3ac`
+- Manifest: `rescoring/artifacts/model-manifest.json` (schema v5)
+- SHA-256 del manifest: `75550d28c21bf2362ee3fc1e924ef6add22e3a2ef8af521be67fe06ef5e65bd2`
 
 ### `classifier_binder`
 
