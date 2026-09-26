@@ -1,31 +1,11 @@
 {
  "_doc": "Generado por scripts/generate_catalog_availability.py; no editar a mano. Una diana en `no_disponibles` sigue en el catálogo y se muestra con su motivo. `origen: cofactor_sin_plantilla` se recalcula en cada --check; `origen: preparacion_medida` sale de --barrido, que ejecuta Meeko sobre todo el catálogo y sólo vale para la receta y la versión de Meeko que declara.",
- "catalogo_sha256": "f23828d84752ebea0897272f4047483e409a6e272e212b9e4c70c325bf111a7f",
- "receta_receptor": 6,
+ "catalogo_sha256": "47fbe7f2ec6d0cca7ae9f72b90da84ea3061a5d6851d67d12cb0b2758fd0d8ac",
+ "receta_receptor": 7,
  "margen_sitio_A": 6.0,
  "no_disponibles": {
-  "1AJ6": {
-   "motivo": "Meeko elimina 7 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A103 (0.0 Å), GLN A128 (4.804 Å), LYS A14 (4.11 Å), GLU A159 (0.0 Å), LYS A162 (0.0 Å), ASP A49 (0.0 Å), LYS A57 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "1BN1": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: HIS A4 (1.301 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "1DIY": {
-   "motivo": "Meeko elimina 12 residuo(s) a 6 Å o menos de la caja, del sitio: GLN A170 (3.303 Å), ASP A173 (0.0 Å), GLU A175 (0.0 Å), LYS A186 (2.44 Å), LYS A215 (0.0 Å), GLU A267 (5.634 Å), GLU A290 (0.0 Å), ARG A396 (0.0 Å) y 4 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
   "1EPB": {
-   "motivo": "Meeko elimina 7 residuo(s) a 6 Å o menos de la caja, del sitio: MET A24 (3.027 Å), GLY A25 (2.577 Å), THR A26 (3.996 Å), PRO A27 (4.622 Å), GLY A28 (2.263 Å), LEU A29 (1.864 Å), ALA A30 (5.681 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "1FE2": {
-   "motivo": "Meeko elimina 12 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A168 (5.069 Å), GLN A170 (3.216 Å), ASP A173 (0.0 Å), GLU A175 (0.0 Å), ARG A179 (0.0 Å), LYS A186 (2.499 Å), LYS A215 (0.0 Å), GLU A267 (5.699 Å) y 4 más. No se acopla contra un sitio incompleto.",
+   "motivo": "Meeko elimina 7 residuo(s) a 6 Å o menos de la caja, del sitio: GLY A24 (3.027 Å), GLY A25 (2.577 Å), GLY A26 (3.996 Å), GLY A27 (4.622 Å), GLY A28 (2.263 Å), GLY A29 (1.864 Å), GLY A30 (5.681 Å). No se acopla contra un sitio incompleto.",
    "paso": "receptor_site_residues_missing",
    "origen": "preparacion_medida"
   },
@@ -34,63 +14,8 @@
    "paso": "mk_prepare_receptor",
    "origen": "preparacion_medida"
   },
-  "1GPK": {
-   "motivo": "Meeko elimina 7 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A270 (5.052 Å), GLU A299 (4.988 Å), GLU A344 (1.344 Å), LYS A413 (5.498 Å), GLU A434 (0.0 Å), ARG A46 (0.655 Å), GLU A89 (0.92 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "1HWK": {
-   "motivo": "Cofactor o residuo modificado sin plantilla Meeko validada a 6 Å o menos de la caja: ADP A101 (0.0 Å), ADP A103 (0.0 Å). Acoplar sin él, o con una carga inventada, cambiaría la química del sitio.",
-   "cofactores": [
-    {
-     "chain": "A",
-     "residue_number": "101",
-     "insertion_code": "",
-     "name": "ADP",
-     "distance_to_box_A": 0.0
-    },
-    {
-     "chain": "A",
-     "residue_number": "103",
-     "insertion_code": "",
-     "name": "ADP",
-     "distance_to_box_A": 0.0
-    }
-   ],
-   "origen": "cofactor_sin_plantilla"
-  },
-  "1IGZ": {
-   "motivo": "Meeko elimina 15 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A168 (5.07 Å), GLN A170 (3.358 Å), ASP A173 (0.0 Å), GLU A175 (0.0 Å), ARG A185 (2.611 Å), LYS A186 (2.424 Å), LYS A215 (0.0 Å), GLU A267 (5.705 Å) y 7 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "1IRU": {
-   "motivo": "Meeko elimina 15 residuo(s) a 6 Å o menos de la caja, del sitio: TRP P138 (0.0 Å), ASN P139 (0.0 Å), GLU P140 (0.0 Å), ARG P142 (0.0 Å), MET P162 (4.998 Å), VAL P35 (4.647 Å), LEU Q197 (5.486 Å), LYS Q210 (2.781 Å) y 7 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "1IS0": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A146 (5.973 Å), LYS A181 (0.0 Å), ARG A217 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
   "1M9Z": {
    "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A55 (0.941 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "1SM3": {
-   "motivo": "Meeko elimina 4 residuo(s) a 6 Å o menos de la caja, del sitio: GLU H42 (0.0 Å), GLU H85 (2.367 Å), GLN L163 (0.0 Å), ASP L41 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "1SUU": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A506 (2.698 Å), LYS A648 (2.295 Å), LYS A659 (4.474 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "1T69": {
-   "motivo": "Meeko elimina 6 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A106 (4.432 Å), TYR A111 (0.0 Å), GLU A23 (3.796 Å), LYS A60 (5.052 Å), ASP A92 (0.36 Å), GLU A95 (0.868 Å). No se acopla contra un sitio incompleto.",
    "paso": "receptor_site_residues_missing",
    "origen": "preparacion_medida"
   },
@@ -104,95 +29,9 @@
    "paso": "mk_prepare_receptor",
    "origen": "preparacion_medida"
   },
-  "1VL4": {
-   "motivo": "Meeko elimina 5 residuo(s) a 6 Å o menos de la caja, del sitio: ARG B110 (0.0 Å), LYS B125 (3.912 Å), GLU B199 (0.632 Å), ARG B34 (0.0 Å), LEU B40 (4.456 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "1VPB": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A5 (1.816 Å), GLU A52 (0.552 Å), LYS A8 (1.604 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
   "1XWD": {
    "motivo": "Meeko no puede construir el receptor (RuntimeError: Expected 2 paddings for (B:3, B:51) with bonds [(9, 9)], but got 1\r).",
    "paso": "mk_prepare_receptor",
-   "origen": "preparacion_medida"
-  },
-  "2AM9": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A893 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "2FR3": {
-   "motivo": "Meeko elimina 6 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A101 (2.649 Å), GLU A103 (1.681 Å), LYS A38 (0.0 Å), LYS A66 (3.285 Å), LYS A82 (1.199 Å), LYS A98 (2.118 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "2HZI": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A247 (0.0 Å), ARG A307 (3.921 Å), GLU A308 (3.623 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "2NNJ": {
-   "motivo": "Cofactor o residuo modificado sin plantilla Meeko validada a 6 Å o menos de la caja: HEM A500 (0.0 Å). Acoplar sin él, o con una carga inventada, cambiaría la química del sitio.",
-   "cofactores": [
-    {
-     "chain": "A",
-     "residue_number": "500",
-     "insertion_code": "",
-     "name": "HEM",
-     "distance_to_box_A": 0.0
-    }
-   ],
-   "origen": "cofactor_sin_plantilla"
-  },
-  "2OA8": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: THR A5 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "2OYE": {
-   "motivo": "Meeko elimina 16 residuo(s) a 6 Å o menos de la caja, del sitio: LYS P168 (4.899 Å), GLN P170 (3.79 Å), ASP P173 (0.0 Å), GLU P175 (0.0 Å), ARG P179 (0.0 Å), LYS P186 (2.298 Å), LYS P215 (0.0 Å), GLU P260 (4.484 Å) y 8 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "2OYU": {
-   "motivo": "Meeko elimina 11 residuo(s) a 6 Å o menos de la caja, del sitio: GLN P170 (4.541 Å), ASP P173 (0.0 Å), GLU P175 (0.0 Å), LYS P186 (2.209 Å), LYS P215 (0.0 Å), GLU P290 (0.0 Å), ARG P396 (0.0 Å), GLN P400 (0.515 Å) y 3 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "2VE3": {
-   "motivo": "Cofactor o residuo modificado sin plantilla Meeko validada a 6 Å o menos de la caja: HEM A1444 (0.0 Å). Acoplar sin él, o con una carga inventada, cambiaría la química del sitio.",
-   "cofactores": [
-    {
-     "chain": "A",
-     "residue_number": "1444",
-     "insertion_code": "",
-     "name": "HEM",
-     "distance_to_box_A": 0.0
-    }
-   ],
-   "origen": "cofactor_sin_plantilla"
-  },
-  "3ERT": {
-   "motivo": "Meeko elimina 5 residuo(s) a 6 Å o menos de la caja, del sitio: MET A437 (5.365 Å), LYS A529 (0.0 Å), LYS A531 (1.073 Å), ASN A532 (2.579 Å), VAL A534 (3.114 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "3FLI": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A280 (0.0 Å), GLU A281 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "3G7E": {
-   "motivo": "Meeko elimina 4 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A103 (0.0 Å), PHE A196 (2.986 Å), LYS A208 (4.211 Å), LYS A57 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "3GEN": {
-   "motivo": "Meeko elimina 6 residuo(s) a 6 Å o menos de la caja, del sitio: PHE A413 (0.0 Å), LYS A433 (0.0 Å), GLN A467 (0.0 Å), GLN A496 (0.0 Å), THR A552 (0.0 Å), VAL A555 (2.46 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
    "origen": "preparacion_medida"
   },
   "3HH2": {
@@ -200,254 +39,9 @@
    "paso": "mk_prepare_receptor",
    "origen": "preparacion_medida"
   },
-  "3KJF": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: HIS A56 (0.0 Å), LYS A57 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
   "3KK6": {
    "motivo": "Meeko no puede construir el receptor (RuntimeError: for residue_key='A:43', 3 have passed: ['HIE', 'HID', 'HIP'] and tied for fewest missing and excess H: HIE HID \r).",
    "paso": "mk_prepare_receptor",
-   "origen": "preparacion_medida"
-  },
-  "3MXJ": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: THR A192 (1.627 Å), SER A194 (0.0 Å), HIS A195 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "3N8W": {
-   "motivo": "Meeko elimina 4 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A186 (2.499 Å), ARG A277 (0.0 Å), LEU A294 (0.0 Å), GLU A490 (4.705 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "3N8X": {
-   "motivo": "Meeko elimina 7 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A175 (0.0 Å), ARG A179 (0.0 Å), ARG A180 (1.132 Å), LYS A186 (2.215 Å), GLU A267 (5.694 Å), ARG A438 (0.0 Å), MET A487 (2.523 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "3N8Y": {
-   "motivo": "Meeko elimina 9 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A175 (0.0 Å), ARG A179 (0.0 Å), LYS A186 (2.637 Å), GLN A243 (4.349 Å), GLU A268 (5.181 Å), ARG A277 (0.0 Å), LYS A453 (0.0 Å), MET A487 (2.688 Å) y 1 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "3N8Z": {
-   "motivo": "Meeko elimina 6 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A168 (5.288 Å), GLU A175 (0.0 Å), ARG A179 (0.0 Å), LYS A186 (2.357 Å), ARG A277 (2.884 Å), MET A487 (2.259 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "3P88": {
-   "motivo": "Meeko elimina 14 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A262 (0.0 Å), GLN A263 (0.0 Å), GLU A281 (0.0 Å), LYS A303 (1.752 Å), LYS A304 (3.483 Å), GLU A314 (2.786 Å), LYS A339 (0.0 Å), SER A342 (0.0 Å) y 6 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "3P89": {
-   "motivo": "Meeko elimina 10 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A262 (0.0 Å), GLN A263 (0.0 Å), ARG A264 (0.0 Å), GLU A268 (0.0 Å), GLU A300 (0.0 Å), LYS A304 (4.04 Å), LYS A339 (0.0 Å), LYS A376 (0.639 Å) y 2 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "3QXX": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: ASN A179 (0.0 Å), LYS A210 (0.494 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "3RUT": {
-   "motivo": "Meeko elimina 13 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A262 (0.0 Å), GLN A263 (0.0 Å), ARG A264 (0.0 Å), GLU A281 (0.0 Å), LYS A304 (3.88 Å), GLU A314 (2.471 Å), LYS A339 (0.0 Å), LYS A370 (0.0 Å) y 5 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "3RUU": {
-   "motivo": "Meeko elimina 15 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A262 (0.0 Å), GLN A263 (0.0 Å), ARG A264 (0.0 Å), GLU A277 (0.0 Å), GLU A300 (0.0 Å), LYS A304 (3.98 Å), GLU A314 (2.539 Å), LYS A339 (0.0 Å) y 7 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4AF3": {
-   "motivo": "Meeko elimina 11 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A114 (0.0 Å), ARG A147 (4.029 Å), LYS A168 (0.0 Å), LYS A195 (4.051 Å), LYS A202 (0.0 Å), LYS A211 (0.0 Å), ASP A218 (0.0 Å), SER A338 (0.0 Å) y 3 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4BCF": {
-   "motivo": "Cofactor o residuo modificado sin plantilla Meeko validada a 6 Å o menos de la caja: TPO A186 (5.892 Å). Acoplar sin él, o con una carga inventada, cambiaría la química del sitio.",
-   "cofactores": [
-    {
-     "chain": "A",
-     "residue_number": "186",
-     "insertion_code": "",
-     "name": "TPO",
-     "distance_to_box_A": 5.892
-    }
-   ],
-   "origen": "cofactor_sin_plantilla"
-  },
-  "4CVL": {
-   "motivo": "Meeko elimina 8 residuo(s) a 6 Å o menos de la caja, del sitio: ARG A138 (0.0 Å), LYS A203 (2.571 Å), GLU A206 (2.788 Å), GLN A260 (0.086 Å), ARG A270 (3.931 Å), LYS A321 (0.0 Å), GLU A376 (5.916 Å), ARG A439 (0.794 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4DQC": {
-   "motivo": "Meeko elimina 13 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A21 (0.0 Å), GLU A34 (0.0 Å), LYS A41 (4.408 Å), LYS A43 (0.0 Å), LYS A7 (0.0 Å), LYS A70 (0.0 Å), GLN B18 (4.384 Å), GLU B35 (0.0 Å) y 5 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4E4N": {
-   "motivo": "Cofactor o residuo modificado sin plantilla Meeko validada a 6 Å o menos de la caja: PTR A1035 (3.03 Å). Acoplar sin él, o con una carga inventada, cambiaría la química del sitio.",
-   "cofactores": [
-    {
-     "chain": "A",
-     "residue_number": "1035",
-     "insertion_code": "",
-     "name": "PTR",
-     "distance_to_box_A": 3.03
-    }
-   ],
-   "origen": "cofactor_sin_plantilla"
-  },
-  "4EJJ": {
-   "motivo": "Cofactor o residuo modificado sin plantilla Meeko validada a 6 Å o menos de la caja: HEM A500 (0.0 Å). Acoplar sin él, o con una carga inventada, cambiaría la química del sitio.",
-   "cofactores": [
-    {
-     "chain": "A",
-     "residue_number": "500",
-     "insertion_code": "",
-     "name": "HEM",
-     "distance_to_box_A": 0.0
-    }
-   ],
-   "origen": "cofactor_sin_plantilla"
-  },
-  "4IAQ": {
-   "motivo": "Meeko elimina 7 residuo(s) a 6 Å o menos de la caja, del sitio: ARG A114 (0.0 Å), ARG A188 (0.0 Å), GLN A189 (0.0 Å), SER A197 (0.0 Å), GLU A198 (0.0 Å), ILE A39 (0.0 Å), MET A54 (4.455 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4IAR": {
-   "motivo": "Meeko elimina 7 residuo(s) a 6 Å o menos de la caja, del sitio: ARG A114 (0.0 Å), ARG A188 (0.0 Å), GLN A189 (0.0 Å), SER A197 (0.0 Å), GLU A198 (0.0 Å), TRP A345 (0.0 Å), ILE A39 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4JV8": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: SER B115 (0.0 Å), GLN B116 (0.0 Å), GLU B26 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4JVB": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: GLU B26 (0.0 Å), THR B27 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4JVF": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: GLU B26 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4JYV": {
-   "motivo": "Meeko elimina 5 residuo(s) a 6 Å o menos de la caja, del sitio: GLN H166 (0.907 Å), LYS H170D (0.0 Å), ASP H170G (0.0 Å), LYS H20 (4.361 Å), ASN H60D (3.396 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4JZD": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: GLN H166 (0.62 Å), ASP H170G (0.0 Å), LYS H60C (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4NC3": {
-   "motivo": "Meeko elimina 7 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A118 (0.0 Å), MET A120 (0.236 Å), LEU A125 (3.541 Å), THR A197 (1.25 Å), ILE A205 (0.6 Å), LYS A211 (0.0 Å), LYS A53 (5.84 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4NY4": {
-   "motivo": "Cofactor o residuo modificado sin plantilla Meeko validada a 6 Å o menos de la caja: HEM A601 (0.0 Å). Acoplar sin él, o con una carga inventada, cambiaría la química del sitio.",
-   "cofactores": [
-    {
-     "chain": "A",
-     "residue_number": "601",
-     "insertion_code": "",
-     "name": "HEM",
-     "distance_to_box_A": 0.0
-    }
-   ],
-   "origen": "cofactor_sin_plantilla"
-  },
-  "4O1Z": {
-   "motivo": "Cofactor o residuo modificado sin plantilla Meeko validada a 6 Å o menos de la caja: HEM A801 (0.0 Å). Acoplar sin él, o con una carga inventada, cambiaría la química del sitio.",
-   "cofactores": [
-    {
-     "chain": "A",
-     "residue_number": "801",
-     "insertion_code": "",
-     "name": "HEM",
-     "distance_to_box_A": 0.0
-    }
-   ],
-   "origen": "cofactor_sin_plantilla"
-  },
-  "4PHL": {
-   "motivo": "Meeko elimina 4 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A787 (0.936 Å), ASN A867 (3.963 Å), LYS A872 (0.0 Å), LYS A905 (4.537 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4PXZ": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: SER A15 (3.325 Å), ARG A168 (0.144 Å), GLU A181 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4QA0": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: ASP A73 (4.291 Å), ASP B88 (5.49 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4WUD": {
-   "motivo": "Meeko elimina 10 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A11 (4.944 Å), LYS A110 (0.0 Å), GLU A137 (0.0 Å), LYS A139 (0.183 Å), GLU A161 (4.114 Å), LYS A189 (4.639 Å), GLU A246 (3.218 Å), LYS A247 (3.447 Å) y 2 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4X8V": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: GLN H170 (0.213 Å), LYS H170D (0.984 Å), LYS H60C (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4Y79": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: THR A244 (5.895 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4YNQ": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: ARG B174 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "4ZUD": {
-   "motivo": "Meeko elimina 6 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A173 (5.368 Å), GLU A185 (0.0 Å), LEU A202 (0.0 Å), PHE A204 (0.0 Å), PHE A206 (1.501 Å), LEU A268 (1.186 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5E8V": {
-   "motivo": "Meeko elimina 9 residuo(s) a 6 Å o menos de la caja, del sitio: ARG A254 (0.308 Å), SER A409 (0.0 Å), VAL A410 (0.0 Å), ASP A411 (0.0 Å), ASP A412 (0.0 Å), ASN A415 (0.0 Å), SER A416 (0.0 Å), LEU A436 (0.0 Å) y 1 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5E8Y": {
-   "motivo": "Meeko elimina 18 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A240 (4.822 Å), GLU A245 (0.0 Å), ARG A254 (0.0 Å), LYS A264 (0.61 Å), GLN A265 (1.28 Å), GLN A270 (2.433 Å), GLU A272 (0.0 Å), LYS A300 (1.671 Å) y 10 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5E91": {
-   "motivo": "Meeko elimina 13 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A240 (4.577 Å), GLU A245 (0.0 Å), ARG A254 (0.0 Å), LYS A264 (0.795 Å), LYS A300 (2.558 Å), ARG A348 (3.34 Å), SER A416 (4.926 Å), LYS A468 (5.642 Å) y 5 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5E92": {
-   "motivo": "Meeko elimina 19 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A240 (5.247 Å), GLU A245 (0.0 Å), ARG A254 (0.0 Å), LYS A262 (0.0 Å), LYS A264 (0.924 Å), PHE A271 (1.112 Å), LEU A317 (5.368 Å), ARG A339 (0.0 Å) y 11 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5EPN": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: ARG A1092 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5F1A": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A215 (0.0 Å), GLN A396 (0.0 Å), GLU A492 (5.672 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
    "origen": "preparacion_medida"
   },
   "5I3T": {
@@ -455,197 +49,19 @@
    "paso": "mk_prepare_receptor",
    "origen": "preparacion_medida"
   },
-  "5J89": {
-   "motivo": "Meeko elimina 14 residuo(s) a 6 Å o menos de la caja, del sitio: GLU C45 (0.0 Å), LYS C46 (2.802 Å), GLN C47 (1.319 Å), LYS C89 (4.033 Å), GLU D45 (3.924 Å), GLN D47 (4.536 Å), LYS D62 (0.0 Å), GLU D71 (0.0 Å) y 6 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5L2I": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: LEU A166 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5L2Y": {
-   "motivo": "Meeko elimina 5 residuo(s) a 6 Å o menos de la caja, del sitio: GLN H170 (0.451 Å), LYS H170D (1.502 Å), VAL H170E (0.0 Å), ASP H170G (0.0 Å), LYS H60C (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5L2Z": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: LYS H170D (2.801 Å), VAL H170E (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5L30": {
-   "motivo": "Meeko elimina 5 residuo(s) a 6 Å o menos de la caja, del sitio: GLN H170 (0.422 Å), ARG H170C (1.514 Å), ASP H170G (0.0 Å), SER H170H (0.0 Å), ARG H62 (5.686 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5ML2": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: GLU B26 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5ML3": {
-   "motivo": "Meeko elimina 5 residuo(s) a 6 Å o menos de la caja, del sitio: GLN B106 (0.0 Å), GLU B114 (0.0 Å), GLU B26 (0.0 Å), GLU B36 (0.0 Å), GLU B72 (5.048 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5ML4": {
-   "motivo": "Meeko elimina 4 residuo(s) a 6 Å o menos de la caja, del sitio: GLU B114 (0.0 Å), SER B115 (0.0 Å), GLN B116 (0.0 Å), GLU B26 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5ML6": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: SER B115 (0.0 Å), GLN B116 (0.0 Å), GLU B26 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5ML8": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: GLU B26 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5MMN": {
-   "motivo": "Meeko elimina 9 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A11 (1.837 Å), LYS A14 (3.47 Å), GLU A159 (0.147 Å), GLU A161 (1.858 Å), LYS A162 (0.0 Å), GLU A219 (3.176 Å), LYS A57 (0.0 Å), HIS A83 (0.0 Å) y 1 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
   "5NPT": {
-   "motivo": "Meeko elimina 7 residuo(s) a 6 Å o menos de la caja, del sitio: ARG A2 (0.0 Å), HIS A29 (0.0 Å), ARG A33 (0.0 Å), GLU A34 (0.0 Å), GLY A83 (0.276 Å), ARG A97 (1.997 Å), ASN A98 (0.522 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5O67": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: ASP C167 (0.0 Å), GLN C90 (3.953 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5PA9": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: ARG C375 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5QTS": {
-   "motivo": "Meeko elimina 9 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A21 (0.52 Å), ASP B101 (1.461 Å), LYS B159 (5.59 Å), LYS B161 (2.309 Å), GLU B169 (1.216 Å), LYS B27 (0.0 Å), LYS B55 (0.0 Å), GLN B57 (0.0 Å) y 1 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5TGZ": {
-   "motivo": "Meeko elimina 5 residuo(s) a 6 Å o menos de la caja, del sitio: MET A109 (0.0 Å), GLN A115 (0.0 Å), LEU A117 (0.0 Å), GLN A261 (1.377 Å), LYS A370 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5TOL": {
-   "motivo": "Meeko elimina 5 residuo(s) a 6 Å o menos de la caja, del sitio: ARG A112 (2.388 Å), LYS A113 (0.0 Å), GLN A121 (0.0 Å), GLU A358 (1.793 Å), GLU A49 (5.693 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5TUN": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: SER A49 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5U6X": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: ARG A179 (0.0 Å), SER A193 (0.0 Å), GLU A267 (0.373 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5WBE": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A186 (2.192 Å), SER A193 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5WIU": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: LEU A102 (0.0 Å), ASP A176 (2.372 Å), GLN A97 (0.678 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5WZX": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: ILE A282 (2.492 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5Z2R": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: THR A480 (1.429 Å), GLN A482 (4.711 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "5ZBH": {
-   "motivo": "Meeko elimina 5 residuo(s) a 6 Å o menos de la caja, del sitio: LEU A189 (1.962 Å), LYS A193 (0.0 Å), ASP A31 (0.0 Å), ASP A32 (0.0 Å), HIS A34 (0.735 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "6A5W": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A281 (0.0 Å), LYS A376 (2.584 Å). No se acopla contra un sitio incompleto.",
+   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: ALA A29 (0.0 Å), GLY A83 (0.276 Å), GLY A97 (1.997 Å). No se acopla contra un sitio incompleto.",
    "paso": "receptor_site_residues_missing",
    "origen": "preparacion_medida"
   },
   "6BOS": {
-   "motivo": "Meeko elimina 4 residuo(s) a 6 Å o menos de la caja, del sitio: ASP A124 (5.575 Å), LYS A125 (3.558 Å), TYR A128 (0.297 Å), DC P10 (0.0 Å). No se acopla contra un sitio incompleto.",
+   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: DC P10 (0.0 Å). No se acopla contra un sitio incompleto.",
    "paso": "receptor_site_residues_missing",
    "origen": "preparacion_medida"
-  },
-  "6C1P": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: LEU B1098 (5.099 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "6CM4": {
-   "motivo": "Meeko elimina 15 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A101 (0.797 Å), ASN A176 (4.454 Å), ASP A178 (1.507 Å), GLN A179 (4.331 Å), ASN A180 (3.921 Å), ASN A35 (2.94 Å), TYR A36 (4.288 Å), ILE A394 (0.245 Å) y 7 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "6EU9": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: LYS B518 (0.0 Å), MET B541 (5.873 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "6MK9": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A35 (0.0 Å), GLU B35 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "6MVV": {
-   "motivo": "Meeko elimina 16 residuo(s) a 6 Å o menos de la caja, del sitio: LYS B2016 (0.0 Å), ARG B2108 (0.0 Å), LYS B2118 (3.552 Å), ILE B2210 (4.747 Å), VAL B2214 (3.322 Å), ARG C1068 (3.522 Å), ILE C1069 (2.177 Å), LYS C1073 (0.579 Å) y 8 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "6MVW": {
-   "motivo": "Meeko elimina 15 residuo(s) a 6 Å o menos de la caja, del sitio: LYS C1016 (0.0 Å), LYS C1035 (0.0 Å), GLN C1039 (0.0 Å), PHE C1041 (0.0 Å), LEU C1047 (0.0 Å), LYS C1073 (4.646 Å), SER C1092 (3.64 Å), SER C1093 (4.362 Å) y 7 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "6MWA": {
-   "motivo": "Meeko elimina 5 residuo(s) a 6 Å o menos de la caja, del sitio: LYS B2118 (0.0 Å), LYS B2227 (0.0 Å), GLN B2230 (0.0 Å), LYS C2227 (0.0 Å), GLN C2230 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "6N7B": {
-   "motivo": "Cofactor o residuo modificado sin plantilla Meeko validada a 6 Å o menos de la caja: PTR A1035 (4.329 Å). Acoplar sin él, o con una carga inventada, cambiaría la química del sitio.",
-   "cofactores": [
-    {
-     "chain": "A",
-     "residue_number": "1035",
-     "insertion_code": "",
-     "name": "PTR",
-     "distance_to_box_A": 4.329
-    }
-   ],
-   "origen": "cofactor_sin_plantilla"
   },
   "6NTW": {
    "motivo": "Meeko no puede construir el receptor (RuntimeError: Expected 2 paddings for (A:485, A:491) with bonds [(13, 1)], but got 0\r).",
    "paso": "mk_prepare_receptor",
-   "origen": "preparacion_medida"
-  },
-  "6P6X": {
-   "motivo": "Meeko elimina 7 residuo(s) a 6 Å o menos de la caja, del sitio: PHE A1013 (4.173 Å), LYS A1035 (0.0 Å), GLN A1039 (2.113 Å), VAL A1043 (3.753 Å), LEU A1047 (2.114 Å), TYR A1065 (3.213 Å), GLU A1096 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "6PS2": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A227 (5.613 Å), LYS A267 (1.939 Å), LYS A60 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
    "origen": "preparacion_medida"
   },
   "6S1Z": {
@@ -653,172 +69,23 @@
    "paso": "mk_prepare_receptor",
    "origen": "preparacion_medida"
   },
-  "6U26": {
-   "motivo": "Meeko elimina 11 residuo(s) a 6 Å o menos de la caja, del sitio: ARG B469 (0.0 Å), MET B470 (0.0 Å), GLN B503 (0.0 Å), PHE B515 (0.0 Å), GLN B531 (1.421 Å), GLN B554 (2.056 Å), GLN B555 (1.486 Å), GLU B569 (0.0 Å) y 3 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "6USO": {
-   "motivo": "Meeko elimina 6 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A10 (2.762 Å), ARG A547 (1.101 Å), ILE A550 (1.958 Å), LYS A552 (5.773 Å), ARG A586 (0.0 Å), LYS A593 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "6USR": {
-   "motivo": "Meeko elimina 19 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A136 (2.135 Å), LYS A147 (0.0 Å), LYS A151 (2.276 Å), LYS A167 (4.937 Å), LYS A179 (3.326 Å), ARG A205 (1.979 Å), LYS A206 (0.0 Å), LEU A211 (0.95 Å) y 11 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "6WHA": {
-   "motivo": "Meeko elimina 55 residuo(s) a 6 Å o menos de la caja, del sitio: MET A114 (0.0 Å), ILE A118 (0.0 Å), MET A121 (0.0 Å), PHE A125 (0.406 Å), MET A128 (0.0 Å), LEU A133 (0.0 Å), ILE A135 (0.0 Å), LEU A136 (2.103 Å) y 47 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "7BVQ": {
-   "motivo": "Meeko elimina 5 residuo(s) a 6 Å o menos de la caja, del sitio: ARG A1088 (0.0 Å), ARG A1165 (1.288 Å), ARG A1318 (1.783 Å), LYS A1324 (0.348 Å), ARG A1357 (5.116 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
   "7D42": {
    "motivo": "Meeko no puede construir el receptor (RuntimeError: Expected 2 paddings for (A:329, A:443) with bonds [(12, 16)], but got 0\r).",
    "paso": "mk_prepare_receptor",
-   "origen": "preparacion_medida"
-  },
-  "7JVU": {
-   "motivo": "Meeko elimina 9 residuo(s) a 6 Å o menos de la caja, del sitio: LEU A31 (0.0 Å), ASP A343 (0.564 Å), LYS A36 (0.0 Å), LYS B36 (0.0 Å), LYS B60 (5.714 Å), LYS B81 (4.73 Å), ASP B88 (1.381 Å), ASP B89 (2.998 Å) y 1 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "7JVW": {
-   "motivo": "Meeko elimina 20 residuo(s) a 6 Å o menos de la caja, del sitio: THR A105 (1.43 Å), GLU A106 (4.646 Å), ILE A108 (1.702 Å), GLU A238 (4.17 Å), ASP A29 (0.0 Å), HIS A90 (2.213 Å), ASP A92 (0.708 Å), ILE A94 (0.0 Å) y 12 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "7KQM": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A160 (2.703 Å), TYR A328 (3.848 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "7SGG": {
-   "motivo": "Meeko elimina 3 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A26 (0.0 Å), ASP A399 (3.146 Å), LYS A90 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "7T9I": {
-   "motivo": "Meeko elimina 13 residuo(s) a 6 Å o menos de la caja, del sitio: ASP X229 (0.0 Å), ASP X249 (0.0 Å), ASN X264 (0.0 Å), GLU X268 (0.0 Å), LYS X274 (0.0 Å), ARG X283 (4.5 Å), LYS X305 (1.882 Å), LYS X307 (0.166 Å) y 5 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "7T9N": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: LYS R401 (2.456 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "7TM9": {
-   "motivo": "Cofactor o residuo modificado sin plantilla Meeko validada a 6 Å o menos de la caja: SEP A117 (0.0 Å). Acoplar sin él, o con una carga inventada, cambiaría la química del sitio.",
-   "cofactores": [
-    {
-     "chain": "A",
-     "residue_number": "117",
-     "insertion_code": "",
-     "name": "SEP",
-     "distance_to_box_A": 0.0
-    }
-   ],
-   "origen": "cofactor_sin_plantilla"
-  },
-  "7TRB": {
-   "motivo": "Meeko elimina 27 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A266 (0.0 Å), GLN A267 (0.0 Å), MET A269 (0.0 Å), GLN A271 (0.0 Å), GLU A272 (0.0 Å), THR A274 (0.0 Å), LYS A276 (0.0 Å), ILE A277 (0.0 Å) y 19 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "7VUE": {
-   "motivo": "Meeko elimina 19 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A262 (0.0 Å), GLN A263 (0.0 Å), ARG A264 (0.0 Å), GLU A268 (0.0 Å), LYS A275 (0.0 Å), GLU A277 (0.0 Å), GLU A281 (0.0 Å), LYS A303 (2.159 Å) y 11 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "7ZYJ": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: SER L301 (0.001 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "8JSW": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: MET A355 (1.507 Å), TYR A49 (4.374 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "8JT9": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: ILE A44 (0.0 Å), TYR A49 (5.611 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "8JTB": {
-   "motivo": "Meeko elimina 2 residuo(s) a 6 Å o menos de la caja, del sitio: MET A355 (0.841 Å), TYR A49 (4.517 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "8V52": {
-   "motivo": "Meeko elimina 11 residuo(s) a 6 Å o menos de la caja, del sitio: GLU E127 (0.0 Å), LYS E130 (0.0 Å), SER E131 (0.0 Å), TYR E144 (2.927 Å), GLN E164 (0.0 Å), GLU E169 (3.242 Å), LYS F120 (3.887 Å), LYS F146 (0.0 Å) y 3 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
    "origen": "preparacion_medida"
   },
   "8WTW": {
    "motivo": "Meeko no puede construir el receptor (RuntimeError: Expected 2 paddings for (B:5, B:14) with bonds [(9, 9)], but got 1\r).",
    "paso": "mk_prepare_receptor",
    "origen": "preparacion_medida"
-  },
-  "8WZL": {
-   "motivo": "Meeko elimina 5 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A175 (0.0 Å), LYS A195 (2.02 Å), LYS A221 (0.0 Å), MET A365 (2.691 Å), VAL A382 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "9NX5": {
-   "motivo": "Meeko elimina 10 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A1006 (0.0 Å), GLU A1014 (0.0 Å), LYS A451 (0.44 Å), ILE A452 (4.797 Å), ASP A461 (3.019 Å), LYS A462 (1.913 Å), MET A463 (5.141 Å), SER A506 (0.0 Å) y 2 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "9TDZ": {
-   "motivo": "Meeko elimina 1 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A430 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "9V39": {
-   "motivo": "Meeko elimina 47 residuo(s) a 6 Å o menos de la caja, del sitio: LYS A101 (0.0 Å), ARG A103 (0.0 Å), VAL A106 (0.0 Å), GLN A107 (0.0 Å), GLU A109 (0.0 Å), GLU A11 (0.0 Å), VAL A110 (0.0 Å), ARG A112 (0.0 Å) y 39 más. No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
-  },
-  "9V3A": {
-   "motivo": "Meeko elimina 6 residuo(s) a 6 Å o menos de la caja, del sitio: GLU A20 (0.0 Å), LYS A25 (0.0 Å), GLU A36 (0.773 Å), GLU A37 (0.586 Å), LYS A40 (3.524 Å), GLU A47 (0.0 Å). No se acopla contra un sitio incompleto.",
-   "paso": "receptor_site_residues_missing",
-   "origen": "preparacion_medida"
   }
  },
- "cofactores_fuera_del_sitio": {
-  "5TGZ": [
-   {
-    "chain": "A",
-    "residue_number": "2002",
-    "insertion_code": "",
-    "name": "FMN",
-    "distance_to_box_A": 30.676,
-    "action": "retirado"
-   }
-  ],
-  "6GUE": [
-   {
-    "chain": "A",
-    "residue_number": "160",
-    "insertion_code": "",
-    "name": "TPO",
-    "distance_to_box_A": 7.93,
-    "action": "convertido a THR, sin fosfato"
-   }
-  ]
- },
+ "cofactores_fuera_del_sitio": {},
  "barrido_meeko": {
   "fecha": "2026-09-26",
-  "receta_receptor": 6,
+  "receta_receptor": 7,
   "meeko": "0.7.1",
-  "dianas_preparadas": 370,
-  "fallidas": 130
+  "dianas_preparadas": 380,
+  "fallidas": 15
  }
 }

@@ -18,6 +18,11 @@ tools/openbabel/*.json            -text
 curated_targets.json              -text
 # Artefactos cientificos sellados: su inmutabilidad es su razon de ser.
 scripts/artifacts_science/**      -text
+# Definiciones CCD de los cofactores y las plantillas Meeko derivadas: el
+# manifiesto de `backend/data/meeko_templates/` hashea ambas. Los .cif del CCD
+# traen espacios al final de linea por su propio formato y no se pueden
+# reescribir sin invalidar su SHA-256, asi que tampoco se revisan.
+backend/data/meeko_templates/**   -text -whitespace
 # Indice y manifiesto del dataset de pose selector, tambien hasheados.
 data/pose_selector_dataset/**     -text
 

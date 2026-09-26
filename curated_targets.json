@@ -1693,7 +1693,7 @@
     "grid_size_z": 30.0,
     "requires_cns": 0,
     "structural_family": "hydrolase",
-    "organism": "Homo sapiens",
+    "organism": "Torpedo californica",
     "resolution": 2.5,
     "hotspots": [
       {
@@ -1891,7 +1891,7 @@
     "grid_size_z": 25.0,
     "requires_cns": 0,
     "structural_family": "protease",
-    "organism": "Homo sapiens",
+    "organism": "Human immunodeficiency virus 1",
     "resolution": 2.0,
     "hotspots": [
       {
@@ -3617,7 +3617,7 @@
     "grid_size_z": 22.0,
     "requires_cns": 0,
     "structural_family": "transferase",
-    "organism": "Homo sapiens",
+    "organism": "Saccharomyces cerevisiae",
     "resolution": 3.0,
     "hotspots": [
       {
@@ -7099,7 +7099,7 @@
     "grid_size_z": 22.0,
     "requires_cns": 0,
     "structural_family": "atp_synthase",
-    "organism": "Homo sapiens",
+    "organism": "Bos taurus",
     "resolution": 1.9,
     "hotspots": [
       {
@@ -12436,7 +12436,7 @@
     "grid_size_z": 29.3,
     "requires_cns": 0,
     "structural_family": "ligase",
-    "organism": "Homo sapiens",
+    "organism": "Helicobacter pylori",
     "resolution": 1.36,
     "hotspots": [
       {
@@ -13123,7 +13123,7 @@
     "grid_size_z": 38.4,
     "requires_cns": 0,
     "structural_family": "oxidoreductase",
-    "organism": "Homo sapiens",
+    "organism": "Staphylococcus aureus",
     "resolution": 1.7,
     "hotspots": [
       {
@@ -13818,7 +13818,7 @@
     "grid_size_z": 22.0,
     "requires_cns": 0,
     "structural_family": "gpcr",
-    "organism": "Homo sapiens",
+    "organism": "Meleagris gallopavo",
     "resolution": 2.1,
     "hotspots": [
       {
@@ -14115,7 +14115,7 @@
     "grid_size_z": 29.9,
     "requires_cns": 0,
     "structural_family": "ligase",
-    "organism": "Homo sapiens",
+    "organism": "Pseudomonas aeruginosa PAO1",
     "resolution": 2.98,
     "hotspots": [
       {
@@ -14517,7 +14517,7 @@
     "grid_size_z": 33.1,
     "requires_cns": 0,
     "structural_family": "protease",
-    "organism": "Homo sapiens",
+    "organism": "Human immunodeficiency virus 1",
     "resolution": 1.94,
     "hotspots": [
       {
@@ -15200,7 +15200,7 @@
     "grid_size_z": 35.1,
     "requires_cns": 0,
     "structural_family": "kinase",
-    "organism": "Homo sapiens",
+    "organism": "Rattus norvegicus",
     "resolution": 1.9,
     "hotspots": [
       {
@@ -18534,7 +18534,7 @@
     "grid_size_z": 22.0,
     "requires_cns": 0,
     "structural_family": "transferase",
-    "organism": "Homo sapiens",
+    "organism": "Mycobacterium tuberculosis",
     "resolution": 2.24,
     "hotspots": [
       {
@@ -20735,7 +20735,7 @@
     "grid_size_z": 35.8,
     "requires_cns": 0,
     "structural_family": "protease",
-    "organism": "Homo sapiens",
+    "organism": "Hepatitis C virus",
     "resolution": 2.3,
     "hotspots": [
       {
@@ -20933,7 +20933,7 @@
     "grid_size_z": 27.3,
     "requires_cns": 0,
     "structural_family": "lyase",
-    "organism": "Homo sapiens",
+    "organism": "Streptococcus pyogenes serotype M1",
     "resolution": 1.66,
     "hotspots": [
       {
@@ -21531,7 +21531,7 @@
     "grid_size_z": 21.2,
     "requires_cns": 0,
     "structural_family": "isomerase",
-    "organism": "Homo sapiens",
+    "organism": "Castellaniella defragrans",
     "resolution": 2.1,
     "hotspots": [
       {
@@ -23690,7 +23690,7 @@
     "grid_size_z": 25.3,
     "requires_cns": 0,
     "structural_family": "protease",
-    "organism": "Homo sapiens",
+    "organism": "Severe acute respiratory syndrome coronavirus 2",
     "resolution": 1.9,
     "hotspots": [
       {
@@ -23789,7 +23789,7 @@
     "grid_size_z": 30.0,
     "requires_cns": 0,
     "structural_family": "oxidoreductase",
-    "organism": "Homo sapiens",
+    "organism": "Plasmodium falciparum (isolate 3D7)",
     "resolution": 2.15,
     "hotspots": [
       {
@@ -25551,7 +25551,7 @@
     "grid_size_z": 22.0,
     "requires_cns": 0,
     "structural_family": "transferase",
-    "organism": "Homo sapiens",
+    "organism": "Escherichia coli (strain K12)",
     "resolution": 2.3,
     "hotspots": [
       {
@@ -27501,7 +27501,7 @@
     "grid_size_z": 24.6,
     "requires_cns": 0,
     "structural_family": "protease",
-    "organism": "Homo sapiens",
+    "organism": "Severe acute respiratory syndrome coronavirus 2",
     "resolution": 2.16,
     "hotspots": [
       {
@@ -27988,7 +27988,7 @@
     "grid_size_z": 38.8,
     "requires_cns": 0,
     "structural_family": "ion_channel",
-    "organism": "Homo sapiens",
+    "organism": "Arcobacter butzleri (strain RM4018)",
     "resolution": 3.2,
     "hotspots": [
       {
@@ -28263,7 +28263,7 @@
     "grid_size_z": 27.9,
     "requires_cns": 0,
     "structural_family": "transferase",
-    "organism": "Homo sapiens",
+    "organism": "Escherichia coli (strain K12)",
     "resolution": 2.76,
     "hotspots": [
       {

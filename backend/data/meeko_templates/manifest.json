@@ -1,0 +1,67 @@
+{
+ "_doc": "Generado por scripts/build_meeko_cofactor_templates.py; no editar a mano.",
+ "meeko": "0.7.1",
+ "rdkit": "2025.9.6",
+ "ccd": {
+  "ADP": {
+   "url": "https://files.rcsb.org/ligands/download/ADP.cif",
+   "sha256": "fa9eabb464c85c7c5a44146d492b907acd3151a250a4598001cc6abba8da84af"
+  },
+  "ATP": {
+   "url": "https://files.rcsb.org/ligands/download/ATP.cif",
+   "sha256": "06d876e9fe28b6981725288cd03943818ef6faf4839782c2a0a8929d65c85336"
+  },
+  "FAD": {
+   "url": "https://files.rcsb.org/ligands/download/FAD.cif",
+   "sha256": "85fc5af9d315a3cdbfb0efe1c30dc1aa7d227ddc8fa9b3054de81f1ffe4d0851"
+  },
+  "FMN": {
+   "url": "https://files.rcsb.org/ligands/download/FMN.cif",
+   "sha256": "f9033e720b9347d244aeb910ded984d2cc6de144384c1d935fe81fa0c6b37f6a"
+  },
+  "HEC": {
+   "url": "https://files.rcsb.org/ligands/download/HEC.cif",
+   "sha256": "4390d73b81e9468656b7594f4620d533a0a408f1a2fc1249443443ad5ac9d046"
+  },
+  "HEM": {
+   "url": "https://files.rcsb.org/ligands/download/HEM.cif",
+   "sha256": "80f4134bdc5b18dff8c31477ad8aabad7553a84fa4a5a1960677c733939d1429"
+  },
+  "NAD": {
+   "url": "https://files.rcsb.org/ligands/download/NAD.cif",
+   "sha256": "f202c206d06c8aafa01516df17e91d21a6c60ed1a02f815e60bca00d12a62439"
+  },
+  "NAP": {
+   "url": "https://files.rcsb.org/ligands/download/NAP.cif",
+   "sha256": "6a1240250770b1d2159caf10db477454f2c4d654d77a25346d6a7a68ff8fbbc4"
+  },
+  "SAM": {
+   "url": "https://files.rcsb.org/ligands/download/SAM.cif",
+   "sha256": "8ef08157d1d0b20a6b109feef005c2a5d6398d8592b3c6bd6c106f463f8b5626"
+  },
+  "SF4": {
+   "url": "https://files.rcsb.org/ligands/download/SF4.cif",
+   "sha256": "e9447eba0a4ef05710e4df6dc2738643722a8feaa0bf82a49bd862d1f6bdd902"
+  }
+ },
+ "parches": {
+  "HEM": [
+   "carga global sin definir",
+   "carga del Fe sin definir en el CCD",
+   "propionato: make_canonical lo desprotona",
+   "propionato: make_canonical lo desprotona"
+  ],
+  "HEC": [
+   "carga global sin definir",
+   "carga del Fe sin definir en el CCD",
+   "propionato: make_canonical lo desprotona",
+   "propionato: make_canonical lo desprotona"
+  ],
+  "SF4": [
+   "carga global sin definir",
+   "carga de los cuatro Fe sin definir en el CCD"
+  ]
+ },
+ "plantillas_sha256": "11e19414717c112df6a7c598973d0199a7be1f590d8773fc75ce70dd94681fbd",
+ "uso": "Sólo para acoplar con Vina: Vina tipifica los átomos y no usa cargas parciales."
+}

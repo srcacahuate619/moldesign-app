@@ -858,6 +858,22 @@ async def run_vina_docking(
                 Severidad.PRECAUCION,
                 f"Meeko eliminó residuos del receptor fuera del margen crítico: {label}.",
             ))
+        truncadas = preparation_report.get("truncated_sidechains") or []
+        if truncadas:
+            en_sitio = [row for row in truncadas if row.get("site_critical")]
+            label = ", ".join(
+                f"{row['chain']}:{row['residue_number']} {row['name']}→{row['action'].split()[-1]} "
+                f"({row['distance_to_box_A']} Å)"
+                for row in en_sitio
+            )
+            preparation_warnings.append(aviso(
+                "CADENAS_LATERALES_TRUNCADAS",
+                Severidad.CRITICA if en_sitio else Severidad.PRECAUCION,
+                f"El cristal no resolvía {len(truncadas)} cadena(s) lateral(es); se truncaron a "
+                "ALA o GLY, conservando sólo átomos observados"
+                + (f". EN EL SITIO, así que la cavidad acoplada pierde esos grupos: {label}."
+                   if en_sitio else ", todas fuera del sitio."),
+            ))
         fuera = preparation_report.get("cofactors_outside_site") or []
         if fuera:
             label = ", ".join(
@@ -1287,6 +1303,14 @@ async def run_vina_docking(
                         ),
                         "cofactors_outside_site": (
                             preparation_report.get("cofactors_outside_site")
+                            if preparation_report else None
+                        ),
+                        "truncated_sidechains": (
+                            preparation_report.get("truncated_sidechains")
+                            if preparation_report else None
+                        ),
+                        "cofactor_templates_sha256": (
+                            preparation_report.get("cofactor_templates_sha256")
                             if preparation_report else None
                         ),
                         "chain": target_chain,

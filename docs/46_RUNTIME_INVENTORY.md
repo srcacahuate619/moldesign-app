@@ -10,7 +10,7 @@ No contiene una afirmación nueva de validez científica. Las métricas se trans
 - PDB IDs únicos: **380**
 - IDs con estructura distribuida en el repositorio (`.pdb.gz` de nombre exacto): **380 / 380**
 - Archivos `.pdb.gz` versionados (incluye variantes de cadena y duplicados): **407**
-- SHA-256 del catálogo: `f23828d84752ebea0897272f4047483e409a6e272e212b9e4c70c325bf111a7f`
+- SHA-256 del catálogo: `47fbe7f2ec6d0cca7ae9f72b90da84ea3061a5d6851d67d12cb0b2758fd0d8ac`
 
 ### Familias estructurales
 

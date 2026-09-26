@@ -1,0 +1,156 @@
+{
+ "catalog_version": "organismos-2026-09-26",
+ "based_on_commit": "3ea756c",
+ "cambio": "20 entradas declaraban «Homo sapiens» sobre un PDB de otro organismo (VIH, SARS-CoV-2, bacterias, Meleagris gallopavo, Torpedo californica). El campo `organism` se toma ahora del registro SOURCE ORGANISM_SCIENTIFIC del PDB depositado; las dianas se conservan. Verificado por backend/tests/test_cofactores_y_disponibilidad.py.",
+ "supersedes": {
+  "curated_targets_json_sha256": "f23828d84752ebea0897272f4047483e409a6e272e212b9e4c70c325bf111a7f",
+  "curated_targets_csv_sha256": "41b4bb75bc60026542ba5be00881d0d3f4d76993d608c0a3bfa84d9dc560e6e1"
+ },
+ "active": {
+  "curated_targets_json_sha256": "47fbe7f2ec6d0cca7ae9f72b90da84ea3061a5d6851d67d12cb0b2758fd0d8ac",
+  "curated_targets_csv_sha256": "41b4bb75bc60026542ba5be00881d0d3f4d76993d608c0a3bfa84d9dc560e6e1"
+ },
+ "organismos_corregidos": {
+  "1GPK": {
+   "antes": "Homo sapiens",
+   "ahora": "Torpedo californica",
+   "pdb_source": [
+    "torpedo californica"
+   ]
+  },
+  "1HSG": {
+   "antes": "Homo sapiens",
+   "ahora": "Human immunodeficiency virus 1",
+   "pdb_source": [
+    "human immunodeficiency virus 1"
+   ]
+  },
+  "1NHY": {
+   "antes": "Homo sapiens",
+   "ahora": "Saccharomyces cerevisiae",
+   "pdb_source": [
+    "saccharomyces cerevisiae"
+   ]
+  },
+  "2JDI": {
+   "antes": "Homo sapiens",
+   "ahora": "Bos taurus",
+   "pdb_source": [
+    "bos taurus"
+   ]
+  },
+  "3QXX": {
+   "antes": "Homo sapiens",
+   "ahora": "Helicobacter pylori",
+   "pdb_source": [
+    "helicobacter pylori"
+   ]
+  },
+  "3SRW": {
+   "antes": "Homo sapiens",
+   "ahora": "Staphylococcus aureus",
+   "pdb_source": [
+    "staphylococcus aureus"
+   ]
+  },
+  "4BVN": {
+   "antes": "Homo sapiens",
+   "ahora": "Meleagris gallopavo",
+   "pdb_source": [
+    "meleagris gallopavo"
+   ]
+  },
+  "4CVL": {
+   "antes": "Homo sapiens",
+   "ahora": "Pseudomonas aeruginosa PAO1",
+   "pdb_source": [
+    "pseudomonas aeruginosa pao1"
+   ]
+  },
+  "4DQC": {
+   "antes": "Homo sapiens",
+   "ahora": "Human immunodeficiency virus 1",
+   "pdb_source": [
+    "human immunodeficiency virus 1"
+   ]
+  },
+  "4I5H": {
+   "antes": "Homo sapiens",
+   "ahora": "Rattus norvegicus",
+   "pdb_source": [
+    "rattus norvegicus"
+   ]
+  },
+  "4W1V": {
+   "antes": "Homo sapiens",
+   "ahora": "Mycobacterium tuberculosis",
+   "pdb_source": [
+    "mycobacterium tuberculosis"
+   ]
+  },
+  "5EPN": {
+   "antes": "Homo sapiens",
+   "ahora": "Hepatitis C virus",
+   "pdb_source": [
+    "hepatitis c virus"
+   ]
+  },
+  "5F4W": {
+   "antes": "Homo sapiens",
+   "ahora": "Streptococcus pyogenes serotype M1",
+   "pdb_source": [
+    "streptococcus pyogenes serotype m1"
+   ]
+  },
+  "5I3T": {
+   "antes": "Homo sapiens",
+   "ahora": "Castellaniella defragrans",
+   "pdb_source": [
+    "castellaniella defragrans"
+   ]
+  },
+  "5RFY": {
+   "antes": "Homo sapiens",
+   "ahora": "Severe acute respiratory syndrome coronavirus 2",
+   "pdb_source": [
+    "severe acute respiratory syndrome coronavirus 2"
+   ]
+  },
+  "5TBO": {
+   "antes": "Homo sapiens",
+   "ahora": "Plasmodium falciparum (isolate 3D7)",
+   "pdb_source": [
+    "plasmodium falciparum (isolate 3d7)"
+   ]
+  },
+  "5Z2R": {
+   "antes": "Homo sapiens",
+   "ahora": "Escherichia coli (strain K12)",
+   "pdb_source": [
+    "escherichia coli (strain k12)"
+   ]
+  },
+  "6LU7": {
+   "antes": "Homo sapiens",
+   "ahora": "Severe acute respiratory syndrome coronavirus 2",
+   "pdb_source": [
+    "severe acute respiratory syndrome coronavirus 2",
+    "synthetic construct"
+   ]
+  },
+  "6MVW": {
+   "antes": "Homo sapiens",
+   "ahora": "Arcobacter butzleri (strain RM4018)",
+   "pdb_source": [
+    "arcobacter butzleri (strain rm4018)"
+   ]
+  },
+  "6NTW": {
+   "antes": "Homo sapiens",
+   "ahora": "Escherichia coli (strain K12)",
+   "pdb_source": [
+    "escherichia coli (strain k12)"
+   ]
+  }
+ }
+}

@@ -787,9 +787,14 @@ def resolve_effective_docking_box(
     return derived_center, (derived_size, derived_size, derived_size)
 
 
-#: v6: cofactores sin plantilla a más de MARGEN_SITIO_A se retiran o se devuelven
-#: a su aminoácido en vez de bloquear; cambia los bytes de esos receptores.
-RECEPTOR_RECIPE_VERSION = 6
+#: v6: cofactores sin plantilla a más de MARGEN_SITIO_A se retiran en vez de bloquear.
+#: v7: cadenas laterales incompletas completadas con PDBFixer y plantillas locales
+#: de cofactores (`backend/data/meeko_templates/`); cambia los bytes de esos receptores.
+RECEPTOR_RECIPE_VERSION = 7
+
+RUTA_PLANTILLAS_COFACTORES = (
+    Path(__file__).resolve().parents[2] / "data" / "meeko_templates" / "cofactores.json"
+)
 
 
 def receptor_recipe_hash(
@@ -823,6 +828,12 @@ def receptor_recipe_hash(
         "site_ligand_removed": site_ligand.upper() if site_ligand else None,
         "crop": crop,
         "meeko_version": meeko_version,
+        "cofactor_templates_sha256": _plantillas_sha256(),
+        "incomplete_sidechains": {
+            "policy": "truncate_to_ala_or_gly",
+            "margin_A": MARGEN_SITIO_A,
+            "atoms_invented": False,
+        },
         "meeko_options": {
             "add_hydrogens": True,
             "write_parameterized_json": True,
@@ -841,14 +852,156 @@ def receptor_recipe_hash(
 #: plantilla: dentro del margen se aborta; fuera, se declara.
 MARGEN_SITIO_A = 6.0
 
-#: Fosfo-residuos que pueden devolverse a su aminoácido de origen retirando el
-#: fosfato, como ya se hace con MSE → MET. Sólo fuera del sitio y declarado.
-_FOSFO_A_ORIGEN: dict[str, tuple[str, frozenset[str]]] = {
-    "SEP": ("SER", frozenset({"N", "CA", "C", "O", "OXT", "CB", "OG"})),
-    "TPO": ("THR", frozenset({"N", "CA", "C", "O", "OXT", "CB", "OG1", "CG2"})),
-    "PTR": ("TYR", frozenset({"N", "CA", "C", "O", "OXT", "CB", "CG", "CD1", "CD2",
-                              "CE1", "CE2", "CZ", "OH"})),
+def _version_de(paquete: str) -> str:
+    try:
+        return importlib.metadata.version(paquete)
+    except importlib.metadata.PackageNotFoundError:
+        return "not-installed"
+
+
+def _plantillas_sha256() -> str | None:
+    try:
+        return hashlib.sha256(RUTA_PLANTILLAS_COFACTORES.read_bytes()).hexdigest()
+    except OSError:
+        return None
+
+
+@lru_cache(maxsize=1)
+def residuos_con_plantilla() -> frozenset[str]:
+    """Residuos que Meeko parametriza sin red: los suyos y la biblioteca local.
+
+    Meeko 0.7.1 trae los fosfo-residuos (SEP, TPO, PTR); la fase 1 los bloqueaba
+    como «sin plantilla» sin serlo. Los cofactores (HEM, FAD, ADP…) salen de
+    `backend/data/meeko_templates/`, generada desde el CCD con su hash.
+    """
+    nombres: set[str] = set()
+    try:
+        import meeko
+
+        datos = json.loads((Path(meeko.__file__).parent / "data" / "residue_chem_templates.json")
+                           .read_text(encoding="utf-8"))
+        nombres |= set(datos.get("ambiguous", {}))
+        nombres |= {clave.split("_")[0] for clave in datos.get("residue_templates", {})}
+    except (ImportError, OSError, ValueError) as exc:
+        log.warning("plantillas_de_meeko_ilegibles", error=str(exc))
+    try:
+        nombres |= set(json.loads(RUTA_PLANTILLAS_COFACTORES.read_text(encoding="utf-8"))
+                       ["residue_templates"])
+    except (OSError, ValueError, KeyError) as exc:
+        log.warning("plantillas_de_cofactores_ilegibles", ruta=str(RUTA_PLANTILLAS_COFACTORES),
+                    error=str(exc))
+    return frozenset(nombres)
+
+
+#: Átomos pesados de cada residuo estándar, sin OXT (sólo en el C terminal).
+#: Fuente: definiciones del CCD de los 20 aminoácidos.
+_PESADOS_ESPERADOS: dict[str, frozenset[str]] = {
+    "ALA": frozenset({"N", "CA", "C", "O", "CB"}),
+    "ARG": frozenset({"N", "CA", "C", "O", "CB", "CG", "CD", "NE", "CZ", "NH1", "NH2"}),
+    "ASN": frozenset({"N", "CA", "C", "O", "CB", "CG", "OD1", "ND2"}),
+    "ASP": frozenset({"N", "CA", "C", "O", "CB", "CG", "OD1", "OD2"}),
+    "CYS": frozenset({"N", "CA", "C", "O", "CB", "SG"}),
+    "GLN": frozenset({"N", "CA", "C", "O", "CB", "CG", "CD", "OE1", "NE2"}),
+    "GLU": frozenset({"N", "CA", "C", "O", "CB", "CG", "CD", "OE1", "OE2"}),
+    "GLY": frozenset({"N", "CA", "C", "O"}),
+    "HIS": frozenset({"N", "CA", "C", "O", "CB", "CG", "ND1", "CD2", "CE1", "NE2"}),
+    "ILE": frozenset({"N", "CA", "C", "O", "CB", "CG1", "CG2", "CD1"}),
+    "LEU": frozenset({"N", "CA", "C", "O", "CB", "CG", "CD1", "CD2"}),
+    "LYS": frozenset({"N", "CA", "C", "O", "CB", "CG", "CD", "CE", "NZ"}),
+    "MET": frozenset({"N", "CA", "C", "O", "CB", "CG", "SD", "CE"}),
+    "PHE": frozenset({"N", "CA", "C", "O", "CB", "CG", "CD1", "CD2", "CE1", "CE2", "CZ"}),
+    "PRO": frozenset({"N", "CA", "C", "O", "CB", "CG", "CD"}),
+    "SER": frozenset({"N", "CA", "C", "O", "CB", "OG"}),
+    "THR": frozenset({"N", "CA", "C", "O", "CB", "OG1", "CG2"}),
+    "TRP": frozenset({"N", "CA", "C", "O", "CB", "CG", "CD1", "CD2", "NE1", "CE2", "CE3",
+                      "CZ2", "CZ3", "CH2"}),
+    "TYR": frozenset({"N", "CA", "C", "O", "CB", "CG", "CD1", "CD2", "CE1", "CE2", "CZ", "OH"}),
+    "VAL": frozenset({"N", "CA", "C", "O", "CB", "CG1", "CG2"}),
 }
+
+#: Lo que se conserva al truncar: esqueleto observado y, si está, el CB.
+_ESQUELETO_TRUNCADO = frozenset({"N", "CA", "C", "O", "OXT", "CB"})
+
+
+def truncar_cadenas_laterales_incompletas(
+    pdb_text: str,
+    center: tuple[float, float, float],
+    size: tuple[float, float, float],
+) -> tuple[str, list[dict[str, object]]]:
+    """Trunca a ALA (o GLY sin CB) los residuos con la cadena lateral incompleta.
+
+    Los cristales no resuelven muchas cadenas laterales expuestas (Lys, Glu,
+    Arg, Gln…). Meeko no encuentra plantilla para esos residuos y los borra
+    ENTEROS, cadena principal incluida: 119 de las 380 dianas del catálogo
+    quedaban con residuos del sitio borrados en silencio (verificación del
+    2026-09-26).
+
+    **Por qué truncar y no reconstruir.** PDBFixer completa la cadena lateral,
+    pero no es reproducible: en 5VA1 la Glu A23 cayó en rotámeros distintos en
+    dos procesos (distancia mínima a otro residuo 2,40 Å frente a 4,05 Å), y con
+    ella cambiaban los bytes del receptor. La receta dejaría de identificar lo
+    que se acopla, que es el defecto DOCK-004. Truncar no inventa ninguna
+    coordenada: conserva sólo átomos observados, es determinista por
+    construcción y declara lo que pierde. Reconstruir queda abierto, y exige
+    antes un generador de rotámeros reproducible y validado.
+
+    Devuelve el texto y una fila por residuo truncado, con su distancia a la
+    caja y `site_critical` si está a `MARGEN_SITIO_A` o menos.
+    """
+    def clave(line: str) -> tuple[str, str, str]:
+        return (line[21:22].strip() or "A", line[22:26].strip(), line[26:27].strip())
+
+    lineas = pdb_text.splitlines(keepends=True)
+    residuos: dict[tuple[str, str, str], dict[str, object]] = {}
+    for line in lineas:
+        if not line.startswith("ATOM") or len(line) < 54:
+            continue
+        nombre = line[17:20].strip()
+        if nombre not in _PESADOS_ESPERADOS:
+            continue
+        if len(line) >= 78 and line[76:78].strip() in ("H", "D"):
+            continue
+        fila = residuos.setdefault(clave(line), {"name": nombre, "atomos": set(), "posiciones": []})
+        if fila["name"] != nombre:      # altloc con otro residuo: no se toca
+            fila["name"] = None
+            continue
+        fila["atomos"].add(line[12:16].strip())
+        try:
+            fila["posiciones"].append(tuple(float(line[i:i + 8]) for i in (30, 38, 46)))
+        except ValueError:
+            continue
+
+    truncados: list[dict[str, object]] = []
+    a_truncar: dict[tuple[str, str, str], str] = {}
+    for k, fila in sorted(residuos.items()):
+        nombre = fila["name"]
+        if not nombre:
+            continue
+        faltan = _PESADOS_ESPERADOS[nombre] - set(fila["atomos"])
+        if not faltan:
+            continue
+        destino = "ALA" if "CB" in fila["atomos"] and nombre != "GLY" else "GLY"
+        if destino == nombre:
+            continue                    # a GLY sólo le falta esqueleto: lo ve Meeko
+        a_truncar[k] = destino
+        distancia = min((_distancia_a_caja(p, center, size) for p in fila["posiciones"]),
+                        default=float("inf"))
+        truncados.append({
+            "chain": k[0], "residue_number": k[1], "insertion_code": k[2], "name": nombre,
+            "action": f"truncado a {destino}", "atoms_missing": sorted(faltan),
+            "distance_to_box_A": round(distancia, 3) if math.isfinite(distancia) else None,
+            "site_critical": distancia <= MARGEN_SITIO_A,
+        })
+    if not a_truncar:
+        return pdb_text, []
+    salida = []
+    for line in lineas:
+        if line.startswith(("ATOM", "ANISOU")) and len(line) >= 27 and clave(line) in a_truncar:
+            if line.startswith("ANISOU") or line[12:16].strip() not in _ESQUELETO_TRUNCADO:
+                continue
+            line = line[:17] + f"{a_truncar[clave(line)]:>3}" + line[20:]
+        salida.append(line)
+    return "".join(salida), truncados
 
 
 def _distancia_a_caja(
@@ -874,12 +1027,15 @@ def cofactores_sin_plantilla(
 ) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
     """Cofactores y residuos modificados que Meeko no sabe parametrizar offline.
 
-    Devuelve ``(en_el_sitio, fuera_del_sitio)``: una fila por instancia
-    (cadena, número, inserción) con su distancia mínima a la caja.
-    ``prepare_target`` aborta si ``en_el_sitio`` no está vacío y transforma
-    ``fuera_del_sitio`` con :func:`retirar_cofactores_fuera_del_sitio`. El
-    inventario de disponibilidad del catálogo usa esta misma función.
+    Un residuo con plantilla (de Meeko o de la biblioteca local, ver
+    :func:`residuos_con_plantilla`) no cuenta. Devuelve ``(en_el_sitio,
+    fuera_del_sitio)``: una fila por instancia (cadena, número, inserción) con
+    su distancia mínima a la caja. ``prepare_target`` aborta si ``en_el_sitio``
+    no está vacío y retira ``fuera_del_sitio`` con
+    :func:`retirar_cofactores_fuera_del_sitio`. El inventario de
+    disponibilidad del catálogo usa esta misma función.
     """
+    con_plantilla = residuos_con_plantilla()
     instancias: dict[tuple[str, str, str, str], list[tuple[float, float, float]]] = {}
     for line in raw_content.splitlines():
         if not line.startswith("HETATM") or len(line) < 54:
@@ -889,6 +1045,7 @@ def cofactores_sin_plantilla(
                 or resname == site_ligand
                 or resname in _METAL_COFACTORS
                 or resname == "MSE"
+                or resname in con_plantilla
                 or not (resname in _STANDARD_RESIDUES or resname in (cofactors_whitelist or []))):
             continue
         try:
@@ -907,8 +1064,7 @@ def cofactores_sin_plantilla(
         if distancia <= MARGEN_SITIO_A:
             en_el_sitio.append(fila)
         else:
-            origen = _FOSFO_A_ORIGEN.get(resname)
-            fila["action"] = f"convertido a {origen[0]}, sin fosfato" if origen else "retirado"
+            fila["action"] = "retirado"
             fuera_del_sitio.append(fila)
     return en_el_sitio, fuera_del_sitio
 
@@ -916,11 +1072,7 @@ def cofactores_sin_plantilla(
 def retirar_cofactores_fuera_del_sitio(
     raw_content: str, fuera_del_sitio: list[dict[str, object]],
 ) -> str:
-    """Aplica la acción declarada a cada instancia lejana del sitio.
-
-    Los fosfo-residuos pasan a su aminoácido de origen (registro ATOM, sin los
-    átomos del fosfato) para no abrir un hueco en la cadena; el resto se retira.
-    """
+    """Retira cada instancia sin plantilla lejana del sitio (declarada por el llamador)."""
     objetivo = {
         (str(f["chain"]), str(f["residue_number"]), str(f["insertion_code"]), str(f["name"]))
         for f in fuera_del_sitio
@@ -931,11 +1083,7 @@ def retirar_cofactores_fuera_del_sitio(
             key = (line[21:22].strip() or "A", line[22:26].strip(),
                    line[26:27].strip(), line[17:20].strip())
             if key in objetivo:
-                origen = _FOSFO_A_ORIGEN.get(key[3])
-                if (origen is None or not line.startswith("HETATM")
-                        or line[12:16].strip() not in origen[1]):
-                    continue
-                line = "ATOM  " + line[6:17] + f"{origen[0]:>3}" + line[20:]
+                continue
         salida.append(line)
     return "".join(salida)
 
@@ -1177,16 +1325,16 @@ async def prepare_target(
             cadenas_pedidas=sorted(cadenas),
         )
         compartido_local.parent.mkdir(parents=True, exist_ok=True)
-        compartido_local.write_text(
-            _filter_pdb_content(
-                raw_content,
-                chain_id=cadenas,
-                keep_hetatm=True,
-                cofactors_whitelist=cofactors_whitelist,
-                site_ligand=site_ligand,
-            ),
-            encoding="utf-8",
+        compartido = _filter_pdb_content(
+            raw_content,
+            chain_id=cadenas,
+            keep_hetatm=True,
+            cofactors_whitelist=cofactors_whitelist,
+            site_ligand=site_ligand,
         )
+        # El rescoring puntúa el mismo receptor que se acopla, con el mismo truncado.
+        compartido = truncar_cadenas_laterales_incompletas(compartido, center, size)[0]
+        compartido_local.write_text(compartido, encoding="utf-8")
         log.info("pdb_persisted_for_rescoring", path=str(compartido_local))
 
     prepare_receptor_cmd = _resolve_executable(settings.meeko_prepare_receptor_path)
@@ -1209,6 +1357,12 @@ async def prepare_target(
             cofactors_whitelist=cofactors_whitelist,
             site_ligand=site_ligand,
         )
+        # Antes del recorte: se decide sobre la cadena entera, se recorta después.
+        filtered_content, cadenas_truncadas = truncar_cadenas_laterales_incompletas(
+            filtered_content, center, size)
+        if cadenas_truncadas:
+            log.info("cadenas_laterales_truncadas", pdb_id=pdb_id, total=len(cadenas_truncadas),
+                     en_el_sitio=sum(1 for f in cadenas_truncadas if f["site_critical"]))
         if multicadena:
             # El recorte al sitio NO es opcional aquí: conservar los oligómeros
             # enteros reintroduciría los receptores de 5 y 10 MB que la v1.6
@@ -1272,6 +1426,9 @@ async def prepare_target(
             "--box_size", str(size_x), str(size_y), str(size_z),
             "--box_center", str(center_x), str(center_y), str(center_z),
         ]
+        if RUTA_PLANTILLAS_COFACTORES.is_file():
+            # Sin esto Meeko buscaría en la red la definición de cada cofactor.
+            command += ["--add_templates", str(RUTA_PLANTILLAS_COFACTORES)]
 
         log.debug(
             "Invocando mk_prepare_receptor.py",
@@ -1483,6 +1640,8 @@ async def prepare_target(
             "recipe_hash": recipe_hash,
             "receptor_sha256": hashlib.sha256(output_pdbqt.read_bytes()).hexdigest(),
             "removed_residues": removed,
+            "truncated_sidechains": cadenas_truncadas,
+            "cofactor_templates_sha256": _plantillas_sha256(),
             "cofactors_outside_site": cofactores_fuera,
             "meeko_reported_residues": sorted(set(
                 f"{m.group(2)}:{m.group(3)}"

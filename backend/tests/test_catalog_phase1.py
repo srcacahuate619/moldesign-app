@@ -8,7 +8,11 @@ from pathlib import Path
 from services.docking.selectivity import ANTI_TARGET_PANEL
 
 ROOT = Path(__file__).resolve().parents[2]
-MANIFEST = ROOT / "docs/catalog_versions/audit-phase-1-2026-09-24.json"
+#: El manifiesto VIGENTE es el de fecha más alta; los anteriores se conservan como
+#: procedencia (cada uno declara qué versión reemplaza). Se ordena por la fecha
+#: del nombre, no alfabéticamente: `aaa-2026-01` no puede adelantar a `zzz-2026-09`.
+MANIFEST = max((ROOT / "docs/catalog_versions").glob("*-????-??-??.json"),
+               key=lambda p: p.stem[-10:])
 
 
 def test_catalogo_activo_coincide_con_el_manifiesto():
