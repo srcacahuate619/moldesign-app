@@ -47,7 +47,10 @@ def test_hotspots_autogenerados_no_penalizan():
 def test_registro_rechazado_cae_a_constantes_selladas_en_codigo(tmp_path, monkeypatch):
     path = tmp_path / "registry.json"
     data = json.loads(engine._SCI_REGISTRY_PATH.read_text(encoding="utf-8"))
-    data["parameters"]["stacking_default"]["versions"][0]["value"]["vina"] = 0.99
+    # config_hash sella valores activos; v1 es histórica desde fase 6.
+    versions = data["parameters"]["stacking_default"]["versions"]
+    active = next(v for v in reversed(versions) if not v.get("superseded_at"))
+    active["value"]["vina"] = 0.99
     path.write_text(json.dumps(data), encoding="utf-8")
     monkeypatch.setattr(engine, "_SCI_REGISTRY_PATH", path)
     weights, source, registry_hash, _ = engine._get_stacking_weights(

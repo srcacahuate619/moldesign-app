@@ -228,3 +228,43 @@ def test_batch_missing_receptor_no_devuelve_probabilidad(tmp_path):
     assert result["score_a"] is None
     assert result["classifier_prob"] is None
     assert "Features 3D no disponibles" in result["warnings"][0]
+
+@pytest.mark.parametrize("change", ["replace", "remove"])
+def test_cache_no_reutiliza_features_si_cambia_o_desaparece_receptor(tmp_path, monkeypatch, change):
+    from feature_extractor import InteractionFeatureExtractor
+    from pose_filter import PoseFilter
+    from schemas import RescoreRequest
+
+    receptor = tmp_path / "receptor.pdb"
+    receptor.write_text("receptor original", encoding="utf-8")
+    request = RescoreRequest.model_validate({
+        "smiles": "CCO", "target_pdb_path": str(receptor),
+        "poses": [{"pdbqt_block": "pose fija", "vina_score": -8.0}],
+        "molecular_weight": 46.07, "logp": -0.31, "tpsa": 20.23,
+        "hbd": 1, "hba": 1, "rotatable_bonds": 0, "qed": 0.4,
+    })
+    monkeypatch.setattr(PoseFilter, "filter_poses", lambda self, poses, target: {
+        "valid_poses": poses, "poses_passing": len(poses),
+    })
+    reads = []
+    def extract(self, pose, target, **kwargs):
+        if not Path(target).exists(): return None
+        reads.append(Path(target).read_text(encoding="utf-8"))
+        return {"close_contacts_4A": float(len(reads))}
+    monkeypatch.setattr(InteractionFeatureExtractor, "extract_from_pose", extract)
+    class FeaturesReachedModel(Exception): pass
+    def stop_at_model(*args, **kwargs): raise FeaturesReachedModel
+    manager = ModelManager()
+    monkeypatch.setattr(manager, "_contract_safe_vector", stop_at_model)
+    for _ in range(2):
+        with pytest.raises(FeaturesReachedModel): manager.predict(request)
+    assert reads == ["receptor original"]  # La caché sigue sirviendo con bytes iguales.
+    if change == "replace":
+        receptor.write_text("receptor alterado", encoding="utf-8")
+        with pytest.raises(FeaturesReachedModel): manager.predict(request)
+        assert reads == ["receptor original", "receptor alterado"]
+    else:
+        receptor.unlink()
+        result = manager.predict(request)
+        assert result.score_a is None
+        assert result.classifier_prob is None

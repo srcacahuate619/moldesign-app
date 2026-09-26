@@ -79,7 +79,7 @@ class ModelManager:
         # The docked pose is part of the scientific input. Reusing coordinates
         # merely because SMILES + target coincide can score another pose with
         # stale 3D features.
-        self._feature_cache: dict[tuple[str, str, str], dict[str, float]] = {}
+        self._feature_cache: dict[tuple[str, str, str, str], dict[str, float]] = {}
         self._feature_cache_max: int = 256
         # Sólo hay medias de los siete descriptores AD; otras features
         # ausentes invalidan el contrato de predicción.
@@ -531,27 +531,35 @@ class ModelManager:
         # ── 3. Extraer features ──────────────────────────────────────
         extractor = InteractionFeatureExtractor()
 
-        # SMILES + target alone is insufficient when docking is re-run with a
-        # different pose. Include the selected pose coordinates in the key.
-        pose_digest = hashlib.sha256(
-            valid_poses[0].pdbqt_block.encode("utf-8")
-        ).hexdigest()
-        cache_key = (request.smiles, request.target_pdb_path, pose_digest)
-        features_3d = self._feature_cache.get(cache_key)
+        # Las dos geometrías forman la identidad; una ruta mutable no basta.
+        pose_digest = hashlib.sha256(valid_poses[0].pdbqt_block.encode("utf-8")).hexdigest()
+        try:
+            receptor_digest = hashlib.sha256(Path(request.target_pdb_path).read_bytes()).hexdigest()
+        except OSError:
+            receptor_digest = None
+        cache_key = (request.smiles, request.target_pdb_path, receptor_digest, pose_digest)
+        features_3d = self._feature_cache.get(cache_key) if receptor_digest else None
 
         if features_3d is not None:
+            features_3d = features_3d.copy()
             log.debug("feature_cache_hit", smiles=request.smiles[:30])
-        else:
+        elif receptor_digest is not None:
             features_3d = extractor.extract_from_pose(
                 valid_poses[0].pdbqt_block,
                 request.target_pdb_path,
                 smiles=request.smiles,
                 skip_prolif=True,
             )
-            if len(self._feature_cache) >= self._feature_cache_max:
-                first_key = next(iter(self._feature_cache))
-                del self._feature_cache[first_key]
+            # No asociar features a bytes anteriores si la ruta cambió mientras
+            # el extractor trabajaba. La corrida queda no evaluada explícitamente.
+            try:
+                if hashlib.sha256(Path(request.target_pdb_path).read_bytes()).hexdigest() != receptor_digest:
+                    features_3d = None
+            except OSError:
+                features_3d = None
             if features_3d is not None:
+                if len(self._feature_cache) >= self._feature_cache_max:
+                    del self._feature_cache[next(iter(self._feature_cache))]
                 self._feature_cache[cache_key] = features_3d.copy()
 
         if features_3d is not None and not any(

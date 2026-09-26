@@ -159,7 +159,7 @@ def unload_admet_model():
     No hace nada si hay una predicción en curso: el modelo desaparecería entre
     `get_admet_model()` y `predict()`.
     """
-    global _ADMET_MODEL, _tabpfn_classifier, _tabpfn_loaded
+    global _ADMET_MODEL
     with _admet_idle_lock:
         if _admet_en_uso > 0:
             logger.debug("admet_unload_pospuesto", en_uso=_admet_en_uso)
@@ -167,10 +167,6 @@ def unload_admet_model():
         if _ADMET_MODEL is not None:
             del _ADMET_MODEL
             _ADMET_MODEL = None
-        if _tabpfn_classifier is not None:
-            del _tabpfn_classifier
-            _tabpfn_classifier = None
-            _tabpfn_loaded = False
     # Fuera del candado: liberar PyTorch y recolectar cuesta cientos de ms, y
     # sostener el candado ahí bloquea a quien pida una predicción mientras tanto.
     try:

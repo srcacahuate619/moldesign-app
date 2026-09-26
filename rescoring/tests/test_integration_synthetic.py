@@ -355,8 +355,14 @@ class TestSyntheticPipelineIntegration:
         # Step 8: Applicability Domain
         from train_pipeline import ALL_FEATURES
         ad = trainer.build_applicability_domain(vip, primary.train_ids, ALL_FEATURES)
-        assert "threshold_p99" in ad
-        assert "n_features" in ad
+        from applicability_domain import AD_DESCRIPTORS, ApplicabilityDomainChecker
+        assert ad["feature_names"] == AD_DESCRIPTORS
+        assert ad["n_features"] == 7
+        # El artefacto recién entrenado debe poder ser consumido por inferencia.
+        checked = ApplicabilityDomainChecker(ad).check(dict(zip(AD_DESCRIPTORS, ad["mean"])))
+        assert checked.in_domain is True
+        assert checked.mahalanobis_distance == pytest.approx(0.0)
+        assert checked.threshold == ad["threshold"]
 
         # Step 9: Acceptance criteria
         acceptance = trainer.evaluate_acceptance_criteria(

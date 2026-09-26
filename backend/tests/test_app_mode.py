@@ -79,4 +79,4 @@ class TestDesktopModeIsEnforced:
         path = prep.get_target_pdb_path("ZZZ_FAKE_PDB_ID")
         expected = str(Path(prep.settings.local_data_dir) / "targets" / "ZZZ_FAKE_PDB_ID.pdb")
         assert path == expected
-        assert path.startswith(prep.settings.local_data_dir)
+        assert Path(path).resolve().is_relative_to(Path(prep.settings.local_data_dir).resolve())

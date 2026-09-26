@@ -25,8 +25,8 @@ class ApplicabilityDomainChecker:
     """
     Verificador de Applicability Domain basado en distancia de Mahalanobis.
 
-    Si no hay artefacto cargado (Fase 1), es permisivo: todo pasa.
-    Si hay artefacto (post-Fase 2), verifica contra el training set.
+    Sin artefacto compatible devuelve no evaluado. Con un artefacto 7D
+    verifica la distancia respecto al pool de entrenamiento documentado.
     """
 
     def __init__(self, ad_data: dict[str, Any] | None = None):

@@ -110,6 +110,7 @@ export async function getTargetPdb(pdbId: string): Promise<string> {
 
 import { getApiUrl, resetApiUrl } from "./config";
 import { desktopLogin } from "./desktopAuth";
+import { invitadoRecordado, recordarInvitado } from "./traspaso";
 
 // ── Recuperación de un puerto que dejó de ser el del backend ────────────────
 //
@@ -196,7 +197,14 @@ export function getAuthHeaders(): Record<string, string> {
   return {};
 }
 
-let isRefreshing = false;
+function getSessionOwner(): string | null {
+  try {
+    return JSON.parse(localStorage.getItem("moldesign_auth") || "null")?.user?.user_id ?? null;
+  } catch {
+    return null;
+  }
+}
+
 let refreshPromise: Promise<boolean> | null = null;
 
 /** Error HTTP conservando el status para que la UI no confunda 401/403 con
@@ -217,46 +225,48 @@ export class ApiError extends Error {
 async function attemptRefresh(): Promise<boolean> {
   if (refreshPromise) return refreshPromise;
 
+  // Conservar la identidad ANTES de renovar: un 401 no autoriza a convertir
+  // una cuenta personal en invitado. La identidad viene del login por IPC.
+  const stored = localStorage.getItem("moldesign_auth");
   refreshPromise = (async () => {
-    try {
-      const stored = localStorage.getItem("moldesign_auth");
-      if (!stored) return false;
-
-      const { refreshToken, user } = JSON.parse(stored);
-      if (!refreshToken) return false;
-
+    if (!stored) return false;
+    const old = JSON.parse(stored);
+    let data;
+    if (old.refreshToken) {
       const res = await fetch(`${await getApiUrl()}/auth/refresh`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ refresh_token: refreshToken }),
+        body: JSON.stringify({ refresh_token: old.refreshToken }),
       });
-
-      if (!res.ok) throw new Error("Refresh failed");
-
-      const data = await res.json();
-      localStorage.setItem(
-        "moldesign_auth",
-        JSON.stringify({
-          token: data.access_token,
-          refreshToken: data.refresh_token,
-          user: {
-            user_id: data.user_id,
-            username: data.username,
-            email: data.email,
-          },
-        })
-      );
-      return true;
-    } catch (err) {
-      console.error("Token refresh failed:", err);
-      localStorage.removeItem("moldesign_auth");
-      return false;
-    } finally {
-      refreshPromise = null;
+      if (res.ok) data = await res.json();
+      else if (res.status !== 401 && res.status !== 403) {
+        // Un servidor temporalmente caído no invalida la sesión almacenada.
+        throw new ApiError(res.status, await res.text());
+      }
     }
+    if (localStorage.getItem("moldesign_auth") !== stored) return false;
+    if (!data && isDesktopRuntime() && old.user?.user_id &&
+        old.user.user_id === invitadoRecordado()?.user_id) {
+      data = await desktopLogin();
+      if (localStorage.getItem("moldesign_auth") !== stored) return false;
+      // El reinicio debe devolver al mismo dueño, nunca mezclar sus casos.
+      if (data.user_id !== old.user.user_id) return false;
+      recordarInvitado({ user_id: data.user_id, username: data.username, email: data.email });
+    }
+    if (!data?.access_token) return false;
+    localStorage.setItem("moldesign_auth", JSON.stringify({
+      token: data.access_token,
+      refreshToken: data.refresh_token,
+      user: { user_id: data.user_id, username: data.username, email: data.email },
+    }));
+    window.dispatchEvent(new Event("auth_session_changed"));
+    return true;
   })();
-
-  return refreshPromise;
+  try {
+    return await refreshPromise;
+  } finally {
+    refreshPromise = null;
+  }
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
@@ -273,6 +283,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     cache: "no-store" as RequestCache,
   };
 
+  const ownerAtStart = getSessionOwner();
   let response;
   try {
     response = await fetch(fetchUrl, fetchInit);
@@ -292,66 +303,34 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   }
 
   if (response.status === 401) {
-    const refreshed = await attemptRefresh();
+    // Un cambio de cuenta no es una renovación: no reenviar operaciones del
+    // dueño anterior usando las credenciales nuevas.
+    if (getSessionOwner() !== ownerAtStart) {
+      throw new ApiError(401, await response.text());
+    }
+    const failedAuth = (fetchInit.headers as Record<string, string>).Authorization;
+    const currentAuth = getAuthHeaders().Authorization;
+    // Otra petición pudo renovar mientras ésta esperaba su respuesta 401.
+    const refreshed = currentAuth && currentAuth !== failedAuth
+      ? true : await attemptRefresh();
+    const recoveryAuth = getAuthHeaders().Authorization;
     if (refreshed) {
-      // Retry with new headers
       try {
         response = await fetch(fetchUrl, {
           ...fetchInit,
-          headers: {
-            ...fetchInit.headers,
-            ...getAuthHeaders(),
-          },
+          headers: { ...fetchInit.headers, ...getAuthHeaders() },
         });
-      } catch (err) {
-        console.error(`Fetch retry error on ${fetchUrl}:`, err);
-        throw new Error("Error de conexión: No se pudo establecer contacto con el servidor de la API en el reintento.");
+      } catch {
+        throw new Error(ERROR_DE_CONEXION);
       }
-    } else {
-      // Si el refresh falla, borramos el token muerto del storage
-      if (typeof window !== "undefined") {
-        // Detectar si la sesion que caducó era de cuenta PERSONAL (no invitado
-        // Desktop). Si era personal, NO hacer auto-login silencioso: el usuario
-        // podria haber estado separando sus moleculas de las del invitado, asi
-        // que avisarle y dejarle decidir (re-login o entrar como invitado).
-        let wasPersonalAccount = false;
-        try {
-          const old = localStorage.getItem("moldesign_auth");
-          if (old) {
-            const parsed = JSON.parse(old);
-            const uname = parsed?.user?.username;
-            if (uname && uname !== "Desktop User") wasPersonalAccount = true;
-          }
-        } catch {}
-
+    }
+    if (response.status === 401 && typeof window !== "undefined") {
+      // No invalidar una cuenta que cambió durante la petición.
+      const latestAuth = getAuthHeaders().Authorization;
+      if (!latestAuth || latestAuth === (refreshed ? recoveryAuth : failedAuth)) {
         localStorage.removeItem("moldesign_auth");
-        window.dispatchEvent(new Event('auth_expired'));
-
-        if (wasPersonalAccount) {
-          // Cuenta personal caducada: mensaje claro, sin recuperar a invitado
-          // silenciosamente (evita mezclar moleculas de cuentas distintas).
-          if (!window.location.pathname.startsWith("/evaluation")) {
-            window.location.href = "/login?expired=true";
-          }
-          // En /evaluation el error se surfacea via el banner de error del
-          // ProEvaluation cuando el siguiente guardado tira 401/404.
-        } else if (isDesktopRuntime()) {
-          // Invitado Desktop caduco (caso raro): recuperar silenciosamente.
-          desktopLogin()
-            .then((data) => {
-              if (data?.access_token) {
-                localStorage.setItem(
-                  "moldesign_auth",
-                  JSON.stringify({
-                    token: data.access_token,
-                    refreshToken: data.refresh_token,
-                    user: { user_id: data.user_id, username: data.username, email: data.email },
-                  })
-                );
-              }
-            })
-            .catch(() => {});
-        } else if (!window.location.pathname.startsWith("/evaluation")) {
+        window.dispatchEvent(new Event("auth_expired"));
+        if (!window.location.pathname.startsWith("/evaluation")) {
           window.location.href = "/login?expired=true";
         }
       }

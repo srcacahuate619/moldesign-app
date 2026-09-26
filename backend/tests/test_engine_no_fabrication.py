@@ -120,10 +120,22 @@ class TestScoreBreakdownDefaults:
         assert data["stacking_degraded"] is True
         assert data["degraded_missing"] == ["clgnn", "gnn"]
 
-def test_pesos_efectivos_reflejan_renormalizacion_real():
+@pytest.mark.parametrize("xgb_weight", [0.0, 0.75])
+def test_pesos_efectivos_reflejan_renormalizacion_real(monkeypatch, xgb_weight):
     """Una corrida degradada debe poder reconstruirse despues de persistirla."""
     from core.models import DockingPose, DockingResult, PhysicochemicalProperties
     from scoring.engine import calculate_score_breakdown
+
+    # ML informativo y configuración que requiere XGB, sin reactivar producción.
+    configured = {"vina": 1.0 - xgb_weight, "xgb": xgb_weight,
+                  "gnn": 0.0, "clgnn": 0.0}
+    monkeypatch.setattr(
+        engine_mod, "_get_stacking_weights",
+        lambda family, *, with_provenance=False: (
+            (configured, "test_fixture", None, None)
+            if with_provenance else configured
+        ),
+    )
 
     docking = DockingResult(
         best_affinity=-8.0,
@@ -140,8 +152,8 @@ def test_pesos_efectivos_reflejan_renormalizacion_real():
         target_family="default",
     )
 
-    assert breakdown.stacking_degraded is True
-    assert breakdown.degraded_missing == ["xgb"]
+    assert breakdown.stacking_degraded is (xgb_weight > 0)
+    assert breakdown.degraded_missing == (["xgb"] if xgb_weight > 0 else [])
     # El checkpoint CL-GNN incluido aún no tiene validación externa para su
     # SHA-256 exacto: produce una señal auditable, pero no decide el ranking.
     assert breakdown.stacking_effective_weights == {

@@ -162,8 +162,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(null);
       localStorage.removeItem("moldesign_auth");
     };
+    const handleSessionChanged = () => {
+      const stored = localStorage.getItem("moldesign_auth");
+      if (!stored) return;
+      const data = JSON.parse(stored);
+      setToken(data.token);
+      setRefreshToken(data.refreshToken);
+      setUser(data.user);
+    };
+    window.addEventListener("auth_session_changed", handleSessionChanged);
     window.addEventListener('auth_expired', handleAuthExpired);
-    return () => window.removeEventListener('auth_expired', handleAuthExpired);
+    return () => {
+      window.removeEventListener('auth_expired', handleAuthExpired);
+      window.removeEventListener("auth_session_changed", handleSessionChanged);
+    };
   }, []);
 
   const _persist = useCallback((tok: string, refTok: string, u: User) => {
