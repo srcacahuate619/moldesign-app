@@ -62,7 +62,7 @@ def test_el_numero_de_anti_targets_anunciado_es_el_que_hay():
     from services.docking.selectivity import ANTI_TARGET_PANEL
 
     reales = len(ANTI_TARGET_PANEL)
-    assert reales == 3, (
+    assert reales == 2, (
         f"el panel cambió a {reales} anti-targets: actualiza esta prueba Y el "
         "texto de la interfaz, que los anuncia por número."
     )

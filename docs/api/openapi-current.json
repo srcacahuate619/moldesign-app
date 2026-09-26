@@ -6258,6 +6258,11 @@
             ],
             "title": "Description"
           },
+          "disponible": {
+            "default": true,
+            "title": "Disponible",
+            "type": "boolean"
+          },
           "grid_calibrated": {
             "description": "True si el grid center no es (0,0,0) — señal de grid razonable.",
             "readOnly": true,
@@ -6389,6 +6394,17 @@
             "default": false,
             "title": "Is Private",
             "type": "boolean"
+          },
+          "motivo_no_disponible": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Motivo No Disponible"
           },
           "name": {
             "title": "Name",
@@ -12744,7 +12760,7 @@
     },
     "/pro/anti-targets": {
       "get": {
-        "description": "List available anti-targets: hardcoded defaults + user-uploaded from DB.",
+        "description": "Panel por defecto, sugeridas de Bowes 2012 y anti-dianas del usuario.\n\nCada entrada declara `por_defecto` (si la interfaz la marca al abrir) y\n`disponible`/`motivo_no_disponible` (si hoy se puede preparar su receptor).",
         "operationId": "list_anti_targets_pro_anti_targets_get",
         "parameters": [
           {

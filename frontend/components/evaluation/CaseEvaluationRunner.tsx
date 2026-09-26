@@ -542,7 +542,7 @@ export default function CaseEvaluationRunner({
         pro_workers: 4,
         pro_parallel_docks: 2,
         pro_selectivity: false,
-        pro_anti_targets: ["5VA1", "4NY4", "4NC3", "1SO2", "6MVW"],
+        pro_anti_targets: ["5VA1", "4NC3"],
         pro_mmgbsa: false,
         pro_mmgbsa_steps: 1000,
         gnn_precision: "fp32",

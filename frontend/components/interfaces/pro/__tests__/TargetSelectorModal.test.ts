@@ -53,3 +53,14 @@ describe("coste de abrir el selector de receptores", () => {
     expect(source).toContain('contentVisibility: "auto"');
   });
 });
+
+describe("dianas que hoy no se pueden preparar (DOCK-003/DOCK-002)", () => {
+  // Siguen en el catálogo —ocultarlas lo vaciaría—, pero elegirlas haría fallar
+  // la corrida al preparar el receptor.
+  it("se muestran con su motivo y no se pueden elegir", () => {
+    expect(source).toContain("const noDisponible = targetObj.disponible === false;");
+    expect(source).toContain("if (noDisponible) return;");
+    expect(source).toContain('t("pn_no_disponible")');
+    expect(source).toContain("targetObj.motivo_no_disponible");
+  });
+});

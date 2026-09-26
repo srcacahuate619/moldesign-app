@@ -344,23 +344,35 @@ export default function TargetSelectorModal({
                 {/* Target Cards Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                   {familyTargets.map(targetObj => {
-                    const isSelected = 
+                    const isSelected =
                       (targetObj.pdb_id && selectedTargetId && targetObj.pdb_id.toLowerCase() === selectedTargetId.toLowerCase()) ||
                       (targetObj.id && selectedTargetId && targetObj.id.toLowerCase() === selectedTargetId.toLowerCase());
+                    // DOCK-003: se muestra con su motivo, pero no se puede elegir.
+                    const noDisponible = targetObj.disponible === false;
 
                     return (
-                      <div 
+                      <div
                         key={targetObj.pdb_id || targetObj.id}
+                        aria-disabled={noDisponible || undefined}
                         onClick={() => {
+                          if (noDisponible) return;
                           onSelect(targetObj.pdb_id || targetObj.id || "");
                           onClose();
                         }}
-                        className={`target-card group relative flex flex-col p-4 rounded-xl border transition-colors duration-150 cursor-pointer ${
-                          isSelected 
-                            ? "bg-zinc-900 border-purple-500/50 text-white"
-                            : "bg-zinc-900/50 border-zinc-800/80 hover:border-purple-500/30 hover:bg-zinc-900"
+                        className={`target-card group relative flex flex-col p-4 rounded-xl border transition-colors duration-150 ${
+                          noDisponible
+                            ? "cursor-not-allowed opacity-60 bg-zinc-900/30 border-zinc-800/60"
+                            : isSelected
+                            ? "cursor-pointer bg-zinc-900 border-purple-500/50 text-white"
+                            : "cursor-pointer bg-zinc-900/50 border-zinc-800/80 hover:border-purple-500/30 hover:bg-zinc-900"
                         }`}
                       >
+                        {noDisponible && (
+                          <div className="mb-2 rounded-lg border border-amber-500/30 bg-amber-950/20 px-2.5 py-2 font-mono text-[9px] text-amber-200/90">
+                            <span className="font-bold uppercase">{t("pn_no_disponible")}</span>
+                            {targetObj.motivo_no_disponible ? ` · ${targetObj.motivo_no_disponible}` : ""}
+                          </div>
+                        )}
                         {isSelected && (
                           <div className="absolute top-3 right-3">
                             <span className="bg-purple-950/60 border border-purple-500/30 text-purple-300 text-[9px] font-mono font-bold uppercase px-2 py-0.5 rounded shadow-sm flex items-center gap-1">

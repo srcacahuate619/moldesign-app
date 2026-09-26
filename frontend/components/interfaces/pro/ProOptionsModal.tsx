@@ -105,7 +105,7 @@ const DEFAULT_ADVANCED: AdvancedConfig = {
   numWorkers: 4,
   parallelDocks: 2,
   enableSelectivity: false,
-  selectedAntiTargets: ["5VA1", "4NY4", "4NC3", "1SO2", "6MVW"],
+  selectedAntiTargets: ["5VA1", "4NC3"],
   // 7.4 es el de siempre: una corrida que no lo toque produce exactamente el
   // mismo SMILES protonado, el mismo hash y la misma entrada de caché que
   // antes de que este campo existiera. Verificado sobre cuatro moléculas.

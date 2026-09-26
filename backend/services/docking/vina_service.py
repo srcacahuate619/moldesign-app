@@ -19,6 +19,7 @@ import asyncio
 import hashlib
 import importlib.metadata
 import json
+import math
 import os
 import subprocess
 import re
@@ -728,30 +729,31 @@ def _check_ligand_fits_box(
 ) -> str | None:
     """Verifica que el ligando quepa en la caja de docking con margen de solvatacion.
 
-    Retorna un warning string si el ligando excede la caja, None si esta OK.
+    DOCK-012: se compara el DIÁMETRO del ligando (máxima distancia entre dos
+    átomos), que no depende de cómo orientó ETKDG el confórmero de entrada. La
+    extensión por ejes sí dependía: el mismo ligando disparaba o no el aviso
+    según la semilla. Retorna un warning string si no cabe, None si está OK.
     """
     try:
         coords = []
         with open(ligand_pdbqt) as f:
             for line in f:
                 if line.startswith(("ATOM", "HETATM")):
-                    x = float(line[30:38].strip())
-                    y = float(line[38:46].strip())
-                    z = float(line[46:54].strip())
-                    coords.append([x, y, z])
-        if not coords:
-            return None
-        coords = __import__("numpy").array(coords)
-        ligand_dim = coords.max(axis=0) - coords.min(axis=0)
-        for i, axis in enumerate(["X", "Y", "Z"]):
-            if ligand_dim[i] + margin > box_size[i]:
-                return (
-                    f"Ligando excede caja de docking en eje {axis}: "
-                    f"{ligand_dim[i]:.1f}A + {margin:.1f}A margen > {box_size[i]:.1f}A caja. "
-                    f"Target: {target_pdb_id}. Posible clipping estructural."
-                )
-    except Exception:
-        pass
+                    coords.append(tuple(float(line[i:i + 8]) for i in (30, 38, 46)))
+    except (OSError, ValueError) as exc:
+        log.warning("ligand_box_check_unreadable", path=str(ligand_pdbqt), error=str(exc))
+        return None
+    if len(coords) < 2:
+        return None
+    diametro = max(math.dist(a, b) for i, a in enumerate(coords) for b in coords[i + 1:])
+    lado_menor = min(float(v) for v in box_size)
+    if diametro + margin > lado_menor:
+        return (
+            f"El diámetro del ligando ({diametro:.1f} Å) más {margin:.1f} Å de margen "
+            f"supera el lado menor de la caja ({lado_menor:.1f} Å). Target: {target_pdb_id}. "
+            "Vina puede rotar el ligando, pero no hay una orientación que garantice que "
+            "quepa entero: revise si las poses tocan el borde."
+        )
     return None
 
 
@@ -855,6 +857,19 @@ async def run_vina_docking(
                 "RESIDUOS_ELIMINADOS_FUERA_DEL_SITIO",
                 Severidad.PRECAUCION,
                 f"Meeko eliminó residuos del receptor fuera del margen crítico: {label}.",
+            ))
+        fuera = preparation_report.get("cofactors_outside_site") or []
+        if fuera:
+            label = ", ".join(
+                f"{row['name']} {row['chain']}:{row['residue_number']} "
+                f"({row['distance_to_box_A']} Å de la caja, {row['action']})"
+                for row in fuera
+            )
+            preparation_warnings.append(aviso(
+                "COFACTORES_SIN_PLANTILLA_FUERA_DEL_SITIO",
+                Severidad.PRECAUCION,
+                "Cofactores o residuos modificados sin plantilla Meeko validada, "
+                f"lejos del sitio: {label}. No forman parte de la cavidad acoplada.",
             ))
     receptor_snapshot_path = StoragePath.prepared_receptor_snapshot(receptor_sha256)
     # Se materializa incluso ante cache hit: caches creados antes de este
@@ -1268,6 +1283,10 @@ async def run_vina_docking(
                         ),
                         "removed_residues": (
                             preparation_report.get("removed_residues")
+                            if preparation_report else None
+                        ),
+                        "cofactors_outside_site": (
+                            preparation_report.get("cofactors_outside_site")
                             if preparation_report else None
                         ),
                         "chain": target_chain,

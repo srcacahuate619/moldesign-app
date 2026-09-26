@@ -83,7 +83,7 @@ KNOWN_MOLECULES: dict[str, str] = {
     "ibuprofeno": "CC(C)Cc1ccc(C(C)C(=O)O)cc1",
     "paracetamol": "CC(=O)Nc1ccc(O)cc1",
     "acetaminofen": "CC(=O)Nc1ccc(O)cc1",
-    "naproxeno": "COc1ccc2cc(ccc2c1)C(C)C(=O)O",
+    "naproxeno": "C[C@@H](C1=CC2=C(C=C1)C=C(C=C2)OC)C(=O)O",
     "diclofenaco": "OC(=O)Cc1ccccc1Nc1c(Cl)cccc1Cl",
     "ketorolaco": "OC(=O)C1CCn2c1ccc2C(=O)c1ccccc1",
     "metamizol": "CN(CS(=O)(=O)O)C1=C(C)N(C)N(c2ccccc2)C1=O",
@@ -123,7 +123,7 @@ KNOWN_MOLECULES: dict[str, str] = {
     # ── CNS: antidepresivos ──────────────────────────────────────────────
     "fluoxetina": "CNCCC(C1=CC=CC=C1)OC2=CC=C(C=C2)C(F)(F)F",
     "sertralina": "CN[C@H]1CC[C@@H](c2ccc(Cl)c(Cl)c2)c2ccccc21",
-    "paroxetina": "Fc1ccc(cc1)C1CCNCC1COc1ccc2OCOc2c1",
+    "paroxetina": "C1CNC[C@H]([C@@H]1C2=CC=C(C=C2)F)COC3=CC4=C(C=C3)OCO4",
     "citalopram": "CN(C)CCCC1(c2ccc(F)cc2)OCc2cc(C#N)ccc21",
     "venlafaxina": "CN(C)CC(c1ccc(OC)cc1)C1(O)CCCCC1",
     "mirtazapina": "CN1CCN2c3ncccc3Cc3ccccc3C2C1",
@@ -169,7 +169,7 @@ KNOWN_MOLECULES: dict[str, str] = {
     "losartan potasico": "SALT: losartan K+ (usar 'losartan')",
     "valsartan": "CCCCC(=O)N(Cc1ccc(cc1)-c1ccccc1-c1nnn[nH]1)[C@@H](C(C)C)C(=O)O",
     "enalapril": "CCOC(=O)[C@H](CCc1ccccc1)N[C@@H](C)C(=O)N1CCC[C@H]1C(=O)O",
-    "captopril": "CC(CS)C(=O)N1CCC[C@H]1C(=O)O",
+    "captopril": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)O",
     "lisinopril": "NCCCC[C@H](N[C@@H](CCc1ccccc1)C(=O)O)C(=O)N1CCC[C@H]1C(=O)O",
     "metoprolol": "CC(C)NCC(O)COc1ccc(CCOC)cc1",
     "atenolol": "CC(C)NCC(O)COc1ccc(CC(N)=O)cc1",
@@ -185,10 +185,10 @@ KNOWN_MOLECULES: dict[str, str] = {
     "digoxina": "STEROID GLYCOSIDE: complex, no SMILES en este dict",
 
     # ── Antibióticos ─────────────────────────────────────────────────────
-    "penicilina": "CC1(C(N2C(S1)C(C2=O)NC(=O)Cc3ccccc3)C(=O)O)C",
-    "penicilina g": "CC1(C(N2C(S1)C(C2=O)NC(=O)Cc3ccccc3)C(=O)O)C",
-    "penicillin g": "CC1(C(N2C(S1)C(C2=O)NC(=O)Cc3ccccc3)C(=O)O)C",
-    "amoxicilina": "CC1(C(N2C(S1)C(C2=O)NC(=O)C(C3=CC=C(C=C3)O)N)C(=O)O)C",
+    "penicilina": "CC1([C@@H](N2[C@H](S1)[C@@H](C2=O)NC(=O)CC3=CC=CC=C3)C(=O)O)C",
+    "penicilina g": "CC1([C@@H](N2[C@H](S1)[C@@H](C2=O)NC(=O)CC3=CC=CC=C3)C(=O)O)C",
+    "penicillin g": "CC1([C@@H](N2[C@H](S1)[C@@H](C2=O)NC(=O)CC3=CC=CC=C3)C(=O)O)C",
+    "amoxicilina": "CC1([C@@H](N2[C@H](S1)[C@@H](C2=O)NC(=O)[C@@H](C3=CC=C(C=C3)O)N)C(=O)O)C",
     "ampicilina": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccccc3)C(=O)N2[C@H]1C(=O)O",
     "azitromicina": "MACROLIDE: complex, no SMILES en este dict",
     "claritromicina": "MACROLIDE: complex, no SMILES en este dict",
@@ -214,16 +214,16 @@ KNOWN_MOLECULES: dict[str, str] = {
     # ── Neurotransmisores / monoaminas ───────────────────────────────────
     "dopamina": "C1=CC(=C(C=C1CCN)O)O",
     "serotonina": "C1=CC2=C(C=C1O)C(=C[NH]2)CCN",
-    "adrenalina": "CNCC(C1=CC(=C(C=C1)O)O)O",
-    "epinefrina": "CNCC(C1=CC(=C(C=C1)O)O)O",
+    "adrenalina": "CNC[C@@H](C1=CC(=C(C=C1)O)O)O",
+    "epinefrina": "CNC[C@@H](C1=CC(=C(C=C1)O)O)O",
     "noradrenalina": "NC[C@H](O)c1ccc(O)c(O)c1",
     "norepinefrina": "NC[C@H](O)c1ccc(O)c(O)c1",
     "histamina": "NCCc1cnc[nH]1",
     "acetilcolina": "CC(=O)OCC[N+](C)(C)C",
     "gaba": "NCCCC(=O)O",
-    "glutamato": "NC(CCC(=O)O)C(=O)O",
-    "nicotina": "CN1CCCC1c1cccnc1",
-    "nicotine": "CN1CCCC1c1cccnc1",
+    "glutamato": "C(CC(=O)O)[C@@H](C(=O)O)N",
+    "nicotina": "CN1CCC[C@H]1C2=CN=CC=C2",
+    "nicotine": "CN1CCC[C@H]1C2=CN=CC=C2",
     "cafeina": "Cn1c(=O)c2c(ncn2C)n(C)c1=O",
     "cafeina_energia": "REMOVE — replaced below",
 
@@ -260,13 +260,13 @@ KNOWN_MOLECULES: dict[str, str] = {
 }
 
 # ORQ-001: nombres enantiopuros cuyo SMILES local carecía de estereoquímica.
-# Un nombre de fármaco no puede acoplar una configuración arbitraria.
-# Se reincorporarán uno por uno con SMILES isomérico e InChIKey completo.
-NOMBRES_ESTEREO_PENDIENTE: frozenset[str] = frozenset({
-    "naproxeno", "paroxetina", "captopril", "penicilina", "penicilina g",
-    "penicillin g", "amoxicilina", "adrenalina", "epinefrina",
-    "glutamato", "nicotina", "nicotine",
-})
+# Un nombre de fármaco no puede acoplar una configuración arbitraria. Los doce
+# que estuvieron aquí (naproxeno, paroxetina, captopril, penicilina G y sus
+# alias, amoxicilina, adrenalina/epinefrina, glutamato, nicotina) volvieron el
+# 2026-09-26 con el SMILES isomérico de PubChem; `test_known_molecules.py`
+# fija su InChIKey completo y la configuración CIP de cada centro. Un nombre
+# que vuelva a necesitar cuarentena se añade aquí y deja de publicarse.
+NOMBRES_ESTEREO_PENDIENTE: frozenset[str] = frozenset()
 for _nombre_ambiguo in NOMBRES_ESTEREO_PENDIENTE:
     KNOWN_MOLECULES.pop(_nombre_ambiguo, None)
 

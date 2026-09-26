@@ -71,6 +71,13 @@ export interface Target {
    * como «sin comprobar», nunca como «calibrado».
    */
   calibracion?: Calibracion | null;
+  /**
+   * DOCK-003/DOCK-002. `false` si la preparación del receptor se detiene hoy.
+   * La diana sigue en el catálogo y se muestra con su motivo, pero no se
+   * ofrece para evaluar. Ausente en respuestas anteriores: se lee como disponible.
+   */
+  disponible?: boolean;
+  motivo_no_disponible?: string | null;
   hotspot_count?: number;
   is_prepared?: boolean;
   grid_calibrated?: boolean;

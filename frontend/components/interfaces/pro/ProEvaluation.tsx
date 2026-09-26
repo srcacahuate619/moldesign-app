@@ -345,7 +345,7 @@ export default function ProEvaluation({
     numWorkers: initialRunConfiguration?.pipelineConfig?.pro_workers ?? 4,
     parallelDocks: initialRunConfiguration?.pipelineConfig?.pro_parallel_docks ?? 2,
     enableSelectivity: initialRunConfiguration?.pipelineConfig?.pro_selectivity ?? false,
-    selectedAntiTargets: [...(initialRunConfiguration?.pipelineConfig?.pro_anti_targets ?? ["5VA1", "4NY4", "4NC3", "1SO2", "6MVW"])],
+    selectedAntiTargets: [...(initialRunConfiguration?.pipelineConfig?.pro_anti_targets ?? ["5VA1", "4NC3"])],
     enableMMGBSA: false,
     mmgbsaSteps: initialRunConfiguration?.pipelineConfig?.pro_mmgbsa_steps ?? 1000,
     // ADMET-AI es OPT-IN. `!== false` encendía el interruptor siempre que la

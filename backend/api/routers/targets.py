@@ -18,6 +18,7 @@ from core.models import Target, TargetORM, UserORM
 from db.repository import Repository
 from api.dependencies import get_current_user, get_current_user_optional
 from services.targets.calibracion import estado_de_calibracion
+from services.targets.disponibilidad import motivo_no_disponible
 from services.targets.access import (
     get_target_for_user,
     require_target_object_access,
@@ -257,6 +258,10 @@ async def list_targets(
         # significa «calibrado», y hoy no lo tiene ninguno. Que la interfaz
         # tenga el dato es lo que impide que los presente todos igual.
         t_schema.calibracion = estado_de_calibracion(t).to_dict()
+        # Una diana que hoy no se puede preparar se lista igual, con su motivo:
+        # ocultarla borraría el catálogo; ofrecerla haría fallar la corrida.
+        t_schema.motivo_no_disponible = motivo_no_disponible(t.pdb_id)
+        t_schema.disponible = t_schema.motivo_no_disponible is None
 
         # Enriquecer hotspots con coordenadas si el PDB existe
         if t_schema.hotspots:

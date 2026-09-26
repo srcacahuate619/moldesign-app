@@ -735,6 +735,9 @@ def build_bundle(root: Path) -> Path:
         Path("tools/openbabel/bin/obabel.exe"),
         Path("tools/openbabel/openbabel-manifest.json"),
         Path("curated_targets.json"),
+        # Sin él, las dianas que hoy no se pueden preparar se ofrecerían como
+        # disponibles y fallarían al evaluar (DOCK-003).
+        Path("backend/data/disponibilidad_catalogo.json"),
     ]
     critical = {}
     for relative in critical_relative:

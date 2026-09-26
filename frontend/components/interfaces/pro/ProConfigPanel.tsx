@@ -34,6 +34,18 @@ interface AntiTarget {
   risk: string;
   threshold_kcal: number;
   source?: string;
+  /** Si se marca al abrir. Las sugeridas de Bowes 2012 llegan en `false`. */
+  por_defecto?: boolean;
+  /** Si hoy se puede preparar su receptor; ausente se lee como disponible. */
+  disponible?: boolean;
+  motivo_no_disponible?: string | null;
+}
+
+/** Se marcan al abrir sólo las del panel por defecto que se pueden preparar. */
+export function antiDianasPorDefecto(list: AntiTarget[]): string[] {
+  return list
+    .filter((a) => a.por_defecto !== false && a.disponible !== false)
+    .map((a) => a.pdb_id);
 }
 
 export interface ProConfig {
@@ -100,11 +112,12 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
           const data = await r.json();
           const list = data.anti_targets || [];
           setAntiTargets(list);
-          // Select all by default if not already initialized
+          // Marcar el panel por defecto, no todo lo ofrecido: cada anti-diana
+          // es un acoplamiento más por corrida.
           if (config.selectedAntiTargets.length === 0) {
             onChange({
               ...config,
-              selectedAntiTargets: list.map((a: AntiTarget) => a.pdb_id),
+              selectedAntiTargets: antiDianasPorDefecto(list),
             });
           }
           return;
@@ -272,10 +285,13 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
                 {config.enableSelectivity && (
                   <div className="pl-6 space-y-1.5">
                     {antiTargets.map((at) => (
-                      <label key={at.pdb_id} className="flex items-center gap-2 cursor-pointer group">
+                      <label key={at.pdb_id}
+                        title={at.disponible === false ? (at.motivo_no_disponible ?? undefined) : undefined}
+                        className={`flex items-center gap-2 group ${at.disponible === false ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}>
                         <input
                           type="checkbox"
-                          checked={config.selectedAntiTargets.includes(at.pdb_id)}
+                          disabled={at.disponible === false}
+                          checked={at.disponible !== false && config.selectedAntiTargets.includes(at.pdb_id)}
                           onChange={() => toggleAntiTarget(at.pdb_id)}
                           className="w-3.5 h-3.5 rounded border-zinc-300 dark:border-zinc-600 bg-zinc-100 dark:bg-zinc-700 text-amber-500 focus:ring-0"
                         />
@@ -288,6 +304,9 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
                         )}
                         {at.source === "default" && (
                           <span className="text-[9px] px-1 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700/50 text-zinc-500 font-mono">{t("pn_catalogo")}</span>
+                        )}
+                        {at.disponible === false && (
+                          <span className="text-[9px] px-1 py-0.5 rounded bg-amber-500/10 text-amber-500 font-mono">{t("pn_no_disponible")}</span>
                         )}
                         <div className="relative group/tip">
                           <Info className="w-3 h-3 text-zinc-400 dark:text-zinc-600 group-hover/tip:text-zinc-800 dark:group-hover/tip:text-zinc-400" />

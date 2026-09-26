@@ -295,3 +295,34 @@ def test_nombres_enantiopuros_sin_referencia_no_entregan_smiles(nombre):
     from services.ai.known_molecules import get_smiles_by_name
     assert get_smiles_by_name(nombre) is None
     assert nombre not in KNOWN_SMILES
+
+
+#: ORQ-001. Reincorporados el 2026-09-26 con el SMILES isomérico de PubChem
+#: (CID entre paréntesis). El InChIKey completo fija la estereoquímica; la
+#: configuración CIP es la del fármaco según su nombre IUPAC.
+REFERENCIA_ESTEREO = {
+    "naproxeno": ("CMWTZPSULFXXJA-VIFPVBQESA-N", ["S"]),                      # CID 156391, (S)
+    "paroxetina": ("AHOUBRCZNHFOSL-YOEHRIQHSA-N", ["R", "S"]),                # CID 43815, (3S,4R)
+    "captopril": ("FAKRSMQSSFJEIM-RQJHMYQMSA-N", ["S", "S"]),                 # CID 44093
+    "penicilina": ("JGSARLDLIJGVTE-MBNYWOFBSA-N", ["R", "R", "S"]),           # CID 5904, (2S,5R,6R)
+    "penicilina g": ("JGSARLDLIJGVTE-MBNYWOFBSA-N", ["R", "R", "S"]),
+    "penicillin g": ("JGSARLDLIJGVTE-MBNYWOFBSA-N", ["R", "R", "S"]),
+    "amoxicilina": ("LSQZJLSUYDQPKJ-NJBDSQKTSA-N", ["R", "R", "R", "S"]),     # CID 33613
+    "adrenalina": ("UCTWMZQNUQWSLP-VIFPVBQESA-N", ["R"]),                     # CID 5816, (R)
+    "epinefrina": ("UCTWMZQNUQWSLP-VIFPVBQESA-N", ["R"]),
+    "glutamato": ("WHUUTDBJXJRKMK-VKHMYHEASA-N", ["S"]),                      # CID 33032, L
+    "nicotina": ("SNICXCGAKADSCV-JTQLQIEISA-N", ["S"]),                       # CID 89594, (S)
+    "nicotine": ("SNICXCGAKADSCV-JTQLQIEISA-N", ["S"]),
+}
+
+
+@pytest.mark.parametrize("nombre", sorted(REFERENCIA_ESTEREO))
+def test_enantiopuros_reincorporados_con_estereoquimica_completa(nombre):
+    """Un nombre enantiopuro devuelve SU estereoisómero, no uno cualquiera."""
+    from services.ai.known_molecules import get_smiles_by_name
+
+    inchikey, cip_esperado = REFERENCIA_ESTEREO[nombre]
+    mol = Chem.MolFromSmiles(get_smiles_by_name(nombre))
+    assert Chem.MolToInchiKey(mol) == inchikey
+    centros = Chem.FindMolChiralCenters(mol, includeUnassigned=True, useLegacyImplementation=False)
+    assert sorted(cip for _, cip in centros) == sorted(cip_esperado)

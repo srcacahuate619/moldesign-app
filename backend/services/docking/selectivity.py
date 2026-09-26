@@ -53,8 +53,14 @@ log = get_logger(__name__)
 settings = get_settings()
 
 # -- Anti-target panel ----------------------------------------------------------
-# Curated from Bowes et al. 2012 and AstraZeneca safety panels.
-# Each anti-target has a PDB ID, grid box, and clinical relevance.
+# Referencia: Bowes et al. 2012, Nat Rev Drug Discov 11:909-922, tabla 1: panel
+# mínimo de 44 dianas asociadas a reacciones adversas, propuesto por
+# AstraZeneca, GSK, Novartis y Pfizer (lo implementa SafetyScreen44 de Eurofins).
+#
+# Por defecto se acoplan dos dianas de ese panel con cavidad validada: hERG y
+# 5-HT2B. CYP3A4 salió del panel predeterminado: no está entre las 44 (su
+# inhibición es una interacción fármaco-fármaco, que ADMET ya estima) y su
+# estructura 4NY4 no se puede preparar sin plantilla del hemo (DOCK-003).
 
 ANTI_TARGET_PANEL = [
     {
@@ -68,16 +74,6 @@ ANTI_TARGET_PANEL = [
         "affinity_threshold": -7.0,
     },
     {
-        "pdb_id": "4NY4",
-        "name": "CYP3A4",
-        "chain": "A",
-        "category": "Metabolism",
-        "risk": "Inhibir CYP3A4 causa interacciones droga-droga. Responsable del metabolismo >50% de farmacos.",
-        "center": (-21.94, -17.84, -9.84),
-        "size": (22.0, 22.0, 22.0),
-        "affinity_threshold": -8.0,
-    },
-    {
         "pdb_id": "4NC3",
         "name": "5-HT2B (HTR2B)",
         "chain": "A",
@@ -88,6 +84,34 @@ ANTI_TARGET_PANEL = [
         "affinity_threshold": -7.5,
     },
 
+]
+
+#: Otras dianas del panel de Bowes 2012 con estructura humana en el catálogo.
+#: Se OFRECEN al usuario, pero no se marcan por defecto: cada una es un
+#: acoplamiento más por corrida, y un score de Vina entre receptores distintos
+#: es una señal exploratoria, no una selectividad medida. La identidad de cada
+#: PDB se comprobó en su cabecera (COMPND/SOURCE); se excluyeron 4BVN (β1 de
+#: pavo), 1GPK (AChE de Torpedo) y 6Y5A (5-HT3 de ratón), que el catálogo
+#: etiqueta como humanos. Sin `center`/`size`: la caja es la del catálogo.
+ANTI_DIANAS_BOWES_2012 = [
+    {"pdb_id": "7E2Y", "name": "5-HT1A (HTR1A)", "category": "Bowes 2012 · GPCR",
+     "risk": "Receptor serotoninérgico del panel de Bowes 2012: efectos sobre el SNC."},
+    {"pdb_id": "4IAQ", "name": "5-HT1B (HTR1B)", "category": "Bowes 2012 · GPCR",
+     "risk": "Receptor serotoninérgico del panel de Bowes 2012: vasoconstricción, incluida la coronaria."},
+    {"pdb_id": "6WHA", "name": "5-HT2A (HTR2A)", "category": "Bowes 2012 · GPCR",
+     "risk": "Receptor serotoninérgico del panel de Bowes 2012: el agonismo produce efectos alucinógenos."},
+    {"pdb_id": "7BVQ", "name": "β1-adrenérgico (ADRB1)", "category": "Bowes 2012 · GPCR",
+     "risk": "Receptor adrenérgico del panel de Bowes 2012: frecuencia y contractilidad cardiacas."},
+    {"pdb_id": "6PS2", "name": "β2-adrenérgico (ADRB2)", "category": "Bowes 2012 · GPCR",
+     "risk": "Receptor adrenérgico del panel de Bowes 2012: taquicardia, temblor, tono bronquial."},
+    {"pdb_id": "5TGZ", "name": "CB1 (CNR1)", "category": "Bowes 2012 · GPCR",
+     "risk": "Receptor cannabinoide del panel de Bowes 2012: efectos psiquiátricos (retirada del rimonabant)."},
+    {"pdb_id": "8HFE", "name": "NET (SLC6A2)", "category": "Bowes 2012 · Transportador",
+     "risk": "Transportador de noradrenalina del panel de Bowes 2012: efectos cardiovasculares."},
+    {"pdb_id": "2AM9", "name": "Receptor de andrógenos (AR)", "category": "Bowes 2012 · Receptor nuclear",
+     "risk": "Receptor nuclear del panel de Bowes 2012: efectos endocrinos antiandrogénicos."},
+    {"pdb_id": "5F1A", "name": "COX-2 (PTGS2)", "category": "Bowes 2012 · Enzima",
+     "risk": "Enzima del panel de Bowes 2012: riesgo gastrointestinal y cardiovascular."},
 ]
 
 
@@ -125,6 +149,7 @@ async def seleccionar_anti_dianas(
     aparenta es exactamente el defecto que este producto existe para no cometer.
     """
     por_id = {t["pdb_id"]: t for t in ANTI_TARGET_PANEL}
+    bowes = {t["pdb_id"]: t for t in ANTI_DIANAS_BOWES_2012}
 
     if not anti_targets:
         return list(ANTI_TARGET_PANEL), []
@@ -151,12 +176,14 @@ async def seleccionar_anti_dianas(
         if fila is None:
             desconocidas.append(pid)
             continue
+        sugerida = bowes.get(pid, {})
         elegidas.append(
             {
                 "pdb_id": pid,
-                "name": getattr(fila, "name", None) or pid,
-                "category": "Custom",
-                "risk": getattr(fila, "anti_target_risk", None)
+                "name": sugerida.get("name") or getattr(fila, "name", None) or pid,
+                "category": sugerida.get("category") or "Custom",
+                "risk": sugerida.get("risk")
+                or getattr(fila, "anti_target_risk", None)
                 or f"Anti-diana aportada por el usuario: {getattr(fila, 'name', pid)}",
                 "chain": getattr(fila, "chain", None) or "A",
                 # Sin `center`/`size` a propósito: los toma del catálogo el

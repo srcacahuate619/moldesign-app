@@ -1470,6 +1470,12 @@ class Target(BaseModel):
     #: Si no es `None`, este receptor salio del catalogo curado y la interfaz
     #: no debe ofrecerlo para evaluar.
     retired_reason: str | None = None
+    #: DOCK-003/DOCK-002. `False` si la preparación del receptor se detiene hoy
+    #: (cofactor sin plantilla en el sitio, residuos del sitio que Meeko no
+    #: parametriza). A diferencia de `retired_reason`, la diana SIGUE listada:
+    #: la interfaz la muestra con `motivo_no_disponible` y no la ofrece.
+    disponible: bool = True
+    motivo_no_disponible: str | None = None
     affinity_threshold: float | None = -7.5
     is_hot: bool = False
     spearman_rho: float | None = None

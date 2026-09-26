@@ -787,7 +787,9 @@ def resolve_effective_docking_box(
     return derived_center, (derived_size, derived_size, derived_size)
 
 
-RECEPTOR_RECIPE_VERSION = 5
+#: v6: cofactores sin plantilla a más de MARGEN_SITIO_A se retiran o se devuelven
+#: a su aminoácido en vez de bloquear; cambia los bytes de esos receptores.
+RECEPTOR_RECIPE_VERSION = 6
 
 
 def receptor_recipe_hash(
@@ -834,6 +836,110 @@ def receptor_recipe_hash(
     return hashlib.sha256(canonical.encode("ascii")).hexdigest()
 
 
+#: Distancia a la caja (Å) dentro de la cual un residuo o un cofactor forma parte
+#: del sitio. La comparten los residuos que Meeko pierde y los cofactores sin
+#: plantilla: dentro del margen se aborta; fuera, se declara.
+MARGEN_SITIO_A = 6.0
+
+#: Fosfo-residuos que pueden devolverse a su aminoácido de origen retirando el
+#: fosfato, como ya se hace con MSE → MET. Sólo fuera del sitio y declarado.
+_FOSFO_A_ORIGEN: dict[str, tuple[str, frozenset[str]]] = {
+    "SEP": ("SER", frozenset({"N", "CA", "C", "O", "OXT", "CB", "OG"})),
+    "TPO": ("THR", frozenset({"N", "CA", "C", "O", "OXT", "CB", "OG1", "CG2"})),
+    "PTR": ("TYR", frozenset({"N", "CA", "C", "O", "OXT", "CB", "CG", "CD1", "CD2",
+                              "CE1", "CE2", "CZ", "OH"})),
+}
+
+
+def _distancia_a_caja(
+    pos: tuple[float, float, float],
+    center: tuple[float, float, float],
+    size: tuple[float, float, float],
+) -> float:
+    """Distancia euclídea de un punto a la caja; 0 si está dentro."""
+    return math.dist(
+        tuple(max(abs(pos[i] - float(center[i])) - float(size[i]) / 2, 0.0) for i in range(3)),
+        (0.0, 0.0, 0.0),
+    )
+
+
+def cofactores_sin_plantilla(
+    raw_content: str,
+    *,
+    cadenas: set[str],
+    site_ligand: str | None,
+    cofactors_whitelist: list[str] | None,
+    center: tuple[float, float, float],
+    size: tuple[float, float, float],
+) -> tuple[list[dict[str, object]], list[dict[str, object]]]:
+    """Cofactores y residuos modificados que Meeko no sabe parametrizar offline.
+
+    Devuelve ``(en_el_sitio, fuera_del_sitio)``: una fila por instancia
+    (cadena, número, inserción) con su distancia mínima a la caja.
+    ``prepare_target`` aborta si ``en_el_sitio`` no está vacío y transforma
+    ``fuera_del_sitio`` con :func:`retirar_cofactores_fuera_del_sitio`. El
+    inventario de disponibilidad del catálogo usa esta misma función.
+    """
+    instancias: dict[tuple[str, str, str, str], list[tuple[float, float, float]]] = {}
+    for line in raw_content.splitlines():
+        if not line.startswith("HETATM") or len(line) < 54:
+            continue
+        resname = line[17:20].strip()
+        if ((line[21:22].strip() or "A") not in cadenas
+                or resname == site_ligand
+                or resname in _METAL_COFACTORS
+                or resname == "MSE"
+                or not (resname in _STANDARD_RESIDUES or resname in (cofactors_whitelist or []))):
+            continue
+        try:
+            pos = tuple(float(line[i:i + 8]) for i in (30, 38, 46))
+        except ValueError:
+            continue
+        key = (line[21:22].strip() or "A", line[22:26].strip(), line[26:27].strip(), resname)
+        instancias.setdefault(key, []).append(pos)
+    en_el_sitio, fuera_del_sitio = [], []
+    for (cadena, numero, insercion, resname), posiciones in sorted(instancias.items()):
+        distancia = min(_distancia_a_caja(p, center, size) for p in posiciones)
+        fila: dict[str, object] = {
+            "chain": cadena, "residue_number": numero, "insertion_code": insercion,
+            "name": resname, "distance_to_box_A": round(distancia, 3),
+        }
+        if distancia <= MARGEN_SITIO_A:
+            en_el_sitio.append(fila)
+        else:
+            origen = _FOSFO_A_ORIGEN.get(resname)
+            fila["action"] = f"convertido a {origen[0]}, sin fosfato" if origen else "retirado"
+            fuera_del_sitio.append(fila)
+    return en_el_sitio, fuera_del_sitio
+
+
+def retirar_cofactores_fuera_del_sitio(
+    raw_content: str, fuera_del_sitio: list[dict[str, object]],
+) -> str:
+    """Aplica la acción declarada a cada instancia lejana del sitio.
+
+    Los fosfo-residuos pasan a su aminoácido de origen (registro ATOM, sin los
+    átomos del fosfato) para no abrir un hueco en la cadena; el resto se retira.
+    """
+    objetivo = {
+        (str(f["chain"]), str(f["residue_number"]), str(f["insertion_code"]), str(f["name"]))
+        for f in fuera_del_sitio
+    }
+    salida = []
+    for line in raw_content.splitlines(keepends=True):
+        if line.startswith(("HETATM", "ANISOU")) and len(line) >= 27:
+            key = (line[21:22].strip() or "A", line[22:26].strip(),
+                   line[26:27].strip(), line[17:20].strip())
+            if key in objetivo:
+                origen = _FOSFO_A_ORIGEN.get(key[3])
+                if (origen is None or not line.startswith("HETATM")
+                        or line[12:16].strip() not in origen[1]):
+                    continue
+                line = "ATOM  " + line[6:17] + f"{origen[0]:>3}" + line[20:]
+        salida.append(line)
+    return "".join(salida)
+
+
 def _residuos_eliminados(
     input_pdb: str,
     output_pdbqt: str,
@@ -867,15 +973,10 @@ def _residuos_eliminados(
         if key in output_keys:
             continue
         positions = record.pop("positions")
-        distance = min((
-            math.dist(
-                (max(abs(pos[i] - float(center[i])) - float(size[i]) / 2, 0.0)
-                 for i in range(3)),
-                (0.0, 0.0, 0.0),
-            ) for pos in positions
-        ), default=float("inf"))
+        distance = min((_distancia_a_caja(pos, center, size) for pos in positions),
+                       default=float("inf"))
         record["distance_to_box_A"] = round(distance, 3) if math.isfinite(distance) else None
-        record["site_critical"] = distance <= 6.0
+        record["site_critical"] = distance <= MARGEN_SITIO_A
         removed.append(record)
     return sorted(removed, key=lambda row: (str(row["chain"]), str(row["residue_number"])))
 
@@ -1034,28 +1135,31 @@ async def prepare_target(
     raw_content = generar_unidad_biologica(origen, pdb_id=pdb_id).pdb
 
     # Sin plantilla local validada, Meeko intenta consultar CCD en la red.
-    # La preparación offline se abstiene; nunca retira el cofactor en silencio.
-    retained_cofactors = {
-        line[17:20].strip()
-        for line in raw_content.splitlines()
-        if line.startswith("HETATM")
-        and (line[21:22].strip() or "A") in cadenas
-        and line[17:20].strip() != site_ligand
-        and line[17:20].strip() not in _METAL_COFACTORS
-        and line[17:20].strip() != "MSE"
-        and (line[17:20].strip() in _STANDARD_RESIDUES
-             or line[17:20].strip() in (cofactors_whitelist or []))
-    }
-    if retained_cofactors:
+    # Dentro del margen del sitio la preparación se abstiene: quitar o inventar
+    # el cofactor cambiaría la química de la cavidad. Fuera del margen se aplica
+    # la misma regla que a los residuos que pierde Meeko: se declara y se sigue
+    # (el FMN de la flavodoxina fusionada a CB1 en 5TGZ está a 30 Å del sitio).
+    cofactores_en_sitio, cofactores_fuera = cofactores_sin_plantilla(
+        raw_content, cadenas=cadenas, site_ligand=site_ligand,
+        cofactors_whitelist=cofactors_whitelist, center=center, size=size,
+    )
+    if cofactores_en_sitio:
         raise ProteinPreparationError(
             pdb_id=pdb_id,
             step="cofactor_template_missing",
             detail=(
-                "No hay plantilla Meeko local validada para "
-                + ", ".join(sorted(retained_cofactors))
+                "No hay plantilla Meeko local validada para cofactores a "
+                f"{MARGEN_SITIO_A:g} Å o menos de la caja: "
+                + ", ".join(
+                    f"{f['name']} {f['chain']}{f['residue_number']} ({f['distance_to_box_A']} Å)"
+                    for f in cofactores_en_sitio
+                )
                 + ". Se detiene antes de una descarga o de eliminar el cofactor."
             ),
         )
+    if cofactores_fuera:
+        raw_content = retirar_cofactores_fuera_del_sitio(raw_content, cofactores_fuera)
+        log.warning("cofactores_fuera_del_sitio", pdb_id=pdb_id, cofactores=cofactores_fuera)
 
     # --- Asegurar PDB en volumen compartido para Rescoring ---
     #
@@ -1379,6 +1483,7 @@ async def prepare_target(
             "recipe_hash": recipe_hash,
             "receptor_sha256": hashlib.sha256(output_pdbqt.read_bytes()).hexdigest(),
             "removed_residues": removed,
+            "cofactors_outside_site": cofactores_fuera,
             "meeko_reported_residues": sorted(set(
                 f"{m.group(2)}:{m.group(3)}"
                 for m in re.finditer(

@@ -30,8 +30,10 @@ from services.docking.selectivity import (
     run_selectivity_panel,
     validar_protocolo_panel,
     seleccionar_anti_dianas,
+    ANTI_DIANAS_BOWES_2012,
     ANTI_TARGET_PANEL,
 )
+from services.targets.disponibilidad import motivo_no_disponible
 from services.docking.anti_target_sitio import (
     AntiDianaSinSitio,
     resolver_sitio_de_anti_diana,
@@ -60,7 +62,11 @@ async def list_anti_targets(
     current_user: UserORM | None = Depends(get_current_user_optional),
     db: AsyncSession = Depends(get_db),
 ) -> dict[str, Any]:
-    """List available anti-targets: hardcoded defaults + user-uploaded from DB."""
+    """Panel por defecto, sugeridas de Bowes 2012 y anti-dianas del usuario.
+
+    Cada entrada declara `por_defecto` (si la interfaz la marca al abrir) y
+    `disponible`/`motivo_no_disponible` (si hoy se puede preparar su receptor).
+    """
     targets = [
         {
             "pdb_id": t["pdb_id"],
@@ -69,8 +75,21 @@ async def list_anti_targets(
             "risk": t.get("risk", ""),
             "threshold_kcal": t["affinity_threshold"],
             "source": "default",
+            "por_defecto": True,
         }
         for t in ANTI_TARGET_PANEL
+    ]
+    targets += [
+        {
+            "pdb_id": t["pdb_id"],
+            "name": t["name"],
+            "category": t["category"],
+            "risk": t["risk"],
+            "threshold_kcal": -7.0,
+            "source": "bowes2012",
+            "por_defecto": False,
+        }
+        for t in ANTI_DIANAS_BOWES_2012
     ]
 
     # Append DB-backed anti-targets
@@ -87,6 +106,7 @@ async def list_anti_targets(
                 "risk": getattr(t, "anti_target_risk", None) or f"Target subido por el usuario: {t.name}",
                 "threshold_kcal": t.affinity_threshold or -7.0,
                 "source": "user",
+                "por_defecto": True,
             })
     except Exception as exc:  # noqa: BLE001 - degradacion declarada, no silencio
         # Degradar a solo el panel por defecto es aceptable: el usuario sigue
@@ -99,6 +119,9 @@ async def list_anti_targets(
             devueltos=len(targets),
         )
 
+    for fila in targets:
+        fila["motivo_no_disponible"] = motivo_no_disponible(fila["pdb_id"])
+        fila["disponible"] = fila["motivo_no_disponible"] is None
     return {"anti_targets": targets}
 
 

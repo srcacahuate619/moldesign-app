@@ -41,6 +41,7 @@
         "tests/test_certificate_figures.py": 2,
         "tests/test_certifier.py": 19,
         "tests/test_clasificacion_epistemica_de_respuestas.py": 11,
+        "tests/test_cofactores_y_disponibilidad.py": 16,
         "tests/test_cohort_denominadores.py": 8,
         "tests/test_cohort_dossier_api.py": 10,
         "tests/test_cohort_evidence.py": 11,
@@ -118,7 +119,7 @@
         "tests/test_interacciones_pose_corrida.py": 6,
         "tests/test_invariante_solo_validated_decide.py": 54,
         "tests/test_ionizacion_y_mpo.py": 33,
-        "tests/test_known_molecules.py": 105,
+        "tests/test_known_molecules.py": 106,
         "tests/test_la_advertencia_de_calibracion_no_se_pierde.py": 15,
         "tests/test_las_pruebas_no_tocan_los_datos_reales.py": 14,
         "tests/test_lcpo_aproxima_la_sasa_exacta.py": 12,
@@ -148,7 +149,7 @@
         "tests/test_molgraph_publico_y_privado.py": 16,
         "tests/test_motores_declarados_son_los_que_existen.py": 7,
         "tests/test_motores_descargables.py": 12,
-        "tests/test_name_resolver_estereo.py": 3,
+        "tests/test_name_resolver_estereo.py": 4,
         "tests/test_normalizer.py": 24,
         "tests/test_opciones_del_menu_llegan_al_dossier.py": 10,
         "tests/test_openapi_contract.py": 2,
@@ -242,7 +243,7 @@
         "tests/test_windows_maquina_limpia.py": 6,
         "tests/test_workspace_lock.py": 2
       },
-      "total": 2767
+      "total": 2785
     }
   }
 }

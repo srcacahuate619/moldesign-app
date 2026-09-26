@@ -37,7 +37,7 @@ def test_herg_y_panel_comparten_la_cavidad_tetramerica():
 
 def test_panel_no_presenta_homologos_como_dianas_humanas():
     ids = {row["pdb_id"] for row in ANTI_TARGET_PANEL}
-    assert ids == {"5VA1", "4NY4", "4NC3"}
+    assert ids == {"5VA1", "4NC3"}
     with (ROOT / "curated_targets.csv").open(encoding="utf-8", newline="") as fh:
         csv_rows = {row["pdb_id"]: row for row in csv.DictReader(fh)}
     assert "HER2" in csv_rows["3PP0"]["name"]
