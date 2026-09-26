@@ -182,7 +182,33 @@ def acotar_ph(ph: float | None) -> tuple[float, str | None]:
     return valor, None
 
 
-async def generate_conformer(smiles: str, ph: float | None = None) -> dict:
+#: `canonico`: el tautómero canónico de RDKit (lo de siempre; reproducible, pero
+#: no predice poblaciones). `entrada`: el que trae el SMILES de entrada, cuando
+#: quien preparó la molécula ya lo eligió. Decisión del propietario, 2026-09-23:
+#: FEP-08 midió que en 62 de 369 ligandos curados por expertos (OpenFF) el
+#: canónico de RDKit NO es el de los curadores, y el conformador lo sustituía.
+TAUTOMERO_MODOS = ("canonico", "entrada")
+
+
+class _TautomeroDeEntrada(Exception):
+    """Señal interna: el usuario pidió respetar el tautómero de entrada."""
+TAUTOMERO_POR_DEFECTO = "canonico"
+
+
+def acotar_tautomero(modo: str | None) -> tuple[str, str | None]:
+    """Devuelve `(modo_usado, aviso)`. Como `acotar_ph`: nunca lanza y lo dice."""
+    if modo is None:
+        return TAUTOMERO_POR_DEFECTO, None
+    valor = str(modo).strip().lower()
+    if valor in TAUTOMERO_MODOS:
+        return valor, None
+    return TAUTOMERO_POR_DEFECTO, (
+        f"modo de tautómero desconocido ({modo!r}); se usa «{TAUTOMERO_POR_DEFECTO}»."
+    )
+
+
+async def generate_conformer(smiles: str, ph: float | None = None,
+                             tautomero: str | None = None) -> dict:
     """
     Genera una estructura 3D para la molécula y la guarda localmente.
 
@@ -220,7 +246,7 @@ async def generate_conformer(smiles: str, ph: float | None = None) -> dict:
     aplicación— y se ejecuta en el pool de hilos. Aquí sólo queda la escritura
     del archivo, que sí es E/S y ya era asíncrona.
     """
-    datos = await run_in_threadpool(_construir_conformero, smiles, ph)
+    datos = await run_in_threadpool(_construir_conformero, smiles, ph, tautomero)
 
     object_path = StoragePath.ligand_conformer(datos["smiles_hash"])
     await write_text(
@@ -241,7 +267,8 @@ async def generate_conformer(smiles: str, ph: float | None = None) -> dict:
     return {**datos, "conformer_path": object_path}
 
 
-def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
+def _construir_conformero(smiles: str, ph: float | None = None,
+                          tautomero: str | None = None) -> dict:
     """El trabajo de RDKit, sin bucle de eventos y sin tocar el disco.
 
     Todo lo que hacía `generate_conformer` salvo escribir el .sdf. Se separa
@@ -293,8 +320,18 @@ def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
         "protonacion": {"aplicada": False, "motor": None, "ph": None, "alternativas": None, "motivo": None},
     }
 
+    modo_tautomero, aviso_de_tautomero = acotar_tautomero(tautomero)
+    if aviso_de_tautomero:
+        log.warning("modo de tautómero desconocido", aviso=aviso_de_tautomero)
+
     try:
         from rdkit.Chem.MolStandardize import rdMolStandardize
+
+        if modo_tautomero == "entrada":
+            # Se respeta el tautómero del SMILES de entrada: no se canonicaliza.
+            # La declaración de abajo sigue enumerando los candidatos, así que
+            # nada se esconde: sólo cambia cuál se acopla y quién lo eligió.
+            raise _TautomeroDeEntrada()
 
         # ══════════════════════════════════════════════════════════════════
         # EL CANONICALIZADOR DE TAUTÓMEROS BORRABA LA ESTEREOQUÍMICA
@@ -354,16 +391,27 @@ def _construir_conformero(smiles: str, ph: float | None = None) -> dict:
                 "motivo": None,
             }
             log.debug("Tautómero canónico generado", smiles=canonical)
+    except _TautomeroDeEntrada:
+        estado_del_ligando["tautomeria"]["motivo"] = (
+            "se respeta el tautómero de la entrada (tautomero=entrada)")
     except Exception as e:
         estado_del_ligando["tautomeria"]["motivo"] = f"{type(e).__name__}: {e}"[:200]
         log.warning("Error enumerando tautómeros, usando SMILES original", error=str(e))
+    estado_del_ligando["tautomeria"]["modo"] = modo_tautomero
+    estado_del_ligando["tautomeria"]["aviso_de_modo"] = aviso_de_tautomero
 
     # FEP-ready, paso 1: además de contar alternativas, DECLARARLAS. Cuáles
     # son, qué átomos cambian y si el estado queda resuelto, requiere varios
     # estados o no se pudo resolver. No cambia lo que se acopla (ver el módulo).
     from chem.declaracion_tautomeros import declarar_tautomeros
 
+    # LIG-010 separa dos declaraciones: la de la ENTRADA (aquí) y la de la
+    # especie ACOPLADA (`declaracion`, más abajo, tras protonar). El modo de
+    # tautómero decide cuál de los candidatos de la entrada llega a acoplarse,
+    # así que se anota en la declaración de la entrada.
     estado_del_ligando["tautomeria"]["declaracion_entrada"] = declarar_tautomeros(smiles_del_usuario)
+    estado_del_ligando["tautomeria"]["declaracion_entrada"]["tautomero_acoplado"] = (
+        "entrada" if modo_tautomero == "entrada" else "canonico_rdkit")
 
     ph_usado, aviso_de_ph = acotar_ph(ph)
     if aviso_de_ph:
