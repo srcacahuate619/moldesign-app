@@ -25,7 +25,7 @@ sin fusiones. Las fases siguen el orden del plan del auditor
 | `d3c0e0b` | Puertas de CI que las fases dejaron en rojo | [verificacion_2026-09-26.md](verificacion_2026-09-26.md) |
 | `30a9eb5` | Cofactores con margen de sitio, disponibilidad del catálogo medida, DOCK-012, panel de selectividad y MolChat | [verificacion_2026-09-26.md](verificacion_2026-09-26.md), segunda parte |
 | `bbab67f` | 125 de 140 dianas recuperadas y 20 etiquetas de organismo corregidas | [verificacion_2026-09-26.md](verificacion_2026-09-26.md), segunda parte |
-| (este commit) | El panel de Bowes 2012 medido diana por diana: 40 de 44 con el sitio confirmado | [panel_bowes44.md](panel_bowes44.md) |
+| `459a833` | El panel de Bowes 2012 medido diana por diana: 40 de 44 con el sitio confirmado | [panel_bowes44.md](panel_bowes44.md) |
 
 Otros documentos de este directorio:
 

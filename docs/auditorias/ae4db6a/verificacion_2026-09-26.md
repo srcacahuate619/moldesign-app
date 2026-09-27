@@ -264,7 +264,7 @@ metanfetamina (el fármaco es el enantiómero S).
 
 ---
 
-## Tercera parte: el panel de Bowes 2012, medido (este commit)
+## Tercera parte: el panel de Bowes 2012, medido (`459a833`)
 
 El corrigendum de la fase 1 dejó el panel con dos anti-dianas y nueve
 «sugeridas» cuya identidad humana se había comprobado en la cabecera del PDB,
