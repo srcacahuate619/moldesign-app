@@ -534,7 +534,7 @@ def build_labeled_metrics(
 
     factores = []
     for fraccion in EF_FRACTIONS:
-        if math.ceil(n * fraccion) >= n:
+        if n * fraccion < 1 or math.ceil(n * fraccion) >= n:
             continue
         ef, aciertos, k = ef_fraccional(scores, labels, fraccion)
         factores.append({

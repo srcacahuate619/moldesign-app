@@ -151,7 +151,7 @@ def test_con_condiciones_cumplidas_se_calculan_ef_y_roc():
     # Las activas están mejor acopladas por construcción: separación perfecta.
     assert metricas["roc_auc"] == 1.0
     assert metricas["coverage"] == 1.0
-    assert [ef["fraction"] for ef in metricas["enrichment_factors"]] == [0.01, 0.05, 0.10]
+    assert [ef["fraction"] for ef in metricas["enrichment_factors"]] == [0.05, 0.10]
     # EF@10% con separación perfecta y tasa base 0.2 → 1.0/0.2 = 5.0
     ef10 = next(ef for ef in metricas["enrichment_factors"] if ef["fraction"] == 0.10)
     assert ef10["value"] == 5.0
