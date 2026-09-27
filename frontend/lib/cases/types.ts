@@ -834,6 +834,27 @@ export function runMatchesInputs(
   return run.inputFingerprint === currentFingerprint ? "corresponde" : "corrida_anterior";
 }
 
+/**
+ * Relación entre la corrida ACTIVA del caso y sus inputs de ahora.
+ *
+ * Una corrida anterior a que se guardara su huella la hereda del sistema
+ * estructural sellado desde ella. La usan el informe del caso y Preparación:
+ * las dos tienen que decir lo mismo de la misma corrida.
+ */
+export function relacionDeLaCorridaActiva(record: {
+  readonly activeRun?: ActiveRun;
+  readonly structuralSystem?: CaseStructuralSystem;
+  readonly preflight?: { readonly fingerprint: string } | null;
+}): RunInputsRelation {
+  const run =
+    record.activeRun &&
+    !record.activeRun.inputFingerprint &&
+    record.structuralSystem?.sourceRunTaskId === record.activeRun.taskId
+      ? { ...record.activeRun, inputFingerprint: record.structuralSystem.inputFingerprint }
+      : record.activeRun;
+  return runMatchesInputs(run, record.preflight?.fingerprint ?? null);
+}
+
 // ── El caso ──────────────────────────────────────────────────────────
 
 export interface CaseRecord {

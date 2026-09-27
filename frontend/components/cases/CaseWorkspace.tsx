@@ -52,7 +52,7 @@ import {
   type CaseRecoveryAction,
   type CaseStudyKind,
   type CaseView,
-  runMatchesInputs,
+  relacionDeLaCorridaActiva,
   structuralSystemIsSealed,
   type ReportableResult,
   type ReportRecoveryState,
@@ -181,19 +181,7 @@ export function CaseWorkspace() {
    * Se calcula aquí, una vez, y viaja tanto a la llamada de «Abrir informe»
    * como a la vista del informe: las dos tienen que decir lo mismo.
    */
-  const relationRun =
-    activeCase?.activeRun &&
-    !activeCase.activeRun.inputFingerprint &&
-    activeCase.structuralSystem?.sourceRunTaskId === activeCase.activeRun.taskId
-      ? {
-          ...activeCase.activeRun,
-          inputFingerprint: activeCase.structuralSystem.inputFingerprint,
-        }
-      : activeCase?.activeRun;
-  const runRelation = runMatchesInputs(
-    relationRun,
-    activeCase?.preflight?.fingerprint ?? null,
-  );
+  const runRelation = activeCase ? relacionDeLaCorridaActiva(activeCase) : "desconocida";
 
   /**
    * Una corrida NUEVA cierra el informe anterior.

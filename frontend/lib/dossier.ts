@@ -34,6 +34,7 @@ import { beginFileDownload, completeFileDownload, failFileDownload, type Activit
 import { getApiUrl } from "./config";
 import { getAuthHeaders } from "./api";
 import type { CasePipelineConfig, CaseRecord, ReportableResult, RunInputsRelation } from "./cases/types";
+import { esAuditoriaPreparacion, type AuditoriaPreparacion } from "./preparacion";
 
 // ── Contrato: CaseProjection v1 ──────────────────────────────────────
 //
@@ -450,12 +451,13 @@ export interface DossierArtifact {
   readonly filename: string | null;
 }
 
-async function postProjection(
+/** POST de la proyección. Devuelve la respuesta ya comprobada; los fallos, como `DossierError`. */
+async function sendProjection(
   moleculeId: string,
-  kind: "preview" | "package",
+  kind: "preview" | "package" | "preparacion",
   projection: CaseProjection,
   signal?: AbortSignal,
-): Promise<DossierArtifact> {
+): Promise<Response> {
   const base = await getApiUrl();
   const url = `${base}/evaluation/dossier/${encodeURIComponent(moleculeId)}/${kind}`;
 
@@ -486,8 +488,40 @@ async function postProjection(
   if (!response.ok) {
     throw new DossierError(await describeFailure(response), response.status);
   }
+  return response;
+}
 
+async function postProjection(
+  moleculeId: string,
+  kind: "preview" | "package",
+  projection: CaseProjection,
+  signal?: AbortSignal,
+): Promise<DossierArtifact> {
+  const response = await sendProjection(moleculeId, kind, projection, signal);
   return { blob: await response.blob(), filename: filenameFromDisposition(response) };
+}
+
+/**
+ * Auditoría de preparación de la corrida (pestaña Preparación).
+ *
+ * Misma proyección y mismos 404/403/409 que el dossier. La respuesta se
+ * comprueba por su `schema`: una forma que la interfaz no conoce no se pinta
+ * como si fuera una auditoría.
+ */
+export async function requestPreparacion(
+  moleculeId: string,
+  projection: CaseProjection,
+  signal?: AbortSignal,
+): Promise<AuditoriaPreparacion> {
+  const response = await sendProjection(moleculeId, "preparacion", projection, signal);
+  const body: unknown = await response.json().catch(() => null);
+  if (!esAuditoriaPreparacion(body)) {
+    throw new DossierError(
+      "El motor devolvió una auditoría de preparación con una forma que esta versión no conoce.",
+      response.status,
+    );
+  }
+  return body;
 }
 
 /** Dossier PDF del caso, para leer en pantalla. */
