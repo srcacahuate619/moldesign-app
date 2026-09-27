@@ -275,38 +275,42 @@ async def open_run(
         # La configuración se resuelve una vez y gobierna también la eventual
         # preparación automática; luego el PDBQT queda congelado por su hash.
         config = ex.resolve_effective_config(estudio, target)
-        try:
-            receptor = ex.resolve_receptor(
-                pdb_id, receptor_declarado.get("chain"), target
-            )
-        except ex.ExecutionBlocked as receptor_ausente:
-            if receptor_ausente.code != ex.BLOQUEO_RECEPTOR_AUSENTE:
-                raise
-            from services.docking.preparer import prepare_target
+        # El receptor se obtiene SIEMPRE de `prepare_target`, con los mismos
+        # argumentos que la evaluación individual: mismas cadenas del sitio,
+        # misma lista de cofactores y la misma caja, así que la misma receta. Si
+        # ya está preparado sale por su camino rápido. Antes se buscaba la ruta
+        # histórica sin receta —nunca existía— y la preparación automática
+        # omitía `site_chains`: en un sitio entre cadenas habría acoplado contra
+        # media cavidad (QA-017).
+        from services.docking.preparer import prepare_target
 
-            chain = str(
-                receptor_declarado.get("chain")
-                or (getattr(target, "chain", None) if target is not None else "")
-                or "A"
+        chain = str(
+            receptor_declarado.get("chain")
+            or (getattr(target, "chain", None) if target is not None else "")
+            or "A"
+        )
+        try:
+            objeto = await prepare_target(
+                pdb_id=pdb_id,
+                chain_id=chain,
+                center=config.grid_center,
+                size=config.grid_size,
+                force_reprepare=False,
+                cofactors_whitelist=(
+                    list(getattr(target, "cofactors_whitelist", None) or [])
+                    if target is not None else None
+                ),
+                site_chains=(
+                    list(getattr(target, "site_chains", None) or []) or None
+                    if target is not None else None
+                ),
             )
-            try:
-                await prepare_target(
-                    pdb_id=pdb_id,
-                    chain_id=chain,
-                    center=config.grid_center,
-                    size=config.grid_size,
-                    force_reprepare=False,
-                    cofactors_whitelist=(
-                        list(getattr(target, "cofactors_whitelist", None) or [])
-                        if target is not None else None
-                    ),
-                )
-            except Exception as exc:
-                raise ex.ExecutionBlocked(
-                    ex.BLOQUEO_RECEPTOR_AUSENTE,
-                    f"No se pudo preparar el receptor {pdb_id}: {exc}",
-                ) from exc
-            receptor = ex.resolve_receptor(pdb_id, chain, target)
+        except Exception as exc:
+            raise ex.ExecutionBlocked(
+                ex.BLOQUEO_RECEPTOR_AUSENTE,
+                f"No se pudo preparar el receptor {pdb_id}: {exc}",
+            ) from exc
+        receptor = ex.resolve_receptor(pdb_id, chain, target, prepared_object=objeto)
     except ex.ExecutionBlocked as bloqueo:
         raise HTTPException(
             status.HTTP_409_CONFLICT,

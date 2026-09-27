@@ -285,19 +285,28 @@ def _engine_version(engine: str) -> str | None:
         return None
 
 
-def resolve_receptor(pdb_id: str, chain: str | None, target: Any | None) -> ReceptorProvenance:
+def resolve_receptor(
+    pdb_id: str,
+    chain: str | None,
+    target: Any | None,
+    prepared_object: str | None = None,
+) -> ReceptorProvenance:
     """
     Localiza el receptor preparado y lo congela por su contenido.
 
-    Si no hay `.pdbqt` preparado, se BLOQUEA. No se prepara al vuelo: preparar
-    dentro de la apertura de una corrida convertiría un `POST` en un trabajo
-    largo de resultado incierto, y dejaría al usuario sin saber si la cohorte
-    quedó abierta o no.
+    `prepared_object` es la ruta lógica que devuelve `preparer.prepare_target`:
+    desde que el preparado lleva la huella de su receta
+    (`targets/<ID>/prepared-<receta>.pdbqt`) es la única forma de saber cuál
+    corresponde a esta caja y estas cadenas. Sin ella se mira la ruta histórica
+    `prepared.pdbqt`, que sólo existe en instalaciones antiguas: mirar sólo ésa
+    hacía que ninguna cohorte pudiera abrirse (QA-017, 2026-09-27).
+
+    Si no hay `.pdbqt` preparado, se BLOQUEA.
     """
     from utils.file_handlers import StoragePath
     from utils.local_storage import path_for
 
-    objeto = StoragePath.target_prepared(pdb_id)
+    objeto = prepared_object or StoragePath.target_prepared(pdb_id)
     preparado = path_for(objeto)
     if not preparado.exists():
         raise ExecutionBlocked(
@@ -372,7 +381,10 @@ def resolve_effective_config(study: dict[str, Any], target: Any | None) -> Effec
         engine_version=_engine_version(motor),
         exhaustiveness=int(config["exhaustiveness"]),
         num_poses=int(config["num_poses"]),
-        seed=int(config.get("seed", get_settings().vina_seed)),
+        # La interfaz manda `"seed": null` cuando no se indica: `.get(k, def)`
+        # devolvía ese None y `int(None)` tumbaba TODA cohorte sin semilla con un
+        # 500, mientras el preflight prometía congelar la predeterminada (QA-015).
+        seed=int(config["seed"] if config.get("seed") is not None else get_settings().vina_seed),
     )
 
 

@@ -206,8 +206,26 @@ async def entorno(tmp_path, monkeypatch):
 
     monkeypatch.setattr(ls, "data_dir", lambda: data_dir)
 
+    # La corrida obtiene el receptor de `prepare_target` (QA-017). Aquí se
+    # simula un receptor YA preparado: devuelve el objeto que escribió
+    # `preparar_receptor`, o falla como fallaría sin fuente. Registra los
+    # argumentos para poder afirmar que se pasan las cadenas del sitio.
+    import services.docking.preparer as preparer_mod
+
+    preparaciones: list[dict] = []
+
+    async def _prepare_target_falso(**kwargs):
+        preparaciones.append(kwargs)
+        objeto = f"targets/{kwargs['pdb_id'].upper()}/prepared.pdbqt"
+        if not (data_dir / objeto).is_file():
+            raise RuntimeError("sin receptor preparable en el entorno de prueba")
+        return objeto
+
+    monkeypatch.setattr(preparer_mod, "prepare_target", _prepare_target_falso)
+
     await db_mod.reset_engine()
     env = _Entorno(tmp_path / "cohortes.db", data_dir)
+    env.preparaciones = preparaciones
     await env.arrancar()
     try:
         yield env
@@ -385,6 +403,20 @@ def test_semilla_omitida_se_congela_como_la_semilla_real_del_motor(monkeypatch):
     assert config.seed == 73
 
 
+def test_semilla_nula_tambien_se_congela_como_la_del_motor(monkeypatch):
+    """QA-015: la interfaz manda la clave con `null`, no la omite.
+
+    Con `null` la ejecución fallaba con un 500 (`int(None)`) y ninguna cohorte
+    sin semilla —el caso por defecto de Batch— llegaba a ejecutarse.
+    """
+    monkeypatch.setattr(ex.get_settings(), "vina_seed", 73)
+    study = {**STUDY, "config": {**STUDY["config"], "seed": None}}
+
+    config = ex.resolve_effective_config(study, None)
+
+    assert config.seed == 73
+
+
 @pytest.mark.asyncio
 async def test_evaluador_entrega_la_semilla_efectiva_al_pipeline(monkeypatch):
     recibido = {}
@@ -453,6 +485,31 @@ async def test_el_receptor_preparado_se_congela_por_su_hash(entorno, evaluador):
     # Nombre lógico del objeto, no una ruta del disco de nadie.
     assert procedencia["prepared_object"] == "targets/7E2Y/prepared.pdbqt"
     assert ":" not in procedencia["prepared_object"]
+
+
+@pytest.mark.asyncio
+async def test_la_cohorte_prepara_con_las_cadenas_del_sitio(entorno, evaluador):
+    """QA-017: la preparación automática omitía `site_chains`.
+
+    En un sitio entre cadenas —la proteasa del VIH— eso acopla contra media
+    cavidad. La cohorte tiene que pedir el receptor con los mismos argumentos
+    que la evaluación individual, así que con la misma receta.
+    """
+    target = await entorno.crear_target()
+    async with entorno.factory() as session:
+        fila = await session.get(TargetORM, target.id)
+        fila.site_chains = ["A", "B"]
+        await session.commit()
+    entorno.preparar_receptor()
+    client = entorno.app()
+    cohorte = _congelar(client)
+
+    await _abrir_y_esperar(entorno, client, cohorte["id"])
+
+    assert entorno.preparaciones, "la corrida no pidió el receptor a prepare_target"
+    assert entorno.preparaciones[-1]["site_chains"] == ["A", "B"]
+    # Y con la caja efectiva de la cohorte (aquí la declara el estudio).
+    assert entorno.preparaciones[-1]["center"] == tuple(float(v) for v in STUDY["config"]["grid_center"])
 
 
 @rdkit_available

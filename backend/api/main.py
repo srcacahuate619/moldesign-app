@@ -393,7 +393,7 @@ async def handle_unexpected_error(request: Request, exc: Exception) -> JSONRespo
             )
         except Exception:
             print(f"[handle_unexpected_error] {type(exc).__name__} at {request.url.path} (log unavailable)", flush=True)
-    return JSONResponse(
+    respuesta = JSONResponse(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         content={
             "error": "InternalServerError",
@@ -401,6 +401,17 @@ async def handle_unexpected_error(request: Request, exc: Exception) -> JSONRespo
             "detail": str(exc) if settings.is_development else None,
         },
     )
+    # Starlette instala este manejador en `ServerErrorMiddleware`, POR FUERA de
+    # CORS: sin estas cabeceras el navegador (y la ventana de Tauri, que es otro
+    # origen) no puede leer el 500 y la interfaz lo contaba como «no se pudo
+    # contactar con el motor local» con el motor vivo (QA-016). Mismas reglas
+    # que `CORSMiddleware` en `api/middleware.py`.
+    origen = request.headers.get("origin")
+    if origen and origen in settings.cors_origins:
+        respuesta.headers["Access-Control-Allow-Origin"] = origen
+        respuesta.headers["Access-Control-Allow-Credentials"] = "true"
+        respuesta.headers["Vary"] = "Origin"
+    return respuesta
 
 
 @app.get("/", tags=["Meta"])
