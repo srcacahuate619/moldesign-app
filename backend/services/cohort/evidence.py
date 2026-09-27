@@ -463,6 +463,13 @@ def build_labeled_metrics(
             conflicting_molecules=en_conflicto[:20],
         )
 
+    # La afinidad y la etiqueta pueden venir de filas distintas del mismo
+    # canónico. Una etiqueta explícita única no se pierde por el orden del CSV.
+    for canonico, valores in etiquetas.items():
+        por_canonico[canonico] = {
+            **por_canonico[canonico],
+            "active_label": next(iter(valores)),
+        }
     etiquetadas = [
         e for e in por_canonico.values() if e["active_label"] is not None
     ]
