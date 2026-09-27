@@ -249,7 +249,7 @@ docs/             programa experimental, gates de release, auditorías
 
 ```bash
 cd frontend
-npm run test:run      # 1067 pruebas
+npm run test:run      # 1080 pruebas
 npm run tauri:build   # instalador completo
 ```
 
@@ -417,17 +417,20 @@ SBOM los lista ahora en `sin_licencia_declarada`. Ver
 
 ## Estado y honestidad
 
-- Backend: **2571** pruebas recolectadas con el intérprete que se distribuye
-  (`python-embed`, 3.11.9), medidas el 2026-09-23. Con el intérprete de
-  desarrollo (3.14) son 36 más (2607):
-  la diferencia son `importorskip` cuya dependencia no viaja en el bundle, y por
-  eso el número que vale es el del runtime embebido. Frontend: **1067** en 117
-  archivos (medido el 2026-09-24). `tsc` limpio.
+- Backend: **2820** pruebas recolectadas con el intérprete que se distribuye
+  (`python-embed`, 3.11.9), medidas el 2026-09-26. La diferencia con el
+  intérprete de desarrollo son `importorskip` cuya dependencia no viaja en el
+  bundle, y por eso el número que vale es el del runtime embebido.
+  Frontend: **1080** en 119 archivos (medido el 2026-09-26). `tsc` limpio.
   El conteo del backend lo mantiene `scripts/report_test_counts.py`, que
   escribe `docs/api/test-counts.json`: esa es la fuente, no este párrafo.
-  Este párrafo ya envejeció dos veces —decía 2117 y 889, y luego 2518 cuando
-  el registro ya daba 2542— mientras el registro estaba al día; si vuelven a
-  discrepar, manda el registro.
+  Este párrafo ya envejeció tres veces —decía 2117 y 889, luego 2518 cuando
+  el registro ya daba 2542, y luego 2571 cuando daba 2792— mientras el registro
+  estaba al día; si vuelven a discrepar, manda el registro.
+  Cuidado con `report_test_counts.py --check`: sólo falla si una suite **dejó**
+  de recolectar, que es la guardia contra un `importorskip` perdido. Un conteo
+  que creció lo deja pasar, así que después de añadir pruebas hay que ejecutar
+  `--write`.
 - Smoke de producción: **13/13** (2026-09-23; la 13.ª comprueba que el smoke no
   toca la base de datos del usuario).
 - Sellos: los **167** experimentos sellados validan desde un clon limpio

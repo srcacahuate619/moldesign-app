@@ -39,6 +39,26 @@ interface AntiTarget {
   /** Si hoy se puede preparar su receptor; ausente se lee como disponible. */
   disponible?: boolean;
   motivo_no_disponible?: string | null;
+  /**
+   * Panel de Bowes 2012: en qué estado está esa diana. `validada` trae
+   * estructura y las cifras del redocking que la respaldan; las demás se
+   * listan con su motivo y no se pueden seleccionar.
+   */
+  estado?: "validada" | "en_el_panel_por_defecto" | "sin_estructura_preparable" | "sin_estructura";
+  seleccionable?: boolean;
+  motivo?: string | null;
+  estructura?: {
+    pdb_id: string;
+    metodo?: string | null;
+    resolucion_A?: number | null;
+    ligando_de_referencia?: string | null;
+    /** Cuánto se alejó el centroide de la primera pose del ligando cristalizado. */
+    distancia_centroides_A?: number | null;
+    /** Si además el RMSD baja de 2 Å. Mide a Vina, no a la estructura. */
+    pose_reproducida?: boolean | null;
+    rmsd_pose1_A?: number | null;
+    sitio_adjudicado?: boolean;
+  } | null;
 }
 
 /** Se marcan al abrir sólo las del panel por defecto que se pueden preparar. */
@@ -147,6 +167,18 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
       : [...config.selectedAntiTargets, pdbId];
     onChange({ ...config, selectedAntiTargets: next });
   };
+
+  /** Cada anti-diana es un acoplamiento más: se puede marcar todo, nada o el panel. */
+  const seleccionar = (cuales: "todas" | "ninguna" | "por_defecto") => {
+    const lista =
+      cuales === "ninguna"
+        ? []
+        : cuales === "por_defecto"
+        ? antiDianasPorDefecto(antiTargets)
+        : antiTargets.filter((a) => a.disponible !== false && a.pdb_id).map((a) => a.pdb_id);
+    onChange({ ...config, selectedAntiTargets: lista });
+  };
+  const disponibles = antiTargets.filter((a) => a.disponible !== false).length;
 
   const formatTime = (s: number) => {
     if (s < 60) return `${s}s`;
@@ -284,6 +316,28 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
 
                 {config.enableSelectivity && (
                   <div className="pl-6 space-y-1.5">
+                    <div className="flex items-center gap-2 pb-1">
+                      {([["todas", "pn_todas"], ["por_defecto", "pn_panel_por_defecto"],
+                         ["ninguna", "pn_ninguna"]] as const).map(([cual, clave]) => (
+                        <button
+                          key={cual}
+                          type="button"
+                          onClick={() => seleccionar(cual)}
+                          className="rounded border border-zinc-300 dark:border-zinc-700 px-1.5 py-0.5
+                            font-mono text-[9px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400
+                            transition-colors hover:border-amber-500/40 hover:text-amber-500"
+                        >
+                          {t(clave)}
+                        </button>
+                      ))}
+                      <span className="ml-auto font-mono text-[9px] text-zinc-500">
+                        {config.selectedAntiTargets.length}/{disponibles}
+                      </span>
+                    </div>
+                    {/* El panel pasó de 3 anti-dianas a las 44 de Bowes 2012 más las
+                        propias: sin altura máxima, la lista empuja el resto de la
+                        configuración casi mil píxeles hacia abajo. */}
+                    <div className="max-h-64 space-y-1.5 overflow-y-auto pr-1">
                     {antiTargets.map((at) => (
                       <label key={at.pdb_id}
                         title={at.disponible === false ? (at.motivo_no_disponible ?? undefined) : undefined}
@@ -316,6 +370,7 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
                         </div>
                       </label>
                     ))}
+                    </div>
                   </div>
                 )}
               </div>

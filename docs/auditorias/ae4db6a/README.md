@@ -24,6 +24,8 @@ sin fusiones. Las fases siguen el orden del plan del auditor
 | `3fcf35f` | Regresiones halladas al verificar las fases | [verificacion_2026-09-26.md](verificacion_2026-09-26.md) |
 | `d3c0e0b` | Puertas de CI que las fases dejaron en rojo | [verificacion_2026-09-26.md](verificacion_2026-09-26.md) |
 | `30a9eb5` | Cofactores con margen de sitio, disponibilidad del catálogo medida, DOCK-012, panel de selectividad y MolChat | [verificacion_2026-09-26.md](verificacion_2026-09-26.md), segunda parte |
+| `bbab67f` | 125 de 140 dianas recuperadas y 20 etiquetas de organismo corregidas | [verificacion_2026-09-26.md](verificacion_2026-09-26.md), segunda parte |
+| (este commit) | El panel de Bowes 2012 medido diana por diana: 40 de 44 con el sitio confirmado | [panel_bowes44.md](panel_bowes44.md) |
 
 Otros documentos de este directorio:
 
@@ -34,6 +36,11 @@ Otros documentos de este directorio:
 - [validacion_informe_PR-LIG-04.md](validacion_informe_PR-LIG-04.md): contraste
   de las fuentes de pKa usadas en LIG-003, con dos atribuciones erróneas
   detectadas en el informe externo.
+- [panel_bowes44.md](panel_bowes44.md): las 44 anti-dianas del panel mínimo de
+  Bowes 2012 con su estructura, su caja, el redocking que la respalda y el
+  motivo de las cuatro que no entran. Generado desde
+  `backend/data/anti_dianas_bowes44.json`, que a su vez sale de
+  `bowes44_validacion.json`; no se edita a mano.
 - `evidencia_fase6/score007_native/`: manifiesto, hashes de entrada y métricas
   de SCORE-007.
 
@@ -145,7 +152,7 @@ Significado de cada estado:
 | DOCK-007 | ALTA | Corregido |  |
 | DOCK-008 | ALTA | Corregido |  |
 | DOCK-010 | ALTA | Corregido |  |
-| DOCK-016 | ALTA | Corregido |  |
+| DOCK-016 | ALTA | Corregido | la caja de hERG está ahora a 4,8–11 Å de Y652/F656 (medido sobre 5VA1, cadena A del depósito; el tetrámero se reconstruye por BIOMT y `site_chains` del catálogo es `A,B,C,D`). Además, el panel se rehízo midiendo: 40 de 44 con el sitio confirmado, cada una con su redocking, y `sitio_adjudicado: false` en todas — ver [panel_bowes44.md](panel_bowes44.md) |
 | SCORE-008 | ALTA | Contenido | cifras 33.37x / 0.919 retiradas; benchmark nuevo pendiente de datos primarios |
 | DOCK-009 | MEDIA | Corregido |  |
 | DOCK-011 | MEDIA | Corregido |  |

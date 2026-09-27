@@ -30,7 +30,7 @@ from services.docking.selectivity import (
     run_selectivity_panel,
     validar_protocolo_panel,
     seleccionar_anti_dianas,
-    ANTI_DIANAS_BOWES_2012,
+    panel_bowes_2012,
     ANTI_TARGET_PANEL,
 )
 from services.targets.disponibilidad import motivo_no_disponible
@@ -79,18 +79,36 @@ async def list_anti_targets(
         }
         for t in ANTI_TARGET_PANEL
     ]
-    targets += [
-        {
-            "pdb_id": t["pdb_id"],
-            "name": t["name"],
-            "category": t["category"],
-            "risk": t["risk"],
-            "threshold_kcal": -7.0,
+    # Las 44 del panel mínimo de Bowes 2012: se listan TODAS con su estado, para
+    # que el usuario vea qué se le puede ofrecer y qué no, y por qué.
+    ya_listadas = {t["pdb_id"] for t in targets}
+    for fila in panel_bowes_2012():
+        pdb_id = str(fila.get("pdb_id") or "").upper()
+        if pdb_id and pdb_id in ya_listadas:
+            continue                                  # hERG y 5-HT2B ya van por defecto
+        validada = fila.get("estado") == "validada"
+        redock = fila.get("redock") or {}
+        targets.append({
+            "pdb_id": pdb_id or None,
+            "name": f"{fila['assay']} ({fila.get('gen') or '—'})",
+            "category": f"Bowes 2012 · {fila.get('familia') or 'panel'}",
+            "risk": fila.get("riesgo") or "",
+            "threshold_kcal": fila.get("affinity_threshold") or -7.0,
             "source": "bowes2012",
             "por_defecto": False,
-        }
-        for t in ANTI_DIANAS_BOWES_2012
-    ]
+            "estado": fila.get("estado"),
+            "seleccionable": validada,
+            "motivo": fila.get("motivo"),
+            "estructura": None if not validada else {
+                "pdb_id": pdb_id, "metodo": fila.get("metodo"),
+                "resolucion_A": fila.get("resolucion_A"),
+                "ligando_de_referencia": fila.get("site_ligand"),
+                "distancia_centroides_A": redock.get("distancia_centroides_A"),
+                "pose_reproducida": redock.get("pose_reproducida"),
+                "rmsd_pose1_A": redock.get("rmsd_pose1_A"),
+                "sitio_adjudicado": fila.get("sitio_adjudicado", False),
+            },
+        })
 
     # Append DB-backed anti-targets
     try:
@@ -120,8 +138,11 @@ async def list_anti_targets(
         )
 
     for fila in targets:
-        fila["motivo_no_disponible"] = motivo_no_disponible(fila["pdb_id"])
-        fila["disponible"] = fila["motivo_no_disponible"] is None
+        fila.setdefault("seleccionable", True)
+        fila["motivo_no_disponible"] = (
+            motivo_no_disponible(fila["pdb_id"]) if fila.get("pdb_id") else None
+        ) or (None if fila["seleccionable"] else fila.get("motivo"))
+        fila["disponible"] = fila["seleccionable"] and fila["motivo_no_disponible"] is None
     return {"anti_targets": targets}
 
 

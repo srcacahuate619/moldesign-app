@@ -41,7 +41,7 @@
         "tests/test_certificate_figures.py": 2,
         "tests/test_certifier.py": 19,
         "tests/test_clasificacion_epistemica_de_respuestas.py": 11,
-        "tests/test_cofactores_y_disponibilidad.py": 23,
+        "tests/test_cofactores_y_disponibilidad.py": 51,
         "tests/test_cohort_denominadores.py": 8,
         "tests/test_cohort_dossier_api.py": 10,
         "tests/test_cohort_evidence.py": 11,
@@ -243,7 +243,7 @@
         "tests/test_windows_maquina_limpia.py": 6,
         "tests/test_workspace_lock.py": 2
       },
-      "total": 2792
+      "total": 2820
     }
   }
 }

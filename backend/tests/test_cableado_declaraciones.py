@@ -145,15 +145,42 @@ def test_todo_aviso_declara_su_severidad(ruta: str):
         if len(nodo.args) < 2:
             sin_severidad.append(nodo.lineno)
             continue
-        segundo = nodo.args[1]
-        es_severidad = (
-            isinstance(segundo, ast.Attribute)
-            and isinstance(segundo.value, ast.Name)
-            and segundo.value.id == "Severidad"
-        )
-        if not es_severidad:
+        if not _es_severidad(nodo.args[1]):
             sin_severidad.append(nodo.lineno)
 
     assert not sin_severidad, (
         f"{ruta}: avisos sin `Severidad.X` en las líneas {sin_severidad}"
     )
+
+
+def _es_severidad(nodo: ast.expr) -> bool:
+    """`Severidad.X`, o un ternario cuyas DOS ramas lo son.
+
+    Un aviso cuya severidad depende del caso sigue declarándola: la de
+    `CADENAS_LATERALES_TRUNCADAS` es CRÍTICA si el residuo cae en el sitio y
+    PRECAUCIÓN si no. Lo que no vale es que una rama la deje sin decidir, así que
+    se exigen las dos.
+    """
+    if isinstance(nodo, ast.IfExp):
+        return _es_severidad(nodo.body) and _es_severidad(nodo.orelse)
+    return (
+        isinstance(nodo, ast.Attribute)
+        and isinstance(nodo.value, ast.Name)
+        and nodo.value.id == "Severidad"
+    )
+
+
+@pytest.mark.parametrize("fuente,visto", [
+    ("aviso('X', Severidad.CRITICA, 'm')", True),
+    ("aviso('X', Severidad.CRITICA if y else Severidad.PRECAUCION, 'm')", True),
+    # Lo que tiene que seguir cazando:
+    ("aviso('X', 'm')", False),
+    ("aviso('X', None, 'm')", False),
+    ("aviso('X', severidad, 'm')", False),
+    ("aviso('X', Severidad.CRITICA if y else None, 'm')", False),
+    ("aviso('X', 'critica' if y else Severidad.PRECAUCION, 'm')", False),
+])
+def test_el_detector_de_severidad_ve_lo_que_debe(fuente: str, visto: bool):
+    """El guardián demuestra que ve: muestras que debe aceptar y rechazar."""
+    llamada = ast.parse(fuente).body[0].value
+    assert (len(llamada.args) >= 2 and _es_severidad(llamada.args[1])) is visto, fuente

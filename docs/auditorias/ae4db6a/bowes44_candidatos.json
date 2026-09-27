@@ -1,0 +1,3836 @@
+{
+ "_doc": "Candidatos para el panel de Bowes 2012. Generado por scripts/bowes44_seleccionar_estructuras.py; la validación (caja, preparación y redocking) la hace bowes44_validar_estructuras.py.",
+ "referencia": "Bowes et al. 2012, Nat Rev Drug Discov 11:909-922, tabla 1",
+ "filtros": {
+  "organismo": "Homo sapiens (UniProt revisada)",
+  "metodos": [
+   "X-RAY DIFFRACTION",
+   "ELECTRON MICROSCOPY"
+  ],
+  "resolucion_max_A": 3.5,
+  "ligando": "no polimérico, 150-900 Da, fuera de la lista de tampones"
+ },
+ "dianas": [
+  {
+   "assay": "A2A",
+   "familia": "GPCR",
+   "gen": "ADORA2A",
+   "candidatos": [
+    {
+     "pdb_id": "5NM4",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.7,
+     "titulo": "A2A Adenosine receptor room-temperature structure determined by serial femtosecond crystallography",
+     "ligandos": [
+      {
+       "comp_id": "ZMA",
+       "name": "4-{2-[(7-amino-2-furan-2-yl[1,2,4]triazolo[1,5-a][1,3,5]triazin-5-yl)amino]ethyl}phenol",
+       "formula_weight": 337.336
+      }
+     ]
+    },
+    {
+     "pdb_id": "9H37",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.715,
+     "titulo": "Crystal structure of stabilized A2A adenosine receptor A2AR-StaR2-bRIL in complex with compound 9, a novel nanomolar A2A receptor antagonist from modern hit-finding with structure-guided de novo design",
+     "ligandos": [
+      {
+       "comp_id": "A1IR0",
+       "name": "2-(furan-2-yl)-7-pyridin-4-yl-pyrrolo[2,3-d]pyrimidin-4-amine",
+       "formula_weight": 277.281
+      }
+     ]
+    },
+    {
+     "pdb_id": "5IU4",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.72,
+     "titulo": "Crystal structure of stabilized A2A adenosine receptor A2AR-StaR2-bRIL in complex with ZM241385 at 1.7A resolution",
+     "ligandos": [
+      {
+       "comp_id": "ZMA",
+       "name": "4-{2-[(7-amino-2-furan-2-yl[1,2,4]triazolo[1,5-a][1,3,5]triazin-5-yl)amino]ethyl}phenol",
+       "formula_weight": 337.336
+      },
+      {
+       "comp_id": "OLB",
+       "name": "(2S)-2,3-dihydroxypropyl (9Z)-octadec-9-enoate",
+       "formula_weight": 356.54
+      }
+     ]
+    },
+    {
+     "pdb_id": "9H2X",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.75,
+     "titulo": "Crystal structure of stabilized A2A adenosine receptor A2AR-StaR2-bRIL in complex with compound 7, a novel nanomolar A2A receptor antagonist from modern hit-finding with structure-guided de novo design",
+     "ligandos": [
+      {
+       "comp_id": "A1IR1",
+       "name": "4-(furan-2-yl)-6-(6-imidazol-1-ylpyridin-2-yl)-1,3,5-triazin-2-amine",
+       "formula_weight": 305.294
+      }
+     ]
+    },
+    {
+     "pdb_id": "4EIY",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.8,
+     "titulo": "Crystal structure of the chimeric protein of A2aAR-BRIL in complex with ZM241385 at 1.8A resolution",
+     "ligandos": [
+      {
+       "comp_id": "ZMA",
+       "name": "4-{2-[(7-amino-2-furan-2-yl[1,2,4]triazolo[1,5-a][1,3,5]triazin-5-yl)amino]ethyl}phenol",
+       "formula_weight": 337.336
+      },
+      {
+       "comp_id": "OLB",
+       "name": "(2S)-2,3-dihydroxypropyl (9Z)-octadec-9-enoate",
+       "formula_weight": 356.54
+      }
+     ]
+    },
+    {
+     "pdb_id": "6LPJ",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.8,
+     "titulo": "A2AR crystallized in EROCOC17+4, LCP-SFX at 277 K",
+     "ligandos": [
+      {
+       "comp_id": "ZMA",
+       "name": "4-{2-[(7-amino-2-furan-2-yl[1,2,4]triazolo[1,5-a][1,3,5]triazin-5-yl)amino]ethyl}phenol",
+       "formula_weight": 337.336
+      },
+      {
+       "comp_id": "D12",
+       "name": "DODECANE",
+       "formula_weight": 170.335
+      },
+      {
+       "comp_id": "MYS",
+       "name": "PENTADECANE",
+       "formula_weight": 212.415
+      },
+      {
+       "comp_id": "8K6",
+       "name": "Octadecane",
+       "formula_weight": 254.494
+      },
+      {
+       "comp_id": "UND",
+       "name": "UNDECANE",
+       "formula_weight": 156.308
+      },
+      {
+       "comp_id": "ER0",
+       "name": "[(2~{R},3~{S})-2,3,4-tris(oxidanyl)butyl] (5~{R},9~{R},13~{R})-5,9,13,17-tetramethyloctadecanoate",
+       "formula_weight": 444.688
+      },
+      {
+       "comp_id": "TRD",
+       "name": "TRIDECANE",
+       "formula_weight": 184.361
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P29274",
+    "uniprot_id": "AA2AR_HUMAN",
+    "protein_name": "Adenosine receptor A2a",
+    "gene": "ADORA2A"
+   }
+  },
+  {
+   "assay": "alpha1A",
+   "familia": "GPCR",
+   "gen": "ADRA1A",
+   "candidatos": [
+    {
+     "pdb_id": "8THK",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.6,
+     "titulo": "Cryo-EM structure of A61603-bound alpha-1A-adrenergic receptor in complex with heterotrimeric Gq-protein",
+     "ligandos": [
+      {
+       "comp_id": "CGZ",
+       "name": "N-[(5S)-5-(4,5-dihydro-1H-imidazol-2-yl)-2-hydroxy-5,6,7,8-tetrahydronaphthalen-1-yl]methanesulfonamide",
+       "formula_weight": 309.384
+      }
+     ]
+    },
+    {
+     "pdb_id": "7YM8",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.92,
+     "titulo": "Cryo-EM structure of Nb29-alpha1AAR-miniGsq complex bound to oxymetazoline",
+     "ligandos": [
+      {
+       "comp_id": "J5C",
+       "name": "Oxymetazoline",
+       "formula_weight": 260.375
+      }
+     ]
+    },
+    {
+     "pdb_id": "9M4Q",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.99,
+     "titulo": "CryoEM structure of the alpha1AAR complex with doxazosin",
+     "ligandos": [
+      {
+       "comp_id": "A1EM4",
+       "name": "Doxazosin, (S)-",
+       "formula_weight": 451.475
+      }
+     ]
+    },
+    {
+     "pdb_id": "8THL",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.1,
+     "titulo": "Cryo-EM structure of epinephrine-bound alpha-1A-adrenergic receptor in complex with heterotrimeric Gq-protein",
+     "ligandos": [
+      {
+       "comp_id": "ALE",
+       "name": "L-EPINEPHRINE",
+       "formula_weight": 183.204
+      }
+     ]
+    },
+    {
+     "pdb_id": "9M4T",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.19,
+     "titulo": "CryoEM structure of the alpha1AAR complex with silodosin",
+     "ligandos": [
+      {
+       "comp_id": "A1EMV",
+       "name": "Silodosin",
+       "formula_weight": 495.534
+      }
+     ]
+    },
+    {
+     "pdb_id": "7YMJ",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.35,
+     "titulo": "Cryo-EM structure of alpha1AAR-Nb6 complex bound to tamsulosin",
+     "ligandos": [
+      {
+       "comp_id": "JGX",
+       "name": "Tamsulosin",
+       "formula_weight": 408.512
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P35348",
+    "uniprot_id": "ADA1A_HUMAN",
+    "protein_name": "Alpha-1A adrenergic receptor",
+    "gene": "ADRA1A"
+   }
+  },
+  {
+   "assay": "alpha2A",
+   "familia": "GPCR",
+   "gen": "ADRA2A",
+   "candidatos": [
+    {
+     "pdb_id": "6KUX",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.7,
+     "titulo": "Crystal structures of the alpha2A adrenergic receptor in complex with an antagonist RSC.",
+     "ligandos": [
+      {
+       "comp_id": "E3F",
+       "name": "(8~{a}~{R},12~{a}~{S},13~{a}~{S})-12-ethylsulfonyl-3-methoxy-5,6,8,8~{a},9,10,11,12~{a},13,13~{a}-decahydroisoquinolino[2,1-g][1,6]naphthyridine",
+       "formula_weight": 364.502
+      },
+      {
+       "comp_id": "FLC",
+       "name": "CITRATE ANION",
+       "formula_weight": 189.1
+      }
+     ]
+    },
+    {
+     "pdb_id": "9CBL",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.8,
+     "titulo": "Cryo-EM structure of epinephrine-bound alpha-2A-adrenergic receptor in complex with heterotrimeric Gi-protein",
+     "ligandos": [
+      {
+       "comp_id": "ALE",
+       "name": "L-EPINEPHRINE",
+       "formula_weight": 183.204
+      }
+     ]
+    },
+    {
+     "pdb_id": "9PLN",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.8,
+     "titulo": "Locally-refined structure of alpha2a adrenergic receptor in complex with Go heterotrimer, scFv16, and N-(5-methylnaphthalen-1-yl)pyridin-4-amine (compound 4905)",
+     "ligandos": [
+      {
+       "comp_id": "A1CIU",
+       "name": "N-(5-methylnaphthalen-1-yl)pyridin-4-amine",
+       "formula_weight": 234.296
+      }
+     ]
+    },
+    {
+     "pdb_id": "9PLO",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.8,
+     "titulo": "Structure of alpha2a adrenergic receptor in complex with Go heterotrimer, scFv16, and N-(5-methylnaphthalen-1-yl)pyridin-4-amine (compound 4905)",
+     "ligandos": [
+      {
+       "comp_id": "A1CIU",
+       "name": "N-(5-methylnaphthalen-1-yl)pyridin-4-amine",
+       "formula_weight": 234.296
+      }
+     ]
+    },
+    {
+     "pdb_id": "7EJ8",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.0,
+     "titulo": "Structure of the alpha2A-adrenergic receptor GoA signaling complex bound to brimonidine",
+     "ligandos": [
+      {
+       "comp_id": "J59",
+       "name": "Brimonidine",
+       "formula_weight": 292.135
+      }
+     ]
+    },
+    {
+     "pdb_id": "6KUY",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 3.2,
+     "titulo": "Crystal structure of the alpha2A adrenergic receptor in complex with a partial agonist",
+     "ligandos": [
+      {
+       "comp_id": "E39",
+       "name": "(2~{S})-4-fluoranyl-2-(1~{H}-imidazol-5-yl)-1-propan-2-yl-2,3-dihydroindole",
+       "formula_weight": 245.295
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P08913",
+    "uniprot_id": "ADA2A_HUMAN",
+    "protein_name": "Alpha-2A adrenergic receptor",
+    "gene": "ADRA2A"
+   }
+  },
+  {
+   "assay": "beta1",
+   "familia": "GPCR",
+   "gen": "ADRB1",
+   "candidatos": [
+    {
+     "pdb_id": "7BVQ",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.5,
+     "titulo": "Structure of human beta1 adrenergic receptor bound to carazolol",
+     "ligandos": [
+      {
+       "comp_id": "CAU",
+       "name": "(2S)-1-(9H-Carbazol-4-yloxy)-3-(isopropylamino)propan-2-ol",
+       "formula_weight": 298.379
+      },
+      {
+       "comp_id": "1WV",
+       "name": "(2S)-2,3-dihydroxypropyl (7Z)-tetradec-7-enoate",
+       "formula_weight": 300.434
+      }
+     ]
+    },
+    {
+     "pdb_id": "7BU7",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.6,
+     "titulo": "Structure of human beta1 adrenergic receptor bound to BI-167107 and nanobody 6B9",
+     "ligandos": [
+      {
+       "comp_id": "1WV",
+       "name": "(2S)-2,3-dihydroxypropyl (7Z)-tetradec-7-enoate",
+       "formula_weight": 300.434
+      },
+      {
+       "comp_id": "P0G",
+       "name": "8-[(1R)-2-{[1,1-dimethyl-2-(2-methylphenyl)ethyl]amino}-1-hydroxyethyl]-5-hydroxy-2H-1,4-benzoxazin-3(4H)-one",
+       "formula_weight": 370.442
+      }
+     ]
+    },
+    {
+     "pdb_id": "7BU6",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.7,
+     "titulo": "Structure of human beta1 adrenergic receptor bound to norepinephrine and nanobody 6B9",
+     "ligandos": [
+      {
+       "comp_id": "E5E",
+       "name": "Noradrenaline",
+       "formula_weight": 170.186
+      },
+      {
+       "comp_id": "480",
+       "name": "(2S)-2,3-dihydroxypropyl octanoate",
+       "formula_weight": 218.29
+      }
+     ]
+    },
+    {
+     "pdb_id": "7BTS",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 3.13,
+     "titulo": "Structure of human beta1 adrenergic receptor bound to epinephrine and nanobody 6B9",
+     "ligandos": [
+      {
+       "comp_id": "ALE",
+       "name": "L-EPINEPHRINE",
+       "formula_weight": 183.204
+      },
+      {
+       "comp_id": "1WV",
+       "name": "(2S)-2,3-dihydroxypropyl (7Z)-tetradec-7-enoate",
+       "formula_weight": 300.434
+      }
+     ]
+    },
+    {
+     "pdb_id": "9L84",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.22,
+     "titulo": "Structure of beta1-AR-Gs complex bound to epinephrine and an allosteric modulator",
+     "ligandos": [
+      {
+       "comp_id": "DR7",
+       "name": "(3S,8S,9S,12S)-3,12-BIS(1,1-DIMETHYLETHYL)-8-HYDROXY-4,11-DIOXO-9-(PHENYLMETHYL)-6-[[4-(2-PYRIDINYL)PHENYL]METHYL]-2,5, 6,10,13-PENTAAZATETRADECANEDIOIC ACID DIMETHYL ESTER",
+       "formula_weight": 704.855
+      },
+      {
+       "comp_id": "ALE",
+       "name": "L-EPINEPHRINE",
+       "formula_weight": 183.204
+      }
+     ]
+    },
+    {
+     "pdb_id": "8S2T",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.3,
+     "titulo": "Cryo-EM structure of cell-free synthesized Human beta-1 adrenergic receptor cotranslationally inserted into a lipidic nanodiscs",
+     "ligandos": [
+      {
+       "comp_id": "5FW",
+       "name": "ISOPRENALINE",
+       "formula_weight": 211.258
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P08588",
+    "uniprot_id": "ADRB1_HUMAN",
+    "protein_name": "Beta-1 adrenergic receptor",
+    "gene": "ADRB1"
+   }
+  },
+  {
+   "assay": "beta2",
+   "familia": "GPCR",
+   "gen": "ADRB2",
+   "candidatos": [
+    {
+     "pdb_id": "2RH1",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.4,
+     "titulo": "High resolution crystal structure of human B2-adrenergic G protein-coupled receptor.",
+     "ligandos": [
+      {
+       "comp_id": "CAU",
+       "name": "(2S)-1-(9H-Carbazol-4-yloxy)-3-(isopropylamino)propan-2-ol",
+       "formula_weight": 298.379
+      },
+      {
+       "comp_id": "12P",
+       "name": "DODECAETHYLENE GLYCOL",
+       "formula_weight": 546.646
+      }
+     ]
+    },
+    {
+     "pdb_id": "6PS2",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.4,
+     "titulo": "XFEL beta2 AR structure by ligand exchange from Timolol to Alprenolol.",
+     "ligandos": [
+      {
+       "comp_id": "JTZ",
+       "name": "(2S)-1-[(1-methylethyl)amino]-3-(2-prop-2-en-1-ylphenoxy)propan-2-ol",
+       "formula_weight": 249.349
+      },
+      {
+       "comp_id": "OLB",
+       "name": "(2S)-2,3-dihydroxypropyl (9Z)-octadec-9-enoate",
+       "formula_weight": 356.54
+      }
+     ]
+    },
+    {
+     "pdb_id": "9WG6",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.44,
+     "titulo": "D1R-Gs in complexed with Dopamine/LY3154207/BMSA1/UNC9815",
+     "ligandos": [
+      {
+       "comp_id": "LDP",
+       "name": "L-DOPAMINE",
+       "formula_weight": 153.178
+      },
+      {
+       "comp_id": "A1EWF",
+       "name": "~{N}-(3-aminocarbonyl-6-~{tert}-butyl-1-benzothiophen-2-yl)pyridine-4-carboxamide",
+       "formula_weight": 353.438
+      },
+      {
+       "comp_id": "A1EV3",
+       "name": "1-[(1~{S},3~{R},6~{R})-6-(1,3-benzodioxol-5-yl)-3-bicyclo[4.1.0]heptanyl]-4-[(2-bromanyl-5-chloranyl-phenyl)methyl]piperazine",
+       "formula_weight": 503.859
+      },
+      {
+       "comp_id": "G4C",
+       "name": "2-[2,6-bis(chloranyl)phenyl]-1-[(1S,3R)-3-(hydroxymethyl)-1-methyl-5-(3-methyl-3-oxidanyl-butyl)-3,4-dihydro-1H-isoquinolin-2-yl]ethanone",
+       "formula_weight": 450.398
+      }
+     ]
+    },
+    {
+     "pdb_id": "9RKF",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.45,
+     "titulo": "Dark structure of beta-2 Adrenergic receptor with photoazolol in Dark state recorded at SwissFEL",
+     "ligandos": [
+      {
+       "comp_id": "12P",
+       "name": "DODECAETHYLENE GLYCOL",
+       "formula_weight": 546.646
+      },
+      {
+       "comp_id": "A1JHU",
+       "name": "~{N}-[4-[(~{E})-[2-[(2~{S})-2-oxidanyl-3-(propan-2-ylamino)propoxy]phenyl]diazenyl]phenyl]ethanamide",
+       "formula_weight": 370.445
+      }
+     ]
+    },
+    {
+     "pdb_id": "9RKG",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.45,
+     "titulo": "Mixed model refinement of beta-2 Adrenergic receptor with photoazolol in dark state and Light state, 10 seconds after light activation, recorded at SwissFEL",
+     "ligandos": [
+      {
+       "comp_id": "12P",
+       "name": "DODECAETHYLENE GLYCOL",
+       "formula_weight": 546.646
+      },
+      {
+       "comp_id": "A1JHU",
+       "name": "~{N}-[4-[(~{E})-[2-[(2~{S})-2-oxidanyl-3-(propan-2-ylamino)propoxy]phenyl]diazenyl]phenyl]ethanamide",
+       "formula_weight": 370.445
+      }
+     ]
+    },
+    {
+     "pdb_id": "5D5A",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.4826,
+     "titulo": "In meso in situ serial X-ray crystallography structure of the Beta2-adrenergic receptor at 100 K",
+     "ligandos": [
+      {
+       "comp_id": "CAU",
+       "name": "(2S)-1-(9H-Carbazol-4-yloxy)-3-(isopropylamino)propan-2-ol",
+       "formula_weight": 298.379
+      },
+      {
+       "comp_id": "12P",
+       "name": "DODECAETHYLENE GLYCOL",
+       "formula_weight": 546.646
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P07550",
+    "uniprot_id": "ADRB2_HUMAN",
+    "protein_name": "Beta-2 adrenergic receptor",
+    "gene": "ADRB2"
+   }
+  },
+  {
+   "assay": "CB1",
+   "familia": "GPCR",
+   "gen": "CNR1",
+   "candidatos": [
+    {
+     "pdb_id": "23IV",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.42,
+     "titulo": "Cannabinoid Receptor 1-Gi Complex",
+     "ligandos": [
+      {
+       "comp_id": "A1E5S",
+       "name": "methyl 1-[[1-[(4-fluorophenyl)methyl]indazol-3-yl]carbonylamino]cyclopropane-1-carboxylate",
+       "formula_weight": 367.374
+      }
+     ]
+    },
+    {
+     "pdb_id": "23IW",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.42,
+     "titulo": "Cannabinoid Receptor 1-Gi Complex",
+     "ligandos": [
+      {
+       "comp_id": "A1E5T",
+       "name": "methyl (2~{S},3~{R})-2-[[1-[(4-fluorophenyl)methyl]indazol-3-yl]carbonylamino]-3-oxidanyl-butanoate",
+       "formula_weight": 385.389
+      }
+     ]
+    },
+    {
+     "pdb_id": "5U09",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.6,
+     "titulo": "High-resolution crystal structure of the human CB1 cannabinoid receptor",
+     "ligandos": [
+      {
+       "comp_id": "7DY",
+       "name": "N-[(2S,3S)-4-(4-chlorophenyl)-3-(3-cyanophenyl)butan-2-yl]-2-methyl-2-{[5-(trifluoromethyl)pyridin-2-yl]oxy}propanamide",
+       "formula_weight": 515.955
+      }
+     ]
+    },
+    {
+     "pdb_id": "7FEE",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.7,
+     "titulo": "Crystal structure of the allosteric modulator ZCZ011 binding to CP55940-bound cannabinoid receptor 1",
+     "ligandos": [
+      {
+       "comp_id": "9GF",
+       "name": "2-[(1R,2R,5R)-5-hydroxy-2-(3-hydroxypropyl)cyclohexyl]-5-(2-methyloctan-2-yl)phenol",
+       "formula_weight": 376.573
+      },
+      {
+       "comp_id": "7IC",
+       "name": "6-methyl-3-[(1S)-2-nitro-1-thiophen-2-yl-ethyl]-2-phenyl-1H-indole",
+       "formula_weight": 362.445
+      }
+     ]
+    },
+    {
+     "pdb_id": "5TGZ",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.8,
+     "titulo": "Crystal Structure of the Human Cannabinoid Receptor CB1",
+     "ligandos": [
+      {
+       "comp_id": "ZDG",
+       "name": "4-[4-[2-(2,4-dichlorophenyl)-4-methyl-5-(piperidin-1-ylcarbamoyl)pyrazol-3-yl]phenyl]but-3-ynyl nitrate",
+       "formula_weight": 542.414
+      },
+      {
+       "comp_id": "FMN",
+       "name": "FLAVIN MONONUCLEOTIDE",
+       "formula_weight": 456.344
+      }
+     ]
+    },
+    {
+     "pdb_id": "5XRA",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.8,
+     "titulo": "Crystal structure of the human CB1 in complex with agonist AM11542",
+     "ligandos": [
+      {
+       "comp_id": "FMN",
+       "name": "FLAVIN MONONUCLEOTIDE",
+       "formula_weight": 456.344
+      },
+      {
+       "comp_id": "8D3",
+       "name": "(6aR,10aR)-3-(8-bromanyl-2-methyl-octan-2-yl)-6,6,9-trimethyl-6a,7,10,10a-tetrahydrobenzo[c]chromen-1-ol",
+       "formula_weight": 449.464
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P21554",
+    "uniprot_id": "CNR1_HUMAN",
+    "protein_name": "Cannabinoid receptor 1",
+    "gene": "CNR1"
+   }
+  },
+  {
+   "assay": "CB2",
+   "familia": "GPCR",
+   "gen": "CNR2",
+   "candidatos": [
+    {
+     "pdb_id": "12IZ",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.72,
+     "titulo": "Cryo-EM structure of human cannabinoid receptor 2-Gi complex with agonist '5249",
+     "ligandos": [
+      {
+       "comp_id": "A1DB5",
+       "name": "(3R)-3-{2-oxo-2-[7-(trifluoromethyl)-3,4-dihydro-1,5-benzoxazepin-5(2H)-yl]ethyl}-2-benzofuran-1(3H)-one",
+       "formula_weight": 391.341
+      }
+     ]
+    },
+    {
+     "pdb_id": "5ZTY",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.8,
+     "titulo": "Crystal structure of human G protein coupled receptor",
+     "ligandos": [
+      {
+       "comp_id": "9JU",
+       "name": "N-(adamantan-1-yl)-1-(5-hydroxypentyl)-4-methyl-5-phenyl-1H-pyrazole-3-carboxamide",
+       "formula_weight": 421.575
+      }
+     ]
+    },
+    {
+     "pdb_id": "8GUR",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.84,
+     "titulo": "Cryo-EM structure of CP-CB2-G protein complex",
+     "ligandos": [
+      {
+       "comp_id": "9GF",
+       "name": "2-[(1R,2R,5R)-5-hydroxy-2-(3-hydroxypropyl)cyclohexyl]-5-(2-methyloctan-2-yl)phenol",
+       "formula_weight": 376.573
+      }
+     ]
+    },
+    {
+     "pdb_id": "12JA",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.9,
+     "titulo": "Cryo-EM structure of human cannabinoid receptor 2-Gi complex with agonist '1029",
+     "ligandos": [
+      {
+       "comp_id": "A1DB6",
+       "name": "methyl N-[4-ethyl-3-(morpholine-4-sulfonyl)benzoyl]-N-hexylglycinate",
+       "formula_weight": 454.58
+      }
+     ]
+    },
+    {
+     "pdb_id": "6KPF",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.9,
+     "titulo": "Cryo-EM structure of a class A GPCR with G protein complex",
+     "ligandos": [
+      {
+       "comp_id": "E3R",
+       "name": "7-[(6aR,9R,10aR)-1-Hydroxy-9-(hydroxymethyl)-6,6-dimethyl-6a,7,8,9,10,10a-hexahydro-6H-benzo[c]chromen-3-yl]- 7-methyloctanenitrile",
+       "formula_weight": 399.566
+      }
+     ]
+    },
+    {
+     "pdb_id": "12IY",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.94,
+     "titulo": "Locally refined cryo-EM structure of human cannabinoid receptor 2 with agonist '5249",
+     "ligandos": [
+      {
+       "comp_id": "A1DB5",
+       "name": "(3R)-3-{2-oxo-2-[7-(trifluoromethyl)-3,4-dihydro-1,5-benzoxazepin-5(2H)-yl]ethyl}-2-benzofuran-1(3H)-one",
+       "formula_weight": 391.341
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P34972",
+    "uniprot_id": "CNR2_HUMAN",
+    "protein_name": "Cannabinoid receptor 2",
+    "gene": "CNR2"
+   }
+  },
+  {
+   "assay": "CCK1 (CCKA)",
+   "familia": "GPCR",
+   "gen": "CCKAR",
+   "candidatos": [
+    {
+     "pdb_id": "7F8Y",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.5,
+     "titulo": "Crystal structure of the cholecystokinin receptor CCKAR in complex with devazepide",
+     "ligandos": [
+      {
+       "comp_id": "1OZ",
+       "name": "N-[(3S)-1-methyl-2-oxidanylidene-5-phenyl-3H-1,4-benzodiazepin-3-yl]-1H-indole-2-carboxamide",
+       "formula_weight": 408.452
+      }
+     ]
+    },
+    {
+     "pdb_id": "7F8U",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.8,
+     "titulo": "Crystal structure of the cholecystokinin receptor CCKAR in complex with lintitript",
+     "ligandos": [
+      {
+       "comp_id": "1OE",
+       "name": "2-[2-[[4-(2-chlorophenyl)-1,3-thiazol-2-yl]carbamoyl]indol-1-yl]ethanoic acid",
+       "formula_weight": 411.861
+      }
+     ]
+    },
+    {
+     "pdb_id": "7XOV",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.0,
+     "titulo": "Structural insights into human brain gut peptide cholecystokinin receptors",
+     "ligandos": [
+      {
+       "comp_id": "IA1",
+       "name": "2-[2-[[4-(4-chloranyl-2,5-dimethoxy-phenyl)-5-(2-cyclohexylethyl)-1,3-thiazol-2-yl]carbamoyl]-5,7-dimethyl-indol-1-yl]ethanoic acid",
+       "formula_weight": 610.163
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P32238",
+    "uniprot_id": "CCKAR_HUMAN",
+    "protein_name": "Cholecystokinin receptor type A",
+    "gene": "CCKAR"
+   }
+  },
+  {
+   "assay": "D1",
+   "familia": "GPCR",
+   "gen": "DRD1",
+   "candidatos": [
+    {
+     "pdb_id": "9WG6",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.44,
+     "titulo": "D1R-Gs in complexed with Dopamine/LY3154207/BMSA1/UNC9815",
+     "ligandos": [
+      {
+       "comp_id": "LDP",
+       "name": "L-DOPAMINE",
+       "formula_weight": 153.178
+      },
+      {
+       "comp_id": "A1EWF",
+       "name": "~{N}-(3-aminocarbonyl-6-~{tert}-butyl-1-benzothiophen-2-yl)pyridine-4-carboxamide",
+       "formula_weight": 353.438
+      },
+      {
+       "comp_id": "A1EV3",
+       "name": "1-[(1~{S},3~{R},6~{R})-6-(1,3-benzodioxol-5-yl)-3-bicyclo[4.1.0]heptanyl]-4-[(2-bromanyl-5-chloranyl-phenyl)methyl]piperazine",
+       "formula_weight": 503.859
+      },
+      {
+       "comp_id": "G4C",
+       "name": "2-[2,6-bis(chloranyl)phenyl]-1-[(1S,3R)-3-(hydroxymethyl)-1-methyl-5-(3-methyl-3-oxidanyl-butyl)-3,4-dihydro-1H-isoquinolin-2-yl]ethanone",
+       "formula_weight": 450.398
+      }
+     ]
+    },
+    {
+     "pdb_id": "9WG0",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.59,
+     "titulo": "D1R-Gs in complexed with SKF81297/LY3154207/BMSA1/UNC10062",
+     "ligandos": [
+      {
+       "comp_id": "A1EWL",
+       "name": "methyl 2-[(6~{R})-3-aminocarbonyl-2-(pyridin-4-ylcarbonylamino)-4,5,6,7-tetrahydro-1-benzothiophen-6-yl]-2-methyl-propanoate",
+       "formula_weight": 401.479
+      },
+      {
+       "comp_id": "A1EV3",
+       "name": "1-[(1~{S},3~{R},6~{R})-6-(1,3-benzodioxol-5-yl)-3-bicyclo[4.1.0]heptanyl]-4-[(2-bromanyl-5-chloranyl-phenyl)methyl]piperazine",
+       "formula_weight": 503.859
+      },
+      {
+       "comp_id": "SK0",
+       "name": "(1R)-6-chloro-1-phenyl-2,3,4,5-tetrahydro-1H-3-benzazepine-7,8-diol",
+       "formula_weight": 289.757
+      },
+      {
+       "comp_id": "G4C",
+       "name": "2-[2,6-bis(chloranyl)phenyl]-1-[(1S,3R)-3-(hydroxymethyl)-1-methyl-5-(3-methyl-3-oxidanyl-butyl)-3,4-dihydro-1H-isoquinolin-2-yl]ethanone",
+       "formula_weight": 450.398
+      }
+     ]
+    },
+    {
+     "pdb_id": "9LLJ",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.61,
+     "titulo": "Cryo-EM structure of D1R-Gs in complex with de novo designed GEM targetingTM1/2/4 and GEM targeting TM3/4/5, and agonist-positive allosteric GEM targeting TM5/6/7",
+     "ligandos": [
+      {
+       "comp_id": "LDP",
+       "name": "L-DOPAMINE",
+       "formula_weight": 153.178
+      }
+     ]
+    },
+    {
+     "pdb_id": "9LLF",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.64,
+     "titulo": "Cryo-EM structure of D1R-Gs in complex with de novo designed GEM targeting TM3/4/5",
+     "ligandos": [
+      {
+       "comp_id": "LDP",
+       "name": "L-DOPAMINE",
+       "formula_weight": 153.178
+      }
+     ]
+    },
+    {
+     "pdb_id": "9WEU",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.65,
+     "titulo": "D1R-Gs in complexed with SKF81297/LY3154207/BMSA1",
+     "ligandos": [
+      {
+       "comp_id": "A1EV3",
+       "name": "1-[(1~{S},3~{R},6~{R})-6-(1,3-benzodioxol-5-yl)-3-bicyclo[4.1.0]heptanyl]-4-[(2-bromanyl-5-chloranyl-phenyl)methyl]piperazine",
+       "formula_weight": 503.859
+      },
+      {
+       "comp_id": "SK0",
+       "name": "(1R)-6-chloro-1-phenyl-2,3,4,5-tetrahydro-1H-3-benzazepine-7,8-diol",
+       "formula_weight": 289.757
+      },
+      {
+       "comp_id": "G4C",
+       "name": "2-[2,6-bis(chloranyl)phenyl]-1-[(1S,3R)-3-(hydroxymethyl)-1-methyl-5-(3-methyl-3-oxidanyl-butyl)-3,4-dihydro-1H-isoquinolin-2-yl]ethanone",
+       "formula_weight": 450.398
+      }
+     ]
+    },
+    {
+     "pdb_id": "9I54",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.72,
+     "titulo": "Dopamine 1 receptor:GaS complex bound to 24",
+     "ligandos": [
+      {
+       "comp_id": "A1IZV",
+       "name": "6-(3-fluoranyl-5-furo[3,2-c]pyridin-4-yloxy-pyridin-2-yl)-1,5-dimethyl-pyrimidine-2,4-dione",
+       "formula_weight": 368.319
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P21728",
+    "uniprot_id": "DRD1_HUMAN",
+    "protein_name": "Dopamine receptor D1",
+    "gene": "DRD1"
+   }
+  },
+  {
+   "assay": "D2S",
+   "familia": "GPCR",
+   "gen": "DRD2",
+   "candidatos": [
+    {
+     "pdb_id": "9BS9",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.28,
+     "titulo": "Local refinement of DRD2 bound to LSD in complex with a mini-GoA and scFv16 obtained by cryo-electron microscopy (cryoEM)",
+     "ligandos": [
+      {
+       "comp_id": "7LD",
+       "name": "(8alpha)-N,N-diethyl-6-methyl-9,10-didehydroergoline-8-carboxamide",
+       "formula_weight": 323.432
+      }
+     ]
+    },
+    {
+     "pdb_id": "9BSB",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.32,
+     "titulo": "Global reconstruction of DRD2 bound to LSD in complex with a mini-GoA and scFv16 obtained by cryo-electron microscopy (cryoEM)",
+     "ligandos": [
+      {
+       "comp_id": "7LD",
+       "name": "(8alpha)-N,N-diethyl-6-methyl-9,10-didehydroergoline-8-carboxamide",
+       "formula_weight": 323.432
+      }
+     ]
+    },
+    {
+     "pdb_id": "7JVR",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.8,
+     "titulo": "Cryo-EM structure of Bromocriptine-bound dopamine receptor 2 in complex with Gi protein",
+     "ligandos": [
+      {
+       "comp_id": "08Y",
+       "name": "bromoergocryptine",
+       "formula_weight": 654.594
+      }
+     ]
+    },
+    {
+     "pdb_id": "6CM4",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.867,
+     "titulo": "Structure of the D2 Dopamine Receptor Bound to the Atypical Antipsychotic Drug Risperidone",
+     "ligandos": [
+      {
+       "comp_id": "8NU",
+       "name": "3-[2-[4-(6-fluoranyl-1,2-benzoxazol-3-yl)piperidin-1-yl]ethyl]-2-methyl-6,7,8,9-tetrahydropyrido[1,2-a]pyrimidin-4-one",
+       "formula_weight": 410.484
+      }
+     ]
+    },
+    {
+     "pdb_id": "8IRS",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.0,
+     "titulo": "Dopamine Receptor D2R-Gi-Rotigotine complex",
+     "ligandos": [
+      {
+       "comp_id": "R5F",
+       "name": "Rotigotine",
+       "formula_weight": 315.473
+      }
+     ]
+    },
+    {
+     "pdb_id": "6LUQ",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 3.1,
+     "titulo": "Haloperidol bound D2 dopamine receptor structure inspired discovery of subtype selective ligands",
+     "ligandos": [
+      {
+       "comp_id": "GMJ",
+       "name": "4-[4-(4-chlorophenyl)-4-hydroxypiperidin-1-yl]-1-(4-fluorophenyl)butan-1-one",
+       "formula_weight": 375.864
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P14416",
+    "uniprot_id": "DRD2_HUMAN",
+    "protein_name": "Dopamine receptor D2",
+    "gene": "DRD2"
+   }
+  },
+  {
+   "assay": "ETA",
+   "familia": "GPCR",
+   "gen": "EDNRA",
+   "candidatos": [
+    {
+     "pdb_id": "8XVK",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.21,
+     "titulo": "Cryo-EM structure of ETAR bound with Ambrisentan",
+     "ligandos": [
+      {
+       "comp_id": "A1D5J",
+       "name": "Ambrisentan",
+       "formula_weight": 378.421
+      }
+     ]
+    },
+    {
+     "pdb_id": "8XVL",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.22,
+     "titulo": "Cryo-EM structure of ETAR bound with Zibotentan",
+     "ligandos": [
+      {
+       "comp_id": "A1D5L",
+       "name": "Zibotentan",
+       "formula_weight": 424.433
+      }
+     ]
+    },
+    {
+     "pdb_id": "8XVJ",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.26,
+     "titulo": "Cryo-EM structure of ETAR bound with Macitentan",
+     "ligandos": [
+      {
+       "comp_id": "A1D5I",
+       "name": "Macitentan",
+       "formula_weight": 588.273
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P25101",
+    "uniprot_id": "EDNRA_HUMAN",
+    "protein_name": "Endothelin-1 receptor",
+    "gene": "EDNRA"
+   }
+  },
+  {
+   "assay": "H1",
+   "familia": "GPCR",
+   "gen": "HRH1",
+   "candidatos": [
+    {
+     "pdb_id": "8X5Y",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.0,
+     "titulo": "CryoEM structure of the histamine H1 receptor-BRIL/Anti BRIL Fab complex with astemizole",
+     "ligandos": [
+      {
+       "comp_id": "XB7",
+       "name": "1-[(4-fluorophenyl)methyl]-N-{1-[2-(4-methoxyphenyl)ethyl]piperidin-4-yl}-1H-benzimidazol-2-amine",
+       "formula_weight": 458.57
+      }
+     ]
+    },
+    {
+     "pdb_id": "3RZE",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 3.1,
+     "titulo": "Structure of the human histamine H1 receptor in complex with doxepin",
+     "ligandos": [
+      {
+       "comp_id": "5EH",
+       "name": "(3E)-3-(dibenzo[b,e]oxepin-11(6H)-ylidene)-N,N-dimethylpropan-1-amine",
+       "formula_weight": 279.376
+      },
+      {
+       "comp_id": "D7V",
+       "name": "(3Z)-3-(dibenzo[b,e]oxepin-11(6H)-ylidene)-N,N-dimethylpropan-1-amine",
+       "formula_weight": 279.376
+      }
+     ]
+    },
+    {
+     "pdb_id": "8X63",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.2,
+     "titulo": "CryoEM structure of the histamine H1 receptor-BRIL/Anti BRIL Fab complex with mepyramine",
+     "ligandos": [
+      {
+       "comp_id": "Y5E",
+       "name": "mepyramine",
+       "formula_weight": 285.384
+      }
+     ]
+    },
+    {
+     "pdb_id": "8X64",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.4,
+     "titulo": "CryoEM structure of the histamine H1 receptor-BRIL/Anti BRIL Fab complex with desloratadine",
+     "ligandos": [
+      {
+       "comp_id": "Y5R",
+       "name": "desloratadine",
+       "formula_weight": 310.821
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P35367",
+    "uniprot_id": "HRH1_HUMAN",
+    "protein_name": "Histamine H1 receptor",
+    "gene": "HRH1"
+   }
+  },
+  {
+   "assay": "H2",
+   "familia": "GPCR",
+   "gen": "HRH2",
+   "candidatos": [
+    {
+     "pdb_id": "8YUT",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.7,
+     "titulo": "Cryo-EM structure of the amthamine-bound H2R-Gs complex",
+     "ligandos": [
+      {
+       "comp_id": "A1D67",
+       "name": "5-(2-azanylethyl)-4-methyl-1,3-thiazol-2-amine",
+       "formula_weight": 157.237
+      }
+     ]
+    },
+    {
+     "pdb_id": "7UL3",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.0,
+     "titulo": "CryoEM Structure of Inactive H2R Bound to Famotidine, Nb6M, and NabFab",
+     "ligandos": [
+      {
+       "comp_id": "FO9",
+       "name": "famotidine",
+       "formula_weight": 339.461
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P25021",
+    "uniprot_id": "HRH2_HUMAN",
+    "protein_name": "Histamine H2 receptor",
+    "gene": "HRH2"
+   }
+  },
+  {
+   "assay": "M1",
+   "familia": "GPCR",
+   "gen": "CHRM1",
+   "candidatos": [
+    {
+     "pdb_id": "6ZFZ",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.17,
+     "titulo": "Structure of M1-StaR-T4L in complex with 77-LH-28-1 at 2.17A",
+     "ligandos": [
+      {
+       "comp_id": "QJT",
+       "name": "1-[3-(4-butylpiperidin-1-yl)propyl]-3,4-dihydroquinolin-2-one",
+       "formula_weight": 328.492
+      }
+     ]
+    },
+    {
+     "pdb_id": "6ZG4",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.33,
+     "titulo": "Structure of M1-StaR-T4L in complex with HTL0009936 at 2.35A",
+     "ligandos": [
+      {
+       "comp_id": "QK8",
+       "name": "ethyl (4~{S})-4-[4-[(1-methylcyclobutyl)carbamoyl]piperidin-1-yl]azepane-1-carboxylate",
+       "formula_weight": 365.51
+      }
+     ]
+    },
+    {
+     "pdb_id": "6ZG9",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.5,
+     "titulo": "Structure of M1-StaR-T4L in complex with GSK1034702 at 2.5A",
+     "ligandos": [
+      {
+       "comp_id": "QK2",
+       "name": "7-fluoranyl-5-methyl-3-[1-(oxan-4-yl)piperidin-4-yl]-1~{H}-benzimidazol-2-one",
+       "formula_weight": 333.4
+      }
+     ]
+    },
+    {
+     "pdb_id": "6WJC",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.55,
+     "titulo": "Muscarinic acetylcholine receptor 1 - muscarinic toxin 7 complex",
+     "ligandos": [
+      {
+       "comp_id": "OIN",
+       "name": "(1R,5S)-8-METHYL-8-AZABICYCLO[3.2.1]OCT-3-YL (2R)-3-HYDROXY-2-PHENYLPROPANOATE",
+       "formula_weight": 289.369
+      }
+     ]
+    },
+    {
+     "pdb_id": "5CXV",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.7,
+     "titulo": "Structure of the human M1 muscarinic acetylcholine receptor bound to antagonist Tiotropium",
+     "ligandos": [
+      {
+       "comp_id": "0HK",
+       "name": "(1R,2R,4S,5S,7S)-7-{[hydroxy(dithiophen-2-yl)acetyl]oxy}-9,9-dimethyl-3-oxa-9-azoniatricyclo[3.3.1.0~2,4~]nonane",
+       "formula_weight": 392.512
+      }
+     ]
+    },
+    {
+     "pdb_id": "6OIJ",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.3,
+     "titulo": "Muscarinic acetylcholine receptor 1-G11 protein complex",
+     "ligandos": [
+      {
+       "comp_id": "IXO",
+       "name": "4-(4,5-dihydro-1,2-oxazol-3-yloxy)-N,N,N-trimethylbut-2-yn-1-aminium",
+       "formula_weight": 197.254
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P11229",
+    "uniprot_id": "ACM1_HUMAN",
+    "protein_name": "Muscarinic acetylcholine receptor M1",
+    "gene": "CHRM1"
+   }
+  },
+  {
+   "assay": "M2",
+   "familia": "GPCR",
+   "gen": "CHRM2",
+   "candidatos": [
+    {
+     "pdb_id": "5ZKC",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.3,
+     "titulo": "Crystal structure of rationally thermostabilized M2 muscarinic acetylcholine receptor bound with NMS",
+     "ligandos": [
+      {
+       "comp_id": "3C0",
+       "name": "N-methyl scopolamine",
+       "formula_weight": 318.387
+      }
+     ]
+    },
+    {
+     "pdb_id": "5YC8",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.5,
+     "titulo": "Crystal structure of rationally thermostabilized M2 muscarinic acetylcholine receptor bound with NMS (Hg-derivative)",
+     "ligandos": [
+      {
+       "comp_id": "3C0",
+       "name": "N-methyl scopolamine",
+       "formula_weight": 318.387
+      }
+     ]
+    },
+    {
+     "pdb_id": "5ZK3",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.6,
+     "titulo": "Crystal structure of rationally thermostabilized M2 muscarinic acetylcholine receptor bound with QNB",
+     "ligandos": [
+      {
+       "comp_id": "QNB",
+       "name": "(3R)-1-azabicyclo[2.2.2]oct-3-yl hydroxy(diphenyl)acetate",
+       "formula_weight": 337.412
+      }
+     ]
+    },
+    {
+     "pdb_id": "5ZKB",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.95,
+     "titulo": "Crystal structure of rationally thermostabilized M2 muscarinic acetylcholine receptor bound with AF-DX 384",
+     "ligandos": [
+      {
+       "comp_id": "82F",
+       "name": "N-[2-[(2S)-2-[(dipropylamino)methyl]piperidin-1-yl]ethyl]-6-oxidanylidene-5H-pyrido[2,3-b][1,4]benzodiazepine-11-carboxamide",
+       "formula_weight": 478.63
+      }
+     ]
+    },
+    {
+     "pdb_id": "3UON",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 3.0,
+     "titulo": "Structure of the human M2 muscarinic acetylcholine receptor bound to an antagonist",
+     "ligandos": [
+      {
+       "comp_id": "QNB",
+       "name": "(3R)-1-azabicyclo[2.2.2]oct-3-yl hydroxy(diphenyl)acetate",
+       "formula_weight": 337.412
+      }
+     ]
+    },
+    {
+     "pdb_id": "5ZK8",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 3.0,
+     "titulo": "Crystal structure of M2 muscarinic acetylcholine receptor bound with NMS",
+     "ligandos": [
+      {
+       "comp_id": "3C0",
+       "name": "N-methyl scopolamine",
+       "formula_weight": 318.387
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P08172",
+    "uniprot_id": "ACM2_HUMAN",
+    "protein_name": "Muscarinic acetylcholine receptor M2",
+    "gene": "CHRM2"
+   }
+  },
+  {
+   "assay": "M3",
+   "familia": "GPCR",
+   "gen": "CHRM3",
+   "candidatos": [
+    {
+     "pdb_id": "8EA0",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.56,
+     "titulo": "CryoEM structure of miniGq-coupled hM3R in complex with iperoxo (local refinement)",
+     "ligandos": [
+      {
+       "comp_id": "IXO",
+       "name": "4-(4,5-dihydro-1,2-oxazol-3-yloxy)-N,N,N-trimethylbut-2-yn-1-aminium",
+       "formula_weight": 197.254
+      }
+     ]
+    },
+    {
+     "pdb_id": "8E9W",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.69,
+     "titulo": "CryoEM structure of miniGq-coupled hM3Dq in complex with DCZ",
+     "ligandos": [
+      {
+       "comp_id": "WEC",
+       "name": "11-(4-methylpiperazin-1-yl)-5H-dibenzo[b,e][1,4]diazepine",
+       "formula_weight": 292.378
+      }
+     ]
+    },
+    {
+     "pdb_id": "8E9Z",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.69,
+     "titulo": "CryoEM structure of miniGq-coupled hM3R in complex with Iperoxo",
+     "ligandos": [
+      {
+       "comp_id": "IXO",
+       "name": "4-(4,5-dihydro-1,2-oxazol-3-yloxy)-N,N,N-trimethylbut-2-yn-1-aminium",
+       "formula_weight": 197.254
+      }
+     ]
+    },
+    {
+     "pdb_id": "8E9Y",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.79,
+     "titulo": "CryoEM structure of miniGq-coupled hM3Dq in complex with CNO",
+     "ligandos": [
+      {
+       "comp_id": "WE9",
+       "name": "8-chloro-11-(4-methyl-4-oxo-4lambda~5~-piperazin-1-yl)-5H-dibenzo[b,e][1,4]diazepine",
+       "formula_weight": 342.823
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P20309",
+    "uniprot_id": "ACM3_HUMAN",
+    "protein_name": "Muscarinic acetylcholine receptor M3",
+    "gene": "CHRM3"
+   }
+  },
+  {
+   "assay": "delta2 (DOP)",
+   "familia": "GPCR",
+   "gen": "OPRD1",
+   "candidatos": [
+    {
+     "pdb_id": "4N6H",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.8,
+     "titulo": "1.8 A Structure of the human delta opioid 7TM receptor (PSI Community Target)",
+     "ligandos": [
+      {
+       "comp_id": "EJ4",
+       "name": "(4bS,8R,8aS,14bR)-7-(cyclopropylmethyl)-5,6,7,8,14,14b-hexahydro-4,8-methano[1]benzofuro[2,3-a]pyrido[4,3-b]carbazole-1,8a(9H)-diol",
+       "formula_weight": 414.496
+      }
+     ]
+    },
+    {
+     "pdb_id": "9CGK",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.62,
+     "titulo": "CryoEM structure of delta opioid receptor bound to G proteins and a full bitopic agonist",
+     "ligandos": [
+      {
+       "comp_id": "A1AWD",
+       "name": "N-{5-[(4bS,8R,8aS,15bR)-1,8a-dihydroxy-5,6,8,8a,9,15b-hexahydro-7H-4,8-methano[1]benzofuro[3,2-c]pyrido[3,4-b]acridin-7-yl]pentyl}guanidine",
+       "formula_weight": 499.604
+      }
+     ]
+    },
+    {
+     "pdb_id": "9XDQ",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.79,
+     "titulo": "Cryo-EM structure of BMS986187 bound DOR-Gi complex",
+     "ligandos": [
+      {
+       "comp_id": "A1D6B",
+       "name": "3,3,6,6-tetramethyl-9-[4-[(2-methylphenyl)methoxy]phenyl]-4,5,7,9-tetrahydro-2~{H}-xanthene-1,8-dione",
+       "formula_weight": 470.599
+      }
+     ]
+    },
+    {
+     "pdb_id": "9CGJ",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.8,
+     "titulo": "CryoEM structure of delta opioid receptor bound to G proteins and a partial agonist",
+     "ligandos": [
+      {
+       "comp_id": "A1AWC",
+       "name": "N-{6-[(4bS,8R,8aS,15bR)-1,8a-dihydroxy-5,6,8,8a,9,15b-hexahydro-7H-4,8-methano[1]benzofuro[3,2-c]pyrido[3,4-b]acridin-7-yl]hexyl}guanidine",
+       "formula_weight": 513.631
+      }
+     ]
+    },
+    {
+     "pdb_id": "8Y71",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.97,
+     "titulo": "positive allosteric modulator(BMS986187)-bound delta-opioid receptor-Gi complex",
+     "ligandos": [
+      {
+       "comp_id": "A1D6B",
+       "name": "3,3,6,6-tetramethyl-9-[4-[(2-methylphenyl)methoxy]phenyl]-4,5,7,9-tetrahydro-2~{H}-xanthene-1,8-dione",
+       "formula_weight": 470.599
+      },
+      {
+       "comp_id": "A1D6F",
+       "name": "4-[(~{S})-[(2~{R},5~{S})-2,5-dimethyl-4-prop-2-enyl-piperazin-1-yl]-(3-methoxyphenyl)methyl]-~{N},~{N}-diethyl-benzamide",
+       "formula_weight": 449.628
+      }
+     ]
+    },
+    {
+     "pdb_id": "9PPX",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.04,
+     "titulo": "CryoEM structure of delta opioid receptor bound to G proteins and naltrexone",
+     "ligandos": [
+      {
+       "comp_id": "A1CLJ",
+       "name": "17-(cyclopropylmethyl)-3,14-dihydroxy-5alpha-4,5-epoxymorphinan-6-one",
+       "formula_weight": 341.401
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P41143",
+    "uniprot_id": "OPRD_HUMAN",
+    "protein_name": "Delta-type opioid receptor",
+    "gene": "OPRD1"
+   }
+  },
+  {
+   "assay": "kappa (KOP)",
+   "familia": "GPCR",
+   "gen": "OPRK1",
+   "candidatos": [
+    {
+     "pdb_id": "7UL2",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.4,
+     "titulo": "CryoEM Structure of Inactive NTSR1 Bound to SR48692 and Nb6",
+     "ligandos": [
+      {
+       "comp_id": "Q6Q",
+       "name": "2-[[1-(7-chloranylquinolin-4-yl)-5-(2,6-dimethoxyphenyl)pyrazol-3-yl]carbonylamino]adamantane-2-carboxylic acid",
+       "formula_weight": 587.065
+      }
+     ]
+    },
+    {
+     "pdb_id": "9PA4",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.5,
+     "titulo": "(S)-ketamine bound kappa-opioid receptor in complex with Gi1",
+     "ligandos": [
+      {
+       "comp_id": "JC9",
+       "name": "(2~{S})-2-(2-chlorophenyl)-2-(methylamino)cyclohexan-1-one",
+       "formula_weight": 237.725
+      }
+     ]
+    },
+    {
+     "pdb_id": "9XDR",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.58,
+     "titulo": "Cryo-EM structure of asimadoline-BMS-986187-bound KOR-Gi1 complex",
+     "ligandos": [
+      {
+       "comp_id": "A1E0F",
+       "name": "Asimadoline",
+       "formula_weight": 414.539
+      },
+      {
+       "comp_id": "A1D6B",
+       "name": "3,3,6,6-tetramethyl-9-[4-[(2-methylphenyl)methoxy]phenyl]-4,5,7,9-tetrahydro-2~{H}-xanthene-1,8-dione",
+       "formula_weight": 470.599
+      }
+     ]
+    },
+    {
+     "pdb_id": "9ZZO",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.6,
+     "titulo": "MP1104-bound Kappa Opioid Receptor in complex with beta-arrestin1",
+     "ligandos": [
+      {
+       "comp_id": "PIO",
+       "name": "[(2R)-2-octanoyloxy-3-[oxidanyl-[(1R,2R,3S,4R,5R,6S)-2,3,6-tris(oxidanyl)-4,5-diphosphonooxy-cyclohexyl]oxy-phosphoryl]oxy-propyl] octanoate",
+       "formula_weight": 746.566
+      },
+      {
+       "comp_id": "CVV",
+       "name": "N-[(5alpha,6beta)-17-(cyclopropylmethyl)-3-hydroxy-7,8-didehydro-4,5-epoxymorphinan-6-yl]-3-iodobenzamide",
+       "formula_weight": 554.419
+      }
+     ]
+    },
+    {
+     "pdb_id": "8DZR",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.61,
+     "titulo": "GR89,696 bound Kappa Opioid Receptor in complex with gustducin",
+     "ligandos": [
+      {
+       "comp_id": "U9I",
+       "name": "methyl (3R)-4-[(3,4-dichlorophenyl)acetyl]-3-[(pyrrolidin-1-yl)methyl]piperazine-1-carboxylate",
+       "formula_weight": 414.326
+      }
+     ]
+    },
+    {
+     "pdb_id": "9PA1",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.63,
+     "titulo": "PCP bound kappa-opioid receptor in complex with Gi1",
+     "ligandos": [
+      {
+       "comp_id": "1PC",
+       "name": "1-(PHENYL-1-CYCLOHEXYL)PIPERIDINE",
+       "formula_weight": 243.387
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P41145",
+    "uniprot_id": "OPRK_HUMAN",
+    "protein_name": "Kappa-type opioid receptor",
+    "gene": "OPRK1"
+   }
+  },
+  {
+   "assay": "mu (MOP)",
+   "familia": "GPCR",
+   "gen": "OPRM1",
+   "candidatos": [
+    {
+     "pdb_id": "8Y72",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.65,
+     "titulo": "positive allosteric modulator(BMS986122)-bound mu-opioid receptor-Gi complex",
+     "ligandos": [
+      {
+       "comp_id": "VV9",
+       "name": "(2~{S})-2-(3-bromanyl-4-methoxy-phenyl)-3-(4-chlorophenyl)sulfonyl-1,3-thiazolidine",
+       "formula_weight": 448.782
+      }
+     ]
+    },
+    {
+     "pdb_id": "9PY4",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.78,
+     "titulo": "Primed-state loperamide-mu opioid receptor-Gi GDPbS complex (rebound)",
+     "ligandos": [
+      {
+       "comp_id": "VSN",
+       "name": "5'-O-[(R)-hydroxy(thiophosphonooxy)phosphoryl]guanosine",
+       "formula_weight": 459.266
+      },
+      {
+       "comp_id": "A1CMV",
+       "name": "4-[4-(4-chlorophenyl)-4-hydroxypiperidin-1-yl]-N,N-dimethyl-2,2-diphenylbutanamide",
+       "formula_weight": 477.038
+      }
+     ]
+    },
+    {
+     "pdb_id": "8EFO",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.8,
+     "titulo": "PZM21-bound mu-opioid receptor-Gi complex",
+     "ligandos": [
+      {
+       "comp_id": "8QY",
+       "name": "N-[(2S)-2-(dimethylamino)-3-(4-hydroxyphenyl)propyl]-N'-[(2S)-1-(thiophen-3-yl)propan-2-yl]urea",
+       "formula_weight": 361.502
+      }
+     ]
+    },
+    {
+     "pdb_id": "8Y73",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.84,
+     "titulo": "positive allosteric modulator(MPAM-15)-bound mu-opioid receptor-Gi complex",
+     "ligandos": [
+      {
+       "comp_id": "A1D6C",
+       "name": "9-[5-(3-chlorophenyl)furan-2-yl]-3,3,6,6-tetramethyl-4,5,7,9-tetrahydro-2~{H}-xanthene-1,8-dione",
+       "formula_weight": 450.954
+      }
+     ]
+    },
+    {
+     "pdb_id": "9PA2",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.86,
+     "titulo": "PCP bound mu-opioid receptor in complex with Gi1",
+     "ligandos": [
+      {
+       "comp_id": "1PC",
+       "name": "1-(PHENYL-1-CYCLOHEXYL)PIPERIDINE",
+       "formula_weight": 243.387
+      }
+     ]
+    },
+    {
+     "pdb_id": "9PA5",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.92,
+     "titulo": "(S)-ketamine bound mu-opioid receptor in complex with Gi1",
+     "ligandos": [
+      {
+       "comp_id": "JC9",
+       "name": "(2~{S})-2-(2-chlorophenyl)-2-(methylamino)cyclohexan-1-one",
+       "formula_weight": 237.725
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P35372",
+    "uniprot_id": "OPRM_HUMAN",
+    "protein_name": "Mu-type opioid receptor",
+    "gene": "OPRM1"
+   }
+  },
+  {
+   "assay": "5-HT1A",
+   "familia": "GPCR",
+   "gen": "HTR1A",
+   "candidatos": [
+    {
+     "pdb_id": "9HYI",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.3,
+     "titulo": "DP81-bound serotonin 5-HT1A receptor - Gi Protein Complex",
+     "ligandos": [
+      {
+       "comp_id": "A1IYG",
+       "name": "6-[3-[[(3~{S})-1-(2-thiophen-3-ylphenyl)pyrrolidin-3-yl]amino]propoxy]-4~{H}-1,4-benzoxazin-3-one",
+       "formula_weight": 449.565
+      }
+     ]
+    },
+    {
+     "pdb_id": "8PJK",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.4,
+     "titulo": "ST171-bound serotonin 5-HT1A receptor - Gi Protein Complex",
+     "ligandos": [
+      {
+       "comp_id": "ZL9",
+       "name": "6-[3-[2-(2-methoxyphenoxy)ethylamino]propoxy]-4~{H}-1,4-benzoxazin-3-one",
+       "formula_weight": 372.415
+      }
+     ]
+    },
+    {
+     "pdb_id": "9VJE",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.47,
+     "titulo": "Cryo-EM structure of 5-HT1AR-GoA in complex with buspirone",
+     "ligandos": [
+      {
+       "comp_id": "YLX",
+       "name": "Buspirone",
+       "formula_weight": 385.503
+      }
+     ]
+    },
+    {
+     "pdb_id": "9KVI",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.54,
+     "titulo": "A Cryo_EM structure of 5_HT1A complex with DMT",
+     "ligandos": [
+      {
+       "comp_id": "A1EG8",
+       "name": "Bufotenin",
+       "formula_weight": 204.268
+      },
+      {
+       "comp_id": "CHO",
+       "name": "GLYCOCHENODEOXYCHOLIC ACID",
+       "formula_weight": 449.623
+      },
+      {
+       "comp_id": "J40",
+       "name": "[(2R)-1-[oxidanyl-[(2R,3R,5S,6R)-2,3,5,6-tetrakis(oxidanyl)-4-phosphonooxy-cyclohexyl]oxy-phosphoryl]oxy-3-tetradecanoyloxy-propan-2-yl] (5E,8E)-hexadeca-5,8,11,14-tetraenoate",
+       "formula_weight": 854.895
+      }
+     ]
+    },
+    {
+     "pdb_id": "9KVH",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.59,
+     "titulo": "A Cryo_EM structure of 5_HT1A complex with TMT",
+     "ligandos": [
+      {
+       "comp_id": "A1EG9",
+       "name": "Cinobufotenine",
+       "formula_weight": 219.303
+      },
+      {
+       "comp_id": "J40",
+       "name": "[(2R)-1-[oxidanyl-[(2R,3R,5S,6R)-2,3,5,6-tetrakis(oxidanyl)-4-phosphonooxy-cyclohexyl]oxy-phosphoryl]oxy-3-tetradecanoyloxy-propan-2-yl] (5E,8E)-hexadeca-5,8,11,14-tetraenoate",
+       "formula_weight": 854.895
+      },
+      {
+       "comp_id": "CHO",
+       "name": "GLYCOCHENODEOXYCHOLIC ACID",
+       "formula_weight": 449.623
+      }
+     ]
+    },
+    {
+     "pdb_id": "8FYX",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.62,
+     "titulo": "Buspirone-bound serotonin 1A (5-HT1A) receptor-Gi1 protein complex",
+     "ligandos": [
+      {
+       "comp_id": "YLX",
+       "name": "Buspirone",
+       "formula_weight": 385.503
+      },
+      {
+       "comp_id": "J40",
+       "name": "[(2R)-1-[oxidanyl-[(2R,3R,5S,6R)-2,3,5,6-tetrakis(oxidanyl)-4-phosphonooxy-cyclohexyl]oxy-phosphoryl]oxy-3-tetradecanoyloxy-propan-2-yl] (5E,8E)-hexadeca-5,8,11,14-tetraenoate",
+       "formula_weight": 854.895
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P08908",
+    "uniprot_id": "5HT1A_HUMAN",
+    "protein_name": "5-hydroxytryptamine receptor 1A",
+    "gene": "HTR1A"
+   }
+  },
+  {
+   "assay": "5-HT1B",
+   "familia": "GPCR",
+   "gen": "HTR1B",
+   "candidatos": [
+    {
+     "pdb_id": "4IAR",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.7,
+     "titulo": "Crystal structure of the chimeric protein of 5-HT1B-BRIL in complex with ergotamine (PSI Community Target)",
+     "ligandos": [
+      {
+       "comp_id": "ERM",
+       "name": "Ergotamine",
+       "formula_weight": 581.661
+      },
+      {
+       "comp_id": "OLB",
+       "name": "(2S)-2,3-dihydroxypropyl (9Z)-octadec-9-enoate",
+       "formula_weight": 356.54
+      }
+     ]
+    },
+    {
+     "pdb_id": "4IAQ",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.8,
+     "titulo": "Crystal structure of the chimeric protein of 5-HT1B-BRIL in complex with dihydroergotamine (PSI Community Target)",
+     "ligandos": [
+      {
+       "comp_id": "2GM",
+       "name": "Dihydroergotamine",
+       "formula_weight": 583.677
+      }
+     ]
+    },
+    {
+     "pdb_id": "7C61",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 3.0,
+     "titulo": "Crystal structure of 5-HT1B-BRIL and SRP2070_Fab complex",
+     "ligandos": [
+      {
+       "comp_id": "ERM",
+       "name": "Ergotamine",
+       "formula_weight": 581.661
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P28222",
+    "uniprot_id": "5HT1B_HUMAN",
+    "protein_name": "5-hydroxytryptamine receptor 1B",
+    "gene": "HTR1B"
+   }
+  },
+  {
+   "assay": "5-HT2A",
+   "familia": "GPCR",
+   "gen": "HTR2A",
+   "candidatos": [
+    {
+     "pdb_id": "7WC8",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.45,
+     "titulo": "Crystal structure of serotonin 2A receptor in complex with lumateperone",
+     "ligandos": [
+      {
+       "comp_id": "92S",
+       "name": "1-(4-fluorophenyl)-4-[(10~{R},15~{S})-4-methyl-1,4,12-triazatetracyclo[7.6.1.0^{5,16}.0^{10,15}]hexadeca-5,7,9(16)-trien-12-yl]butan-1-one",
+       "formula_weight": 393.497
+      }
+     ]
+    },
+    {
+     "pdb_id": "7WC9",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.5,
+     "titulo": "Crystal structure of serotonin 2A receptor in complex with non-hallucinogenic psychedelic analog",
+     "ligandos": [
+      {
+       "comp_id": "93F",
+       "name": "(10~{R},15~{S})-12-[3-(2-methoxyphenyl)propyl]-4-methyl-1,4,12-triazatetracyclo[7.6.1.0^{5,16}.0^{10,15}]hexadeca-5(16),6,8-triene",
+       "formula_weight": 377.522
+      }
+     ]
+    },
+    {
+     "pdb_id": "9AS8",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.54,
+     "titulo": "Global reconstruction of 5-HT2AR bound to psilocin in complex with a mini-Gq protein and scFv16 obtained by cryo-electron microscopy (cryoEM)",
+     "ligandos": [
+      {
+       "comp_id": "91Q",
+       "name": "3-[2-(dimethylamino)ethyl]-1~{H}-indol-4-ol",
+       "formula_weight": 204.268
+      }
+     ]
+    },
+    {
+     "pdb_id": "7WC6",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.6,
+     "titulo": "Crystal structure of serotonin 2A receptor in complex with LSD",
+     "ligandos": [
+      {
+       "comp_id": "7LD",
+       "name": "(8alpha)-N,N-diethyl-6-methyl-9,10-didehydroergoline-8-carboxamide",
+       "formula_weight": 323.432
+      }
+     ]
+    },
+    {
+     "pdb_id": "7WC7",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.6,
+     "titulo": "Crystal structure of serotonin 2A receptor in complex with lisuride",
+     "ligandos": [
+      {
+       "comp_id": "H8G",
+       "name": "N,N-diethyl-N'-[(8alpha)-6-methyl-9,10-didehydroergolin-8-yl]urea",
+       "formula_weight": 338.447
+      }
+     ]
+    },
+    {
+     "pdb_id": "9LL8",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.62,
+     "titulo": "Psilocin-bound Serotonin 2A (5-HT2A) receptor-Gi complex",
+     "ligandos": [
+      {
+       "comp_id": "91Q",
+       "name": "3-[2-(dimethylamino)ethyl]-1~{H}-indol-4-ol",
+       "formula_weight": 204.268
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P28223",
+    "uniprot_id": "5HT2A_HUMAN",
+    "protein_name": "5-hydroxytryptamine receptor 2A",
+    "gene": "HTR2A"
+   }
+  },
+  {
+   "assay": "5-HT2B",
+   "familia": "GPCR",
+   "gen": "HTR2B",
+   "candidatos": [
+    {
+     "pdb_id": "4IB4",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.7,
+     "titulo": "Crystal structure of the chimeric protein of 5-HT2B-BRIL in complex with ergotamine",
+     "ligandos": [
+      {
+       "comp_id": "ERM",
+       "name": "Ergotamine",
+       "formula_weight": 581.661
+      },
+      {
+       "comp_id": "OLB",
+       "name": "(2S)-2,3-dihydroxypropyl (9Z)-octadec-9-enoate",
+       "formula_weight": 356.54
+      }
+     ]
+    },
+    {
+     "pdb_id": "7SRQ",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.7,
+     "titulo": "5-HT2B receptor bound to LSD obtained by cryo-electron microscopy (cryoEM)",
+     "ligandos": [
+      {
+       "comp_id": "7LD",
+       "name": "(8alpha)-N,N-diethyl-6-methyl-9,10-didehydroergoline-8-carboxamide",
+       "formula_weight": 323.432
+      }
+     ]
+    },
+    {
+     "pdb_id": "4NC3",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.8,
+     "titulo": "Crystal structure of the 5-HT2B receptor solved using serial femtosecond crystallography in lipidic cubic phase.",
+     "ligandos": [
+      {
+       "comp_id": "ERM",
+       "name": "Ergotamine",
+       "formula_weight": 581.661
+      },
+      {
+       "comp_id": "DGA",
+       "name": "DIACYL GLYCEROL",
+       "formula_weight": 625.018
+      }
+     ]
+    },
+    {
+     "pdb_id": "5TVN",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.9,
+     "titulo": "Crystal structure of the LSD-bound 5-HT2B receptor",
+     "ligandos": [
+      {
+       "comp_id": "7LD",
+       "name": "(8alpha)-N,N-diethyl-6-methyl-9,10-didehydroergoline-8-carboxamide",
+       "formula_weight": 323.432
+      }
+     ]
+    },
+    {
+     "pdb_id": "7SRR",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.9,
+     "titulo": "5-HT2B receptor bound to LSD in complex with heterotrimeric mini-Gq protein obtained by cryo-electron microscopy (cryoEM)",
+     "ligandos": [
+      {
+       "comp_id": "7LD",
+       "name": "(8alpha)-N,N-diethyl-6-methyl-9,10-didehydroergoline-8-carboxamide",
+       "formula_weight": 323.432
+      }
+     ]
+    },
+    {
+     "pdb_id": "6DRY",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.918,
+     "titulo": "Structural Determinants of Activation and Biased Agonism at the 5-HT2B Receptor",
+     "ligandos": [
+      {
+       "comp_id": "H8D",
+       "name": "(8beta)-N-[(2S)-1-hydroxybutan-2-yl]-6-methyl-9,10-didehydroergoline-8-carboxamide",
+       "formula_weight": 339.431
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P41595",
+    "uniprot_id": "5HT2B_HUMAN",
+    "protein_name": "5-hydroxytryptamine receptor 2B",
+    "gene": "HTR2B"
+   }
+  },
+  {
+   "assay": "V1a",
+   "familia": "GPCR",
+   "gen": "AVPR1A",
+   "candidatos": [
+    {
+     "pdb_id": "9UWL",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.6,
+     "titulo": "Cryo-EM structure of human V1aR bound with SRX246 at a resolution of 2.6 angstrom",
+     "ligandos": [
+      {
+       "comp_id": "A1EQN",
+       "name": "SRX246",
+       "formula_weight": 703.869
+      }
+     ]
+    },
+    {
+     "pdb_id": "9UWJ",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.0,
+     "titulo": "Cryo-EM structure of human V1aR bound with balovaptan at a resolution of 3.0 angstrom",
+     "ligandos": [
+      {
+       "comp_id": "A1EB7",
+       "name": "Balovaptan",
+       "formula_weight": 409.912
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P37288",
+    "uniprot_id": "V1AR_HUMAN",
+    "protein_name": "Vasopressin V1a receptor",
+    "gene": "AVPR1A"
+   }
+  },
+  {
+   "assay": "dopamine transporter",
+   "familia": "Transportador",
+   "gen": "SLC6A3",
+   "candidatos": [
+    {
+     "pdb_id": "9EO4",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.66,
+     "titulo": "Outward-open structure of human dopamine transporter bound to cocaine",
+     "ligandos": [
+      {
+       "comp_id": "COC",
+       "name": "COCAINE",
+       "formula_weight": 303.353
+      }
+     ]
+    },
+    {
+     "pdb_id": "9JKI",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.69,
+     "titulo": "membrane protein SLC6A3 with Bpp",
+     "ligandos": [
+      {
+       "comp_id": "1XR",
+       "name": "Bupropion",
+       "formula_weight": 239.741
+      }
+     ]
+    },
+    {
+     "pdb_id": "9JKJ",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.69,
+     "titulo": "membrane transporter SLC6A3 dopamine",
+     "ligandos": [
+      {
+       "comp_id": "LDP",
+       "name": "L-DOPAMINE",
+       "formula_weight": 153.178
+      }
+     ]
+    },
+    {
+     "pdb_id": "8Y2D",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.8,
+     "titulo": "Cryo-EM structure of human dopamine transporter in complex with dopamine",
+     "ligandos": [
+      {
+       "comp_id": "LDP",
+       "name": "L-DOPAMINE",
+       "formula_weight": 153.178
+      }
+     ]
+    },
+    {
+     "pdb_id": "9J6S",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.8,
+     "titulo": "Cryo-EM structure of human dopamine transporter in complex with tesofensine",
+     "ligandos": [
+      {
+       "comp_id": "A1EA1",
+       "name": "(1~{R},2~{R},3~{S},5~{S})-3-(3,4-dichlorophenyl)-2-(ethoxymethyl)-8-methyl-8-azabicyclo[3.2.1]octane",
+       "formula_weight": 328.277
+      }
+     ]
+    },
+    {
+     "pdb_id": "8Y2G",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.83,
+     "titulo": "Cryo-EM structure of human dopamine transporter in complex with methylphenidate",
+     "ligandos": [
+      {
+       "comp_id": "A1D5U",
+       "name": "Dexmethylphenidate",
+       "formula_weight": 233.306
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "Q01959",
+    "uniprot_id": "SC6A3_HUMAN",
+    "protein_name": "Sodium-dependent dopamine transporter",
+    "gene": "SLC6A3"
+   }
+  },
+  {
+   "assay": "norepinephrine transporter",
+   "familia": "Transportador",
+   "gen": "SLC6A2",
+   "candidatos": [
+    {
+     "pdb_id": "8ZP2",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.4,
+     "titulo": "Cryo-EM structure of human norepinephrine transporter NET bound with atomoxetine in an outward-open state at a resolution of 2.4 angstrom",
+     "ligandos": [
+      {
+       "comp_id": "A1LX4",
+       "name": "(3R)-N-methyl-3-(2-methylphenoxy)-3-phenyl-propan-1-amine",
+       "formula_weight": 255.355
+      },
+      {
+       "comp_id": "PTY",
+       "name": "PHOSPHATIDYLETHANOLAMINE",
+       "formula_weight": 734.039
+      }
+     ]
+    },
+    {
+     "pdb_id": "9KDA",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.44,
+     "titulo": "Cryo-EM structure of lipid-mediated dimer of human norepinephrine transporter NET in the presence of the antidepressant vilazodone in an inward-open state at resolution of 2.44 angstrom.",
+     "ligandos": [
+      {
+       "comp_id": "YG7",
+       "name": "5-{4-[4-(5-cyano-1H-indol-3-yl)butyl]piperazin-1-yl}-1-benzofuran-2-carboxamide",
+       "formula_weight": 441.525
+      },
+      {
+       "comp_id": "A1EFM",
+       "name": "[(2~{R})-1-[[(2~{S})-2,3-bis(oxidanyl)propoxy]-oxidanyl-phosphoryl]oxy-3-nonanoyloxy-propan-2-yl] decanoate",
+       "formula_weight": 540.624
+      }
+     ]
+    },
+    {
+     "pdb_id": "9KDM",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.46,
+     "titulo": "Cryo-EM structure of LIPID-mediated human norepinephrine transporter NET in the presence of Levomilnacipran in an inward-open state at resolution of 2.46 angstrom.",
+     "ligandos": [
+      {
+       "comp_id": "F0F",
+       "name": "(1R,2S)-2-(aminomethyl)-N,N-diethyl-1-phenyl-cyclopropane-1-carboxamide",
+       "formula_weight": 246.348
+      },
+      {
+       "comp_id": "A1EFM",
+       "name": "[(2~{R})-1-[[(2~{S})-2,3-bis(oxidanyl)propoxy]-oxidanyl-phosphoryl]oxy-3-nonanoyloxy-propan-2-yl] decanoate",
+       "formula_weight": 540.624
+      }
+     ]
+    },
+    {
+     "pdb_id": "8HFI",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.5,
+     "titulo": "Cryo-EM structure of human norepinephrine transporter NET in the presence of the antidepressant desipramine in an inward-open state at resolution of 2.5 angstrom.",
+     "ligandos": [
+      {
+       "comp_id": "DSM",
+       "name": "3-(10,11-DIHYDRO-5H-DIBENZO[B,F]AZEPIN-5-YL)-N-METHYLPROPAN-1-AMINE",
+       "formula_weight": 266.381
+      }
+     ]
+    },
+    {
+     "pdb_id": "8ZOY",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.5,
+     "titulo": "Cryo-EM structure of human norepinephrine transporter NET bound with norepinephrine in an inward open state at a resolution of 2.5 angstrom",
+     "ligandos": [
+      {
+       "comp_id": "LNR",
+       "name": "L-NOREPINEPHRINE",
+       "formula_weight": 169.178
+      },
+      {
+       "comp_id": "PTY",
+       "name": "PHOSPHATIDYLETHANOLAMINE",
+       "formula_weight": 734.039
+      }
+     ]
+    },
+    {
+     "pdb_id": "8ZP1",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.5,
+     "titulo": "Cryo-EM structure of human norepinephrine transporter NET bound with reboxetine in an outward-open state at a resolution of 2.5 angstrom",
+     "ligandos": [
+      {
+       "comp_id": "A1D9Y",
+       "name": "(2~{S})-2-[(~{S})-(2-ethoxyphenoxy)-phenyl-methyl]morpholine",
+       "formula_weight": 313.391
+      },
+      {
+       "comp_id": "PTY",
+       "name": "PHOSPHATIDYLETHANOLAMINE",
+       "formula_weight": 734.039
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P23975",
+    "uniprot_id": "SC6A2_HUMAN",
+    "protein_name": "Sodium-dependent noradrenaline transporter",
+    "gene": "SLC6A2"
+   }
+  },
+  {
+   "assay": "5-HT transporter",
+   "familia": "Transportador",
+   "gen": "SLC6A4",
+   "candidatos": [
+    {
+     "pdb_id": "9HCO",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.78,
+     "titulo": "Outward-open structure of human serotonin transporter bound to vilazodone",
+     "ligandos": [
+      {
+       "comp_id": "YG7",
+       "name": "5-{4-[4-(5-cyano-1H-indol-3-yl)butyl]piperazin-1-yl}-1-benzofuran-2-carboxamide",
+       "formula_weight": 441.525
+      }
+     ]
+    },
+    {
+     "pdb_id": "7TXT",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.0,
+     "titulo": "Structure of human serotonin transporter bound to small molecule '8090 in lipid nanodisc and NaCl",
+     "ligandos": [
+      {
+       "comp_id": "KWC",
+       "name": "1-[4-(4-fluorophenyl)-1,3-thiazol-2-yl]piperazine",
+       "formula_weight": 263.334
+      }
+     ]
+    },
+    {
+     "pdb_id": "5I6X",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 3.14,
+     "titulo": "X-ray structure of the ts3 human serotonin transporter complexed with paroxetine at the central site",
+     "ligandos": [
+      {
+       "comp_id": "8PR",
+       "name": "Paroxetine",
+       "formula_weight": 329.365
+      }
+     ]
+    },
+    {
+     "pdb_id": "5I71",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 3.15,
+     "titulo": "X-ray structure of the ts3 human serotonin transporter complexed with s-citalopram at the central site",
+     "ligandos": [
+      {
+       "comp_id": "68P",
+       "name": "(1S)-1-[3-(dimethylamino)propyl]-1-(4-fluorophenyl)-1,3-dihydro-2-benzofuran-5-carbonitrile",
+       "formula_weight": 324.392
+      },
+      {
+       "comp_id": "D12",
+       "name": "DODECANE",
+       "formula_weight": 170.335
+      }
+     ]
+    },
+    {
+     "pdb_id": "9VWS",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.2,
+     "titulo": "Cryo-EM structure of human serotonin transporter in complex with tesofensine",
+     "ligandos": [
+      {
+       "comp_id": "A1EA1",
+       "name": "(1~{R},2~{R},3~{S},5~{S})-3-(3,4-dichlorophenyl)-2-(ethoxymethyl)-8-methyl-8-azabicyclo[3.2.1]octane",
+       "formula_weight": 328.277
+      }
+     ]
+    },
+    {
+     "pdb_id": "5I73",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 3.24,
+     "titulo": "X-ray structure of the ts3 human serotonin transporter complexed with s-citalopram at the central and allosteric sites",
+     "ligandos": [
+      {
+       "comp_id": "68P",
+       "name": "(1S)-1-[3-(dimethylamino)propyl]-1-(4-fluorophenyl)-1,3-dihydro-2-benzofuran-5-carbonitrile",
+       "formula_weight": 324.392
+      },
+      {
+       "comp_id": "C14",
+       "name": "TETRADECANE",
+       "formula_weight": 198.388
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P31645",
+    "uniprot_id": "SC6A4_HUMAN",
+    "protein_name": "Sodium-dependent serotonin transporter",
+    "gene": "SLC6A4"
+   }
+  },
+  {
+   "assay": "BZD (central)",
+   "familia": "Canal iónico",
+   "gen": "GABRA1",
+   "candidatos": [
+    {
+     "pdb_id": "9RGD",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.0,
+     "titulo": "CryoEM structure of human alpha1beta3gamma2L GABA(A)R in CL47a",
+     "ligandos": [
+      {
+       "comp_id": "R16",
+       "name": "HEXADECANE",
+       "formula_weight": 226.441
+      },
+      {
+       "comp_id": "PX2",
+       "name": "1,2-DILAUROYL-SN-GLYCERO-3-PHOSPHATE",
+       "formula_weight": 535.671
+      },
+      {
+       "comp_id": "PGW",
+       "name": "(1R)-2-{[(S)-{[(2S)-2,3-dihydroxypropyl]oxy}(hydroxy)phosphoryl]oxy}-1-[(hexadecanoyloxy)methyl]ethyl (9Z)-octadec-9-enoate",
+       "formula_weight": 749.007
+      }
+     ]
+    },
+    {
+     "pdb_id": "9EQG",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.4,
+     "titulo": "CryoEM structure of human full-length alpha1beta3gamma2L GABA(A)R in complex with GABA and puerarin",
+     "ligandos": [
+      {
+       "comp_id": "PGW",
+       "name": "(1R)-2-{[(S)-{[(2S)-2,3-dihydroxypropyl]oxy}(hydroxy)phosphoryl]oxy}-1-[(hexadecanoyloxy)methyl]ethyl (9Z)-octadec-9-enoate",
+       "formula_weight": 749.007
+      },
+      {
+       "comp_id": "R16",
+       "name": "HEXADECANE",
+       "formula_weight": 226.441
+      },
+      {
+       "comp_id": "A1H6W",
+       "name": "Puerarin",
+       "formula_weight": 416.378
+      },
+      {
+       "comp_id": "PX2",
+       "name": "1,2-DILAUROYL-SN-GLYCERO-3-PHOSPHATE",
+       "formula_weight": 535.671
+      }
+     ]
+    },
+    {
+     "pdb_id": "9FAS",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.5,
+     "titulo": "CryoEM structure of human full-length alpha1beta3gamma2L GABA(A)R in complex with pregnenolone sulfate",
+     "ligandos": [
+      {
+       "comp_id": "PIO",
+       "name": "[(2R)-2-octanoyloxy-3-[oxidanyl-[(1R,2R,3S,4R,5R,6S)-2,3,6-tris(oxidanyl)-4,5-diphosphonooxy-cyclohexyl]oxy-phosphoryl]oxy-propyl] octanoate",
+       "formula_weight": 746.566
+      },
+      {
+       "comp_id": "PGW",
+       "name": "(1R)-2-{[(S)-{[(2S)-2,3-dihydroxypropyl]oxy}(hydroxy)phosphoryl]oxy}-1-[(hexadecanoyloxy)methyl]ethyl (9Z)-octadec-9-enoate",
+       "formula_weight": 749.007
+      },
+      {
+       "comp_id": "PX2",
+       "name": "1,2-DILAUROYL-SN-GLYCERO-3-PHOSPHATE",
+       "formula_weight": 535.671
+      },
+      {
+       "comp_id": "R16",
+       "name": "HEXADECANE",
+       "formula_weight": 226.441
+      },
+      {
+       "comp_id": "A8W",
+       "name": "Pregnenolone sulfate",
+       "formula_weight": 396.541
+      }
+     ]
+    },
+    {
+     "pdb_id": "9FFU",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.5,
+     "titulo": "Cryo-EM structure of the alpha1beta3 GABA(A) receptor in complex with GABA and Mb25 in the long-lived symmetric desensitised state",
+     "ligandos": [
+      {
+       "comp_id": "POV",
+       "name": "(2S)-3-(hexadecanoyloxy)-2-[(9Z)-octadec-9-enoyloxy]propyl 2-(trimethylammonio)ethyl phosphate",
+       "formula_weight": 760.076
+      },
+      {
+       "comp_id": "R16",
+       "name": "HEXADECANE",
+       "formula_weight": 226.441
+      }
+     ]
+    },
+    {
+     "pdb_id": "6X3T",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.55,
+     "titulo": "Human GABAA receptor alpha1-beta2-gamma2 subtype in complex with GABA plus propofol",
+     "ligandos": [
+      {
+       "comp_id": "PFL",
+       "name": "2,6-BIS(1-METHYLETHYL)PHENOL",
+       "formula_weight": 178.271
+      }
+     ]
+    },
+    {
+     "pdb_id": "8VRN",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.57,
+     "titulo": "Human GABAA receptor alpha1-beta2-gamma2 subtype in complex with GABA plus PPTQ",
+     "ligandos": [
+      {
+       "comp_id": "A1ADN",
+       "name": "3-(4-methylphenyl)-2-phenylquinazolin-4(3H)-one",
+       "formula_weight": 312.365
+      },
+      {
+       "comp_id": "PTY",
+       "name": "PHOSPHATIDYLETHANOLAMINE",
+       "formula_weight": 734.039
+      },
+      {
+       "comp_id": "POV",
+       "name": "(2S)-3-(hexadecanoyloxy)-2-[(9Z)-octadec-9-enoyloxy]propyl 2-(trimethylammonio)ethyl phosphate",
+       "formula_weight": 760.076
+      },
+      {
+       "comp_id": "Q3G",
+       "name": "O-[(R)-[(2S)-2-(hexadecanoyloxy)-3-(octadecanoyloxy)propoxy](hydroxy)phosphoryl]-D-serine",
+       "formula_weight": 764.022
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P14867",
+    "uniprot_id": "GBRA1_HUMAN",
+    "protein_name": "Gamma-aminobutyric acid receptor subunit alpha-1",
+    "gene": "GABRA1"
+   }
+  },
+  {
+   "assay": "NMDA",
+   "familia": "Canal iónico",
+   "gen": "GRIN1",
+   "candidatos": [
+    {
+     "pdb_id": "9GJ1",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.62,
+     "titulo": "NMDA bound to compound 339",
+     "ligandos": [
+      {
+       "comp_id": "A1IME",
+       "name": "(2~{R})-2-azanyl-3-[(7-methylthieno[3,2-b]pyridin-2-yl)carbonylamino]propanoic acid",
+       "formula_weight": 279.315
+      }
+     ]
+    },
+    {
+     "pdb_id": "9GIC",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.823,
+     "titulo": "NMDA bound to compound 345",
+     "ligandos": [
+      {
+       "comp_id": "A1ILQ",
+       "name": "(2~{R})-2-azanyl-3-[[3-(phenylmethyl)-2~{H}-thiophen-5-yl]carbonylamino]propanoic acid",
+       "formula_weight": 306.38
+      }
+     ]
+    },
+    {
+     "pdb_id": "5H8Q",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.9,
+     "titulo": "Structure of the human GluN1/GluN2A LBD in complex with GNE8324",
+     "ligandos": [
+      {
+       "comp_id": "5YE",
+       "name": "6-[[ethyl-(4-fluorophenyl)amino]methyl]-2,3-dihydro-1~{H}-cyclopenta[3,4][1,3]thiazolo[1,4-~{a}]pyrimidin-8-one",
+       "formula_weight": 343.418
+      }
+     ]
+    },
+    {
+     "pdb_id": "9GIF",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.9,
+     "titulo": "NMDA bound to compound 288",
+     "ligandos": [
+      {
+       "comp_id": "A1ILR",
+       "name": "(2~{R})-2-azanyl-3-(2~{H}-thiophen-5-ylcarbonylamino)propanoic acid",
+       "formula_weight": 216.257
+      }
+     ]
+    },
+    {
+     "pdb_id": "9GIB",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.948,
+     "titulo": "NMDA bound to compound 380",
+     "ligandos": [
+      {
+       "comp_id": "A1ILP",
+       "name": "(2~{R})-2-azanyl-3-[[3-(5-ethyl-1,2-oxazol-4-yl)-5-fluoranyl-phenyl]carbonylamino]propanoic acid",
+       "formula_weight": 321.304
+      }
+     ]
+    },
+    {
+     "pdb_id": "9MUM",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.97,
+     "titulo": "Crystal structure of GluN1/GluN2A ligand-binding domain in complex with Compound 11, Glycine and Glutamate",
+     "ligandos": [
+      {
+       "comp_id": "A1BRB",
+       "name": "5-[2-(3-chlorophenyl)-2,2-difluoroethoxy]-N-[1-(pyrazin-2-yl)cyclopropyl]pyrazine-2-carboxamide",
+       "formula_weight": 431.823
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "Q05586",
+    "uniprot_id": "NMDZ1_HUMAN",
+    "protein_name": "Glutamate receptor ionotropic, NMDA 1",
+    "gene": "GRIN1"
+   }
+  },
+  {
+   "assay": "N neuronal alpha4beta2",
+   "familia": "Canal iónico",
+   "gen": "CHRNA4",
+   "candidatos": [],
+   "uniprot": {
+    "accession": "P43681",
+    "uniprot_id": "ACHA4_HUMAN",
+    "protein_name": "Neuronal acetylcholine receptor subunit alpha-4",
+    "gene": "CHRNA4"
+   },
+   "nota": "sin estructura X-RAY DIFFRACTION/ELECTRON MICROSCOPY ≤3.5 Å con ligando drug-like"
+  },
+  {
+   "assay": "5-HT3",
+   "familia": "Canal iónico",
+   "gen": "HTR3A",
+   "candidatos": [
+    {
+     "pdb_id": "8BLA",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.3,
+     "titulo": "Human serotonin 5-HT3A receptor in complex with vortioxetine (detergent, ECD only, active/distorted conformation)",
+     "ligandos": [
+      {
+       "comp_id": "VTX",
+       "name": "Vortioxetine",
+       "formula_weight": 298.446
+      }
+     ]
+    },
+    {
+     "pdb_id": "8BLB",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.3,
+     "titulo": "Human serotonin 5-HT3A receptor in complex with vortioxetine (nanodiscs, ECD, active/distorted conformation)",
+     "ligandos": [
+      {
+       "comp_id": "VTX",
+       "name": "Vortioxetine",
+       "formula_weight": 298.446
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P46098",
+    "uniprot_id": "5HT3A_HUMAN",
+    "protein_name": "5-hydroxytryptamine receptor 3A",
+    "gene": "HTR3A"
+   }
+  },
+  {
+   "assay": "Ca2+ channel (L, dihydropyridine site)",
+   "familia": "Canal iónico",
+   "gen": "CACNA1C",
+   "candidatos": [
+    {
+     "pdb_id": "5V2Q",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.7,
+     "titulo": "CaV beta2a subunit: CaV1.2 AID-CEN complex",
+     "ligandos": [
+      {
+       "comp_id": "8VY",
+       "name": "1,3-bis(bromomethyl)benzene",
+       "formula_weight": 263.957
+      }
+     ]
+    },
+    {
+     "pdb_id": "5V2P",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.0,
+     "titulo": "CaV beta2a subunit: CaV1.2 AID-CAP complex",
+     "ligandos": [
+      {
+       "comp_id": "8VY",
+       "name": "1,3-bis(bromomethyl)benzene",
+       "formula_weight": 263.957
+      }
+     ]
+    },
+    {
+     "pdb_id": "8UKP",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.85,
+     "titulo": "cAMP-dependent protein kinase A catalytic domain in complex with voltage gated calcium channel peptide ternary complex 1",
+     "ligandos": [
+      {
+       "comp_id": "ANP",
+       "name": "PHOSPHOAMINOPHOSPHONIC ACID-ADENYLATE ESTER",
+       "formula_weight": 506.196
+      }
+     ]
+    },
+    {
+     "pdb_id": "8UKO",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.89,
+     "titulo": "cAMP-dependent protein kinase A catalytic domain in complex with voltage gated calcium channel peptide ternary complex 2",
+     "ligandos": [
+      {
+       "comp_id": "ANP",
+       "name": "PHOSPHOAMINOPHOSPHONIC ACID-ADENYLATE ESTER",
+       "formula_weight": 506.196
+      }
+     ]
+    },
+    {
+     "pdb_id": "8WE6",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.9,
+     "titulo": "Human L-type voltage-gated calcium channel Cav1.2 at 2.9 Angstrom resolution",
+     "ligandos": [
+      {
+       "comp_id": "3PE",
+       "name": "1,2-Distearoyl-sn-glycerophosphoethanolamine",
+       "formula_weight": 748.065
+      }
+     ]
+    },
+    {
+     "pdb_id": "8WE8",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.9,
+     "titulo": "Human L-type voltage-gated calcium channel Cav1.2 in the presence of calciseptine, amlodipine and pinaverium at 2.9 Angstrom resolution",
+     "ligandos": [
+      {
+       "comp_id": "3PE",
+       "name": "1,2-Distearoyl-sn-glycerophosphoethanolamine",
+       "formula_weight": 748.065
+      },
+      {
+       "comp_id": "6UB",
+       "name": "amlodipine",
+       "formula_weight": 408.876
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "Q13936",
+    "uniprot_id": "CAC1C_HUMAN",
+    "protein_name": "Voltage-dependent L-type calcium channel subunit alpha-1C",
+    "gene": "CACNA1C"
+   }
+  },
+  {
+   "assay": "hERG",
+   "familia": "Canal iónico",
+   "gen": "KCNH2",
+   "candidatos": [
+    {
+     "pdb_id": "8ZYQ",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.18,
+     "titulo": "Cryo-EM Structure of pimozide-bound hERG Channel",
+     "ligandos": [
+      {
+       "comp_id": "1II",
+       "name": "3-[1-[4,4-bis(4-fluorophenyl)butyl]piperidin-4-yl]-1~{H}-benzimidazol-2-one",
+       "formula_weight": 461.546
+      }
+     ]
+    },
+    {
+     "pdb_id": "8ZYP",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.19,
+     "titulo": "Cryo-EM Structure of E-4031-bound hERG Channel",
+     "ligandos": [
+      {
+       "comp_id": "A1L2J",
+       "name": "~{N}-[4-[1-[2-(6-methylpyridin-2-yl)ethyl]piperidin-4-yl]carbonylphenyl]methanesulfonamide",
+       "formula_weight": 401.522
+      }
+     ]
+    },
+    {
+     "pdb_id": "8ZYO",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.29,
+     "titulo": "Cryo-EM Structure of astemizole-bound hERG Channel",
+     "ligandos": [
+      {
+       "comp_id": "XB7",
+       "name": "1-[(4-fluorophenyl)methyl]-N-{1-[2-(4-methoxyphenyl)ethyl]piperidin-4-yl}-1H-benzimidazol-2-amine",
+       "formula_weight": 458.57
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "Q12809",
+    "uniprot_id": "KCNH2_HUMAN",
+    "protein_name": "Voltage-gated inwardly rectifying potassium channel KCNH2",
+    "gene": "KCNH2"
+   }
+  },
+  {
+   "assay": "KV channel",
+   "familia": "Canal iónico",
+   "gen": null,
+   "candidatos": [],
+   "nota": "la ficha no identifica el subtipo; hay que fijarlo a mano"
+  },
+  {
+   "assay": "Na+ channel (site 2)",
+   "familia": "Canal iónico",
+   "gen": "SCN5A",
+   "candidatos": [
+    {
+     "pdb_id": "9V3S",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.0,
+     "titulo": "Nav1.5 in complex with quinidine-azo",
+     "ligandos": [
+      {
+       "comp_id": "A1EQU",
+       "name": "(~{S})-[(1~{S},2~{R},4~{S},5~{R})-5-ethenyl-1-azabicyclo[2.2.2]octan-2-yl]-[6-methoxy-3-[4-(2-phenylhydrazinyl)phenyl]quinolin-4-yl]methanol",
+       "formula_weight": 506.638
+      }
+     ]
+    },
+    {
+     "pdb_id": "6LQA",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.3,
+     "titulo": "voltage-gated sodium channel Nav1.5 with quinidine",
+     "ligandos": [
+      {
+       "comp_id": "QDN",
+       "name": "Quinidine",
+       "formula_weight": 324.417
+      }
+     ]
+    },
+    {
+     "pdb_id": "9ITH",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.4,
+     "titulo": "Nav1.5 in complex with TTX",
+     "ligandos": [
+      {
+       "comp_id": "9SR",
+       "name": "(1R,5R,6R,7R,9S,11S,12S,13S,14S)-3-amino-14-(hydroxymethyl)-8,10-dioxa-2,4-diazatetracyclo[7.3.1.1~7,11~.0~1,6~]tetradec-3-ene-5,9,12,13,14-pentol (non-preferred name)",
+       "formula_weight": 319.268
+      },
+      {
+       "comp_id": "9Z9",
+       "name": "(3beta,14beta,17beta,25R)-3-[4-methoxy-3-(methoxymethyl)butoxy]spirost-5-en",
+       "formula_weight": 544.805
+      }
+     ]
+    },
+    {
+     "pdb_id": "9P24",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.48,
+     "titulo": "Structure of human cardiac sodium channel Nav1.5 in intermediate open state",
+     "ligandos": [
+      {
+       "comp_id": "9Z9",
+       "name": "(3beta,14beta,17beta,25R)-3-[4-methoxy-3-(methoxymethyl)butoxy]spirost-5-en",
+       "formula_weight": 544.805
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "Q14524",
+    "uniprot_id": "SCN5A_HUMAN",
+    "protein_name": "Sodium channel protein type 5 subunit alpha",
+    "gene": "SCN5A"
+   }
+  },
+  {
+   "assay": "AR",
+   "familia": "Receptor nuclear",
+   "gen": "AR",
+   "candidatos": [
+    {
+     "pdb_id": "8E1A",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.2,
+     "titulo": "Structure-based study to overcome cross-reactivity of novel androgen receptor inhibitors",
+     "ligandos": [
+      {
+       "comp_id": "3E0",
+       "name": "4-[4-(3-fluoro-2-methoxyphenyl)-1,3-thiazol-2-yl]morpholine",
+       "formula_weight": 294.345
+      }
+     ]
+    },
+    {
+     "pdb_id": "7ZTZ",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.4,
+     "titulo": "Crystal structure of mutant AR-LBD (Y764C) bound to dihydrotestosterone",
+     "ligandos": [
+      {
+       "comp_id": "DHT",
+       "name": "5-ALPHA-DIHYDROTESTOSTERONE",
+       "formula_weight": 290.44
+      }
+     ]
+    },
+    {
+     "pdb_id": "4OHA",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.42,
+     "titulo": "Crystal structure of T877A-AR-LBD bound with co-regulator peptide",
+     "ligandos": [
+      {
+       "comp_id": "HFT",
+       "name": "HYDROXYFLUTAMIDE",
+       "formula_weight": 292.211
+      }
+     ]
+    },
+    {
+     "pdb_id": "5V8Q",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.44,
+     "titulo": "Synthesis and biological evaluation of novel selective androgen receptor modulators (SARMs): Part III",
+     "ligandos": [
+      {
+       "comp_id": "97A",
+       "name": "4-[(2S,3S)-2-ethyl-3-hydroxy-5-oxopyrrolidin-1-yl]-2-(trifluoromethyl)benzonitrile",
+       "formula_weight": 298.26
+      }
+     ]
+    },
+    {
+     "pdb_id": "2AX6",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.5,
+     "titulo": "Crystal Structure Of The Androgen Receptor Ligand Binding Domain T877A Mutant In Complex With Hydroxyflutamide",
+     "ligandos": [
+      {
+       "comp_id": "HFT",
+       "name": "HYDROXYFLUTAMIDE",
+       "formula_weight": 292.211
+      }
+     ]
+    },
+    {
+     "pdb_id": "3L3X",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.55,
+     "titulo": "Crystal structure of DHT-bound androgen receptor in complex with the first motif of steroid receptor coactivator 3",
+     "ligandos": [
+      {
+       "comp_id": "DHT",
+       "name": "5-ALPHA-DIHYDROTESTOSTERONE",
+       "formula_weight": 290.44
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P10275",
+    "uniprot_id": "ANDR_HUMAN",
+    "protein_name": "Androgen receptor",
+    "gene": "AR"
+   }
+  },
+  {
+   "assay": "GR",
+   "familia": "Receptor nuclear",
+   "gen": "NR3C1",
+   "candidatos": [
+    {
+     "pdb_id": "4UDD",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.8,
+     "titulo": "GR in complex with desisobutyrylciclesonide",
+     "ligandos": [
+      {
+       "comp_id": "CPS",
+       "name": "3-[(3-CHOLAMIDOPROPYL)DIMETHYLAMMONIO]-1-PROPANESULFONATE",
+       "formula_weight": 614.877
+      },
+      {
+       "comp_id": "CV7",
+       "name": "DESISOBUYTYRYL CICLESONIDE",
+       "formula_weight": 470.598
+      }
+     ]
+    },
+    {
+     "pdb_id": "4P6W",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.951,
+     "titulo": "Crystal Structure of mometasone furoate-bound glucocorticoid receptor ligand binding domain",
+     "ligandos": [
+      {
+       "comp_id": "MOF",
+       "name": "MOMETASONE FUROATE",
+       "formula_weight": 521.429
+      }
+     ]
+    },
+    {
+     "pdb_id": "8A9G",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.961,
+     "titulo": "Binary complex of 14-3-3 zeta Glucocorticoid Receptor (GR) pT524 peptide stabilised by (R)-para chloropyrrolidone1",
+     "ligandos": [
+      {
+       "comp_id": "BTB",
+       "name": "2-[BIS-(2-HYDROXY-ETHYL)-AMINO]-2-HYDROXYMETHYL-PROPANE-1,3-DIOL",
+       "formula_weight": 209.24
+      },
+      {
+       "comp_id": "QJK",
+       "name": "5-[(2~{R})-3-(4-chlorophenyl)carbonyl-2-(4-nitrophenyl)-4-oxidanyl-5-oxidanylidene-2~{H}-pyrrol-1-yl]-2-oxidanyl-benzoic acid",
+       "formula_weight": 494.838
+      }
+     ]
+    },
+    {
+     "pdb_id": "5UC3",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.009,
+     "titulo": "Structure of the dominant negative mutant Glucocorticoid Receptor alpha (L733K/N734P) complexed with RU-486",
+     "ligandos": [
+      {
+       "comp_id": "486",
+       "name": "11-(4-DIMETHYLAMINO-PHENYL)-17-HYDROXY-13-METHYL-17-PROP-1-YNYL-1,2,6,7,8,11,12,13,14,15,16,17-DODEC AHYDRO-CYCLOPENTA[A]PHENANTHREN-3-ONE",
+       "formula_weight": 429.594
+      }
+     ]
+    },
+    {
+     "pdb_id": "3K22",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.1,
+     "titulo": "Glucocorticoid Receptor with Bound alaninamide 10 with TIF2 peptide",
+     "ligandos": [
+      {
+       "comp_id": "JZS",
+       "name": "N-[(1R)-2-amino-1-methyl-2-oxoethyl]-3-(6-methyl-4-{[3,3,3-trifluoro-2-hydroxy-2-(trifluoromethyl)propyl]amino}-1H-indazol-1-yl)benzamide",
+       "formula_weight": 517.424
+      },
+      {
+       "comp_id": "JZR",
+       "name": "hexyl beta-D-glucopyranoside",
+       "formula_weight": 264.315
+      }
+     ]
+    },
+    {
+     "pdb_id": "5NFP",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.1,
+     "titulo": "Glucocorticoid Receptor in complex with budesonide",
+     "ligandos": [
+      {
+       "comp_id": "CPS",
+       "name": "3-[(3-CHOLAMIDOPROPYL)DIMETHYLAMMONIO]-1-PROPANESULFONATE",
+       "formula_weight": 614.877
+      },
+      {
+       "comp_id": "8W5",
+       "name": "(1~{S},2~{S},4~{R},6~{R},8~{S},9~{S},11~{S},12~{S},13~{R})-9,13-dimethyl-11-oxidanyl-8-(2-oxidanylethanoyl)-6-propyl-5,7-dioxapentacyclo[10.8.0.0^{2,9}.0^{4,8}.0^{13,18}]icosa-14,17-dien-16-one",
+       "formula_weight": 430.534
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P04150",
+    "uniprot_id": "GCR_HUMAN",
+    "protein_name": "Glucocorticoid receptor",
+    "gene": "NR3C1"
+   }
+  },
+  {
+   "assay": "Lck kinase",
+   "familia": "Quinasa",
+   "gen": "LCK",
+   "candidatos": [
+    {
+     "pdb_id": "1QPC",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.6,
+     "titulo": "STRUCTURAL ANALYSIS OF THE LYMPHOCYTE-SPECIFIC KINASE LCK IN COMPLEX WITH NON-SELECTIVE AND SRC FAMILY SELECTIVE KINASE INHIBITORS",
+     "ligandos": [
+      {
+       "comp_id": "ANP",
+       "name": "PHOSPHOAMINOPHOSPHONIC ACID-ADENYLATE ESTER",
+       "formula_weight": 506.196
+      }
+     ]
+    },
+    {
+     "pdb_id": "4C3F",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.72,
+     "titulo": "Structure of Lck in complex with a compound discovered by Virtual Fragment Linking",
+     "ligandos": [
+      {
+       "comp_id": "7KW",
+       "name": "N-phenyl-4-(5-phenyl-1H-pyrazol-4-yl)pyrimidin-2-amine",
+       "formula_weight": 313.356
+      }
+     ]
+    },
+    {
+     "pdb_id": "6PDJ",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.81,
+     "titulo": "Tyrosine-protein kinase LCK bound to Compound 11",
+     "ligandos": [
+      {
+       "comp_id": "ODJ",
+       "name": "N-{4-[(6-methoxypyrazolo[1,5-a]pyridine-3-carbonyl)amino]-3-methylphenyl}-1-methyl-1H-indazole-3-carboxamide",
+       "formula_weight": 454.481
+      },
+      {
+       "comp_id": "CXS",
+       "name": "3-CYCLOHEXYL-1-PROPYLSULFONIC ACID",
+       "formula_weight": 221.317
+      }
+     ]
+    },
+    {
+     "pdb_id": "3MPM",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.95,
+     "titulo": "LCK complexed with a pyrazolopyrimidine",
+     "ligandos": [
+      {
+       "comp_id": "5LK",
+       "name": "4-{(6R,7R)-7-amino-3-[3-(4-methylpiperazin-1-yl)phenyl]-6,7-dihydropyrazolo[1,5-a]pyrimidin-6-yl}phenol",
+       "formula_weight": 402.492
+      }
+     ]
+    },
+    {
+     "pdb_id": "3AC1",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.99,
+     "titulo": "Crystal structure of pyrazin derivative bound to the kinase domain of Human LCK, (Auto-phosphorylated on TYR394)",
+     "ligandos": [
+      {
+       "comp_id": "KZI",
+       "name": "5-{[(1R,2S)-2-aminocyclohexyl]amino}-3-[(3,5-dimethoxyphenyl)amino]pyrazine-2-carboxamide",
+       "formula_weight": 386.448
+      }
+     ]
+    },
+    {
+     "pdb_id": "1QPD",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.0,
+     "titulo": "STRUCTURAL ANALYSIS OF THE LYMPHOCYTE-SPECIFIC KINASE LCK IN COMPLEX WITH NON-SELECTIVE AND SRC FAMILY SELECTIVE KINASE INHIBITORS",
+     "ligandos": [
+      {
+       "comp_id": "STU",
+       "name": "STAUROSPORINE",
+       "formula_weight": 466.531
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P06239",
+    "uniprot_id": "LCK_HUMAN",
+    "protein_name": "Tyrosine-protein kinase Lck",
+    "gene": "LCK"
+   }
+  },
+  {
+   "assay": "COX1",
+   "familia": "Enzima",
+   "gen": "PTGS1",
+   "candidatos": [
+    {
+     "pdb_id": "6Y3C",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 3.361,
+     "titulo": "Human COX-1 Crystal Structure",
+     "ligandos": [
+      {
+       "comp_id": "FLC",
+       "name": "CITRATE ANION",
+       "formula_weight": 189.1
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P23219",
+    "uniprot_id": "PGH1_HUMAN",
+    "protein_name": "Prostaglandin G/H synthase 1",
+    "gene": "PTGS1"
+   }
+  },
+  {
+   "assay": "COX2",
+   "familia": "Enzima",
+   "gen": "PTGS2",
+   "candidatos": [
+    {
+     "pdb_id": "5F19",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.04,
+     "titulo": "The Crystal Structure of Aspirin Acetylated Human Cyclooxygenase-2",
+     "ligandos": [
+      {
+       "comp_id": "COH",
+       "name": "PROTOPORPHYRIN IX CONTAINING CO",
+       "formula_weight": 619.575
+      },
+      {
+       "comp_id": "BOG",
+       "name": "octyl beta-D-glucopyranoside",
+       "formula_weight": 292.369
+      }
+     ]
+    },
+    {
+     "pdb_id": "5IKR",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.342,
+     "titulo": "The Structure of Mefenamic Acid Bound to Human Cyclooxygenase-2",
+     "ligandos": [
+      {
+       "comp_id": "ID8",
+       "name": "2-[(2,3-DIMETHYLPHENYL)AMINO]BENZOIC ACID",
+       "formula_weight": 241.285
+      },
+      {
+       "comp_id": "COH",
+       "name": "PROTOPORPHYRIN IX CONTAINING CO",
+       "formula_weight": 619.575
+      },
+      {
+       "comp_id": "BOG",
+       "name": "octyl beta-D-glucopyranoside",
+       "formula_weight": 292.369
+      }
+     ]
+    },
+    {
+     "pdb_id": "5F1A",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.38,
+     "titulo": "The Crystal Structure of Salicylate Bound to Human Cyclooxygenase-2",
+     "ligandos": [
+      {
+       "comp_id": "COH",
+       "name": "PROTOPORPHYRIN IX CONTAINING CO",
+       "formula_weight": 619.575
+      },
+      {
+       "comp_id": "BOG",
+       "name": "octyl beta-D-glucopyranoside",
+       "formula_weight": 292.369
+      }
+     ]
+    },
+    {
+     "pdb_id": "5IKQ",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.41,
+     "titulo": "The Structure of Meclofenamic Acid Bound to Human Cyclooxygenase-2",
+     "ligandos": [
+      {
+       "comp_id": "BOG",
+       "name": "octyl beta-D-glucopyranoside",
+       "formula_weight": 292.369
+      },
+      {
+       "comp_id": "JMS",
+       "name": "2-[(2,6-dichloro-3-methyl-phenyl)amino]benzoic acid",
+       "formula_weight": 296.149
+      },
+      {
+       "comp_id": "COH",
+       "name": "PROTOPORPHYRIN IX CONTAINING CO",
+       "formula_weight": 619.575
+      }
+     ]
+    },
+    {
+     "pdb_id": "5IKT",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.451,
+     "titulo": "The Structure of Tolfenamic Acid Bound to Human Cyclooxygenase-2",
+     "ligandos": [
+      {
+       "comp_id": "TLF",
+       "name": "2-[(3-chloro-2-methylphenyl)amino]benzoic acid",
+       "formula_weight": 261.704
+      },
+      {
+       "comp_id": "COH",
+       "name": "PROTOPORPHYRIN IX CONTAINING CO",
+       "formula_weight": 619.575
+      }
+     ]
+    },
+    {
+     "pdb_id": "5IKV",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.508,
+     "titulo": "The Structure of Flufenamic Acid Bound to Human Cyclooxygenase-2",
+     "ligandos": [
+      {
+       "comp_id": "FLF",
+       "name": "2-[[3-(TRIFLUOROMETHYL)PHENYL]AMINO] BENZOIC ACID",
+       "formula_weight": 281.23
+      },
+      {
+       "comp_id": "COH",
+       "name": "PROTOPORPHYRIN IX CONTAINING CO",
+       "formula_weight": 619.575
+      },
+      {
+       "comp_id": "BOG",
+       "name": "octyl beta-D-glucopyranoside",
+       "formula_weight": 292.369
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P35354",
+    "uniprot_id": "PGH2_HUMAN",
+    "protein_name": "Prostaglandin G/H synthase 2",
+    "gene": "PTGS2"
+   }
+  },
+  {
+   "assay": "acetylcholinesterase",
+   "familia": "Enzima",
+   "gen": "ACHE",
+   "candidatos": [
+    {
+     "pdb_id": "4M0E",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.0,
+     "titulo": "Structure of human acetylcholinesterase in complex with dihydrotanshinone I",
+     "ligandos": [
+      {
+       "comp_id": "1YL",
+       "name": "Dihydrotanshinone I",
+       "formula_weight": 278.302
+      }
+     ]
+    },
+    {
+     "pdb_id": "6NTO",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.052,
+     "titulo": "Crystal Structure of Recombinant Human Acetylcholinesterase Inhibited by A-230",
+     "ligandos": [
+      {
+       "comp_id": "L2Y",
+       "name": "(S)-N-[(1E)-1-(diethylamino)ethylidene]-P-methylphosphonamidic fluoride",
+       "formula_weight": 194.187
+      },
+      {
+       "comp_id": "7PE",
+       "name": "2-(2-(2-(2-(2-(2-ETHOXYETHOXY)ETHOXY)ETHOXY)ETHOXY)ETHOXY)ETHANOL",
+       "formula_weight": 310.384
+      }
+     ]
+    },
+    {
+     "pdb_id": "5HF5",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.152,
+     "titulo": "Crystal structure of human acetylcholinesterase in complex with paraoxon in the unaged state (predominant acyl loop conformation)",
+     "ligandos": [
+      {
+       "comp_id": "PE8",
+       "name": "3,6,9,12,15,18,21-HEPTAOXATRICOSANE-1,23-DIOL",
+       "formula_weight": 370.436
+      }
+     ]
+    },
+    {
+     "pdb_id": "6O5V",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.152,
+     "titulo": "Binary complex of native hAChE with oxime reactivator RS-170B",
+     "ligandos": [
+      {
+       "comp_id": "LND",
+       "name": "4-carbamoyl-1-(3-{2-[(E)-(hydroxyimino)methyl]-1H-imidazol-1-yl}propyl)pyridin-1-ium",
+       "formula_weight": 274.298
+      }
+     ]
+    },
+    {
+     "pdb_id": "4EY4",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.156,
+     "titulo": "Crystal Structure of Recombinant Human Acetylcholinesterase in the Apo state",
+     "ligandos": [
+      {
+       "comp_id": "PE8",
+       "name": "3,6,9,12,15,18,21-HEPTAOXATRICOSANE-1,23-DIOL",
+       "formula_weight": 370.436
+      }
+     ]
+    },
+    {
+     "pdb_id": "6WVO",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.19,
+     "titulo": "Crystal Structure of Recombinant Human Acetylcholinesterase In Complex with GD and HI-6",
+     "ligandos": [
+      {
+       "comp_id": "GD8",
+       "name": "(1R)-1,2,2-TRIMETHYLPROPYL (S)-METHYLPHOSPHINATE",
+       "formula_weight": 164.182
+      },
+      {
+       "comp_id": "HI6",
+       "name": "4-(AMINOCARBONYL)-1-[({2-[(E)-(HYDROXYIMINO)METHYL]PYRIDINIUM-1-YL}METHOXY)METHYL]PYRIDINIUM",
+       "formula_weight": 288.302
+      },
+      {
+       "comp_id": "PE8",
+       "name": "3,6,9,12,15,18,21-HEPTAOXATRICOSANE-1,23-DIOL",
+       "formula_weight": 370.436
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P22303",
+    "uniprot_id": "ACES_HUMAN",
+    "protein_name": "Acetylcholinesterase",
+    "gene": "ACHE"
+   }
+  },
+  {
+   "assay": "MAO-A",
+   "familia": "Enzima",
+   "gen": "MAOA",
+   "candidatos": [
+    {
+     "pdb_id": "2Z5Y",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.17,
+     "titulo": "Crystal Structure of Human Monoamine Oxidase A (G110A) with Harmine",
+     "ligandos": [
+      {
+       "comp_id": "FAD",
+       "name": "FLAVIN-ADENINE DINUCLEOTIDE",
+       "formula_weight": 785.55
+      },
+      {
+       "comp_id": "HRM",
+       "name": "7-METHOXY-1-METHYL-9H-BETA-CARBOLINE",
+       "formula_weight": 212.247
+      },
+      {
+       "comp_id": "DCX",
+       "name": "DECYL(DIMETHYL)PHOSPHINE OXIDE",
+       "formula_weight": 218.316
+      }
+     ]
+    },
+    {
+     "pdb_id": "2Z5X",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.2,
+     "titulo": "Crystal Structure of Human Monoamine Oxidase A with Harmine",
+     "ligandos": [
+      {
+       "comp_id": "FAD",
+       "name": "FLAVIN-ADENINE DINUCLEOTIDE",
+       "formula_weight": 785.55
+      },
+      {
+       "comp_id": "HRM",
+       "name": "7-METHOXY-1-METHYL-9H-BETA-CARBOLINE",
+       "formula_weight": 212.247
+      },
+      {
+       "comp_id": "DCX",
+       "name": "DECYL(DIMETHYL)PHOSPHINE OXIDE",
+       "formula_weight": 218.316
+      }
+     ]
+    },
+    {
+     "pdb_id": "2BXR",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 3.0,
+     "titulo": "Human Monoamine Oxidase A in complex with Clorgyline, Crystal Form A",
+     "ligandos": [
+      {
+       "comp_id": "FAD",
+       "name": "FLAVIN-ADENINE DINUCLEOTIDE",
+       "formula_weight": 785.55
+      },
+      {
+       "comp_id": "MLG",
+       "name": "N-[3-(2,4-DICHLOROPHENOXY)PROPYL]-N-METHYL-N-PROP-2-YNYLAMINE",
+       "formula_weight": 272.17
+      }
+     ]
+    },
+    {
+     "pdb_id": "2BXS",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 3.15,
+     "titulo": "Human Monoamine Oxidase A in complex with Clorgyline, Crystal Form B",
+     "ligandos": [
+      {
+       "comp_id": "FAD",
+       "name": "FLAVIN-ADENINE DINUCLEOTIDE",
+       "formula_weight": 785.55
+      },
+      {
+       "comp_id": "MLG",
+       "name": "N-[3-(2,4-DICHLOROPHENOXY)PROPYL]-N-METHYL-N-PROP-2-YNYLAMINE",
+       "formula_weight": 272.17
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "P21397",
+    "uniprot_id": "AOFA_HUMAN",
+    "protein_name": "Amine oxidase [flavin-containing] A",
+    "gene": "MAOA"
+   }
+  },
+  {
+   "assay": "PDE3A",
+   "familia": "Enzima",
+   "gen": "PDE3A",
+   "candidatos": [
+    {
+     "pdb_id": "7KWE",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.0,
+     "titulo": "Crystal structure of the catalytic domain of human PDE3A bound to DNMDP",
+     "ligandos": [
+      {
+       "comp_id": "X5M",
+       "name": "(5R,6P)-6-[4-(diethylamino)-3-nitrophenyl]-5-methyl-4,5-dihydropyridazin-3(2H)-one",
+       "formula_weight": 304.344
+      }
+     ]
+    },
+    {
+     "pdb_id": "7L29",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.08,
+     "titulo": "Crystal structure of the catalytic domain of human PDE3A bound to AMP",
+     "ligandos": [
+      {
+       "comp_id": "AMP",
+       "name": "ADENOSINE MONOPHOSPHATE",
+       "formula_weight": 347.221
+      }
+     ]
+    },
+    {
+     "pdb_id": "7L28",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 2.2,
+     "titulo": "Crystal structure of the catalytic domain of human PDE3A bound to Trequinsin",
+     "ligandos": [
+      {
+       "comp_id": "XKG",
+       "name": "(2E)-9,10-dimethoxy-3-methyl-2-[(2,4,6-trimethylphenyl)imino]-2,3,6,7-tetrahydro-4H-pyrimido[6,1-a]isoquinolin-4-one",
+       "formula_weight": 405.489
+      }
+     ]
+    },
+    {
+     "pdb_id": "7LRC",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 2.97,
+     "titulo": "Cryo-EM of the SLFN12-PDE3A complex: PDE3A body refinement",
+     "ligandos": [
+      {
+       "comp_id": "X5M",
+       "name": "(5R,6P)-6-[4-(diethylamino)-3-nitrophenyl]-5-methyl-4,5-dihydropyridazin-3(2H)-one",
+       "formula_weight": 304.344
+      }
+     ]
+    },
+    {
+     "pdb_id": "7EG1",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.2,
+     "titulo": "Cryo-EM structure of DNMDP-induced PDE3A-SLFN12 complex",
+     "ligandos": [
+      {
+       "comp_id": "X5M",
+       "name": "(5R,6P)-6-[4-(diethylamino)-3-nitrophenyl]-5-methyl-4,5-dihydropyridazin-3(2H)-one",
+       "formula_weight": 304.344
+      }
+     ]
+    },
+    {
+     "pdb_id": "7EG4",
+     "metodo": "ELECTRON MICROSCOPY",
+     "resolucion_A": 3.2,
+     "titulo": "Cryo-EM structure of nauclefine-induced PDE3A-SLFN12 complex",
+     "ligandos": [
+      {
+       "comp_id": "J36",
+       "name": "Parvine",
+       "formula_weight": 287.315
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "Q14432",
+    "uniprot_id": "PDE3A_HUMAN",
+    "protein_name": "cGMP-inhibited 3',5'-cyclic phosphodiesterase 3A",
+    "gene": "PDE3A"
+   }
+  },
+  {
+   "assay": "PDE4D2",
+   "familia": "Enzima",
+   "gen": "PDE4D",
+   "candidatos": [
+    {
+     "pdb_id": "1Y2K",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.36,
+     "titulo": "Catalytic Domain Of Human Phosphodiesterase 4D In Complex With 3,5-dimethyl-1-(3-nitro-phenyl)-1H-pyrazole-4-carboxylic acid ethyl ester",
+     "ligandos": [
+      {
+       "comp_id": "7DE",
+       "name": "3,5-DIMETHYL-1-(3-NITROPHENYL)-1H-PYRAZOLE-4-CARBOXYLIC ACID ETHYL ESTER",
+       "formula_weight": 289.287
+      }
+     ]
+    },
+    {
+     "pdb_id": "8W4R",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.37,
+     "titulo": "Crystal structure of PDE4D complexed with CVT-313",
+     "ligandos": [
+      {
+       "comp_id": "AJR",
+       "name": "2,2'-{[6-{[(4-methoxyphenyl)methyl]amino}-9-(propan-2-yl)-9H-purin-2-yl]azanediyl}di(ethan-1-ol)",
+       "formula_weight": 400.475
+      }
+     ]
+    },
+    {
+     "pdb_id": "1Y2B",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.4,
+     "titulo": "Catalytic Domain Of Human Phosphodiesterase 4D In Complex With 3,5-dimethyl-1H-pyrazole-4-carboxylic acid ethyl ester",
+     "ligandos": [
+      {
+       "comp_id": "DEE",
+       "name": "3,5-DIMETHYL-1H-PYRAZOLE-4-CARBOXYLIC ACID ETHYL ESTER",
+       "formula_weight": 168.193
+      }
+     ]
+    },
+    {
+     "pdb_id": "6FDC",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.45,
+     "titulo": "Crystal structure of the PDE4D catalytic domain in complex with GEBR-32a",
+     "ligandos": [
+      {
+       "comp_id": "DD5",
+       "name": "(2~{R})-1-[3-[4-[bis(fluoranyl)methoxy]-3-cyclopentyloxy-phenyl]pyrazol-1-yl]-3-morpholin-4-yl-propan-2-ol",
+       "formula_weight": 437.48
+      },
+      {
+       "comp_id": "D5N",
+       "name": "(2~{S})-1-[5-[4-[bis(fluoranyl)methoxy]-3-cyclopentyloxy-phenyl]pyrazol-1-yl]-3-morpholin-4-yl-propan-2-ol",
+       "formula_weight": 437.48
+      }
+     ]
+    },
+    {
+     "pdb_id": "6LRM",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.45,
+     "titulo": "Crystal structure of PDE4D catalytic domain in complex with arctigenin",
+     "ligandos": [
+      {
+       "comp_id": "EQC",
+       "name": "Arctigenin",
+       "formula_weight": 372.412
+      }
+     ]
+    },
+    {
+     "pdb_id": "6IMI",
+     "metodo": "X-RAY DIFFRACTION",
+     "resolucion_A": 1.46,
+     "titulo": "Crystal structure of PDE4D complexed with a novel inhibitor",
+     "ligandos": [
+      {
+       "comp_id": "AH6",
+       "name": "6-ethoxy-7-methoxy-3,4-dihydroisoquinoline-2(1H)-carbaldehyde",
+       "formula_weight": 235.279
+      }
+     ]
+    }
+   ],
+   "uniprot": {
+    "accession": "Q08499",
+    "uniprot_id": "PDE4D_HUMAN",
+    "protein_name": "3',5'-cyclic-AMP phosphodiesterase 4D",
+    "gene": "PDE4D"
+   }
+  }
+ ]
+}

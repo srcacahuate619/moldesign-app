@@ -9,7 +9,7 @@ No contiene una afirmación nueva de validez científica. Las métricas se trans
 - Entradas en `curated_targets.json`: **380**
 - PDB IDs únicos: **380**
 - IDs con estructura distribuida en el repositorio (`.pdb.gz` de nombre exacto): **380 / 380**
-- Archivos `.pdb.gz` versionados (incluye variantes de cadena y duplicados): **407**
+- Archivos `.pdb.gz` versionados (incluye variantes de cadena y duplicados): **445**
 - SHA-256 del catálogo: `47fbe7f2ec6d0cca7ae9f72b90da84ea3061a5d6851d67d12cb0b2758fd0d8ac`
 
 ### Familias estructurales

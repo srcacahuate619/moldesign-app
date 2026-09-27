@@ -224,21 +224,25 @@ errores concretos, que se registran en el log.
   componentes. 1SO2 (PDE3B) y 6MVW (NavAb) eran las identidades erróneas que la
   fase 1 retiró del panel; el backend las seguía acoplando como «anti-diana del
   usuario». Ahora la interfaz pide el panel del backend, y una prueba lo fija.
-- **Se ofrecen, sin marcar**, 9 dianas más de Bowes 2012 cuya identidad humana
-  se comprobó en la cabecera COMPND/SOURCE de su PDB: 5-HT1A, 5-HT1B, 5-HT2A,
-  β1, β2, CB1, NET, receptor de andrógenos y COX-2. Se excluyeron 4BVN (β1 de
-  pavo), 1GPK (AChE de *Torpedo*) y 6Y5A (5-HT3 de ratón).
-- **Con el inventario actual sólo se pueden preparar hERG, 5-HT1A y NET.**
-  5-HT2B y las demás quedan no disponibles por cadenas laterales incompletas en
-  el sitio.
+- ~~**Se ofrecen, sin marcar**, 9 dianas más de Bowes 2012 cuya identidad humana
+  se comprobó en la cabecera COMPND/SOURCE de su PDB.~~
+  ~~**Con el inventario actual sólo se pueden preparar hERG, 5-HT1A y NET.**~~
+  **SUPERADO** por la tercera parte: el panel se rehízo midiendo las 44 y ahora
+  se ofrecen **38**, cada una con la estructura, la caja y el redocking que la
+  respaldan. Ver [panel_bowes44.md](panel_bowes44.md).
 
 ### Metadatos de organismo del catálogo
 
 20 de las 380 entradas declaran *Homo sapiens*, pero su PDB es de otro
 organismo según su propio registro SOURCE. Entre ellas: la proteasa del VIH,
 la Mpro del SARS-CoV-2, varias enzimas bacterianas, NavAb, el β1 de pavo y la
-AChE de *Torpedo*. No se ha corregido: cambiaría datos del catálogo. Queda
-abierto, con la lista reproducible en esta verificación.
+AChE de *Torpedo*.
+
+**Corregido en `bbab67f`**, que decía aquí «no se ha corregido». Las 20
+etiquetas se rehicieron desde el registro SOURCE de cada PDB, las dianas se
+conservan, y la corrección viaja con su versión de catálogo
+(`docs/catalog_versions/organismos-2026-09-26.json`, con los hashes
+`supersedes`/`active` y el `pdb_source` de cada fila) más una prueba guardián.
 
 ### MolChat (ORQ-001)
 
@@ -256,3 +260,97 @@ fármacos que se comercializan como racemato, para los que el SMILES sin
 estereoquímica es correcto. Dos quedan por revisar: el tramadol (racemato
 *cis*: sin estereoquímica admite también el diastereómero *trans*) y la
 metanfetamina (el fármaco es el enantiómero S).
+
+
+---
+
+## Tercera parte: el panel de Bowes 2012, medido (este commit)
+
+El corrigendum de la fase 1 dejó el panel con dos anti-dianas y nueve
+«sugeridas» cuya identidad humana se había comprobado en la cabecera del PDB,
+pero **de las que no se había medido nada**. Comprobar la especie no dice que la
+caja describa un sitio. Esta parte lo mide.
+
+### Método
+
+1. Las 44 filas de la tabla 1 de Bowes et al. 2012 se resuelven a una accesión
+   UniProt humana revisada por símbolo HGNC.
+2. Del RCSB se piden sus estructuras de rayos X o crio-EM de **≤ 3,5 Å** con
+   algún ligando no polimérico de **150–900 Da**.
+3. De cada candidata se deriva la caja del **ligando cocristalizado** (extensión
+   + 8 Å, entre 18 y 40 Å de lado), se prepara el receptor **con la ruta del
+   producto** (`prepare_target`: unidad biológica, truncado de cadenas laterales
+   incompletas, plantillas locales de cofactores) y se **reacopla ese mismo
+   ligando** con Vina (exhaustividad 16, semilla 42, 9 poses).
+4. Entra si el centroide de la primera pose cae a **≤ 4 Å** del ligando
+   cristalizado. El RMSD simétrico se informa aparte.
+
+### Resultado
+
+**40 de 44 con el sitio confirmado**, 38 ofrecibles (hERG y 5-HT2B ya estaban en
+el panel por defecto y no se duplican; su medida independiente se guarda como
+`alternativa_medida`). El RMSD reproduce la pose en **22 de las 40**.
+
+Las cuatro que no entran, con su causa medida, están en
+[panel_bowes44.md](panel_bowes44.md): COX1, MAO-A, nAChR α4β2 y «KV channel».
+
+### Lo que el panel NO afirma
+
+Que el sitio sea el relevante para la reacción adversa. Las 40 salen con
+`sitio_adjudicado: false`. Es literalmente la lección de `DOCK-016`: las
+estructuras de rayos X de hERG son el dominio PAS y reacoplarían su propio
+ligando a la perfección, a 45 Å del poro. Un redocking impecable sobre el sitio
+equivocado es el modo de fallo que este panel tiene que poder declarar.
+
+### Cuatro defectos de método que salieron al medir
+
+1. **El ligando del cristal no es el fármaco.** Cuatro dianas «confirmaban» el
+   sitio sobre un lípido, un detergente, un tampón o un análogo de nucleótido,
+   todos dentro de la ventana de masa: `PTY` (fosfatidiletanolamina) a 0,99 Å en
+   el transportador de noradrenalina, `CPS` (CHAPS) en GR, `ANP` (AMP-PNP) en el
+   sitio *de dihidropiridinas* del canal de Ca²⁺ y citrato en COX1. Antes había
+   pasado con el `FAD` de la MAO-A. Un cofactor o un lípido reacopla
+   perfectamente en su propio bolsillo, así que la cifra sale preciosa y la
+   etiqueta miente. Se filtran por el **nombre que declara el CCD** —evidencia
+   del RCSB— además de por una lista de códigos, y **en el punto de uso**, para
+   que un archivo de candidatos anterior también quede filtrado. Al corregirlo,
+   tres de las cuatro pasaron a su ligando real: atomoxetina (0,47 Å),
+   ciclesonida (0,45 Å) y **amlodipino** (1,19 Å), que sí es el sitio que el
+   ensayo nombra.
+2. **Códigos CCD de cinco caracteres.** Las entradas recientes ya sólo se
+   publican en mmCIF y sus ligandos no caben en las tres columnas de `resName`
+   del PDB clásico: al convertir, gemmi trunca el `HETATM` a tres y guarda el
+   completo en el registro `HET`. Cinco dianas daban «sin ligando» **en
+   silencio**, y buscar por el prefijo truncado fusionaba ligandos distintos
+   (`A1D5J` y `A1D67` colapsan en «A1D»). Casando por `(cadena, número)` se
+   recuperaron ETA, H2, V1a, el transportador de noradrenalina y NMDA.
+3. **PDBFixer no es reproducible.** `addMissingAtoms(seed=0)` da rotámeros
+   distintos entre procesos (en 5VA1, Glu A23 a 2,40 Å frente a 4,05 Å, con el
+   SHA del receptor cambiando) y funde cadenas con numeración idéntica (4457 de
+   17 628 átomos). Un receptor cuyos bytes cambian rompe el contrato de la receta,
+   que es `DOCK-004`. Las cadenas laterales incompletas se **truncan** a ALA o GLY
+   conservando sólo átomos observados: determinista, sin inventar coordenadas, y
+   con aviso CRÍTICO si el residuo cae en el sitio.
+4. **El validador escribía en los datos del investigador.** `MOLDESIGN_TESTING=1`
+   aísla `directorio_de_datos` pero **no** `utils.local_storage`, que lee
+   `settings.local_data_dir` (`~/MolDesign/data` por defecto). Sin fijar
+   `LOCAL_DATA_DIR`, validar el panel dejaba receptores preparados dentro de los
+   datos del usuario; se detectaron cuatro directorios así. Es la misma fuga que
+   el smoke de producción tuvo con `molgraph.db`.
+
+### Guardas nuevas
+
+- `scripts/build_bowes44_panel.py --check` falla si el JSON del panel o su tabla
+  en markdown no coinciden con la validación.
+- `bundle_helper.py` declara `backend/data/anti_dianas_bowes44.json` como activo
+  crítico (sin él, `panel_bowes_2012()` registra un aviso y devuelve la lista
+  vacía: el panel quedaría mudo sin que nadie lo notara) y **falla el build si
+  una anti-diana ofrecible no lleva su `.pdb.gz` en el bundle** — no basta que
+  esté en el repositorio, que es la restricción 1 de `AGENTS.md`.
+- Pruebas con muestras que el filtro debe cazar y muestras que no: un inhibidor
+  covalente real de la acetilcolinesterasa (`L2Y`, un fluoruro
+  fosfonamídico) no puede caer por contener «phospho», y pedir «A1D» tiene que
+  devolver vacío en vez de dos ligandos.
+- El detector de severidad de avisos acepta un ternario cuyas **dos** ramas son
+  `Severidad.X`, con su propio autotest de siete muestras: la severidad de
+  `CADENAS_LATERALES_TRUNCADAS` depende de si el residuo cae en el sitio.

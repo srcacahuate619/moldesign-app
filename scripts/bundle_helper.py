@@ -321,6 +321,33 @@ def _programas_externos(root: Path, resources: Path) -> list[dict]:
     return entradas
 
 
+def verificar_estructuras_del_panel_bowes(resources: Path) -> None:
+    """Cada anti-diana ofrecible del panel de Bowes debe tener su PDB en el bundle.
+
+    La app no tiene red: si el `.pdb.gz` no viaja, la anti-diana aparece en la
+    lista, el usuario la marca y la corrida falla al preparar el receptor. Las
+    pruebas del repositorio no lo detectan porque el archivo sí está ahí; el
+    fallo vive en el ARTEFACTO (restricción 1 de AGENTS.md).
+    """
+    panel = resources / "backend" / "data" / "anti_dianas_bowes44.json"
+    if not panel.is_file():
+        return                    # su ausencia la denuncia `critical_relative`
+    dianas = json.loads(panel.read_text(encoding="utf-8")).get("dianas") or []
+    faltan = [
+        fila["pdb_id"]
+        for fila in dianas
+        if fila.get("estado") == "validada" and fila.get("pdb_id")
+        and not (resources / "data" / "targets" / f"{fila['pdb_id']}.pdb.gz").is_file()
+    ]
+    if faltan:
+        raise FileNotFoundError(
+            "Anti-dianas del panel de Bowes sin estructura en el bundle: "
+            + ", ".join(sorted(faltan))
+        )
+    ofrecibles = sum(1 for fila in dianas if fila.get("estado") == "validada")
+    print(f"  panel de Bowes 2012: {ofrecibles} anti-dianas con su estructura en el bundle")
+
+
 def build_bundle(root: Path) -> Path:
     root = root.resolve()
     validate_legal_release(root)
@@ -477,6 +504,7 @@ def build_bundle(root: Path) -> Path:
         copy_file(seed_database, resources / "data" / "molgraph_seed.db")
     copy_file(root / "curated_targets.json", resources / "curated_targets.json")
     copy_file(root / "curated_targets.csv", resources / "curated_targets.csv")
+    verificar_estructuras_del_panel_bowes(resources)
 
     print("[6/7] Licencias")
     legal_source = root / "frontend" / "public" / "legal"
@@ -738,6 +766,10 @@ def build_bundle(root: Path) -> Path:
         # Sin él, las dianas que hoy no se pueden preparar se ofrecerían como
         # disponibles y fallarían al evaluar (DOCK-003).
         Path("backend/data/disponibilidad_catalogo.json"),
+        # Sin él, `panel_bowes_2012()` registra un aviso y devuelve la lista
+        # vacía: la app ofrecería el panel de Bowes 2012 sin ninguna anti-diana
+        # y nadie lo notaría. Su ausencia es una instalación dañada.
+        Path("backend/data/anti_dianas_bowes44.json"),
     ]
     critical = {}
     for relative in critical_relative:

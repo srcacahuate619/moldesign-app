@@ -123,10 +123,18 @@ async def resolver_sitio_de_anti_diana(
             error=f"{type(exc).__name__}: {exc}",
         )
 
-    # ── Las cadenas del sitio: SIEMPRE del catálogo ──────────────────────────
+    # ── Las cadenas del sitio: del catálogo o, si no está ahí, de la definición ──
+    #
+    # Las anti-dianas del panel de Bowes 2012 no son receptores del catálogo
+    # curado: su sitio se midió con su ligando cocristalizado (las cadenas a
+    # ≤4,5 Å) al validarlas, y viaja en la propia definición. Sin esto se
+    # prepararía una sola cadena y un sitio de interfaz quedaría a medias.
     site_chains = None
     if fila is not None:
         crudas = getattr(fila, "site_chains", None) or []
+        site_chains = [str(c).strip() for c in crudas if str(c).strip()] or None
+    if site_chains is None:
+        crudas = definicion.get("site_chains") or []
         site_chains = [str(c).strip() for c in crudas if str(c).strip()] or None
 
     # ── La caja: la del panel manda, porque describe el bolsillo tóxico ──────

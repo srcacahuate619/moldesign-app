@@ -1,0 +1,1870 @@
+{
+ "_doc": "Panel mínimo de Bowes et al. 2012 (44 dianas) para selectividad. Generado por scripts/build_bowes44_panel.py desde bowes44_validacion.json; no editar a mano.",
+ "referencia": "Bowes et al. 2012, Nat Rev Drug Discov 11:909-922, tabla 1",
+ "criterio_validacion": {
+  "sitio": "centroide de la primera pose a ≤ 4.0 Å del ligando cristalizado",
+  "pose_reproducida": "además, RMSD simétrico de la primera pose ≤ 2.0 Å",
+  "limite": "el redocking demuestra que la caja describe el sitio de ese ligando; no que ese sitio sea el relevante para la reacción adversa"
+ },
+ "dianas": [
+  {
+   "assay": "A2A",
+   "familia": "GPCR",
+   "gen": "ADORA2A",
+   "uniprot": "P29274",
+   "nombre_proteina": "Adenosine receptor A2a",
+   "riesgo": "Receptor de adenosina: efectos cardiovasculares y sobre el sistema nervioso central.",
+   "estado": "validada",
+   "pdb_id": "5NM4",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 1.7,
+   "titulo": "A2A Adenosine receptor room-temperature structure determined by serial femtosecond crystallography",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "ZMA",
+   "center": [
+    0.272,
+    98.191,
+    53.239
+   ],
+   "size": [
+    22.9,
+    22.9,
+    22.9
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 2.58,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 9.15,
+    "rmsd_mejor_A": 8.8,
+    "afinidad_kcal": -9.073,
+    "ligando": "ZMA",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "f9620528cc6430a2d587048b21299f052d13765d5f5ffb1d9c29c3dc90bf33c4",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "alpha1A",
+   "familia": "GPCR",
+   "gen": "ADRA1A",
+   "uniprot": "P35348",
+   "nombre_proteina": "Alpha-1A adrenergic receptor",
+   "riesgo": "Receptor adrenérgico: hipotensión ortostática y taquicardia refleja.",
+   "estado": "validada",
+   "pdb_id": "8THK",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.6,
+   "titulo": "Cryo-EM structure of A61603-bound alpha-1A-adrenergic receptor in complex with heterotrimeric Gq-protein",
+   "chain": "R",
+   "site_chains": [
+    "R"
+   ],
+   "site_ligand": "CGZ",
+   "center": [
+    142.566,
+    141.071,
+    165.509
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.43,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 2.74,
+    "rmsd_mejor_A": 2.74,
+    "afinidad_kcal": -9.058,
+    "ligando": "CGZ",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "ad1fc441f901b41ddeee0f3a0fc03dae2eec0a36c20a275528f16b9eb3ad2001",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "alpha2A",
+   "familia": "GPCR",
+   "gen": "ADRA2A",
+   "uniprot": "P08913",
+   "nombre_proteina": "Alpha-2A adrenergic receptor",
+   "riesgo": "Receptor adrenérgico: sedación, hipotensión y bradicardia.",
+   "estado": "validada",
+   "pdb_id": "6KUX",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 2.7,
+   "titulo": "Crystal structures of the alpha2A adrenergic receptor in complex with an antagonist RSC.",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "E3F",
+   "center": [
+    -2.153,
+    -7.568,
+    -19.689
+   ],
+   "size": [
+    18.4,
+    18.4,
+    18.4
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.32,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 1.34,
+    "rmsd_mejor_A": 1.34,
+    "afinidad_kcal": -8.873,
+    "ligando": "E3F",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "6ef47f8443fe61cdea56f6ee72556a6791fae6972a44e0a1b7ccc958682cefcf",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "beta1",
+   "familia": "GPCR",
+   "gen": "ADRB1",
+   "uniprot": "P08588",
+   "nombre_proteina": "Beta-1 adrenergic receptor",
+   "riesgo": "Receptor adrenérgico cardiaco: frecuencia y contractilidad.",
+   "estado": "validada",
+   "pdb_id": "7BVQ",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 2.5,
+   "titulo": "Structure of human beta1 adrenergic receptor bound to carazolol",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "CAU",
+   "center": [
+    21.311,
+    -21.664,
+    2.963
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.29,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 0.55,
+    "rmsd_mejor_A": 0.55,
+    "afinidad_kcal": -9.778,
+    "ligando": "CAU",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "a247b536938a393553c9304e67e95e1ef9bc1d2a42fa252083ca75a2aaef235c",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "beta2",
+   "familia": "GPCR",
+   "gen": "ADRB2",
+   "uniprot": "P07550",
+   "nombre_proteina": "Beta-2 adrenergic receptor",
+   "riesgo": "Receptor adrenérgico: temblor, taquicardia y tono bronquial.",
+   "estado": "validada",
+   "pdb_id": "2RH1",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 2.4,
+   "titulo": "High resolution crystal structure of human B2-adrenergic G protein-coupled receptor.",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "CAU",
+   "center": [
+    -29.52,
+    9.234,
+    6.944
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.39,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 0.96,
+    "rmsd_mejor_A": 0.96,
+    "afinidad_kcal": -10.063,
+    "ligando": "CAU",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "9e1b7c356aa7ffb9e24e2e53d846be3a7faf8f6fbf8efbc0b9b754af41d7838d",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "CB1",
+   "familia": "GPCR",
+   "gen": "CNR1",
+   "uniprot": "P21554",
+   "nombre_proteina": "Cannabinoid receptor 1",
+   "riesgo": "Receptor cannabinoide: efectos psiquiátricos (retirada del rimonabant).",
+   "estado": "validada",
+   "pdb_id": "5U09",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 2.6,
+   "titulo": "High-resolution crystal structure of the human CB1 cannabinoid receptor",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "7DY",
+   "center": [
+    21.502,
+    3.587,
+    -9.804
+   ],
+   "size": [
+    21.6,
+    21.6,
+    21.6
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 1.35,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 4.24,
+    "rmsd_mejor_A": 1.47,
+    "afinidad_kcal": -12.037,
+    "ligando": "7DY",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "0c9ae83c43ad110ed0d92df652ceb9548eb3bf7585e9fbd2528e419d79f2b87e",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "CB2",
+   "familia": "GPCR",
+   "gen": "CNR2",
+   "uniprot": "P34972",
+   "nombre_proteina": "Cannabinoid receptor 2",
+   "riesgo": "Receptor cannabinoide periférico: efectos inmunitarios.",
+   "estado": "validada",
+   "pdb_id": "5ZTY",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 2.8,
+   "titulo": "Crystal structure of human G protein coupled receptor",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "9JU",
+   "center": [
+    9.093,
+    -0.168,
+    -55.723
+   ],
+   "size": [
+    18.5,
+    18.5,
+    18.5
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.24,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 0.82,
+    "rmsd_mejor_A": 0.82,
+    "afinidad_kcal": -10.824,
+    "ligando": "9JU",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "8cc6fb58557df6b222690c822593265d5ba408b45f6fc57463cb6e2950102301",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "CCK1 (CCKA)",
+   "familia": "GPCR",
+   "gen": "CCKAR",
+   "uniprot": "P32238",
+   "nombre_proteina": "Cholecystokinin receptor type A",
+   "riesgo": "Receptor de colecistoquinina: motilidad y secreción gastrointestinal.",
+   "estado": "validada",
+   "pdb_id": "7F8Y",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 2.5,
+   "titulo": "Crystal structure of the cholecystokinin receptor CCKAR in complex with devazepide",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "1OZ",
+   "center": [
+    6.589,
+    21.711,
+    55.359
+   ],
+   "size": [
+    18.4,
+    18.4,
+    18.4
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.09,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 1.19,
+    "rmsd_mejor_A": 1.19,
+    "afinidad_kcal": -10.571,
+    "ligando": "1OZ",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "14021beca949b9da88e2bd6c14739c029722f04c4373bcd44c24c8e24d9acadb",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "D1",
+   "familia": "GPCR",
+   "gen": "DRD1",
+   "uniprot": "P21728",
+   "nombre_proteina": "Dopamine receptor D1",
+   "riesgo": "Receptor dopaminérgico: efectos motores y cardiovasculares.",
+   "estado": "validada",
+   "pdb_id": "9LLJ",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.61,
+   "titulo": "Cryo-EM structure of D1R-Gs in complex with de novo designed GEM targetingTM1/2/4 and GEM targeting TM3/4/5, and agonist-positive allosteric GEM targeting TM5/6/7",
+   "chain": "R",
+   "site_chains": [
+    "R"
+   ],
+   "site_ligand": "LDP",
+   "center": [
+    124.481,
+    120.501,
+    142.462
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.33,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 2.01,
+    "rmsd_mejor_A": 0.45,
+    "afinidad_kcal": -7.066,
+    "ligando": "LDP",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "ab30ea3b83a1abf165373f089d8de2efe39415714d367fd8dbe72b99fbf7c3e6",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "D2S",
+   "familia": "GPCR",
+   "gen": "DRD2",
+   "uniprot": "P14416",
+   "nombre_proteina": "Dopamine receptor D2",
+   "riesgo": "Receptor dopaminérgico: efectos extrapiramidales e hiperprolactinemia.",
+   "estado": "validada",
+   "pdb_id": "9BS9",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.28,
+   "titulo": "Local refinement of DRD2 bound to LSD in complex with a mini-GoA and scFv16 obtained by cryo-electron microscopy (cryoEM)",
+   "chain": "R",
+   "site_chains": [
+    "R"
+   ],
+   "site_ligand": "7LD",
+   "center": [
+    130.2,
+    113.777,
+    96.142
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.17,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 0.71,
+    "rmsd_mejor_A": 0.71,
+    "afinidad_kcal": -8.542,
+    "ligando": "7LD",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "330851b8c99a39f4ec7492b1f991b753c9ed0f3aba7389df28193dcd83200f96",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "ETA",
+   "familia": "GPCR",
+   "gen": "EDNRA",
+   "uniprot": "P25101",
+   "nombre_proteina": "Endothelin-1 receptor",
+   "riesgo": "Receptor de endotelina: vasoconstricción e hipertensión.",
+   "estado": "validada",
+   "pdb_id": "8XVK",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 3.21,
+   "titulo": "Cryo-EM structure of ETAR bound with Ambrisentan",
+   "chain": "R",
+   "site_chains": [
+    "R"
+   ],
+   "site_ligand": "A1D5J",
+   "center": [
+    155.034,
+    150.122,
+    167.716
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 3.16,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 4.22,
+    "rmsd_mejor_A": 1.43,
+    "afinidad_kcal": -6.183,
+    "ligando": "A1D5J",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "ae24a598c753a8903ffd208aeaff7c12a7826449eb831ea405d3a28b7b689964",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "H1",
+   "familia": "GPCR",
+   "gen": "HRH1",
+   "uniprot": "P35367",
+   "nombre_proteina": "Histamine H1 receptor",
+   "riesgo": "Receptor de histamina: sedación y aumento de peso.",
+   "estado": "validada",
+   "pdb_id": "8X5Y",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 3.0,
+   "titulo": "CryoEM structure of the histamine H1 receptor-BRIL/Anti BRIL Fab complex with astemizole",
+   "chain": "B",
+   "site_chains": [
+    "B"
+   ],
+   "site_ligand": "XB7",
+   "center": [
+    178.955,
+    169.018,
+    137.993
+   ],
+   "size": [
+    26.1,
+    26.1,
+    26.1
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.74,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 2.06,
+    "rmsd_mejor_A": 0.87,
+    "afinidad_kcal": -12.366,
+    "ligando": "XB7",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "39a40473ffcb8fbccccd0c72596083525e42bed5c3f712b581b1418a96976c5f",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "H2",
+   "familia": "GPCR",
+   "gen": "HRH2",
+   "uniprot": "P25021",
+   "nombre_proteina": "Histamine H2 receptor",
+   "riesgo": "Receptor de histamina: secreción ácida gástrica.",
+   "estado": "validada",
+   "pdb_id": "8YUT",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.7,
+   "titulo": "Cryo-EM structure of the amthamine-bound H2R-Gs complex",
+   "chain": "R",
+   "site_chains": [
+    "R"
+   ],
+   "site_ligand": "A1D67",
+   "center": [
+    95.602,
+    119.792,
+    111.844
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.2,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 0.36,
+    "rmsd_mejor_A": 0.36,
+    "afinidad_kcal": -4.983,
+    "ligando": "A1D67",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "ba172de180491f1fb9c23cd32e80967806aeb3fa27ac81d6fe37bcd496400776",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "M1",
+   "familia": "GPCR",
+   "gen": "CHRM1",
+   "uniprot": "P11229",
+   "nombre_proteina": "Muscarinic acetylcholine receptor M1",
+   "riesgo": "Receptor muscarínico: efectos anticolinérgicos centrales, incluida confusión.",
+   "estado": "validada",
+   "pdb_id": "6ZFZ",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 2.17,
+   "titulo": "Structure of M1-StaR-T4L in complex with 77-LH-28-1 at 2.17A",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "QJT",
+   "center": [
+    22.703,
+    20.976,
+    -5.998
+   ],
+   "size": [
+    19.5,
+    19.5,
+    19.5
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.58,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 1.35,
+    "rmsd_mejor_A": 1.35,
+    "afinidad_kcal": -9.784,
+    "ligando": "QJT",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "4b33326bcba7df7d7cdd9868ac7345c80d25eb424a2c4a7e62105bba4b15b257",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "M2",
+   "familia": "GPCR",
+   "gen": "CHRM2",
+   "uniprot": "P08172",
+   "nombre_proteina": "Muscarinic acetylcholine receptor M2",
+   "riesgo": "Receptor muscarínico cardiaco: taquicardia por bloqueo vagal.",
+   "estado": "validada",
+   "pdb_id": "5ZKC",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 2.3,
+   "titulo": "Crystal structure of rationally thermostabilized M2 muscarinic acetylcholine receptor bound with NMS",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "3C0",
+   "center": [
+    183.658,
+    27.686,
+    525.786
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.14,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 0.38,
+    "rmsd_mejor_A": 0.38,
+    "afinidad_kcal": -9.679,
+    "ligando": "3C0",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "f897b315f809c290813fea3dc8d2a2b35e9ce40b4b67e9d4c75ab026afed65cb",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "M3",
+   "familia": "GPCR",
+   "gen": "CHRM3",
+   "uniprot": "P20309",
+   "nombre_proteina": "Muscarinic acetylcholine receptor M3",
+   "riesgo": "Receptor muscarínico: sequedad de boca, retención urinaria, visión borrosa.",
+   "estado": "validada",
+   "pdb_id": "8EA0",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.56,
+   "titulo": "CryoEM structure of miniGq-coupled hM3R in complex with iperoxo (local refinement)",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "IXO",
+   "center": [
+    128.265,
+    120.845,
+    153.667
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.22,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 0.81,
+    "rmsd_mejor_A": 0.81,
+    "afinidad_kcal": -6.424,
+    "ligando": "IXO",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "97ed2b3772373296cea7f3b9f513e01289c7864634b8392c71139b25273b2843",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "delta2 (DOP)",
+   "familia": "GPCR",
+   "gen": "OPRD1",
+   "uniprot": "P41143",
+   "nombre_proteina": "Delta-type opioid receptor",
+   "riesgo": "Receptor opioide delta: efectos sobre el sistema nervioso central y convulsiones.",
+   "estado": "validada",
+   "pdb_id": "4N6H",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 1.8,
+   "titulo": "1.8 A Structure of the human delta opioid 7TM receptor (PSI Community Target)",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "EJ4",
+   "center": [
+    -5.911,
+    -69.367,
+    70.806
+   ],
+   "size": [
+    18.8,
+    18.8,
+    18.8
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.19,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 0.29,
+    "rmsd_mejor_A": 0.29,
+    "afinidad_kcal": -10.911,
+    "ligando": "EJ4",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "c41d64b5faf026b24141cf991db95bd0635670abc3cfdf21f07c4841f7321af1",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "kappa (KOP)",
+   "familia": "GPCR",
+   "gen": "OPRK1",
+   "uniprot": "P41145",
+   "nombre_proteina": "Kappa-type opioid receptor",
+   "riesgo": "Receptor opioide kappa: disforia y sedación.",
+   "estado": "validada",
+   "pdb_id": "7UL2",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.4,
+   "titulo": "CryoEM Structure of Inactive NTSR1 Bound to SR48692 and Nb6",
+   "chain": "R",
+   "site_chains": [
+    "R"
+   ],
+   "site_ligand": "Q6Q",
+   "center": [
+    154.117,
+    141.574,
+    122.211
+   ],
+   "size": [
+    19.4,
+    19.4,
+    19.4
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.33,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 0.82,
+    "rmsd_mejor_A": 0.77,
+    "afinidad_kcal": -10.787,
+    "ligando": "Q6Q",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "dac4e418e378104db4895b5bd77c1e188ffe08f71989dcb628fe05d41e06066f",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "mu (MOP)",
+   "familia": "GPCR",
+   "gen": "OPRM1",
+   "uniprot": "P35372",
+   "nombre_proteina": "Mu-type opioid receptor",
+   "riesgo": "Receptor opioide mu: depresión respiratoria y dependencia.",
+   "estado": "validada",
+   "pdb_id": "8Y72",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.65,
+   "titulo": "positive allosteric modulator(BMS986122)-bound mu-opioid receptor-Gi complex",
+   "chain": "R",
+   "site_chains": [
+    "R"
+   ],
+   "site_ligand": "VV9",
+   "center": [
+    111.036,
+    120.896,
+    107.986
+   ],
+   "size": [
+    19.4,
+    19.4,
+    19.4
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 1.65,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 5.89,
+    "rmsd_mejor_A": 2.08,
+    "afinidad_kcal": -5.886,
+    "ligando": "VV9",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "e9c918df83815bad064fa2db5cdcfd574318632466025c7e42210472affb4dd1",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "5-HT1A",
+   "familia": "GPCR",
+   "gen": "HTR1A",
+   "uniprot": "P08908",
+   "nombre_proteina": "5-hydroxytryptamine receptor 1A",
+   "riesgo": "Receptor serotoninérgico: efectos sobre el sistema nervioso central.",
+   "estado": "validada",
+   "pdb_id": "8PJK",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.4,
+   "titulo": "ST171-bound serotonin 5-HT1A receptor - Gi Protein Complex",
+   "chain": "R",
+   "site_chains": [
+    "R"
+   ],
+   "site_ligand": "ZL9",
+   "center": [
+    162.258,
+    170.326,
+    143.499
+   ],
+   "size": [
+    19.8,
+    19.8,
+    19.8
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 1.12,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 10.99,
+    "rmsd_mejor_A": 1.69,
+    "afinidad_kcal": -8.365,
+    "ligando": "ZL9",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "f25d6cb88a09577970eba4616e496b547d086e6d51288c3cb3f2cb83a0787405",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "5-HT1B",
+   "familia": "GPCR",
+   "gen": "HTR1B",
+   "uniprot": "P28222",
+   "nombre_proteina": "5-hydroxytryptamine receptor 1B",
+   "riesgo": "Receptor serotoninérgico: vasoconstricción, incluida la coronaria.",
+   "estado": "validada",
+   "pdb_id": "4IAR",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 2.7,
+   "titulo": "Crystal structure of the chimeric protein of 5-HT1B-BRIL in complex with ergotamine (PSI Community Target)",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "ERM",
+   "center": [
+    -12.007,
+    -17.608,
+    20.855
+   ],
+   "size": [
+    20.6,
+    20.6,
+    20.6
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.92,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 3.93,
+    "rmsd_mejor_A": 1.13,
+    "afinidad_kcal": -12.085,
+    "ligando": "ERM",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "a90a93fc074caf121297c18c93049b4bd36189188eb50c88d16ac5e59a399986",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "5-HT2A",
+   "familia": "GPCR",
+   "gen": "HTR2A",
+   "uniprot": "P28223",
+   "nombre_proteina": "5-hydroxytryptamine receptor 2A",
+   "riesgo": "Receptor serotoninérgico: efectos alucinógenos por agonismo.",
+   "estado": "validada",
+   "pdb_id": "7WC8",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 2.45,
+   "titulo": "Crystal structure of serotonin 2A receptor in complex with lumateperone",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "92S",
+   "center": [
+    -28.201,
+    -12.863,
+    143.165
+   ],
+   "size": [
+    22.6,
+    22.6,
+    22.6
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 1.1,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 2.17,
+    "rmsd_mejor_A": 0.54,
+    "afinidad_kcal": -10.918,
+    "ligando": "92S",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "af56f6f1d97c177a6bbdc5e8f7eafcd74ea4dbd078be3ceb701e27683823a4eb",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "5-HT2B",
+   "familia": "GPCR",
+   "gen": "HTR2B",
+   "uniprot": "P41595",
+   "nombre_proteina": "5-hydroxytryptamine receptor 2B",
+   "riesgo": "Su agonismo produce valvulopatía cardiaca (fenfluramina, pergolida).",
+   "estado": "en_el_panel_por_defecto",
+   "pdb_id": "4NC3",
+   "sitio_adjudicado": true,
+   "procedencia_sitio": "catálogo curado; sitio adjudicado en la fase 1 de la auditoría",
+   "alternativa_medida": {
+    "pdb_id": "4IB4",
+    "metodo": "X-RAY DIFFRACTION",
+    "resolucion_A": 2.7,
+    "titulo": "Crystal structure of the chimeric protein of 5-HT2B-BRIL in complex with ergotamine",
+    "site_chains": [
+     "A"
+    ],
+    "site_ligand": "ERM",
+    "center": [
+     22.448,
+     18.284,
+     11.726
+    ],
+    "size": [
+     20.5,
+     20.5,
+     20.5
+    ],
+    "distancia_centroides_A": 0.12,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 1.05,
+    "nota": "no se ofrece como anti-diana aparte para no duplicar la diana; queda como medida independiente del sitio"
+   }
+  },
+  {
+   "assay": "V1a",
+   "familia": "GPCR",
+   "gen": "AVPR1A",
+   "uniprot": "P37288",
+   "nombre_proteina": "Vasopressin V1a receptor",
+   "riesgo": "Receptor de vasopresina: vasoconstricción y efectos renales.",
+   "estado": "validada",
+   "pdb_id": "9UWL",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.6,
+   "titulo": "Cryo-EM structure of human V1aR bound with SRX246 at a resolution of 2.6 angstrom",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "A1EQN",
+   "center": [
+    136.941,
+    161.968,
+    136.701
+   ],
+   "size": [
+    23.0,
+    23.0,
+    23.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.82,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 6.69,
+    "rmsd_mejor_A": 6.49,
+    "afinidad_kcal": -11.681,
+    "ligando": "A1EQN",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "e923d332e37362c5678faf143d289b6aac2289c5dec11c7429c98eec3f169b41",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "dopamine transporter",
+   "familia": "Transportador",
+   "gen": "SLC6A3",
+   "uniprot": "Q01959",
+   "nombre_proteina": "Sodium-dependent dopamine transporter",
+   "riesgo": "Transportador de dopamina: potencial de abuso y efectos motores.",
+   "estado": "validada",
+   "pdb_id": "9EO4",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.66,
+   "titulo": "Outward-open structure of human dopamine transporter bound to cocaine",
+   "chain": "B",
+   "site_chains": [
+    "B"
+   ],
+   "site_ligand": "COC",
+   "center": [
+    130.275,
+    125.473,
+    126.459
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.16,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 0.89,
+    "rmsd_mejor_A": 0.89,
+    "afinidad_kcal": -9.337,
+    "ligando": "COC",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "b4a5bbfe5b8c6e03d2cb71c543204b68827132bf3683f1d5260088103037d927",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "norepinephrine transporter",
+   "familia": "Transportador",
+   "gen": "SLC6A2",
+   "uniprot": "P23975",
+   "nombre_proteina": "Sodium-dependent noradrenaline transporter",
+   "riesgo": "Transportador de noradrenalina: efectos cardiovasculares.",
+   "estado": "validada",
+   "pdb_id": "8ZP2",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.4,
+   "titulo": "Cryo-EM structure of human norepinephrine transporter NET bound with atomoxetine in an outward-open state at a resolution of 2.4 angstrom",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "A1LX4",
+   "center": [
+    134.012,
+    126.247,
+    130.442
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.47,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 1.03,
+    "rmsd_mejor_A": 1.03,
+    "afinidad_kcal": -8.775,
+    "ligando": "A1LX4",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "10f2c8104dfd2ed6927c4dc6eba82a46bbd274be7213ec1eb42288916683e136",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "5-HT transporter",
+   "familia": "Transportador",
+   "gen": "SLC6A4",
+   "uniprot": "P31645",
+   "nombre_proteina": "Sodium-dependent serotonin transporter",
+   "riesgo": "Transportador de serotonina: síndrome serotoninérgico y efectos digestivos.",
+   "estado": "validada",
+   "pdb_id": "9HCO",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.78,
+   "titulo": "Outward-open structure of human serotonin transporter bound to vilazodone",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "YG7",
+   "center": [
+    125.74,
+    128.195,
+    132.877
+   ],
+   "size": [
+    27.2,
+    27.2,
+    27.2
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.61,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 1.9,
+    "rmsd_mejor_A": 1.76,
+    "afinidad_kcal": -12.305,
+    "ligando": "YG7",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "b44888e77384bd2f27a3bf3abb3e2c3635940f5d61a510ce58a30251316dd795",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "N neuronal alpha4beta2",
+   "familia": "Canal iónico",
+   "gen": "CHRNA4",
+   "uniprot": "P43681",
+   "nombre_proteina": "Neuronal acetylcholine receptor subunit alpha-4",
+   "riesgo": "Receptor nicotínico neuronal: efectos sobre el sistema nervioso central.",
+   "estado": "sin_estructura",
+   "motivo": "sin estructura X-RAY DIFFRACTION/ELECTRON MICROSCOPY ≤3.5 Å con ligando drug-like. Las estructuras de α4β2 son crio-EM por encima de 3,5 Å, el tope del filtro. Subir el tope es una decisión que hay que medir, no asumir."
+  },
+  {
+   "assay": "5-HT3",
+   "familia": "Canal iónico",
+   "gen": "HTR3A",
+   "uniprot": "P46098",
+   "nombre_proteina": "5-hydroxytryptamine receptor 3A",
+   "riesgo": "Receptor serotoninérgico ionotrópico: náuseas, vómitos y motilidad intestinal.",
+   "estado": "validada",
+   "pdb_id": "8BLA",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 3.3,
+   "titulo": "Human serotonin 5-HT3A receptor in complex with vortioxetine (detergent, ECD only, active/distorted conformation)",
+   "chain": "E",
+   "site_chains": [
+    "E",
+    "A"
+   ],
+   "site_ligand": "VTX",
+   "center": [
+    124.347,
+    132.792,
+    107.359
+   ],
+   "size": [
+    18.8,
+    18.8,
+    18.8
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.67,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 1.77,
+    "rmsd_mejor_A": 0.32,
+    "afinidad_kcal": -10.373,
+    "ligando": "VTX",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "1012d84f767ab10f0678804e6bf31064f58c459135e68ff6b58514de3e705385",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "hERG",
+   "familia": "Canal iónico",
+   "gen": "KCNH2",
+   "uniprot": "Q12809",
+   "nombre_proteina": "Voltage-gated inwardly rectifying potassium channel KCNH2",
+   "riesgo": "Arritmia cardiaca por prolongación del QT (terfenadina, cisaprida, grepafloxacino).",
+   "estado": "en_el_panel_por_defecto",
+   "pdb_id": "5VA1",
+   "sitio_adjudicado": true,
+   "procedencia_sitio": "catálogo curado; sitio adjudicado en la fase 1 de la auditoría",
+   "alternativa_medida": {
+    "pdb_id": "8ZYQ",
+    "metodo": "ELECTRON MICROSCOPY",
+    "resolucion_A": 3.18,
+    "titulo": "Cryo-EM Structure of pimozide-bound hERG Channel",
+    "site_chains": [
+     "D",
+     "A",
+     "B",
+     "C"
+    ],
+    "site_ligand": "1II",
+    "center": [
+     155.977,
+     151.447,
+     167.11
+    ],
+    "size": [
+     22.7,
+     22.7,
+     22.7
+    ],
+    "distancia_centroides_A": 0.7,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 1.7,
+    "nota": "no se ofrece como anti-diana aparte para no duplicar la diana; queda como medida independiente del sitio"
+   }
+  },
+  {
+   "assay": "KV channel",
+   "familia": "Canal iónico",
+   "gen": null,
+   "uniprot": null,
+   "nombre_proteina": null,
+   "riesgo": "Canal de potasio dependiente de voltaje: efectos cardiacos y neuronales.",
+   "estado": "sin_estructura",
+   "motivo": "la ficha no identifica el subtipo; hay que fijarlo a mano. La tabla 1 de Bowes dice «KV channel» sin subtipo, y KCNQ1, KCNA5 o KCNH2 no comparten sitio. Fijar el subtipo es una decisión de quien use el panel."
+  },
+  {
+   "assay": "Na+ channel (site 2)",
+   "familia": "Canal iónico",
+   "gen": "SCN5A",
+   "uniprot": "Q14524",
+   "nombre_proteina": "Sodium channel protein type 5 subunit alpha",
+   "riesgo": "Canal de sodio cardiaco: alteraciones de la conducción.",
+   "estado": "validada",
+   "pdb_id": "6LQA",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 3.3,
+   "titulo": "voltage-gated sodium channel Nav1.5 with quinidine",
+   "chain": "B",
+   "site_chains": [
+    "B"
+   ],
+   "site_ligand": "QDN",
+   "center": [
+    128.692,
+    125.579,
+    137.582
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 2.35,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 5.72,
+    "rmsd_mejor_A": 1.99,
+    "afinidad_kcal": -7.508,
+    "ligando": "QDN",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "7206725f125ff8a30067aba266c7c7fc11fd35da18c97eef708cd7d917d20774",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "AR",
+   "familia": "Receptor nuclear",
+   "gen": "AR",
+   "uniprot": "P10275",
+   "nombre_proteina": "Androgen receptor",
+   "riesgo": "Receptor de andrógenos: efectos endocrinos antiandrogénicos.",
+   "estado": "validada",
+   "pdb_id": "8E1A",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 1.2,
+   "titulo": "Structure-based study to overcome cross-reactivity of novel androgen receptor inhibitors",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "3E0",
+   "center": [
+    26.966,
+    2.586,
+    4.233
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.3,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 2.24,
+    "rmsd_mejor_A": 0.5,
+    "afinidad_kcal": -8.526,
+    "ligando": "3E0",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "4ad45a94f8abb3c0df8313a0719e9fba81f7b1590780e5b901ba3bd79c156124",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "COX2",
+   "familia": "Enzima",
+   "gen": "PTGS2",
+   "uniprot": "P35354",
+   "nombre_proteina": "Prostaglandin G/H synthase 2",
+   "riesgo": "Ciclooxigenasa 2: riesgo cardiovascular y renal.",
+   "estado": "validada",
+   "pdb_id": "5IKR",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 2.342,
+   "titulo": "The Structure of Mefenamic Acid Bound to Human Cyclooxygenase-2",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "ID8",
+   "center": [
+    38.457,
+    2.484,
+    61.23
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.45,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 1.93,
+    "rmsd_mejor_A": 0.55,
+    "afinidad_kcal": -8.327,
+    "ligando": "ID8",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "ce0f817a7121819db87a681307f2c65d6faf26aa48bf318c8d99eca52e0b6c56",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "acetylcholinesterase",
+   "familia": "Enzima",
+   "gen": "ACHE",
+   "uniprot": "P22303",
+   "nombre_proteina": "Acetylcholinesterase",
+   "riesgo": "Acetilcolinesterasa: síndrome colinérgico.",
+   "estado": "validada",
+   "pdb_id": "4M0E",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 2.0,
+   "titulo": "Structure of human acetylcholinesterase in complex with dihydrotanshinone I",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "1YL",
+   "center": [
+    -17.198,
+    -42.376,
+    25.582
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.16,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 0.24,
+    "rmsd_mejor_A": 0.24,
+    "afinidad_kcal": -12.221,
+    "ligando": "1YL",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "431d6c73efcc20a2e625174e2bbb723ac5b3bc6bce561d9b9af23e6e76863830",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "PDE3A",
+   "familia": "Enzima",
+   "gen": "PDE3A",
+   "uniprot": "Q14432",
+   "nombre_proteina": "cGMP-inhibited 3',5'-cyclic phosphodiesterase 3A",
+   "riesgo": "Fosfodiesterasa 3: inotropismo y arritmias (la milrinona es de uso hospitalario).",
+   "estado": "validada",
+   "pdb_id": "7KWE",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 2.0,
+   "titulo": "Crystal structure of the catalytic domain of human PDE3A bound to DNMDP",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "X5M",
+   "center": [
+    -19.655,
+    -21.248,
+    42.567
+   ],
+   "size": [
+    19.0,
+    19.0,
+    19.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 1.19,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 2.7,
+    "rmsd_mejor_A": 1.13,
+    "afinidad_kcal": -8.456,
+    "ligando": "X5M",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "380ec3dcfdee030e945bb1a482bb507f896afb988e3248dd932ae2ff95685ccf",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "PDE4D2",
+   "familia": "Enzima",
+   "gen": "PDE4D",
+   "uniprot": "Q08499",
+   "nombre_proteina": "3',5'-cyclic-AMP phosphodiesterase 4D",
+   "riesgo": "Fosfodiesterasa 4: náuseas, vómitos y vasculitis en modelos animales.",
+   "estado": "validada",
+   "pdb_id": "1Y2K",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 1.36,
+   "titulo": "Catalytic Domain Of Human Phosphodiesterase 4D In Complex With 3,5-dimethyl-1-(3-nitro-phenyl)-1H-pyrazole-4-carboxylic acid ethyl ester",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "7DE",
+   "center": [
+    13.293,
+    45.012,
+    13.236
+   ],
+   "size": [
+    18.3,
+    18.3,
+    18.3
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 1.26,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 7.18,
+    "rmsd_mejor_A": 0.4,
+    "afinidad_kcal": -7.707,
+    "ligando": "7DE",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "693a5de0e2280b17cbd3c6be3df957deb8e9fe2c615b7314ae75f94d3302c0de",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "BZD (central)",
+   "familia": "Canal iónico",
+   "gen": "GABRA1",
+   "uniprot": "P14867",
+   "nombre_proteina": "Gamma-aminobutyric acid receptor subunit alpha-1",
+   "riesgo": "Sitio de benzodiacepinas del receptor GABA-A: sedación y dependencia.",
+   "estado": "validada",
+   "pdb_id": "9EQG",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.4,
+   "titulo": "CryoEM structure of human full-length alpha1beta3gamma2L GABA(A)R in complex with GABA and puerarin",
+   "chain": "D",
+   "site_chains": [
+    "D",
+    "C"
+   ],
+   "site_ligand": "A1H6W",
+   "center": [
+    237.291,
+    215.975,
+    241.701
+   ],
+   "size": [
+    19.8,
+    19.8,
+    19.8
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.45,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 2.33,
+    "rmsd_mejor_A": 1.67,
+    "afinidad_kcal": -10.359,
+    "ligando": "A1H6W",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "74dc15b54377e513a9e819841261f087bf82248728dfeb409609aa025e68a34e",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "NMDA",
+   "familia": "Canal iónico",
+   "gen": "GRIN1",
+   "uniprot": "Q05586",
+   "nombre_proteina": "Glutamate receptor ionotropic, NMDA 1",
+   "riesgo": "Receptor de glutamato: efectos psicomiméticos y neurotoxicidad.",
+   "estado": "validada",
+   "pdb_id": "9GJ1",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 1.62,
+   "titulo": "NMDA bound to compound 339",
+   "chain": "B",
+   "site_chains": [
+    "B"
+   ],
+   "site_ligand": "A1IME",
+   "center": [
+    -14.167,
+    -11.33,
+    39.308
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.23,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 0.43,
+    "rmsd_mejor_A": 0.43,
+    "afinidad_kcal": -8.777,
+    "ligando": "A1IME",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "abb1c8eaedb3c3204164a66cd0a8e1715c1f03cb78ad0cb23242a126c442a437",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "Ca2+ channel (L, dihydropyridine site)",
+   "familia": "Canal iónico",
+   "gen": "CACNA1C",
+   "uniprot": "Q13936",
+   "nombre_proteina": "Voltage-dependent L-type calcium channel subunit alpha-1C",
+   "riesgo": "Canal de calcio tipo L: hipotensión y efectos cardiacos.",
+   "estado": "validada",
+   "pdb_id": "8WE8",
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.9,
+   "titulo": "Human L-type voltage-gated calcium channel Cav1.2 in the presence of calciseptine, amlodipine and pinaverium at 2.9 Angstrom resolution",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "6UB",
+   "center": [
+    150.393,
+    168.143,
+    151.415
+   ],
+   "size": [
+    19.3,
+    19.3,
+    19.3
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 1.19,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 2.4,
+    "rmsd_mejor_A": 1.82,
+    "afinidad_kcal": -7.018,
+    "ligando": "6UB",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "0f577dff29c9d08773171c38c3582f2b95e9ad1d775968fdd8bd4d8b77f54c81",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "GR",
+   "familia": "Receptor nuclear",
+   "gen": "NR3C1",
+   "uniprot": "P04150",
+   "nombre_proteina": "Glucocorticoid receptor",
+   "riesgo": "Receptor de glucocorticoides: efectos metabólicos e inmunitarios.",
+   "estado": "validada",
+   "pdb_id": "4UDD",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 1.8,
+   "titulo": "GR in complex with desisobutyrylciclesonide",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "CV7",
+   "center": [
+    35.864,
+    20.661,
+    12.572
+   ],
+   "size": [
+    19.1,
+    19.1,
+    19.1
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 0.45,
+    "pose_reproducida": true,
+    "rmsd_pose1_A": 0.6,
+    "rmsd_mejor_A": 0.6,
+    "afinidad_kcal": -12.864,
+    "ligando": "CV7",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "4c458aef89b0a6a5e2c8302fac5f57287fc8c50d0475996ae881d7f8f8cc37cb",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "Lck kinase",
+   "familia": "Quinasa",
+   "gen": "LCK",
+   "uniprot": "P06239",
+   "nombre_proteina": "Tyrosine-protein kinase Lck",
+   "riesgo": "Quinasa de linfocitos T: inmunosupresión.",
+   "estado": "validada",
+   "pdb_id": "4C3F",
+   "metodo": "X-RAY DIFFRACTION",
+   "resolucion_A": 1.72,
+   "titulo": "Structure of Lck in complex with a compound discovered by Virtual Fragment Linking",
+   "chain": "A",
+   "site_chains": [
+    "A"
+   ],
+   "site_ligand": "7KW",
+   "center": [
+    24.059,
+    10.594,
+    51.795
+   ],
+   "size": [
+    18.0,
+    18.0,
+    18.0
+   ],
+   "affinity_threshold": -7.0,
+   "redock": {
+    "distancia_centroides_A": 3.07,
+    "pose_reproducida": false,
+    "rmsd_pose1_A": 5.97,
+    "rmsd_mejor_A": 5.09,
+    "afinidad_kcal": -9.051,
+    "ligando": "7KW",
+    "vina": {
+     "exhaustiveness": 16,
+     "seed": 42
+    }
+   },
+   "receptor_sha256": "1092033523604d745ebc0f2989150e35f463e1c13d5642494a31be0ff174e8f9",
+   "sitio_adjudicado": false,
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+  },
+  {
+   "assay": "COX1",
+   "familia": "Enzima",
+   "gen": "PTGS1",
+   "uniprot": "P23219",
+   "nombre_proteina": "Prostaglandin G/H synthase 1",
+   "riesgo": "Ciclooxigenasa 1: lesión gastrointestinal y efecto antiagregante.",
+   "estado": "sin_estructura_preparable",
+   "intentos": [
+    {
+     "pdb_id": "6Y3C",
+     "ligando": "FLC",
+     "estado": "no_es_farmaco",
+     "rmsd_pose1_A": null
+    }
+   ],
+   "motivo": "Ninguna estructura pasó: su único ligando no es un fármaco (cofactor, lípido, detergente, tampón o análogo de nucleótido). El criterio es el centroide de la primera pose a ≤ 4.0 Å del ligando cristalizado. La única entrada humana del PDB con ligando bajo los filtros es 6Y3C (3,36 Å) y su único HETATM es citrato: la COX-1 cristalizada con inhibidor es casi siempre ovina, y sustituir de especie cambia el sitio. Queda abierto: fijar a mano una estructura y adjudicar el sitio."
+  },
+  {
+   "assay": "MAO-A",
+   "familia": "Enzima",
+   "gen": "MAOA",
+   "uniprot": "P21397",
+   "nombre_proteina": "Amine oxidase [flavin-containing] A",
+   "riesgo": "Monoaminooxidasa A: crisis hipertensiva por tiramina y síndrome serotoninérgico.",
+   "estado": "sin_estructura_preparable",
+   "intentos": [
+    {
+     "pdb_id": "2Z5Y",
+     "ligando": "FAD",
+     "estado": "no_es_farmaco",
+     "rmsd_pose1_A": null
+    },
+    {
+     "pdb_id": "2Z5Y",
+     "ligando": "DCX",
+     "estado": "no_es_farmaco",
+     "rmsd_pose1_A": null
+    },
+    {
+     "pdb_id": "2Z5Y",
+     "ligando": "HRM",
+     "estado": "no_preparable",
+     "rmsd_pose1_A": null
+    },
+    {
+     "pdb_id": "2Z5X",
+     "ligando": "FAD",
+     "estado": "no_es_farmaco",
+     "rmsd_pose1_A": null
+    },
+    {
+     "pdb_id": "2Z5X",
+     "ligando": "DCX",
+     "estado": "no_es_farmaco",
+     "rmsd_pose1_A": null
+    },
+    {
+     "pdb_id": "2Z5X",
+     "ligando": "HRM",
+     "estado": "no_preparable",
+     "rmsd_pose1_A": null
+    },
+    {
+     "pdb_id": "2BXR",
+     "ligando": "FAD",
+     "estado": "no_es_farmaco",
+     "rmsd_pose1_A": null
+    },
+    {
+     "pdb_id": "2BXR",
+     "ligando": "MLG",
+     "estado": "no_preparable",
+     "rmsd_pose1_A": null
+    },
+    {
+     "pdb_id": "2BXS",
+     "ligando": "FAD",
+     "estado": "no_es_farmaco",
+     "rmsd_pose1_A": null
+    },
+    {
+     "pdb_id": "2BXS",
+     "ligando": "MLG",
+     "estado": "no_preparable",
+     "rmsd_pose1_A": null
+    }
+   ],
+   "motivo": "Ninguna estructura pasó: su único ligando no es un fármaco (cofactor, lípido, detergente, tampón o análogo de nucleótido); Meeko no pudo preparar el receptor. El criterio es el centroide de la primera pose a ≤ 4.0 Å del ligando cristalizado. En las cuatro entradas (2Z5Y, 2Z5X, 2BXR, 2BXS) Meeko avisa «matched with excess inter-residue bond(s)» sobre el residuo del FAD y aborta con «adjacent_mol doesn't contain the mapped atoms». El enlace de más es el que une el FAD covalentemente a una cisteína del sitio activo, propio de las monoamino-oxidasas. No es la caja: el producto no prepara cofactores covalentes. Queda declarado, no sorteado."
+  }
+ ]
+}

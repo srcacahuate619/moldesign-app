@@ -37,7 +37,10 @@ deadlocks y fugas de handles).
 from __future__ import annotations
 
 import asyncio
+import json
 from dataclasses import dataclass, field
+from functools import lru_cache
+from pathlib import Path
 from typing import Any
 
 from services.docking.selectividad_margen import margen_de_selectividad
@@ -86,33 +89,47 @@ ANTI_TARGET_PANEL = [
 
 ]
 
-#: Otras dianas del panel de Bowes 2012 con estructura humana en el catálogo.
-#: Se OFRECEN al usuario, pero no se marcan por defecto: cada una es un
-#: acoplamiento más por corrida, y un score de Vina entre receptores distintos
-#: es una señal exploratoria, no una selectividad medida. La identidad de cada
-#: PDB se comprobó en su cabecera (COMPND/SOURCE); se excluyeron 4BVN (β1 de
-#: pavo), 1GPK (AChE de Torpedo) y 6Y5A (5-HT3 de ratón), que el catálogo
-#: etiqueta como humanos. Sin `center`/`size`: la caja es la del catálogo.
-ANTI_DIANAS_BOWES_2012 = [
-    {"pdb_id": "7E2Y", "name": "5-HT1A (HTR1A)", "category": "Bowes 2012 · GPCR",
-     "risk": "Receptor serotoninérgico del panel de Bowes 2012: efectos sobre el SNC."},
-    {"pdb_id": "4IAQ", "name": "5-HT1B (HTR1B)", "category": "Bowes 2012 · GPCR",
-     "risk": "Receptor serotoninérgico del panel de Bowes 2012: vasoconstricción, incluida la coronaria."},
-    {"pdb_id": "6WHA", "name": "5-HT2A (HTR2A)", "category": "Bowes 2012 · GPCR",
-     "risk": "Receptor serotoninérgico del panel de Bowes 2012: el agonismo produce efectos alucinógenos."},
-    {"pdb_id": "7BVQ", "name": "β1-adrenérgico (ADRB1)", "category": "Bowes 2012 · GPCR",
-     "risk": "Receptor adrenérgico del panel de Bowes 2012: frecuencia y contractilidad cardiacas."},
-    {"pdb_id": "6PS2", "name": "β2-adrenérgico (ADRB2)", "category": "Bowes 2012 · GPCR",
-     "risk": "Receptor adrenérgico del panel de Bowes 2012: taquicardia, temblor, tono bronquial."},
-    {"pdb_id": "5TGZ", "name": "CB1 (CNR1)", "category": "Bowes 2012 · GPCR",
-     "risk": "Receptor cannabinoide del panel de Bowes 2012: efectos psiquiátricos (retirada del rimonabant)."},
-    {"pdb_id": "8HFE", "name": "NET (SLC6A2)", "category": "Bowes 2012 · Transportador",
-     "risk": "Transportador de noradrenalina del panel de Bowes 2012: efectos cardiovasculares."},
-    {"pdb_id": "2AM9", "name": "Receptor de andrógenos (AR)", "category": "Bowes 2012 · Receptor nuclear",
-     "risk": "Receptor nuclear del panel de Bowes 2012: efectos endocrinos antiandrogénicos."},
-    {"pdb_id": "5F1A", "name": "COX-2 (PTGS2)", "category": "Bowes 2012 · Enzima",
-     "risk": "Enzima del panel de Bowes 2012: riesgo gastrointestinal y cardiovascular."},
-]
+#: Las 44 dianas del panel, con la estructura que cada una haya superado la
+#: validación. Lo genera `scripts/build_bowes44_panel.py` desde un redocking real
+#: del ligando cocristalizado; ver `docs/auditorias/ae4db6a/bowes44_validacion.json`.
+RUTA_PANEL_BOWES = Path(__file__).resolve().parents[2] / "data" / "anti_dianas_bowes44.json"
+
+
+@lru_cache(maxsize=1)
+def panel_bowes_2012() -> list[dict[str, Any]]:
+    """Las 44 dianas del panel mínimo de Bowes 2012, en el orden del archivo.
+
+    Cada fila trae su `estado`. Sólo las `validada` pueden acoplarse: llevan
+    caja, cadenas del sitio y las cifras del redocking que lo respaldan. Las
+    demás se listan con su motivo y la interfaz no deja seleccionarlas.
+    """
+    try:
+        datos = json.loads(RUTA_PANEL_BOWES.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        log.warning("panel_bowes_ilegible", ruta=str(RUTA_PANEL_BOWES), error=str(exc))
+        return []
+    return list(datos.get("dianas") or [])
+
+
+def anti_dianas_seleccionables_de_bowes() -> dict[str, dict[str, Any]]:
+    """Las del panel de Bowes que se pueden acoplar, por PDB ID."""
+    return {
+        str(fila["pdb_id"]).upper(): {
+            "pdb_id": str(fila["pdb_id"]).upper(),
+            "name": f"{fila['assay']} ({fila.get('gen') or '—'})",
+            "chain": fila.get("chain") or "A",
+            "category": f"Bowes 2012 · {fila.get('familia') or 'panel'}",
+            "risk": fila.get("riesgo") or "",
+            "center": tuple(fila["center"]),
+            "size": tuple(fila["size"]),
+            "site_chains": fila.get("site_chains"),
+            "affinity_threshold": fila.get("affinity_threshold") or -7.0,
+        }
+        for fila in panel_bowes_2012()
+        if fila.get("estado") == "validada" and fila.get("center") and fila.get("size")
+    }
+
+
 
 
 @dataclass
@@ -149,7 +166,10 @@ async def seleccionar_anti_dianas(
     aparenta es exactamente el defecto que este producto existe para no cometer.
     """
     por_id = {t["pdb_id"]: t for t in ANTI_TARGET_PANEL}
-    bowes = {t["pdb_id"]: t for t in ANTI_DIANAS_BOWES_2012}
+    # Las del panel de Bowes traen su caja y su sitio validados: mandan sobre el
+    # catálogo y sobre la rama de «anti-diana del usuario».
+    por_id.update({k: v for k, v in anti_dianas_seleccionables_de_bowes().items()
+                   if k not in por_id})
 
     if not anti_targets:
         return list(ANTI_TARGET_PANEL), []
@@ -176,7 +196,7 @@ async def seleccionar_anti_dianas(
         if fila is None:
             desconocidas.append(pid)
             continue
-        sugerida = bowes.get(pid, {})
+        sugerida = por_id.get(pid, {})
         elegidas.append(
             {
                 "pdb_id": pid,

@@ -233,31 +233,136 @@ def test_el_aviso_de_caja_no_depende_de_la_orientacion(tmp_path, angulo):
 # ── Panel de selectividad ──────────────────────────────────────────────
 
 
-def test_panel_por_defecto_sin_cyp3a4_y_sugeridas_aparte():
-    from services.docking.selectivity import ANTI_DIANAS_BOWES_2012, ANTI_TARGET_PANEL
+def test_panel_por_defecto_sin_cyp3a4_y_las_44_aparte():
+    from services.docking.selectivity import (
+        ANTI_TARGET_PANEL,
+        anti_dianas_seleccionables_de_bowes,
+        panel_bowes_2012,
+    )
 
     por_defecto = {t["pdb_id"] for t in ANTI_TARGET_PANEL}
-    assert por_defecto == {"5VA1", "4NC3"}
-    sugeridas = {t["pdb_id"] for t in ANTI_DIANAS_BOWES_2012}
-    assert not por_defecto & sugeridas
-    # Estructuras que el catálogo etiqueta como humanas y no lo son.
-    assert not sugeridas & {"4BVN", "1GPK", "6Y5A"}
+    assert por_defecto == {"5VA1", "4NC3"}, "CYP3A4 no está entre las 44 de Bowes 2012"
+
+    panel = panel_bowes_2012()
+    assert len(panel) == 44, f"el panel mínimo de Bowes 2012 son 44 dianas, hay {len(panel)}"
+    assert len({f["assay"] for f in panel}) == 44
+    estados = {f["estado"] for f in panel}
+    assert estados <= {"validada", "en_el_panel_por_defecto",
+                       "sin_estructura_preparable", "sin_estructura"}, estados
+
+    seleccionables = anti_dianas_seleccionables_de_bowes()
+    assert not por_defecto & set(seleccionables), "las de por defecto no se repiten"
+    for pdb_id, fila in seleccionables.items():
+        assert len(fila["center"]) == 3 and len(fila["size"]) == 3, pdb_id
+        assert fila["site_chains"], pdb_id
+
+
+def test_cada_diana_validada_declara_su_redocking():
+    """Una estructura entra al panel sólo con la medida que lo respalda."""
+    from services.docking.selectivity import panel_bowes_2012
+
+    for fila in panel_bowes_2012():
+        if fila["estado"] != "validada":
+            assert fila.get("motivo") or fila["estado"] == "en_el_panel_por_defecto", fila["assay"]
+            continue
+        redock = fila.get("redock") or {}
+        assert redock.get("distancia_centroides_A") is not None, fila["assay"]
+        assert redock["distancia_centroides_A"] <= 4.0, fila["assay"]
+        assert redock.get("ligando"), fila["assay"]
+        assert fila.get("receptor_sha256"), fila["assay"]
+        # El sitio no se declara adjudicado sin que una persona lo revise.
+        assert fila.get("sitio_adjudicado") is False, fila["assay"]
+
+
+def test_las_estructuras_del_panel_estan_en_el_repositorio():
+    """Sin el PDB local, la anti-diana no se puede preparar en una app sin red."""
+    from services.docking.selectivity import anti_dianas_seleccionables_de_bowes
+
+    for pdb_id in anti_dianas_seleccionables_de_bowes():
+        assert (RAIZ / "data" / "targets" / f"{pdb_id}.pdb.gz").is_file(), pdb_id
 
 
 @pytest.mark.asyncio
-async def test_una_sugerida_elegida_conserva_su_categoria():
-    from services.docking.selectivity import seleccionar_anti_dianas
+async def test_una_del_panel_viaja_con_la_caja_que_se_midio():
+    """Una anti-diana del panel lleva SU caja, también si el catálogo la conoce.
+
+    Es la caja que el redocking validó: el centroide de la primera pose cayó a
+    ≤ 4 Å del ligando cristalizado con esa caja y ese receptor. La del catálogo
+    se midió para la misma estructura como *diana*, no como anti-diana, y puede
+    ser otra: coger la equivocada es DOCK-004 otra vez.
+
+    El PDB sale del panel, no escrito a mano: la estructura elegida para cada
+    ensayo cambia cuando se remide (5-HT1A pasó de 7E2Y a 8PJK), y una prueba
+    con el ID a fuego se queda obsoleta sin decirlo.
+    """
+    from services.docking.selectivity import (
+        anti_dianas_seleccionables_de_bowes,
+        seleccionar_anti_dianas,
+    )
 
     class Repo:
         async def get_target_by_pdb_id(self, pdb_id):
             return type("Fila", (), {"name": "catálogo", "chain": "R", "affinity_threshold": -7.0,
                                      "anti_target_risk": None})()
 
-    elegidas, desconocidas = await seleccionar_anti_dianas(["7E2Y"], repository=Repo())
+    panel = anti_dianas_seleccionables_de_bowes()
+    catalogo = {t["pdb_id"].upper()
+                for t in json.loads((RAIZ / "curated_targets.json").read_text(encoding="utf-8"))}
+    compartidas = sorted(set(panel) & catalogo)
+    assert compartidas, "el panel ya no comparte ninguna estructura con el catálogo"
+    pdb_id = compartidas[0]
+    elegidas, desconocidas = await seleccionar_anti_dianas([pdb_id], repository=Repo())
     assert desconocidas == []
     assert elegidas[0]["category"].startswith("Bowes 2012")
-    assert elegidas[0]["name"] == "5-HT1A (HTR1A)"
-    assert "center" not in elegidas[0]      # la caja sale del catálogo
+    assert elegidas[0]["name"] == panel[pdb_id]["name"]
+    assert tuple(elegidas[0]["center"]) == tuple(panel[pdb_id]["center"]), pdb_id
+    assert tuple(elegidas[0]["size"]) == tuple(panel[pdb_id]["size"]), pdb_id
+
+
+@pytest.mark.asyncio
+async def test_una_anti_diana_del_usuario_no_trae_caja_y_la_toma_del_catalogo():
+    """La rama sin `center` es sólo para lo que aporta el usuario."""
+    from services.docking.selectivity import (
+        ANTI_TARGET_PANEL,
+        anti_dianas_seleccionables_de_bowes,
+        seleccionar_anti_dianas,
+    )
+
+    class Repo:
+        async def get_target_by_pdb_id(self, pdb_id):
+            return type("Fila", (), {"name": "mía", "chain": "B", "affinity_threshold": -6.5,
+                                     "anti_target_risk": None})()
+
+    conocidas = set(anti_dianas_seleccionables_de_bowes()) | {t["pdb_id"] for t in ANTI_TARGET_PANEL}
+    ajena = next(p for p in ("1ABC", "9ZZZ", "0XYZ") if p not in conocidas)
+    elegidas, desconocidas = await seleccionar_anti_dianas([ajena], repository=Repo())
+    assert desconocidas == []
+    assert elegidas[0]["category"] == "Custom"
+    assert "center" not in elegidas[0] and "size" not in elegidas[0]
+
+
+@pytest.mark.asyncio
+async def test_una_sugerida_que_el_catalogo_no_tiene_lleva_su_propia_caja():
+    """Si el catálogo no la conoce, la anti-diana tiene que aportar su caja medida."""
+    from services.docking.selectivity import (
+        anti_dianas_seleccionables_de_bowes,
+        seleccionar_anti_dianas,
+    )
+
+    class RepoVacio:
+        async def get_target_by_pdb_id(self, pdb_id):
+            return None
+
+    panel = anti_dianas_seleccionables_de_bowes()
+    catalogo = {t["pdb_id"].upper()
+                for t in json.loads((RAIZ / "curated_targets.json").read_text(encoding="utf-8"))}
+    propias = sorted(set(panel) - catalogo)
+    assert propias, "todas las anti-dianas del panel están ya en el catálogo"
+    pdb_id = propias[0]
+    elegidas, desconocidas = await seleccionar_anti_dianas([pdb_id], repository=RepoVacio())
+    assert desconocidas == []
+    assert len(elegidas[0]["center"]) == 3 and len(elegidas[0]["size"]) == 3
+    assert elegidas[0]["site_chains"], pdb_id
 
 
 def test_prepare_target_usa_la_funcion_compartida():
@@ -346,3 +451,99 @@ def test_una_diana_humana_sobre_un_pdb_de_otro_organismo_se_detecta():
     assert organismos, "6MVW debería traer SOURCE en su PDB"
     assert not any("homo sapiens" in o for o in organismos)
     assert any("arcobacter" in o for o in organismos)
+
+
+# ── Identidad del ligando en el panel de Bowes ─────────────────────────
+
+
+def _selector():
+    """`scripts/` no está en el sys.path de las pruebas: se añade aquí."""
+    ruta = RAIZ / "scripts" / "bowes44_seleccionar_estructuras.py"
+    spec = importlib.util.spec_from_file_location("bowes44_seleccionar_estructuras", ruta)
+    modulo = importlib.util.module_from_spec(spec)
+    sys.modules.setdefault("bowes44_seleccionar_estructuras", modulo)
+    spec.loader.exec_module(modulo)
+    return modulo
+
+
+def _validador():
+    ruta = RAIZ / "scripts" / "bowes44_validar_estructuras.py"
+    sys.path.insert(0, str(RAIZ / "scripts"))
+    try:
+        spec = importlib.util.spec_from_file_location("bowes44_validar_estructuras", ruta)
+        modulo = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(modulo)
+    finally:
+        sys.path.remove(str(RAIZ / "scripts"))
+    return modulo
+
+
+#: El PDB clásico da tres columnas a `resName` y el CCD emite códigos de cinco
+#: desde 2023, así que gemmi trunca el `HETATM` y conserva el completo en `HET`.
+#: Las dos formas del registro salen de gemmi: con hueco y sin él.
+_HET_5VA1 = """\
+HET    A1D5J  R1201      28
+HET    A1D67  R 401      10
+HET    CLR  R 402      28
+HETATM 7365  C1  A1D R1201     154.694 150.855 162.197  1.00 61.30           C
+HETATM 7366  O1  A1D R 401     100.000 100.000 100.000  1.00 61.30           O
+HETATM 7367  C1  CLR R 402       1.000   2.000   3.000  1.00 61.30           C
+HETATM 7368  H1  A1D R1201     154.000 150.000 162.000  1.00 61.30           H
+"""
+
+
+def test_un_codigo_ccd_de_cinco_caracteres_se_casa_por_cadena_y_numero():
+    """Buscar por nombre no encuentra nada: el `HETATM` viene truncado a tres."""
+    v = _validador()
+    assert v.het_de_codigo_largo(_HET_5VA1) == {("R", "1201"): "A1D5J", ("R", "401"): "A1D67"}
+    # Cada copia va a su residuo, aunque las dos se escriban «A1D» en el HETATM.
+    largo = v.instancias_del_ligando(_HET_5VA1, "A1D5J")
+    assert list(largo) == [("R", "1201")]
+    assert [a[0] for a in largo[("R", "1201")]] == ["C1"]        # el H no cuenta
+    assert list(v.instancias_del_ligando(_HET_5VA1, "A1D67")) == [("R", "401")]
+    # Un código de tres caracteres sigue casando por nombre, sin tocar el mapa.
+    assert list(v.instancias_del_ligando(_HET_5VA1, "CLR")) == [("R", "402")]
+    # Y el prefijo truncado NO es un ligando: pediría «A1D» y hay dos distintos.
+    assert v.instancias_del_ligando(_HET_5VA1, "A1D") == {}
+
+
+@pytest.mark.parametrize("comp_id,nombre", [
+    ("PTY", "PHOSPHATIDYLETHANOLAMINE"),                 # lípido de membrana
+    ("CPS", "3-[(3-CHOLAMIDOPROPYL)DIMETHYLAMMONIO]-1-PROPANESULFONATE"),   # CHAPS
+    ("ANP", "PHOSPHOAMINOPHOSPHONIC ACID-ADENYLATE ESTER"),                 # AMP-PNP
+    ("FLC", "CITRATE ANION"),
+    ("3PE", "1,2-Distearoyl-sn-glycerophosphoethanolamine"),
+    ("JZR", "hexyl beta-D-glucopyranoside"),             # detergente por nombre
+    ("PX2", "1,2-DILAUROYL-SN-GLYCERO-3-PHOSPHATE"),
+    ("12P", "DODECAETHYLENE GLYCOL"),
+    ("8K6", "Octadecane"),
+    ("DGA", "DIACYL GLYCEROL"),
+    ("8VY", "1,3-bis(bromomethyl)benzene"),              # entrecruzador
+    ("UNL", "unknown ligand"),
+])
+def test_lo_que_no_es_farmaco_no_puede_validar_un_sitio(comp_id, nombre):
+    """Si un lípido pasa por ligando, el redocking confirma otro bolsillo.
+
+    Medido: `PTY` daba `sitio_confirmado` a 0,99 Å en 8ZP2 y `ANP` en 8UKP,
+    cuyo ensayo es el sitio de dihidropiridinas del canal de Ca²⁺.
+    """
+    assert _selector().descarte_no_farmacologico(comp_id, nombre), comp_id
+
+
+@pytest.mark.parametrize("comp_id,nombre", [
+    ("COC", "COCAINE"),
+    ("ERM", "Ergotamine"),
+    ("LDP", "L-DOPAMINE"),                               # agonista endógeno
+    ("QDN", "Quinidine"),
+    ("6UB", "amlodipine"),
+    ("STU", "STAUROSPORINE"),
+    ("FO9", "famotidine derivative"),                    # no confundir con F09
+    ("A1LX4", "(3R)-N-methyl-3-(2-methylphenoxy)-3-phenylpropan-1-amine"),
+    ("6UB", "amlodipine"),
+    ("CV7", "DESISOBUYTYRYL CICLESONIDE"),               # esteroide, no esterol
+    # Inhibidor covalente real de la acetilcolinesterasa: filtrar por «phospho»
+    # a secas lo tiraría, y por eso el filtro nombra patrones de lípido.
+    ("L2Y", "(S)-N-[(1E)-1-(diethylamino)ethylidene]-P-methylphosphonamidic fluoride"),
+])
+def test_un_farmaco_de_verdad_no_se_descarta(comp_id, nombre):
+    assert _selector().descarte_no_farmacologico(comp_id, nombre) is None, comp_id
