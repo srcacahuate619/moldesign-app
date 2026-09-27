@@ -192,22 +192,48 @@ donde quedó v1.1.0 y la que vale es la de la URL.
 
 ### Por qué v1.1.1 y no seguir con v1.1.0
 
-Dos motivos, y el primero pesa más:
+**Un motivo, medido contra el artefacto publicado:** sus seis paquetes de
+API-015 están atrasados y **contradicen `backend/requirements-embed.lock.txt`**,
+que es la lista que instala la CI.
 
-1. **`runtime-base-v1.1.0.zip` contiene `padelpy`** (33 entradas), que empaqueta
-   `PaDEL-Descriptor.jar` bajo **AGPL-3.0** declarándose MIT en el metadata del
-   wrapper. Se retiró del árbol el 2026-09-12 para no asumir esa obligación (ver
-   `scripts/check_copyleft_en_runtime.py`), pero el artefacto publicado se quedó
-   con él: cualquier fork aprovisionado con `--fetch` la recibía. En v1.1.1 hay
-   **0 entradas de padelpy y ningún `.jar`**.
-2. Los seis paquetes de API-015 estaban atrasados y el archivo publicado ya
-   **contradecía `backend/requirements-embed.lock.txt`**, que es lo que instala
-   la CI: starlette 1.0.0→1.7.0, PyJWT 2.8.0→2.15.0, cryptography 42.0.7→50.0.1,
-   pillow 12.2.0→12.3.0, aiohttp 3.14.1→3.14.3, python-multipart 0.0.22→0.0.32.
-   Es decir, v1.1.0 ya no era una base válida para este árbol.
+| paquete | en el publicado | en el lockfile |
+|---|---|---|
+| starlette | 1.0.0 | 1.7.0 |
+| PyJWT | 2.8.0 | 2.15.0 |
+| cryptography | 42.0.7 | 50.0.1 |
+| pillow | 12.2.0 | 12.3.0 |
+| aiohttp | 3.14.1 | 3.14.3 |
+| python-multipart | 0.0.22 | 0.0.32 |
+
+Un fork aprovisionado con `--fetch` recibía esas seis versiones y luego la CI le
+instalaba otras: v1.1.0 dejó de ser una base válida para este árbol el día que se
+subieron los paquetes de API-015.
 
 Nombre nuevo porque los bytes son otros. El v1.1.0 publicado se queda donde está
 y quien lo tenga anclado por revisión no se rompe.
+
+#### Corrigendum (2026-09-27): la AGPL de `padelpy` NO está en el publicado
+
+La primera versión de esta sección afirmaba que `runtime-base-v1.1.0.zip` llevaba
+33 entradas de `padelpy` con `PaDEL-Descriptor.jar` bajo AGPL-3.0, y lo daba como
+el motivo principal para republicar. **Era falso, y el error de método vale más
+que el hallazgo:** la medida se hizo sobre `dist/runtime-base-v1.1.0.zip` **de
+esta máquina**, que es una construcción del 2026-09-07 —SHA-256
+`84fdece03f5daf67165880a75583e95cc6befd8ce647c09a8c433afca617abc1`,
+605 716 784 bytes— y **no es el artefacto publicado**, cuyo SHA-256 es
+`74d08e89…` y pesa 593 414 884. El local es anterior al 2026-09-12, que es cuando
+`padelpy` salió del árbol; el publicado se empaquetó el 09-24, ya sin él.
+
+Verificado leyendo el **directorio central del zip publicado** por rangos HTTP
+(dos peticiones, sin descargar los 593 MB): 31 688 entradas, **0 de padelpy, 0
+`.jar`, 0 bindings importables de Open Babel**. El artefacto publicado está
+limpio.
+
+La lección: un archivo en `dist/` con el nombre del publicado no es el publicado.
+Lo que identifica un artefacto es su SHA-256, que es justo por lo que
+`RUNTIME_BASE` lo ancla. Comprobar el nombre en vez del hash es la misma clase de
+error que dejó corrupto `dist/base-v1.0.0.zip` durante la auditoría del
+2026-09-06: confiar en la ruta y no en los bytes.
 
 `<REVISION>` es el commit inmutable de Hugging Face, no una rama: una rama no
 fija bytes. Después hay que copiar `sha256` y `size_bytes` a

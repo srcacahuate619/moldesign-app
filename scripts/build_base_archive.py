@@ -172,12 +172,21 @@ class Modulo:
 #
 # `runtime-base-v1.1.0.zip` — publicado el 2026-09-24 en el commit `c84a2d9e` de
 #   Hugging Face, SHA-256 `74d08e89329d7aa197480691319140bdc400875461c516eb38dbe4ff55ad998e`,
-#   593 414 884 bytes. Sigue donde está y quien lo tenga anclado no se rompe.
-#   **Contiene `padelpy`**, que empaqueta `PaDEL-Descriptor.jar` bajo AGPL-3.0 sin
-#   declararlo; se retiró del árbol el 2026-09-12 (ver
-#   `scripts/check_copyleft_en_runtime.py`) pero el artefacto publicado se quedó
-#   con él, así que un fork aprovisionado con `--fetch` recibía esa obligación.
-#   Ése es el motivo principal de republicar, por encima de las versiones.
+#   593 414 884 bytes, 31 688 entradas. Sigue donde está y quien lo tenga anclado
+#   por revisión inmutable no se rompe. Se queda atrás por UNA razón, medida sobre
+#   él mismo: sus seis paquetes de API-015 contradicen
+#   `backend/requirements-embed.lock.txt`, que es lo que instala la CI (starlette
+#   1.0.0, PyJWT 2.8.0, cryptography 42.0.7, pillow 12.2.0, aiohttp 3.14.1,
+#   python-multipart 0.0.22).
+#
+#   CUIDADO: `dist/runtime-base-v1.1.0.zip` de una máquina de desarrollo puede NO
+#   ser el publicado. El de esta estación es del 2026-09-07 (`84fdece0…`,
+#   605 716 784 bytes) y sí trae `padelpy` —con `PaDEL-Descriptor.jar` bajo
+#   AGPL-3.0, retirado del árbol el 2026-09-12; ver
+#   `scripts/check_copyleft_en_runtime.py`—, mientras el publicado no lo trae.
+#   Medir el archivo local y atribuírselo al publicado ya produjo una afirmación
+#   falsa en `dd247fd`, corregida en `docs/81_HANDOFF_RUNTIME_ALPHA.md`. Lo que
+#   identifica un artefacto es su SHA-256, no su nombre de archivo.
 RUNTIME_BASE = Modulo(
     id="runtime-base",
     filename="runtime-base-v1.1.1.zip",
