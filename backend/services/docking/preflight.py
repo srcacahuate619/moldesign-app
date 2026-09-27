@@ -986,6 +986,112 @@ def _build_diff(
     }
 
 
+def _instancias_hetatm(
+    pdb_content: str,
+) -> dict[tuple[str, str, str, str], list[tuple[float, float, float]]]:
+    """Posiciones de cada instancia HETATM, por (cadena, número, inserción, nombre)."""
+    instancias: dict[tuple[str, str, str, str], list[tuple[float, float, float]]] = {}
+    for line in pdb_content.splitlines():
+        if not line.startswith("HETATM") or len(line) < 54:
+            continue
+        try:
+            pos = (float(line[30:38]), float(line[38:46]), float(line[46:54]))
+        except ValueError:
+            continue
+        key = (line[21:22].strip() or "A", line[22:26].strip(), line[26:27].strip(),
+               line[17:20].strip())
+        instancias.setdefault(key, []).append(pos)
+    return instancias
+
+
+def diff_de_especies_de_la_corrida(
+    fuente: str,
+    entrada_meeko: str,
+    *,
+    cadenas: str,
+    center: tuple[float, float, float],
+    size: tuple[float, float, float],
+    site_ligand: str | None,
+) -> dict[str, Any]:
+    """El diff de heteroátomos que la corrida GUARDA en el informe del receptor.
+
+    ``preparer.prepare_target`` lo llama con el ensamblaje del que parte y con
+    el PDB exacto que entrega a Meeko; ``vina_service`` lo copia a
+    ``execution_provenance.receptor_prep.species_diff``. Los recuentos son los
+    de :func:`_build_diff` —la misma semántica que enseña el preflight—, y se
+    añade lo que un recuento global no puede decir: qué instancias estaban a
+    ``MARGEN_SITIO_A`` o menos de la caja y si llegaron a Meeko. Un zinc
+    catalítico retirado y un sulfato a 40 Å cuentan igual en ``removed``;
+    en ``near_site`` no.
+
+    Una instancia cuenta como conservada si su residuo (cadena, número,
+    inserción) llega a Meeko con cualquier registro: la selenometionina entra
+    como MET y lo declara ``converted_to``. Lo que Meeko borre después va en
+    ``removed_residues`` del mismo informe, no aquí.
+
+    ``protein_residues_removed`` cuenta, por cadena, los residuos de proteína
+    que tocan la caja y no llegan a Meeko: cadenas que el receptor excluye.
+    """
+    diff = _build_diff(count_species(fuente), count_species(entrada_meeko), cadenas)
+    ligando = (site_ligand or "").strip().upper()
+    en_meeko: dict[tuple[str, str, str], str] = {}
+    for line in entrada_meeko.splitlines():
+        if line.startswith(("ATOM", "HETATM")) and len(line) >= 27:
+            en_meeko.setdefault(
+                (line[21:22].strip() or "A", line[22:26].strip(), line[26:27].strip()),
+                line[17:20].strip(),
+            )
+    retiradas: list[dict[str, Any]] = []
+    conservadas: list[dict[str, Any]] = []
+    for (cadena, numero, insercion, nombre), posiciones in sorted(
+        _instancias_hetatm(fuente).items()
+    ):
+        distancia = min(preparer.distancia_a_caja(p, center, size) for p in posiciones)
+        if distancia > preparer.MARGEN_SITIO_A:
+            continue
+        fila: dict[str, Any] = {
+            "chain": cadena,
+            "residue_number": numero,
+            "insertion_code": insercion,
+            "name": nombre,
+            "category": "site_ligand" if ligando and nombre == ligando
+            else _species_category(nombre),
+            "distance_to_box_A": round(distancia, 3),
+        }
+        destino = en_meeko.get((cadena, numero, insercion))
+        if destino is None:
+            retiradas.append(fila)
+            continue
+        if destino != nombre:
+            fila["converted_to"] = destino
+        conservadas.append(fila)
+    # Proteína que no llega a Meeko y toca la caja: una cadena vecina que el
+    # receptor excluye. En 1C3R la caja de 30 Å encierra 48 residuos de la
+    # cadena B mientras `site_chains` dice sólo A.
+    proteina: dict[str, set[tuple[str, str]]] = {}
+    for line in fuente.splitlines():
+        if not line.startswith("ATOM") or len(line) < 54:
+            continue
+        cadena = line[21:22].strip() or "A"
+        clave = (line[22:26].strip(), line[26:27].strip())
+        if (cadena, *clave) in en_meeko or clave in proteina.get(cadena, ()):
+            continue
+        try:
+            pos = (float(line[30:38]), float(line[38:46]), float(line[46:54]))
+        except ValueError:
+            continue
+        if preparer.distancia_a_caja(pos, center, size) <= preparer.MARGEN_SITIO_A:
+            proteina.setdefault(cadena, set()).add(clave)
+    diff["site_ligand"] = ligando or None
+    diff["near_site"] = {
+        "margin_A": preparer.MARGEN_SITIO_A,
+        "removed": retiradas,
+        "preserved": conservadas,
+        "protein_residues_removed": {c: len(r) for c, r in sorted(proteina.items())},
+    }
+    return diff
+
+
 def _heteroatom_controls(
     *,
     source_counts: _SpeciesCount | None,

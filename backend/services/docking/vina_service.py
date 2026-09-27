@@ -1316,6 +1316,12 @@ async def run_vina_docking(
                     "receptor_prep": {
                         "source": "meeko_report" if preparation_report is not None else "durable_receptor_snapshot",
                         "recipe_hash": preparation_report.get("recipe_hash") if preparation_report else None,
+                        # None si el informe es anterior al campo o si la
+                        # corrida es durable: nunca se reconstruye aquí.
+                        "species_diff": (
+                            preparation_report.get("species_diff")
+                            if preparation_report else None
+                        ),
                         "meeko_parameterized_json_sha256": (
                             preparation_report.get("meeko_parameterized_json_sha256")
                             if preparation_report else None

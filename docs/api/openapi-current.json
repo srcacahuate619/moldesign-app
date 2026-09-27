@@ -11002,6 +11002,79 @@
         ]
       }
     },
+    "/evaluation/dossier/{molecule_id}/preparacion": {
+      "post": {
+        "description": "Los cinco bloques de la pestaña Preparación, con el mismo 404/403/409 del dossier.\n\nNunca emite TRANSFERIBLE con alcance FEP mientras `FEP-06` no esté sellado:\nver `services/dossier/preparacion.py`.",
+        "operationId": "dossier_preparacion_evaluation_dossier__molecule_id__preparacion_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "molecule_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Molecule Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CaseProjection"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Dossier Preparacion Evaluation Dossier  Molecule Id  Preparacion Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Auditoría de preparación de la corrida (readiness FEP en desarrollo)",
+        "tags": [
+          "Evaluación científica",
+          "Dossier de caso"
+        ]
+      }
+    },
     "/evaluation/dossier/{molecule_id}/preview": {
       "post": {
         "description": "Genera el dossier y lo devuelve para leer en pantalla.",

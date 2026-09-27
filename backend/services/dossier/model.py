@@ -469,6 +469,38 @@ def _campos_de_protocolo_y_abstencion(eval_result, resumen) -> list:
             "La corrida no registró un hash de identidad con versión de RDKit.",
         ))
 
+    campos.extend(campo for _, campo in campos_del_estado_del_ligando(ligand_state))
+
+    transfer = ligand_state.get("peptide_transfer") if isinstance(ligand_state, dict) else None
+    if isinstance(transfer, dict):
+        transfer_status = transfer.get("status")
+        if transfer_status == "completed":
+            campos.extend([
+                _campo_dato("Transferencia química ESMFold → ligando", "COMPLETADA", "La conectividad procede del SMILES y las coordenadas proceden de ESMFold."),
+                _campo_dato("Átomos transferidos / completados", f"{transfer.get('coordinates_transferred', 0)} / {transfer.get('coordinates_completed', 0)}", "El manifiesto no registró el recuento de coordenadas."),
+                _campo_dato("Método de completado geométrico", transfer.get("completion_method"), "La transferencia no registró cómo completó los átomos ausentes."),
+                _campo_dato("Versión del mapeo", transfer.get("mapping_version"), "La transferencia no registró su versión de mapeo."),
+            ])
+        else:
+            campos.append(Campo(
+                "Transferencia química ESMFold → ligando",
+                f"ABSTENCIÓN · {transfer.get('failure_code') or 'motivo no registrado'}",
+                Estado.NO_EVALUADO,
+                transfer.get("failure_message") or "La transferencia no se completó; no se generó un ligando acoplable.",
+                valor_es_clasificacion=True,
+            ))
+
+    return campos
+
+
+def campos_del_estado_del_ligando(ligand_state: Any) -> list[tuple[str, Campo]]:
+    """pH, especie y tautómero acoplados, con una clave estable por campo.
+
+    Extraído sin cambios de `_campos_de_protocolo_y_abstencion`, que los sigue
+    enseñando en el mismo orden. La auditoría de preparación los necesita por
+    clave: seleccionarlos por su etiqueta en castellano se rompería al traducir.
+    """
+    campos: list[tuple[str, Campo]] = []
     # ── A qué pH se protonó, y qué especie salió de ahí ────────────────────
     #
     # `ligand_state` se persistía entero y el dossier sólo leía de él la
@@ -489,11 +521,11 @@ def _campos_de_protocolo_y_abstencion(eval_result, resumen) -> list:
         texto_ph = None if ph_usado is None else f"{ph_usado:g}"
         if texto_ph is not None and aviso_ph and ph_pedido is not None:
             texto_ph = f"{ph_usado:g} (se pidió {ph_pedido:g}; fuera del rango admitido)"
-        campos.append(_campo_dato(
+        campos.append(("ph", _campo_dato(
             "pH de protonación del ligando",
             texto_ph,
             "La corrida no registró a qué pH se protonó el ligando.",
-        ))
+        )))
 
         seleccion = protonacion.get("seleccion")
         if isinstance(seleccion, dict):
@@ -530,17 +562,17 @@ def _campos_de_protocolo_y_abstencion(eval_result, resumen) -> list:
             elif seleccion.get("clases_sin_pka") and descripcion:
                 descripcion += "; el grupo sin pKa sigue en revisión"
             if descripcion and seleccion.get("quimica_resuelta") is False:
-                campos.append(Campo(
+                campos.append(("especie", Campo(
                     "Especie acoplada", None, Estado.REVISAR,
                     descripcion + ". La selección es reproducible, pero la población "
                     "del microestado no quedó establecida por una constante química verificada.",
-                ))
+                )))
             else:
-                campos.append(_campo_dato(
+                campos.append(("especie", _campo_dato(
                     "Especie acoplada",
                     descripcion,
                     "La corrida no registró con qué criterio se eligió el microestado.",
-                ))
+                )))
 
     # ── Qué tautómero se acopló, y cuántos quedaron sin descartar ──────────
     #
@@ -556,31 +588,11 @@ def _campos_de_protocolo_y_abstencion(eval_result, resumen) -> list:
 
         texto = resumen_para_humanos(declaracion)
         if declaracion["estado"] == RESUELTO_UNICO:
-            campos.append(Campo("Tautómero del ligando", texto, Estado.REGISTRADO, None))
+            campos.append(("tautomero", Campo("Tautómero del ligando", texto, Estado.REGISTRADO, None)))
         elif declaracion["estado"] == MULTIESTADO_REQUERIDO:
-            campos.append(Campo("Tautómero del ligando", None, Estado.REVISAR, texto))
+            campos.append(("tautomero", Campo("Tautómero del ligando", None, Estado.REVISAR, texto)))
         else:
-            campos.append(Campo("Tautómero del ligando", None, Estado.ABSTENCION, texto))
-
-    transfer = ligand_state.get("peptide_transfer") if isinstance(ligand_state, dict) else None
-    if isinstance(transfer, dict):
-        transfer_status = transfer.get("status")
-        if transfer_status == "completed":
-            campos.extend([
-                _campo_dato("Transferencia química ESMFold → ligando", "COMPLETADA", "La conectividad procede del SMILES y las coordenadas proceden de ESMFold."),
-                _campo_dato("Átomos transferidos / completados", f"{transfer.get('coordinates_transferred', 0)} / {transfer.get('coordinates_completed', 0)}", "El manifiesto no registró el recuento de coordenadas."),
-                _campo_dato("Método de completado geométrico", transfer.get("completion_method"), "La transferencia no registró cómo completó los átomos ausentes."),
-                _campo_dato("Versión del mapeo", transfer.get("mapping_version"), "La transferencia no registró su versión de mapeo."),
-            ])
-        else:
-            campos.append(Campo(
-                "Transferencia química ESMFold → ligando",
-                f"ABSTENCIÓN · {transfer.get('failure_code') or 'motivo no registrado'}",
-                Estado.NO_EVALUADO,
-                transfer.get("failure_message") or "La transferencia no se completó; no se generó un ligando acoplable.",
-                valor_es_clasificacion=True,
-            ))
-
+            campos.append(("tautomero", Campo("Tautómero del ligando", None, Estado.ABSTENCION, texto)))
     return campos
 
 
@@ -621,6 +633,83 @@ def _campo_de_estado_quimico(eval_result: Any) -> Campo:
         "Protonación, tautomería y estereoquímica", None, Estado.NO_EVALUADO,
         "El pipeline no registra la forma protonada ni el tautómero elegidos.",
     )
+
+
+#: Categorías de `species_diff` cuya retirada junto al sitio cambia la cavidad.
+#: Las aguas no están: la ruta de docking las retira todas y lo declara en su
+#: política. El ligando del cristal tampoco: retirarlo es el objeto de la corrida.
+_CATEGORIAS_QUE_CAMBIAN_EL_SITIO = ("metal", "organic_cofactor", "other_heteroatom")
+
+
+def _campo_de_especies(procedencia_ejecucion: Any) -> Campo:
+    """Aguas, metales y cofactores que la preparación retiró, según la corrida.
+
+    Lee `receptor_prep.species_diff`, que `preparer.prepare_target` escribe
+    desde el 2026-09-27. Antes no existía, y un receptor preparado en caché
+    antes de esa fecha sigue sin él: se declara NO_EVALUADO y no se
+    reconstruye con el preflight, que describiría la receta de hoy y no la de
+    la corrida.
+    """
+    preparacion = _v(procedencia_ejecucion, "receptor_prep")
+    diff = _v(preparacion, "species_diff") if isinstance(preparacion, dict) else None
+    if not isinstance(diff, dict) or diff.get("state") != "evaluado":
+        congelado = isinstance(preparacion, dict) and (
+            preparacion.get("source") == "durable_receptor_snapshot"
+        )
+        return Campo(
+            "Aguas, metales y cofactores", None, Estado.NO_EVALUADO,
+            "La corrida usó un receptor congelado y su informe de preparación no viaja "
+            "con ella." if congelado else
+            "La corrida no serializó el diff fuente→preparado: su receptor se preparó "
+            "antes de que la preparación lo registrara. No se reconstruye a posteriori.",
+        )
+
+    retirado = diff.get("removed") or {}
+    cerca = diff.get("near_site") or {}
+    margen = cerca.get("margin_A")
+
+    def _instancias(filas: list[dict[str, Any]]) -> str:
+        aguas = sum(1 for f in filas if f.get("category") == "water")
+        resto = [
+            f"{f.get('name')} {f.get('chain')}:{f.get('residue_number')}"
+            f"{f.get('insertion_code') or ''} ({f.get('distance_to_box_A')} Å)"
+            + (f" como {f['converted_to']}" if f.get("converted_to") else "")
+            for f in filas if f.get("category") not in ("water", "site_ligand")
+        ]
+        partes = ([f"{aguas} agua(s)"] if aguas else []) + resto
+        return ", ".join(partes) if partes else "nada"
+
+    retiradas_cerca = list(cerca.get("removed") or [])
+    ligando = [f for f in retiradas_cerca if f.get("category") == "site_ligand"]
+    # Los recuentos globales son REGISTROS HETATM, no moléculas: un HEM son 43.
+    texto = (
+        f"Registros HETATM retirados del ensamblaje: aguas {retirado.get('waters', 0)}, "
+        f"metales {retirado.get('metals', 0)}, cofactores orgánicos "
+        f"{retirado.get('organic_cofactors', 0)}, otras especies "
+        f"{retirado.get('other_hetatm', 0)}. A {margen:g} Å o menos de la caja: retirado "
+        f"{_instancias(retiradas_cerca)}; conservado "
+        f"{_instancias(list(cerca.get('preserved') or []))}."
+        if isinstance(margen, (int, float)) else None
+    )
+    if texto is None:
+        return Campo(
+            "Aguas, metales y cofactores", None, Estado.NO_EVALUADO,
+            "El diff registrado no declara el margen del sitio.",
+        )
+    if ligando:
+        texto += " El ligando del cristal (" + ", ".join(
+            f"{f.get('name')} {f.get('chain')}:{f.get('residue_number')}" for f in ligando
+        ) + ") se retiró como parte de la corrida."
+
+    if any(f.get("category") in _CATEGORIAS_QUE_CAMBIAN_EL_SITIO for f in retiradas_cerca):
+        return Campo(
+            "Aguas, metales y cofactores", texto, Estado.REVISAR,
+            "La preparación retiró metales, cofactores u otras especies junto al sitio: el "
+            "receptor acoplado no los contiene. Decidir si formaban parte de la cavidad.",
+            # Qué se retiró ES el motivo de revisar; ocultarlo dejaría «REVISAR».
+            valor_es_clasificacion=True,
+        )
+    return Campo("Aguas, metales y cofactores", texto, Estado.REGISTRADO, None)
 
 
 def _campos_de_eficiencia(eval_result, resumen) -> list:
@@ -763,6 +852,27 @@ def _campo_conformaciones(eval_result: Any) -> Campo:
         # ensemble incompleto imprimía «REVISAR» y perdía «22 de 30» — que es
         # justo la cifra por la que hay que revisar.
         valor_es_clasificacion=True,
+    )
+
+
+def relacion_comprobada(projection: CaseProjection) -> tuple[str, str | None]:
+    """La relación corrida↔inputs que se puede comprobar, y el aviso si difiere.
+
+    Con las dos huellas, manda la comparación y no lo que declaró el cliente.
+    Sin ellas, se conserva la declaración. La usan el dossier y la auditoría
+    de preparación, que no puede leerla de una etiqueta del dossier.
+    """
+    relacion = projection.run_inputs_relation
+    huella_corrida = projection.run.input_fingerprint if projection.run else None
+    huella_preflight = projection.preflight.fingerprint if projection.preflight else None
+    if not (huella_corrida and huella_preflight):
+        return relacion, None
+    comprobada = "corresponde" if huella_corrida == huella_preflight else "corrida_anterior"
+    if comprobada == relacion:
+        return comprobada, None
+    return comprobada, (
+        "El cliente declaró la relación corrida/inputs como "
+        f"«{relacion}», pero las huellas dicen «{comprobada}». Manda lo comprobable."
     )
 
 
@@ -925,7 +1035,6 @@ def build_case_dossier(
     ]
 
     # ── Correspondencia corrida ↔ inputs, comprobada aquí ────────────
-    relacion = projection.run_inputs_relation
     huella_corrida = projection.run.input_fingerprint if projection.run else None
     huella_preflight = preflight.fingerprint if preflight else None
     if final_disposition:
@@ -941,14 +1050,9 @@ def build_case_dossier(
                 Estado.REVISAR,
                 "La huella de la disposición no coincide con la huella de la corrida.",
             )
-    if huella_corrida and huella_preflight:
-        comprobada = "corresponde" if huella_corrida == huella_preflight else "corrida_anterior"
-        if comprobada != relacion:
-            avisos.append(
-                "El cliente declaró la relación corrida/inputs como "
-                f"«{relacion}», pero las huellas dicen «{comprobada}». Manda lo comprobable."
-            )
-        relacion = comprobada
+    relacion, aviso_relacion = relacion_comprobada(projection)
+    if aviso_relacion:
+        avisos.append(aviso_relacion)
 
     relacion_estado = {
         "corresponde": Estado.REGISTRADO,
@@ -986,13 +1090,7 @@ def build_case_dossier(
             preflight.execution_route if preflight else None,
             "La corrida no declaró la ruta de preparación aplicada.",
         ),
-        Campo(
-            "Aguas, metales y cofactores",
-            None,
-            Estado.NO_EVALUADO,
-            "Esta corrida no serializó un diff fuente→preparado. La comprobación previa lo "
-            "calcula, pero no queda archivado con el resultado.",
-        ),
+        _campo_de_especies(procedencia_ejecucion),
         _campo_de_estado_quimico(eval_result),
     ]
     if preflight and preflight.blockers:

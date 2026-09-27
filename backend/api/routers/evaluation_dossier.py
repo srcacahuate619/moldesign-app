@@ -50,6 +50,7 @@ from db.repository import Repository
 from services.dossier.model import Artefacto, build_case_dossier
 from services.dossier.package import construir_paquete, raiz_paquete, sanitizar
 from services.dossier.pdf import render_dossier_pdf
+from services.dossier.preparacion import build_preparacion
 from services.dossier.schemas import CaseProjection
 from services.dossier.taxonomy import Estado
 from utils.logger import get_logger
@@ -453,6 +454,36 @@ async def dossier_preview(
             "Access-Control-Expose-Headers": "Content-Disposition",
         },
     )
+
+
+@router.post(
+    "/{molecule_id}/preparacion",
+    summary="Auditoría de preparación de la corrida (readiness FEP en desarrollo)",
+)
+async def dossier_preparacion(
+    molecule_id: uuid.UUID,
+    projection: CaseProjection,
+    current_user: UserORM | None = Depends(get_current_user_optional),
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    """Los cinco bloques de la pestaña Preparación, con el mismo 404/403/409 del dossier.
+
+    Nunca emite TRANSFERIBLE con alcance FEP mientras `FEP-06` no esté sellado:
+    ver `services/dossier/preparacion.py`.
+    """
+    molecule, eval_result, target = await _reunir(molecule_id, projection, current_user, db)
+    dossier = build_case_dossier(
+        projection=projection, molecule=molecule, eval_result=eval_result, target=target,
+        generated_at=datetime.now(timezone.utc),
+    )
+    auditoria = build_preparacion(dossier, eval_result, projection)
+    log.info(
+        "dossier_preparacion",
+        molecule_id=str(molecule_id),
+        case_id=projection.case_id,
+        estado=auditoria["estado"],
+    )
+    return auditoria
 
 
 @router.post(

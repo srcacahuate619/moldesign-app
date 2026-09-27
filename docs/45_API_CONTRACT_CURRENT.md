@@ -6,10 +6,10 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 
 ## Identidad del snapshot
 
-- Paths: **115**
-- Operaciones HTTP: **121**
+- Paths: **116**
+- Operaciones HTTP: **122**
 - Versión declarada: `1.0.1`
-- SHA-256: `121e5296362c785da65d1b70386c5eedd7100e45c4ce7fc460262f896d02a0df`
+- SHA-256: `dc52343eec5c52bf81be154b1aabd48c0460bb948733c5f6eeb8a1ce610c4e24`
 - Schema completo: [api/openapi-current.json](api/openapi-current.json)
 - Regenerar: `python scripts/generate_openapi_contract.py --write`
 - Verificar en CI: `python scripts/generate_openapi_contract.py --check`
@@ -87,6 +87,7 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `POST` | `/evaluation/cohorts/{cohort_id}/runs` | `open_run_evaluation_cohorts__cohort_id__runs_post` | Abrir una corrida sobre una cohorte congelada | Evaluación científica, Cohortes |
 | `GET` | `/evaluation/cohorts/{cohort_id}/runs/latest` | `read_latest_run_evaluation_cohorts__cohort_id__runs_latest_get` | Última corrida durable de una cohorte | Evaluación científica, Cohortes |
 | `POST` | `/evaluation/dossier/{molecule_id}/package` | `dossier_package_evaluation_dossier__molecule_id__package_post` | Paquete reproducible del caso (ZIP con manifiesto y hashes) | Evaluación científica, Dossier de caso |
+| `POST` | `/evaluation/dossier/{molecule_id}/preparacion` | `dossier_preparacion_evaluation_dossier__molecule_id__preparacion_post` | Auditoría de preparación de la corrida (readiness FEP en desarrollo) | Evaluación científica, Dossier de caso |
 | `POST` | `/evaluation/dossier/{molecule_id}/preview` | `dossier_preview_evaluation_dossier__molecule_id__preview_post` | Dossier del caso en PDF (inline) | Evaluación científica, Dossier de caso |
 | `GET` | `/evaluation/engines` | `listar_motores_evaluation_engines_get` | Qué motores de docking puede ejecutar esta instalación | Evaluación científica |
 | `POST` | `/evaluation/engines/{motor_id}/encender` | `encender_motor_evaluation_engines__motor_id__encender_post` | Encender un motor descargable que ya está instalado | Evaluación científica |

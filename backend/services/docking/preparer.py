@@ -1284,6 +1284,8 @@ async def prepare_target(
     from services.chemistry.ensamblaje_biologico import generar_unidad_biologica
 
     raw_content = generar_unidad_biologica(origen, pdb_id=pdb_id).pdb
+    # El diff de heteroátomos parte de aquí, antes de retirar nada.
+    ensamblaje = raw_content
 
     # Sin plantilla local validada, Meeko intenta consultar CCD en la red.
     # Dentro del margen del sitio la preparación se abstiene: quitar o inventar
@@ -1394,6 +1396,17 @@ async def prepare_target(
     except ProteinPreparationError as e:
         e.pdb_id = pdb_id
         raise
+
+    # Lo que la preparación retiró del ensamblaje, con la semántica del
+    # preflight. Sólo existe si el receptor se prepara aquí: un informe en
+    # caché anterior a este campo no lo tiene, y el dossier lo declara
+    # NO_EVALUADO en vez de reconstruirlo.
+    from services.docking.preflight import diff_de_especies_de_la_corrida
+
+    species_diff = diff_de_especies_de_la_corrida(
+        ensamblaje, filtered_content, cadenas="+".join(sorted(cadenas)),
+        center=center, size=size, site_ligand=site_ligand,
+    )
 
     Path(settings.vina_temp_dir).mkdir(parents=True, exist_ok=True)
 
@@ -1637,6 +1650,7 @@ async def prepare_target(
                 detail=f"No se pudieron leer las plantillas elegidas por Meeko: {exc}",
             ) from exc
         report = {
+            "species_diff": species_diff,
             "meeko_parameterized_json_sha256": hashlib.sha256(parameterized_bytes).hexdigest(),
             "protonation_templates": protonation_templates,
             "protonation_method": "Meeko 0.7.1; asignación por plantilla, sin pH experimental declarado",
@@ -1674,6 +1688,7 @@ async def prepare_target(
 
 filter_pdb_content = _filter_pdb_content
 resolve_executable = _resolve_executable
+distancia_a_caja = _distancia_a_caja
 WATER_RESIDUES = _WATER_RESIDUES
 METAL_COFACTORS = _METAL_COFACTORS
 STANDARD_RESIDUES = _STANDARD_RESIDUES
