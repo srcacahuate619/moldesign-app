@@ -370,7 +370,11 @@ def main() -> int:
         raise SystemExit(f"{a.pdb_id}: falta prepared.pdb o site_ligand.pdb en el paquete")
     caja = {"centro": [float(x) for x in escena["encuadre"]["objetivo"]],
             "tamano": [float(x) for x in escena["encuadre"]["caja"]]}
-    semilla = a.semilla or int(hashlib.sha256(a.pdb_id.encode()).hexdigest()[:8], 16)
+    # Vina acepta semillas enteras con signo de 31 bits; el prefijo SHA-256
+    # puede ocupar 32 bits y hacer fallar el docking antes de empezar.
+    semilla = a.semilla or (int(hashlib.sha256(a.pdb_id.encode()).hexdigest()[:8], 16) & 0x7fffffff) or 1
+    if not 1 <= semilla <= 0x7fffffff:
+        ap.error("--semilla debe estar entre 1 y 2147483647 (limite de Vina)")
     tmp = paquete / "docking" / "_tmp"
     tmp.mkdir(parents=True, exist_ok=True)
     for viej in (paquete / "docking").glob("poses/*.pdb"):
