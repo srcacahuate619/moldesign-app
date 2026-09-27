@@ -86,6 +86,18 @@ python-embed/
 # ── Modelos GGUF y artefactos pesados de build ────────────────────────
 # Los modelos se descargan on-demand vía launcher (Roadmap.md). Nunca al repo.
 models/
+# Excepción (QA-028, 2026-09-28): el tokenizer de ESMFold sí se versiona. Son
+# kilobytes (MIT, facebook/esmfold_v1) sin los cuales los 8,4 GB de pesos que se
+# descargan después no se pueden leer, y el runtime base publicado (v1.1.1) no
+# los trae: un instalador construido desde un clon salía sin ellos. Sólo estos
+# cinco archivos; el resto de la carpeta (pesos incluidos) sigue ignorado.
+!esmfold/models/
+esmfold/models/*
+!esmfold/models/config.json
+!esmfold/models/vocab.txt
+!esmfold/models/tokenizer_config.json
+!esmfold/models/special_tokens_map.json
+!esmfold/models/README.md
 *.gguf
 *.bin
 *.pt
@@ -427,90 +439,7 @@ output/
 # Worktrees locales de agentes; nunca forman parte del producto.
 .worktrees/
 
-# ── Retenido del repositorio publico (triaje 2026-09-12) ────────────────────
-# Manuscritos sin enviar, su material, los resultados que los sostienen, el
-# material de inversion y cuatro registros internos abiertos. Siguen en el disco
-# y en las ramas de trabajo; lo que no pueden es entrar al repositorio publico.
-# El motivo de cada grupo esta en docs/INDEX.md.
-
-# paper_ums
-docs/PAPER_UMS.md
-docs/PAPER_UMS.html
-docs/PAPER_UMS.pdf
-
-# paper_molgraph
-docs/PAPER_MOLGRAPH.md
-
-# paper_molpocket
-docs/PAPER_MOLPOCKET.md
-
-# paper_mf33
-docs/54_PAPER_MF33_MANUSCRITO.md
-docs/52_PAPER_MF33_ESQUELETO.md
-
-# cover_letter
-docs/COVER_LETTER_MOLGRAPH.md
-
-# outline_figs
-docs/27_PAPER_OUTLINE.md
-
-# figuras
-docs/figures/fig1_pocket_distributions.pdf
-docs/figures/fig1_pocket_distributions.png
-docs/figures/fig1_roc_curves.pdf
-docs/figures/fig1_roc_curves.png
-docs/figures/fig1_schema_evolution.pdf
-docs/figures/fig1_schema_evolution.png
-docs/figures/fig2_delta_bars.pdf
-docs/figures/fig2_delta_bars.png
-docs/figures/fig2_rerank_delta.pdf
-docs/figures/fig2_rerank_delta.png
-docs/figures/fig2_score_distribution.pdf
-docs/figures/fig2_score_distribution.png
-docs/figures/fig3_ablation.pdf
-docs/figures/fig3_ablation.png
-docs/figures/fig3_early_exit.pdf
-docs/figures/fig3_early_exit.png
-docs/figures/fig3_feature_discrimination.pdf
-docs/figures/fig3_feature_discrimination.png
-docs/figures/fig4_fts_consistency.pdf
-docs/figures/fig4_fts_consistency.png
-docs/figures/fig4_mw_confounder.pdf
-docs/figures/fig4_mw_confounder.png
-docs/figures/fig4_outlier_analysis.pdf
-docs/figures/fig4_outlier_analysis.png
-docs/figures/fig5_oracle_gap.pdf
-docs/figures/fig5_oracle_gap.png
-docs/figures/fig5_test_coverage.pdf
-docs/figures/fig5_test_coverage.png
-docs/figures/fig6_score_key_gap.pdf
-docs/figures/fig6_score_key_gap.png
-
-# resultados
-docs/26_UNIVERSAL_METAL_SCORE_RESULTS.md
-docs/28_CONSOLIDATED_RESULTS.md
-docs/MULTI_TARGET_FINAL_REPORT.md
-docs/CL_GNN_MULTITARGET_RESULTS.md
-
-# deck
-docs/DECK_EJECUTIVO_INSTITUCIONAL.md
-docs/DECK_EJECUTIVO_INSTITUCIONAL.pdf
-
-# milestones
-docs/MILESTONE_1_ROADMAP.md
-docs/MILESTONE_1_ROADMAP.pdf
-docs/MILESTONE_2_BUSINESS_FOUNDATION.md
-docs/MILESTONE_2_BUSINESS_FOUNDATION.pdf
-docs/MILESTONE_3_TECHNICAL_ARCHITECTURE.md
-docs/MILESTONE_3_TECHNICAL_ARCHITECTURE.pdf
-docs/MILESTONE_4_USER_VALIDATION.md
-docs/MILESTONE_4_USER_VALIDATION.pdf
-
-# grid_apo
-docs/35_GRID_APO_5TUN_PENDIENTE.md
-
-# por_arreglar
-docs/36_POR_ARREGLAR_Y_VALIDAR.md
-
-# legal
-docs/86_AUDITORIA_LEGAL_RELEASE_PUBLICO_Y_STORE.md
+# Corridas de experimentos lanzadas desde la estación (p. ej. EXT-KI del
+# 2026-09-25): entradas, bundles copiados y resultados. Viven aquí mientras
+# corren; lo que se conserva como evidencia se sella en scripts/artifacts_science/.
+.experiment-runs/
