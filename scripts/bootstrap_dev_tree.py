@@ -370,8 +370,12 @@ def descargar(url: str, destino: Path, esperado: str, bytes_esperados: int) -> N
 # asumir la obligacion. Ver `scripts/check_copyleft_en_runtime.py` y
 # `frontend/public/legal/THIRD_PARTY_NOTICES.md`.
 #
-# Cuando se republique el runtime base sin estos ficheros, esta lista se vacia y
-# el recibo nuevo vuelve a describir el arbol entero.
+# Esta lista describe los recibos escritos por **v1.1.0**, y sigue siendo
+# necesaria mientras existan. `runtime-base-v1.1.1.zip` ya se empaqueta sin
+# `padelpy` (el arbol no lo tiene desde el 2026-09-12), asi que las dos entradas
+# de abajo se podran borrar cuando ningun recibo de v1.1.0 quede en circulacion.
+# Borrarlas antes haria que `inspeccionar` denunciase como discrepancia algo que
+# el artefacto viejo si puso.
 RETIRADOS_A_PROPOSITO: tuple[str, ...] = (
     # AGPL-3.0 sin declarar y sin usar. Ver check_copyleft_en_runtime.py.
     "python-embed/Lib/site-packages/padelpy/",

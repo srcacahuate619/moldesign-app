@@ -168,21 +168,46 @@ Hoy declara `base` → `base-v1.0.0.zip`. **No se toca todavía**: mientras la
 aplicación instalada siga descargando ese archivo, quitarlo rompería el
 arranque de quien ya lo tiene.
 
-Cuando se publique el artefacto nuevo, se **añade** —no se sustituye— un módulo:
+Cuando se publique el artefacto nuevo, se **añade** —no se sustituye— un módulo.
+
+`runtime-base-v1.1.1.zip` está **construido y verificado** (2026-09-27) pero
+**todavía sin subir**, así que éste es el bloque con sus cifras reales:
 
 ```json
 {
   "id": "runtime-base",
-  "filename": "runtime-base-v1.1.0.zip",
-  "version": "1.1.0",
+  "filename": "runtime-base-v1.1.1.zip",
+  "version": "1.1.1",
   "urls": [
-    "https://huggingface.co/srcacahuate/moldesign-models/resolve/<REVISION>/v1.1.0/runtime-base-v1.1.0.zip"
+    "https://huggingface.co/srcacahuate/moldesign-models/resolve/<REVISION>/runtime-base-v1.1.1.zip"
   ],
-  "sha256": "<el que imprime build_base_archive.py>",
-  "size_bytes": 0,
+  "sha256": "03be61b350a251e9f9bbc1705c1cbcc52541da1af6337c0a4a79448d4a32013a",
+  "size_bytes": 580634518,
   "gated": false
 }
 ```
+
+La ruta va en la **raíz** del repositorio de Hugging Face, no en `v1.1.1/`: es
+donde quedó v1.1.0 y la que vale es la de la URL.
+
+### Por qué v1.1.1 y no seguir con v1.1.0
+
+Dos motivos, y el primero pesa más:
+
+1. **`runtime-base-v1.1.0.zip` contiene `padelpy`** (33 entradas), que empaqueta
+   `PaDEL-Descriptor.jar` bajo **AGPL-3.0** declarándose MIT en el metadata del
+   wrapper. Se retiró del árbol el 2026-09-12 para no asumir esa obligación (ver
+   `scripts/check_copyleft_en_runtime.py`), pero el artefacto publicado se quedó
+   con él: cualquier fork aprovisionado con `--fetch` la recibía. En v1.1.1 hay
+   **0 entradas de padelpy y ningún `.jar`**.
+2. Los seis paquetes de API-015 estaban atrasados y el archivo publicado ya
+   **contradecía `backend/requirements-embed.lock.txt`**, que es lo que instala
+   la CI: starlette 1.0.0→1.7.0, PyJWT 2.8.0→2.15.0, cryptography 42.0.7→50.0.1,
+   pillow 12.2.0→12.3.0, aiohttp 3.14.1→3.14.3, python-multipart 0.0.22→0.0.32.
+   Es decir, v1.1.0 ya no era una base válida para este árbol.
+
+Nombre nuevo porque los bytes son otros. El v1.1.0 publicado se queda donde está
+y quien lo tenga anclado por revisión no se rompe.
 
 `<REVISION>` es el commit inmutable de Hugging Face, no una rama: una rama no
 fija bytes. Después hay que copiar `sha256` y `size_bytes` a

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Construye y comprueba `runtime-base-v1.1.0.zip`, el runtime redistribuible.
+"""Construye y comprueba `runtime-base-v1.1.1.zip`, el runtime redistribuible.
 
 # El hueco que cierra, y el que abrió el archivo anterior
 
@@ -25,7 +25,7 @@ Y `--check` —que anunciaba «empaqueta en un temporal»— escribía sobre
 `dist/base-v1.0.0.zip`. Durante esa misma auditoría dejó corrupto el archivo
 local. Un verificador que destruye lo que verifica es peor que no tenerlo.
 
-`runtime-base-v1.1.0.zip` es un formato distinto con un nombre distinto. No
+La serie `runtime-base-v1.1.x` es un formato distinto con un nombre distinto. No
 sustituye al publicado ni se parece a él: cambia el contrato, así que cambia el
 nombre. El archivo v1.0.0 sigue donde está y este script no lo toca nunca.
 
@@ -167,25 +167,38 @@ class Modulo:
 #: `sha256`/`size_bytes` se rellenan al publicar, con los que imprime este
 #: script. Mientras estén en `None`, `--check` verifica el CONTENIDO y dice qué
 #: habría que publicar; no finge una comparación que no puede hacer.
+# Historial de artefactos base, porque el anclaje es por bytes y conviene poder
+# rastrear qué se publicó antes:
+#
+# `runtime-base-v1.1.0.zip` — publicado el 2026-09-24 en el commit `c84a2d9e` de
+#   Hugging Face, SHA-256 `74d08e89329d7aa197480691319140bdc400875461c516eb38dbe4ff55ad998e`,
+#   593 414 884 bytes. Sigue donde está y quien lo tenga anclado no se rompe.
+#   **Contiene `padelpy`**, que empaqueta `PaDEL-Descriptor.jar` bajo AGPL-3.0 sin
+#   declararlo; se retiró del árbol el 2026-09-12 (ver
+#   `scripts/check_copyleft_en_runtime.py`) pero el artefacto publicado se quedó
+#   con él, así que un fork aprovisionado con `--fetch` recibía esa obligación.
+#   Ése es el motivo principal de republicar, por encima de las versiones.
 RUNTIME_BASE = Modulo(
     id="runtime-base",
-    filename="runtime-base-v1.1.0.zip",
-    version="1.1.0",
+    filename="runtime-base-v1.1.1.zip",
+    version="1.1.1",
     licencia=(
         "cada componente conserva la suya; el inventario del artefacto las "
         "declara una por una (ver RUNTIME-MANIFEST.json)"
     ),
-    # Publicado el 2026-09-24 en el commit c84a2d9e de Hugging Face, en la RAÍZ
-    # del repositorio (no en v1.1.0/, como preveía docs/81): la ruta que vale es
-    # la de la URL. Hugging Face declara para ese objeto X-Linked-Size 593414884 y
-    # X-Linked-ETag = el SHA-256 de abajo, que es el que empaqueta este script
-    # sobre el árbol de 84ba801 (build_base_archive.py --check).
-    urls=(
-        "https://huggingface.co/srcacahuate/moldesign-models/resolve/"
-        "c84a2d9e0ac436a4f4c5eb18617cbdc388b41d3a/runtime-base-v1.1.0.zip",
-    ),
-    sha256="74d08e89329d7aa197480691319140bdc400875461c516eb38dbe4ff55ad998e",
-    size_bytes=593414884,
+    # Nombre nuevo porque los bytes son otros: `padelpy` fuera y seis paquetes al
+    # día (starlette 1.0.0→1.7.0, PyJWT 2.8.0→2.15.0, cryptography 42.0.7→50.0.1,
+    # pillow 12.2.0→12.3.0, aiohttp 3.14.1→3.14.3, python-multipart 0.0.22→0.0.32,
+    # los de API-015). Reutilizar el nombre de v1.1.0 para otro contenido es
+    # exactamente lo que confundió con `base-v1.0.0.zip`.
+    #
+    # `urls`, `sha256` y `size_bytes` vacíos = **no publicado todavía**. Es un
+    # estado legítimo: `--fetch` se niega a descargar sin SHA-256 declarado, y
+    # `--check` verifica el CONTENIDO y dice qué habría que publicar. Se rellenan
+    # cuando el zip esté subido a Hugging Face, con la revisión inmutable.
+    urls=(),
+    sha256=None,
+    size_bytes=None,
     gated=False,
     nota=(
         "URL fijada a una revisión inmutable de Hugging Face: una rama no fija "
