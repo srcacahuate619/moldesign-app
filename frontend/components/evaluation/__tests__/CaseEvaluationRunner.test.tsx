@@ -15,6 +15,7 @@
 // `ProEvaluation` se mockea: aquí se prueba el ciclo de vida de la corrida, no
 // la interfaz de evaluación, y montarla de verdad arrastra Ketcher y Molstar.
 
+import { StrictMode } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
@@ -476,6 +477,28 @@ describe("referencia al resultado publicable", () => {
 
     await waitFor(() => expect(onReportRecoveryChange).toHaveBeenCalledWith("recovered"));
     expect(onReportRecoveryChange).toHaveBeenCalledWith("recovering");
+  });
+
+  it("un remontaje (StrictMode, keep-alive) no deja la recuperación colgada", async () => {
+    // QA-023: la limpieza de desmontaje llamaba a `stopPolling`, que invalidaba
+    // la lectura en vuelo; al remontar, la guarda de identidad impedía
+    // reintentar y «Recuperando resultados guardados» no terminaba nunca.
+    getJobStatus.mockResolvedValue(
+      statusOf("SUCCESS", { result: { molecule_id: "mol-recuperada" } }),
+    );
+    const onReportRecoveryChange = vi.fn();
+
+    render(
+      <StrictMode>
+        <CaseEvaluationRunner
+          caseId="caso-1"
+          activeRun={{ ...RUN, executionState: "completed" }}
+          onReportRecoveryChange={onReportRecoveryChange}
+        />
+      </StrictMode>,
+    );
+
+    await waitFor(() => expect(onReportRecoveryChange).toHaveBeenCalledWith("recovered"));
   });
 
   it("si la tarea completada ya no se puede consultar, lo dice en vez de callarlo", async () => {

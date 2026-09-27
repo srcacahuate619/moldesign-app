@@ -65,4 +65,30 @@ describe("KetcherEditorInner", () => {
     await vi.advanceTimersByTimeAsync(500);
     expect(onSmilesChange).toHaveBeenCalledWith("");
   });
+
+  it("un SMILES inválido tecleado no se sustituye en silencio por la molécula anterior", async () => {
+    // QA-020: Ketcher rechazaba «C1CCCC», el lienzo seguía con la molécula
+    // anterior y el sondeo la devolvía al campo: se evaluaba otra molécula.
+    const ketcher = {
+      setSettings: vi.fn(),
+      setMolecule: vi.fn(async (smiles: string) => {
+        if (smiles === "C1CCCC") throw new Error("anillo sin cerrar");
+      }),
+      getSmiles: vi.fn(async () => "CCO"),
+    };
+    const onSmilesChange = vi.fn();
+    const { rerender } = render(
+      <KetcherEditorInner initialSmiles="CCO" onSmilesChange={onSmilesChange} />,
+    );
+    await act(async () => {
+      await editorHarness.onInit!(ketcher);
+    });
+    await vi.advanceTimersByTimeAsync(600);
+
+    rerender(<KetcherEditorInner initialSmiles="C1CCCC" onSmilesChange={onSmilesChange} />);
+    await vi.advanceTimersByTimeAsync(2_000);
+
+    expect(ketcher.setMolecule).toHaveBeenCalledWith("C1CCCC");
+    expect(onSmilesChange).not.toHaveBeenCalledWith("CCO");
+  });
 });

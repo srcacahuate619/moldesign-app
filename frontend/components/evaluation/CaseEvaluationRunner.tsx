@@ -707,6 +707,12 @@ export default function CaseEvaluationRunner({
 
   useEffect(() => () => {
     stopPolling();
+    // `stopPolling` invalida la recuperación que estuviera en vuelo. Si la guarda
+    // de identidad se quedara puesta, el remontaje —StrictMode en desarrollo, el
+    // keep-alive al volver a la pestaña— no reintentaría, y «Recuperando
+    // resultados guardados» se quedaba para siempre sin ninguna petición
+    // (QA-023). Se limpia para que el remontaje la vuelva a pedir una vez.
+    resumedIdentityRef.current = null;
     if (recoveryRetryTimerRef.current) clearTimeout(recoveryRetryTimerRef.current);
   }, [stopPolling]);
 

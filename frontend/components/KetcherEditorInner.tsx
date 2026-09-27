@@ -125,8 +125,8 @@ export default function KetcherEditorInner({
       return;
     }
 
+    let current = "";
     try {
-      let current = "";
       try {
         current = await ketcherRef.current.getSmiles();
       } catch (e) {
@@ -148,7 +148,13 @@ export default function KetcherEditorInner({
         }
       }
     } catch (e) {
-      // Invalid SMILES during typing - ignore
+      // SMILES inválido: el lienzo conserva la estructura anterior. Si
+      // `lastReportedSmiles` se quedara con el texto tecleado, el sondeo vería
+      // un «cambio» y devolvería la molécula anterior al campo, borrando lo que
+      // el usuario escribió sin decírselo: se evaluaba otra molécula (QA-020).
+      // Se alinea con el lienzo para que el texto se quede y lo marque la
+      // validación.
+      lastReportedSmiles.current = current;
     } finally {
       isProcessing.current = false;
       // If a new request came in while we were busy, process the LATEST one now
