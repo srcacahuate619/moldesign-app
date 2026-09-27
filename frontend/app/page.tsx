@@ -1,337 +1,92 @@
 "use client";
 
+/* Hallmark · pre-emit critique: P5 H4 E4 S5 R5 V5
+ * Inicio editorial: novedades públicas; ningún atajo al espacio de trabajo. */
+
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import Link from "next/link";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { BookOpen, Github } from "lucide-react";
-import { PipelineFlowchart } from "@/components/PipelineFlowchart";
-import { ContrasteInicio } from "@/components/registro/ContrasteInicio";
-import { getGlobalStats } from "@/lib/api";
-import { useLanguage, Translated } from "@/context/LanguageContext";
+import { ArrowUpRight, BookOpenText, FlaskConical, Megaphone, Radio, Sparkles } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
+import { ExternalLink } from "@/components/ui/ExternalLink";
+import { cargarIndice, type IndiceRegistro } from "@/lib/registro";
 import { PRODUCT } from "@/lib/softwareCatalog";
 
-import { ExternalLink } from "@/components/ui/ExternalLink";
-const TechNetwork3D = dynamic(() => import("@/components/TechNetwork3D").then((m) => m.TechNetwork3D), {
-  ssr: false,
-  loading: () => <div className="w-full h-[500px] flex items-center justify-center text-muted font-mono text-xs uppercase tracking-widest animate-pulse"><Translated id="pg_inicio_iniciando_red_3d" /></div>,
-});
+const SITE = "https://moldesign.amezcua-dev.com";
 
-// La ausencia del backend no es una medición de cero.
-const EMPTY_STATS = {
-  total_molecules: null as number | null,
-  best_affinity: null as number | null,
-  total_certifications: null as number | null,
+const copy = {
+  es: {
+    eyebrow: "MOLDESIGN / ACTUALIDAD",
+    intro: "Notas de versión, registro científico y noticias de la comunidad. Este espacio informa; las herramientas de trabajo están en la barra superior.",
+    issue: "EDICIÓN DE ESCRITORIO", lead: "NOTAS DEL PARCHE", leadStatus: "En preparación · aún no publicado",
+    leadTitle: "Lo que viene en la versión 1.0.2",
+    leadIntro: "La siguiente versión concentra correcciones de evidencia y procedencia. Estas mejoras están documentadas en desarrollo; todavía no forman parte de la versión instalada.",
+    patch: ["El ranking principal vuelve a depender del score observado de Vina.", "La evaluación declara cuándo la tautomería del ligando sigue sin resolverse.", "Las dianas con un sitio que no puede prepararse se identifican como no disponibles."],
+    science: "CIENCIA ABIERTA", scienceTitle: "El registro de lo que resistió y lo que cambió.",
+    scienceIntro: "Experimentos, mediciones, refutaciones y correcciones con sus condiciones a la vista.",
+    artifacts: "artefactos en el registro local", unavailable: "Registro no disponible", more: "¿Quieres saber más?",
+    community: "COMUNIDAD", soon: "Próximamente", communityTitle: "Un lugar para compartir el trabajo.",
+    communityIntro: "La comunidad tendrá su espacio en la web de MolDesign. Aquí mostraremos un resumen cuando esté publicada.",
+    news: "EN DESARROLLO", newsTitle: "Nuevas formas de leer la evidencia.",
+    newsIntro: "Molcy explora la comunicación visual de cada corrida y Preparación estructural organiza las decisiones previas a cálculos posteriores. Ambas interfaces se están diseñando; no ejecutan nuevos análisis todavía.",
+    current: "Versión instalada", offline: "Contenido incluido con la aplicación · conexión opcional para abrir la web", web: "Sitio de MolDesign",
+  },
+  en: {
+    eyebrow: "MOLDESIGN / UPDATES",
+    intro: "Release notes, the scientific register and community news. This space informs; work tools remain in the top bar.",
+    issue: "DESKTOP EDITION", lead: "PATCH NOTES", leadStatus: "In progress · not released",
+    leadTitle: "Coming in version 1.0.2",
+    leadIntro: "The next release focuses on evidence and provenance corrections. These changes are documented in development and are not part of the installed version yet.",
+    patch: ["Primary ranking returns to Vina's observed score.", "Evaluations declare when ligand tautomerism remains unresolved.", "Targets whose binding site cannot be prepared are marked unavailable."],
+    science: "OPEN SCIENCE", scienceTitle: "The record of what held up and what changed.",
+    scienceIntro: "Experiments, measurements, refutations and corrections with their conditions in view.",
+    artifacts: "artifacts in the local register", unavailable: "Register unavailable", more: "Want to know more?",
+    community: "COMMUNITY", soon: "Coming soon", communityTitle: "A place to share the work.",
+    communityIntro: "The community will have its space on the MolDesign website. A summary will appear here when it is published.",
+    news: "IN DEVELOPMENT", newsTitle: "New ways to read the evidence.",
+    newsIntro: "Molcy explores visual communication for each run, while Structural Preparation organizes decisions before later calculations. Both interfaces are being designed; they do not run new analyses yet.",
+    current: "Installed version", offline: "Content bundled with the app · connection optional to open the website", web: "MolDesign website",
+  },
 };
 
-// ─── Animation Constants ──────────────────────────────────────
-const ease = [0.16, 1, 0.3, 1] as const;
-
-function AnimatedLine({ text, delay = 0 }: { text: string; delay?: number }) {
-  return (
-    <span className="block overflow-hidden py-2 -my-2">
-      <motion.span
-        initial={{ y: "100%", opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, delay, ease }}
-        className="block"
-      >
-        {text}
-      </motion.span>
-    </span>
-  );
+function MoreLink({ href, text }: { href: string; text: string }) {
+  return <ExternalLink href={href} className="group inline-flex items-center gap-2 self-start border-b border-[var(--accent)] pb-1 text-xs font-bold text-[var(--text)] transition-colors hover:text-[var(--accent-strong)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-strong)]">{text}<ArrowUpRight size={15} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" /></ExternalLink>;
 }
-
-// ═══════════════════════════════════════════════════════════════
-//  HERO SPLIT — Desktop-first, symmetrical, large type
-// ═══════════════════════════════════════════════════════════════
-
-function HeroSplit({ stats }: { stats: typeof EMPTY_STATS }) {
-  const { t } = useLanguage();
-
-  const EDU_STEPS = [
-    {
-      step: "01",
-      title: t("step_01_title"),
-      desc: t("step_01_desc"),
-    },
-    {
-      step: "02",
-      title: t("step_02_title"),
-      desc: t("step_02_desc"),
-    },
-    {
-      step: "03",
-      title: t("step_03_title"),
-      desc: t("step_03_desc"),
-    },
-    // Ejecución local y límites científicos NO son letra pequeña: son parte de
-    // lo que el producto es. Si viven en una nota al pie, nadie los lee.
-    {
-      step: "04",
-      title: t("step_04_title"),
-      desc: t("step_04_desc"),
-    },
-    {
-      step: "05",
-      title: t("step_05_title"),
-      desc: t("step_05_desc"),
-    },
-  ];
-
-  return (
-    <section className="min-h-screen grid grid-cols-1 lg:grid-cols-12 pt-48 pb-16 px-8 lg:px-16 gap-0">
-      <div className="lg:col-span-5 flex flex-col pr-0 lg:pr-12 border-r-0 lg:border-r border-theme">
-        <div className="max-w-2xl ml-auto">
-          <motion.div
-            initial={{ y: 32, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, ease }}
-          >
-            <span className="font-mono text-sm uppercase tracking-[0.3em] text-muted">
-              {t("hero_tagline")}
-            </span>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.9] text-theme mt-6 uppercase">
-              <AnimatedLine text={t("hero_title_1")} delay={0} />
-              <AnimatedLine text={t("hero_title_2")} delay={0.06} />
-              <AnimatedLine text={t("hero_title_3")} delay={0.12} />
-            </h1>
-          </motion.div>
-
-          <motion.p
-            initial={{ y: 32, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2, ease }}
-            className="text-base text-muted leading-relaxed mt-8 uppercase tracking-wide"
-          >
-            {t("hero_desc")}
-          </motion.p>
-
-          <motion.div
-            initial={{ y: 32, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.28, ease }}
-            className="mt-10 space-y-5"
-          >
-            {EDU_STEPS.map((s) => (
-              <div key={s.step} className="flex items-start gap-4">
-                <div className="flex-1">
-                  <span className="text-lg font-bold text-theme uppercase tracking-wide">{s.title}</span>
-                  <p className="text-sm text-muted uppercase tracking-wide mt-1 leading-relaxed">{s.desc}</p>
-                </div>
-                <span className="text-sm text-dim font-mono uppercase tracking-wider mt-1 shrink-0">{s.step}.</span>
-              </div>
-            ))}
-          </motion.div>
-
-          <motion.div
-            initial={{ y: 32, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.35, ease }}
-            className="mt-12 flex flex-wrap items-center gap-3"
-          >
-            <Link
-              href="/evaluation"
-              className="inline-flex items-center gap-3 px-10 py-5 font-bold uppercase tracking-widest text-sm transition-colors"
-              style={{ backgroundColor: "var(--text)", color: "var(--bg)" }}
-            >
-              {t("pg_inicio_boton_empezar")}
-              <BookOpen size={18} strokeWidth={1.5} />
-            </Link>
-            <ExternalLink
-              href={PRODUCT.sourceUrl}
-              className="inline-flex items-center gap-3 border border-theme px-6 py-5 font-mono text-xs font-bold uppercase tracking-widest text-muted transition-colors hover:text-main"
-            >
-              GitHub
-              <Github size={18} strokeWidth={1.5} />
-            </ExternalLink>
-          </motion.div>
-        </div>
-      </div>
-
-      <div className="lg:col-span-2 flex flex-col items-center justify-center">
-        <div className="w-px h-24 border-theme" style={{ borderLeftWidth: 1, borderLeftStyle: "solid", borderColor: "var(--border-light)" }} />
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.15, ease }}
-        >
-          <Link
-            href="/"
-            aria-label={t("auto_69b7a67b0314")}
-            className="block w-20 h-20 rounded-full border-2 flex items-center justify-center transition-colors group"
-            style={{ borderColor: "var(--border-light)" }}
-          >
-            <Image
-              src="/logo.png"
-              alt="MolDesign"
-              width={32}
-              height={32}
-              className="object-contain opacity-60 group-hover:opacity-100 transition-opacity"
-              unoptimized
-            />
-          </Link>
-        </motion.div>
-        <div className="w-px h-24" style={{ borderLeftWidth: 1, borderLeftStyle: "solid", borderColor: "var(--border-light)" }} />
-      </div>
-
-      <div className="lg:col-span-5 flex flex-col pl-0 lg:pl-12 border-l-0 lg:border-l border-theme">
-        <div className="max-w-2xl">
-          <motion.div
-            initial={{ y: 32, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, ease }}
-          >
-            <span className="font-mono text-sm uppercase tracking-[0.3em] text-muted">
-              {t("evidence_tagline")}
-            </span>
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tighter leading-[0.9] text-theme mt-6 uppercase">
-              <AnimatedLine text={t("evidence_title_1")} delay={0} />
-              <AnimatedLine text={t("evidence_title_2")} delay={0.06} />
-              <AnimatedLine text={t("evidence_title_3")} delay={0.12} />
-            </h1>
-          </motion.div>
-
-          {/* El registro en cadena NO encabeza esta descripción. Sella la integridad de
-              un dossier —dice CUÁNDO se emitió algo—, y ponerlo primero sugeriría que
-              la propiedad intelectual es la función del producto en vez de la evidencia. */}
-          <motion.p
-            initial={{ y: 32, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2, ease }}
-            className="text-base text-muted leading-relaxed mt-8 uppercase tracking-wide"
-          >
-            {t("pg_inicio_descripcion")}
-          </motion.p>
-
-          <motion.div
-            initial={{ y: 32, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.28, ease }}
-            className="mt-10 grid grid-cols-2 gap-8"
-          >
-            <div>
-              <span className="font-mono text-xs uppercase tracking-wider text-muted">{t("stats_molecules")}</span>
-              <p className="text-4xl lg:text-5xl font-black text-accent font-mono mt-2">{stats.total_molecules?.toLocaleString() ?? "—"}</p>
-            </div>
-            <div>
-              <span className="font-mono text-xs uppercase tracking-wider text-muted">{t("stats_best_score")}</span>
-              <p className="text-4xl lg:text-5xl font-black text-theme font-mono mt-2">
-                {stats.best_affinity?.toFixed(2) ?? "—"}{" "}
-                {stats.best_affinity != null && <span className="text-base text-muted">kcal/mol</span>}
-              </p>
-            </div>
-            <div>
-              <span className="font-mono text-xs uppercase tracking-wider text-muted">{t("stats_certified")}</span>
-              <p className="text-4xl lg:text-5xl font-black text-accent font-mono mt-2">{stats.total_certifications?.toLocaleString() ?? "—"}</p>
-            </div>
-            <div>
-              <span className="font-mono text-xs uppercase tracking-wider text-muted">{t("pg_inicio_pipeline")}</span>
-              <p className="text-4xl lg:text-5xl font-black text-theme font-mono mt-2">
-                07 <span className="text-base text-muted">{t("pg_inicio_etapas")}</span>
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function FutureVisionSection() {
-  const { t } = useLanguage();
-
-  return (
-    <section className="border-t border-theme px-8 py-20 lg:px-16">
-      <div className="mx-auto grid max-w-6xl gap-6 border-l-2 pl-5 lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]" style={{ borderLeftColor: "var(--accent)" }}>
-        <div>
-          <span className="font-mono text-sm uppercase tracking-[0.25em] text-muted">
-            {t("vision_label")}
-          </span>
-          <h2 className="mt-3 text-3xl font-black uppercase tracking-tight text-theme lg:text-4xl">
-            {t("vision_title")}
-          </h2>
-        </div>
-        <p className="max-w-3xl text-base uppercase leading-relaxed tracking-wide text-muted lg:pt-8">
-          {t("vision_desc")}
-        </p>
-      </div>
-    </section>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════
-//  TECH STACK SECTION
-// ═══════════════════════════════════════════════════════════════
-
-function TechStackSection() {
-  const { t } = useLanguage();
-
-  return (
-    <section className="py-32 border-t border-theme overflow-hidden">
-      <div className="max-w-6xl mx-auto px-8 lg:px-16 mb-16">
-        <div className="border-l-2 pl-5" style={{ borderLeftColor: "var(--accent)" }}>
-          <span className="font-mono text-sm uppercase tracking-[0.25em] text-muted block mb-1">
-            {t("pg_inicio_stack_label")}
-          </span>
-          <h2 className="text-3xl lg:text-4xl font-black tracking-tight text-theme uppercase">
-            {t("pg_inicio_stack_titulo")}
-          </h2>
-          <p className="text-base text-muted mt-3 leading-relaxed uppercase max-w-3xl">
-            {t("pg_inicio_stack_desc")}
-          </p>
-        </div>
-      </div>
-
-      <div className="w-full max-w-none">
-        <TechNetwork3D />
-      </div>
-    </section>
-  );
-}
-
-// ═══════════════════════════════════════════════════════════════
-//  PAGE
-// ═══════════════════════════════════════════════════════════════
 
 export default function HomePage() {
-  const [stats, setStats] = useState(EMPTY_STATS);
-  const { t } = useLanguage();
-
-  useEffect(() => {
-    getGlobalStats()
-      .then((realStats) => {
-        setStats({
-          total_molecules: realStats.total_molecules ?? null,
-          best_affinity: realStats.best_affinity ?? realStats.best_score ?? null,
-          total_certifications: realStats.total_certifications ?? null,
-        });
-      })
-      .catch(() => {
-        // La UI conserva la ausencia; no la convierte en una medición de cero.
-      });
-  }, []);
+  const { t, locale } = useLanguage();
+  const c = copy[locale];
+  const [register, setRegister] = useState<IndiceRegistro | null>(null);
+  useEffect(() => { cargarIndice().then(setRegister).catch(() => setRegister(null)); }, []);
 
   return (
-    <div className="min-h-screen font-mono" style={{ backgroundColor: "var(--bg)", color: "var(--text)" }}>
-      <HeroSplit stats={stats} />
-      <FutureVisionSection />
-      <PipelineFlowchart />
-      <TechStackSection />
-      <ContrasteInicio />
+    <div className="min-h-[calc(100dvh-56px)] bg-[var(--bg)] text-[var(--text)]">
+      <main className="mx-auto max-w-[1500px] px-4 pb-16 pt-8 sm:px-7 lg:px-10">
+        <header className="flex flex-wrap items-end justify-between gap-5 border-b border-[var(--border)] pb-7">
+          <div className="max-w-3xl min-w-0"><p className="mb-3 font-mono text-[11px] font-bold tracking-[0.22em] text-[var(--accent-strong)]">{c.eyebrow}</p><h1 className="font-display text-4xl font-bold leading-none tracking-tight [overflow-wrap:anywhere] sm:text-5xl lg:text-6xl">{t("pg_inicio_titulo")}</h1><p className="mt-5 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">{c.intro}</p></div>
+          <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[var(--text-dim)]">{c.issue} · v{PRODUCT.version}</span>
+        </header>
 
-      <footer className="px-8 lg:px-16 py-12 border-t border-theme flex flex-col md:flex-row justify-between items-center gap-6 font-mono text-xs uppercase tracking-widest" style={{ color: "var(--text-dim)" }}>
-        <div className="flex flex-col gap-1">
-          <span className="text-sm font-bold" style={{ color: "var(--text-muted)" }}>MolDesign</span>
-          <span>v{PRODUCT.version} · PolyForm Noncommercial</span>
+        <div className="grid lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)]">
+          <article className="relative flex min-h-[520px] flex-col justify-between overflow-hidden border-b border-[var(--border)] bg-[var(--bg-secondary)] p-6 sm:p-9 lg:border-r">
+            <div className="pointer-events-none absolute -right-16 -top-20 size-72 rounded-full border border-[var(--border-light)] opacity-60 sm:size-96" aria-hidden="true" />
+            <div className="pointer-events-none absolute -right-2 -top-2 size-56 rounded-full border border-dashed border-[var(--border-light)] opacity-50 sm:size-72" aria-hidden="true" />
+            <div className="relative z-10"><div className="flex flex-wrap items-center gap-3"><span className="inline-flex items-center gap-2 font-mono text-[11px] font-bold tracking-[0.18em] text-[var(--accent-strong)]"><Megaphone size={15} />{c.lead}</span><span className="border border-[var(--border-light)] px-2 py-1 font-mono text-[10px] text-[var(--text-dim)]">{c.leadStatus}</span></div><h2 className="mt-8 max-w-[640px] font-display text-3xl font-bold leading-[1.08] tracking-tight [overflow-wrap:anywhere] sm:text-4xl lg:text-5xl">{c.leadTitle}</h2><p className="mt-5 max-w-xl text-sm leading-7 text-[var(--text-secondary)]">{c.leadIntro}</p></div>
+            <div className="relative z-10 mt-11"><ul className="max-w-[670px] divide-y divide-[var(--border-light)] border-y border-[var(--border-light)]">{c.patch.map((item, index) => <li key={item} className="flex gap-5 py-3 text-xs leading-6 sm:text-sm"><span className="shrink-0 font-mono text-[11px] text-[var(--accent-strong)]">0{index + 1}</span><span>{item}</span></li>)}</ul><div className="mt-7"><MoreLink href={`${SITE}/novedades`} text={c.more} /></div></div>
+          </article>
+
+          <div className="grid min-w-0">
+            <article className="flex min-h-[260px] flex-col justify-between border-b border-[var(--border)] p-6 sm:p-8">
+              <div><p className="flex items-center gap-2 font-mono text-[11px] font-bold tracking-[0.18em] text-[var(--accent-strong)]"><FlaskConical size={15} />{c.science}</p><h2 className="mt-5 max-w-md font-display text-2xl font-bold leading-tight [overflow-wrap:anywhere] sm:text-3xl">{c.scienceTitle}</h2><p className="mt-3 max-w-md text-sm leading-6 text-[var(--text-secondary)]">{c.scienceIntro}</p></div>
+              <div className="mt-7 flex flex-wrap items-end justify-between gap-4"><div><span className="block font-mono text-3xl font-bold">{register?.total ?? "—"}</span><span className="text-xs text-[var(--text-dim)]">{register ? c.artifacts : c.unavailable}</span></div><MoreLink href={`${SITE}/ciencia`} text={c.more} /></div>
+            </article>
+            <article className="flex min-h-[260px] flex-col justify-between border-b border-[var(--border)] bg-[var(--bg-card)] p-6 sm:p-8">
+              <div><div className="flex flex-wrap items-center gap-3"><p className="flex items-center gap-2 font-mono text-[11px] font-bold tracking-[0.18em] text-[var(--accent-strong)]"><Radio size={15} />{c.community}</p><span className="border border-[var(--border-light)] px-2 py-1 font-mono text-[10px] uppercase tracking-[0.09em] text-[var(--text-dim)]">{c.soon}</span></div><h2 className="mt-5 max-w-md font-display text-2xl font-bold leading-tight [overflow-wrap:anywhere] sm:text-3xl">{c.communityTitle}</h2><p className="mt-3 max-w-md text-sm leading-6 text-[var(--text-secondary)]">{c.communityIntro}</p></div>
+              <p className="mt-7 border-t border-[var(--border)] pt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-dim)]">{c.soon}</p>
+            </article>
+          </div>
         </div>
-        <div className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
-          {t("legal_local_first")}
-        </div>
-        <div>{new Date().getFullYear()} {t("auto_2b5f94bbc9a7")}</div>
-      </footer>
+        <section aria-labelledby="home-news-title" className="grid gap-7 border-b border-[var(--border)] py-10 lg:grid-cols-[minmax(200px,0.55fr)_minmax(0,1.45fr)]"><div className="flex items-start gap-3 font-mono text-[11px] font-bold tracking-[0.18em] text-[var(--accent-strong)]"><Sparkles size={16} />{c.news}</div><div><h2 id="home-news-title" className="font-display text-2xl font-bold tracking-tight [overflow-wrap:anywhere] sm:text-3xl">{c.newsTitle}</h2><p className="mt-3 max-w-3xl text-sm leading-7 text-[var(--text-secondary)]">{c.newsIntro}</p></div></section>
+      </main>
+      <footer className="border-t border-[var(--border)] px-4 py-6 sm:px-7 lg:px-10"><div className="mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-4 text-xs text-[var(--text-dim)]"><span className="flex items-center gap-2"><BookOpenText size={14} />{c.current}: v{PRODUCT.version}</span><span>{c.offline}</span><ExternalLink href={SITE} className="inline-flex items-center gap-1 font-semibold text-[var(--text)] underline decoration-[var(--accent)] underline-offset-4 hover:text-[var(--accent-strong)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-strong)]">{c.web}<ArrowUpRight size={14} /></ExternalLink></div></footer>
     </div>
   );
 }

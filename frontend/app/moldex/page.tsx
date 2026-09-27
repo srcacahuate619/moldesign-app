@@ -1,5 +1,8 @@
 "use client";
 
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4
+ * Bioteca y expediente en paneles sólidos; el visor ocupa sólo su área útil. */
+
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { useLanguage } from "../../context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
@@ -33,17 +36,17 @@ import { CertificationModal, type CertificationSuccess } from "../../components/
 import { ThinkingOrb } from "../../components/ui/ThinkingOrb";
 import { Virtuoso } from "react-virtuoso";
 
-import { Search, ShieldCheck, Activity, Info, ChevronRight, Database, Box, FlaskConical, AlertCircle, Eye, Play } from "lucide-react";
+import { Search, Activity, Info, ChevronRight, Database, Box, FlaskConical, AlertCircle, Eye, Play } from "lucide-react";
 
 import { ExternalLink } from "@/components/ui/ExternalLink";
 // ─────────────────────────────────────────────────────────────────────
 // MOLDEX — Bioteca del Laboratorio
-// Layout: visor 3Dmol a pantalla completa + 2 paneles flotantes colapsables
-//   (izquierda = biblioteca de moléculas, derecha = perfil farmacocinético)
-//   + HUD inferior con affinity/score + modal comparador + modal PDF
+// Layout: biblioteca, visor de bolsillo y expediente en tres columnas.
+// Los dos paneles se pliegan; el canvas ocupa sólo el área central disponible.
+// Se conservan comparador, PDF, certificación y descargas existentes.
 // Adaptado del repo srcacahuate619/moldesign-app (frontend/app/moldex/page.tsx)
 // Cambios desktop: sin interfaceMode (una sola UI), top-14 (nav h-14=56px),
-// 3Dmol cargado local en app/layout.tsx, base de API resuelta por `useApiUrl`.
+// 3Dmol se carga localmente en app/layout.tsx; la API conserva su resolución dinámica.
 // ─────────────────────────────────────────────────────────────────────
 
 const NAV_HEIGHT = 56; // h-14 del Navigation.tsx
@@ -82,6 +85,7 @@ export default function MoldexPage() {
   // primer montaje — así las moléculas recién guardadas en /evaluation aparecen.
   const isActive = useKeepAliveActive();
   const [molecules, setMolecules] = useState<MoldexMolecule[]>([]);
+  const [catalogTotal, setCatalogTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
@@ -106,8 +110,11 @@ export default function MoldexPage() {
   const [proteinData, setProteinData] = useState<string | null>(null);
   const [poseData, setPoseData] = useState<string | null>(null);
   const [loading3D, setLoading3D] = useState(false);
+  const [viewerError, setViewerError] = useState(false);
+  const [viewerRetry, setViewerRetry] = useState(0);
   const [activeView, setActiveView] = useState<MoldexActiveView>("list");
   const [windowHeight, setWindowHeight] = useState(1000);
+  const [windowWidth, setWindowWidth] = useState(1440);
   const [showCertificationModal, setShowCertificationModal] = useState(false);
   const [showPdfViewer, setShowPdfViewer] = useState(false);
   const [error, setError] = useState<MoldexError | null>(null);
@@ -179,6 +186,7 @@ export default function MoldexPage() {
     setWindowHeight(window.innerHeight);
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
+      setWindowWidth(window.innerWidth);
       setIsMobile(window.innerWidth < 768);
     };
     handleResize();
@@ -216,6 +224,7 @@ export default function MoldexPage() {
             : m.target,
         }));
         setMolecules(normalized);
+        setCatalogTotal(typeof data.total === "number" ? data.total : normalized.length);
         if (normalized.length > 0) {
           // Si el caller pidió una molécula concreta (recién guardada), la
           // respetamos solo si está en la respuesta. Si no está (típicamente
@@ -227,7 +236,7 @@ export default function MoldexPage() {
         }
       })
       .catch((err) => {
-        console.error(t("mx_error_bioteca"), err);
+        console.error("Error loading Moldex library:", err);
         setError({
           kind: "request",
           message: err instanceof Error ? err.message : String(err),
@@ -290,7 +299,9 @@ export default function MoldexPage() {
   // re-renderizaba su árbol WebGL por CUALQUIER cambio de estado (buscar,
   // filtrar, colapsar panel) → jank en toda la página.
   const viewerHotspots = useMemo(
-    () => (Array.isArray(selectedMolecule?.target?.hotspots) ? selectedMolecule.target.hotspots : []).map((h: any) => h.name),
+    () => (Array.isArray(selectedMolecule?.target?.hotspots) ? selectedMolecule.target.hotspots : [])
+      .map((h: any) => h.name)
+      .filter((name: unknown): name is string => typeof name === "string"),
     [selectedMolecule]
   );
   const viewerHotspotsHit = useMemo(
@@ -317,19 +328,31 @@ export default function MoldexPage() {
   // la lista), lo que re-descargaba protein/pose cada vez que la página se
   // reactivaba aunque la selección no hubiera cambiado.
   useEffect(() => {
-    if (!selectedId) return;
+    if (!selectedId) {
+      setProteinData(null);
+      setPoseData(null);
+      return;
+    }
+    let cancelled = false;
     setLoading3D(true);
-    setPoseData(null); // clear previous → spinner visible
+    setViewerError(false);
+    setProteinData(null);
+    setPoseData(null);
     Promise.all([
       getProteinFile(selectedId),
       getPoseFile(selectedId)
     ]).then(([protein, pose]) => {
+      if (cancelled) return;
       setProteinData(protein);
       setPoseData(pose);
+      setViewerError(!protein || !pose);
     }).catch(err => {
+      if (cancelled) return;
       console.error("Error loading 3D data:", err);
-    }).finally(() => setLoading3D(false));
-  }, [selectedId]);
+      setViewerError(true);
+    }).finally(() => { if (!cancelled) setLoading3D(false); });
+    return () => { cancelled = true; };
+  }, [selectedId, viewerRetry]);
 
   const filteredMolecules = useMemo(() => {
     const q = search.toLowerCase();
@@ -358,6 +381,7 @@ export default function MoldexPage() {
     const t = new Set(molecules.map(m => m.target?.pdb_id).filter(Boolean));
     return ["ALL", ...Array.from(t)];
   }, [molecules]);
+  const compactDesktop = windowWidth < 1280;
 
   // Moléculas del comparador memoizadas (refs estables para el memo de
   // MolecularComparison; antes se recomputaban con .find() en cada render).
@@ -556,27 +580,59 @@ export default function MoldexPage() {
     );
   }
 
-  // ────────── RENDER PRINCIPAL: overlay layout ──────────
+  // ────────── RENDER PRINCIPAL: estación de trabajo de escritorio ──────────
   return (
     <div
-      className="fixed inset-x-0 bottom-0 z-50 overflow-hidden bg-[var(--bg)] font-sans text-muted selection:bg-indigo-500/30 dark:bg-[#05080f] dark:text-slate-300"
+      className="fixed inset-x-0 bottom-0 z-50 flex flex-col overflow-hidden bg-[var(--bg)] font-sans text-[var(--text)]"
       style={{ top: NAV_HEIGHT }}
     >
+      <header className="hidden h-[72px] shrink-0 items-center justify-between gap-6 border-b border-[var(--border)] bg-[var(--bg-card)] px-8 md:flex">
+        <div className="flex min-w-0 items-center gap-5">
+          <div className="flex size-9 shrink-0 items-center justify-center border border-[var(--accent)] text-[var(--accent-strong)]"><FlaskConical size={18} /></div>
+          <div className="min-w-0">
+            <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--accent-strong)]">{t("mx_subtitulo_bioteca")}</p>
+            <h1 className="font-display text-xl font-bold leading-tight">Moldex</h1>
+          </div>
+          <div className="ml-5 min-w-0 border-l border-[var(--border)] pl-5">
+            <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--text-dim)]">{t("mx_molecula")}</p>
+            <p className="truncate text-sm font-semibold text-[var(--text-secondary)]">{selectedMolecule?.name || "—"}</p>
+          </div>
+        </div>
+        <div className="flex shrink-0 items-center gap-3 font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--text-dim)]">
+          <span className="size-1.5 rounded-full bg-[var(--accent-strong)]" />
+          {molecules.length}/{catalogTotal} {t(molecules.length === 1 ? "mx_molecula_cargada" : "mx_moleculas_cargadas")}
+        </div>
+      </header>
 
-      {/* 3D Viewport: El Protagonista (Full Background) */}
-      <div className="absolute inset-0 z-0">
+      <div className="relative flex min-h-0 flex-1 flex-col md:flex-row">
+      {/* El canvas ocupa sólo el área entre paneles: controles y cámara quedan visibles. */}
+      <div className={`absolute inset-y-0 z-0 overflow-hidden transition-[left,right] duration-300 ${
+        isMobile ? "inset-x-0" : `${showLeftPanel ? (compactDesktop ? "left-[304px]" : "left-[344px]") : "left-6"} ${showRightPanel ? (compactDesktop ? "right-[344px]" : "right-[424px]") : "right-6"}`
+      }`}>
         <MoleculeViewer3D
           proteinData={proteinData ?? undefined}
           poseData={poseData ?? undefined}
-          height={windowHeight - NAV_HEIGHT}
+          height={Math.max(260, windowHeight - NAV_HEIGHT - (isMobile ? 0 : 72) - 76)}
           hotspots={viewerHotspots}
           hotspotsHit={viewerHotspotsHit}
+          pocketFocus
           mobileTopOffset={false} // noOverlap: nosotros ya topamos por contenedor, no por offset absoluto
         />
+        {loading3D && (
+          <div role="status" className="pointer-events-none absolute inset-x-0 top-24 flex justify-center">
+            <span className="border border-[var(--border-light)] bg-[var(--bg-card)] px-3 py-2 font-mono text-[11px] text-[var(--text-secondary)]">{t("pg_mx_cargando")}</span>
+          </div>
+        )}
+        {viewerError && !loading3D && (
+          <div role="alert" className="pointer-events-auto absolute inset-x-6 top-24 mx-auto max-w-md border border-[var(--border-light)] bg-[var(--bg-card)] p-5 text-center shadow-lg">
+            <p className="text-xs leading-5 text-[var(--text-secondary)]">{t("mx_visor_archivos_error")}</p>
+            <button type="button" onClick={() => setViewerRetry((n) => n + 1)} className="mt-4 cursor-pointer border border-[var(--accent)] px-3 py-2 text-xs font-bold text-[var(--accent-strong)] hover:bg-[var(--bg-secondary)] focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)]">{t("mx_visor_reintentar")}</button>
+          </div>
+        )}
       </div>
 
-      {/* Capa de Interfaz (Overlays Flotantes) */}
-      <div className="absolute inset-0 z-10 pointer-events-none flex flex-col md:flex-row">
+      {/* Paneles y métricas sobre su propia superficie, sin tapar el canvas. */}
+      <div className="relative z-10 flex min-h-0 flex-1 flex-col pointer-events-none md:flex-row">
 
         {/* Mobile Navigation Header (LIST/3D/INFO tabs) */}
         <div className="pointer-events-auto z-50 flex h-[60px] w-full items-center justify-between border-b border-[var(--border)] bg-[var(--bg-card)] px-6 md:hidden dark:border-slate-800/50 dark:bg-[#0a0f1d]">
@@ -614,35 +670,39 @@ export default function MoldexPage() {
             opacity: activeView === "list" ? 1 : 0,
             x: activeView === "list" ? 0 : -800
           } : {
-            width: showLeftPanel ? 320 : 0,
+            width: showLeftPanel ? (compactDesktop ? 280 : 320) : 0,
             opacity: showLeftPanel ? 1 : 0,
             x: showLeftPanel ? 0 : -320
           }}
           transition={{ type: "spring", stiffness: 300, damping: 35 }}
-          className={`pointer-events-auto flex flex-col border-r border-[var(--border)] bg-[var(--bg-card)] backdrop-blur-xl dark:border-white/5 dark:bg-[#0a0f1d]/95 md:dark:bg-[#0a0f1d]/40 ${
+          className={`pointer-events-auto flex flex-col border-r border-[var(--border)] bg-[var(--bg-card)] ${
             isMobile ? 'absolute inset-x-0 bottom-0 top-[60px] z-40 overflow-y-auto'
                      : 'h-full md:overflow-hidden'
           } ${isMobile && activeView !== "list" ? 'pointer-events-none' : ''}`}
         >
-          <div className="min-w-[320px] shrink-0 border-b border-[var(--border)] p-8 dark:border-white/5">
-            <h1 className="mb-8 flex items-center gap-2 text-xl font-black tracking-tighter text-theme">
-              <FlaskConical size={24} className="text-indigo-500" />
-              <span className="uppercase">Moldex</span> <span className="rounded-full border border-indigo-500/35 bg-indigo-500/15 px-2 py-0.5 text-xs font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400">{t("mx_subtitulo_bioteca")}</span>
-            </h1>
+          <div className="min-w-0 shrink-0 border-b border-[var(--border)] p-5">
+            <div className="mb-5 flex items-end justify-between gap-3">
+              <div>
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--accent-strong)]">01 / Moldex</p>
+                <h2 className="mt-1 font-display text-lg font-bold text-[var(--text)]">{t("mx_subtitulo_bioteca")}</h2>
+              </div>
+              <span className="font-mono text-xs tabular-nums text-[var(--text-dim)]">{filteredMolecules.length}/{molecules.length}</span>
+            </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div className="relative group">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={14} />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-dim)]" size={14} />
                 <input
                   type="text"
                   placeholder={t("mx_buscar")}
-                  className="w-full rounded-2xl border border-[var(--border-light)] bg-[var(--bg-secondary)] py-3 pl-10 pr-4 text-xs text-theme outline-none transition-all focus-visible:border-indigo-500/50 focus-visible:ring-2 focus-visible:ring-indigo-500/30 dark:border-white/10 dark:bg-black/40 dark:text-slate-200"
+                  aria-label={t("mx_buscar")}
+                  className="w-full border border-[var(--border-light)] bg-[var(--bg)] py-2.5 pl-10 pr-3 text-xs text-[var(--text)] outline-none transition-colors placeholder:text-[var(--text-dim)] hover:border-[var(--accent)] focus-visible:border-[var(--accent-strong)] focus-visible:ring-1 focus-visible:ring-[var(--accent-strong)]"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
-              <div className="flex items-center justify-between gap-2 overflow-x-auto pb-2 no-scrollbar w-full">
-                <div className="flex items-center gap-2">
+              <div className="w-full overflow-x-auto pb-1 no-scrollbar">
+                <div className="flex w-max items-center gap-1.5">
                   {targets.map(t => (
                     <button
                       key={t}
@@ -658,23 +718,26 @@ export default function MoldexPage() {
                         });
                         if (newFiltered.length > 0) setSelectedId(newFiltered[0].id);
                       }}
-                      className={`flex-shrink-0 rounded-full border px-4 py-2 text-xs font-black uppercase tracking-widest transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 ${
-                        targetFilter === t ? 'bg-indigo-500 border-indigo-400 text-white'
-                                           : 'border-[var(--border)] bg-[var(--bg-secondary)] text-muted hover:text-theme dark:border-white/5 dark:bg-black/40 dark:text-slate-500 dark:hover:text-slate-300'
+                      aria-pressed={targetFilter === t}
+                      className={`min-h-8 flex-shrink-0 cursor-pointer border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)] ${
+                        targetFilter === t ? 'border-[var(--accent-strong)] bg-[var(--bg-secondary)] text-[var(--text)]'
+                                           : 'border-[var(--border)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-[var(--border-light)]'
                       }`}
                     >
                       {t}
                     </button>
                   ))}
                 </div>
-
+              </div>
+              <div className="flex items-center justify-between border-t border-[var(--border)] pt-2">
+                <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--text-dim)]">{t("mx_ordenar")}</span>
                 <button
                   onClick={() => {
                     const nextSort = sortMode === "DATE_DESC" ? "SCORE_DESC"
                                    : sortMode === "SCORE_DESC" ? "SCORE_ASC" : "DATE_DESC";
                     setSortMode(nextSort);
                   }}
-                  className="ml-auto flex flex-shrink-0 items-center gap-1 rounded-full border border-[var(--border)] bg-[var(--bg-secondary)] px-4 py-2 text-xs font-black uppercase tracking-widest text-muted transition-all hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 dark:border-white/5 dark:bg-black/40 dark:text-slate-400 dark:hover:text-slate-200"
+                  className="min-h-8 cursor-pointer border border-[var(--border)] bg-[var(--bg-card)] px-2.5 py-1 font-mono text-[10px] font-bold text-[var(--text-secondary)] transition-colors hover:border-[var(--border-light)] hover:text-[var(--text)] focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)]"
                 >
                   {sortModeLabel}
                 </button>
@@ -682,7 +745,7 @@ export default function MoldexPage() {
             </div>
           </div>
 
-          <div className={`p-6 min-w-[320px] ${isMobile ? '' : 'flex-1'}`} style={{ height: "100%" }}>
+          <div className={`min-w-0 min-h-0 p-3 ${isMobile ? 'h-full' : 'flex-1'}`}>
             {filteredMolecules.length === 0 ? (
               <motion.div
                 initial={{ opacity: 0 }}
@@ -716,7 +779,7 @@ export default function MoldexPage() {
         <div className="hidden md:flex items-center z-50 pointer-events-auto">
           <button
             onClick={() => setShowLeftPanel(!showLeftPanel)}
-            className="flex h-16 w-6 items-center justify-center rounded-r-xl border border-indigo-500/30 bg-indigo-600/20 text-indigo-700 shadow-lg backdrop-blur-md transition-colors hover:text-indigo-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/70 dark:text-indigo-400 dark:hover:text-white"
+            className="flex h-16 w-6 cursor-pointer items-center justify-center border border-[var(--border-light)] bg-[var(--bg-card)] text-[var(--accent-strong)] transition-colors hover:bg-[var(--bg-secondary)] focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)]"
             aria-label={showLeftPanel ? t("mx_ocultar_biblioteca") : t("mx_mostrar_biblioteca")}
           >
             <ChevronRight size={14} className={`transition-transform ${showLeftPanel ? 'rotate-180' : ''}`} />
@@ -725,55 +788,36 @@ export default function MoldexPage() {
 
         {/* Espacio Central del Visor */}
         <div className="flex-1 relative pointer-events-none">
-          {/* HUD Superior (title + brand) */}
-          {!isMobile && (
-            <div className="absolute top-8 left-8 right-8 flex items-start justify-between">
-              <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-4 pointer-events-auto">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-black/60">
-                  <Box className="text-indigo-500" size={24} />
-                </div>
-                <div>
-                  <p className="mb-1 text-xs font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-500">{t("mx_hud_estructura_3d")}</p>
-                  <h2 className="text-2xl font-black uppercase tracking-tighter text-theme">{t("mx_hud_vista_estructural")}</h2>
-                </div>
-              </motion.div>
-            </div>
-          )}
-
           {/* HUD Inferior (Info de Molécula activa) */}
           <AnimatePresence mode="wait">
             {((!isMobile && selectedId) || (isMobile && activeView === "3d" && selectedId)) && (
               <motion.div
                 key={selectedId}
-                initial={{ y: 50, opacity: 0 }}
+                initial={{ y: 12, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                exit={{ y: 50, opacity: 0 }}
-                className={`absolute bottom-4 left-4 right-4 md:bottom-12 transition-all duration-300 ${
-                  !isMobile
-                    ? `${showLeftPanel ? 'left-[340px]' : 'left-12'} ${showRightPanel ? 'right-[420px]' : 'right-12'}`
-                    : 'left-4 right-4'
-                } pointer-events-auto`}
+                exit={{ y: 12, opacity: 0 }}
+                className="pointer-events-auto absolute bottom-4 left-4 right-4 md:bottom-[84px]"
               >
-                <div className="mx-auto flex max-w-sm flex-col items-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--bg-card)] px-6 py-4 shadow-2xl backdrop-blur-2xl dark:border-white/10 dark:bg-black/80 md:max-w-6xl md:flex-row md:gap-16 md:rounded-[3rem] md:px-10 md:py-6 md:dark:bg-black/60">
-                  <div className="flex-1 min-w-0 w-full text-center md:text-left">
-                    <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 mb-1 md:mb-2">
-                      <span className="rounded-full bg-indigo-500 px-2 py-0.5 text-xs font-black uppercase tracking-widest text-white md:px-3 md:py-1">{t("mx_sitio_receptor")}</span>
-                      <h3 className="w-full truncate text-xl font-black tracking-tighter text-theme md:w-auto md:text-3xl">{selectedMolecule?.name || t("mx_molecula")}</h3>
+                <div className="mx-auto flex max-w-3xl flex-col gap-3 border border-[var(--border-light)] bg-[var(--bg-card)] px-4 py-3 shadow-lg md:flex-row md:items-center md:gap-5">
+                  <div className="min-w-0 flex-1">
+                    <div className="mb-1 flex items-center gap-2">
+                      <span className="border border-[var(--accent)] px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wide text-[var(--accent-strong)]">{t("mx_sitio_receptor")}</span>
+                      <h3 className="truncate font-display text-sm font-bold text-[var(--text)]">{selectedMolecule?.name || t("mx_molecula")}</h3>
                     </div>
-                    <p className="hidden truncate font-mono text-sm text-muted md:block">{selectedMolecule?.smiles}</p>
+                    <p className="hidden truncate font-mono text-[10px] text-[var(--text-dim)] md:block">{selectedMolecule?.smiles}</p>
                   </div>
-                  <div className="flex w-full items-center justify-between gap-8 border-t border-[var(--border)] pt-3 dark:border-white/10 md:w-auto md:justify-end md:gap-12 md:border-l md:border-t-0 md:pl-12 md:pt-0">
-                    <div className="text-left md:text-right">
-                      <p className="mb-0.5 text-xs font-black uppercase tracking-widest text-muted md:mb-1">{t("mx_afinidad_observada")}</p>
-                      <div className="text-2xl font-black tabular-nums text-indigo-700 dark:text-indigo-400 md:text-4xl">
+                  <div className="flex items-center justify-between gap-5 border-t border-[var(--border)] pt-2 md:border-l md:border-t-0 md:pl-5 md:pt-0">
+                    <div>
+                      <p className="mb-1 font-mono text-[9px] font-bold uppercase tracking-wide text-[var(--text-dim)]">{t("mx_afinidad_observada")}</p>
+                      <div className="font-display text-xl font-bold tabular-nums text-[var(--text)]">
                         {selectedMolecule?.metrics?.affinity !== null && selectedMolecule?.metrics?.affinity !== undefined
                           ? selectedMolecule.metrics.affinity.toFixed(1)
-                          : "—"} <span className="text-xs font-bold text-muted">kcal/mol</span>
+                          : "—"} <span className="font-mono text-[10px] font-normal text-[var(--text-secondary)]">kcal/mol</span>
                       </div>
                     </div>
-                    <div className="text-right">
-                      <p className="mb-0.5 text-xs font-black uppercase tracking-widest text-muted md:mb-1">{t("mx_indice_compuesto")}</p>
-                      <div className="text-2xl font-black tabular-nums text-indigo-700 dark:text-indigo-300 md:text-4xl">
+                    <div>
+                      <p className="mb-1 font-mono text-[9px] font-bold uppercase tracking-wide text-[var(--text-dim)]">{t("mx_indice_compuesto")}</p>
+                      <div className="font-display text-xl font-bold tabular-nums text-[var(--accent-strong)]">
                         {selectedMolecule?.metrics?.score?.toFixed(1) ?? "—"}
                       </div>
                     </div>
@@ -788,7 +832,7 @@ export default function MoldexPage() {
         <div className="hidden md:flex items-center z-50 pointer-events-auto">
           <button
             onClick={() => setShowRightPanel(!showRightPanel)}
-            className="flex h-16 w-6 items-center justify-center rounded-l-xl border border-indigo-500/30 bg-indigo-600/20 text-indigo-700 shadow-lg backdrop-blur-md transition-colors hover:text-indigo-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/70 dark:text-indigo-400 dark:hover:text-white"
+            className="flex h-16 w-6 cursor-pointer items-center justify-center border border-[var(--border-light)] bg-[var(--bg-card)] text-[var(--accent-strong)] transition-colors hover:bg-[var(--bg-secondary)] focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)]"
             aria-label={showRightPanel ? t("mx_ocultar_perfil") : t("mx_mostrar_perfil")}
           >
             <ChevronRight size={14} className={`transition-transform ${showRightPanel ? '' : 'rotate-180'}`} />
@@ -803,36 +847,39 @@ export default function MoldexPage() {
             opacity: activeView === "info" ? 1 : 0,
             x: activeView === "info" ? 0 : 1000
           } : {
-            width: showRightPanel ? 400 : 0,
+            width: showRightPanel ? (compactDesktop ? 320 : 400) : 0,
             opacity: showRightPanel ? 1 : 0,
             x: showRightPanel ? 0 : 400
           }}
           transition={{ type: "spring", stiffness: 300, damping: 35 }}
-          className={`custom-scrollbar pointer-events-auto flex flex-col overflow-y-auto border-l border-[var(--border)] bg-[var(--bg-card)] p-6 backdrop-blur-xl dark:border-white/5 dark:bg-[#0a0f1d]/95 md:p-10 md:dark:bg-[#0a0f1d]/60 ${
+          className={`custom-scrollbar pointer-events-auto flex flex-col overflow-y-auto border-l border-[var(--border)] bg-[var(--bg-card)] p-5 ${
             isMobile ? 'absolute inset-x-0 bottom-0 top-[60px] z-40'
                      : 'h-full'
           } ${isMobile && activeView !== "info" ? 'pointer-events-none' : ''}`}
         >
           <AnimatePresence mode="wait">
-            <motion.div key={selectedId} initial={{ x: 30, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="space-y-10 min-w-[320px]">
+            <motion.div key={selectedId} initial={{ x: 12, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="min-w-0 space-y-7">
+
+              <div className="border-b border-[var(--border)] pb-4">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--accent-strong)]">02 / {t("mx_molecula")}</p>
+                <h2 className="mt-1 truncate font-display text-lg font-bold text-[var(--text)]" title={selectedMolecule?.name}>{selectedMolecule?.name || t("mx_sin_nombre")}</h2>
+                <p className="mt-1 font-mono text-[10px] text-[var(--text-dim)]">{selectedMolecule?.target?.pdb_id || "—"}</p>
+              </div>
 
               {/* MÓDULO 1: {t("pg_mx_contexto_target")} */}
-              <section className="rounded-3xl border border-indigo-500/20 bg-indigo-500/5 p-6">
-                <h2 className="mb-4 flex items-center gap-3 text-xs font-black uppercase tracking-[0.3em] text-indigo-600 dark:text-indigo-400">
+              <section className="border border-[var(--border)] bg-[var(--bg-secondary)] p-4">
+                <h2 className="mb-4 flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--accent-strong)]">
                   <Database size={14} /> {t("pg_mx_contexto_target")}
                 </h2>
                 <div className="space-y-3">
                   <div>
-                    <p className="text-xs font-bold uppercase tracking-widest text-muted">{t("mx_proteina_receptora")}</p>
-                    <p className="text-sm font-black leading-tight text-theme">{selectedMolecule?.target?.name || t("mx_sin_nombre")}</p>
+                    <p className="font-mono text-[10px] font-bold uppercase tracking-wide text-[var(--text-dim)]">{t("mx_proteina_receptora")}</p>
+                    <p className="mt-1 text-sm font-semibold leading-tight text-[var(--text)]">{selectedMolecule?.target?.name || t("mx_sin_nombre")}</p>
                   </div>
-                  <div className="flex items-center justify-between border-t border-[var(--border)] pt-2 dark:border-white/5">
+                  <div className="flex items-center justify-between border-t border-[var(--border)] pt-3">
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-widest text-muted">{t("mx_correlacion_benchmark")}</p>
-                      <p className="font-mono text-xs text-emerald-700 dark:text-emerald-400">{t("auto_c2ed1380a98a")} {selectedMolecule?.target?.spearman_rho?.toFixed(3) ?? "N/A"}</p>
-                    </div>
-                    <div className="h-10 w-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center">
-                      <ShieldCheck size={18} className="text-emerald-500" />
+                      <p className="font-mono text-[10px] font-bold uppercase tracking-wide text-[var(--text-dim)]">{t("mx_correlacion_benchmark")}</p>
+                      <p className="mt-1 font-mono text-xs text-[var(--text)]">{t("auto_c2ed1380a98a")} {selectedMolecule?.target?.spearman_rho?.toFixed(3) ?? "—"}</p>
                     </div>
                   </div>
                 </div>
@@ -840,19 +887,19 @@ export default function MoldexPage() {
 
               {/* MÓDULO 2: {t("pg_mx_auditoria")} */}
               <section>
-                <h2 className="mb-6 flex items-center gap-3 text-xs font-black uppercase tracking-[0.3em] text-muted">
-                  <AlertCircle size={16} className="text-amber-500" /> {t("pg_mx_auditoria")}
+                <h2 className="mb-3 flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--text-dim)]">
+                  <AlertCircle size={14} className="text-[var(--categoria-corrigendum)]" /> {t("pg_mx_auditoria")}
                 </h2>
                 <div className="space-y-3">
                   {(selectedMolecule?.scientific_warnings?.length ?? 0) > 0 ? (
                     (selectedMolecule?.scientific_warnings ?? []).map((warning: string, i: number) => (
-                      <div key={i} className="flex gap-3 rounded-2xl border border-amber-500/20 bg-amber-50 p-4 text-xs leading-relaxed text-amber-900 dark:border-amber-500/10 dark:bg-amber-500/5 dark:text-amber-200/80">
-                        <div className="mt-1 flex-shrink-0 h-1.5 w-1.5 rounded-full bg-amber-500" />
+                      <div key={i} className="flex gap-3 border border-[var(--border)] bg-[var(--bg-secondary)] p-3 text-xs leading-relaxed text-[var(--text-secondary)]">
+                        <div className="mt-1 flex-shrink-0 h-1.5 w-1.5 rounded-full bg-[var(--categoria-corrigendum)]" />
                         {warning}
                       </div>
                     ))
                   ) : (
-                    <div className="rounded-2xl border border-emerald-500/20 bg-emerald-50 p-4 text-center text-xs text-emerald-800 dark:border-emerald-500/10 dark:bg-emerald-500/5 dark:text-emerald-300">
+                    <div className="border border-[var(--border)] bg-[var(--bg-secondary)] p-3 text-xs text-[var(--text-secondary)]">
                       {t("pg_mx_sin_advertencias")}
                     </div>
                   )}
@@ -861,20 +908,20 @@ export default function MoldexPage() {
 
               {/* MÓDULO 3: PERFIL FARMACOCINÉTICO */}
               <section>
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="flex items-center gap-3 text-xs font-black uppercase tracking-[0.3em] text-muted">
-                    <Activity size={16} className="text-indigo-500" /> <span className="uppercase">{t("mx_descriptores_reglas")}</span>
+                <div className="mb-3 flex items-center justify-between gap-2">
+                  <h2 className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--text-dim)]">
+                    <Activity size={14} className="text-[var(--accent-strong)]" /> <span>{t("mx_descriptores_reglas")}</span>
                   </h2>
                   <div className="flex gap-1">
                     {selectedMolecule?.metrics?.lipinski_pass && (
-                      <span className="rounded border border-emerald-500/30 bg-emerald-500/20 px-1.5 py-0.5 text-xs font-black uppercase text-emerald-700 dark:text-emerald-400">Lipinski</span>
+                      <span className="border border-[var(--border)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--categoria-hallazgo)]">Lipinski</span>
                     )}
                     {selectedMolecule?.metrics?.veber_pass && (
-                      <span className="rounded border border-blue-500/30 bg-blue-500/20 px-1.5 py-0.5 text-xs font-black uppercase text-blue-700 dark:text-blue-400">Veber</span>
+                      <span className="border border-[var(--border)] px-1.5 py-0.5 text-[10px] font-bold text-[var(--categoria-medicion)]">Veber</span>
                     )}
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   {[
                     { label: t("mx_lipofilia"),  value: selectedMolecule?.metrics?.log_p?.toFixed(2) ?? "—",                         unit: "LogP" },
                     { label: t("mx_masa"),       value: selectedMolecule?.metrics?.mw?.toFixed(0) ?? "—",                             unit: "Da" },
@@ -885,9 +932,9 @@ export default function MoldexPage() {
                     { label: t("mx_senal_clgnn"), value: presentarClgnn(selectedMolecule?.metrics?.clgnn_score).valor, unit: t(presentarClgnn(selectedMolecule?.metrics?.clgnn_score).condicion) },
                     { label: "Lipinski",   value: selectedMolecule?.metrics?.lipinski_pass === null ? "—" : selectedMolecule?.metrics?.lipinski_pass ? t("mx_cumple") : t("mx_no_cumple"),        unit: t("mx_unidad_regla") },
                   ].map(stat => (
-                    <div key={stat.label} className="group rounded-2xl border border-[var(--border)] bg-[var(--bg-secondary)] p-4 transition-all hover:border-indigo-500/30 dark:border-white/5 dark:bg-black/40">
-                      <p className="mb-1 text-xs font-black uppercase tracking-widest text-muted">{stat.label}</p>
-                      <p className="text-lg font-black text-theme">{stat.value} <span className="ml-1 text-xs text-muted">{stat.unit}</span></p>
+                    <div key={stat.label} className="min-h-20 border border-[var(--border)] bg-[var(--bg-secondary)] p-3">
+                      <p className="mb-2 font-mono text-[10px] font-bold uppercase tracking-wide text-[var(--text-dim)]">{stat.label}</p>
+                      <p className="font-display text-base font-bold text-[var(--text)]">{stat.value} <span className="ml-1 font-mono text-[10px] font-normal text-[var(--text-secondary)]">{stat.unit}</span></p>
                     </div>
                   ))}
                 </div>
@@ -895,11 +942,11 @@ export default function MoldexPage() {
 
               {/* MÓDULO 4: EVIDENCIA BLOCKCHAIN */}
               <section>
-                <div className="rounded-[2.5rem] bg-gradient-to-br from-indigo-600/20 to-transparent border border-indigo-500/20 p-8 text-center">
-                  <h2 className="mb-2 text-xs font-black uppercase tracking-[0.4em] text-indigo-600 dark:text-indigo-400">{t("mx_registro_integridad")}</h2>
+                <div className="border border-[var(--border)] bg-[var(--bg-secondary)] p-4">
+                  <h2 className="mb-3 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--accent-strong)]">{t("mx_registro_integridad")}</h2>
                   {/* MOLDEX-UX-008: el modal y el PDF ya decían esto; la ficha,
                       que es lo que se ve todo el tiempo, no lo decía. */}
-                  <p className="mb-4 text-xs leading-relaxed text-muted">
+                  <p className="mb-4 text-xs leading-relaxed text-[var(--text-secondary)]">
                     {ALCANCE_DEL_SELLO}
                   </p>
                   {selectedMolecule?.blockchain?.tx_signature && (
@@ -915,7 +962,7 @@ export default function MoldexPage() {
 
                   {selectedMolecule?.blockchain?.tx_signature ? (
                     <>
-                      <div className="mb-6 break-all rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] p-3 font-mono text-xs leading-tight text-muted dark:border-white/5 dark:bg-black/60">
+                      <div className="mb-4 break-all border border-[var(--border)] bg-[var(--bg-card)] p-3 font-mono text-[10px] leading-relaxed text-[var(--text-secondary)]">
                         {selectedMolecule.blockchain.tx_signature}
                       </div>
                       {/* MOLDEX-SCI-001: si la corrida cambió después de sellar,
@@ -952,19 +999,19 @@ export default function MoldexPage() {
                       )}
                       <ExternalLink
                         href={urlDelExplorador(selectedMolecule.blockchain.tx_signature, redDelSello)}
-                        className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-indigo-600 py-4 text-xs font-black uppercase tracking-widest text-white shadow-xl shadow-indigo-500/20 transition-all hover:bg-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-card)]"
+                        className="mb-3 flex min-h-10 w-full items-center justify-center gap-2 bg-[var(--accent-strong)] px-3 py-2 text-xs font-bold text-[var(--bg)] transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)]"
                       >
                         <FlaskConical size={14} /> <span className="uppercase">{t("mx_verificar_solana")}</span>
                       </ExternalLink>
                     </>
                   ) : (
                     <>
-                      <div className="mb-6 break-all rounded-xl border border-[var(--border)] bg-[var(--bg-secondary)] p-3 font-mono text-xs leading-tight text-muted dark:border-white/5 dark:bg-black/60">
+                      <div className="mb-4 break-all border border-[var(--border)] bg-[var(--bg-card)] p-3 font-mono text-[10px] leading-relaxed text-[var(--text-secondary)]">
                         {t("mx_token_local")}
                       </div>
                       <button
                         onClick={() => setShowCertificationModal(true)}
-                        className="mb-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-purple-500/40 bg-purple-600 py-4 text-xs font-black uppercase tracking-widest text-white transition-colors hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-500 active:bg-purple-700"
+                        className="mb-3 flex min-h-10 w-full cursor-pointer items-center justify-center gap-2 bg-[var(--accent-strong)] px-3 py-2 text-xs font-bold text-[var(--bg)] transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)]"
                       >
                         <Database size={14} /> <span className="uppercase">{t("mx_registrar_solana")}</span>
                       </button>
@@ -974,7 +1021,7 @@ export default function MoldexPage() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => setShowPdfViewer(true)}
-                      className="flex flex-1 items-center justify-center gap-2 rounded-2xl border border-indigo-500/30 bg-indigo-500/20 py-3 text-xs font-black uppercase tracking-widest text-indigo-700 transition-all hover:bg-indigo-500/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 dark:text-indigo-300"
+                      className="flex min-h-9 flex-1 cursor-pointer items-center justify-center gap-2 border border-[var(--border-light)] bg-[var(--bg-card)] px-2 py-2 text-[10px] font-bold text-[var(--text)] transition-colors hover:border-[var(--accent)] focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)]"
                     >
                       <Eye size={14} /> <span className="uppercase">{t("mx_ver_reporte")}</span>
                     </button>
@@ -985,7 +1032,7 @@ export default function MoldexPage() {
                       type="button"
                       disabled={!selectedId || descargando !== null}
                       onClick={() => descargar("pdf")}
-                      className="flex flex-1 items-center justify-center gap-2 rounded-2xl bg-[var(--bg-secondary)] py-3 text-xs font-black uppercase tracking-widest text-muted transition-all hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800/50 dark:text-slate-400 dark:hover:bg-slate-800"
+                      className="flex min-h-9 flex-1 cursor-pointer items-center justify-center gap-2 border border-[var(--border-light)] bg-[var(--bg-card)] px-2 py-2 text-[10px] font-bold text-[var(--text)] transition-colors hover:border-[var(--accent)] focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)] disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       {descargando === "pdf" ? t("auto_bdd6a9ac7cec") : t("mx_descargar_recibo_pdf")}
                     </button>
@@ -995,7 +1042,7 @@ export default function MoldexPage() {
                     type="button"
                     disabled={!selectedId || descargando !== null}
                     onClick={() => descargar("complejo")}
-                    className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-[var(--bg-secondary)] py-3 text-xs font-black uppercase tracking-widest text-muted transition-all hover:text-theme focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/60 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-800/50 dark:text-slate-400 dark:hover:bg-slate-800"
+                    className="mt-2 flex min-h-9 w-full cursor-pointer items-center justify-center gap-2 border border-[var(--border-light)] bg-[var(--bg-card)] px-3 py-2 text-[10px] font-bold text-[var(--text)] transition-colors hover:border-[var(--accent)] focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <Box size={14} />
                     {descargando === "complejo" ? t("auto_bdd6a9ac7cec") : t("mx_descargar_complejo_pdb")}
@@ -1006,6 +1053,7 @@ export default function MoldexPage() {
             </motion.div>
           </AnimatePresence>
         </motion.aside>
+      </div>
       </div>
 
       {/* ── Comparador Modal (cuando 2 moléculas seleccionadas) ── */}

@@ -21,7 +21,7 @@
 // un doble, así que la librería real nunca se carga.
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import { MoleculeViewer3D } from "../MoleculeViewer3D";
 import { reiniciarComprobacionWebGL } from "../../lib/webgl";
@@ -58,7 +58,11 @@ function dobleDe3Dmol() {
     removeAllModels: vi.fn(),
     removeAllLabels: vi.fn(),
     setStyle: vi.fn(),
-    getModel: vi.fn(() => null),
+    addStyle: vi.fn(),
+    addCylinder: vi.fn(),
+    addSurface: vi.fn(),
+    setClickable: vi.fn(),
+    getModel: vi.fn((_index: number): { selectedAtoms: () => any[] } | null => null),
     zoomTo: vi.fn(),
     zoom: vi.fn(),
     render: vi.fn(),
@@ -141,7 +145,7 @@ describe("MoleculeViewer3D sin aceleración 3D", () => {
 
     render(<MoleculeViewer3D poseData={POSE_SDF} />);
 
-    for (const control of [/pocket/i, /surface/i, /charges/i, /interactions/i, /hotspots/i]) {
+    for (const control of [/bolsillo/i, /superficie/i, /tipos de residuo/i, /proximidad polar/i, /hotspots/i]) {
       expect(screen.queryByRole("button", { name: control })).toBeNull();
     }
     // La leyenda educativa abre diálogos sobre lo que se ve en 3D.
@@ -178,8 +182,27 @@ describe("MoleculeViewer3D con WebGL disponible", () => {
 
     render(<MoleculeViewer3D poseData={POSE_SDF} />);
 
-    expect(screen.getByRole("button", { name: /surface/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /interactions/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /superficie/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /^proximidad polar$/i })).toBeInTheDocument();
+  });
+
+  it("conserva la cámara al alternar vistas y calcula contactos una sola vez por pose", () => {
+    equipoConWebGL(true);
+    const { visor } = dobleDe3Dmol();
+    const proteinAtoms = vi.fn(() => [{ x: 0, y: 0, z: 0, chain: "A", resi: 1, resn: "SER", elem: "O" }]);
+    const ligandAtoms = vi.fn(() => [{ x: 0, y: 0, z: 3, elem: "N" }]);
+    visor.getModel.mockImplementation((index: number) => ({ selectedAtoms: index === 0 ? proteinAtoms : ligandAtoms }));
+
+    render(<MoleculeViewer3D proteinData="PROTEIN-MODEL-DATA" poseData={POSE_SDF} hotspots={["A:SER1"]} pocketFocus />);
+    expect(visor.zoomTo).toHaveBeenCalledTimes(1);
+    expect(visor.zoomTo).toHaveBeenCalledWith(expect.objectContaining({ model: 0, predicate: expect.any(Function) }));
+    expect(proteinAtoms).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(screen.getByRole("button", { name: /superficie/i }));
+    fireEvent.click(screen.getByRole("button", { name: /^proximidad polar$/i }));
+    expect(visor.zoomTo).toHaveBeenCalledTimes(1);
+    expect(proteinAtoms).toHaveBeenCalledTimes(1);
+    expect(ligandAtoms).toHaveBeenCalledTimes(1);
   });
 
   it("sigue liberando el visor al desmontar", () => {

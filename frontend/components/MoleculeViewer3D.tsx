@@ -9,19 +9,78 @@ import { comprobarWebGL, type EstadoWebGL } from "../lib/webgl";
 type Props = {
   poseData?: string;
   proteinData?: string;
-  height?: number;
+  height?: number | string;
   hotspots?: string[];
   hotspotsHit?: string[];
   hideLegend?: boolean;
   mobileTopOffset?: boolean;
+  pocketFocus?: boolean;
 };
 
 type ViewMode = "standard" | "surface" | "charges";
 
-export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, proteinData, height = 450, hotspots = [], hotspotsHit = [], hideLegend = false, mobileTopOffset = false }: Props) {
+type ContactGeometry = {
+  proteinData?: string;
+  poseData?: string;
+  protAtoms: any[];
+  pocketResis: Set<string>;
+  pocketSelArray: Array<{ chain: string; resi: number }>;
+  polarProximities: Array<{ p: any; l: any; dist2: number }>;
+  nearestAtomByResidue: Map<string, { atom: any; dist2: number }>;
+};
+
+/** Índice espacial de 5 Å: sólo se inspeccionan átomos del ligando cercanos. */
+function calculateContactGeometry(protAtoms: any[], ligAtoms: any[], proteinData?: string, poseData?: string): ContactGeometry {
+  const pocketResis = new Set<string>();
+  const pocketSelArray: Array<{ chain: string; resi: number }> = [];
+  const polarProximities: Array<{ p: any; l: any; dist2: number }> = [];
+  const nearestAtomByResidue = new Map<string, { atom: any; dist2: number }>();
+  const cell = (n: number) => Math.floor(n / 5);
+  const key = (x: number, y: number, z: number) => `${x}:${y}:${z}`;
+  const cells = new Map<string, any[]>();
+  for (const atom of ligAtoms) {
+    const k = key(cell(atom.x), cell(atom.y), cell(atom.z));
+    const bucket = cells.get(k) ?? [];
+    bucket.push(atom);
+    cells.set(k, bucket);
+  }
+  for (const p of protAtoms) {
+    if (p.hetflag) continue;
+    const px = cell(p.x), py = cell(p.y), pz = cell(p.z);
+    for (let x = px - 1; x <= px + 1; x++) {
+      for (let y = py - 1; y <= py + 1; y++) {
+        for (let z = pz - 1; z <= pz + 1; z++) {
+          for (const l of cells.get(key(x, y, z)) ?? []) {
+            const dx = p.x - l.x, dy = p.y - l.y, dz = p.z - l.z;
+            const dist2 = dx * dx + dy * dy + dz * dz;
+            if (dist2 > 25) continue;
+            const residue = `${p.chain}:${p.resi}`;
+            const nearest = nearestAtomByResidue.get(residue);
+            if (!nearest || dist2 < nearest.dist2) nearestAtomByResidue.set(residue, { atom: p, dist2 });
+            if (!pocketResis.has(residue)) {
+              pocketResis.add(residue);
+              pocketSelArray.push({ chain: p.chain, resi: p.resi });
+            }
+            if (dist2 <= 12.25 &&
+                ["O", "N", "F", "S"].includes(l.elem?.trim().toUpperCase()) &&
+                ["O", "N", "F", "S"].includes(p.elem?.trim().toUpperCase())) {
+              polarProximities.push({ p, l, dist2 });
+            }
+          }
+        }
+      }
+    }
+  }
+  polarProximities.sort((a, b) => a.dist2 - b.dist2);
+  return { proteinData, poseData, protAtoms, pocketResis, pocketSelArray, polarProximities, nearestAtomByResidue };
+}
+
+export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, proteinData, height = 450, hotspots = [], hotspotsHit = [], hideLegend = false, mobileTopOffset = false, pocketFocus = false }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
   const viewerRef    = useRef<any>(null);
+  const geometryRef = useRef<ContactGeometry | null>(null);
+  const fitCameraRef = useRef(false);
 
   const [viewMode, setViewMode] = useState<ViewMode>("standard");
   const [showInteractions, setShowInteractions] = useState(false);
@@ -95,25 +154,31 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
 
   useEffect(() => {
     if (!modelsLoaded || !viewerRef.current || !containerRef.current) return;
-
+    const container = containerRef.current;
+    let previousWidth = 0;
+    let previousHeight = 0;
     const handleResize = () => {
-      if (!viewerRef.current || !containerRef.current) return;
       const v = viewerRef.current;
-      const container = containerRef.current;
-      const w = container.clientWidth;
-      const h = container.clientHeight;
-
-      if (isMobile) {
-        v.resize(w * 1.2, h * 1.2);
-      } else {
-        v.resize();
-      }
+      if (!v) return;
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      if (!width || !height || (width === previousWidth && height === previousHeight)) return;
+      previousWidth = width;
+      previousHeight = height;
+      v.resize();
+      v.render();
     };
-
+    // Los paneles de Moldex cambian el ancho disponible sin redimensionar la
+    // ventana. ResizeObserver mantiene el canvas nítido en ambos casos.
+    const observer = typeof ResizeObserver !== "undefined" ? new ResizeObserver(handleResize) : null;
+    observer?.observe(container);
     handleResize();
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [modelsLoaded, isMobile]);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [modelsLoaded]);
 
   useEffect(() => {
     // Antes que nada: sin contexto no se monta el motor. Va aquí y no dentro de
@@ -152,6 +217,8 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
       }
       const v = viewerRef.current;
       v.clear();
+      geometryRef.current = null;
+      fitCameraRef.current = true;
 
       if (hasProtein) {
         v.addModel(proteinData, "pdb");
@@ -189,51 +256,26 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
       const m0 = v.getModel(0);
       const m1 = v.getModel(ligIdx);
       if (m0 && m1) {
-        const protAtoms = m0.selectedAtoms({});
-        const ligAtoms = m1.selectedAtoms({});
         const resisWithLines = new Set<string>();
-        const pocketResis = new Set<string>();
-        const pocketSelArray: any[] = [];
-
-        const potentialInteractions: { p: any, l: any, dist2: number }[] = [];
-
-        for (const p of protAtoms) {
-          if (p.hetflag) continue;
-          for (const l of ligAtoms) {
-            const dx = p.x - l.x, dy = p.y - l.y, dz = p.z - l.z;
-            const dist2 = dx*dx + dy*dy + dz*dz;
-            if (dist2 <= 25) {
-              const key = `${p.chain}:${p.resi}`;
-              if (!pocketResis.has(key)) {
-                pocketResis.add(key);
-                pocketSelArray.push({ chain: p.chain, resi: p.resi });
-              }
-              if (showInteractions && dist2 <= 12.25) {
-                const lElem = l.elem?.trim().toUpperCase();
-                const pElem = p.elem?.trim().toUpperCase();
-                if (["O","N","F","S"].includes(lElem) && ["O","N","F","S"].includes(pElem)) {
-                  potentialInteractions.push({ p, l, dist2 });
-                }
-              }
-            }
-          }
+        let geometry = geometryRef.current;
+        if (!geometry || geometry.proteinData !== proteinData || geometry.poseData !== poseData) {
+          geometry = calculateContactGeometry(m0.selectedAtoms({}), m1.selectedAtoms({}), proteinData, poseData);
+          geometryRef.current = geometry;
         }
         
-        // Draw only top 5 closest interactions
-        potentialInteractions
-          .sort((a, b) => a.dist2 - b.dist2)
-          .slice(0, 5)
-          .forEach(({ p, l }) => {
+        // Distancia entre heteroátomos; no se infiere puente H ni energía.
+        geometry.polarProximities.slice(0, 5).forEach(({ p, l }) => {
             resisWithLines.add(`${p.resn}${p.resi}`);
-            v.addCylinder({ start: l, end: p, radius: 0.05, color: "white", dashed: true });
+            if (showInteractions) v.addCylinder({ start: l, end: p, radius: 0.05, color: "white", dashed: true });
           });
 
-        pocketSelArray.forEach(sel => {
+        geometry.pocketSelArray.forEach(sel => {
           v.addStyle({ model: 0, ...sel }, { stick: { colorscheme: "lightgreyCarbon", radius: 0.14, opacity: 0.99 } });
         });
 
         if (showHotspots) {
           hotspots.forEach(hs => {
+            if (typeof hs !== "string") return;
             const match = hs.match(/(?:([A-Z]):)?([A-Z]{1,3})\s*(\d+)/i);
             if (match) {
               const chain = match[1];
@@ -242,24 +284,31 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
               const isHit = hotspotsHit.includes(hs);
               const hasLine = resisWithLines.has(`${resn}${resi}`);
               const color = isHit ? (hasLine ? "#10b981" : "#52525b") : "#71717a";
-              const opacity = (isHit && !hasLine) ? 0.45 : 1.0;
-              const radius = hasLine ? 0.75 : 0.6;
-              const selector: any = { model: 0, resn, resi };
+              const radius = hasLine ? 0.65 : 0.5;
+              // Un hotspot es un residuo, no una esfera por cada átomo del
+              // residuo. Marcar el átomo más próximo a la pose evita la nube
+              // de esferas y sitúa el marcador dentro del bolsillo real.
+              const candidates = geometry.protAtoms.filter((p: any) => p.resn === resn && p.resi === resi && (!chain || p.chain === chain));
+              const preferred = candidates.find((p: any) => geometry.nearestAtomByResidue.get(`${p.chain}:${p.resi}`)?.atom === p)
+                ?? candidates.find((p: any) => p.atom === "CA")
+                ?? candidates[0];
+              if (!preferred?.atom) return;
+              const selector: any = { model: 0, resn, resi, atom: preferred.atom };
               if (chain) selector.chain = chain;
-              v.addStyle(selector, { sphere: { color, radius, opacity } });
+              v.addStyle(selector, { sphere: { color, radius } });
               v.setClickable(selector, true, () => setSelectedHotspot(`${chain ? chain + ':' : ''}${resn}${resi}`));
             }
           });
         }
 
-        const surfaceSelector = (isMobile && pocketResis.size > 0)
-          ? { model: 0, predicate: (atom: any) => pocketResis.has(`${atom.chain}:${atom.resi}`) }
+        const surfaceSelector = (pocketFocus || isMobile) && geometry.pocketResis.size > 0
+          ? { model: 0, predicate: (atom: any) => geometry!.pocketResis.has(`${atom.chain}:${atom.resi}`) }
           : { model: 0 };
 
         if (viewMode === "surface") {
           v.addSurface($3d.SurfaceType.VDW, { opacity: isMobile ? 0.35 : 0.5, color: "white" }, surfaceSelector);
         } else if (viewMode === "charges") {
-          protAtoms.forEach((p: any) => {
+          geometry.protAtoms.forEach((p: any) => {
             if (["ASP", "GLU"].includes(p.resn)) p.color = "red";
             else if (["ARG", "LYS", "HIS"].includes(p.resn)) p.color = "blue";
             else p.color = "white";
@@ -269,15 +318,29 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
       }
     }
 
-    if (hasLigand) { v.zoomTo({ model: ligIdx }); v.zoom(0.85); } else v.zoomTo();
+    if (fitCameraRef.current) {
+      const pocket = geometryRef.current?.pocketResis;
+      if (pocketFocus && hasProtein && hasLigand && pocket?.size) {
+        // Encuadrar el bolsillo derivado de la pose, no sólo el ligando. El
+        // selector usa los mismos residuos ≤5 Å ya calculados para la vista.
+        v.zoomTo({ model: 0, predicate: (atom: any) => pocket.has(`${atom.chain}:${atom.resi}`) });
+        v.zoom(0.82);
+      } else if (hasLigand) {
+        v.zoomTo({ model: ligIdx });
+        v.zoom(0.85);
+      } else {
+        v.zoomTo();
+      }
+      fitCameraRef.current = false;
+    }
     v.render();
-  }, [modelsLoaded, viewMode, showInteractions, showHotspots, poseData, proteinData, hotspots, hotspotsHit]);
+  }, [modelsLoaded, viewMode, showInteractions, showHotspots, poseData, proteinData, hotspots, hotspotsHit, isMobile, pocketFocus]);
 
   const hasData = !!(poseData || proteinData);
 
   return (
     <>
-      <div className="relative overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-[#0a0a0a]" style={{ height, width: "100%", position: "relative" }}>
+      <div className="relative overflow-hidden border border-[var(--border)] bg-[var(--bg-card)]" style={{ height, width: "100%", position: "relative" }}>
         <div ref={containerRef} style={{ width: "100%", height: "100%" }} className="[&_canvas]:!w-full [&_canvas]:!h-full" />
 
         {/* Estado propio, no el fallo de la librería. Lo que hay que responder
@@ -331,19 +394,19 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
 
         {!sinWebGL && hasData && (
           <>
-            <div className="absolute z-10 flex flex-wrap justify-end gap-2 max-w-[90%]" style={{ top: (isMobile && mobileTopOffset) ? "72px" : "16px", right: "16px" }}>
-              <div className="flex bg-white/80 dark:bg-zinc-900/80 rounded-lg p-1 border border-zinc-200 dark:border-zinc-800 backdrop-blur-md">
-                {["standard", "surface", "charges"].map((m: any) => (
-                  <button key={m} onClick={() => setViewMode(m)} className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${viewMode === m ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-white' : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-300'}`}>
-                    {m === "standard" ? "Pocket" : m === "surface" ? "Surface" : "Charges"}
+            <div className="absolute z-10 flex max-w-[88%] flex-wrap justify-end gap-2" style={{ top: (isMobile && mobileTopOffset) ? "72px" : "16px", right: "16px" }}>
+              <div className="flex border border-[var(--border-light)] bg-[var(--bg-card)] p-1">
+                {(["standard", "surface", "charges"] as ViewMode[]).map((m) => (
+                  <button key={m} type="button" aria-pressed={viewMode === m} title={m === "charges" ? t("z_residue_types_desc") : undefined} onClick={() => setViewMode(m)} className={`min-h-8 cursor-pointer px-2.5 py-1.5 text-[11px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)] ${viewMode === m ? 'bg-[var(--bg-secondary)] text-[var(--text)]' : 'text-[var(--text-dim)] hover:text-[var(--text)]'}`}>
+                    {m === "standard" ? t("z_view_pocket") : m === "surface" ? t("z_view_surface") : t("z_view_residues")}
                   </button>
                 ))}
               </div>
-              <button onClick={() => setShowInteractions(!showInteractions)} className={`px-3 py-1.5 text-xs font-semibold rounded-lg border backdrop-blur-md transition-all ${showInteractions ? 'bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 text-zinc-900 dark:text-white' : 'bg-white/80 dark:bg-zinc-900/80 border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white'}`}>
-                Interactions
+              <button type="button" aria-pressed={showInteractions} title={t("z_polar_proximity_desc")} onClick={() => setShowInteractions(!showInteractions)} className={`min-h-9 cursor-pointer border border-[var(--border-light)] px-3 py-1.5 text-[11px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)] ${showInteractions ? 'bg-[var(--bg-secondary)] text-[var(--accent-strong)]' : 'bg-[var(--bg-card)] text-[var(--text-secondary)] hover:text-[var(--text)]'}`}>
+                {t("z_polar_proximity")}
               </button>
-              <button onClick={() => setShowHotspots(!showHotspots)} className={`px-3 py-1.5 text-xs font-semibold rounded-lg border backdrop-blur-md transition-all ${showHotspots ? 'bg-zinc-100 dark:bg-zinc-800 border-zinc-300 dark:border-zinc-600 text-zinc-900 dark:text-white' : 'bg-white/80 dark:bg-zinc-900/80 border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-white'}`}>
-                Hotspots
+              <button type="button" aria-pressed={showHotspots} onClick={() => setShowHotspots(!showHotspots)} className={`min-h-9 cursor-pointer border border-[var(--border-light)] px-3 py-1.5 text-[11px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)] ${showHotspots ? 'bg-[var(--bg-secondary)] text-[var(--accent-strong)]' : 'bg-[var(--bg-card)] text-[var(--text-secondary)] hover:text-[var(--text)]'}`}>
+                {t("z_view_hotspots")}
               </button>
             </div>
 
@@ -367,7 +430,7 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
       </div>
 
       {!sinWebGL && !hideLegend && (
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 px-4 py-3 bg-zinc-50 dark:bg-zinc-900/50 rounded-xl border border-zinc-200 dark:border-zinc-800">
+        <div className="mt-3 flex flex-wrap items-center justify-center gap-4 border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3">
           <button 
             onClick={() => setSelectedEduLegend({
               title: t("z_critical_hit"),
@@ -375,8 +438,8 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
             })}
             className="flex items-center gap-2 group"
           >
-            <div className="h-2.5 w-2.5 rounded-full bg-zinc-900 dark:bg-white" />
-            <span className="text-[10px] font-bold text-zinc-700 dark:text-zinc-300 uppercase tracking-widest group-hover:text-zinc-900 dark:group-hover:text-white transition-colors">{t("z_hit")}</span>
+            <div className="h-2.5 w-2.5 rounded-full bg-[var(--categoria-hallazgo)]" />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-secondary)] transition-colors group-hover:text-[var(--text)]">{t("z_hit")}</span>
           </button>
           
           <button 
@@ -386,8 +449,8 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
             })}
             className="flex items-center gap-2 group"
           >
-            <div className="h-2.5 w-2.5 rounded-full bg-zinc-400 dark:bg-zinc-600" />
-            <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors">{t("z_proximity")}</span>
+            <div className="h-2.5 w-2.5 rounded-full bg-[var(--border-light)]" />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-secondary)] transition-colors group-hover:text-[var(--text)]">{t("z_proximity")}</span>
           </button>
           
           <button 
@@ -397,8 +460,8 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
             })}
             className="flex items-center gap-2 group"
           >
-            <div className="h-2.5 w-2.5 rounded-full border-2 border-zinc-300 dark:border-zinc-700 bg-transparent" />
-            <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-widest group-hover:text-zinc-600 dark:group-hover:text-zinc-400 transition-colors">{t("z_miss")}</span>
+            <div className="h-2.5 w-2.5 rounded-full bg-[var(--text-dim)]" />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-secondary)] transition-colors group-hover:text-[var(--text)]">{t("z_miss")}</span>
           </button>
         </div>
       )}

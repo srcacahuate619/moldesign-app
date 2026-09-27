@@ -25,7 +25,7 @@ export function Navigation() {
   return (
     <>
       <nav className="sticky top-0 z-[100] border-b border-[var(--border)] bg-[var(--bg-alt)] font-mono">
-        <div className="relative mx-auto flex max-w-[1600px] items-center justify-between px-6 py-3.5 h-14">
+        <div className="relative mx-auto flex h-14 max-w-[1600px] items-center justify-between px-3 py-3.5 sm:px-6">
 
           {/* Extremo izquierdo: panel utilitario único */}
           <div className="flex items-center gap-2 z-10">
@@ -38,28 +38,29 @@ export function Navigation() {
               className={`${linkBaseClass} flex cursor-pointer items-center gap-2 ${showOptions ? "text-purple-400 dark:text-purple-300" : "text-theme hover:text-purple-500 dark:hover:text-purple-300"}`}
             >
               <Settings size={14} className="shrink-0" aria-hidden="true" />
-              <span>{t("pg_nav_opciones")}</span>
+              <span className="hidden sm:inline">{t("pg_nav_opciones")}</span>
             </button>
           </div>
 
-          {/* Enlaces izquierdos: tres destinos de producto */}
+          {/* Enlaces izquierdos: trabajo científico y comunicación visual.
+              Las rutas históricas /comunidad y /ciencia siguen conservadas. */}
           <div className="hidden md:flex absolute right-[calc(50%+46px)] top-1/2 -translate-y-1/2 items-center gap-8 z-10">
             <Link
-              href="/comunidad"
+              href="/preparacion"
               className={`${linkBaseClass} ${
-                pathname === "/comunidad" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
+                pathname === "/preparacion" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
               }`}
             >
-              {t("pg_nav_comunidad")}
+              {t("pg_nav_preparacion")}
             </Link>
 
             <Link
-              href="/ciencia"
+              href="/molcy"
               className={`${linkBaseClass} ${
-                pathname === "/ciencia" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
+                pathname === "/molcy" ? "text-theme font-extrabold" : "text-muted hover:text-theme"
               }`}
             >
-              {t("pg_nav_ciencia")}
+              Molcy
             </Link>
 
             <Link
@@ -118,9 +119,9 @@ export function Navigation() {
           </div>
 
           {/* Extremo Derecho: User & SALIR / ENTRAR */}
-          <div className="flex items-center gap-5 z-10">
+          <div className="z-10 flex items-center gap-2 sm:gap-5">
             <DownloadNotifications />
-            <span className={`${linkBaseClass} text-dim font-normal`}>
+            <span className={`${linkBaseClass} hidden font-normal text-dim sm:inline`}>
               {user ? user.username : t("pg_nav_usuario_escritorio")}
             </span>
 
@@ -179,11 +180,11 @@ export function Navigation() {
               >
                 {t("pg_nav_opciones")}
               </button>
-              <Link href="/comunidad" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
-                {t("pg_nav_comunidad")}
+              <Link href="/preparacion" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
+                {t("pg_nav_preparacion")}
               </Link>
-              <Link href="/ciencia" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
-                {t("pg_nav_ciencia")}
+              <Link href="/molcy" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
+                Molcy
               </Link>
               <Link href="/evaluation/batch" onClick={() => setIsOpen(false)} className="block py-2 text-muted hover:text-theme">
                 {t("pg_nav_batch")}

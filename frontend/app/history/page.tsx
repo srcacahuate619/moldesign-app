@@ -1,6 +1,8 @@
 "use client";
 
-import Link from "next/link";
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4
+ * Historial: jerarquía editorial para datos reales, con todas las operaciones existentes. */
+
 import { useLanguage } from "../../context/LanguageContext";
 import { useEffect, useState } from "react";
 import { Download } from "lucide-react";
@@ -92,25 +94,35 @@ export default function HistoryPage() {
   }
 
   return (
-    <main className="space-y-6 pb-12">
+    <main className="min-h-[calc(100dvh-56px)] bg-[var(--bg)] text-[var(--text)]">
+      <div className="mx-auto max-w-[1500px] px-4 pb-16 pt-8 sm:px-7 lg:px-10">
       {/* ── Header ── */}
-      <section>
-        <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">{t("pg_hist_titulo")}</h1>
-        <p className="mt-1 text-sm text-surface-400">
+      <section className="mb-10 flex flex-wrap items-end justify-between gap-6 border-b border-[var(--border)] pb-8">
+        <div className="max-w-3xl">
+          <p className="mb-3 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-strong)]">Moldex / {t("pg_hist_titulo")}</p>
+          <h1 className="font-display text-3xl font-bold leading-[1.08] tracking-tight sm:text-4xl lg:text-5xl">{t("pg_hist_titulo")}</h1>
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-[var(--text-secondary)]">
           {t("pg_hist_descripcion")} <span className="font-medium">Moldex</span>.
-        </p>
+          </p>
+        </div>
+        {history && (
+          <div className="border-l-2 border-[var(--accent-strong)] pl-4 text-right">
+            <span className="block font-display text-3xl font-bold tabular-nums">{history.total}</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-dim)]">{t("pg_hist_stat_total")}</span>
+          </div>
+        )}
       </section>
 
       {/* ── Stats ── */}
       {stats && (
-        <section className="grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <section aria-label={t("pg_hist_titulo")} className="mb-9 grid grid-cols-3 border border-[var(--border)] bg-[var(--bg-card)] lg:grid-cols-6">
           <StatCard label={t("pg_hist_stat_total")} value={stats.total_evaluations} />
-          <StatCard label={t("lo_filtro_completadas")} value={stats.completed_evaluations} color="text-green-400" />
-          <StatCard label={t("lo_filtro_fallidas")} value={stats.failed_evaluations} color="text-red-400" />
+          <StatCard label={t("lo_filtro_completadas")} value={stats.completed_evaluations} color="text-[var(--categoria-hallazgo)]" />
+          <StatCard label={t("lo_filtro_fallidas")} value={stats.failed_evaluations} color="text-[var(--categoria-refutacion)]" />
           <StatCard
             label={t("pg_hist_stat_mejor_score")}
             value={stats.best_score != null ? stats.best_score.toFixed(1) : "—"}
-            color="text-brand-400"
+            color="text-[var(--accent-strong)]"
           />
           <StatCard
             label={t("pg_hist_stat_promedio")}
@@ -121,8 +133,8 @@ export default function HistoryPage() {
       )}
 
       {/* ── Controls ── */}
-      <section className="flex flex-wrap items-center gap-3">
-        <label className="text-xs text-surface-400">{t("pg_hist_ordenar")}</label>
+      <section className="mb-4 flex flex-wrap items-center gap-2 border-b border-[var(--border)] pb-4">
+        <span className="mr-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--text-dim)]">{t("pg_hist_ordenar")}</span>
         {[
           { key: "created_at", label: t("pg_hist_orden_fecha") },
           { key: "total_score", label: t("pg_hist_orden_score_total") },
@@ -130,11 +142,13 @@ export default function HistoryPage() {
         ].map((opt) => (
           <button
             key={opt.key}
+            type="button"
+            aria-pressed={sortBy === opt.key}
             onClick={() => { setSortBy(opt.key); setPage(1); }}
-            className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${
+            className={`min-h-9 cursor-pointer border px-3 py-1.5 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)] ${
               sortBy === opt.key
-                ? "bg-brand-600/20 text-brand-600 dark:text-brand-400"
-                : "text-surface-400 hover:bg-surface-800"
+                ? "border-[var(--accent-strong)] bg-[var(--bg-secondary)] text-[var(--text)]"
+                : "border-[var(--border)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-[var(--border-light)] active:bg-[var(--bg-secondary)]"
             }`}
           >
             {opt.label}
@@ -144,15 +158,15 @@ export default function HistoryPage() {
 
       {/* ── Error ── */}
       {error && (
-        <section className="rounded-2xl border border-red-300 bg-red-50 p-4 dark:border-red-900/50 dark:bg-red-950/30">
-          <pre className="text-xs text-red-800 dark:text-red-300">{error}</pre>
+        <section role="alert" className="mb-4 border border-[var(--border-light)] bg-[var(--bg-secondary)] p-4">
+          <pre className="whitespace-pre-wrap text-xs text-[var(--text)]">{error}</pre>
         </section>
       )}
 
       {/* ── Loading ── */}
       {loading && (
-        <div className="flex items-center gap-2 py-8 text-sm text-surface-400">
-          <div className="h-5 w-5 animate-spin rounded-full border-2 border-brand-500 border-t-transparent" />
+        <div className="flex items-center gap-3 border border-[var(--border)] bg-[var(--bg-card)] px-5 py-8 text-sm text-[var(--text-secondary)]" role="status">
+          <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--accent-strong)] border-t-transparent" />
           {t("pg_hist_cargando")}
         </div>
       )}
@@ -180,42 +194,42 @@ export default function HistoryPage() {
               footerStatus={t("pg_hist_footer_evaluaciones", { user: user?.email ?? user?.username ?? "local" })}
             />
           ) : (
-            <div className="overflow-x-auto rounded-2xl border border-surface-800">
-              <table className="w-full text-xs">
-                <thead className="border-b border-surface-800 bg-surface-900">
+            <div className="overflow-x-auto border border-[var(--border)] bg-[var(--bg-card)]">
+              <table className="w-full min-w-[1120px] border-collapse text-xs">
+                <thead className="border-b border-[var(--border)] bg-[var(--bg-secondary)]">
                   <tr>
-                    <th className="px-4 py-3 text-left font-semibold text-surface-400">SMILES</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_target")}</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("c_estado")}</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_corrida")}</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("c_score")}</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("c_afinidad")}</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_mw")}</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">Lipinski</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">QED</th>
-                    <th className="px-3 py-3 text-center font-semibold text-surface-400">{t("pg_hist_th_recibo")}</th>
-                    <th className="px-3 py-3 text-right font-semibold text-surface-400">{t("pg_hist_th_fecha")}</th>
+                    <th className="px-4 py-4 text-left font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">SMILES</th>
+                    <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("pg_hist_th_target")}</th>
+                    <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("c_estado")}</th>
+                    <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("pg_hist_th_corrida")}</th>
+                    <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("c_score")}</th>
+                    <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("c_afinidad")}</th>
+                    <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("pg_hist_th_mw")}</th>
+                    <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">Lipinski</th>
+                    <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">QED</th>
+                    <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("pg_hist_th_recibo")}</th>
+                    <th className="px-3 py-4 text-right font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("pg_hist_th_fecha")}</th>
                   </tr>
                 </thead>
                 <tbody>
                   {history.items.map((item: EvaluationSummary, i: number) => (
                     <tr
                       key={item.molecule_id + i}
-                      className="border-b border-surface-800/50 transition-colors hover:bg-surface-900/50"
+                      className="border-b border-[var(--border)] transition-colors last:border-b-0 hover:bg-[var(--bg-secondary)]"
                     >
-                      <td className="max-w-[200px] truncate px-4 py-3 font-mono text-surface-300">
-                        <span>{item.smiles}</span>
+                      <td className="max-w-[240px] px-4 py-4 font-mono text-[11px] text-[var(--text)]">
+                        <span className="block truncate" title={item.smiles}>{item.smiles}</span>
                         {item.is_saved && (
                           <span
-                            className="ml-2 rounded bg-brand-500/10 px-1.5 py-0.5 text-xs font-bold uppercase tracking-wide text-brand-400"
+                            className="mt-1 inline-block border border-[var(--accent)] px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-[var(--accent-strong)]"
                             title={t("pg_hist_promovida_moldex")}
                           >
                             Moldex
                           </span>
                         )}
                       </td>
-                      <td className="px-3 py-3 text-center text-surface-400">{item.target_pdb_id}</td>
-                      <td className="px-3 py-3 text-center">
+                      <td className="px-3 py-4 text-center font-mono font-semibold text-[var(--text-secondary)]">{item.target_pdb_id}</td>
+                      <td className="px-3 py-4 text-center">
                         <StatusBadge status={item.status} />
                       </td>
                       {/*
@@ -225,11 +239,12 @@ export default function HistoryPage() {
                         abre el caso: eso exige materializarlo desde Evaluación, y es una
                         decisión de arquitectura que este paquete no toma.
                       */}
-                      <td className="px-3 py-3 text-center">
+                      <td className="px-3 py-4 text-center">
                         {item.task_id ? (
                           <button
+                            type="button"
                             onClick={() => navigator.clipboard?.writeText(item.task_id as string)}
-                            className="rounded px-1.5 py-0.5 font-mono text-xs text-surface-400 transition-colors hover:bg-surface-800 hover:text-surface-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
+                            className="cursor-pointer border border-transparent px-1.5 py-1 font-mono text-xs text-[var(--text-secondary)] transition-colors hover:border-[var(--border-light)] hover:text-[var(--text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)]"
                             title={t("pg_hist_copiar_id", { taskId: item.task_id })}
                             aria-label={t("pg_hist_copiar_id_corto", { taskId: item.task_id })}
                           >
@@ -237,41 +252,42 @@ export default function HistoryPage() {
                           </button>
                         ) : (
                           <span
-                            className="font-mono text-xs text-surface-600"
+                            className="font-mono text-xs text-[var(--text-dim)]"
                             title={t("pg_hist_anterior_task_id")}
                           >
                             —
                           </span>
                         )}
                       </td>
-                      <td className="px-3 py-3 text-center font-semibold text-brand-400">
+                      <td className="px-3 py-4 text-center font-mono font-bold tabular-nums text-[var(--accent-strong)]">
                         {item.total_score != null ? item.total_score.toFixed(1) : "—"}
                       </td>
-                      <td className="px-3 py-3 text-center text-surface-300">
+                      <td className="px-3 py-4 text-center font-mono tabular-nums text-[var(--text)]">
                         {item.affinity_kcal != null ? `${item.affinity_kcal.toFixed(1)} kcal/mol` : "—"}
                       </td>
-                      <td className="px-3 py-3 text-center text-surface-400">
+                      <td className="px-3 py-4 text-center font-mono tabular-nums text-[var(--text-secondary)]">
                         {item.molecular_weight != null ? item.molecular_weight.toFixed(0) : "—"}
                       </td>
-                      <td className="px-3 py-3 text-center">
+                      <td className="px-3 py-4 text-center">
                         {item.lipinski_pass != null ? (
                           item.lipinski_pass ? (
-                            <span className="text-green-400">✓</span>
+                            <span className="font-bold text-[var(--categoria-hallazgo)]">✓</span>
                           ) : (
-                            <span className="text-red-400">✗</span>
+                            <span className="font-bold text-[var(--categoria-refutacion)]">✗</span>
                           )
                         ) : (
                           "—"
                         )}
                       </td>
-                      <td className="px-3 py-3 text-center text-surface-400">
+                      <td className="px-3 py-4 text-center font-mono tabular-nums text-[var(--text-secondary)]">
                         {item.qed != null ? item.qed.toFixed(2) : "—"}
                       </td>
-                      <td className="px-3 py-3 text-center">
+                      <td className="px-3 py-4 text-center">
                         {item.blockchain_tx_id ? (
                           <button
+                            type="button"
                             onClick={() => downloadCertificate(item.molecule_id)}
-                            className="inline-flex items-center gap-1.5 rounded-md bg-brand-500/10 px-2 py-1 text-xs font-bold text-brand-400 transition-colors hover:bg-brand-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
+                            className="inline-flex min-h-8 cursor-pointer items-center gap-1.5 border border-[var(--border-light)] px-2 py-1 text-xs font-bold text-[var(--text)] transition-colors hover:border-[var(--accent-strong)] hover:text-[var(--accent-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)]"
                             title={t("pg_hist_descargar_recibo")}
                             aria-label={t("pg_hist_descargar_recibo")}
                           >
@@ -279,10 +295,10 @@ export default function HistoryPage() {
                               PDF
                           </button>
                         ) : (
-                          <span className="text-xs text-surface-600">{t("pg_hist_sin_recibo")}</span>
+                          <span className="text-xs text-[var(--text-dim)]">{t("pg_hist_sin_recibo")}</span>
                         )}
                       </td>
-                      <td className="px-3 py-3 text-right text-surface-500">
+                      <td className="whitespace-nowrap px-3 py-4 text-right font-mono text-[11px] text-[var(--text-dim)]">
                         {item.created_at ? formatDate(item.created_at, locale) : "—"}
                       </td>
                     </tr>
@@ -294,21 +310,23 @@ export default function HistoryPage() {
 
           {/* ── Pagination ── */}
           {history.total > history.page_size && (
-            <div className="flex items-center justify-center gap-3">
+            <div className="mt-5 flex items-center justify-end gap-3">
               <button
+                type="button"
                 disabled={page <= 1}
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
-                className="rounded-lg border border-surface-700 px-3 py-1.5 text-xs text-surface-300 transition-colors hover:bg-surface-800 disabled:opacity-40"
+                className="min-h-9 cursor-pointer border border-[var(--border-light)] bg-[var(--bg-card)] px-3 py-1.5 text-xs text-[var(--text)] transition-colors hover:border-[var(--accent)] active:bg-[var(--bg-secondary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)] disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {t("auto_87b0f80933cd")}
               </button>
-              <span className="text-xs text-surface-400">
+              <span className="font-mono text-[11px] tabular-nums text-[var(--text-dim)]">
                 {t("auto_b3a7f96a26dc")} {history.page} {t("auto_600ccd1b7156")} {Math.ceil(history.total / history.page_size)}
               </span>
               <button
+                type="button"
                 disabled={!history.has_next}
                 onClick={() => setPage((p) => p + 1)}
-                className="rounded-lg border border-surface-700 px-3 py-1.5 text-xs text-surface-300 transition-colors hover:bg-surface-800 disabled:opacity-40"
+                className="min-h-9 cursor-pointer border border-[var(--border-light)] bg-[var(--bg-card)] px-3 py-1.5 text-xs text-[var(--text)] transition-colors hover:border-[var(--accent)] active:bg-[var(--bg-secondary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)] disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {t("auto_c6e084bf5a4a")}
               </button>
@@ -316,6 +334,7 @@ export default function HistoryPage() {
           )}
         </>
       )}
+      </div>
     </main>
   );
 }
@@ -325,16 +344,16 @@ export default function HistoryPage() {
 function StatCard({
   label,
   value,
-  color = "text-zinc-900 dark:text-zinc-100",
+  color = "text-[var(--text)]",
 }: {
   label: string;
   value: string | number;
   color?: string;
 }) {
   return (
-    <div className="rounded-xl border border-surface-800 bg-surface-900 p-3 text-center">
-      <div className={`text-lg font-bold ${color}`}>{value}</div>
-      <div className="text-xs text-surface-500">{label}</div>
+    <div className="flex min-h-[108px] flex-col justify-between border-b border-r border-[var(--border)] p-4 last:border-r-0 lg:border-b-0">
+      <div className="font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{label}</div>
+      <div className={`font-display text-2xl font-bold tabular-nums ${color}`}>{value}</div>
     </div>
   );
 }
@@ -350,17 +369,17 @@ function StatCard({
  */
 const ESTADO_MOLECULA: Record<string, { bg: string; text: string; clave: string }> = {
   // MoleculeStatus — core/models.py
-  pending: { bg: "bg-yellow-900/30", text: "text-yellow-400", clave: "c_pendiente" },
-  validated: { bg: "bg-surface-800", text: "text-surface-300", clave: "pg_hist_estado_validada" },
-  docking: { bg: "bg-blue-900/30", text: "text-blue-400", clave: "pg_hist_estado_en_curso" },
-  evaluated: { bg: "bg-green-900/30", text: "text-green-400", clave: "pg_hist_estado_completada" },
-  failed: { bg: "bg-red-900/30", text: "text-red-400", clave: "pg_hist_estado_fallida" },
+  pending: { bg: "bg-[var(--bg-secondary)]", text: "text-[var(--categoria-corrigendum)]", clave: "c_pendiente" },
+  validated: { bg: "bg-[var(--bg-secondary)]", text: "text-[var(--text-secondary)]", clave: "pg_hist_estado_validada" },
+  docking: { bg: "bg-[var(--bg-secondary)]", text: "text-[var(--categoria-medicion)]", clave: "pg_hist_estado_en_curso" },
+  evaluated: { bg: "bg-[var(--bg-secondary)]", text: "text-[var(--categoria-hallazgo)]", clave: "pg_hist_estado_completada" },
+  failed: { bg: "bg-[var(--bg-secondary)]", text: "text-[var(--categoria-refutacion)]", clave: "pg_hist_estado_fallida" },
   // Nombres de tarea heredados
-  completed: { bg: "bg-green-900/30", text: "text-green-400", clave: "pg_hist_estado_completada" },
-  SUCCESS: { bg: "bg-green-900/30", text: "text-green-400", clave: "pg_hist_estado_completada" },
-  FAILURE: { bg: "bg-red-900/30", text: "text-red-400", clave: "pg_hist_estado_fallida" },
-  running: { bg: "bg-blue-900/30", text: "text-blue-400", clave: "pg_hist_estado_en_curso" },
-  PENDING: { bg: "bg-yellow-900/30", text: "text-yellow-400", clave: "c_pendiente" },
+  completed: { bg: "bg-[var(--bg-secondary)]", text: "text-[var(--categoria-hallazgo)]", clave: "pg_hist_estado_completada" },
+  SUCCESS: { bg: "bg-[var(--bg-secondary)]", text: "text-[var(--categoria-hallazgo)]", clave: "pg_hist_estado_completada" },
+  FAILURE: { bg: "bg-[var(--bg-secondary)]", text: "text-[var(--categoria-refutacion)]", clave: "pg_hist_estado_fallida" },
+  running: { bg: "bg-[var(--bg-secondary)]", text: "text-[var(--categoria-medicion)]", clave: "pg_hist_estado_en_curso" },
+  PENDING: { bg: "bg-[var(--bg-secondary)]", text: "text-[var(--categoria-corrigendum)]", clave: "c_pendiente" },
 };
 
 function StatusBadge({ status }: { status: string }) {
@@ -368,8 +387,8 @@ function StatusBadge({ status }: { status: string }) {
   const c = ESTADO_MOLECULA[status];
   return (
     <span
-      className={`inline-block rounded-md px-2 py-0.5 text-xs font-semibold ${
-        c ? `${c.bg} ${c.text}` : "bg-surface-800 text-surface-400"
+      className={`inline-block whitespace-nowrap border border-[var(--border)] px-2 py-1 font-mono text-[10px] font-semibold uppercase tracking-wide ${
+        c ? `${c.bg} ${c.text}` : "bg-[var(--bg-secondary)] text-[var(--text-secondary)]"
       }`}
     >
       {c ? t(c.clave) : status}

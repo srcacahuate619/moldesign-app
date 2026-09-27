@@ -1,5 +1,8 @@
 "use client";
 
+/* Hallmark · pre-emit critique: P5 H4 E5 S5 R5 V4
+ * Rediseño de cohortes: conserva el flujo y las operaciones existentes. */
+
 // =====================================================================
 // Cohortes — define, comprueba, congela, ejecuta, documenta
 // =====================================================================
@@ -72,18 +75,18 @@ const FILTROS: readonly { readonly id: RowStatus | "todas"; readonly clave: stri
   { id: "not_evaluated", clave: "lo_filtro_no_evaluadas" },
 ];
 
-const CAJA = "rounded-lg border border-zinc-200 bg-white dark:border-white/10 dark:bg-white/[0.02]";
-const ETIQUETA = "text-xs font-semibold uppercase tracking-wider text-zinc-600 dark:text-white/65";
+const CAJA = "border border-[var(--border)] bg-[var(--bg-card)]";
+const ETIQUETA = "font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--text-dim)]";
 const INPUT =
-  "w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 " +
-  "outline-none transition-colors focus-visible:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500/30 " +
-  "dark:border-white/10 dark:bg-black/30 dark:text-white/90 dark:focus-visible:border-brand-400/60";
+  "w-full min-w-0 border border-[var(--border-light)] bg-[var(--bg)] px-3 py-2.5 text-sm text-[var(--text)] " +
+  "outline-none transition-colors placeholder:text-[var(--text-dim)] hover:border-[var(--accent)] " +
+  "focus-visible:border-[var(--accent-strong)] focus-visible:ring-1 focus-visible:ring-[var(--accent-strong)]";
 const BOTON =
-  "inline-flex items-center gap-2 rounded-md px-3 py-2 text-xs font-medium transition-colors " +
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 focus-visible:ring-offset-2 " +
-  "focus-visible:ring-offset-white disabled:cursor-not-allowed disabled:opacity-40 dark:focus-visible:ring-offset-[#08090c]";
-const PRIMARIO = `${BOTON} bg-brand-600 text-white hover:bg-brand-500`;
-const SECUNDARIO = `${BOTON} border border-zinc-300 bg-zinc-50 text-zinc-700 hover:text-zinc-950 dark:border-white/10 dark:bg-white/[0.03] dark:text-white/70 dark:hover:text-white`;
+  "inline-flex min-h-10 cursor-pointer items-center justify-center gap-2 px-4 py-2 text-xs font-bold transition-colors " +
+  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)] " +
+  "disabled:cursor-not-allowed disabled:opacity-40";
+const PRIMARIO = `${BOTON} bg-[var(--accent-strong)] text-[var(--bg)] hover:opacity-90 active:opacity-80`;
+const SECUNDARIO = `${BOTON} border border-[var(--border-light)] bg-[var(--bg-card)] text-[var(--text)] hover:border-[var(--accent)] active:bg-[var(--bg-secondary)]`;
 
 /**
  * El codigo de la comprobacion previa a su clave de traduccion.
@@ -476,38 +479,39 @@ export default function CohortesPage() {
   const filasVisibles = filtro === "todas" ? filas : filas.filter((m) => m.status === filtro);
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 dark:bg-[#08090c] dark:text-white/90">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
+    <div className="min-h-[calc(100dvh-56px)] bg-[var(--bg)] text-[var(--text)]">
+      <div className="mx-auto max-w-[1500px] px-4 pb-16 pt-8 sm:px-7 lg:px-10">
         {/* ── Cabecera ────────────────────────────────────────────── */}
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
+        <header className="flex flex-wrap items-start justify-between gap-5 border-b border-[var(--border)] pb-7">
+          <div className="max-w-3xl min-w-0">
+            <p className="mb-3 font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--accent-strong)]">{t("pg_nav_batch")}</p>
+            <h1 className="font-display text-3xl font-bold leading-[1.08] tracking-tight sm:text-4xl lg:text-5xl">{t("lo_titulo_cohortes")}</h1>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">{t("pg_lote_intro")}</p>
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="border border-[var(--border-light)] px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-dim)]">AutoDock Vina</span>
             <Link href="/evaluation" className={SECUNDARIO}>
               <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
               {t("evaluation")}
             </Link>
-            <div>
-              <h1 className="text-lg font-semibold tracking-tight">{t("lo_titulo_cohortes")}</h1>
-              <p className="text-sm text-zinc-600 dark:text-white/60">
-                {t("pg_lote_intro")}
-              </p>
-            </div>
           </div>
-        </div>
+        </header>
 
         {/* ── Pasos ───────────────────────────────────────────────── */}
-        <nav aria-label={t("lo_aria_pasos")} className="mt-5 flex flex-wrap gap-1.5">
+        <nav aria-label={t("lo_aria_pasos")} className="mt-7 grid grid-cols-3 gap-px border border-[var(--border)] bg-[var(--border)] lg:grid-cols-6">
           {PASOS.map((p) => (
             <span
               key={p.id}
               data-testid={`paso-${p.id}`}
               aria-current={paso === p.id ? "step" : undefined}
-              className={`rounded-md border px-2.5 py-1 text-xs font-medium ${
+              className={`flex min-h-16 flex-col justify-center border-b-2 px-4 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.11em] ${
                 paso === p.id
-                  ? "border-brand-500/40 bg-brand-600/10 text-brand-800 dark:bg-brand-600/15 dark:text-white"
-                  : "border-zinc-200 bg-white text-zinc-600 dark:border-white/10 dark:bg-white/[0.02] dark:text-white/60"
+                  ? "border-[var(--accent-strong)] bg-[var(--bg-secondary)] text-[var(--text)]"
+                  : "border-transparent bg-[var(--bg-card)] text-[var(--text-dim)]"
               }`}
             >
-              {p.n} · {t(p.clave)}
+              <span className="mb-1 text-[var(--accent-strong)]">0{p.n}</span>
+              <span>{t(p.clave)}</span>
             </span>
           ))}
         </nav>
@@ -526,36 +530,37 @@ export default function CohortesPage() {
           </div>
         )}
 
-        <div className="mt-5 grid gap-5 lg:grid-cols-[minmax(0,1fr)_16rem]">
-          <div className="min-w-0 space-y-5">
+        <div className="mt-7 grid items-start gap-7 xl:grid-cols-[minmax(0,1fr)_19rem]">
+          <div className="min-w-0 space-y-7">
             {/* ── 1 · Definir ───────────────────────────────────── */}
-            <section className={`${CAJA} p-4`} aria-labelledby="def">
-              <h2 id="def" className="text-sm font-semibold">{t("auto_568830f9f57b")}</h2>
-              <p className="mt-1 text-sm text-zinc-600 dark:text-white/60">
+            <section className={`${CAJA} p-5 sm:p-7`} aria-labelledby="def">
+              <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--accent-strong)]">{t("lo_paso_definir")}</p>
+              <h2 id="def" className="mt-2 font-display text-xl font-bold">{t("auto_568830f9f57b")}</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--text-secondary)]">
                 {t("pg_lote_receptor_comun")}
               </p>
 
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div className="mt-6 grid gap-5 border-t border-[var(--border)] pt-6 sm:grid-cols-2">
                 <label className="block">
                   <span className={ETIQUETA}>{t("c_nombre")}</span>
                   <input className={`${INPUT} mt-1`} value={nombre} onChange={(e) => setNombre(e.target.value)}
                     placeholder={t("lo_nombre_ejemplo")} aria-label={t("lo_nombre_cohorte")} />
                 </label>
 
-                <section className="sm:col-span-2 rounded-md border border-zinc-200 bg-zinc-50 p-4 dark:border-white/10 dark:bg-black/20" aria-labelledby="guia-archivo">
-                  <h3 id="guia-archivo" className="text-sm font-semibold">{t("lo_prepara_archivo")}</h3>
-                  <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm leading-relaxed text-zinc-700 dark:text-white/70">
+                <section className="border-l-2 border-[var(--accent)] bg-[var(--bg-secondary)] p-5 sm:col-span-2" aria-labelledby="guia-archivo">
+                  <h3 id="guia-archivo" className="font-display text-base font-bold">{t("lo_prepara_archivo")}</h3>
+                  <ol className="mt-3 list-decimal space-y-1.5 pl-5 text-xs leading-6 text-[var(--text-secondary)]">
                     <li>{t("lo_limite_moleculas")}</li>
                     <li>{t("lo_csv_recomendaciones")} <code className="font-mono font-semibold text-zinc-900 dark:text-white">smiles</code>{t("lo_tambien_se_aceptan")} <code className="font-mono">canonical_smiles</code> y <code className="font-mono">structure</code>.</li>
                     <li>{t("lo_mismo_receptor")}</li>
                   </ol>
-                  <p className="mt-3 text-xs font-semibold text-zinc-700 dark:text-white/65">{t("lo_ejemplo_csv")}</p>
-                  <pre className="mt-1 overflow-x-auto rounded-md border border-zinc-300 bg-white p-3 text-sm leading-relaxed text-zinc-900 dark:border-white/10 dark:bg-black/40 dark:text-white/90"><code>{`smiles,name,active,control_role
+                  <p className="mt-4 font-mono text-[10px] font-bold uppercase tracking-[0.13em] text-[var(--text-dim)]">{t("lo_ejemplo_csv")}</p>
+                  <pre className="mt-2 overflow-x-auto border border-[var(--border)] bg-[var(--bg-card)] p-4 font-mono text-xs leading-6 text-[var(--text)]"><code>{`smiles,name,active,control_role
 CCO,etanol,1,reference
 CC(=O)O,acido_acetico,0,none`}</code></pre>
-                  <details className="mt-3 text-sm text-zinc-700 dark:text-white/70">
-                    <summary className="cursor-pointer rounded-sm font-semibold text-zinc-900 outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white">{t("lo_ver_formatos")}</summary>
-                    <div className="mt-3 space-y-3 border-t border-zinc-200 pt-3 dark:border-white/10">
+                  <details className="mt-4 text-xs leading-6 text-[var(--text-secondary)]">
+                    <summary className="cursor-pointer font-semibold text-[var(--text)] outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)]">{t("lo_ver_formatos")}</summary>
+                    <div className="mt-3 space-y-3 border-t border-[var(--border)] pt-3">
                       <p><strong>{t("auto_460799387e92")}</strong> {t("lo_formatos_csv_xlsx")} <code className="font-mono">smiles</code>{t("lo_tambien_se_aceptan")} <code className="font-mono">canonical_smiles</code> {t("lo_o")} <code className="font-mono">structure</code>{t("lo_formatos_opcionales")} <code className="font-mono">name</code>, <code className="font-mono">active</code> y <code className="font-mono">control_role</code>{t("lo_formatos_xlsx_hoja")}</p>
                       <p><strong>{t("auto_e3d883a02cc8")}</strong> {t("lo_formatos_smi")} <code className="font-mono">{t("lo_ejemplo_smi_columnas")}</code>{t("lo_formatos_smi_separador")} <code className="font-mono">#</code> {t("lo_formatos_smi_comentarios")}</p>
                       <p><strong>SDF:</strong> {t("lo_formatos_sdf")} <code className="font-mono">_Name</code>{t("lo_formatos_sdf_propiedades")} <code className="font-mono">active</code> y <code className="font-mono">control_role</code> {t("lo_formatos_sdf_opcionales")}</p>
@@ -568,7 +573,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                   <span className={ETIQUETA}>{t("lo_archivo_moleculas")}</span>
                   <input type="file" accept=".csv,.xlsx,.sdf,.smi,.txt" aria-label={t("lo_archivo_moleculas")}
                     onChange={(e) => seleccionarArchivo(e.target.files?.[0] ?? null)}
-                    className="mt-1 block w-full text-sm text-zinc-600 file:mr-3 file:rounded-md file:border file:border-zinc-300 file:bg-zinc-100 file:px-3 file:py-2 file:text-sm file:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white/60 dark:file:border-0 dark:file:bg-white/10 dark:file:text-white/80" />
+                    className="mt-2 block w-full border border-dashed border-[var(--border-light)] bg-[var(--bg-secondary)] p-2 text-xs text-[var(--text-secondary)] file:mr-3 file:cursor-pointer file:border-0 file:bg-[var(--border)] file:px-3 file:py-2 file:text-xs file:font-bold file:text-[var(--text)] focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)]" />
                 </label>
                 <div className="block">
                   <label htmlFor="cohort-receptor-pdb" className={ETIQUETA}>{t("lo_receptor_pdb_id")}</label>
@@ -601,18 +606,18 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                 <fieldset className="sm:col-span-2">
                   <legend className={ETIQUETA}>{t("c_motor")}</legend>
                   <div className="mt-1 grid gap-2 sm:grid-cols-2">
-                    <label className={`flex items-start gap-3 rounded-md border p-3 ${
+                    <label className={`flex items-start gap-3 border p-4 ${
                       motorHistoricoQuickVina
-                        ? "border-zinc-200 bg-zinc-50 dark:border-white/10 dark:bg-white/[0.02]"
-                        : "border-brand-500/40 bg-brand-50 dark:bg-brand-600/10"
+                        ? "border-[var(--border)] bg-[var(--bg-secondary)]"
+                        : "border-[var(--accent-strong)] bg-[var(--bg-secondary)]"
                     }`}>
                       <input type="radio" name="motor" value="vina" checked={!motorHistoricoQuickVina} readOnly className="mt-0.5 accent-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50" />
                       <span><span className="block text-sm font-semibold">AutoDock Vina</span><span className="block text-xs text-zinc-600 dark:text-white/60">{t("lo_motor_disponible")}</span></span>
                     </label>
-                    <label className={`flex cursor-not-allowed items-start gap-3 rounded-md border p-3 ${
+                    <label className={`flex cursor-not-allowed items-start gap-3 border p-4 ${
                       motorHistoricoQuickVina
                         ? "border-amber-300 bg-amber-50 text-amber-900 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-100"
-                        : "border-zinc-200 bg-zinc-100 text-zinc-600 dark:border-white/10 dark:bg-white/[0.02] dark:text-white/60"
+                        : "border-[var(--border)] bg-[var(--bg-card)] text-[var(--text-dim)]"
                     }`}>
                       <input type="radio" name="motor" checked={motorHistoricoQuickVina} disabled aria-describedby="quickvina-note" className="mt-0.5" />
                       <span><span className="block text-sm font-semibold">{t("lo_qvina_proximamente")}</span><span id="quickvina-note" className="block text-xs leading-relaxed">{motorHistoricoQuickVina ? t("lo_qvina_no_disponible") : t("lo_qvina_requiere_binario")}</span></span>
@@ -638,7 +643,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                 </div>
               </div>
 
-              <div className="mt-4 flex flex-wrap items-center gap-2">
+              <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-[var(--border)] pt-5">
                 <button type="button" className={PRIMARIO} onClick={comprobar}
                   disabled={!archivo || !estudio || ocupado === "comprobar"}>
                   {ocupado === "comprobar" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Search className="h-3.5 w-3.5" />}
@@ -652,13 +657,13 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
 
             {/* ── 2 · Comprobar ─────────────────────────────────── */}
             {preflight && (
-              <section className={`${CAJA} p-4`} aria-labelledby="pre" data-testid="resumen-preflight">
-                <h2 id="pre" className="text-sm font-semibold">{t("lo_titulo_comprobacion")}</h2>
+              <section className={`${CAJA} p-5 sm:p-7`} aria-labelledby="pre" data-testid="resumen-preflight">
+                <h2 id="pre" className="font-display text-xl font-bold">{t("lo_titulo_comprobacion")}</h2>
                 <p className="mt-1 text-sm text-zinc-600 dark:text-white/60">
                   {t("pg_lote_superarla_no_predice")}
                 </p>
 
-                <dl className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                <dl className="mt-5 grid grid-cols-2 gap-px border border-[var(--border)] bg-[var(--border)] sm:grid-cols-4">
                   {[
                     [t("lo_filas"), resumen!.total_rows],
                     [t("lo_elegibles"), resumen!.eligible_rows],
@@ -669,9 +674,9 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     [t("lo_rol_positivos"), resumen!.explicit_positive_controls],
                     [t("lo_rol_negativos"), resumen!.explicit_negative_controls],
                   ].map(([etiqueta, valor]) => (
-                    <div key={String(etiqueta)} className="rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 dark:border-white/10 dark:bg-black/20">
+                    <div key={String(etiqueta)} className="bg-[var(--bg-secondary)] px-4 py-3">
                       <dt className={ETIQUETA}>{etiqueta}</dt>
-                      <dd className="mt-0.5 text-sm font-medium">{valor}</dd>
+                      <dd className="mt-2 font-mono text-lg font-bold tabular-nums">{valor}</dd>
                     </div>
                   ))}
                 </dl>
@@ -726,8 +731,8 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
 
             {/* ── 3/4 · Cohorte guardada y ejecución ─────────────── */}
             {cohorte && (
-              <section className={`${CAJA} p-4`} aria-labelledby="run" data-testid="cohorte-guardada">
-                <h2 id="run" className="text-sm font-semibold">{t("lo_titulo_ejecucion")}</h2>
+              <section className={`${CAJA} p-5 sm:p-7`} aria-labelledby="run" data-testid="cohorte-guardada">
+                <h2 id="run" className="font-display text-xl font-bold">{t("lo_titulo_ejecucion")}</h2>
                 <p className="mt-1 break-all font-mono text-xs font-medium text-zinc-600 dark:text-white/60">
                   {t("lo_cohorte_prefijo")} {cohorte.id} · {cohorte.source.filename} · sha256 {cohorte.source.sha256.slice(0, 16)}…
                 </p>
@@ -737,7 +742,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     {t("lo_paralelismo")}
                     <input type="number" min={1} max={4} value={workers} aria-label={t("lo_paralelismo")}
                       onChange={(e) => setWorkers(Number(e.target.value))}
-                      className="w-14 rounded-md border border-zinc-300 bg-white px-2 py-1 text-xs text-zinc-900 outline-none focus-visible:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500/30 dark:border-white/10 dark:bg-black/30 dark:text-white/80" />
+                      className="w-16 border border-[var(--border-light)] bg-[var(--bg)] px-2 py-2 text-xs text-[var(--text)] outline-none focus-visible:border-[var(--accent-strong)] focus-visible:ring-1 focus-visible:ring-[var(--accent-strong)]" />
                   </label>
                   <button type="button" className={PRIMARIO} onClick={lanzar}
                     aria-describedby={motorHistoricoQuickVina ? "motor-historico-bloqueado" : undefined}
@@ -787,9 +792,9 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                         [t("lo_filtro_fallidas"), corrida.progress.failed_rows],
                         [t("lo_filtro_no_evaluadas"), corrida.progress.not_evaluated_rows],
                       ].map(([etiqueta, valor]) => (
-                        <div key={String(etiqueta)} className="border-l border-zinc-300 py-1 pl-3 dark:border-white/15">
-                          <dt className="text-xs font-medium uppercase tracking-wider text-zinc-600 dark:text-white/60">{etiqueta}</dt>
-                          <dd className="text-sm font-semibold tabular-nums">{valor}</dd>
+                        <div key={String(etiqueta)} className="border-l-2 border-[var(--accent)] py-1 pl-3">
+                          <dt className={ETIQUETA}>{etiqueta}</dt>
+                          <dd className="mt-1 font-mono text-base font-bold tabular-nums">{valor}</dd>
                         </div>
                       ))}
                     </dl>
@@ -826,13 +831,13 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
 
             {/* ── 5 · Evidencia ─────────────────────────────────── */}
             {evidencia && (
-              <section className={`${CAJA} p-4`} aria-labelledby="ev" data-testid="evidencia">
-                <h2 id="ev" className="text-sm font-semibold">{t("auto_cc09f4f40c71")}</h2>
+              <section className={`${CAJA} p-5 sm:p-7`} aria-labelledby="ev" data-testid="evidencia">
+                <h2 id="ev" className="font-display text-xl font-bold">{t("auto_cc09f4f40c71")}</h2>
                 <p className="mt-1 text-sm text-zinc-600 dark:text-white/60">
                   {t("pg_lote_orden_no_veredicto")}
                 </p>
 
-                <dl className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4" data-testid="cobertura-evidencia">
+                <dl className="mt-5 grid grid-cols-2 gap-3 border-y border-[var(--border)] py-5 sm:grid-cols-4" data-testid="cobertura-evidencia">
                   {[
                     [t("lo_filas_del_archivo"), evidencia.coverage.source_rows],
                     [t("lo_elegibles"), evidencia.coverage.eligible_rows],
@@ -843,15 +848,15 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     [t("lo_filtro_no_evaluadas"), evidencia.coverage.not_evaluated_rows],
                     [t("lo_no_elegibles"), evidencia.coverage.not_eligible_rows],
                   ].map(([etiqueta, valor]) => (
-                    <div key={String(etiqueta)} className="border-l border-zinc-300 py-1 pl-3 dark:border-white/15">
+                    <div key={String(etiqueta)} className="border-l-2 border-[var(--accent)] py-1 pl-3">
                       <dt className={ETIQUETA}>{etiqueta}</dt>
-                      <dd className="mt-0.5 text-sm font-semibold tabular-nums">{valor}</dd>
+                      <dd className="mt-1 font-mono text-base font-bold tabular-nums">{valor}</dd>
                     </div>
                   ))}
                 </dl>
 
                 {/* Métricas: evaluables o abstención declarada */}
-                <div className="mt-3 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 dark:border-white/10 dark:bg-black/20" data-testid="metricas">
+                <div className="mt-5 border-l-2 border-[var(--accent)] bg-[var(--bg-secondary)] px-4 py-4" data-testid="metricas">
                   <p className={ETIQUETA}>{t("lo_metricas_etiquetadas")}</p>
                   {evidencia.labeled_metrics.status === "evaluated" ? (
                     <>
@@ -878,7 +883,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                 </div>
 
                 {evidencia.labeled_metrics.controls.length > 0 && (
-                  <div className="mt-3 rounded-md border border-zinc-200 bg-zinc-50 px-3 py-2 dark:border-white/10 dark:bg-black/20" data-testid="controles">
+                  <div className="mt-4 border-l-2 border-[var(--accent)] bg-[var(--bg-secondary)] px-4 py-4" data-testid="controles">
                     <p className={ETIQUETA}>{t("lo_controles_declarados")}</p>
                     <ul className="mt-1 space-y-0.5">
                       {evidencia.labeled_metrics.controls.map((c) => (
@@ -898,23 +903,23 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                   </ul>
                 </div>
 
-                <div className="mt-3 flex flex-wrap gap-1.5" role="group" aria-label={t("lo_filtrar_por_estado")}>
+                <div className="mt-5 flex flex-wrap gap-2 border-t border-[var(--border)] pt-5" role="group" aria-label={t("lo_filtrar_por_estado")}>
                   {FILTROS.map((f) => (
                     <button key={f.id} type="button" onClick={() => setFiltro(f.id)}
                       aria-pressed={filtro === f.id}
-                      className={`rounded-md border px-2 py-1 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 ${
+                      className={`cursor-pointer border px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.1em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)] ${
                         filtro === f.id
-                          ? "border-brand-500/40 bg-brand-600/10 text-brand-800 dark:bg-brand-600/15 dark:text-white"
-                          : "border-zinc-200 bg-white text-zinc-600 hover:text-zinc-900 dark:border-white/10 dark:bg-white/[0.02] dark:text-white/60 dark:hover:text-white/70"
+                          ? "border-[var(--accent-strong)] bg-[var(--bg-secondary)] text-[var(--text)]"
+                          : "border-[var(--border)] bg-[var(--bg-card)] text-[var(--text-dim)] hover:border-[var(--border-light)] hover:text-[var(--text)]"
                       }`}>
                       {t(f.clave)}
                     </button>
                   ))}
                 </div>
 
-                <div className="mt-3 overflow-x-auto">
+                <div className="mt-4 overflow-x-auto border border-[var(--border)]">
                   <table className="w-full min-w-[46rem] text-left text-xs tabular-nums">
-                    <thead className="font-medium text-zinc-600 dark:text-white/65">
+                    <thead className="bg-[var(--bg-secondary)] font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">
                       <tr>
                         <th className="px-2 py-1.5 font-normal">#</th>
                         <th className="px-2 py-1.5 font-normal">{t("c_nombre")}</th>
@@ -926,7 +931,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     </thead>
                     <tbody data-testid="tabla-evidencia">
                       {filasVisibles.map((m) => (
-                        <tr key={m.source_row_index} className="border-t border-zinc-200 dark:border-white/10">
+                        <tr key={m.source_row_index} className="border-t border-[var(--border)] hover:bg-[var(--bg-secondary)]">
                           <td className="px-2 py-1.5 text-zinc-500 dark:text-white/60">{m.source_row_index}</td>
                           <td className="px-2 py-1.5">{m.source_name ?? "—"}</td>
                           <td className="px-2 py-1.5">
@@ -950,7 +955,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                       ))}
                       {filasVisibles.length === 0 && (
                         <tr>
-                          <td colSpan={6} className="border-t border-zinc-200 px-2 py-6 text-center text-zinc-600 dark:border-white/10 dark:text-white/60">
+                          <td colSpan={6} className="border-t border-[var(--border)] px-2 py-6 text-center text-[var(--text-muted)]">
                             {t("pg_lote_sin_estado")}
                           </td>
                         </tr>
@@ -968,8 +973,8 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
 
             {/* ── 6 · Informe ───────────────────────────────────── */}
             {paso === "informe" && (
-              <section className={`${CAJA} p-4`} aria-labelledby="inf" data-testid="informe">
-                <h2 id="inf" className="text-sm font-semibold">{t("auto_304a0bfa0894")}</h2>
+              <section className={`${CAJA} p-5 sm:p-7`} aria-labelledby="inf" data-testid="informe">
+                <h2 id="inf" className="font-display text-xl font-bold">{t("auto_304a0bfa0894")}</h2>
                 <div className="mt-3 flex flex-wrap gap-2">
                   <button type="button" className={SECUNDARIO} onClick={descargarPdf} disabled={!pdfBlob}>
                     <Download className="h-3.5 w-3.5" /> {t("z_descargar_pdf")}
@@ -984,7 +989,7 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                     {t("pg_lote_paquete_descargado")} <span className="font-mono">{zipGuardado}</span>{t("pg_lote_manifiesto")}
                   </p>
                 )}
-                <div className="mt-3 h-[70vh] min-h-[24rem] overflow-hidden rounded-md border border-zinc-200 bg-zinc-100 dark:border-white/10 dark:bg-black/40">
+                <div className="mt-4 h-[70vh] min-h-[24rem] overflow-hidden border border-[var(--border)] bg-[var(--bg-secondary)]">
                   {pdfUrl ? (
                     <iframe src={`${pdfUrl}#toolbar=0`} title={t("lo_dossier_cohorte")} className="h-full w-full border-none" />
                   ) : (
@@ -998,23 +1003,23 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
           </div>
 
           {/* ── Lista lateral ─────────────────────────────────────── */}
-          <aside className={`${CAJA} h-fit p-3`} aria-label={t("lo_cohortes_guardadas")}>
-            <div className="flex items-center justify-between">
-              <h2 className="text-xs font-semibold">{t("lo_cohortes_guardadas")}</h2>
-              <button type="button" onClick={refrescarLista} className="rounded-sm text-zinc-500 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:text-white/60 dark:hover:text-white/80" aria-label={t("lo_refrescar_lista")}>
-                <RefreshCw className="h-3 w-3" />
+          <aside className={`${CAJA} h-fit p-5 xl:sticky xl:top-20`} aria-label={t("lo_cohortes_guardadas")}>
+            <div className="flex items-center justify-between gap-3 border-b border-[var(--border)] pb-4">
+              <div><p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--accent-strong)]">{t("lo_paso_guardar")}</p><h2 className="mt-2 font-display text-lg font-bold">{t("lo_cohortes_guardadas")}</h2></div>
+              <button type="button" onClick={refrescarLista} className="flex size-9 cursor-pointer items-center justify-center border border-[var(--border-light)] text-[var(--text-muted)] hover:border-[var(--accent)] hover:text-[var(--text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)]" aria-label={t("lo_refrescar_lista")}>
+                <RefreshCw className="h-4 w-4" />
               </button>
             </div>
             {guardadas.length === 0 ? (
-              <p className="mt-2 text-xs font-medium text-zinc-600 dark:text-white/55">{t("lo_ninguna_todavia")}</p>
+              <p className="mt-5 border border-dashed border-[var(--border-light)] p-5 text-xs leading-6 text-[var(--text-muted)]">{t("lo_ninguna_todavia")}</p>
             ) : (
-              <ul className="mt-2 space-y-1">
+              <ul className="mt-4 max-h-[50vh] space-y-2 overflow-y-auto">
                 {guardadas.map((item) => (
                   <li key={item.id}>
                     <button type="button" onClick={() => abrirGuardada(item)}
-                      className="w-full rounded-md border border-zinc-200 bg-zinc-50 px-2 py-1.5 text-left transition-colors hover:border-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/50 dark:border-white/10 dark:bg-black/20 dark:hover:border-white/20">
-                      <span className="block truncate text-xs">{item.name}</span>
-                      <span className="block text-xs font-medium text-zinc-600 dark:text-white/60">
+                      className="w-full cursor-pointer border border-[var(--border)] bg-[var(--bg-secondary)] px-3 py-3 text-left transition-colors hover:border-[var(--accent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)]">
+                      <span className="block truncate text-xs font-bold">{item.name}</span>
+                      <span className="mt-1 block font-mono text-[10px] text-[var(--text-dim)]">
                         {item.receptor_pdb_id} · {item.summary.eligible_rows}/{item.summary.total_rows} {t("lo_elegibles_sufijo")}
                       </span>
                     </button>
@@ -1022,13 +1027,13 @@ CC(=O)O,acido_acetico,0,none`}</code></pre>
                 ))}
               </ul>
             )}
-            <p className="mt-3 border-t border-zinc-200 pt-2 text-xs font-medium leading-relaxed text-zinc-600 dark:border-white/10 dark:text-white/60">
+            <p className="mt-5 border-t border-[var(--border)] pt-4 text-xs leading-6 text-[var(--text-muted)]">
               {t("pg_lote_inmutable")}
             </p>
           </aside>
         </div>
 
-        <p className="mt-6 text-sm font-medium leading-relaxed text-zinc-600 dark:text-white/55">
+        <p className="mt-7 border-t border-[var(--border)] pt-5 text-xs leading-6 text-[var(--text-muted)]">
           <CheckCircle2 className="mr-1 inline h-3 w-3" aria-hidden="true" />
           {t("pg_lote_sin_merito")}
         </p>

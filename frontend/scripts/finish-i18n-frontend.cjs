@@ -121,7 +121,7 @@ const HAS_WORDS = /[A-Za-z\u00c0-\u00ff]{2}/;
 // cabecera de un CSV. Anclado: «Evaluación #123» o «Ver https://…» sí son
 // texto y antes se daban por técnicos porque el patrón casaba en cualquier
 // posición.
-const NO_ES_TEXTO = /^(?:text|bg|border)-|^rgba?\(|^#[0-9a-f]{3,8}$|^https?:\/\/\S+$|^(?:\/|~\/|\.\.?\/)|!important|^smiles,name,|^_/i;
+const NO_ES_TEXTO = /^(?:text|bg|border)-|^rgba?\(|^var\(--[\w-]+\)$|^#[0-9a-f]{3,8}$|^https?:\/\/\S+$|^(?:\/|~\/|\.\.?\/)|!important|^smiles,name,|^_/i;
 // Entidades HTML, identificadores camelCase, nombres de archivo, ids de
 // repositorio («Qwen/Qwen2.5-1.5B-Instruct-GGUF») y prefijos de parámetro
 // («imp=»). Sin /i: «Guardar» no es camelCase.
@@ -143,7 +143,7 @@ const NOMBRES_PROPIOS = [
 const SIGLAS = new Set([
   "\u00c5", "Da", "pH", "Ki", "IC50", "min", "SMILES", "PDB", "PDBQT", "SDF", "JSON", "CSV",
   "PDF", "ZIP", "XLSX", "TXT", "GPU", "CPU", "RAM", "GB", "MB", "SAR", "LogP", "BBB", "QED",
-  "ID", "AI", "ADMET", "sha256", "Vina", "MolDesign", "MolChat", "Moldex", "RDKit", "Meeko",
+  "ID", "AI", "ADMET", "sha256", "Vina", "MolDesign", "MolChat", "Moldex", "Molcy", "RDKit", "Meeko",
   "ESMFold", "ColabFold", "DiffDock", "RFdiffusion", "TabPFN", "Solana", "Web3D", "MolStar",
   "Lovering", "SHA", "pKi", "Qwen", "Tanimoto", "GGUF", "Lipinski", "Veber", "XGBoost", "GNN",
 ]);
@@ -176,6 +176,7 @@ const DEBE_MARCAR = [
   "Cohortes", "OPCIONES", "Guardar", "Receptor (PDB ID)", "Cohortes guardadas",
   "A\u00f1adir ligando", "\u00bfContinuar?", "~3 pasos", "Open", "SDF descargado",
   "Evaluaci\u00f3n #123", "Ver https://ejemplo.org", "Regla de Lipinski",
+  "Variables del sitio", "Molcy genera el video",
 ];
 const NO_DEBE_MARCAR = [
   "SMILES", "PDB ID", "AutoDock Vina", "kcal/mol", "IC50", "Open Babel", "PDBQT",
@@ -183,7 +184,7 @@ const NO_DEBE_MARCAR = [
   "bg-zinc-900", "https://ejemplo.org/ruta", "#a1b2c3", "12.5 \u00c5", "sha256",
   "contacto@amezcua-dev.com", "~5 min", "&Delta;", "enableADMET", "case.json",
   "Qwen/Qwen2.5-1.5B-Instruct-GGUF", "imp=", "SHA-256", "pKi", "Lipinski", "Veber",
-  "Vina + XGBoost + GNN",
+  "Vina + XGBoost + GNN", "var(--categoria-hallazgo)", "Molcy /",
 ];
 
 function autotest() {
