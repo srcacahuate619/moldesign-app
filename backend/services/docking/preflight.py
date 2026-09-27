@@ -452,6 +452,11 @@ def build_preflight(
     source_original_text: str | None = None
     cadenas_del_sitio = {str(c).strip() for c in (site_chains or []) if str(c).strip()}
     cadenas = cadenas_del_sitio if len(cadenas_del_sitio) > 1 else {chain.strip()}
+    # Lo que se ENSEÑA tiene que ser lo que se prepara: en modo multicadena el
+    # receptor lleva todas las cadenas del sitio, no sólo `chain` (1HSG decía
+    # «sólo conserva 'A'» mientras conservaba A y B).
+    varias = len(cadenas) > 1
+    etiqueta_cadenas = "+".join(sorted(cadenas))
 
     source_sha: str | None = None
     source_counts: _SpeciesCount | None = None
@@ -531,7 +536,7 @@ def build_preflight(
                 site_ligand=site_ligand,
             )
             filtered_counts = count_species(filtered_text)
-            diff = _build_diff(source_counts, filtered_counts, chain)
+            diff = _build_diff(source_counts, filtered_counts, etiqueta_cadenas)
         except Exception as exc:  # ProteinPreparationError y cualquier otro fallo real
             chain_error = str(getattr(exc, "detail", None) or exc)
             diff = _diff_not_evaluated(
@@ -544,7 +549,10 @@ def build_preflight(
                 code="RECEPTOR_CADENA_PRESENTE",
                 state="bloquea",
                 title="Cadena del receptor",
-                observation=f"Filtrar la cadena '{chain}' no dejó ningún átomo de proteína.",
+                observation=(
+                    f"Filtrar {'las cadenas' if varias else 'la cadena'} '{etiqueta_cadenas}' "
+                    "no dejó ningún átomo de proteína."
+                ),
                 reason=(
                     "La corrida ejecutaría este mismo filtro y fallaría en la preparación. "
                     "Revisa el identificador de cadena del receptor."
@@ -559,10 +567,17 @@ def build_preflight(
                 state="pasa",
                 title="Cadena del receptor",
                 observation=(
-                    f"La cadena '{chain}' aporta {filtered_counts.atom_records} átomos de proteína "
-                    f"al receptor de la corrida."
+                    f"Las cadenas '{etiqueta_cadenas}' aportan {filtered_counts.atom_records} "
+                    "átomos de proteína al receptor de la corrida: el sitio se forma entre ellas."
+                    if varias else
+                    f"La cadena '{etiqueta_cadenas}' aporta {filtered_counts.atom_records} átomos "
+                    "de proteína al receptor de la corrida."
                 ),
-                reason="Es la cadena que se acoplará; el resto de la estructura no entra.",
+                reason=(
+                    "Son las cadenas que se acoplarán juntas; el resto de la estructura no entra."
+                    if varias else
+                    "Es la cadena que se acoplará; el resto de la estructura no entra."
+                ),
                 provenance="preparer.filter_pdb_content (la función que ejecuta la corrida)",
             )
         )
@@ -572,7 +587,7 @@ def build_preflight(
                 code="RECEPTOR_CADENA_PRESENTE",
                 state="no_evaluado",
                 title="Cadena del receptor",
-                observation=f"No evaluado: sin la fuente en disco no se puede comprobar la cadena '{chain}'.",
+                observation=f"No evaluado: sin la fuente en disco no se puede comprobar la cadena '{etiqueta_cadenas}'.",
                 reason="La comprobación exige el archivo real.",
                 provenance="preparer.filter_pdb_content (la función que ejecuta la corrida)",
             )

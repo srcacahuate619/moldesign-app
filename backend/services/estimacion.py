@@ -179,6 +179,14 @@ def _factor_caja(volumen: float) -> float:
     return (volumen / VOLUMEN_REFERENCIA) ** EXPONENTE_CAJA
 
 
+def _numero_de_observaciones() -> int:
+    """Acoplamientos terminados con duración válida en esta máquina."""
+    return sum(
+        1 for o in _leer_observaciones()
+        if isinstance(o.get("segundos_por_tanda"), (int, float)) and o["segundos_por_tanda"] > 0
+    )
+
+
 def _segundos_por_tanda_observados() -> tuple[float, float, int] | None:
     """`(p25, p75, n)` de lo observado en esta máquina, o `None` si hay poco."""
     muestras = [
@@ -244,10 +252,17 @@ def estimar_corrida(
         # decirlo con su anchura, no sólo con una nota al pie.
         base_min, base_max = SEGUNDOS_POR_TANDA * 0.6, SEGUNDOS_POR_TANDA * 2.2
         apoyo = "modelo"
+        # QA-010: decía «todavía no hay corridas terminadas» con una o dos ya
+        # hechas, y prometía ajustarse «en cuanto termine la primera» cuando el
+        # umbral es MINIMO_PARA_CALIBRAR.
+        hechas = _numero_de_observaciones()
         detalle_apoyo = (
-            "Todavía no hay corridas terminadas en este equipo, así que esto sale "
-            "de un modelo medido en otra máquina. Se ajustará solo en cuanto "
-            "termine la primera."
+            ("Todavía no hay corridas terminadas en este equipo" if hechas == 0 else
+             f"En este equipo hay {hechas} acoplamiento{'s' if hechas != 1 else ''} "
+             f"terminado{'s' if hechas != 1 else ''}, menos de los {MINIMO_PARA_CALIBRAR} "
+             "que hacen falta para calibrar")
+            + ", así que esto sale de un modelo medido en otra máquina. Se calibrará "
+            f"solo a partir del acoplamiento número {MINIMO_PARA_CALIBRAR}."
         )
 
     por_acoplamiento_min = base_min * tandas * factor_caja

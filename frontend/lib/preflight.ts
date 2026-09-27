@@ -89,6 +89,8 @@ export interface PreflightReport {
     readonly prepared_sha256: string | null;
     readonly prepared_compatible: boolean | null;
     readonly prepared_chains: readonly string[];
+    /** Cadenas que forman el sitio; con dos o más, el receptor las lleva todas. */
+    readonly site_chains?: readonly string[];
   };
   readonly ligand: {
     readonly input_smiles: string;
@@ -218,6 +220,17 @@ function formatTriple(values: readonly number[]): string {
  * backend: enseñar el resumen al reabrir el caso, y decidir si el botón de
  * ejecutar puede ejecutar.
  */
+/**
+ * Rótulo del receptor que se acopla. Con un sitio entre cadenas el receptor
+ * las lleva todas: «1HSG · cadena A» contradecía a la tarjeta «Interfaz B·A».
+ */
+function receptorLabelOf(receptor: PreflightReport["receptor"]): string {
+  const sitio = [...new Set(receptor.site_chains ?? [])].sort();
+  return sitio.length > 1
+    ? `${receptor.pdb_id} · cadenas ${sitio.join("+")}`
+    : `${receptor.pdb_id} · cadena ${receptor.chain}`;
+}
+
 export function summarizePreflight(report: PreflightReport): PreflightSummary {
   const { receptor, ligand, effective_config: config } = report;
   const gridLabel =
@@ -234,7 +247,7 @@ export function summarizePreflight(report: PreflightReport): PreflightSummary {
     blockers: [...report.technical_blockers],
     warnings: [...report.warnings],
     notEvaluated: [...report.not_evaluated],
-    receptorLabel: `${receptor.pdb_id} · cadena ${receptor.chain}`,
+    receptorLabel: receptorLabelOf(receptor),
     ligandLabel: ligand.canonical_smiles ?? ligand.input_smiles,
     gridLabel,
     ...(receptor.source_sha256 ? { receptorSourceSha256: receptor.source_sha256 } : {}),

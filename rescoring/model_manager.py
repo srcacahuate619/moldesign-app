@@ -667,10 +667,16 @@ class ModelManager:
                 model_a_for_core = self.model_a
                 artifact_a_for_core = self.model_a_artifact
                 model_used = "universal"
+                # Sólo la condición que falla: «Spearman 0.543 < 0.5 o p 0.266
+                # >= 0.05» se leía como una desigualdad falsa (QA-005).
+                fallos = []
+                if fam_spearman < 0.5:
+                    fallos.append(f"Spearman {fam_spearman:.3f} < 0.5")
+                if fam_pval >= 0.05:
+                    fallos.append(f"p {fam_pval:.3g} >= 0.05")
                 fallback_reason = (
                     f"Familia '{target_family}' sin modelo validado "
-                    f"(quality gate: Spearman {fam_spearman:.3f} < 0.5 "
-                    f"o p {fam_pval:.3g} >= 0.05) — modelo universal usado."
+                    f"(quality gate: {' y '.join(fallos)}) — modelo universal usado."
                 )
                 log.info("family_model_fallback_universal",
                          family=target_family, family_spearman=fam_spearman,

@@ -181,7 +181,13 @@ def test_dos_observaciones_no_bastan_para_fiarse_de_una_muestra_diminuta():
         estimacion.registrar_docking(
             segundos=300.0, cpu=8, exhaustiveness=8, volumen_caja=27000
         )
-    assert estimacion.estimar_corrida(cpu=8, exhaustiveness=8)["apoyo"] == "modelo"
+    e = estimacion.estimar_corrida(cpu=8, exhaustiveness=8)
+    assert e["apoyo"] == "modelo"
+    # QA-010: con dos hechas no puede decir que no hay ninguna, ni prometer que se
+    # ajusta «en cuanto termine la primera».
+    assert "hay 2 acoplamientos terminados" in e["detalle_apoyo"]
+    assert "Todavía no hay" not in e["detalle_apoyo"]
+    assert f"número {estimacion.MINIMO_PARA_CALIBRAR}" in e["detalle_apoyo"]
 
 
 def test_la_calibracion_descuenta_nucleos_y_caja_antes_de_guardar():
@@ -239,3 +245,54 @@ def test_el_paralelismo_de_la_cohorte_reduce_el_reloj():
         cpu=8, exhaustiveness=8, ligandos=20, docks_en_paralelo=4
     )
     assert en_paralelo["segundos_min"] < en_serie["segundos_min"]
+
+
+def test_un_receptor_preparado_con_receta_cuenta_como_preparado(tmp_path, monkeypatch):
+    """QA-009: la estimación miraba sólo `prepared.pdbqt`, que ya no se escribe.
+
+    Con recetas, el preparado es `prepared-<hash>.pdbqt` junto a su informe, y la
+    estimación decía SIEMPRE «este receptor aún no está preparado».
+    """
+    from api.main import receptor_preparado_en_disco
+    from utils import local_storage
+
+    monkeypatch.setattr(local_storage.settings, "local_data_dir", str(tmp_path))
+    carpeta = tmp_path / "targets" / "1HSG"
+    carpeta.mkdir(parents=True)
+    assert receptor_preparado_en_disco("1hsg") is False
+
+    preparado = carpeta / f"prepared-{'a' * 64}.pdbqt"
+    preparado.write_text("ATOM\n", encoding="utf-8")
+    # Sin su informe, la corrida lo volvería a preparar: no cuenta.
+    assert receptor_preparado_en_disco("1HSG") is False
+    (carpeta / f"prepared-{'a' * 64}.report.json").write_text("{}", encoding="utf-8")
+    assert receptor_preparado_en_disco("1HSG") is True
+
+
+def test_el_preparado_historico_sigue_contando(tmp_path, monkeypatch):
+    from api.main import receptor_preparado_en_disco
+    from utils import local_storage
+
+    monkeypatch.setattr(local_storage.settings, "local_data_dir", str(tmp_path))
+    carpeta = tmp_path / "targets" / "7E2Y"
+    carpeta.mkdir(parents=True)
+    (carpeta / "prepared.pdbqt").write_text("ATOM\n", encoding="utf-8")
+    assert receptor_preparado_en_disco("7E2Y") is True
+
+
+def test_con_cpu_automatico_la_observacion_se_registra(monkeypatch):
+    """QA-013: con `vina_cpu = 0` la observación se guardaba con cpu=0 y se descartaba.
+
+    Es el valor por defecto del producto (el golden de la puerta 11 registra
+    `"cpu": 0`), así que la estimación no se calibraba nunca.
+    """
+    from services.docking import vina_service
+
+    monkeypatch.setattr(vina_service.settings, "vina_cpu", 0)
+    cpu = vina_service.cpu_efectivo_de_vina()
+    assert cpu >= 1
+    estimacion.registrar_docking(segundos=60.0, cpu=cpu, exhaustiveness=8, volumen_caja=27000)
+    assert len(estimacion._leer_observaciones()) == 1
+
+    monkeypatch.setattr(vina_service.settings, "vina_cpu", 6)
+    assert vina_service.cpu_efectivo_de_vina() == 6

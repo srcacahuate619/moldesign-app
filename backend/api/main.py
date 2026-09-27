@@ -442,6 +442,31 @@ async def hardware_info() -> dict[str, Any]:
     }
 
 
+def receptor_preparado_en_disco(target_pdb_id: str) -> bool:
+    """¿Hay en disco ALGÚN receptor preparado de este objetivo?
+
+    Desde que el preparado lleva la huella de su receta
+    (`targets/<ID>/prepared-<receta>.pdbqt`), la ruta sin hash sólo existe en
+    instalaciones antiguas. Mirar sólo esa hacía que la estimación dijera SIEMPRE
+    «este receptor aún no está preparado» y sumara su coste (QA-009, 2026-09-27).
+
+    No se recalcula la receta: exige leer la fuente y generar el ensamblaje, que
+    es el trabajo que la estimación existe para anticipar. Con otra caja la
+    receta cambia y se volverá a preparar; ahí la estimación se queda corta, que
+    es el error que este endpoint prefiere.
+    """
+    from utils.file_handlers import StoragePath
+    from utils.local_storage import data_dir
+
+    pdb_id = target_pdb_id.strip().upper()
+    historica = data_dir() / StoragePath.target_prepared(pdb_id)
+    carpeta = historica.parent
+    return historica.is_file() or any(
+        ruta.with_suffix(".report.json").is_file()
+        for ruta in carpeta.glob("prepared-*.pdbqt")
+    )
+
+
 @app.get("/hardware/estimate", tags=["Meta"], summary="Estimate evaluation time")
 async def estimate_time(
     mode: str = "pro",
@@ -489,11 +514,7 @@ async def estimar_esta_corrida(
     receptor_preparado = True
     if target_pdb_id:
         try:
-            from utils.file_handlers import StoragePath
-            from utils.local_storage import data_dir
-
-            ruta = data_dir() / StoragePath.target_prepared(target_pdb_id.strip().upper())
-            receptor_preparado = ruta.is_file()
+            receptor_preparado = receptor_preparado_en_disco(target_pdb_id)
         except Exception:  # noqa: BLE001
             # No saberlo se trata como «ya está»: es preferible quedarse corto
             # en la estimación a inventar un coste que quizá no exista.

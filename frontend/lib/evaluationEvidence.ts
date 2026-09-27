@@ -71,6 +71,12 @@ export interface EvaluationEvidence {
   warnings: string[];
 }
 
+/** Nombre legible del modelo de rescoring; el motor de docking no va aquí. */
+const MODELO_LEGIBLE: Record<string, string> = {
+  family: "modelo de familia",
+  universal: "modelo universal",
+};
+
 function hasGrid(target: Target | null): boolean {
   if (!target) return false;
   if (typeof target.grid_calibrated === "boolean") return target.grid_calibrated;
@@ -302,7 +308,12 @@ export function deriveEvaluationEvidence(
       label: "Dominio del modelo",
       status: result.in_applicability_domain === true ? "available" : result.in_applicability_domain === false ? "review" : "not_evaluated",
       statusLabel: result.in_applicability_domain === true ? "Dentro del dominio declarado" : result.in_applicability_domain === false ? "Fuera del dominio" : "No informado",
-      detail: `${result.engine_used ?? "motor no informado"} · ${result.model_used ?? "modelo no informado"}${result.fallback_reason ? ` · fallback: ${result.fallback_reason}` : ""}.`,
+      // Misma semántica que `evidence_summary.py` (DOC 71, A6): `engine_used` es el
+      // motor HARDWARE del router y en el pipeline vale null, así que aquí salía
+      // «motor no informado · family.» (QA-005). Esta fila habla del MODELO.
+      detail: `${MODELO_LEGIBLE[result.model_used ?? ""] ?? result.model_used ?? "modelo no informado"}${
+        result.fallback_reason ? `; fallback: ${result.fallback_reason}` : ""
+      }. El motor de acoplamiento y su versión se declaran en la traza de reproducibilidad.`,
     },
     {
       id: "physicochemical",

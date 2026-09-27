@@ -185,6 +185,15 @@ describe("summarizePreflight", () => {
     expect(summary.ligandLabel).toBe("CC(=O)Oc1ccccc1C(=O)O");
   });
 
+  it("con un sitio entre cadenas, el rótulo nombra todas las del receptor", () => {
+    // 1HSG decía «cadena A» mientras el receptor acoplado llevaba A y B.
+    const base = reportFixture();
+    const summary = summarizePreflight(
+      reportFixture({ receptor: { ...base.receptor, pdb_id: "1HSG", site_chains: ["B", "A"] } }),
+    );
+    expect(summary.receptorLabel).toBe("1HSG · cadenas A+B");
+  });
+
   it("no copia el payload científico dentro del caso", () => {
     const summary = summarizePreflight(reportFixture()) as unknown as Record<string, unknown>;
     // Ni controles, ni diff, ni hashes: eso pertenece al backend y envejecería

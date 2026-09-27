@@ -711,7 +711,7 @@ async def _run_vina_subprocess(
 
         registrar_docking(
             segundos=time.monotonic() - arranque,
-            cpu=int(settings.vina_cpu),
+            cpu=cpu_efectivo_de_vina(),
             exhaustiveness=exh,
             volumen_caja=float(size[0]) * float(size[1]) * float(size[2]),
         )
@@ -719,6 +719,23 @@ async def _run_vina_subprocess(
         pass
 
     return stdout
+
+
+def cpu_efectivo_de_vina() -> int:
+    """Los núcleos con los que corre Vina de verdad.
+
+    `vina_cpu = 0` (el valor por defecto) es «autodetectar»: Vina usa todos los
+    núcleos lógicos. Registrar la observación con `cpu=0` la hacía descartar
+    (`registrar_docking` ignora `cpu <= 0`), así que con la configuración por
+    defecto la estimación no se calibraba nunca (QA-013, 2026-09-27). La regla es
+    la misma que usa `/evaluation/estimate` para estimar.
+    """
+    configurado = int(settings.vina_cpu or 0)
+    if configurado > 0:
+        return configurado
+    from core.hardware import detect_hardware
+
+    return int(detect_hardware().cpu_cores_logical or os.cpu_count() or 1)
 
 
 def _check_ligand_fits_box(

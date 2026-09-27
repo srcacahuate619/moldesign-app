@@ -358,6 +358,17 @@ export default function ProEvaluation({
       initialRunConfiguration?.pipelineConfig?.stage_params?.properties?.run_admet_ai === true,
   }));
 
+  /**
+   * Con un sitio entre cadenas el receptor fijado las lleva todas (QA-001):
+   * «1HSG · cadena A» contradecía a la tarjeta «Interfaz B·A» de al lado.
+   */
+  const cadenasDelSistema = useMemo(() => {
+    const sitio = selectedTargetObj?.site_chains ?? [];
+    if (!structuralSystem || new Set(sitio).size < 2) return null;
+    if (selectedTargetObj?.pdb_id?.toUpperCase() !== structuralSystem.receptor.pdbId.toUpperCase()) return null;
+    return [...new Set(sitio)].sort().join("+");
+  }, [selectedTargetObj, structuralSystem]);
+
   // ── Estado MM-GBSA: flujo real (POST /pro/mmgbsa/{id}) ──
   // El modal abre SOLO si el usuario todavía no tiene resultado: pipeline con
   // mmgbsa_score serializado (WS2) o cálculo on-demand completado → sin modal.
@@ -873,8 +884,10 @@ export default function ProEvaluation({
             </div>
             <p className="mt-1.5 text-sm font-semibold leading-6 text-zinc-100">
               {structuralSystem.receptor.pdbId}
-              {structuralSystem.receptor.chain ? ` · cadena ${structuralSystem.receptor.chain}` : ""}
-              {t("auto_a4b23b13a357")}
+              {cadenasDelSistema
+                ? ` · cadenas ${cadenasDelSistema}`
+                : structuralSystem.receptor.chain ? ` · cadena ${structuralSystem.receptor.chain}` : ""}
+              {" "}{t("auto_a4b23b13a357")}{" "}
               {structuralSystem.grid.size.map((value) => value.toFixed(1)).join(" × ")} Å
               {" · "}{structuralSystem.dockingEngine}
             </p>
