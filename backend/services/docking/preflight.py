@@ -135,12 +135,25 @@ class _SpeciesCount:
         }
 
 
+#: `preparer.METAL_COFACTORS` es la lista de RETENCIÓN (qué se conserva sólo vía
+#: `cofactors_whitelist`) y mete con los metales un haluro y dos gases nobles.
+#: Para rotular una especie no vale: un cloruro junto a la caja salía como
+#: «metal», el diff de 3F75 contaba 2 metales que no tiene y Preparación
+#: bloqueaba la corrida (QA-027). Se usa la misma lista viva sin los que no son
+#: metales; la retención no cambia.
+_NO_SON_METALES = frozenset({"CL", "XE", "KR"})
+
+
+def _es_metal(residue: str) -> bool:
+    return residue in preparer.METAL_COFACTORS and residue not in _NO_SON_METALES
+
+
 def _species_category(residue: str) -> str:
     """Categoría estable de API; los nombres internos no llegan a la UI."""
 
     if residue in preparer.WATER_RESIDUES:
         return "water"
-    if residue in preparer.METAL_COFACTORS:
+    if _es_metal(residue):
         return "metal"
     if residue in preparer.ORGANIC_COFACTORS_KEPT:
         return "organic_cofactor"
@@ -179,7 +192,9 @@ def count_species(pdb_content: str) -> _SpeciesCount:
     La clasificación no se reimplementa: `preparer.WATER_RESIDUES`,
     `preparer.METAL_COFACTORS` y `preparer.ORGANIC_COFACTORS_KEPT` son las
     mismas referencias que decide el filtro real. Si mañana alguien añade un
-    cofactor a la lista del producto, este recuento cambia con ella.
+    cofactor a la lista del producto, este recuento cambia con ella. La única
+    excepción es el rótulo «metal»: el cloruro y los gases nobles de la lista de
+    retención cuentan como otros heteroátomos (ver `_es_metal`).
     """
     counts = _SpeciesCount()
     for line in pdb_content.splitlines():
@@ -196,7 +211,7 @@ def count_species(pdb_content: str) -> _SpeciesCount:
         counts.hetatm_residues[residue] = counts.hetatm_residues.get(residue, 0) + 1
         if residue in preparer.WATER_RESIDUES:
             counts.waters += 1
-        elif residue in preparer.METAL_COFACTORS:
+        elif _es_metal(residue):
             counts.metals += 1
         elif residue in preparer.ORGANIC_COFACTORS_KEPT:
             counts.organic_cofactors += 1

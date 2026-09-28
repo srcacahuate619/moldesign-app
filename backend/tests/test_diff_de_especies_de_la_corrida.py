@@ -234,3 +234,32 @@ class TestElDossier:
         """`count_species` cuenta registros HETATM: un HEM son 43, no uno."""
         campo = _dossier_con({"source": "meeko_report", "species_diff": _diff()})
         assert campo.texto.startswith("Registros HETATM retirados del ensamblaje")
+
+
+# ── QA-027: un cloruro no es un metal ─────────────────────────────────────
+
+
+class TestRotuloDeMetal:
+    """`preparer.METAL_COFACTORS` es la lista de RETENCIÓN y mete CL, XE y KR.
+
+    Rotular con ella decía «2 metales» en 3F75 (dos Cl⁻) y Preparación bloqueaba
+    cualquier corrida con un cloruro junto a la caja.
+    """
+
+    @pytest.mark.parametrize("residuo", ["CL", "XE", "KR"])
+    def test_haluro_y_gases_nobles_no_son_metales(self, residuo):
+        assert residuo in preparer.METAL_COFACTORS  # la retención no cambia
+        assert preflight._species_category(residuo) == "other_heteroatom"
+
+    @pytest.mark.parametrize("residuo", ["ZN", "MG", "FE", "NA", "K"])
+    def test_los_metales_siguen_siendo_metales(self, residuo):
+        assert preflight._species_category(residuo) == "metal"
+
+    def test_el_recuento_no_cuenta_el_cloruro_como_metal(self):
+        pdb = (
+            "HETATM    1 CL    CL A 301      10.000  10.000  10.000  1.00 20.00          CL\n"
+            "HETATM    2 ZN    ZN A 302      12.000  12.000  12.000  1.00 20.00          ZN\n"
+        )
+        cuenta = preflight.count_species(pdb)
+        assert cuenta.metals == 1
+        assert cuenta.other_hetatm == 1
