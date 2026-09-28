@@ -26,6 +26,8 @@ sin fusiones. Las fases siguen el orden del plan del auditor
 | `30a9eb5` | Cofactores con margen de sitio, disponibilidad del catálogo medida, DOCK-012, panel de selectividad y MolChat | [verificacion_2026-09-26.md](verificacion_2026-09-26.md), segunda parte |
 | `bbab67f` | 125 de 140 dianas recuperadas y 20 etiquetas de organismo corregidas | [verificacion_2026-09-26.md](verificacion_2026-09-26.md), segunda parte |
 | `459a833` | El panel de Bowes 2012 medido diana por diana: 40 de 44 con el sitio confirmado | [panel_bowes44.md](panel_bowes44.md) |
+| `7b21501`, `e0bbc28`, `60d7f59` | Regresiones de la respuesta halladas usando el producto (2026-09-27) | [más abajo](#después-de-la-verificación-lo-que-se-encontró-usando-el-producto) |
+| `9697bdf` | B-1…B-5: lo que la interfaz necesita del backend tras la auditoría (réplica de `0065dfb` con los archivos generados desde esta línea) | [más abajo](#después-de-la-verificación-lo-que-se-encontró-usando-el-producto) |
 
 Otros documentos de este directorio:
 
@@ -85,7 +87,36 @@ Para ver que una prueba de aceptación detecta su defecto, basta ejecutarla
 contra `27c4b79`: su `backend/` y su `rescoring/` son idénticos a los de
 `ae4db6a`.
 
+## Después de la verificación: lo que se encontró usando el producto
+
+El 2026-09-27 se usó la aplicación como la usaría un químico computacional, sobre el
+código con todas las fases: redocking de indinavir en 1HSG (1,69 Å al cristal) y de
+erlotinib en 1M17 (1,39 Å; dos corridas con la misma semilla dan el mismo SDF bit a bit),
+y una cohorte de seis compuestos en PDE5 (1XP0). Las pruebas del código estaban verdes y
+aun así aparecieron regresiones de esta misma respuesta:
+
+- **Batch no podía ejecutar ninguna cohorte** (`e0bbc28`). Con las recetas de la fase 1
+  el receptor preparado ya no se llama `prepared.pdbqt`, y Batch lo seguía buscando ahí;
+  al prepararlo por su cuenta omitía `site_chains`, así que en un sitio entre cadenas
+  habría acoplado contra media cavidad. Las pruebas escribían un `prepared.pdbqt` falso y
+  pasaban. Además, una cohorte sin semilla (el caso por defecto) daba un 500, y todo 500
+  salía sin cabeceras CORS: la ventana de escritorio lo mostraba como «no se pudo
+  contactar con el motor local».
+- **La estimación de duración** (`7b21501`) buscaba la misma ruta anterior a las recetas
+  y decía siempre «receptor sin preparar»; y no se calibraba nunca, porque registraba
+  `cpu=0` («automático») y la observación se descartaba.
+- **Un SMILES inválido se sustituía en silencio por la molécula anterior** (`60d7f59`):
+  se evaluaba otra molécula sin aviso. No lo introdujo la auditoría, pero es del mismo
+  tipo que los hallazgos de la fase 0.
+- **B-1…B-5** (`9697bdf`): el backend que la interfaz necesita para reflejar la auditoría
+  (si el sello describe la corrida mostrada, si una corrida es comparable con las de hoy,
+  cadenas truncadas por diana, estimación con Vina en serie, catálogo de códigos de
+  aviso). La interfaz publicada todavía no lee esos campos, salvo la estimación.
+
+Cada arreglo lleva una prueba que falla sin él.
+
 ## Estado por hallazgo
+
 
 Significado de cada estado:
 
@@ -146,8 +177,8 @@ Significado de cada estado:
 | DOCK-004 | CRÍTICA | Corregido |  |
 | DOCK-005 | CRÍTICA | Corregido |  |
 | PROV-003 | CRÍTICA | Corregido |  |
-| DOCK-002 | ALTA | Corregido | ya no se borran en silencio; medido: 119/380 dianas quedan no disponibles por residuos del sitio que Meeko elimina |
-| DOCK-003 | ALTA | Contenido | cofactor sin plantilla a ≤ 6 Å de la caja ⇒ abstención (10/380 dianas); más lejos se retira o se devuelve a su aminoácido, declarado |
+| DOCK-002 | ALTA | Corregido | ya no se borran en silencio; medido: 119/380 dianas quedaban no disponibles por residuos del sitio que Meeko elimina. Desde `bbab67f` esas cadenas laterales se truncan a ALA o GLY, declarado (116 dianas con residuos truncados en el sitio); quedan 4/380 que ni truncadas se aceptan y 11/380 por errores internos de Meeko (barrido del 2026-09-27) |
+| DOCK-003 | ALTA | Contenido | cofactor sin plantilla a ≤ 6 Å de la caja ⇒ abstención (10/380 dianas); más lejos se retira o se devuelve a su aminoácido, declarado. Desde `bbab67f` hay plantillas locales de diez cofactores (HEM, HEC, FAD, FMN, NAD, NAP, ADP, ATP, SAM, SF4) y ninguna diana queda no disponible por esta causa (barrido del 2026-09-27) |
 | DOCK-006 | ALTA | Corregido |  |
 | DOCK-007 | ALTA | Corregido |  |
 | DOCK-008 | ALTA | Corregido |  |
