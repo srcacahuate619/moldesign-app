@@ -25,6 +25,10 @@ scripts/artifacts_science/**      -text
 backend/data/meeko_templates/**   -text -whitespace
 # Indice y manifiesto del dataset de pose selector, tambien hasheados.
 data/pose_selector_dataset/**     -text
+# Tokenizer de ESMFold (QA-028): viaja en el instalador tal cual. Con CRLF un
+# instalador construido desde un clon llevaria bytes distintos a los del
+# mantenedor, aunque `from_pretrained` los leyera igual.
+esmfold/models/**                 -text
 
 # Estructuras: binarias de hecho, aunque `.pdb` sea texto.
 *.pdb.gz                          binary

@@ -1,0 +1,7 @@
+{
+  "cls_token": "<cls>",
+  "eos_token": "<eos>",
+  "mask_token": "<mask>",
+  "pad_token": "A",
+  "unk_token": "<unk>"
+}
