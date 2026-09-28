@@ -493,6 +493,19 @@ def _campos_de_protocolo_y_abstencion(eval_result, resumen) -> list:
     return campos
 
 
+def _motivos_de_revision_de_especie(ligand_state: Any) -> list[Any]:
+    """Motivos por los que la especie acoplada no puede declararse resuelta.
+
+    Importación perezosa: RDKit no entra en el arranque por construir un expediente.
+    """
+    smiles = ligand_state.get("smiles_acoplado") if isinstance(ligand_state, dict) else None
+    if not smiles:
+        return []
+    from chem.especie_en_revision import motivos_de_revision
+
+    return motivos_de_revision(smiles)
+
+
 def campos_del_estado_del_ligando(ligand_state: Any) -> list[tuple[str, Campo]]:
     """pH, especie y tautómero acoplados, con una clave estable por campo.
 
@@ -561,12 +574,23 @@ def campos_del_estado_del_ligando(ligand_state: Any) -> list[tuple[str, Campo]]:
                 )
             elif seleccion.get("clases_sin_pka") and descripcion:
                 descripcion += "; el grupo sin pKa sigue en revisión"
-            if descripcion and seleccion.get("quimica_resuelta") is False:
-                campos.append(("especie", Campo(
-                    "Especie acoplada", None, Estado.REVISAR,
-                    descripcion + ". La selección es reproducible, pero la población "
-                    "del microestado no quedó establecida por una constante química verificada.",
-                )))
+            # Clases que la tabla de pKa por clases no resuelve aunque la selección
+            # se declare resuelta (piperazinas, N-sulfonil-piperazinas, ácidos
+            # enólicos): se DECLARAN en revisión; lo acoplado no cambia. Ver
+            # `chem/especie_en_revision.py` y QA-002/QA-024/QA-S05.
+            motivos = _motivos_de_revision_de_especie(ligand_state)
+            if descripcion and (seleccion.get("quimica_resuelta") is False or motivos):
+                razon = descripcion + ". La selección es reproducible, pero la población "
+                if seleccion.get("quimica_resuelta") is False:
+                    razon += "del microestado no quedó establecida por una constante química verificada."
+                else:
+                    razon += "de esta clase no la resuelve la tabla de pKa por clases."
+                if motivos:
+                    razon += (
+                        " En revisión por " + "; y por ".join(m.texto for m in motivos)
+                        + ". Revisa la especie antes de un cálculo de energía libre."
+                    )
+                campos.append(("especie", Campo("Especie acoplada", None, Estado.REVISAR, razon)))
             else:
                 campos.append(("especie", _campo_dato(
                     "Especie acoplada",
