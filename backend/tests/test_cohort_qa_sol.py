@@ -1,14 +1,32 @@
+import json
+
 import pytest
-from pydantic import ValidationError
+from fastapi import HTTPException
+
 from services.cohort.schemas import CohortStudy
 
+_ESTUDIO_QVINA2 = {
+    "schema_version": 1, "name": "QA Sol", "receptor": {"pdb_id": "1XP0", "chain": "A"},
+    "config": {"docking_engine": "qvina2", "exhaustiveness": 8, "num_poses": 5, "seed": 0},
+}
+
+
 def test_cohorte_rechaza_motor_que_inventario_declara_no_habilitado():
-    study = {
-        "schema_version": 1, "name": "QA Sol", "receptor": {"pdb_id": "1XP0", "chain": "A"},
-        "config": {"docking_engine": "qvina2", "exhaustiveness": 8, "num_poses": 5, "seed": 0},
-    }
-    with pytest.raises(ValidationError, match="docking_engine"):
-        CohortStudy.model_validate(study)
+    """QA-S01: una cohorte NUEVA con `qvina2` se corta en la puerta (422)."""
+    from api.routers.evaluation_cohorts import _leer_estudio
+
+    with pytest.raises(HTTPException) as exc:
+        _leer_estudio(json.dumps(_ESTUDIO_QVINA2))
+    assert exc.value.status_code == 422
+    assert exc.value.detail[0]["type"] == "motor_no_disponible"
+    assert exc.value.detail[0]["loc"][-1] == "docking_engine"
+
+
+def test_una_cohorte_congelada_con_qvina2_sigue_siendo_legible():
+    """El rechazo es de lo nuevo: el snapshot histórico se revalida al abrirlo
+    (`_snapshot`) y no puede volverse ilegible por QA-S01."""
+    estudio = CohortStudy.model_validate(_ESTUDIO_QVINA2)
+    assert estudio.config.docking_engine == "qvina2"
 
 
 def test_ef_no_publica_una_fraccion_menor_que_una_molecula():

@@ -473,6 +473,7 @@ def test_el_nombre_del_estudio_y_el_del_archivo_no_entran_en_la_identidad():
         pytest.param({"receptor": {"chain": "B"}}, id="cadena"),
         pytest.param({"config": {"exhaustiveness": 16}}, id="exhaustividad"),
         pytest.param({"config": {"num_poses": 9}}, id="poses"),
+        pytest.param({"config": {"docking_engine": "qvina2"}}, id="motor"),
         pytest.param({"config": {"seed": 7}}, id="semilla"),
         pytest.param({"config": {"grid_center": [1.0, 2.0, 3.0]}}, id="centro"),
         pytest.param({"config": {"grid_size": [30.0, 30.0, 30.0]}}, id="caja"),

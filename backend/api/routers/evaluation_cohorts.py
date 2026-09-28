@@ -74,6 +74,7 @@ from services.cohort import repository as cohort_repo
 from services.cohort.parser import ParsedFile, read_cohort_file
 from services.cohort.preflight import build_cohort_preflight
 from services.cohort.schemas import (
+    COHORT_DOCKING_ENGINES,
     FINGERPRINT_PATTERN,
     MAX_COHORT_FILE_BYTES,
     MAX_COHORT_ROWS,
@@ -126,9 +127,26 @@ def _leer_estudio(study: str) -> CohortStudy:
             f"`study` no es un JSON válido: {exc}",
         ) from exc
     try:
-        return CohortStudy.model_validate(crudo)
+        estudio = CohortStudy.model_validate(crudo)
     except ValidationError as exc:
         raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, _detalle(exc)) from exc
+    # QA-S01: el contrato aún LEE `qvina2` para las cohortes congeladas con él,
+    # pero esta build no lo ejecuta (`/evaluation/engines`), así que no se puede
+    # formular una cohorte nueva con él. Se corta en la puerta, antes de crearla.
+    motor = estudio.config.docking_engine
+    if motor not in COHORT_DOCKING_ENGINES:
+        raise HTTPException(
+            status.HTTP_422_UNPROCESSABLE_CONTENT,
+            [{
+                "loc": ["body", "study", "config", "docking_engine"],
+                "msg": (
+                    f"El motor «{motor}» no está disponible en esta instalación; "
+                    f"una cohorte nueva sólo puede usar {', '.join(COHORT_DOCKING_ENGINES)}."
+                ),
+                "type": "motor_no_disponible",
+            }],
+        )
+    return estudio
 
 
 async def _leer_archivo(file: UploadFile) -> tuple[bytes, ParsedFile]:

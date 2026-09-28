@@ -46,10 +46,17 @@ from services.cohort.taxonomy import ControlRole, Decision, Eligibility
 #: Versión del CONTRATO de la comprobación previa de cohortes.
 COHORT_PREFLIGHT_SCHEMA_VERSION = 1
 
-#: Motores admitidos en cohorte v1. Es una lista blanca a propósito: aceptar un
-#: motor arbitrario aquí sólo aplaza el fallo hasta la ejecución de 5B, cuando
-#: ya haya 300 moléculas en marcha.
+#: Motores con los que se puede CREAR una cohorte hoy: los que esta build
+#: ejecuta (`/evaluation/engines`). Es una lista blanca a propósito: aceptar un
+#: motor arbitrario sólo aplaza el fallo hasta la ejecución, cuando ya haya 300
+#: moléculas en marcha. El router la aplica a lo nuevo (QA-S01).
 COHORT_DOCKING_ENGINES = ("vina",)
+
+#: Motores que el contrato sabe LEER. `qvina2` sigue aquí sólo para las cohortes
+#: congeladas con él antes de QA-S01: su snapshot se revalida al abrirlas, y
+#: quitarlo del `Literal` las convertiría en ilegibles (409) aunque la interfaz
+#: sabe mostrarlas como históricas. Crear una nueva con él se rechaza.
+COHORT_DOCKING_ENGINES_LEGIBLES = ("vina", "qvina2")
 
 #: Límite de filas. Es el mismo que ya aplica el Batch histórico: no se inventa
 #: una capacidad que el producto no ha demostrado.
@@ -135,7 +142,7 @@ class CohortConfig(_Base):
 
     grid_center: Triple | None = None
     grid_size: Triple | None = None
-    docking_engine: Literal["vina"]
+    docking_engine: Literal["vina", "qvina2"]  # ver COHORT_DOCKING_ENGINES_LEGIBLES
     exhaustiveness: int = Field(ge=1, le=128)
     num_poses: int = Field(ge=1, le=20)
     seed: int | None = Field(default=None, ge=0, le=2**31 - 1)
