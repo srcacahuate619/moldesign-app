@@ -201,13 +201,17 @@ RUNTIME_BASE = Modulo(
     # los de API-015). Reutilizar el nombre de v1.1.0 para otro contenido es
     # exactamente lo que confundió con `base-v1.0.0.zip`.
     #
-    # `urls`, `sha256` y `size_bytes` vacíos = **no publicado todavía**. Es un
-    # estado legítimo: `--fetch` se niega a descargar sin SHA-256 declarado, y
-    # `--check` verifica el CONTENIDO y dice qué habría que publicar. Se rellenan
-    # cuando el zip esté subido a Hugging Face, con la revisión inmutable.
-    urls=(),
-    sha256=None,
-    size_bytes=None,
+    # Publicado el 2026-09-27 en el commit 60af3bfc de Hugging Face, en la RAÍZ
+    # del repositorio, como v1.1.0. Medido el 2026-09-28 sobre la URL fijada de
+    # abajo: X-Linked-Size 580634518 y X-Linked-ETag = el SHA-256 de abajo, que
+    # es el del zip construido y verificado archivo a archivo (31 695 entradas)
+    # y el que el bootstrap aprovisionó en la estación de desarrollo.
+    urls=(
+        "https://huggingface.co/srcacahuate/moldesign-models/resolve/"
+        "60af3bfcd4107faeda9dee3ef7f03c5c58cefe3c/runtime-base-v1.1.1.zip",
+    ),
+    sha256="03be61b350a251e9f9bbc1705c1cbcc52541da1af6337c0a4a79448d4a32013a",
+    size_bytes=580634518,
     gated=False,
     nota=(
         "URL fijada a una revisión inmutable de Hugging Face: una rama no fija "

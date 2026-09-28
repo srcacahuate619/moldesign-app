@@ -170,8 +170,9 @@ arranque de quien ya lo tiene.
 
 Cuando se publique el artefacto nuevo, se **añade** —no se sustituye— un módulo.
 
-`runtime-base-v1.1.1.zip` está **construido y verificado** (2026-09-27) pero
-**todavía sin subir**, así que éste es el bloque con sus cifras reales:
+`runtime-base-v1.1.1.zip` está **publicado** (2026-09-27, commit `60af3bfc` de
+Hugging Face, en la raíz). Medido el 2026-09-28 sobre la URL fijada: `X-Linked-Size`
+580634518 y `X-Linked-ETag` igual al SHA-256 de abajo. Éste es su bloque:
 
 ```json
 {
@@ -179,7 +180,7 @@ Cuando se publique el artefacto nuevo, se **añade** —no se sustituye— un m�
   "filename": "runtime-base-v1.1.1.zip",
   "version": "1.1.1",
   "urls": [
-    "https://huggingface.co/srcacahuate/moldesign-models/resolve/<REVISION>/runtime-base-v1.1.1.zip"
+    "https://huggingface.co/srcacahuate/moldesign-models/resolve/60af3bfcd4107faeda9dee3ef7f03c5c58cefe3c/runtime-base-v1.1.1.zip"
   ],
   "sha256": "03be61b350a251e9f9bbc1705c1cbcc52541da1af6337c0a4a79448d4a32013a",
   "size_bytes": 580634518,
@@ -235,14 +236,16 @@ Lo que identifica un artefacto es su SHA-256, que es justo por lo que
 error que dejó corrupto `dist/base-v1.0.0.zip` durante la auditoría del
 2026-09-06: confiar en la ruta y no en los bytes.
 
-`<REVISION>` es el commit inmutable de Hugging Face, no una rama: una rama no
-fija bytes. Después hay que copiar `sha256` y `size_bytes` a
-`scripts/build_base_archive.py::RUNTIME_BASE` — mientras estén en `None`,
-`--fetch` **se niega a descargar**, que es el comportamiento correcto y también
-la razón por la que hoy un clon limpio todavía no puede aprovisionarse solo.
+La revisión es el commit inmutable de Hugging Face, no una rama: una rama no
+fija bytes. `scripts/build_base_archive.py::RUNTIME_BASE` lleva ya la URL, el
+`sha256` y el `size_bytes` (2026-09-28); antes estaban en `None` y `--fetch` se
+negaba a descargar, que era lo correcto mientras no estuviera publicado.
 
-Y `frontend/lib/downloadManifest.ts` tiene una copia tipada que
-`downloadManifest.test.ts` compara: hay que actualizarla en el mismo cambio.
+Lo que decía este párrafo sobre `frontend/lib/downloadManifest.ts` ya no aplica:
+el manifiesto tipado vive en `frontend/context/DownloadProvider.tsx`
+(`FALLBACK_MANIFEST`) y su prueba exige que **no** ofrezca el runtime embebido
+como módulo descargable. El runtime base sirve al `bootstrap_dev_tree.py --fetch`
+de un clon, no a la aplicación instalada, que lo trae dentro.
 
 ### 1.7 `docs/INDEX.md` — una fila
 
