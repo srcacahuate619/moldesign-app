@@ -132,6 +132,46 @@ def _tupla(valor: Any) -> str | None:
 # ── 01 · Receptor y sitio ────────────────────────────────────────────
 
 
+def _campo_de_huecos(huecos: Any) -> Campo:
+    """Cortes del esqueleto que midió la preparación (C–N > 2 Å entre consecutivos)."""
+    if huecos is None:
+        return _no_evaluado(
+            "Huecos del esqueleto",
+            "La corrida no midió los huecos del esqueleto: su receptor se preparó antes "
+            "de registrarlos o se congeló antes. No se reconstruye con la receta de hoy.",
+        )
+    if not huecos:
+        return Campo(
+            "Huecos del esqueleto",
+            "Ninguno: el esqueleto de las cadenas del receptor es continuo (C–N ≤ 2 Å "
+            "entre residuos consecutivos).",
+            Estado.REGISTRADO,
+        )
+
+    def _hueco(h: dict[str, Any]) -> str:
+        declarados = h.get("missing_declared")
+        return (f"{h.get('chain')}: {h.get('after')} → {h.get('before')} "
+                f"(C–N {h.get('c_n_distance_A')} Å"
+                + (f"; {declarados} ausente(s) en REMARK 465" if declarados else "")
+                + f"; {h.get('distance_to_box_A')} Å de la caja)")
+
+    en_sitio = [h for h in huecos if h.get("site_critical")]
+    return Campo(
+        "Huecos del esqueleto",
+        f"{len(huecos)} corte(s) del esqueleto"
+        + (f"; {len(en_sitio)} junto al sitio: " + ", ".join(_hueco(h) for h in en_sitio)
+           if en_sitio else "; todos lejos del sitio: " + ", ".join(_hueco(h) for h in huecos)),
+        Estado.REVISAR,
+        ("El esqueleto está roto junto al sitio: faltan residuos que el cristal no "
+         "observó. Un cálculo posterior tendría que modelarlos, y declararlo, o capar "
+         "los extremos; y el bucle ausente puede formar parte de la cavidad."
+         if en_sitio else
+         "Lejos del sitio no cambian la cavidad, pero un cálculo con disolvente explícito "
+         "necesita esos extremos capados o modelados."),
+        valor_es_clasificacion=True,
+    )
+
+
 def _bloque_receptor(prov: Any, prep: Any) -> list[Requisito]:
     receptor_sha = _v(prov, "receptor_sha256")
     receta = _v(prep, "recipe_hash")
@@ -283,16 +323,8 @@ def _bloque_receptor(prov: Any, prep: Any) -> list[Requisito]:
                   "receptor_prep.removed_residues · cofactors_outside_site", False),
         Requisito("receptor.cadenas_truncadas", cadenas_truncadas,
                   "receptor_prep.truncated_sidechains", False),
-        Requisito(
-            "receptor.huecos",
-            _no_evaluado(
-                "Huecos del esqueleto",
-                "Ni la corrida ni la preparación miden huecos del esqueleto ni residuos "
-                "ausentes del depósito junto al sitio.",
-            ),
-            "no medido",
-            False,
-        ),
+        Requisito("receptor.huecos", _campo_de_huecos(_v(prep, "backbone_gaps")),
+                  "receptor_prep.backbone_gaps", False),
         Requisito("receptor.protonacion", protonacion, "receptor_prep.protonation_method", False),
     ]
 

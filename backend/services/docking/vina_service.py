@@ -1342,6 +1342,12 @@ async def run_vina_docking(
                             preparation_report.get("truncated_sidechains")
                             if preparation_report else None
                         ),
+                        # `None` = no medido (receptor en caché anterior a este
+                        # campo); `[]` = medido y continuo.
+                        "backbone_gaps": (
+                            preparation_report.get("backbone_gaps")
+                            if preparation_report else None
+                        ),
                         "cofactor_templates_sha256": (
                             preparation_report.get("cofactor_templates_sha256")
                             if preparation_report else None

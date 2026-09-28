@@ -1007,6 +1007,103 @@ def truncar_cadenas_laterales_incompletas(
     return "".join(salida), truncados
 
 
+#: El enlace peptídico C–N mide ≈1,33 Å. Por encima de 2,0 Å entre dos residuos
+#: consecutivos la cadena está rota: faltan residuos que el cristal no observó.
+UMBRAL_ENLACE_PEPTIDICO_A = 2.0
+
+
+def _numero_de_residuo(numero: str) -> int | None:
+    try:
+        return int(numero)
+    except ValueError:
+        return None
+
+
+def _residuos_no_observados(fuente: str) -> dict[str, list[int]]:
+    """`REMARK 465` de la fuente: número de cada residuo que el depósito declara ausente.
+
+    Formato `REMARK 465   [M] RES C SSSEQI`; las líneas de cabecera del bloque
+    no terminan en un número y se ignoran.
+    """
+    ausentes: dict[str, list[int]] = {}
+    for line in fuente.splitlines():
+        if not line.startswith("REMARK 465"):
+            continue
+        partes = line.split()
+        if len(partes) < 5:
+            continue
+        cadena, numero = partes[-2], _numero_de_residuo(partes[-1].rstrip("ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+        if numero is None or len(cadena) != 1 or len(partes[-3]) > 3:
+            continue
+        ausentes.setdefault(cadena, []).append(numero)
+    return ausentes
+
+
+def huecos_del_esqueleto(
+    contenido: str,
+    fuente: str,
+    center: tuple[float, float, float],
+    size: tuple[float, float, float],
+) -> list[dict[str, object]]:
+    """Cortes físicos del esqueleto en las cadenas del receptor, con su distancia a la caja.
+
+    Un salto de numeración no prueba un hueco —hay inserciones y numeraciones por
+    dominio—; la distancia C(i)–N(i+1) sí. Se mide ANTES de recortar el receptor
+    al bolsillo, que abriría cortes artificiales. Los residuos modificados que el
+    PDB escribe como HETATM (SEP, TPO, MSE…) cuentan como parte de la cadena si
+    tienen N, CA y C, y el orden sale de la numeración, no de la posición en el
+    archivo (hay depósitos que los escriben al final).
+    """
+    residuos: dict[str, dict[tuple[int, str], dict[str, object]]] = {}
+    for line in contenido.splitlines():
+        if not line.startswith(("ATOM", "HETATM")) or len(line) < 54:
+            continue
+        if line[16] not in (" ", "A"):
+            continue
+        numero = _numero_de_residuo(line[22:26].strip())
+        if numero is None:
+            continue
+        cadena = line[21:22].strip() or "A"
+        clave = (numero, line[26:27].strip())
+        fila = residuos.setdefault(cadena, {}).setdefault(
+            clave, {"name": line[17:20].strip(), "hetatm": line.startswith("HETATM"),
+                    "atomos": {}, "posiciones": []},
+        )
+        xyz = tuple(float(line[i:i + 8]) for i in (30, 38, 46))
+        fila["atomos"].setdefault(line[12:16].strip(), xyz)
+        fila["posiciones"].append(xyz)
+
+    ausentes = _residuos_no_observados(fuente)
+    huecos: list[dict[str, object]] = []
+    for cadena, por_clave in residuos.items():
+        cadena_polimero = [
+            (clave, fila) for clave, fila in sorted(por_clave.items())
+            if not fila["hetatm"] or {"N", "CA", "C"} <= set(fila["atomos"])
+        ]
+        for (clave_a, a), (clave_b, b) in zip(cadena_polimero, cadena_polimero[1:]):
+            c, n = a["atomos"].get("C"), b["atomos"].get("N")
+            if c is None or n is None:
+                continue
+            enlace = math.dist(c, n)
+            if enlace <= UMBRAL_ENLACE_PEPTIDICO_A:
+                continue
+            distancia = min(_distancia_a_caja(p, center, size)
+                            for p in a["posiciones"] + b["posiciones"])
+            declarados = None
+            if cadena in ausentes:
+                declarados = sum(1 for x in ausentes[cadena] if clave_a[0] < x < clave_b[0])
+            huecos.append({
+                "chain": cadena,
+                "after": f"{a['name']} {clave_a[0]}{clave_a[1]}",
+                "before": f"{b['name']} {clave_b[0]}{clave_b[1]}",
+                "c_n_distance_A": round(enlace, 2),
+                "missing_declared": declarados,
+                "distance_to_box_A": round(distancia, 3),
+                "site_critical": distancia <= MARGEN_SITIO_A,
+            })
+    return huecos
+
+
 def _distancia_a_caja(
     pos: tuple[float, float, float],
     center: tuple[float, float, float],
@@ -1368,6 +1465,12 @@ async def prepare_target(
         if cadenas_truncadas:
             log.info("cadenas_laterales_truncadas", pdb_id=pdb_id, total=len(cadenas_truncadas),
                      en_el_sitio=sum(1 for f in cadenas_truncadas if f["site_critical"]))
+        # Huecos del esqueleto sobre las cadenas enteras: después del recorte al
+        # bolsillo cada corte del recorte parecería un residuo ausente.
+        huecos = huecos_del_esqueleto(filtered_content, raw_content, center, size)
+        if huecos:
+            log.info("huecos_del_esqueleto", pdb_id=pdb_id, total=len(huecos),
+                     en_el_sitio=sum(1 for h in huecos if h["site_critical"]))
         if multicadena:
             # El recorte al sitio NO es opcional aquí: conservar los oligómeros
             # enteros reintroduciría los receptores de 5 y 10 MB que la v1.6
@@ -1658,6 +1761,7 @@ async def prepare_target(
             "receptor_sha256": hashlib.sha256(output_pdbqt.read_bytes()).hexdigest(),
             "removed_residues": removed,
             "truncated_sidechains": cadenas_truncadas,
+            "backbone_gaps": huecos,
             "cofactor_templates_sha256": _plantillas_sha256(),
             "cofactors_outside_site": cofactores_fuera,
             "meeko_reported_residues": sorted(set(

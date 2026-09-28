@@ -1,6 +1,6 @@
 {
-  "condiciones": "Windows x64; Python embebido 3.11.9; Vina 1.2.7; Meeko 0.7.1; RDKit 2025.9.6; dimorphite_dl 2.0.2; 3F75; semilla 42 en PRO; receta del receptor v7 (2026-09-28).",
-  "golden_version": 2,
+  "condiciones": "Windows x64; Python embebido 3.11.9; Vina 1.2.7; Meeko 0.7.1; RDKit 2025.9.6; dimorphite_dl 2.0.2; 3F75; semilla 42 en PRO; receta del receptor v7 (2026-09-28); huecos del esqueleto medidos.",
+  "golden_version": 3,
   "normal": {
     "affinity_kcal": -4.879,
     "execution": {
@@ -19,6 +19,7 @@
       "ligand_pdbqt_sha256": "af05479941ee22d8858eabb2deb1fccb4bc11aeeb283ad0529138ae43e4316d4",
       "poses_sha256": "247d014c61abf3e7f6ef9250e19160e8b10884d892f9470e5c8026bc24d345e9",
       "receptor_prep": {
+        "backbone_gaps": [],
         "chain": "A",
         "cofactor_templates_sha256": "11e19414717c112df6a7c598973d0199a7be1f590d8773fc75ce70dd94681fbd",
         "cofactors_outside_site": [],
@@ -713,6 +714,7 @@
       "ligand_pdbqt_sha256": "d0f85a7e391d170b1ee9388b2f6da7ce1a4050aa766afdf7cc85bb9917a0f69d",
       "poses_sha256": "c1052df4e9898bb3071d609fb25c1eac106e1155d1c54bcd80244d768c00eb5e",
       "receptor_prep": {
+        "backbone_gaps": [],
         "chain": "A",
         "cofactor_templates_sha256": "11e19414717c112df6a7c598973d0199a7be1f590d8773fc75ce70dd94681fbd",
         "cofactors_outside_site": [],
