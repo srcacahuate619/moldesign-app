@@ -80,6 +80,7 @@ const requisitos: Record<string, Record<Locale, string>> = {
   "receptor.caja": { es: "Caja de trabajo", en: "Search box" },
   "receptor.cadenas_excluidas": { es: "Cadenas excluidas junto al sitio", en: "Excluded chains near the site" },
   "receptor.residuos_retirados": { es: "Residuos retirados por la preparación", en: "Residues removed by preparation" },
+  "receptor.cadenas_truncadas": { es: "Cadenas laterales truncadas", en: "Truncated side chains" },
   "receptor.huecos": { es: "Huecos del esqueleto", en: "Backbone gaps" },
   "receptor.protonacion": { es: "Protonación del receptor", en: "Receptor protonation" },
   "ligando.identidad": { es: "Ligando acoplado", en: "Docked ligand" },

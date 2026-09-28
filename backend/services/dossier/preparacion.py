@@ -165,6 +165,46 @@ def _bloque_receptor(prov: Any, prep: Any) -> list[Requisito]:
             valor_es_clasificacion=True,
         )
 
+    # Receta v7: las cadenas laterales que el cristal no resolvía se truncan a ALA
+    # o GLY conservando sólo átomos observados (PDBFixer no es reproducible). En
+    # el sitio, la cavidad acoplada no es la de la proteína: se declara.
+    truncadas = _v(prep, "truncated_sidechains")
+    if truncadas is None:
+        cadenas_truncadas = _no_evaluado(
+            "Cadenas laterales truncadas",
+            "La corrida no registró qué cadenas laterales incompletas del cristal se "
+            "truncaron: su receta es anterior a la v7 o el receptor se congeló antes.",
+        )
+    elif not truncadas:
+        cadenas_truncadas = Campo(
+            "Cadenas laterales truncadas",
+            "Ninguna: el cristal resolvía todas las cadenas laterales del receptor.",
+            Estado.REGISTRADO,
+        )
+    else:
+        en_sitio = [t for t in truncadas if t.get("site_critical")]
+
+        def _truncada(t: dict[str, Any]) -> str:
+            destino = str(t.get("action") or "").split()[-1:] or ["?"]
+            return (f"{t.get('chain')}:{t.get('residue_number')}{t.get('insertion_code') or ''} "
+                    f"{t.get('name')}→{destino[0]} ({t.get('distance_to_box_A')} Å)")
+
+        cadenas_truncadas = Campo(
+            "Cadenas laterales truncadas",
+            f"{len(truncadas)} truncada(s)"
+            + (f"; {len(en_sitio)} en el sitio: " + ", ".join(_truncada(t) for t in en_sitio)
+               if en_sitio else "; todas fuera del sitio"),
+            Estado.REVISAR,
+            "El cristal no resolvía esas cadenas laterales y se truncaron a ALA o GLY, "
+            "conservando sólo átomos observados. "
+            + ("En el sitio, la cavidad pierde esos grupos: un cálculo posterior tendría "
+               "que reconstruirlos, y declararlo, o partir de otra estructura."
+               if en_sitio else
+               "Fuera del sitio no cambian la cavidad, pero el receptor que se entregaría "
+               "no los contiene."),
+            valor_es_clasificacion=True,
+        )
+
     diff = _v(prep, "species_diff")
     cerca = _v(diff, "near_site") if isinstance(diff, dict) else None
     excluidas = _v(cerca, "protein_residues_removed") if isinstance(cerca, dict) else None
@@ -241,6 +281,8 @@ def _bloque_receptor(prov: Any, prep: Any) -> list[Requisito]:
                   "receptor_prep.species_diff.near_site.protein_residues_removed", False),
         Requisito("receptor.residuos_retirados", residuos,
                   "receptor_prep.removed_residues · cofactors_outside_site", False),
+        Requisito("receptor.cadenas_truncadas", cadenas_truncadas,
+                  "receptor_prep.truncated_sidechains", False),
         Requisito(
             "receptor.huecos",
             _no_evaluado(
@@ -444,10 +486,21 @@ def _bloque_entorno(prep: Any, projection: CaseProjection) -> list[Requisito]:
         )
 
     aguas_fuera, aguas_dentro = _de(retiradas, "water"), _de(conservadas, "water")
+
+    def _por_distancia(filas: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        return sorted(filas, key=lambda f: (f.get("distance_to_box_A") is None,
+                                            f.get("distance_to_box_A") or 0.0))
+
+    # TODAS, una por una y de la más cercana a la más lejana: decidir cuáles son
+    # estructurales exige saber cuáles eran. Un recuento no deja decidir nada.
     aguas = (
         Campo(
             "Aguas junto al sitio",
-            f"{len(aguas_fuera)} retirada(s) a {margen:g} Å o menos; {len(aguas_dentro)} conservada(s)",
+            f"{len(aguas_fuera)} retirada(s) a {margen:g} Å o menos: "
+            + ", ".join(_fila(f) for f in _por_distancia(aguas_fuera))
+            + (f"; {len(aguas_dentro)} conservada(s): "
+               + ", ".join(_fila(f) for f in _por_distancia(aguas_dentro))
+               if aguas_dentro else "; ninguna conservada"),
             Estado.REVISAR,
             "La ruta de docking retira todas las aguas. No se ha decidido cuáles son "
             "estructurales y cuáles desplazables.",
