@@ -256,6 +256,14 @@ export type EvaluationResult = {
    * peso de la GNN legacy y se mostraba bajo la etiqueta de CL-GNN.
    */
   stacking_clgnn_weight: number | null;
+  /** Calibración del stacking que produjo `total_score` (B-2). */
+  weights_calibration_id?: string | null;
+  /**
+   * ¿Se puede comparar esta corrida con las de hoy? (B-2). Lo decide el backend
+   * con la receta del receptor y la calibración que la corrida selló; la interfaz
+   * todavía no lo muestra.
+   */
+  protocolo?: ProtocoloDeLaCorrida | null;
   // Transparencia del modelo usado (F-21)
   engine_used: string | null;
   fallback_reason: string | null;
@@ -300,9 +308,29 @@ export type EvaluationResult = {
 
   // Blockchain
   blockchain_tx_id: string | null;
+  /** Corrida y `total_score` que describe el sello (B-1). */
+  certified_task_id?: string | null;
+  certified_total_score?: number | null;
+  /**
+   * ¿El sello describe la corrida que se muestra? `null` si no hay sello o no se
+   * puede saber (B-1). Es la lectura que evita enseñar «Certificado» con el sello
+   * de una corrida anterior; la interfaz todavía no la usa.
+   */
+  seal_matches_current_run?: boolean | null;
 
   error_message: string | null;
   evaluated_at: string;
+};
+
+/** `protocolo` del resultado: ver `backend/services/docking/protocolo_de_producto.py`. */
+export type ProtocoloDeLaCorrida = {
+  /** `true` comparable; `false` receta o calibración distintas; `null` falta un dato. */
+  vigente: boolean | null;
+  diferencias: string[];
+  receta_receptor: number | null;
+  receta_vigente: number;
+  calibracion_ranking: string | null;
+  calibracion_vigente: string | null;
 };
 
 export type JobStatus = {

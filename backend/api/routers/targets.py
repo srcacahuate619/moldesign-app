@@ -18,7 +18,7 @@ from core.models import Target, TargetORM, UserORM
 from db.repository import Repository
 from api.dependencies import get_current_user, get_current_user_optional
 from services.targets.calibracion import estado_de_calibracion
-from services.targets.disponibilidad import motivo_no_disponible
+from services.targets.disponibilidad import cadenas_truncadas_en_sitio, motivo_no_disponible
 from services.targets.access import (
     get_target_for_user,
     require_target_object_access,
@@ -262,6 +262,9 @@ async def list_targets(
         # ocultarla borraría el catálogo; ofrecerla haría fallar la corrida.
         t_schema.motivo_no_disponible = motivo_no_disponible(t.pdb_id)
         t_schema.disponible = t_schema.motivo_no_disponible is None
+        # Disponible no es intacta: con la receta v7 una diana puede acoplarse
+        # con cadenas laterales del sitio truncadas. Se dice antes de elegirla.
+        t_schema.cadenas_truncadas_en_sitio = cadenas_truncadas_en_sitio(t.pdb_id)
 
         # Enriquecer hotspots con coordenadas si el PDB existe
         if t_schema.hotspots:

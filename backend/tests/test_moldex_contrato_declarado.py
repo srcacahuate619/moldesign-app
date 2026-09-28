@@ -40,6 +40,8 @@ def test_el_esquema_declara_la_procedencia_de_cada_ficha():
         "engine_version",
         "random_seed",
         "docking_protocol",
+        # B-2 (2026-09-27): si la corrida es comparable con las de hoy.
+        "protocolo",
     }
     # Todo puede faltar en una corrida heredada; nada se rellena.
     assert all(not campo.is_required() for campo in campos.values())

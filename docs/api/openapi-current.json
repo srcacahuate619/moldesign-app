@@ -2403,6 +2403,28 @@
             ],
             "title": "Celery Task Id"
           },
+          "certified_task_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Certified Task Id"
+          },
+          "certified_total_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Certified Total Score"
+          },
           "clgnn_score": {
             "anyOf": [
               {
@@ -2917,6 +2939,13 @@
             ],
             "title": "Poses File Path"
           },
+          "protocolo": {
+            "additionalProperties": true,
+            "description": "Si esta corrida es comparable con las de hoy (receta del receptor y\ncalibración del ranking). Ver `services/docking/protocolo_de_producto.py`.",
+            "readOnly": true,
+            "title": "Protocolo",
+            "type": "object"
+          },
           "qed": {
             "anyOf": [
               {
@@ -3029,6 +3058,19 @@
               }
             ],
             "title": "Scientific Warnings"
+          },
+          "seal_matches_current_run": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "`True` si el sello describe esta corrida, `False` si es de otra y\n`None` si no hay sello o no registra qué corrida cubrió.",
+            "readOnly": true,
+            "title": "Seal Matches Current Run"
           },
           "selectivity_delta_delta_g": {
             "anyOf": [
@@ -3388,6 +3430,17 @@
             ],
             "title": "Vina Version"
           },
+          "weights_calibration_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Weights Calibration Id"
+          },
           "xgb_score": {
             "anyOf": [
               {
@@ -3431,10 +3484,12 @@
           "blockchain_tx_id",
           "error_message",
           "evaluated_at",
+          "protocolo",
           "ligand_efficiency",
           "ligand_lipophilicity_efficiency",
           "sile_vina",
-          "fq_vina_proxy"
+          "fq_vina_proxy",
+          "seal_matches_current_run"
         ],
         "title": "EvaluationResultRead",
         "type": "object"
@@ -3775,6 +3830,17 @@
               }
             ],
             "title": "Name"
+          },
+          "protocolo_vigente": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Protocolo Vigente"
           },
           "qed": {
             "anyOf": [
@@ -4562,6 +4628,18 @@
               }
             ],
             "title": "Engine Version"
+          },
+          "protocolo": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Protocolo"
           },
           "random_seed": {
             "anyOf": [
@@ -6187,6 +6265,20 @@
               }
             ],
             "title": "Anti Target Risk"
+          },
+          "cadenas_truncadas_en_sitio": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cadenas Truncadas En Sitio"
           },
           "calibracion": {
             "anyOf": [

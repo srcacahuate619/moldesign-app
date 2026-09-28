@@ -26,6 +26,7 @@ from core.models import (
     TargetORM,
     UserORM,
 )
+from services.docking.protocolo_de_producto import describir_protocolo
 from utils.logger import get_logger
 
 log = get_logger(__name__)
@@ -63,6 +64,10 @@ class EvaluationSummary(BaseModel):
     #: Promovida a Moldex. La lista muestra todas las evaluaciones; sin este campo, una
     #: molecula que esta en Moldex y otra que no se veian identicas en el historial.
     is_saved: bool
+    #: `False` si la corrida usó otra receta de receptor u otra calibración del
+    #: ranking que las de hoy; `None` si no lo registró (p. ej. 1.0.1). Ver
+    #: `services/docking/protocolo_de_producto.py`.
+    protocolo_vigente: bool | None = None
 
 
 class HistoryResponse(BaseModel):
@@ -273,6 +278,14 @@ async def list_evaluations(
             created_at=mol.created_at.isoformat() if mol.created_at else "",
             task_id=ev.task_id if ev else None,
             is_saved=bool(mol.is_saved),
+            protocolo_vigente=(
+                describir_protocolo(
+                    ev.docking_protocol,
+                    ev.weights_calibration_id,
+                    ev.target_family or (mol.target.structural_family if mol.target else None),
+                )["vigente"]
+                if ev else None
+            ),
         ))
 
     return HistoryResponse(

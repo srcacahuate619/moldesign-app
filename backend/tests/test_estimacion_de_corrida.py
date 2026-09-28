@@ -296,3 +296,36 @@ def test_con_cpu_automatico_la_observacion_se_registra(monkeypatch):
 
     monkeypatch.setattr(vina_service.settings, "vina_cpu", 6)
     assert vina_service.cpu_efectivo_de_vina() == 6
+
+
+def test_el_endpoint_estima_con_vina_en_serie(monkeypatch):
+    """B-4: `/evaluation/estimate` dividía los acoplamientos por
+    `recommended_parallel_docks` (hasta 3), pero desde la fase 7 un candado deja
+    un solo Vina a la vez. Con anti-dianas, la estimación salía hasta tres veces
+    corta."""
+    import asyncio
+    from types import SimpleNamespace
+
+    from api import main
+    from core.config import get_settings
+    from services.docking.search_policy import VINA_PROCESS_LIMIT
+
+    assert VINA_PROCESS_LIMIT == 1
+    hw = SimpleNamespace(
+        cpu_cores_logical=8, recommended_parallel_docks=3, gpu_cuda=False, gpu_opencl=False,
+    )
+    monkeypatch.setattr(main, "detect_hardware", lambda: hw)
+
+    salida = asyncio.run(main.estimar_esta_corrida(
+        exhaustiveness=8, conformers=1, target_pdb_id=None,
+        grid_size_x=20.0, grid_size_y=20.0, grid_size_z=20.0,
+        rotables=None, anti_targets=2, mmgbsa=False, ligandos=1,
+    ))
+    en_serie = estimacion.estimar_corrida(
+        cpu=int(getattr(get_settings(), "vina_cpu", 0) or 8),
+        exhaustiveness=8, volumen_caja=8000.0, anti_targets=2, docks_en_paralelo=1,
+    )
+    assert salida["segundos_min"] == en_serie["segundos_min"]
+    assert salida["segundos_max"] == en_serie["segundos_max"]
+    acoplamiento = next(e for e in salida["etapas"] if e["etapa"] == "Acoplamiento")
+    assert "tanda" not in acoplamiento["nota"]

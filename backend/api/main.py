@@ -518,6 +518,7 @@ async def estimar_esta_corrida(
     primera corrida parezca rota al lado de la segunda.
     """
     from core.config import get_settings as _ajustes
+    from services.docking.search_policy import VINA_PROCESS_LIMIT
     from services.estimacion import estimar_corrida
 
     hw = detect_hardware()
@@ -539,7 +540,10 @@ async def estimar_esta_corrida(
         receptor_preparado=receptor_preparado,
         rotables_del_ligando=rotables,
         anti_targets=anti_targets,
-        docks_en_paralelo=hw.recommended_parallel_docks,
+        # B-4: los acoplamientos van en serie (fase 7). Dividir por la
+        # recomendación de hardware prometía un paralelismo que no ocurre y
+        # subestimaba la duración con anti-dianas o ensembles.
+        docks_en_paralelo=VINA_PROCESS_LIMIT,
         usa_mmgbsa=mmgbsa,
         gpu_cuda=hw.gpu_cuda,
         gpu_opencl=hw.gpu_opencl,

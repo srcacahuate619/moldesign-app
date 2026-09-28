@@ -10,6 +10,7 @@ from api.dependencies import get_db, get_current_user_optional
 from core.models import UserORM
 from db.repository import Repository
 from services.avisos import textos
+from services.docking.protocolo_de_producto import describir_protocolo
 from utils.logger import get_logger
 
 log = get_logger(__name__)
@@ -67,6 +68,9 @@ class MoldexProvenanceRead(BaseModel):
     engine_version: str | None = None
     random_seed: int | None = None
     docking_protocol: dict[str, Any] | None = None
+    #: Si la corrida es comparable con las de hoy (receta del receptor y
+    #: calibración del ranking). Ver `services/docking/protocolo_de_producto.py`.
+    protocolo: dict[str, Any] | None = None
 
 
 class MoldexSealRead(BaseModel):
@@ -130,15 +134,17 @@ def _estado_del_sello(res: Any) -> dict[str, Any]:
             "matches_current_run": None,
         }
 
+    from services.blockchain.sello import sello_describe_la_corrida
+
     task_sellada = res.certified_task_id
     score_sellado = res.certified_total_score
-
-    if task_sellada is None:
-        coincide = None
-    else:
-        # El cero medido es un valor válido, no un faltante: se compara con
-        # `is not None`, nunca por veracidad (MOLDEX-SCI-002).
-        coincide = task_sellada == res.task_id and score_sellado == res.total_score
+    coincide = sello_describe_la_corrida(
+        tx_id=firma,
+        certified_task_id=task_sellada,
+        certified_total_score=score_sellado,
+        task_id=res.task_id,
+        total_score=res.total_score,
+    )
 
     return {
         "certified": True,
@@ -214,6 +220,11 @@ async def get_moldex(
                 "engine_version": res.vina_version,
                 "random_seed": res.vina_random_seed,
                 "docking_protocol": res.docking_protocol,
+                "protocolo": describir_protocolo(
+                    res.docking_protocol,
+                    getattr(res, "weights_calibration_id", None),
+                    getattr(res, "target_family", None) or target.structural_family,
+                ),
             },
             "target": {
                 "pdb_id": target.pdb_id,

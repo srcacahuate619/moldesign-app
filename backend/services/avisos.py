@@ -55,6 +55,52 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any
 
+#: **Contrato con la interfaz (B-5).** Todos los códigos que el backend emite
+#: con `aviso(...)` o como `"codigo"` literal. La interfaz enseña un título
+#: traducido por código, porque el `mensaje` es castellano y dinámico. Añadir,
+#: renombrar o retirar un código se anuncia antes en el canal entre sesiones
+#: (F→B-004). `tests/test_codigos_de_aviso.py` falla si un código emitido falta
+#: aquí o si uno de aquí ya no se emite.
+CODIGOS_DE_AVISO = frozenset({
+    "AFINIDAD_DEBIL",
+    "BIGUANIDA_ESTADO_EN_REVISION",
+    "CADENAS_LATERALES_TRUNCADAS",
+    "CAJA_BUSQUEDA_AMPLIA",
+    "COFACTORES_SIN_PLANTILLA_FUERA_DEL_SITIO",
+    "ESPECIE_ACOPLADA_DISTINTA",
+    "ESTEREOQUIMICA_NO_DECLARADA",
+    "HOTSPOTS_ERROR",
+    "LIGANDO_EXCEDE_CAJA",
+    "METALES_SIN_MOTOR_ADECUADO",
+    "METAL_FEATURES_NO_EVALUADO",
+    "MICROESTADO_PKA_NO_VERIFICADO",
+    "MICROESTADO_SIN_CRITERIO_QUIMICO",
+    "ML_FUERA_DE_DOMINIO",
+    "MMGBSA_FAILED",
+    "MMGBSA_TIMEOUT",
+    "MOLECULA_FLEXIBLE",
+    "MOLECULA_GRANDE",
+    "MOTOR_AD4_XTB",
+    "MOTOR_SUSTITUIDO",
+    "PEPTIDE_REFINEMENT_NO_VALIDADO",
+    "PEPTIDO_LINEAL_DETECTADO",
+    "PEPTIDO_PLEGADO_Y_ACOPLADO",
+    "PEPTIDO_POSES_PARCIALES",
+    "PEPTIDO_SIN_ACOPLAMIENTO",
+    "QUANTUM_NO_EVALUADO",
+    "RECEPTOR_PROTONACION_DECLARADA",
+    "RESCORING_SIDECAR",
+    "RESIDUOS_ELIMINADOS_FUERA_DEL_SITIO",
+    "SA_ALTO",
+    "SEMILLA_DISCREPANTE",
+    "SIN_CORRECCION_DE_PROTONACION",
+    "SIN_HOTSPOTS",
+    "SITIO_DESOLVATADO",
+})
+
+#: Marcas del normalizador para avisos que no traen código. No se emiten.
+CODIGOS_DE_NORMALIZACION = frozenset({"HEREDADO", "SIN_CODIGO"})
+
 
 class Severidad(str, Enum):
     """Cuánto debería cambiar este aviso la lectura de la corrida."""

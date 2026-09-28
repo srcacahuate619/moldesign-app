@@ -788,8 +788,11 @@ def resolve_effective_docking_box(
 
 
 #: v6: cofactores sin plantilla a más de MARGEN_SITIO_A se retiran en vez de bloquear.
-#: v7: cadenas laterales incompletas completadas con PDBFixer y plantillas locales
-#: de cofactores (`backend/data/meeko_templates/`); cambia los bytes de esos receptores.
+#: v7: cadenas laterales incompletas truncadas a ALA o GLY, conservando sólo
+#: átomos observados (PDBFixer no es reproducible; ver
+#: `truncar_cadenas_laterales_incompletas`), y plantillas locales de cofactores
+#: (`backend/data/meeko_templates/`). Cambia los bytes de esos receptores.
+#: Cada corrida la sella en `execution_provenance.receta_receptor`.
 RECEPTOR_RECIPE_VERSION = 7
 
 RUTA_PLANTILLAS_COFACTORES = (

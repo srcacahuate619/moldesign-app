@@ -43,9 +43,11 @@ from services.docking.pose_recovery import (
     PoseNoRecuperable, verificar_pares_sdf_pdbqt,
 )
 from services.docking.search_policy import (
-    BOX_VOLUME_WARNING_A3, box_volume, effective_exhaustiveness as resolve_exhaustiveness,
+    BOX_VOLUME_WARNING_A3, VINA_PROCESS_LIMIT, box_volume,
+    effective_exhaustiveness as resolve_exhaustiveness,
 )
 from services.docking.preparer import (
+    RECEPTOR_RECIPE_VERSION,
     _meeko_report_path,
     prepare_target,
     resolve_effective_docking_box,
@@ -86,8 +88,8 @@ log = get_logger(__name__)
 
 # Con vina_cpu=0 un Vina ocupa todos los núcleos disponibles. El semáforo
 # protege las event loops de este proceso y el candado de archivo coordina
-# otros procesos MolDesign (incluido selectivity_subprocess).
-VINA_PROCESS_LIMIT = 1
+# otros procesos MolDesign (incluido selectivity_subprocess). El límite
+# (`VINA_PROCESS_LIMIT`) se declara en `search_policy`.
 _vina_process_gate = threading.BoundedSemaphore(VINA_PROCESS_LIMIT)
 
 
@@ -1295,6 +1297,14 @@ async def run_vina_docking(
                     "cpu": int(settings.vina_cpu),
                     "app_version": APP_VERSION,
                     "git_commit": _source_commit(),
+                    # B-2: la receta con la que se preparó el receptor, para
+                    # saber si esta corrida es comparable con las de hoy.
+                    # `recipe_hash` identifica bytes, no versión de receta. Un
+                    # receptor durable se congeló antes, quizá con otra receta:
+                    # ahí no se afirma ninguna.
+                    "receta_receptor": (
+                        RECEPTOR_RECIPE_VERSION if preparation_report is not None else None
+                    ),
                     "ligand_input_sha256": ligand_input_sha256,
                     "ligand_input_path": StoragePath.ligand_conformer(smiles_hash),
                     "ligand_pdbqt_sha256": ligand_pdbqt_sha256,

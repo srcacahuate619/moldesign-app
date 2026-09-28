@@ -103,7 +103,10 @@ def construir() -> dict:
             "Una diana en `no_disponibles` sigue en el catálogo y se muestra con su motivo. "
             "`origen: cofactor_sin_plantilla` se recalcula en cada --check; "
             "`origen: preparacion_medida` sale de --barrido, que ejecuta Meeko sobre "
-            "todo el catálogo y sólo vale para la receta y la versión de Meeko que declara."
+            "todo el catálogo y sólo vale para la receta y la versión de Meeko que declara. "
+            "`truncadas_en_sitio` también sale del barrido: por diana disponible, las "
+            "cadenas laterales que el cristal no resolvía y se truncaron a ALA o GLY a "
+            "`margen_sitio_A` o menos de la caja. La cavidad acoplada pierde esos grupos."
         ),
         "catalogo_sha256": hashlib.sha256(catalogo_bytes).hexdigest(),
         "receta_receptor": RECEPTOR_RECIPE_VERSION,
@@ -142,20 +145,22 @@ def barrido(datos: dict, concurrencia: int = 3) -> dict:
     import importlib.metadata
 
     from core.exceptions import ProteinPreparationError
-    from services.docking.preparer import prepare_target
+    from services.docking.preparer import _meeko_report_path, prepare_target
+    from utils.local_storage import read_text
 
     if not os.environ.get("LOCAL_DATA_DIR"):
         raise SystemExit("--barrido exige LOCAL_DATA_DIR apuntando a un directorio desechable")
     catalogo = json.loads(CATALOGO.read_bytes())
     pendientes = [e for e in catalogo if str(e["pdb_id"]).upper() not in datos["no_disponibles"]]
     fallos: dict[str, dict] = {}
+    truncadas: dict[str, list[str]] = {}
     semaforo = asyncio.Semaphore(concurrencia)
 
     async def una(entrada: dict) -> None:
         pdb_id = str(entrada["pdb_id"]).upper()
         async with semaforo:
             try:
-                await prepare_target(
+                preparado = await prepare_target(
                     pdb_id, (entrada.get("chain") or "A").strip(),
                     tuple(float(entrada.get(f"grid_center_{e}") or 0.0) for e in "xyz"),
                     tuple(float(entrada.get(f"grid_size_{e}") or 20.0) for e in "xyz"),
@@ -164,6 +169,15 @@ def barrido(datos: dict, concurrencia: int = 3) -> dict:
                     site_chains=entrada.get("site_chains"),
                     site_ligand=entrada.get("site_ligand"),
                 )
+                informe = json.loads(await read_text(_meeko_report_path(preparado)))
+                en_sitio = [
+                    f"{f['chain']}:{f['residue_number']}{f.get('insertion_code') or ''} "
+                    f"{f['name']}→{str(f['action']).split()[-1]} ({f['distance_to_box_A']} Å)"
+                    for f in informe.get("truncated_sidechains") or []
+                    if f.get("site_critical")
+                ]
+                if en_sitio:
+                    truncadas[pdb_id] = en_sitio
             except ProteinPreparationError as exc:
                 fallos[pdb_id] = {
                     "motivo": motivo_compacto(exc.step, str(exc.detail), datos["margen_sitio_A"]),
@@ -184,6 +198,7 @@ def barrido(datos: dict, concurrencia: int = 3) -> dict:
 
     asyncio.run(todas())
     datos["no_disponibles"] = dict(sorted({**datos["no_disponibles"], **fallos}.items()))
+    datos["truncadas_en_sitio"] = dict(sorted(truncadas.items()))
     datos["barrido_meeko"] = {
         "fecha": datetime.date.today().isoformat(),
         "receta_receptor": datos["receta_receptor"],
@@ -207,6 +222,8 @@ def conservar_medidas(nuevo: dict, anterior: dict) -> dict:
     heredadas = {k: v for k, v in anterior.get("no_disponibles", {}).items()
                  if v.get("origen") == "preparacion_medida" and k not in nuevo["no_disponibles"]}
     nuevo["no_disponibles"] = dict(sorted({**nuevo["no_disponibles"], **heredadas}.items()))
+    if "truncadas_en_sitio" in anterior:
+        nuevo["truncadas_en_sitio"] = anterior["truncadas_en_sitio"]
     nuevo["barrido_meeko"] = medido
     return nuevo
 

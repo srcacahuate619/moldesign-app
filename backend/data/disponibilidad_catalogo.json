@@ -1,5 +1,5 @@
 {
- "_doc": "Generado por scripts/generate_catalog_availability.py; no editar a mano. Una diana en `no_disponibles` sigue en el catálogo y se muestra con su motivo. `origen: cofactor_sin_plantilla` se recalcula en cada --check; `origen: preparacion_medida` sale de --barrido, que ejecuta Meeko sobre todo el catálogo y sólo vale para la receta y la versión de Meeko que declara.",
+ "_doc": "Generado por scripts/generate_catalog_availability.py; no editar a mano. Una diana en `no_disponibles` sigue en el catálogo y se muestra con su motivo. `origen: cofactor_sin_plantilla` se recalcula en cada --check; `origen: preparacion_medida` sale de --barrido, que ejecuta Meeko sobre todo el catálogo y sólo vale para la receta y la versión de Meeko que declara. `truncadas_en_sitio` también sale del barrido: por diana disponible, las cadenas laterales que el cristal no resolvía y se truncaron a ALA o GLY a `margen_sitio_A` o menos de la caja. La cavidad acoplada pierde esos grupos.",
  "catalogo_sha256": "47fbe7f2ec6d0cca7ae9f72b90da84ea3061a5d6851d67d12cb0b2758fd0d8ac",
  "receta_receptor": 7,
  "margen_sitio_A": 6.0,
@@ -81,8 +81,1074 @@
   }
  },
  "cofactores_fuera_del_sitio": {},
+ "truncadas_en_sitio": {
+  "1AJ6": [
+   "A:103 LYS→ALA (0.0 Å)",
+   "A:128 GLN→ALA (4.804 Å)",
+   "A:14 LYS→ALA (4.11 Å)",
+   "A:159 GLU→ALA (0.0 Å)",
+   "A:162 LYS→ALA (0.0 Å)",
+   "A:49 ASP→ALA (0.0 Å)",
+   "A:57 LYS→ALA (0.0 Å)"
+  ],
+  "1BN1": [
+   "A:4 HIS→GLY (1.301 Å)"
+  ],
+  "1DIY": [
+   "A:170 GLN→ALA (3.303 Å)",
+   "A:173 ASP→ALA (0.0 Å)",
+   "A:175 GLU→ALA (0.0 Å)",
+   "A:186 LYS→ALA (2.44 Å)",
+   "A:215 LYS→ALA (0.0 Å)",
+   "A:267 GLU→ALA (5.634 Å)",
+   "A:290 GLU→ALA (0.0 Å)",
+   "A:396 ARG→ALA (0.0 Å)",
+   "A:400 GLN→ALA (1.459 Å)",
+   "A:405 GLU→ALA (0.0 Å)",
+   "A:416 ASP→ALA (2.194 Å)",
+   "A:486 GLU→ALA (5.894 Å)"
+  ],
+  "1FE2": [
+   "A:168 LYS→ALA (5.069 Å)",
+   "A:170 GLN→ALA (3.216 Å)",
+   "A:173 ASP→ALA (0.0 Å)",
+   "A:175 GLU→ALA (0.0 Å)",
+   "A:179 ARG→ALA (0.0 Å)",
+   "A:186 LYS→ALA (2.499 Å)",
+   "A:215 LYS→ALA (0.0 Å)",
+   "A:267 GLU→ALA (5.699 Å)",
+   "A:396 ARG→ALA (0.0 Å)",
+   "A:400 GLN→ALA (1.259 Å)",
+   "A:453 LYS→ALA (0.0 Å)",
+   "A:486 GLU→ALA (5.753 Å)"
+  ],
+  "1GPK": [
+   "A:270 LYS→ALA (5.052 Å)",
+   "A:299 GLU→ALA (4.988 Å)",
+   "A:344 GLU→ALA (1.344 Å)",
+   "A:413 LYS→ALA (5.498 Å)",
+   "A:434 GLU→ALA (0.0 Å)",
+   "A:46 ARG→ALA (0.655 Å)",
+   "A:89 GLU→ALA (0.92 Å)"
+  ],
+  "1IGZ": [
+   "A:168 LYS→ALA (5.07 Å)",
+   "A:170 GLN→ALA (3.358 Å)",
+   "A:173 ASP→ALA (0.0 Å)",
+   "A:175 GLU→ALA (0.0 Å)",
+   "A:185 ARG→ALA (2.611 Å)",
+   "A:186 LYS→ALA (2.424 Å)",
+   "A:215 LYS→ALA (0.0 Å)",
+   "A:267 GLU→ALA (5.705 Å)",
+   "A:268 GLU→ALA (4.545 Å)",
+   "A:396 ARG→ALA (0.0 Å)",
+   "A:400 GLN→ALA (1.243 Å)",
+   "A:405 GLU→ALA (0.0 Å)",
+   "A:453 LYS→ALA (0.0 Å)",
+   "A:486 GLU→ALA (5.833 Å)",
+   "A:493 GLU→ALA (2.819 Å)"
+  ],
+  "1IRU": [
+   "P:138 TRP→ALA (0.0 Å)",
+   "P:139 ASN→ALA (0.0 Å)",
+   "P:140 GLU→ALA (0.0 Å)",
+   "P:142 ARG→ALA (0.0 Å)",
+   "P:162 MET→ALA (4.998 Å)",
+   "P:35 VAL→ALA (4.647 Å)",
+   "Q:197 LEU→ALA (5.486 Å)",
+   "Q:210 LYS→ALA (2.781 Å)",
+   "Q:222 LYS→ALA (4.25 Å)",
+   "Q:229 LYS→ALA (0.0 Å)",
+   "Q:230 GLN→ALA (0.154 Å)",
+   "Q:231 LYS→ALA (2.347 Å)",
+   "Q:51 ASN→ALA (0.519 Å)",
+   "Q:52 ILE→ALA (3.221 Å)",
+   "Q:54 LYS→ALA (3.076 Å)"
+  ],
+  "1IS0": [
+   "A:146 GLU→ALA (5.973 Å)",
+   "A:181 LYS→ALA (0.0 Å)",
+   "A:217 ARG→ALA (0.0 Å)",
+   "C:255 ILE→ALA (0.0 Å)"
+  ],
+  "1SM3": [
+   "H:42 GLU→ALA (0.0 Å)",
+   "H:85 GLU→ALA (2.367 Å)",
+   "L:163 GLN→ALA (0.0 Å)",
+   "L:41 ASP→ALA (0.0 Å)"
+  ],
+  "1SUU": [
+   "A:506 GLU→ALA (2.698 Å)",
+   "A:648 LYS→ALA (2.295 Å)",
+   "A:659 LYS→ALA (4.474 Å)"
+  ],
+  "1T69": [
+   "A:106 GLU→GLY (4.432 Å)",
+   "A:111 TYR→ALA (0.0 Å)",
+   "A:23 GLU→ALA (3.796 Å)",
+   "A:60 LYS→ALA (5.052 Å)",
+   "A:92 ASP→ALA (0.36 Å)",
+   "A:95 GLU→ALA (0.868 Å)"
+  ],
+  "1VL4": [
+   "B:110 ARG→ALA (0.0 Å)",
+   "B:125 LYS→ALA (3.912 Å)",
+   "B:199 GLU→ALA (0.632 Å)",
+   "B:34 ARG→ALA (0.0 Å)",
+   "B:40 LEU→ALA (4.456 Å)"
+  ],
+  "1VPB": [
+   "A:5 GLU→ALA (1.816 Å)",
+   "A:52 GLU→ALA (0.552 Å)",
+   "A:8 LYS→ALA (1.604 Å)"
+  ],
+  "2AM9": [
+   "A:893 GLU→ALA (0.0 Å)"
+  ],
+  "2FR3": [
+   "A:101 LYS→ALA (2.649 Å)",
+   "A:103 GLU→ALA (1.681 Å)",
+   "A:38 LYS→ALA (0.0 Å)",
+   "A:66 LYS→ALA (3.285 Å)",
+   "A:82 LYS→ALA (1.199 Å)",
+   "A:98 LYS→ALA (2.118 Å)"
+  ],
+  "2HZI": [
+   "A:247 LYS→ALA (0.0 Å)",
+   "A:307 ARG→ALA (3.921 Å)",
+   "A:308 GLU→ALA (3.623 Å)"
+  ],
+  "2OA8": [
+   "A:5 THR→ALA (0.0 Å)"
+  ],
+  "2OYE": [
+   "P:168 LYS→ALA (4.899 Å)",
+   "P:170 GLN→ALA (3.79 Å)",
+   "P:173 ASP→ALA (0.0 Å)",
+   "P:175 GLU→ALA (0.0 Å)",
+   "P:179 ARG→ALA (0.0 Å)",
+   "P:186 LYS→ALA (2.298 Å)",
+   "P:215 LYS→ALA (0.0 Å)",
+   "P:260 GLU→ALA (4.484 Å)",
+   "P:396 ARG→ALA (0.0 Å)",
+   "P:400 GLN→ALA (0.631 Å)",
+   "P:405 GLU→ALA (0.0 Å)",
+   "P:416 ASP→ALA (2.073 Å)",
+   "P:453 LYS→ALA (0.0 Å)",
+   "P:486 GLU→ALA (5.835 Å)",
+   "P:490 GLU→ALA (2.206 Å)",
+   "P:492 GLU→ALA (3.719 Å)"
+  ],
+  "2OYU": [
+   "P:170 GLN→ALA (4.541 Å)",
+   "P:173 ASP→ALA (0.0 Å)",
+   "P:175 GLU→ALA (0.0 Å)",
+   "P:186 LYS→ALA (2.209 Å)",
+   "P:215 LYS→ALA (0.0 Å)",
+   "P:290 GLU→ALA (0.0 Å)",
+   "P:396 ARG→ALA (0.0 Å)",
+   "P:400 GLN→ALA (0.515 Å)",
+   "P:405 GLU→ALA (0.0 Å)",
+   "P:416 ASP→ALA (1.964 Å)",
+   "P:486 GLU→ALA (5.852 Å)"
+  ],
+  "3ERT": [
+   "A:437 MET→ALA (5.365 Å)",
+   "A:529 LYS→ALA (0.0 Å)",
+   "A:531 LYS→ALA (1.073 Å)",
+   "A:532 ASN→ALA (2.579 Å)",
+   "A:534 VAL→ALA (3.114 Å)"
+  ],
+  "3FLI": [
+   "A:280 GLU→ALA (0.0 Å)",
+   "A:281 GLU→ALA (0.0 Å)"
+  ],
+  "3G7E": [
+   "A:103 LYS→ALA (0.0 Å)",
+   "A:196 PHE→ALA (2.986 Å)",
+   "A:208 LYS→ALA (4.211 Å)",
+   "A:57 LYS→ALA (0.0 Å)"
+  ],
+  "3GEN": [
+   "A:413 PHE→ALA (0.0 Å)",
+   "A:433 LYS→ALA (0.0 Å)",
+   "A:467 GLN→ALA (0.0 Å)",
+   "A:496 GLN→ALA (0.0 Å)",
+   "A:552 THR→ALA (0.0 Å)",
+   "A:555 VAL→ALA (2.46 Å)"
+  ],
+  "3KJF": [
+   "A:56 HIS→ALA (0.0 Å)",
+   "A:57 LYS→ALA (0.0 Å)"
+  ],
+  "3MXJ": [
+   "A:192 THR→ALA (1.627 Å)",
+   "A:194 SER→GLY (0.0 Å)",
+   "A:195 HIS→GLY (0.0 Å)"
+  ],
+  "3N8W": [
+   "A:186 LYS→ALA (2.499 Å)",
+   "A:277 ARG→ALA (0.0 Å)",
+   "A:294 LEU→ALA (0.0 Å)",
+   "A:490 GLU→ALA (4.705 Å)"
+  ],
+  "3N8X": [
+   "A:175 GLU→ALA (0.0 Å)",
+   "A:179 ARG→ALA (0.0 Å)",
+   "A:180 ARG→ALA (1.132 Å)",
+   "A:186 LYS→ALA (2.215 Å)",
+   "A:267 GLU→ALA (5.694 Å)",
+   "A:438 ARG→ALA (0.0 Å)",
+   "A:487 MET→ALA (2.523 Å)"
+  ],
+  "3N8Y": [
+   "A:175 GLU→ALA (0.0 Å)",
+   "A:179 ARG→ALA (0.0 Å)",
+   "A:186 LYS→ALA (2.637 Å)",
+   "A:243 GLN→ALA (4.349 Å)",
+   "A:268 GLU→ALA (5.181 Å)",
+   "A:277 ARG→ALA (0.0 Å)",
+   "A:453 LYS→ALA (0.0 Å)",
+   "A:487 MET→ALA (2.688 Å)",
+   "A:511 LYS→ALA (0.0 Å)"
+  ],
+  "3N8Z": [
+   "A:168 LYS→ALA (5.288 Å)",
+   "A:175 GLU→ALA (0.0 Å)",
+   "A:179 ARG→ALA (0.0 Å)",
+   "A:186 LYS→ALA (2.357 Å)",
+   "A:277 ARG→ALA (2.884 Å)",
+   "A:487 MET→ALA (2.259 Å)"
+  ],
+  "3P88": [
+   "A:262 LYS→ALA (0.0 Å)",
+   "A:263 GLN→ALA (0.0 Å)",
+   "A:281 GLU→ALA (0.0 Å)",
+   "A:303 LYS→ALA (1.752 Å)",
+   "A:304 LYS→ALA (3.483 Å)",
+   "A:314 GLU→ALA (2.786 Å)",
+   "A:339 LYS→ALA (0.0 Å)",
+   "A:342 SER→ALA (0.0 Å)",
+   "A:370 LYS→ALA (0.0 Å)",
+   "A:376 LYS→ALA (1.036 Å)",
+   "A:399 LYS→ALA (4.184 Å)",
+   "A:445 HIS→ALA (0.0 Å)",
+   "A:460 LYS→ALA (0.0 Å)",
+   "A:472 GLN→ALA (3.965 Å)"
+  ],
+  "3P89": [
+   "A:262 LYS→ALA (0.0 Å)",
+   "A:263 GLN→ALA (0.0 Å)",
+   "A:264 ARG→ALA (0.0 Å)",
+   "A:268 GLU→ALA (0.0 Å)",
+   "A:300 GLU→ALA (0.0 Å)",
+   "A:304 LYS→ALA (4.04 Å)",
+   "A:339 LYS→ALA (0.0 Å)",
+   "A:376 LYS→ALA (0.639 Å)",
+   "A:432 GLU→ALA (0.567 Å)",
+   "A:445 HIS→ALA (0.0 Å)"
+  ],
+  "3QXX": [
+   "A:179 ASN→ALA (0.0 Å)",
+   "A:210 LYS→ALA (0.494 Å)"
+  ],
+  "3RUT": [
+   "A:262 LYS→ALA (0.0 Å)",
+   "A:263 GLN→ALA (0.0 Å)",
+   "A:264 ARG→ALA (0.0 Å)",
+   "A:281 GLU→ALA (0.0 Å)",
+   "A:304 LYS→ALA (3.88 Å)",
+   "A:314 GLU→ALA (2.471 Å)",
+   "A:339 LYS→ALA (0.0 Å)",
+   "A:370 LYS→ALA (0.0 Å)",
+   "A:376 LYS→ALA (0.996 Å)",
+   "A:399 LYS→ALA (3.429 Å)",
+   "A:460 LYS→ALA (0.0 Å)",
+   "A:471 VAL→ALA (0.176 Å)",
+   "A:472 GLN→ALA (3.318 Å)"
+  ],
+  "3RUU": [
+   "A:262 LYS→ALA (0.0 Å)",
+   "A:263 GLN→ALA (0.0 Å)",
+   "A:264 ARG→ALA (0.0 Å)",
+   "A:277 GLU→ALA (0.0 Å)",
+   "A:300 GLU→ALA (0.0 Å)",
+   "A:304 LYS→ALA (3.98 Å)",
+   "A:314 GLU→ALA (2.539 Å)",
+   "A:339 LYS→ALA (0.0 Å)",
+   "A:342 SER→ALA (0.0 Å)",
+   "A:370 LYS→ALA (0.0 Å)",
+   "A:376 LYS→ALA (0.77 Å)",
+   "A:399 LYS→ALA (4.21 Å)",
+   "A:460 LYS→ALA (0.0 Å)",
+   "A:471 VAL→ALA (0.24 Å)",
+   "A:472 GLN→ALA (3.35 Å)"
+  ],
+  "4AF3": [
+   "A:114 GLU→ALA (0.0 Å)",
+   "A:147 ARG→ALA (4.029 Å)",
+   "A:168 LYS→ALA (0.0 Å)",
+   "A:195 LYS→ALA (4.051 Å)",
+   "A:202 LYS→ALA (0.0 Å)",
+   "A:211 LYS→ALA (0.0 Å)",
+   "A:218 ASP→ALA (0.0 Å)",
+   "A:338 SER→ALA (0.0 Å)",
+   "A:85 LYS→ALA (0.0 Å)",
+   "A:87 LYS→ALA (0.0 Å)",
+   "A:98 LYS→ALA (0.675 Å)"
+  ],
+  "4CVL": [
+   "A:138 ARG→ALA (0.0 Å)",
+   "A:203 LYS→ALA (2.571 Å)",
+   "A:206 GLU→ALA (2.788 Å)",
+   "A:260 GLN→ALA (0.086 Å)",
+   "A:270 ARG→ALA (3.931 Å)",
+   "A:321 LYS→ALA (0.0 Å)",
+   "A:376 GLU→ALA (5.916 Å)",
+   "A:439 ARG→ALA (0.794 Å)"
+  ],
+  "4DQC": [
+   "A:21 GLU→ALA (0.0 Å)",
+   "A:34 GLU→ALA (0.0 Å)",
+   "A:41 LYS→ALA (4.408 Å)",
+   "A:43 LYS→ALA (0.0 Å)",
+   "A:7 LYS→ALA (0.0 Å)",
+   "A:70 LYS→ALA (0.0 Å)",
+   "B:18 GLN→ALA (4.384 Å)",
+   "B:35 GLU→ALA (0.0 Å)",
+   "B:41 LYS→ALA (5.963 Å)",
+   "B:55 LYS→ALA (0.0 Å)",
+   "B:65 GLU→ALA (1.026 Å)",
+   "B:7 LYS→ALA (0.0 Å)",
+   "B:70 LYS→ALA (0.565 Å)"
+  ],
+  "4IAQ": [
+   "A:114 ARG→ALA (0.0 Å)",
+   "A:188 ARG→ALA (0.0 Å)",
+   "A:189 GLN→ALA (0.0 Å)",
+   "A:197 SER→ALA (0.0 Å)",
+   "A:198 GLU→ALA (0.0 Å)",
+   "A:39 ILE→ALA (0.0 Å)",
+   "A:54 MET→ALA (4.455 Å)"
+  ],
+  "4IAR": [
+   "A:114 ARG→ALA (0.0 Å)",
+   "A:188 ARG→ALA (0.0 Å)",
+   "A:189 GLN→ALA (0.0 Å)",
+   "A:197 SER→ALA (0.0 Å)",
+   "A:198 GLU→ALA (0.0 Å)",
+   "A:345 TRP→ALA (0.0 Å)",
+   "A:39 ILE→ALA (0.0 Å)"
+  ],
+  "4JV8": [
+   "B:115 SER→ALA (0.0 Å)",
+   "B:116 GLN→ALA (0.0 Å)",
+   "B:26 GLU→ALA (0.0 Å)"
+  ],
+  "4JVB": [
+   "B:26 GLU→ALA (0.0 Å)",
+   "B:27 THR→ALA (0.0 Å)"
+  ],
+  "4JVF": [
+   "B:26 GLU→ALA (0.0 Å)"
+  ],
+  "4JYV": [
+   "H:166 GLN→ALA (0.907 Å)",
+   "H:170D LYS→ALA (0.0 Å)",
+   "H:170G ASP→ALA (0.0 Å)",
+   "H:20 LYS→ALA (4.361 Å)",
+   "H:60D ASN→ALA (3.396 Å)"
+  ],
+  "4JZD": [
+   "H:166 GLN→ALA (0.62 Å)",
+   "H:170G ASP→ALA (0.0 Å)",
+   "H:60C LYS→ALA (0.0 Å)"
+  ],
+  "4NC3": [
+   "A:118 GLU→ALA (0.0 Å)",
+   "A:120 MET→ALA (0.236 Å)",
+   "A:125 LEU→ALA (3.541 Å)",
+   "A:197 THR→ALA (1.25 Å)",
+   "A:205 ILE→ALA (0.6 Å)",
+   "A:211 LYS→ALA (0.0 Å)",
+   "A:53 LYS→ALA (5.84 Å)"
+  ],
+  "4PHL": [
+   "A:787 LYS→ALA (0.936 Å)",
+   "A:867 ASN→ALA (3.963 Å)",
+   "A:872 LYS→ALA (0.0 Å)",
+   "A:905 LYS→ALA (4.537 Å)"
+  ],
+  "4PXZ": [
+   "A:15 SER→ALA (3.325 Å)",
+   "A:168 ARG→ALA (0.144 Å)",
+   "A:181 GLU→ALA (0.0 Å)"
+  ],
+  "4QA0": [
+   "A:73 ASP→ALA (4.291 Å)",
+   "B:88 ASP→ALA (5.49 Å)"
+  ],
+  "4WUD": [
+   "A:11 LYS→ALA (4.944 Å)",
+   "A:110 LYS→ALA (0.0 Å)",
+   "A:137 GLU→ALA (0.0 Å)",
+   "A:139 LYS→ALA (0.183 Å)",
+   "A:161 GLU→ALA (4.114 Å)",
+   "A:189 LYS→ALA (4.639 Å)",
+   "A:246 GLU→ALA (3.218 Å)",
+   "A:247 LYS→ALA (3.447 Å)",
+   "A:276 ARG→ALA (4.534 Å)",
+   "A:85 GLU→ALA (1.341 Å)"
+  ],
+  "4X8V": [
+   "H:170 GLN→ALA (0.213 Å)",
+   "H:170D LYS→ALA (0.984 Å)",
+   "H:60C LYS→ALA (0.0 Å)"
+  ],
+  "4Y79": [
+   "A:244 THR→ALA (5.895 Å)"
+  ],
+  "4YNQ": [
+   "B:174 ARG→ALA (0.0 Å)"
+  ],
+  "4ZUD": [
+   "A:173 GLU→ALA (5.368 Å)",
+   "A:185 GLU→ALA (0.0 Å)",
+   "A:202 LEU→ALA (0.0 Å)",
+   "A:204 PHE→ALA (0.0 Å)",
+   "A:206 PHE→ALA (1.501 Å)",
+   "A:268 LEU→ALA (1.186 Å)"
+  ],
+  "5E8V": [
+   "A:254 ARG→ALA (0.308 Å)",
+   "A:409 SER→ALA (0.0 Å)",
+   "A:410 VAL→ALA (0.0 Å)",
+   "A:411 ASP→ALA (0.0 Å)",
+   "A:412 ASP→ALA (0.0 Å)",
+   "A:415 ASN→ALA (0.0 Å)",
+   "A:416 SER→ALA (0.0 Å)",
+   "A:436 LEU→ALA (0.0 Å)",
+   "A:440 GLU→ALA (0.0 Å)"
+  ],
+  "5E8Y": [
+   "A:240 GLU→ALA (4.822 Å)",
+   "A:245 GLU→ALA (0.0 Å)",
+   "A:254 ARG→ALA (0.0 Å)",
+   "A:264 LYS→ALA (0.61 Å)",
+   "A:265 GLN→ALA (1.28 Å)",
+   "A:270 GLN→ALA (2.433 Å)",
+   "A:272 GLU→ALA (0.0 Å)",
+   "A:300 LYS→ALA (1.671 Å)",
+   "A:348 ARG→ALA (3.34 Å)",
+   "A:413 LEU→ALA (4.567 Å)",
+   "A:415 ASN→ALA (5.136 Å)",
+   "A:416 SER→ALA (1.605 Å)",
+   "A:440 GLU→ALA (5.151 Å)",
+   "A:468 LYS→ALA (5.312 Å)",
+   "A:471 GLU→ALA (1.388 Å)",
+   "A:476 SER→ALA (3.822 Å)",
+   "A:477 LYS→ALA (4.568 Å)",
+   "A:480 GLU→ALA (0.0 Å)"
+  ],
+  "5E91": [
+   "A:240 GLU→ALA (4.577 Å)",
+   "A:245 GLU→ALA (0.0 Å)",
+   "A:254 ARG→ALA (0.0 Å)",
+   "A:264 LYS→ALA (0.795 Å)",
+   "A:300 LYS→ALA (2.558 Å)",
+   "A:348 ARG→ALA (3.34 Å)",
+   "A:416 SER→ALA (4.926 Å)",
+   "A:468 LYS→ALA (5.642 Å)",
+   "A:471 GLU→ALA (1.663 Å)",
+   "A:476 SER→ALA (4.416 Å)",
+   "A:477 LYS→ALA (5.241 Å)",
+   "A:480 GLU→ALA (0.121 Å)",
+   "A:481 HIS→ALA (2.286 Å)"
+  ],
+  "5E92": [
+   "A:240 GLU→ALA (5.247 Å)",
+   "A:245 GLU→ALA (0.0 Å)",
+   "A:254 ARG→ALA (0.0 Å)",
+   "A:262 LYS→ALA (0.0 Å)",
+   "A:264 LYS→ALA (0.924 Å)",
+   "A:271 PHE→ALA (1.112 Å)",
+   "A:317 LEU→ALA (5.368 Å)",
+   "A:339 ARG→ALA (0.0 Å)",
+   "A:345 GLU→ALA (3.128 Å)",
+   "A:348 ARG→ALA (2.784 Å)",
+   "A:412 ASP→ALA (4.689 Å)",
+   "A:415 ASN→ALA (3.449 Å)",
+   "A:416 SER→ALA (0.842 Å)",
+   "A:440 GLU→ALA (5.037 Å)",
+   "A:468 LYS→ALA (5.691 Å)",
+   "A:471 GLU→ALA (1.644 Å)",
+   "A:476 SER→ALA (4.436 Å)",
+   "A:477 LYS→ALA (3.978 Å)",
+   "A:480 GLU→ALA (0.0 Å)"
+  ],
+  "5EPN": [
+   "A:1092 ARG→ALA (0.0 Å)"
+  ],
+  "5F1A": [
+   "A:215 LYS→ALA (0.0 Å)",
+   "A:396 GLN→ALA (0.0 Å)",
+   "A:492 GLU→ALA (5.672 Å)"
+  ],
+  "5J89": [
+   "C:45 GLU→ALA (0.0 Å)",
+   "C:46 LYS→ALA (2.802 Å)",
+   "C:47 GLN→ALA (1.319 Å)",
+   "C:89 LYS→ALA (4.033 Å)",
+   "D:45 GLU→ALA (3.924 Å)",
+   "D:47 GLN→ALA (4.536 Å)",
+   "D:62 LYS→ALA (0.0 Å)",
+   "D:71 GLU→ALA (0.0 Å)",
+   "D:73 ASP→ALA (0.0 Å)",
+   "D:74 LEU→ALA (1.194 Å)",
+   "D:75 LYS→ALA (2.37 Å)",
+   "D:82 ARG→ALA (2.775 Å)",
+   "D:83 GLN→ALA (4.318 Å)",
+   "D:89 LYS→ALA (2.113 Å)"
+  ],
+  "5L2I": [
+   "A:166 LEU→ALA (0.0 Å)"
+  ],
+  "5L2Y": [
+   "H:170 GLN→ALA (0.451 Å)",
+   "H:170D LYS→ALA (1.502 Å)",
+   "H:170E VAL→ALA (0.0 Å)",
+   "H:170G ASP→ALA (0.0 Å)",
+   "H:60C LYS→ALA (0.0 Å)"
+  ],
+  "5L2Z": [
+   "H:170D LYS→ALA (2.801 Å)",
+   "H:170E VAL→ALA (0.0 Å)"
+  ],
+  "5L30": [
+   "H:170 GLN→ALA (0.422 Å)",
+   "H:170C ARG→ALA (1.514 Å)",
+   "H:170G ASP→ALA (0.0 Å)",
+   "H:170H SER→ALA (0.0 Å)",
+   "H:62 ARG→ALA (5.686 Å)"
+  ],
+  "5ML2": [
+   "B:26 GLU→ALA (0.0 Å)"
+  ],
+  "5ML3": [
+   "B:106 GLN→ALA (0.0 Å)",
+   "B:114 GLU→ALA (0.0 Å)",
+   "B:26 GLU→ALA (0.0 Å)",
+   "B:36 GLU→ALA (0.0 Å)",
+   "B:72 GLU→ALA (5.048 Å)"
+  ],
+  "5ML4": [
+   "B:114 GLU→ALA (0.0 Å)",
+   "B:115 SER→ALA (0.0 Å)",
+   "B:116 GLN→ALA (0.0 Å)",
+   "B:26 GLU→ALA (0.0 Å)"
+  ],
+  "5ML6": [
+   "B:115 SER→ALA (0.0 Å)",
+   "B:116 GLN→ALA (0.0 Å)",
+   "B:26 GLU→ALA (0.0 Å)"
+  ],
+  "5ML8": [
+   "B:26 GLU→ALA (0.0 Å)"
+  ],
+  "5MMN": [
+   "A:11 LYS→ALA (1.837 Å)",
+   "A:14 LYS→ALA (3.47 Å)",
+   "A:159 GLU→ALA (0.147 Å)",
+   "A:161 GLU→ALA (1.858 Å)",
+   "A:162 LYS→ALA (0.0 Å)",
+   "A:219 GLU→ALA (3.176 Å)",
+   "A:57 LYS→ALA (0.0 Å)",
+   "A:83 HIS→ALA (0.0 Å)",
+   "A:85 GLU→ALA (2.512 Å)"
+  ],
+  "5O67": [
+   "C:167 ASP→ALA (0.0 Å)",
+   "C:90 GLN→ALA (3.953 Å)"
+  ],
+  "5PA9": [
+   "C:375 ARG→ALA (0.0 Å)"
+  ],
+  "5QTS": [
+   "A:21 GLU→ALA (0.52 Å)",
+   "B:101 ASP→ALA (1.461 Å)",
+   "B:159 LYS→ALA (5.59 Å)",
+   "B:161 LYS→ALA (2.309 Å)",
+   "B:169 GLU→ALA (1.216 Å)",
+   "B:27 LYS→ALA (0.0 Å)",
+   "B:55 LYS→ALA (0.0 Å)",
+   "B:57 GLN→ALA (0.0 Å)",
+   "B:58 THR→ALA (1.321 Å)"
+  ],
+  "5TGZ": [
+   "A:109 MET→ALA (0.0 Å)",
+   "A:115 GLN→ALA (0.0 Å)",
+   "A:117 LEU→ALA (0.0 Å)",
+   "A:261 GLN→ALA (1.377 Å)",
+   "A:370 LYS→ALA (0.0 Å)"
+  ],
+  "5TOL": [
+   "A:112 ARG→ALA (2.388 Å)",
+   "A:113 LYS→ALA (0.0 Å)",
+   "A:121 GLN→ALA (0.0 Å)",
+   "A:358 GLU→ALA (1.793 Å)",
+   "A:49 GLU→ALA (5.693 Å)"
+  ],
+  "5TUN": [
+   "A:49 SER→ALA (0.0 Å)"
+  ],
+  "5U6X": [
+   "A:179 ARG→ALA (0.0 Å)",
+   "A:193 SER→GLY (0.0 Å)",
+   "A:267 GLU→ALA (0.373 Å)"
+  ],
+  "5WBE": [
+   "A:186 LYS→ALA (2.192 Å)",
+   "A:193 SER→GLY (0.0 Å)"
+  ],
+  "5WIU": [
+   "A:102 LEU→ALA (0.0 Å)",
+   "A:176 ASP→ALA (2.372 Å)",
+   "A:97 GLN→ALA (0.678 Å)"
+  ],
+  "5WZX": [
+   "A:282 ILE→ALA (2.492 Å)"
+  ],
+  "5Z2R": [
+   "A:480 THR→ALA (1.429 Å)",
+   "A:482 GLN→ALA (4.711 Å)",
+   "A:507 LYS→ALA (5.253 Å)"
+  ],
+  "5ZBH": [
+   "A:189 LEU→ALA (1.962 Å)",
+   "A:193 LYS→ALA (0.0 Å)",
+   "A:31 ASP→ALA (0.0 Å)",
+   "A:32 ASP→ALA (0.0 Å)",
+   "A:34 HIS→ALA (0.735 Å)"
+  ],
+  "6A5W": [
+   "A:281 GLU→ALA (0.0 Å)",
+   "A:376 LYS→ALA (2.584 Å)"
+  ],
+  "6C1P": [
+   "B:1098 LEU→ALA (5.099 Å)"
+  ],
+  "6CM4": [
+   "A:101 LYS→ALA (0.797 Å)",
+   "A:176 ASN→ALA (4.454 Å)",
+   "A:178 ASP→ALA (1.507 Å)",
+   "A:179 GLN→ALA (4.331 Å)",
+   "A:180 ASN→ALA (3.921 Å)",
+   "A:35 ASN→ALA (2.94 Å)",
+   "A:36 TYR→ALA (4.288 Å)",
+   "A:394 ILE→ALA (0.245 Å)",
+   "A:398 HIS→ALA (4.107 Å)",
+   "A:400 ASP→ALA (1.996 Å)",
+   "A:406 VAL→ALA (0.778 Å)",
+   "A:407 LEU→ALA (0.0 Å)",
+   "A:43 LEU→ALA (1.727 Å)",
+   "A:96 VAL→ALA (0.792 Å)",
+   "A:99 GLU→ALA (0.0 Å)"
+  ],
+  "6EU9": [
+   "B:518 LYS→ALA (0.0 Å)",
+   "B:541 MET→ALA (5.873 Å)"
+  ],
+  "6MK9": [
+   "A:35 GLU→ALA (0.0 Å)",
+   "B:35 GLU→ALA (0.0 Å)"
+  ],
+  "6MVV": [
+   "B:2016 LYS→ALA (0.0 Å)",
+   "B:2108 ARG→ALA (0.0 Å)",
+   "B:2118 LYS→ALA (3.552 Å)",
+   "B:2210 ILE→ALA (4.747 Å)",
+   "B:2214 VAL→ALA (3.322 Å)",
+   "C:1068 ARG→ALA (3.522 Å)",
+   "C:1069 ILE→ALA (2.177 Å)",
+   "C:1073 LYS→ALA (0.579 Å)",
+   "C:1088 LEU→ALA (4.658 Å)",
+   "C:1091 THR→ALA (5.199 Å)",
+   "C:1092 SER→ALA (3.879 Å)",
+   "C:1093 SER→ALA (1.362 Å)",
+   "C:1095 PHE→ALA (0.0 Å)",
+   "C:1096 GLU→ALA (0.0 Å)",
+   "C:1098 LEU→ALA (0.0 Å)",
+   "C:1099 ARG→ALA (2.41 Å)"
+  ],
+  "6MVW": [
+   "C:1016 LYS→ALA (0.0 Å)",
+   "C:1035 LYS→ALA (0.0 Å)",
+   "C:1039 GLN→ALA (0.0 Å)",
+   "C:1041 PHE→ALA (0.0 Å)",
+   "C:1047 LEU→ALA (0.0 Å)",
+   "C:1073 LYS→ALA (4.646 Å)",
+   "C:1092 SER→ALA (3.64 Å)",
+   "C:1093 SER→ALA (4.362 Å)",
+   "C:1095 PHE→ALA (0.0 Å)",
+   "C:1096 GLU→ALA (0.0 Å)",
+   "C:1097 ILE→ALA (0.0 Å)",
+   "C:1099 ARG→ALA (0.0 Å)",
+   "D:2095 PHE→ALA (2.663 Å)",
+   "D:2096 GLU→ALA (5.719 Å)",
+   "D:2202 ILE→ALA (1.901 Å)"
+  ],
+  "6MWA": [
+   "B:2118 LYS→ALA (0.0 Å)",
+   "B:2227 LYS→ALA (0.0 Å)",
+   "B:2230 GLN→ALA (0.0 Å)",
+   "C:2227 LYS→ALA (0.0 Å)",
+   "C:2230 GLN→ALA (0.0 Å)"
+  ],
+  "6P6X": [
+   "A:1013 PHE→ALA (4.173 Å)",
+   "A:1035 LYS→ALA (0.0 Å)",
+   "A:1039 GLN→ALA (2.113 Å)",
+   "A:1043 VAL→ALA (3.753 Å)",
+   "A:1047 LEU→ALA (2.114 Å)",
+   "A:1065 TYR→ALA (3.213 Å)",
+   "A:1096 GLU→ALA (0.0 Å)"
+  ],
+  "6PS2": [
+   "A:227 LYS→ALA (5.613 Å)",
+   "A:267 LYS→ALA (1.939 Å)",
+   "A:60 LYS→ALA (0.0 Å)"
+  ],
+  "6U26": [
+   "B:469 ARG→ALA (0.0 Å)",
+   "B:470 MET→ALA (0.0 Å)",
+   "B:503 GLN→ALA (0.0 Å)",
+   "B:515 PHE→ALA (0.0 Å)",
+   "B:531 GLN→ALA (1.421 Å)",
+   "B:554 GLN→ALA (2.056 Å)",
+   "B:555 GLN→ALA (1.486 Å)",
+   "B:569 GLU→ALA (0.0 Å)",
+   "B:592 ARG→ALA (5.122 Å)",
+   "B:620 GLU→ALA (3.046 Å)",
+   "B:659 ARG→ALA (0.002 Å)"
+  ],
+  "6USO": [
+   "A:10 LYS→ALA (2.762 Å)",
+   "A:547 ARG→ALA (1.101 Å)",
+   "A:550 ILE→ALA (1.958 Å)",
+   "A:552 LYS→ALA (5.773 Å)",
+   "A:586 ARG→ALA (0.0 Å)",
+   "A:593 LYS→ALA (0.0 Å)"
+  ],
+  "6USR": [
+   "A:136 LYS→ALA (2.135 Å)",
+   "A:147 LYS→ALA (0.0 Å)",
+   "A:151 LYS→ALA (2.276 Å)",
+   "A:167 LYS→ALA (4.937 Å)",
+   "A:179 LYS→ALA (3.326 Å)",
+   "A:205 ARG→ALA (1.979 Å)",
+   "A:206 LYS→ALA (0.0 Å)",
+   "A:211 LEU→ALA (0.95 Å)",
+   "A:215 LYS→ALA (1.016 Å)",
+   "A:223 LYS→ALA (0.175 Å)",
+   "A:225 LYS→ALA (1.17 Å)",
+   "A:297 ARG→ALA (2.533 Å)",
+   "A:312 LEU→ALA (0.0 Å)",
+   "A:326 ARG→ALA (1.538 Å)",
+   "A:328 TYR→ALA (5.525 Å)",
+   "A:367 GLN→ALA (0.0 Å)",
+   "A:372 LYS→ALA (0.0 Å)",
+   "A:381 ARG→ALA (3.983 Å)",
+   "A:406 LYS→ALA (0.0 Å)",
+   "A:44 LYS→ALA (5.805 Å)"
+  ],
+  "6WHA": [
+   "A:114 MET→ALA (0.0 Å)",
+   "A:118 ILE→ALA (0.0 Å)",
+   "A:121 MET→ALA (0.0 Å)",
+   "A:125 PHE→ALA (0.406 Å)",
+   "A:128 MET→ALA (0.0 Å)",
+   "A:133 LEU→ALA (0.0 Å)",
+   "A:135 ILE→ALA (0.0 Å)",
+   "A:136 LEU→ALA (2.103 Å)",
+   "A:139 TYR→ALA (2.106 Å)",
+   "A:140 ARG→ALA (0.962 Å)",
+   "A:146 LYS→ALA (0.0 Å)",
+   "A:147 LEU→ALA (0.0 Å)",
+   "A:150 VAL→ALA (0.0 Å)",
+   "A:153 TYR→ALA (0.0 Å)",
+   "A:197 ILE→ALA (4.541 Å)",
+   "A:201 THR→ALA (0.476 Å)",
+   "A:203 SER→ALA (0.0 Å)",
+   "A:207 SER→ALA (0.0 Å)",
+   "A:208 MET→ALA (0.0 Å)",
+   "A:213 PHE→ALA (2.745 Å)",
+   "A:215 LEU→ALA (3.105 Å)",
+   "A:217 ASP→ALA (3.877 Å)",
+   "A:221 VAL→ALA (0.0 Å)",
+   "A:222 PHE→ALA (0.0 Å)",
+   "A:223 LYS→ALA (0.0 Å)",
+   "A:231 ASP→ALA (0.0 Å)",
+   "A:232 ASP→ALA (0.0 Å)",
+   "A:233 ASN→ALA (0.0 Å)",
+   "A:234 PHE→ALA (0.0 Å)",
+   "A:236 LEU→ALA (0.0 Å)",
+   "A:237 ILE→ALA (0.0 Å)",
+   "A:244 PHE→ALA (0.0 Å)",
+   "A:255 PHE→ALA (1.548 Å)",
+   "A:330 PHE→ALA (1.786 Å)",
+   "A:331 LEU→ALA (0.228 Å)",
+   "A:335 MET→ALA (0.0 Å)",
+   "A:337 CYS→ALA (0.0 Å)",
+   "A:341 ILE→ALA (0.0 Å)",
+   "A:344 ILE→ALA (0.0 Å)",
+   "A:345 MET→ALA (0.0 Å)",
+   "A:347 VAL→ALA (0.0 Å)",
+   "A:354 ASN→ALA (2.783 Å)",
+   "A:356 ASP→ALA (3.073 Å)",
+   "A:357 VAL→ALA (0.629 Å)",
+   "A:363 ASN→ALA (0.0 Å)",
+   "A:373 SER→ALA (0.0 Å)",
+   "A:378 LEU→ALA (2.318 Å)",
+   "A:86 ILE→ALA (0.515 Å)",
+   "A:87 LEU→ALA (0.0 Å)",
+   "A:88 THR→ALA (0.0 Å)",
+   "A:92 ASN→ALA (0.0 Å)",
+   "A:93 ILE→ALA (2.577 Å)",
+   "A:94 LEU→ALA (3.831 Å)",
+   "A:96 ILE→ALA (2.515 Å)",
+   "A:97 MET→ALA (5.263 Å)"
+  ],
+  "7BVQ": [
+   "A:1088 ARG→ALA (0.0 Å)",
+   "A:1165 ARG→ALA (1.288 Å)",
+   "A:1318 ARG→ALA (1.783 Å)",
+   "A:1324 LYS→ALA (0.348 Å)",
+   "A:1357 ARG→ALA (5.116 Å)"
+  ],
+  "7JVU": [
+   "A:31 LEU→ALA (0.0 Å)",
+   "A:343 ASP→ALA (0.564 Å)",
+   "A:36 LYS→ALA (0.0 Å)",
+   "B:36 LYS→ALA (0.0 Å)",
+   "B:60 LYS→ALA (5.714 Å)",
+   "B:81 LYS→ALA (4.73 Å)",
+   "B:88 ASP→ALA (1.381 Å)",
+   "B:89 ASP→ALA (2.998 Å)",
+   "B:95 GLU→ALA (0.603 Å)"
+  ],
+  "7JVW": [
+   "A:105 THR→ALA (1.43 Å)",
+   "A:106 GLU→ALA (4.646 Å)",
+   "A:108 ILE→ALA (1.702 Å)",
+   "A:238 GLU→ALA (4.17 Å)",
+   "A:29 ASP→ALA (0.0 Å)",
+   "A:90 HIS→ALA (2.213 Å)",
+   "A:92 ASP→ALA (0.708 Å)",
+   "A:94 ILE→ALA (0.0 Å)",
+   "A:95 GLU→ALA (0.0 Å)",
+   "A:98 LEU→ALA (0.0 Å)",
+   "B:105 THR→ALA (0.0 Å)",
+   "B:106 GLU→ALA (2.304 Å)",
+   "B:108 ILE→ALA (0.0 Å)",
+   "B:238 GLU→ALA (5.522 Å)",
+   "B:29 ASP→ALA (0.0 Å)",
+   "B:347 GLU→ALA (2.511 Å)",
+   "B:36 LYS→ALA (0.0 Å)",
+   "B:87 ASP→ALA (3.798 Å)",
+   "B:88 ASP→ALA (2.111 Å)",
+   "B:98 LEU→ALA (2.612 Å)"
+  ],
+  "7KQM": [
+   "A:160 LYS→ALA (2.703 Å)",
+   "A:328 TYR→ALA (3.848 Å)"
+  ],
+  "7SGG": [
+   "A:26 GLU→ALA (0.0 Å)",
+   "A:399 ASP→ALA (3.146 Å)",
+   "A:90 LYS→ALA (0.0 Å)"
+  ],
+  "7T9I": [
+   "X:229 ASP→ALA (0.0 Å)",
+   "X:249 ASP→ALA (0.0 Å)",
+   "X:264 ASN→ALA (0.0 Å)",
+   "X:268 GLU→ALA (0.0 Å)",
+   "X:274 LYS→ALA (0.0 Å)",
+   "X:283 ARG→ALA (4.577 Å)",
+   "X:305 LYS→ALA (1.882 Å)",
+   "X:307 LYS→ALA (0.369 Å)",
+   "X:314 GLU→ALA (1.227 Å)",
+   "X:343 ASP→ALA (0.0 Å)",
+   "X:49 ASP→ALA (0.0 Å)",
+   "X:50 ASN→ALA (0.785 Å)",
+   "X:54 SER→ALA (4.978 Å)"
+  ],
+  "7T9N": [
+   "R:401 LYS→ALA (2.456 Å)"
+  ],
+  "7TM9": [
+   "A:191 GLU→ALA (4.755 Å)",
+   "A:423 GLU→ALA (2.086 Å)"
+  ],
+  "7TRB": [
+   "A:266 LYS→ALA (0.0 Å)",
+   "A:267 GLN→ALA (0.0 Å)",
+   "A:269 MET→ALA (0.0 Å)",
+   "A:271 GLN→ALA (0.0 Å)",
+   "A:272 GLU→ALA (0.0 Å)",
+   "A:274 THR→ALA (0.0 Å)",
+   "A:276 LYS→ALA (0.0 Å)",
+   "A:277 ILE→ALA (0.0 Å)",
+   "A:282 PHE→ALA (0.0 Å)",
+   "A:286 GLU→ALA (0.0 Å)",
+   "A:288 PHE→ALA (0.0 Å)",
+   "A:289 LEU→ALA (0.0 Å)",
+   "A:293 GLU→ALA (0.0 Å)",
+   "A:304 GLU→ALA (0.769 Å)",
+   "A:325 LYS→ALA (1.475 Å)",
+   "A:343 LYS→ALA (0.332 Å)",
+   "A:351 LEU→ALA (0.0 Å)",
+   "A:352 LEU→ALA (0.0 Å)",
+   "A:355 ARG→ALA (0.0 Å)",
+   "A:358 ASN→ALA (0.0 Å)",
+   "A:363 ASP→ALA (0.0 Å)",
+   "A:364 GLU→ALA (0.0 Å)",
+   "A:374 LYS→ALA (0.0 Å)",
+   "A:380 LYS→ALA (1.413 Å)",
+   "A:459 ARG→ALA (2.799 Å)",
+   "A:462 ASP→ALA (1.653 Å)",
+   "A:464 LYS→ALA (0.0 Å)"
+  ],
+  "7VUE": [
+   "A:262 LYS→ALA (0.0 Å)",
+   "A:263 GLN→ALA (0.0 Å)",
+   "A:264 ARG→ALA (0.0 Å)",
+   "A:268 GLU→ALA (0.0 Å)",
+   "A:275 LYS→ALA (0.0 Å)",
+   "A:277 GLU→ALA (0.0 Å)",
+   "A:281 GLU→ALA (0.0 Å)",
+   "A:303 LYS→ALA (2.159 Å)",
+   "A:314 GLU→ALA (3.543 Å)",
+   "A:338 LYS→ALA (0.0 Å)",
+   "A:340 LEU→ALA (0.0 Å)",
+   "A:342 SER→ALA (0.0 Å)",
+   "A:370 LYS→ALA (0.0 Å)",
+   "A:376 LYS→ALA (0.119 Å)",
+   "A:399 LYS→ALA (3.725 Å)",
+   "A:401 ARG→ALA (4.724 Å)",
+   "A:423 GLN→ALA (5.386 Å)",
+   "A:446 HIS→ALA (0.0 Å)",
+   "A:460 LYS→ALA (0.0 Å)"
+  ],
+  "7ZYJ": [
+   "L:301 SER→GLY (0.001 Å)"
+  ],
+  "8JSW": [
+   "A:355 MET→ALA (1.507 Å)",
+   "A:49 TYR→ALA (4.374 Å)"
+  ],
+  "8JT9": [
+   "A:44 ILE→ALA (0.0 Å)",
+   "A:49 TYR→ALA (5.611 Å)"
+  ],
+  "8JTB": [
+   "A:355 MET→ALA (0.841 Å)",
+   "A:49 TYR→ALA (4.517 Å)"
+  ],
+  "8V52": [
+   "E:127 GLU→ALA (0.0 Å)",
+   "E:130 LYS→ALA (0.0 Å)",
+   "E:131 SER→ALA (0.0 Å)",
+   "E:144 TYR→ALA (2.927 Å)",
+   "E:164 GLN→ALA (0.0 Å)",
+   "E:169 GLU→ALA (3.242 Å)",
+   "F:120 LYS→ALA (3.887 Å)",
+   "F:146 LYS→ALA (0.0 Å)",
+   "F:204 LYS→ALA (0.4 Å)",
+   "F:207 ASN→ALA (1.173 Å)",
+   "F:213 LYS→ALA (0.0 Å)"
+  ],
+  "8WZL": [
+   "A:175 LYS→ALA (0.0 Å)",
+   "A:195 LYS→ALA (2.02 Å)",
+   "A:221 LYS→ALA (0.0 Å)",
+   "A:365 MET→ALA (2.691 Å)",
+   "A:382 VAL→ALA (0.0 Å)"
+  ],
+  "9NX5": [
+   "A:1006 LYS→ALA (0.0 Å)",
+   "A:1014 GLU→ALA (0.0 Å)",
+   "A:451 LYS→ALA (0.44 Å)",
+   "A:452 ILE→ALA (4.961 Å)",
+   "A:461 ASP→ALA (3.019 Å)",
+   "A:462 LYS→ALA (1.913 Å)",
+   "A:463 MET→ALA (5.141 Å)",
+   "A:506 SER→ALA (0.0 Å)",
+   "A:750 GLU→ALA (0.0 Å)",
+   "A:763 ARG→ALA (0.0 Å)"
+  ],
+  "9TDZ": [
+   "A:430 LYS→ALA (0.0 Å)"
+  ],
+  "9V39": [
+   "A:101 LYS→ALA (0.0 Å)",
+   "A:103 ARG→ALA (0.0 Å)",
+   "A:106 VAL→ALA (0.0 Å)",
+   "A:107 GLN→ALA (0.0 Å)",
+   "A:109 GLU→ALA (0.0 Å)",
+   "A:11 GLU→ALA (0.0 Å)",
+   "A:110 VAL→ALA (0.0 Å)",
+   "A:112 ARG→ALA (0.0 Å)",
+   "A:114 LYS→ALA (0.0 Å)",
+   "A:115 LYS→ALA (0.0 Å)",
+   "A:116 GLU→ALA (0.0 Å)",
+   "A:118 LEU→ALA (0.0 Å)",
+   "A:13 ILE→ALA (0.0 Å)",
+   "A:14 LYS→ALA (0.0 Å)",
+   "A:15 LYS→ALA (0.0 Å)",
+   "A:17 LYS→ALA (2.262 Å)",
+   "A:18 GLU→ALA (2.331 Å)",
+   "A:2 LYS→ALA (0.0 Å)",
+   "A:23 GLU→ALA (2.454 Å)",
+   "A:24 VAL→ALA (0.0 Å)",
+   "A:25 ILE→ALA (1.559 Å)",
+   "A:26 GLU→ALA (1.669 Å)",
+   "A:28 LEU→ALA (0.0 Å)",
+   "A:29 LYS→ALA (0.0 Å)",
+   "A:3 GLU→ALA (0.08 Å)",
+   "A:31 LEU→ALA (0.0 Å)",
+   "A:33 LYS→ALA (0.0 Å)",
+   "A:35 VAL→ALA (0.0 Å)",
+   "A:44 VAL→ALA (0.0 Å)",
+   "A:46 LEU→ALA (0.0 Å)",
+   "A:49 LYS→ALA (0.0 Å)",
+   "A:50 ILE→ALA (0.0 Å)",
+   "A:53 ILE→ALA (0.0 Å)",
+   "A:6 LEU→ALA (0.0 Å)",
+   "A:61 GLU→ALA (0.0 Å)",
+   "A:69 ILE→ALA (0.0 Å)",
+   "A:7 LYS→ALA (0.15 Å)",
+   "A:74 LEU→ALA (0.0 Å)",
+   "A:75 LYS→ALA (0.0 Å)",
+   "A:8 THR→ALA (0.0 Å)",
+   "A:80 SER→ALA (0.0 Å)",
+   "A:81 GLU→ALA (0.0 Å)",
+   "A:82 GLU→ALA (0.0 Å)",
+   "A:86 LYS→ALA (0.0 Å)",
+   "A:9 ILE→ALA (0.0 Å)",
+   "A:94 GLU→ALA (0.0 Å)",
+   "A:98 LYS→ALA (0.0 Å)"
+  ],
+  "9V3A": [
+   "A:20 GLU→ALA (0.0 Å)",
+   "A:25 LYS→ALA (0.0 Å)",
+   "A:36 GLU→ALA (0.773 Å)",
+   "A:37 GLU→ALA (0.586 Å)",
+   "A:40 LYS→ALA (3.524 Å)",
+   "A:47 GLU→ALA (0.0 Å)"
+  ]
+ },
  "barrido_meeko": {
-  "fecha": "2026-09-26",
+  "fecha": "2026-09-27",
   "receta_receptor": 7,
   "meeko": "0.7.1",
   "dianas_preparadas": 380,

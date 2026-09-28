@@ -1138,12 +1138,26 @@ class EvaluationResultRead(BaseModel):
     stacking_effective_weights: dict[str, float] | None = None
     stacking_degraded: bool | None = None
     stacking_missing_components: list[str] | None = None
+    #: Calibración del stacking que produjo `total_score`. `None` en corridas
+    #: anteriores a que se registrara.
+    weights_calibration_id: str | None = None
     m5_protocol_id:       str | None = None
     m5_score:             float | None = None
     m5_scientific_status: str | None = None
     m5_missing_components: list[str] | None = None
     ums_warhead:          float | None = None
     target_family:        str | None = None    # familia estructural del target
+
+    @computed_field
+    @property
+    def protocolo(self) -> dict[str, Any]:
+        """Si esta corrida es comparable con las de hoy (receta del receptor y
+        calibración del ranking). Ver `services/docking/protocolo_de_producto.py`."""
+        from services.docking.protocolo_de_producto import describir_protocolo
+
+        return describir_protocolo(
+            self.docking_protocol, self.weights_calibration_id, self.target_family,
+        )
 
     # Transparencia del modelo usado (F-21) — valores persistidos por WS2
     engine_used:              str | None = None  # "gpu"/"cpu" del router hardware; None en pipeline eval (no usa router)
@@ -1266,6 +1280,25 @@ class EvaluationResultRead(BaseModel):
     ai_report:         str | None
     # Blockchain
     blockchain_tx_id:  str | None
+    #: Qué corrida cubrió el sello. Al reevaluar, el sello anterior se conserva
+    #: (fase 4), así que `blockchain_tx_id` puede pertenecer a otra corrida.
+    certified_task_id:     str | None = None
+    certified_total_score: float | None = None
+
+    @computed_field
+    @property
+    def seal_matches_current_run(self) -> bool | None:
+        """`True` si el sello describe esta corrida, `False` si es de otra y
+        `None` si no hay sello o no registra qué corrida cubrió."""
+        from services.blockchain.sello import sello_describe_la_corrida
+
+        return sello_describe_la_corrida(
+            tx_id=self.blockchain_tx_id,
+            certified_task_id=self.certified_task_id,
+            certified_total_score=self.certified_total_score,
+            task_id=self.task_id,
+            total_score=self.total_score,
+        )
 
     error_message: str | None
     evaluated_at:  datetime
@@ -1476,6 +1509,10 @@ class Target(BaseModel):
     #: la interfaz la muestra con `motivo_no_disponible` y no la ofrece.
     disponible: bool = True
     motivo_no_disponible: str | None = None
+    #: B-3 (receta v7). Cadenas laterales que el cristal no resolvía y se
+    #: truncaron a ALA o GLY a 6 Å o menos de la caja: la diana se acopla, pero
+    #: la cavidad pierde esos grupos. `[]` = medido y ninguna; `None` = sin medir.
+    cadenas_truncadas_en_sitio: list[str] | None = None
     affinity_threshold: float | None = -7.5
     is_hot: bool = False
     spearman_rho: float | None = None
