@@ -7,7 +7,8 @@ use std::{fs::OpenOptions, io::Write};
 use tauri::Manager;
 
 use backend::{
-    current_launch_token, current_status, ensure_backend_sync, reset_for_retry, shutdown_for_app_exit, BackendStatus,
+    current_launch_token, current_status, ensure_backend_sync, reset_for_retry,
+    shutdown_for_app_exit, BackendStatus,
 };
 use cases::{
     case_create, case_forget, case_initialize, case_list_authorized, case_open_token,

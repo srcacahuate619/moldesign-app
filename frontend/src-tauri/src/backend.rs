@@ -200,8 +200,12 @@ pub fn current_launch_token() -> Result<String, String> {
     if current_status().state != BackendPhase::Ready {
         return Err("El backend no está listo".to_string());
     }
-    let guard = child_slot().lock().map_err(|_| "Estado del backend no disponible")?;
-    guard.as_ref().map(|owned| owned.launch_token.clone())
+    let guard = child_slot()
+        .lock()
+        .map_err(|_| "Estado del backend no disponible")?;
+    guard
+        .as_ref()
+        .map(|owned| owned.launch_token.clone())
         .ok_or_else(|| "No hay backend propio".to_string())
 }
 
@@ -727,12 +731,19 @@ fn spawn_backend(layout: &RuntimeLayout, port: u16) -> Result<OwnedBackend, Stri
                 return Err(reason);
             }
         };
-        Ok(OwnedBackend { child, job_handle, launch_token })
+        Ok(OwnedBackend {
+            child,
+            job_handle,
+            launch_token,
+        })
     }
 
     #[cfg(not(target_os = "windows"))]
     {
-        Ok(OwnedBackend { child, launch_token })
+        Ok(OwnedBackend {
+            child,
+            launch_token,
+        })
     }
 }
 
