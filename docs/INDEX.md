@@ -59,6 +59,7 @@ falta ejecutar el protocolo runtime 63 con reinicio y dos cuentas.
 |---|---|---|---|
 | 80 | [80_INVENTARIO_TECNOLOGICO_INTEGRAL.md](80_INVENTARIO_TECNOLOGICO_INTEGRAL.md) | 🟢 | Mapa normativo del stack: qué se ejecuta, qué viaja, dónde se usa, por qué existe, licencias, residuos y brechas del SBOM. |
 | 84 | [84_ARNES_QA_VM_LIMPIA.md](84_ARNES_QA_VM_LIMPIA.md) | 🟢 | El arnés de QA para una VM limpia: flujo canónico del contrato, readiness en dos medidas, ausencias esperadas y evidencia de fallo. Corrige cuatro clases de falso positivo. |
+| 91 | [91_AUDITORIA_PROCEDENCIA_CATALOGO_RECEPTORES.md](91_AUDITORIA_PROCEDENCIA_CATALOGO_RECEPTORES.md) | 🟢 | Procedencia de las estructuras: los 380 receptores del catálogo y las 65 de fuera (panel de Bowes, controles) vienen de RCSB PDB (CC0); las descripciones, de UniProtKB (CC BY 4.0, con atribución). Medido contra la descarga vigente de RCSB. |
 | 79 | [79_ADR_FRONTERA_OPEN_BABEL.md](79_ADR_FRONTERA_OPEN_BABEL.md) | 🟢 | ADR: Open Babel viaja en el instalador como programa GPL-2.0-only independiente, invocado por CLI. Qué queda prohibido, cómo se verifica y qué sigue abierto. |
 | 37 | [37_INTEGRATION_POLICY.md](37_INTEGRATION_POLICY.md) | 🟢 | Política de integraciones externas (0-telemetría, opt-in). Normativa de producto. |
 | 19 | [19_LIMITATIONS.md](19_LIMITATIONS.md) | 🟢 | Limitaciones honestas del pipeline (silent-fails, dynamic box, dominios). |

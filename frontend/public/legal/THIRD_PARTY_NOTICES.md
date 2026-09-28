@@ -168,6 +168,8 @@ El instalador distribuye **380 receptores curados**: 380 identificadores PDB ún
 
 Los 380 archivos proceden **directamente de RCSB PDB**. De ellos, 376 coinciden byte a byte con la descarga actual de RCSB; los cuatro restantes —`2NNJ`, `4EJJ`, `4NY4` y `5TFT`— difieren únicamente en una línea `REVDAT` posterior, y sus registros `ATOM`, `HETATM` y `CONECT` son idénticos.
 
+Además, `data/targets/` trae **65 estructuras fuera del catálogo** —el panel de anti-dianas de Bowes 2012, controles y corridas doradas—, también de RCSB PDB: 59 coinciden byte a byte con su descarga actual y 6 (`8XVK`, `8YUT`, `8ZP2`, `9EQG`, `9GJ1`, `9UWL`), que RCSB sólo ofrece en mmCIF, se convirtieron a PDB con gemmi (medido el 2026-09-28; ver `docs/91_AUDITORIA_PROCEDENCIA_CATALOGO_RECEPTORES.md`).
+
 Los datos del archivo PDB y de las APIs de RCSB se publican bajo **CC0 1.0** (dominio público).
 
 **CC0 no exige atribución**, y este aviso no la reclama como obligación legal. Lo que sí procede, y RCSB lo recomienda, es la **cita científica** de la entrada PDB concreta y de sus autores originales en cualquier trabajo que se apoye en ella.
