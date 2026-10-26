@@ -290,8 +290,10 @@ def _tabla_campos(campos: list[Campo], est: dict[str, ParagraphStyle]) -> Table:
 
     # `repeatRows=1`: si la tabla se parte entre páginas, la cabecera se repite.
     # Sin esto, la segunda mitad quedaba sin decir qué era cada columna.
+    # `splitInRow=1`: sin él `Table` sólo parte ENTRE filas, y una celda más alta que la página lanzaba LayoutError
+    # (2AW1 en inglés, 843 pt de 742: el paquete respondía 500).
     tabla = Table(filas, colWidths=[_ANCHO_UTIL * 0.28, _ANCHO_UTIL * 0.55, _ANCHO_UTIL * 0.17],
-                  repeatRows=1)
+                  repeatRows=1, splitInRow=1)
     tabla.setStyle(TableStyle([
         ("BACKGROUND", (0, 0), (-1, 0), HEAD_BG),
         ("TEXTCOLOR", (0, 0), (-1, 0), INK),

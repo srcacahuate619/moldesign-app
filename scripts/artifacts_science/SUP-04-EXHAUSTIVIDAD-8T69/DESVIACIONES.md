@@ -17,3 +17,9 @@
   `git diff --stat 3ca7f633 HEAD -- backend tools scripts/cal_d01r4 scripts/sup04_exhaustividad` debe salir vacío (o la
   diferencia se anota aquí antes de acoplar). La guardia de deriva sigue comprobando receptor, microestado, semilla,
   exhaustividad, Vina y CPU en cada corrida.
+
+## 2026-10-25 — diferencia de código antes de reanudar
+
+- Desde `3ca7f633` sólo cambia en `backend/` el PDF del dossier (`services/dossier/pdf.py`: `splitInRow=1` en las tablas de
+  campos) y una prueba nueva. No toca preparación, docking, Vina ni la lectura de resultados que usa el análisis; la guardia de
+  deriva sigue comprobando cada corrida.
