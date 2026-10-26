@@ -49,7 +49,8 @@
     "check:pesos-stacking": "..\\python-embed\\python.exe ..\\scripts\\check_stacking_weights_ui.py --check",
     "check:dossier-embebido": "..\\python-embed\\python.exe ..\\scripts\\verify_embedded_dossier.py ..",
     "postbuild": "node scripts/normalize-next-rsc-export.mjs && npm run check:solana-boundary",
-    "check:solana-boundary": "node scripts/check-solana-browser-boundary.mjs"
+    "check:solana-boundary": "node scripts/check-solana-browser-boundary.mjs",
+    "check:npm-audit": "node scripts/check-npm-audit.mjs"
   },
   "dependencies": {
     "@react-three/drei": "10.7.8",

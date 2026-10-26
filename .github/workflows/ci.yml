@@ -154,7 +154,8 @@ jobs:
       - name: Install locked frontend dependencies
         run: npm ci --prefix frontend
       - name: Audit critical production dependencies
-        run: npm audit --prefix frontend --omit=dev --audit-level=critical
+        # Avisos críticos sin excepción declarada en frontend/audit-excepciones.json.
+        run: npm --prefix frontend run check:npm-audit
 
       - name: Validate production CSP
         run: npm --prefix frontend run check:csp
