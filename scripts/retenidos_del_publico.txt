@@ -102,3 +102,8 @@ docs/papers/FEP-06-PRE.md
 docs/papers/FEP-06-PRE-2.md
 frontend/public/registro/papers/FEP-06-PRE.json
 frontend/public/registro/papers/FEP-06-PRE-2.json
+
+# fep06_hum (2026-10-25): el generador nombra el paquete de control y el directorio del experimento
+# recibe las revisiones. Se publican al cerrar la ronda, junto con la clave.
+scripts/fep06hum
+scripts/artifacts_science/FEP-06-HUM
